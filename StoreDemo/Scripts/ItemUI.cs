@@ -29,8 +29,8 @@ public class ItemUI : MonoBehaviour
     {
         _itemInformation = itemInformation;
 
-        float price = (float)(typeof(Xsolla.XsollaStore.StoreItemPrices)).GetField(itemInformation.default_currency).GetValue(itemInformation.prices);
-        _item_Price.text = price.ToString();
+        float price = (float)(typeof(Xsolla.XsollaStore.StoreItemPrices)).GetField(Xsolla.XsollaStore.Instance.CurrencyCode).GetValue(itemInformation.prices);
+        _item_Price.text = Xsolla.XsollaStore.Instance.CurrencyCode + " "+ price.ToString()+" "+ Xsolla.XsollaStore.Instance.CurrencySymbol;
 
         _item_Name.text = _itemInformation.name.en;
         _item_Description.text = _itemInformation.description.en;

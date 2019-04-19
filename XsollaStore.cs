@@ -69,7 +69,20 @@ namespace Xsolla
                 return PlayerPrefs.HasKey("Xsolla_Store_Token") ? PlayerPrefs.GetString("Xsolla_Store_Token") : "";
             }
         }
-
+        public string CurrencyCode
+        {
+            get
+            {
+                return Region.GetCurrencyCode();
+            }
+        }
+        public string CurrencySymbol
+        {
+            get
+            {
+                return Region.GetCurrencySymbol();
+            }
+        }
         [SerializeField]
         private string _project_id;
         [SerializeField]
@@ -217,16 +230,16 @@ namespace Xsolla
                                                 {
                                                     try
                                                     {
-                                                    //try to parse token
-                                                    string token = JsonUtility.FromJson<JsonToken>(message).token;
+                                                        //try to parse token
+                                                        string token = JsonUtility.FromJson<JsonToken>(message).token;
                                                         PlayerPrefs.SetString("Xsolla_Store_Token", token);
                                                         if (OnSuccesfullGetToken != null)
                                                             OnSuccesfullGetToken.Invoke(token);
                                                     }
                                                     catch (Exception)
                                                     {
-                                                    //if exception while parse token
-                                                    if (OnCantParseToken != null)
+                                                        //if exception while parse token
+                                                        if (OnCantParseToken != null)
                                                             OnCantParseToken.Invoke(message);
                                                     }
                                                 }
@@ -385,7 +398,56 @@ namespace Xsolla
             }
         }
         #endregion
+        #region Regions
+        private static class Region
+        {
+            private static readonly Dictionary<SystemLanguage, LanguageProperties> currencyCodes = new Dictionary<SystemLanguage, LanguageProperties>()
+        {
+            { SystemLanguage.Chinese, new LanguageProperties("元", "CNY")},
+            { SystemLanguage.English, new LanguageProperties("$", "USD")},
+            { SystemLanguage.French, new LanguageProperties("€", "EUR")},
+            { SystemLanguage.German, new LanguageProperties("€", "EUR")},
+            { SystemLanguage.Korean, new LanguageProperties("₩", "KRW")},
+            { SystemLanguage.Portuguese, new LanguageProperties("R$", "BRL")},
+            { SystemLanguage.Russian, new LanguageProperties("₽", "RUB")},
+            { SystemLanguage.Spanish, new LanguageProperties("€", "EUR")},
+            { SystemLanguage.Unknown, new LanguageProperties("$", "USD")}
+        };
+            public static string GetCurrencyCode()
+            {
+                if (currencyCodes.ContainsKey(Application.systemLanguage))
+                {
+                    return currencyCodes[Application.systemLanguage].Code;
+                }
+                else
+                {
+                    return currencyCodes[SystemLanguage.Unknown].Code;
+                }
+            }
+            public static string GetCurrencySymbol()
+            {
+                if (currencyCodes.ContainsKey(Application.systemLanguage))
+                {
+                    return currencyCodes[Application.systemLanguage].Symbol;
+                }
+                else
+                {
+                    return currencyCodes[SystemLanguage.Unknown].Symbol;
+                }
+            }
+            private class LanguageProperties
+            {
+                public string Symbol;
+                public string Code;
 
+                public LanguageProperties(string symbol, string code)
+                {
+                    Symbol = symbol;
+                    Code = code;
+                }
+            }
+        }
+        #endregion
         #region JSONclasses
         [Serializable]
         public class ErrorDescription
