@@ -12,13 +12,10 @@ public class GroupsController : MonoBehaviour
 
     public Action<string> OnGroupClick;
 
-    public void AddGroup(Xsolla.XsollaStore.GroupItemInformation groupInformation)
+    public void AddGroup(string groupName)
     {
-        if (!groupInformation.enabled)
-            return;
-
         GameObject newGroup = Instantiate(_groupPrefab, _scrollView.transform);
-        newGroup.GetComponent<GroupUI>().InitializeGroup(groupInformation);
+        newGroup.GetComponent<GroupUI>().InitializeGroup(groupName);
         newGroup.GetComponent<GroupUI>().OnGroupClick += (id) => 
         {
             if (OnGroupClick != null)

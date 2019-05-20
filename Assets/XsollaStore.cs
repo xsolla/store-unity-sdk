@@ -11,12 +11,7 @@ namespace Xsolla
     public class XsollaStore : MonoBehaviour
     {
         #region Events 
-        public event Action<string> OnSuccesfullGetToken;
-        public event Action<string> OnCantParseToken;
         public event Action<StoreItems> OnSuccessGetListOfItems;
-        public event Action<GroupItems> OnSuccessGetListOfGroups;
-        public event Action<GroupItemInformation> OnSuccessGetGroupInformation;
-        public event Action<ItemInformation> OnSuccessGetItemInformation;
         #region General
         //409 
         public event Action<ErrorDescription> OnInvalidProjectSettings;
@@ -27,30 +22,7 @@ namespace Xsolla
         public event Action<ErrorDescription> OnIdentifiedError;
         public event Action OnNetworkError;
         #endregion
-
-        public string Merchant_Id
-        {
-            get
-            {
-                return _merchant_id;
-            }
-            set
-            {
-                _merchant_id = value;
-            }
-        }
-
-        public string Api_Key
-        {
-            get
-            {
-                return _api_key;
-            }
-            set
-            {
-                _api_key = value;
-            }
-        }
+        
         public string Project_Id
         {
             get
@@ -64,18 +36,16 @@ namespace Xsolla
         }
         public string Token
         {
+            set
+            {
+                PlayerPrefs.SetString("Xsolla_Store_Token", value); 
+            }
             get
             {
                 return PlayerPrefs.HasKey("Xsolla_Store_Token") ? PlayerPrefs.GetString("Xsolla_Store_Token") : "";
             }
         }
-        public string CurrencyCode
-        {
-            get
-            {
-                return Region.GetCurrencyCode();
-            }
-        }
+
         public string CurrencySymbol
         {
             get
@@ -83,13 +53,9 @@ namespace Xsolla
                 return Region.GetCurrencySymbol();
             }
         }
+
         [SerializeField]
         private string _project_id;
-        [SerializeField]
-        private string _merchant_id;
-        [SerializeField]
-        private string _api_key;
-
         public static XsollaStore Instance = null;
 
         void Awake()
@@ -104,96 +70,22 @@ namespace Xsolla
             }
             DontDestroyOnLoad(gameObject);
         }
-        /// <summary>
-        /// Get item information by item id.
-        /// </summary>
-        public void GetItemInformation(string item_id)
-        {
-            StartCoroutine(GetRequest("https://api.xsolla.com/merchant/v2/projects/" + _project_id + "/virtual_items/items/" + item_id,
-                            (status, message) =>
-                            {
-                                Debug.Log("Recieved message from GetItemInformation: " + message);
-                                if (!CheckForErrors(status, message, null))
-                                {
-                                    ItemInformation item = new ItemInformation();
-                                    try
-                                    {
-                                        item = JsonUtility.FromJson<ItemInformation>(message);
-                                    }
-                                    catch (Exception)
-                                    {
-                                    }
-                                    if (OnSuccessGetItemInformation != null)
-                                        OnSuccessGetItemInformation.Invoke(item);
-                                }
-                            }));
-        }
-        /// <summary>
-        /// Get group information by group id.
-        /// </summary>
-        public void GetGroupInformation(string group_id)
-        {
-            StartCoroutine(GetRequest("https://api.xsolla.com/merchant/v2/projects/" + _project_id + "/virtual_items/groups/" + group_id,
-                            (status, message) =>
-                            {
-                                Debug.Log("Recieved message from GetGroupInformation: " + message);
-                                if (!CheckForErrors(status, message, null))
-                                {
-                                    GroupItemInformation item = new GroupItemInformation();
-                                    try
-                                    {
-                                        item = JsonUtility.FromJson<GroupItemInformation>(message);
-                                    }
-                                    catch (Exception)
-                                    {
-                                    }
-                                    if (OnSuccessGetGroupInformation != null)
-                                        OnSuccessGetGroupInformation.Invoke(item);
-                                }
-                            }));
-        }
-
-        /// <summary>
-        /// Get list of groups.
-        /// </summary>
-        public void GetListOfGroups()
-        {
-            StartCoroutine(GetRequest("https://api.xsolla.com/merchant/v2/projects/" + _project_id + "/virtual_items/groups",
-                            (status, message) =>
-                            {
-                                Debug.Log("Recieved message from GetListOfGroups: " + message);
-                                if (!CheckForErrors(status, message, null))
-                                {
-                                    GroupItems items = new GroupItems();
-                                    try
-                                    {
-                                        message = message.Insert(message.Length, "}").Insert(0, "{\"groupItems\":");
-                                        items = JsonUtility.FromJson<GroupItems>(message);
-                                    }
-                                    catch (Exception)
-                                    {
-                                    }
-                                    if (OnSuccessGetListOfGroups != null)
-                                        OnSuccessGetListOfGroups.Invoke(items);
-                                }
-                            }));
-        }
 
         /// <summary>
         /// Get list of items.
         /// </summary>
         public void GetListOfItems()
         {
-            StartCoroutine(GetRequest("https://api.xsolla.com/merchant/v2/projects/" + _project_id + "/virtual_items/items",
+            StartCoroutine(GetRequest("https://store.xsolla.com/api/v1/project/" + _project_id + "/items/virtual_items?engine=unity&engine_v=" + Application.unityVersion + "&sdk=store&sdk_v=0.1",
                             (status, message) =>
                             {
-                                Debug.Log("Recieved message from GetListOfItems: " + message);
+                                //Debug.Log("Recieved message from GetListOfItems: " + message);
                                 if (!CheckForErrors(status, message, null))
                                 {
                                     StoreItems items = new StoreItems();
                                     try
                                     {
-                                        message = message.Insert(message.Length, "}").Insert(0, "{\"storeItems\":");
+                                        message = message.Remove(0, 8).Insert(0, "{\"storeItems\"");
                                         items = JsonUtility.FromJson<StoreItems>(message);
                                     }
                                     catch (Exception)
@@ -206,44 +98,33 @@ namespace Xsolla
         }
 
         /// <summary>
-        /// You can create a token with arbitrary user parameters.
-        /// You send these parameters when obtaining the token, and we send them back to you after a successful payment.
-        /// A token is valid for 24 hours.
+        /// Open PayStation.
         /// </summary>
-        public void GetToken(TokenInformation tokenInformation)
+        public void BuyItem(string id, string authorizationJWTtoken = "", string currency = "")
         {
-            if (_project_id == "" || _merchant_id == "" || _api_key == "")
-            {
-                Debug.Log("INVALID SETTINGS");
-                if (OnInvalidProjectSettings != null)
-                    OnInvalidProjectSettings.Invoke(new ErrorDescription());
-                return;
-            }
+            if (authorizationJWTtoken == "")
+                authorizationJWTtoken = Token;
+            WWWForm form = new WWWForm();
+            if (currency != "")
+                form.AddField("currency", currency);
 
-            // V1 ???????
-            StartCoroutine(GetTokenRequest("https://api.xsolla.com/merchant/v2/merchants/" + _merchant_id + "/token",
-                                            JsonUtility.ToJson(tokenInformation),
-                                            (status, message) =>
-                                            {
-                                                Debug.Log("Recieved message from GetToken: " + message);
-                                                if (!CheckForErrors(status, message, null))
-                                                {
-                                                    try
-                                                    {
-                                                        //try to parse token
-                                                        string token = JsonUtility.FromJson<JsonToken>(message).token;
-                                                        PlayerPrefs.SetString("Xsolla_Store_Token", token);
-                                                        if (OnSuccesfullGetToken != null)
-                                                            OnSuccesfullGetToken.Invoke(token);
-                                                    }
-                                                    catch (Exception)
-                                                    {
-                                                        //if exception while parse token
-                                                        if (OnCantParseToken != null)
-                                                            OnCantParseToken.Invoke(message);
-                                                    }
-                                                }
-                                            }));
+            StartCoroutine(PostRequest("https://store.xsolla.com/api/v1/payment/item/" + id + "?engine=unity&engine_v="+Application.unityVersion+"&sdk=store&sdk_v=0.1", form,
+                            ("Authorization", "Bearer "+authorizationJWTtoken),
+                            (status, message) =>
+                            {
+                                //Debug.Log("Recieved message from GetListOfItems: " + message);
+                                if (!CheckForErrors(status, message, null))
+                                {
+                                    try
+                                    {
+                                        string PS3token = JsonUtility.FromJson<JsonToken>(message).token;
+                                        Application.OpenURL("https://secure.xsolla.com/paystation2/?access_token=" + PS3token);
+                                    }
+                                    catch (Exception)
+                                    {
+                                    }
+                                }
+                            }));
         }
 
         #region Exceptions
@@ -313,11 +194,11 @@ namespace Xsolla
             return message;
         }
         #endregion
-
         #region WebRequest
-        private IEnumerator PostRequest(string url, WWWForm form, Action<bool, string> callback = null)
+        private IEnumerator PostRequest(string url, WWWForm form, (string, string) requestHeader, Action<bool, string> callback = null)
         {
             UnityWebRequest request = UnityWebRequest.Post(url, form);
+            request.SetRequestHeader(requestHeader.Item1, requestHeader.Item2);
 
 #if UNITY_2018_1_OR_NEWER
             request.SendWebRequest();
@@ -340,42 +221,10 @@ namespace Xsolla
                 callback?.Invoke(true, recievedMessage);
             }
         }
-
-        IEnumerator GetTokenRequest(string url, string bodyJsonString, Action<bool, string> callback = null)
-        {
-            var request = new UnityWebRequest(url, "POST");
-            byte[] bodyRaw = Encoding.UTF8.GetBytes(bodyJsonString);
-            request.uploadHandler = (UploadHandler)new UploadHandlerRaw(bodyRaw);
-            request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
-            request.SetRequestHeader("authorization", "Basic " + Convert.ToBase64String(Encoding.UTF8.GetBytes(_merchant_id + ":" + _api_key)));
-            request.SetRequestHeader("Content-Type", "application/json");
-
-#if UNITY_2018_1_OR_NEWER
-            request.SendWebRequest();
-#else
-            request.Send();
-#endif
-
-            while (!request.isDone)
-            {
-                //wait 
-                yield return new WaitForEndOfFrame();
-            }
-            if (request.isNetworkError)
-            {
-                callback?.Invoke(false, "");
-            }
-            else
-            {
-                string recievedMessage = request.downloadHandler.text;
-                callback?.Invoke(true, recievedMessage);
-            }
-        }
-
+        
         private IEnumerator GetRequest(string uri, Action<bool, string> callback = null)
         {
             UnityWebRequest request = UnityWebRequest.Get(uri);
-            request.SetRequestHeader("authorization", "Basic " + Convert.ToBase64String(Encoding.UTF8.GetBytes(_merchant_id + ":" + _api_key)));
 
 #if UNITY_2018_1_OR_NEWER
             request.SendWebRequest();
@@ -462,65 +311,6 @@ namespace Xsolla
         {
             public string token;
         }
-
-        [Serializable]
-        public class GroupItems
-        {
-            public GroupItem[] groupItems;
-        }
-        [Serializable]
-        public class ItemInformation
-        {
-            public string advertisement_type;
-            public string default_currency;
-            public bool deleted;
-            public Languages description;
-            public bool enabled;
-            public string expiration;
-            public string[] groups;
-            public string id;
-            public string image_url;
-            public string item_code;
-            public string item_type;
-            public string[] keywords;
-            public Languages long_description;
-            public Languages name;
-            public bool permanent;
-            public StoreItemPrices prices;
-            public string purchase_limit;
-            public string[] secondary_market;
-            public string sku;
-            //public string[] user_attribute_conditions;
-            public string virtual_currency_price;
-        }
-        [Serializable]
-        public class GroupItemInformation
-        {
-            public int code;
-            public Languages description;
-            public Languages name;
-            public string id;
-            public string parent_id;
-            public bool enabled;
-        }
-        [Serializable]
-        public class Languages
-        {
-            public string en;
-            public string ru;
-        }
-        [Serializable]
-        public class GroupItem
-        {
-            public string id;
-            public string parent_id;
-            public string localized_name;
-            public string has_groups;
-            public string has_virtual_items;
-            public int virtual_items_count;
-            public bool enabled;
-            public string code;
-        }
         [Serializable]
         public class StoreItems
         {
@@ -529,16 +319,21 @@ namespace Xsolla
         [Serializable]
         public class StoreItem
         {
-            public string id;
             public string sku;
-            public string localized_name;
-            public StoreItemPrices prices;
-            public string virtual_currency_price;
-            public string default_currency;
-            public bool enabled;
-            public bool permanent;
             public string[] groups;
-            public string advertisement_type;
+            public string name;
+            public string type;
+            public bool is_free;
+            public string long_description;
+            public string description;
+            public string image_url;
+            public ItemPrices[] prices;
+        }
+        [Serializable]
+        public struct ItemPrices
+        {
+            public float amount;
+            public string currency;
         }
         [Serializable]
         public struct StoreItemPrices
@@ -662,224 +457,6 @@ namespace Xsolla
             public float ZAR;
             public float ZWD;
         }
-
-
-        #region TokenInformation
-        [Serializable]
-        public struct TokenInformation
-        {
-            /// <summary>
-            /// User details.
-            /// </summary>
-            public User user;
-            //public Settings settings;
-            public Purchase purchase;
-        }
-        [Serializable]
-        public struct User
-        {
-            /// <summary>
-            /// User ID. Required.
-            /// </summary>
-            public UserId id;
-            public UserName name;
-            public UserEmail email;
-            public UserPhone phone;
-            public UserCountry country;
-        }
-        [Serializable]
-        public struct UserId
-        {
-            /// <summary>
-            /// User ID. Required.
-            /// </summary>
-            public string value;
-        }
-        [Serializable]
-        public struct UserName
-        {
-            /// <summary>
-            /// User screen name
-            /// </summary>
-            public string value;
-        }
-        [Serializable]
-        public struct UserEmail
-        {
-            /// <summary>
-            /// User email. Must be valid according to the RFC 822 protocol.
-            /// </summary>
-            public string value;
-        }
-        [Serializable]
-        public struct UserPhone
-        {
-            /// <summary>
-            /// User phone number
-            /// </summary>
-            public string value;
-        }
-        [Serializable]
-        public struct UserCountry
-        {
-            /// <summary>
-            /// Two-letter uppercase country code per ISO 3166-1 alpha-2.
-            /// </summary>
-            public string value;
-            /// <summary>
-            /// Whether or not user can change the country on payment UI. 'false' by default.
-            /// </summary>
-            public bool allow_modify;
-        }
-        //[Serializable]
-        //public struct Settings
-        //{
-        //    /// <summary>
-        //    /// Game’s Xsolla ID. Can be found in Publisher Account. Required.
-        //    /// </summary>
-        //    public int project_id;
-        //    /// <summary>
-        //    /// Interface language. Two-letter lowercase language code per ISO 639-1.
-        //    /// </summary>
-        //    public string language;
-        //    /// <summary>
-        //    /// Preferred payment currency. Three-letter currency code per ISO 4217.
-        //    /// </summary>
-        //    public string currency;
-        //    /// <summary>
-        //    /// Set to 'sandbox' to test out the payment process. In this case, use https://sandbox-secure.xsolla.com to access the test payment UI.
-        //    /// </summary>
-        //    public string mode;
-        //    /// <summary>
-        //    /// Payment method ID.
-        //    /// </summary>
-        //    //public int payment_method;
-        //}
-        [Serializable]
-        public struct Purchase
-        {
-            /// <summary>
-            /// Object containing virtual currency details.
-            /// </summary>
-            //public VirtualCurrency virtual_currency;
-            /// <summary>
-            /// Object with data about the virtual items in purchase.
-            /// </summary>
-            //public VirtualItems virtual_items;
-            /// <summary>
-            /// Subscription data.
-            /// </summary>
-            //public Subscription subscription;
-            /// <summary>
-            ///Gift details.
-            /// </summary>
-            //public Gift gift;
-        }
-        //[Serializable]
-        //public struct VirtualCurrency
-        //{
-        //    /// <summary>
-        //    /// Purchase amount in the virtual currency.
-        //    /// </summary>
-        //    public float quantity;
-        //    /// <summary>
-        //    /// Currency of the virtual currency package to use in all calculations.
-        //    /// </summary>
-        //    public string currency;
-        //}
-        //[Serializable]
-        //public struct VirtualItems
-        //{
-        //    /// <summary>
-        //    /// Item data.
-        //    /// </summary>
-        //    public VirtualItems_Items[] items;
-        //    /// <summary>
-        //    /// Currency of the ordered items to use in all calculations.
-        //    /// </summary>
-        //    public string currency;
-        //    /// <summary>
-        //    /// Currency of the ordered items to use in all calculations.
-        //    /// </summary>
-        //    public string[] available_groups;
-        //}
-        //[Serializable]
-        //public struct VirtualItems_Items
-        //{
-        //    /// <summary>
-        //    /// Item ID.
-        //    /// </summary>
-        //    public string sku;
-        //    /// <summary>
-        //    /// Item quantity.
-        //    /// </summary>
-        //    public int amount;
-        //}
-        //[Serializable]
-        //public struct Subscription
-        //{
-        //    /// <summary>
-        //    /// Plan ID.
-        //    /// </summary>
-        //    public string plan_id;
-        //    /// <summary>
-        //    /// The type of operation applied to the user’s subscription plan.
-        //    /// To change the subscription plan, pass the ‘change_plan’ value.
-        //    /// You need to specify the new plan ID in the purchase.subscription.plan_id parameter.
-        //    /// </summary>
-        //    public string operation;
-        //    /// <summary>
-        //    /// Product ID.
-        //    /// </summary>
-        //    public string product_id;
-        //    /// <summary>
-        //    /// Currency of the subscription plan to use in all calculations.
-        //    /// </summary>
-        //    public string currency;
-        //    /// <summary>
-        //    /// Trial period in days.
-        //    /// </summary>
-        //    public int trial_days;
-        //}
-        //[Serializable]
-        //public struct Gift
-        //{
-        //    /// <summary>
-        //    /// Giver ID.
-        //    /// </summary>
-        //    public string giver_id;
-        //    /// <summary>
-        //    /// Message from the giver.
-        //    /// </summary>
-        //    public string message;
-        //    /// <summary>
-        //    /// Whether to hide the giver identity from the recipient. 'true' by default.
-        //    /// </summary>
-        //    public bool hide_giver_from_receiver;
-        //    /// <summary>
-        //    /// Array with data on friends.
-        //    /// </summary>
-        //    public GiftFriend friends;
-        //}
-        //[Serializable]
-        //public struct GiftFriend
-        //{
-        //    /// <summary>
-        //    /// Gift recipient ID.
-        //    /// </summary>
-        //    public string id;
-        //    /// <summary>
-        //    /// Gift recipient nickname.
-        //    /// </summary>
-        //    public string name;
-        //    /// <summary>
-        //    /// Gift recipient email.
-        //    /// </summary>
-        //    public bool email;
-        //}
-        #endregion
-
-
         #endregion
     }
 }

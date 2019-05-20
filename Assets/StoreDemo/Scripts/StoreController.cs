@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Xsolla;
@@ -16,26 +17,16 @@ public class StoreController : MonoBehaviour
     {
         store = XsollaStore.Instance;
 
+        store.Token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NTgxMDIyNzUsImlzcyI6Imh0dHBzOlwvXC9sb2dpbi54c29sbGEuY29tIiwiaWF0IjoxNTU4MTAyMjE1LCJ1c2VybmFtZSI6ImFsIiwieHNvbGxhX2xvZ2luX2FjY2Vzc19rZXkiOiI5OXBuQXdVRnk2YjUwenktUFlwU2huZ3pZUmFIbHNUU3Y2SktWRmNicnpjIiwic3ViIjoiZTA1NDhhZmUtNTVmYi0xMWU5LWFkZWUtNDIwMTBhYTgwMDIxIiwiZW1haWwiOiJhLmtpc2xheWFAdmlyb25pdC5jby51ayIsInR5cGUiOiJ4c29sbGFfbG9naW4iLCJ4c29sbGFfbG9naW5fcHJvamVjdF9pZCI6IjcyMmNkNDZkLTU1ZTMtMTFlOS05MjQ0LTQyMDEwYWE4MDAwNCIsInB1Ymxpc2hlcl9pZCI6ODgzMDl9.LKjKKL8ElZiPfWI-oXX1ECyKxsDwGDN4LNskb0X878Y";
+
         SubscribeToEvents();
-
-        if (store.Token == "")
-        {
-            var user = JsonUtility.FromJson<XsollaStore.TokenInformation>("{\"user\":{\"id\":{\"value\":\"user_2\"},\"public_id\":{\"value\":\"user_2\"},\"name\":{\"value\":\"John Smith\"},\"email\":{\"value\":\"john.smith@mail.com\"},\"country\":{\"value\":\"US\",\"allow_modify\":true}},\"settings\":{\"project_id\":42638,\"mode\":\"sandbox\",\"currency\":\"USD\",\"language\":\"en\",\"ui\":{\"size\":\"medium\",\"desktop\":{\"virtual_item_list\":{\"layout\":\"list\",\"button_with_price\":true}},\"components\":{\"virtual_currency\":{\"custom_amount\":true}}}},\"purchase\":{\"virtual_currency\":{\"quantity\":100},\"virtual_items\":{\"items\":[{\"sku\":\"SKU01\",\"amount\":1}]}}}");
-            //generate new token
-            store.GetToken(user);
-        }
-        else
-            Debug.Log("Saved token: "+store.Token);
-
-        store.GetListOfGroups();
+        
         store.GetListOfItems();
     }
 
     private void SubscribeToEvents()
     {
         //Debug Log messages
-        store.OnSuccesfullGetToken += (str) => { Debug.Log("New token: " + str); };
-        store.OnCantParseToken += (str) => { Debug.Log("Cant Parse " + str); };
         store.OnInvalidProjectSettings += (error) => { Debug.Log("OnInvalidProjectSettings " + error.extended_message); };
         store.OnInvalidData += (error) => { Debug.Log("OnInvalidData " + error.extended_message); };
         store.OnIdentifiedError += (error) => { Debug.Log("OnIdentifiedError " + error.extended_message); };
@@ -44,24 +35,35 @@ public class StoreController : MonoBehaviour
 
         store.OnSuccessGetListOfItems += (items) =>
         {
-            foreach (var item in items.storeItems)
-            {
-                //Debug.Log(item.localized_name);
-                store.GetItemInformation(item.id);
-            }
+            CreateGroups(items);
+            CreateItems(items);
         };
-        store.OnSuccessGetListOfGroups += (items) =>
-        {
-            foreach (var item in items.groupItems)
-            {
-                //Debug.Log(item.localized_name);
-                store.GetGroupInformation(item.id);
-            }
-        };
-        store.OnSuccessGetGroupInformation += (item) => { _groupsController.AddGroup(item); };
-        store.OnSuccessGetItemInformation += (item) => { _itemsController.AddItem(item); };
 
         //Local events
         _groupsController.OnGroupClick += (id) => { _itemsController.ActivateContainer(id); };
+    }
+
+    private void CreateItems(XsollaStore.StoreItems items)
+    {
+        foreach (var item in items.storeItems)
+        {
+            _itemsController.AddItem(item);
+        }
+    }
+
+    private void CreateGroups(XsollaStore.StoreItems items)
+    {
+        List<string> addedGroups = new List<string>();
+        foreach (var item in items.storeItems)
+        {
+            foreach (string groupName in item.groups)
+            {
+                if (!addedGroups.Contains(groupName))
+                {
+                    addedGroups.Add(groupName);
+                    _groupsController.AddGroup(groupName);
+                }
+            }
+        }
     }
 }

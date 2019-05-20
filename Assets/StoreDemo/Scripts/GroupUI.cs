@@ -11,21 +11,19 @@ public class GroupUI : MonoBehaviour
     [SerializeField]
     private Button _group_Btn;
 
-    private Xsolla.XsollaStore.GroupItemInformation _itemInformation;
-
     public Action<string> OnGroupClick;
-
+    private string group_Name;
     private void Awake()
     {
         _group_Btn.onClick.AddListener(() => 
         {
             if (OnGroupClick != null)
-                OnGroupClick.Invoke(_itemInformation.id);
+                OnGroupClick.Invoke(group_Name);
         });
     }
-    public void InitializeGroup(Xsolla.XsollaStore.GroupItemInformation information)
+    public void InitializeGroup(string name)
     {
-        _itemInformation = information;
-        _groupName_Text.text = _itemInformation.name.en;
+        group_Name = name;
+        _groupName_Text.text = name;
     }
 }

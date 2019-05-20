@@ -18,30 +18,27 @@ public class ItemUI : MonoBehaviour
     [SerializeField]
     private Text _item_Price;
     [SerializeField]
-    private GameObject _item_Advertisement;
-    [SerializeField]
-    private Text _item_Advertisement_Text;
+    private Button _buy_Button;
 
     private Coroutine _loading_Routine;
-    private Xsolla.XsollaStore.ItemInformation _itemInformation;
-    
-    public void Initialize(Xsolla.XsollaStore.ItemInformation itemInformation)
+    private Xsolla.XsollaStore.StoreItem _itemInformation;
+    private void Awake()
+    {
+        _buy_Button.onClick.AddListener(() => { Xsolla.XsollaStore.Instance.BuyItem(_itemInformation.sku); });
+    }
+    public void Initialize(Xsolla.XsollaStore.StoreItem itemInformation)
     {
         _itemInformation = itemInformation;
 
-        float price = (float)(typeof(Xsolla.XsollaStore.StoreItemPrices)).GetField(Xsolla.XsollaStore.Instance.CurrencyCode).GetValue(itemInformation.prices);
-        _item_Price.text = Xsolla.XsollaStore.Instance.CurrencyCode + " "+ price.ToString()+" "+ Xsolla.XsollaStore.Instance.CurrencySymbol;
+        if (_itemInformation.prices.Length != 0)
+        _item_Price.text = _itemInformation.prices[0].amount + " " + _itemInformation.prices[0].currency;
 
-        _item_Name.text = _itemInformation.name.en;
-        _item_Description.text = _itemInformation.description.en;
-        if (itemInformation.advertisement_type != "")
-            _item_Advertisement_Text.text = itemInformation.advertisement_type;
-        else
-            _item_Advertisement.SetActive(false);
+        _item_Name.text = _itemInformation.name;
+        _item_Description.text = _itemInformation.description;
     }
     private void OnEnable()
     {
-        if (_loading_Routine == null && _item_Image.sprite == null)
+        if (_loading_Routine == null && _item_Image.sprite == null && _itemInformation.image_url != "")
             _loading_Routine = StartCoroutine(LoadImage(_itemInformation.image_url));
     }
     private IEnumerator LoadImage(string url)
@@ -49,7 +46,8 @@ public class ItemUI : MonoBehaviour
         using (WWW www = new WWW(url))
         {
             yield return www;
-            _item_Image.sprite = Sprite.Create(www.texture, new Rect(0,0, www.texture.width, www.texture.height), new Vector2(0.5f, 0.5f));
+            Sprite sprite = Sprite.Create(www.texture, new Rect(0, 0, www.texture.width, www.texture.height), new Vector2(0.5f, 0.5f));
+            _item_Image.sprite = sprite;
         }
     }
 }
