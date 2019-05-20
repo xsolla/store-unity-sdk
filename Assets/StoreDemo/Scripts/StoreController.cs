@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using Xsolla;
 
@@ -17,7 +15,7 @@ public class StoreController : MonoBehaviour
     {
         store = XsollaStore.Instance;
 
-        store.Token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NTgxMDIyNzUsImlzcyI6Imh0dHBzOlwvXC9sb2dpbi54c29sbGEuY29tIiwiaWF0IjoxNTU4MTAyMjE1LCJ1c2VybmFtZSI6ImFsIiwieHNvbGxhX2xvZ2luX2FjY2Vzc19rZXkiOiI5OXBuQXdVRnk2YjUwenktUFlwU2huZ3pZUmFIbHNUU3Y2SktWRmNicnpjIiwic3ViIjoiZTA1NDhhZmUtNTVmYi0xMWU5LWFkZWUtNDIwMTBhYTgwMDIxIiwiZW1haWwiOiJhLmtpc2xheWFAdmlyb25pdC5jby51ayIsInR5cGUiOiJ4c29sbGFfbG9naW4iLCJ4c29sbGFfbG9naW5fcHJvamVjdF9pZCI6IjcyMmNkNDZkLTU1ZTMtMTFlOS05MjQ0LTQyMDEwYWE4MDAwNCIsInB1Ymxpc2hlcl9pZCI6ODgzMDl9.LKjKKL8ElZiPfWI-oXX1ECyKxsDwGDN4LNskb0X878Y";
+        store.Token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE5NTgzNTUxODYsImlzcyI6Imh0dHBzOi8vbG9naW4ueHNvbGxhLmNvbSIsImlhdCI6MTU1ODM1NTEyNiwidXNlcm5hbWUiOiJsYWRvcmFAZGlyZWN0bWFpbC50b3AiLCJ4c29sbGFfbG9naW5fYWNjZXNzX2tleSI6Ikw1YzRrdE93a2Fwa3gwNUZldjFKMjVPSmF3QmNiSzNCT1VtUE5sUk1mWjQiLCJzdWIiOiI0YzI0MmRkZS03YWZhLTExZTktOWVjMi00MjAxMGFhODBmZjkiLCJlbWFpbCI6ImxhZG9yYUBkaXJlY3RtYWlsLnRvcCIsInR5cGUiOiJ4c29sbGFfbG9naW4iLCJ4c29sbGFfbG9naW5fcHJvamVjdF9pZCI6IjcyMmNkNDZkLTU1ZTMtMTFlOS05MjQ0LTQyMDEwYWE4MDAwNCIsInB1Ymxpc2hlcl9pZCI6ODgzMDl9.UVddI0mfPiADrE-Iv9HC3Po2nfO0f6q7L_uMXjyQ050";
 
         SubscribeToEvents();
         

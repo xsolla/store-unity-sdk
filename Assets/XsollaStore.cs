@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
-using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -126,7 +124,6 @@ namespace Xsolla
                                 }
                             }));
         }
-
         #region Exceptions
 
         private bool CheckForErrors(bool status, string message, Func<ErrorDescription, bool> checkError)
