@@ -6,7 +6,7 @@ using UnityEngine.Networking;
 
 namespace Xsolla
 {
-    public class XsollaStore : MonoBehaviour
+    public class XsollaStore : MonoSingleton<XsollaStore>
     {
         #region Events 
         public event Action<StoreItems> OnSuccessGetListOfItems;
@@ -54,20 +54,6 @@ namespace Xsolla
 
         [SerializeField]
         private string _project_id;
-        public static XsollaStore Instance = null;
-
-        void Awake()
-        {
-            if (Instance == null)
-            {
-                Instance = this;
-            }
-            else if (Instance == this)
-            {
-                Destroy(gameObject);
-            }
-            DontDestroyOnLoad(gameObject);
-        }
 
         /// <summary>
         /// Get list of items.
