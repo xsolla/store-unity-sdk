@@ -8,19 +8,16 @@ namespace Xsolla
 {
     public class XsollaStore : MonoSingleton<XsollaStore>
     {
-        #region Events 
         public event Action<StoreItems> OnSuccessGetListOfItems;
-        #region General
+
         //409 
         public event Action<ErrorDescription> OnInvalidProjectSettings;
         //422 
         public event Action<ErrorDescription> OnInvalidData;
-        #endregion
 
         public event Action<ErrorDescription> OnIdentifiedError;
         public event Action OnNetworkError;
-        #endregion
-        
+
         public string Project_Id
         {
             get
@@ -110,7 +107,6 @@ namespace Xsolla
                                 }
                             }));
         }
-        #region Exceptions
 
         private bool CheckForErrors(bool status, string message, Func<ErrorDescription, bool> checkError)
         {
@@ -176,8 +172,7 @@ namespace Xsolla
             catch (Exception) { }
             return message;
         }
-        #endregion
-        #region WebRequest
+
         private IEnumerator PostRequest(string url, WWWForm form, (string, string) requestHeader, Action<bool, string> callback = null)
         {
             UnityWebRequest request = UnityWebRequest.Post(url, form);
@@ -229,8 +224,7 @@ namespace Xsolla
                 callback?.Invoke(true, request.downloadHandler.text);
             }
         }
-        #endregion
-        #region Regions
+
         private static class Region
         {
             private static readonly Dictionary<SystemLanguage, LanguageProperties> currencyCodes = new Dictionary<SystemLanguage, LanguageProperties>()
@@ -279,8 +273,7 @@ namespace Xsolla
                 }
             }
         }
-        #endregion
-        #region JSONclasses
+
         [Serializable]
         public class ErrorDescription
         {
@@ -440,6 +433,5 @@ namespace Xsolla
             public float ZAR;
             public float ZWD;
         }
-        #endregion
     }
 }
