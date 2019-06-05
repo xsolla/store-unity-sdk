@@ -43,7 +43,7 @@ namespace Xsolla
 		/// </summary>
 		public void GetListOfItems()
 		{
-			StartCoroutine(GetRequest(
+			StartCoroutine(WebRequest.GetRequest(
 				"https://store.xsolla.com/api/v1/project/" + _project_id +
 				"/items/virtual_items?engine=unity&engine_v=" + Application.unityVersion + "&sdk=store&sdk_v=0.1",
 				(status, message) =>
@@ -78,7 +78,7 @@ namespace Xsolla
 			if (currency != "")
 				form.AddField("currency", currency);
 
-			StartCoroutine(PostRequest(
+			StartCoroutine(WebRequest.PostRequest(
 				"https://store.xsolla.com/api/v1/payment/item/" + id + "?engine=unity&engine_v=" +
 				Application.unityVersion + "&sdk=store&sdk_v=0.1", form,
 				("Authorization", "Bearer " + authorizationJWTtoken),
@@ -171,60 +171,7 @@ namespace Xsolla
 			return message;
 		}
 
-		private IEnumerator PostRequest(string url, WWWForm form, (string, string) requestHeader,
-			Action<bool, string> callback = null)
-		{
-			UnityWebRequest request = UnityWebRequest.Post(url, form);
-			request.SetRequestHeader(requestHeader.Item1, requestHeader.Item2);
 
-#if UNITY_2018_1_OR_NEWER
-			request.SendWebRequest();
-#else
-            request.Send();
-#endif
-
-			while (!request.isDone)
-			{
-				//wait 
-				yield return new WaitForEndOfFrame();
-			}
-
-			if (request.isNetworkError)
-			{
-				callback?.Invoke(false, "");
-			}
-			else
-			{
-				string recievedMessage = request.downloadHandler.text;
-				callback?.Invoke(true, recievedMessage);
-			}
-		}
-
-		private IEnumerator GetRequest(string uri, Action<bool, string> callback = null)
-		{
-			UnityWebRequest request = UnityWebRequest.Get(uri);
-
-#if UNITY_2018_1_OR_NEWER
-			request.SendWebRequest();
-#else
-            request.Send();
-#endif
-
-			while (!request.isDone)
-			{
-				//wait 
-				yield return new WaitForEndOfFrame();
-			}
-
-			if (request.isNetworkError)
-			{
-				callback?.Invoke(false, "");
-			}
-			else
-			{
-				callback?.Invoke(true, request.downloadHandler.text);
-			}
-		}
 
 		private static class Region
 		{
