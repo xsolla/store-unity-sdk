@@ -5,15 +5,15 @@ namespace Xsolla
 {
 	public class XsollaStore : MonoSingleton<XsollaStore>
 	{
-		public event Action<StoreItems> OnSuccessGetListOfItems;
+		public event Action<XsollaStoreItems> OnSuccessGetListOfItems;
 
 		//409 
-		public event Action<ErrorDescription> OnInvalidProjectSettings;
+		public event Action<XsollaError> OnInvalidProjectSettings;
 
 		//422 
-		public event Action<ErrorDescription> OnInvalidData;
+		public event Action<XsollaError> OnInvalidData;
 
-		public event Action<ErrorDescription> OnIdentifiedError;
+		public event Action<XsollaError> OnIdentifiedError;
 		public event Action OnNetworkError;
 
 		public string Project_Id
@@ -42,11 +42,11 @@ namespace Xsolla
 				{
 					if (!CheckForErrors(status, message, null))
 					{
-						StoreItems items = new StoreItems();
+						XsollaStoreItems items = new XsollaStoreItems();
 						try
 						{
 							message = message.Remove(0, 8).Insert(0, "{\"storeItems\"");
-							items = JsonUtility.FromJson<StoreItems>(message);
+							items = JsonUtility.FromJson<XsollaStoreItems>(message);
 						}
 						catch (Exception)
 						{
@@ -79,7 +79,7 @@ namespace Xsolla
 					{
 						try
 						{
-							string PS3token = JsonUtility.FromJson<JsonToken>(message).token;
+							string PS3token = JsonUtility.FromJson<XsollaToken>(message).token;
 							Application.OpenURL("https://secure.xsolla.com/paystation2/?access_token=" + PS3token);
 						}
 						catch (Exception)
@@ -89,25 +89,24 @@ namespace Xsolla
 				}));
 		}
 
-		bool CheckForErrors(bool status, string message, Func<ErrorDescription, bool> checkError)
+		bool CheckForErrors(bool status, string message, Func<XsollaError, bool> checkError)
 		{
 			//if it is not a network error
 			if (status)
 			{
 				//try to deserialize mistake
-				ErrorDescription errorJson = DeserializeError(message);
-				bool errorShowStatus = false;
+				XsollaError error = DeserializeError(message);
 				//if postRequest got an error
-				if (errorJson != null && errorJson.http_status_code != null)
+				if (error != null && error.http_status_code != null)
 				{
 					//check for general errors
-					errorShowStatus = CheckGeneralErrors(errorJson);
+					bool errorShowStatus = CheckGeneralErrors(error);
 					//if it is not a general error check for registration error
 					if (!errorShowStatus && checkError != null)
-						errorShowStatus = checkError(errorJson);
+						errorShowStatus = checkError(error);
 					//else if it is not a general and not a registration error generate indentified error
 					if (!errorShowStatus && OnIdentifiedError != null)
-						OnIdentifiedError.Invoke(errorJson);
+						OnIdentifiedError.Invoke(error);
 					return true;
 				}
 
@@ -122,21 +121,21 @@ namespace Xsolla
 			}
 		}
 
-		bool CheckGeneralErrors(ErrorDescription errorDescription)
+		bool CheckGeneralErrors(XsollaError error)
 		{
-			switch (errorDescription.http_status_code)
+			switch (error.http_status_code)
 			{
 				case "409":
 					if (OnInvalidProjectSettings != null)
-						OnInvalidProjectSettings.Invoke(errorDescription);
+						OnInvalidProjectSettings.Invoke(error);
 					break;
 				case "404":
 					if (OnInvalidProjectSettings != null)
-						OnInvalidProjectSettings.Invoke(errorDescription);
+						OnInvalidProjectSettings.Invoke(error);
 					break;
 				case "422":
 					if (OnInvalidData != null)
-						OnInvalidData.Invoke(errorDescription);
+						OnInvalidData.Invoke(error);
 					break;
 				default:
 					return false;
@@ -145,13 +144,13 @@ namespace Xsolla
 			return true;
 		}
 
-		ErrorDescription DeserializeError(string recievedMessage)
+		XsollaError DeserializeError(string recievedMessage)
 		{
-			ErrorDescription message = new ErrorDescription();
+			XsollaError message = new XsollaError();
 
 			try
 			{
-				message = JsonUtility.FromJson<ErrorDescription>(recievedMessage);
+				message = JsonUtility.FromJson<XsollaError>(recievedMessage);
 				message.extended_message = recievedMessage;
 			}
 			catch (Exception)
@@ -159,171 +158,6 @@ namespace Xsolla
 			}
 
 			return message;
-		}
-
-		[Serializable]
-		public class ErrorDescription
-		{
-			public string http_status_code;
-			public string message;
-			public string request_id;
-			public string extended_message;
-		}
-
-		[Serializable]
-		public struct JsonToken
-		{
-			public string token;
-		}
-
-		[Serializable]
-		public class StoreItems
-		{
-			public StoreItem[] storeItems;
-		}
-
-		[Serializable]
-		public class StoreItem
-		{
-			public string sku;
-			public string[] groups;
-			public string name;
-			public string type;
-			public bool is_free;
-			public string long_description;
-			public string description;
-			public string image_url;
-			public ItemPrices[] prices;
-		}
-
-		[Serializable]
-		public struct ItemPrices
-		{
-			public float amount;
-			public string currency;
-		}
-
-		[Serializable]
-		public struct StoreItemPrices
-		{
-			public float EUR;
-			public float USD;
-			public float AED;
-			public float AFN;
-			public float ALL;
-			public float AMD;
-			public float ARS;
-			public float AUD;
-			public float AZN;
-			public float BAM;
-			public float BBD;
-			public float BGN;
-			public float BHD;
-			public float BND;
-			public float BOB;
-			public float BRL;
-			public float BSD;
-			public float BTC;
-			public float BWP;
-			public float BYN;
-			public float BZD;
-			public float CAD;
-			public float CHF;
-			public float CLP;
-			public float CNY;
-			public float COP;
-			public float CRC;
-			public float CZK;
-			public float DKK;
-			public float DOP;
-			public float DZD;
-			public float EGP;
-			public float ETH;
-			public float FJD;
-			public float FKP;
-			public float GBP;
-			public float GEL;
-			public float GHS;
-			public float GIP;
-			public float GTQ;
-			public float GYD;
-			public float HKD;
-			public float HNL;
-			public float HRK;
-			public float HUF;
-			public float IDR;
-			public float ILS;
-			public float INR;
-			public float IQD;
-			public float IRR;
-			public float ISK;
-			public float JMD;
-			public float JOD;
-			public float JPY;
-			public float KES;
-			public float KGS;
-			public float KMF;
-			public float KRW;
-			public float KWD;
-			public float KZT;
-			public float LAK;
-			public float LBP;
-			public float LKR;
-			public float LRD;
-			public float LTC;
-			public float MAD;
-			public float MDL;
-			public float MGO;
-			public float MKD;
-			public float MMK;
-			public float MNT;
-			public float MUR;
-			public float MXN;
-			public float MYR;
-			public float MZN;
-			public float NAD;
-			public float NGN;
-			public float NIO;
-			public float NOK;
-			public float NZD;
-			public float OMR;
-			public float PAB;
-			public float PEN;
-			public float PHP;
-			public float PKR;
-			public float PLN;
-			public float PYG;
-			public float QAR;
-			public float RON;
-			public float RSD;
-			public float RUB;
-			public float SAR;
-			public float SDG;
-			public float SEK;
-			public float SGD;
-			public float SOS;
-			public float SRD;
-			public float SVC;
-			public float SYP;
-			public float THB;
-			public float TJS;
-			public float TMT;
-			public float TND;
-			public float TRY;
-			public float TTD;
-			public float TWD;
-			public float UAH;
-			public float UGX;
-			public float UYU;
-			public float UZS;
-			public float VEF;
-			public float VES;
-			public float VND;
-			public float XCD;
-			public float XOF;
-			public float YER;
-			public float ZAR;
-			public float ZWD;
 		}
 	}
 }

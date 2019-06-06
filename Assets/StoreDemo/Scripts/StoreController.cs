@@ -41,7 +41,7 @@ public class StoreController : MonoBehaviour
         _groupsController.OnGroupClick += (id) => { _itemsController.ActivateContainer(id); };
     }
 
-    private void CreateItems(XsollaStore.StoreItems items)
+    private void CreateItems(XsollaStoreItems items)
     {
         foreach (var item in items.storeItems)
         {
@@ -49,7 +49,7 @@ public class StoreController : MonoBehaviour
         }
     }
 
-    private void CreateGroups(XsollaStore.StoreItems items)
+    private void CreateGroups(XsollaStoreItems items)
     {
         List<string> addedGroups = new List<string>();
         foreach (var item in items.storeItems)

@@ -8,7 +8,7 @@ public class ItemsController : MonoBehaviour
 
     private Dictionary<string, GameObject> _containers = new Dictionary<string, GameObject>();
     
-    public void AddItem(Xsolla.XsollaStore.StoreItem itemInformation)
+    public void AddItem(Xsolla.XsollaStoreItem itemInformation)
     {
         foreach (var group in itemInformation.groups)
         {
