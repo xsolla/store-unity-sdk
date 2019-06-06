@@ -5,159 +5,115 @@ namespace Xsolla
 {
 	public class XsollaStore : MonoSingleton<XsollaStore>
 	{
-		public event Action<XsollaStoreItems> OnSuccessGetListOfItems;
-
-		//409 
-		public event Action<XsollaError> OnInvalidProjectSettings;
-
-		//422 
-		public event Action<XsollaError> OnInvalidData;
-
-		public event Action<XsollaError> OnIdentifiedError;
-		public event Action OnNetworkError;
-
-		public string Project_Id
+		[SerializeField] 
+		string projectId;
+		
+		public string ProjectId
 		{
-			get { return _project_id; }
-			set { _project_id = value; }
+			get { return projectId; }
+			set { projectId = value; }
 		}
 
 		public string Token
 		{
 			set { PlayerPrefs.SetString(Constants.XsollaStoreToken, value); }
-			get { return PlayerPrefs.HasKey(Constants.XsollaStoreToken) ? PlayerPrefs.GetString(Constants.XsollaStoreToken) : string.Empty; }
+			get { return PlayerPrefs.GetString(Constants.XsollaStoreToken, string.Empty); }
 		}
 
-		[SerializeField] string _project_id;
-
-		/// <summary>
-		/// Get list of items.
-		/// </summary>
-		public void GetListOfItems()
+		public void GetListOfItems(Action<XsollaStoreItems> onSuccess, Action<XsollaError> onError)
 		{
-			StartCoroutine(WebRequest.GetRequest(
-				"https://store.xsolla.com/api/v1/project/" + _project_id +
-				"/items/virtual_items?engine=unity&engine_v=" + Application.unityVersion + "&sdk=store&sdk_v=0.1",
-				(status, message) =>
+			var url = string.Format("https://store.xsolla.com/api/v1/project/{0}/items/virtual_items?engine=unity&engine_v={1}&sdk=store&sdk_v={2}", 
+				projectId, Application.unityVersion, Constants.SdkVersion);
+			
+			StartCoroutine(WebRequest.GetRequest(url,(status, response) =>
+			{
+				var error = CheckForErrors(status, response);
+				if (error == null)
 				{
-					if (!CheckForErrors(status, message, null))
+					var items = new XsollaStoreItems();
+					try
 					{
-						XsollaStoreItems items = new XsollaStoreItems();
-						try
+						items = JsonUtility.FromJson<XsollaStoreItems>(response);
+						
+						if (onSuccess != null)
 						{
-							message = message.Remove(0, 8).Insert(0, "{\"storeItems\"");
-							items = JsonUtility.FromJson<XsollaStoreItems>(message);
+							onSuccess.Invoke(items);
 						}
-						catch (Exception)
-						{
-						}
-
-						if (OnSuccessGetListOfItems != null)
-							OnSuccessGetListOfItems.Invoke(items);
 					}
-				}));
+					catch (Exception)
+					{
+						print(response);
+					}
+				}
+				else
+				{
+					if (onError != null)
+					{
+						onError.Invoke(error);
+					}
+				}
+			}));
 		}
 
-		/// <summary>
-		/// Open PayStation.
-		/// </summary>
-		public void BuyItem(string id, string authorizationJWTtoken = "", string currency = "")
+		public void BuyItem(string id, Action<XsollaError> onError, string authToken = null, string currency = null)
 		{
-			if (authorizationJWTtoken == "")
-				authorizationJWTtoken = Token;
+			if (string.IsNullOrEmpty(authToken))
+				authToken = Token;
+			
 			WWWForm form = new WWWForm();
-			if (currency != "")
+			
+			if (!string.IsNullOrEmpty(currency))
 				form.AddField("currency", currency);
 
-			StartCoroutine(WebRequest.PostRequest(
-				"https://store.xsolla.com/api/v1/payment/item/" + id + "?engine=unity&engine_v=" +
-				Application.unityVersion + "&sdk=store&sdk_v=0.1", form,
-				("Authorization", "Bearer " + authorizationJWTtoken),
-				(status, message) =>
+			var url = string.Format("https://store.xsolla.com/api/v1/payment/item/{0}?engine=unity&engine_v={1}&sdk=store&sdk_v=0.1", id, Application.unityVersion);
+			
+			StartCoroutine(WebRequest.PostRequest(url, form, ("Authorization", "Bearer " + authToken),(status, response) =>
+			{
+				var error = CheckForErrors(status, response); 
+				if (error == null)
 				{
-					if (!CheckForErrors(status, message, null))
+					try
 					{
-						try
-						{
-							string PS3token = JsonUtility.FromJson<XsollaToken>(message).token;
-							Application.OpenURL("https://secure.xsolla.com/paystation2/?access_token=" + PS3token);
-						}
-						catch (Exception)
-						{
-						}
+						string PS3token = JsonUtility.FromJson<XsollaToken>(response).token;
+						Application.OpenURL("https://secure.xsolla.com/paystation2/?access_token=" + PS3token);
 					}
-				}));
-		}
-
-		bool CheckForErrors(bool status, string message, Func<XsollaError, bool> checkError)
-		{
-			//if it is not a network error
-			if (status)
-			{
-				//try to deserialize mistake
-				XsollaError error = DeserializeError(message);
-				//if postRequest got an error
-				if (error != null && error.http_status_code != null)
-				{
-					//check for general errors
-					bool errorShowStatus = CheckGeneralErrors(error);
-					//if it is not a general error check for registration error
-					if (!errorShowStatus && checkError != null)
-						errorShowStatus = checkError(error);
-					//else if it is not a general and not a registration error generate indentified error
-					if (!errorShowStatus && OnIdentifiedError != null)
-						OnIdentifiedError.Invoke(error);
-					return true;
+					catch (Exception)
+					{
+						print(response);
+					}
 				}
-
-				//else if success
-				return false;
-			}
-			else
-			{
-				if (OnNetworkError != null)
-					OnNetworkError.Invoke();
-				return true;
-			}
+				else
+				{
+					if (onError != null)
+					{
+						onError.Invoke(error);
+					}
+				}
+			}));
 		}
 
-		bool CheckGeneralErrors(XsollaError error)
+		XsollaError CheckForErrors(bool status, string message)
 		{
-			switch (error.http_status_code)
+			if (!status)
 			{
-				case "409":
-					if (OnInvalidProjectSettings != null)
-						OnInvalidProjectSettings.Invoke(error);
-					break;
-				case "404":
-					if (OnInvalidProjectSettings != null)
-						OnInvalidProjectSettings.Invoke(error);
-					break;
-				case "422":
-					if (OnInvalidData != null)
-						OnInvalidData.Invoke(error);
-					break;
-				default:
-					return false;
+				return new XsollaError(ErrorType.NetworkError, message);
 			}
-
-			return true;
-		}
-
-		XsollaError DeserializeError(string recievedMessage)
-		{
-			XsollaError message = new XsollaError();
 
 			try
 			{
-				message = JsonUtility.FromJson<XsollaError>(recievedMessage);
-				message.extended_message = recievedMessage;
+				var error = JsonUtility.FromJson<XsollaError>(message);
+			
+				if (error != null && error.statusCode != null)
+				{
+					return error;
+				}
 			}
 			catch (Exception)
 			{
+				print(message);
 			}
 
-			return message;
+			return null;
 		}
 	}
 }

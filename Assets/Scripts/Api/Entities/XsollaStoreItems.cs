@@ -5,6 +5,6 @@ namespace Xsolla
 	[Serializable]
 	public class XsollaStoreItems
 	{
-		public XsollaStoreItem[] storeItems;
+		public XsollaStoreItem[] items;
 	}
 }

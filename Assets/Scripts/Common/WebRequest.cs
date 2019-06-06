@@ -7,8 +7,7 @@ namespace Xsolla
 {
 	public static class WebRequest
 	{
-		public static IEnumerator PostRequest(string url, WWWForm form, (string, string) requestHeader,
-			Action<bool, string> callback = null)
+		public static IEnumerator PostRequest(string url, WWWForm form, (string, string) requestHeader, Action<bool, string> onComplete = null)
 		{
 			UnityWebRequest request = UnityWebRequest.Post(url, form);
 			request.SetRequestHeader(requestHeader.Item1, requestHeader.Item2);
@@ -21,18 +20,17 @@ namespace Xsolla
 
 			if (request.isNetworkError)
 			{
-				callback?.Invoke(false, "");
+				onComplete?.Invoke(false, string.Empty);
 			}
 			else
 			{
-				string recievedMessage = request.downloadHandler.text;
-				callback?.Invoke(true, recievedMessage);
+				onComplete?.Invoke(true, request.downloadHandler.text);
 			}
 		}
 
-		public static IEnumerator GetRequest(string uri, Action<bool, string> callback = null)
+		public static IEnumerator GetRequest(string url, Action<bool, string> onComplete = null)
 		{
-			UnityWebRequest request = UnityWebRequest.Get(uri);
+			UnityWebRequest request = UnityWebRequest.Get(url);
 
 #if UNITY_2018_1_OR_NEWER
 			yield return request.SendWebRequest();
@@ -42,11 +40,11 @@ namespace Xsolla
 
 			if (request.isNetworkError)
 			{
-				callback?.Invoke(false, "");
+				onComplete?.Invoke(false, string.Empty);
 			}
 			else
 			{
-				callback?.Invoke(true, request.downloadHandler.text);
+				onComplete?.Invoke(true, request.downloadHandler.text);
 			}
 		}
 	}

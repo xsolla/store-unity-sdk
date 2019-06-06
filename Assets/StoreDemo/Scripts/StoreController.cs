@@ -19,31 +19,24 @@ public class StoreController : MonoBehaviour
 
         SubscribeToEvents();
         
-        store.GetListOfItems();
+        store.GetListOfItems((items) =>
+        {
+	        CreateGroups(items);
+	        CreateItems(items);
+        }, error =>
+        {
+	        Debug.Log(error.ToString());
+        });
     }
 
     private void SubscribeToEvents()
     {
-        //Debug Log messages
-        store.OnInvalidProjectSettings += (error) => { Debug.Log("OnInvalidProjectSettings " + error.extended_message); };
-        store.OnInvalidData += (error) => { Debug.Log("OnInvalidData " + error.extended_message); };
-        store.OnIdentifiedError += (error) => { Debug.Log("OnIdentifiedError " + error.extended_message); };
-        store.OnNetworkError += () => { Debug.Log("Network Error"); };
-
-
-        store.OnSuccessGetListOfItems += (items) =>
-        {
-            CreateGroups(items);
-            CreateItems(items);
-        };
-
-        //Local events
         _groupsController.OnGroupClick += (id) => { _itemsController.ActivateContainer(id); };
     }
 
     private void CreateItems(XsollaStoreItems items)
     {
-        foreach (var item in items.storeItems)
+        foreach (var item in items.items)
         {
             _itemsController.AddItem(item);
         }
@@ -52,7 +45,7 @@ public class StoreController : MonoBehaviour
     private void CreateGroups(XsollaStoreItems items)
     {
         List<string> addedGroups = new List<string>();
-        foreach (var item in items.storeItems)
+        foreach (var item in items.items)
         {
             foreach (string groupName in item.groups)
             {

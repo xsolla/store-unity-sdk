@@ -19,7 +19,12 @@ public class ItemUI : MonoBehaviour
     private Xsolla.XsollaStoreItem _itemInformation;
     private void Awake()
     {
-        _buy_Button.onClick.AddListener(() => { Xsolla.XsollaStore.Instance.BuyItem(_itemInformation.sku); });
+        _buy_Button.onClick.AddListener(() => { 
+	        Xsolla.XsollaStore.Instance.BuyItem(_itemInformation.sku, error =>
+	        {
+		        Debug.Log(error.ToString());
+	        }); 
+        });
     }
     public void Initialize(Xsolla.XsollaStoreItem itemInformation)
     {
