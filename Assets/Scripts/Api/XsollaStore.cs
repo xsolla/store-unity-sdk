@@ -33,7 +33,7 @@ namespace Xsolla
 
 		public string CurrencySymbol
 		{
-			get { return Region.GetCurrencySymbol(); }
+			get { return RegionalCurrency.CurrencySymbol; }
 		}
 
 		[SerializeField] private string _project_id;
@@ -175,55 +175,7 @@ namespace Xsolla
 
 		private static class Region
 		{
-			private static readonly Dictionary<SystemLanguage, LanguageProperties> currencyCodes =
-				new Dictionary<SystemLanguage, LanguageProperties>()
-				{
-					{SystemLanguage.Chinese, new LanguageProperties("元", "CNY")},
-					{SystemLanguage.English, new LanguageProperties("$", "USD")},
-					{SystemLanguage.French, new LanguageProperties("€", "EUR")},
-					{SystemLanguage.German, new LanguageProperties("€", "EUR")},
-					{SystemLanguage.Korean, new LanguageProperties("₩", "KRW")},
-					{SystemLanguage.Portuguese, new LanguageProperties("R$", "BRL")},
-					{SystemLanguage.Russian, new LanguageProperties("₽", "RUB")},
-					{SystemLanguage.Spanish, new LanguageProperties("€", "EUR")},
-					{SystemLanguage.Unknown, new LanguageProperties("$", "USD")}
-				};
-
-			public static string GetCurrencyCode()
-			{
-				if (currencyCodes.ContainsKey(Application.systemLanguage))
-				{
-					return currencyCodes[Application.systemLanguage].Code;
-				}
-				else
-				{
-					return currencyCodes[SystemLanguage.Unknown].Code;
-				}
-			}
-
-			public static string GetCurrencySymbol()
-			{
-				if (currencyCodes.ContainsKey(Application.systemLanguage))
-				{
-					return currencyCodes[Application.systemLanguage].Symbol;
-				}
-				else
-				{
-					return currencyCodes[SystemLanguage.Unknown].Symbol;
-				}
-			}
-
-			private class LanguageProperties
-			{
-				public string Symbol;
-				public string Code;
-
-				public LanguageProperties(string symbol, string code)
-				{
-					Symbol = symbol;
-					Code = code;
-				}
-			}
+			
 		}
 
 		[Serializable]
