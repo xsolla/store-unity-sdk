@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
 
 namespace Xsolla
 {
@@ -27,16 +24,11 @@ namespace Xsolla
 
 		public string Token
 		{
-			set { PlayerPrefs.SetString("Xsolla_Store_Token", value); }
-			get { return PlayerPrefs.HasKey("Xsolla_Store_Token") ? PlayerPrefs.GetString("Xsolla_Store_Token") : ""; }
+			set { PlayerPrefs.SetString(Constants.XsollaStoreToken, value); }
+			get { return PlayerPrefs.HasKey(Constants.XsollaStoreToken) ? PlayerPrefs.GetString(Constants.XsollaStoreToken) : string.Empty; }
 		}
 
-		public string CurrencySymbol
-		{
-			get { return RegionalCurrency.CurrencySymbol; }
-		}
-
-		[SerializeField] private string _project_id;
+		[SerializeField] string _project_id;
 
 		/// <summary>
 		/// Get list of items.
@@ -48,7 +40,6 @@ namespace Xsolla
 				"/items/virtual_items?engine=unity&engine_v=" + Application.unityVersion + "&sdk=store&sdk_v=0.1",
 				(status, message) =>
 				{
-					//Debug.Log("Recieved message from GetListOfItems: " + message);
 					if (!CheckForErrors(status, message, null))
 					{
 						StoreItems items = new StoreItems();
@@ -84,7 +75,6 @@ namespace Xsolla
 				("Authorization", "Bearer " + authorizationJWTtoken),
 				(status, message) =>
 				{
-					//Debug.Log("Recieved message from GetListOfItems: " + message);
 					if (!CheckForErrors(status, message, null))
 					{
 						try
@@ -99,7 +89,7 @@ namespace Xsolla
 				}));
 		}
 
-		private bool CheckForErrors(bool status, string message, Func<ErrorDescription, bool> checkError)
+		bool CheckForErrors(bool status, string message, Func<ErrorDescription, bool> checkError)
 		{
 			//if it is not a network error
 			if (status)
@@ -132,7 +122,7 @@ namespace Xsolla
 			}
 		}
 
-		private bool CheckGeneralErrors(ErrorDescription errorDescription)
+		bool CheckGeneralErrors(ErrorDescription errorDescription)
 		{
 			switch (errorDescription.http_status_code)
 			{
@@ -155,7 +145,7 @@ namespace Xsolla
 			return true;
 		}
 
-		private ErrorDescription DeserializeError(string recievedMessage)
+		ErrorDescription DeserializeError(string recievedMessage)
 		{
 			ErrorDescription message = new ErrorDescription();
 
@@ -169,13 +159,6 @@ namespace Xsolla
 			}
 
 			return message;
-		}
-
-
-
-		private static class Region
-		{
-			
 		}
 
 		[Serializable]
