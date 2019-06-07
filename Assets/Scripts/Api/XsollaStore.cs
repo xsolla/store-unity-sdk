@@ -32,7 +32,15 @@ namespace Xsolla
 
 			StartCoroutine(WebRequest.GetRequest(url, (status, response) =>
 			{
-				var error = CheckForErrors(status, response, XsollaError.ItemsListErrors);
+				if (!status)
+				{
+					if (onError != null)
+					{
+						onError.Invoke(new XsollaError {ErrorType = ErrorType.NetworkError});
+					}
+				}
+				
+				var error = CheckForErrors(response, XsollaError.ItemsListErrors);
 				if (error == null)
 				{
 					var items = ParseUtils.ParseStoreItems(response);
@@ -72,7 +80,15 @@ namespace Xsolla
 
 			StartCoroutine(WebRequest.PostRequest(url, form, ("Authorization", "Bearer " + authToken),(status, response) =>
 			{
-				var error = CheckForErrors(status, response, XsollaError.BuyItemErrors);
+				if (!status)
+				{
+					if (onError != null)
+					{
+						onError.Invoke(new XsollaError {ErrorType = ErrorType.NetworkError});
+					}
+				}
+				
+				var error = CheckForErrors(response, XsollaError.BuyItemErrors);
 				if (error == null)
 				{
 					var payStationToken = ParseUtils.ParseToken(response);
@@ -98,14 +114,9 @@ namespace Xsolla
 			}));
 		}
 
-		XsollaError CheckForErrors(bool status, string message, Dictionary<string, ErrorType> errorsToCheck)
+		XsollaError CheckForErrors(string json, Dictionary<string, ErrorType> errorsToCheck)
 		{
-			if (!status)
-			{
-				return new XsollaError {ErrorType = ErrorType.NetworkError};
-			}
-
-			var error = ParseUtils.ParseError(message);
+			var error = ParseUtils.ParseError(json);
 			if (error != null && !string.IsNullOrEmpty(error.statusCode))
 			{
 				if (errorsToCheck != null && errorsToCheck.ContainsKey(error.statusCode))
