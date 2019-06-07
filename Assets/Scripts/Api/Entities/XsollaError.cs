@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace Xsolla
 {
@@ -11,43 +10,30 @@ namespace Xsolla
 		public string errorCode;
 		public string errorMessage;
 
-		public ErrorType type;
-		
-		static readonly Dictionary<string, ErrorType> errors =
+		public ErrorType ErrorType { get; set; }
+
+		public static readonly Dictionary<string, ErrorType> GeneralErrors =
 			new Dictionary<string, ErrorType>()
 			{
 				{"403", ErrorType.InvalidToken},
 				{"405", ErrorType.MethodIsNotAllowed},
+			};
+		
+		public static readonly Dictionary<string, ErrorType> ItemsListErrors =
+			new Dictionary<string, ErrorType>()
+			{
 				{"422", ErrorType.InvalidData},
 			};
 
-		XsollaError()
-		{
-			Debug.Log("Status" + statusCode);
-			if (!string.IsNullOrEmpty(statusCode))
+		public static readonly Dictionary<string, ErrorType> BuyItemErrors =
+			new Dictionary<string, ErrorType>()
 			{
-				Debug.Log("Status" + statusCode);
-				
-				if (errors.ContainsKey(statusCode))
-				{
-					type = errors[statusCode];
-				}
-				else
-				{
-					type = ErrorType.UnknownError;
-				}
-			}
-		}
-
-		public XsollaError(ErrorType errorType, string message)
-		{
-			type = errorType;
-			errorMessage = message;
-		}
+				{"422", ErrorType.ProductDoesNotExist},
+			};
 		
 		public override string ToString()
 		{
-			return string.Format("Error - Type: {0}. Status: {1}. Error code: {2}. Message: {3}.", type, statusCode, errorCode, errorMessage);
+			return string.Format("Error - Type: {0}. Status code: {1}. Error code: {2}. Error message: {3}.", ErrorType, statusCode, errorCode, errorMessage);
 		}
 	}
 }

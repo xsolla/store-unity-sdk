@@ -6,6 +6,7 @@
 		NetworkError,
 		MethodIsNotAllowed,
 		InvalidToken,
-		InvalidData
+		InvalidData,
+		ProductDoesNotExist
 	}
 }
