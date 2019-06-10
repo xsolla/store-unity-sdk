@@ -7,44 +7,57 @@ namespace Xsolla
 {
 	public static class WebRequest
 	{
-		public static IEnumerator PostRequest(string url, WWWForm form, (string, string) requestHeader, Action<bool, string> onComplete = null)
+		public static IEnumerator PostRequest(string url, WWWForm form, WebRequestHeader requestHeader, Action<string> onComplete = null, Action<XsollaError> onError = null)
 		{
-			UnityWebRequest request = UnityWebRequest.Post(url, form);
-			request.SetRequestHeader(requestHeader.Item1, requestHeader.Item2);
+			var webRequest = UnityWebRequest.Post(url, form);
+			
+			webRequest.SetRequestHeader(requestHeader.Name, requestHeader.Value);
 
 #if UNITY_2018_1_OR_NEWER
-			yield return request.SendWebRequest();
+			yield return webRequest.SendWebRequest();
 #else
-			yield return request.Send();
+			yield return webRequest.Send();
 #endif
 
-			if (request.isNetworkError)
+			if (webRequest.isNetworkError)
 			{
-				onComplete?.Invoke(false, string.Empty);
+				if (onError != null)
+				{
+					onError(new XsollaError {ErrorType = ErrorType.NetworkError});
+				}
 			}
 			else
 			{
-				onComplete?.Invoke(true, request.downloadHandler.text);
+				if (onComplete != null)
+				{
+					onComplete(webRequest.downloadHandler.text);
+				}
 			}
 		}
 
-		public static IEnumerator GetRequest(string url, Action<bool, string> onComplete = null)
+		public static IEnumerator GetRequest(string url, Action<string> onComplete = null, Action<XsollaError> onError = null)
 		{
-			UnityWebRequest request = UnityWebRequest.Get(url);
+			var webRequest = UnityWebRequest.Get(url);
 
 #if UNITY_2018_1_OR_NEWER
-			yield return request.SendWebRequest();
+			yield return webRequest.SendWebRequest();
 #else
-			yield return request.Send();
+			yield return webRequest.Send();
 #endif
 
-			if (request.isNetworkError)
+			if (webRequest.isNetworkError)
 			{
-				onComplete?.Invoke(false, string.Empty);
+				if (onError != null)
+				{
+					onError(new XsollaError {ErrorType = ErrorType.NetworkError});
+				}
 			}
 			else
 			{
-				onComplete?.Invoke(true, request.downloadHandler.text);
+				if (onComplete != null)
+				{
+					onComplete(webRequest.downloadHandler.text);
+				}
 			}
 		}
 	}
