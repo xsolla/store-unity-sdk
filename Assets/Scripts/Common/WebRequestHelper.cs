@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -59,7 +60,17 @@ namespace Xsolla
 		{
 		}
 		
-		public static IEnumerator PostRequest(string url, WWWForm form, WebRequestHeader requestHeader, Action<string> onComplete = null, Action<XsollaError> onError = null)
+		public void PostRequest<T>(string url, WWWForm form, WebRequestHeader requestHeader, Action<T> onComplete = null, Action<XsollaError> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
+		{
+			StartCoroutine(PostRequestCor<T>(url, form, requestHeader, onComplete, onError, errorsToCheck));
+		}
+
+		public void GetRequest<T>(string url, Action<T> onComplete = null, Action<XsollaError> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
+		{
+			StartCoroutine(GetRequestCor<T>(url, onComplete, onError, errorsToCheck));
+		}
+
+		IEnumerator PostRequestCor<T>(string url, WWWForm form, WebRequestHeader requestHeader, Action<T> onComplete = null, Action<XsollaError> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
 		{
 			var webRequest = UnityWebRequest.Post(url, form);
 			
@@ -71,23 +82,10 @@ namespace Xsolla
 			yield return webRequest.Send();
 #endif
 
-			if (webRequest.isNetworkError)
-			{
-				if (onError != null)
-				{
-					onError(new XsollaError {ErrorType = ErrorType.NetworkError});
-				}
-			}
-			else
-			{
-				if (onComplete != null)
-				{
-					onComplete(webRequest.downloadHandler.text);
-				}
-			}
+			ProcessRequest(webRequest, onComplete, onError, errorsToCheck);
 		}
-		
-		public static IEnumerator GetRequest(string url, Action<string> onComplete = null, Action<XsollaError> onError = null)
+
+		IEnumerator GetRequestCor<T>(string url, Action<T> onComplete = null, Action<XsollaError> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
 		{
 			var webRequest = UnityWebRequest.Get(url);
 
@@ -97,6 +95,11 @@ namespace Xsolla
 			yield return webRequest.Send();
 #endif
 
+			ProcessRequest(webRequest, onComplete, onError, errorsToCheck);
+		}
+
+		void ProcessRequest<T>(UnityWebRequest webRequest, Action<T> onComplete, Action<XsollaError> onError, Dictionary<string, ErrorType> errorsToCheck) where T : class
+		{
 			if (webRequest.isNetworkError)
 			{
 				if (onError != null)
@@ -106,11 +109,58 @@ namespace Xsolla
 			}
 			else
 			{
-				if (onComplete != null)
+				var response = webRequest.downloadHandler.text;
+
+				var error = CheckForErrors(response, errorsToCheck);
+				if (error == null)
 				{
-					onComplete(webRequest.downloadHandler.text);
+					var data = ParseUtils.FromJson<T>(response);
+					if (data != null)
+					{
+						if (onComplete != null)
+						{
+							onComplete(data);
+						}
+					}
+					else
+					{
+						if (onError != null)
+						{
+							onError(new XsollaError {ErrorType = ErrorType.UnknownError});
+						}
+					}
+				}
+				else
+				{
+					if (onError != null)
+					{
+						onError(error);
+					}
 				}
 			}
+		}
+
+		XsollaError CheckForErrors(string json, Dictionary<string, ErrorType> errorsToCheck)
+		{
+			var error = ParseUtils.ParseError(json);
+			if (error != null && !string.IsNullOrEmpty(error.statusCode))
+			{
+				if (errorsToCheck != null && errorsToCheck.ContainsKey(error.statusCode))
+				{
+					error.ErrorType = errorsToCheck[error.statusCode];
+					return error;
+				}
+
+				if (XsollaError.GeneralErrors.ContainsKey(error.statusCode))
+				{
+					error.ErrorType = XsollaError.GeneralErrors[error.statusCode];
+					return error;
+				}
+
+				return new XsollaError {ErrorType = ErrorType.UnknownError};
+			}
+
+			return null;
 		}
 	}
 }
