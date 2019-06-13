@@ -1,6 +1,8 @@
 ﻿using System.Collections;
+using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.UI;
+using Xsolla;
 
 public class ItemUI : MonoBehaviour
 {
@@ -15,15 +17,34 @@ public class ItemUI : MonoBehaviour
     [SerializeField]
     private Button _buy_Button;
 
+    [SerializeField]
+    Button addToCartButton;
+
     private Coroutine _loading_Routine;
     private Xsolla.XsollaStoreItem _itemInformation;
     private void Awake()
     {
+	    var storeController = FindObjectOfType<StoreController>();
+	    
         _buy_Button.onClick.AddListener(() => { 
 	        Xsolla.XsollaStore.Instance.BuyItem(_itemInformation.sku, error =>
 	        {
 		        Debug.Log(error.ToString());
 	        }); 
+        });
+        
+        addToCartButton.onClick.AddListener(() =>
+        {
+	        var cart = storeController.Cart;
+	        if (cart != null)
+	        {
+		        Xsolla.XsollaStore.Instance.AddItemToCart(cart, _itemInformation, new XsollaQuantity {quantity = 1},
+			        () =>
+			        {
+				        print("item added");
+				        Xsolla.XsollaStore.Instance.GetCartItems(cart, items => print("heeeey"), error => print("error"));
+			        }, error => print(error.ToString()));
+	        }
         });
     }
     public void Initialize(Xsolla.XsollaStoreItem itemInformation)

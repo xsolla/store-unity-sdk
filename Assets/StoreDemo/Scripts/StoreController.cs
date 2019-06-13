@@ -11,6 +11,8 @@ public class StoreController : MonoBehaviour
 
     private XsollaStore store;
 
+    public XsollaCart Cart { get; private set; }
+
     private void Start()
     {
         store = XsollaStore.Instance;
@@ -18,6 +20,8 @@ public class StoreController : MonoBehaviour
         store.Token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE5NTgzNTUxODYsImlzcyI6Imh0dHBzOi8vbG9naW4ueHNvbGxhLmNvbSIsImlhdCI6MTU1ODM1NTEyNiwidXNlcm5hbWUiOiJsYWRvcmFAZGlyZWN0bWFpbC50b3AiLCJ4c29sbGFfbG9naW5fYWNjZXNzX2tleSI6Ikw1YzRrdE93a2Fwa3gwNUZldjFKMjVPSmF3QmNiSzNCT1VtUE5sUk1mWjQiLCJzdWIiOiI0YzI0MmRkZS03YWZhLTExZTktOWVjMi00MjAxMGFhODBmZjkiLCJlbWFpbCI6ImxhZG9yYUBkaXJlY3RtYWlsLnRvcCIsInR5cGUiOiJ4c29sbGFfbG9naW4iLCJ4c29sbGFfbG9naW5fcHJvamVjdF9pZCI6IjcyMmNkNDZkLTU1ZTMtMTFlOS05MjQ0LTQyMDEwYWE4MDAwNCIsInB1Ymxpc2hlcl9pZCI6ODgzMDl9.UVddI0mfPiADrE-Iv9HC3Po2nfO0f6q7L_uMXjyQ050";
 
         SubscribeToEvents();
+
+        CreateCart();
         
         store.GetListOfItems((items) =>
         {
@@ -27,6 +31,29 @@ public class StoreController : MonoBehaviour
         {
 	        Debug.Log(error.ToString());
         });
+    }
+
+    void CreateCart()
+    {
+	    store.CreateNewCart(newCart =>
+	    {
+		    Cart = newCart;
+		    print(Cart.id);
+	    }, error =>
+	    {
+		    print(error.ToString());
+	    });
+    }
+    
+    public void ClearCart()
+    {
+	    store.ClearCart(Cart, () =>
+	    {
+		    print("Heeeey!");
+	    }, error =>
+	    {
+		    print(error.ToString());
+	    });
     }
 
     private void SubscribeToEvents()

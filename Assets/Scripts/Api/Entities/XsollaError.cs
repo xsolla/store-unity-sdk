@@ -12,6 +12,16 @@ namespace Xsolla
 
 		public ErrorType ErrorType { get; set; }
 
+		public static XsollaError NetworkError
+		{
+			get { return new XsollaError {ErrorType = ErrorType.NetworkError}; }
+		}
+		
+		public static XsollaError UnknownError
+		{
+			get { return new XsollaError {ErrorType = ErrorType.UnknownError}; }
+		}
+
 		public static readonly Dictionary<string, ErrorType> GeneralErrors =
 			new Dictionary<string, ErrorType>()
 			{
@@ -29,6 +39,44 @@ namespace Xsolla
 			new Dictionary<string, ErrorType>()
 			{
 				{"422", ErrorType.ProductDoesNotExist},
+			};
+		
+		public static readonly Dictionary<string, ErrorType> CreateCartErrors =
+			new Dictionary<string, ErrorType>()
+			{
+				{"403", ErrorType.InvalidToken},
+				{"404", ErrorType.UserNotFound},
+				{"422", ErrorType.InvalidData},
+			};
+		
+		public static readonly Dictionary<string, ErrorType> AddToCartCartErrors =
+			new Dictionary<string, ErrorType>()
+			{
+				{"403", ErrorType.InvalidToken},
+				{"404", ErrorType.CartNotFound},
+				{"422", ErrorType.InvalidData},
+			};
+		
+		public static readonly Dictionary<string, ErrorType> GetCartItemsErrors =
+			new Dictionary<string, ErrorType>()
+			{
+				{"403", ErrorType.InvalidToken},
+				{"404", ErrorType.CartNotFound},
+				{"422", ErrorType.InvalidData},
+			};
+		
+		public static readonly Dictionary<string, ErrorType> DeleteFromCartErrors =
+			new Dictionary<string, ErrorType>()
+			{
+				{"403", ErrorType.InvalidToken},
+				{"404", ErrorType.CartNotFound},
+				{"422", ErrorType.InvalidData},
+			};
+		
+		public static readonly Dictionary<string, ErrorType> BuyCartErrors =
+			new Dictionary<string, ErrorType>()
+			{
+				{"422", ErrorType.CartNotFound},
 			};
 		
 		public override string ToString()

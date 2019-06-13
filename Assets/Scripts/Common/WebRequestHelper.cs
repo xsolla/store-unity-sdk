@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -65,9 +66,19 @@ namespace Xsolla
 			StartCoroutine(PostRequestCor<T>(url, form, requestHeader, onComplete, onError, errorsToCheck));
 		}
 
-		public void GetRequest<T>(string url, Action<T> onComplete = null, Action<XsollaError> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
+		public void GetRequest<T>(string url, WebRequestHeader requestHeader = null, Action<T> onComplete = null, Action<XsollaError> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
 		{
-			StartCoroutine(GetRequestCor<T>(url, onComplete, onError, errorsToCheck));
+			StartCoroutine(GetRequestCor<T>(url, requestHeader, onComplete, onError, errorsToCheck));
+		}
+
+		public void PutRequest(string url, string jsonData, WebRequestHeader requestHeader, WebRequestHeader contentHeader = null, Action onComplete = null, Action<XsollaError> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
+		{
+			StartCoroutine(PutRequestCor(url, jsonData,requestHeader, contentHeader, onComplete, onError, errorsToCheck));
+		}
+
+		public void DeleteRequest(string url, WebRequestHeader requestHeader, Action onComplete = null, Action<XsollaError> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
+		{
+			StartCoroutine(DeleteRequestCor(url, requestHeader, onComplete, onError, errorsToCheck));
 		}
 
 		IEnumerator PostRequestCor<T>(string url, WWWForm form, WebRequestHeader requestHeader, Action<T> onComplete = null, Action<XsollaError> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
@@ -85,9 +96,14 @@ namespace Xsolla
 			ProcessRequest(webRequest, onComplete, onError, errorsToCheck);
 		}
 
-		IEnumerator GetRequestCor<T>(string url, Action<T> onComplete = null, Action<XsollaError> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
+		IEnumerator GetRequestCor<T>(string url, WebRequestHeader requestHeader = null, Action<T> onComplete = null, Action<XsollaError> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
 		{
 			var webRequest = UnityWebRequest.Get(url);
+
+			if (requestHeader != null)
+			{
+				webRequest.SetRequestHeader(requestHeader.Name, requestHeader.Value);
+			}
 
 #if UNITY_2018_1_OR_NEWER
 			yield return webRequest.SendWebRequest();
@@ -98,18 +114,79 @@ namespace Xsolla
 			ProcessRequest(webRequest, onComplete, onError, errorsToCheck);
 		}
 
+		IEnumerator PutRequestCor(string url, string jsonData, WebRequestHeader authHeader, WebRequestHeader contentHeader = null, Action onComplete = null, Action<XsollaError> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
+		{
+			var webRequest = new UnityWebRequest(url, "PUT");
+
+			webRequest.downloadHandler = new DownloadHandlerBuffer();
+			
+			if (!string.IsNullOrEmpty(jsonData))
+			{
+				webRequest.uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(jsonData));
+			}
+			
+			webRequest.SetRequestHeader(authHeader.Name, authHeader.Value);
+
+			if (contentHeader != null)
+			{
+				webRequest.SetRequestHeader(contentHeader.Name, contentHeader.Value);
+			}
+
+#if UNITY_2018_1_OR_NEWER
+			yield return webRequest.SendWebRequest();
+#else
+			yield return webRequest.Send();
+#endif
+
+			ProcessRequest(webRequest, onComplete, onError, errorsToCheck);
+		}
+		
+		IEnumerator DeleteRequestCor(string url, WebRequestHeader authHeader, Action onComplete = null, Action<XsollaError> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
+		{
+			var webRequest = UnityWebRequest.Delete(url);
+			
+#if UNITY_2018_1_OR_NEWER
+			yield return webRequest.SendWebRequest();
+#else
+			yield return webRequest.Send();
+#endif
+
+			ProcessRequest(webRequest, onComplete, onError, errorsToCheck);
+		}
+
+		void ProcessRequest(UnityWebRequest webRequest, Action onComplete, Action<XsollaError> onError, Dictionary<string, ErrorType> errorsToCheck)
+		{
+			if (webRequest.isNetworkError)
+			{
+				TriggerOnError(onError, XsollaError.NetworkError);
+			}
+			else
+			{
+				var error = CheckForErrors(webRequest.downloadHandler.text, errorsToCheck);
+				if (error == null)
+				{
+					if (onComplete != null)
+					{
+						onComplete();
+					}
+				}
+				else
+				{
+					TriggerOnError(onError, error);
+				}
+			}
+		}
+
 		void ProcessRequest<T>(UnityWebRequest webRequest, Action<T> onComplete, Action<XsollaError> onError, Dictionary<string, ErrorType> errorsToCheck) where T : class
 		{
 			if (webRequest.isNetworkError)
 			{
-				if (onError != null)
-				{
-					onError(new XsollaError {ErrorType = ErrorType.NetworkError});
-				}
+				TriggerOnError(onError, XsollaError.NetworkError);
 			}
 			else
 			{
 				var response = webRequest.downloadHandler.text;
+				print(response);
 
 				var error = CheckForErrors(response, errorsToCheck);
 				if (error == null)
@@ -124,22 +201,16 @@ namespace Xsolla
 					}
 					else
 					{
-						if (onError != null)
-						{
-							onError(new XsollaError {ErrorType = ErrorType.UnknownError});
-						}
+						TriggerOnError(onError, XsollaError.UnknownError);
 					}
 				}
 				else
 				{
-					if (onError != null)
-					{
-						onError(error);
-					}
+					TriggerOnError(onError, error);
 				}
 			}
 		}
-
+		
 		XsollaError CheckForErrors(string json, Dictionary<string, ErrorType> errorsToCheck)
 		{
 			var error = ParseUtils.ParseError(json);
@@ -157,11 +228,19 @@ namespace Xsolla
 					return error;
 				}
 
-				return new XsollaError {ErrorType = ErrorType.UnknownError};
+				return XsollaError.UnknownError;
 			}
 
 			return null;
 		}
+		void TriggerOnError(Action<XsollaError> onError, XsollaError error)
+		{
+			if (onError != null)
+			{
+				onError(error);
+			}
+		}
+		
 	}
 }
 

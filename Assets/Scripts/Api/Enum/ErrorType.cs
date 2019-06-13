@@ -7,6 +7,8 @@
 		MethodIsNotAllowed,
 		InvalidToken,
 		InvalidData,
-		ProductDoesNotExist
+		ProductDoesNotExist,
+		UserNotFound,
+		CartNotFound
 	}
 }
