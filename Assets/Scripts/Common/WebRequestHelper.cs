@@ -145,6 +145,10 @@ namespace Xsolla
 		{
 			var webRequest = UnityWebRequest.Delete(url);
 			
+			webRequest.SetRequestHeader(authHeader.Name, authHeader.Value);
+			
+			webRequest.downloadHandler = new DownloadHandlerBuffer();
+			
 #if UNITY_2018_1_OR_NEWER
 			yield return webRequest.SendWebRequest();
 #else

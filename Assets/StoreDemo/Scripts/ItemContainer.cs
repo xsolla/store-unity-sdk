@@ -2,14 +2,15 @@
 
 public class ItemContainer : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject _item_Prefab;
-    [SerializeField]
-    private Transform _item_Parent;
+	[SerializeField]
+	GameObject _item_Prefab;
 
-    public void AddItem(Xsolla.StoreItem itemInformation)
-    {
-        GameObject newItem = Instantiate(_item_Prefab, _item_Parent);
-        newItem.GetComponent<ItemUI>().Initialize(itemInformation);
-    }
+	[SerializeField]
+	Transform _item_Parent;
+
+	public void AddItem(Xsolla.StoreItem itemInformation)
+	{
+		GameObject newItem = Instantiate(_item_Prefab, _item_Parent);
+		newItem.GetComponent<ItemUI>().Initialize(itemInformation);
+	}
 }

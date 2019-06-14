@@ -42,7 +42,6 @@ public class ItemUI : MonoBehaviour
 			        () =>
 			        {
 				        print("item added");
-				        Xsolla.XsollaStore.Instance.GetCartItems(cart, items => print("heeeey"), error => print("error"));
 			        }, error => print(error.ToString()));
 	        }
         });

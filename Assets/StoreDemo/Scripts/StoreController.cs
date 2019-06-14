@@ -67,6 +67,8 @@ public class StoreController : MonoBehaviour
         {
             _itemsController.AddItem(item);
         }
+        
+        _itemsController.CreateCart();
     }
 
     private void CreateGroups(StoreItems items)
@@ -83,5 +85,7 @@ public class StoreController : MonoBehaviour
                 }
             }
         }
+        
+        _groupsController.AddCart();
     }
 }

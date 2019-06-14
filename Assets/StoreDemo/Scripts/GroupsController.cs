@@ -6,6 +6,9 @@ public class GroupsController : MonoBehaviour
     [SerializeField]
     private GameObject _groupPrefab;
     [SerializeField]
+    private GameObject _groupCartPrefab;
+    
+    [SerializeField]
     private RectTransform _scrollView;
 
     public Action<string> OnGroupClick;
@@ -19,5 +22,15 @@ public class GroupsController : MonoBehaviour
             if (OnGroupClick != null)
                 OnGroupClick.Invoke(id);
         };
+    }
+
+    public void AddCart()
+    {
+	    GameObject newGroup = Instantiate(_groupCartPrefab, _scrollView.transform);
+	    newGroup.GetComponent<CartGroupUI>().OnGroupClick += (id) => 
+	    {
+		    if (OnGroupClick != null)
+			    OnGroupClick.Invoke(id);
+	    };
     }
 }

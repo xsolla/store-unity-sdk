@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2234737485639732530}
-  - component: {fileID: 8463744584791640629}
+  - component: {fileID: 447798524870822115}
   - component: {fileID: 2927968030145121094}
   m_Layer: 5
   m_Name: Content
@@ -37,7 +37,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -0.000017647704}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
---- !u!114 &8463744584791640629
+--- !u!114 &447798524870822115
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -46,7 +46,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5744001437113458568}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -2095666955, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 1297475563, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
@@ -54,13 +54,12 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 0
-  m_StartCorner: 0
-  m_StartAxis: 0
-  m_CellSize: {x: 150, y: 200}
-  m_Spacing: {x: 20, y: 20}
-  m_Constraint: 0
-  m_ConstraintCount: 2
+  m_ChildAlignment: 1
+  m_Spacing: 0
+  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandHeight: 0
+  m_ChildControlWidth: 1
+  m_ChildControlHeight: 0
 --- !u!114 &2927968030145121094
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -84,9 +83,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7113498765283074291}
-  - component: {fileID: 4342647488832565194}
+  - component: {fileID: 8524673210784795782}
   m_Layer: 5
-  m_Name: ItemsContainer
+  m_Name: CartItemsContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -112,7 +111,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &4342647488832565194
+--- !u!114 &8524673210784795782
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -121,11 +120,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 7113498765283074288}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38bddc894686ad9499f6558e14f411dc, type: 3}
+  m_Script: {fileID: 11500000, guid: f6e7322749c27ba47835847c89e18065, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _item_Prefab: {fileID: 7446015085648965445, guid: eb0967296fb4dc144993f7bf78d95b5c,
-    type: 3}
   _cart_item_Prefab: {fileID: 7446015085648965445, guid: 25ebb53aeb5e6a04fae7c51446b805a1,
     type: 3}
   _item_Parent: {fileID: 2234737485639732530}

@@ -98,14 +98,14 @@ namespace Xsolla
 			WebRequestHelper.Instance.PutRequest(urlBuilder.ToString(), string.Empty, WebRequestHeader.AuthHeader(Token), null, onSuccess, onError, Error.AddToCartCartErrors);
 		}
 
-		public void GetCartItems(Cart cart, [NotNull] Action<StoreItems> onSuccess, [CanBeNull] Action<Error> onError)
+		public void GetCartItems(Cart cart, [NotNull] Action<CartItems> onSuccess, [CanBeNull] Action<Error> onError)
 		{
 			var urlBuilder = new StringBuilder(string.Format("https://store.xsolla.com/api/v1/cart/{0}", cart.id)).Append(AdditionalUrlParams);
 			
 			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.GetCartItemsErrors);
 		}
 
-		public void RemoveItemFromCart(Cart cart, StoreItem item, [CanBeNull] Action onSuccess, [CanBeNull] Action<Error> onError)
+		public void RemoveItemFromCart(Cart cart, CartItem item, [CanBeNull] Action onSuccess, [CanBeNull] Action<Error> onError)
 		{
 			var urlBuilder = new StringBuilder(string.Format("https://store.xsolla.com/api/v1/cart/{0}/item/{1}", cart.id, item.sku)).Append(AdditionalUrlParams);
 			
