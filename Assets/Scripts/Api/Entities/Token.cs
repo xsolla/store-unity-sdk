@@ -3,8 +3,9 @@
 namespace Xsolla
 {
 	[Serializable]
-	public class XsollaCart
+	public class Token
 	{
-		public string id;
+		public string token;
 	}
 }
+

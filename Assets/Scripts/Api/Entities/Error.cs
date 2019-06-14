@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Xsolla
 {
 	[Serializable]
-	public class XsollaError
+	public class Error
 	{
 		public string statusCode;
 		public string errorCode;
@@ -12,14 +12,14 @@ namespace Xsolla
 
 		public ErrorType ErrorType { get; set; }
 
-		public static XsollaError NetworkError
+		public static Error NetworkError
 		{
-			get { return new XsollaError {ErrorType = ErrorType.NetworkError}; }
+			get { return new Error {ErrorType = ErrorType.NetworkError}; }
 		}
 		
-		public static XsollaError UnknownError
+		public static Error UnknownError
 		{
-			get { return new XsollaError {ErrorType = ErrorType.UnknownError}; }
+			get { return new Error {ErrorType = ErrorType.UnknownError}; }
 		}
 
 		public static readonly Dictionary<string, ErrorType> GeneralErrors =

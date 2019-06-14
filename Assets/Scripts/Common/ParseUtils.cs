@@ -21,19 +21,19 @@ namespace Xsolla
 			return null;
 		}
 		
-		public static XsollaError ParseError(string json)
+		public static Error ParseError(string json)
 		{
-			return FromJson<XsollaError>(json);
+			return FromJson<Error>(json);
 		}
 
-		public static XsollaStoreItems ParseStoreItems(string json)
+		public static StoreItems ParseStoreItems(string json)
 		{
-			return FromJson<XsollaStoreItems>(json);
+			return FromJson<StoreItems>(json);
 		}
 		
-		public static XsollaToken ParseToken(string json)
+		public static Token ParseToken(string json)
 		{
-			return FromJson<XsollaToken>(json);
+			return FromJson<Token>(json);
 		}
 	}	
 }

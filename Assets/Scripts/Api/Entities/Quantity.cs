@@ -3,9 +3,9 @@
 namespace Xsolla
 {
 	[Serializable]
-	public class XsollaToken
+	public class Quantity
 	{
-		public string token;
+		public int quantity;
 	}
 }
 

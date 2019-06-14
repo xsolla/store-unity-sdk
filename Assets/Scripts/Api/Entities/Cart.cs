@@ -3,9 +3,8 @@
 namespace Xsolla
 {
 	[Serializable]
-	public class XsollaQuantity
+	public class Cart
 	{
-		public int quantity;
+		public string id;
 	}
 }
-

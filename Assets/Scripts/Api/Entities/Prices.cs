@@ -3,7 +3,7 @@
 namespace Xsolla
 {
 	[Serializable]
-	public class XsollaPrices
+	public class Prices
 	{
 		public float EUR;
 		public float USD;

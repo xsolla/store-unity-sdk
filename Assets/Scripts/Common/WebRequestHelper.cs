@@ -61,27 +61,27 @@ namespace Xsolla
 		{
 		}
 		
-		public void PostRequest<T>(string url, WWWForm form, WebRequestHeader requestHeader, Action<T> onComplete = null, Action<XsollaError> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
+		public void PostRequest<T>(string url, WWWForm form, WebRequestHeader requestHeader, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
 		{
 			StartCoroutine(PostRequestCor<T>(url, form, requestHeader, onComplete, onError, errorsToCheck));
 		}
 
-		public void GetRequest<T>(string url, WebRequestHeader requestHeader = null, Action<T> onComplete = null, Action<XsollaError> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
+		public void GetRequest<T>(string url, WebRequestHeader requestHeader = null, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
 		{
 			StartCoroutine(GetRequestCor<T>(url, requestHeader, onComplete, onError, errorsToCheck));
 		}
 
-		public void PutRequest(string url, string jsonData, WebRequestHeader requestHeader, WebRequestHeader contentHeader = null, Action onComplete = null, Action<XsollaError> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
+		public void PutRequest(string url, string jsonData, WebRequestHeader requestHeader, WebRequestHeader contentHeader = null, Action onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
 		{
 			StartCoroutine(PutRequestCor(url, jsonData,requestHeader, contentHeader, onComplete, onError, errorsToCheck));
 		}
 
-		public void DeleteRequest(string url, WebRequestHeader requestHeader, Action onComplete = null, Action<XsollaError> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
+		public void DeleteRequest(string url, WebRequestHeader requestHeader, Action onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
 		{
 			StartCoroutine(DeleteRequestCor(url, requestHeader, onComplete, onError, errorsToCheck));
 		}
 
-		IEnumerator PostRequestCor<T>(string url, WWWForm form, WebRequestHeader requestHeader, Action<T> onComplete = null, Action<XsollaError> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
+		IEnumerator PostRequestCor<T>(string url, WWWForm form, WebRequestHeader requestHeader, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
 		{
 			var webRequest = UnityWebRequest.Post(url, form);
 			
@@ -96,7 +96,7 @@ namespace Xsolla
 			ProcessRequest(webRequest, onComplete, onError, errorsToCheck);
 		}
 
-		IEnumerator GetRequestCor<T>(string url, WebRequestHeader requestHeader = null, Action<T> onComplete = null, Action<XsollaError> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
+		IEnumerator GetRequestCor<T>(string url, WebRequestHeader requestHeader = null, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
 		{
 			var webRequest = UnityWebRequest.Get(url);
 
@@ -114,7 +114,7 @@ namespace Xsolla
 			ProcessRequest(webRequest, onComplete, onError, errorsToCheck);
 		}
 
-		IEnumerator PutRequestCor(string url, string jsonData, WebRequestHeader authHeader, WebRequestHeader contentHeader = null, Action onComplete = null, Action<XsollaError> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
+		IEnumerator PutRequestCor(string url, string jsonData, WebRequestHeader authHeader, WebRequestHeader contentHeader = null, Action onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
 		{
 			var webRequest = new UnityWebRequest(url, "PUT");
 
@@ -141,7 +141,7 @@ namespace Xsolla
 			ProcessRequest(webRequest, onComplete, onError, errorsToCheck);
 		}
 		
-		IEnumerator DeleteRequestCor(string url, WebRequestHeader authHeader, Action onComplete = null, Action<XsollaError> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
+		IEnumerator DeleteRequestCor(string url, WebRequestHeader authHeader, Action onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
 		{
 			var webRequest = UnityWebRequest.Delete(url);
 			
@@ -154,11 +154,11 @@ namespace Xsolla
 			ProcessRequest(webRequest, onComplete, onError, errorsToCheck);
 		}
 
-		void ProcessRequest(UnityWebRequest webRequest, Action onComplete, Action<XsollaError> onError, Dictionary<string, ErrorType> errorsToCheck)
+		void ProcessRequest(UnityWebRequest webRequest, Action onComplete, Action<Error> onError, Dictionary<string, ErrorType> errorsToCheck)
 		{
 			if (webRequest.isNetworkError)
 			{
-				TriggerOnError(onError, XsollaError.NetworkError);
+				TriggerOnError(onError, Error.NetworkError);
 			}
 			else
 			{
@@ -177,11 +177,11 @@ namespace Xsolla
 			}
 		}
 
-		void ProcessRequest<T>(UnityWebRequest webRequest, Action<T> onComplete, Action<XsollaError> onError, Dictionary<string, ErrorType> errorsToCheck) where T : class
+		void ProcessRequest<T>(UnityWebRequest webRequest, Action<T> onComplete, Action<Error> onError, Dictionary<string, ErrorType> errorsToCheck) where T : class
 		{
 			if (webRequest.isNetworkError)
 			{
-				TriggerOnError(onError, XsollaError.NetworkError);
+				TriggerOnError(onError, Error.NetworkError);
 			}
 			else
 			{
@@ -201,7 +201,7 @@ namespace Xsolla
 					}
 					else
 					{
-						TriggerOnError(onError, XsollaError.UnknownError);
+						TriggerOnError(onError, Error.UnknownError);
 					}
 				}
 				else
@@ -211,7 +211,7 @@ namespace Xsolla
 			}
 		}
 		
-		XsollaError CheckForErrors(string json, Dictionary<string, ErrorType> errorsToCheck)
+		Error CheckForErrors(string json, Dictionary<string, ErrorType> errorsToCheck)
 		{
 			var error = ParseUtils.ParseError(json);
 			if (error != null && !string.IsNullOrEmpty(error.statusCode))
@@ -222,18 +222,18 @@ namespace Xsolla
 					return error;
 				}
 
-				if (XsollaError.GeneralErrors.ContainsKey(error.statusCode))
+				if (Error.GeneralErrors.ContainsKey(error.statusCode))
 				{
-					error.ErrorType = XsollaError.GeneralErrors[error.statusCode];
+					error.ErrorType = Error.GeneralErrors[error.statusCode];
 					return error;
 				}
 
-				return XsollaError.UnknownError;
+				return Error.UnknownError;
 			}
 
 			return null;
 		}
-		void TriggerOnError(Action<XsollaError> onError, XsollaError error)
+		void TriggerOnError(Action<Error> onError, Error error)
 		{
 			if (onError != null)
 			{

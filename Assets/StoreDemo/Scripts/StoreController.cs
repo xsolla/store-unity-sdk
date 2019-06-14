@@ -11,7 +11,7 @@ public class StoreController : MonoBehaviour
 
     private XsollaStore store;
 
-    public XsollaCart Cart { get; private set; }
+    public Cart Cart { get; private set; }
 
     private void Start()
     {
@@ -61,7 +61,7 @@ public class StoreController : MonoBehaviour
         _groupsController.OnGroupClick += (id) => { _itemsController.ActivateContainer(id); };
     }
 
-    private void CreateItems(XsollaStoreItems items)
+    private void CreateItems(StoreItems items)
     {
         foreach (var item in items.items)
         {
@@ -69,7 +69,7 @@ public class StoreController : MonoBehaviour
         }
     }
 
-    private void CreateGroups(XsollaStoreItems items)
+    private void CreateGroups(StoreItems items)
     {
         List<string> addedGroups = new List<string>();
         foreach (var item in items.items)

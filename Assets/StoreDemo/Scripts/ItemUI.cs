@@ -21,7 +21,7 @@ public class ItemUI : MonoBehaviour
     Button addToCartButton;
 
     private Coroutine _loading_Routine;
-    private Xsolla.XsollaStoreItem _itemInformation;
+    private Xsolla.StoreItem _itemInformation;
     private void Awake()
     {
 	    var storeController = FindObjectOfType<StoreController>();
@@ -38,7 +38,7 @@ public class ItemUI : MonoBehaviour
 	        var cart = storeController.Cart;
 	        if (cart != null)
 	        {
-		        Xsolla.XsollaStore.Instance.AddItemToCart(cart, _itemInformation, new XsollaQuantity {quantity = 1},
+		        Xsolla.XsollaStore.Instance.AddItemToCart(cart, _itemInformation, new Quantity {quantity = 1},
 			        () =>
 			        {
 				        print("item added");
@@ -47,7 +47,7 @@ public class ItemUI : MonoBehaviour
 	        }
         });
     }
-    public void Initialize(Xsolla.XsollaStoreItem itemInformation)
+    public void Initialize(Xsolla.StoreItem itemInformation)
     {
         _itemInformation = itemInformation;
 

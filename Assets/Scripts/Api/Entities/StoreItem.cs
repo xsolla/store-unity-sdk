@@ -3,7 +3,7 @@
 namespace Xsolla
 {
 	[Serializable]
-	public class XsollaStoreItem
+	public class StoreItem
 	{
 		public string sku;
 		public string[] groups;
@@ -13,6 +13,6 @@ namespace Xsolla
 		public string long_description;
 		public string description;
 		public string image_url;
-		public XsollaPrice[] prices;
+		public Price[] prices;
 	}
 }
