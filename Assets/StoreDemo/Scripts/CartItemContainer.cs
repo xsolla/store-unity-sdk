@@ -9,9 +9,14 @@ public class CartItemContainer : MonoBehaviour
 	GameObject _cart_item_Prefab;
 
 	[SerializeField]
+	GameObject _cart_controls_Prefab;
+	
+	[SerializeField]
 	Transform _item_Parent;
 
 	List<GameObject> cartItems;
+
+	GameObject cartControls;
 
 	void Awake()
 	{
@@ -25,6 +30,12 @@ public class CartItemContainer : MonoBehaviour
 		newItem.GetComponent<CartItemUI>().Initialize(itemInformation);
 	}
 
+	public void AddControls(CartPrice price)
+	{
+		cartControls = Instantiate(_cart_controls_Prefab, _item_Parent);
+		cartControls.GetComponent<CartControls>().Initialize(price); 
+	}
+
 	public void ClearCartItems()
 	{
 		foreach (var item in cartItems)
@@ -33,5 +44,7 @@ public class CartItemContainer : MonoBehaviour
 		}
 		
 		cartItems.Clear();
+
+		Destroy(cartControls);
 	}
 }

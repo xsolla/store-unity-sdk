@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.UI;
 using Xsolla;
@@ -21,13 +20,13 @@ public class ItemUI : MonoBehaviour
     Button addToCartButton;
 
     private Coroutine _loading_Routine;
-    private Xsolla.StoreItem _itemInformation;
+    private StoreItem _itemInformation;
     private void Awake()
     {
 	    var storeController = FindObjectOfType<StoreController>();
 	    
         _buy_Button.onClick.AddListener(() => { 
-	        Xsolla.XsollaStore.Instance.BuyItem(_itemInformation.sku, error =>
+	        XsollaStore.Instance.BuyItem(_itemInformation.sku, error =>
 	        {
 		        Debug.Log(error.ToString());
 	        }); 
@@ -38,15 +37,15 @@ public class ItemUI : MonoBehaviour
 	        var cart = storeController.Cart;
 	        if (cart != null)
 	        {
-		        Xsolla.XsollaStore.Instance.AddItemToCart(cart, _itemInformation, new Quantity {quantity = 1},
+		        XsollaStore.Instance.AddItemToCart(cart, _itemInformation, new Quantity {quantity = 1},
 			        () =>
 			        {
-				        print("item added");
+						FindObjectOfType<CartGroupUI>().IncreaseCounter();
 			        }, error => print(error.ToString()));
 	        }
         });
     }
-    public void Initialize(Xsolla.StoreItem itemInformation)
+    public void Initialize(StoreItem itemInformation)
     {
         _itemInformation = itemInformation;
 

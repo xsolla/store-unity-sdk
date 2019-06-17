@@ -27,7 +27,7 @@ public class GroupsController : MonoBehaviour
     public void AddCart()
     {
 	    GameObject newGroup = Instantiate(_groupCartPrefab, _scrollView.transform);
-	    newGroup.GetComponent<CartGroupUI>().OnGroupClick += (id) => 
+	    newGroup.GetComponent<CartGroupUI>().onGroupClick += (id) => 
 	    {
 		    if (OnGroupClick != null)
 			    OnGroupClick.Invoke(id);

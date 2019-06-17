@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &281798469556068844
 RectTransform:
   m_ObjectHideFlags: 0
@@ -165,8 +165,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc5e0615bfb18914ca6b7d5c6ea881b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CounterText: {fileID: 6611071892675817909}
-  _cart_group_Btn: {fileID: 6893277518267499552}
+  counterPlaceholder: {fileID: 5054318959223174254}
+  counterText: {fileID: 6611071892675817909}
 --- !u!114 &6893277518267499552
 MonoBehaviour:
   m_ObjectHideFlags: 0

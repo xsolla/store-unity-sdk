@@ -62,6 +62,8 @@ public class ItemsController : MonoBehaviour
 				        cartItemContainer.AddCartItem(item);
 			        }
 			        
+			        cartItemContainer.AddControls(items.price);
+			        
 			        _containers[groupId].SetActive(true);
 		        }, error => print(error.ToString()));
 	        }

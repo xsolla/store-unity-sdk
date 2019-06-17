@@ -126,8 +126,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _item_Prefab: {fileID: 7446015085648965445, guid: eb0967296fb4dc144993f7bf78d95b5c,
     type: 3}
-  _cart_item_Prefab: {fileID: 7446015085648965445, guid: 25ebb53aeb5e6a04fae7c51446b805a1,
-    type: 3}
   _item_Parent: {fileID: 2234737485639732530}
 --- !u!1 &7180374364548916136
 GameObject:

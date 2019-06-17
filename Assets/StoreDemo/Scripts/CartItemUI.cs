@@ -6,26 +6,29 @@ using Xsolla;
 public class CartItemUI : MonoBehaviour
 {
 	[SerializeField]
-	Image _item_Image;
+	Image itemImage;
 	[SerializeField]
-	Text _item_Name;
-
+	Text itemName;
 	[SerializeField]
-	Text _item_Price;
+	Text itemPrice;
 	[SerializeField]
-	Button _remove_Button;
+	Button removeButton;
 
-	Coroutine _loading_Routine;
-
+	Coroutine _loadingRoutine;
+	
 	CartItem _itemInformation;
 
 	void Awake()
 	{
 		var storeController = FindObjectOfType<StoreController>();
 
-		_remove_Button.onClick.AddListener(() =>
+		removeButton.onClick.AddListener(() =>
 		{
-			XsollaStore.Instance.RemoveItemFromCart(storeController.Cart, _itemInformation, () => { Destroy(gameObject); },
+			XsollaStore.Instance.RemoveItemFromCart(storeController.Cart, _itemInformation, () =>
+				{
+					Destroy(gameObject);
+					FindObjectOfType<CartGroupUI>().DecreaseCounter(_itemInformation.quantity);
+				},
 				error => { Debug.Log(error.ToString()); });
 		});
 	}
@@ -35,15 +38,19 @@ public class CartItemUI : MonoBehaviour
 		_itemInformation = itemInformation;
 
 		if (_itemInformation.price != null)
-			_item_Price.text = _itemInformation.price.amount + " " + _itemInformation.price.currency;
+		{
+			itemPrice.text = _itemInformation.price.amount + " " + _itemInformation.price.currency;
+		}
 
-		_item_Name.text = _itemInformation.name;
+		itemName.text = _itemInformation.name;
 	}
 
 	void OnEnable()
 	{
-		if (_loading_Routine == null && _item_Image.sprite == null && _itemInformation.image_url != "")
-			_loading_Routine = StartCoroutine(LoadImage(_itemInformation.image_url));
+		if (_loadingRoutine == null && itemImage.sprite == null && _itemInformation.image_url != "")
+		{
+			_loadingRoutine = StartCoroutine(LoadImage(_itemInformation.image_url));
+		}
 	}
 
 	IEnumerator LoadImage(string url)
@@ -51,9 +58,8 @@ public class CartItemUI : MonoBehaviour
 		using (WWW www = new WWW(url))
 		{
 			yield return www;
-			Sprite sprite = Sprite.Create(www.texture, new Rect(0, 0, www.texture.width, www.texture.height),
-				new Vector2(0.5f, 0.5f));
-			_item_Image.sprite = sprite;
+			var sprite = Sprite.Create(www.texture, new Rect(0, 0, www.texture.width, www.texture.height), new Vector2(0.5f, 0.5f));
+			itemImage.sprite = sprite;
 		}
 	}
 }
