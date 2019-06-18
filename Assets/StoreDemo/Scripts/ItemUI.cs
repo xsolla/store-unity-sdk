@@ -49,8 +49,8 @@ public class ItemUI : MonoBehaviour
     {
         _itemInformation = itemInformation;
 
-        if (_itemInformation.prices.Length != 0)
-        _item_Price.text = _itemInformation.prices[0].amount + " " + _itemInformation.prices[0].currency;
+//        if (_itemInformation.prices.Length != 0)
+//        _item_Price.text = _itemInformation.prices[0].amount + " " + _itemInformation.prices[0].currency;
 
         _item_Name.text = _itemInformation.name;
         _item_Description.text = _itemInformation.description;
