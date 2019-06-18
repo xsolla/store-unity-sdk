@@ -1,58 +1,49 @@
 ﻿using System;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class CartGroupUI : MonoBehaviour
 {
 	[SerializeField]
-	GameObject counterPlaceholder;
-	[SerializeField]
-	Text counterText;
-
+	CartMenuButton menuButton;
+	
 	int _counter;
 
 	public Action<string> onGroupClick;
 	
 	void Awake()
 	{
-		GetComponent<Button>().onClick.AddListener(() => 
+		menuButton.onClick = ((s) =>
 		{
 			if (onGroupClick != null)
-			{
-				onGroupClick.Invoke("CART");
-			}
+				onGroupClick.Invoke(s);
 		});
+
+		menuButton.Text = "CART";
+	}
+
+	public void Deselect(string groupName)
+	{
+		if (menuButton.Text != groupName)
+		{
+			menuButton.Deselect();
+		}
 	}
 	
 	public void IncreaseCounter(int value = 1)
 	{
 		_counter += value;
-		
-		if (_counter > 0)
-		{
-			counterPlaceholder.SetActive(true);
-		}
-		
-		counterText.text = _counter.ToString();
+		menuButton.CounterText = _counter.ToString();
 	}
 	
 	public void DecreaseCounter(int value = 1)
 	{
 		_counter -= value;
-
-		if (_counter == 0)
-		{
-			counterPlaceholder.SetActive(false);
-		}
-		else
-		{
-			counterText.text = _counter.ToString();
-		}
+		menuButton.CounterText = _counter.ToString();
 	}
 
 	public void ResetCounter()
 	{
 		_counter = 0;
-		counterPlaceholder.SetActive(false);
+		menuButton.CounterText = _counter.ToString();
 	}
 }

@@ -58,7 +58,11 @@ public class StoreController : MonoBehaviour
 
     private void SubscribeToEvents()
     {
-        _groupsController.OnGroupClick += (id) => { _itemsController.ActivateContainer(id); };
+        _groupsController.OnGroupClick += (id) =>
+        {
+	        _itemsController.ActivateContainer(id);
+	        _groupsController.ChangeSelection(id);
+        };
     }
 
     private void CreateItems(StoreItems items)
