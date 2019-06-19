@@ -12,7 +12,7 @@ public class ItemUI : MonoBehaviour
 	[SerializeField]
 	Text itemDescription;
 	[SerializeField]
-	Button buyButton;
+	SimpleTextButton buyButton;
 	[SerializeField]
 	AddToCartButton addToCartButton;
 
@@ -24,9 +24,11 @@ public class ItemUI : MonoBehaviour
 	{
 		_storeController = FindObjectOfType<StoreController>();
 
-		buyButton.onClick.AddListener(() =>
+		buyButton.onClick = (() =>
 		{
-			XsollaStore.Instance.BuyItem(_itemInformation.sku, error => { Debug.Log(error.ToString()); });
+			var purchaseParams = new PurchaseParams();
+			purchaseParams.currency = _itemInformation.prices[0].currency;
+			XsollaStore.Instance.BuyItem(_itemInformation.sku, error => { Debug.Log(error.ToString()); }, purchaseParams);
 		});
 
 		addToCartButton.onClick = (bSelected =>
@@ -68,8 +70,8 @@ public class ItemUI : MonoBehaviour
 	{
 		_itemInformation = itemInformation;
 
-//        if (_itemInformation.prices.Length != 0)
-//        _item_Price.text = _itemInformation.prices[0].amount + " " + _itemInformation.prices[0].currency;
+        if (_itemInformation.prices.Length != 0)
+	        buyButton.Text = string.Format("BUY FOR ${0}", _itemInformation.prices[0].amount);
 
 		itemName.text = _itemInformation.name;
 		itemDescription.text = _itemInformation.description;
