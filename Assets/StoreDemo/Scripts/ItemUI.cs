@@ -5,68 +5,95 @@ using Xsolla;
 
 public class ItemUI : MonoBehaviour
 {
-    [SerializeField]
-    private Image _item_Image;
-    [SerializeField]
-    private Text _item_Name;
-    [SerializeField]
-    private Text _item_Description;
-    [SerializeField]
-    private Text _item_Price;
-    [SerializeField]
-    private Button _buy_Button;
+	[SerializeField]
+	Image itemImage;
+	[SerializeField]
+	Text itemName;
+	[SerializeField]
+	Text itemDescription;
+	[SerializeField]
+	Button buyButton;
+	[SerializeField]
+	AddToCartButton addToCartButton;
 
-    [SerializeField]
-    Button addToCartButton;
+	Coroutine _loadingRoutine;
+	StoreItem _itemInformation;
+	StoreController _storeController;
 
-    private Coroutine _loading_Routine;
-    private StoreItem _itemInformation;
-    private void Awake()
-    {
-	    var storeController = FindObjectOfType<StoreController>();
-	    
-        _buy_Button.onClick.AddListener(() => { 
-	        XsollaStore.Instance.BuyItem(_itemInformation.sku, error =>
-	        {
-		        Debug.Log(error.ToString());
-	        }); 
-        });
-        
-        addToCartButton.onClick.AddListener(() =>
-        {
-	        var cart = storeController.Cart;
-	        if (cart != null)
-	        {
-		        XsollaStore.Instance.AddItemToCart(cart, _itemInformation, new Quantity {quantity = 1},
-			        () =>
-			        {
-						FindObjectOfType<CartGroupUI>().IncreaseCounter();
-			        }, error => print(error.ToString()));
-	        }
-        });
-    }
-    public void Initialize(StoreItem itemInformation)
-    {
-        _itemInformation = itemInformation;
+	void Awake()
+	{
+		_storeController = FindObjectOfType<StoreController>();
+
+		buyButton.onClick.AddListener(() =>
+		{
+			XsollaStore.Instance.BuyItem(_itemInformation.sku, error => { Debug.Log(error.ToString()); });
+		});
+
+		addToCartButton.onClick = (bSelected =>
+		{
+			var cart = _storeController.Cart;
+			if (cart != null)
+			{
+				if (bSelected)
+				{
+					XsollaStore.Instance.AddItemToCart(cart, _itemInformation.sku, new Quantity {quantity = 1},
+						() =>
+						{
+							FindObjectOfType<CartGroupUI>().IncreaseCounter();
+							
+							if (!_storeController.cartItems.Contains(_itemInformation.sku))
+							{
+								_storeController.cartItems.Add(_itemInformation.sku);
+							}
+						}, error => print(error.ToString()));
+				}
+				else
+				{
+					XsollaStore.Instance.RemoveItemFromCart(cart, _itemInformation.sku,
+						() =>
+						{
+							FindObjectOfType<CartGroupUI>().DecreaseCounter();
+							
+							if (_storeController.cartItems.Contains(_itemInformation.sku))
+							{
+								_storeController.cartItems.Remove(_itemInformation.sku);
+							}
+						}, error => print(error.ToString()));
+				}
+			}
+		});
+	}
+
+	public void Initialize(StoreItem itemInformation)
+	{
+		_itemInformation = itemInformation;
 
 //        if (_itemInformation.prices.Length != 0)
 //        _item_Price.text = _itemInformation.prices[0].amount + " " + _itemInformation.prices[0].currency;
 
-        _item_Name.text = _itemInformation.name;
-        _item_Description.text = _itemInformation.description;
-    }
-    private void OnEnable()
-    {
-        if (_loading_Routine == null && _item_Image.sprite == null && _itemInformation.image_url != "")
-            _loading_Routine = StartCoroutine(LoadImage(_itemInformation.image_url));
-    }
-    private IEnumerator LoadImage(string url)
-    {
-        using (WWW www = new WWW(url))
-        {
-            yield return www;
-            Sprite sprite = Sprite.Create(www.texture, new Rect(0, 0, www.texture.width, www.texture.height), new Vector2(0.5f, 0.5f));
-            _item_Image.sprite = sprite;
-        }
-    }
+		itemName.text = _itemInformation.name;
+		itemDescription.text = _itemInformation.description;
+	}
+
+	void OnEnable()
+	{
+		if (_loadingRoutine == null && itemImage.sprite == null && _itemInformation.image_url != "")
+			_loadingRoutine = StartCoroutine(LoadImage(_itemInformation.image_url));
+	}
+
+	public void Refresh()
+	{
+		addToCartButton.Select(_storeController.cartItems.Contains(_itemInformation.sku));
+	}
+
+	IEnumerator LoadImage(string url)
+	{
+		using (WWW www = new WWW(url))
+		{
+			yield return www;
+			Sprite sprite = Sprite.Create(www.texture, new Rect(0, 0, www.texture.width, www.texture.height),
+				new Vector2(0.5f, 0.5f));
+			itemImage.sprite = sprite;
+		}
+	}
 }

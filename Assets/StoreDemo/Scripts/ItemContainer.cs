@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class ItemContainer : MonoBehaviour
 {
@@ -8,9 +10,26 @@ public class ItemContainer : MonoBehaviour
 	[SerializeField]
 	Transform _item_Parent;
 
+	List<ItemUI> _items;
+
+	void Awake()
+	{
+		_items = new List<ItemUI>();
+	}
+
 	public void AddItem(Xsolla.StoreItem itemInformation)
 	{
-		GameObject newItem = Instantiate(_item_Prefab, _item_Parent);
-		newItem.GetComponent<ItemUI>().Initialize(itemInformation);
+		var item = Instantiate(_item_Prefab, _item_Parent);
+		var itemUi = item.GetComponent<ItemUI>();
+		itemUi.Initialize(itemInformation);
+		_items.Add(itemUi);
+	}
+
+	public void Refresh()
+	{
+		foreach (var item in _items)
+		{
+			item.Refresh();
+		}
 	}
 }

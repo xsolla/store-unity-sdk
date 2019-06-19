@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Xsolla;
@@ -17,17 +18,24 @@ public class CartItemUI : MonoBehaviour
 	Coroutine _loadingRoutine;
 	
 	CartItem _itemInformation;
+	
+	StoreController _storeController;
 
 	void Awake()
 	{
-		var storeController = FindObjectOfType<StoreController>();
+		_storeController = FindObjectOfType<StoreController>();
 
 		removeButton.onClick.AddListener(() =>
 		{
-			XsollaStore.Instance.RemoveItemFromCart(storeController.Cart, _itemInformation, () =>
+			XsollaStore.Instance.RemoveItemFromCart(_storeController.Cart, _itemInformation.sku, () =>
 				{
 					Destroy(gameObject);
 					FindObjectOfType<CartGroupUI>().DecreaseCounter(_itemInformation.quantity);
+					
+					if (_storeController.cartItems.Contains(_itemInformation.sku))
+					{
+						_storeController.cartItems.Remove(_itemInformation.sku);
+					}
 				},
 				error => { Debug.Log(error.ToString()); });
 		});

@@ -84,9 +84,9 @@ namespace Xsolla
 			WebRequestHelper.Instance.PostRequest(urlBuilder.ToString(), null, WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.CreateCartErrors);
 		}
 
-		public void AddItemToCart(Cart cart, StoreItem item, Quantity quantity, [CanBeNull] Action onSuccess, [CanBeNull] Action<Error> onError)
+		public void AddItemToCart(Cart cart, string itemSku, Quantity quantity, [CanBeNull] Action onSuccess, [CanBeNull] Action<Error> onError)
 		{
-			var urlBuilder = new StringBuilder(string.Format("https://store.xsolla.com/api/v1/cart/{0}/item/{1}", cart.id, item.sku)).Append(AdditionalUrlParams);
+			var urlBuilder = new StringBuilder(string.Format("https://store.xsolla.com/api/v1/cart/{0}/item/{1}", cart.id, itemSku)).Append(AdditionalUrlParams);
 			
 			WebRequestHelper.Instance.PutRequest(urlBuilder.ToString(), JsonUtility.ToJson(quantity), WebRequestHeader.AuthHeader(Token), WebRequestHeader.ContentTypeHeader(), onSuccess, onError, Error.AddToCartCartErrors);
 		}
@@ -105,9 +105,9 @@ namespace Xsolla
 			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.GetCartItemsErrors);
 		}
 
-		public void RemoveItemFromCart(Cart cart, CartItem item, [CanBeNull] Action onSuccess, [CanBeNull] Action<Error> onError)
+		public void RemoveItemFromCart(Cart cart, string itemSku, [CanBeNull] Action onSuccess, [CanBeNull] Action<Error> onError)
 		{
-			var urlBuilder = new StringBuilder(string.Format("https://store.xsolla.com/api/v1/cart/{0}/item/{1}", cart.id, item.sku)).Append(AdditionalUrlParams);
+			var urlBuilder = new StringBuilder(string.Format("https://store.xsolla.com/api/v1/cart/{0}/item/{1}", cart.id, itemSku)).Append(AdditionalUrlParams);
 			
 			WebRequestHelper.Instance.DeleteRequest(urlBuilder.ToString(), WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.DeleteFromCartErrors);
 		}

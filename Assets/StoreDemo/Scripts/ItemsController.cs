@@ -46,6 +46,7 @@ public class ItemsController : MonoBehaviour
 	        if (groupId != "CART")
 	        {
 		        _containers[groupId].SetActive(true);
+		        _containers[groupId].GetComponent<ItemContainer>().Refresh();
 	        }
 	        else
 	        {
