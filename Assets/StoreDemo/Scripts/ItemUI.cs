@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using Xsolla;
@@ -80,7 +81,16 @@ public class ItemUI : MonoBehaviour
 	void OnEnable()
 	{
 		if (_loadingRoutine == null && itemImage.sprite == null && _itemInformation.image_url != "")
-			_loadingRoutine = StartCoroutine(LoadImage(_itemInformation.image_url));
+		{
+			if (StoreController.ItemIcons.ContainsKey(_itemInformation.image_url))
+			{
+				itemImage.sprite = StoreController.ItemIcons[_itemInformation.image_url];
+			}
+			else
+			{
+				_loadingRoutine = StartCoroutine(LoadImage(_itemInformation.image_url));
+			}
+		}
 	}
 
 	public void Refresh()
@@ -96,6 +106,8 @@ public class ItemUI : MonoBehaviour
 			Sprite sprite = Sprite.Create(www.texture, new Rect(0, 0, www.texture.width, www.texture.height),
 				new Vector2(0.5f, 0.5f));
 			itemImage.sprite = sprite;
+			
+			StoreController.ItemIcons.Add(url, sprite);
 		}
 	}
 }

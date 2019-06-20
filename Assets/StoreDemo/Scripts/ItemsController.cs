@@ -50,24 +50,30 @@ public class ItemsController : MonoBehaviour
 	        }
 	        else
 	        {
-		        var storeController = FindObjectOfType<StoreController>();
-		        
-		        Xsolla.XsollaStore.Instance.GetCartItems(storeController.Cart, items =>
-		        {
-			        var cartItemContainer = _containers[groupId].GetComponent<CartItemContainer>();
-			        
-			        cartItemContainer.ClearCartItems();
-			        
-			        foreach (var item in items.items)
-			        {
-				        cartItemContainer.AddCartItem(item);
-			        }
-			        
-			        cartItemContainer.AddControls(items.price);
-			        
-			        _containers[groupId].SetActive(true);
-		        }, error => print(error.ToString()));
+		        RefreshCartContainer();
 	        }
         }
+    }
+
+    public void RefreshCartContainer()
+    {
+	    var storeController = FindObjectOfType<StoreController>();
+
+	    Xsolla.XsollaStore.Instance.GetCartItems(storeController.Cart, items =>
+	    {
+		    var cartItemContainer = _containers["CART"].GetComponent<CartItemContainer>();
+
+		    cartItemContainer.ClearCartItems();
+		    
+		    _containers["CART"].SetActive(true);
+
+		    foreach (var item in items.items)
+		    {
+			    cartItemContainer.AddCartItem(item);
+		    }
+
+		    cartItemContainer.AddControls(items.price);
+		    
+	    }, error => print(error.ToString()));
     }
 }

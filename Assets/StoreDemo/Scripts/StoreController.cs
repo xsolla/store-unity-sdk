@@ -11,6 +11,8 @@ public class StoreController : MonoBehaviour
 
 	XsollaStore _store;
 
+	public static Dictionary<string, Sprite> ItemIcons;
+
 	public Cart Cart { get; private set; }
 	
 	
@@ -18,6 +20,8 @@ public class StoreController : MonoBehaviour
 
 	private void Start()
 	{
+		ItemIcons = new Dictionary<string, Sprite>();
+		
 		cartItems = new List<string>();
 		
 		_store = XsollaStore.Instance;
