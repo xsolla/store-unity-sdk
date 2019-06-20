@@ -5,7 +5,7 @@ using Xsolla;
 public class CartControls : MonoBehaviour
 {
 	[SerializeField]
-	Button buyButton;
+	SimpleButton buyButton;
 	[SerializeField]
 	Text priceText;
 
@@ -15,7 +15,7 @@ public class CartControls : MonoBehaviour
 	{
 		var storeController = FindObjectOfType<StoreController>();
 
-		buyButton.onClick.AddListener(() =>
+		buyButton.onClick = (() =>
 		{
 			XsollaStore.Instance.BuyCart(storeController.Cart, error => { Debug.Log(error.ToString()); });
 		});

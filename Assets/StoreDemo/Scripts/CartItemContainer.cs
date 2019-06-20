@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using Xsolla;
 
@@ -14,13 +13,32 @@ public class CartItemContainer : MonoBehaviour
 	[SerializeField]
 	Transform _item_Parent;
 
+	[SerializeField]
+	SimpleButton clearCartButton;
+
 	List<GameObject> cartItems;
 
 	GameObject cartControls;
+	
+	StoreController _storeController;
 
 	void Awake()
 	{
+		_storeController = FindObjectOfType<StoreController>();
+		
 		cartItems = new List<GameObject>();
+
+		clearCartButton.onClick = ClearCart;
+	}
+
+	void ClearCart()
+	{
+		XsollaStore.Instance.ClearCart(_storeController.Cart, () =>
+		{
+			ClearCartItems();
+			_storeController.cartItems.Clear();
+			FindObjectOfType<CartGroupUI>().ResetCounter();
+		}, error => { print(error.ToString());});
 	}
 
 	public void AddCartItem(CartItem itemInformation)

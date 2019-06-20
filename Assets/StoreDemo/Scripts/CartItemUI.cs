@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Xsolla;
@@ -13,7 +12,7 @@ public class CartItemUI : MonoBehaviour
 	[SerializeField]
 	Text itemPrice;
 	[SerializeField]
-	Button removeButton;
+	SimpleButton removeButton;
 
 	Coroutine _loadingRoutine;
 	
@@ -25,7 +24,7 @@ public class CartItemUI : MonoBehaviour
 	{
 		_storeController = FindObjectOfType<StoreController>();
 
-		removeButton.onClick.AddListener(() =>
+		removeButton.onClick = (() =>
 		{
 			XsollaStore.Instance.RemoveItemFromCart(_storeController.Cart, _itemInformation.sku, () =>
 				{
