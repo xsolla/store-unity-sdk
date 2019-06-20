@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class AddToCartButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler, IPointerUpHandler
+public class AddToCartButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler, IPointerUpHandler, IDragHandler
 {
 	Image _image;
 
@@ -41,6 +41,10 @@ public class AddToCartButton : MonoBehaviour, IPointerDownHandler, IPointerEnter
 		}
 
 		_isSelected = bSelect;
+	}
+	
+	public void OnDrag(PointerEventData eventData)
+	{
 	}
 	
 	public void OnPointerEnter(PointerEventData eventData)

@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class SimpleButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler, IPointerUpHandler
+public class SimpleButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler, IPointerUpHandler, IDragHandler
 {
 	Image _image;
 	
@@ -21,6 +21,10 @@ public class SimpleButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
 	void Awake()
 	{
 		_image = GetComponent<Image>();
+	}
+	
+	public void OnDrag(PointerEventData eventData)
+	{
 	}
 	
 	public void OnPointerEnter(PointerEventData eventData)

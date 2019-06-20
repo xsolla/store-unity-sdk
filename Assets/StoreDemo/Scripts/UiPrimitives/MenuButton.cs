@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class MenuButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler, IPointerUpHandler
+public class MenuButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler, IPointerUpHandler, IDragHandler
 {
 	Image _image;
 	
@@ -61,6 +61,10 @@ public class MenuButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 		}
 	}
 
+	public void OnDrag(PointerEventData eventData)
+	{
+	}
+	
 	public void OnPointerEnter(PointerEventData eventData)
 	{
 		if (!_isSelected)
