@@ -11,6 +11,8 @@ public class ItemsController : MonoBehaviour
     
     private Dictionary<string, GameObject> _containers = new Dictionary<string, GameObject>();
     
+    string currentContainer;
+    
     public void AddItem(Xsolla.StoreItem itemInformation)
     {
         foreach (var group in itemInformation.groups)
@@ -37,6 +39,8 @@ public class ItemsController : MonoBehaviour
     
     public void ActivateContainer(string groupId)
     {
+	    currentContainer = groupId;
+	    
         foreach (var container in _containers.Values)
         {
             container.SetActive(false);
@@ -61,6 +65,11 @@ public class ItemsController : MonoBehaviour
 
 	    Xsolla.XsollaStore.Instance.GetCartItems(storeController.Cart, items =>
 	    {
+		    if (currentContainer != "CART")
+		    {
+			    return;
+		    }
+		    
 		    var cartItemContainer = _containers["CART"].GetComponent<CartItemContainer>();
 
 		    cartItemContainer.ClearCartItems();
