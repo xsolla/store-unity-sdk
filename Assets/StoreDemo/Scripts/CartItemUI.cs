@@ -15,6 +15,14 @@ public class CartItemUI : MonoBehaviour
 	[SerializeField]
 	SimpleButton removeButton;
 
+	[SerializeField]
+	SimpleButton addButton;
+	[SerializeField]
+	SimpleButton delButton;
+	
+	[SerializeField]
+	Text itemQuantity;
+	
 	Coroutine _loadingRoutine;
 	
 	CartItem _itemInformation;
@@ -31,8 +39,6 @@ public class CartItemUI : MonoBehaviour
 		{
 			XsollaStore.Instance.RemoveItemFromCart(_storeController.Cart, _itemInformation.sku, () =>
 				{
-					//Destroy(gameObject);
-					
 					FindObjectOfType<CartGroupUI>().DecreaseCounter(_itemInformation.quantity);
 					
 					if (_storeController.cartItems.Contains(_itemInformation.sku))
@@ -49,6 +55,25 @@ public class CartItemUI : MonoBehaviour
 				},
 				error => { Debug.Log(error.ToString()); });
 		});
+
+		addButton.onClick = (() =>
+		{
+			var newQuantity = new Quantity {quantity = _itemInformation.quantity + 1};
+
+			XsollaStore.Instance.AddItemToCart(_storeController.Cart, _itemInformation.sku, newQuantity,
+				() => { itemsController.RefreshCartContainer(); },
+				error => { Debug.Log(error.ToString()); });
+		});
+		
+		delButton.onClick = (() =>
+		{
+			var newQuantity = new Quantity {quantity = _itemInformation.quantity - 1};
+			print(_itemInformation.quantity - 1);
+			XsollaStore.Instance.AddItemToCart(_storeController.Cart, _itemInformation.sku, newQuantity,
+				() => { itemsController.RefreshCartContainer(); },
+				error => { Debug.Log(error.ToString()); });
+		});
+		
 	}
 
 	public void Initialize(CartItem itemInformation)
@@ -61,6 +86,8 @@ public class CartItemUI : MonoBehaviour
 		}
 
 		itemName.text = _itemInformation.name;
+		
+		itemQuantity.text = _itemInformation.quantity.ToString();
 		
 		if (_loadingRoutine == null && itemImage.sprite == null && _itemInformation.image_url != "")
 		{
