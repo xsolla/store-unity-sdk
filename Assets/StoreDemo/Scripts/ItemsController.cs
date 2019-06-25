@@ -63,7 +63,7 @@ public class ItemsController : MonoBehaviour
     {
 	    var storeController = FindObjectOfType<StoreController>();
 
-	    Xsolla.XsollaStore.Instance.GetCartItems(storeController.Cart, items =>
+	    Xsolla.XsollaStore.Instance.GetCartItems(storeController.Cart.id, items =>
 	    {
 		    if (currentContainer != "CART")
 		    {

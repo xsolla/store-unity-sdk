@@ -33,7 +33,7 @@ public class CartItemContainer : MonoBehaviour
 
 	void ClearCart()
 	{
-		XsollaStore.Instance.ClearCart(_storeController.Cart, () =>
+		XsollaStore.Instance.ClearCart(_storeController.Cart.id, () =>
 		{
 			ClearCartItems();
 			_storeController.cartItems.Clear();

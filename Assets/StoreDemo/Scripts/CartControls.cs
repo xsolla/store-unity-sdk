@@ -17,7 +17,7 @@ public class CartControls : MonoBehaviour
 
 		buyButton.onClick = (() =>
 		{
-			XsollaStore.Instance.BuyCart(storeController.Cart, error => { Debug.Log(error.ToString()); });
+			XsollaStore.Instance.BuyCart(storeController.Cart.id, error => { Debug.Log(error.ToString()); });
 		});
 	}
 	

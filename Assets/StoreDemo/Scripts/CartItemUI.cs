@@ -35,20 +35,16 @@ public class CartItemUI : MonoBehaviour
 
 		addButton.onClick = (() =>
 		{
-			var newQuantity = new Quantity {quantity = _itemInformation.quantity + 1};
-
-			XsollaStore.Instance.AddItemToCart(_storeController.Cart, _itemInformation.sku, newQuantity,
+			XsollaStore.Instance.AddItemToCart(_storeController.Cart.id, _itemInformation.sku, _itemInformation.quantity + 1,
 				() => { itemsController.RefreshCartContainer(); },
 				error => { Debug.Log(error.ToString()); });
 		});
 		
 		delButton.onClick = (() =>
 		{
-			var newQuantity = new Quantity {quantity = _itemInformation.quantity - 1};
-
-			if (newQuantity.quantity <= 0)
+			if (_itemInformation.quantity - 1 <= 0)
 			{
-				XsollaStore.Instance.RemoveItemFromCart(_storeController.Cart, _itemInformation.sku, () =>
+				XsollaStore.Instance.RemoveItemFromCart(_storeController.Cart.id, _itemInformation.sku, () =>
 					{
 						FindObjectOfType<CartGroupUI>().DecreaseCounter(_itemInformation.quantity);
 					
@@ -68,7 +64,7 @@ public class CartItemUI : MonoBehaviour
 			}
 			else
 			{
-				XsollaStore.Instance.AddItemToCart(_storeController.Cart, _itemInformation.sku, newQuantity,
+				XsollaStore.Instance.AddItemToCart(_storeController.Cart.id, _itemInformation.sku, _itemInformation.quantity - 1,
 					() => { itemsController.RefreshCartContainer(); },
 					error => { Debug.Log(error.ToString()); });
 			}

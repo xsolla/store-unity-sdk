@@ -39,7 +39,7 @@ public class ItemUI : MonoBehaviour
 			{
 				if (bSelected)
 				{
-					XsollaStore.Instance.AddItemToCart(cart, _itemInformation.sku, new Quantity {quantity = 1},
+					XsollaStore.Instance.AddItemToCart(cart.id, _itemInformation.sku, 1,
 						() =>
 						{
 							FindObjectOfType<CartGroupUI>().IncreaseCounter();
@@ -52,7 +52,7 @@ public class ItemUI : MonoBehaviour
 				}
 				else
 				{
-					XsollaStore.Instance.RemoveItemFromCart(cart, _itemInformation.sku,
+					XsollaStore.Instance.RemoveItemFromCart(cart.id, _itemInformation.sku,
 						() =>
 						{
 							FindObjectOfType<CartGroupUI>().DecreaseCounter();
