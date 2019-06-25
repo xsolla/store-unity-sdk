@@ -29,7 +29,7 @@ public class ItemUI : MonoBehaviour
 		{
 			var purchaseParams = new PurchaseParams();
 			purchaseParams.currency = _itemInformation.prices[0].currency;
-			XsollaStore.Instance.BuyItem(_itemInformation.sku, error => { Debug.Log(error.ToString()); }, purchaseParams);
+			XsollaStore.Instance.BuyItem(_itemInformation.sku, error => { Debug.Log(error.ToString()); });
 		});
 
 		addToCartButton.onClick = (bSelected =>
