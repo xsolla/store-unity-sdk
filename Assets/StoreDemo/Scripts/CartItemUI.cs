@@ -12,8 +12,6 @@ public class CartItemUI : MonoBehaviour
 	Text itemName;
 	[SerializeField]
 	Text itemPrice;
-	[SerializeField]
-	SimpleButton removeButton;
 
 	[SerializeField]
 	SimpleButton addButton;
@@ -35,27 +33,6 @@ public class CartItemUI : MonoBehaviour
 		var itemsController = FindObjectOfType<ItemsController>();
 		var cartItemContainer = FindObjectOfType<CartItemContainer>();
 
-		removeButton.onClick = (() =>
-		{
-			XsollaStore.Instance.RemoveItemFromCart(_storeController.Cart, _itemInformation.sku, () =>
-				{
-					FindObjectOfType<CartGroupUI>().DecreaseCounter(_itemInformation.quantity);
-					
-					if (_storeController.cartItems.Contains(_itemInformation.sku))
-					{
-						_storeController.cartItems.Remove(_itemInformation.sku);
-					}
-
-					if (!_storeController.cartItems.Any())
-					{
-						cartItemContainer.ClearCartItems();
-					}
-					
-					itemsController.RefreshCartContainer();
-				},
-				error => { Debug.Log(error.ToString()); });
-		});
-
 		addButton.onClick = (() =>
 		{
 			var newQuantity = new Quantity {quantity = _itemInformation.quantity + 1};
@@ -68,10 +45,33 @@ public class CartItemUI : MonoBehaviour
 		delButton.onClick = (() =>
 		{
 			var newQuantity = new Quantity {quantity = _itemInformation.quantity - 1};
-			print(_itemInformation.quantity - 1);
-			XsollaStore.Instance.AddItemToCart(_storeController.Cart, _itemInformation.sku, newQuantity,
-				() => { itemsController.RefreshCartContainer(); },
-				error => { Debug.Log(error.ToString()); });
+
+			if (newQuantity.quantity <= 0)
+			{
+				XsollaStore.Instance.RemoveItemFromCart(_storeController.Cart, _itemInformation.sku, () =>
+					{
+						FindObjectOfType<CartGroupUI>().DecreaseCounter(_itemInformation.quantity);
+					
+						if (_storeController.cartItems.Contains(_itemInformation.sku))
+						{
+							_storeController.cartItems.Remove(_itemInformation.sku);
+						}
+
+						if (!_storeController.cartItems.Any())
+						{
+							cartItemContainer.ClearCartItems();
+						}
+					
+						itemsController.RefreshCartContainer();
+					},
+					error => { Debug.Log(error.ToString()); });
+			}
+			else
+			{
+				XsollaStore.Instance.AddItemToCart(_storeController.Cart, _itemInformation.sku, newQuantity,
+					() => { itemsController.RefreshCartContainer(); },
+					error => { Debug.Log(error.ToString()); });
+			}
 		});
 		
 	}

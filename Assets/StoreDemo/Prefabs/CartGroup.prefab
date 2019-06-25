@@ -36,7 +36,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 106, y: -2}
-  m_SizeDelta: {x: 211, y: 44}
+  m_SizeDelta: {x: 211, y: 62}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6244690360313918102
 CanvasRenderer:
@@ -58,8 +58,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc5e0615bfb18914ca6b7d5c6ea881b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  counterPlaceholder: {fileID: 0}
-  counterText: {fileID: 0}
   menuButton: {fileID: 1611781383386152093}
 --- !u!1001 &4275163489748035091
 PrefabInstance:
@@ -146,7 +144,7 @@ PrefabInstance:
     - target: {fileID: 706992244782302560, guid: 17e4b1f2d98c23c44bc360ee0a59784e,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: -4
+      value: -16
       objectReference: {fileID: 0}
     - target: {fileID: 706992244782302560, guid: 17e4b1f2d98c23c44bc360ee0a59784e,
         type: 3}
