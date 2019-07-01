@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/StoreDemo/Scenes/Store.unity
+    path: Assets/Xsolla/Demo/StoreDemo/Scenes/Store.unity
     guid: 6890665bc0f182c469b9d1b1ce062867
   m_configObjects: {}
