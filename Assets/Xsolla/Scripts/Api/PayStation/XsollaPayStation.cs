@@ -5,9 +5,10 @@ using System.Text;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Networking;
-using Xsolla.PayStation;
+using Xsolla.Core;
+using Xsolla.Paystation;
 
-namespace Xsolla
+namespace Xsolla.PayStation
 {
 	public class XsollaPayStation : MonoSingleton<XsollaPayStation>
 	{

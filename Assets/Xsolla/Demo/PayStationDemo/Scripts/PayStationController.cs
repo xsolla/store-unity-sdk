@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using Xsolla;
+using Xsolla.PayStation;
 
 public class PayStationController : MonoBehaviour
 {
