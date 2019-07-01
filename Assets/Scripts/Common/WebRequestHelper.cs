@@ -65,6 +65,11 @@ namespace Xsolla
 		{
 			StartCoroutine(PostRequestCor<T>(url, form, requestHeader, onComplete, onError, errorsToCheck));
 		}
+		
+		public void PostRequest<T>(string url, string jsonData, WWWForm form, List<WebRequestHeader> requestHeaders, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
+		{
+			StartCoroutine(PostRequestCor<T>(url, jsonData, form, requestHeaders, onComplete, onError, errorsToCheck));
+		}
 
 		public void GetRequest<T>(string url, WebRequestHeader requestHeader = null, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
 		{
@@ -86,6 +91,29 @@ namespace Xsolla
 			var webRequest = UnityWebRequest.Post(url, form);
 			
 			webRequest.SetRequestHeader(requestHeader.Name, requestHeader.Value);
+
+#if UNITY_2018_1_OR_NEWER
+			yield return webRequest.SendWebRequest();
+#else
+			yield return webRequest.Send();
+#endif
+
+			ProcessRequest(webRequest, onComplete, onError, errorsToCheck);
+		}
+		
+		IEnumerator PostRequestCor<T>(string url, string jsonData, WWWForm form, List<WebRequestHeader> requestHeaders, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
+		{
+			var webRequest = UnityWebRequest.Post(url, form);
+
+			foreach (var requestHeader in requestHeaders)
+			{
+				webRequest.SetRequestHeader(requestHeader.Name, requestHeader.Value);
+			}
+			
+			if (!string.IsNullOrEmpty(jsonData))
+			{
+				webRequest.uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(jsonData));
+			}
 
 #if UNITY_2018_1_OR_NEWER
 			yield return webRequest.SendWebRequest();
@@ -166,6 +194,7 @@ namespace Xsolla
 			}
 			else
 			{
+				print(webRequest.downloadHandler.text);
 				var error = CheckForErrors(webRequest.downloadHandler.text, errorsToCheck);
 				if (error == null)
 				{

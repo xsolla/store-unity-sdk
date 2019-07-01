@@ -142,6 +142,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serverUrl: https://livedemo.xsolla.com/paystation/token_unreal.php
+  merchantId: 88824
+  apiKey: 5894fb89b89e16e3dbc965404d90dd50
+  projectId: 45657
+  projectSecretKey: T6R5KGstsTbihj9u
 --- !u!4 &207933288
 Transform:
   m_ObjectHideFlags: 0
