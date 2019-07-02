@@ -16,7 +16,7 @@ public class LoginPage : Page, ILogin
     [SerializeField] private Sprite disabled_Sprite;
     [SerializeField] private Sprite enabled_Sprite;
 
-    public Action<XsollaUser> OnSuccessfulLogin
+    public Action<User> OnSuccessfulLogin
     {
         get
         {
@@ -42,7 +42,7 @@ public class LoginPage : Page, ILogin
         }
     }
 
-    private Action<XsollaUser> onSuccessfulLogin;
+    private Action<User> onSuccessfulLogin;
     private Action<ErrorDescription> onUnsuccessfulLogin;
 
     private void Awake()
@@ -73,7 +73,7 @@ public class LoginPage : Page, ILogin
         password_InputField.text = XsollaLogin.Instance.LastUserPassword;
     }
 
-    private void OnLogin(XsollaUser user)
+    private void OnLogin(User user)
     {
         if (XsollaLogin.Instance.TokenInformation.IsTokenValid && XsollaLogin.Instance.IsJWTValidationToken)
         {

@@ -168,7 +168,7 @@ public class AuthController : MonoBehaviour
             case Error.NetworkError:
                 OpenPopUp(string.Format("Network Error: {0}", errorDescription.description), PopUpWindows.Error);
                 break;
-            case Error.IdentifiedError:
+            case Error.UnknownError:
                 OpenPopUp(errorDescription.ToString(), PopUpWindows.Error);
                 break;
         }

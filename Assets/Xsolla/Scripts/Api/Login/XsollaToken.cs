@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using Xsolla.Core;
 
 namespace Xsolla.Login
 {
@@ -9,8 +10,8 @@ namespace Xsolla.Login
 		{
 			get
 			{
-				return PlayerPrefs.HasKey(XsollaConstants.Prefs_Token)
-					? PlayerPrefs.GetString(XsollaConstants.Prefs_Token)
+				return PlayerPrefs.HasKey(Constants.XsollaLoginToken)
+					? PlayerPrefs.GetString(Constants.XsollaLoginToken)
 					: string.Empty;
 			}
 		}
@@ -19,8 +20,8 @@ namespace Xsolla.Login
 		{
 			get
 			{
-				return PlayerPrefs.HasKey(XsollaConstants.Prefs_TokenExp)
-					? PlayerPrefs.GetString(XsollaConstants.Prefs_TokenExp)
+				return PlayerPrefs.HasKey(Constants.XsollaLoginTokenExp)
+					? PlayerPrefs.GetString(Constants.XsollaLoginTokenExp)
 					: string.Empty;
 			}
 		}

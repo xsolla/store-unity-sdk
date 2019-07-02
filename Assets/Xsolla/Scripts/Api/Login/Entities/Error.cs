@@ -15,6 +15,6 @@
 		SubmittedLoginUrlNotFoundException,
 		InvalidToken,
 		NetworkError,
-		IdentifiedError
+		UnknownError
 	}
 }

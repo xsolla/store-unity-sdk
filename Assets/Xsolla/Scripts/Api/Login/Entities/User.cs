@@ -3,7 +3,7 @@
 namespace Xsolla.Login
 {
 	[Serializable]
-	public struct XsollaUser
+	public struct User
 	{
 		public string exp;
 		public string iss;

@@ -9,62 +9,64 @@ namespace Xsolla.Login
 	public class XsollaLogin : MonoSingleton<XsollaLogin>
 	{
 		[SerializeField]
-		string _loginId;
+		string loginId;
 		[SerializeField]
-		bool _isJWTValidationToken;
+		bool isJwtValidationToken;
 		[SerializeField]
-		string _JWTValidationURL;
+		string jwtValidationUrl;
 		[SerializeField]
-		bool _isProxy;
+		bool isProxy;
 		[SerializeField]
-		string _callbackURL;
-
-		/// <summary>
-		/// Required. You can find it in your project settings. See xsolla.com
-		/// </summary>
+		string callbackUrl;
+		
 		public string LoginID
 		{
-			get { return _loginId; }
-			set { _loginId = value; }
+			get { return loginId; }
+			set { loginId = value; }
 		}
-
-		/// <summary>
-		/// Required if you have many LoginURLs. You can find it in your project settings. See xsolla.com
-		/// </summary>
-		public string CallbackURL
+		
+		public bool IsJWTValidationToken
 		{
-			get { return _callbackURL; }
-			set { _callbackURL = value; }
+			get { return isJwtValidationToken; }
+			set { isJwtValidationToken = value; }
 		}
 
 		public string JWTValidationURL
 		{
-			get { return _JWTValidationURL; }
-			set { _JWTValidationURL = value; }
+			get { return jwtValidationUrl; }
+			set { jwtValidationUrl = value; }
 		}
-
-		public bool IsJWTValidationToken
-		{
-			get { return _isJWTValidationToken; }
-
-			set { _isJWTValidationToken = value; }
-		}
-
+		
 		public bool IsProxy
 		{
-			get { return _isProxy; }
-
-			set { _isProxy = value; }
+			get { return isProxy; }
+			set { isProxy = value; }
+		}
+		
+		public string CallbackURL
+		{
+			get { return callbackUrl; }
+			set { callbackUrl = value; }
+		}
+		
+		string AdditionalUrlParams
+		{
+			get
+			{
+				return string.Format("&engine=unity&engine_v={0}&sdk=login&sdk_v={1}", Application.unityVersion, Constants.LoginSdkVersion);
+			}
 		}
 
 		public string LastUserLogin
 		{
 			get
 			{
-				if (PlayerPrefs.HasKey(XsollaConstants.Prefs_UserLogin) && !string.IsNullOrEmpty(_loginId))
-					return PlayerPrefs.GetString(XsollaConstants.Prefs_UserLogin);
-				else
-					return string.Empty;
+				if (PlayerPrefs.HasKey(Constants.UserLogin) && !string.IsNullOrEmpty(loginId))
+				{
+					return PlayerPrefs.GetString(Constants.UserLogin);
+				}
+				
+				return string.Empty;
 			}
 		}
 
@@ -72,274 +74,117 @@ namespace Xsolla.Login
 		{
 			get
 			{
-				try
+				if (PlayerPrefs.HasKey(Constants.UserPassword) && !string.IsNullOrEmpty(loginId))
 				{
-					if (PlayerPrefs.HasKey(XsollaConstants.Prefs_UserPassword) && !string.IsNullOrEmpty(_loginId))
-						return Crypto.Decrypt(
-							Encoding.ASCII.GetBytes(LoginID.Replace("-", string.Empty).Substring(0, 16)),
-							PlayerPrefs.GetString(XsollaConstants.Prefs_UserPassword));
-					else
-						return string.Empty;
+					return Crypto.Decrypt(Encoding.ASCII.GetBytes(LoginID.Replace("-", string.Empty).Substring(0, 16)),
+						PlayerPrefs.GetString(Constants.UserPassword));
 				}
-				catch (Exception)
-				{
-					return string.Empty;
-				}
+					
+				return string.Empty;
 			}
 		}
 
 		public XsollaToken TokenInformation = new XsollaToken();
 		
-
-
-		/// <summary>
-		/// Clear Token 
-		/// </summary>
 		public void SignOut()
 		{
-			if (PlayerPrefs.HasKey(XsollaConstants.Prefs_Token))
-				PlayerPrefs.DeleteKey(XsollaConstants.Prefs_Token);
-			if (PlayerPrefs.HasKey(XsollaConstants.Prefs_TokenExp))
-				PlayerPrefs.DeleteKey(XsollaConstants.Prefs_TokenExp);
+			if (PlayerPrefs.HasKey(Constants.XsollaLoginToken))
+				PlayerPrefs.DeleteKey(Constants.XsollaLoginToken);
+			if (PlayerPrefs.HasKey(Constants.XsollaLoginTokenExp))
+				PlayerPrefs.DeleteKey(Constants.XsollaLoginTokenExp);
 		}
 
 		void SaveLoginPassword(string username, string password)
 		{
-			if (!string.IsNullOrEmpty(_loginId))
+			if (!string.IsNullOrEmpty(loginId))
 			{
-				PlayerPrefs.SetString(XsollaConstants.Prefs_UserLogin, username);
-				PlayerPrefs.SetString(XsollaConstants.Prefs_UserPassword,
-					Crypto.Encrypt(Encoding.ASCII.GetBytes(LoginID.Replace("-", string.Empty).Substring(0, 16)),
-						password));
+				PlayerPrefs.SetString(Constants.UserLogin, username);
+				PlayerPrefs.SetString(Constants.UserPassword,
+					Crypto.Encrypt(Encoding.ASCII.GetBytes(LoginID.Replace("-", string.Empty).Substring(0, 16)), password));
 			}
 		}
-
-		/// <summary>
-		/// Sending Reset Password Message to email by login.
-		/// </summary>
-		public void ResetPassword(string email, Action onSuccessfulResetPassword, Action<ErrorDescription> onError)
-		{
-			WWWForm form = new WWWForm();
-			form.AddField("username", email);
-
-			string proxy = _isProxy ? "proxy/registration/password/reset" : "password/reset/request";
-
-			StartCoroutine(WebRequests.PostRequest(
-				string.Format(
-					"https://login.xsolla.com/api/{0}?projectId={1}&engine=unity&engine_v={2}&sdk=login&sdk_v={3}",
-					proxy, _loginId, Application.unityVersion, Constants.LoginSdkVersion),
-				form,
-				(status, message) =>
-				{
-					ErrorDescription error = CheckForErrors(status, message, CheckResetPasswordError);
-
-					if (error == null && onSuccessfulResetPassword != null)
-						onSuccessfulResetPassword.Invoke();
-					else if (error != null && onError != null)
-						onError.Invoke(error);
-				}));
-		}
-
-		/// <summary>
-		/// Login
-		/// </summary>
-		public void SignIn(string username, string password, bool remember_user, Action<XsollaUser> onSuccessfulSignIn, Action<ErrorDescription> onError)
-		{
-			WWWForm form = new WWWForm();
-			form.AddField("username", username);
-			form.AddField("password", password);
-			form.AddField("remember_me", remember_user.ToString());
-
-			string proxy = _isProxy ? "proxy/" : string.Empty;
-
-			StartCoroutine(WebRequests.PostRequest(
-				string.Format(
-					"https://login.xsolla.com/api/{0}login?projectId={1}&login_url={2}&engine=unity&engine_v={3}&sdk=login&sdk_v={4}",
-					proxy, _loginId, _callbackURL, Application.unityVersion, Constants.LoginSdkVersion),
-				form,
-				(status, message) =>
-				{
-					ErrorDescription error = CheckForErrors(status, message, CheckSignInError);
-					if (error != null)
-					{
-						if (onError != null)
-							onError.Invoke(error);
-						return;
-					}
-
-					Action<XsollaUser> onSuccess = (xsollaUser) =>
-					{
-						if (onSuccessfulSignIn != null)
-							onSuccessfulSignIn.Invoke(xsollaUser);
-						if (remember_user)
-							SaveLoginPassword(username, password);
-					};
-
-					if (_isJWTValidationToken)
-						JWTValidation(message,
-							(xsollaUser, errorDescription) =>
-							{
-								if (errorDescription != null && onError != null)
-									onError.Invoke(errorDescription);
-								else
-									onSuccess.Invoke(xsollaUser);
-							});
-					else
-						onSuccess.Invoke(new XsollaUser());
-				}
-			));
-		}
-
-		/// <summary>
-		/// Registration
-		/// </summary>
-		public void Registration(string username, string password, string email, Action onSuccessfulRegistration, Action<ErrorDescription> onError)
+		public void Registration(string username, string password, string email, Action onSuccess, Action<ErrorDescription> onError)
 		{
 			WWWForm registrationForm = new WWWForm();
 			registrationForm.AddField("username", username);
 			registrationForm.AddField("password", password);
 			registrationForm.AddField("email", email);
 
-			string proxy = _isProxy ? "proxy/registration" : "user";
+			string proxy = isProxy ? "proxy/registration" : "user";
 
-			StartCoroutine(WebRequests.PostRequest(
-				string.Format(
-					"https://login.xsolla.com/api/{0}?projectId={1}&login_url={2}&engine=unity&engine_v={3}&sdk=login&sdk_v={4}",
-					proxy, _loginId, _callbackURL, Application.unityVersion, Constants.LoginSdkVersion),
-				registrationForm,
-				(status, message) =>
+			var urlBuilder = new StringBuilder(string.Format("https://login.xsolla.com/api/{0}?projectId={1}&login_url={2}", proxy, loginId, callbackUrl)).Append(AdditionalUrlParams);
+			
+			StartCoroutine(WebRequests.PostRequest(urlBuilder.ToString(), registrationForm, onSuccess, onError, ErrorDescription.RegistrationErrors));
+		}
+		public void ResetPassword(string username, Action onSuccess, Action<ErrorDescription> onError)
+		{
+			WWWForm form = new WWWForm();
+			form.AddField("username", username);
+
+			string proxy = isProxy ? "proxy/registration/password/reset" : "password/reset/request";
+
+			var urlBuilder = new StringBuilder(string.Format("https://login.xsolla.com/api/{0}?projectId={1}", proxy, loginId)).Append(AdditionalUrlParams);
+			
+			StartCoroutine(WebRequests.PostRequest(urlBuilder.ToString(), form, onSuccess, onError, ErrorDescription.ResetPasswordErrors));
+		}
+		
+		public void SignIn(string username, string password, bool rememberUser, Action<User> onSuccess, Action<ErrorDescription> onError)
+		{
+			WWWForm form = new WWWForm();
+			form.AddField("username", username);
+			form.AddField("password", password);
+			form.AddField("remember_me", rememberUser.ToString());
+
+			string proxy = isProxy ? "proxy/" : string.Empty;
+
+			var urlBuilder = new StringBuilder(string.Format("https://login.xsolla.com/api/{0}login?projectId={1}&login_url={2}", proxy, loginId, callbackUrl)).Append(AdditionalUrlParams);
+
+			StartCoroutine(WebRequests.PostRequest(urlBuilder.ToString(), form,
+				(message) =>
 				{
-					ErrorDescription error = CheckForErrors(status, message, CheckRegistrationError);
-
-					if (error == null && onSuccessfulRegistration != null)
-						onSuccessfulRegistration.Invoke();
-					else if (error != null && onError != null)
-						onError.Invoke(error);
-				}));
-		}
-		private ErrorDescription CheckForErrors(bool status, string message, Func<string, Error> checkError)
-		{
-			//status == false == network error
-			if (!status)
-				return new ErrorDescription(string.Empty, message, Error.NetworkError);
-
-			//else try to deserialize mistake
-			MessageJson messageJson = DeserializeError(message);
-			//if request got an error
-			if (messageJson != null && messageJson.error != null && !string.IsNullOrEmpty(messageJson.error.code))
-			{
-				messageJson.error.error = checkError(messageJson.error.code);
-				if (messageJson.error.error == Error.IdentifiedError)
-					messageJson.error.error = CheckGeneralErrors(messageJson.error.code);
-
-				return messageJson.error;
-			}
-
-			//else if success
-			return null;
-		}
-		Error CheckSignInError(string code)
-		{
-			switch (code)
-			{
-				case "003-007":
-					return Error.UserIsNotActivated;
-				case "010-007":
-					return Error.CaptchaRequiredException;
-				default:
-					return Error.IdentifiedError;
-			}
+					if (isJwtValidationToken)
+					{
+						JWTValidation(message, onSuccess, onError);
+					}
+					else
+					{
+						if (onSuccess != null)
+							onSuccess.Invoke(new User());
+						if (rememberUser)
+							SaveLoginPassword(username, password);
+					}
+						
+					
+				}, onError, ErrorDescription.LoginErrors));
 		}
 
-		Error CheckRegistrationError(string code)
-		{
-			switch (code)
-			{
-				case "010-003":
-					return Error.RegistrationNotAllowedException;
-				case "003-003":
-					return Error.UsernameIsTaken;
-				case "003-004":
-					return Error.EmailIsTaken;
-				default:
-					return Error.IdentifiedError;
-			}
-		}
-
-		Error CheckResetPasswordError(string code)
-		{
-			switch (code)
-			{
-				case "003-007":
-					return Error.PasswordResetingNotAllowedForProject;
-				default:
-					return Error.IdentifiedError;
-			}
-		}
-
-		Error CheckTokenError(string code)
-		{
-			switch (code)
-			{
-				case "422":
-					return Error.TokenVerificationException;
-				default:
-					return Error.IdentifiedError;
-			}
-		}
-
-		Error CheckGeneralErrors(string code)
-		{
-			switch (code)
-			{
-				case "0":
-					return Error.InvalidProjectSettings;
-				case "003-001":
-					return Error.InvalidLoginOrPassword;
-				case "003-061":
-					return Error.InvalidProjectSettings;
-				case "010-011":
-					return Error.MultipleLoginUrlsException;
-				case "010-012":
-					return Error.SubmittedLoginUrlNotFoundException;
-				default:
-					return Error.IdentifiedError;
-			}
-		}
-
-		MessageJson DeserializeError(string recievedMessage)
-		{
-			MessageJson message = new MessageJson();
-			try
-			{
-				message = JsonUtility.FromJson<MessageJson>(recievedMessage);
-			}
-			catch (Exception)
-			{
-			}
-
-			return message;
-		}
-		void JWTValidation(string message, Action<XsollaUser, ErrorDescription> onFinishValidate = null)
+		void JWTValidation(string message, Action<User> onSuccess, Action<ErrorDescription> onError)
 		{
 			string token = ParseToken(message);
+			
 			if (!string.IsNullOrEmpty(token))
-				ValidateToken(token, (status, recievedMessage) =>
+			{
+				print(token);
+				ValidateToken(token, (recievedMessage) =>
 				{
-					ErrorDescription error = CheckForErrors(status, recievedMessage, CheckTokenError);
-					XsollaUser xsollaUser = new XsollaUser();
-					if (error != null)
-					{
-						xsollaUser = JsonUtility.FromJson<TokenJson>(recievedMessage).token_payload;
-						PlayerPrefs.SetString(XsollaConstants.Prefs_TokenExp, xsollaUser.exp);
-					}
+					User user = new User();
+					
+					user = JsonUtility.FromJson<TokenJson>(recievedMessage).token_payload;
+					PlayerPrefs.SetString(Constants.XsollaLoginTokenExp, user.exp);
 
-					if (onFinishValidate != null)
-						onFinishValidate.Invoke(xsollaUser, error);
-				});
-			else if (onFinishValidate != null)
-				onFinishValidate.Invoke(new XsollaUser(),
-					new ErrorDescription(string.Empty, "Can't parse token", Error.InvalidToken));
+					if (onSuccess != null)
+						onSuccess.Invoke(user);
+				}, onError);
+			}
+			else if (onError != null)
+				onError.Invoke(new ErrorDescription(string.Empty, "Failed to parse token", Error.InvalidToken));
+		}
+		
+		void ValidateToken(string token, Action<string> onRecievedToken, Action<ErrorDescription> onError)
+		{
+			WWWForm form = new WWWForm();
+			form.AddField("token", token);
+			StartCoroutine(WebRequests.PostRequest(jwtValidationUrl, form, onRecievedToken, onError, ErrorDescription.TokenErrors));
 		}
 
 		string ParseToken(string message)
@@ -349,9 +194,8 @@ namespace Xsolla.Login
 			{
 				var match = regex.Match(message).Value.Replace("token=", string.Empty);
 				match = match.Remove(match.Length - 1);
-
 				var token = match;
-				PlayerPrefs.SetString(XsollaConstants.Prefs_Token, token);
+				PlayerPrefs.SetString(Constants.XsollaLoginToken, token);
 				return token;
 			}
 			catch (Exception)
@@ -360,11 +204,6 @@ namespace Xsolla.Login
 			}
 		}
 
-		void ValidateToken(string token, Action<bool, string> onRecievedToken)
-		{
-			WWWForm form = new WWWForm();
-			form.AddField("token", token);
-			StartCoroutine(WebRequests.PostRequest(_JWTValidationURL, form, onRecievedToken));
-		}
+
 	}
 }
