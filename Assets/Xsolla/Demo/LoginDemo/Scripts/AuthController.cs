@@ -109,8 +109,8 @@ public class AuthController : MonoBehaviour
             OpenPopUp("Xsolla Login settings not completed", PopUpWindows.Warning);
             Debug.Log("Please register Xsolla Publisher Account, and fill the Login ID form. For more details read documentation.\nhttps://github.com/xsolla/login-unity-sdk/blob/master/README.md");
         }
-        else if (XsollaLogin.Instance.TokenInformation.IsTokenValid)
-            Debug.Log(string.Format("Your token {0} is active", XsollaLogin.Instance.TokenInformation.Token));
+        else if (XsollaLogin.Instance.IsTokenValid)
+            Debug.Log(string.Format("Your token {0} is active", XsollaLogin.Instance.Token));
     }
 
     private void OpenPopUp(string message, PopUpWindows popUp)

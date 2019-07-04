@@ -56,6 +56,14 @@ namespace Xsolla.Login
 				return string.Format("&engine=unity&engine_v={0}&sdk=login&sdk_v={1}", Application.unityVersion, Constants.LoginSdkVersion);
 			}
 		}
+		
+		byte[] CryptoKey
+		{
+			get
+			{
+				return Encoding.ASCII.GetBytes(LoginID.Replace("-", string.Empty).Substring(0, 16));
+			}
+		}
 
 		public string LastUserLogin
 		{
@@ -76,15 +84,44 @@ namespace Xsolla.Login
 			{
 				if (PlayerPrefs.HasKey(Constants.UserPassword) && !string.IsNullOrEmpty(loginId))
 				{
-					return Crypto.Decrypt(Encoding.ASCII.GetBytes(LoginID.Replace("-", string.Empty).Substring(0, 16)),
-						PlayerPrefs.GetString(Constants.UserPassword));
+					return Crypto.Decrypt(CryptoKey, PlayerPrefs.GetString(Constants.UserPassword));
 				}
 					
 				return string.Empty;
 			}
 		}
 
-		public XsollaToken TokenInformation = new XsollaToken();
+		public string Token
+		{
+			get
+			{
+				return PlayerPrefs.HasKey(Constants.XsollaLoginToken) ? PlayerPrefs.GetString(Constants.XsollaLoginToken) : string.Empty;
+			}
+		}
+
+		public string TokenExp
+		{
+			get
+			{
+				return PlayerPrefs.HasKey(Constants.XsollaLoginTokenExp) ? PlayerPrefs.GetString(Constants.XsollaLoginTokenExp) : string.Empty;
+			}
+		}
+
+		public bool IsTokenValid
+		{
+			get
+			{
+				long epochTicks = new DateTime(1970, 1, 1).Ticks;
+				long unixTime = ((DateTime.UtcNow.Ticks - epochTicks) / TimeSpan.TicksPerSecond);
+
+				if (!string.IsNullOrEmpty(TokenExp))
+				{
+					return long.Parse(TokenExp) >= unixTime;
+				}
+				
+				return false;
+			}
+		}
 		
 		public void SignOut()
 		{
@@ -99,8 +136,7 @@ namespace Xsolla.Login
 			if (!string.IsNullOrEmpty(loginId))
 			{
 				PlayerPrefs.SetString(Constants.UserLogin, username);
-				PlayerPrefs.SetString(Constants.UserPassword,
-					Crypto.Encrypt(Encoding.ASCII.GetBytes(LoginID.Replace("-", string.Empty).Substring(0, 16)), password));
+				PlayerPrefs.SetString(Constants.UserPassword, Crypto.Encrypt(CryptoKey, password));
 			}
 		}
 		public void Registration(string username, string password, string email, Action onSuccess, Action<ErrorDescription> onError)
@@ -153,8 +189,6 @@ namespace Xsolla.Login
 						if (rememberUser)
 							SaveLoginPassword(username, password);
 					}
-						
-					
 				}, onError, ErrorDescription.LoginErrors));
 		}
 
@@ -167,7 +201,7 @@ namespace Xsolla.Login
 				print(token);
 				ValidateToken(token, (recievedMessage) =>
 				{
-					User user = new User();
+					var user = new User();
 					
 					user = JsonUtility.FromJson<TokenJson>(recievedMessage).token_payload;
 					PlayerPrefs.SetString(Constants.XsollaLoginTokenExp, user.exp);
@@ -203,7 +237,5 @@ namespace Xsolla.Login
 				return string.Empty;
 			}
 		}
-
-
 	}
 }

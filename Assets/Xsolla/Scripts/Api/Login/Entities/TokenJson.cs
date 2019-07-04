@@ -3,7 +3,7 @@
 namespace Xsolla.Login
 {
 	[Serializable]
-	internal class TokenJson
+	public class TokenJson
 	{
 		public User token_payload;
 	}
