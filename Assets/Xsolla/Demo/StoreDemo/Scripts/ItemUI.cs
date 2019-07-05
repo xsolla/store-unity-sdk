@@ -38,29 +38,25 @@ public class ItemUI : MonoBehaviour
 			{
 				if (bSelected)
 				{
-					XsollaStore.Instance.AddItemToCart(cart.id, _itemInformation.sku, 1,
-						() =>
-						{
-							FindObjectOfType<CartGroupUI>().IncreaseCounter();
+					_storeController.CartModel.AddCartItem(_itemInformation);
+					
+					FindObjectOfType<CartGroupUI>().IncreaseCounter();
 
-							if (!_storeController.cartItems.Contains(_itemInformation.sku))
-							{
-								_storeController.cartItems.Add(_itemInformation.sku);
-							}
-						}, error => print(error.ToString()));
+					if (!_storeController.cartItems.Contains(_itemInformation.sku))
+					{
+						_storeController.cartItems.Add(_itemInformation.sku);
+					}
 				}
 				else
 				{
-					XsollaStore.Instance.RemoveItemFromCart(cart.id, _itemInformation.sku,
-						() =>
-						{
-							FindObjectOfType<CartGroupUI>().DecreaseCounter();
+					_storeController.CartModel.RemoveCartItem(_itemInformation);
+					
+					FindObjectOfType<CartGroupUI>().DecreaseCounter();
 
-							if (_storeController.cartItems.Contains(_itemInformation.sku))
-							{
-								_storeController.cartItems.Remove(_itemInformation.sku);
-							}
-						}, error => print(error.ToString()));
+					if (_storeController.cartItems.Contains(_itemInformation.sku))
+					{
+						_storeController.cartItems.Remove(_itemInformation.sku);
+					}
 				}
 			}
 		});
@@ -71,7 +67,9 @@ public class ItemUI : MonoBehaviour
 		_itemInformation = itemInformation;
 
 		if (_itemInformation.prices.Length != 0)
+		{
 			buyButton.Text = string.Format("BUY FOR ${0}", _itemInformation.prices[0].amount);
+		}
 
 		itemName.text = _itemInformation.name;
 		itemDescription.text = _itemInformation.description;
@@ -102,8 +100,9 @@ public class ItemUI : MonoBehaviour
 		using (WWW www = new WWW(url))
 		{
 			yield return www;
-			Sprite sprite = Sprite.Create(www.texture, new Rect(0, 0, www.texture.width, www.texture.height),
-				new Vector2(0.5f, 0.5f));
+			
+			Sprite sprite = Sprite.Create(www.texture, new Rect(0, 0, www.texture.width, www.texture.height), new Vector2(0.5f, 0.5f));
+			
 			itemImage.sprite = sprite;
 
 			StoreController.ItemIcons.Add(url, sprite);

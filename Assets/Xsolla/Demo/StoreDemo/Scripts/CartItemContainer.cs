@@ -41,7 +41,7 @@ public class CartItemContainer : MonoBehaviour
 		}, error => { print(error.ToString());});
 	}
 
-	public void AddCartItem(CartItem itemInformation)
+	public void AddCartItem(CartItemModel itemInformation)
 	{
 		GameObject newItem = Instantiate(_cart_item_Prefab, _item_Parent);
 		cartItems.Add(newItem);

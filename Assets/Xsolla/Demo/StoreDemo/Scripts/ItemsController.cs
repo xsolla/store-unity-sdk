@@ -66,25 +66,48 @@ public class ItemsController : MonoBehaviour
 	{
 		var storeController = FindObjectOfType<StoreController>();
 
-		XsollaStore.Instance.GetCartItems(storeController.Cart.id, items =>
+//		XsollaStore.Instance.GetCartItems(storeController.Cart.id, items =>
+//		{
+//			if (currentContainer != "CART")
+//			{
+//				return;
+//			}
+//
+//			var cartItemContainer = _containers["CART"].GetComponent<CartItemContainer>();
+//
+//			cartItemContainer.ClearCartItems();
+//
+//			_containers["CART"].SetActive(true);
+//
+//			foreach (var item in items.items)
+//			{
+//				cartItemContainer.AddCartItem(item);
+//			}
+//
+//			cartItemContainer.AddControls(items.price);
+//		}, error => print(error.ToString()));
+		
+		if (currentContainer != "CART")
 		{
-			if (currentContainer != "CART")
-			{
-				return;
-			}
+			return;
+		}
 
-			var cartItemContainer = _containers["CART"].GetComponent<CartItemContainer>();
+		var cartItemContainer = _containers["CART"].GetComponent<CartItemContainer>();
 
-			cartItemContainer.ClearCartItems();
+		cartItemContainer.ClearCartItems();
 
-			_containers["CART"].SetActive(true);
+		_containers["CART"].SetActive(true);
 
-			foreach (var item in items.items)
-			{
-				cartItemContainer.AddCartItem(item);
-			}
-
-			cartItemContainer.AddControls(items.price);
-		}, error => print(error.ToString()));
+		foreach (var item in storeController.CartModel.CartItems)
+		{
+			cartItemContainer.AddCartItem(item.Value);
+		}
+			
+		var p = new CartPrice();
+		p.amount = storeController.CartModel.CalculateCartPrice();
+		p.currency = "USD";
+		
+		cartItemContainer.AddControls(p);
+		
 	}
 }

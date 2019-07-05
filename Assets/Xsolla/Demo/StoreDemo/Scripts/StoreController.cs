@@ -11,15 +11,22 @@ public class StoreController : MonoBehaviour
 
 	XsollaStore _store;
 
+	CartModel _cartModel;
+	public CartModel CartModel
+	{
+		get { return _cartModel; }
+	}
+
 	public static Dictionary<string, Sprite> ItemIcons;
 
 	public Cart Cart { get; private set; }
 
-
 	public List<string> cartItems;
 
-	private void Start()
+	void Start()
 	{
+		_cartModel = new CartModel();
+		
 		ItemIcons = new Dictionary<string, Sprite>();
 
 		cartItems = new List<string>();

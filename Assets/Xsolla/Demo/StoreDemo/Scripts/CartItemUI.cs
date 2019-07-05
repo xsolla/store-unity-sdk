@@ -23,7 +23,7 @@ public class CartItemUI : MonoBehaviour
 	
 	Coroutine _loadingRoutine;
 	
-	CartItem _itemInformation;
+	CartItemModel _itemInformation;
 	
 	StoreController _storeController;
 
@@ -35,72 +35,60 @@ public class CartItemUI : MonoBehaviour
 
 		addButton.onClick = (() =>
 		{
-			XsollaStore.Instance.AddItemToCart(_storeController.Cart.id, _itemInformation.sku, _itemInformation.quantity + 1,
-				() => { itemsController.RefreshCartContainer(); },
-				error => { Debug.Log(error.ToString()); });
+			_storeController.CartModel.IncrementCartItem(_itemInformation.Sku);
+			itemsController.RefreshCartContainer();
 		});
 		
 		delButton.onClick = (() =>
 		{
-			if (_itemInformation.quantity - 1 <= 0)
+			if (_itemInformation.Quantity - 1 <= 0)
 			{
-				XsollaStore.Instance.RemoveItemFromCart(_storeController.Cart.id, _itemInformation.sku, () =>
-					{
-						FindObjectOfType<CartGroupUI>().DecreaseCounter(_itemInformation.quantity);
-					
-						if (_storeController.cartItems.Contains(_itemInformation.sku))
-						{
-							_storeController.cartItems.Remove(_itemInformation.sku);
-						}
+				_storeController.CartModel.DecrementCartItem(_itemInformation.Sku);
+				
+				FindObjectOfType<CartGroupUI>().DecreaseCounter(_itemInformation.Quantity);
+			
+				if (_storeController.cartItems.Contains(_itemInformation.Sku))
+				{
+					_storeController.cartItems.Remove(_itemInformation.Sku);
+				}
 
-						if (!_storeController.cartItems.Any())
-						{
-							cartItemContainer.ClearCartItems();
-						}
-					
-						itemsController.RefreshCartContainer();
-					},
-					error => { Debug.Log(error.ToString()); });
+				if (!_storeController.cartItems.Any())
+				{
+					cartItemContainer.ClearCartItems();
+				}
+			
+				itemsController.RefreshCartContainer();
 			}
 			else
 			{
-				XsollaStore.Instance.AddItemToCart(_storeController.Cart.id, _itemInformation.sku, _itemInformation.quantity - 1,
-					() => { itemsController.RefreshCartContainer(); },
-					error => { Debug.Log(error.ToString()); });
+				_storeController.CartModel.DecrementCartItem(_itemInformation.Sku);
+				itemsController.RefreshCartContainer();
 			}
 		});
 		
 	}
 
-	public void Initialize(CartItem itemInformation)
+	public void Initialize(CartItemModel itemInformation)
 	{
 		_itemInformation = itemInformation;
 
-		if (_itemInformation.price != null)
-		{
-			itemPrice.text = _itemInformation.price.amount + " " + _itemInformation.price.currency;
-		}
+		itemPrice.text = _itemInformation.Price + " " + _itemInformation.Currency;
 
-		itemName.text = _itemInformation.name;
+		itemName.text = _itemInformation.Name;
 		
-		itemQuantity.text = _itemInformation.quantity.ToString();
+		itemQuantity.text = _itemInformation.Quantity.ToString();
 		
-		if (_loadingRoutine == null && itemImage.sprite == null && _itemInformation.image_url != "")
+		if (_loadingRoutine == null && itemImage.sprite == null && _itemInformation.ImgUrl != "")
 		{
-			if (StoreController.ItemIcons.ContainsKey(_itemInformation.image_url))
+			if (StoreController.ItemIcons.ContainsKey(_itemInformation.ImgUrl))
 			{
-				itemImage.sprite = StoreController.ItemIcons[_itemInformation.image_url];
+				itemImage.sprite = StoreController.ItemIcons[_itemInformation.ImgUrl];
 			}
 			else
 			{
-				_loadingRoutine = StartCoroutine(LoadImage(_itemInformation.image_url));
+				_loadingRoutine = StartCoroutine(LoadImage(_itemInformation.ImgUrl));
 			}
 		}
-	}
-
-	void OnEnable()
-	{
-
 	}
 
 	IEnumerator LoadImage(string url)
