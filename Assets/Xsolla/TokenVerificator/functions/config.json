@@ -1,0 +1,5 @@
+{
+    "login": {
+        "secret" : "<<<---PASTE-YOUR-SECRET-KEY-HERE--->>>"
+    }
+}
