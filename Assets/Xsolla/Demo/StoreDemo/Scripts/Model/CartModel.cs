@@ -1,10 +1,14 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
 using Xsolla.Store;
 
 public class CartModel
 {
 	Dictionary<string, CartItemModel> cartItems = new Dictionary<string, CartItemModel>();
+	
+	public Dictionary<string, CartItemModel> CartItems
+	{
+		get { return cartItems; }
+	}
 
 	public void AddCartItem(StoreItem item)
 	{
@@ -21,11 +25,11 @@ public class CartModel
 		}
 	}
 
-	public void RemoveCartItem(StoreItem item)
+	public void RemoveCartItem(string itemSku)
 	{
-		if (cartItems.ContainsKey(item.sku))
+		if (cartItems.ContainsKey(itemSku))
 		{
-			cartItems.Remove(item.sku);
+			cartItems.Remove(itemSku);
 		}
 	}
 
@@ -54,10 +58,5 @@ public class CartModel
 		}
 		
 		return cartPrice;
-	}
-
-	public Dictionary<string, CartItemModel> CartItems
-	{
-		get { return cartItems; }
 	}
 }

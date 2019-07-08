@@ -33,12 +33,11 @@ public class CartItemContainer : MonoBehaviour
 
 	void ClearCart()
 	{
-		XsollaStore.Instance.ClearCart(_storeController.Cart.id, () =>
-		{
-			ClearCartItems();
-			_storeController.cartItems.Clear();
-			FindObjectOfType<CartGroupUI>().ResetCounter();
-		}, error => { print(error.ToString());});
+		ClearCartItems();
+		_storeController.CartModel.CartItems.Clear();
+		FindObjectOfType<CartGroupUI>().ResetCounter();
+		
+		XsollaStore.Instance.ClearCart(_storeController.Cart.id, null, error => { print(error.ToString());});
 	}
 
 	public void AddCartItem(CartItemModel itemInformation)
@@ -62,7 +61,7 @@ public class CartItemContainer : MonoBehaviour
 		}
 		
 		cartItems.Clear();
-
+		
 		Destroy(cartControls);
 	}
 }

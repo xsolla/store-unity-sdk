@@ -39,24 +39,12 @@ public class ItemUI : MonoBehaviour
 				if (bSelected)
 				{
 					_storeController.CartModel.AddCartItem(_itemInformation);
-					
 					FindObjectOfType<CartGroupUI>().IncreaseCounter();
-
-					if (!_storeController.cartItems.Contains(_itemInformation.sku))
-					{
-						_storeController.cartItems.Add(_itemInformation.sku);
-					}
 				}
 				else
 				{
-					_storeController.CartModel.RemoveCartItem(_itemInformation);
-					
+					_storeController.CartModel.RemoveCartItem(_itemInformation.sku); 
 					FindObjectOfType<CartGroupUI>().DecreaseCounter();
-
-					if (_storeController.cartItems.Contains(_itemInformation.sku))
-					{
-						_storeController.cartItems.Remove(_itemInformation.sku);
-					}
 				}
 			}
 		});
@@ -92,7 +80,7 @@ public class ItemUI : MonoBehaviour
 
 	public void Refresh()
 	{
-		addToCartButton.Select(_storeController.cartItems.Contains(_itemInformation.sku));
+		addToCartButton.Select(_storeController.CartModel.CartItems.ContainsKey(_itemInformation.sku));
 	}
 
 	IEnumerator LoadImage(string url)

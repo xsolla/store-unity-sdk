@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.UI;
 using Xsolla.Store;
 
@@ -10,15 +11,42 @@ public class CartControls : MonoBehaviour
 	Text priceText;
 
 	CartPrice cartPrice;
+
+	int totalItems;
+	int completedRequests;
 	
+	StoreController _storeController;
+
 	void Awake()
 	{
-		var storeController = FindObjectOfType<StoreController>();
+		_storeController = FindObjectOfType<StoreController>();
 
 		buyButton.onClick = (() =>
 		{
-			XsollaStore.Instance.BuyCart(storeController.Cart.id, error => { Debug.Log(error.ToString()); });
+			totalItems = _storeController.CartModel.CartItems.Count;
+			completedRequests = 0;
+			
+			foreach (var cartItem in _storeController.CartModel.CartItems)
+			{
+				XsollaStore.Instance.AddItemToCart(_storeController.Cart.id, cartItem.Key, cartItem.Value.Quantity,
+					() =>
+					{
+						completedRequests++;
+					}, error =>
+					{
+						completedRequests++;Debug.Log(error.ToString()); 
+					});
+			}
+
+			StartCoroutine(BuyCart());
 		});
+	}
+
+	IEnumerator BuyCart()
+	{
+		yield return new WaitUntil(() => completedRequests == totalItems);
+		
+		XsollaStore.Instance.BuyCart(_storeController.Cart.id, error => { Debug.Log(error.ToString()); });
 	}
 	
 	public void Initialize(CartPrice price)

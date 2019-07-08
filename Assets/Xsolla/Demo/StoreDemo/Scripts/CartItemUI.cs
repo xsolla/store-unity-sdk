@@ -2,7 +2,6 @@
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-using Xsolla.Store;
 
 public class CartItemUI : MonoBehaviour
 {
@@ -24,18 +23,16 @@ public class CartItemUI : MonoBehaviour
 	Coroutine _loadingRoutine;
 	
 	CartItemModel _itemInformation;
-	
-	StoreController _storeController;
 
 	void Awake()
 	{
-		_storeController = FindObjectOfType<StoreController>();
+		var storeController = FindObjectOfType<StoreController>();
 		var itemsController = FindObjectOfType<ItemsController>();
 		var cartItemContainer = FindObjectOfType<CartItemContainer>();
 
 		addButton.onClick = (() =>
 		{
-			_storeController.CartModel.IncrementCartItem(_itemInformation.Sku);
+			storeController.CartModel.IncrementCartItem(_itemInformation.Sku);
 			itemsController.RefreshCartContainer();
 		});
 		
@@ -43,16 +40,10 @@ public class CartItemUI : MonoBehaviour
 		{
 			if (_itemInformation.Quantity - 1 <= 0)
 			{
-				_storeController.CartModel.DecrementCartItem(_itemInformation.Sku);
-				
+				storeController.CartModel.DecrementCartItem(_itemInformation.Sku);
 				FindObjectOfType<CartGroupUI>().DecreaseCounter(_itemInformation.Quantity);
-			
-				if (_storeController.cartItems.Contains(_itemInformation.Sku))
-				{
-					_storeController.cartItems.Remove(_itemInformation.Sku);
-				}
 
-				if (!_storeController.cartItems.Any())
+				if (!storeController.CartModel.CartItems.Any())
 				{
 					cartItemContainer.ClearCartItems();
 				}
@@ -61,7 +52,7 @@ public class CartItemUI : MonoBehaviour
 			}
 			else
 			{
-				_storeController.CartModel.DecrementCartItem(_itemInformation.Sku);
+				storeController.CartModel.DecrementCartItem(_itemInformation.Sku);
 				itemsController.RefreshCartContainer();
 			}
 		});
