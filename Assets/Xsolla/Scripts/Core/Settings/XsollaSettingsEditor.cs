@@ -31,6 +31,25 @@ namespace Xsolla.Core
 			}
       
 			EditorGUILayout.Space();
+			
+			using (new EditorGUILayout.VerticalScope("box"))
+			{
+				GUILayout.Label("Store SDK Settings", EditorStyles.boldLabel);
+				
+				XsollaSettings.StoreProjectId = EditorGUILayout.TextField(new GUIContent("Project ID"),  XsollaSettings.StoreProjectId);
+			}
+      
+			EditorGUILayout.Space();
+			
+			using (new EditorGUILayout.VerticalScope("box"))
+			{
+				GUILayout.Label("Store SDK Settings", EditorStyles.boldLabel);
+				
+				XsollaSettings.PayStationProjectId = EditorGUILayout.TextField(new GUIContent("Project ID"),  XsollaSettings.PayStationProjectId);
+				XsollaSettings.MerchantId = EditorGUILayout.TextField(new GUIContent("Merchant ID"),  XsollaSettings.MerchantId);
+			}
+      
+			EditorGUILayout.Space();
 		}
 	}
 }

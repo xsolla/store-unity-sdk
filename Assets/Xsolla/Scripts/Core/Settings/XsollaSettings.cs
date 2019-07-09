@@ -23,6 +23,14 @@ namespace Xsolla.Core
 		[SerializeField]
 		string callbackUrl;
 		
+		[SerializeField]
+		string storeProjectId;
+		
+		[SerializeField]
+		string payStationProjectId;
+		[SerializeField]
+		string merchantId;
+		
 		public static string LoginId
 		{
 			get { return Instance.loginId; }
@@ -69,6 +77,36 @@ namespace Xsolla.Core
 			set
 			{
 				Instance.callbackUrl = value;
+				MarkAssetDirty();
+			}
+		}
+		
+		public static string StoreProjectId
+		{
+			get { return Instance.storeProjectId; }
+			set
+			{
+				Instance.storeProjectId = value;
+				MarkAssetDirty();
+			}
+		}
+		
+		public static string PayStationProjectId
+		{
+			get { return Instance.payStationProjectId; }
+			set
+			{
+				Instance.payStationProjectId = value;
+				MarkAssetDirty();
+			}
+		}
+		
+		public static string MerchantId
+		{
+			get { return Instance.merchantId; }
+			set
+			{
+				Instance.merchantId = value;
 				MarkAssetDirty();
 			}
 		}
