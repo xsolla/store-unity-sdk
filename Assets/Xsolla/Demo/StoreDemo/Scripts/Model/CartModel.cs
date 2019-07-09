@@ -59,4 +59,16 @@ public class CartModel
 		
 		return cartPrice;
 	}
+
+	public float CalculateCartDiscount()
+	{
+		float cartDiscount = 0.0f;
+
+		foreach (var item in cartItems)
+		{
+			cartDiscount += item.Value.TotalDiscount;
+		}
+		
+		return cartDiscount;
+	}
 }
