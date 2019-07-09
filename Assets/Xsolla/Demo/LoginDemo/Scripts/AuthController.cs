@@ -3,7 +3,9 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using Xsolla;
+using Xsolla.Core;
 using Xsolla.Login;
+using Error = Xsolla.Login.Error;
 
 public class AuthController : MonoBehaviour
 {
@@ -104,7 +106,7 @@ public class AuthController : MonoBehaviour
 
     private void Start()
     {
-        if (XsollaLogin.Instance.LoginID == string.Empty)
+        if (XsollaSettings.LoginId == string.Empty)
         {
             OpenPopUp("Xsolla Login settings not completed", PopUpWindows.Warning);
             Debug.Log("Please register Xsolla Publisher Account, and fill the Login ID form. For more details read documentation.\nhttps://github.com/xsolla/login-unity-sdk/blob/master/README.md");

@@ -12,17 +12,6 @@ namespace Xsolla.PayStation
 {
 	public class XsollaPayStation : MonoSingleton<XsollaPayStation>
 	{
-		[SerializeField]
-		string serverUrl;
-		[SerializeField]
-		string merchantId;
-		[SerializeField]
-		string apiKey;
-		[SerializeField]
-		string projectId;
-		[SerializeField]
-		string projectSecretKey; 
-		
 		void OpenPurchaseUi(Token xsollaToken)
 		{
 			Application.OpenURL("https://secure.xsolla.com/paystation3/?access_token=" + xsollaToken.token);
@@ -32,14 +21,14 @@ namespace Xsolla.PayStation
 		{
 			//RequestToken(OpenPurchaseUi, print);
 			
-			StartCoroutine(PostRequest(serverUrl, (s) => OpenPurchaseUi(new Token() {token = s}), () => print("Error occured!")));
+			StartCoroutine(PostRequest("https://livedemo.xsolla.com/paystation/token_unreal.php", (s) => OpenPurchaseUi(new Token() {token = s}), () => print("Error occured!")));
 		}
 
 		void RequestToken([NotNull] Action<Token> onSuccess, [CanBeNull] Action<Error> onError)
 		{
-			var urlBuilder = new StringBuilder(string.Format("https://api.xsolla.com/merchant/v2/merchants/{0}/token", merchantId));
+			var urlBuilder = new StringBuilder(string.Format("https://api.xsolla.com/merchant/v2/merchants/{0}/token", XsollaSettings.MerchantId));
 			
-			var headers = new List<WebRequestHeader>() { WebRequestHeader.ContentTypeHeader(), WebRequestHeader.AuthBasic(apiKey)};
+			var headers = new List<WebRequestHeader>() { WebRequestHeader.ContentTypeHeader(), WebRequestHeader.AuthBasic("API KEY")};
 
 			var jsonData = JsonUtility.ToJson(GenerateTestToken());
 			print(jsonData);
@@ -80,7 +69,7 @@ namespace Xsolla.PayStation
 			token.user.email.value = "user@test.com";
 			
 			token.settings = new Settings();
-			token.settings.project_id = projectId;
+			token.settings.project_id = XsollaSettings.PayStationProjectId;
 			
 			token.purchase = new Purchase();
 			token.purchase.checkout = new Checkout();

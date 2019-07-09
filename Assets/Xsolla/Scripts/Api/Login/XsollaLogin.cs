@@ -8,47 +8,6 @@ namespace Xsolla.Login
 {
 	public class XsollaLogin : MonoSingleton<XsollaLogin>
 	{
-		[SerializeField]
-		string loginId;
-		[SerializeField]
-		bool isJwtValidationToken;
-		[SerializeField]
-		string jwtValidationUrl;
-		[SerializeField]
-		bool isProxy;
-		[SerializeField]
-		string callbackUrl;
-		
-		public string LoginID
-		{
-			get { return loginId; }
-			set { loginId = value; }
-		}
-		
-		public bool IsJWTValidationToken
-		{
-			get { return isJwtValidationToken; }
-			set { isJwtValidationToken = value; }
-		}
-
-		public string JWTValidationURL
-		{
-			get { return jwtValidationUrl; }
-			set { jwtValidationUrl = value; }
-		}
-		
-		public bool IsProxy
-		{
-			get { return isProxy; }
-			set { isProxy = value; }
-		}
-		
-		public string CallbackURL
-		{
-			get { return callbackUrl; }
-			set { callbackUrl = value; }
-		}
-		
 		string AdditionalUrlParams
 		{
 			get
@@ -61,7 +20,7 @@ namespace Xsolla.Login
 		{
 			get
 			{
-				return Encoding.ASCII.GetBytes(LoginID.Replace("-", string.Empty).Substring(0, 16));
+				return Encoding.ASCII.GetBytes(XsollaSettings.LoginId.Replace("-", string.Empty).Substring(0, 16));
 			}
 		}
 
@@ -69,7 +28,7 @@ namespace Xsolla.Login
 		{
 			get
 			{
-				if (PlayerPrefs.HasKey(Constants.UserLogin) && !string.IsNullOrEmpty(loginId))
+				if (PlayerPrefs.HasKey(Constants.UserLogin) && !string.IsNullOrEmpty(XsollaSettings.LoginId))
 				{
 					return PlayerPrefs.GetString(Constants.UserLogin);
 				}
@@ -82,7 +41,7 @@ namespace Xsolla.Login
 		{
 			get
 			{
-				if (PlayerPrefs.HasKey(Constants.UserPassword) && !string.IsNullOrEmpty(loginId))
+				if (PlayerPrefs.HasKey(Constants.UserPassword) && !string.IsNullOrEmpty(XsollaSettings.LoginId))
 				{
 					return Crypto.Decrypt(CryptoKey, PlayerPrefs.GetString(Constants.UserPassword));
 				}
@@ -133,7 +92,7 @@ namespace Xsolla.Login
 
 		void SaveLoginPassword(string username, string password)
 		{
-			if (!string.IsNullOrEmpty(loginId))
+			if (!string.IsNullOrEmpty(XsollaSettings.LoginId))
 			{
 				PlayerPrefs.SetString(Constants.UserLogin, username);
 				PlayerPrefs.SetString(Constants.UserPassword, Crypto.Encrypt(CryptoKey, password));
@@ -146,9 +105,9 @@ namespace Xsolla.Login
 			registrationForm.AddField("password", password);
 			registrationForm.AddField("email", email);
 
-			string proxy = isProxy ? "proxy/registration" : "user";
+			string proxy = XsollaSettings.UseProxy ? "proxy/registration" : "user";
 
-			var urlBuilder = new StringBuilder(string.Format("https://login.xsolla.com/api/{0}?projectId={1}&login_url={2}", proxy, loginId, callbackUrl)).Append(AdditionalUrlParams);
+			var urlBuilder = new StringBuilder(string.Format("https://login.xsolla.com/api/{0}?projectId={1}&login_url={2}", proxy, XsollaSettings.LoginId, XsollaSettings.CallbackUrl)).Append(AdditionalUrlParams);
 			
 			StartCoroutine(WebRequests.PostRequest(urlBuilder.ToString(), registrationForm, onSuccess, onError, ErrorDescription.RegistrationErrors));
 		}
@@ -157,9 +116,9 @@ namespace Xsolla.Login
 			WWWForm form = new WWWForm();
 			form.AddField("username", username);
 
-			string proxy = isProxy ? "proxy/registration/password/reset" : "password/reset/request";
+			string proxy = XsollaSettings.UseProxy ? "proxy/registration/password/reset" : "password/reset/request";
 
-			var urlBuilder = new StringBuilder(string.Format("https://login.xsolla.com/api/{0}?projectId={1}", proxy, loginId)).Append(AdditionalUrlParams);
+			var urlBuilder = new StringBuilder(string.Format("https://login.xsolla.com/api/{0}?projectId={1}", proxy, XsollaSettings.LoginId)).Append(AdditionalUrlParams);
 			
 			StartCoroutine(WebRequests.PostRequest(urlBuilder.ToString(), form, onSuccess, onError, ErrorDescription.ResetPasswordErrors));
 		}
@@ -171,14 +130,14 @@ namespace Xsolla.Login
 			form.AddField("password", password);
 			form.AddField("remember_me", rememberUser.ToString());
 
-			string proxy = isProxy ? "proxy/" : string.Empty;
+			string proxy = XsollaSettings.UseProxy ? "proxy/" : string.Empty;
 
-			var urlBuilder = new StringBuilder(string.Format("https://login.xsolla.com/api/{0}login?projectId={1}&login_url={2}", proxy, loginId, callbackUrl)).Append(AdditionalUrlParams);
+			var urlBuilder = new StringBuilder(string.Format("https://login.xsolla.com/api/{0}login?projectId={1}&login_url={2}", proxy, XsollaSettings.LoginId, XsollaSettings.CallbackUrl)).Append(AdditionalUrlParams);
 
 			StartCoroutine(WebRequests.PostRequest(urlBuilder.ToString(), form,
 				(message) =>
 				{
-					if (isJwtValidationToken)
+					if (XsollaSettings.UseJwtValidation)
 					{
 						JWTValidation(message, onSuccess, onError);
 					}
@@ -218,7 +177,7 @@ namespace Xsolla.Login
 		{
 			WWWForm form = new WWWForm();
 			form.AddField("token", token);
-			StartCoroutine(WebRequests.PostRequest(jwtValidationUrl, form, onRecievedToken, onError, ErrorDescription.TokenErrors));
+			StartCoroutine(WebRequests.PostRequest(XsollaSettings.JwtValidationUrl, form, onRecievedToken, onError, ErrorDescription.TokenErrors));
 		}
 
 		string ParseToken(string message)

@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using Xsolla;
+using Xsolla.Core;
 using Xsolla.Login;
 
 public class LoginPage : Page, ILogin
@@ -75,11 +76,11 @@ public class LoginPage : Page, ILogin
 
     private void OnLogin(User user)
     {
-        if (XsollaLogin.Instance.IsTokenValid && XsollaLogin.Instance.IsJWTValidationToken)
+        if (XsollaLogin.Instance.IsTokenValid && XsollaSettings.UseJwtValidation)
         {
             Debug.Log(string.Format("Your token {0} is active", XsollaLogin.Instance.Token));
         }
-        else if (!XsollaLogin.Instance.IsJWTValidationToken)
+        else if (!XsollaSettings.UseJwtValidation)
         {
             Debug.Log("Unsafe signed in");
         }

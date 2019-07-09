@@ -8,16 +8,7 @@ namespace Xsolla.Store
 {
 	[PublicAPI]
 	public class XsollaStore : MonoSingleton<XsollaStore>
-	{
-		[SerializeField]
-		string projectId;
-
-		public string ProjectId
-		{
-			get { return projectId; }
-			set { projectId = value; }
-		}
-
+	{ 
 		public string Token
 		{
 			set { PlayerPrefs.SetString(Constants.XsollaStoreToken, value); }
@@ -64,7 +55,7 @@ namespace Xsolla.Store
 
 		public void GetListOfItems([NotNull] Action<StoreItems> onSuccess, [CanBeNull] Action<Error> onError)
 		{
-			var urlBuilder = new StringBuilder(string.Format("https://store.xsolla.com/api/v1/project/{0}/items/virtual_items", projectId)).Append(AdditionalUrlParams);
+			var urlBuilder = new StringBuilder(string.Format("https://store.xsolla.com/api/v1/project/{0}/items/virtual_items", XsollaSettings.StoreProjectId)).Append(AdditionalUrlParams);
 
 			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), null, onSuccess, onError, Error.ItemsListErrors);
 		}
