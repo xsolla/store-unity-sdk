@@ -53,6 +53,6 @@ public class CartControls : MonoBehaviour
 	{
 		cartPrice = price;
 		
-		priceText.text = price.amount + " " + price.currency;
+		priceText.text = "$" + price.amount.ToString("F2");
 	}
 }

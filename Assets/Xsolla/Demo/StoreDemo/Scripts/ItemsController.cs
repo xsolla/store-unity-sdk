@@ -87,6 +87,12 @@ public class ItemsController : MonoBehaviour
 		{
 			cartItemContainer.AddCartItem(item.Value);
 		}
+
+		var discount = storeController.CartModel.CalculateCartDiscount();
+		if (discount > 0.0f)
+		{
+			cartItemContainer.AddDiscount(discount);
+		}
 			
 		var p = new CartPrice();
 		p.amount = storeController.CartModel.CalculateCartPrice();

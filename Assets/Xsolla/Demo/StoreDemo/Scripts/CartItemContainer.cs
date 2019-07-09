@@ -8,6 +8,9 @@ public class CartItemContainer : MonoBehaviour
 	GameObject _cart_item_Prefab;
 
 	[SerializeField]
+	GameObject _cart_discount_Prefab;
+	
+	[SerializeField]
 	GameObject _cart_controls_Prefab;
 	
 	[SerializeField]
@@ -18,6 +21,7 @@ public class CartItemContainer : MonoBehaviour
 
 	List<GameObject> cartItems;
 
+	GameObject discountPanel;
 	GameObject cartControls;
 	
 	StoreController _storeController;
@@ -46,6 +50,12 @@ public class CartItemContainer : MonoBehaviour
 		cartItems.Add(newItem);
 		newItem.GetComponent<CartItemUI>().Initialize(itemInformation);
 	}
+	
+	public void AddDiscount(float discountAmount)
+	{
+		discountPanel = Instantiate(_cart_discount_Prefab, _item_Parent);
+		discountPanel.GetComponent<CartDiscountUI>().Initialize(discountAmount); 
+	}
 
 	public void AddControls(CartPrice price)
 	{
@@ -61,6 +71,8 @@ public class CartItemContainer : MonoBehaviour
 		}
 		
 		cartItems.Clear();
+		
+		Destroy(discountPanel);
 		
 		Destroy(cartControls);
 	}
