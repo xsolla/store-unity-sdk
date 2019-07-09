@@ -43,7 +43,7 @@ namespace Xsolla.Core
 			
 			using (new EditorGUILayout.VerticalScope("box"))
 			{
-				GUILayout.Label("Store SDK Settings", EditorStyles.boldLabel);
+				GUILayout.Label("PayStation SDK Settings", EditorStyles.boldLabel);
 				
 				XsollaSettings.PayStationProjectId = EditorGUILayout.TextField(new GUIContent("Project ID"),  XsollaSettings.PayStationProjectId);
 				XsollaSettings.MerchantId = EditorGUILayout.TextField(new GUIContent("Merchant ID"),  XsollaSettings.MerchantId);
