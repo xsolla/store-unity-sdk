@@ -93,12 +93,10 @@ public class ItemsController : MonoBehaviour
 		{
 			cartItemContainer.AddDiscount(discount);
 		}
-			
-		var p = new CartPrice();
-		p.amount = storeController.CartModel.CalculateCartPrice();
-		p.currency = "USD";
 		
-		cartItemContainer.AddControls(p);
+		var fullPrice = storeController.CartModel.CalculateCartPrice();
+
+		cartItemContainer.AddControls(fullPrice - discount);
 		
 	}
 }

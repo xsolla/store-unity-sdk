@@ -10,8 +10,6 @@ public class CartControls : MonoBehaviour
 	[SerializeField]
 	Text priceText;
 
-	CartPrice cartPrice;
-
 	int totalItems;
 	int completedRequests;
 	
@@ -49,10 +47,8 @@ public class CartControls : MonoBehaviour
 		XsollaStore.Instance.BuyCart(_storeController.Cart.id, error => { Debug.Log(error.ToString()); });
 	}
 	
-	public void Initialize(CartPrice price)
+	public void Initialize(float price)
 	{
-		cartPrice = price;
-		
-		priceText.text = "$" + price.amount.ToString("F2");
+		priceText.text = "$" + price.ToString("F2");
 	}
 }

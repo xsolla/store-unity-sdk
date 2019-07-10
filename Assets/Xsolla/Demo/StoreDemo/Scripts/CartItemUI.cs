@@ -63,7 +63,7 @@ public class CartItemUI : MonoBehaviour
 	{
 		_itemInformation = itemInformation;
 
-		itemPrice.text = _itemInformation.Price + " " + _itemInformation.Currency;
+		itemPrice.text = "$" + _itemInformation.Price;
 
 		itemName.text = _itemInformation.Name;
 		

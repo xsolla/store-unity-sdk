@@ -57,7 +57,7 @@ public class CartItemContainer : MonoBehaviour
 		discountPanel.GetComponent<CartDiscountUI>().Initialize(discountAmount); 
 	}
 
-	public void AddControls(CartPrice price)
+	public void AddControls(float price)
 	{
 		cartControls = Instantiate(_cart_controls_Prefab, _item_Parent);
 		cartControls.GetComponent<CartControls>().Initialize(price); 
