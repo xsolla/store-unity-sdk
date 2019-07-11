@@ -2,7 +2,6 @@
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-using Xsolla.Store;
 
 public class CartItemUI : MonoBehaviour
 {
@@ -23,84 +22,64 @@ public class CartItemUI : MonoBehaviour
 	
 	Coroutine _loadingRoutine;
 	
-	CartItem _itemInformation;
-	
-	StoreController _storeController;
+	CartItemModel _itemInformation;
 
 	void Awake()
 	{
-		_storeController = FindObjectOfType<StoreController>();
+		var storeController = FindObjectOfType<StoreController>();
 		var itemsController = FindObjectOfType<ItemsController>();
 		var cartItemContainer = FindObjectOfType<CartItemContainer>();
 
 		addButton.onClick = (() =>
 		{
-			XsollaStore.Instance.AddItemToCart(_storeController.Cart.id, _itemInformation.sku, _itemInformation.quantity + 1,
-				() => { itemsController.RefreshCartContainer(); },
-				error => { Debug.Log(error.ToString()); });
+			storeController.CartModel.IncrementCartItem(_itemInformation.Sku);
+			itemsController.RefreshCartContainer();
 		});
 		
 		delButton.onClick = (() =>
 		{
-			if (_itemInformation.quantity - 1 <= 0)
+			if (_itemInformation.Quantity - 1 <= 0)
 			{
-				XsollaStore.Instance.RemoveItemFromCart(_storeController.Cart.id, _itemInformation.sku, () =>
-					{
-						FindObjectOfType<CartGroupUI>().DecreaseCounter(_itemInformation.quantity);
-					
-						if (_storeController.cartItems.Contains(_itemInformation.sku))
-						{
-							_storeController.cartItems.Remove(_itemInformation.sku);
-						}
+				storeController.CartModel.DecrementCartItem(_itemInformation.Sku);
+				FindObjectOfType<CartGroupUI>().DecreaseCounter(_itemInformation.Quantity);
 
-						if (!_storeController.cartItems.Any())
-						{
-							cartItemContainer.ClearCartItems();
-						}
-					
-						itemsController.RefreshCartContainer();
-					},
-					error => { Debug.Log(error.ToString()); });
+				if (!storeController.CartModel.CartItems.Any())
+				{
+					cartItemContainer.ClearCartItems();
+				}
+			
+				itemsController.RefreshCartContainer();
 			}
 			else
 			{
-				XsollaStore.Instance.AddItemToCart(_storeController.Cart.id, _itemInformation.sku, _itemInformation.quantity - 1,
-					() => { itemsController.RefreshCartContainer(); },
-					error => { Debug.Log(error.ToString()); });
+				storeController.CartModel.DecrementCartItem(_itemInformation.Sku);
+				itemsController.RefreshCartContainer();
 			}
 		});
 		
 	}
 
-	public void Initialize(CartItem itemInformation)
+	public void Initialize(CartItemModel itemInformation)
 	{
 		_itemInformation = itemInformation;
 
-		if (_itemInformation.price != null)
-		{
-			itemPrice.text = _itemInformation.price.amount + " " + _itemInformation.price.currency;
-		}
+		itemPrice.text = "$" + _itemInformation.Price;
 
-		itemName.text = _itemInformation.name;
+		itemName.text = _itemInformation.Name;
 		
-		itemQuantity.text = _itemInformation.quantity.ToString();
+		itemQuantity.text = _itemInformation.Quantity.ToString();
 		
-		if (_loadingRoutine == null && itemImage.sprite == null && _itemInformation.image_url != "")
+		if (_loadingRoutine == null && itemImage.sprite == null && _itemInformation.ImgUrl != "")
 		{
-			if (StoreController.ItemIcons.ContainsKey(_itemInformation.image_url))
+			if (StoreController.ItemIcons.ContainsKey(_itemInformation.ImgUrl))
 			{
-				itemImage.sprite = StoreController.ItemIcons[_itemInformation.image_url];
+				itemImage.sprite = StoreController.ItemIcons[_itemInformation.ImgUrl];
 			}
 			else
 			{
-				_loadingRoutine = StartCoroutine(LoadImage(_itemInformation.image_url));
+				_loadingRoutine = StartCoroutine(LoadImage(_itemInformation.ImgUrl));
 			}
 		}
-	}
-
-	void OnEnable()
-	{
-
 	}
 
 	IEnumerator LoadImage(string url)

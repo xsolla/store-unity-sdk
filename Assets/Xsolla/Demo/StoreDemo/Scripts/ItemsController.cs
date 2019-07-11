@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Xsolla.Store;
 
@@ -66,25 +67,36 @@ public class ItemsController : MonoBehaviour
 	{
 		var storeController = FindObjectOfType<StoreController>();
 
-		XsollaStore.Instance.GetCartItems(storeController.Cart.id, items =>
+		if (currentContainer != "CART")
 		{
-			if (currentContainer != "CART")
-			{
-				return;
-			}
+			return;
+		}
 
-			var cartItemContainer = _containers["CART"].GetComponent<CartItemContainer>();
+		var cartItemContainer = _containers["CART"].GetComponent<CartItemContainer>();
 
-			cartItemContainer.ClearCartItems();
+		cartItemContainer.ClearCartItems();
 
-			_containers["CART"].SetActive(true);
+		_containers["CART"].SetActive(true);
 
-			foreach (var item in items.items)
-			{
-				cartItemContainer.AddCartItem(item);
-			}
+		if (!storeController.CartModel.CartItems.Any())
+		{
+			return;
+		}
+		
+		foreach (var item in storeController.CartModel.CartItems)
+		{
+			cartItemContainer.AddCartItem(item.Value);
+		}
 
-			cartItemContainer.AddControls(items.price);
-		}, error => print(error.ToString()));
+		var discount = storeController.CartModel.CalculateCartDiscount();
+		if (discount > 0.0f)
+		{
+			cartItemContainer.AddDiscount(discount);
+		}
+		
+		var fullPrice = storeController.CartModel.CalculateCartPrice();
+
+		cartItemContainer.AddControls(fullPrice - discount);
+		
 	}
 }

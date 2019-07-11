@@ -8,6 +8,9 @@ public class CartItemContainer : MonoBehaviour
 	GameObject _cart_item_Prefab;
 
 	[SerializeField]
+	GameObject _cart_discount_Prefab;
+	
+	[SerializeField]
 	GameObject _cart_controls_Prefab;
 	
 	[SerializeField]
@@ -18,6 +21,7 @@ public class CartItemContainer : MonoBehaviour
 
 	List<GameObject> cartItems;
 
+	GameObject discountPanel;
 	GameObject cartControls;
 	
 	StoreController _storeController;
@@ -33,22 +37,27 @@ public class CartItemContainer : MonoBehaviour
 
 	void ClearCart()
 	{
-		XsollaStore.Instance.ClearCart(_storeController.Cart.id, () =>
-		{
-			ClearCartItems();
-			_storeController.cartItems.Clear();
-			FindObjectOfType<CartGroupUI>().ResetCounter();
-		}, error => { print(error.ToString());});
+		ClearCartItems();
+		_storeController.CartModel.CartItems.Clear();
+		FindObjectOfType<CartGroupUI>().ResetCounter();
+		
+		XsollaStore.Instance.ClearCart(_storeController.Cart.id, null, error => { print(error.ToString());});
 	}
 
-	public void AddCartItem(CartItem itemInformation)
+	public void AddCartItem(CartItemModel itemInformation)
 	{
 		GameObject newItem = Instantiate(_cart_item_Prefab, _item_Parent);
 		cartItems.Add(newItem);
 		newItem.GetComponent<CartItemUI>().Initialize(itemInformation);
 	}
+	
+	public void AddDiscount(float discountAmount)
+	{
+		discountPanel = Instantiate(_cart_discount_Prefab, _item_Parent);
+		discountPanel.GetComponent<CartDiscountUI>().Initialize(discountAmount); 
+	}
 
-	public void AddControls(CartPrice price)
+	public void AddControls(float price)
 	{
 		cartControls = Instantiate(_cart_controls_Prefab, _item_Parent);
 		cartControls.GetComponent<CartControls>().Initialize(price); 
@@ -62,7 +71,9 @@ public class CartItemContainer : MonoBehaviour
 		}
 		
 		cartItems.Clear();
-
+		
+		Destroy(discountPanel);
+		
 		Destroy(cartControls);
 	}
 }
