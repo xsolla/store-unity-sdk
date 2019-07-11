@@ -21,22 +21,26 @@ public class CartControls : MonoBehaviour
 
 		buyButton.onClick = (() =>
 		{
-			totalItems = _storeController.CartModel.CartItems.Count;
-			completedRequests = 0;
-			
-			foreach (var cartItem in _storeController.CartModel.CartItems)
+			XsollaStore.Instance.ClearCart(_storeController.Cart.id, () =>
 			{
-				XsollaStore.Instance.AddItemToCart(_storeController.Cart.id, cartItem.Key, cartItem.Value.Quantity,
-					() =>
-					{
-						completedRequests++;
-					}, error =>
-					{
-						completedRequests++;Debug.Log(error.ToString()); 
-					});
-			}
+				totalItems = _storeController.CartModel.CartItems.Count;
+				completedRequests = 0;
+			
+				foreach (var cartItem in _storeController.CartModel.CartItems)
+				{
+					XsollaStore.Instance.AddItemToCart(_storeController.Cart.id, cartItem.Key, cartItem.Value.Quantity,
+						() =>
+						{
+							completedRequests++;
+						}, error =>
+						{
+							completedRequests++;
+							Debug.Log(error.ToString()); 
+						});
+				}
 
-			StartCoroutine(BuyCart());
+				StartCoroutine(BuyCart());
+			}, error => { Debug.Log(error.ToString()); });
 		});
 	}
 
