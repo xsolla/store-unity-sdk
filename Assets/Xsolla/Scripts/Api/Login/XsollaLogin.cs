@@ -1,11 +1,12 @@
 ﻿using System;
-using System.Text.RegularExpressions;
 using UnityEngine;
 using System.Text;
+using JetBrains.Annotations;
 using Xsolla.Core;
 
 namespace Xsolla.Login
 {
+	[PublicAPI]
 	public class XsollaLogin : MonoSingleton<XsollaLogin>
 	{
 		string AdditionalUrlParams
@@ -56,6 +57,10 @@ namespace Xsolla.Login
 			{
 				return PlayerPrefs.HasKey(Constants.XsollaLoginToken) ? PlayerPrefs.GetString(Constants.XsollaLoginToken) : string.Empty;
 			}
+			set
+			{
+				PlayerPrefs.SetString(Constants.XsollaLoginToken, value);
+			}
 		}
 
 		public string TokenExp
@@ -63,6 +68,10 @@ namespace Xsolla.Login
 			get
 			{
 				return PlayerPrefs.HasKey(Constants.XsollaLoginTokenExp) ? PlayerPrefs.GetString(Constants.XsollaLoginTokenExp) : string.Empty;
+			}
+			set
+			{
+				PlayerPrefs.SetString(Constants.XsollaLoginTokenExp, value);
 			}
 		}
 
@@ -135,65 +144,51 @@ namespace Xsolla.Login
 			var urlBuilder = new StringBuilder(string.Format("https://login.xsolla.com/api/{0}login?projectId={1}&login_url={2}", proxy, XsollaSettings.LoginId, XsollaSettings.CallbackUrl)).Append(AdditionalUrlParams);
 
 			StartCoroutine(WebRequests.PostRequest(urlBuilder.ToString(), form,
-				(message) =>
+				(response) =>
 				{
+					if (rememberUser)
+					{
+						SaveLoginPassword(username, password);
+					}
+
+					Token = ParseUtils.ParseToken(response);;
+					
 					if (XsollaSettings.UseJwtValidation)
 					{
-						JWTValidation(message, onSuccess, onError);
+						ValidateToken(Token, onSuccess, onError);
 					}
 					else
 					{
 						if (onSuccess != null)
+						{
 							onSuccess.Invoke(new User());
-						if (rememberUser)
-							SaveLoginPassword(username, password);
+						}
 					}
 				}, onError, ErrorDescription.LoginErrors));
 		}
 
-		void JWTValidation(string message, Action<User> onSuccess, Action<ErrorDescription> onError)
+		void ValidateToken(string token, Action<User> onSuccess, Action<ErrorDescription> onError)
 		{
-			string token = ParseToken(message);
-			
 			if (!string.IsNullOrEmpty(token))
 			{
-				print(token);
-				ValidateToken(token, (recievedMessage) =>
+				WWWForm form = new WWWForm();
+				form.AddField("token", token);
+				
+				StartCoroutine(WebRequests.PostRequest(XsollaSettings.JwtValidationUrl, form, (response =>
 				{
-					var user = new User();
+					var user = JsonUtility.FromJson<TokenJson>(response).token_payload;
 					
-					user = JsonUtility.FromJson<TokenJson>(recievedMessage).token_payload;
-					PlayerPrefs.SetString(Constants.XsollaLoginTokenExp, user.exp);
+					TokenExp = user.exp;
 
 					if (onSuccess != null)
+					{
 						onSuccess.Invoke(user);
-				}, onError);
+					}
+				}), onError, ErrorDescription.TokenErrors));
 			}
 			else if (onError != null)
+			{
 				onError.Invoke(new ErrorDescription(string.Empty, "Failed to parse token", Error.InvalidToken));
-		}
-		
-		void ValidateToken(string token, Action<string> onRecievedToken, Action<ErrorDescription> onError)
-		{
-			WWWForm form = new WWWForm();
-			form.AddField("token", token);
-			StartCoroutine(WebRequests.PostRequest(XsollaSettings.JwtValidationUrl, form, onRecievedToken, onError, ErrorDescription.TokenErrors));
-		}
-
-		string ParseToken(string message)
-		{
-			Regex regex = new Regex(@"token=\S*[&#]");
-			try
-			{
-				var match = regex.Match(message).Value.Replace("token=", string.Empty);
-				match = match.Remove(match.Length - 1);
-				var token = match;
-				PlayerPrefs.SetString(Constants.XsollaLoginToken, token);
-				return token;
-			}
-			catch (Exception)
-			{
-				return string.Empty;
 			}
 		}
 	}

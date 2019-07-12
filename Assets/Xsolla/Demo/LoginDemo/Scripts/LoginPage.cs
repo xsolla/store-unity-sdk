@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Xsolla;
 using Xsolla.Core;
@@ -16,6 +17,9 @@ public class LoginPage : Page, ILogin
     [SerializeField] private Image login_Image;
     [SerializeField] private Sprite disabled_Sprite;
     [SerializeField] private Sprite enabled_Sprite;
+    
+    const string DefaultLoginId = "e6dfaac6-78a8-11e9-9244-42010aa80004";
+    const string DefaultStoreProjectId = "44056";
 
     public Action<User> OnSuccessfulLogin
     {
@@ -84,8 +88,23 @@ public class LoginPage : Page, ILogin
         {
             Debug.Log("Unsafe signed in");
         }
-        if (onSuccessfulLogin != null)
-            onSuccessfulLogin.Invoke(user);
+
+        if (XsollaSettings.LoginId == DefaultLoginId)
+        {
+	        SceneManager.LoadScene("Store");
+        }
+        else
+        {
+	        if (XsollaSettings.StoreProjectId == DefaultStoreProjectId)
+	        {
+		        if (onSuccessfulLogin != null)
+			        onSuccessfulLogin.Invoke(user);
+	        }
+	        else
+	        {
+		        SceneManager.LoadScene("Store");
+	        }
+        }
     }
 
     public void Login()
