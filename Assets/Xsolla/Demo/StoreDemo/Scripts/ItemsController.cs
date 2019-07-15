@@ -16,6 +16,16 @@ public class ItemsController : MonoBehaviour
 
 	string currentContainer;
 
+	public void CreateItems(StoreItems items)
+	{
+		foreach (var item in items.items)
+		{
+			AddItem(item);
+		}
+
+		CreateCart();
+	}
+	
 	public void AddItem(StoreItem itemInformation)
 	{
 		if (itemInformation.groups.Any())
