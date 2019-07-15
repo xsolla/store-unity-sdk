@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Xsolla.Core;
 using Xsolla.Store;
 
 public class ItemsController : MonoBehaviour
@@ -17,18 +18,35 @@ public class ItemsController : MonoBehaviour
 
 	public void AddItem(StoreItem itemInformation)
 	{
-		foreach (var group in itemInformation.groups)
+		if (itemInformation.groups.Any())
 		{
-			if (!_containers.ContainsKey(group))
+			foreach (var group in itemInformation.groups)
 			{
-				//create container
+				if (!_containers.ContainsKey(group))
+				{
+					//create container
+					GameObject newContainer = Instantiate(_itemContainer_Prefab, transform);
+					newContainer.SetActive(false);
+					_containers.Add(group, newContainer);
+				}
+
+				//add to container
+				GameObject groupContainer = _containers[group];
+				groupContainer.GetComponent<ItemContainer>().AddItem(itemInformation);
+			}
+		}
+		else
+		{
+			if (!_containers.ContainsKey(Constants.UngroupedGroupName))
+			{
+				//create container for ungrouped items
 				GameObject newContainer = Instantiate(_itemContainer_Prefab, transform);
 				newContainer.SetActive(false);
-				_containers.Add(group, newContainer);
+				_containers.Add(Constants.UngroupedGroupName, newContainer);
 			}
-
+			
 			//add to container
-			GameObject groupContainer = _containers[group];
+			GameObject groupContainer = _containers[Constants.UngroupedGroupName];
 			groupContainer.GetComponent<ItemContainer>().AddItem(itemInformation);
 		}
 	}
@@ -37,7 +55,7 @@ public class ItemsController : MonoBehaviour
 	{
 		GameObject newContainer = Instantiate(_cartContainer_Prefab, transform);
 		newContainer.SetActive(false);
-		_containers.Add("CART", newContainer);
+		_containers.Add(Constants.CartGroupName, newContainer);
 	}
 
 	public void ActivateContainer(string groupId)
@@ -51,7 +69,7 @@ public class ItemsController : MonoBehaviour
 
 		if (_containers.ContainsKey(groupId))
 		{
-			if (groupId != "CART")
+			if (groupId != Constants.CartGroupName)
 			{
 				_containers[groupId].SetActive(true);
 				_containers[groupId].GetComponent<ItemContainer>().Refresh();
@@ -67,16 +85,16 @@ public class ItemsController : MonoBehaviour
 	{
 		var storeController = FindObjectOfType<StoreController>();
 
-		if (currentContainer != "CART")
+		if (currentContainer != Constants.CartGroupName)
 		{
 			return;
 		}
 
-		var cartItemContainer = _containers["CART"].GetComponent<CartItemContainer>();
+		var cartItemContainer = _containers[Constants.CartGroupName].GetComponent<CartItemContainer>();
 
 		cartItemContainer.ClearCartItems();
 
-		_containers["CART"].SetActive(true);
+		_containers[Constants.CartGroupName].SetActive(true);
 
 		if (!storeController.CartModel.CartItems.Any())
 		{

@@ -11,5 +11,8 @@
 		public const string UserPassword = "Xsolla_User_Password";
 		
 		public const string XsollaStoreToken = "Xsolla_Store_Token";
+
+		public const string CartGroupName = "CART";
+		public const string UngroupedGroupName = "UNGROUPED";
 	}
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using Xsolla.Core;
 
 public class CartGroupUI : MonoBehaviour
 {
@@ -18,7 +19,7 @@ public class CartGroupUI : MonoBehaviour
 				onGroupClick.Invoke(s);
 		});
 
-		menuButton.Text = "CART";
+		menuButton.Text = Constants.CartGroupName;
 	}
 
 	public void Deselect(string groupName)

@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using Xsolla.Core;
 using Xsolla.Store;
 
 public class StoreController : MonoBehaviour
@@ -44,12 +46,23 @@ public class StoreController : MonoBehaviour
 		
 		foreach (var item in items.items)
 		{
-			foreach (string groupName in item.groups)
+			if (item.groups.Any())
 			{
-				if (!addedGroups.Contains(groupName))
+				foreach (string groupName in item.groups)
 				{
-					addedGroups.Add(groupName);
-					_groupsController.AddGroup(groupName);
+					if (!addedGroups.Contains(groupName))
+					{
+						addedGroups.Add(groupName);
+						_groupsController.AddGroup(groupName);
+					}
+				}
+			}
+			else
+			{
+				if (!addedGroups.Contains(Constants.UngroupedGroupName))
+				{
+					addedGroups.Add(Constants.UngroupedGroupName);
+					_groupsController.AddGroup(Constants.UngroupedGroupName);
 				}
 			}
 		}
