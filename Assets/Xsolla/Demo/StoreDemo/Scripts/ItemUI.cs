@@ -93,7 +93,10 @@ public class ItemUI : MonoBehaviour
 			
 			itemImage.sprite = sprite;
 
-			StoreController.ItemIcons.Add(url, sprite);
+			if (!StoreController.ItemIcons.ContainsKey(url))
+			{
+				StoreController.ItemIcons.Add(url, sprite);
+			}
 		}
 	}
 }
