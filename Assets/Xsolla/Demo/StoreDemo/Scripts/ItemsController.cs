@@ -7,71 +7,54 @@ using Xsolla.Store;
 public class ItemsController : MonoBehaviour
 {
 	[SerializeField]
-	GameObject _itemContainer_Prefab;
+	GameObject itemsContainerPrefab;
 
 	[SerializeField]
-	GameObject _cartContainer_Prefab;
+	GameObject cartContainerPrefab;
 
 	Dictionary<string, GameObject> _containers = new Dictionary<string, GameObject>();
-
-	string currentContainer;
 
 	public void CreateItems(StoreItems items)
 	{
 		foreach (var item in items.items)
 		{
-			AddItem(item);
-		}
-
-		CreateCart();
-	}
-	
-	public void AddItem(StoreItem itemInformation)
-	{
-		if (itemInformation.groups.Any())
-		{
-			foreach (var group in itemInformation.groups)
+			if (item.groups.Any())
 			{
-				if (!_containers.ContainsKey(group))
+				foreach (var group in item.groups)
 				{
-					//create container
-					GameObject newContainer = Instantiate(_itemContainer_Prefab, transform);
-					newContainer.SetActive(false);
-					_containers.Add(group, newContainer);
+					if (!_containers.ContainsKey(group))
+					{
+						AddContainer(itemsContainerPrefab, group);
+					}
+
+					var groupContainer = _containers[group];
+					groupContainer.GetComponent<ItemContainer>().AddItem(item);
+				}
+			}
+			else
+			{
+				if (!_containers.ContainsKey(Constants.UngroupedGroupName))
+				{
+					AddContainer(itemsContainerPrefab, Constants.UngroupedGroupName);
 				}
 
-				//add to container
-				GameObject groupContainer = _containers[group];
-				groupContainer.GetComponent<ItemContainer>().AddItem(itemInformation);
+				var groupContainer = _containers[Constants.UngroupedGroupName];
+				groupContainer.GetComponent<ItemContainer>().AddItem(item);
 			}
 		}
-		else
-		{
-			if (!_containers.ContainsKey(Constants.UngroupedGroupName))
-			{
-				//create container for ungrouped items
-				GameObject newContainer = Instantiate(_itemContainer_Prefab, transform);
-				newContainer.SetActive(false);
-				_containers.Add(Constants.UngroupedGroupName, newContainer);
-			}
-			
-			//add to container
-			GameObject groupContainer = _containers[Constants.UngroupedGroupName];
-			groupContainer.GetComponent<ItemContainer>().AddItem(itemInformation);
-		}
+
+		AddContainer(cartContainerPrefab, Constants.CartGroupName);
 	}
 
-	public void CreateCart()
+	void AddContainer(GameObject itemContainerPref, string containerName)
 	{
-		GameObject newContainer = Instantiate(_cartContainer_Prefab, transform);
+		var newContainer = Instantiate(itemContainerPref, transform);
 		newContainer.SetActive(false);
-		_containers.Add(Constants.CartGroupName, newContainer);
+		_containers.Add(containerName, newContainer);
 	}
 
 	public void ActivateContainer(string groupId)
 	{
-		currentContainer = groupId;
-
 		foreach (var container in _containers.Values)
 		{
 			container.SetActive(false);
@@ -79,52 +62,8 @@ public class ItemsController : MonoBehaviour
 
 		if (_containers.ContainsKey(groupId))
 		{
-			if (groupId != Constants.CartGroupName)
-			{
-				_containers[groupId].SetActive(true);
-				_containers[groupId].GetComponent<ItemContainer>().Refresh();
-			}
-			else
-			{
-				RefreshCartContainer();
-			}
+			_containers[groupId].SetActive(true);
+			_containers[groupId].GetComponent<IContainer>().Refresh();
 		}
-	}
-
-	public void RefreshCartContainer()
-	{
-		var storeController = FindObjectOfType<StoreController>();
-
-		if (currentContainer != Constants.CartGroupName)
-		{
-			return;
-		}
-
-		var cartItemContainer = _containers[Constants.CartGroupName].GetComponent<CartItemContainer>();
-
-		cartItemContainer.ClearCartItems();
-
-		_containers[Constants.CartGroupName].SetActive(true);
-
-		if (!storeController.CartModel.CartItems.Any())
-		{
-			return;
-		}
-		
-		foreach (var item in storeController.CartModel.CartItems)
-		{
-			cartItemContainer.AddCartItem(item.Value);
-		}
-
-		var discount = storeController.CartModel.CalculateCartDiscount();
-		if (discount > 0.0f)
-		{
-			cartItemContainer.AddDiscount(discount);
-		}
-		
-		var fullPrice = storeController.CartModel.CalculateCartPrice();
-
-		cartItemContainer.AddControls(fullPrice - discount);
-		
 	}
 }

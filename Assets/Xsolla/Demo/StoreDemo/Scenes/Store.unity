@@ -730,7 +730,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.000028939621}
+  m_AnchoredPosition: {x: 0, y: -0.000028511968}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1571266474
@@ -966,9 +966,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cc6ee7b663038944a250456b6cfa4ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _itemContainer_Prefab: {fileID: 7113498765283074288, guid: 644f71a608620a542a9327ac18f120f0,
+  itemsContainerPrefab: {fileID: 7113498765283074288, guid: 644f71a608620a542a9327ac18f120f0,
     type: 3}
-  _cartContainer_Prefab: {fileID: 7113498765283074288, guid: 8f4f5cab3512abf41bfc175caf5d8904,
+  cartContainerPrefab: {fileID: 7113498765283074288, guid: 8f4f5cab3512abf41bfc175caf5d8904,
     type: 3}
 --- !u!1001 &1520099209409863719
 PrefabInstance:

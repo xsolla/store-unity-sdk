@@ -28,7 +28,7 @@ public class ItemUI : MonoBehaviour
 		{
 			var purchaseParams = new PurchaseParams();
 			purchaseParams.currency = _itemInformation.prices[0].currency;
-			XsollaStore.Instance.BuyItem(_itemInformation.sku, error => { Debug.Log(error.ToString()); });
+			XsollaStore.Instance.BuyItem(_itemInformation.sku, print);
 		});
 
 		addToCartButton.onClick = (bSelected =>
@@ -85,11 +85,11 @@ public class ItemUI : MonoBehaviour
 
 	IEnumerator LoadImage(string url)
 	{
-		using (WWW www = new WWW(url))
+		using (var www = new WWW(url))
 		{
 			yield return www;
 			
-			Sprite sprite = Sprite.Create(www.texture, new Rect(0, 0, www.texture.width, www.texture.height), new Vector2(0.5f, 0.5f));
+			var sprite = Sprite.Create(www.texture, new Rect(0, 0, www.texture.width, www.texture.height), new Vector2(0.5f, 0.5f));
 			
 			itemImage.sprite = sprite;
 

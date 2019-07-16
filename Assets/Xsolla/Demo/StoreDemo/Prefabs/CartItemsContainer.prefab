@@ -279,13 +279,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6e7322749c27ba47835847c89e18065, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cart_item_Prefab: {fileID: 7446015085648965445, guid: 25ebb53aeb5e6a04fae7c51446b805a1,
+  cartItemPrefab: {fileID: 7446015085648965445, guid: 25ebb53aeb5e6a04fae7c51446b805a1,
     type: 3}
-  _cart_discount_Prefab: {fileID: 7446015085648965445, guid: 188f0878b5519c741be3ba99d04b6f75,
+  cartDiscountPrefab: {fileID: 7446015085648965445, guid: 188f0878b5519c741be3ba99d04b6f75,
     type: 3}
-  _cart_controls_Prefab: {fileID: 7446015085648965445, guid: 76529761fde3d1e4e96f1a741c9febf0,
+  cartControlsPrefab: {fileID: 7446015085648965445, guid: 76529761fde3d1e4e96f1a741c9febf0,
     type: 3}
-  _item_Parent: {fileID: 2234737485639732530}
+  itemParent: {fileID: 2234737485639732530}
   clearCartButton: {fileID: 4473030568362944505}
 --- !u!1 &7180374364548916136
 GameObject:

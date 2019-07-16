@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemContainer : MonoBehaviour
+public class ItemContainer : MonoBehaviour, IContainer
 {
 	[SerializeField]
-	GameObject _item_Prefab;
+	GameObject itemPrefab;
 
 	[SerializeField]
-	Transform _item_Parent;
+	Transform itemParent;
 
 	List<ItemUI> _items;
 
@@ -18,10 +18,10 @@ public class ItemContainer : MonoBehaviour
 
 	public void AddItem(Xsolla.Store.StoreItem itemInformation)
 	{
-		var item = Instantiate(_item_Prefab, _item_Parent);
-		var itemUi = item.GetComponent<ItemUI>();
-		itemUi.Initialize(itemInformation);
-		_items.Add(itemUi);
+		var item = Instantiate(itemPrefab, itemParent).GetComponent<ItemUI>();
+		item.Initialize(itemInformation);
+		
+		_items.Add(item);
 	}
 
 	public void Refresh()

@@ -1,79 +1,109 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Xsolla.Store;
 
-public class CartItemContainer : MonoBehaviour
+public class CartItemContainer : MonoBehaviour, IContainer
 {
 	[SerializeField]
-	GameObject _cart_item_Prefab;
+	GameObject cartItemPrefab;
 
 	[SerializeField]
-	GameObject _cart_discount_Prefab;
+	GameObject cartDiscountPrefab;
 	
 	[SerializeField]
-	GameObject _cart_controls_Prefab;
+	GameObject cartControlsPrefab;
 	
 	[SerializeField]
-	Transform _item_Parent;
+	Transform itemParent;
 
 	[SerializeField]
 	SimpleButton clearCartButton;
 
-	List<GameObject> cartItems;
+	List<GameObject> _cartItems;
 
-	GameObject discountPanel;
-	GameObject cartControls;
+	GameObject _discountPanel;
+	GameObject _cartControls;
 	
 	StoreController _storeController;
 
+	CartGroupUI _cartGroup;
+
 	void Awake()
 	{
-		_storeController = FindObjectOfType<StoreController>();
+		_cartItems = new List<GameObject>();
 		
-		cartItems = new List<GameObject>();
+		_storeController = FindObjectOfType<StoreController>();
+		_cartGroup = FindObjectOfType<CartGroupUI>();
 
-		clearCartButton.onClick = ClearCart;
+		clearCartButton.onClick = OnClearCart;
 	}
 
-	void ClearCart()
+	void OnClearCart()
 	{
 		ClearCartItems();
-		_storeController.CartModel.CartItems.Clear();
-		FindObjectOfType<CartGroupUI>().ResetCounter();
 		
-		XsollaStore.Instance.ClearCart(_storeController.Cart.id, null, error => { print(error.ToString());});
+		_storeController.CartModel.CartItems.Clear();
+		
+		_cartGroup.ResetCounter();
+		
+		XsollaStore.Instance.ClearCart(_storeController.Cart.id, null, print);
 	}
 
-	public void AddCartItem(CartItemModel itemInformation)
+	void AddCartItem(CartItemModel itemInformation)
 	{
-		GameObject newItem = Instantiate(_cart_item_Prefab, _item_Parent);
-		cartItems.Add(newItem);
+		GameObject newItem = Instantiate(cartItemPrefab, itemParent);
 		newItem.GetComponent<CartItemUI>().Initialize(itemInformation);
-	}
-	
-	public void AddDiscount(float discountAmount)
-	{
-		discountPanel = Instantiate(_cart_discount_Prefab, _item_Parent);
-		discountPanel.GetComponent<CartDiscountUI>().Initialize(discountAmount); 
+		_cartItems.Add(newItem);
 	}
 
-	public void AddControls(float price)
+	public void Refresh()
 	{
-		cartControls = Instantiate(_cart_controls_Prefab, _item_Parent);
-		cartControls.GetComponent<CartControls>().Initialize(price); 
+		ClearCartItems();
+		
+		if (!_storeController.CartModel.CartItems.Any())
+		{
+			return;
+		}
+		
+		foreach (var item in _storeController.CartModel.CartItems)
+		{
+			AddCartItem(item.Value);
+		}
+
+		var discount = _storeController.CartModel.CalculateCartDiscount();
+		if (discount > 0.0f)
+		{
+			AddDiscount(discount);
+		}
+
+		var fullPrice = _storeController.CartModel.CalculateCartPrice();
+
+		AddControls(fullPrice - discount);
 	}
 
-	public void ClearCartItems()
+	void AddDiscount(float discountAmount)
 	{
-		foreach (var item in cartItems)
+		_discountPanel = Instantiate(cartDiscountPrefab, itemParent);
+		_discountPanel.GetComponent<CartDiscountUI>().Initialize(discountAmount); 
+	}
+
+	void AddControls(float price)
+	{
+		_cartControls = Instantiate(cartControlsPrefab, itemParent);
+		_cartControls.GetComponent<CartControls>().Initialize(price); 
+	}
+
+	void ClearCartItems()
+	{
+		foreach (var item in _cartItems)
 		{
 			Destroy(item);
 		}
 		
-		cartItems.Clear();
+		_cartItems.Clear();
 		
-		Destroy(discountPanel);
-		
-		Destroy(cartControls);
+		Destroy(_discountPanel);
+		Destroy(_cartControls);
 	}
 }

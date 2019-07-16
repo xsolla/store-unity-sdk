@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -27,36 +26,25 @@ public class CartItemUI : MonoBehaviour
 	void Awake()
 	{
 		var storeController = FindObjectOfType<StoreController>();
-		var itemsController = FindObjectOfType<ItemsController>();
 		var cartItemContainer = FindObjectOfType<CartItemContainer>();
+		var cartGroup = FindObjectOfType<CartGroupUI>();
 
 		addButton.onClick = (() =>
 		{
 			storeController.CartModel.IncrementCartItem(_itemInformation.Sku);
-			itemsController.RefreshCartContainer();
+			cartItemContainer.Refresh();
 		});
 		
 		delButton.onClick = (() =>
 		{
 			if (_itemInformation.Quantity - 1 <= 0)
 			{
-				storeController.CartModel.DecrementCartItem(_itemInformation.Sku);
-				FindObjectOfType<CartGroupUI>().DecreaseCounter(_itemInformation.Quantity);
+				cartGroup.DecreaseCounter(_itemInformation.Quantity);
+			}
 
-				if (!storeController.CartModel.CartItems.Any())
-				{
-					cartItemContainer.ClearCartItems();
-				}
-			
-				itemsController.RefreshCartContainer();
-			}
-			else
-			{
-				storeController.CartModel.DecrementCartItem(_itemInformation.Sku);
-				itemsController.RefreshCartContainer();
-			}
+			storeController.CartModel.DecrementCartItem(_itemInformation.Sku);
+			cartItemContainer.Refresh();
 		});
-		
 	}
 
 	public void Initialize(CartItemModel itemInformation)
@@ -84,7 +72,7 @@ public class CartItemUI : MonoBehaviour
 
 	IEnumerator LoadImage(string url)
 	{
-		using (WWW www = new WWW(url))
+		using (var www = new WWW(url))
 		{
 			yield return www;
 			var sprite = Sprite.Create(www.texture, new Rect(0, 0, www.texture.width, www.texture.height), new Vector2(0.5f, 0.5f));
