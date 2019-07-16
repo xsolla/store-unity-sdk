@@ -24,6 +24,8 @@ public class ItemUI : MonoBehaviour
 	{
 		_storeController = FindObjectOfType<StoreController>();
 
+		var cartGroup = FindObjectOfType<CartGroupUI>();
+
 		buyButton.onClick = (() =>
 		{
 			var purchaseParams = new PurchaseParams();
@@ -33,19 +35,15 @@ public class ItemUI : MonoBehaviour
 
 		addToCartButton.onClick = (bSelected =>
 		{
-			var cart = _storeController.Cart;
-			if (cart != null)
+			if (bSelected)
 			{
-				if (bSelected)
-				{
-					_storeController.CartModel.AddCartItem(_itemInformation);
-					FindObjectOfType<CartGroupUI>().IncreaseCounter();
-				}
-				else
-				{
-					_storeController.CartModel.RemoveCartItem(_itemInformation.sku); 
-					FindObjectOfType<CartGroupUI>().DecreaseCounter();
-				}
+				_storeController.CartModel.AddCartItem(_itemInformation);
+				cartGroup.IncreaseCounter();
+			}
+			else
+			{
+				_storeController.CartModel.RemoveCartItem(_itemInformation.sku); 
+				cartGroup.DecreaseCounter();
 			}
 		});
 	}
@@ -65,7 +63,7 @@ public class ItemUI : MonoBehaviour
 
 	void OnEnable()
 	{
-		if (_loadingRoutine == null && itemImage.sprite == null && _itemInformation.image_url != "")
+		if (_loadingRoutine == null && itemImage.sprite == null && !string.IsNullOrEmpty(_itemInformation.image_url))
 		{
 			if (StoreController.ItemIcons.ContainsKey(_itemInformation.image_url))
 			{

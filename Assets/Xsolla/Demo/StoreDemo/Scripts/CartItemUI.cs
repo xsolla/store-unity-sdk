@@ -52,9 +52,7 @@ public class CartItemUI : MonoBehaviour
 		_itemInformation = itemInformation;
 
 		itemPrice.text = "$" + _itemInformation.Price;
-
 		itemName.text = _itemInformation.Name;
-		
 		itemQuantity.text = _itemInformation.Quantity.ToString();
 		
 		if (_loadingRoutine == null && itemImage.sprite == null && _itemInformation.ImgUrl != "")
@@ -75,10 +73,15 @@ public class CartItemUI : MonoBehaviour
 		using (var www = new WWW(url))
 		{
 			yield return www;
-			var sprite = Sprite.Create(www.texture, new Rect(0, 0, www.texture.width, www.texture.height), new Vector2(0.5f, 0.5f));
-			itemImage.sprite = sprite;
 			
-			StoreController.ItemIcons.Add(url, sprite);
+			var sprite = Sprite.Create(www.texture, new Rect(0, 0, www.texture.width, www.texture.height), new Vector2(0.5f, 0.5f));
+			
+			itemImage.sprite = sprite;
+
+			if (!StoreController.ItemIcons.ContainsKey(url))
+			{
+				StoreController.ItemIcons.Add(url, sprite);
+			}
 		}
 	}
 }
