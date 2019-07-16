@@ -1,33 +1,33 @@
 ﻿using System;
 using UnityEngine;
-using Xsolla.Core;
 
-public class CartGroupUI : MonoBehaviour
+public class CartGroupUI : MonoBehaviour, IGroup
 {
 	[SerializeField]
 	CartMenuButton menuButton;
 	
 	int _counter;
-
-	public Action<string> onGroupClick;
 	
 	void Awake()
 	{
 		menuButton.onClick = ((s) =>
 		{
-			if (onGroupClick != null)
-				onGroupClick.Invoke(s);
+			if (OnGroupClick != null)
+				OnGroupClick.Invoke(s);
 		});
-
-		menuButton.Text = Constants.CartGroupName;
+	}
+	
+	public string Name
+	{
+		get { return menuButton.Text; }
+		set { menuButton.Text = value; }
 	}
 
-	public void Deselect(string groupName)
+	public Action<string> OnGroupClick { get; set; }
+
+	public void Deselect()
 	{
-		if (menuButton.Text != groupName)
-		{
-			menuButton.Deselect();
-		}
+		menuButton.Deselect();
 	}
 	
 	public void IncreaseCounter(int value = 1)

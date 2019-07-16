@@ -1,12 +1,10 @@
 ﻿using System;
 using UnityEngine;
 
-public class GroupUI : MonoBehaviour
+public class GroupUI : MonoBehaviour, IGroup
 {
 	[SerializeField]
 	MenuButton menuButton;
-
-	public Action<string> OnGroupClick;
 
 	void Awake()
 	{
@@ -17,16 +15,16 @@ public class GroupUI : MonoBehaviour
 		});
 	}
 
-	public void InitializeGroup(string name)
+	public string Name
 	{
-		menuButton.Text = name;
+		get { return menuButton.Text; }
+		set { menuButton.Text = value; }
 	}
-	
-	public void Deselect(string groupName)
+
+	public Action<string> OnGroupClick { get; set; }
+
+	public void Deselect()
 	{
-		if (menuButton.Text != groupName)
-		{
-			menuButton.Deselect();
-		}
+		menuButton.Deselect();
 	}
 }

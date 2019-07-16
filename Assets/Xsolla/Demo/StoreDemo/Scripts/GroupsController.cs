@@ -7,95 +7,70 @@ using Xsolla.Store;
 public class GroupsController : MonoBehaviour
 {
 	[SerializeField]
-	GameObject _groupPrefab;
+	GameObject groupPrefab;
 	[SerializeField]
-	GameObject _groupCartPrefab;
+	GameObject groupCartPrefab;
 
 	[SerializeField]
-	RectTransform _scrollView;
+	RectTransform scrollView;
 
-	List<GameObject> _groups;
+	List<IGroup> _groups;
 	
-	ItemsController itemsController;
+	ItemsController _itemsController;
 
 	void Awake()
 	{
-		_groups = new List<GameObject>();
+		_groups = new List<IGroup>();
 
-		itemsController = FindObjectOfType<ItemsController>();
+		_itemsController = FindObjectOfType<ItemsController>();
 	}
 
 	public void CreateGroups(StoreItems items)
 	{
-		var addedGroups = new List<string>();
-		
 		foreach (var item in items.items)
 		{
 			if (item.groups.Any())
 			{
-				foreach (string groupName in item.groups)
+				foreach (var groupName in item.groups)
 				{
-					if (!addedGroups.Contains(groupName))
+					if (!_groups.Exists(group => group.Name == groupName))
 					{
-						addedGroups.Add(groupName);
-						AddGroup(groupName);
+						AddGroup(groupPrefab, groupName);
 					}
 				}
 			}
 			else
 			{
-				if (!addedGroups.Contains(Constants.UngroupedGroupName))
+				if (!_groups.Exists(group => group.Name == Constants.UngroupedGroupName))
 				{
-					addedGroups.Add(Constants.UngroupedGroupName);
-					AddGroup(Constants.UngroupedGroupName);
+					AddGroup(groupPrefab, Constants.UngroupedGroupName);
 				}
 			}
 		}
 
-		AddCart();
+		AddGroup(groupCartPrefab, Constants.CartGroupName);
 	}
 
-	public void AddGroup(string groupName)
+	void AddGroup(GameObject groupPref, string groupName)
 	{
-		GameObject newGroup = Instantiate(_groupPrefab, _scrollView.transform);
-		newGroup.GetComponent<GroupUI>().InitializeGroup(groupName);
-		newGroup.GetComponent<GroupUI>().OnGroupClick += (id) =>
+		var newGroup = Instantiate(groupPref, scrollView.transform).GetComponent<IGroup>();
+		newGroup.Name  = groupName;
+		newGroup.OnGroupClick += (id) =>
 		{
-			itemsController.ActivateContainer(id);
+			_itemsController.ActivateContainer(id);
 			ChangeSelection(id);
 		};
 
 		_groups.Add(newGroup);
 	}
 
-	public void AddCart()
-	{
-		GameObject newGroup = Instantiate(_groupCartPrefab, _scrollView.transform);
-		newGroup.GetComponent<CartGroupUI>().onGroupClick += (id) =>
-		{
-			itemsController.ActivateContainer(id);
-			ChangeSelection(id);
-		};
-
-		_groups.Add(newGroup);
-	}
-
-	public void ChangeSelection(string groupName)
+	void ChangeSelection(string groupName)
 	{
 		foreach (var group in _groups)
 		{
-			var groupComponent = group.GetComponent<GroupUI>();
-			if (groupComponent != null)
+			if (group.Name != groupName)
 			{
-				groupComponent.Deselect(groupName);
-			}
-			else
-			{
-				var cartGroupComponent = group.GetComponent<CartGroupUI>();
-				if (cartGroupComponent != null)
-				{
-					cartGroupComponent.Deselect(groupName);
-				}
+				group.Deselect();
 			}
 		}
 	}
