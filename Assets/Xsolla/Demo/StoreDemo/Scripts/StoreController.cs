@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Xsolla.Login;
 using Xsolla.Store;
 
@@ -7,6 +8,7 @@ public class StoreController : MonoBehaviour
 {
 	GroupsController _groupsController;
 	ItemsController _itemsController;
+	ExtraController _extraController;
 
 	public CartModel CartModel { get; private set; }
 
@@ -20,6 +22,7 @@ public class StoreController : MonoBehaviour
 	{
 		_groupsController = FindObjectOfType<GroupsController>();
 		_itemsController = FindObjectOfType<ItemsController>();
+		_extraController = FindObjectOfType<ExtraController>();
 		
 		CartModel = new CartModel();
 		
@@ -45,5 +48,7 @@ public class StoreController : MonoBehaviour
 	{
 		_groupsController.CreateGroups(items);
 		_itemsController.CreateItems(items);
+		
+		_extraController.Init();
 	}
 }

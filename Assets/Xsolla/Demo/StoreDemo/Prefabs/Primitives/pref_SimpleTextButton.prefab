@@ -168,8 +168,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   normalStateSprite: {fileID: 21300000, guid: 9abb622a76f75b94eb1b782603c81c2b, type: 3}
-  hoverStateSprite: {fileID: 21300000, guid: 7c75b63d6f67e574f992d8515d3d7569, type: 3}
-  pressedStateSprite: {fileID: 21300000, guid: 7c75b63d6f67e574f992d8515d3d7569, type: 3}
+  hoverStateSprite: {fileID: 21300000, guid: 68a302f5342dd9b47b3dbecdb7403a91, type: 3}
+  pressedStateSprite: {fileID: 21300000, guid: 0251d7e3cef00dc4bb5c65f00f6bf4e3, type: 3}
   buttonText: {fileID: 1422655356088621779}
   normalTextColor: {r: 0.972549, g: 0.06666667, b: 0.3647059, a: 1}
   hoverTextColor: {r: 1, g: 1, b: 1, a: 1}
