@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using Xsolla.Core;
 using Xsolla.Store;
 
 public class ItemUI : MonoBehaviour
@@ -30,7 +31,7 @@ public class ItemUI : MonoBehaviour
 		{
 			var purchaseParams = new PurchaseParams();
 			purchaseParams.currency = _itemInformation.prices[0].currency;
-			XsollaStore.Instance.BuyItem(_itemInformation.sku, print);
+			XsollaStore.Instance.BuyItem(XsollaSettings.StoreProjectId, _itemInformation.sku, print);
 		});
 
 		addToCartButton.onClick = (bSelected =>

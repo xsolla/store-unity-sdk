@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using Xsolla.Core;
 using Xsolla.Store;
 
 public class CartControls : MonoBehaviour
@@ -21,14 +22,14 @@ public class CartControls : MonoBehaviour
 
 		buyButton.onClick = (() =>
 		{
-			XsollaStore.Instance.ClearCart(_storeController.Cart.id, () =>
+			XsollaStore.Instance.ClearCart(XsollaSettings.StoreProjectId, _storeController.Cart.id, () =>
 			{
 				totalItems = _storeController.CartModel.CartItems.Count;
 				completedRequests = 0;
 			
 				foreach (var cartItem in _storeController.CartModel.CartItems)
 				{
-					XsollaStore.Instance.AddItemToCart(_storeController.Cart.id, cartItem.Key, cartItem.Value.Quantity,
+					XsollaStore.Instance.AddItemToCart(XsollaSettings.StoreProjectId, _storeController.Cart.id, cartItem.Key, cartItem.Value.Quantity,
 						() =>
 						{
 							completedRequests++;
@@ -47,8 +48,8 @@ public class CartControls : MonoBehaviour
 	IEnumerator BuyCart()
 	{
 		yield return new WaitUntil(() => completedRequests == totalItems);
-		
-		XsollaStore.Instance.BuyCart(_storeController.Cart.id, error => { Debug.Log(error.ToString()); });
+
+		XsollaStore.Instance.BuyCart(XsollaSettings.StoreProjectId, _storeController.Cart.id, error => { Debug.Log(error.ToString()); });
 	}
 	
 	public void Initialize(float price)

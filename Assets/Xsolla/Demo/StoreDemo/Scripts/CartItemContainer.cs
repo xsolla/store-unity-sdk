@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Xsolla.Core;
 using Xsolla.Store;
 
 public class CartItemContainer : MonoBehaviour, IContainer
@@ -47,7 +48,7 @@ public class CartItemContainer : MonoBehaviour, IContainer
 		
 		_cartGroup.ResetCounter();
 		
-		XsollaStore.Instance.ClearCart(_storeController.Cart.id, null, print);
+		XsollaStore.Instance.ClearCart(XsollaSettings.StoreProjectId, _storeController.Cart.id, null, print);
 	}
 
 	void AddCartItem(CartItemModel itemInformation)

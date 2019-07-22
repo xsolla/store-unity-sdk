@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Xsolla.Core;
 using Xsolla.Login;
 using Xsolla.Store;
 
@@ -39,7 +40,7 @@ public class StoreController : MonoBehaviour
 			XsollaStore.Instance.Token = DefaultStoreToken;
 		}
 
-		XsollaStore.Instance.CreateNewCart(newCart => { Cart = newCart; }, print);
+		XsollaStore.Instance.CreateNewCart(XsollaSettings.StoreProjectId, newCart => { Cart = newCart; }, print);
 
 		XsollaStore.Instance.GetListOfItems(InitStoreUi, print);
 	}
