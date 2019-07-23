@@ -107,19 +107,23 @@ namespace Xsolla.Login
 				PlayerPrefs.SetString(Constants.UserPassword, Crypto.Encrypt(CryptoKey, password));
 			}
 		}
+
 		public void Registration(string username, string password, string email, Action onSuccess, Action<ErrorDescription> onError)
 		{
-			WWWForm registrationForm = new WWWForm();
-			registrationForm.AddField("username", username);
-			registrationForm.AddField("password", password);
-			registrationForm.AddField("email", email);
+			var registrationData = new RegistrationJson();
+			registrationData.username = username;
+			registrationData.password = password;
+			registrationData.email = email;
+
+			var registrationDataJson = JsonUtility.ToJson(registrationData);
 
 			string proxy = XsollaSettings.UseProxy ? "proxy/registration" : "user";
 
 			var urlBuilder = new StringBuilder(string.Format("https://login.xsolla.com/api/{0}?projectId={1}&login_url={2}", proxy, XsollaSettings.LoginId, XsollaSettings.CallbackUrl)).Append(AdditionalUrlParams);
 			
-			StartCoroutine(WebRequests.PostRequest(urlBuilder.ToString(), registrationForm, onSuccess, onError, ErrorDescription.RegistrationErrors));
+			StartCoroutine(WebRequests.PostRequest(urlBuilder.ToString(), registrationDataJson, onSuccess, onError, ErrorDescription.RegistrationErrors));
 		}
+
 		public void ResetPassword(string username, Action onSuccess, Action<ErrorDescription> onError)
 		{
 			WWWForm form = new WWWForm();
@@ -134,16 +138,18 @@ namespace Xsolla.Login
 		
 		public void SignIn(string username, string password, bool rememberUser, Action<User> onSuccess, Action<ErrorDescription> onError)
 		{
-			WWWForm form = new WWWForm();
-			form.AddField("username", username);
-			form.AddField("password", password);
-			form.AddField("remember_me", rememberUser.ToString());
+			var loginData = new LoginJson();
+			loginData.username = username;
+			loginData.password = password;
+			loginData.remember_me = rememberUser;
+			
+			var loginDataJson = JsonUtility.ToJson(loginData);
 
 			string proxy = XsollaSettings.UseProxy ? "proxy/" : string.Empty;
 
 			var urlBuilder = new StringBuilder(string.Format("https://login.xsolla.com/api/{0}login?projectId={1}&login_url={2}", proxy, XsollaSettings.LoginId, XsollaSettings.CallbackUrl)).Append(AdditionalUrlParams);
 
-			StartCoroutine(WebRequests.PostRequest(urlBuilder.ToString(), form,
+			StartCoroutine(WebRequests.PostRequest(urlBuilder.ToString(), loginDataJson,
 				(response) =>
 				{
 					if (rememberUser)
@@ -151,7 +157,7 @@ namespace Xsolla.Login
 						SaveLoginPassword(username, password);
 					}
 
-					Token = ParseUtils.ParseToken(response);;
+					Token = ParseUtils.ParseToken(JsonUtility.FromJson<LoginResponse>(response).login_url);;
 					
 					if (XsollaSettings.UseJwtValidation)
 					{

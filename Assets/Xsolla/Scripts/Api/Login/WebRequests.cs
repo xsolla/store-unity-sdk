@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
 using Xsolla.Core;
@@ -40,10 +41,91 @@ namespace Xsolla.Login
 				}
 			}
 		}
-		
+		public static IEnumerator PostRequest(string url, string jsonData, Action<string> onComplete = null, Action<ErrorDescription> onError = null, Dictionary<string, Error> errorsToCheck = null)
+		{
+			var request = new UnityWebRequest(url, "POST");
+	        
+			request.downloadHandler = new DownloadHandlerBuffer();
+			
+			if (!string.IsNullOrEmpty(jsonData))
+			{
+				request.uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(jsonData));
+			}
+	        
+			request.SetRequestHeader(WebRequestHeader.ContentTypeHeader().Name, WebRequestHeader.ContentTypeHeader().Value);
+
+#if UNITY_2018_1_OR_NEWER
+			yield return request.SendWebRequest();
+#else
+            yield return request.Send();
+#endif
+			if (request.isNetworkError)
+			{
+				TriggerOnError(onError, ErrorDescription.NetworkError);
+			}
+			else
+			{
+				var response = request.downloadHandler.text;
+				Debug.Log(response);
+				var error = CheckForErrors(response, errorsToCheck);
+				if (error == null)
+				{
+					if (onComplete != null)
+					{
+						onComplete.Invoke(request.downloadHandler.text);
+					}
+				}
+				else
+				{
+					TriggerOnError(onError, error);
+				}
+			}
+		}
+
 		public static IEnumerator PostRequest(string url, WWWForm form, Action onComplete = null, Action<ErrorDescription> onError = null, Dictionary<string, Error> errorsToCheck = null)
 		{
 			UnityWebRequest request = UnityWebRequest.Post(url, form);
+
+#if UNITY_2018_1_OR_NEWER
+			yield return request.SendWebRequest();
+#else
+            yield return request.Send();
+#endif
+			if (request.isNetworkError)
+			{
+				TriggerOnError(onError, ErrorDescription.NetworkError);
+			}
+			else
+			{
+				var response = request.downloadHandler.text;
+				Debug.Log(response);
+				var error = CheckForErrors(response, errorsToCheck);
+				if (error == null)
+				{
+					if (onComplete != null)
+					{
+						onComplete.Invoke();
+					}
+				}
+				else
+				{
+					TriggerOnError(onError, error);
+				}
+			}
+		}
+		
+		public static IEnumerator PostRequest(string url, string jsonData, Action onComplete = null, Action<ErrorDescription> onError = null, Dictionary<string, Error> errorsToCheck = null)
+		{
+			var request = new UnityWebRequest(url, "POST");
+	        
+			request.downloadHandler = new DownloadHandlerBuffer();
+			
+			if (!string.IsNullOrEmpty(jsonData))
+			{
+				request.uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(jsonData));
+			}
+	        
+			request.SetRequestHeader(WebRequestHeader.ContentTypeHeader().Name, WebRequestHeader.ContentTypeHeader().Value);
 
 #if UNITY_2018_1_OR_NEWER
 			yield return request.SendWebRequest();
