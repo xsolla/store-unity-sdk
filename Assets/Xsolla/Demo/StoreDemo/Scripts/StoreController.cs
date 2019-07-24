@@ -51,5 +51,7 @@ public class StoreController : MonoBehaviour
 		_itemsController.CreateItems(items);
 		
 		_extraController.Init();
+		
+		_groupsController.SelectDefault();
 	}
 }

@@ -74,4 +74,12 @@ public class GroupsController : MonoBehaviour
 			}
 		}
 	}
+
+	public void SelectDefault()
+	{
+		if (_groups.Any())
+		{
+			_groups.First().Select();
+		}
+	}
 }

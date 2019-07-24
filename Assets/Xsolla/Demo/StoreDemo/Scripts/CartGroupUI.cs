@@ -25,6 +25,11 @@ public class CartGroupUI : MonoBehaviour, IGroup
 
 	public Action<string> OnGroupClick { get; set; }
 
+	public void Select()
+	{
+		menuButton.Select();
+	}
+
 	public void Deselect()
 	{
 		menuButton.Deselect();

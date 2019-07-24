@@ -40,6 +40,19 @@ public class MenuButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 		_image = GetComponent<Image>();
 	}
 
+	public void Select()
+	{
+		_isSelected = true;
+		_isClickInProgress = false;
+		
+		if (onClick != null)
+		{
+			onClick.Invoke(Text);
+		}
+		
+		OnSelected();
+	}
+	
 	public void Deselect()
 	{
 		_isSelected = false;

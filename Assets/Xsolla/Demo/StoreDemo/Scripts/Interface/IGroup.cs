@@ -9,5 +9,6 @@ public interface IGroup
 
 	Action<string> OnGroupClick { get; set; }
 
+	void Select();
 	void Deselect();
 }
