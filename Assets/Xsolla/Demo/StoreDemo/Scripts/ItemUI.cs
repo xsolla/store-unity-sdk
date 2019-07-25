@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.SocialPlatforms;
 using UnityEngine.UI;
 using Xsolla.Core;
 using Xsolla.Store;
@@ -8,6 +9,8 @@ public class ItemUI : MonoBehaviour
 {
 	[SerializeField]
 	Image itemImage;
+	[SerializeField]
+	GameObject loadingCircle;
 	[SerializeField]
 	Text itemName;
 	[SerializeField]
@@ -20,6 +23,8 @@ public class ItemUI : MonoBehaviour
 	Coroutine _loadingRoutine;
 	StoreItem _itemInformation;
 	StoreController _storeController;
+
+	Sprite _itemImage;
 
 	void Awake()
 	{
@@ -68,10 +73,11 @@ public class ItemUI : MonoBehaviour
 
 	void OnEnable()
 	{
-		if (_loadingRoutine == null && itemImage.sprite == null && !string.IsNullOrEmpty(_itemInformation.image_url))
+		if (_itemImage == null && !string.IsNullOrEmpty(_itemInformation.image_url))
 		{
 			if (StoreController.ItemIcons.ContainsKey(_itemInformation.image_url))
 			{
+				loadingCircle.SetActive(false);
 				itemImage.sprite = StoreController.ItemIcons[_itemInformation.image_url];
 			}
 			else
@@ -92,8 +98,13 @@ public class ItemUI : MonoBehaviour
 		{
 			yield return www;
 			
-			var sprite = Sprite.Create(www.texture, new Rect(0, 0, www.texture.width, www.texture.height), new Vector2(0.5f, 0.5f));
+			yield return new WaitForSeconds(Random.Range(0.0f, 1.5f));
 			
+			var sprite = Sprite.Create(www.texture, new Rect(0, 0, www.texture.width, www.texture.height), new Vector2(0.5f, 0.5f));
+
+			_itemImage = sprite;
+			
+			loadingCircle.SetActive(false);
 			itemImage.sprite = sprite;
 
 			if (!StoreController.ItemIcons.ContainsKey(url))
