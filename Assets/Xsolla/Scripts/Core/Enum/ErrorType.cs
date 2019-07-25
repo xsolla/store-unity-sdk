@@ -9,6 +9,7 @@
 		InvalidData,
 		ProductDoesNotExist,
 		UserNotFound,
-		CartNotFound
+		CartNotFound,
+		OrderNotFound
 	}
 }

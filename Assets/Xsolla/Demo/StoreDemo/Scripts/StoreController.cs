@@ -42,7 +42,7 @@ public class StoreController : MonoBehaviour
 
 		XsollaStore.Instance.CreateNewCart(XsollaSettings.StoreProjectId, newCart => { Cart = newCart; }, print);
 
-		XsollaStore.Instance.GetListOfItems(InitStoreUi, print);
+		XsollaStore.Instance.GetListOfItems(XsollaSettings.StoreProjectId, InitStoreUi, print);
 	}
 
 	void InitStoreUi(StoreItems items)

@@ -79,6 +79,13 @@ namespace Xsolla.Core
 				{"422", ErrorType.CartNotFound},
 			};
 		
+		public static readonly Dictionary<string, ErrorType> OrderStatusErrors =
+			new Dictionary<string, ErrorType>()
+			{
+				{"401", ErrorType.InvalidToken},
+				{"404", ErrorType.OrderNotFound},
+			};
+		
 		public override string ToString()
 		{
 			return string.Format("Error - Type: {0}. Status code: {1}. Error code: {2}. Error message: {3}.", ErrorType, statusCode, errorCode, errorMessage);

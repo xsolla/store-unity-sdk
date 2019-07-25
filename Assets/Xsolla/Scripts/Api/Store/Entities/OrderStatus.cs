@@ -1,0 +1,13 @@
+﻿using System;
+using Xsolla.Store;
+
+namespace Xsolla.Store
+{
+	[Serializable]
+	public class OrderStatus
+	{
+		public int order_id;
+		public string status;
+		public CartItems content;
+	}
+}

@@ -48,25 +48,25 @@ namespace Xsolla.Store
 			return form;
 		}
 		
-		void OpenPurchaseUi(PurchaseData purchaseData)
+		public void OpenPurchaseUi(PurchaseData purchaseData)
 		{
 			Application.OpenURL("https://secure.xsolla.com/paystation2/?access_token=" + purchaseData.token);
 		}
 
-		public void GetListOfItems([NotNull] Action<StoreItems> onSuccess, [CanBeNull] Action<Error> onError)
+		public void GetListOfItems(string projectId, [NotNull] Action<StoreItems> onSuccess, [CanBeNull] Action<Error> onError)
 		{
-			var urlBuilder = new StringBuilder(string.Format("https://store.xsolla.com/api/v1/project/{0}/items/virtual_items", XsollaSettings.StoreProjectId)).Append(AdditionalUrlParams);
+			var urlBuilder = new StringBuilder(string.Format("https://store.xsolla.com/api/v1/project/{0}/items/virtual_items", projectId)).Append(AdditionalUrlParams);
 
 			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), null, onSuccess, onError, Error.ItemsListErrors);
 		}
 
-		public void BuyItem(string projectId, string itemId, [CanBeNull] Action<Error> onError, PurchaseParams purchaseParams = null)
+		public void BuyItem(string projectId, string itemId, [CanBeNull] Action<PurchaseData> onSuccess, [CanBeNull] Action<Error> onError, PurchaseParams purchaseParams = null)
 		{
 			var form = RequestParams(purchaseParams);
 
 			var urlBuilder = new StringBuilder(string.Format("https://store.xsolla.com/api/v1/project/{0}/payment/item/{1}", projectId, itemId)).Append(AdditionalUrlParams);
 
-			WebRequestHelper.Instance.PostRequest<PurchaseData>(urlBuilder.ToString(), form, WebRequestHeader.AuthHeader(Token), OpenPurchaseUi, onError, Error.BuyItemErrors);
+			WebRequestHelper.Instance.PostRequest<PurchaseData>(urlBuilder.ToString(), form, WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.BuyItemErrors);
 		}
 
 		public void CreateNewCart(string projectId, [NotNull] Action<Cart> onSuccess, [CanBeNull] Action<Error> onError)
@@ -109,6 +109,13 @@ namespace Xsolla.Store
 			var urlBuilder = new StringBuilder(string.Format("https://store.xsolla.com/api/v1/project/{0}/payment/cart/{1}", projectId, cartId)).Append(AdditionalUrlParams);
 
 			WebRequestHelper.Instance.PostRequest<PurchaseData>(urlBuilder.ToString(), RequestParams(purchaseParams), WebRequestHeader.AuthHeader(Token), OpenPurchaseUi, onError, Error.BuyCartErrors);
+		}
+
+		public void CheckOrderStatus(string projectId, int orderId, [NotNull] Action<OrderStatus> onSuccess, [CanBeNull] Action<Error> onError)
+		{
+			var urlBuilder = new StringBuilder(string.Format("https://store.xsolla.com/api/v1/project/{0}/order/{1}", projectId, orderId)).Append(AdditionalUrlParams);
+
+			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.OrderStatusErrors);
 		}
 	}
 }

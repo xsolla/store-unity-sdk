@@ -31,7 +31,11 @@ public class ItemUI : MonoBehaviour
 		{
 			var purchaseParams = new PurchaseParams();
 			purchaseParams.currency = _itemInformation.prices[0].currency;
-			XsollaStore.Instance.BuyItem(XsollaSettings.StoreProjectId, _itemInformation.sku, print);
+			XsollaStore.Instance.BuyItem(XsollaSettings.StoreProjectId, _itemInformation.sku, data =>
+			{
+				XsollaStore.Instance.OpenPurchaseUi(data);
+				XsollaStore.Instance.CheckOrderStatus(XsollaSettings.StoreProjectId, data.order_id,status => print(status.status), print);
+			}, print);
 		});
 
 		addToCartButton.onClick = (bSelected =>

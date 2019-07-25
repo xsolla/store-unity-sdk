@@ -6,7 +6,7 @@ namespace Xsolla.Store
 	public class PurchaseData
 	{
 		public string token;
-		public string order_id;
+		public int order_id;
 	}
 }
 
