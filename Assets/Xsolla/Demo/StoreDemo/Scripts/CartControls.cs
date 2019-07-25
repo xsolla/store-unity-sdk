@@ -15,6 +15,8 @@ public class CartControls : MonoBehaviour
 	int completedRequests;
 	
 	StoreController _storeController;
+	
+	Coroutine _checkStatusCor;
 
 	void Awake()
 	{
@@ -44,6 +46,14 @@ public class CartControls : MonoBehaviour
 			}, error => { Debug.Log(error.ToString()); });
 		});
 	}
+	
+	void OnDestroy()
+	{
+		if (_checkStatusCor != null)
+		{
+			StopCoroutine(_checkStatusCor);
+		}
+	}
 
 	IEnumerator BuyCart()
 	{
@@ -52,12 +62,27 @@ public class CartControls : MonoBehaviour
 		XsollaStore.Instance.BuyCart(XsollaSettings.StoreProjectId, _storeController.Cart.id, data =>
 		{
 			XsollaStore.Instance.OpenPurchaseUi(data);
-			XsollaStore.Instance.CheckOrderStatus(XsollaSettings.StoreProjectId, data.order_id,status => print(status.status), print);
+			_checkStatusCor = StartCoroutine(CheckOrderStatus(data.order_id));
 		},print);
 	}
 	
 	public void Initialize(float price)
 	{
 		priceText.text = "$" + price.ToString("F2");
+	}
+	
+	IEnumerator CheckOrderStatus(int orderId)
+	{
+		yield return new WaitForSeconds(5.0f);
+		
+		XsollaStore.Instance.CheckOrderStatus(XsollaSettings.StoreProjectId, orderId,status =>
+		{
+			print(status.status);
+
+			if (status.status != "paid")
+			{
+				_checkStatusCor = StartCoroutine(CheckOrderStatus(orderId));
+			}
+		}, print);
 	}
 }

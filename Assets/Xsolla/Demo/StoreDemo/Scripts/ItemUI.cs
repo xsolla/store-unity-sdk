@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.SocialPlatforms;
 using UnityEngine.UI;
 using Xsolla.Core;
 using Xsolla.Store;
@@ -25,6 +24,8 @@ public class ItemUI : MonoBehaviour
 	StoreController _storeController;
 
 	Sprite _itemImage;
+	
+	Coroutine _checkStatusCor;
 
 	void Awake()
 	{
@@ -39,7 +40,7 @@ public class ItemUI : MonoBehaviour
 			XsollaStore.Instance.BuyItem(XsollaSettings.StoreProjectId, _itemInformation.sku, data =>
 			{
 				XsollaStore.Instance.OpenPurchaseUi(data);
-				XsollaStore.Instance.CheckOrderStatus(XsollaSettings.StoreProjectId, data.order_id,status => print(status.status), print);
+				_checkStatusCor = StartCoroutine(CheckOrderStatus(data.order_id));
 			}, print);
 		});
 
@@ -56,6 +57,14 @@ public class ItemUI : MonoBehaviour
 				cartGroup.DecreaseCounter();
 			}
 		});
+	}
+
+	void OnDestroy()
+	{
+		if (_checkStatusCor != null)
+		{
+			StopCoroutine(_checkStatusCor);
+		}
 	}
 
 	public void Initialize(StoreItem itemInformation)
@@ -112,5 +121,20 @@ public class ItemUI : MonoBehaviour
 				StoreController.ItemIcons.Add(url, sprite);
 			}
 		}
+	}
+
+	IEnumerator CheckOrderStatus(int orderId)
+	{
+		yield return new WaitForSeconds(5.0f);
+		
+		XsollaStore.Instance.CheckOrderStatus(XsollaSettings.StoreProjectId, orderId,status =>
+		{
+			print(status.status);
+
+			if (status.status != "paid")
+			{
+				_checkStatusCor = StartCoroutine(CheckOrderStatus(orderId));
+			}
+		}, print);
 	}
 }
