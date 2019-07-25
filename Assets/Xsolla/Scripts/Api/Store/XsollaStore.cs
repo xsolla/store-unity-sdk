@@ -104,11 +104,11 @@ namespace Xsolla.Store
 			WebRequestHelper.Instance.DeleteRequest(urlBuilder.ToString(), WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.DeleteFromCartErrors);
 		}
 
-		public void BuyCart(string projectId, string cartId, [CanBeNull] Action<Error> onError, PurchaseParams purchaseParams = null)
+		public void BuyCart(string projectId, string cartId,[CanBeNull] Action<PurchaseData> onSuccess, [CanBeNull] Action<Error> onError, PurchaseParams purchaseParams = null)
 		{
 			var urlBuilder = new StringBuilder(string.Format("https://store.xsolla.com/api/v1/project/{0}/payment/cart/{1}", projectId, cartId)).Append(AdditionalUrlParams);
 
-			WebRequestHelper.Instance.PostRequest<PurchaseData>(urlBuilder.ToString(), RequestParams(purchaseParams), WebRequestHeader.AuthHeader(Token), OpenPurchaseUi, onError, Error.BuyCartErrors);
+			WebRequestHelper.Instance.PostRequest<PurchaseData>(urlBuilder.ToString(), RequestParams(purchaseParams), WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.BuyCartErrors);
 		}
 
 		public void CheckOrderStatus(string projectId, int orderId, [NotNull] Action<OrderStatus> onSuccess, [CanBeNull] Action<Error> onError)

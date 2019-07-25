@@ -49,7 +49,11 @@ public class CartControls : MonoBehaviour
 	{
 		yield return new WaitUntil(() => completedRequests == totalItems);
 
-		XsollaStore.Instance.BuyCart(XsollaSettings.StoreProjectId, _storeController.Cart.id, error => { Debug.Log(error.ToString()); });
+		XsollaStore.Instance.BuyCart(XsollaSettings.StoreProjectId, _storeController.Cart.id, data =>
+		{
+			XsollaStore.Instance.OpenPurchaseUi(data);
+			XsollaStore.Instance.CheckOrderStatus(XsollaSettings.StoreProjectId, data.order_id,status => print(status.status), print);
+		},print);
 	}
 	
 	public void Initialize(float price)
