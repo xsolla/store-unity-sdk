@@ -3,9 +3,10 @@
 namespace Xsolla.Store
 {
 	[Serializable]
-	public class Token
+	public class PurchaseData
 	{
 		public string token;
+		public string order_id;
 	}
 }
 
