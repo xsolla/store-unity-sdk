@@ -17,12 +17,14 @@ public class GroupsController : MonoBehaviour
 	List<IGroup> _groups;
 	
 	ItemsController _itemsController;
-
+	ItemsControls _itemsControls;
+	
 	void Awake()
 	{
 		_groups = new List<IGroup>();
 
 		_itemsController = FindObjectOfType<ItemsController>();
+		_itemsControls = FindObjectOfType<ItemsControls>();
 	}
 
 	public void CreateGroups(StoreItems items)
@@ -59,6 +61,8 @@ public class GroupsController : MonoBehaviour
 		{
 			_itemsController.ActivateContainer(id);
 			ChangeSelection(id);
+			
+			_itemsControls.SetStore();
 		};
 
 		_groups.Add(newGroup);
@@ -81,5 +85,12 @@ public class GroupsController : MonoBehaviour
 		{
 			_groups.First().Select();
 		}
+	}
+
+	public string GetSelectedGroup()
+	{
+		var selectedGroup = _groups.Find((group => group.IsSelected()));
+		
+		return selectedGroup != null ? selectedGroup.Name : string.Empty;
 	}
 }

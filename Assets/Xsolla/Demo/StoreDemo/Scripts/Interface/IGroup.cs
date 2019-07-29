@@ -11,4 +11,5 @@ public interface IGroup
 
 	void Select();
 	void Deselect();
+	bool IsSelected();
 }

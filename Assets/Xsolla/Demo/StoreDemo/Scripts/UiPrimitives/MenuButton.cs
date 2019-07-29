@@ -40,12 +40,12 @@ public class MenuButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 		_image = GetComponent<Image>();
 	}
 
-	public void Select()
+	public void Select(bool triggerClickEvent = true)
 	{
 		_isSelected = true;
 		_isClickInProgress = false;
 		
-		if (onClick != null)
+		if (onClick != null && triggerClickEvent)
 		{
 			onClick.Invoke(Text);
 		}
@@ -72,6 +72,11 @@ public class MenuButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 			_buttonId = value;
 			text.text = _buttonId.ToUpper();
 		}
+	}
+
+	public bool IsSelected
+	{
+		get { return _isSelected; }
 	}
 
 	public void OnDrag(PointerEventData eventData)

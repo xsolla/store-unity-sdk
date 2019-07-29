@@ -12,6 +12,12 @@ public class ItemsController : MonoBehaviour
 	[SerializeField]
 	GameObject cartContainerPrefab;
 
+	[SerializeField]
+	GameObject inventoryContainerPrefab;
+
+	[SerializeField]
+	Transform content;
+	
 	Dictionary<string, GameObject> _containers = new Dictionary<string, GameObject>();
 
 	public void CreateItems(StoreItems items)
@@ -44,11 +50,13 @@ public class ItemsController : MonoBehaviour
 		}
 
 		AddContainer(cartContainerPrefab, Constants.CartGroupName);
+		
+		AddContainer(inventoryContainerPrefab, Constants.InventoryConatainerName);
 	}
 
 	void AddContainer(GameObject itemContainerPref, string containerName)
 	{
-		var newContainer = Instantiate(itemContainerPref, transform);
+		var newContainer = Instantiate(itemContainerPref, content);
 		newContainer.SetActive(false);
 		_containers.Add(containerName, newContainer);
 	}

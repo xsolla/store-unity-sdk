@@ -61,6 +61,8 @@ public class CartControls : MonoBehaviour
 
 		XsollaStore.Instance.BuyCart(XsollaSettings.StoreProjectId, _storeController.Cart.id, data =>
 		{
+			XsollaStore.Instance.GetCartItems(XsollaSettings.StoreProjectId, _storeController.Cart.id, print, print);
+			
 			XsollaStore.Instance.OpenPurchaseUi(data);
 			_checkStatusCor = StartCoroutine(CheckOrderStatus(data.order_id));
 		},print);

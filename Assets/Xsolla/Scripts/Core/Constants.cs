@@ -14,5 +14,6 @@
 
 		public const string CartGroupName = "CART";
 		public const string UngroupedGroupName = "UNGROUPED";
+		public const string InventoryConatainerName = "INVENTORY";
 	}
 }

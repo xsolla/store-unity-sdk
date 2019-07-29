@@ -10,6 +10,7 @@ public class StoreController : MonoBehaviour
 	GroupsController _groupsController;
 	ItemsController _itemsController;
 	ExtraController _extraController;
+	ItemsControls _itemsControls;
 
 	public CartModel CartModel { get; private set; }
 
@@ -24,6 +25,7 @@ public class StoreController : MonoBehaviour
 		_groupsController = FindObjectOfType<GroupsController>();
 		_itemsController = FindObjectOfType<ItemsController>();
 		_extraController = FindObjectOfType<ExtraController>();
+		_itemsControls = FindObjectOfType<ItemsControls>();
 		
 		CartModel = new CartModel();
 		
@@ -50,6 +52,7 @@ public class StoreController : MonoBehaviour
 		_groupsController.CreateGroups(items);
 		_itemsController.CreateItems(items);
 		
+		_itemsControls.Init();
 		_extraController.Init();
 		
 		_groupsController.SelectDefault();

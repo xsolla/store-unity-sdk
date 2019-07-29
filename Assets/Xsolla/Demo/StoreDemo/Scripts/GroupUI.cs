@@ -32,4 +32,9 @@ public class GroupUI : MonoBehaviour, IGroup
 	{
 		menuButton.Deselect();
 	}
+
+	public bool IsSelected()
+	{
+		return menuButton.IsSelected;
+	}
 }

@@ -35,6 +35,11 @@ public class CartGroupUI : MonoBehaviour, IGroup
 		menuButton.Deselect();
 	}
 	
+	public bool IsSelected()
+	{
+		return menuButton.IsSelected;
+	}
+	
 	public void IncreaseCounter(int value = 1)
 	{
 		_counter += value;

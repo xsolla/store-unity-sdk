@@ -118,7 +118,7 @@ namespace Xsolla.Store
 			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.OrderStatusErrors);
 		}
 
-		public void GetInventoryItems([NotNull] Action<StoreItems> onSuccess, [CanBeNull] Action<Error> onError)
+		public void GetInventoryItems([NotNull] Action<InventoryItems> onSuccess, [CanBeNull] Action<Error> onError)
 		{
 			var urlBuilder = new StringBuilder(string.Format("https://store.xsolla.com/api/v1/user/inventory/items")).Append(AdditionalUrlParams);
 
