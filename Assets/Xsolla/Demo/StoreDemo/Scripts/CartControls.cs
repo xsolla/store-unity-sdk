@@ -77,11 +77,14 @@ public class CartControls : MonoBehaviour
 		
 		XsollaStore.Instance.CheckOrderStatus(XsollaSettings.StoreProjectId, orderId,status =>
 		{
-			print(status.status);
-
-			if (status.status != "paid")
+			if (status.Status != OrderStatusType.Paid)
 			{
+				print("Waiting for order to be processed...");
 				_checkStatusCor = StartCoroutine(CheckOrderStatus(orderId));
+			}
+			else
+			{
+				print("Order was successfully processed!");
 			}
 		}, print);
 	}
