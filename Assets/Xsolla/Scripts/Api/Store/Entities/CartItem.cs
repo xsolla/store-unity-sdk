@@ -7,7 +7,6 @@ namespace Xsolla.Store
 	{
 		public string sku;
 		public Character character;
-		public string[] groups;
 		public string name;
 		public string[] attributes;
 		public Variant[] variants;
@@ -15,6 +14,7 @@ namespace Xsolla.Store
 		public string type;
 		public CartPrice price;
 		public string[] vc_prices;
+		public string[] groups;
 		public string long_description;
 		public string description;
 		public string image_url;
