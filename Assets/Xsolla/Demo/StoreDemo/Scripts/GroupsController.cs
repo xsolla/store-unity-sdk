@@ -62,7 +62,7 @@ public class GroupsController : MonoBehaviour
 			_itemsController.ActivateContainer(id);
 			ChangeSelection(id);
 			
-			_itemsControls.SetStore();
+			_itemsControls.ActivateStoreTab(id);
 		};
 
 		_groups.Add(newGroup);

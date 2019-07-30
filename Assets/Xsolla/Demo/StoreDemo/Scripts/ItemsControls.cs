@@ -33,9 +33,22 @@ public class ItemsControls : MonoBehaviour
 		});
 	}
 
-	public void SetStore()
+	public void ActivateStoreTab(string groupID)
 	{
-		storeButton.Select(false);
-		inventoryButton.Deselect();
+		if (groupID != Constants.CartGroupName)
+		{
+			storeButton.gameObject.SetActive(true);
+			inventoryButton.gameObject.SetActive(true);
+			
+			storeButton.Select(false);
+			inventoryButton.Deselect();
+		}
+		else
+		{
+			storeButton.gameObject.SetActive(false);
+			inventoryButton.gameObject.SetActive(false);
+			
+			// TODO display cart header
+		}
 	}
 }
