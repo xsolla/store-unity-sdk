@@ -87,6 +87,7 @@ public class CartControls : MonoBehaviour
 			else
 			{
 				print("Order was successfully processed!");
+				XsollaStore.Instance.GetInventoryItems((items => { _storeController.inventory = items; }), print);
 			}
 		}, print);
 	}

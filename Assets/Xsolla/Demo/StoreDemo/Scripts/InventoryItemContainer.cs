@@ -11,10 +11,14 @@ public class InventoryItemContainer : MonoBehaviour, IContainer
 	Transform itemParent;
 
 	List<GameObject> _items;
+	
+	StoreController _storeController;
 
 	void Awake()
 	{
 		_items = new List<GameObject>();
+		
+		_storeController = FindObjectOfType<StoreController>();
 	}
 
 	public void AddItem(InventoryItem itemInformation)
@@ -27,14 +31,11 @@ public class InventoryItemContainer : MonoBehaviour, IContainer
 	public void Refresh()
 	{
 		ClearInventoryItems();
-		
-		XsollaStore.Instance.GetInventoryItems((items =>
+
+		foreach (var item in _storeController.inventory.items)
 		{
-			foreach (var item in items.items)
-			{
-				AddItem(item);
-			}
-		}), print);
+			AddItem(item);
+		}
 	}
 	
 	void ClearInventoryItems()

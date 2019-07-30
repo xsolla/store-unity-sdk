@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using Xsolla.Core;
 using Xsolla.Login;
 using Xsolla.Store;
@@ -12,10 +11,11 @@ public class StoreController : MonoBehaviour
 	ExtraController _extraController;
 	ItemsControls _itemsControls;
 
+	public InventoryItems inventory;
 	public CartModel CartModel { get; private set; }
 
 	public static Dictionary<string, Sprite> ItemIcons;
-	
+
 	const string DefaultStoreToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE5NjIyMzQwNDgsImlzcyI6Imh0dHBzOi8vbG9naW4ueHNvbGxhLmNvbSIsImlhdCI6MTU2MjE0NzY0OCwidXNlcm5hbWUiOiJ4c29sbGEiLCJ4c29sbGFfbG9naW5fYWNjZXNzX2tleSI6IjA2SWF2ZHpDeEVHbm5aMTlpLUc5TmMxVWFfTWFZOXhTR3ZEVEY4OFE3RnMiLCJzdWIiOiJkMzQyZGFkMi05ZDU5LTExZTktYTM4NC00MjAxMGFhODAwM2YiLCJlbWFpbCI6InN1cHBvcnRAeHNvbGxhLmNvbSIsInR5cGUiOiJ4c29sbGFfbG9naW4iLCJ4c29sbGFfbG9naW5fcHJvamVjdF9pZCI6ImU2ZGZhYWM2LTc4YTgtMTFlOS05MjQ0LTQyMDEwYWE4MDAwNCIsInB1Ymxpc2hlcl9pZCI6MTU5MjR9.GCrW42OguZbLZTaoixCZgAeNLGH2xCeJHxl8u8Xn2aI";
 
 	public Cart Cart { get; private set; }
@@ -45,6 +45,8 @@ public class StoreController : MonoBehaviour
 		XsollaStore.Instance.CreateNewCart(XsollaSettings.StoreProjectId, newCart => { Cart = newCart; }, print);
 
 		XsollaStore.Instance.GetListOfItems(XsollaSettings.StoreProjectId, InitStoreUi, print);
+
+		XsollaStore.Instance.GetInventoryItems((items => { inventory = items; }), print);
 	}
 
 	void InitStoreUi(StoreItems items)

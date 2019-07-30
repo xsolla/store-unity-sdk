@@ -21,8 +21,13 @@ public class ItemsControls : MonoBehaviour
 		storeButton.onClick = ((s) =>
 		{
 			inventoryButton.Deselect();
-			
-			itemsController.ActivateContainer(groupsController.GetSelectedGroup());
+
+			var selectedGroup = groupsController.GetSelectedGroup();
+
+			if (selectedGroup != null)
+			{
+				itemsController.ActivateContainer(selectedGroup.Name);
+			}
 		});
 		
 		inventoryButton.onClick = ((s) =>
@@ -47,8 +52,6 @@ public class ItemsControls : MonoBehaviour
 		{
 			storeButton.gameObject.SetActive(false);
 			inventoryButton.gameObject.SetActive(false);
-			
-			// TODO display cart header
 		}
 	}
 }

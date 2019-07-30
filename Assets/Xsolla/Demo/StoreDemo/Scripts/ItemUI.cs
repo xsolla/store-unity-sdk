@@ -22,6 +22,7 @@ public class ItemUI : MonoBehaviour
 	Coroutine _loadingRoutine;
 	StoreItem _itemInformation;
 	StoreController _storeController;
+	GroupsController _groupsController;
 
 	Sprite _itemImage;
 	
@@ -30,6 +31,7 @@ public class ItemUI : MonoBehaviour
 	void Awake()
 	{
 		_storeController = FindObjectOfType<StoreController>();
+		_groupsController = FindObjectOfType<GroupsController>();
 
 		var cartGroup = FindObjectOfType<CartGroupUI>();
 
@@ -137,6 +139,7 @@ public class ItemUI : MonoBehaviour
 			else
 			{
 				print("Order was successfully processed!");
+				XsollaStore.Instance.GetInventoryItems((items => { _storeController.inventory = items; }), print);
 			}
 		}, print);
 	}

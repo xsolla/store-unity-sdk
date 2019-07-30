@@ -26,24 +26,21 @@ public class InventoryItemUI : MonoBehaviour
 
 		itemName.text = _itemInformation.name;
 		itemDescription.text = _itemInformation.description;
+
+		if (_itemImage == null && !string.IsNullOrEmpty(_itemInformation.image_url))
+		{
+			if (StoreController.ItemIcons.ContainsKey(_itemInformation.image_url))
+			{
+				loadingCircle.SetActive(false);
+				itemImage.sprite = StoreController.ItemIcons[_itemInformation.image_url];
+			}
+			else
+			{
+				_loadingRoutine = StartCoroutine(LoadImage(_itemInformation.image_url));
+			}
+		}
 	}
-	
-	void OnEnable()
-	{
-//		if (_itemImage == null && !string.IsNullOrEmpty(_itemInformation.image_url))
-//		{
-//			if (StoreController.ItemIcons.ContainsKey(_itemInformation.image_url))
-//			{
-//				loadingCircle.SetActive(false);
-//				itemImage.sprite = StoreController.ItemIcons[_itemInformation.image_url];
-//			}
-//			else
-//			{
-//				_loadingRoutine = StartCoroutine(LoadImage(_itemInformation.image_url));
-//			}
-//		}
-	}
-	
+
 	IEnumerator LoadImage(string url)
 	{
 		using (var www = new WWW(url))

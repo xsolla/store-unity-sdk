@@ -87,10 +87,8 @@ public class GroupsController : MonoBehaviour
 		}
 	}
 
-	public string GetSelectedGroup()
+	public IGroup GetSelectedGroup()
 	{
-		var selectedGroup = _groups.Find((group => group.IsSelected()));
-		
-		return selectedGroup != null ? selectedGroup.Name : string.Empty;
+		return _groups.Find((group => group.IsSelected()));
 	}
 }
