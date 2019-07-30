@@ -11,6 +11,7 @@ public class StoreController : MonoBehaviour
 	ExtraController _extraController;
 	ItemsControls _itemsControls;
 
+	[HideInInspector]
 	public InventoryItems inventory;
 	public CartModel CartModel { get; private set; }
 
