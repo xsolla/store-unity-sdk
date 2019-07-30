@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Xsolla.Core;
 using Xsolla.Login;
@@ -59,5 +60,33 @@ public class StoreController : MonoBehaviour
 		_extraController.Init();
 		
 		_groupsController.SelectDefault();
+	}
+	public void ProcessOrder(int orderId)
+	{
+		StartCoroutine(CheckOrderStatus(orderId));
+	}
+
+	IEnumerator CheckOrderStatus(int orderId)
+	{
+		yield return new WaitForSeconds(3.0f);
+		
+		XsollaStore.Instance.CheckOrderStatus(XsollaSettings.StoreProjectId, orderId,status =>
+		{
+			if (status.Status != OrderStatusType.Paid)
+			{
+				print(string.Format("Waiting for order {0} to be processed...", orderId));
+				StartCoroutine(CheckOrderStatus(orderId));
+			}
+			else
+			{
+				print(string.Format("Order {0} was successfully processed!", orderId));
+				XsollaStore.Instance.GetInventoryItems((items => { inventory = items; }), print);
+			}
+		}, print);
+	}
+	
+	void OnDestroy()
+	{
+		StopAllCoroutines();
 	}
 }

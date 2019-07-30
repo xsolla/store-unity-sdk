@@ -18,11 +18,9 @@ public class ItemUI : MonoBehaviour
 	SimpleTextButton buyButton;
 	[SerializeField]
 	AddToCartButton addToCartButton;
-
-	Coroutine _loadingRoutine;
+	
 	StoreItem _itemInformation;
 	StoreController _storeController;
-	GroupsController _groupsController;
 
 	Sprite _itemImage;
 	
@@ -31,7 +29,6 @@ public class ItemUI : MonoBehaviour
 	void Awake()
 	{
 		_storeController = FindObjectOfType<StoreController>();
-		_groupsController = FindObjectOfType<GroupsController>();
 
 		var cartGroup = FindObjectOfType<CartGroupUI>();
 
@@ -42,7 +39,7 @@ public class ItemUI : MonoBehaviour
 			XsollaStore.Instance.BuyItem(XsollaSettings.StoreProjectId, _itemInformation.sku, data =>
 			{
 				XsollaStore.Instance.OpenPurchaseUi(data);
-				_checkStatusCor = StartCoroutine(CheckOrderStatus(data.order_id));
+				_storeController.ProcessOrder(data.order_id);
 			}, print);
 		});
 
@@ -93,7 +90,7 @@ public class ItemUI : MonoBehaviour
 			}
 			else
 			{
-				_loadingRoutine = StartCoroutine(LoadImage(_itemInformation.image_url));
+				StartCoroutine(LoadImage(_itemInformation.image_url));
 			}
 		}
 	}
@@ -123,24 +120,5 @@ public class ItemUI : MonoBehaviour
 				StoreController.ItemIcons.Add(url, sprite);
 			}
 		}
-	}
-
-	IEnumerator CheckOrderStatus(int orderId)
-	{
-		yield return new WaitForSeconds(5.0f);
-		
-		XsollaStore.Instance.CheckOrderStatus(XsollaSettings.StoreProjectId, orderId,status =>
-		{
-			if (status.Status != OrderStatusType.Paid)
-			{
-				print("Waiting for order to be processed...");
-				_checkStatusCor = StartCoroutine(CheckOrderStatus(orderId));
-			}
-			else
-			{
-				print("Order was successfully processed!");
-				XsollaStore.Instance.GetInventoryItems((items => { _storeController.inventory = items; }), print);
-			}
-		}, print);
 	}
 }
