@@ -49,7 +49,7 @@ public class StoreController : MonoBehaviour
 
 		XsollaStore.Instance.GetListOfItems(XsollaSettings.StoreProjectId, InitStoreUi, print);
 
-		XsollaStore.Instance.GetInventoryItems((items => { inventory = items; }), print);
+		XsollaStore.Instance.GetInventoryItems(XsollaSettings.StoreProjectId,(items => { inventory = items; }), print);
 	}
 
 	void InitStoreUi(StoreItems items)
@@ -81,7 +81,7 @@ public class StoreController : MonoBehaviour
 			else
 			{
 				print(string.Format("Order {0} was successfully processed!", orderId));
-				XsollaStore.Instance.GetInventoryItems((items =>
+				XsollaStore.Instance.GetInventoryItems(XsollaSettings.StoreProjectId,(items =>
 				{
 					inventory = items;
 					
