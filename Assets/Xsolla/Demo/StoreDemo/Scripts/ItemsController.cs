@@ -74,4 +74,13 @@ public class ItemsController : MonoBehaviour
 			_containers[groupId].GetComponent<IContainer>().Refresh();
 		}
 	}
+
+	public void RefreshActiveContainer()
+	{
+		var activeContainer = _containers.Values.First((container => container.activeSelf));
+		if (activeContainer != null)
+		{
+			activeContainer.GetComponent<IContainer>().Refresh();
+		}
+	}
 }

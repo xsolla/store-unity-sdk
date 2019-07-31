@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Xsolla.Core;
@@ -61,12 +62,12 @@ public class StoreController : MonoBehaviour
 		
 		_groupsController.SelectDefault();
 	}
-	public void ProcessOrder(int orderId)
+	public void ProcessOrder(int orderId, Action onOrderPaid = null)
 	{
-		StartCoroutine(CheckOrderStatus(orderId));
+		StartCoroutine(CheckOrderStatus(orderId, onOrderPaid));
 	}
 
-	IEnumerator CheckOrderStatus(int orderId)
+	IEnumerator CheckOrderStatus(int orderId, Action onOrderPaid = null)
 	{
 		yield return new WaitForSeconds(3.0f);
 		
@@ -75,12 +76,20 @@ public class StoreController : MonoBehaviour
 			if (status.Status != OrderStatusType.Paid)
 			{
 				print(string.Format("Waiting for order {0} to be processed...", orderId));
-				StartCoroutine(CheckOrderStatus(orderId));
+				StartCoroutine(CheckOrderStatus(orderId, onOrderPaid));
 			}
 			else
 			{
 				print(string.Format("Order {0} was successfully processed!", orderId));
-				XsollaStore.Instance.GetInventoryItems((items => { inventory = items; }), print);
+				XsollaStore.Instance.GetInventoryItems((items =>
+				{
+					inventory = items;
+					
+					if (onOrderPaid != null)
+					{
+						onOrderPaid.Invoke();
+					}
+				}), print);
 			}
 		}, print);
 	}
@@ -88,5 +97,19 @@ public class StoreController : MonoBehaviour
 	void OnDestroy()
 	{
 		StopAllCoroutines();
+	}
+
+	public void ResetCart()
+	{
+		XsollaStore.Instance.CreateNewCart(XsollaSettings.StoreProjectId, newCart =>
+		{
+			Cart = newCart; 
+			CartModel.Clear();
+
+			var cartGroup = FindObjectOfType<CartGroupUI>();
+			cartGroup.ResetCounter();
+
+			_itemsController.RefreshActiveContainer();
+		}, print);
 	}
 }

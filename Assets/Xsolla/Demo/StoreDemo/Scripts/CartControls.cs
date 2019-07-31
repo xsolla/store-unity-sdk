@@ -52,7 +52,11 @@ public class CartControls : MonoBehaviour
 		XsollaStore.Instance.BuyCart(XsollaSettings.StoreProjectId, _storeController.Cart.id, data =>
 		{
 			XsollaStore.Instance.OpenPurchaseUi(data);
-			_storeController.ProcessOrder(data.order_id);
+
+			_storeController.ProcessOrder(data.order_id, () =>
+			{
+				_storeController.ResetCart();
+			});
 		},print);
 	}
 	

@@ -71,4 +71,9 @@ public class CartModel
 		
 		return cartDiscount;
 	}
+
+	public void Clear()
+	{
+		cartItems.Clear();
+	}
 }

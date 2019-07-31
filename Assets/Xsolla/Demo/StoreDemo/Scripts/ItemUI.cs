@@ -21,14 +21,14 @@ public class ItemUI : MonoBehaviour
 	
 	StoreItem _itemInformation;
 	StoreController _storeController;
+	ItemsController _itemsController;
 
 	Sprite _itemImage;
-	
-	Coroutine _checkStatusCor;
 
 	void Awake()
 	{
 		_storeController = FindObjectOfType<StoreController>();
+		_itemsController = FindObjectOfType<ItemsController>();
 
 		var cartGroup = FindObjectOfType<CartGroupUI>();
 
@@ -39,7 +39,10 @@ public class ItemUI : MonoBehaviour
 			XsollaStore.Instance.BuyItem(XsollaSettings.StoreProjectId, _itemInformation.sku, data =>
 			{
 				XsollaStore.Instance.OpenPurchaseUi(data);
-				_storeController.ProcessOrder(data.order_id);
+				_storeController.ProcessOrder(data.order_id, () =>
+				{
+					_itemsController.RefreshActiveContainer();
+				});
 			}, print);
 		});
 
@@ -56,14 +59,6 @@ public class ItemUI : MonoBehaviour
 				cartGroup.DecreaseCounter();
 			}
 		});
-	}
-
-	void OnDestroy()
-	{
-		if (_checkStatusCor != null)
-		{
-			StopCoroutine(_checkStatusCor);
-		}
 	}
 
 	public void Initialize(StoreItem itemInformation)
