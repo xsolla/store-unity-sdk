@@ -13,6 +13,8 @@ public class InventoryItemUI : MonoBehaviour
 	Text itemName;
 	[SerializeField]
 	Text itemDescription;
+	[SerializeField]
+	Text itemQuantity;
 	
 	Coroutine _loadingRoutine;
 	InventoryItem _itemInformation;
@@ -26,6 +28,7 @@ public class InventoryItemUI : MonoBehaviour
 
 		itemName.text = _itemInformation.name;
 		itemDescription.text = _itemInformation.description;
+		itemQuantity.text = _itemInformation.quantity.ToString();
 
 		if (_itemImage == null && !string.IsNullOrEmpty(_itemInformation.image_url))
 		{
