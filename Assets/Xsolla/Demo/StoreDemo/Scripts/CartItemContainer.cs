@@ -8,9 +8,6 @@ using Xsolla.Store;
 public class CartItemContainer : MonoBehaviour, IContainer
 {
 	[SerializeField]
-	GameObject cartHeaderPrefab;
-	
-	[SerializeField]
 	GameObject cartItemPrefab;
 
 	[SerializeField]
@@ -24,15 +21,12 @@ public class CartItemContainer : MonoBehaviour, IContainer
 
 	List<GameObject> _cartItems;
 
-	GameObject _headerPanel;
 	GameObject _discountPanel;
 	GameObject _cartControls;
 	
 	StoreController _storeController;
 
 	CartGroupUI _cartGroup;
-
-	Transform _controlsItemParent;
 
 	void Awake()
 	{
@@ -41,12 +35,8 @@ public class CartItemContainer : MonoBehaviour, IContainer
 		_storeController = FindObjectOfType<StoreController>();
 		_cartGroup = FindObjectOfType<CartGroupUI>();
 
-		_controlsItemParent = FindObjectOfType<ItemsControls>().transform;
-	}
-
-	void OnDisable()
-	{
-		Destroy(_headerPanel);
+		var itemsControls = FindObjectOfType<ItemsControls>();
+		itemsControls .OnClearCart = OnClearCart;
 	}
 
 	void OnClearCart()
@@ -71,8 +61,6 @@ public class CartItemContainer : MonoBehaviour, IContainer
 	{
 		ClearCartItems();
 
-		AddHeader();
-		
 		if (!_storeController.CartModel.CartItems.Any())
 		{
 			return;
@@ -92,12 +80,6 @@ public class CartItemContainer : MonoBehaviour, IContainer
 		var fullPrice = _storeController.CartModel.CalculateCartPrice();
 
 		AddControls(fullPrice - discount);
-	}
-
-	void AddHeader()
-	{
-		_headerPanel = Instantiate(cartHeaderPrefab, _controlsItemParent);
-		_headerPanel.GetComponent<CartHeader>().OnClearCart = OnClearCart;
 	}
 
 	void AddDiscount(float discountAmount)
@@ -121,7 +103,6 @@ public class CartItemContainer : MonoBehaviour, IContainer
 		
 		_cartItems.Clear();
 		
-		Destroy(_headerPanel);
 		Destroy(_discountPanel);
 		Destroy(_cartControls);
 	}

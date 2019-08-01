@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using Xsolla.Core;
 
 public class ItemsControls : MonoBehaviour
@@ -7,6 +8,17 @@ public class ItemsControls : MonoBehaviour
 	MenuButton storeButton;
 	[SerializeField]
 	MenuButton inventoryButton;
+	
+	[SerializeField]
+	SimpleButton clearCartButton;
+
+	public Action OnClearCart
+	{
+		set
+		{
+			clearCartButton.onClick = value;
+		}
+	}
 
 	public void Init()
 	{
@@ -27,6 +39,11 @@ public class ItemsControls : MonoBehaviour
 			if (selectedGroup != null)
 			{
 				itemsController.ActivateContainer(selectedGroup.Name);
+
+				if (selectedGroup.Name == Constants.CartGroupName)
+				{
+					clearCartButton.gameObject.SetActive(true);
+				}
 			}
 		});
 		
@@ -35,6 +52,8 @@ public class ItemsControls : MonoBehaviour
 			storeButton.Deselect();
 			
 			itemsController.ActivateContainer(Constants.InventoryConatainerName);
+			
+			clearCartButton.gameObject.SetActive(false);
 		});
 	}
 
@@ -42,16 +61,16 @@ public class ItemsControls : MonoBehaviour
 	{
 		if (groupID != Constants.CartGroupName)
 		{
-			storeButton.gameObject.SetActive(true);
-			inventoryButton.gameObject.SetActive(true);
-			
-			storeButton.Select(false);
-			inventoryButton.Deselect();
+			storeButton.Text = "Store";
+			clearCartButton.gameObject.SetActive(false);
 		}
 		else
 		{
-			storeButton.gameObject.SetActive(false);
-			inventoryButton.gameObject.SetActive(false);
+			storeButton.Text = "Cart";
+			clearCartButton.gameObject.SetActive(true);
 		}
+		
+		storeButton.Select(false);
+		inventoryButton.Deselect();
 	}
 }
