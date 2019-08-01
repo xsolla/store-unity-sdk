@@ -27,6 +27,9 @@ public class MenuButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 	Color hoverStateTextColor;
 	[SerializeField]
 	Color pressedStateTextColor;
+	
+	[SerializeField]
+	bool capitalizeText = true;
 
 	bool _isClickInProgress;
 	bool _isSelected;
@@ -70,7 +73,8 @@ public class MenuButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 		set
 		{
 			_buttonId = value;
-			text.text = _buttonId.ToUpper();
+
+			text.text = capitalizeText ? _buttonId.ToUpper() : _buttonId;
 		}
 	}
 

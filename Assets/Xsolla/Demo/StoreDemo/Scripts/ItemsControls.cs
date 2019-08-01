@@ -4,6 +4,9 @@ using Xsolla.Core;
 
 public class ItemsControls : MonoBehaviour
 {
+	const string StoreButtonText = "Store";
+	const string CartButtonText = "Cart";
+
 	[SerializeField]
 	MenuButton storeButton;
 	[SerializeField]
@@ -61,12 +64,12 @@ public class ItemsControls : MonoBehaviour
 	{
 		if (groupID != Constants.CartGroupName)
 		{
-			storeButton.Text = "Store";
+			storeButton.Text = StoreButtonText;
 			clearCartButton.gameObject.SetActive(false);
 		}
 		else
 		{
-			storeButton.Text = "Cart";
+			storeButton.Text = CartButtonText;
 			clearCartButton.gameObject.SetActive(true);
 		}
 		

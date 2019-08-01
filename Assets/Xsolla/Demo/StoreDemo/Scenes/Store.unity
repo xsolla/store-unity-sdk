@@ -273,6 +273,11 @@ PrefabInstance:
       propertyPath: hoverStateTextColor.b
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 627305874044384153, guid: d4d128b98bda8b64ba4e7c5ac8185626,
+        type: 3}
+      propertyPath: capitalizeText
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3380471753738665331, guid: d4d128b98bda8b64ba4e7c5ac8185626,
         type: 3}
       propertyPath: m_Text
@@ -1049,6 +1054,11 @@ PrefabInstance:
       propertyPath: hoverStateTextColor.b
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 627305874044384153, guid: d4d128b98bda8b64ba4e7c5ac8185626,
+        type: 3}
+      propertyPath: capitalizeText
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3380471753738665331, guid: d4d128b98bda8b64ba4e7c5ac8185626,
         type: 3}
       propertyPath: m_Text
@@ -1541,7 +1551,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.000014747689}
+  m_AnchoredPosition: {x: 0, y: 0.00028394218}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1571266474
