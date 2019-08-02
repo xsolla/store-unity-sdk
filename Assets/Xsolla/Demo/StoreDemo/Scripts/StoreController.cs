@@ -5,9 +5,13 @@ using UnityEngine;
 using Xsolla.Core;
 using Xsolla.Login;
 using Xsolla.Store;
+using Error = Xsolla.Core.Error;
 
 public class StoreController : MonoBehaviour
 {
+	[SerializeField]
+	GameObject popupPrefab;
+	
 	GroupsController _groupsController;
 	ItemsController _itemsController;
 	ExtraController _extraController;
@@ -111,5 +115,13 @@ public class StoreController : MonoBehaviour
 
 			_itemsController.RefreshActiveContainer();
 		}, print);
+	}
+
+	public void ShowError(Error error)
+	{
+		print(error);
+		
+		var popup = Instantiate(popupPrefab, gameObject.transform).GetComponent<MessagePopup>();
+		popup.ShowError();
 	}
 }
