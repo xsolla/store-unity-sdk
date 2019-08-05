@@ -2,7 +2,7 @@
 using UnityEngine;
 using Xsolla.Core;
 
-public class ItemsControls : MonoBehaviour
+public class ItemsTabControl : MonoBehaviour
 {
 	const string StoreButtonText = "Store";
 	const string CartButtonText = "Cart";

@@ -43,7 +43,7 @@ public class ItemUI : MonoBehaviour
 				{
 					_itemsController.RefreshActiveContainer();
 				});
-			}, print);
+			}, _storeController.ShowError);
 		});
 
 		addToCartButton.onClick = (bSelected =>

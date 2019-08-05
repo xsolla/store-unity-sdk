@@ -5,7 +5,7 @@ using UnityEngine;
 using Xsolla.Core;
 using Xsolla.Login;
 using Xsolla.Store;
-using Error = Xsolla.Core.Error;
+
 
 public class StoreController : MonoBehaviour
 {
@@ -15,7 +15,9 @@ public class StoreController : MonoBehaviour
 	GroupsController _groupsController;
 	ItemsController _itemsController;
 	ExtraController _extraController;
-	ItemsControls _itemsControls;
+	ItemsTabControl _itemsTabControl;
+
+	MessagePopup _popup;
 
 	[HideInInspector]
 	public InventoryItems inventory;
@@ -32,7 +34,7 @@ public class StoreController : MonoBehaviour
 		_groupsController = FindObjectOfType<GroupsController>();
 		_itemsController = FindObjectOfType<ItemsController>();
 		_extraController = FindObjectOfType<ExtraController>();
-		_itemsControls = FindObjectOfType<ItemsControls>();
+		_itemsTabControl = FindObjectOfType<ItemsTabControl>();
 		
 		CartModel = new CartModel();
 		
@@ -49,11 +51,11 @@ public class StoreController : MonoBehaviour
 			XsollaStore.Instance.Token = DefaultStoreToken;
 		}
 
-		XsollaStore.Instance.CreateNewCart(XsollaSettings.StoreProjectId, newCart => { Cart = newCart; }, print);
+		XsollaStore.Instance.CreateNewCart(XsollaSettings.StoreProjectId, newCart => { Cart = newCart; }, ShowError);
 
-		XsollaStore.Instance.GetListOfItems(XsollaSettings.StoreProjectId, InitStoreUi, print);
+		XsollaStore.Instance.GetListOfItems(XsollaSettings.StoreProjectId, InitStoreUi, ShowError);
 
-		XsollaStore.Instance.GetInventoryItems(XsollaSettings.StoreProjectId,(items => { inventory = items; }), print);
+		XsollaStore.Instance.GetInventoryItems(XsollaSettings.StoreProjectId,(items => { inventory = items; }), ShowError);
 	}
 
 	void InitStoreUi(StoreItems items)
@@ -61,7 +63,7 @@ public class StoreController : MonoBehaviour
 		_groupsController.CreateGroups(items);
 		_itemsController.CreateItems(items);
 		
-		_itemsControls.Init();
+		_itemsTabControl.Init();
 		_extraController.Init();
 		
 		_groupsController.SelectDefault();
@@ -93,9 +95,9 @@ public class StoreController : MonoBehaviour
 					{
 						onOrderPaid.Invoke();
 					}
-				}), print);
+				}), ShowError);
 			}
-		}, print);
+		}, ShowError);
 	}
 	
 	void OnDestroy()
@@ -114,14 +116,21 @@ public class StoreController : MonoBehaviour
 			cartGroup.ResetCounter();
 
 			_itemsController.RefreshActiveContainer();
-		}, print);
+		}, ShowError);
 	}
 
-	public void ShowError(Error error)
+	public void ShowError(Xsolla.Core.Error error)
 	{
-		print(error);
-		
-		var popup = Instantiate(popupPrefab, gameObject.transform).GetComponent<MessagePopup>();
-		popup.ShowError();
+		if (_popup == null)
+		{
+			_popup = Instantiate(popupPrefab, gameObject.transform).GetComponent<MessagePopup>();
+			_popup.ShowError(() => { _popup = null; });
+			
+			print(error);
+		}
+		else
+		{
+			print("Error popup is already shown, so error only printed to console: " + error);
+		}
 	}
 }

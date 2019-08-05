@@ -35,8 +35,8 @@ public class CartItemContainer : MonoBehaviour, IContainer
 		_storeController = FindObjectOfType<StoreController>();
 		_cartGroup = FindObjectOfType<CartGroupUI>();
 
-		var itemsControls = FindObjectOfType<ItemsControls>();
-		itemsControls .OnClearCart = OnClearCart;
+		var itemsTabControl = FindObjectOfType<ItemsTabControl>();
+		itemsTabControl .OnClearCart = OnClearCart;
 	}
 
 	void OnClearCart()
@@ -47,7 +47,7 @@ public class CartItemContainer : MonoBehaviour, IContainer
 		
 		_cartGroup.ResetCounter();
 		
-		XsollaStore.Instance.ClearCart(XsollaSettings.StoreProjectId, _storeController.Cart.id, null, print);
+		XsollaStore.Instance.ClearCart(XsollaSettings.StoreProjectId, _storeController.Cart.id, null, _storeController.ShowError);
 	}
 
 	void AddCartItem(CartItemModel itemInformation)

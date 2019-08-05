@@ -11,8 +11,8 @@ public class CartControls : MonoBehaviour
 	[SerializeField]
 	Text priceText;
 
-	int totalItems;
-	int completedRequests;
+	int _totalItems;
+	int _completedRequests;
 	
 	StoreController _storeController;
 
@@ -24,30 +24,30 @@ public class CartControls : MonoBehaviour
 		{
 			XsollaStore.Instance.ClearCart(XsollaSettings.StoreProjectId, _storeController.Cart.id, () =>
 			{
-				totalItems = _storeController.CartModel.CartItems.Count;
-				completedRequests = 0;
+				_totalItems = _storeController.CartModel.CartItems.Count;
+				_completedRequests = 0;
 			
 				foreach (var cartItem in _storeController.CartModel.CartItems)
 				{
 					XsollaStore.Instance.AddItemToCart(XsollaSettings.StoreProjectId, _storeController.Cart.id, cartItem.Key, cartItem.Value.Quantity,
 						() =>
 						{
-							completedRequests++;
+							_completedRequests++;
 						}, error =>
 						{
-							completedRequests++;
-							Debug.Log(error.ToString()); 
+							_completedRequests++;
+							_storeController.ShowError(error); 
 						});
 				}
 
 				StartCoroutine(BuyCart());
-			}, error => { Debug.Log(error.ToString()); });
+			}, _storeController.ShowError);
 		});
 	}
 
 	IEnumerator BuyCart()
 	{
-		yield return new WaitUntil(() => completedRequests == totalItems);
+		yield return new WaitUntil(() => _completedRequests == _totalItems);
 
 		XsollaStore.Instance.BuyCart(XsollaSettings.StoreProjectId, _storeController.Cart.id, data =>
 		{
@@ -57,7 +57,7 @@ public class CartControls : MonoBehaviour
 			{
 				_storeController.ResetCart();
 			});
-		},print);
+		}, _storeController.ShowError);
 	}
 	
 	public void Initialize(float price)
