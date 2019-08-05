@@ -7,10 +7,8 @@ namespace Xsolla.Store
 	{
 		// Start is called before the first frame update
 		public string sku;
-		public Character character;
 		public string name;
 		public string[] attributes;
-		public Variant[] variants;
 		public string[] media_list;
 		public string type;
 		public CartPrice price;

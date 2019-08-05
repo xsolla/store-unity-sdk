@@ -6,10 +6,8 @@ namespace Xsolla.Store
 	public class StoreItem
 	{
 		public string sku;
-		public Character character;
 		public string name;
 		public string[] attributes;
-		public string[] variants;
 		public string[] media_list;
 		public string type;
 		public Price[] prices;
