@@ -52,10 +52,24 @@ namespace Xsolla.Store
 		{
 			if (XsollaSettings.IsSandbox)
 			{
+				if(Application.platform==RuntimePlatform.WebGLPlayer)
+				{
+					var str = string.Format("window.open(\"{0}\",\"_blank\")", "https://sandbox-secure.xsolla.com/paystation2/?access_token=" + purchaseData.token);
+					Application.ExternalEval(str);
+					return;
+				}
+				
 				Application.OpenURL("https://sandbox-secure.xsolla.com/paystation2/?access_token=" + purchaseData.token);
 			}
 			else
 			{
+				if(Application.platform==RuntimePlatform.WebGLPlayer)
+				{
+					var str = string.Format("window.open(\"{0}\",\"_blank\")", "https://secure.xsolla.com/paystation2/?access_token=" + purchaseData.token);
+					Application.ExternalEval(str);
+					return;
+				}
+				
 				Application.OpenURL("https://secure.xsolla.com/paystation2/?access_token=" + purchaseData.token);
 			}
 		}
