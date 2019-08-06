@@ -87,6 +87,9 @@ public class StoreController : MonoBehaviour
 			else
 			{
 				print(string.Format("Order {0} was successfully processed!", orderId));
+
+				ShowSuccess();
+				
 				XsollaStore.Instance.GetInventoryItems(XsollaSettings.StoreProjectId,(items =>
 				{
 					inventory = items;
@@ -117,6 +120,19 @@ public class StoreController : MonoBehaviour
 
 			_itemsController.RefreshActiveContainer();
 		}, ShowError);
+	}
+	
+	public void ShowSuccess()
+	{
+		if (_popup == null)
+		{
+			_popup = Instantiate(popupPrefab, gameObject.transform).GetComponent<MessagePopup>();
+			_popup.ShowSuccess(() => { _popup = null; });
+		}
+		else
+		{
+			print("Error popup is already shown, so error only printed to console");
+		}
 	}
 
 	public void ShowError(Xsolla.Core.Error error)
