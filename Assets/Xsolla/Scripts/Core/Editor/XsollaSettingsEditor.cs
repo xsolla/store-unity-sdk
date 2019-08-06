@@ -37,6 +37,7 @@ namespace Xsolla.Core
 				GUILayout.Label("Store SDK Settings", EditorStyles.boldLabel);
 				
 				XsollaSettings.StoreProjectId = EditorGUILayout.TextField(new GUIContent("Project ID"),  XsollaSettings.StoreProjectId);
+				XsollaSettings.IsSandbox = EditorGUILayout.Toggle("Enable sandbox?", XsollaSettings.IsSandbox);
 			}
       
 			EditorGUILayout.Space();

@@ -50,7 +50,14 @@ namespace Xsolla.Store
 		
 		public void OpenPurchaseUi(PurchaseData purchaseData)
 		{
-			Application.OpenURL("https://secure.xsolla.com/paystation2/?access_token=" + purchaseData.token);
+			if (XsollaSettings.IsSandbox)
+			{
+				Application.OpenURL("https://sandbox-secure.xsolla.com/paystation2/?access_token=" + purchaseData.token);
+			}
+			else
+			{
+				Application.OpenURL("https://secure.xsolla.com/paystation2/?access_token=" + purchaseData.token);
+			}
 		}
 
 		public void GetListOfItems(string projectId, [NotNull] Action<StoreItems> onSuccess, [CanBeNull] Action<Error> onError)

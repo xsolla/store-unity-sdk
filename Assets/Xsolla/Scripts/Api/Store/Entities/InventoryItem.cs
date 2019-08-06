@@ -5,7 +5,6 @@ namespace Xsolla.Store
 	[Serializable]
 	public class InventoryItem
 	{
-		// Start is called before the first frame update
 		public string sku;
 		public string name;
 		public string[] attributes;

@@ -25,6 +25,8 @@ namespace Xsolla.Core
 		
 		[SerializeField]
 		string storeProjectId;
+		[SerializeField]
+		bool isSandbox = true;
 		
 		[SerializeField]
 		string payStationProjectId;
@@ -87,6 +89,16 @@ namespace Xsolla.Core
 			set
 			{
 				Instance.storeProjectId = value;
+				MarkAssetDirty();
+			}
+		}
+		
+		public static bool IsSandbox
+		{
+			get { return Instance.isSandbox; }
+			set
+			{
+				Instance.isSandbox = value;
 				MarkAssetDirty();
 			}
 		}
