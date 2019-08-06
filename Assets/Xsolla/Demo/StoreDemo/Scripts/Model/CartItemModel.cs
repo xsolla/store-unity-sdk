@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine.SocialPlatforms;
+using Xsolla.Core;
 using Xsolla.Store;
 
 public class CartItemModel
@@ -30,6 +31,11 @@ public class CartItemModel
 	{
 		get
 		{
+			if (XsollaSettings.StoreProjectId != "44056")
+			{
+				return 0.0f;
+			}
+			
 			if (IsInRange(Quantity, 2, 4))
 			{
 				return Price * Quantity * 0.1f;
