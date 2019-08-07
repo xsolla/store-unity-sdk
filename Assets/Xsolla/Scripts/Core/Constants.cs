@@ -3,7 +3,7 @@
 	public static class Constants
 	{
 		public const string LoginSdkVersion = "0.2";
-		public const string StoreSdkVersion = "0.1";
+		public const string StoreSdkVersion = "0.3";
 		
 		public const string XsollaLoginToken = "Xsolla_Token";
 		public const string XsollaLoginTokenExp = "Xsolla_Token_Exp";
