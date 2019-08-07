@@ -140,7 +140,7 @@ public class StoreController : MonoBehaviour
 		if (_popup == null)
 		{
 			_popup = Instantiate(popupPrefab, gameObject.transform).GetComponent<MessagePopup>();
-			_popup.ShowError(() => { _popup = null; });
+			_popup.ShowError(error, () => { _popup = null; });
 			
 			print(error);
 		}

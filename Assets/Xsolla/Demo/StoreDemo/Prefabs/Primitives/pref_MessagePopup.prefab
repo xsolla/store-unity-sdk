@@ -35,7 +35,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: -468}
-  m_SizeDelta: {x: 220, y: 80}
+  m_SizeDelta: {x: 700, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3223221094812738480
 CanvasRenderer:
@@ -78,10 +78,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Something went wrong
-
-
-    Try again later'
+  m_Text: Error message
 --- !u!1 &3081390016754645347
 GameObject:
   m_ObjectHideFlags: 0
@@ -175,6 +172,7 @@ MonoBehaviour:
   errorPanel: {fileID: 7162890993559089883}
   successButton: {fileID: 4207789967314973636}
   errorButton: {fileID: 1109462033461022113}
+  errorText: {fileID: 8751260144939140185}
 --- !u!1 &3591298717063864317
 GameObject:
   m_ObjectHideFlags: 0
@@ -429,7 +427,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &7758254306402827777
 RectTransform:
   m_ObjectHideFlags: 0

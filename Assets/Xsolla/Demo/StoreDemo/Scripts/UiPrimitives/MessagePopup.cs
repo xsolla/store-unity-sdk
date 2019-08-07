@@ -1,5 +1,7 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.UI;
+using Xsolla.Core;
 
 public class MessagePopup : MonoBehaviour
 {
@@ -14,6 +16,9 @@ public class MessagePopup : MonoBehaviour
 	[SerializeField]
 	SimpleTextButton errorButton;
 
+	[SerializeField]
+	Text errorText;
+	
 	Action _onPopupClosed;
 
 	void Awake()
@@ -22,9 +27,11 @@ public class MessagePopup : MonoBehaviour
 		errorButton.onClick = OnPopupButtonClicked;
 	}
 
-	public void ShowError(Action onClosed = null)
+	public void ShowError(Error error, Action onClosed = null)
 	{
-		_onPopupClosed = onClosed; 
+		_onPopupClosed = onClosed;
+
+		errorText.text = error.ToString();
 
 		successPanel.SetActive(false);
 		errorPanel.SetActive(true);
