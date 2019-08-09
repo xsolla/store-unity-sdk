@@ -123,8 +123,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6e7322749c27ba47835847c89e18065, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cartHeaderPrefab: {fileID: 3103234592866246100, guid: f74c1c3c86186b94296f01297a706411,
-    type: 3}
   cartItemPrefab: {fileID: 7446015085648965445, guid: 25ebb53aeb5e6a04fae7c51446b805a1,
     type: 3}
   cartDiscountPrefab: {fileID: 7446015085648965445, guid: 188f0878b5519c741be3ba99d04b6f75,
@@ -132,7 +130,6 @@ MonoBehaviour:
   cartControlsPrefab: {fileID: 7446015085648965445, guid: 76529761fde3d1e4e96f1a741c9febf0,
     type: 3}
   itemParent: {fileID: 2234737485639732530}
-  clearCartButton: {fileID: 0}
 --- !u!1 &7180374364548916136
 GameObject:
   m_ObjectHideFlags: 0
@@ -276,11 +273,11 @@ MonoBehaviour:
   m_Content: {fileID: 2234737485639732530}
   m_Horizontal: 0
   m_Vertical: 1
-  m_MovementType: 1
+  m_MovementType: 2
   m_Elasticity: 0.1
-  m_Inertia: 1
+  m_Inertia: 0
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 1
+  m_ScrollSensitivity: 50
   m_Viewport: {fileID: 7438160728739493361}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 0}
