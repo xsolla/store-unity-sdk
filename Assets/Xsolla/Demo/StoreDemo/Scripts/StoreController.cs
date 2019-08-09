@@ -60,13 +60,16 @@ public class StoreController : MonoBehaviour
 
 	void InitStoreUi(StoreItems items)
 	{
-		_groupsController.CreateGroups(items);
-		_itemsController.CreateItems(items);
+		XsollaStore.Instance.GetListOfItemGroups(XsollaSettings.StoreProjectId, groups =>
+		{
+			_groupsController.CreateGroups(items, groups);
+			_itemsController.CreateItems(items);
 		
-		_itemsTabControl.Init();
-		_extraController.Init();
+			_itemsTabControl.Init();
+			_extraController.Init();
 		
-		_groupsController.SelectDefault();
+			_groupsController.SelectDefault();
+		}, ShowError);
 	}
 	public void ProcessOrder(int orderId, Action onOrderPaid = null)
 	{

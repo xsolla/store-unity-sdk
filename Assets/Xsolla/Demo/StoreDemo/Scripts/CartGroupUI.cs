@@ -16,7 +16,13 @@ public class CartGroupUI : MonoBehaviour, IGroup
 				OnGroupClick.Invoke(s);
 		});
 	}
-	
+
+	public string Id
+	{
+		get { return menuButton.Id; }
+		set { menuButton.Id = value; }
+	}
+
 	public string Name
 	{
 		get { return menuButton.Text; }

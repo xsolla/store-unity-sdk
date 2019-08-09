@@ -81,6 +81,13 @@ namespace Xsolla.Store
 			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), null, onSuccess, onError, Error.ItemsListErrors);
 		}
 
+		public void GetListOfItemGroups(string projectId, [NotNull] Action<Groups> onSuccess, [CanBeNull] Action<Error> onError)
+		{
+			var urlBuilder = new StringBuilder(string.Format("https://store.xsolla.com/api/v1/project/{0}/items/groups", projectId)).Append(AdditionalUrlParams);
+
+			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), null, onSuccess, onError);
+		}
+
 		public void BuyItem(string projectId, string itemId, [CanBeNull] Action<PurchaseData> onSuccess, [CanBeNull] Action<Error> onError, PurchaseParams purchaseParams = null)
 		{
 			var form = RequestParams(purchaseParams);

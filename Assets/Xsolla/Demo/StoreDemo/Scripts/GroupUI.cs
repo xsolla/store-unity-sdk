@@ -15,6 +15,12 @@ public class GroupUI : MonoBehaviour, IGroup
 		});
 	}
 
+	public string Id
+	{
+		get { return menuButton.Id; }
+		set { menuButton.Id = value; }
+	}
+
 	public string Name
 	{
 		get { return menuButton.Text; }

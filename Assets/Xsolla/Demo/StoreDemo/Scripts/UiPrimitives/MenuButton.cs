@@ -35,7 +35,7 @@ public class MenuButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 	bool _isSelected;
 
 	public Action<string> onClick;
-
+	
 	string _buttonId;
 
 	void Awake()
@@ -50,7 +50,7 @@ public class MenuButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 		
 		if (onClick != null && triggerClickEvent)
 		{
-			onClick.Invoke(Text);
+			onClick.Invoke(_buttonId);
 		}
 		
 		OnSelected();
@@ -68,13 +68,23 @@ public class MenuButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 	{
 		get
 		{
+			return text.text;
+		}
+		set
+		{
+			text.text = capitalizeText ? value.ToUpper() : value;
+		}
+	}
+	
+	public string Id
+	{
+		get
+		{
 			return _buttonId;
 		}
 		set
 		{
 			_buttonId = value;
-
-			text.text = capitalizeText ? _buttonId.ToUpper() : _buttonId;
 		}
 	}
 
@@ -129,7 +139,7 @@ public class MenuButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 			
 			if (onClick != null)
 			{
-				onClick.Invoke(Text);
+				onClick.Invoke(_buttonId);
 			}
 		}
 		

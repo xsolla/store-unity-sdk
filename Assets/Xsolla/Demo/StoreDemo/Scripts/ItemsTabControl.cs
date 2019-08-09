@@ -41,9 +41,9 @@ public class ItemsTabControl : MonoBehaviour
 
 			if (selectedGroup != null)
 			{
-				itemsController.ActivateContainer(selectedGroup.Name);
+				itemsController.ActivateContainer(selectedGroup.Id);
 
-				if (selectedGroup.Name == Constants.CartGroupName)
+				if (selectedGroup.Id == Constants.CartGroupName)
 				{
 					clearCartButton.gameObject.SetActive(true);
 				}
