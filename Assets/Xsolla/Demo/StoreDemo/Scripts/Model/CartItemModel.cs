@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using UnityEngine.SocialPlatforms;
 using Xsolla.Core;
 using Xsolla.Store;
@@ -8,8 +9,22 @@ public class CartItemModel
 	public CartItemModel(StoreItem storeItem)
 	{
 		Sku = storeItem.sku;
-		Price = storeItem.prices[0].amount;
-		Currency = storeItem.prices[0].currency;
+		
+		var itemPrice = storeItem.prices.First(x => x.currency == RegionalCurrency.CurrencyCode);
+		if (itemPrice != null)
+		{
+			Price = itemPrice.amount;
+			Currency = itemPrice.currency;
+		}
+		else
+		{
+			if (storeItem.prices.Any())
+			{
+				Price = storeItem.prices[0].amount;
+				Currency = storeItem.prices[0].currency;
+			}
+		}
+
 		Name = storeItem.name;
 		ImgUrl = storeItem.image_url;
 		Quantity = 1;

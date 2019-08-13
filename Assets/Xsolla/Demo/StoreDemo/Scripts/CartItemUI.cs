@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using Xsolla.Core;
 
 public class CartItemUI : MonoBehaviour
 {
@@ -51,7 +52,7 @@ public class CartItemUI : MonoBehaviour
 	{
 		_itemInformation = itemInformation;
 
-		itemPrice.text = "$" + _itemInformation.Price;
+		itemPrice.text = FormatPriceText(_itemInformation.Currency, _itemInformation.Price);
 		itemName.text = _itemInformation.Name;
 		itemQuantity.text = _itemInformation.Quantity.ToString();
 		
@@ -66,6 +67,18 @@ public class CartItemUI : MonoBehaviour
 				_loadingRoutine = StartCoroutine(LoadImage(_itemInformation.ImgUrl));
 			}
 		}
+	}
+
+	string FormatPriceText(string currency, float price)
+	{
+		var currencySymbol = RegionalCurrency.GetCurrencySymbol(currency);
+		if (string.IsNullOrEmpty(currencySymbol))
+		{
+			// if there is no symbol for specified currency then display currency code instead
+			return string.Format("{0}{1}", currency, price);
+		}
+		
+		return string.Format("{0}{1}", currencySymbol, price);
 	}
 
 	IEnumerator LoadImage(string url)

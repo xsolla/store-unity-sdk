@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using Xsolla.Core;
@@ -67,11 +68,32 @@ public class ItemUI : MonoBehaviour
 
 		if (_itemInformation.prices.Length != 0)
 		{
-			buyButton.Text = string.Format("BUY FOR ${0}", _itemInformation.prices[0].amount);
+			var itemPrice = _itemInformation.prices.First(x => x.currency == RegionalCurrency.CurrencyCode);
+
+			if (itemPrice != null)
+			{
+				buyButton.Text = FormatBuyButtonText(RegionalCurrency.CurrencySymbol, itemPrice.amount);
+			}
+			else
+			{
+				var currency = RegionalCurrency.GetCurrencySymbol(_itemInformation.prices[0].currency);
+				if (string.IsNullOrEmpty(currency))
+				{
+					// if there is no symbol for specified currency then display currency code instead
+					currency = _itemInformation.prices[0].currency;
+				}
+				
+				buyButton.Text = FormatBuyButtonText(currency, _itemInformation.prices[0].amount);
+			}
 		}
 
 		itemName.text = _itemInformation.name;
 		itemDescription.text = _itemInformation.description;
+	}
+
+	string FormatBuyButtonText(string currency, float price)
+	{
+		return string.Format("BUY FOR {0}{1}", currency, price);
 	}
 
 	void OnEnable()

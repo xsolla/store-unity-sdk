@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Xsolla.Core
@@ -49,6 +50,16 @@ namespace Xsolla.Core
 
 				return Currencies[SystemLanguage.Unknown].Symbol;
 			}
+		}
+
+		public static string GetCurrencySymbol(string code)
+		{
+			if (Currencies.Any(c => c.Value.Code == code))
+			{
+				return Currencies.First(c => c.Value.Code == code).Value.Symbol;
+			}
+
+			return string.Empty;
 		}
 	}
 }
