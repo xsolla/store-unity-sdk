@@ -13,7 +13,7 @@ namespace Xsolla.Core
 		static XsollaSettings _instance;
 
 		[SerializeField]
-		string loginId;
+		string loginId = "e6dfaac6-78a8-11e9-9244-42010aa80004";
 		[SerializeField]
 		bool useJwtValidation;
 		[SerializeField]
@@ -24,7 +24,7 @@ namespace Xsolla.Core
 		string callbackUrl;
 		
 		[SerializeField]
-		string storeProjectId;
+		string storeProjectId = "44056";
 		[SerializeField]
 		bool isSandbox = true;
 		
