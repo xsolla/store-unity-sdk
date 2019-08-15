@@ -10,21 +10,9 @@ public class CartItemModel
 	{
 		Sku = storeItem.sku;
 		
-		var itemPrice = storeItem.prices.First(x => x.currency == RegionalCurrency.CurrencyCode);
-		if (itemPrice != null)
-		{
-			Price = itemPrice.amount;
-			Currency = itemPrice.currency;
-		}
-		else
-		{
-			if (storeItem.prices.Any())
-			{
-				Price = storeItem.prices[0].amount;
-				Currency = storeItem.prices[0].currency;
-			}
-		}
-
+		Price = storeItem.price.amount;
+		Currency = storeItem.price.currency;
+		
 		Name = storeItem.name;
 		ImgUrl = storeItem.image_url;
 		Quantity = 1;

@@ -36,7 +36,7 @@ public class ItemUI : MonoBehaviour
 		buyButton.onClick = (() =>
 		{
 			var purchaseParams = new PurchaseParams();
-			purchaseParams.currency = _itemInformation.prices[0].currency;
+			purchaseParams.currency = _itemInformation.price.currency;
 			XsollaStore.Instance.BuyItem(XsollaSettings.StoreProjectId, _itemInformation.sku, data =>
 			{
 				XsollaStore.Instance.OpenPurchaseUi(data);
@@ -66,24 +66,22 @@ public class ItemUI : MonoBehaviour
 	{
 		_itemInformation = itemInformation;
 
-		if (_itemInformation.prices.Length != 0)
+		if (_itemInformation.price != null)
 		{
-			var itemPrice = _itemInformation.prices.First(x => x.currency == RegionalCurrency.CurrencyCode);
-
-			if (itemPrice != null)
+			if (_itemInformation.price.currency == RegionalCurrency.CurrencyCode)
 			{
-				buyButton.Text = FormatBuyButtonText(RegionalCurrency.CurrencySymbol, itemPrice.amount);
+				buyButton.Text = FormatBuyButtonText(RegionalCurrency.CurrencySymbol, _itemInformation.price.amount);
 			}
 			else
 			{
-				var currency = RegionalCurrency.GetCurrencySymbol(_itemInformation.prices[0].currency);
+				var currency = RegionalCurrency.GetCurrencySymbol(_itemInformation.price.currency);
 				if (string.IsNullOrEmpty(currency))
 				{
 					// if there is no symbol for specified currency then display currency code instead
-					currency = _itemInformation.prices[0].currency;
+					currency = _itemInformation.price.currency;
 				}
 				
-				buyButton.Text = FormatBuyButtonText(currency, _itemInformation.prices[0].amount);
+				buyButton.Text = FormatBuyButtonText(currency, _itemInformation.price.amount);
 			}
 		}
 

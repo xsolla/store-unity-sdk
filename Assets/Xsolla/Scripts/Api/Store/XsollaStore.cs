@@ -32,6 +32,16 @@ namespace Xsolla.Store
 			
 			return string.Format("&locale={0}", locale);
 		}
+		
+		string GetCurrencyUrlParam(string currency)
+		{
+			if (string.IsNullOrEmpty(currency))
+			{
+				return string.Empty;
+			}
+			
+			return string.Format("&currency={0}", currency);
+		}
 
 		WWWForm RequestParams(PurchaseParams purchaseParams)
 		{
@@ -84,15 +94,16 @@ namespace Xsolla.Store
 			}
 		}
 
-		public void GetListOfItems(string projectId, [NotNull] Action<StoreItems> onSuccess, [CanBeNull] Action<Error> onError, string locale = null)
+		public void GetListOfItems(string projectId, [NotNull] Action<StoreItems> onSuccess, [CanBeNull] Action<Error> onError, [CanBeNull] string locale = null, [CanBeNull] string currency = null)
 		{
 			var urlBuilder = new StringBuilder(string.Format("https://store.xsolla.com/api/v1/project/{0}/items/virtual_items", projectId)).Append(AdditionalUrlParams);
 			urlBuilder.Append(GetLocaleUrlParam(locale));
-
+			urlBuilder.Append(GetCurrencyUrlParam(currency));
+			
 			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), null, onSuccess, onError, Error.ItemsListErrors);
 		}
 
-		public void GetListOfItemGroups(string projectId, [NotNull] Action<Groups> onSuccess, [CanBeNull] Action<Error> onError, string locale = null)
+		public void GetListOfItemGroups(string projectId, [NotNull] Action<Groups> onSuccess, [CanBeNull] Action<Error> onError, [CanBeNull] string locale = null)
 		{
 			var urlBuilder = new StringBuilder(string.Format("https://store.xsolla.com/api/v1/project/{0}/items/groups", projectId)).Append(AdditionalUrlParams);
 			urlBuilder.Append(GetLocaleUrlParam(locale));
@@ -130,10 +141,11 @@ namespace Xsolla.Store
 			WebRequestHelper.Instance.PutRequest(urlBuilder.ToString(), string.Empty, WebRequestHeader.AuthHeader(Token), null, onSuccess, onError, Error.AddToCartCartErrors);
 		}
 
-		public void GetCartItems(string projectId, string cartId, [NotNull] Action<CartItems> onSuccess, [CanBeNull] Action<Error> onError, string locale = null)
+		public void GetCartItems(string projectId, string cartId, [NotNull] Action<CartItems> onSuccess, [CanBeNull] Action<Error> onError, [CanBeNull] string locale = null, [CanBeNull] string currency = null)
 		{
 			var urlBuilder = new StringBuilder(string.Format("https://store.xsolla.com/api/v1/project/{0}/cart/{1}", projectId, cartId)).Append(AdditionalUrlParams);
 			urlBuilder.Append(GetLocaleUrlParam(locale));
+			urlBuilder.Append(GetCurrencyUrlParam(currency));
 
 			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.GetCartItemsErrors);
 		}
@@ -159,7 +171,7 @@ namespace Xsolla.Store
 			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.OrderStatusErrors);
 		}
 
-		public void GetInventoryItems(string projectId, [NotNull] Action<InventoryItems> onSuccess, [CanBeNull] Action<Error> onError, string locale = null)
+		public void GetInventoryItems(string projectId, [NotNull] Action<InventoryItems> onSuccess, [CanBeNull] Action<Error> onError, [CanBeNull] string locale = null)
 		{
 			var urlBuilder = new StringBuilder(string.Format("https://store.xsolla.com/api/v1/project/{0}/user/inventory/items", projectId)).Append(AdditionalUrlParams);
 			urlBuilder.Append(GetLocaleUrlParam(locale));

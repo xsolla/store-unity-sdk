@@ -10,7 +10,7 @@ namespace Xsolla.Store
 		public string[] attributes;
 		public string[] media_list;
 		public string type;
-		public Price[] prices;
+		public Price price;
 		public string[] vc_prices;
 		public string[] groups;
 		public string long_description;
