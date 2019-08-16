@@ -30,8 +30,8 @@
 3. Create a new Unity project.
 4. Register an Xsolla [Publisher Account](https://publisher.xsolla.com/signup?integration_type=SDKCart).
 5. Create and set up a Publisher Account project:
-  1. Go to Projects and click **Create new project**.
-  2. In setup mode, add **Project name** and click **Create**.
-  3. Go to **Project settings > Integration settings** and check that **Tokenless integration** is disabled.
+    1. Go to Projects and click **Create new project**.
+    2. In setup mode, add **Project name** and click **Create**.
+    3. Go to **Project settings > Integration settings** and check that **Tokenless integration** is disabled.
 
 Go to the [wiki](https://github.com/xsolla/store-unity-sdk/wiki) to learn how to integrate Xsolla products using Xsolla Store Unity Asset. 
