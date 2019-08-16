@@ -13,6 +13,7 @@ namespace Xsolla.Login
 		public static IEnumerator PostRequest(string url, WWWForm form, Action<string> onComplete = null, Action<ErrorDescription> onError = null, Dictionary<string, Error> errorsToCheck = null)
 		{
 			UnityWebRequest request = UnityWebRequest.Post(url, form);
+			AddOptionalHeaders(request);
 
 #if UNITY_2018_1_OR_NEWER
 			yield return request.SendWebRequest();
@@ -44,6 +45,7 @@ namespace Xsolla.Login
 		public static IEnumerator PostRequest(string url, string jsonData, Action<string> onComplete = null, Action<ErrorDescription> onError = null, Dictionary<string, Error> errorsToCheck = null)
 		{
 			var request = new UnityWebRequest(url, "POST");
+			AddOptionalHeaders(request);
 	        
 			request.downloadHandler = new DownloadHandlerBuffer();
 			
@@ -85,6 +87,7 @@ namespace Xsolla.Login
 		public static IEnumerator PostRequest(string url, WWWForm form, Action onComplete = null, Action<ErrorDescription> onError = null, Dictionary<string, Error> errorsToCheck = null)
 		{
 			UnityWebRequest request = UnityWebRequest.Post(url, form);
+			AddOptionalHeaders(request);
 
 #if UNITY_2018_1_OR_NEWER
 			yield return request.SendWebRequest();
@@ -117,6 +120,7 @@ namespace Xsolla.Login
 		public static IEnumerator PostRequest(string url, string jsonData, Action onComplete = null, Action<ErrorDescription> onError = null, Dictionary<string, Error> errorsToCheck = null)
 		{
 			var request = new UnityWebRequest(url, "POST");
+			AddOptionalHeaders(request);
 	        
 			request.downloadHandler = new DownloadHandlerBuffer();
 			
@@ -190,6 +194,14 @@ namespace Xsolla.Login
 			{
 				onError(error);
 			}
+		}
+		
+		public static void AddOptionalHeaders(UnityWebRequest request)
+		{
+			request.SetRequestHeader("X-ENGINE", "UNITY");
+			request.SetRequestHeader("X-ENGINE_V", Application.unityVersion.ToUpper());
+			request.SetRequestHeader("X-SDK", "LOGIN");
+			request.SetRequestHeader("X-SDK_V", Constants.LoginSdkVersion);
 		}
 	}
 }

@@ -89,6 +89,7 @@ namespace Xsolla.Core
 		IEnumerator PostRequestCor<T>(string url, WWWForm form, WebRequestHeader requestHeader, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
 		{
 			var webRequest = UnityWebRequest.Post(url, form);
+			AddOptionalHeaders(webRequest);
 			
 			webRequest.SetRequestHeader(requestHeader.Name, requestHeader.Value);
 
@@ -104,6 +105,7 @@ namespace Xsolla.Core
 		IEnumerator PostRequestCor<T>(string url, string jsonData, WWWForm form, List<WebRequestHeader> requestHeaders, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
 		{
 			var webRequest = UnityWebRequest.Post(url, form);
+			AddOptionalHeaders(webRequest);
 
 			foreach (var requestHeader in requestHeaders)
 			{
@@ -127,6 +129,7 @@ namespace Xsolla.Core
 		IEnumerator GetRequestCor<T>(string url, WebRequestHeader requestHeader = null, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
 		{
 			var webRequest = UnityWebRequest.Get(url);
+			AddOptionalHeaders(webRequest);
 
 			if (requestHeader != null)
 			{
@@ -145,6 +148,7 @@ namespace Xsolla.Core
 		IEnumerator PutRequestCor(string url, string jsonData, WebRequestHeader authHeader, WebRequestHeader contentHeader = null, Action onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
 		{
 			var webRequest = new UnityWebRequest(url, "PUT");
+			AddOptionalHeaders(webRequest);
 
 			webRequest.downloadHandler = new DownloadHandlerBuffer();
 			
@@ -172,6 +176,7 @@ namespace Xsolla.Core
 		IEnumerator DeleteRequestCor(string url, WebRequestHeader authHeader, Action onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
 		{
 			var webRequest = UnityWebRequest.Delete(url);
+			AddOptionalHeaders(webRequest);
 			
 			webRequest.SetRequestHeader(authHeader.Name, authHeader.Value);
 			
@@ -273,7 +278,14 @@ namespace Xsolla.Core
 				onError(error);
 			}
 		}
-		
+
+		public void AddOptionalHeaders(UnityWebRequest request)
+		{
+			request.SetRequestHeader("X-ENGINE", "UNITY");
+			request.SetRequestHeader("X-ENGINE_V", Application.unityVersion.ToUpper());
+			request.SetRequestHeader("X-SDK", "STORE");
+			request.SetRequestHeader("X-SDK_V", Constants.StoreSdkVersion);
+		}
 	}
 }
 
