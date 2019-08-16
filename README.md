@@ -1,6 +1,6 @@
 # Xsolla Store Unity Asset
 
-**Xsolla Store Unity Asset** is used to integrate Xsolla products with apps based on [Unity](https://unity.com/). The asset The asset includes the following SDKs:
+**Xsolla Store Unity Asset** is used to integrate Xsolla products with apps based on [Unity](https://unity.com/). The asset includes the following SDKs:
 
 * Xsolla Login Unity SDK
 * Xsolla Store Unity SDK
@@ -15,7 +15,7 @@
 * Visual Studio 2015
 * Unity 2017.4.22 and higher
 
-## Target OS:
+## Target OS
 * iOS
 * Android
 * Linux
@@ -34,4 +34,4 @@
     2. In setup mode, add **Project name** and click **Create**.
     3. Go to **Project settings > Integration settings** and check that **Tokenless integration** is disabled.
 
-Go to the [wiki](https://github.com/xsolla/store-unity-sdk/wiki) to learn how to integrate Xsolla products using Xsolla Store Unity Asset. 
+6. Go to the [wiki](https://github.com/xsolla/store-unity-sdk/wiki) to learn how to integrate Xsolla products using Xsolla Store Unity Asset. 
