@@ -1,10 +1,10 @@
 # Xsolla Store Unity Asset
 
-**Xsolla Store Unity Asset** is used to integrate Xsolla products with apps based on [Unity](https://unity.com/). The asset supports the following products:
+**Xsolla Store Unity Asset** is used to integrate Xsolla products with apps based on [Unity](https://unity.com/). The asset The asset includes the following SDKs:
 
-* Xsolla Login
-* Xsolla Store
-* Xsolla Pay Station
+* Xsolla Login Unity SDK
+* Xsolla Store Unity SDK
+* Xsolla Pay Station Unity SDK
 
 ## System Requirements
 
@@ -23,4 +23,15 @@
 * Windows 32-bit
 * Windows 64-bit
 
-Go to the wiki to learn how to integrate Xsolla products using Xsolla Unity Asset. For prerequisites see the **documentation**.
+## Prerequisites
+
+1. [Download](https://store.unity.com/download) Unity.
+2. Pick a personal or professional Unity license based on your preferences.
+3. Create a new Unity project.
+4. Register an Xsolla [Publisher Account](https://publisher.xsolla.com/signup?integration_type=SDKCart).
+5. Create and set up a Publisher Account project:
+  1. Go to Projects and click **Create new project**.
+  2. In setup mode, add **Project name** and click **Create**.
+  3. Go to **Project settings > Integration settings** and check that **Tokenless integration** is disabled.
+
+Go to the [wiki](https://github.com/xsolla/store-unity-sdk/wiki) to learn how to integrate Xsolla products using Xsolla Store Unity Asset. 
