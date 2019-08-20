@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -72,7 +73,7 @@ namespace Xsolla.Store
 		{
 			if (XsollaSettings.IsSandbox)
 			{
-				if(Application.platform==RuntimePlatform.WebGLPlayer)
+				if(Application.platform == RuntimePlatform.WebGLPlayer)
 				{
 					var str = string.Format("window.open(\"{0}\",\"_blank\")", "https://sandbox-secure.xsolla.com/paystation2/?access_token=" + purchaseData.token);
 					Application.ExternalEval(str);
@@ -83,7 +84,7 @@ namespace Xsolla.Store
 			}
 			else
 			{
-				if(Application.platform==RuntimePlatform.WebGLPlayer)
+				if(Application.platform == RuntimePlatform.WebGLPlayer)
 				{
 					var str = string.Format("window.open(\"{0}\",\"_blank\")", "https://secure.xsolla.com/paystation2/?access_token=" + purchaseData.token);
 					Application.ExternalEval(str);
@@ -177,6 +178,15 @@ namespace Xsolla.Store
 			urlBuilder.Append(GetLocaleUrlParam(locale));
 
 			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.ItemsListErrors);
+		}
+
+		public void ConsumeInventoryItem(string projectId, ConsumeItem item, [CanBeNull] Action onSuccess, [CanBeNull] Action<Error> onError)
+		{
+			var urlBuilder = new StringBuilder(string.Format("https://store.xsolla.com/api/v1/project/{0}/user/inventory/item/consume", projectId)).Append(AdditionalUrlParams);
+
+			var headers = new List<WebRequestHeader>() { WebRequestHeader.AuthHeader(Token), WebRequestHeader.ContentTypeHeader()};
+
+			WebRequestHelper.Instance.PostRequest(urlBuilder.ToString(), item.ToJson(), null, headers, onSuccess, onError);
 		}
 	}
 }
