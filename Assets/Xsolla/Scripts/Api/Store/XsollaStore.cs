@@ -104,6 +104,15 @@ namespace Xsolla.Store
 			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), null, onSuccess, onError, Error.ItemsListErrors);
 		}
 
+		public void GetListOfItemsByGroup(string projectId, string groupExternalId, [NotNull] Action<StoreItems> onSuccess, [CanBeNull] Action<Error> onError, [CanBeNull] string locale = null, [CanBeNull] string currency = null)
+		{
+			var urlBuilder = new StringBuilder(string.Format("https://store.xsolla.com/api/v1/project/{0}/items/virtual_items/group/{1}", projectId, groupExternalId)).Append(AdditionalUrlParams);
+			urlBuilder.Append(GetLocaleUrlParam(locale));
+			urlBuilder.Append(GetCurrencyUrlParam(currency));
+			
+			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), null, onSuccess, onError, Error.ItemsListErrors);
+		}
+
 		public void GetListOfItemGroups(string projectId, [NotNull] Action<Groups> onSuccess, [CanBeNull] Action<Error> onError, [CanBeNull] string locale = null)
 		{
 			var urlBuilder = new StringBuilder(string.Format("https://store.xsolla.com/api/v1/project/{0}/items/groups", projectId)).Append(AdditionalUrlParams);
