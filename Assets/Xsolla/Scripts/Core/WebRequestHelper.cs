@@ -311,9 +311,9 @@ namespace Xsolla.Core
 		public void AddOptionalHeaders(UnityWebRequest request)
 		{
 			request.SetRequestHeader("X-ENGINE", "UNITY");
-			request.SetRequestHeader("X-ENGINE_V", Application.unityVersion.ToUpper());
+			request.SetRequestHeader("X-ENGINE-V", Application.unityVersion.ToUpper());
 			request.SetRequestHeader("X-SDK", "STORE");
-			request.SetRequestHeader("X-SDK_V", Constants.StoreSdkVersion);
+			request.SetRequestHeader("X-SDK-V", Constants.StoreSdkVersion);
 		}
 	}
 }

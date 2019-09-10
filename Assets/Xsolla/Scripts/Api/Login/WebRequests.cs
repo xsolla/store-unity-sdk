@@ -199,9 +199,9 @@ namespace Xsolla.Login
 		public static void AddOptionalHeaders(UnityWebRequest request)
 		{
 			request.SetRequestHeader("X-ENGINE", "UNITY");
-			request.SetRequestHeader("X-ENGINE_V", Application.unityVersion.ToUpper());
+			request.SetRequestHeader("X-ENGINE-V", Application.unityVersion.ToUpper());
 			request.SetRequestHeader("X-SDK", "LOGIN");
-			request.SetRequestHeader("X-SDK_V", Constants.LoginSdkVersion);
+			request.SetRequestHeader("X-SDK-V", Constants.LoginSdkVersion);
 		}
 	}
 }

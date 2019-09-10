@@ -65,6 +65,7 @@ namespace Xsolla.Store
 			{
 				form.AddField("locale", purchaseParams.locale);
 			}
+			form.AddField("sandbox", XsollaSettings.IsSandbox.ToString().ToLower());
 
 			return form;
 		}
