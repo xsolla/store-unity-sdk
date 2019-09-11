@@ -60,7 +60,12 @@ namespace Xsolla.Core
 		WebRequestHelper()
 		{
 		}
-		
+
+		public void PostRequest<T>(string url, object jsonObject, WebRequestHeader requestHeader, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
+		{
+			StartCoroutine(PostRequestCor<T>(url, jsonObject, requestHeader, onComplete, onError, errorsToCheck));
+		}
+
 		public void PostRequest<T>(string url, WWWForm form, WebRequestHeader requestHeader, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
 		{
 			StartCoroutine(PostRequestCor<T>(url, form, requestHeader, onComplete, onError, errorsToCheck));
@@ -69,6 +74,11 @@ namespace Xsolla.Core
 		public void PostRequest<T>(string url, string jsonData, WWWForm form, List<WebRequestHeader> requestHeaders, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
 		{
 			StartCoroutine(PostRequestCor<T>(url, jsonData, form, requestHeaders, onComplete, onError, errorsToCheck));
+		}
+		
+		public void PostRequest(string url, string jsonData, WWWForm form, List<WebRequestHeader> requestHeaders, Action onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
+		{
+			StartCoroutine(PostRequestCor(url, jsonData, form, requestHeaders, onComplete, onError, errorsToCheck));
 		}
 
 		public void GetRequest<T>(string url, WebRequestHeader requestHeader = null, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
@@ -84,6 +94,28 @@ namespace Xsolla.Core
 		public void DeleteRequest(string url, WebRequestHeader requestHeader, Action onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
 		{
 			StartCoroutine(DeleteRequestCor(url, requestHeader, onComplete, onError, errorsToCheck));
+		}
+
+		IEnumerator PostRequestCor<T>(string url, object jsonObject, WebRequestHeader requestHeader, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
+		{
+			string jsonData = JsonUtility.ToJson(jsonObject).Replace('\n', ' ');
+			byte[] body = new System.Text.UTF8Encoding().GetBytes(jsonData);
+
+			UnityWebRequest webRequest = UnityWebRequest.Post(url, "POST");
+			webRequest.timeout = 10;
+			webRequest.uploadHandler = (UploadHandler)new UploadHandlerRaw(body);
+			WebRequestHeader contentHeader = WebRequestHeader.ContentTypeHeader();
+			webRequest.SetRequestHeader(contentHeader.Name, contentHeader.Value);
+			AddOptionalHeaders(webRequest);
+			webRequest.SetRequestHeader(requestHeader.Name, requestHeader.Value);
+
+#if UNITY_2018_1_OR_NEWER
+			yield return webRequest.SendWebRequest();
+#else
+			yield return webRequest.Send();
+#endif
+
+			ProcessRequest(webRequest, onComplete, onError, errorsToCheck);
 		}
 
 		IEnumerator PostRequestCor<T>(string url, WWWForm form, WebRequestHeader requestHeader, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
@@ -103,6 +135,30 @@ namespace Xsolla.Core
 		}
 		
 		IEnumerator PostRequestCor<T>(string url, string jsonData, WWWForm form, List<WebRequestHeader> requestHeaders, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
+		{
+			var webRequest = UnityWebRequest.Post(url, form);
+			AddOptionalHeaders(webRequest);
+
+			foreach (var requestHeader in requestHeaders)
+			{
+				webRequest.SetRequestHeader(requestHeader.Name, requestHeader.Value);
+			}
+			
+			if (!string.IsNullOrEmpty(jsonData))
+			{
+				webRequest.uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(jsonData));
+			}
+
+#if UNITY_2018_1_OR_NEWER
+			yield return webRequest.SendWebRequest();
+#else
+			yield return webRequest.Send();
+#endif
+
+			ProcessRequest(webRequest, onComplete, onError, errorsToCheck);
+		}
+		
+		IEnumerator PostRequestCor(string url, string jsonData, WWWForm form, List<WebRequestHeader> requestHeaders, Action onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
 		{
 			var webRequest = UnityWebRequest.Post(url, form);
 			AddOptionalHeaders(webRequest);

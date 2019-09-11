@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -73,7 +74,7 @@ namespace Xsolla.Store
 		{
 			if (XsollaSettings.IsSandbox)
 			{
-				if(Application.platform==RuntimePlatform.WebGLPlayer)
+				if(Application.platform == RuntimePlatform.WebGLPlayer)
 				{
 					var str = string.Format("window.open(\"{0}\",\"_blank\")", "https://sandbox-secure.xsolla.com/paystation2/?access_token=" + purchaseData.token);
 					Application.ExternalEval(str);
@@ -84,7 +85,7 @@ namespace Xsolla.Store
 			}
 			else
 			{
-				if(Application.platform==RuntimePlatform.WebGLPlayer)
+				if(Application.platform == RuntimePlatform.WebGLPlayer)
 				{
 					var str = string.Format("window.open(\"{0}\",\"_blank\")", "https://secure.xsolla.com/paystation2/?access_token=" + purchaseData.token);
 					Application.ExternalEval(str);
@@ -104,6 +105,15 @@ namespace Xsolla.Store
 			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), null, onSuccess, onError, Error.ItemsListErrors);
 		}
 
+		public void GetListOfItemsByGroup(string projectId, string groupExternalId, [NotNull] Action<StoreItems> onSuccess, [CanBeNull] Action<Error> onError, [CanBeNull] string locale = null, [CanBeNull] string currency = null)
+		{
+			var urlBuilder = new StringBuilder(string.Format("https://store.xsolla.com/api/v1/project/{0}/items/virtual_items/group/{1}", projectId, groupExternalId)).Append(AdditionalUrlParams);
+			urlBuilder.Append(GetLocaleUrlParam(locale));
+			urlBuilder.Append(GetCurrencyUrlParam(currency));
+			
+			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), null, onSuccess, onError, Error.ItemsListErrors);
+		}
+
 		public void GetListOfItemGroups(string projectId, [NotNull] Action<Groups> onSuccess, [CanBeNull] Action<Error> onError, [CanBeNull] string locale = null)
 		{
 			var urlBuilder = new StringBuilder(string.Format("https://store.xsolla.com/api/v1/project/{0}/items/groups", projectId)).Append(AdditionalUrlParams);
@@ -114,11 +124,18 @@ namespace Xsolla.Store
 
 		public void BuyItem(string projectId, string itemId, [CanBeNull] Action<PurchaseData> onSuccess, [CanBeNull] Action<Error> onError, PurchaseParams purchaseParams = null)
 		{
-			var form = RequestParams(purchaseParams);
+			TempPurchaseParams tempPurchaseParams = new TempPurchaseParams {
+				sandbox = XsollaSettings.IsSandbox
+			};
 
 			var urlBuilder = new StringBuilder(string.Format("https://store.xsolla.com/api/v1/project/{0}/payment/item/{1}", projectId, itemId)).Append(AdditionalUrlParams);
+			WebRequestHelper.Instance.PostRequest<PurchaseData>(urlBuilder.ToString(), tempPurchaseParams, WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.BuyItemErrors);
 
-			WebRequestHelper.Instance.PostRequest<PurchaseData>(urlBuilder.ToString(), form, WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.BuyItemErrors);
+			//var form = RequestParams(purchaseParams);
+
+			//var urlBuilder = new StringBuilder(string.Format("https://store.xsolla.com/api/v1/project/{0}/payment/item/{1}", projectId, itemId)).Append(AdditionalUrlParams);
+
+			//WebRequestHelper.Instance.PostRequest<PurchaseData>(urlBuilder.ToString(), form, WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.BuyItemErrors);
 		}
 
 		public void CreateNewCart(string projectId, [NotNull] Action<Cart> onSuccess, [CanBeNull] Action<Error> onError)
@@ -160,9 +177,16 @@ namespace Xsolla.Store
 
 		public void BuyCart(string projectId, string cartId,[CanBeNull] Action<PurchaseData> onSuccess, [CanBeNull] Action<Error> onError, PurchaseParams purchaseParams = null)
 		{
-			var urlBuilder = new StringBuilder(string.Format("https://store.xsolla.com/api/v1/project/{0}/payment/cart/{1}", projectId, cartId)).Append(AdditionalUrlParams);
+			TempPurchaseParams tempPurchaseParams = new TempPurchaseParams {
+				sandbox = XsollaSettings.IsSandbox
+			};
 
-			WebRequestHelper.Instance.PostRequest<PurchaseData>(urlBuilder.ToString(), RequestParams(purchaseParams), WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.BuyCartErrors);
+			var urlBuilder = new StringBuilder(string.Format("https://store.xsolla.com/api/v1/project/{0}/payment/cart/{1}", projectId, cartId)).Append(AdditionalUrlParams);
+			WebRequestHelper.Instance.PostRequest<PurchaseData>(urlBuilder.ToString(), tempPurchaseParams, WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.BuyCartErrors);
+
+			//var urlBuilder = new StringBuilder(string.Format("https://store.xsolla.com/api/v1/project/{0}/payment/cart/{1}", projectId, cartId)).Append(AdditionalUrlParams);
+
+			//WebRequestHelper.Instance.PostRequest<PurchaseData>(urlBuilder.ToString(), RequestParams(purchaseParams), WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.BuyCartErrors);
 		}
 
 		public void CheckOrderStatus(string projectId, int orderId, [NotNull] Action<OrderStatus> onSuccess, [CanBeNull] Action<Error> onError)
@@ -178,6 +202,15 @@ namespace Xsolla.Store
 			urlBuilder.Append(GetLocaleUrlParam(locale));
 
 			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.ItemsListErrors);
+		}
+
+		public void ConsumeInventoryItem(string projectId, ConsumeItem item, [CanBeNull] Action onSuccess, [CanBeNull] Action<Error> onError)
+		{
+			var urlBuilder = new StringBuilder(string.Format("https://store.xsolla.com/api/v1/project/{0}/user/inventory/item/consume", projectId)).Append(AdditionalUrlParams);
+
+			var headers = new List<WebRequestHeader>() { WebRequestHeader.AuthHeader(Token), WebRequestHeader.ContentTypeHeader()};
+
+			WebRequestHelper.Instance.PostRequest(urlBuilder.ToString(), item.ToJson(), null, headers, onSuccess, onError);
 		}
 	}
 }
