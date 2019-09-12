@@ -91,7 +91,8 @@ public class ItemUI : MonoBehaviour
 
 	string FormatBuyButtonText(string currency, float price)
 	{
-		return string.Format("BUY FOR {0}{1}", currency, price);
+		string priceText = price.ToString("F2");
+		return string.Format("BUY FOR {0}{1}", currency, priceText);
 	}
 
 	void OnEnable()
