@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using Xsolla.Core;
@@ -9,12 +10,20 @@ public class CartControls : MonoBehaviour
 	[SerializeField]
 	SimpleButton buyButton;
 	[SerializeField]
+	SimpleButton clearCartButton;
+	[SerializeField]
 	Text priceText;
 
 	int _totalItems;
 	int _completedRequests;
 	
 	StoreController _storeController;
+
+	public Action OnClearCart {
+		set {
+			clearCartButton.onClick = value;
+		}
+	}
 
 	void Awake()
 	{

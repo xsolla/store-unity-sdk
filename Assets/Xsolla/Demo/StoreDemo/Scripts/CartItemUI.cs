@@ -19,14 +19,15 @@ public class CartItemUI : MonoBehaviour
 	
 	[SerializeField]
 	Text itemQuantity;
-	
+
+	StoreController storeController;
 	Coroutine _loadingRoutine;
 	
 	CartItemModel _itemInformation;
 
 	void Awake()
 	{
-		var storeController = FindObjectOfType<StoreController>();
+		storeController = FindObjectOfType<StoreController>();
 		var cartItemContainer = FindObjectOfType<CartItemContainer>();
 		var cartGroup = FindObjectOfType<CartGroupUI>();
 
@@ -58,15 +59,13 @@ public class CartItemUI : MonoBehaviour
 		
 		if (_loadingRoutine == null && itemImage.sprite == null && _itemInformation.ImgUrl != "")
 		{
-			if (StoreController.ItemIcons.ContainsKey(_itemInformation.ImgUrl))
-			{
-				itemImage.sprite = StoreController.ItemIcons[_itemInformation.ImgUrl];
-			}
-			else
-			{
-				_loadingRoutine = StartCoroutine(LoadImage(_itemInformation.ImgUrl));
-			}
+			storeController.GetImageAsync(_itemInformation.ImgUrl, LoadImageCallback);
 		}
+	}
+
+	void LoadImageCallback(string url, Sprite image)
+	{
+		itemImage.sprite = image;
 	}
 
 	string FormatPriceText(string currency, float price)
@@ -74,27 +73,9 @@ public class CartItemUI : MonoBehaviour
 		var currencySymbol = RegionalCurrency.GetCurrencySymbol(currency);
 		if (string.IsNullOrEmpty(currencySymbol))
 		{
-			// if there is no symbol for specified currency then display currency code instead
 			return string.Format("{0}{1}", currency, price);
 		}
 		
 		return string.Format("{0}{1}", currencySymbol, price);
-	}
-
-	IEnumerator LoadImage(string url)
-	{
-		using (var www = new WWW(url))
-		{
-			yield return www;
-			
-			var sprite = Sprite.Create(www.texture, new Rect(0, 0, www.texture.width, www.texture.height), new Vector2(0.5f, 0.5f));
-			
-			itemImage.sprite = sprite;
-
-			if (!StoreController.ItemIcons.ContainsKey(url))
-			{
-				StoreController.ItemIcons.Add(url, sprite);
-			}
-		}
 	}
 }

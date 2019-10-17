@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Xsolla.Core;
 using Xsolla.Login;
@@ -24,10 +25,16 @@ public class StoreController : MonoBehaviour
 	public CartModel CartModel { get; private set; }
 
 	public static Dictionary<string, Sprite> ItemIcons;
+	private ImageLoader imageLoader;
 
 	const string DefaultStoreToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE5NjIyMzQwNDgsImlzcyI6Imh0dHBzOi8vbG9naW4ueHNvbGxhLmNvbSIsImlhdCI6MTU2MjE0NzY0OCwidXNlcm5hbWUiOiJ4c29sbGEiLCJ4c29sbGFfbG9naW5fYWNjZXNzX2tleSI6IjA2SWF2ZHpDeEVHbm5aMTlpLUc5TmMxVWFfTWFZOXhTR3ZEVEY4OFE3RnMiLCJzdWIiOiJkMzQyZGFkMi05ZDU5LTExZTktYTM4NC00MjAxMGFhODAwM2YiLCJlbWFpbCI6InN1cHBvcnRAeHNvbGxhLmNvbSIsInR5cGUiOiJ4c29sbGFfbG9naW4iLCJ4c29sbGFfbG9naW5fcHJvamVjdF9pZCI6ImU2ZGZhYWM2LTc4YTgtMTFlOS05MjQ0LTQyMDEwYWE4MDAwNCIsInB1Ymxpc2hlcl9pZCI6MTU5MjR9.GCrW42OguZbLZTaoixCZgAeNLGH2xCeJHxl8u8Xn2aI";
 
 	public Cart Cart { get; private set; }
+
+	private void Awake()
+	{
+		imageLoader = gameObject.AddComponent<ImageLoader>();
+	}
 
 	void Start()
 	{
@@ -55,7 +62,41 @@ public class StoreController : MonoBehaviour
 
 		XsollaStore.Instance.GetListOfItems(XsollaSettings.StoreProjectId, InitStoreUi, ShowError);
 
-		XsollaStore.Instance.GetInventoryItems(XsollaSettings.StoreProjectId,(items => { inventory = items; }), ShowError);
+		RefreshInventory();
+	}
+
+	public void GetImageAsync(string url, Action<string, Sprite> callback)
+	{
+		imageLoader.GetImageAsync(url, callback);
+	}
+
+	public void RefreshInventory(Action refreshCallback = null)
+	{
+		XsollaStore.Instance.GetInventoryItems(
+			XsollaSettings.StoreProjectId,
+			(items) => { SetInventoryItems(items); refreshCallback?.Invoke(); },
+			ShowError);
+	}
+
+	void SetInventoryItems(InventoryItems items)
+	{
+		items.items = FilterVirtualCurrency(items.items);
+		inventory = items;
+	}
+
+	public void RefreshVirtualCurrencyBalance(Action refreshCallback = null)
+	{
+		XsollaStore.Instance.GetVirtualCurrencyBalance(
+			XsollaSettings.StoreProjectId,
+			(balance) => {
+				_itemsTabControl.VirtualCurrencyBalance.SetCurrenciesBalance(balance);
+				refreshCallback?.Invoke();},
+			ShowError);
+	}
+
+	InventoryItem[] FilterVirtualCurrency(InventoryItem[] items)
+	{
+		return items.ToList().Where(i => i.type != "virtual_currency").ToArray();
 	}
 
 	void InitStoreUi(StoreItems items)
@@ -69,8 +110,17 @@ public class StoreController : MonoBehaviour
 			_extraController.Init();
 		
 			_groupsController.SelectDefault();
+			XsollaStore.Instance.GetVirtualCurrencyPackagesList(XsollaSettings.StoreProjectId, _itemsController.AddVirtualCurrency, ShowError);
+			XsollaStore.Instance.GetVirtualCurrencyList(
+				XsollaSettings.StoreProjectId,
+				currencies =>
+				{
+					_itemsTabControl.VirtualCurrencyBalance.SetCurrencies(currencies);
+					RefreshVirtualCurrencyBalance();
+				} , ShowError);
 		}, ShowError);
 	}
+
 	public void ProcessOrder(int orderId, Action onOrderPaid = null)
 	{
 		StartCoroutine(CheckOrderStatus(orderId, onOrderPaid));
@@ -92,16 +142,7 @@ public class StoreController : MonoBehaviour
 				print(string.Format("Order {0} was successfully processed!", orderId));
 
 				ShowSuccess();
-				
-				XsollaStore.Instance.GetInventoryItems(XsollaSettings.StoreProjectId,(items =>
-				{
-					inventory = items;
-					
-					if (onOrderPaid != null)
-					{
-						onOrderPaid.Invoke();
-					}
-				}), ShowError);
+				RefreshInventory(onOrderPaid);
 			}
 		}, ShowError);
 	}
@@ -124,32 +165,27 @@ public class StoreController : MonoBehaviour
 			_itemsController.RefreshActiveContainer();
 		}, ShowError);
 	}
-	
-	public void ShowSuccess()
+
+	MessagePopup PreparePopUp()
 	{
 		if (_popup == null)
-		{
-			_popup = Instantiate(popupPrefab, gameObject.transform).GetComponent<MessagePopup>();
-			_popup.ShowSuccess(() => { _popup = null; });
-		}
-		else
-		{
-			print("Error popup is already shown, so error only printed to console");
-		}
+			return Instantiate(popupPrefab, gameObject.transform).GetComponent<MessagePopup>();
+		print("Popup is already shown");
+		return null;
 	}
+
+	public void ShowSuccess() => PreparePopUp()?.ShowSuccess(() => { _popup = null; });
 
 	public void ShowError(Xsolla.Core.Error error)
 	{
-		if (_popup == null)
-		{
-			_popup = Instantiate(popupPrefab, gameObject.transform).GetComponent<MessagePopup>();
-			_popup.ShowError(error, () => { _popup = null; });
-			
-			print(error);
-		}
-		else
-		{
-			print("Error popup is already shown, so error only printed to console: " + error);
-		}
+		print(error);
+		PreparePopUp()?.ShowError(error, () => { _popup = null; });
+	}
+
+	public void ShowConfirm(Action confirmCase, Action cancelCase)
+	{
+		PreparePopUp()?.ShowConfirm(
+			() => { confirmCase?.Invoke(); _popup = null; },
+			() => { cancelCase?.Invoke(); _popup = null; });
 	}
 }

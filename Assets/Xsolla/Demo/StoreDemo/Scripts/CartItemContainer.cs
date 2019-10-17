@@ -36,7 +36,6 @@ public class CartItemContainer : MonoBehaviour, IContainer
 		_cartGroup = FindObjectOfType<CartGroupUI>();
 
 		var itemsTabControl = FindObjectOfType<ItemsTabControl>();
-		itemsTabControl .OnClearCart = OnClearCart;
 	}
 
 	void OnClearCart()
@@ -91,7 +90,9 @@ public class CartItemContainer : MonoBehaviour, IContainer
 	void AddControls(float price)
 	{
 		_cartControls = Instantiate(cartControlsPrefab, itemParent);
-		_cartControls.GetComponent<CartControls>().Initialize(price); 
+		CartControls controls = _cartControls.GetComponent<CartControls>();
+		controls.Initialize(price);
+		controls.OnClearCart = OnClearCart;
 	}
 
 	void ClearCartItems()
