@@ -28,12 +28,12 @@ public class ItemsController : MonoBehaviour
 			{
 				foreach (var group in item.groups)
 				{
-					if (!_containers.ContainsKey(group))
+					if (!_containers.ContainsKey(group.name))
 					{
-						AddContainer(itemsContainerPrefab, group);
+						AddContainer(itemsContainerPrefab, group.name);
 					}
 
-					var groupContainer = _containers[group];
+					var groupContainer = _containers[group.name];
 					groupContainer.GetComponent<ItemContainer>().AddItem(item);
 				}
 			}
@@ -49,14 +49,25 @@ public class ItemsController : MonoBehaviour
 			}
 		}
 
+		AddContainer(itemsContainerPrefab, Constants.CurrencyGroupName);
+
 		AddContainer(cartContainerPrefab, Constants.CartGroupName);
 		
 		AddContainer(inventoryContainerPrefab, Constants.InventoryConatainerName);
 	}
 
+	public void AddVirtualCurrency(StoreItems items)
+	{
+		var groupContainer = _containers[Constants.CurrencyGroupName];
+		foreach (var item in items.items) {
+			groupContainer.GetComponent<ItemContainer>().AddItem(item);
+		}
+	}
+
 	void AddContainer(GameObject itemContainerPref, string containerName)
 	{
 		var newContainer = Instantiate(itemContainerPref, content);
+		newContainer.name = containerName;
 		newContainer.SetActive(false);
 		_containers.Add(containerName, newContainer);
 	}

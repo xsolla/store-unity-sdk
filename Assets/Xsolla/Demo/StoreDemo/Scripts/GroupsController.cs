@@ -33,28 +33,25 @@ public class GroupsController : MonoBehaviour
 		{
 			if (item.groups.Any())
 			{
-				foreach (var groupId in item.groups)
+				foreach (var group in item.groups)
 				{
-					if (!_groups.Exists(group => group.Id == groupId))
-					{
-						AddGroup(groupPrefab, groupId, GetGroupName(groups, groupId));
-					}
+					AddGroup(groupPrefab, group.name, group.name);
 				}
 			}
 			else
 			{
-				if (!_groups.Exists(group => group.Id == Constants.UngroupedGroupName))
-				{
-					AddGroup(groupPrefab, Constants.UngroupedGroupName, Constants.UngroupedGroupName);
-				}
+				AddGroup(groupPrefab, Constants.UngroupedGroupName, Constants.UngroupedGroupName);
 			}
 		}
 
+		AddGroup(groupPrefab, Constants.CurrencyGroupName, Constants.CurrencyGroupName);
 		AddGroup(groupCartPrefab, Constants.CartGroupName, Constants.CartGroupName);
 	}
 
 	void AddGroup(GameObject groupPref, string groupId, string groupName)
 	{
+		if (_groups.Exists(group => group.Id == groupId))
+			return;
 		var newGroup = Instantiate(groupPref, scrollView.transform).GetComponent<IGroup>();
 		newGroup.Id = groupId;
 		newGroup.Name  = groupName;
@@ -91,12 +88,5 @@ public class GroupsController : MonoBehaviour
 	public IGroup GetSelectedGroup()
 	{
 		return _groups.Find((group => group.IsSelected()));
-	}
-
-	string GetGroupName(Groups groups, string groupId)
-	{
-		var group = groups.groups.First(g => g.external_id == groupId);
-
-		return group != null ? group.name : string.Empty;
 	}
 }
