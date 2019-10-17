@@ -13,6 +13,7 @@
 		public const string XsollaStoreToken = "Xsolla_Store_Token";
 
 		public const string CartGroupName = "CART";
+		public const string CurrencyGroupName = "CURRENCY";
 		public const string UngroupedGroupName = "UNGROUPED";
 		public const string InventoryConatainerName = "INVENTORY";
 	}

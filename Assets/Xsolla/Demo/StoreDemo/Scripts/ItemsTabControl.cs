@@ -11,17 +11,9 @@ public class ItemsTabControl : MonoBehaviour
 	MenuButton storeButton;
 	[SerializeField]
 	MenuButton inventoryButton;
-	
 	[SerializeField]
-	SimpleButton clearCartButton;
-
-	public Action OnClearCart
-	{
-		set
-		{
-			clearCartButton.onClick = value;
-		}
-	}
+	VirtualCurrencyBalance virtualCurrencyBalance;
+	public VirtualCurrencyBalance VirtualCurrencyBalance { get => virtualCurrencyBalance; set => virtualCurrencyBalance = value; }
 
 	public void Init()
 	{
@@ -38,41 +30,22 @@ public class ItemsTabControl : MonoBehaviour
 			inventoryButton.Deselect();
 
 			var selectedGroup = groupsController.GetSelectedGroup();
-
 			if (selectedGroup != null)
 			{
 				itemsController.ActivateContainer(selectedGroup.Id);
-
-				if (selectedGroup.Id == Constants.CartGroupName)
-				{
-					clearCartButton.gameObject.SetActive(true);
-				}
 			}
 		});
 		
 		inventoryButton.onClick = ((s) =>
 		{
 			storeButton.Deselect();
-			
 			itemsController.ActivateContainer(Constants.InventoryConatainerName);
-			
-			clearCartButton.gameObject.SetActive(false);
 		});
 	}
 
 	public void ActivateStoreTab(string groupID)
 	{
-		if (groupID != Constants.CartGroupName)
-		{
-			storeButton.Text = StoreButtonText;
-			clearCartButton.gameObject.SetActive(false);
-		}
-		else
-		{
-			storeButton.Text = CartButtonText;
-			clearCartButton.gameObject.SetActive(true);
-		}
-		
+		storeButton.Text = (groupID == Constants.CartGroupName) ? CartButtonText : StoreButtonText;
 		storeButton.Select(false);
 		inventoryButton.Deselect();
 	}
