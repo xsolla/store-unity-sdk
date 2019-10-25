@@ -11,7 +11,8 @@ namespace Xsolla.Store
 			new Dictionary<string, OrderStatusType>()
 			{
 				{"new", OrderStatusType.New},
-				{"paid", OrderStatusType.Paid}
+				{"paid", OrderStatusType.Paid},
+				{"done", OrderStatusType.Done}
 			};
 		
 		public int order_id;

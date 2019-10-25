@@ -4,6 +4,7 @@
 	{
 		Unknown,
 		New,
-		Paid
+		Paid,
+		Done
 	}
 }
