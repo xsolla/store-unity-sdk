@@ -132,7 +132,7 @@ public class StoreController : MonoBehaviour
 		
 		XsollaStore.Instance.CheckOrderStatus(XsollaSettings.StoreProjectId, orderId,status =>
 		{
-			if (status.Status != OrderStatusType.Paid)
+			if ((status.Status != OrderStatusType.Paid) && (status.Status != OrderStatusType.Done))
 			{
 				print(string.Format("Waiting for order {0} to be processed...", orderId));
 				StartCoroutine(CheckOrderStatus(orderId, onOrderPaid));
