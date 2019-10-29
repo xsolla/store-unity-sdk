@@ -21,19 +21,19 @@ public class VirtualCurrencyBalance : MonoBehaviour
 			Debug.LogError("VirtualCurrencyBalancePrefab is missing!");
 			return;
 		}
-		if(!currencies.ContainsKey(item.name) && item.image_url != null) {
+		if(!currencies.ContainsKey(item.sku) && item.image_url != null) {
 			
 			GameObject currencyBalance = Instantiate(VirtualCurrencyBalancePrefab, transform);
 			VirtualCurrencyBalanceUI balanceUI = currencyBalance?.GetComponent<VirtualCurrencyBalanceUI>();
-			currencies.Add(item.name, balanceUI);
+			currencies.Add(item.sku, balanceUI);
 			balanceUI.Initialize(item);
 		}
 	}
 
 	public void SetCurrencyBalance(UserVirtualCurrencyBalance balance)
 	{
-		if (currencies.ContainsKey(balance.name)) {
-			currencies[balance.name].SetBalance(balance.amount);
+		if (currencies.ContainsKey(balance.sku)) {
+			currencies[balance.sku].SetBalance(balance.amount);
 		}
 	}
 
