@@ -39,7 +39,7 @@ public class ItemsTabControl : MonoBehaviour
 		inventoryButton.onClick = ((s) =>
 		{
 			storeButton.Deselect();
-			itemsController.ActivateContainer(Constants.InventoryConatainerName);
+			itemsController.ActivateContainer(Constants.InventoryContainerName);
 		});
 	}
 

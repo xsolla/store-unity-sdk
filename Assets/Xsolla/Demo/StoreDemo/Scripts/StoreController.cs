@@ -110,7 +110,7 @@ public class StoreController : MonoBehaviour
 			_extraController.Init();
 		
 			_groupsController.SelectDefault();
-			XsollaStore.Instance.GetVirtualCurrencyPackagesList(XsollaSettings.StoreProjectId, _itemsController.AddVirtualCurrency, ShowError);
+			XsollaStore.Instance.GetVirtualCurrencyPackagesList(XsollaSettings.StoreProjectId, _itemsController.AddVirtualCurrencyPackage, ShowError);
 			XsollaStore.Instance.GetVirtualCurrencyList(
 				XsollaSettings.StoreProjectId,
 				currencies =>

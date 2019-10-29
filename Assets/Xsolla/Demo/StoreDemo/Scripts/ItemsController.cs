@@ -53,10 +53,10 @@ public class ItemsController : MonoBehaviour
 
 		AddContainer(cartContainerPrefab, Constants.CartGroupName);
 		
-		AddContainer(inventoryContainerPrefab, Constants.InventoryConatainerName);
+		AddContainer(inventoryContainerPrefab, Constants.InventoryContainerName);
 	}
 
-	public void AddVirtualCurrency(StoreItems items)
+	public void AddVirtualCurrencyPackage(VirtualCurrencyPackages items)
 	{
 		var groupContainer = _containers[Constants.CurrencyGroupName];
 		foreach (var item in items.items) {

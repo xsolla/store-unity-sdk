@@ -25,18 +25,13 @@ namespace Xsolla.Store
 		}
 		public string sku;
 		public string name;
-		public string[] attributes;
-		public string[] media_list;
-		public string type;
-		public Price price;
-		public StoreItem.VirtualPrice[] virtual_prices;
 		public StoreItem.Group[] groups;
-		public string long_description;
+		public string[] attributes;
+		public string type;
 		public string description;
 		public string image_url;
-		public string promotion;
 		public bool is_free;
-		public int order;
-		public string purchase_limit;
+		public Price price;
+		public StoreItem.VirtualPrice[] virtual_prices;
 	}
 }
