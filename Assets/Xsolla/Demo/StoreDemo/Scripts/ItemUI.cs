@@ -26,6 +26,7 @@ public class ItemUI : MonoBehaviour
 	StoreItem _itemInformation;
 	StoreController _storeController;
 	ItemsController _itemsController;
+	GroupsController _groupsController;
 
 	Sprite _itemImage;
 
@@ -33,6 +34,7 @@ public class ItemUI : MonoBehaviour
 	{
 		_storeController = FindObjectOfType<StoreController>();
 		_itemsController = FindObjectOfType<ItemsController>();
+		_groupsController = FindObjectOfType<GroupsController>();
 
 		var cartGroup = FindObjectOfType<CartGroupUI>();
 
@@ -47,12 +49,15 @@ public class ItemUI : MonoBehaviour
 						XsollaStore.Instance.BuyItem(XsollaSettings.StoreProjectId, _itemInformation.sku, GetVirtualPrice().sku, VirtualCurrencyPurchaseComplete, _storeController.ShowError, null);
 					}, null);
 			} else {
+				bool isItemVirtualCurrency = _groupsController?.GetSelectedGroup().Name == Constants.CurrencyGroupName;
 				XsollaStore.Instance.BuyItem(XsollaSettings.StoreProjectId, _itemInformation.sku, data =>
 				{
 					XsollaStore.Instance.OpenPurchaseUi(data);
 					_storeController.ProcessOrder(data.order_id, () =>
 					{
 						_itemsController.RefreshActiveContainer();
+						if (isItemVirtualCurrency)
+							_storeController.RefreshVirtualCurrencyBalance();
 					});
 				}, _storeController.ShowError);
 			}
