@@ -42,7 +42,7 @@ public class VirtualCurrencyBalance : MonoBehaviour
 		balance.items.ToList().ForEach(SetCurrencyBalance);
 	}
 
-	public void SetCurrencies(StoreItems items)
+	public void SetCurrencies(VirtualCurrencyItems items)
 	{
 		currencies.Values.ToList().ForEach(c => Destroy(c.gameObject));
 		currencies.Clear();
