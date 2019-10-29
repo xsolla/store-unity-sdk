@@ -12,8 +12,8 @@ public class ItemsTabControl : MonoBehaviour
 	[SerializeField]
 	MenuButton inventoryButton;
 	[SerializeField]
-	VirtualCurrencyBalance virtualCurrencyBalance;
-	public VirtualCurrencyBalance VirtualCurrencyBalance { get => virtualCurrencyBalance; set => virtualCurrencyBalance = value; }
+	VirtualCurrencyContainer virtualCurrencyBalance;
+	public VirtualCurrencyContainer VirtualCurrencyBalance { get => virtualCurrencyBalance; set => virtualCurrencyBalance = value; }
 
 	public void Init()
 	{

@@ -3,7 +3,7 @@
 namespace Xsolla.Store
 {
 	[Serializable]
-	public class UserVirtualCurrencyBalance
+	public class VirtualCurrencyBalance
 	{
 		public string sku;
 		public string type;

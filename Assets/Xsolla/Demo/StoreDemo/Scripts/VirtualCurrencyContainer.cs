@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEngine;
 using Xsolla.Store;
 
-public class VirtualCurrencyBalance : MonoBehaviour
+public class VirtualCurrencyContainer : MonoBehaviour
 {
 	public GameObject VirtualCurrencyBalancePrefab;
 	private Dictionary<string, VirtualCurrencyBalanceUI> currencies;
@@ -30,14 +30,14 @@ public class VirtualCurrencyBalance : MonoBehaviour
 		}
 	}
 
-	public void SetCurrencyBalance(UserVirtualCurrencyBalance balance)
+	public void SetCurrencyBalance(VirtualCurrencyBalance balance)
 	{
 		if (currencies.ContainsKey(balance.sku)) {
 			currencies[balance.sku].SetBalance(balance.amount);
 		}
 	}
 
-	public void SetCurrenciesBalance(UserVirtualCurrenciesBalance balance)
+	public void SetCurrenciesBalance(VirtualCurrenciesBalance balance)
 	{
 		balance.items.ToList().ForEach(SetCurrencyBalance);
 	}
