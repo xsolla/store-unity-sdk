@@ -334,6 +334,7 @@ MonoBehaviour:
   confirmButton: {fileID: 3922032118441538296}
   cancelButton: {fileID: 7749216091567526089}
   errorText: {fileID: 8751260144939140185}
+  confirmText: {fileID: 4435889317441962868}
 --- !u!1 &3591298717063864317
 GameObject:
   m_ObjectHideFlags: 0

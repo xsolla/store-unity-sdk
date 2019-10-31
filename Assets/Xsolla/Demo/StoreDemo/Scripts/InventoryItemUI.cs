@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using Xsolla.Core;
 using Xsolla.Store;
 
 public class InventoryItemUI : MonoBehaviour
@@ -15,6 +16,8 @@ public class InventoryItemUI : MonoBehaviour
 	Text itemDescription;
 	[SerializeField]
 	Text itemQuantity;
+	[SerializeField]
+	ConsumeButton consumeButton;
 	
 	InventoryItem _itemInformation;
 	StoreController _storeController;
@@ -24,10 +27,18 @@ public class InventoryItemUI : MonoBehaviour
 	private void Awake()
 	{
 		_storeController = FindObjectOfType<StoreController>();
+
+		DisableConsumeButton();
 	}
 
+	//static bool testFlag;
 	public void Initialize(InventoryItem itemInformation)
 	{
+		//if (!testFlag) {
+		//	testFlag = true;
+		//	itemInformation.remaining_uses = 1;
+		//}
+
 		_itemInformation = itemInformation;
 
 		itemName.text = _itemInformation.name;
@@ -44,5 +55,52 @@ public class InventoryItemUI : MonoBehaviour
 	{
 		loadingCircle.SetActive(false);
 		itemImage.sprite = _itemImage = image;
+
+		RefreshConsumeButton();
+	}
+
+	void RefreshConsumeButton()
+	{
+		EnableConsumeButton();
+		//if (_itemInformation.remaining_uses != null) {
+		//	EnableConsumeButton();
+		//}else {
+		//	DisableConsumeButton();
+		//}
+	}
+
+	void EnableConsumeButton()
+	{
+		consumeButton.transform.parent.gameObject.SetActive(true);
+		consumeButton.onClick = ConsumeHandler;
+	}
+
+	void ConsumeHandler()
+	{
+		_storeController.ShowConfirm(
+			ConsumeConfirmCase,
+			null,
+			"Item '" + _itemInformation.name + "' x " + consumeButton.counter + " will be consumed. Are you sure?"
+		);
+	}
+
+	void ConsumeConfirmCase()
+	{
+		XsollaStore.Instance.ConsumeInventoryItem(XsollaSettings.StoreProjectId,
+			new ConsumeItem() {
+				sku = _itemInformation.sku,
+				quantity = consumeButton.counter
+			},
+			() => {
+				//testFlag = false;
+				_storeController.RefreshInventory();
+			},
+			_storeController.ShowError
+		);
+	}
+
+	void DisableConsumeButton()
+	{
+		consumeButton.transform.parent.gameObject.SetActive(false);
 	}
 }

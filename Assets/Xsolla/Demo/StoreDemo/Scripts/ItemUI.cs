@@ -1,8 +1,7 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 using Xsolla.Core;
@@ -25,7 +24,6 @@ public class ItemUI : MonoBehaviour
 	
 	StoreItem _itemInformation;
 	StoreController _storeController;
-	ItemsController _itemsController;
 	GroupsController _groupsController;
 
 	Sprite _itemImage;
@@ -33,7 +31,6 @@ public class ItemUI : MonoBehaviour
 	void Awake()
 	{
 		_storeController = FindObjectOfType<StoreController>();
-		_itemsController = FindObjectOfType<ItemsController>();
 		_groupsController = FindObjectOfType<GroupsController>();
 
 		var cartGroup = FindObjectOfType<CartGroupUI>();
@@ -53,9 +50,7 @@ public class ItemUI : MonoBehaviour
 				XsollaStore.Instance.BuyItem(XsollaSettings.StoreProjectId, _itemInformation.sku, data =>
 				{
 					XsollaStore.Instance.OpenPurchaseUi(data);
-					_storeController.ProcessOrder(data.order_id, () =>
-					{
-						_itemsController.RefreshActiveContainer();
+					_storeController.ProcessOrder(data.order_id, () => {
 						if (isItemVirtualCurrency)
 							_storeController.RefreshVirtualCurrencyBalance();
 					});
@@ -80,7 +75,6 @@ public class ItemUI : MonoBehaviour
 
 	void VirtualCurrencyPurchaseComplete(PurchaseData purchaseData)
 	{
-		_itemsController.RefreshActiveContainer();
 		_storeController.RefreshInventory();
 		_storeController.RefreshVirtualCurrencyBalance();
 	}

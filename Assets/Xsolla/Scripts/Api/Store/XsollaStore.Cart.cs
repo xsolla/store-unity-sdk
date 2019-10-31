@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using JetBrains.Annotations;
+using Newtonsoft.Json;
 using UnityEngine;
 using Xsolla.Core;
 
@@ -26,7 +27,9 @@ namespace Xsolla.Store
 		{
 			var urlBuilder = new StringBuilder(string.Format(URL_CART_ITEM_ADD, projectId, cartId, itemSku)).Append(AdditionalUrlParams);
 
-			WebRequestHelper.Instance.PutRequest(urlBuilder.ToString(), JsonUtility.ToJson(new Quantity {quantity = quantity}), WebRequestHeader.AuthHeader(Token), WebRequestHeader.ContentTypeHeader(), onSuccess, onError, Error.AddToCartCartErrors);
+			string jsonData = JsonConvert.SerializeObject(new Quantity { quantity = quantity });
+
+			WebRequestHelper.Instance.PutRequest(urlBuilder.ToString(), jsonData, WebRequestHeader.AuthHeader(Token), WebRequestHeader.ContentTypeHeader(), onSuccess, onError, Error.AddToCartCartErrors);
 		}
 
 		public void ClearCart(string projectId, string cartId, [CanBeNull] Action onSuccess, [CanBeNull] Action<Error> onError)

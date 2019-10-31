@@ -88,6 +88,7 @@ public class ItemsController : MonoBehaviour
 
 	public void RefreshActiveContainer()
 	{
+		IEnumerable<KeyValuePair<string, GameObject>> activeContainers = _containers.Where(c => c.Value.activeSelf);
 		var activeContainer = _containers.Values.First((container => container.activeSelf));
 		if (activeContainer != null)
 		{

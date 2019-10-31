@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -61,10 +62,28 @@ namespace Xsolla.Core
 		{
 		}
 
-		public void PostRequest<T>(string url, object jsonObject, WebRequestHeader requestHeader, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
+		public void PostRequest<T, D>(string url, D jsonObject, WebRequestHeader requestHeader, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
+			where T : class
+			where D : class
 		{
-			StartCoroutine(PostRequestCor<T>(url, jsonObject, requestHeader, onComplete, onError, errorsToCheck));
+			List<WebRequestHeader> headers = new List<WebRequestHeader>();
+			headers.Add(requestHeader);
+			PostRequest<T, D>(url, jsonObject, headers, onComplete, onError, errorsToCheck);
 		}
+
+		public void PostRequest<T, D>(string url, D jsonObject, List<WebRequestHeader> requestHeaders, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
+			where T : class
+			where D : class
+		{
+			StartCoroutine(PostRequestCor<T>(url, jsonObject, requestHeaders, onComplete, onError, errorsToCheck));
+		}
+
+		public void PostRequest<T>(string url, T jsonObject, List<WebRequestHeader> requestHeaders, Action onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
+			where T : class
+		{
+			StartCoroutine(PostRequestCor(url, (object)jsonObject, requestHeaders, onComplete, onError, errorsToCheck));
+		}
+
 
 		public void PostRequest<T>(string url, WWWForm form, WebRequestHeader requestHeader, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
 		{
@@ -96,9 +115,9 @@ namespace Xsolla.Core
 			StartCoroutine(DeleteRequestCor(url, requestHeader, onComplete, onError, errorsToCheck));
 		}
 
-		IEnumerator PostRequestCor<T>(string url, object jsonObject, WebRequestHeader requestHeader, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
+		IEnumerator PostRequestCor(string url, object jsonObject, List<WebRequestHeader> requestHeaders, Action onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
 		{
-			string jsonData = JsonUtility.ToJson(jsonObject).Replace('\n', ' ');
+			string jsonData = JsonConvert.SerializeObject(jsonObject).Replace('\n', ' ');
 			byte[] body = new System.Text.UTF8Encoding().GetBytes(jsonData);
 
 			UnityWebRequest webRequest = UnityWebRequest.Post(url, "POST");
@@ -107,7 +126,33 @@ namespace Xsolla.Core
 			WebRequestHeader contentHeader = WebRequestHeader.ContentTypeHeader();
 			webRequest.SetRequestHeader(contentHeader.Name, contentHeader.Value);
 			AddOptionalHeaders(webRequest);
-			webRequest.SetRequestHeader(requestHeader.Name, requestHeader.Value);
+			foreach (WebRequestHeader header in requestHeaders) {
+				webRequest.SetRequestHeader(header.Name, header.Value);
+			}
+
+#if UNITY_2018_1_OR_NEWER
+			yield return webRequest.SendWebRequest();
+#else
+			yield return webRequest.Send();
+#endif
+
+			ProcessRequest(webRequest, onComplete, onError, errorsToCheck);
+		}
+
+		IEnumerator PostRequestCor<T>(string url, object jsonObject, List<WebRequestHeader> requestHeaders, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
+		{
+			string jsonData = JsonConvert.SerializeObject(jsonObject).Replace('\n', ' ');
+			byte[] body = new System.Text.UTF8Encoding().GetBytes(jsonData);
+
+			UnityWebRequest webRequest = UnityWebRequest.Post(url, "POST");
+			webRequest.timeout = 10;
+			webRequest.uploadHandler = (UploadHandler)new UploadHandlerRaw(body);
+			WebRequestHeader contentHeader = WebRequestHeader.ContentTypeHeader();
+			webRequest.SetRequestHeader(contentHeader.Name, contentHeader.Value);
+			AddOptionalHeaders(webRequest);
+			foreach(WebRequestHeader header in requestHeaders) {
+				webRequest.SetRequestHeader(header.Name, header.Value);
+			}
 
 #if UNITY_2018_1_OR_NEWER
 			yield return webRequest.SendWebRequest();
