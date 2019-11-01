@@ -40,7 +40,13 @@ namespace Xsolla.Core
 			{
 				{"422", ErrorType.ProductDoesNotExist},
 			};
-		
+
+		public static readonly Dictionary<string, ErrorType> ConsumeItemErrors =
+			new Dictionary<string, ErrorType>()
+			{
+				{"422", ErrorType.InvalidData},
+			};
+
 		public static readonly Dictionary<string, ErrorType> CreateCartErrors =
 			new Dictionary<string, ErrorType>()
 			{
