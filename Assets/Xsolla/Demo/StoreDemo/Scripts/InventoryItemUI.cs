@@ -31,14 +31,8 @@ public class InventoryItemUI : MonoBehaviour
 		DisableConsumeButton();
 	}
 
-	//static bool testFlag;
 	public void Initialize(InventoryItem itemInformation)
 	{
-		//if (!testFlag) {
-		//	testFlag = true;
-		//	itemInformation.remaining_uses = 1;
-		//}
-
 		_itemInformation = itemInformation;
 
 		itemName.text = _itemInformation.name;
@@ -92,7 +86,7 @@ public class InventoryItemUI : MonoBehaviour
 				quantity = consumeButton.counter
 			},
 			() => {
-				//testFlag = false;
+				_storeController.ShowSuccess();
 				_storeController.RefreshInventory();
 			},
 			_storeController.ShowError
