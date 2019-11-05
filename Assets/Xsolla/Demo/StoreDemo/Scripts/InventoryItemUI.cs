@@ -55,12 +55,11 @@ public class InventoryItemUI : MonoBehaviour
 
 	void RefreshConsumeButton()
 	{
-		EnableConsumeButton();
-		//if (_itemInformation.remaining_uses != null) {
-		//	EnableConsumeButton();
-		//}else {
-		//	DisableConsumeButton();
-		//}
+		if (_itemInformation.remaining_uses != null) {
+			EnableConsumeButton();
+		} else {
+			DisableConsumeButton();
+		}
 	}
 
 	void EnableConsumeButton()
