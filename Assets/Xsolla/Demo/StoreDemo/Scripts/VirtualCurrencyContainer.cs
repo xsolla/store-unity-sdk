@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEngine;
 using Xsolla.Store;
 
-public class VirtualCurrencyBalance : MonoBehaviour
+public class VirtualCurrencyContainer : MonoBehaviour
 {
 	public GameObject VirtualCurrencyBalancePrefab;
 	private Dictionary<string, VirtualCurrencyBalanceUI> currencies;
@@ -21,28 +21,28 @@ public class VirtualCurrencyBalance : MonoBehaviour
 			Debug.LogError("VirtualCurrencyBalancePrefab is missing!");
 			return;
 		}
-		if(!currencies.ContainsKey(item.name) && item.image_url != null) {
+		if(!currencies.ContainsKey(item.sku) && item.image_url != null) {
 			
 			GameObject currencyBalance = Instantiate(VirtualCurrencyBalancePrefab, transform);
 			VirtualCurrencyBalanceUI balanceUI = currencyBalance?.GetComponent<VirtualCurrencyBalanceUI>();
-			currencies.Add(item.name, balanceUI);
+			currencies.Add(item.sku, balanceUI);
 			balanceUI.Initialize(item);
 		}
 	}
 
-	public void SetCurrencyBalance(UserVirtualCurrencyBalance balance)
+	public void SetCurrencyBalance(VirtualCurrencyBalance balance)
 	{
-		if (currencies.ContainsKey(balance.name)) {
-			currencies[balance.name].SetBalance(balance.amount);
+		if (currencies.ContainsKey(balance.sku)) {
+			currencies[balance.sku].SetBalance(balance.amount);
 		}
 	}
 
-	public void SetCurrenciesBalance(UserVirtualCurrenciesBalance balance)
+	public void SetCurrenciesBalance(VirtualCurrenciesBalance balance)
 	{
 		balance.items.ToList().ForEach(SetCurrencyBalance);
 	}
 
-	public void SetCurrencies(StoreItems items)
+	public void SetCurrencies(VirtualCurrencyItems items)
 	{
 		currencies.Values.ToList().ForEach(c => Destroy(c.gameObject));
 		currencies.Clear();
