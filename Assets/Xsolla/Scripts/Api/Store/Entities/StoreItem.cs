@@ -23,6 +23,16 @@ namespace Xsolla.Store
 			public string amount_without_discount;
 			public bool is_default;
 		}
+		[Serializable]
+		public class InventoryOptions
+		{
+			[Serializable]
+			public class ConsumableOption
+			{
+				public int? usages_count;
+			}
+			public StoreItem.InventoryOptions.ConsumableOption consumable;
+		}
 		public string sku;
 		public string name;
 		public StoreItem.Group[] groups;
@@ -33,5 +43,6 @@ namespace Xsolla.Store
 		public bool is_free;
 		public Price price;
 		public StoreItem.VirtualPrice[] virtual_prices;
+		public StoreItem.InventoryOptions inventory_options;
 	}
 }

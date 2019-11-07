@@ -25,7 +25,9 @@ public class MessagePopup : MonoBehaviour
 
 	[SerializeField]
 	Text errorText;
-	
+	[SerializeField]
+	public Text confirmText;
+
 	Action _onPopupClosed;
 	Action _onConfirmPressed;
 	Action _onCancelPressed;
@@ -46,24 +48,27 @@ public class MessagePopup : MonoBehaviour
 		confirmPanel?.SetActive(false);
 	}
 
-	public void ShowError(Error error, Action onClosed = null)
+	public MessagePopup ShowError(Error error, Action onClosed = null)
 	{
 		_onPopupClosed = onClosed;
 		errorText.text = error.ToString();
 		errorPanel.SetActive(true);
+		return this;
 	}
 	
-	public void ShowSuccess(Action onClosed = null)
+	public MessagePopup ShowSuccess(Action onClosed = null)
 	{
 		_onPopupClosed = onClosed;
 		successPanel.SetActive(true);
+		return this;
 	}
 
-	public void ShowConfirm(Action onConfirm, Action onCancel)
+	public MessagePopup ShowConfirm(Action onConfirm, Action onCancel)
 	{
 		_onConfirmPressed = onConfirm;
 		_onCancelPressed = onCancel;
 		confirmPanel.SetActive(true);
+		return this;
 	}
 
 	void OnConfirmButtonClicked()

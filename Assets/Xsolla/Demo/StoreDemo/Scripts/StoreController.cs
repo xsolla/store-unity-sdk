@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 using Xsolla.Core;
 using Xsolla.Login;
 using Xsolla.Store;
@@ -82,6 +83,7 @@ public class StoreController : MonoBehaviour
 	{
 		items.items = FilterVirtualCurrency(items.items);
 		inventory = items;
+		_itemsController.RefreshActiveContainer();
 	}
 
 	public void RefreshVirtualCurrencyBalance(Action refreshCallback = null)
@@ -182,10 +184,13 @@ public class StoreController : MonoBehaviour
 		PreparePopUp()?.ShowError(error, () => { _popup = null; });
 	}
 
-	public void ShowConfirm(Action confirmCase, Action cancelCase)
+	public void ShowConfirm(Action confirmCase, Action cancelCase, string message = "")
 	{
-		PreparePopUp()?.ShowConfirm(
+		Text text = PreparePopUp()?.ShowConfirm(
 			() => { confirmCase?.Invoke(); _popup = null; },
-			() => { cancelCase?.Invoke(); _popup = null; });
+			() => { cancelCase?.Invoke(); _popup = null; }).confirmText;
+		if (!String.IsNullOrEmpty(message)) {
+			text.text = message;
+		}
 	}
 }

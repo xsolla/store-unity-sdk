@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 using JetBrains.Annotations;
+using Newtonsoft.Json;
 using UnityEngine;
+
 
 namespace Xsolla.Core
 {
@@ -12,7 +14,7 @@ namespace Xsolla.Core
 		{
 			try
 			{
-				return (T) JsonUtility.FromJson(json, typeof(T));
+				return JsonConvert.DeserializeObject<T>(json);
 			}
 			catch (Exception e)
 			{
