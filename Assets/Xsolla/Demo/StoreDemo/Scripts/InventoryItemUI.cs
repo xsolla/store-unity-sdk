@@ -64,8 +64,13 @@ public class InventoryItemUI : MonoBehaviour
 
 	void EnableConsumeButton()
 	{
-		consumeButton.transform.parent.gameObject.SetActive(true);
+		consumeButton.gameObject.SetActive(true);
 		consumeButton.onClick = ConsumeHandler;
+	}
+
+	void DisableConsumeButton()
+	{
+		consumeButton.gameObject.SetActive(false);
 	}
 
 	void ConsumeHandler()
@@ -90,10 +95,5 @@ public class InventoryItemUI : MonoBehaviour
 			},
 			_storeController.ShowError
 		);
-	}
-
-	void DisableConsumeButton()
-	{
-		consumeButton.transform.parent.gameObject.SetActive(false);
-	}
+	}	
 }
