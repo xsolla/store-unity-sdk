@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Xsolla.Store
 {
@@ -11,9 +12,9 @@ namespace Xsolla.Store
 		public string description;
 		public string image_url;
 		public int level;
-		public int order;
+		public int? order;
 		public string parent_group_id;
-		public string children;
+		public List<Group> children;
 		public string parent_external_id;
 	}
 }

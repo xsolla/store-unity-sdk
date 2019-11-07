@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using Xsolla.Core;
 using Xsolla.Store;
 
 public class InventoryItemUI : MonoBehaviour
@@ -15,6 +16,8 @@ public class InventoryItemUI : MonoBehaviour
 	Text itemDescription;
 	[SerializeField]
 	Text itemQuantity;
+	[SerializeField]
+	ConsumeButton consumeButton;
 	
 	InventoryItem _itemInformation;
 	StoreController _storeController;
@@ -24,6 +27,8 @@ public class InventoryItemUI : MonoBehaviour
 	private void Awake()
 	{
 		_storeController = FindObjectOfType<StoreController>();
+
+		DisableConsumeButton();
 	}
 
 	public void Initialize(InventoryItem itemInformation)
@@ -44,5 +49,51 @@ public class InventoryItemUI : MonoBehaviour
 	{
 		loadingCircle.SetActive(false);
 		itemImage.sprite = _itemImage = image;
+
+		RefreshConsumeButton();
 	}
+
+	void RefreshConsumeButton()
+	{
+		if (_itemInformation.remaining_uses != null) {
+			EnableConsumeButton();
+		} else {
+			DisableConsumeButton();
+		}
+	}
+
+	void EnableConsumeButton()
+	{
+		consumeButton.gameObject.SetActive(true);
+		consumeButton.onClick = ConsumeHandler;
+	}
+
+	void DisableConsumeButton()
+	{
+		consumeButton.gameObject.SetActive(false);
+	}
+
+	void ConsumeHandler()
+	{
+		_storeController.ShowConfirm(
+			ConsumeConfirmCase,
+			null,
+			"Item '" + _itemInformation.name + "' x " + consumeButton.counter + " will be consumed. Are you sure?"
+		);
+	}
+
+	void ConsumeConfirmCase()
+	{
+		XsollaStore.Instance.ConsumeInventoryItem(XsollaSettings.StoreProjectId,
+			new ConsumeItem() {
+				sku = _itemInformation.sku,
+				quantity = consumeButton.counter
+			},
+			() => {
+				_storeController.ShowSuccess();
+				_storeController.RefreshInventory();
+			},
+			_storeController.ShowError
+		);
+	}	
 }

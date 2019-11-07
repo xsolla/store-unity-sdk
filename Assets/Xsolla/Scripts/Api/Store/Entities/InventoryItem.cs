@@ -22,6 +22,7 @@ namespace Xsolla.Store
 		public string purchase_limit;
 		public int quantity;
 		public bool is_used_now;
+		public int? remaining_uses;
 	}
 }
 

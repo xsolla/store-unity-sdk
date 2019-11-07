@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using JetBrains.Annotations;
-using UnityEngine;
 using Xsolla.Core;
 
 namespace Xsolla.Store
@@ -10,7 +9,7 @@ namespace Xsolla.Store
 	public partial class XsollaStore : MonoSingleton<XsollaStore>
 	{
 		private const string URL_INVENTORY_GET_ITEMS = "https://store.xsolla.com/api/v1/project/{0}/user/inventory/items";
-		private const string URL_INVENTORY_ITEM_CONSUME = "https://store.xsolla.com/api/v1/project/{0}/user/inventory/item/consume";
+		private const string URL_INVENTORY_ITEM_CONSUME = "https://store.xsolla.com/api/v2/project/{0}/user/inventory/item/consume";
 
 		public void GetInventoryItems(string projectId, [NotNull] Action<InventoryItems> onSuccess, [CanBeNull] Action<Error> onError, [CanBeNull] string locale = null)
 		{
@@ -25,8 +24,7 @@ namespace Xsolla.Store
 			var urlBuilder = new StringBuilder(string.Format(URL_INVENTORY_ITEM_CONSUME, projectId)).Append(AdditionalUrlParams);
 
 			var headers = new List<WebRequestHeader>() { WebRequestHeader.AuthHeader(Token), WebRequestHeader.ContentTypeHeader() };
-
-			WebRequestHelper.Instance.PostRequest(urlBuilder.ToString(), item.ToJson(), null, headers, onSuccess, onError);
+			WebRequestHelper.Instance.PostRequest(urlBuilder.ToString(), item, headers, onSuccess, onError, Error.ConsumeItemErrors);
 		}
 	}
 }
