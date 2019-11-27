@@ -4,22 +4,29 @@ using System.Collections.Generic;
 namespace Xsolla.Core
 {
 	[Serializable]
-	public class Error
+	public partial class Error
 	{
 		public string statusCode;
 		public string errorCode;
 		public string errorMessage;
-
 		public ErrorType ErrorType { get; set; }
+
+		public Error(ErrorType errorType = ErrorType.UnknownError, string statusCode = "", string errorMessage = "", string errorCode = "")
+		{
+			this.statusCode = statusCode;
+			this.errorMessage = errorMessage;
+			this.errorCode = errorCode;
+			this.ErrorType = errorType;
+		}
 
 		public static Error NetworkError
 		{
-			get { return new Error {ErrorType = ErrorType.NetworkError}; }
+			get { return new Error(ErrorType.NetworkError); }
 		}
 		
 		public static Error UnknownError
 		{
-			get { return new Error {ErrorType = ErrorType.UnknownError}; }
+			get { return new Error(ErrorType.UnknownError); }
 		}
 
 		public static readonly Dictionary<string, ErrorType> GeneralErrors =
@@ -27,70 +34,18 @@ namespace Xsolla.Core
 			{
 				{"403", ErrorType.InvalidToken},
 				{"405", ErrorType.MethodIsNotAllowed},
-			};
-		
-		public static readonly Dictionary<string, ErrorType> ItemsListErrors =
-			new Dictionary<string, ErrorType>()
-			{
-				{"422", ErrorType.InvalidData},
+
+				{"0", ErrorType.InvalidProjectSettings},
+				{"003-001", ErrorType.InvalidLoginOrPassword},
+				{"003-061", ErrorType.InvalidProjectSettings},
+				{"010-011", ErrorType.MultipleLoginUrlsException},
+				{"010-012", ErrorType.SubmittedLoginUrlNotFoundException}
 			};
 
-		public static readonly Dictionary<string, ErrorType> BuyItemErrors =
-			new Dictionary<string, ErrorType>()
-			{
-				{"422", ErrorType.ProductDoesNotExist},
-			};
-
-		public static readonly Dictionary<string, ErrorType> ConsumeItemErrors =
-			new Dictionary<string, ErrorType>()
-			{
-				{"422", ErrorType.InvalidData},
-			};
-
-		public static readonly Dictionary<string, ErrorType> CreateCartErrors =
-			new Dictionary<string, ErrorType>()
-			{
-				{"403", ErrorType.InvalidToken},
-				{"404", ErrorType.UserNotFound},
-				{"422", ErrorType.InvalidData},
-			};
-		
-		public static readonly Dictionary<string, ErrorType> AddToCartCartErrors =
-			new Dictionary<string, ErrorType>()
-			{
-				{"403", ErrorType.InvalidToken},
-				{"404", ErrorType.CartNotFound},
-				{"422", ErrorType.InvalidData},
-			};
-		
-		public static readonly Dictionary<string, ErrorType> GetCartItemsErrors =
-			new Dictionary<string, ErrorType>()
-			{
-				{"403", ErrorType.InvalidToken},
-				{"404", ErrorType.CartNotFound},
-				{"422", ErrorType.InvalidData},
-			};
-		
-		public static readonly Dictionary<string, ErrorType> DeleteFromCartErrors =
-			new Dictionary<string, ErrorType>()
-			{
-				{"403", ErrorType.InvalidToken},
-				{"404", ErrorType.CartNotFound},
-				{"422", ErrorType.InvalidData},
-			};
-		
-		public static readonly Dictionary<string, ErrorType> BuyCartErrors =
-			new Dictionary<string, ErrorType>()
-			{
-				{"422", ErrorType.CartNotFound},
-			};
-		
-		public static readonly Dictionary<string, ErrorType> OrderStatusErrors =
-			new Dictionary<string, ErrorType>()
-			{
-				{"401", ErrorType.InvalidToken},
-				{"404", ErrorType.OrderNotFound},
-			};
+		public bool IsValid()
+		{
+			return (statusCode != null) || (errorCode != null) || (errorMessage != null);
+		}
 		
 		public override string ToString()
 		{

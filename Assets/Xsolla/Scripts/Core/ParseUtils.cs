@@ -26,7 +26,12 @@ namespace Xsolla.Core
 		
 		public static Error ParseError(string json)
 		{
-			return FromJson<Error>(json);
+			Error storeError = FromJson<Error>(json);
+			if((storeError == null) || (!storeError.IsValid())) {
+				Error.Login loginError = FromJson<Error.Login>(json);
+				storeError = loginError?.ToStoreError();
+			}
+			return storeError;
 		}
 		
 		public static string ParseToken(string token)

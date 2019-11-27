@@ -26,7 +26,7 @@ public class ResetPasswordPage : Page, IResetPassword
         }
     }
 
-    public Action<ErrorDescription> OnUnsuccessfulResetPassword
+    public Action<Xsolla.Core.Error> OnUnsuccessfulResetPassword
     {
         get
         {
@@ -40,7 +40,7 @@ public class ResetPasswordPage : Page, IResetPassword
     }
 
     private Action onSuccessfulResetPassword;
-    private Action<ErrorDescription> onUnsuccessfulResetPassword;
+    private Action<Xsolla.Core.Error> onUnsuccessfulResetPassword;
 
     private void Awake()
     {
