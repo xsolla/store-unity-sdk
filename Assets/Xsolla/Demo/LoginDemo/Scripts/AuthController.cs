@@ -145,13 +145,11 @@ public class AuthController : MonoBehaviour
                 OpenPopUp(string.Format("Network Error: {0}", error.errorMessage), PopUpWindows.Error);
                 break;
 			default:
-				string errorMessage = error.errorMessage;
-				if (string.IsNullOrEmpty(errorMessage))
-					errorMessage = error.errorCode;
-				if (string.IsNullOrEmpty(errorMessage))
-					errorMessage = error.statusCode;
-				if (string.IsNullOrEmpty(errorMessage))
-					errorMessage = "Unknown error";
+				string errorMessage =
+					string.IsNullOrEmpty(error.errorMessage) ? error.errorMessage :
+					string.IsNullOrEmpty(error.errorCode) ? error.errorCode :
+					string.IsNullOrEmpty(error.statusCode) ? error.statusCode :
+					"Unknown error";
 				OpenPopUp(errorMessage, PopUpWindows.Error);
 				break;
         }
