@@ -6,5 +6,5 @@ public interface ILogin
 {
     void Login();
     Action<User> OnSuccessfulLogin { get; set; }
-    Action<ErrorDescription> OnUnsuccessfulLogin { get; set; }
+    Action<Xsolla.Core.Error> OnUnsuccessfulLogin { get; set; }
 }

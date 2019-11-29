@@ -2,10 +2,8 @@
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
-using Xsolla;
 using Xsolla.Core;
 using Xsolla.Login;
-using Error = Xsolla.Login.Error;
 
 public class AuthController : MonoBehaviour
 {
@@ -127,52 +125,33 @@ public class AuthController : MonoBehaviour
         popUp_Controller.GetComponent<IPopUpController>().ShowPopUp(header, message);
         Debug.Log(message);
     }
-    private void OnError(ErrorDescription errorDescription)
+    private void OnError(Xsolla.Core.Error error)
     {
-        switch (errorDescription.error)
+        switch (error.ErrorType)
         {
-            case Error.PasswordResetingNotAllowedForProject:
-                OpenPopUp(errorDescription.ToString(), PopUpWindows.Error);
-                break;
-            case Error.TokenVerificationException:
-                OpenPopUp(errorDescription.ToString(), PopUpWindows.Error);
-                break;
-            case Error.RegistrationNotAllowedException:
-                OpenPopUp(errorDescription.ToString(), PopUpWindows.Error);
-                break;
-            case Error.UsernameIsTaken:
+            case ErrorType.UsernameIsTaken:
                 OpenPopUp("Username Is Taken.", PopUpWindows.Error);
                 break;
-            case Error.EmailIsTaken:
+            case ErrorType.EmailIsTaken:
                 OpenPopUp("Email Is Taken", PopUpWindows.Error);
                 break;
-            case Error.UserIsNotActivated:
-                OpenPopUp(errorDescription.ToString(), PopUpWindows.Error);
-                break;
-            case Error.CaptchaRequiredException:
-                OpenPopUp(errorDescription.ToString(), PopUpWindows.Error);
-                break;
-            case Error.InvalidProjectSettings:
-                OpenPopUp(errorDescription.ToString(), PopUpWindows.Error);
-                break;
-            case Error.InvalidLoginOrPassword:
+            case ErrorType.InvalidLoginOrPassword:
                 OpenPopUp("Wrong username or password", PopUpWindows.Error);
                 break;
-            case Error.MultipleLoginUrlsException:
-                OpenPopUp(errorDescription.ToString(), PopUpWindows.Error);
-                break;
-            case Error.SubmittedLoginUrlNotFoundException:
-                OpenPopUp(errorDescription.ToString(), PopUpWindows.Error);
-                break;
-            case Error.InvalidToken:
+            case ErrorType.InvalidToken:
                 OpenPopUp("Invalid Token", PopUpWindows.Error);
                 break;
-            case Error.NetworkError:
-                OpenPopUp(string.Format("Network Error: {0}", errorDescription.description), PopUpWindows.Error);
+            case ErrorType.NetworkError:
+                OpenPopUp(string.Format("Network Error: {0}", error.errorMessage), PopUpWindows.Error);
                 break;
-            case Error.UnknownError:
-                OpenPopUp(errorDescription.ToString(), PopUpWindows.Error);
-                break;
+			default:
+				string errorMessage =
+					string.IsNullOrEmpty(error.errorMessage) ? error.errorMessage :
+					string.IsNullOrEmpty(error.errorCode) ? error.errorCode :
+					string.IsNullOrEmpty(error.statusCode) ? error.statusCode :
+					"Unknown error";
+				OpenPopUp(errorMessage, PopUpWindows.Error);
+				break;
         }
     }
 }

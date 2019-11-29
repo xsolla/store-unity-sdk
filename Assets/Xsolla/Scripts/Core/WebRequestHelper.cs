@@ -71,6 +71,14 @@ namespace Xsolla.Core
 			PostRequest<T, D>(url, jsonObject, headers, onComplete, onError, errorsToCheck);
 		}
 
+		public void PostRequest<T, D>(string url, D jsonObject, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
+			where T : class
+			where D : class
+		{
+			List<WebRequestHeader> headers = new List<WebRequestHeader>();
+			PostRequest<T, D>(url, jsonObject, headers, onComplete, onError, errorsToCheck);
+		}
+
 		public void PostRequest<T, D>(string url, D jsonObject, List<WebRequestHeader> requestHeaders, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
 			where T : class
 			where D : class
@@ -84,6 +92,11 @@ namespace Xsolla.Core
 			StartCoroutine(PostRequestCor(url, (object)jsonObject, requestHeaders, onComplete, onError, errorsToCheck));
 		}
 
+		public void PostRequest<T>(string url, T jsonObject, Action onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
+			where T : class
+		{
+			PostRequest(url, jsonObject, new List<WebRequestHeader>(), onComplete, onError, errorsToCheck);
+		}
 
 		public void PostRequest<T>(string url, WWWForm form, WebRequestHeader requestHeader, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
 		{
@@ -303,16 +316,9 @@ namespace Xsolla.Core
 				print(webRequest.downloadHandler.text);
 				var error = CheckForErrors(webRequest.downloadHandler.text, errorsToCheck);
 				if (error == null)
-				{
-					if (onComplete != null)
-					{
-						onComplete();
-					}
-				}
+					onComplete?.Invoke();
 				else
-				{
 					TriggerOnError(onError, error);
-				}
 			}
 		}
 
@@ -372,12 +378,10 @@ namespace Xsolla.Core
 
 			return null;
 		}
+
 		void TriggerOnError(Action<Error> onError, Error error)
 		{
-			if (onError != null)
-			{
-				onError(error);
-			}
+			onError?.Invoke(error);
 		}
 
 		public void AddOptionalHeaders(UnityWebRequest request)

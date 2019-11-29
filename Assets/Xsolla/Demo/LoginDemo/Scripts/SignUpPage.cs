@@ -37,7 +37,7 @@ public class SignUpPage :  Page, ISignUp
         }
     }
 
-    public Action<ErrorDescription> OnUnsuccessfulSignUp
+    public Action<Xsolla.Core.Error> OnUnsuccessfulSignUp
     {
         get
         {
@@ -51,7 +51,7 @@ public class SignUpPage :  Page, ISignUp
     }
 
     private Action onSuccessfulSignUp;
-    private Action<ErrorDescription> onUnsuccessfulSignUp;
+    private Action<Xsolla.Core.Error> onUnsuccessfulSignUp;
 
     private void Awake()
     {
