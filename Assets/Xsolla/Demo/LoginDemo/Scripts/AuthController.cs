@@ -146,9 +146,9 @@ public class AuthController : MonoBehaviour
                 break;
 			default:
 				string errorMessage =
-					string.IsNullOrEmpty(error.errorMessage) ? error.errorMessage :
-					string.IsNullOrEmpty(error.errorCode) ? error.errorCode :
-					string.IsNullOrEmpty(error.statusCode) ? error.statusCode :
+					!string.IsNullOrEmpty(error.errorMessage) ? error.errorMessage :
+					!string.IsNullOrEmpty(error.errorCode) ? error.errorCode :
+					!string.IsNullOrEmpty(error.statusCode) ? error.statusCode :
 					"Unknown error";
 				OpenPopUp(errorMessage, PopUpWindows.Error);
 				break;
