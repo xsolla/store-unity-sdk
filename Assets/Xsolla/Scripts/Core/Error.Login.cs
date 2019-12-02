@@ -11,7 +11,7 @@ namespace Xsolla.Core
 			[Serializable]
 			public class Data
 			{
-				public uint code;
+				public string code;
 				public string description;
 			}
 			public Data error;
