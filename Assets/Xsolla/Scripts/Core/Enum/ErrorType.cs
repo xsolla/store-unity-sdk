@@ -4,12 +4,25 @@
 	{
 		UnknownError,
 		NetworkError,
-		MethodIsNotAllowed,
 		InvalidToken,
+
+		MethodIsNotAllowed,
 		InvalidData,
 		ProductDoesNotExist,
 		UserNotFound,
 		CartNotFound,
-		OrderNotFound
+		OrderNotFound,
+
+		PasswordResetingNotAllowedForProject,
+		TokenVerificationException,
+		RegistrationNotAllowedException,
+		UsernameIsTaken,
+		EmailIsTaken,
+		UserIsNotActivated,
+		CaptchaRequiredException,
+		InvalidProjectSettings,
+		InvalidLoginOrPassword,
+		MultipleLoginUrlsException,
+		SubmittedLoginUrlNotFoundException
 	}
 }

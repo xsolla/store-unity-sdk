@@ -34,7 +34,7 @@ public class LoginPage : Page, ILogin
         }
     }
 
-    public Action<ErrorDescription> OnUnsuccessfulLogin
+    public Action<Xsolla.Core.Error> OnUnsuccessfulLogin
     {
         get
         {
@@ -48,7 +48,7 @@ public class LoginPage : Page, ILogin
     }
 
     private Action<User> onSuccessfulLogin;
-    private Action<ErrorDescription> onUnsuccessfulLogin;
+    private Action<Xsolla.Core.Error> onUnsuccessfulLogin;
 
     private void Awake()
     {
