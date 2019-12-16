@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52405bf87e920c34796e9e06cc914ce8, type: 3}
   m_Name: XsollaSettings
   m_EditorClassIdentifier: 
-  loginId: e6dfaac6-78a8-11e9-9244-42010aa80004
+  loginId: 'b053f3dd-1fce-11ea-b687-42010aa80004 '
   useJwtValidation: 0
   jwtValidationUrl: 
   useProxy: 0
   callbackUrl: 
-  storeProjectId: 44056
+  storeProjectId: 50458
   isSandbox: 1
   payStationProjectId: 
   merchantId: 
