@@ -31,14 +31,14 @@ public class CartControls : MonoBehaviour
 
 		buyButton.onClick = (() =>
 		{
-			XsollaStore.Instance.ClearCart(XsollaSettings.StoreProjectId, _storeController.Cart.id, () =>
+			XsollaStore.Instance.ClearCart(XsollaSettings.StoreProjectId, _storeController.Cart.cart_id, () =>
 			{
 				_totalItems = _storeController.CartModel.CartItems.Count;
 				_completedRequests = 0;
 			
 				foreach (var cartItem in _storeController.CartModel.CartItems)
 				{
-					XsollaStore.Instance.AddItemToCart(XsollaSettings.StoreProjectId, _storeController.Cart.id, cartItem.Key, cartItem.Value.Quantity,
+					XsollaStore.Instance.AddItemToCart(XsollaSettings.StoreProjectId, _storeController.Cart.cart_id, cartItem.Key, cartItem.Value.Quantity,
 						() =>
 						{
 							_completedRequests++;
@@ -58,7 +58,7 @@ public class CartControls : MonoBehaviour
 	{
 		yield return new WaitUntil(() => _completedRequests == _totalItems);
 
-		XsollaStore.Instance.BuyCart(XsollaSettings.StoreProjectId, _storeController.Cart.id, data =>
+		XsollaStore.Instance.BuyCart(XsollaSettings.StoreProjectId, _storeController.Cart.cart_id, data =>
 		{
 			XsollaStore.Instance.OpenPurchaseUi(data);
 
