@@ -3,8 +3,7 @@
 namespace Xsolla.Store
 {
 	[Serializable]
-	public class Cart
+	public class Cart : CartItems
 	{
-		public string id;
 	}
 }

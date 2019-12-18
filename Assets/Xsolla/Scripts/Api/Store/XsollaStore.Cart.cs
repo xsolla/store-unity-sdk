@@ -10,17 +10,17 @@ namespace Xsolla.Store
 {
 	public partial class XsollaStore : MonoSingleton<XsollaStore>
 	{
-		private const string URL_CART_CREATE_NEW = "https://store.xsolla.com/api/v1/project/{0}/cart";
-		private const string URL_CART_ITEM_ADD = "https://store.xsolla.com/api/v1/project/{0}/cart/{1}/item/{2}";
-		private const string URL_CART_ITEM_REMOVE = "https://store.xsolla.com/api/v1/project/{0}/cart/{1}/item/{2}";
-		private const string URL_CART_GET_ITEMS = "https://store.xsolla.com/api/v1/project/{0}/cart/{1}";
-		private const string URL_CART_CLEAR = "https://store.xsolla.com/api/v1/project/{0}/cart/{1}/clear";		
+		private const string URL_CART_CREATE_NEW = "https://store.xsolla.com/api/v2/project/{0}/cart";
+		private const string URL_CART_ITEM_ADD = "https://store.xsolla.com/api/v2/project/{0}/cart/{1}/item/{2}";
+		private const string URL_CART_ITEM_REMOVE = "https://store.xsolla.com/api/v2/project/{0}/cart/{1}/item/{2}";
+		private const string URL_CART_GET_ITEMS = "https://store.xsolla.com/api/v2/project/{0}/cart/{1}";
+		private const string URL_CART_CLEAR = "https://store.xsolla.com/api/v2/project/{0}/cart/{1}/clear";		
 
 		public void CreateNewCart(string projectId, [NotNull] Action<Cart> onSuccess, [CanBeNull] Action<Error> onError)
 		{
 			var urlBuilder = new StringBuilder(string.Format(URL_CART_CREATE_NEW, projectId)).Append(AdditionalUrlParams);
 
-			WebRequestHelper.Instance.PostRequest(urlBuilder.ToString(), null, WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.CreateCartErrors);
+			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.CreateCartErrors);
 		}
 
 		public void AddItemToCart(string projectId, string cartId, string itemSku, int quantity, [CanBeNull] Action onSuccess, [CanBeNull] Action<Error> onError)
