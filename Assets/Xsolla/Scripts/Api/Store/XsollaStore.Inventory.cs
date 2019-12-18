@@ -8,7 +8,7 @@ namespace Xsolla.Store
 {
 	public partial class XsollaStore : MonoSingleton<XsollaStore>
 	{
-		private const string URL_INVENTORY_GET_ITEMS = "https://store.xsolla.com/api/v1/project/{0}/user/inventory/items";
+		private const string URL_INVENTORY_GET_ITEMS = "https://store.xsolla.com/api/v2/project/{0}/user/inventory/items";
 		private const string URL_INVENTORY_ITEM_CONSUME = "https://store.xsolla.com/api/v2/project/{0}/user/inventory/item/consume";
 
 		public void GetInventoryItems(string projectId, [NotNull] Action<InventoryItems> onSuccess, [CanBeNull] Action<Error> onError, [CanBeNull] string locale = null)
