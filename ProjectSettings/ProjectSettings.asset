@@ -3,7 +3,7 @@
 --- !u!129 &1
 PlayerSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 18
+  serializedVersion: 15
   productGUID: c38a2e7bf7acd2c4299a80923d451ffd
   AndroidProfiler: 0
   AndroidFilterTouchesWhenObscured: 0
@@ -52,8 +52,8 @@ PlayerSettings:
   m_StackTraceTypes: 010000000100000001000000010000000100000001000000
   iosShowActivityIndicatorOnLoading: -1
   androidShowActivityIndicatorOnLoading: -1
+  iosAppInBackgroundBehavior: 0
   displayResolutionDialog: 1
-  iosUseCustomAppBackgroundBehavior: 0
   iosAllowHTTPDownload: 1
   allowedAutorotateToPortrait: 1
   allowedAutorotateToPortraitUpsideDown: 1
@@ -106,11 +106,6 @@ PlayerSettings:
   xboxOneDisableEsram: 0
   xboxOnePresentImmediateThreshold: 0
   switchQueueCommandMemory: 1048576
-  switchQueueControlMemory: 16384
-  switchQueueComputeMemory: 262144
-  switchNVNShaderPoolsGranularity: 33554432
-  switchNVNDefaultPoolsGranularity: 16777216
-  switchNVNOtherPoolsGranularity: 16777216
   vulkanEnableSetSRGBWrite: 0
   m_SupportedAspectRatios:
     4:3: 1
@@ -118,7 +113,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleVersion: 0.4.2.2
+  bundleVersion: 0.4.2.3
   preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
@@ -143,9 +138,6 @@ PlayerSettings:
     oculus:
       sharedDepthBuffer: 1
       dashSupport: 1
-      lowOverheadMode: 0
-      protectedContext: 0
-      v2Signing: 0
     enable360StereoCapture: 0
   protectGraphicsMemory: 0
   enableFrameTimingStats: 0
@@ -239,7 +231,6 @@ PlayerSettings:
   tvOSManualSigningProvisioningProfileType: 0
   appleEnableAutomaticSigning: 0
   iOSRequireARKit: 0
-  iOSAutomaticallyDetectAndAddCapabilities: 1
   appleEnableProMotion: 0
   clonedFromGUID: 5f34be1353de5cf4398729fda238591b
   templatePackageId: com.unity.template.2d@1.0.2
@@ -398,7 +389,6 @@ PlayerSettings:
   switchAllowsRuntimeAddOnContentInstall: 0
   switchDataLossConfirmation: 0
   switchUserAccountLockEnabled: 0
-  switchSystemResourceMemory: 16777216
   switchSupportedNpadStyles: 3
   switchNativeFsCacheSize: 32
   switchIsHoldTypeHorizontal: 0
