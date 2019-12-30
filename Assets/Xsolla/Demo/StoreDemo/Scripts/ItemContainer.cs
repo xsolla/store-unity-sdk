@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ItemContainer : MonoBehaviour, IContainer
 {
@@ -9,11 +10,15 @@ public class ItemContainer : MonoBehaviour, IContainer
 	[SerializeField]
 	Transform itemParent;
 
+	[SerializeField]
+	Text emptyMessageText;
+
 	List<ItemUI> _items;
 
 	void Awake()
 	{
 		_items = new List<ItemUI>();
+		DisableEmptyContainerMessage();
 	}
 
 	public void AddItem(Xsolla.Store.StoreItem itemInformation)
@@ -30,5 +35,15 @@ public class ItemContainer : MonoBehaviour, IContainer
 		{
 			item.Refresh();
 		}
+	}
+
+	public void EnableEmptyContainerMessage()
+	{
+		emptyMessageText.gameObject.SetActive(true);
+	}
+
+	public void DisableEmptyContainerMessage()
+	{
+		emptyMessageText.gameObject.SetActive(false);
 	}
 }

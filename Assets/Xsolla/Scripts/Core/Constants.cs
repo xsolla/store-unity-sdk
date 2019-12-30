@@ -16,5 +16,6 @@
 		public const string CurrencyGroupName = "CURRENCY";
 		public const string UngroupedGroupName = "UNGROUPED";
 		public const string InventoryContainerName = "INVENTORY";
+		public const string EmptyContainerName = "EMPTY_CONTAINER";
 	}
 }

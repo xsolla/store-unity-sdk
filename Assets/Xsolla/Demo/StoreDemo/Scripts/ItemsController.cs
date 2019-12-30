@@ -22,38 +22,36 @@ public class ItemsController : MonoBehaviour
 
 	public void CreateItems(StoreItems items)
 	{
-		foreach (var item in items.items)
-		{
-			if (item.groups.Any())
-			{
-				foreach (var group in item.groups)
-				{
-					if (!_containers.ContainsKey(group.name))
-					{
-						AddContainer(itemsContainerPrefab, group.name);
+		AddContainer(itemsContainerPrefab, Constants.EmptyContainerName);
+		AddContainer(itemsContainerPrefab, Constants.CurrencyGroupName);
+		AddContainer(cartContainerPrefab, Constants.CartGroupName);
+		AddContainer(inventoryContainerPrefab, Constants.InventoryContainerName);
+
+		List<StoreItem> list = items.items.ToList();
+		if(list.Any()) {
+			foreach (var item in list) {
+				if (item.groups.Any()) {
+					foreach (var group in item.groups) {
+						if (!_containers.ContainsKey(group.name)) {
+							AddContainer(itemsContainerPrefab, group.name);
+						}
+
+						var groupContainer = _containers[group.name];
+						groupContainer.GetComponent<ItemContainer>().AddItem(item);
+					}
+				} else {
+					if (!_containers.ContainsKey(Constants.UngroupedGroupName)) {
+						AddContainer(itemsContainerPrefab, Constants.UngroupedGroupName);
 					}
 
-					var groupContainer = _containers[group.name];
+					var groupContainer = _containers[Constants.UngroupedGroupName];
 					groupContainer.GetComponent<ItemContainer>().AddItem(item);
 				}
 			}
-			else
-			{
-				if (!_containers.ContainsKey(Constants.UngroupedGroupName))
-				{
-					AddContainer(itemsContainerPrefab, Constants.UngroupedGroupName);
-				}
-
-				var groupContainer = _containers[Constants.UngroupedGroupName];
-				groupContainer.GetComponent<ItemContainer>().AddItem(item);
-			}
+		} else {
+			ActivateContainer(Constants.EmptyContainerName);
+			_containers[Constants.EmptyContainerName].GetComponent<ItemContainer>().EnableEmptyContainerMessage();
 		}
-
-		AddContainer(itemsContainerPrefab, Constants.CurrencyGroupName);
-
-		AddContainer(cartContainerPrefab, Constants.CartGroupName);
-		
-		AddContainer(inventoryContainerPrefab, Constants.InventoryContainerName);
 	}
 
 	public void AddVirtualCurrencyPackage(VirtualCurrencyPackages items)
@@ -83,6 +81,9 @@ public class ItemsController : MonoBehaviour
 		{
 			_containers[groupId].SetActive(true);
 			_containers[groupId].GetComponent<IContainer>().Refresh();
+		} else {
+			ActivateContainer(Constants.EmptyContainerName);
+			_containers[Constants.EmptyContainerName].GetComponent<ItemContainer>().EnableEmptyContainerMessage();
 		}
 	}
 
