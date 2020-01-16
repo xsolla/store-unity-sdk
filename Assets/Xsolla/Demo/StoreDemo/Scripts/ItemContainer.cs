@@ -13,11 +13,11 @@ public class ItemContainer : MonoBehaviour, IContainer
 	[SerializeField]
 	Text emptyMessageText;
 
-	List<ItemUI> _items;
+	public List<ItemUI> Items { get; private set; }
 
 	void Awake()
 	{
-		_items = new List<ItemUI>();
+		Items = new List<ItemUI>();
 		DisableEmptyContainerMessage();
 	}
 
@@ -26,12 +26,12 @@ public class ItemContainer : MonoBehaviour, IContainer
 		var item = Instantiate(itemPrefab, itemParent).GetComponent<ItemUI>();
 		item.Initialize(itemInformation);
 		
-		_items.Add(item);
+		Items.Add(item);
 	}
 
 	public void Refresh()
 	{
-		foreach (var item in _items)
+		foreach (var item in Items)
 		{
 			item.Refresh();
 		}
