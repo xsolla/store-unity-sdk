@@ -1,17 +1,24 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Serialization;
+using UnityEngine.UI;
 using Xsolla.Core;
-using Xsolla.PayStation;
 using Xsolla.Store;
 
 public class PayStationController : MonoBehaviour
 {
+	// SKU of crystals virtual currency
+	const string VirtualCurrencyCrystal = "crystal";
+	// SKU of virtual currency package that contains 100 crystals
+	const string CrystalPack = "crystal_pack_1";
+
 	[SerializeField] SimpleTextButton buyCrystalsButton;
-	[SerializeField] GameObject payStationDemoOverlay;
+	[SerializeField] Text purshaseStatusText;
+	
+	[SerializeField] GameObject loadingScreen;
+	[SerializeField] GameObject purchaseStatusWidget;
+	
 	[SerializeField] VirtualCurrencyContainer virtualCurrencyBalanceWidget;
 
 	void Awake()
@@ -22,8 +29,10 @@ public class PayStationController : MonoBehaviour
 
 	void Init()
 	{
+		// Attach ImageLoader component to demo scene controller in order to be able to load images
 		gameObject.AddComponent<ImageLoader>();
 		
+		// Obtain PayStation token to query store API
 		GetToken(token =>
 		{
 			// TODO Store should use PayStation token instead of JWT to authenticate user
@@ -32,6 +41,7 @@ public class PayStationController : MonoBehaviour
 			UpdateVirtualCurrencies();
 		});
 
+		// Demo UI setup
 		AddListeners();
 	}
 
@@ -51,14 +61,14 @@ public class PayStationController : MonoBehaviour
 				// filter virtual currencies to display only crystals
 				var filteredCurrencies = new VirtualCurrencyItems
 				{
-					items = new[] {currencies.items.ToList().SingleOrDefault(item => item.sku == "crystal")}
+					items = new[] {currencies.items.ToList().SingleOrDefault(item => item.sku == VirtualCurrencyCrystal)}
 				};
 
 				virtualCurrencyBalanceWidget.SetCurrencies(filteredCurrencies);
 
 				UpdateVirtualCurrenciesBalance(() =>
 				{
-					payStationDemoOverlay.SetActive(false);
+					loadingScreen.SetActive(false);
 				});
 			}, print);
 	}
@@ -79,20 +89,30 @@ public class PayStationController : MonoBehaviour
 	{
 		buyCrystalsButton.onClick = () =>
 		{
-			Debug.Log("Buy Crystals button clicked!");
-			
 			// Launch purchase process
-			XsollaStore.Instance.BuyItem(XsollaSettings.StoreProjectId, "crystal_pack_1", data =>
+			XsollaStore.Instance.BuyItem(XsollaSettings.StoreProjectId, CrystalPack, data =>
 			{
 				XsollaStore.Instance.OpenPurchaseUi(data);
-				ProcessOrder(data.order_id, () => { UpdateVirtualCurrenciesBalance(); });
+				ProcessOrder(data.order_id, () =>
+				{
+					UpdateVirtualCurrenciesBalance(() =>
+					{
+						// Hide widget that displays current order status
+						purchaseStatusWidget.SetActive(false);
+					});
+				});
 			}, print);
 		};
 	}
 	
 	public void ProcessOrder(int orderId, Action onOrderPaid = null)
 	{
+		// Begin order status polling
 		StartCoroutine(CheckOrderStatus(orderId, onOrderPaid));
+		
+		// Activate widget that displays current order status
+		UpdateOrderStatusDisplayText(OrderStatusType.New);
+		purchaseStatusWidget.SetActive(true);
 	}
 
 	IEnumerator CheckOrderStatus(int orderId, Action onOrderPaid = null)
@@ -101,6 +121,8 @@ public class PayStationController : MonoBehaviour
 		
 		XsollaStore.Instance.CheckOrderStatus(XsollaSettings.StoreProjectId, orderId,status =>
 		{
+			UpdateOrderStatusDisplayText(status.Status);
+			
 			if ((status.Status != OrderStatusType.Paid) && (status.Status != OrderStatusType.Done))
 			{
 				print(string.Format("Waiting for order {0} to be processed...", orderId));
@@ -112,5 +134,10 @@ public class PayStationController : MonoBehaviour
 				onOrderPaid?.Invoke();
 			}
 		}, print);
+	}
+	
+	void UpdateOrderStatusDisplayText(OrderStatusType status)
+	{
+		purshaseStatusText.text = string.Format("PURCHASE STATUS: {0}", status.ToString().ToUpper());
 	}
 }
