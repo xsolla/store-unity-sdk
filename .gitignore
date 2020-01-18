@@ -3,6 +3,7 @@
 [Oo]bj/
 .vs/
 .idea/
+Assets/Plugins/Editor/JetBrains*
 [Bb]uilds/
 Assets/AssetStoreTools*
 Assets/Plugins/unity-ui-extensions/Examples*
