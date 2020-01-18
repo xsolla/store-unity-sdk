@@ -21,14 +21,26 @@ namespace Xsolla.Login
 			WebRequestHelper.Instance.PostRequest(URL_USER_GET_ATTRIBUTES, getAttributesRequestBody, headers, onSuccess, onError);
 		}
 
-		public void UpdateUserAttributes(string projectId, Action onSuccess, Action<Error> onError)
+		public void UpdateUserAttributes(string token, string projectId, List<UserAttribute> attributes, Action onSuccess, Action<Error> onError)
 		{
-			// TODO
+			var modifyAttributesRequestBody = new ModifyAttributesJson(attributes, projectId, null);
+			
+			var headers = new List<WebRequestHeader>();
+			headers.Add(WebRequestHeader.AuthHeader(token));
+			headers.Add(WebRequestHeader.ContentTypeHeader());
+			
+			WebRequestHelper.Instance.PostRequest(URL_USER_UPDATE_ATTRIBUTES, modifyAttributesRequestBody, headers, onSuccess, onError);
 		}
 		
-		public void RemoveUserAttributes(string projectId, Action onSuccess, Action<Error> onError)
+		public void RemoveUserAttributes(string token, string projectId, List<string> attributeKeys, Action onSuccess, Action<Error> onError)
 		{
-			// TODO
+			var removeAttributesRequestBody = new ModifyAttributesJson(null, projectId, attributeKeys);
+			
+			var headers = new List<WebRequestHeader>();
+			headers.Add(WebRequestHeader.AuthHeader(token));
+			headers.Add(WebRequestHeader.ContentTypeHeader());
+			
+			WebRequestHelper.Instance.PostRequest(URL_USER_UPDATE_ATTRIBUTES, removeAttributesRequestBody, headers, onSuccess, onError);
 		}
 	}
 }

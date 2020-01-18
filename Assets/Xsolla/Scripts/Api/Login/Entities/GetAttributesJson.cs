@@ -16,14 +16,9 @@ namespace Xsolla.Login
 
 		public GetAttributesJson(List<string> attributeKeys, string projectId, string userId)
 		{
-			keys = attributeKeys.Any() ? attributeKeys : new List<string>();
-			
+			keys = attributeKeys != null && attributeKeys.Any() ? attributeKeys : new List<string>();
 			publisher_project_id = Convert.ToInt32(projectId);
-			
-			if (string.IsNullOrEmpty(userId))
-			{
-				user_id = null;
-			}
+			user_id = !string.IsNullOrEmpty(userId) ? userId : null;
 		}
 	}
 }
