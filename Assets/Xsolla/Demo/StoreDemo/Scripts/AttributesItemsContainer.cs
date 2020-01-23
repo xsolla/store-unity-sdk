@@ -15,6 +15,8 @@ public class AttributesItemsContainer : MonoBehaviour, IContainer
 	[SerializeField]
 	Transform itemParent;
 	
+	StoreController _storeController;
+	
 	List<GameObject> _attributeItems;
 	GameObject _attributesControls;
 
@@ -23,6 +25,8 @@ public class AttributesItemsContainer : MonoBehaviour, IContainer
 
 	void Awake()
 	{
+		_storeController = FindObjectOfType<StoreController>();
+		
 		_attributeItems = new List<GameObject>();
 		_attributes = new List<UserAttribute>();
 		_attributesToRemove =new List<string>();
@@ -98,19 +102,19 @@ public class AttributesItemsContainer : MonoBehaviour, IContainer
 		XsollaLogin.Instance.UpdateUserAttributes(XsollaStore.Instance.Token, XsollaSettings.StoreProjectId, _attributes, () =>
 		{
 			print("READY UpdateUserAttributes");
-		}, print);
+		}, _storeController.ShowError);
 		
 		XsollaLogin.Instance.RemoveUserAttributes(XsollaStore.Instance.Token, XsollaSettings.StoreProjectId, _attributesToRemove, (() =>
 		{
 			print("READY RemoveUserAttributes");
-		}), print);
+		}), _storeController.ShowError);
 	}
 
 	void OnRemoveAttribute(UserAttribute attributeToRemove)
 	{
 		if (!_attributes.Remove(attributeToRemove))
 		{
-			print("Something went wrong - can't remove attribute");
+			Debug.LogError("Something went wrong - can't remove attribute");
 		}
 
 		MarkAttributeToRemove(attributeToRemove.key);

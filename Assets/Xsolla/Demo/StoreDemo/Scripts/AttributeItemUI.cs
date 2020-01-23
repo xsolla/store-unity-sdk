@@ -39,8 +39,6 @@ public class AttributeItemUI : MonoBehaviour
 
 	public void OnKeyEdited()
 	{
-		print("New key: " + inputKey.text);
-
 		if (inputKey.text == _itemInformation.key)
 		{
 			return;
@@ -49,13 +47,12 @@ public class AttributeItemUI : MonoBehaviour
 		if (_attributesContainer.ContainsAttribute(inputKey.text))
 		{
 			inputKey.text = _itemInformation.key;
-			print("Attribute with this key already exist!");
+			Debug.LogError("Attribute with specified key already exists");
 		}
 		else
 		{
 			_attributesContainer.MarkAttributeToRemove(_itemInformation.key);
 			_itemInformation.key = inputKey.text;
-			print("Attribute key edited!");
 		}
 	}
 

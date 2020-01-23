@@ -8,6 +8,11 @@ namespace Xsolla.Login
 	[Serializable]
 	public class UserAttribute
 	{
+		public UserAttribute()
+		{
+			key = string.Empty;
+		}
+		
 		public string key;
 		public string permission;
 		public string value;
