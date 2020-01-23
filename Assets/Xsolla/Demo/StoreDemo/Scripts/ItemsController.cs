@@ -16,6 +16,9 @@ public class ItemsController : MonoBehaviour
 	GameObject inventoryContainerPrefab;
 
 	[SerializeField]
+	GameObject attributesContainerPrefab;
+
+	[SerializeField]
 	Transform content;
 	
 	Dictionary<string, GameObject> _containers = new Dictionary<string, GameObject>();
@@ -54,6 +57,8 @@ public class ItemsController : MonoBehaviour
 		AddContainer(cartContainerPrefab, Constants.CartGroupName);
 		
 		AddContainer(inventoryContainerPrefab, Constants.InventoryContainerName);
+		
+		AddContainer(attributesContainerPrefab, Constants.AttributesContainerName);
 	}
 
 	public void AddVirtualCurrencyPackage(VirtualCurrencyPackages items)

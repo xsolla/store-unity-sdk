@@ -12,6 +12,8 @@ public class ItemsTabControl : MonoBehaviour
 	[SerializeField]
 	MenuButton inventoryButton;
 	[SerializeField]
+	MenuButton attributesButton;
+	[SerializeField]
 	VirtualCurrencyContainer virtualCurrencyBalance;
 	public VirtualCurrencyContainer VirtualCurrencyBalance { get => virtualCurrencyBalance; set => virtualCurrencyBalance = value; }
 
@@ -22,12 +24,14 @@ public class ItemsTabControl : MonoBehaviour
 		
 		storeButton.gameObject.SetActive(true);
 		inventoryButton.gameObject.SetActive(true);
+		attributesButton.gameObject.SetActive(true);
 		
 		storeButton.Select(false);
 		
 		storeButton.onClick = ((s) =>
 		{
 			inventoryButton.Deselect();
+			attributesButton.Deselect();
 
 			var selectedGroup = groupsController.GetSelectedGroup();
 			if (selectedGroup != null)
@@ -39,7 +43,15 @@ public class ItemsTabControl : MonoBehaviour
 		inventoryButton.onClick = ((s) =>
 		{
 			storeButton.Deselect();
+			attributesButton.Deselect();
 			itemsController.ActivateContainer(Constants.InventoryContainerName);
+		});
+
+		attributesButton.onClick = ((s) =>
+		{
+			storeButton.Deselect();
+			inventoryButton.Deselect();
+			itemsController.ActivateContainer(Constants.AttributesContainerName);
 		});
 	}
 
