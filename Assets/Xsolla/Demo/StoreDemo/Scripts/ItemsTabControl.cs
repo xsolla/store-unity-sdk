@@ -60,5 +60,6 @@ public class ItemsTabControl : MonoBehaviour
 		storeButton.Text = (groupID == Constants.CartGroupName) ? CartButtonText : StoreButtonText;
 		storeButton.Select(false);
 		inventoryButton.Deselect();
+		attributesButton.Deselect();
 	}
 }
