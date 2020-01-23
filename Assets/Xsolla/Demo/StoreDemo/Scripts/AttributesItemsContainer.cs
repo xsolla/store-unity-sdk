@@ -101,13 +101,11 @@ public class AttributesItemsContainer : MonoBehaviour, IContainer
 	{
 		XsollaLogin.Instance.UpdateUserAttributes(XsollaStore.Instance.Token, XsollaSettings.StoreProjectId, _attributes, () =>
 		{
-			print("READY UpdateUserAttributes");
+			XsollaLogin.Instance.RemoveUserAttributes(XsollaStore.Instance.Token, XsollaSettings.StoreProjectId, _attributesToRemove, (() =>
+			{
+				_storeController.ShowSuccess();
+			}), _storeController.ShowError);
 		}, _storeController.ShowError);
-		
-		XsollaLogin.Instance.RemoveUserAttributes(XsollaStore.Instance.Token, XsollaSettings.StoreProjectId, _attributesToRemove, (() =>
-		{
-			print("READY RemoveUserAttributes");
-		}), _storeController.ShowError);
 	}
 
 	void OnRemoveAttribute(UserAttribute attributeToRemove)
