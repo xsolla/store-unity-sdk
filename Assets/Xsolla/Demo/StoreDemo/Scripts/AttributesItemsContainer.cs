@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using Newtonsoft.Json.Utilities;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using Xsolla.Core;
 using Xsolla.Login;
@@ -22,13 +19,13 @@ public class AttributesItemsContainer : MonoBehaviour, IContainer
 	GameObject _attributesControls;
 
 	List<UserAttribute> _attributes;
-	List<string> _attributesToremove;
+	List<string> _attributesToRemove;
 
 	void Awake()
 	{
 		_attributeItems = new List<GameObject>();
 		_attributes = new List<UserAttribute>();
-		_attributesToremove =new List<string>();
+		_attributesToRemove =new List<string>();
 	}
 
 	void AddAttributes()
@@ -42,9 +39,9 @@ public class AttributesItemsContainer : MonoBehaviour, IContainer
 	void AddAttributeItem(UserAttribute itemInformation)
 	{
 		GameObject newItem = Instantiate(attributeItemPrefab, itemParent);
-		var attributeItemUI = newItem.GetComponent<AttributeItemUI>();
-		attributeItemUI.Initialize(itemInformation);
-		attributeItemUI.onRemove = OnRemoveAttribute;
+		var attributeItemUi = newItem.GetComponent<AttributeItemUI>();
+		attributeItemUi.Initialize(itemInformation);
+		attributeItemUi.onRemove = OnRemoveAttribute;
 		_attributeItems.Add(newItem);
 	}
 	
@@ -60,7 +57,7 @@ public class AttributesItemsContainer : MonoBehaviour, IContainer
 	{
 		ClearAttributeItems();
 		_attributes.Clear();
-		_attributesToremove.Clear();
+		_attributesToRemove.Clear();
 		
 		XsollaLogin.Instance.GetUserAttributes(XsollaStore.Instance.Token, XsollaSettings.StoreProjectId, null, null, list =>
 		{
@@ -98,25 +95,39 @@ public class AttributesItemsContainer : MonoBehaviour, IContainer
 	
 	void OnSaveAttributes()
 	{
-		// _attributes won't work, need to get actual list items data
 		XsollaLogin.Instance.UpdateUserAttributes(XsollaStore.Instance.Token, XsollaSettings.StoreProjectId, _attributes, () =>
 		{
 			print("READY UpdateUserAttributes");
 		}, print);
 		
-		XsollaLogin.Instance.RemoveUserAttributes(XsollaStore.Instance.Token, XsollaSettings.StoreProjectId, _attributesToremove, (() =>
+		XsollaLogin.Instance.RemoveUserAttributes(XsollaStore.Instance.Token, XsollaSettings.StoreProjectId, _attributesToRemove, (() =>
 		{
 			print("READY RemoveUserAttributes");
 		}), print);
 	}
 
-	void OnRemoveAttribute(string key)
+	void OnRemoveAttribute(UserAttribute attributeToRemove)
 	{
-		if (!_attributesToremove.Contains(key))
+		if (!_attributes.Remove(attributeToRemove))
 		{
-			_attributesToremove.Add(key);
+			print("Something went wrong - can't remove attribute");
 		}
+
+		MarkAttributeToRemove(attributeToRemove.key);
 		
 		RefreshUiOnly();
+	}
+
+	public void MarkAttributeToRemove(string key)
+	{
+		if (!_attributesToRemove.Contains(key))
+		{
+			_attributesToRemove.Add(key);
+		}
+	}
+
+	public bool ContainsAttribute(string key)
+	{
+		return _attributes.Find(item => item.key == key) != null;
 	}
 }
