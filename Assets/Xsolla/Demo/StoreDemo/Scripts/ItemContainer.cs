@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ItemContainer : MonoBehaviour, IContainer
 {
@@ -9,11 +10,15 @@ public class ItemContainer : MonoBehaviour, IContainer
 	[SerializeField]
 	Transform itemParent;
 
-	List<ItemUI> _items;
+	[SerializeField]
+	Text emptyMessageText;
+
+	public List<ItemUI> Items { get; private set; }
 
 	void Awake()
 	{
-		_items = new List<ItemUI>();
+		Items = new List<ItemUI>();
+		DisableEmptyContainerMessage();
 	}
 
 	public void AddItem(Xsolla.Store.StoreItem itemInformation)
@@ -21,14 +26,24 @@ public class ItemContainer : MonoBehaviour, IContainer
 		var item = Instantiate(itemPrefab, itemParent).GetComponent<ItemUI>();
 		item.Initialize(itemInformation);
 		
-		_items.Add(item);
+		Items.Add(item);
 	}
 
 	public void Refresh()
 	{
-		foreach (var item in _items)
+		foreach (var item in Items)
 		{
 			item.Refresh();
 		}
+	}
+
+	public void EnableEmptyContainerMessage()
+	{
+		emptyMessageText.gameObject.SetActive(true);
+	}
+
+	public void DisableEmptyContainerMessage()
+	{
+		emptyMessageText.gameObject.SetActive(false);
 	}
 }

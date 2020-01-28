@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Xsolla.Core;
 using Xsolla.PayStation;
 
 public class PayStationController : MonoBehaviour
@@ -9,9 +10,6 @@ public class PayStationController : MonoBehaviour
 	// Start is called before the first frame update
 	void Awake()
 	{
-		openPaystationButton.onClick = () =>
-		{
-			XsollaPayStation.Instance.OpenPayStation();
-		};
+		openPaystationButton.onClick = XsollaPayStation.Instance.OpenPayStation;
 	}
 }
