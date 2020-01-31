@@ -12,7 +12,7 @@ namespace Tests
 {
     public class TestAPI_GetItemsInGroup : BaseTestApiScript
     {
-        const int CATALOG_SIZE = 1;
+        const int ITEMS_COUNT_IN_GROUP = 1;
         const string ITEMS_GROUP = "Permanent";
 
         protected override void Request()
@@ -55,9 +55,9 @@ namespace Tests
         private void CheckCatalogSize(StoreItems items)
         {
             int catalogSize = items.items.Count();
-            bool condition = catalogSize == CATALOG_SIZE;
+            bool condition = catalogSize == ITEMS_COUNT_IN_GROUP;
             Assert.True(condition,
-                "Catalog size must be = " + CATALOG_SIZE +
+                "Catalog size must be = " + ITEMS_COUNT_IN_GROUP +
                 " but we have = " + catalogSize
             );
         }
