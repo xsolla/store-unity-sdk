@@ -26,9 +26,10 @@ namespace Tests
                 CheckItems(items);
             } catch(Exception e)
             {
-                Complete();
                 throw e;
-            }            
+            } finally {
+                Complete();
+            }
         }
 
         private void FailedRequest(Error error) 
@@ -57,7 +58,7 @@ namespace Tests
             Assert.True(condition,
                 "Catalog size must be = " + CATALOG_SIZE +
                 " but we have = " + catalogSize
-                );
+            );
         }
 
         private bool CheckItem(StoreItem item, out string message)
