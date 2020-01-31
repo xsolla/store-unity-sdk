@@ -28,7 +28,7 @@
 1. [Download](https://store.unity.com/download) Unity.
 2. Pick a personal or professional Unity license based on your preferences.
 3. Create a new Unity project.
-4. Register an Xsolla [Publisher Account](https://publisher.xsolla.com/signup?integration_type=SDKCart).
+4. Register an Xsolla [Publisher Account](https://publisher.xsolla.com/signup?store_type=sdk). More instructions are on [Xsolla Developers portal](https://developers.xsolla.com/sdk/game-engines/unity/).
 5. Create and set up a Publisher Account project:
     1. Go to Projects and click **Create new project**.
     2. In setup mode, add **Project name** and click **Create**.

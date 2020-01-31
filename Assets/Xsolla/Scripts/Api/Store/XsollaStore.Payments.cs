@@ -9,11 +9,11 @@ namespace Xsolla.Store
 {
 	public partial class XsollaStore : MonoSingleton<XsollaStore>
 	{
-		private const string URL_BUY_ITEM = "https://store.xsolla.com/api/v1/project/{0}/payment/item/{1}";
+		private const string URL_BUY_ITEM = "https://store.xsolla.com/api/v2/project/{0}/payment/item/{1}";
 		private const string URL_BUY_ITEM_FOR_VC = "https://store.xsolla.com/api/v2/project/{0}/payment/item/{1}/virtual/{2}";
-		private const string URL_BUY_CART = "https://store.xsolla.com/api/v1/project/{0}/payment/cart/{1}";
+		private const string URL_BUY_CART = "https://store.xsolla.com/api/v2/project/{0}/payment/cart/{1}";
 
-		private const string URL_ORDER_GET_STATUS = "https://store.xsolla.com/api/v1/project/{0}/order/{1}";
+		private const string URL_ORDER_GET_STATUS = "https://store.xsolla.com/api/v2/project/{0}/order/{1}";
 		private const string URL_PAYSTATION_UI = "https://secure.xsolla.com/paystation2/?access_token=";
 		private const string URL_PAYSTATION_UI_IN_SANDBOX_MODE = "https://sandbox-secure.xsolla.com/paystation2/?access_token=";
 

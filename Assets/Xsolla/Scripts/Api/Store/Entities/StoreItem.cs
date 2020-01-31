@@ -33,6 +33,7 @@ namespace Xsolla.Store
 			}
 			public StoreItem.InventoryOptions.ConsumableOption consumable;
 		}
+
 		public string sku;
 		public string name;
 		public StoreItem.Group[] groups;

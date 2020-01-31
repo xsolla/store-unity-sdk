@@ -10,33 +10,33 @@ namespace Xsolla.Store
 {
 	public partial class XsollaStore : MonoSingleton<XsollaStore>
 	{
-		private const string URL_CART_CREATE_NEW = "https://store.xsolla.com/api/v1/project/{0}/cart";
-		private const string URL_CART_ITEM_ADD = "https://store.xsolla.com/api/v1/project/{0}/cart/{1}/item/{2}";
-		private const string URL_CART_ITEM_REMOVE = "https://store.xsolla.com/api/v1/project/{0}/cart/{1}/item/{2}";
-		private const string URL_CART_GET_ITEMS = "https://store.xsolla.com/api/v1/project/{0}/cart/{1}";
-		private const string URL_CART_CLEAR = "https://store.xsolla.com/api/v1/project/{0}/cart/{1}/clear";		
+		private const string URL_CART_CREATE_NEW = "https://store.xsolla.com/api/v2/project/{0}/cart";
+		private const string URL_CART_ITEM_ADD = "https://store.xsolla.com/api/v2/project/{0}/cart/{1}/item/{2}";
+		private const string URL_CART_ITEM_REMOVE = "https://store.xsolla.com/api/v2/project/{0}/cart/{1}/item/{2}";
+		private const string URL_CART_GET_ITEMS = "https://store.xsolla.com/api/v2/project/{0}/cart/{1}";
+		private const string URL_CART_CLEAR = "https://store.xsolla.com/api/v2/project/{0}/cart/{1}/clear";		
 
 		public void CreateNewCart(string projectId, [NotNull] Action<Cart> onSuccess, [CanBeNull] Action<Error> onError)
 		{
 			var urlBuilder = new StringBuilder(string.Format(URL_CART_CREATE_NEW, projectId)).Append(AdditionalUrlParams);
 
-			WebRequestHelper.Instance.PostRequest(urlBuilder.ToString(), null, WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.CreateCartErrors);
+			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.CreateCartErrors);
 		}
 
 		public void AddItemToCart(string projectId, string cartId, string itemSku, int quantity, [CanBeNull] Action onSuccess, [CanBeNull] Action<Error> onError)
 		{
 			var urlBuilder = new StringBuilder(string.Format(URL_CART_ITEM_ADD, projectId, cartId, itemSku)).Append(AdditionalUrlParams);
 
-			string jsonData = JsonConvert.SerializeObject(new Quantity { quantity = quantity });
+			Quantity jsonObject = new Quantity { quantity = quantity };
 
-			WebRequestHelper.Instance.PutRequest(urlBuilder.ToString(), jsonData, WebRequestHeader.AuthHeader(Token), WebRequestHeader.ContentTypeHeader(), onSuccess, onError, Error.AddToCartCartErrors);
+			WebRequestHelper.Instance.PutRequest<Quantity>(urlBuilder.ToString(), jsonObject, WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.AddToCartCartErrors);
 		}
 
 		public void ClearCart(string projectId, string cartId, [CanBeNull] Action onSuccess, [CanBeNull] Action<Error> onError)
 		{
 			var urlBuilder = new StringBuilder(string.Format(URL_CART_CLEAR, projectId, cartId)).Append(AdditionalUrlParams);
 
-			WebRequestHelper.Instance.PutRequest(urlBuilder.ToString(), string.Empty, WebRequestHeader.AuthHeader(Token), null, onSuccess, onError, Error.AddToCartCartErrors);
+			WebRequestHelper.Instance.PutRequest<Quantity>(urlBuilder.ToString(), null, WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.AddToCartCartErrors);
 		}
 
 		public void GetCartItems(string projectId, string cartId, [NotNull] Action<CartItems> onSuccess, [CanBeNull] Action<Error> onError, [CanBeNull] string locale = null, [CanBeNull] string currency = null)
