@@ -23,42 +23,58 @@ public class ItemsController : MonoBehaviour
 	
 	Dictionary<string, GameObject> _containers = new Dictionary<string, GameObject>();
 
+	private GameObject activeContainer;
+	private bool isEmptyCatalog;
+
 	public void CreateItems(StoreItems items)
 	{
-		foreach (var item in items.items)
-		{
-			if (item.groups.Any())
-			{
-				foreach (var group in item.groups)
-				{
-					if (!_containers.ContainsKey(group.name))
-					{
-						AddContainer(itemsContainerPrefab, group.name);
-					}
+		Dictionary<string, GameObject> defaultContainers = GetDefaultContainers();
+		defaultContainers.ToList().ForEach((KeyValuePair<string, GameObject> container) => {
+			AddContainer(container.Value, container.Key);
+		});
 
-					var groupContainer = _containers[group.name];
-					groupContainer.GetComponent<ItemContainer>().AddItem(item);
+		List<StoreItem> list = items.items.ToList();
+		isEmptyCatalog = !list.Any();
+		if (!isEmptyCatalog) {
+			foreach (var item in list)  {
+				if (item.groups.Any()) {
+					item.groups.ToList().ForEach((group) => AddItemToContainer(group.name, item));
+				} else {
+					AddItemToContainer(Constants.UngroupedGroupName, item);
 				}
 			}
-			else
-			{
-				if (!_containers.ContainsKey(Constants.UngroupedGroupName))
-				{
-					AddContainer(itemsContainerPrefab, Constants.UngroupedGroupName);
-				}
-
-				var groupContainer = _containers[Constants.UngroupedGroupName];
-				groupContainer.GetComponent<ItemContainer>().AddItem(item);
-			}
+		} else {
+			ActivateContainer(Constants.EmptyContainerName);
 		}
+	}
 
-		AddContainer(itemsContainerPrefab, Constants.CurrencyGroupName);
+	private void AddItemToContainer(string containerName, StoreItem item)
+	{
+		GameObject container = _containers.ContainsKey(containerName)
+			? _containers[containerName]
+			: AddContainer(itemsContainerPrefab, containerName);
+		container.GetComponent<ItemContainer>().AddItem(item);
+	}
 
-		AddContainer(cartContainerPrefab, Constants.CartGroupName);
-		
-		AddContainer(inventoryContainerPrefab, Constants.InventoryContainerName);
-		
-		AddContainer(attributesContainerPrefab, Constants.AttributesContainerName);
+	private Dictionary<string, GameObject> GetDefaultContainers()
+	{
+		Dictionary<string, GameObject> itemContainers = GetDefaultItemContainers();
+		Dictionary<string, GameObject> otherContainers = new Dictionary<string, GameObject>() {
+			{ Constants.CartGroupName, cartContainerPrefab },
+			{ Constants.InventoryContainerName, inventoryContainerPrefab },
+			{ Constants.AttributesContainerName, attributesContainerPrefab }
+		};
+		itemContainers.ToList().ForEach((container) => { otherContainers.Add(container.Key, container.Value); });
+		return otherContainers;
+	}
+
+	private Dictionary<string, GameObject> GetDefaultItemContainers()
+	{
+		return new Dictionary<string, GameObject>() {
+			{ Constants.EmptyContainerName, itemsContainerPrefab },
+			{ Constants.CurrencyGroupName, itemsContainerPrefab },
+			{ Constants.UngroupedGroupName, itemsContainerPrefab }
+		};
 	}
 
 	public void AddVirtualCurrencyPackage(VirtualCurrencyPackages items)
@@ -69,26 +85,38 @@ public class ItemsController : MonoBehaviour
 		}
 	}
 
-	void AddContainer(GameObject itemContainerPref, string containerName)
+	GameObject AddContainer(GameObject itemContainerPref, string containerName)
 	{
 		var newContainer = Instantiate(itemContainerPref, content);
 		newContainer.name = containerName;
 		newContainer.SetActive(false);
 		_containers.Add(containerName, newContainer);
+		return newContainer;
 	}
 
 	public void ActivateContainer(string groupId)
 	{
-		foreach (var container in _containers.Values)
-		{
+		activeContainer = InternalActivateContainer(_containers.ContainsKey(groupId)
+			? groupId
+			: Constants.EmptyContainerName
+		);
+		activeContainer.GetComponent<IContainer>().Refresh();
+		ItemContainer itemContainer = activeContainer.GetComponent<ItemContainer>();
+
+		if (isEmptyCatalog && (itemContainer != null) && (itemContainer.Items.Count == 0)) {
+			
+				itemContainer.EnableEmptyContainerMessage();
+		}
+	}
+
+	private GameObject InternalActivateContainer(string containerName)
+	{
+		foreach (var container in _containers.Values) {
 			container.SetActive(false);
 		}
-
-		if (_containers.ContainsKey(groupId))
-		{
-			_containers[groupId].SetActive(true);
-			_containers[groupId].GetComponent<IContainer>().Refresh();
-		}
+		GameObject result = _containers[containerName];
+		result.SetActive(true);
+		return result;
 	}
 
 	public void RefreshActiveContainer()

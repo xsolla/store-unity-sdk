@@ -2,8 +2,8 @@
 {
 	public static class Constants
 	{
-		public const string LoginSdkVersion = "0.4.2.4";
-		public const string StoreSdkVersion = "0.4.2.4";
+		public const string LoginSdkVersion = "0.4.2.5";
+		public const string StoreSdkVersion = "0.4.2.5";
 		
 		public const string XsollaLoginToken = "Xsolla_Token";
 		public const string XsollaLoginTokenExp = "Xsolla_Token_Exp";
@@ -17,5 +17,6 @@
 		public const string UngroupedGroupName = "UNGROUPED";
 		public const string InventoryContainerName = "INVENTORY";
 		public const string AttributesContainerName = "ATTRIBUTES";
+		public const string EmptyContainerName = "EMPTY_CONTAINER";
 	}
 }
