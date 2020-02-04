@@ -9,7 +9,10 @@ namespace Xsolla.Store
 {
 	[PublicAPI]
 	public partial class XsollaStore : MonoSingleton<XsollaStore>
-	{ 
+	{
+		public GameObject InAppBrowserPrefab;
+		public Transform InAppBrowserParent;
+
 		public string Token
 		{
 			set { PlayerPrefs.SetString(Constants.XsollaStoreToken, value); }
