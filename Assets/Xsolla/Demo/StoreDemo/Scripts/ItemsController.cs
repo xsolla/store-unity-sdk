@@ -26,6 +26,13 @@ public class ItemsController : MonoBehaviour
 	private GameObject activeContainer;
 	private bool isEmptyCatalog;
 
+	ExtraController _extraController;
+
+	void Awake()
+	{
+		_extraController = FindObjectOfType<ExtraController>();
+	}
+
 	public void CreateItems(StoreItems items)
 	{
 		Dictionary<string, GameObject> defaultContainers = GetDefaultContainers();
@@ -105,8 +112,10 @@ public class ItemsController : MonoBehaviour
 
 		if (isEmptyCatalog && (itemContainer != null) && (itemContainer.Items.Count == 0)) {
 			
-				itemContainer.EnableEmptyContainerMessage();
+			itemContainer.EnableEmptyContainerMessage();
 		}
+
+		_extraController.ShowAttributesPanel(groupId != Constants.AttributesContainerName);
 	}
 
 	private GameObject InternalActivateContainer(string containerName)

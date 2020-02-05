@@ -29,4 +29,9 @@ public class ExtraController : MonoBehaviour
 	{
 		attributesSidePanel.Refresh();
 	}
+
+	public void ShowAttributesPanel(bool bShow)
+	{
+		attributesPanel.SetActive(bShow);
+	}
 }

@@ -89,6 +89,7 @@ public class StoreController : MonoBehaviour
 		XsollaLogin.Instance.GetUserAttributes(XsollaStore.Instance.Token, XsollaSettings.StoreProjectId, null, null, list =>
 		{
 			attributes = list;
+			_extraController.RefreshAttributesPanel();
 			refreshCallback?.Invoke();
 		}, ShowError);
 	}
@@ -121,10 +122,10 @@ public class StoreController : MonoBehaviour
 		{
 			_groupsController.CreateGroups(items, groups);
 			_itemsController.CreateItems(items);
-		
+
 			_itemsTabControl.Init();
 			_extraController.Init();
-		
+
 			_groupsController.SelectDefault();
 			XsollaStore.Instance.GetVirtualCurrencyPackagesList(XsollaSettings.StoreProjectId, _itemsController.AddVirtualCurrencyPackage, ShowError);
 			XsollaStore.Instance.GetVirtualCurrencyList(
@@ -134,8 +135,8 @@ public class StoreController : MonoBehaviour
 					_itemsTabControl.VirtualCurrencyBalance.SetCurrencies(currencies);
 					RefreshVirtualCurrencyBalance();
 				} , ShowError);
-			
-			RefreshAttributes(_extraController.RefreshAttributesPanel);
+
+			RefreshAttributes();
 		}, ShowError);
 	}
 

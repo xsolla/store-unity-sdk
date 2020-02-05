@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Xsolla.Core;
 using Xsolla.Login;
@@ -60,15 +61,13 @@ public class AttributesItemsContainer : MonoBehaviour, IContainer
 	public void Refresh()
 	{
 		ClearAttributeItems();
-		_attributes.Clear();
+
 		_attributesToRemove.Clear();
+
+		_attributes = CopyAttributes(_storeController.attributes);
 		
-		XsollaLogin.Instance.GetUserAttributes(XsollaStore.Instance.Token, XsollaSettings.StoreProjectId, null, null, list =>
-		{
-			_attributes = list;
-			AddAttributes();
-			AddControls();
-		}, print);
+		AddAttributes();
+		AddControls();
 	}
 
 	void RefreshUiOnly()
@@ -104,6 +103,7 @@ public class AttributesItemsContainer : MonoBehaviour, IContainer
 			XsollaLogin.Instance.RemoveUserAttributes(XsollaStore.Instance.Token, XsollaSettings.StoreProjectId, _attributesToRemove, (() =>
 			{
 				_storeController.ShowSuccess();
+				_storeController.RefreshAttributes(Refresh);
 			}), _storeController.ShowError);
 		}, _storeController.ShowError);
 	}
@@ -131,5 +131,10 @@ public class AttributesItemsContainer : MonoBehaviour, IContainer
 	public bool ContainsAttribute(string key)
 	{
 		return _attributes.Find(item => item.key == key) != null;
+	}
+
+	static List<UserAttribute> CopyAttributes(List<UserAttribute> attributes)
+	{
+		return attributes.Select(item => item.GetCopy()).ToList();
 	}
 }

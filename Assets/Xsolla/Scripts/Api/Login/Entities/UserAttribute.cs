@@ -16,6 +16,11 @@ namespace Xsolla.Login
 		public string key;
 		public string permission;
 		public string value;
+
+		public UserAttribute GetCopy()
+		{
+			return new UserAttribute {key = string.Copy(key), permission = string.Copy(permission), value = string.Copy(value)};
+		}
 	}
 }
 
