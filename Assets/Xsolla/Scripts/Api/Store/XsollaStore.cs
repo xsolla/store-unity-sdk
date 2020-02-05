@@ -4,12 +4,13 @@ using System.Text;
 using JetBrains.Annotations;
 using UnityEngine;
 using Xsolla.Core;
+using System.Runtime.InteropServices;
 
 namespace Xsolla.Store
 {
 	[PublicAPI]
 	public partial class XsollaStore : MonoSingleton<XsollaStore>
-	{ 
+	{
 		public string Token
 		{
 			set { PlayerPrefs.SetString(Constants.XsollaStoreToken, value); }
@@ -44,30 +45,24 @@ namespace Xsolla.Store
 			return string.Format("&currency={0}", currency);
 		}
 
-		WWWForm RequestParams(PurchaseParams purchaseParams)
+		[DllImport("__Internal")]
+		private static extern void Purchase(string token, bool sandbox);
+
+		public void OpenPurchaseUi(PurchaseData purchaseData)
 		{
-			var form = new WWWForm();
+			string url = (XsollaSettings.IsSandbox) ? URL_PAYSTATION_UI_IN_SANDBOX_MODE : URL_PAYSTATION_UI;
+			url += purchaseData.token;
 
-			if (purchaseParams == null)
-			{
-				return form;
+			switch (Application.platform) {
+				case RuntimePlatform.WebGLPlayer: {
+						Purchase(purchaseData.token, XsollaSettings.IsSandbox);
+						break;
+					}
+				default: {
+						Application.OpenURL(url);
+						break;
+					}
 			}
-
-			if (!string.IsNullOrEmpty(purchaseParams.currency))
-			{
-				form.AddField("currency", purchaseParams.currency);
-			}
-			if (!string.IsNullOrEmpty(purchaseParams.country))
-			{
-				form.AddField("country", purchaseParams.country);
-			}
-			if (!string.IsNullOrEmpty(purchaseParams.locale))
-			{
-				form.AddField("locale", purchaseParams.locale);
-			}
-			form.AddField("sandbox", XsollaSettings.IsSandbox.ToString().ToLower());
-
-			return form;
 		}
 	}
 }
