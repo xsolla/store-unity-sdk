@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using Xsolla.Core;
+using Xsolla.PayStation;
 using Xsolla.Store;
 
 public class PayStationController : MonoBehaviour
@@ -14,7 +15,7 @@ public class PayStationController : MonoBehaviour
 	const string CrystalPack = "crystal_pack_1";
 
 	[SerializeField] SimpleTextButton buyCrystalsButton;
-	[SerializeField] Text purshaseStatusText;
+	[SerializeField] Text purchaseStatusText;
 	
 	[SerializeField] GameObject loadingScreen;
 	[SerializeField] GameObject purchaseStatusWidget;
@@ -35,7 +36,6 @@ public class PayStationController : MonoBehaviour
 		// Obtain PayStation token to query store API
 		GetToken(token =>
 		{
-			// TODO Store should use PayStation token instead of JWT to authenticate user
 			XsollaStore.Instance.Token = token;
 			
 			UpdateVirtualCurrencies();
@@ -47,9 +47,7 @@ public class PayStationController : MonoBehaviour
 
 	void GetToken(Action<string> onComplete)
 	{
-		// TODO replace hardcoded JWT with PayStation token obtained from server
-		onComplete.Invoke(
-			"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE5NjIyMzQwNDgsImlzcyI6Imh0dHBzOi8vbG9naW4ueHNvbGxhLmNvbSIsImlhdCI6MTU2MjE0NzY0OCwidXNlcm5hbWUiOiJ4c29sbGEiLCJ4c29sbGFfbG9naW5fYWNjZXNzX2tleSI6IjA2SWF2ZHpDeEVHbm5aMTlpLUc5TmMxVWFfTWFZOXhTR3ZEVEY4OFE3RnMiLCJzdWIiOiJkMzQyZGFkMi05ZDU5LTExZTktYTM4NC00MjAxMGFhODAwM2YiLCJlbWFpbCI6InN1cHBvcnRAeHNvbGxhLmNvbSIsInR5cGUiOiJ4c29sbGFfbG9naW4iLCJ4c29sbGFfbG9naW5fcHJvamVjdF9pZCI6ImU2ZGZhYWM2LTc4YTgtMTFlOS05MjQ0LTQyMDEwYWE4MDAwNCIsInB1Ymxpc2hlcl9pZCI6MTU5MjR9.GCrW42OguZbLZTaoixCZgAeNLGH2xCeJHxl8u8Xn2aI");
+		XsollaPayStation.Instance.RequestToken(onComplete, null);
 	}
 
 	void UpdateVirtualCurrencies()
@@ -105,7 +103,7 @@ public class PayStationController : MonoBehaviour
 		};
 	}
 	
-	public void ProcessOrder(int orderId, Action onOrderPaid = null)
+	void ProcessOrder(int orderId, Action onOrderPaid = null)
 	{
 		// Begin order status polling
 		StartCoroutine(CheckOrderStatus(orderId, onOrderPaid));
@@ -138,6 +136,6 @@ public class PayStationController : MonoBehaviour
 	
 	void UpdateOrderStatusDisplayText(OrderStatusType status)
 	{
-		purshaseStatusText.text = string.Format("PURCHASE STATUS: {0}", status.ToString().ToUpper());
+		purchaseStatusText.text = string.Format("PURCHASE STATUS: {0}", status.ToString().ToUpper());
 	}
 }
