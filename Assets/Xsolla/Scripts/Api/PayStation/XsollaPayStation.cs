@@ -12,10 +12,9 @@ namespace Xsolla.PayStation
 		public void RequestToken([NotNull] Action<string> onSuccess, [CanBeNull] Action<Error> onError)
 		{
 			StartCoroutine(PostRequest(XsollaSettings.PayStationTokenRequestUrl, onSuccess, onError));
-			//WebRequestHelper.Instance.PostRequest(XsollaSettings.PayStationTokenRequestUrl, onSuccess, false, onError);
 		}
 
-		// This is temporary
+		// Temporary placed here since existing utility class can't handle simple non-json string responses properly
 		IEnumerator PostRequest(string url, Action<string> onComplete, Action<Error> onError)
 		{
 			var webRequest = UnityWebRequest.Post(url, new WWWForm());
