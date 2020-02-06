@@ -959,6 +959,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1dea3ae089dd7704f8717cbe3a671a5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  popupPrefab: {fileID: 3081390016754645347, guid: 5623eef721b44b1448f6398fb8defbb4,
+    type: 3}
   buyCrystalsButton: {fileID: 431079154}
   purchaseStatusText: {fileID: 1016654556}
   loadingScreen: {fileID: 1111228886}

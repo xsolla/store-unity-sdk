@@ -13,6 +13,9 @@ public class PayStationController : MonoBehaviour
 	const string VirtualCurrencyCrystal = "crystal";
 	// SKU of virtual currency package that contains 100 crystals
 	const string CrystalPack = "crystal_pack_1";
+	
+	[SerializeField]
+	GameObject popupPrefab;
 
 	[SerializeField] SimpleTextButton buyCrystalsButton;
 	[SerializeField] Text purchaseStatusText;
@@ -21,6 +24,8 @@ public class PayStationController : MonoBehaviour
 	[SerializeField] GameObject purchaseStatusWidget;
 	
 	[SerializeField] VirtualCurrencyContainer virtualCurrencyBalanceWidget;
+	
+	MessagePopup _popup;
 
 	void Awake()
 	{
@@ -47,7 +52,10 @@ public class PayStationController : MonoBehaviour
 
 	void GetToken(Action<string> onComplete)
 	{
-		XsollaPayStation.Instance.RequestToken(onComplete, null);
+		XsollaPayStation.Instance.RequestToken(onComplete, () =>
+		{
+			Debug.LogError("Failed to receive PayStation token");
+		});
 	}
 
 	void UpdateVirtualCurrencies()
@@ -68,7 +76,7 @@ public class PayStationController : MonoBehaviour
 				{
 					loadingScreen.SetActive(false);
 				});
-			}, print);
+			}, ShowError);
 	}
 
 	void UpdateVirtualCurrenciesBalance(Action onComplete = null)
@@ -80,7 +88,7 @@ public class PayStationController : MonoBehaviour
 				virtualCurrencyBalanceWidget.SetCurrenciesBalance(balance);
 				onComplete?.Invoke();
 			},
-			print);
+			ShowError);
 	}
 
 	void AddListeners()
@@ -99,7 +107,7 @@ public class PayStationController : MonoBehaviour
 						purchaseStatusWidget.SetActive(false);
 					});
 				});
-			}, print);
+			}, ShowError);
 		};
 	}
 	
@@ -129,13 +137,30 @@ public class PayStationController : MonoBehaviour
 			else
 			{
 				print(string.Format("Order {0} was successfully processed!", orderId));
+				ShowSuccess();
 				onOrderPaid?.Invoke();
 			}
-		}, print);
+		}, ShowError);
 	}
 	
 	void UpdateOrderStatusDisplayText(OrderStatusType status)
 	{
 		purchaseStatusText.text = string.Format("PURCHASE STATUS: {0}", status.ToString().ToUpper());
+	}
+	
+	MessagePopup PreparePopUp()
+	{
+		if (_popup == null)
+			return Instantiate(popupPrefab, gameObject.transform).GetComponent<MessagePopup>();
+		print("Popup is already shown");
+		return null;
+	}
+
+	public void ShowSuccess() => PreparePopUp()?.ShowSuccess(() => { _popup = null; });
+
+	public void ShowError(Error error)
+	{
+		print(error);
+		PreparePopUp()?.ShowError(error, () => { _popup = null; });
 	}
 }

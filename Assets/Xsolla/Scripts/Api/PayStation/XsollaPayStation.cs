@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Text;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -12,8 +11,7 @@ namespace Xsolla.PayStation
 	{
 		public void RequestToken([NotNull] Action<string> onSuccess, [CanBeNull] Action onError)
 		{
-			var urlBuilder = new StringBuilder(string.Format("https://livedemo.xsolla.com/sdk/token/paystation_demo/"));
-			StartCoroutine(PostRequest(urlBuilder.ToString(), onSuccess, onError));
+			StartCoroutine(PostRequest(XsollaSettings.PayStationTokenRequestUrl, onSuccess, onError));
 		}
 
 		// This is temporary
