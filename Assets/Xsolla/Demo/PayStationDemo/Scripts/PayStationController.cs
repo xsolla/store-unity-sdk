@@ -52,10 +52,7 @@ public class PayStationController : MonoBehaviour
 
 	void GetToken(Action<string> onComplete)
 	{
-		XsollaPayStation.Instance.RequestToken(onComplete, () =>
-		{
-			Debug.LogError("Failed to receive PayStation token");
-		});
+		XsollaPayStation.Instance.RequestToken(onComplete, ShowError);
 	}
 
 	void UpdateVirtualCurrencies()

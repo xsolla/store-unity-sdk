@@ -9,13 +9,14 @@ namespace Xsolla.PayStation
 {
 	public class XsollaPayStation : MonoSingleton<XsollaPayStation>
 	{
-		public void RequestToken([NotNull] Action<string> onSuccess, [CanBeNull] Action onError)
+		public void RequestToken([NotNull] Action<string> onSuccess, [CanBeNull] Action<Error> onError)
 		{
 			StartCoroutine(PostRequest(XsollaSettings.PayStationTokenRequestUrl, onSuccess, onError));
+			//WebRequestHelper.Instance.PostRequest(XsollaSettings.PayStationTokenRequestUrl, onSuccess, false, onError);
 		}
 
 		// This is temporary
-		IEnumerator PostRequest(string url, Action<string> onComplete, Action onError)
+		IEnumerator PostRequest(string url, Action<string> onComplete, Action<Error> onError)
 		{
 			var webRequest = UnityWebRequest.Post(url, new WWWForm());
 
@@ -27,11 +28,11 @@ namespace Xsolla.PayStation
 
 			if (webRequest.isNetworkError)
 			{
-				onError();
+				onError?.Invoke(Error.NetworkError);
 			}
 			else
 			{
-				onComplete(webRequest.downloadHandler.text);
+				onComplete?.Invoke(webRequest.downloadHandler.text);
 			}
 		}
 	}
