@@ -13,13 +13,6 @@ namespace Xsolla.PayStation
 		public void RequestToken([NotNull] Action<string> onSuccess, [CanBeNull] Action onError)
 		{
 			var urlBuilder = new StringBuilder(string.Format("https://livedemo.xsolla.com/sdk/token/paystation_demo/"));
-
-			Action<string> tokenReceived = s =>
-			{
-				print(s);
-				onSuccess(s);
-			};
-
 			StartCoroutine(PostRequest(urlBuilder.ToString(), onSuccess, onError));
 		}
 
