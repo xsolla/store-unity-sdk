@@ -1,13 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Drawing;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System;
 
 [RequireComponent(typeof(XsollaBrowser))]
+[RequireComponent(typeof(Display2DBehaviour))]
 public class MouseBehaviour2D : MonoBehaviour,
 	IPointerEnterHandler,
 	IPointerExitHandler,
@@ -15,6 +13,7 @@ public class MouseBehaviour2D : MonoBehaviour,
 {
 	private BoxCollider2D browserCollider;
     private IXsollaBrowserMouseInput browserMouse;
+    private Display2DBehaviour display;
 
     Coroutine mouseMovementCoroutine;
     Canvas canvas;
@@ -27,6 +26,7 @@ public class MouseBehaviour2D : MonoBehaviour,
 
         browserCollider = this.GetOrAddComponent<BoxCollider2D>();
         browserMouse = gameObject.GetComponent<XsollaBrowser>().Input.Mouse;
+        display = gameObject.GetComponent<Display2DBehaviour>();
     }
 
 	private void OnDestroy()
@@ -46,6 +46,7 @@ public class MouseBehaviour2D : MonoBehaviour,
     {
         if (mouseMovementCoroutine != null) {
             StopCoroutine(mouseMovementCoroutine);
+            mouseMovementCoroutine = null;
         }
     }
 
@@ -67,10 +68,7 @@ public class MouseBehaviour2D : MonoBehaviour,
 
     IEnumerator Display2DInitializationCoroutine()
     {
-        yield return new WaitWhile(() => gameObject.GetComponent<Display2DBehaviour>() == null);
-        Display2DBehaviour display = gameObject.GetComponent<Display2DBehaviour>();
-        yield return new WaitWhile(() => display.ViewportSize.IsEmpty);
-        yield return new WaitWhile(() => display.Image == null);
+        yield return new WaitWhile(() => display.ViewportSize.IsEmpty); 
     }
 
 	IEnumerator MouseMovementCoroutine(Vector2 lastPosition, Vector2 mousePosition, Action<Vector2> callback = null)
@@ -101,8 +99,7 @@ public class MouseBehaviour2D : MonoBehaviour,
 
     Vector2 ConvertCoordinatesToPixels(Vector3 mousePositionOverScreen)
 	{
-        Display2DBehaviour display = gameObject.GetComponent<Display2DBehaviour>();
-        if (!mousePositionOverScreen.Equals(Vector3.zero) && (display != null)) {
+        if (!mousePositionOverScreen.Equals(Vector3.zero)) {
             PointF point = new PointF {
                 X = (mousePositionOverScreen.x / browserCollider.size.x) * display.ViewportSize.Width,
 				Y = (mousePositionOverScreen.y / browserCollider.size.y) * display.ViewportSize.Height

@@ -72,7 +72,8 @@ namespace Xsolla.Store
 		private void OpenInAppBrowser(string url)
 		{
 			GameObject browser = Instantiate(InAppBrowserPrefab, InAppBrowserParent);
-			browser.GetComponent<XsollaBrowser>().Navigate.To(url);
+			XsollaBrowser xsollaBrowser = browser.GetComponent<XsollaBrowser>();
+			xsollaBrowser.Navigate.To(url);
 		}
 
 		public void CheckOrderStatus(string projectId, int orderId, [NotNull] Action<OrderStatus> onSuccess, [CanBeNull] Action<Error> onError)

@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2921180944494038114}
   - component: {fileID: 2921180944494038112}
+  - component: {fileID: 2921180944494038113}
   - component: {fileID: 2921180944494038118}
   - component: {fileID: 3893011453358231939}
-  - component: {fileID: 4730729375492948098}
   m_Layer: 5
   m_Name: pref_SinglePageBrowser2D
   m_TagString: Untagged
@@ -47,6 +47,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2921180944494038115}
   m_CullTransparentMesh: 0
+--- !u!114 &2921180944494038113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2921180944494038115}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b0e3159a22b1422e9c339e001ae208c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  url: https://google.com
+  Viewport: {x: 800, y: 600}
+  PreloaderPrefab: {fileID: 5561199953690645494, guid: d294e461fd6c4452c8f1899511a58002,
+    type: 3}
 --- !u!61 &2921180944494038118
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -102,18 +118,3 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
---- !u!114 &4730729375492948098
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2921180944494038115}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d43a447bcea64006aea746f1103ec9c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  url: https://google.com
-  image: {fileID: 3893011453358231939}
-  Viewport: {x: 800, y: 600}

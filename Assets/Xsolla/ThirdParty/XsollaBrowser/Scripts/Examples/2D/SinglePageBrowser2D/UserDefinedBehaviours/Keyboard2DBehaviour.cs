@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 
+[RequireComponent(typeof(XsollaBrowser))]
 public class KeyboardBehaviour2D : MonoBehaviour
 {
 	public event Action EscapePressed;

@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Drawing;
+using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class SinglePageBrowser2D : MonoBehaviour
 {
@@ -10,46 +9,22 @@ public class SinglePageBrowser2D : MonoBehaviour
 	[SerializeField]
 	private string url = "https://unity3d.com";
 	[SerializeField]
-	private Image image;
-	public Image Image {
-		get => image;
-		set {
-			image = value;
-			if (display) {
-				display.Image = image;
-			}
-		}
-	}
-	[SerializeField]
 	public Vector2 Viewport = new Vector2(800.0F, 600.0F);
+	[SerializeField]
+	public GameObject PreloaderPrefab;
 
 	XsollaBrowser xsollaBrowser;
 	Display2DBehaviour display;
 	KeyboardBehaviour2D keyboard;
 	MouseBehaviour2D mouse;
 
-	int lastProgress = 0;
-	object progressLocker;
-
 	private void Awake()
 	{
-		progressLocker = new object();
-		lastProgress = 0;
-		Display2DBehaviour.SetOpacity(image, 0.0F);
 		xsollaBrowser = this.GetOrAddComponent<XsollaBrowser>();
 		xsollaBrowser.LogEvent += XsollaBrowser_LogEvent;
-		xsollaBrowser.FetchingBrowserEvent += XsollaBrowser_FetchingBrowserEvent;
-		xsollaBrowser.Navigate.To(url, (string url) => InitializeRender());
-	}
+		display = this.GetOrAddComponent<Display2DBehaviour>();		
 
-	private void XsollaBrowser_FetchingBrowserEvent(int progress)
-	{
-		lock (progressLocker) {
-			if (lastProgress < progress) {
-				Debug.Log(string.Format("Update[%]: {0} => {1}", lastProgress, progress));
-				lastProgress = progress;
-			}
-		}
+		StartCoroutine(InitializationCoroutine());
 	}
 
 	private void Start()
@@ -57,12 +32,18 @@ public class SinglePageBrowser2D : MonoBehaviour
 		Camera.main.transform.Translate(transform.position - Camera.main.transform.position, Space.World);
 	}
 
-	void InitializeRender()
+	IEnumerator InitializationCoroutine()
 	{
-		xsollaBrowser.FetchingBrowserEvent -= XsollaBrowser_FetchingBrowserEvent;
-		display = this.GetOrAddComponent<Display2DBehaviour>();
-		display.ViewportChangedEvent += Display2D_ViewportChangedEvent;
-		display.SetViewPort(Viewport);
+		yield return StartCoroutine(WaitPreloaderCoroutine());
+
+		display.StartRedrawTo(Viewport);
+		InitializeInput();
+	}
+
+	IEnumerator WaitPreloaderCoroutine()
+	{
+		gameObject.AddComponent<Preloader2DBehaviour>().SetPreloaderPrefab(PreloaderPrefab);
+		yield return new WaitWhile(() => gameObject.GetComponent<Preloader2DBehaviour>() != null);
 	}
 
 	void InitializeInput()
@@ -80,24 +61,15 @@ public class SinglePageBrowser2D : MonoBehaviour
 		Destroy(gameObject, 0.001F);
 	}
 
-	private void Display2D_ViewportChangedEvent(Size obj)
-	{
-		display.ViewportChangedEvent -= Display2D_ViewportChangedEvent;
-		if (image) {
-			display.Image = image;
-		}
-		InitializeInput();
-	}
-
 	private void OnDestroy()
 	{
-		if (display != null) {
-			Destroy(display);
-			display = null;
-		}
 		if (mouse != null) {
 			Destroy(mouse);
 			mouse = null;
+		}
+		if (display != null) {
+			Destroy(display);
+			display = null;
 		}
 		if (keyboard != null) {
 			Destroy(keyboard);
