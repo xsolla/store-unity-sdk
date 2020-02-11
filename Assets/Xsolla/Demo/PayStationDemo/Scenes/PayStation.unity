@@ -621,12 +621,12 @@ PrefabInstance:
     - target: {fileID: 1575407266226674554, guid: 9d56331ead4004d4e9cb13ab065f3eb4,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -200
+      value: -953
       objectReference: {fileID: 0}
     - target: {fileID: 1575407266226674554, guid: 9d56331ead4004d4e9cb13ab065f3eb4,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -100
+      value: -439
       objectReference: {fileID: 0}
     - target: {fileID: 1575407266226674554, guid: 9d56331ead4004d4e9cb13ab065f3eb4,
         type: 3}
@@ -667,6 +667,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1575407266226674548, guid: 9d56331ead4004d4e9cb13ab065f3eb4,
+        type: 3}
+      propertyPath: m_ChildAlignment
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9d56331ead4004d4e9cb13ab065f3eb4, type: 3}
@@ -1118,15 +1123,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 755417741}
     m_Modifications:
-    - target: {fileID: 1422655356088621779, guid: dfffa70844d28c4499d39d6571e7e152,
-        type: 3}
-      propertyPath: m_Text
-      value: BUY 100 Crystals
-      objectReference: {fileID: 0}
     - target: {fileID: 8761578432214116197, guid: dfffa70844d28c4499d39d6571e7e152,
         type: 3}
       propertyPath: m_Name
       value: Button_BuyCrystals
+      objectReference: {fileID: 0}
+    - target: {fileID: 1422655356088621779, guid: dfffa70844d28c4499d39d6571e7e152,
+        type: 3}
+      propertyPath: m_Text
+      value: BUY 100 Crystals
       objectReference: {fileID: 0}
     - target: {fileID: 5571938582151317058, guid: dfffa70844d28c4499d39d6571e7e152,
         type: 3}
