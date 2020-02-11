@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Xsolla.Paystation
+namespace Xsolla.PayStation
 {
 	[Serializable]
 	public class Token
