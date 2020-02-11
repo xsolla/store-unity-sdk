@@ -299,9 +299,9 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 1437167429}
   - {fileID: 1038396913}
   - {fileID: 431079153}
-  - {fileID: 1437167429}
   m_Father: {fileID: 1288147814}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -601,7 +601,7 @@ PrefabInstance:
     - target: {fileID: 1575407266226674554, guid: 9d56331ead4004d4e9cb13ab065f3eb4,
         type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1575407266226674554, guid: 9d56331ead4004d4e9cb13ab065f3eb4,
         type: 3}
@@ -621,12 +621,12 @@ PrefabInstance:
     - target: {fileID: 1575407266226674554, guid: 9d56331ead4004d4e9cb13ab065f3eb4,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -953
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1575407266226674554, guid: 9d56331ead4004d4e9cb13ab065f3eb4,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -439
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 1575407266226674554, guid: 9d56331ead4004d4e9cb13ab065f3eb4,
         type: 3}
@@ -641,22 +641,22 @@ PrefabInstance:
     - target: {fileID: 1575407266226674554, guid: 9d56331ead4004d4e9cb13ab065f3eb4,
         type: 3}
       propertyPath: m_AnchorMin.x
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1575407266226674554, guid: 9d56331ead4004d4e9cb13ab065f3eb4,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1575407266226674554, guid: 9d56331ead4004d4e9cb13ab065f3eb4,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1575407266226674554, guid: 9d56331ead4004d4e9cb13ab065f3eb4,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1575407266226674554, guid: 9d56331ead4004d4e9cb13ab065f3eb4,
         type: 3}
@@ -1003,7 +1003,7 @@ RectTransform:
   - {fileID: 1016654555}
   - {fileID: 867650433}
   m_Father: {fileID: 755417741}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1128,11 +1128,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Button_BuyCrystals
       objectReference: {fileID: 0}
-    - target: {fileID: 1422655356088621779, guid: dfffa70844d28c4499d39d6571e7e152,
-        type: 3}
-      propertyPath: m_Text
-      value: BUY 100 Crystals
-      objectReference: {fileID: 0}
     - target: {fileID: 5571938582151317058, guid: dfffa70844d28c4499d39d6571e7e152,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1171,7 +1166,7 @@ PrefabInstance:
     - target: {fileID: 5571938582151317058, guid: dfffa70844d28c4499d39d6571e7e152,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5571938582151317058, guid: dfffa70844d28c4499d39d6571e7e152,
         type: 3}
@@ -1196,7 +1191,7 @@ PrefabInstance:
     - target: {fileID: 5571938582151317058, guid: dfffa70844d28c4499d39d6571e7e152,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -50
       objectReference: {fileID: 0}
     - target: {fileID: 5571938582151317058, guid: dfffa70844d28c4499d39d6571e7e152,
         type: 3}
@@ -1237,6 +1232,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1422655356088621779, guid: dfffa70844d28c4499d39d6571e7e152,
+        type: 3}
+      propertyPath: m_Text
+      value: BUY 100 Crystals
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dfffa70844d28c4499d39d6571e7e152, type: 3}
