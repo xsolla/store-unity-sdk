@@ -102,6 +102,10 @@ public class PayStationController : MonoBehaviour
 					{
 						// Hide widget that displays current order status
 						purchaseStatusWidget.SetActive(false);
+						// Show 'buy' button
+						buyCrystalsButton.gameObject.SetActive(true);
+						// Show VC balance
+						virtualCurrencyBalanceWidget.gameObject.SetActive(true);
 					});
 				});
 			}, ShowError);
@@ -116,6 +120,10 @@ public class PayStationController : MonoBehaviour
 		// Activate widget that displays current order status
 		UpdateOrderStatusDisplayText(OrderStatusType.New);
 		purchaseStatusWidget.SetActive(true);
+		// Hide 'buy' button
+		buyCrystalsButton.gameObject.SetActive(false);
+		// Hide VC balance
+		virtualCurrencyBalanceWidget.gameObject.SetActive(false);
 	}
 
 	IEnumerator CheckOrderStatus(int orderId, Action onOrderPaid = null)
