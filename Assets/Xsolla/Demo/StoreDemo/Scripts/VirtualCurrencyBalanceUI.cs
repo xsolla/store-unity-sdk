@@ -14,11 +14,11 @@ public class VirtualCurrencyBalanceUI : MonoBehaviour
 
 	public void Initialize(StoreItem item)
 	{
-		StoreController _storeController = FindObjectOfType<StoreController>();
-		if(_storeController != null) {
-			_storeController.GetImageAsync(item.image_url, LoadImageHandler);
+		ImageLoader _imageLoader = FindObjectOfType<ImageLoader>();
+		if(_imageLoader != null) {
+			_imageLoader.GetImageAsync(item.image_url, LoadImageHandler);
 		} else {
-			Debug.LogWarning("StoreController is missing!");
+			Debug.LogWarning("ImageLoader is missing!");
 		}
 	}
 

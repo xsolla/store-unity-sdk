@@ -29,10 +29,8 @@ namespace Xsolla.Core
 		bool isSandbox = true;
 		
 		[SerializeField]
-		string payStationProjectId;
-		[SerializeField]
-		string merchantId;
-		
+		string payStationTokenRequestUrl = "https://livedemo.xsolla.com/sdk/token/paystation_demo/";
+
 		public static string LoginId
 		{
 			get { return Instance.loginId; }
@@ -103,22 +101,12 @@ namespace Xsolla.Core
 			}
 		}
 		
-		public static string PayStationProjectId
+		public static string PayStationTokenRequestUrl
 		{
-			get { return Instance.payStationProjectId; }
+			get { return Instance.payStationTokenRequestUrl; }
 			set
 			{
-				Instance.payStationProjectId = value;
-				MarkAssetDirty();
-			}
-		}
-		
-		public static string MerchantId
-		{
-			get { return Instance.merchantId; }
-			set
-			{
-				Instance.merchantId = value;
+				Instance.payStationTokenRequestUrl = value;
 				MarkAssetDirty();
 			}
 		}

@@ -59,10 +59,21 @@ namespace Xsolla.Store
 						break;
 					}
 				default: {
-						Application.OpenURL(url);
+						if((InAppBrowserPrefab != null) && (InAppBrowserParent != null)) {
+							OpenInAppBrowser(url);
+						} else {
+							Application.OpenURL(url);
+						}
 						break;
 					}
 			}
+		}
+
+		private void OpenInAppBrowser(string url)
+		{
+			GameObject browser = Instantiate(InAppBrowserPrefab, InAppBrowserParent);
+			XsollaBrowser xsollaBrowser = browser.GetComponent<XsollaBrowser>();
+			xsollaBrowser.Navigate.To(url);
 		}
 
 		public void CheckOrderStatus(string projectId, int orderId, [NotNull] Action<OrderStatus> onSuccess, [CanBeNull] Action<Error> onError)
