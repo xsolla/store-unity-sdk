@@ -17,35 +17,19 @@ public class ItemsTabControl : MonoBehaviour
 	VirtualCurrencyContainer virtualCurrencyBalance;
 	public VirtualCurrencyContainer VirtualCurrencyBalance { get => virtualCurrencyBalance; set => virtualCurrencyBalance = value; }
 
+	private ItemsController itemsController;
+	private GroupsController groupsController;
+
 	public void Init()
 	{
-		var groupsController = FindObjectOfType<GroupsController>();
-		var itemsController = FindObjectOfType<ItemsController>();
+		groupsController = FindObjectOfType<GroupsController>();
+		itemsController = FindObjectOfType<ItemsController>();
 		
 		storeButton.gameObject.SetActive(true);
 		inventoryButton.gameObject.SetActive(true);
 		attributesButton.gameObject.SetActive(true);
 		
 		storeButton.Select(false);
-		
-		storeButton.onClick = ((s) =>
-		{
-			inventoryButton.Deselect();
-			attributesButton.Deselect();
-
-			var selectedGroup = groupsController.GetSelectedGroup();
-			if (selectedGroup != null)
-			{
-				itemsController.ActivateContainer(selectedGroup.Id);
-			}
-		});
-		
-		inventoryButton.onClick = ((s) =>
-		{
-			storeButton.Deselect();
-			attributesButton.Deselect();
-			itemsController.ActivateContainer(Constants.InventoryContainerName);
-		});
 
 		attributesButton.onClick = ((s) =>
 		{
@@ -53,6 +37,56 @@ public class ItemsTabControl : MonoBehaviour
 			inventoryButton.Deselect();
 			itemsController.ActivateContainer(Constants.AttributesContainerName);
 		});
+		storeButton.onClick = DeactivateInventoryTab;
+		inventoryButton.onClick = ActivateInventoryTab;
+
+		StoreTabsHotkey hotkey = gameObject.GetComponent<StoreTabsHotkey>();
+		hotkey.TabKeyPressedEvent += TabKeyPressed;
+		hotkey.LeftArrowKeyPressedEvent += LeftArrowKeyPressed;
+		hotkey.RightArrowKeyPressedEvent += RightArrowKeyPressed;
+	}
+
+	private void TabKeyPressed()
+	{
+		if (inventoryButton.IsSelected) {
+			storeButton.Select();
+			DeactivateInventoryTab();
+		} else {
+			inventoryButton.Select();
+			ActivateInventoryTab();
+		}
+	}
+
+	private void LeftArrowKeyPressed()
+	{
+		if (inventoryButton.IsSelected) {
+			storeButton.Select();
+			DeactivateInventoryTab();
+		}
+	}
+
+	private void RightArrowKeyPressed()
+	{
+		if (!inventoryButton.IsSelected) {
+			inventoryButton.Select();
+			ActivateInventoryTab();
+		}
+	}
+
+	private void DeactivateInventoryTab(string s = "")
+	{
+		inventoryButton.Deselect();
+
+		var selectedGroup = groupsController.GetSelectedGroup();
+		if (selectedGroup != null) {
+			itemsController.ActivateContainer(selectedGroup.Id);
+		}
+	}
+
+	private void ActivateInventoryTab(string s = "")
+	{
+		storeButton.Deselect();
+		itemsController.ActivateContainer(Constants.InventoryContainerName);
 	}
 
 	public void ActivateStoreTab(string groupID)
