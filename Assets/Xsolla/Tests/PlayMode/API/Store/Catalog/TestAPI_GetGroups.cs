@@ -21,12 +21,6 @@ namespace Tests
             StoreAPI.GetListOfItemGroups(XsollaSettings.StoreProjectId, SuccessRequest, FailedRequest);
         }
 
-        private void FailedRequest(Error error)
-        {
-            Assert.Fail(error.errorMessage);
-            Complete();
-        }
-
         private void SuccessRequest(Groups groups)
         {
             try {
@@ -58,7 +52,7 @@ namespace Tests
         private void CheckGroups(Groups groups)
 		{
             foreach (Group group in groups.groups.ToList()) {
-                if (!CheckItem(group, out string message)) {
+                if (!CheckGroup(group, out string message)) {
                     Assert.Fail(message);
                 }
             }
@@ -69,7 +63,7 @@ namespace Tests
             Group group = GetGroupByName(groups.groups.ToList(), GROUP_WITH_NAME_ALL);
             CheckChildrensOfGroup(group);
 			group = GetGroupByName(group.children, GROUP_WITH_NAME_INNER);
-            if (!CheckItem(group, out string message)) {
+            if (!CheckGroup(group, out string message)) {
                 Assert.Fail(message);
             }
         }
@@ -86,7 +80,7 @@ namespace Tests
             Assert.True(group.children.Count > 0, GetMessageFor(group, "without childrens!"));
         }
 
-        private bool CheckItem(Group group, out string message)
+        private bool CheckGroup(Group group, out string message)
         {
             message = "no message";
 

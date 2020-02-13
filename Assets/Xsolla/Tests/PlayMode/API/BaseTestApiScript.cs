@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
+using Xsolla.Core;
 using Xsolla.Store;
 
 public abstract class BaseTestApiScript
@@ -23,6 +25,12 @@ public abstract class BaseTestApiScript
 		inProccess = true;
 		Request();
 		yield return new WaitWhile(() => inProccess);
+	}
+
+	virtual protected void FailedRequest(Error error)
+	{
+		Assert.Fail(error.errorMessage);
+		Complete();
 	}
 
 	protected void Complete()

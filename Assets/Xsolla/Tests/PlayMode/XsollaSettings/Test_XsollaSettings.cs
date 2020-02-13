@@ -5,7 +5,9 @@ namespace Tests
 {
     public class Test_XsollaSettings
     {
-        //const string XSOLLA_MERCHANT_ID_FOR_TESTS = "15924";
+        // user: test123
+        // password: 121212
+        // const string XSOLLA_MERCHANT_ID_FOR_TESTS = "125664";
         const string XSOLLA_PROJECT_ID_FOR_TESTS = "52285";
         
         [Test]
