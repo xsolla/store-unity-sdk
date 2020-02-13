@@ -1198,6 +1198,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1346439698}
   - component: {fileID: 1346439699}
+  - component: {fileID: 1346439700}
   m_Layer: 5
   m_Name: Groups
   m_TagString: Untagged
@@ -1243,6 +1244,18 @@ MonoBehaviour:
   groupCartPrefab: {fileID: 6244690360313918099, guid: 1def04fbfbb52264087543254e24684c,
     type: 3}
   scrollView: {fileID: 1571266473}
+--- !u!114 &1346439700
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1346439697}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ec202baded3440c7b01c4f3ec27c364, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1480001742
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1411,7 +1424,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.000014828517}
+  m_AnchoredPosition: {x: 0, y: -0.0000876329}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1571266474
@@ -1611,6 +1624,7 @@ GameObject:
   - component: {fileID: 1854219394}
   - component: {fileID: 1854219393}
   - component: {fileID: 1854219395}
+  - component: {fileID: 1854219396}
   m_Layer: 5
   m_Name: Header
   m_TagString: Untagged
@@ -1692,6 +1706,18 @@ MonoBehaviour:
   storeButton: {fileID: 525223936}
   inventoryButton: {fileID: 1977446812}
   virtualCurrencyBalance: {fileID: 142276343}
+--- !u!114 &1854219396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1854219391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03bd44f6da2ec4cbe88cc338b8607859, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1883568164 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8761578432214116197, guid: dfffa70844d28c4499d39d6571e7e152,
