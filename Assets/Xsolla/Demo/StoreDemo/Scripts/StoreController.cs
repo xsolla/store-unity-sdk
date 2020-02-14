@@ -23,6 +23,9 @@ public class StoreController : MonoBehaviour
 
 	[HideInInspector]
 	public InventoryItems inventory;
+	
+	[HideInInspector]
+	public List<UserAttribute> attributes;
 	public CartModel CartModel { get; private set; }
 
 	public static Dictionary<string, Sprite> ItemIcons;
@@ -35,6 +38,8 @@ public class StoreController : MonoBehaviour
 	private void Awake()
 	{
 		imageLoader = gameObject.AddComponent<ImageLoader>();
+		
+		attributes = new List<UserAttribute>();
 	}
 
 	void Start()
@@ -79,6 +84,16 @@ public class StoreController : MonoBehaviour
 			ShowError);
 	}
 
+	public void RefreshAttributes(Action refreshCallback = null)
+	{
+		XsollaLogin.Instance.GetUserAttributes(XsollaStore.Instance.Token, XsollaSettings.StoreProjectId, null, null, list =>
+		{
+			attributes = list;
+			_extraController.RefreshAttributesPanel();
+			refreshCallback?.Invoke();
+		}, ShowError);
+	}
+
 	void SetInventoryItems(InventoryItems items)
 	{
 		items.items = FilterVirtualCurrency(items.items);
@@ -107,10 +122,10 @@ public class StoreController : MonoBehaviour
 		{
 			_groupsController.CreateGroups(items, groups);
 			_itemsController.CreateItems(items);
-		
+
 			_itemsTabControl.Init();
 			_extraController.Init();
-		
+
 			_groupsController.SelectDefault();
 			XsollaStore.Instance.GetVirtualCurrencyPackagesList(XsollaSettings.StoreProjectId, _itemsController.AddVirtualCurrencyPackage, ShowError);
 			XsollaStore.Instance.GetVirtualCurrencyList(
@@ -120,6 +135,8 @@ public class StoreController : MonoBehaviour
 					_itemsTabControl.VirtualCurrencyBalance.SetCurrencies(currencies);
 					RefreshVirtualCurrencyBalance();
 				} , ShowError);
+
+			RefreshAttributes();
 		}, ShowError);
 	}
 
