@@ -65,6 +65,7 @@ public class CartControls : MonoBehaviour
 			_storeController.ProcessOrder(data.order_id, () =>
 			{
 				_storeController.ResetCart();
+				_storeController.RefreshVirtualCurrencyBalance();
 			});
 		}, _storeController.ShowError);
 	}
