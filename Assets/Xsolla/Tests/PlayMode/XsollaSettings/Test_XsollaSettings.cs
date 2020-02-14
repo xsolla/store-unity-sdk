@@ -3,7 +3,7 @@ using Xsolla.Core;
 
 namespace Tests
 {
-    public class Test_XsollaSettings
+    public class Test_1_XsollaSettings
     {
         // user: test123
         // password: 121212
