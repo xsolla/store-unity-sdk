@@ -20,10 +20,12 @@
 - New 'Paystation' demo scene for those partners who use their server to receive a paystation-token.
 - 'User Attributes' feature.
 - 'InAppBrowser' feature.
+- Reference to docs.
 
 ### Fixed
 
 - Faster image uploads.
+- Some small bugs.
 
 
 
