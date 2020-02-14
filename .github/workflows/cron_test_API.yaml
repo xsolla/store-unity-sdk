@@ -1,0 +1,52 @@
+name: Cron for testing API
+
+on:
+  schedule:
+    - cron: '55 8-20 * * 1-5'
+
+env:
+  UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+
+jobs:
+  buildAndTest:
+    name: Test API from ${{ matrix.targetPlatform }} platform on version ${{ matrix.unityVersion }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # projectPath:
+        #  - test-api
+        unityVersion:
+          - 2018.3.0f2
+        targetPlatform:
+          #- StandaloneOSX # Build a macOS standalone (Intel 64-bit).
+          #- StandaloneWindows64 # Build a Windows 64-bit standalone.
+          - StandaloneLinux64 # Build a Linux 64-bit standalone.
+          #- iOS # Build an iOS player.
+          #- WebGL # WebGL.
+        testMode:
+          - playmode
+    steps:
+      - uses: actions/checkout@v2
+        id: checkout
+        with:
+          lfs: true
+          ref: QA/autotests
+      - uses: actions/cache@v1
+        id: caching
+        with:
+          path: ${{ matrix.projectPath }}/Library
+          key: Library-${{ matrix.projectPath }}-${{ matrix.targetPlatform }}
+          restore-keys: |
+            Library-${{ matrix.projectPath }}-
+            Library-
+      - uses: webbertakken/unity-test-runner@v1.4
+        id: tests
+        with:
+          projectPath: ${{ matrix.projectPath }}
+          unityVersion: ${{ matrix.unityVersion }}
+      - uses: actions/upload-artifact@v1
+        id: upload
+        with:
+          name: Test results (all modes)
+          path: ${{ steps.tests.outputs.artifactsPath }}
