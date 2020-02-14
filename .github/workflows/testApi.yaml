@@ -1,9 +1,6 @@
 name: Cron for testing API
 
 on:
-  push:
-    branches:
-      - QA/autotests
   schedule:
     - cron: '37 8-20 * * 1-5'
 
