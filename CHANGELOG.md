@@ -4,6 +4,19 @@
 
 ### Added
 
+- 'External/InApp browser' settings.
+- Hotkeys for demo-scenes.
+
+### Fixed
+
+- Rate-limits for UI buttons.
+- Consume more than 1 item.
+- Some small bugs.
+
+## [0.5.0.0] - 2020-02-14
+
+### Added
+
 - New 'Paystation' demo scene for those partners who use their server to receive a paystation-token.
 - 'User Attributes' feature.
 - 'InAppBrowser' feature.
