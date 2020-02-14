@@ -3,6 +3,7 @@
 [Oo]bj/
 .vs/
 .idea/
+Assets/Plugins/Editor/JetBrains*
 [Bb]uilds/
 Assets/AssetStoreTools*
 Assets/Plugins/unity-ui-extensions/Examples*
@@ -33,3 +34,6 @@ sysinfo.txt
 /.vs
 
 .DS_Store
+
+# Downloaded browser instance
+.local-chromium/

@@ -46,8 +46,7 @@ namespace Xsolla.Core
 			{
 				GUILayout.Label("PayStation SDK Settings", EditorStyles.boldLabel);
 				
-				XsollaSettings.PayStationProjectId = EditorGUILayout.TextField(new GUIContent("Project ID"),  XsollaSettings.PayStationProjectId);
-				XsollaSettings.MerchantId = EditorGUILayout.TextField(new GUIContent("Merchant ID"),  XsollaSettings.MerchantId);
+				XsollaSettings.PayStationTokenRequestUrl = EditorGUILayout.TextField(new GUIContent("Token request URL"),  XsollaSettings.PayStationTokenRequestUrl);
 			}
       
 			EditorGUILayout.Space();

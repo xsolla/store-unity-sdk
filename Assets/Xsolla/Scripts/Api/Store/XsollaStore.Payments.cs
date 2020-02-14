@@ -59,9 +59,25 @@ namespace Xsolla.Store
 						break;
 					}
 				default: {
-						Application.OpenURL(url);
+						if(InAppBrowserPrefab != null) {
+							OpenInAppBrowser(url);
+						} else {
+							Application.OpenURL(url);
+						}
 						break;
 					}
+			}
+		}
+
+		private void OpenInAppBrowser(string url)
+		{
+			if(InAppBrowserObject == null) {
+				Canvas canvas = FindObjectOfType<Canvas>();
+				InAppBrowserObject = Instantiate(InAppBrowserPrefab, canvas.transform);
+				XsollaBrowser xsollaBrowser = InAppBrowserObject.GetComponent<XsollaBrowser>();
+				xsollaBrowser.Navigate.To(url);
+			} else {
+				Debug.LogError("You try create browser instance, but it already created!");
 			}
 		}
 
