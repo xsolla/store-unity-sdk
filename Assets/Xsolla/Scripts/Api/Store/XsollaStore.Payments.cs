@@ -59,7 +59,7 @@ namespace Xsolla.Store
 						break;
 					}
 				default: {
-						if((InAppBrowserPrefab != null) && (InAppBrowserParent != null)) {
+						if(InAppBrowserPrefab != null) {
 							OpenInAppBrowser(url);
 						} else {
 							Application.OpenURL(url);
@@ -71,9 +71,14 @@ namespace Xsolla.Store
 
 		private void OpenInAppBrowser(string url)
 		{
-			GameObject browser = Instantiate(InAppBrowserPrefab, InAppBrowserParent);
-			XsollaBrowser xsollaBrowser = browser.GetComponent<XsollaBrowser>();
-			xsollaBrowser.Navigate.To(url);
+			if(InAppBrowserObject == null) {
+				Canvas canvas = FindObjectOfType<Canvas>();
+				InAppBrowserObject = Instantiate(InAppBrowserPrefab, canvas.transform);
+				XsollaBrowser xsollaBrowser = InAppBrowserObject.GetComponent<XsollaBrowser>();
+				xsollaBrowser.Navigate.To(url);
+			} else {
+				Debug.LogError("You try create browser instance, but it already created!");
+			}
 		}
 
 		public void CheckOrderStatus(string projectId, int orderId, [NotNull] Action<OrderStatus> onSuccess, [CanBeNull] Action<Error> onError)
