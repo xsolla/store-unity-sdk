@@ -35,6 +35,9 @@ public class StoreController : MonoBehaviour
 
 	public Cart Cart { get; private set; }
 
+	private bool isInventoryLoaded;
+	private bool isCatalogLoaded;
+
 	private void Awake()
 	{
 		imageLoader = gameObject.AddComponent<ImageLoader>();
@@ -64,11 +67,16 @@ public class StoreController : MonoBehaviour
 			XsollaStore.Instance.Token = DefaultStoreToken;
 		}
 
+		isCatalogLoaded = false;
+		isInventoryLoaded = false;
+
 		XsollaStore.Instance.CreateNewCart(XsollaSettings.StoreProjectId, newCart => { Cart = newCart; }, ShowError);
 
 		XsollaStore.Instance.GetListOfItems(XsollaSettings.StoreProjectId, InitStoreUi, ShowError);
 
-		RefreshInventory();
+		RefreshInventory(() => isInventoryLoaded = true);
+
+		StartCoroutine(LockPurchasedNonConsumableItemsCoroutine());
 	}
 
 	public void GetImageAsync(string url, Action<string, Sprite> callback)
@@ -82,6 +90,24 @@ public class StoreController : MonoBehaviour
 			XsollaSettings.StoreProjectId,
 			(items) => { SetInventoryItems(items); refreshCallback?.Invoke(); },
 			ShowError);
+	}
+
+	IEnumerator LockPurchasedNonConsumableItemsCoroutine()
+	{
+		yield return new WaitUntil(() => isInventoryLoaded && isCatalogLoaded);
+		LockPurchasedNonConsumableItems();
+	}
+
+	void LockPurchasedNonConsumableItems()
+	{
+		List<ItemUI> catalogItems = new List<ItemUI>();
+		List<ItemContainer> itemContainers = _itemsController.GetCatalogContainers();
+		foreach (ItemContainer itemContainer in itemContainers) {
+			catalogItems.AddRange(itemContainer.Items.Where(i => !i.IsConsumable()));
+		}
+		List<InventoryItem> inventoryItems = inventory.items.ToList();
+		catalogItems = catalogItems.Where(i => inventoryItems.Count((item) => item.sku == i.GetSku()) > 0).ToList();
+		catalogItems.ForEach(i => i.Lock());
 	}
 
 	public void RefreshAttributes(Action refreshCallback = null)
@@ -137,6 +163,7 @@ public class StoreController : MonoBehaviour
 				} , ShowError);
 
 			RefreshAttributes();
+			isCatalogLoaded = true;
 		}, ShowError);
 	}
 

@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class SimpleButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler, IPointerUpHandler, IDragHandler
+public class SimpleButton : MonoBehaviour, ISimpleButton
 {
 	Image _image;
 	
@@ -23,30 +23,30 @@ public class SimpleButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
 		_image = GetComponent<Image>();
 	}
 	
-	public void OnDrag(PointerEventData eventData)
+	public virtual void OnDrag(PointerEventData eventData)
 	{
 	}
 	
-	public void OnPointerEnter(PointerEventData eventData)
+	public virtual void OnPointerEnter(PointerEventData eventData)
 	{
 		OnHover();
 	}
 
-	public void OnPointerExit(PointerEventData eventData)
+	public virtual void OnPointerExit(PointerEventData eventData)
 	{
 		OnNormal();
 
 		_isClickInProgress = false;
 	}
 
-	public void OnPointerDown(PointerEventData eventData)
+	public virtual void OnPointerDown(PointerEventData eventData)
 	{
 		_isClickInProgress = true;
 
 		OnPressed();
 	}
 
-	public void OnPointerUp(PointerEventData eventData)
+	public virtual void OnPointerUp(PointerEventData eventData)
 	{
 		if (_isClickInProgress)
 		{
