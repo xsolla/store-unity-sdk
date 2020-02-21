@@ -18,5 +18,7 @@
 		public const string InventoryContainerName = "INVENTORY";
 		public const string AttributesContainerName = "ATTRIBUTES";
 		public const string EmptyContainerName = "EMPTY_CONTAINER";
+
+		public const float DefaultButtonRateLimitMs = 500.0F;
 	}
 }
