@@ -2,7 +2,7 @@
 using UnityEngine;
 using Xsolla.Core;
 
-public class ItemsTabControl : MonoBehaviour
+public partial class ItemsTabControl : MonoBehaviour
 {
 	const string StoreButtonText = "Store";
 	const string CartButtonText = "Cart";
@@ -31,50 +31,16 @@ public class ItemsTabControl : MonoBehaviour
 		
 		storeButton.Select(false);
 
-		attributesButton.onClick = ((s) =>
-		{
-			storeButton.Deselect();
-			inventoryButton.Deselect();
-			itemsController.ActivateContainer(Constants.AttributesContainerName);
-		});
-		storeButton.onClick = DeactivateInventoryTab;
-		inventoryButton.onClick = ActivateInventoryTab;
+		attributesButton.onClick = InternalActivateAttributesTab;
+		storeButton.onClick = InternalActivateStoreTab;
+		inventoryButton.onClick = InternalActivateInventoryTab;
 
-		StoreTabsHotkey hotkey = gameObject.GetComponent<StoreTabsHotkey>();
-		hotkey.TabKeyPressedEvent += TabKeyPressed;
-		hotkey.LeftArrowKeyPressedEvent += LeftArrowKeyPressed;
-		hotkey.RightArrowKeyPressedEvent += RightArrowKeyPressed;
+		InitHotKeys();	
 	}
 
-	private void TabKeyPressed()
+	private void InternalActivateStoreTab(string s = "")
 	{
-		if (inventoryButton.IsSelected) {
-			storeButton.Select();
-			DeactivateInventoryTab();
-		} else {
-			inventoryButton.Select();
-			ActivateInventoryTab();
-		}
-	}
-
-	private void LeftArrowKeyPressed()
-	{
-		if (inventoryButton.IsSelected) {
-			storeButton.Select();
-			DeactivateInventoryTab();
-		}
-	}
-
-	private void RightArrowKeyPressed()
-	{
-		if (!inventoryButton.IsSelected) {
-			inventoryButton.Select();
-			ActivateInventoryTab();
-		}
-	}
-
-	private void DeactivateInventoryTab(string s = "")
-	{
+		attributesButton.Deselect();
 		inventoryButton.Deselect();
 
 		var selectedGroup = groupsController.GetSelectedGroup();
@@ -83,17 +49,25 @@ public class ItemsTabControl : MonoBehaviour
 		}
 	}
 
-	private void ActivateInventoryTab(string s = "")
+	private void InternalActivateInventoryTab(string s = "")
 	{
+		attributesButton.Deselect();
 		storeButton.Deselect();
 		itemsController.ActivateContainer(Constants.InventoryContainerName);
+	}
+
+	private void InternalActivateAttributesTab(string s = "")
+	{
+		storeButton.Deselect();
+		inventoryButton.Deselect();
+		itemsController.ActivateContainer(Constants.AttributesContainerName);
 	}
 
 	public void ActivateStoreTab(string groupID)
 	{
 		storeButton.Text = (groupID == Constants.CartGroupName) ? CartButtonText : StoreButtonText;
 		storeButton.Select(false);
-		inventoryButton.Deselect();
 		attributesButton.Deselect();
+		inventoryButton.Deselect();
 	}
 }
