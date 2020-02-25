@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -20,7 +19,8 @@ namespace Xsolla.Store
 		public void BuyItem(string projectId, string itemId, [CanBeNull] Action<PurchaseData> onSuccess, [CanBeNull] Action<Error> onError, PurchaseParams purchaseParams = null)
 		{
 			TempPurchaseParams tempPurchaseParams = new TempPurchaseParams {
-				sandbox = XsollaSettings.IsSandbox
+				sandbox = XsollaSettings.IsSandbox,
+				settings = new TempPurchaseParams.Settings(XsollaSettings.PaystationTheme)
 			};
 
 			var urlBuilder = new StringBuilder(string.Format(URL_BUY_ITEM, projectId, itemId)).Append(AdditionalUrlParams);
@@ -30,7 +30,8 @@ namespace Xsolla.Store
 		public void BuyItem(string projectId, string itemId, string priceSku, [CanBeNull] Action<PurchaseData> onSuccess, [CanBeNull] Action<Error> onError, PurchaseParams purchaseParams = null)
 		{
 			TempPurchaseParams tempPurchaseParams = new TempPurchaseParams {
-				sandbox = XsollaSettings.IsSandbox
+				sandbox = XsollaSettings.IsSandbox,
+				settings = new TempPurchaseParams.Settings(XsollaSettings.PaystationTheme)
 			};
 
 			var urlBuilder = new StringBuilder(string.Format(URL_BUY_ITEM_FOR_VC, projectId, itemId, priceSku)).Append(AdditionalUrlParams);
@@ -40,7 +41,8 @@ namespace Xsolla.Store
 		public void BuyCart(string projectId, string cartId, [CanBeNull] Action<PurchaseData> onSuccess, [CanBeNull] Action<Error> onError, PurchaseParams purchaseParams = null)
 		{
 			TempPurchaseParams tempPurchaseParams = new TempPurchaseParams {
-				sandbox = XsollaSettings.IsSandbox
+				sandbox = XsollaSettings.IsSandbox,
+				settings = new TempPurchaseParams.Settings(XsollaSettings.PaystationTheme)
 			};
 
 			var urlBuilder = new StringBuilder(string.Format(URL_BUY_CART, projectId, cartId)).Append(AdditionalUrlParams);

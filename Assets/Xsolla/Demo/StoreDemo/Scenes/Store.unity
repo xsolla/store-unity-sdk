@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074, b: 0.35872698, a: 1}
+  m_IndirectSpecularColor: {r: 0.3731193, g: 0.38073996, b: 0.3587269, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -321,7 +321,7 @@ PrefabInstance:
     - target: {fileID: 2234737485639732530, guid: 79f0db82dd1949b4c99dc195eb9cc8ab,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.0000076293945
+      value: 0.000022888184
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 79f0db82dd1949b4c99dc195eb9cc8ab, type: 3}
@@ -701,6 +701,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 414741777}
     m_Modifications:
+    - target: {fileID: 8761578432214116197, guid: dfffa70844d28c4499d39d6571e7e152,
+        type: 3}
+      propertyPath: m_Name
+      value: Button_Register
+      objectReference: {fileID: 0}
+    - target: {fileID: 8761578432214116197, guid: dfffa70844d28c4499d39d6571e7e152,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
+    - target: {fileID: 8761578432214116197, guid: dfffa70844d28c4499d39d6571e7e152,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5571938582151317058, guid: dfffa70844d28c4499d39d6571e7e152,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -825,21 +840,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Text
       value: SIGN UP
-      objectReference: {fileID: 0}
-    - target: {fileID: 8761578432214116197, guid: dfffa70844d28c4499d39d6571e7e152,
-        type: 3}
-      propertyPath: m_Name
-      value: Button_Register
-      objectReference: {fileID: 0}
-    - target: {fileID: 8761578432214116197, guid: dfffa70844d28c4499d39d6571e7e152,
-        type: 3}
-      propertyPath: m_TagString
-      value: Untagged
-      objectReference: {fileID: 0}
-    - target: {fileID: 8761578432214116197, guid: dfffa70844d28c4499d39d6571e7e152,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dfffa70844d28c4499d39d6571e7e152, type: 3}
@@ -1092,6 +1092,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 414741777}
     m_Modifications:
+    - target: {fileID: 8761578432214116197, guid: dfffa70844d28c4499d39d6571e7e152,
+        type: 3}
+      propertyPath: m_Name
+      value: Button_Cards
+      objectReference: {fileID: 0}
+    - target: {fileID: 8761578432214116197, guid: dfffa70844d28c4499d39d6571e7e152,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
+    - target: {fileID: 8761578432214116197, guid: dfffa70844d28c4499d39d6571e7e152,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5571938582151317058, guid: dfffa70844d28c4499d39d6571e7e152,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1216,21 +1231,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Text
       value: TEST CARDS
-      objectReference: {fileID: 0}
-    - target: {fileID: 8761578432214116197, guid: dfffa70844d28c4499d39d6571e7e152,
-        type: 3}
-      propertyPath: m_Name
-      value: Button_Cards
-      objectReference: {fileID: 0}
-    - target: {fileID: 8761578432214116197, guid: dfffa70844d28c4499d39d6571e7e152,
-        type: 3}
-      propertyPath: m_TagString
-      value: Untagged
-      objectReference: {fileID: 0}
-    - target: {fileID: 8761578432214116197, guid: dfffa70844d28c4499d39d6571e7e152,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dfffa70844d28c4499d39d6571e7e152, type: 3}
@@ -3507,6 +3507,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 414741777}
     m_Modifications:
+    - target: {fileID: 8761578432214116197, guid: dfffa70844d28c4499d39d6571e7e152,
+        type: 3}
+      propertyPath: m_Name
+      value: Button_Instruction
+      objectReference: {fileID: 0}
+    - target: {fileID: 8761578432214116197, guid: dfffa70844d28c4499d39d6571e7e152,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
+    - target: {fileID: 8761578432214116197, guid: dfffa70844d28c4499d39d6571e7e152,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5571938582151317058, guid: dfffa70844d28c4499d39d6571e7e152,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3631,21 +3646,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Text
       value: DOCUMENTATION
-      objectReference: {fileID: 0}
-    - target: {fileID: 8761578432214116197, guid: dfffa70844d28c4499d39d6571e7e152,
-        type: 3}
-      propertyPath: m_Name
-      value: Button_Instruction
-      objectReference: {fileID: 0}
-    - target: {fileID: 8761578432214116197, guid: dfffa70844d28c4499d39d6571e7e152,
-        type: 3}
-      propertyPath: m_TagString
-      value: Untagged
-      objectReference: {fileID: 0}
-    - target: {fileID: 8761578432214116197, guid: dfffa70844d28c4499d39d6571e7e152,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dfffa70844d28c4499d39d6571e7e152, type: 3}
@@ -3889,6 +3889,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 414741777}
     m_Modifications:
+    - target: {fileID: 8761578432214116197, guid: dfffa70844d28c4499d39d6571e7e152,
+        type: 3}
+      propertyPath: m_Name
+      value: Button_SignOut
+      objectReference: {fileID: 0}
+    - target: {fileID: 8761578432214116197, guid: dfffa70844d28c4499d39d6571e7e152,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
+    - target: {fileID: 8761578432214116197, guid: dfffa70844d28c4499d39d6571e7e152,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5571938582151317058, guid: dfffa70844d28c4499d39d6571e7e152,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3998,21 +4013,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Text
       value: SIGN OUT
-      objectReference: {fileID: 0}
-    - target: {fileID: 8761578432214116197, guid: dfffa70844d28c4499d39d6571e7e152,
-        type: 3}
-      propertyPath: m_Name
-      value: Button_SignOut
-      objectReference: {fileID: 0}
-    - target: {fileID: 8761578432214116197, guid: dfffa70844d28c4499d39d6571e7e152,
-        type: 3}
-      propertyPath: m_TagString
-      value: Untagged
-      objectReference: {fileID: 0}
-    - target: {fileID: 8761578432214116197, guid: dfffa70844d28c4499d39d6571e7e152,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dfffa70844d28c4499d39d6571e7e152, type: 3}
@@ -4334,7 +4334,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.000092356095}
+  m_AnchoredPosition: {x: 0, y: -0.0000043759405}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1571266474
