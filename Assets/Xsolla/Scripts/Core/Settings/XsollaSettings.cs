@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using UnityEditor;
 using UnityEngine;
 
@@ -30,6 +30,8 @@ namespace Xsolla.Core
 		
 		[SerializeField]
 		string payStationTokenRequestUrl = "https://livedemo.xsolla.com/sdk/token/paystation_demo/";
+		[SerializeField]
+		bool inAppBrowserEnabled = true;
 
 		public static string LoginId
 		{
@@ -107,6 +109,17 @@ namespace Xsolla.Core
 			set
 			{
 				Instance.payStationTokenRequestUrl = value;
+				MarkAssetDirty();
+			}
+		}
+
+		public static bool InAppBrowserEnabled
+		{
+			get {
+				return Instance.inAppBrowserEnabled;
+			}
+			set {
+				Instance.inAppBrowserEnabled = value;
 				MarkAssetDirty();
 			}
 		}
