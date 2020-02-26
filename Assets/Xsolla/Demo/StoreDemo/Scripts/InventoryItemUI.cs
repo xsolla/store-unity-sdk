@@ -67,6 +67,20 @@ public class InventoryItemUI : MonoBehaviour
 	{
 		consumeButton.gameObject.SetActive(true);
 		consumeButton.onClick = ConsumeHandler;
+		consumeButton.counter.ValueChanged += Counter_ValueChanged;
+	}
+
+	private void Counter_ValueChanged(int newValue)
+	{
+		if(newValue > _itemInformation.quantity) {
+			StartCoroutine(DecreaseConsumeQuantityCoroutine());
+		}
+	}
+
+	IEnumerator DecreaseConsumeQuantityCoroutine()
+	{
+		yield return new WaitForEndOfFrame();
+		consumeButton.counter.DecreaseValue(1);
 	}
 
 	void DisableConsumeButton()
