@@ -21,6 +21,9 @@ public class LoginPage : Page, ILogin
     const string DefaultLoginId = "e6dfaac6-78a8-11e9-9244-42010aa80004";
     const string DefaultStoreProjectId = "44056";
 
+    private DateTime lastClick;
+    private float rateLimitMs = Constants.DefaultButtonRateLimitMs;
+
     public Action<User> OnSuccessfulLogin
     {
         get
@@ -52,6 +55,7 @@ public class LoginPage : Page, ILogin
 
     private void Awake()
     {
+        lastClick = DateTime.MinValue;
         showPassword_Toggle.onValueChanged.AddListener((mood) => {
             password_InputField.contentType = mood ? InputField.ContentType.Password : InputField.ContentType.Standard;
             password_InputField.ForceLabelUpdate();
@@ -109,11 +113,13 @@ public class LoginPage : Page, ILogin
 
     public void Login()
     {
-        if (!string.IsNullOrEmpty(login_InputField.text) && password_InputField.text.Length > 5)
-        {
-            XsollaLogin.Instance.SignIn(login_InputField.text, password_InputField.text, rememberMe_ChkBox.isOn, OnLogin, onUnsuccessfulLogin);
+        TimeSpan ts = DateTime.Now - lastClick;
+        if (ts.TotalMilliseconds > rateLimitMs) {
+            lastClick += ts;
+            if (!string.IsNullOrEmpty(login_InputField.text) && password_InputField.text.Length > 5) {
+                XsollaLogin.Instance.SignIn(login_InputField.text, password_InputField.text, rememberMe_ChkBox.isOn, OnLogin, onUnsuccessfulLogin);
+            } else
+                Debug.Log("Fill all fields");
         }
-        else
-            Debug.Log("Fill all fields");
     }
 }
