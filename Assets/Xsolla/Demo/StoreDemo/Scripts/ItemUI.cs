@@ -109,6 +109,23 @@ public class ItemUI : MonoBehaviour
 		itemDescription.text = _itemInformation.description;
 	}
 
+	public string GetSku()
+	{
+		return _itemInformation.sku;
+	}
+
+	public bool IsConsumable()
+	{
+		return _itemInformation.inventory_options.consumable != null;
+	}
+
+	public void Lock()
+	{
+		buyButton.Text = "Purchased";
+		buyButton.Lock();
+		addToCartButton.gameObject.SetActive(false);
+	}
+
 	StoreItem.VirtualPrice GetVirtualPrice()
 	{
 		List<StoreItem.VirtualPrice> prices = _itemInformation.virtual_prices.ToList();
