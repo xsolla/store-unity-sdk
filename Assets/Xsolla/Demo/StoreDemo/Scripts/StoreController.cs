@@ -188,7 +188,10 @@ public class StoreController : MonoBehaviour
 				print(string.Format("Order {0} was successfully processed!", orderId));
 
 				ShowSuccess();
-				RefreshInventory(onOrderPaid);
+				RefreshInventory(() => {
+					LockPurchasedNonConsumableItems();
+					onOrderPaid();
+				});
 			}
 		}, ShowError);
 	}
