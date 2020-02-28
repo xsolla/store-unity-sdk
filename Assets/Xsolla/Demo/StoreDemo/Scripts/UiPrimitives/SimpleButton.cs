@@ -19,14 +19,15 @@ public class SimpleButton : MonoBehaviour, ISimpleButton
 
 	public Action onClick;
 	private DateTime lastClick;
-	private float rateLimitMs = Constants.DefaultButtonRateLimitMs;
+
+	public float RateLimitMs { get; set; } = Constants.DefaultButtonRateLimitMs;
 
 	void Awake()
 	{
 		_image = GetComponent<Image>();
 		lastClick = DateTime.MinValue;
 	}
-	
+
 	public virtual void OnDrag(PointerEventData eventData)
 	{
 	}
@@ -53,7 +54,7 @@ public class SimpleButton : MonoBehaviour, ISimpleButton
 	private void PerformClickEvent()
 	{
 		TimeSpan ts = DateTime.Now - lastClick;
-		if (ts.TotalMilliseconds > rateLimitMs) {
+		if (ts.TotalMilliseconds > RateLimitMs) {
 			lastClick += ts;
 			onClick?.Invoke();
 		}
