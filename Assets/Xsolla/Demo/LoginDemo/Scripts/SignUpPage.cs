@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using Xsolla;
+using Xsolla.Core;
 using Xsolla.Login;
 
 public class SignUpPage :  Page, ISignUp
@@ -15,6 +16,9 @@ public class SignUpPage :  Page, ISignUp
     [SerializeField] private Image signUp_Image;
     [SerializeField] private Sprite disabled_Sprite;
     [SerializeField] private Sprite enabled_Sprite;
+
+    private DateTime lastClick;
+    private float rateLimitMs = Constants.LoginPageRateLimitMs;
 
     public string SignUpEmail
     {
@@ -55,6 +59,7 @@ public class SignUpPage :  Page, ISignUp
 
     private void Awake()
     {
+        lastClick = DateTime.MinValue;
         create_Btn.onClick.AddListener(SignUp);
         showPassword_Toggle.onValueChanged.AddListener((mood) => 
         {
@@ -79,12 +84,13 @@ public class SignUpPage :  Page, ISignUp
     
     public void SignUp()
     {
-        if (!string.IsNullOrEmpty(login_InputField.text) && !string.IsNullOrEmpty(email_InputField.text) && !string.IsNullOrEmpty(password_InputField.text) && password_InputField.text.Length > 5)
-        {
-            XsollaLogin.Instance.Registration(login_InputField.text, password_InputField.text, email_InputField.text, onSuccessfulSignUp, onUnsuccessfulSignUp);
+        TimeSpan ts = DateTime.Now - lastClick;
+        if (ts.TotalMilliseconds > rateLimitMs) {
+            lastClick += ts;
+            if (!string.IsNullOrEmpty(login_InputField.text) && !string.IsNullOrEmpty(email_InputField.text) && !string.IsNullOrEmpty(password_InputField.text) && password_InputField.text.Length > 5) {
+                XsollaLogin.Instance.Registration(login_InputField.text, password_InputField.text, email_InputField.text, onSuccessfulSignUp, onUnsuccessfulSignUp);
+            } else
+                Debug.Log("Fill all fields");
         }
-        else
-            Debug.Log("Fill all fields");
     }
-
 }
