@@ -1,17 +1,12 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
-using Xsolla;
 using Xsolla.Login;
 
 public class ResetPasswordPage : Page, IResetPassword
 {
     [SerializeField] private InputField email_InputField;
     [SerializeField] private Button change_Btn;
-    [Header("Swap Button Images")]
-    [SerializeField] private Image change_Image;
-    [SerializeField] private Sprite disabled_Sprite;
-    [SerializeField] private Sprite enabled_Sprite;
 
     public Action OnSuccessfulResetPassword
     {
@@ -45,18 +40,17 @@ public class ResetPasswordPage : Page, IResetPassword
     private void Awake()
     {
         change_Btn.onClick.AddListener(ResetPassword);
-        email_InputField.onValueChanged.AddListener(ChangeButtonImage);
+        email_InputField.onValueChanged.AddListener(delegate { UpdateButtonState(); });
+    }
+    
+    void Start()
+    {
+        UpdateButtonState();
     }
 
-    private void ChangeButtonImage(string arg0)
+    void UpdateButtonState()
     {
-        if (!string.IsNullOrEmpty(email_InputField.text))
-        {
-            if (change_Image.sprite != enabled_Sprite)
-                change_Image.sprite = enabled_Sprite;
-        }
-        else if (change_Image.sprite == enabled_Sprite)
-            change_Image.sprite = disabled_Sprite;
+        change_Btn.interactable = !string.IsNullOrEmpty(email_InputField.text);
     }
 
     private void SuccessfulResetPassword()
@@ -67,9 +61,6 @@ public class ResetPasswordPage : Page, IResetPassword
     }
     public void ResetPassword()
     {
-        if (!string.IsNullOrEmpty(email_InputField.text))
-            XsollaLogin.Instance.ResetPassword(email_InputField.text, SuccessfulResetPassword, onUnsuccessfulResetPassword);
-        else
-            Debug.Log("Fill all fields");
+        XsollaLogin.Instance.ResetPassword(email_InputField.text, SuccessfulResetPassword, onUnsuccessfulResetPassword);
     }
 }

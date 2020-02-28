@@ -1,19 +1,12 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(Text))]
-public class VisualizeText : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class VisualizeSpecificText : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] private Color normal_Color;
     [SerializeField] private Color hover_Color;
-    private Text text;
-
-    private void Awake()
-    {
-        text = GetComponent<Text>();
-    }
+    [SerializeField] private Text text;
 
     private void OnEnable()
     {
