@@ -24,8 +24,12 @@ public class LoginPage : Page, ILogin
     public Action<User> OnSuccessfulLogin { get; set; }
     public Action<Error> OnUnsuccessfulLogin { get; set; }
 
+    private DateTime lastClick;
+    private float rateLimitMs = Constants.LoginPageRateLimitMs;
+
     private void Awake()
     {
+        lastClick = DateTime.MinValue;
         showPassword_Toggle.onValueChanged.AddListener((mood) => {
             password_InputField.contentType = mood ? InputField.ContentType.Password : InputField.ContentType.Standard;
             password_InputField.ForceLabelUpdate();
@@ -94,11 +98,13 @@ public class LoginPage : Page, ILogin
 
     public void Login()
     {
-        if (!string.IsNullOrEmpty(login_InputField.text) && password_InputField.text.Length > 5)
-        {
-            XsollaLogin.Instance.SignIn(login_InputField.text, password_InputField.text, rememberMe_ChkBox.isOn, OnLogin, OnUnsuccessfulLogin);
+        TimeSpan ts = DateTime.Now - lastClick;
+        if (ts.TotalMilliseconds > rateLimitMs) {
+            lastClick += ts;
+            if (!string.IsNullOrEmpty(login_InputField.text) && password_InputField.text.Length > 5) {
+                XsollaLogin.Instance.SignIn(login_InputField.text, password_InputField.text, rememberMe_ChkBox.isOn, OnLogin, onUnsuccessfulLogin);
+            } else
+                Debug.Log("Fill all fields");
         }
-        else
-            Debug.Log("Fill all fields");
     }
 }

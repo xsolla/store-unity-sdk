@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Xsolla.Core;
 
 public class SimpleButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler, IPointerUpHandler, IDragHandler
 {
@@ -17,10 +18,13 @@ public class SimpleButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
 	bool _isClickInProgress;
 
 	public Action onClick;
-	
+	private DateTime lastClick;
+	private float rateLimitMs = Constants.DefaultButtonRateLimitMs;
+
 	void Awake()
 	{
 		_image = GetComponent<Image>();
+		lastClick = DateTime.MinValue;
 	}
 	
 	public void OnDrag(PointerEventData eventData)
@@ -46,16 +50,21 @@ public class SimpleButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
 		OnPressed();
 	}
 
+	private void PerformClickEvent()
+	{
+		TimeSpan ts = DateTime.Now - lastClick;
+		if (ts.TotalMilliseconds > rateLimitMs) {
+			lastClick += ts;
+			onClick?.Invoke();
+		}
+	}
+
 	public void OnPointerUp(PointerEventData eventData)
 	{
 		if (_isClickInProgress)
 		{
 			OnHover();
-			
-			if (onClick != null)
-			{
-				onClick.Invoke();
-			}
+			PerformClickEvent();
 		}
 		
 		_isClickInProgress = false;
