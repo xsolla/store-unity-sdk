@@ -59,7 +59,7 @@ public class SimpleButton : MonoBehaviour, ISimpleButton
 		}
 	}
 
-	public void OnPointerUp(PointerEventData eventData)
+	public virtual void OnPointerUp(PointerEventData eventData)
 	{
 		if (_isClickInProgress)
 		{

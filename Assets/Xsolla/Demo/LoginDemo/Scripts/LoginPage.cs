@@ -96,7 +96,7 @@ public class LoginPage : Page, ILogin
         if (ts.TotalMilliseconds > rateLimitMs) {
             lastClick += ts;
             if (!string.IsNullOrEmpty(login_InputField.text) && password_InputField.text.Length > 5) {
-                XsollaLogin.Instance.SignIn(login_InputField.text, password_InputField.text, rememberMe_ChkBox.isOn, OnLogin, onUnsuccessfulLogin);
+                XsollaLogin.Instance.SignIn(login_InputField.text, password_InputField.text, rememberMe_ChkBox.isOn, OnLogin, OnUnsuccessfulLogin);
             } else
                 Debug.Log("Fill all fields");
         }

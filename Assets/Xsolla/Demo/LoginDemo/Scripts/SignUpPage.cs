@@ -78,7 +78,7 @@ public class SignUpPage :  Page, ISignUp
         if (ts.TotalMilliseconds > rateLimitMs) {
             lastClick += ts;
             if (!string.IsNullOrEmpty(login_InputField.text) && !string.IsNullOrEmpty(email_InputField.text) && !string.IsNullOrEmpty(password_InputField.text) && password_InputField.text.Length > 5) {
-                XsollaLogin.Instance.Registration(login_InputField.text, password_InputField.text, email_InputField.text, onSuccessfulSignUp, onUnsuccessfulSignUp);
+                XsollaLogin.Instance.Registration(login_InputField.text, password_InputField.text, email_InputField.text, OnSuccessfulSignUp, OnUnsuccessfulSignUp);
             } else
                 Debug.Log("Fill all fields");
         }
