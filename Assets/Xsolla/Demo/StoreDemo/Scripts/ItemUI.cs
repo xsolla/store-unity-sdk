@@ -37,9 +37,6 @@ public class ItemUI : MonoBehaviour
 
 		buyButton.onClick = (() =>
 		{
-			var purchaseParams = new PurchaseParams();
-			purchaseParams.currency = _itemInformation.price.currency;
-
 			if (_itemInformation.virtual_prices.Any()) {
 				_storeController.ShowConfirm(
 					() => {
@@ -110,6 +107,23 @@ public class ItemUI : MonoBehaviour
 		buyButton.Text = text;
 		itemName.text = _itemInformation.name;
 		itemDescription.text = _itemInformation.description;
+	}
+
+	public string GetSku()
+	{
+		return _itemInformation.sku;
+	}
+
+	public bool IsConsumable()
+	{
+		return _itemInformation.inventory_options.consumable != null;
+	}
+
+	public void Lock()
+	{
+		buyButton.Text = "Purchased";
+		buyButton.Lock();
+		addToCartButton.gameObject.SetActive(false);
 	}
 
 	StoreItem.VirtualPrice GetVirtualPrice()

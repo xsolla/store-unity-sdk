@@ -13,14 +13,7 @@ public class ConsumeButton : MonoBehaviour
     {
 		consumeButton.onClick = () => {
 			if(counter > 0) {
-				if(counter > 1) {
-					Debug.LogWarning(
-						"Sorry, but Xsolla_API can consume only one item at time, but later it will be fixed."
-					);
-					while (counter > 1)
-						counter--;
-				}
-				this.onClick?.Invoke();
+				onClick?.Invoke();
 			} else {
 				Debug.Log("You try consume item with quantity = 0!");
 			}

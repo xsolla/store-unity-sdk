@@ -1,6 +1,7 @@
-﻿using System.IO;
+using System.IO;
 using UnityEditor;
 using UnityEngine;
+using Xsolla.PayStation;
 
 namespace Xsolla.Core
 {
@@ -27,9 +28,13 @@ namespace Xsolla.Core
 		string storeProjectId = "44056";
 		[SerializeField]
 		bool isSandbox = true;
-		
+
+		[SerializeField]
+		public PaystationTheme paystationTheme = PaystationTheme.Dark;
 		[SerializeField]
 		string payStationTokenRequestUrl = "https://livedemo.xsolla.com/sdk/token/paystation_demo/";
+		[SerializeField]
+		bool inAppBrowserEnabled = true;
 
 		public static string LoginId
 		{
@@ -100,13 +105,32 @@ namespace Xsolla.Core
 				MarkAssetDirty();
 			}
 		}
-		
+
+		public static PaystationTheme PaystationTheme {
+			get { return Instance.paystationTheme; }
+			set {
+				Instance.paystationTheme = value;
+				MarkAssetDirty();
+			}
+		}
+
 		public static string PayStationTokenRequestUrl
 		{
 			get { return Instance.payStationTokenRequestUrl; }
 			set
 			{
 				Instance.payStationTokenRequestUrl = value;
+				MarkAssetDirty();
+			}
+		}
+
+		public static bool InAppBrowserEnabled
+		{
+			get {
+				return Instance.inAppBrowserEnabled;
+			}
+			set {
+				Instance.inAppBrowserEnabled = value;
 				MarkAssetDirty();
 			}
 		}

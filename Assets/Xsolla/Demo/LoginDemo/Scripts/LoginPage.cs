@@ -16,37 +16,16 @@ public class LoginPage : Page, ILogin
     const string DefaultLoginId = "e6dfaac6-78a8-11e9-9244-42010aa80004";
     const string DefaultStoreProjectId = "44056";
 
-    public Action<User> OnSuccessfulLogin
-    {
-        get
-        {
-            return onSuccessfulLogin;
-        }
+    public Action<User> OnSuccessfulLogin { get; set; }
+    public Action<Error> OnUnsuccessfulLogin { get; set; }
 
-        set
-        {
-            onSuccessfulLogin = value;
-        }
-    }
-
-    public Action<Xsolla.Core.Error> OnUnsuccessfulLogin
-    {
-        get
-        {
-            return onUnsuccessfulLogin;
-        }
-
-        set
-        {
-            onUnsuccessfulLogin = value;
-        }
-    }
-
-    private Action<User> onSuccessfulLogin;
-    private Action<Xsolla.Core.Error> onUnsuccessfulLogin;
+    private DateTime lastClick;
+    private float rateLimitMs = Constants.LoginPageRateLimitMs;
 
     void Awake()
     {
+        lastClick = DateTime.MinValue;
+        
         login_InputField.onValueChanged.AddListener(delegate { UpdateButtonState(); });
         password_InputField.onValueChanged.AddListener(delegate { UpdateButtonState(); });
         
@@ -64,6 +43,18 @@ public class LoginPage : Page, ILogin
         password_InputField.text = XsollaLogin.Instance.LastUserPassword;
 
         UpdateButtonState();
+        
+        LogInHotkeys hotkeys = gameObject.GetComponent<LogInHotkeys>();
+        hotkeys.EnterKeyPressedEvent += Login;
+        hotkeys.TabKeyPressedEvent += ChangeFocus;
+    }
+
+    private void ChangeFocus()
+    {
+        if (login_InputField.isFocused)
+            password_InputField.Select();
+        else
+            login_InputField.Select();
     }
 
     void UpdateButtonState()
@@ -90,8 +81,7 @@ public class LoginPage : Page, ILogin
         {
 	        if (XsollaSettings.StoreProjectId == DefaultStoreProjectId)
 	        {
-		        if (onSuccessfulLogin != null)
-			        onSuccessfulLogin.Invoke(user);
+			    OnSuccessfulLogin?.Invoke(user);
 	        }
 	        else
 	        {
@@ -102,6 +92,13 @@ public class LoginPage : Page, ILogin
 
     public void Login()
     {
-        XsollaLogin.Instance.SignIn(login_InputField.text, password_InputField.text, rememberMe_ChkBox.isOn, OnLogin, onUnsuccessfulLogin);
+        TimeSpan ts = DateTime.Now - lastClick;
+        if (ts.TotalMilliseconds > rateLimitMs) {
+            lastClick += ts;
+            if (!string.IsNullOrEmpty(login_InputField.text) && password_InputField.text.Length > 5) {
+                XsollaLogin.Instance.SignIn(login_InputField.text, password_InputField.text, rememberMe_ChkBox.isOn, OnLogin, onUnsuccessfulLogin);
+            } else
+                Debug.Log("Fill all fields");
+        }
     }
 }

@@ -23,6 +23,9 @@ public class StoreController : MonoBehaviour
 
 	[HideInInspector]
 	public InventoryItems inventory;
+	
+	[HideInInspector]
+	public List<UserAttribute> attributes;
 	public CartModel CartModel { get; private set; }
 
 	public static Dictionary<string, Sprite> ItemIcons;
@@ -32,9 +35,14 @@ public class StoreController : MonoBehaviour
 
 	public Cart Cart { get; private set; }
 
+	private bool isInventoryLoaded;
+	private bool isCatalogLoaded;
+
 	private void Awake()
 	{
 		imageLoader = gameObject.AddComponent<ImageLoader>();
+		
+		attributes = new List<UserAttribute>();
 	}
 
 	void Start()
@@ -59,11 +67,16 @@ public class StoreController : MonoBehaviour
 			XsollaStore.Instance.Token = DefaultStoreToken;
 		}
 
+		isCatalogLoaded = false;
+		isInventoryLoaded = false;
+
 		XsollaStore.Instance.CreateNewCart(XsollaSettings.StoreProjectId, newCart => { Cart = newCart; }, ShowError);
 
 		XsollaStore.Instance.GetListOfItems(XsollaSettings.StoreProjectId, InitStoreUi, ShowError);
 
-		RefreshInventory();
+		RefreshInventory(() => isInventoryLoaded = true);
+
+		StartCoroutine(LockPurchasedNonConsumableItemsCoroutine());
 	}
 
 	public void GetImageAsync(string url, Action<string, Sprite> callback)
@@ -77,6 +90,34 @@ public class StoreController : MonoBehaviour
 			XsollaSettings.StoreProjectId,
 			(items) => { SetInventoryItems(items); refreshCallback?.Invoke(); },
 			ShowError);
+	}
+
+	IEnumerator LockPurchasedNonConsumableItemsCoroutine()
+	{
+		yield return new WaitUntil(() => isInventoryLoaded && isCatalogLoaded);
+		LockPurchasedNonConsumableItems();
+	}
+
+	void LockPurchasedNonConsumableItems()
+	{
+		List<ItemUI> catalogItems = new List<ItemUI>();
+		List<ItemContainer> itemContainers = _itemsController.GetCatalogContainers();
+		foreach (ItemContainer itemContainer in itemContainers) {
+			catalogItems.AddRange(itemContainer.Items.Where(i => !i.IsConsumable()));
+		}
+		List<InventoryItem> inventoryItems = inventory.items.ToList();
+		catalogItems = catalogItems.Where(i => inventoryItems.Count((item) => item.sku == i.GetSku()) > 0).ToList();
+		catalogItems.ForEach(i => i.Lock());
+	}
+
+	public void RefreshAttributes(Action refreshCallback = null)
+	{
+		XsollaLogin.Instance.GetUserAttributes(XsollaStore.Instance.Token, XsollaSettings.StoreProjectId, null, null, list =>
+		{
+			attributes = list;
+			_extraController.RefreshAttributesPanel();
+			refreshCallback?.Invoke();
+		}, ShowError);
 	}
 
 	void SetInventoryItems(InventoryItems items)
@@ -107,10 +148,10 @@ public class StoreController : MonoBehaviour
 		{
 			_groupsController.CreateGroups(items, groups);
 			_itemsController.CreateItems(items);
-		
+
 			_itemsTabControl.Init();
 			_extraController.Init();
-		
+
 			_groupsController.SelectDefault();
 			XsollaStore.Instance.GetVirtualCurrencyPackagesList(XsollaSettings.StoreProjectId, _itemsController.AddVirtualCurrencyPackage, ShowError);
 			XsollaStore.Instance.GetVirtualCurrencyList(
@@ -120,6 +161,9 @@ public class StoreController : MonoBehaviour
 					_itemsTabControl.VirtualCurrencyBalance.SetCurrencies(currencies);
 					RefreshVirtualCurrencyBalance();
 				} , ShowError);
+
+			RefreshAttributes();
+			isCatalogLoaded = true;
 		}, ShowError);
 	}
 
@@ -144,7 +188,10 @@ public class StoreController : MonoBehaviour
 				print(string.Format("Order {0} was successfully processed!", orderId));
 
 				ShowSuccess();
-				RefreshInventory(onOrderPaid);
+				RefreshInventory(() => {
+					LockPurchasedNonConsumableItems();
+					onOrderPaid();
+				});
 			}
 		}, ShowError);
 	}

@@ -16,12 +16,22 @@ public class ItemsController : MonoBehaviour
 	GameObject inventoryContainerPrefab;
 
 	[SerializeField]
+	GameObject attributesContainerPrefab;
+
+	[SerializeField]
 	Transform content;
 	
 	Dictionary<string, GameObject> _containers = new Dictionary<string, GameObject>();
 
 	private GameObject activeContainer;
 	private bool isEmptyCatalog;
+
+	ExtraController _extraController;
+
+	void Awake()
+	{
+		_extraController = FindObjectOfType<ExtraController>();
+	}
 
 	public void CreateItems(StoreItems items)
 	{
@@ -58,7 +68,8 @@ public class ItemsController : MonoBehaviour
 		Dictionary<string, GameObject> itemContainers = GetDefaultItemContainers();
 		Dictionary<string, GameObject> otherContainers = new Dictionary<string, GameObject>() {
 			{ Constants.CartGroupName, cartContainerPrefab },
-			{ Constants.InventoryContainerName, inventoryContainerPrefab }
+			{ Constants.InventoryContainerName, inventoryContainerPrefab },
+			{ Constants.AttributesContainerName, attributesContainerPrefab }
 		};
 		itemContainers.ToList().ForEach((container) => { otherContainers.Add(container.Key, container.Value); });
 		return otherContainers;
@@ -71,6 +82,16 @@ public class ItemsController : MonoBehaviour
 			{ Constants.CurrencyGroupName, itemsContainerPrefab },
 			{ Constants.UngroupedGroupName, itemsContainerPrefab }
 		};
+	}
+
+	public List<ItemContainer> GetCatalogContainers()
+	{
+		Dictionary<string, GameObject> defaultContainers = GetDefaultContainers();
+		List<KeyValuePair<string, GameObject>> catalog = _containers.Where(c => !defaultContainers.ContainsKey(c.Key)).ToList();
+		if (_containers.ContainsKey(Constants.UngroupedGroupName)) {
+			catalog.Add(new KeyValuePair<string, GameObject>(Constants.UngroupedGroupName, _containers[Constants.UngroupedGroupName]));
+		}		
+		return catalog.Select(k => k.Value.GetComponent<ItemContainer>()).ToList();
 	}
 
 	public void AddVirtualCurrencyPackage(VirtualCurrencyPackages items)
@@ -101,8 +122,10 @@ public class ItemsController : MonoBehaviour
 
 		if (isEmptyCatalog && (itemContainer != null) && (itemContainer.Items.Count == 0)) {
 			
-				itemContainer.EnableEmptyContainerMessage();
+			itemContainer.EnableEmptyContainerMessage();
 		}
+
+		_extraController.ShowAttributesPanel(groupId != Constants.AttributesContainerName);
 	}
 
 	private GameObject InternalActivateContainer(string containerName)

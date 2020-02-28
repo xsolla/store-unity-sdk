@@ -9,13 +9,23 @@ namespace Xsolla.Store
 {
 	[PublicAPI]
 	public partial class XsollaStore : MonoSingleton<XsollaStore>
-	{ 
+	{
+		public GameObject InAppBrowserPrefab;
+		private GameObject InAppBrowserObject;
+
 		public string Token
 		{
 			set { PlayerPrefs.SetString(Constants.XsollaStoreToken, value); }
 			get { return PlayerPrefs.GetString(Constants.XsollaStoreToken, string.Empty); }
 		}
-		
+
+		private void OnDestroy()
+		{
+			if(InAppBrowserObject != null) {
+				Destroy(InAppBrowserObject);
+			}
+		}
+
 		string AdditionalUrlParams
 		{
 			get
@@ -42,32 +52,6 @@ namespace Xsolla.Store
 			}
 			
 			return string.Format("&currency={0}", currency);
-		}
-
-		WWWForm RequestParams(PurchaseParams purchaseParams)
-		{
-			var form = new WWWForm();
-
-			if (purchaseParams == null)
-			{
-				return form;
-			}
-
-			if (!string.IsNullOrEmpty(purchaseParams.currency))
-			{
-				form.AddField("currency", purchaseParams.currency);
-			}
-			if (!string.IsNullOrEmpty(purchaseParams.country))
-			{
-				form.AddField("country", purchaseParams.country);
-			}
-			if (!string.IsNullOrEmpty(purchaseParams.locale))
-			{
-				form.AddField("locale", purchaseParams.locale);
-			}
-			form.AddField("sandbox", XsollaSettings.IsSandbox.ToString().ToLower());
-
-			return form;
 		}
 	}
 }
