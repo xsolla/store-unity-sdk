@@ -59,7 +59,7 @@ namespace Xsolla.Store
 						break;
 					}
 				default: {
-						if(InAppBrowserPrefab != null) {
+						if(XsollaSettings.InAppBrowserEnabled && (InAppBrowserPrefab != null)) {
 							OpenInAppBrowser(url);
 						} else {
 							Application.OpenURL(url);
