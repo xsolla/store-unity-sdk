@@ -20,5 +20,6 @@
 		public const string EmptyContainerName = "EMPTY_CONTAINER";
 
 		public const float DefaultButtonRateLimitMs = 500.0F;
+		public const float LoginPageRateLimitMs = 1500.0F;
 	}
 }

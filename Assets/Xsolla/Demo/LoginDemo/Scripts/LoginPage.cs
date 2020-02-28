@@ -22,7 +22,7 @@ public class LoginPage : Page, ILogin
     const string DefaultStoreProjectId = "44056";
 
     private DateTime lastClick;
-    private float rateLimitMs = Constants.DefaultButtonRateLimitMs;
+    private float rateLimitMs = Constants.LoginPageRateLimitMs;
 
     public Action<User> OnSuccessfulLogin
     {

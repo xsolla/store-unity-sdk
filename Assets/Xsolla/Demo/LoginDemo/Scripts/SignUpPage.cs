@@ -18,7 +18,7 @@ public class SignUpPage :  Page, ISignUp
     [SerializeField] private Sprite enabled_Sprite;
 
     private DateTime lastClick;
-    private float rateLimitMs = Constants.DefaultButtonRateLimitMs;
+    private float rateLimitMs = Constants.LoginPageRateLimitMs;
 
     public string SignUpEmail
     {
