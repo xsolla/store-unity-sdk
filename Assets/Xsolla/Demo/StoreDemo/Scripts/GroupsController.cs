@@ -27,6 +27,32 @@ public class GroupsController : MonoBehaviour
 		_itemsTabControl = FindObjectOfType<ItemsTabControl>();
 	}
 
+	private void Start()
+	{
+		GroupsHotKeys hotKeys = gameObject.GetComponent<GroupsHotKeys>();
+		hotKeys.ArrowDownKeyPressedEvent += () => {
+			IGroup group = GetSelectedGroup();
+			int index = _groups.IndexOf(group) + 1;
+			if (index >= _groups.Count)
+				index = 0;
+			group = _groups.ElementAt(index);
+			group.Select();
+			SelectGroup(group.Id);
+		};
+		hotKeys.ArrowUpKeyPressedEvent += () => {
+			IGroup group = GetSelectedGroup();
+			int index = _groups.IndexOf(group);
+			if (index == 0) {
+				index = _groups.Count - 1;
+			} else {
+				index--;
+			}
+			group = _groups.ElementAt(index);
+			group.Select();
+			SelectGroup(group.Id);
+		};
+	}
+
 	public void CreateGroups(StoreItems items, Groups groups)
 	{
 		foreach (var item in items.items)
@@ -55,13 +81,7 @@ public class GroupsController : MonoBehaviour
 		var newGroup = Instantiate(groupPref, scrollView.transform).GetComponent<IGroup>();
 		newGroup.Id = groupId;
 		newGroup.Name  = groupName;
-		newGroup.OnGroupClick += (id) =>
-		{
-			_itemsController.ActivateContainer(id);
-			ChangeSelection(id);
-			
-			_itemsTabControl.ActivateStoreTab(id);
-		};
+		newGroup.OnGroupClick += SelectGroup;
 
 		_groups.Add(newGroup);
 	}
@@ -75,6 +95,13 @@ public class GroupsController : MonoBehaviour
 				group.Deselect();
 			}
 		}
+	}
+
+	private void SelectGroup(string id)
+	{
+		_itemsController.ActivateContainer(id);
+		ChangeSelection(id);
+		_itemsTabControl.ActivateStoreTab(id);
 	}
 
 	public void SelectDefault()

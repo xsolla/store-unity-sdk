@@ -84,6 +84,16 @@ public class ItemsController : MonoBehaviour
 		};
 	}
 
+	public List<ItemContainer> GetCatalogContainers()
+	{
+		Dictionary<string, GameObject> defaultContainers = GetDefaultContainers();
+		List<KeyValuePair<string, GameObject>> catalog = _containers.Where(c => !defaultContainers.ContainsKey(c.Key)).ToList();
+		if (_containers.ContainsKey(Constants.UngroupedGroupName)) {
+			catalog.Add(new KeyValuePair<string, GameObject>(Constants.UngroupedGroupName, _containers[Constants.UngroupedGroupName]));
+		}		
+		return catalog.Select(k => k.Value.GetComponent<ItemContainer>()).ToList();
+	}
+
 	public void AddVirtualCurrencyPackage(VirtualCurrencyPackages items)
 	{
 		var groupContainer = _containers[Constants.CurrencyGroupName];

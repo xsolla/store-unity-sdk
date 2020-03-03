@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using Xsolla.Core;
 
 public class ValueCounterControl : MonoBehaviour
 {
 	public SimpleTextButton increaseButton;
 	public SimpleTextButton decreaseButton;
 	public Text counterValueText;
+	public float timeout = Constants.DefaultButtonRateLimitMs;
 
 	private ValueCounter counter;
 
@@ -18,6 +20,9 @@ public class ValueCounterControl : MonoBehaviour
 
 		increaseButton.onClick = () => counter++;
 		decreaseButton.onClick = () => counter--;
+
+		increaseButton.RateLimitMs = timeout;
+		decreaseButton.RateLimitMs = timeout;
 	}
 
 	private void Counter_ValueChanged(int value)
