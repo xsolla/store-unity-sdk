@@ -223,7 +223,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
   m_AnchoredPosition: {x: -76, y: 0}
-  m_SizeDelta: {x: 18, y: 20}
+  m_SizeDelta: {x: 56, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &7446015085508255753
 GameObject:
@@ -723,6 +723,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1546038138739584660}
     m_Modifications:
+    - target: {fileID: 8761578432214116197, guid: 553981bc4932bca40878b3f9b5e87865,
+        type: 3}
+      propertyPath: m_Name
+      value: pref_SimpleIconButton
+      objectReference: {fileID: 0}
     - target: {fileID: 5571938582151317058, guid: 553981bc4932bca40878b3f9b5e87865,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -828,10 +833,15 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 8761578432214116197, guid: 553981bc4932bca40878b3f9b5e87865,
+    - target: {fileID: 6494803026932805715, guid: 553981bc4932bca40878b3f9b5e87865,
         type: 3}
-      propertyPath: m_Name
-      value: pref_SimpleIconButton
+      propertyPath: m_SizeDelta.x
+      value: 22.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6494803026932805715, guid: 553981bc4932bca40878b3f9b5e87865,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 22.6
       objectReference: {fileID: 0}
     - target: {fileID: 7411716584711692345, guid: 553981bc4932bca40878b3f9b5e87865,
         type: 3}
@@ -845,16 +855,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 7daf83d3b113f3f429a7a8f60520e640,
         type: 3}
-    - target: {fileID: 6494803026932805715, guid: 553981bc4932bca40878b3f9b5e87865,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 22.6
-      objectReference: {fileID: 0}
-    - target: {fileID: 6494803026932805715, guid: 553981bc4932bca40878b3f9b5e87865,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 22.6
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 553981bc4932bca40878b3f9b5e87865, type: 3}
 --- !u!224 &251493794157953433 stripped
@@ -882,6 +882,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2240820563971334840}
     m_Modifications:
+    - target: {fileID: 8761578432214116197, guid: 553981bc4932bca40878b3f9b5e87865,
+        type: 3}
+      propertyPath: m_Name
+      value: pref_SimpleIconButton
+      objectReference: {fileID: 0}
     - target: {fileID: 5571938582151317058, guid: 553981bc4932bca40878b3f9b5e87865,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -987,10 +992,15 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 8761578432214116197, guid: 553981bc4932bca40878b3f9b5e87865,
+    - target: {fileID: 6494803026932805715, guid: 553981bc4932bca40878b3f9b5e87865,
         type: 3}
-      propertyPath: m_Name
-      value: pref_SimpleIconButton
+      propertyPath: m_SizeDelta.x
+      value: 22.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6494803026932805715, guid: 553981bc4932bca40878b3f9b5e87865,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 22.6
       objectReference: {fileID: 0}
     - target: {fileID: 7411716584711692345, guid: 553981bc4932bca40878b3f9b5e87865,
         type: 3}
@@ -1004,16 +1014,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: fc30e8140cbc6d54997f8fb72ab854aa,
         type: 3}
-    - target: {fileID: 6494803026932805715, guid: 553981bc4932bca40878b3f9b5e87865,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 22.6
-      objectReference: {fileID: 0}
-    - target: {fileID: 6494803026932805715, guid: 553981bc4932bca40878b3f9b5e87865,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 22.6
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 553981bc4932bca40878b3f9b5e87865, type: 3}
 --- !u!224 &2106819260805679137 stripped

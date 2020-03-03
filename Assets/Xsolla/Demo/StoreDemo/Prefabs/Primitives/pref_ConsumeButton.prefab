@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 231825733382823875}
   - component: {fileID: 1736355359969125076}
   m_Layer: 5
-  m_Name: ConsumeButton
+  m_Name: pref_ConsumeButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -73,7 +73,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Speed: 4
-  consumeButton: {fileID: 3564977068141844586}
   consumeText: {fileID: 5550269307306518804}
   valueCounter: {fileID: 8808055821000265107}
 --- !u!114 &8808055821000265107
@@ -225,18 +224,6 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 5202193095260008901}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &3564977068141844586 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8739429482784647599, guid: dfffa70844d28c4499d39d6571e7e152,
-    type: 3}
-  m_PrefabInstance: {fileID: 5202193095260008901}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3577694456258680480}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 69cf3ee8bde36c4489b25bdf081818e6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &8642357222277517146
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -353,6 +340,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2422610597905405812, guid: f85f0dbdd8cc344b6a5b8f627884cead,
+        type: 3}
+      propertyPath: timeout
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7879231302679116667, guid: f85f0dbdd8cc344b6a5b8f627884cead,
         type: 3}

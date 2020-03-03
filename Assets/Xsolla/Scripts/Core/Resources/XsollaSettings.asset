@@ -19,5 +19,6 @@ MonoBehaviour:
   callbackUrl: 
   storeProjectId: 44056
   isSandbox: 1
-  payStationProjectId: 
-  merchantId: 
+  paystationTheme: 1
+  payStationTokenRequestUrl: https://livedemo.xsolla.com/sdk/token/paystation_demo/
+  inAppBrowserEnabled: 1

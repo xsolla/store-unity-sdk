@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -13,6 +14,12 @@ public class VisualizeText : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     {
         text = GetComponent<Text>();
     }
+
+    private void OnEnable()
+    {
+        text.color = normal_Color;
+    }
+
     public void OnPointerEnter(PointerEventData eventData)
     {
         text.color = hover_Color;

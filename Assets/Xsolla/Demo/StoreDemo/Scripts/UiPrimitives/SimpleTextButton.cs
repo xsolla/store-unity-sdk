@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class SimpleTextButton : SimpleButton
+public class SimpleTextButton : SimpleButtonLockDecorator
 {
 	[SerializeField]
 	Text buttonText;

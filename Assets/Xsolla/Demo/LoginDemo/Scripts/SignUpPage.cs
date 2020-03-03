@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using Xsolla;
+using Xsolla.Core;
 using Xsolla.Login;
 
 public class SignUpPage :  Page, ISignUp
@@ -11,10 +12,9 @@ public class SignUpPage :  Page, ISignUp
     [SerializeField] private InputField email_InputField;
     [SerializeField] private Toggle showPassword_Toggle;
     [SerializeField] private Button create_Btn;
-    [Header("Swap Button Images")]
-    [SerializeField] private Image signUp_Image;
-    [SerializeField] private Sprite disabled_Sprite;
-    [SerializeField] private Sprite enabled_Sprite;
+
+    private DateTime lastClick;
+    private float rateLimitMs = Constants.LoginPageRateLimitMs;
 
     public string SignUpEmail
     {
@@ -24,67 +24,63 @@ public class SignUpPage :  Page, ISignUp
         }
     }
 
-    public Action OnSuccessfulSignUp
+    public Action OnSuccessfulSignUp { get; set; }
+    public Action<Error> OnUnsuccessfulSignUp { get; set; }
+
+    void Awake()
     {
-        get
-        {
-            return onSuccessfulSignUp;
-        }
-
-        set
-        {
-            onSuccessfulSignUp = value;
-        }
-    }
-
-    public Action<Xsolla.Core.Error> OnUnsuccessfulSignUp
-    {
-        get
-        {
-            return onUnsuccessfulSignUp;
-        }
-
-        set
-        {
-            onUnsuccessfulSignUp = value;
-        }
-    }
-
-    private Action onSuccessfulSignUp;
-    private Action<Xsolla.Core.Error> onUnsuccessfulSignUp;
-
-    private void Awake()
-    {
+        login_InputField.onValueChanged.AddListener(delegate { UpdateButtonState(); });
+        password_InputField.onValueChanged.AddListener(delegate { UpdateButtonState(); });
+        email_InputField.onValueChanged.AddListener(delegate { UpdateButtonState(); });
+        
+        lastClick = DateTime.MinValue;
         create_Btn.onClick.AddListener(SignUp);
+
         showPassword_Toggle.onValueChanged.AddListener((mood) => 
         {
             password_InputField.contentType = mood ? InputField.ContentType.Password : InputField.ContentType.Standard;
             password_InputField.ForceLabelUpdate();
         });
-        login_InputField.onValueChanged.AddListener(ChangeButtonImage);
-        password_InputField.onValueChanged.AddListener(ChangeButtonImage);
-        email_InputField.onValueChanged.AddListener(ChangeButtonImage);
+        
+        create_Btn.onClick.AddListener(SignUp);
+    }
+    
+    private void Start()
+    {
+        LogInHotkeys hotkeys = gameObject.GetComponent<LogInHotkeys>();
+        hotkeys.EnterKeyPressedEvent += SignUp;
+        hotkeys.TabKeyPressedEvent += ChangeFocus;
+        
+        UpdateButtonState();
     }
 
-    private void ChangeButtonImage(string arg0)
+    private void ChangeFocus()
     {
-        if (!string.IsNullOrEmpty(login_InputField.text) && !string.IsNullOrEmpty(email_InputField.text) && !string.IsNullOrEmpty(password_InputField.text) && password_InputField.text.Length > 5)
-        {
-            if (signUp_Image.sprite != enabled_Sprite)
-                signUp_Image.sprite = enabled_Sprite;
+        if (login_InputField.isFocused) {
+            email_InputField.Select();
+        } else {
+            if (email_InputField.isFocused) {
+                password_InputField.Select();
+            } else {
+                login_InputField.Select();
+            }
         }
-        else if (signUp_Image.sprite == enabled_Sprite)
-            signUp_Image.sprite = disabled_Sprite;
+    }
+    
+    void UpdateButtonState()
+    {
+        create_Btn.interactable = !string.IsNullOrEmpty(login_InputField.text) && !string.IsNullOrEmpty(email_InputField.text) && !string.IsNullOrEmpty(password_InputField.text) && password_InputField.text.Length > 5;
     }
     
     public void SignUp()
     {
-        if (!string.IsNullOrEmpty(login_InputField.text) && !string.IsNullOrEmpty(email_InputField.text) && !string.IsNullOrEmpty(password_InputField.text) && password_InputField.text.Length > 5)
-        {
-            XsollaLogin.Instance.Registration(login_InputField.text, password_InputField.text, email_InputField.text, onSuccessfulSignUp, onUnsuccessfulSignUp);
+        TimeSpan ts = DateTime.Now - lastClick;
+        if (ts.TotalMilliseconds > rateLimitMs) {
+            lastClick += ts;
+            if (!string.IsNullOrEmpty(login_InputField.text) && !string.IsNullOrEmpty(email_InputField.text) && !string.IsNullOrEmpty(password_InputField.text) && password_InputField.text.Length > 5) {
+                XsollaLogin.Instance.Registration(login_InputField.text, password_InputField.text, email_InputField.text, OnSuccessfulSignUp, OnUnsuccessfulSignUp);
+            } else
+                Debug.Log("Fill all fields");
         }
-        else
-            Debug.Log("Fill all fields");
     }
-
 }

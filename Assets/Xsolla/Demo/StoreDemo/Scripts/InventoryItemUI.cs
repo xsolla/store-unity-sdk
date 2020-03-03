@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using Xsolla.Core;
@@ -66,6 +67,20 @@ public class InventoryItemUI : MonoBehaviour
 	{
 		consumeButton.gameObject.SetActive(true);
 		consumeButton.onClick = ConsumeHandler;
+		consumeButton.counter.ValueChanged += Counter_ValueChanged;
+	}
+
+	private void Counter_ValueChanged(int newValue)
+	{
+		if(newValue > _itemInformation.quantity) {
+			StartCoroutine(DecreaseConsumeQuantityCoroutine());
+		}
+	}
+
+	IEnumerator DecreaseConsumeQuantityCoroutine()
+	{
+		yield return new WaitForEndOfFrame();
+		consumeButton.counter.DecreaseValue(1);
 	}
 
 	void DisableConsumeButton()
@@ -75,25 +90,62 @@ public class InventoryItemUI : MonoBehaviour
 
 	void ConsumeHandler()
 	{
+		if(consumeButton.counter > 1) {
+			Debug.LogWarning(
+				"Sorry, but Xsolla_API can consume only one item at time, " +
+				"so we send " + consumeButton.counter.GetValue() + " requests."
+			);
+		}
+		
 		_storeController.ShowConfirm(
-			ConsumeConfirmCase,
+			() => {
+				loadingCircle.SetActive(true);
+				DisableConsumeButton();
+				ConsumeConfirmCase(consumeButton.counter.GetValue() - 1);
+			},
 			null,
 			"Item '" + _itemInformation.name + "' x " + consumeButton.counter + " will be consumed. Are you sure?"
 		);
 	}
 
-	void ConsumeConfirmCase()
+	void ConsumeConfirmCase(int attemptsLeft)
+	{
+		if(attemptsLeft > 0) {
+			SendConsumeRequest(() => ConsumeConfirmCase(--attemptsLeft));
+		} else {
+			SendConsumeRequest(ConsumeItemsSuccess);
+		}
+	}
+
+	void SendConsumeRequest(Action callback)
 	{
 		XsollaStore.Instance.ConsumeInventoryItem(XsollaSettings.StoreProjectId,
-			new ConsumeItem() {
-				sku = _itemInformation.sku,
-				quantity = consumeButton.counter
-			},
-			() => {
-				_storeController.ShowSuccess();
-				_storeController.RefreshInventory();
-			},
-			_storeController.ShowError
+			GetConsumeItemBySku(_itemInformation.sku),
+			callback,
+			ConsumeItemsFailed
 		);
-	}	
+	}
+
+	ConsumeItem GetConsumeItemBySku(string sku)
+	{
+		return new ConsumeItem() {
+			sku = sku,
+			quantity = 1
+		};
+	}
+
+	void ConsumeItemsSuccess()
+	{
+		EnableConsumeButton();
+		loadingCircle.SetActive(false);
+		_storeController.ShowSuccess();
+		_storeController.RefreshInventory();
+	}
+
+	void ConsumeItemsFailed(Error error)
+	{
+		EnableConsumeButton();
+		loadingCircle.SetActive(false);
+		_storeController.ShowError(error);
+	}
 }
