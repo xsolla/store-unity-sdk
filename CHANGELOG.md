@@ -1,9 +1,10 @@
 # Changelog
 
-## [Unreleased]
+## [0.5.0.1] - 2020-03-03
 
 ### Added
 
+- Paystation theme settings.
 - 'External/InApp browser' settings.
 - Hotkeys for demo-scenes.
 
