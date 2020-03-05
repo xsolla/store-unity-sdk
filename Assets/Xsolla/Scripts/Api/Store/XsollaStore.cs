@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
 using UnityEngine;
 using Xsolla.Core;
-using System.Runtime.InteropServices;
 
 namespace Xsolla.Store
 {
 	[PublicAPI]
 	public partial class XsollaStore : MonoSingleton<XsollaStore>
+	{
 		public GameObject InAppBrowserPrefab;
 		private GameObject InAppBrowserObject;
 
-	{
 		public string Token
 		{
 			set { PlayerPrefs.SetString(Constants.XsollaStoreToken, value); }
@@ -41,7 +37,6 @@ namespace Xsolla.Store
 			{
 				return string.Empty;
 			}
-			
 			return string.Format("&locale={0}", locale);
 		}
 		
@@ -51,10 +46,7 @@ namespace Xsolla.Store
 			{
 				return string.Empty;
 			}
-			
 			return string.Format("&currency={0}", currency);
 		}
-		[DllImport("__Internal")]
-		private static extern void Purchase(string token, bool sandbox);
 	}
 }
