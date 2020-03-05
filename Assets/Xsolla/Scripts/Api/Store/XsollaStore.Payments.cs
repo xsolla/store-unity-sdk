@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Text;
 using JetBrains.Annotations;
-using UnityEngine;
 using Xsolla.Core;
 
 namespace Xsolla.Store
@@ -47,7 +46,7 @@ namespace Xsolla.Store
 
 			var urlBuilder = new StringBuilder(string.Format(URL_BUY_CART, projectId, cartId)).Append(AdditionalUrlParams);
 			WebRequestHelper.Instance.PostRequest<PurchaseData, TempPurchaseParams>(urlBuilder.ToString(), tempPurchaseParams, WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.BuyCartErrors);
-		}
+		}	
 
 		public void OpenPurchaseUi(PurchaseData purchaseData)
 		{
