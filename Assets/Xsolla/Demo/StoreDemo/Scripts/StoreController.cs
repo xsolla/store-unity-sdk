@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
 using Xsolla.Core;
@@ -45,6 +46,25 @@ public class StoreController : MonoBehaviour
 		attributes = new List<UserAttribute>();
 	}
 
+	string TryAuthWithLauncherToken()
+	{
+		string launcherToken = LauncherArguments.GetToken();
+		if (!string.IsNullOrEmpty(launcherToken)) {
+			bool isBusy = true;
+			XsollaLogin.Instance.ValidateToken(launcherToken, (_) => {
+				isBusy = false;
+			}, (Error error) => {
+				Debug.LogWarning("Try validate token = " + launcherToken + ", but have error: " + error.errorMessage);
+				launcherToken = "";
+				isBusy = false;
+			});
+			while(isBusy) {
+				Thread.Sleep(1);
+			}
+		}
+		return launcherToken;
+	}
+
 	void Start()
 	{
 		_groupsController = FindObjectOfType<GroupsController>();
@@ -63,8 +83,14 @@ public class StoreController : MonoBehaviour
 		}
 		else
 		{
-			print("Store demo starts. Use default hardcoded token: " + DefaultStoreToken);
-			XsollaStore.Instance.Token = DefaultStoreToken;
+			string launcherToken = TryAuthWithLauncherToken();
+			if (!string.IsNullOrEmpty(launcherToken)) {
+				print("Store demo starts. Use token obtained from Launcher: " + launcherToken);
+				XsollaStore.Instance.Token = launcherToken;
+			} else {
+				print("Store demo starts. Use default hardcoded token: " + DefaultStoreToken);
+				XsollaStore.Instance.Token = DefaultStoreToken;
+			}
 		}
 
 		isCatalogLoaded = false;

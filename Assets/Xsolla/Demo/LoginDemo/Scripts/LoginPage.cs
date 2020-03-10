@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -24,6 +26,8 @@ public class LoginPage : Page, ILogin
 
     void Awake()
     {
+        TryAuthWithLauncherToken();
+
         lastClick = DateTime.MinValue;
         
         login_InputField.onValueChanged.AddListener(delegate { UpdateButtonState(); });
@@ -36,6 +40,19 @@ public class LoginPage : Page, ILogin
         
         login_Btn.onClick.AddListener(Login);
     }
+
+	void TryAuthWithLauncherToken()
+	{
+        string launcherToken = LauncherArguments.GetToken();
+		if(!string.IsNullOrEmpty(launcherToken)) {
+            XsollaLogin.Instance.ValidateToken(launcherToken, (_) => {
+                XsollaLogin.Instance.Token = launcherToken;
+                SceneManager.LoadScene("Store");
+            }, (Error error) => {
+                Debug.LogWarning("Try validate token = " + launcherToken + ", but have error: " + error.errorMessage);
+            });
+        }
+	}
     
     void Start()
     {
