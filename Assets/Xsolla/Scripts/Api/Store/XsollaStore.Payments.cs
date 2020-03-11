@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using System.Text;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -49,6 +50,9 @@ namespace Xsolla.Store
 			WebRequestHelper.Instance.PostRequest<PurchaseData, TempPurchaseParams>(urlBuilder.ToString(), tempPurchaseParams, WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.BuyCartErrors);
 		}
 
+		[DllImport("__Internal")]
+		private static extern void Purchase(string token, bool sandbox);
+
 		public void OpenPurchaseUi(PurchaseData purchaseData)
 		{
 			string url = (XsollaSettings.IsSandbox) ? URL_PAYSTATION_UI_IN_SANDBOX_MODE : URL_PAYSTATION_UI;
@@ -56,21 +60,27 @@ namespace Xsolla.Store
 
 			switch(Application.platform) {
 				case RuntimePlatform.WebGLPlayer: {
-						url = string.Format("window.open(\"{0}\",\"_blank\")", url);
-						Application.ExternalEval(url);
+						if (XsollaSettings.InAppBrowserEnabled) {
+							Purchase(purchaseData.token, XsollaSettings.IsSandbox);
+						} else {
+							url = string.Format("window.open(\"{0}\",\"_blank\")", url);
+							Application.ExternalEval(url);
+						}
 						break;
 					}
 				default: {
-						if(XsollaSettings.InAppBrowserEnabled && (InAppBrowserPrefab != null)) {
+#if (UNITY_EDITOR || UNITY_STANDALONE)
+						if (XsollaSettings.InAppBrowserEnabled && (InAppBrowserPrefab != null)) {
 							OpenInAppBrowser(url);
-						} else {
+						} else
+#endif
 							Application.OpenURL(url);
-						}
 						break;
 					}
 			}
 		}
 
+#if (UNITY_EDITOR || UNITY_STANDALONE)
 		private void OpenInAppBrowser(string url)
 		{
 			if(InAppBrowserObject == null) {
@@ -82,7 +92,7 @@ namespace Xsolla.Store
 				Debug.LogError("You try create browser instance, but it already created!");
 			}
 		}
-
+#endif
 		public void CheckOrderStatus(string projectId, int orderId, [NotNull] Action<OrderStatus> onSuccess, [CanBeNull] Action<Error> onError)
 		{
 			var urlBuilder = new StringBuilder(string.Format(URL_ORDER_GET_STATUS, projectId, orderId)).Append(AdditionalUrlParams);

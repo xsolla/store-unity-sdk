@@ -12,7 +12,7 @@ public class SinglePageBrowser2D : MonoBehaviour
 	public Vector2 Viewport = new Vector2(800.0F, 600.0F);
 	[SerializeField]
 	public GameObject PreloaderPrefab;
-
+#if (UNITY_EDITOR || UNITY_STANDALONE)
 	XsollaBrowser xsollaBrowser;
 	Display2DBehaviour display;
 	KeyboardBehaviour2D keyboard;
@@ -36,7 +36,7 @@ public class SinglePageBrowser2D : MonoBehaviour
 	{
 		yield return StartCoroutine(WaitPreloaderCoroutine());
 
-		display.StartRedrawTo(Viewport);
+		display.StartRedrawWith((int)Viewport.x, (int)Viewport.y);
 		InitializeInput();
 	}
 
@@ -85,4 +85,5 @@ public class SinglePageBrowser2D : MonoBehaviour
 	{
 		Debug.Log(obj);
 	}
+#endif
 }
