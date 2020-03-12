@@ -489,7 +489,8 @@ PlayerSettings:
   webGLCompressionFormat: 1
   webGLLinkerTarget: 1
   webGLThreadsSupport: 0
-  scriptingDefineSymbols: {}
+  scriptingDefineSymbols:
+    1: ALTUNITYTESTER
   platformArchitecture: {}
   scriptingBackend:
     Standalone: 0
