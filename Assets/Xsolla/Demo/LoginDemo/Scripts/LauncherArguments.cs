@@ -2,13 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Xsolla.Core;
 
-public static class LauncherArguments
+public class LauncherArguments : MonoSingleton<LauncherArguments>
 {
-    const string LauncherTokenArgName = "xsolla-login-jwt";
+    const string LauncherTokenArgName = "xsolla-login-token";
 
-    public static string GetToken()
+    bool invalidated = false;
+
+    public string GetToken()
 	{
+		if(invalidated) {
+            return "";
+		}
         List<string> args = Environment.GetCommandLineArgs().ToList();
         args.ForEach(a => Debug.Log("Application argument: " + a));
 
@@ -21,5 +27,10 @@ public static class LauncherArguments
 		}
 
         return "";
+    }
+
+	public void InvalidateTokenArguments()
+	{
+        invalidated = true;
     }
 }

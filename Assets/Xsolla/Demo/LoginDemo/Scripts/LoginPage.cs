@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -43,14 +41,10 @@ public class LoginPage : Page, ILogin
 
 	void TryAuthWithLauncherToken()
 	{
-        string launcherToken = LauncherArguments.GetToken();
+        string launcherToken = LauncherArguments.Instance.GetToken();
 		if(!string.IsNullOrEmpty(launcherToken)) {
-            XsollaLogin.Instance.ValidateToken(launcherToken, (_) => {
-                XsollaLogin.Instance.Token = launcherToken;
-                SceneManager.LoadScene("Store");
-            }, (Error error) => {
-                Debug.LogWarning("Try validate token = " + launcherToken + ", but have error: " + error.errorMessage);
-            });
+            XsollaLogin.Instance.Token = launcherToken;
+            SceneManager.LoadScene("Store");
         }
 	}
     

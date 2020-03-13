@@ -125,7 +125,7 @@ public class AuthController : MonoBehaviour
         popUp_Controller.GetComponent<IPopUpController>().ShowPopUp(header, message);
         Debug.Log(message);
     }
-    private void OnError(Xsolla.Core.Error error)
+    private void OnError(Error error)
     {
         switch (error.ErrorType)
         {
