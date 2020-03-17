@@ -1,7 +1,7 @@
-﻿using System.Threading;
-using NUnit.Framework;
+﻿using NUnit.Framework;
+using System.Threading;
 
-public class AutorizationTest
+public class FailedAutorizationTest
 {
     public AltUnityDriver AltUnityDriver;
     //Before any test it connects with the socket
@@ -21,21 +21,16 @@ public class AutorizationTest
     [Test]
     public void Test()
     {
-
         AltUnityDriver.LoadScene("Login");
         AltUnityObject login = AltUnityDriver.FindElement("LoginUsername");
         login.ClickEvent();
-        login.SetText("test123");
+        login.SetText("WrongUsername");
         AltUnityObject pass = AltUnityDriver.FindElement("LoginPassword");
         pass.ClickEvent();
-        pass.SetText("232323");
+        pass.SetText("WrongPassword");
         AltUnityDriver.FindElement("LoginButton").ClickEvent();
-        Thread.Sleep(4000);
-        AltUnityDriver.FindElement("CartGroup(Clone)");
-
-
-
-
+        Thread.Sleep(1000);
+        AltUnityDriver.FindElement("ErrorPopUpTryAgainButton");
     }
 
 }

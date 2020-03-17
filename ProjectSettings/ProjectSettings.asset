@@ -490,7 +490,7 @@ PlayerSettings:
   webGLLinkerTarget: 1
   webGLThreadsSupport: 0
   scriptingDefineSymbols:
-    1: ALTUNITYTESTER
+    1: 
   platformArchitecture: {}
   scriptingBackend:
     Standalone: 0

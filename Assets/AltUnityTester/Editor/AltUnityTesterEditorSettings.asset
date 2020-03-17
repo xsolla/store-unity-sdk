@@ -26,14 +26,14 @@ MonoBehaviour:
     _status: 0
     _isSuite: 1
     _parentName: 
-    _testCaseCount: 127
+    _testCaseCount: 128
     _foldOut: 1
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
     path: 
   - _selected: 1
-    _testName: AutorizationTest
+    _testName: FailedAutorizationTest
     _status: 1
     _isSuite: 1
     _parentName: /Users/m.pystogov/store-unity-sdk/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
@@ -44,16 +44,38 @@ MonoBehaviour:
     _testDuration: 0
     path: 
   - _selected: 1
-    _testName: AutorizationTest.Test
+    _testName: FailedAutorizationTest.Test
     _status: 1
     _isSuite: 0
-    _parentName: AutorizationTest
+    _parentName: FailedAutorizationTest
     _testCaseCount: 1
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 4.3461176
-    path: Assets/UI_tests/Editor/AutorizationTest.cs
+    _testDuration: 1.3050869
+    path: Assets/UI_tests/Editor/FailedAutorizationTest.cs
+  - _selected: 1
+    _testName: SuccessAutorizationTest
+    _status: 1
+    _isSuite: 1
+    _parentName: /Users/m.pystogov/store-unity-sdk/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+    _testStackTrace: 
+    _testDuration: 0
+    path: 
+  - _selected: 1
+    _testName: SuccessAutorizationTest.Test
+    _status: 1
+    _isSuite: 0
+    _parentName: SuccessAutorizationTest
+    _testCaseCount: 1
+    _foldOut: 0
+    _testResultMessage: 
+    _testStackTrace: 
+    _testDuration: 5.2864222
+    path: Assets/UI_tests/Editor/SuccessAutorizationTest.cs
   - _selected: 0
     _testName: TestForScene1TestSample
     _status: 0
