@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.0.2] - 2020-03-17
+
+### Fixed
+
+- Fix create build on 2019-x versions.
+- Some small bugs.
+
 ## [0.5.0.1] - 2020-03-03
 
 ### Added
