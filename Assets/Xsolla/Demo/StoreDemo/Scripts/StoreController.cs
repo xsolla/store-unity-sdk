@@ -63,8 +63,14 @@ public class StoreController : MonoBehaviour
 		}
 		else
 		{
-			print("Store demo starts. Use default hardcoded token: " + DefaultStoreToken);
-			XsollaStore.Instance.Token = DefaultStoreToken;
+			string launcherToken = LauncherArguments.Instance.GetToken();
+			if (!string.IsNullOrEmpty(launcherToken)) {
+				print("Store demo starts. Use token obtained from Launcher: " + launcherToken);
+				XsollaStore.Instance.Token = launcherToken;
+			} else {
+				print("Store demo starts. Use default hardcoded token: " + DefaultStoreToken);
+				XsollaStore.Instance.Token = DefaultStoreToken;
+			}
 		}
 
 		isCatalogLoaded = false;

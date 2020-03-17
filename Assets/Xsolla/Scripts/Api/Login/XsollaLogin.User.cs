@@ -61,7 +61,7 @@ namespace Xsolla.Login
 				} else {
 					onSuccess?.Invoke(new User());
 				}
-			}, onError, Core.Error.LoginErrors);
+			}, onError, Error.LoginErrors);
 		}
 
 		public void SignOut()

@@ -38,7 +38,10 @@ public class ExtraController : MonoBehaviour
 		testCardsButton.SetActive(true);
 
 		var btnComponent = signOutButton.GetComponent<SimpleTextButton>();
-		btnComponent.onClick = () => { SceneManager.LoadScene("Login"); };
+		btnComponent.onClick = () => {
+			LauncherArguments.Instance.InvalidateTokenArguments();
+			SceneManager.LoadScene("Login");
+		};
 		
 		var registrationBtnComponent = registrationButton.GetComponent<SimpleTextButton>();
 		registrationBtnComponent.onClick = () => { OpenURL(URL_REGISTRATION); };
