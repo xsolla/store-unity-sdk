@@ -24,6 +24,8 @@ public class LoginPage : Page, ILogin
 
     void Awake()
     {
+        TryAuthWithLauncherToken();
+
         lastClick = DateTime.MinValue;
         
         login_InputField.onValueChanged.AddListener(delegate { UpdateButtonState(); });
@@ -36,6 +38,15 @@ public class LoginPage : Page, ILogin
         
         login_Btn.onClick.AddListener(Login);
     }
+
+	void TryAuthWithLauncherToken()
+	{
+        string launcherToken = LauncherArguments.Instance.GetToken();
+		if(!string.IsNullOrEmpty(launcherToken)) {
+            XsollaLogin.Instance.Token = launcherToken;
+            SceneManager.LoadScene("Store");
+        }
+	}
     
     void Start()
     {
