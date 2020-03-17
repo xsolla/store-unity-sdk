@@ -39,7 +39,7 @@ public class MenuButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 	private DateTime lastClick;
 	private float rateLimitMs = Constants.DefaultButtonRateLimitMs;
 
-	string _buttonId;
+	string _buttonId = "";
 
 	void Awake()
 	{

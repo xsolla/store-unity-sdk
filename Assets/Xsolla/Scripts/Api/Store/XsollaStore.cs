@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
 using UnityEngine;
 using Xsolla.Core;
 
@@ -40,7 +37,6 @@ namespace Xsolla.Store
 			{
 				return string.Empty;
 			}
-			
 			return string.Format("&locale={0}", locale);
 		}
 		
@@ -50,7 +46,6 @@ namespace Xsolla.Store
 			{
 				return string.Empty;
 			}
-			
 			return string.Format("&currency={0}", currency);
 		}
 	}

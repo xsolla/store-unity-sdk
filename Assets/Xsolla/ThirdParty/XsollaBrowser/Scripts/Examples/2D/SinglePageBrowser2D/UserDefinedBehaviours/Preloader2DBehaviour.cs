@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿#if (UNITY_EDITOR || UNITY_STANDALONE)
+using UnityEngine;
 using System.Collections;
 
 [RequireComponent(typeof(XsollaBrowser))]
@@ -70,3 +71,4 @@ public class Preloader2DBehaviour : MonoBehaviour
 		Destroy(this, 0.001F);
 	}
 }
+#endif

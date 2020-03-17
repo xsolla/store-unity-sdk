@@ -100,7 +100,7 @@ namespace Xsolla.Login
 			}
 		}
 
-		void ValidateToken(string token, Action<User> onSuccess, Action<Core.Error> onError)
+		public void ValidateToken(string token, Action<User> onSuccess, Action<Core.Error> onError)
 		{
 			if (!string.IsNullOrEmpty(token))
 			{

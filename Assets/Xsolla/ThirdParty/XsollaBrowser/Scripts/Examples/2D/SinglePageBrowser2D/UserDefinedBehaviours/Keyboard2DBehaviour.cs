@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿#if (UNITY_EDITOR || UNITY_STANDALONE)
+using UnityEngine;
 using System.Collections.Generic;
 using System;
 using System.Linq;
@@ -38,3 +39,4 @@ public class KeyboardBehaviour2D : MonoBehaviour
 		}
 	}
 }
+#endif

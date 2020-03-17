@@ -30,7 +30,9 @@ public class AuthController : MonoBehaviour
     {
         signUp_Panel.GetComponent<ISignUp>().OnSuccessfulSignUp = () => OpenPopUp("Account successfully created", string.Format("Please check {0} and confirm your email", signUp_Panel.GetComponent<ISignUp>().SignUpEmail));
         signUp_Panel.GetComponent<ISignUp>().OnUnsuccessfulSignUp = OnError;
-        resetPassword_Panel.GetComponent<IResetPassword>().OnSuccessfulResetPassword = () => OpenPopUp("Password successfully reset", "Please check your email and change the password");
+        resetPassword_Panel.GetComponent<IResetPassword>().OnSuccessfulResetPassword = () => {
+			OpenPopUp("Password successfully reset", "Please check your email and change the password"); 
+        };
         resetPassword_Panel.GetComponent<IResetPassword>().OnUnsuccessfulResetPassword = OnError;
         login_Panel.GetComponent<ILogin>().OnUnsuccessfulLogin = OnError;
         login_Panel.GetComponent<ILogin>().OnSuccessfulLogin = (user) => OpenPopUp("You have successfully logged in", PopUpWindows.Success);
@@ -41,18 +43,10 @@ public class AuthController : MonoBehaviour
         OpenPage(loginSignUp_Panel);
         openLogin_Btn.GetComponent<IPanelVisualElement>().Select();
         OpenPage(login_Panel);
-        popUp_Controller.GetComponent<IPopUpController>().OnClosePopUp = OpenSaved;
-
-        var returnToTheMain = new UnityAction(() =>
-        {
-            CloseAll();
-            OpenPage(loginSignUp_Panel);
-            OpenPage(login_Panel);
-            openLogin_Btn.GetComponent<IPanelVisualElement>().Select();
-            openSignUp_Btn.GetComponent<IPanelVisualElement>().Deselect();
-        });
+        
+        var returnToTheMain = new UnityAction(() => ReturnToTheLogIn());
         popUp_Controller.GetComponent<IPopUpController>().OnReturnToLogin = returnToTheMain;
-        closeChangePassword_Btn.onClick.AddListener(returnToTheMain);
+        closeChangePassword_Btn.onClick.AddListener(new UnityAction(() => ReturnToTheLogIn()));
         openChangePassw_Btn.onClick.AddListener(() => { CloseAll(); OpenPage(resetPassword_Panel); });
         openSignUp_Btn.onClick.AddListener(() =>
         {
@@ -70,6 +64,15 @@ public class AuthController : MonoBehaviour
             openLogin_Btn.GetComponent<IPanelVisualElement>().Select();
             openSignUp_Btn.GetComponent<IPanelVisualElement>().Deselect();
         });
+    }
+
+	private void ReturnToTheLogIn()
+	{
+        CloseAll();
+        OpenPage(loginSignUp_Panel);
+        OpenPage(login_Panel);
+        openLogin_Btn.GetComponent<IPanelVisualElement>().Select();
+        openSignUp_Btn.GetComponent<IPanelVisualElement>().Deselect();
     }
 
     private void OpenPage(GameObject page)
@@ -116,16 +119,18 @@ public class AuthController : MonoBehaviour
     private void OpenPopUp(string message, PopUpWindows popUp)
     {
         CloseAndSave();
+        popUp_Controller.GetComponent<IPopUpController>().OnClosePopUp = OpenSaved;
         popUp_Controller.GetComponent<IPopUpController>().ShowPopUp(message, popUp);
         Debug.Log(message);
     }
     private void OpenPopUp(string header, string message)
     {
         CloseAndSave();
+        popUp_Controller.GetComponent<IPopUpController>().OnClosePopUp = new UnityAction(() => ReturnToTheLogIn());
         popUp_Controller.GetComponent<IPopUpController>().ShowPopUp(header, message);
         Debug.Log(message);
     }
-    private void OnError(Xsolla.Core.Error error)
+    private void OnError(Error error)
     {
         switch (error.ErrorType)
         {

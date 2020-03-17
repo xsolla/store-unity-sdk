@@ -1,20 +1,20 @@
-﻿using UnityEngine;
+﻿#if (UNITY_EDITOR || UNITY_STANDALONE)
+using UnityEngine;
 using System.Collections;
 using System;
 using UnityEngine.UI;
-using System.Drawing;
 
 [RequireComponent(typeof(XsollaBrowser))]
 [RequireComponent(typeof(Image))]
 public class Display2DBehaviour : MonoBehaviour
 {
-	public event Action<Size> ViewportChangedEvent;
+	public event Action<int, int> ViewportChangedEvent;
 
 	private IXsollaBrowserRender render;
 	private Image image;
 
-	private Size viewportSize = new Size(0, 0);
-	public Size ViewportSize { get => viewportSize; set => viewportSize = value; }
+	public int Width = 0;
+	public int Height = 0;
 
 	private void Awake()
 	{
@@ -30,22 +30,22 @@ public class Display2DBehaviour : MonoBehaviour
 		StopRedraw();
 	}
 
-	public void StartRedrawTo(Vector2 viewport)
+	public void StartRedrawWith(int width, int height)
 	{
 		StopRedraw();
-		if (!viewportSize.Equals(viewport)) {
-			Size newSize = new Size((int)viewport.x, (int)viewport.y);
-			render.SetResolution(newSize, ViewportCallback);
+		if (Width != width || Height != height) {
+			render.SetResolution(width, height, ViewportCallback);
 		} else {
 			StartCoroutine(RedrawCoroutine(image));
 		}
 	}
 
-	private void ViewportCallback(Size newSize)
+	private void ViewportCallback(int width, int height)
 	{
-		viewportSize = newSize;
+		Width = width;
+		Height = height;
 		ResizeCollider();
-		ViewportChangedEvent?.Invoke(viewportSize);
+		ViewportChangedEvent?.Invoke(width, height);
 		StartCoroutine(RedrawCoroutine(image));
 	}
 
@@ -58,7 +58,7 @@ public class Display2DBehaviour : MonoBehaviour
 	public static void SetOpacity(Image image, float opacity)
 	{
 		if (image != null) {
-			UnityEngine.Color color = image.color;
+			Color color = image.color;
 			color.a = opacity;
 			image.color = color;
 		}
@@ -94,3 +94,4 @@ public class Display2DBehaviour : MonoBehaviour
 		}
 	}
 }
+#endif
