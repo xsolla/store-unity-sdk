@@ -52,7 +52,7 @@ MonoBehaviour:
     _foldOut: 0
     _testResultMessage: 
     _testStackTrace: 
-    _testDuration: 0.4568981
+    _testDuration: 4.3461176
     path: Assets/UI_tests/Editor/AutorizationTest.cs
   - _selected: 0
     _testName: TestForScene1TestSample

@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Threading;
+using NUnit.Framework;
 
 public class AutorizationTest
 {
@@ -29,7 +30,11 @@ public class AutorizationTest
         pass.ClickEvent();
         pass.SetText("232323");
         AltUnityDriver.FindElement("LoginButton").ClickEvent();
-        AltUnityDriver.LoadScene("Store");
+        Thread.Sleep(4000);
+        AltUnityDriver.FindElement("CartGroup(Clone)");
+
+
+
 
     }
 
