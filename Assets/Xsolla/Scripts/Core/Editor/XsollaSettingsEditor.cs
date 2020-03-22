@@ -29,6 +29,7 @@ namespace Xsolla.Core
 				XsollaSettings.JwtValidationUrl = EditorGUILayout.TextField(new GUIContent("JWT validation URL [?]", JwtValidationUrlTooltip),  XsollaSettings.JwtValidationUrl);
 				XsollaSettings.UseProxy = EditorGUILayout.Toggle("Enable proxy?", XsollaSettings.UseProxy);
 				XsollaSettings.CallbackUrl = EditorGUILayout.TextField(new GUIContent("Callback URL [?]", CallbackUrlTooltip),  XsollaSettings.CallbackUrl);
+				XsollaSettings.IsShadow = EditorGUILayout.Toggle("Shadow build?", XsollaSettings.IsShadow);
 			}
       
 			EditorGUILayout.Space();

@@ -56,22 +56,7 @@ public class StoreController : MonoBehaviour
 		
 		ItemIcons = new Dictionary<string, Sprite>();
 
-		if (FindObjectOfType<XsollaLogin>() != null)
-		{
-			print("Store demo starts. Use token obtained from Login: " + XsollaLogin.Instance.Token);
-			XsollaStore.Instance.Token = XsollaLogin.Instance.Token;
-		}
-		else
-		{
-			string launcherToken = LauncherArguments.Instance.GetToken();
-			if (!string.IsNullOrEmpty(launcherToken)) {
-				print("Store demo starts. Use token obtained from Launcher: " + launcherToken);
-				XsollaStore.Instance.Token = launcherToken;
-			} else {
-				print("Store demo starts. Use default hardcoded token: " + DefaultStoreToken);
-				XsollaStore.Instance.Token = DefaultStoreToken;
-			}
-		}
+		CheckAuth();
 
 		isCatalogLoaded = false;
 		isInventoryLoaded = false;
@@ -83,6 +68,23 @@ public class StoreController : MonoBehaviour
 		RefreshInventory(() => isInventoryLoaded = true);
 
 		StartCoroutine(LockPurchasedNonConsumableItemsCoroutine());
+	}
+
+	private void CheckAuth()
+	{
+		if (FindObjectOfType<XsollaLogin>() != null) {
+			print("Store demo starts. Use token obtained from Login: " + XsollaLogin.Instance.Token);
+			XsollaStore.Instance.Token = XsollaLogin.Instance.Token;
+		} else {
+			string launcherToken = LauncherArguments.Instance.GetToken();
+			if (!string.IsNullOrEmpty(launcherToken)) {
+				print("Store demo starts. Use token obtained from Launcher: " + launcherToken);
+				XsollaStore.Instance.Token = launcherToken;
+			} else {
+				print("Store demo starts. Use default hardcoded token: " + DefaultStoreToken);
+				XsollaStore.Instance.Token = DefaultStoreToken;
+			}
+		}
 	}
 
 	public void GetImageAsync(string url, Action<string, Sprite> callback)
@@ -156,7 +158,7 @@ public class StoreController : MonoBehaviour
 			_itemsController.CreateItems(items);
 
 			_itemsTabControl.Init();
-			_extraController.Init();
+			_extraController.Init(this);
 
 			_groupsController.SelectDefault();
 			XsollaStore.Instance.GetVirtualCurrencyPackagesList(XsollaSettings.StoreProjectId, _itemsController.AddVirtualCurrencyPackage, ShowError);
@@ -229,9 +231,9 @@ public class StoreController : MonoBehaviour
 		return null;
 	}
 
-	public void ShowSuccess() => PreparePopUp()?.ShowSuccess(() => { _popup = null; });
+	public void ShowSuccess(string message = "") => PreparePopUp()?.ShowSuccess(() => { _popup = null; }, message);
 
-	public void ShowError(Xsolla.Core.Error error)
+	public void ShowError(Error error)
 	{
 		print(error);
 		PreparePopUp()?.ShowError(error, () => { _popup = null; });
@@ -245,5 +247,18 @@ public class StoreController : MonoBehaviour
 		if (!String.IsNullOrEmpty(message)) {
 			text.text = message;
 		}
+	}
+
+	public void ShowConfirmCode(Action<string> confirmCase, Action cancelCase = null)
+	{
+		PreparePopUp().ShowConfirmCode(
+			(string code) => {
+				confirmCase?.Invoke(code);
+				_popup = null;
+			},
+			() => {
+				cancelCase?.Invoke();
+				_popup = null;
+			});
 	}
 }

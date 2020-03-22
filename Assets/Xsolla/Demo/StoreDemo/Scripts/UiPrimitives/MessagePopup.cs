@@ -15,18 +15,29 @@ public class MessagePopup : MonoBehaviour
 	GameObject confirmPanel;
 
 	[SerializeField]
+	GameObject confirmCodePanel;
+
+	[SerializeField]
 	SimpleTextButton successButton;
+	[SerializeField]
+	Text successMessageText;
 	[SerializeField]
 	SimpleTextButton errorButton;
 	[SerializeField]
 	SimpleTextButton confirmButton;
 	[SerializeField]
 	SimpleTextButton cancelButton;
+	[SerializeField]
+	SimpleTextButton confirmCodeButton;
+	[SerializeField]
+	SimpleTextButton cancelCodeButton;
 
 	[SerializeField]
 	Text errorText;
 	[SerializeField]
 	public Text confirmText;
+	[SerializeField]
+	Text confirmCodeText;
 
 	Action _onPopupClosed;
 	Action _onConfirmPressed;
@@ -39,6 +50,8 @@ public class MessagePopup : MonoBehaviour
 		errorButton.onClick = OnPopupButtonClicked;
 		confirmButton.onClick = OnConfirmButtonClicked;
 		cancelButton.onClick = OnCancelButtonClicked;
+		confirmCodeButton.onClick = OnConfirmButtonClicked;
+		cancelCodeButton.onClick = OnCancelButtonClicked;
 	}
 
 	void DisablePanels()
@@ -46,6 +59,7 @@ public class MessagePopup : MonoBehaviour
 		successPanel?.SetActive(false);
 		errorPanel?.SetActive(false);
 		confirmPanel?.SetActive(false);
+		confirmCodePanel?.SetActive(false);
 	}
 
 	public MessagePopup ShowError(Error error, Action onClosed = null)
@@ -56,9 +70,18 @@ public class MessagePopup : MonoBehaviour
 		return this;
 	}
 	
-	public MessagePopup ShowSuccess(Action onClosed = null)
+	public MessagePopup ShowSuccess(Action onClosed = null, string successMessage = "")
 	{
-		_onPopupClosed = onClosed;
+		if(!string.IsNullOrEmpty(successMessage) && successMessageText) {
+			string oldText = successMessageText.text;
+			successMessageText.text = successMessage;
+			_onPopupClosed = () => {
+				onClosed?.Invoke();
+				successMessageText.text = oldText;
+			};
+		} else {
+			_onPopupClosed = onClosed;
+		}
 		successPanel.SetActive(true);
 		return this;
 	}
@@ -68,6 +91,20 @@ public class MessagePopup : MonoBehaviour
 		_onConfirmPressed = onConfirm;
 		_onCancelPressed = onCancel;
 		confirmPanel.SetActive(true);
+		return this;
+	}
+
+	public MessagePopup ShowConfirmCode(Action<string> onConfirm, Action onCancel)
+	{
+		_onConfirmPressed = () => {
+			if(confirmCodeText && !string.IsNullOrEmpty(confirmCodeText.text)) {
+				onConfirm?.Invoke(confirmCodeText.text);
+			} else {
+				Debug.LogError("Your confirmation code is empty!");
+			}
+		};
+		_onCancelPressed = onCancel;
+		confirmCodePanel.SetActive(true);
 		return this;
 	}
 

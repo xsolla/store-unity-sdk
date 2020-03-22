@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -24,8 +25,6 @@ public class LoginPage : Page, ILogin
 
     void Awake()
     {
-        TryAuthWithLauncherToken();
-
         lastClick = DateTime.MinValue;
         
         login_InputField.onValueChanged.AddListener(delegate { UpdateButtonState(); });
@@ -39,15 +38,6 @@ public class LoginPage : Page, ILogin
         login_Btn.onClick.AddListener(Login);
     }
 
-	void TryAuthWithLauncherToken()
-	{
-        string launcherToken = LauncherArguments.Instance.GetToken();
-		if(!string.IsNullOrEmpty(launcherToken)) {
-            XsollaLogin.Instance.Token = launcherToken;
-            SceneManager.LoadScene("Store");
-        }
-	}
-    
     void Start()
     {
         login_InputField.text = XsollaLogin.Instance.LastUserLogin;
@@ -58,6 +48,40 @@ public class LoginPage : Page, ILogin
         LogInHotkeys hotkeys = gameObject.GetComponent<LogInHotkeys>();
         hotkeys.EnterKeyPressedEvent += Login;
         hotkeys.TabKeyPressedEvent += ChangeFocus;
+
+        StartCoroutine(TryAuthWithShadowToken());
+    }
+
+    IEnumerator TryAuthWithShadowToken()
+    {
+        if (XsollaSettings.IsShadow) {
+            int datetime = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+            int r = new System.Random().Next();
+            XsollaLogin.Instance.ShadowAccountUserID = "sdk_temp_user_id_" + r.ToString() + "_" + datetime.ToString();
+
+            bool busy = true;
+            XsollaLogin.Instance.SignInShadowAccount(XsollaLogin.Instance.ShadowAccountUserID, (string token) => {
+                XsollaLogin.Instance.Token = token;
+                SceneManager.LoadScene("Store");
+                busy = false;
+            }, (Error error) => {
+                OnUnsuccessfulLogin?.Invoke(error);
+                busy = false;
+            });
+            yield return new WaitWhile(() => busy);
+        } else {
+            StartCoroutine(TryAuthWithLauncherToken());
+        }
+    }
+
+    IEnumerator TryAuthWithLauncherToken()
+    {
+        string launcherToken = LauncherArguments.Instance.GetToken();
+        if (!string.IsNullOrEmpty(launcherToken)) {
+            XsollaLogin.Instance.Token = launcherToken;
+            SceneManager.LoadScene("Store");
+        }
+        yield break;
     }
 
     private void ChangeFocus()
