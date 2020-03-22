@@ -17,7 +17,7 @@ MonoBehaviour:
   jwtValidationUrl: 
   useProxy: 0
   callbackUrl: 
-  isShadow: 1
+  isShadow: 0
   storeProjectId: 44056
   isSandbox: 1
   paystationTheme: 1

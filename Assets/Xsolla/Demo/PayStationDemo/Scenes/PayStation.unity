@@ -964,8 +964,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1dea3ae089dd7704f8717cbe3a671a5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  popupPrefab: {fileID: 3081390016754645347, guid: 5623eef721b44b1448f6398fb8defbb4,
-    type: 3}
   buyCrystalsButton: {fileID: 431079154}
   purchaseStatusText: {fileID: 1016654556}
   loadingScreen: {fileID: 1111228886}
@@ -1047,75 +1045,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1437167428}
   m_CullTransparentMesh: 0
---- !u!1001 &1811780131
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 6030101342870470976, guid: b029fbcd18ea8f848b0745120418b734,
-        type: 3}
-      propertyPath: m_Name
-      value: XsollaPayStation
-      objectReference: {fileID: 0}
-    - target: {fileID: 6030101342870470990, guid: b029fbcd18ea8f848b0745120418b734,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 953.7422
-      objectReference: {fileID: 0}
-    - target: {fileID: 6030101342870470990, guid: b029fbcd18ea8f848b0745120418b734,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 476.49637
-      objectReference: {fileID: 0}
-    - target: {fileID: 6030101342870470990, guid: b029fbcd18ea8f848b0745120418b734,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 22.675993
-      objectReference: {fileID: 0}
-    - target: {fileID: 6030101342870470990, guid: b029fbcd18ea8f848b0745120418b734,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6030101342870470990, guid: b029fbcd18ea8f848b0745120418b734,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6030101342870470990, guid: b029fbcd18ea8f848b0745120418b734,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6030101342870470990, guid: b029fbcd18ea8f848b0745120418b734,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6030101342870470990, guid: b029fbcd18ea8f848b0745120418b734,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 6030101342870470990, guid: b029fbcd18ea8f848b0745120418b734,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6030101342870470990, guid: b029fbcd18ea8f848b0745120418b734,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6030101342870470990, guid: b029fbcd18ea8f848b0745120418b734,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: b029fbcd18ea8f848b0745120418b734, type: 3}
 --- !u!1001 &1859462898
 PrefabInstance:
   m_ObjectHideFlags: 0

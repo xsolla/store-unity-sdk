@@ -42,7 +42,7 @@ public class InventoryItemUI : MonoBehaviour
 
 		if (_itemImage == null && !string.IsNullOrEmpty(_itemInformation.image_url))
 		{
-			_storeController.GetImageAsync(_itemInformation.image_url, LoadImageCallback);
+			ImageLoader.Instance.GetImageAsync(_itemInformation.image_url, LoadImageCallback);
 		}
 	}
 
