@@ -2,8 +2,9 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Xsolla.Core;
 
-public class SimpleButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler, IPointerUpHandler, IDragHandler
+public class SimpleButton : MonoBehaviour, ISimpleButton
 {
 	Image _image;
 	
@@ -17,45 +18,54 @@ public class SimpleButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
 	bool _isClickInProgress;
 
 	public Action onClick;
-	
+	private DateTime lastClick;
+
+	public float RateLimitMs { get; set; } = Constants.DefaultButtonRateLimitMs;
+
 	void Awake()
 	{
 		_image = GetComponent<Image>();
+		lastClick = DateTime.MinValue;
 	}
-	
-	public void OnDrag(PointerEventData eventData)
+
+	public virtual void OnDrag(PointerEventData eventData)
 	{
 	}
 	
-	public void OnPointerEnter(PointerEventData eventData)
+	public virtual void OnPointerEnter(PointerEventData eventData)
 	{
 		OnHover();
 	}
 
-	public void OnPointerExit(PointerEventData eventData)
+	public virtual void OnPointerExit(PointerEventData eventData)
 	{
 		OnNormal();
 
 		_isClickInProgress = false;
 	}
 
-	public void OnPointerDown(PointerEventData eventData)
+	public virtual void OnPointerDown(PointerEventData eventData)
 	{
 		_isClickInProgress = true;
 
 		OnPressed();
 	}
 
-	public void OnPointerUp(PointerEventData eventData)
+	private void PerformClickEvent()
+	{
+		TimeSpan ts = DateTime.Now - lastClick;
+		if (ts.TotalMilliseconds > RateLimitMs) {
+			lastClick += ts;
+			onClick?.Invoke();
+		}
+	}
+
+	public virtual void OnPointerUp(PointerEventData eventData)
 	{
 		if (_isClickInProgress)
 		{
 			OnHover();
-			
-			if (onClick != null)
-			{
-				onClick.Invoke();
-			}
+			PerformClickEvent();
 		}
 		
 		_isClickInProgress = false;

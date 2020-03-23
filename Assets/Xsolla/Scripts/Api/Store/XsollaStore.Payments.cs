@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -20,7 +19,8 @@ namespace Xsolla.Store
 		public void BuyItem(string projectId, string itemId, [CanBeNull] Action<PurchaseData> onSuccess, [CanBeNull] Action<Error> onError, PurchaseParams purchaseParams = null)
 		{
 			TempPurchaseParams tempPurchaseParams = new TempPurchaseParams {
-				sandbox = XsollaSettings.IsSandbox
+				sandbox = XsollaSettings.IsSandbox,
+				settings = new TempPurchaseParams.Settings(XsollaSettings.PaystationTheme)
 			};
 
 			var urlBuilder = new StringBuilder(string.Format(URL_BUY_ITEM, projectId, itemId)).Append(AdditionalUrlParams);
@@ -30,7 +30,8 @@ namespace Xsolla.Store
 		public void BuyItem(string projectId, string itemId, string priceSku, [CanBeNull] Action<PurchaseData> onSuccess, [CanBeNull] Action<Error> onError, PurchaseParams purchaseParams = null)
 		{
 			TempPurchaseParams tempPurchaseParams = new TempPurchaseParams {
-				sandbox = XsollaSettings.IsSandbox
+				sandbox = XsollaSettings.IsSandbox,
+				settings = new TempPurchaseParams.Settings(XsollaSettings.PaystationTheme)
 			};
 
 			var urlBuilder = new StringBuilder(string.Format(URL_BUY_ITEM_FOR_VC, projectId, itemId, priceSku)).Append(AdditionalUrlParams);
@@ -40,7 +41,8 @@ namespace Xsolla.Store
 		public void BuyCart(string projectId, string cartId, [CanBeNull] Action<PurchaseData> onSuccess, [CanBeNull] Action<Error> onError, PurchaseParams purchaseParams = null)
 		{
 			TempPurchaseParams tempPurchaseParams = new TempPurchaseParams {
-				sandbox = XsollaSettings.IsSandbox
+				sandbox = XsollaSettings.IsSandbox,
+				settings = new TempPurchaseParams.Settings(XsollaSettings.PaystationTheme)
 			};
 
 			var urlBuilder = new StringBuilder(string.Format(URL_BUY_CART, projectId, cartId)).Append(AdditionalUrlParams);
@@ -59,7 +61,7 @@ namespace Xsolla.Store
 						break;
 					}
 				default: {
-						if((InAppBrowserPrefab != null) && (InAppBrowserParent != null)) {
+						if(XsollaSettings.InAppBrowserEnabled && (InAppBrowserPrefab != null)) {
 							OpenInAppBrowser(url);
 						} else {
 							Application.OpenURL(url);
@@ -71,9 +73,14 @@ namespace Xsolla.Store
 
 		private void OpenInAppBrowser(string url)
 		{
-			GameObject browser = Instantiate(InAppBrowserPrefab, InAppBrowserParent);
-			XsollaBrowser xsollaBrowser = browser.GetComponent<XsollaBrowser>();
-			xsollaBrowser.Navigate.To(url);
+			if(InAppBrowserObject == null) {
+				Canvas canvas = FindObjectOfType<Canvas>();
+				InAppBrowserObject = Instantiate(InAppBrowserPrefab, canvas.transform);
+				XsollaBrowser xsollaBrowser = InAppBrowserObject.GetComponent<XsollaBrowser>();
+				xsollaBrowser.Navigate.To(url);
+			} else {
+				Debug.LogError("You try create browser instance, but it already created!");
+			}
 		}
 
 		public void CheckOrderStatus(string projectId, int orderId, [NotNull] Action<OrderStatus> onSuccess, [CanBeNull] Action<Error> onError)
