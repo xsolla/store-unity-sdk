@@ -14,29 +14,22 @@ namespace Tests
     {
         const int LOGIN = 123;
 
+        const string USERNAME_FIELD = "LoginUsername";
+
+
         [UnityTest]
         public IEnumerator AuthTest()
         {
-            Debug.Log("Load scene");
             SceneManager.LoadScene("Login");
             yield return new WaitWhile(() =>
                 SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Login")
             );
-            Debug.Log("Wait 5 sec");
-            yield return new WaitForSeconds(5.0F);
-
-            Debug.Log("Find login");
             yield return new WaitWhile(() =>
-                GameObject.Find("Login") == null
+                GameObject.Find(USERNAME_FIELD) == null
             );
-            Debug.Log("Wait 5 sec");
-            yield return new WaitForSeconds(5.0F);
-            GameObject login = GameObject.Find("Login");
-            Debug.Log("Set text");
-            InputField inputField = login.GetComponent<InputField>();
-            inputField.ActivateInputField();
-            inputField.textComponent.text = "Text";
-            Debug.Log("Wait 5 sec");
+            GameObject.Find(USERNAME_FIELD).GetComponent<InputField>().text = "test123";
+            // GameObject.Find(USERNAME_FIELD).GetComponent<Button>().SendMessage()
+
             yield return new WaitForSeconds(5.0F);
         }
     }
