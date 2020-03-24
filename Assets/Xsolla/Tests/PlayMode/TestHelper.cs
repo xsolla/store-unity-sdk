@@ -8,10 +8,16 @@ using Xsolla.Core;
 
 public partial class TestHelper : MonoSingleton<TestHelper>
 {
-	public void LoadScene(Scenes name)
+	public IEnumerator LoadScene(Scenes name)
 	{
 		SceneManager.LoadScene(Enum.GetName(typeof(Scenes), name));
-	}
+        yield return new WaitWhile(() => IsScene(name));
+    }
+
+    public bool IsScene(Scenes name)
+    {
+        return SceneManager.GetActiveScene() == SceneManager.GetSceneByName(Enum.GetName(typeof(Scenes), name));
+    }
 
 	public GameObject Find(string name)
 	{

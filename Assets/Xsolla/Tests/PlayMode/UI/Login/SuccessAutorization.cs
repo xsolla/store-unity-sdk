@@ -18,23 +18,22 @@ namespace Tests
         const string USERLOGIN_BUTTON = "LoginButton";
 
         [UnityTest]
-
         public IEnumerator SuccessAutorizationTest()
         {
-            SceneManager.LoadScene("Login");
-            yield return new WaitWhile(() =>
-                SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Login")
-            );
-            yield return new WaitWhile(() =>
-                GameObject.Find(USERNAME_FIELD) == null
-            );
-            GameObject.Find(USERNAME_FIELD).GetComponent<InputField>().text = "test123";
-            GameObject.Find(USERPASSWORD_FIELD).GetComponent<InputField>().text = "232323";
-            yield return new WaitForSeconds(0.01F);
-            GameObject.Find(USERLOGIN_BUTTON).GetComponent<Button>().onClick.Invoke();
-            yield return new WaitForSeconds(4.0F);
-            Assert.True(SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Store"));
-            
+            TestHelper helper = TestHelper.Instance;
+            yield return helper.LoadScene(TestHelper.Scenes.Login);
+            helper.SetInputField(USERNAME_FIELD, "test123");
+            helper.SetInputField(USERPASSWORD_FIELD, "232323");
+            yield return helper.WaitFor(0.01F);
+            helper.ClickButton(USERLOGIN_BUTTON);
+            yield return helper.WaitFor(4.0F);
+            Assert.True(helper.IsScene(TestHelper.Scenes.Store));
+        }
+
+        [UnityTest]
+        public IEnumerator SuccessAutorizationTest2()
+        {
+            yield break;
         }
     }
 }
