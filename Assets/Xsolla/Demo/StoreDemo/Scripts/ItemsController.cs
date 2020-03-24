@@ -26,7 +26,7 @@ public class ItemsController : MonoBehaviour
 	private GameObject activeContainer;
 	private bool isEmptyCatalog;
 
-	ExtraController _extraController;
+	IExtraPanelController _extraController;
 
 	void Awake()
 	{
@@ -125,7 +125,7 @@ public class ItemsController : MonoBehaviour
 			itemContainer.EnableEmptyContainerMessage();
 		}
 
-		_extraController.ShowAttributesPanel(groupId != Constants.AttributesContainerName);
+		_extraController.SetAttributesVisibility(groupId != Constants.AttributesContainerName);
 	}
 
 	private GameObject InternalActivateContainer(string containerName)

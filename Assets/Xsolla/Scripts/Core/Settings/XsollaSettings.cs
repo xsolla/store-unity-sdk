@@ -23,7 +23,9 @@ namespace Xsolla.Core
 		bool useProxy;
 		[SerializeField]
 		string callbackUrl;
-		
+		[SerializeField]
+		bool isShadow;
+
 		[SerializeField]
 		string storeProjectId = "44056";
 		[SerializeField]
@@ -72,6 +74,14 @@ namespace Xsolla.Core
 			set
 			{
 				Instance.useProxy = value;
+				MarkAssetDirty();
+			}
+		}
+
+		public static bool IsShadow {
+			get { return Instance.isShadow; }
+			set {
+				Instance.isShadow = value;
 				MarkAssetDirty();
 			}
 		}

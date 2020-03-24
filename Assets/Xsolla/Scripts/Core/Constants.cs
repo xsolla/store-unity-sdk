@@ -9,7 +9,9 @@
 		public const string XsollaLoginTokenExp = "Xsolla_Token_Exp";
 		public const string UserLogin = "Xsolla_User_Login";
 		public const string UserPassword = "Xsolla_User_Password";
-		
+		public const string UserShadowAccount = "Xsolla_User_ShadowAccount";
+		public const string UserShadowPlatform = "Xsolla_User_ShadowPlatform";
+
 		public const string XsollaStoreToken = "Xsolla_Store_Token";
 
 		public const string CartGroupName = "CART";

@@ -91,6 +91,24 @@ namespace Xsolla.Login
 			}
 		}
 
+		public string ShadowAccountUserID {
+			get {
+				return PlayerPrefs.HasKey(Constants.UserShadowAccount) ? PlayerPrefs.GetString(Constants.UserShadowAccount) : string.Empty;
+			}
+			set {
+				PlayerPrefs.SetString(Constants.UserShadowAccount, value);
+			}
+		}
+
+		public string ShadowAccountPlatform {
+			get {
+				return PlayerPrefs.HasKey(Constants.UserShadowPlatform) ? PlayerPrefs.GetString(Constants.UserShadowPlatform) : string.Empty;
+			}
+			set {
+				PlayerPrefs.SetString(Constants.UserShadowPlatform, value);
+			}
+		}
+
 		void SaveLoginPassword(string username, string password)
 		{
 			if (!string.IsNullOrEmpty(XsollaSettings.LoginId))
