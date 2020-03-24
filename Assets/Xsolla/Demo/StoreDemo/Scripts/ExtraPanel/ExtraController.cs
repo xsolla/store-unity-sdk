@@ -20,8 +20,8 @@ public class ExtraController : MonoBehaviour, IExtraPanelController
 	private void Start()
 	{
 		accountButtons.LinkingAccountComplete += () => LinkingAccountComplete?.Invoke();
-		accountButtons.OpenUrlEvent += (string url) => BrowserHelper.Instance.Open(url, true);
-		infoButtons.OpenUrlEvent += (string url) => BrowserHelper.Instance.Open(url, true);
+		accountButtons.OpenUrlEvent += (string url) => BrowserHelper.Instance.Open(url);
+		infoButtons.OpenUrlEvent += (string url) => BrowserHelper.Instance.Open(url);
 	}
 
 	public void Initialize()
