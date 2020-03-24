@@ -1,6 +1,7 @@
 {
     "name": "EditMode",
     "references": [
+        "Core",
         "CommonAssembly"
     ],
     "optionalUnityReferences": [

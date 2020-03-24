@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52405bf87e920c34796e9e06cc914ce8, type: 3}
   m_Name: XsollaSettings
   m_EditorClassIdentifier: 
-  loginId: ed3d3290-43e3-11ea-b687-42010aa80004
+  loginId: b053f3dd-1fce-11ea-b687-42010aa80004
   useJwtValidation: 0
   jwtValidationUrl: 
   useProxy: 0
   callbackUrl: 
   isShadow: 0
-  storeProjectId: 52285
+  storeProjectId: 50458
   isSandbox: 1
   paystationTheme: 1
   payStationTokenRequestUrl: https://livedemo.xsolla.com/sdk/token/paystation_demo/
