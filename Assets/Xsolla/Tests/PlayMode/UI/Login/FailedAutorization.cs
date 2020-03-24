@@ -19,24 +19,16 @@ namespace Tests
         const string POPUP_ERROR = "ErrorPopUp";
 
         [UnityTest]
-
-     
-        public IEnumerator FailedAutorizationTest()
+        public IEnumerator ZFailedAutorizationTest()
         {
-            SceneManager.LoadScene("Login");
-            yield return new WaitWhile(() =>
-                SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Login")
-            );
-            yield return new WaitWhile(() =>
-                GameObject.Find(USERNAME_FIELD) == null
-            );
-            GameObject.Find(USERNAME_FIELD).GetComponent<InputField>().text = "test123";
-            GameObject.Find(USERPASSWORD_FIELD).GetComponent<InputField>().text = "232324";
-            yield return new WaitForSeconds(0.01F);
-            GameObject.Find(USERLOGIN_BUTTON).GetComponent<Button>().onClick.Invoke();
-            yield return new WaitForSeconds(4.0F);
+            TestHelper helper = TestHelper.Instance;
+            yield return helper.LoadScene(TestHelper.Scenes.Login);
+            helper.SetInputField(USERNAME_FIELD, "test123");
+            helper.SetInputField(USERPASSWORD_FIELD, "232324");
+            yield return helper.WaitFor(0.01F);
+            helper.ClickButton(USERLOGIN_BUTTON);
+            yield return helper.WaitFor(4.0F);
             Assert.True(GameObject.Find(POPUP_ERROR));
-
         }
     }
 }

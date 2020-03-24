@@ -8,18 +8,37 @@ using Xsolla.Core;
 
 public partial class TestHelper : MonoSingleton<TestHelper>
 {
-	public IEnumerator LoadScene(Scenes name)
+	public IEnumerator LoadScene(Scenes scene)
 	{
-		SceneManager.LoadScene(Enum.GetName(typeof(Scenes), name));
-        yield return new WaitWhile(() => IsScene(name));
+        if (IsScene(scene))
+            yield return UnloadScene(scene);
+		SceneManager.LoadScene(GetSceneName(scene));
+        yield return new WaitWhile(() => IsScene(scene));
     }
 
-    public bool IsScene(Scenes name)
+    /// <summary>
+    /// Костыль
+    /// </summary>
+    /// <param name="scene"></param>
+    /// <returns></returns>
+    public IEnumerator UnloadScene(Scenes scene)
     {
-        return SceneManager.GetActiveScene() == SceneManager.GetSceneByName(Enum.GetName(typeof(Scenes), name));
+        yield return LoadScene((scene == Scenes.Login)
+            ? Scenes.EmptyScene
+            : Scenes.Login);
     }
 
-	public GameObject Find(string name)
+    public bool IsScene(Scenes scene)
+    {
+        return SceneManager.GetActiveScene() == SceneManager.GetSceneByName(GetSceneName(scene));
+    }
+
+    private string GetSceneName(Scenes scene)
+    {
+        return Enum.GetName(typeof(Scenes), scene);
+    }
+
+    public GameObject Find(string name)
 	{
 		return GameObject.Find(name);
 	}
@@ -92,6 +111,7 @@ public partial class TestHelper : MonoSingleton<TestHelper>
 	{
 		Login,
 		Store,
-		PayStation
+		PayStation,
+        EmptyScene
 	}
 }
