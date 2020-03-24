@@ -53,7 +53,10 @@ namespace Xsolla.Store
 		public void OpenPurchaseUi(PurchaseData purchaseData)
 		{
 			string url = (XsollaSettings.IsSandbox) ? URL_PAYSTATION_UI_IN_SANDBOX_MODE : URL_PAYSTATION_UI;
-			BrowserHelper.Instance.OpenPurchase(url, purchaseData.token);
+			BrowserHelper.Instance.OpenPurchase(
+				url, purchaseData.token,
+				XsollaSettings.IsSandbox,
+				XsollaSettings.InAppBrowserEnabled);
 		}
 
 		public void CheckOrderStatus(string projectId, int orderId, [NotNull] Action<OrderStatus> onSuccess, [CanBeNull] Action<Error> onError)

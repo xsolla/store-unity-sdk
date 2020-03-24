@@ -21,16 +21,16 @@ namespace Xsolla.Core
 			}
 		}
 
-		public void OpenPurchase(string url, string token)
+		public void OpenPurchase(string url, string token, bool isSandbox, bool inAppBrowserEnabled = false)
 		{
-			if((Application.platform == RuntimePlatform.WebGLPlayer) && XsollaSettings.InAppBrowserEnabled) {
-				Purchase(token, XsollaSettings.IsSandbox);
+			if((Application.platform == RuntimePlatform.WebGLPlayer) && inAppBrowserEnabled) {
+				Purchase(token, isSandbox);
 			} else {
-				Open(url + token);
+				Open(url + token, inAppBrowserEnabled);
 			}
 		}
 
-		public void Open(string url, bool ignoreSettings = false)
+		public void Open(string url, bool inAppBrowserEnabled = false)
 		{
 			switch (Application.platform) {
 				case RuntimePlatform.WebGLPlayer: {
@@ -40,7 +40,7 @@ namespace Xsolla.Core
 					}
 				default: {
 #if (UNITY_EDITOR || UNITY_STANDALONE)
-						if (!ignoreSettings && XsollaSettings.InAppBrowserEnabled && (InAppBrowserPrefab != null)) {
+						if (inAppBrowserEnabled && (InAppBrowserPrefab != null)) {
 							OpenInAppBrowser(url);
 						} else
 #endif
