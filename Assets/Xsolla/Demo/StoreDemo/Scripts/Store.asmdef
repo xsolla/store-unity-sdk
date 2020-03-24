@@ -1,17 +1,12 @@
 {
-    "name": "EditMode",
+    "name": "Store",
     "references": [
         "Core",
         "CommonAssembly",
-        "Login",
-        "Store"
+        "Login"
     ],
-    "optionalUnityReferences": [
-        "TestAssemblies"
-    ],
-    "includePlatforms": [
-        "Editor"
-    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
