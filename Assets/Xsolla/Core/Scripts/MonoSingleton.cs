@@ -51,6 +51,12 @@ namespace Xsolla.Core
 			return instance.AddComponent<T>();
 		}
 
+		public static bool IsExist {
+			get {
+				return _instance != null;
+			}
+		}
+
 		// If no other MonoBehaviour request the instance in an awake function
 		// executing before this one, no need to search the object.
 		void Awake()

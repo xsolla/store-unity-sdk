@@ -57,17 +57,23 @@ public class LoginPage : Page, ILogin
         if (XsollaSettings.IsShadow) {
             int datetime = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
             int r = new System.Random().Next();
-            XsollaLogin.Instance.ShadowAccountUserID = "sdk_temp_user_id_" + r.ToString() + "_" + datetime.ToString();
+            string appendix = r.ToString() + "_" + datetime.ToString();
+            XsollaLogin.Instance.ShadowAccountUserID = "sdk_temp_user_id_" + appendix;
+            XsollaLogin.Instance.ShadowAccountPlatform = "sdk_test_platform_" + appendix;
 
             bool busy = true;
-            XsollaLogin.Instance.SignInShadowAccount(XsollaLogin.Instance.ShadowAccountUserID, (string token) => {
-                XsollaLogin.Instance.Token = token;
-                SceneManager.LoadScene("Store");
-                busy = false;
-            }, (Error error) => {
-                OnUnsuccessfulLogin?.Invoke(error);
-                busy = false;
-            });
+            XsollaLogin.Instance.SignInShadowAccount(
+				XsollaLogin.Instance.ShadowAccountUserID,
+				XsollaLogin.Instance.ShadowAccountPlatform,
+				(string token) => {
+					XsollaLogin.Instance.Token = token;
+					SceneManager.LoadScene("Store");
+					busy = false;
+				},
+				(Error error) => {
+					OnUnsuccessfulLogin?.Invoke(error);
+					busy = false;
+				});
             yield return new WaitWhile(() => busy);
         } else {
             StartCoroutine(TryAuthWithLauncherToken());

@@ -44,9 +44,9 @@ namespace Xsolla.Login
 			WebRequestHelper.Instance.PostRequest<ResetPassword>(url, new ResetPassword(username), onSuccess, onError, Error.ResetPasswordErrors);
 		}
 
-		public void SignInShadowAccount(string userId, Action<string> successCase, Action<Error> failedCase)
+		public void SignInShadowAccount(string userId, string platform, Action<string> successCase, Action<Error> failedCase)
 		{
-			string url = URL_USER_SHADOW + "?user_id=" + userId;
+			string url = URL_USER_SHADOW + "?user_id=" + userId + "&platform=" + platform;
 			WebRequestHelper.Instance.GetRequest(url, null, (Token result) => { successCase?.Invoke(result.token); }, failedCase);
 		}
 
@@ -89,9 +89,9 @@ namespace Xsolla.Login
 			WebRequestHelper.Instance.PostRequest<LinkingCode>(URL_LINKING_CODE_REQUEST, headers, onSuccess, onError, Error.ResetPasswordErrors);
 		}
 
-		public void LinkAccount(string userId, string confirmationCode, Action onSuccess, Action<Error> onError)
+		public void LinkAccount(string userId, string platform, string confirmationCode, Action onSuccess, Action<Error> onError)
 		{
-			string url = URL_LINK_ACCOUNT + "?user_id=" + userId + "&code=" + confirmationCode;
+			string url = URL_LINK_ACCOUNT + "?user_id=" + userId + "&platform=" + platform + "&code=" + confirmationCode;
 			WebRequestHelper.Instance.PostRequest(url, null, onSuccess, onError);
 		}
 	}
