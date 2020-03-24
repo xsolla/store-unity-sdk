@@ -5,12 +5,17 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Toggle))]
 public class VisualizeToggle : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
-    [SerializeField] private Image target_Image;
-    private Toggle target_Toggle;
+    [SerializeField] Image target_Image;
+    Toggle target_Toggle;
 
-    [SerializeField] private Sprite selected_Sprite;
-    [SerializeField] private Sprite deselected_Sprite;
-    [SerializeField] private Sprite hover_Sprite;
+    [SerializeField] Text terget_Text;
+
+    [SerializeField] Sprite selected_Sprite;
+    [SerializeField] Sprite deselected_Sprite;
+    [SerializeField] Sprite hover_Sprite;
+    
+    [SerializeField] Color normal_Color;
+    [SerializeField] Color hover_Color;
 
     private void Awake()
     {
@@ -20,12 +25,16 @@ public class VisualizeToggle : MonoBehaviour, IPointerEnterHandler, IPointerExit
     {
         if (!target_Toggle.isOn)
             target_Image.sprite = deselected_Sprite;
+        
+        terget_Text.color = normal_Color;
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (!target_Toggle.isOn)
             target_Image.sprite = hover_Sprite;
+        
+        terget_Text.color = hover_Color;
     }
 
     public void OnPointerClick(PointerEventData eventData)

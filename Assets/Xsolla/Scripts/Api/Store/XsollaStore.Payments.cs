@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Text;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -20,7 +20,8 @@ namespace Xsolla.Store
 		public void BuyItem(string projectId, string itemId, [CanBeNull] Action<PurchaseData> onSuccess, [CanBeNull] Action<Error> onError, PurchaseParams purchaseParams = null)
 		{
 			TempPurchaseParams tempPurchaseParams = new TempPurchaseParams {
-				sandbox = XsollaSettings.IsSandbox
+				sandbox = XsollaSettings.IsSandbox,
+				settings = new TempPurchaseParams.Settings(XsollaSettings.PaystationTheme)
 			};
 
 			var urlBuilder = new StringBuilder(string.Format(URL_BUY_ITEM, projectId, itemId)).Append(AdditionalUrlParams);
@@ -30,7 +31,8 @@ namespace Xsolla.Store
 		public void BuyItem(string projectId, string itemId, string priceSku, [CanBeNull] Action<PurchaseData> onSuccess, [CanBeNull] Action<Error> onError, PurchaseParams purchaseParams = null)
 		{
 			TempPurchaseParams tempPurchaseParams = new TempPurchaseParams {
-				sandbox = XsollaSettings.IsSandbox
+				sandbox = XsollaSettings.IsSandbox,
+				settings = new TempPurchaseParams.Settings(XsollaSettings.PaystationTheme)
 			};
 
 			var urlBuilder = new StringBuilder(string.Format(URL_BUY_ITEM_FOR_VC, projectId, itemId, priceSku)).Append(AdditionalUrlParams);
@@ -40,7 +42,8 @@ namespace Xsolla.Store
 		public void BuyCart(string projectId, string cartId, [CanBeNull] Action<PurchaseData> onSuccess, [CanBeNull] Action<Error> onError, PurchaseParams purchaseParams = null)
 		{
 			TempPurchaseParams tempPurchaseParams = new TempPurchaseParams {
-				sandbox = XsollaSettings.IsSandbox
+				sandbox = XsollaSettings.IsSandbox,
+				settings = new TempPurchaseParams.Settings(XsollaSettings.PaystationTheme)
 			};
 
 			var urlBuilder = new StringBuilder(string.Format(URL_BUY_CART, projectId, cartId)).Append(AdditionalUrlParams);
@@ -50,36 +53,12 @@ namespace Xsolla.Store
 		public void OpenPurchaseUi(PurchaseData purchaseData)
 		{
 			string url = (XsollaSettings.IsSandbox) ? URL_PAYSTATION_UI_IN_SANDBOX_MODE : URL_PAYSTATION_UI;
-			url += purchaseData.token;
-
-			switch(Application.platform) {
-				case RuntimePlatform.WebGLPlayer: {
-						url = string.Format("window.open(\"{0}\",\"_blank\")", url);
-						Application.ExternalEval(url);
-						break;
-					}
-				default: {
-						if((InAppBrowserPrefab != null) && (InAppBrowserParent != null)) {
-							OpenInAppBrowser(url);
-						} else {
-							Application.OpenURL(url);
-						}
-						break;
-					}
-			}
-		}
-
-		private void OpenInAppBrowser(string url)
-		{
-			GameObject browser = Instantiate(InAppBrowserPrefab, InAppBrowserParent);
-			XsollaBrowser xsollaBrowser = browser.GetComponent<XsollaBrowser>();
-			xsollaBrowser.Navigate.To(url);
+			BrowserHelper.Instance.OpenPurchase(url, purchaseData.token);
 		}
 
 		public void CheckOrderStatus(string projectId, int orderId, [NotNull] Action<OrderStatus> onSuccess, [CanBeNull] Action<Error> onError)
 		{
 			var urlBuilder = new StringBuilder(string.Format(URL_ORDER_GET_STATUS, projectId, orderId)).Append(AdditionalUrlParams);
-
 			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.OrderStatusErrors);
 		}
 	}

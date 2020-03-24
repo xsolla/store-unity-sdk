@@ -37,9 +37,6 @@ public class ItemUI : MonoBehaviour
 
 		buyButton.onClick = (() =>
 		{
-			var purchaseParams = new PurchaseParams();
-			purchaseParams.currency = _itemInformation.price.currency;
-
 			if (_itemInformation.virtual_prices.Any()) {
 				_storeController.ShowConfirm(
 					() => {
@@ -112,6 +109,23 @@ public class ItemUI : MonoBehaviour
 		itemDescription.text = _itemInformation.description;
 	}
 
+	public string GetSku()
+	{
+		return _itemInformation.sku;
+	}
+
+	public bool IsConsumable()
+	{
+		return _itemInformation.inventory_options.consumable != null;
+	}
+
+	public void Lock()
+	{
+		buyButton.Text = "Purchased";
+		buyButton.Lock();
+		addToCartButton.gameObject.SetActive(false);
+	}
+
 	StoreItem.VirtualPrice GetVirtualPrice()
 	{
 		List<StoreItem.VirtualPrice> prices = _itemInformation.virtual_prices.ToList();
@@ -132,7 +146,7 @@ public class ItemUI : MonoBehaviour
 	{
 		if (_itemImage == null && !string.IsNullOrEmpty(_itemInformation.image_url))
 		{
-			_storeController.GetImageAsync(_itemInformation.image_url, LoadImageCallback);
+			ImageLoader.Instance.GetImageAsync(_itemInformation.image_url, LoadImageCallback);
 		}
 	}
 

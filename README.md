@@ -6,6 +6,24 @@
 * Xsolla Store Unity SDK
 * Xsolla Pay Station Unity SDK
 
+## WebGL
+
+[Unity WebGL docs](https://docs.unity3d.com/Manual/webgl-interactingwithbrowserscripting.html)
+
+[Xsolla PayStation script docs](https://developers.xsolla.com/doc/pay-station/#guides_pay_station_pay_station_embed)
+
+[Xsolla PayStation additional info](https://developers.xsolla.com/api/v2/pay-station/#api_payment_ui_events)
+
+**WebGL Getting Started**
+* Download branch named as "feat/WebPaystation"
+* Add scenes to build if it not exist
+* Switch build settings to WebGL
+* Build it and run as you want
+
+**NOTE:**
+* LoginAPI support CORS. So you need change CORS settings in `Publisher Account`.
+* Don`t maximize UnityWebPlayer's window - you don't see other IFrame with Paystation.
+
 ## System Requirements
 
 * 64-bit OS

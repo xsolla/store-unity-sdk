@@ -1,8 +1,8 @@
 ﻿using System;
 using UnityEngine;
 using System.Text;
-using JetBrains.Annotations;
 using Xsolla.Core;
+using System.Collections.Generic;
 
 namespace Xsolla.Login
 {
@@ -11,6 +11,9 @@ namespace Xsolla.Login
 		private const string URL_USER_REGISTRATION = "https://login.xsolla.com/api/{0}?projectId={1}&login_url={2}";
 		private const string URL_USER_SIGNIN = "https://login.xsolla.com/api/{0}login?projectId={1}&login_url={2}";
 		private const string URL_PASSWORD_RESET = "https://login.xsolla.com/api/{0}?projectId={1}";
+		private const string URL_LINKING_CODE_REQUEST = "https://login.xsolla.com/api/users/account/code";
+		private const string URL_USER_SHADOW = "https://livedemo.xsolla.com/sdk/shadow_account/auth";
+		private const string URL_LINK_ACCOUNT = "https://livedemo.xsolla.com/sdk/shadow_account/link";
 
 		private string GetUrl(string url, string proxy, bool useCallback = true)
 		{
@@ -23,25 +26,31 @@ namespace Xsolla.Login
 			return urlBuilder.ToString();
 		}
 
-		public void Registration(string username, string password, string email, Action onSuccess, Action<Core.Error> onError)
+		public void Registration(string username, string password, string email, Action onSuccess, Action<Error> onError)
 		{
 			var registrationData = new RegistrationJson(username, password, email);
 			
 			string proxy = XsollaSettings.UseProxy ? "proxy/registration" : "user";
 			string url = GetUrl(URL_USER_REGISTRATION, proxy);
 
-			WebRequestHelper.Instance.PostRequest<RegistrationJson>(url, registrationData, onSuccess, onError, Core.Error.RegistrationErrors);
+			WebRequestHelper.Instance.PostRequest<RegistrationJson>(url, registrationData, onSuccess, onError, Error.RegistrationErrors);
 		}
 
-		public void ResetPassword(string username, Action onSuccess, Action<Xsolla.Core.Error> onError)
+		public void ResetPassword(string username, Action onSuccess, Action<Error> onError)
 		{
 			string proxy = XsollaSettings.UseProxy ? "proxy/registration/password/reset" : "password/reset/request";
 			string url = GetUrl(URL_PASSWORD_RESET, proxy, false);
 			
-			WebRequestHelper.Instance.PostRequest<ResetPassword>(url, new ResetPassword(username), onSuccess, onError, Core.Error.ResetPasswordErrors);
+			WebRequestHelper.Instance.PostRequest<ResetPassword>(url, new ResetPassword(username), onSuccess, onError, Error.ResetPasswordErrors);
 		}
-		
-		public void SignIn(string username, string password, bool rememberUser, Action<User> onSuccess, Action<Core.Error> onError)
+
+		public void SignInShadowAccount(string userId, string platform, Action<string> successCase, Action<Error> failedCase)
+		{
+			string url = URL_USER_SHADOW + "?user_id=" + userId + "&platform=" + platform;
+			WebRequestHelper.Instance.GetRequest(url, null, (Token result) => { successCase?.Invoke(result.token); }, failedCase);
+		}
+
+		public void SignIn(string username, string password, bool rememberUser, Action<User> onSuccess, Action<Error> onError)
 		{
 			var loginData = new LoginJson(username, password, rememberUser);
 			
@@ -61,7 +70,7 @@ namespace Xsolla.Login
 				} else {
 					onSuccess?.Invoke(new User());
 				}
-			}, onError, Core.Error.LoginErrors);
+			}, onError, Error.LoginErrors);
 		}
 
 		public void SignOut()
@@ -70,6 +79,20 @@ namespace Xsolla.Login
 				PlayerPrefs.DeleteKey(Constants.XsollaLoginToken);
 			if (PlayerPrefs.HasKey(Constants.XsollaLoginTokenExp))
 				PlayerPrefs.DeleteKey(Constants.XsollaLoginTokenExp);
+		}
+
+		public void RequestLinkingCode(Action<LinkingCode> onSuccess, Action<Error> onError)
+		{
+			List<WebRequestHeader> headers = new List<WebRequestHeader> {
+				WebRequestHeader.AuthHeader(Token)
+			};
+			WebRequestHelper.Instance.PostRequest<LinkingCode>(URL_LINKING_CODE_REQUEST, headers, onSuccess, onError, Error.ResetPasswordErrors);
+		}
+
+		public void LinkAccount(string userId, string platform, string confirmationCode, Action onSuccess, Action<Error> onError)
+		{
+			string url = URL_LINK_ACCOUNT + "?user_id=" + userId + "&platform=" + platform + "&code=" + confirmationCode;
+			WebRequestHelper.Instance.PostRequest(url, null, onSuccess, onError);
 		}
 	}
 }

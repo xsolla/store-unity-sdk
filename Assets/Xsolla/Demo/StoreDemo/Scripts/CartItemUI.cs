@@ -59,7 +59,7 @@ public class CartItemUI : MonoBehaviour
 		
 		if (_loadingRoutine == null && itemImage.sprite == null && _itemInformation.ImgUrl != "")
 		{
-			storeController.GetImageAsync(_itemInformation.ImgUrl, LoadImageCallback);
+			ImageLoader.Instance.GetImageAsync(_itemInformation.ImgUrl, LoadImageCallback);
 		}
 	}
 

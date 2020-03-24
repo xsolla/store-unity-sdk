@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Xsolla.Core;
 
 public class MenuButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler, IPointerUpHandler, IDragHandler
 {
@@ -35,12 +36,24 @@ public class MenuButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 	bool _isSelected;
 
 	public Action<string> onClick;
-	
-	string _buttonId;
+	private DateTime lastClick;
+	private float rateLimitMs = Constants.DefaultButtonRateLimitMs;
+
+	string _buttonId = "";
 
 	void Awake()
 	{
 		_image = GetComponent<Image>();
+		lastClick = DateTime.MinValue;
+	}
+
+	private void PerformClickEvent()
+	{
+		TimeSpan ts = DateTime.Now - lastClick;
+		if(ts.TotalMilliseconds > rateLimitMs) {
+			lastClick += ts;
+			onClick?.Invoke(_buttonId);
+		}
 	}
 
 	public void Select(bool triggerClickEvent = true)
@@ -48,9 +61,9 @@ public class MenuButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 		_isSelected = true;
 		_isClickInProgress = false;
 		
-		if (onClick != null && triggerClickEvent)
+		if (triggerClickEvent)
 		{
-			onClick.Invoke(_buttonId);
+			PerformClickEvent();
 		}
 		
 		OnSelected();
@@ -136,11 +149,8 @@ public class MenuButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 			_isSelected = true;
 			
 			OnSelected();
-			
-			if (onClick != null)
-			{
-				onClick.Invoke(_buttonId);
-			}
+
+			PerformClickEvent();
 		}
 		
 		_isClickInProgress = false;

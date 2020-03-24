@@ -1,5 +1,6 @@
 ﻿using UnityEditor;
 using UnityEngine;
+using Xsolla.PayStation;
 
 namespace Xsolla.Core
 {
@@ -28,6 +29,7 @@ namespace Xsolla.Core
 				XsollaSettings.JwtValidationUrl = EditorGUILayout.TextField(new GUIContent("JWT validation URL [?]", JwtValidationUrlTooltip),  XsollaSettings.JwtValidationUrl);
 				XsollaSettings.UseProxy = EditorGUILayout.Toggle("Enable proxy?", XsollaSettings.UseProxy);
 				XsollaSettings.CallbackUrl = EditorGUILayout.TextField(new GUIContent("Callback URL [?]", CallbackUrlTooltip),  XsollaSettings.CallbackUrl);
+				XsollaSettings.IsShadow = EditorGUILayout.Toggle("Shadow build?", XsollaSettings.IsShadow);
 			}
       
 			EditorGUILayout.Space();
@@ -45,8 +47,10 @@ namespace Xsolla.Core
 			using (new EditorGUILayout.VerticalScope("box"))
 			{
 				GUILayout.Label("PayStation SDK Settings", EditorStyles.boldLabel);
-				
+
+				XsollaSettings.PaystationTheme = (PaystationTheme)EditorGUILayout.EnumPopup("Paystation theme", XsollaSettings.PaystationTheme);
 				XsollaSettings.PayStationTokenRequestUrl = EditorGUILayout.TextField(new GUIContent("Token request URL"),  XsollaSettings.PayStationTokenRequestUrl);
+				XsollaSettings.InAppBrowserEnabled = EditorGUILayout.Toggle("Enable in-app browser?", XsollaSettings.InAppBrowserEnabled);
 			}
       
 			EditorGUILayout.Space();

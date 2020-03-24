@@ -2,6 +2,7 @@
 using System.Text.RegularExpressions;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using UnityEngine;
 
 
@@ -26,6 +27,12 @@ namespace Xsolla.Core
 		
 		public static Error ParseError(string json)
 		{
+			if (JsonConvert.DeserializeObject(json) is JArray)
+			{
+				// if json is a simple array return null to avoid raising exception while trying to parse it as an error
+				return null;
+			}
+			
 			Error storeError = FromJson<Error>(json);
 			if((storeError == null) || (!storeError.IsValid())) {
 				Error.Login loginError = FromJson<Error.Login>(json);
