@@ -41,8 +41,9 @@ public class StoreController : MonoBehaviour
 		_groupsController = FindObjectOfType<GroupsController>();
 		_itemsController = FindObjectOfType<ItemsController>();
 		_extraController = FindObjectOfType<ExtraController>();
+		_extraController.LinkingAccountComplete += _extraController_LinkingAccountComplete;
 		_itemsTabControl = FindObjectOfType<ItemsTabControl>();
-		
+
 		CartModel = new CartModel();
 		
 		ItemIcons = new Dictionary<string, Sprite>();
@@ -61,9 +62,15 @@ public class StoreController : MonoBehaviour
 		StartCoroutine(LockPurchasedNonConsumableItemsCoroutine());
 	}
 
+	private void _extraController_LinkingAccountComplete()
+	{
+		RefreshInventory();
+		RefreshVirtualCurrencyBalance();
+	}
+
 	private void CheckAuth()
 	{
-		if (FindObjectOfType<XsollaLogin>() != null) {
+		if (XsollaLogin.IsExist) {
 			print("Store demo starts. Use token obtained from Login: " + XsollaLogin.Instance.Token);
 			XsollaStore.Instance.Token = XsollaLogin.Instance.Token;
 		} else {

@@ -44,8 +44,12 @@ public class ExtraPanelAccountButtons : MonoBehaviour
 		var accountLinkingButtonComponent = accountLinkingButton.GetComponent<SimpleTextButton>();
 		accountLinkingButtonComponent.onClick = () => {
 			ShowCodeConfirmation((string code) => {
-				XsollaLogin.Instance.LinkAccount(XsollaLogin.Instance.ShadowAccountUserID, code,
-				LinkingAccountHandler, ShowError);
+				XsollaLogin.Instance.LinkAccount(
+					XsollaLogin.Instance.ShadowAccountUserID,
+					XsollaLogin.Instance.ShadowAccountPlatform,
+					code,
+					LinkingAccountHandler,
+					ShowError);
 			});
 			OpenUrlEvent?.Invoke(URL_MASTER_ACCOUNT);
 		};
@@ -56,6 +60,7 @@ public class ExtraPanelAccountButtons : MonoBehaviour
 		PopupFactory.Instance.CreateSuccess();
 		XsollaLogin.Instance.SignInShadowAccount(
 			XsollaLogin.Instance.ShadowAccountUserID,
+			XsollaLogin.Instance.ShadowAccountPlatform,
 			ReloginWithShadowAccountCallback,
 			ShowError
 		);
