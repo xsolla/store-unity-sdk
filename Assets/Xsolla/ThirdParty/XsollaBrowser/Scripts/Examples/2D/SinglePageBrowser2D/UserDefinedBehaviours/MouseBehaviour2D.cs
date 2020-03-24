@@ -1,6 +1,6 @@
-﻿using UnityEngine;
+﻿#if (UNITY_EDITOR || UNITY_STANDALONE)
+using UnityEngine;
 using System.Collections;
-using System.Drawing;
 using UnityEngine.EventSystems;
 using System;
 
@@ -68,7 +68,7 @@ public class MouseBehaviour2D : MonoBehaviour,
 
     IEnumerator Display2DInitializationCoroutine()
     {
-        yield return new WaitWhile(() => display.ViewportSize.IsEmpty); 
+        yield return new WaitWhile(() => (display.Width == 0) || (display.Height == 0)); 
     }
 
 	IEnumerator MouseMovementCoroutine(Vector2 lastPosition, Vector2 mousePosition, Action<Vector2> callback = null)
@@ -100,13 +100,12 @@ public class MouseBehaviour2D : MonoBehaviour,
     Vector2 ConvertCoordinatesToPixels(Vector3 mousePositionOverScreen)
 	{
         if (!mousePositionOverScreen.Equals(Vector3.zero)) {
-            PointF point = new PointF {
-                X = (mousePositionOverScreen.x / browserCollider.size.x) * display.ViewportSize.Width,
-				Y = (mousePositionOverScreen.y / browserCollider.size.y) * display.ViewportSize.Height
-			};
-            point.Y = display.ViewportSize.Height - point.Y; // Because browser's axis are differs from Unity's axis
-            return point.ToVector();
+            float x = (mousePositionOverScreen.x / browserCollider.size.x) * display.Width;
+            float y = (mousePositionOverScreen.y / browserCollider.size.y) * display.Height;
+            y = display.Height - y; // Because browser's axis are differs from Unity's axis
+            return new Vector2(x, y);
         }
         return Vector2.zero;
     }
 }
+#endif

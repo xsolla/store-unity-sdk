@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using System.Text;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -52,41 +53,12 @@ namespace Xsolla.Store
 		public void OpenPurchaseUi(PurchaseData purchaseData)
 		{
 			string url = (XsollaSettings.IsSandbox) ? URL_PAYSTATION_UI_IN_SANDBOX_MODE : URL_PAYSTATION_UI;
-			url += purchaseData.token;
-
-			switch(Application.platform) {
-				case RuntimePlatform.WebGLPlayer: {
-						url = string.Format("window.open(\"{0}\",\"_blank\")", url);
-						Application.ExternalEval(url);
-						break;
-					}
-				default: {
-						if(XsollaSettings.InAppBrowserEnabled && (InAppBrowserPrefab != null)) {
-							OpenInAppBrowser(url);
-						} else {
-							Application.OpenURL(url);
-						}
-						break;
-					}
-			}
-		}
-
-		private void OpenInAppBrowser(string url)
-		{
-			if(InAppBrowserObject == null) {
-				Canvas canvas = FindObjectOfType<Canvas>();
-				InAppBrowserObject = Instantiate(InAppBrowserPrefab, canvas.transform);
-				XsollaBrowser xsollaBrowser = InAppBrowserObject.GetComponent<XsollaBrowser>();
-				xsollaBrowser.Navigate.To(url);
-			} else {
-				Debug.LogError("You try create browser instance, but it already created!");
-			}
+			BrowserHelper.Instance.OpenPurchase(url, purchaseData.token);
 		}
 
 		public void CheckOrderStatus(string projectId, int orderId, [NotNull] Action<OrderStatus> onSuccess, [CanBeNull] Action<Error> onError)
 		{
 			var urlBuilder = new StringBuilder(string.Format(URL_ORDER_GET_STATUS, projectId, orderId)).Append(AdditionalUrlParams);
-
 			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.OrderStatusErrors);
 		}
 	}

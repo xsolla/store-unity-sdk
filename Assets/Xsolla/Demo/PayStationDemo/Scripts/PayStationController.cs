@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using Xsolla.Core;
+using Xsolla.Core.Popup;
 using Xsolla.PayStation;
 using Xsolla.Store;
 
@@ -13,9 +14,6 @@ public class PayStationController : MonoBehaviour
 	const string VirtualCurrencyCrystal = "crystal";
 	// SKU of virtual currency package that contains 100 crystals
 	const string CrystalPack = "crystal_pack_1";
-	
-	[SerializeField]
-	GameObject popupPrefab;
 
 	[SerializeField] SimpleTextButton buyCrystalsButton;
 	[SerializeField] Text purchaseStatusText;
@@ -24,8 +22,6 @@ public class PayStationController : MonoBehaviour
 	[SerializeField] GameObject purchaseStatusWidget;
 	
 	[SerializeField] VirtualCurrencyContainer virtualCurrencyBalanceWidget;
-	
-	MessagePopup _popup;
 
 	void Awake()
 	{
@@ -34,10 +30,7 @@ public class PayStationController : MonoBehaviour
 	}
 
 	void Init()
-	{
-		// Attach ImageLoader component to demo scene controller in order to be able to load images
-		gameObject.AddComponent<ImageLoader>();
-		
+	{		
 		// Obtain PayStation token to query store API
 		GetToken(token =>
 		{
@@ -142,7 +135,7 @@ public class PayStationController : MonoBehaviour
 			else
 			{
 				print(string.Format("Order {0} was successfully processed!", orderId));
-				ShowSuccess();
+				PopupFactory.Instance.CreateSuccess();
 				onOrderPaid?.Invoke();
 			}
 		}, ShowError);
@@ -152,20 +145,10 @@ public class PayStationController : MonoBehaviour
 	{
 		purchaseStatusText.text = string.Format("PURCHASE STATUS: {0}", status.ToString().ToUpper());
 	}
-	
-	MessagePopup PreparePopUp()
-	{
-		if (_popup == null)
-			return Instantiate(popupPrefab, gameObject.transform).GetComponent<MessagePopup>();
-		print("Popup is already shown");
-		return null;
-	}
-
-	public void ShowSuccess() => PreparePopUp()?.ShowSuccess(() => { _popup = null; });
 
 	public void ShowError(Error error)
 	{
 		print(error);
-		PreparePopUp()?.ShowError(error, () => { _popup = null; });
+		PopupFactory.Instance.CreateError().SetMessage(error.ToString());
 	}
 }

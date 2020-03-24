@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
+using Xsolla.Core;
 using Xsolla.Store;
 
 public class VirtualCurrencyBalanceUI : MonoBehaviour
@@ -14,11 +12,10 @@ public class VirtualCurrencyBalanceUI : MonoBehaviour
 
 	public void Initialize(StoreItem item)
 	{
-		ImageLoader _imageLoader = FindObjectOfType<ImageLoader>();
-		if(_imageLoader != null) {
-			_imageLoader.GetImageAsync(item.image_url, LoadImageHandler);
+		if(Image != null) {
+			ImageLoader.Instance.GetImageAsync(item.image_url, (string _, Sprite sprite) => Image.sprite = sprite);
 		} else {
-			Debug.LogWarning("ImageLoader is missing!");
+			Debug.LogWarning("Your Virtual Currency with sku = `" + item.sku + "` created without Image!");
 		}
 	}
 
@@ -26,11 +23,5 @@ public class VirtualCurrencyBalanceUI : MonoBehaviour
 	{
 		if (Text)
 			Text.text = balance.ToString();
-	}
-
-	void LoadImageHandler(string url, Sprite sprite)
-	{
-		if (Image != null)
-			Image.sprite = sprite;
 	}
 }

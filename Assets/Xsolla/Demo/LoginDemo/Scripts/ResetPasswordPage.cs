@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
+using Xsolla.Core;
 using Xsolla.Login;
 
 public class ResetPasswordPage : Page, IResetPassword
@@ -8,34 +9,8 @@ public class ResetPasswordPage : Page, IResetPassword
     [SerializeField] private InputField email_InputField;
     [SerializeField] private Button change_Btn;
 
-    public Action OnSuccessfulResetPassword
-    {
-        get
-        {
-            return onSuccessfulResetPassword;
-        }
-
-        set
-        {
-            onSuccessfulResetPassword = value;
-        }
-    }
-
-    public Action<Xsolla.Core.Error> OnUnsuccessfulResetPassword
-    {
-        get
-        {
-            return onUnsuccessfulResetPassword;
-        }
-
-        set
-        {
-            onUnsuccessfulResetPassword = value;
-        }
-    }
-
-    private Action onSuccessfulResetPassword;
-    private Action<Xsolla.Core.Error> onUnsuccessfulResetPassword;
+    public Action OnSuccessfulResetPassword { get; set; }
+    public Action<Error> OnUnsuccessfulResetPassword { get; set; }
 
     private void Awake()
     {
@@ -56,11 +31,11 @@ public class ResetPasswordPage : Page, IResetPassword
     private void SuccessfulResetPassword()
     {
         Debug.Log("Successfull reseted password");
-        if (onSuccessfulResetPassword != null)
-            onSuccessfulResetPassword.Invoke();
+        OnSuccessfulResetPassword?.Invoke();
     }
+
     public void ResetPassword()
     {
-        XsollaLogin.Instance.ResetPassword(email_InputField.text, SuccessfulResetPassword, onUnsuccessfulResetPassword);
+        XsollaLogin.Instance.ResetPassword(email_InputField.text, SuccessfulResetPassword, OnUnsuccessfulResetPassword);
     }
 }
