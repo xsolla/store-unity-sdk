@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: bd39e8750301d439dabfe08611144a68
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - BackgroundPrefab: {fileID: 8654412520265628947, guid: 6c9d3de1e49074168a6179cf6d8f5e56,
+      type: 3}
+  - SuccessPopupPrefab: {fileID: 7230472920555689135, guid: 8f55b3c5eac6545a69cf4750a07221d0,
+      type: 3}
+  - ErrorPopupPrefab: {fileID: 5620522171964096938, guid: 7065b8285d1024beaa21f0ebd14ce868,
+      type: 3}
+  - ConfirmPopupPrefab: {fileID: 7174477911243556756, guid: 06de7374ec9a645ed9933a38c3142db5,
+      type: 3}
+  - ConfirmCodePopupPrefab: {fileID: 6586058389553613290, guid: dae93ea92bd5f4742b63a78df8a49cf6,
+      type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
