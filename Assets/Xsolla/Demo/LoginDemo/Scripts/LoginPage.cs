@@ -5,6 +5,9 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Xsolla.Core;
 using Xsolla.Login;
+using Steamworks;
+using System.Text;
+using System.Linq;
 
 public class LoginPage : Page, ILogin
 {
@@ -21,7 +24,7 @@ public class LoginPage : Page, ILogin
     public Action<Error> OnUnsuccessfulLogin { get; set; }
 
     private DateTime lastClick;
-    private float rateLimitMs = Constants.LoginPageRateLimitMs;
+    private float rateLimitMs = Xsolla.Core.Constants.LoginPageRateLimitMs;
 
     void Awake()
     {
@@ -49,7 +52,41 @@ public class LoginPage : Page, ILogin
         hotkeys.EnterKeyPressedEvent += Login;
         hotkeys.TabKeyPressedEvent += ChangeFocus;
 
+        StartCoroutine(TryAuthWithSteam());
+    }
+
+	IEnumerator TryAuthWithSteam()
+	{
+        if (SteamManager.Initialized) {
+            Debug.Log("Steam initialized");
+
+			byte[] m_Ticket = new byte[1024];
+            uint m_pcbTicket;
+            HAuthTicket m_HAuthTicket = SteamUser.GetAuthSessionTicket(m_Ticket, 1024, out m_pcbTicket);
+            Array.Resize(ref m_Ticket, (int)m_pcbTicket);
+            string ticket = ConvertTicket(m_Ticket);
+
+			bool busy = true;
+            XsollaLogin.Instance.SteamAuth("480", ticket,
+                (string token) => {
+                    XsollaLogin.Instance.Token = token;
+                    SceneManager.LoadScene("Store");
+                    busy = false;
+                }, (Error error) => {
+                    busy = false;
+                });
+            yield return new WaitWhile(() => busy);
+        }
+        
         StartCoroutine(TryAuthWithShadowToken());
+        yield break;
+    }
+
+	string ConvertTicket(byte[] ticket)
+	{
+        StringBuilder sb = new StringBuilder();
+        ticket.ToList().ForEach(b => sb.AppendFormat("{0:x2}", b));
+        return sb.ToString();
     }
 
     IEnumerator TryAuthWithShadowToken()
