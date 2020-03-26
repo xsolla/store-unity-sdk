@@ -40,7 +40,7 @@ jobs:
           restore-keys: |
             Library-${{ matrix.projectPath }}-
             Library-
-      - uses: webbertakken/unity-test-runner@v1.4
+      - uses: webbertakken/unity-test-runner@v1.6
         id: tests
         with:
           projectPath: ${{ matrix.projectPath }}
