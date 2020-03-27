@@ -6,9 +6,9 @@ using Xsolla.Core;
 
 public class LauncherArguments : MonoSingleton<LauncherArguments>
 {
-    const string LauncherTokenArgName = "xsolla-login-token";
+    const string LAUNCHER_TOKEN = "xsolla-login-token";
 
-    bool invalidated = false;
+    private bool invalidated = false;
 
     public string GetToken()
 	{
@@ -19,7 +19,7 @@ public class LauncherArguments : MonoSingleton<LauncherArguments>
         args.ForEach(a => Debug.Log("Application argument: " + a));
 
         for (int i = 0; i < args.Count; i++) {
-			if(args[i].Contains(LauncherTokenArgName)) {
+			if(args[i].Contains(LAUNCHER_TOKEN)) {
 				if((i + 1) < args.Count) {
                     return args[i + 1];
                 }
