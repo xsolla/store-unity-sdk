@@ -33,7 +33,7 @@ namespace Tests
 			TestHelper helper = TestHelper.Instance;
 		
 			yield return helper.LoadScene(TestHelper.Scenes.Login);
-			yield return helper.WaitFor(1.0F);
+			yield return helper.WaitFor(1.5F);
 			helper.ClickButton(SIGNUP_BUTTON);
 			yield return helper.WaitFor(0.5F);
 			helper.SetInputField(SIGNUP_USERNAME_FIELD, "TestUsername");
@@ -43,7 +43,7 @@ namespace Tests
 			helper.SetInputField(SIGNUP_PASSWORD_FIELD, "123456");
 			yield return helper.WaitFor(0.5F);
 			helper.ClickButton(SIGNUP_CREATE_BUTTON);
-			yield return helper.WaitFor(1.0F);
+			yield return helper.WaitFor(2.5F);
 			Assert.True(GameObject.Find(POPUP_ERROR));
 			Assert.True(helper.IsScene(TestHelper.Scenes.Login));
 		
@@ -59,7 +59,7 @@ namespace Tests
 			string timeStamp = (DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds.ToString();
 			string login_value = "sdk_autotest_"+timeStamp.ToString();
 			string email_value =  timeStamp.ToString()+ "sdk_autotest@mail.ru";
-			yield return helper.WaitFor(1.0F);
+			yield return helper.WaitFor(1.5F);
 			helper.ClickButton(SIGNUP_BUTTON);
 			yield return helper.WaitFor(0.5F);
 			helper.SetInputField(SIGNUP_USERNAME_FIELD, login_value);
@@ -69,7 +69,7 @@ namespace Tests
 			helper.SetInputField(SIGNUP_PASSWORD_FIELD, "123456");
 			yield return helper.WaitFor(0.5F);
 			helper.ClickButton(SIGNUP_CREATE_BUTTON);
-			yield return helper.WaitFor(2.0F);
+			yield return helper.WaitFor(2.5F);
 			Assert.True(GameObject.Find(POPUP_SUCCESS));
 			Assert.True(helper.IsScene(TestHelper.Scenes.Login));
 			

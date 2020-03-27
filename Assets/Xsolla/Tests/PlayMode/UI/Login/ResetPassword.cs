@@ -24,13 +24,13 @@ namespace Tests
 
             TestHelper helper = TestHelper.Instance;
             yield return helper.LoadScene(TestHelper.Scenes.Login);
-            yield return helper.WaitFor(1.4F);
+            yield return helper.WaitFor(2.5F);
             helper.ClickButton(RESET_URL);
-            yield return helper.WaitFor(0.6F);
+            yield return helper.WaitFor(1.2F);
             helper.SetInputField(RESET_FIELD, "TestReset@mail.ru");
             yield return helper.WaitFor(0.6F);
             helper.ClickButton(RESET_URL);
-            yield return helper.WaitFor(1.0F);
+            yield return helper.WaitFor(1.5F);
             Assert.True(GameObject.Find(POPUP_SUCCESS));
             Assert.True(helper.IsScene(TestHelper.Scenes.Login));
         }

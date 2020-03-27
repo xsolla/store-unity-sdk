@@ -41,7 +41,7 @@ namespace Tests
      
             TestHelper helper = TestHelper.Instance;
             yield return helper.LoadScene(TestHelper.Scenes.Login);
-            yield return helper.WaitFor(1.0F);
+            yield return helper.WaitFor(3.0F);
             helper.SetInputField(USERNAME_FIELD, "test123");
             helper.SetInputField(USERPASSWORD_FIELD, "232324");
             yield return helper.WaitFor(0.01F);
@@ -49,7 +49,7 @@ namespace Tests
             yield return helper.WaitFor(1.5F);
             Assert.True(GameObject.Find(POPUP_ERROR));
             Assert.True(helper.IsScene(TestHelper.Scenes.Login));
-            yield return helper.WaitFor(1.0F);
+            yield return helper.WaitFor(1.5F);
         }
     }
 }
