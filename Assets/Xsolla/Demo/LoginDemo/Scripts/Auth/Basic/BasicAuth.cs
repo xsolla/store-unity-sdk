@@ -12,7 +12,7 @@ public class BasicAuth : MonoBehaviour, ILoginAuthorization
     public Action<string> OnSuccess { get; set; }
 	public Action OnFailed { get; set; }
 
-	public event Action<User> UserAuthEvent;
+	public event Action UserAuthEvent;
     public event Action<Error> UserAuthErrorEvent;
 
     private BasicAuthButton loginButton;
@@ -80,18 +80,12 @@ public class BasicAuth : MonoBehaviour, ILoginAuthorization
         OnFailed?.Invoke();
 	}
 
-    private void BasicAuthSuccess(User user)
+    private void BasicAuthSuccess()
     {
-        if (XsollaLogin.Instance.IsTokenValid && XsollaSettings.UseJwtValidation) {
-            Debug.Log(string.Format("Your token {0} is active", XsollaLogin.Instance.Token));
-        } else if (!XsollaSettings.UseJwtValidation) {
-            Debug.Log("Unsafe signed in");
-        }
-
         if ((XsollaSettings.LoginId == DefaultLoginId) || (XsollaSettings.StoreProjectId == DefaultStoreProjectId)) {
             OnSuccess?.Invoke(XsollaLogin.Instance.Token);
         } else {
-            UserAuthEvent?.Invoke(user);
+            UserAuthEvent?.Invoke();
         }
     }
 }

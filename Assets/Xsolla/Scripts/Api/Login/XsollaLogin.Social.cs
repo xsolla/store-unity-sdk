@@ -17,7 +17,7 @@ namespace Xsolla.Login
 			url += "?projectId=" + XsollaSettings.LoginId;
 			url += "&app_id=" + appId;
 			url += "&session_ticket=" + sessionTicket;
-			WebRequestHelper.Instance.GetRequest<Token>(url, null, (Token token) => success?.Invoke(token.token), failed);
+			WebRequestHelper.Instance.GetRequest<TokenEntity>(url, null, (TokenEntity token) => success?.Invoke(token.token), failed);
 		}
 	}
 }

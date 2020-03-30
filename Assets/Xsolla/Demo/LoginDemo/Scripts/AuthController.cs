@@ -35,7 +35,7 @@ public class AuthController : MonoBehaviour
         };
         resetPassword_Panel.GetComponent<IResetPassword>().OnUnsuccessfulResetPassword = OnError;
         login_Panel.GetComponent<ILogin>().OnUnsuccessfulLogin = OnError;
-        login_Panel.GetComponent<ILogin>().OnSuccessfulLogin = (user) => OpenPopUp("You have successfully logged in", PopUpWindows.Success);
+        login_Panel.GetComponent<ILogin>().OnSuccessfulLogin = () => OpenPopUp("You have successfully logged in", PopUpWindows.Success);
     }
     
     private void PagesController()
@@ -112,7 +112,7 @@ public class AuthController : MonoBehaviour
             OpenPopUp("Xsolla Login settings not completed", PopUpWindows.Warning);
             Debug.Log("Please register Xsolla Publisher Account, and fill the Login ID form. For more details read documentation.\nhttps://github.com/xsolla/login-unity-sdk/blob/master/README.md");
         }
-        else if (XsollaLogin.Instance.IsTokenValid)
+        else if ((XsollaLogin.Instance.Token != null) && !XsollaLogin.Instance.Token.IsExpired())
             Debug.Log(string.Format("Your token {0} is active", XsollaLogin.Instance.Token));
     }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.IdentityModel.JsonWebTokens;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -15,10 +16,15 @@ public class LoginPage : Page, ILogin
 
     private BasicAuth basicAuth;
 
-    public Action<User> OnSuccessfulLogin { get; set; }
+    public Action OnSuccessfulLogin { get; set; }
     public Action<Error> OnUnsuccessfulLogin { get; set; }
 
 	public void Login() => basicAuth?.SoftwareAuth();
+
+	void Awake()
+	{
+        XsollaLogin.Instance.Token = null;
+    }
 
     void Start()
     {
@@ -46,7 +52,7 @@ public class LoginPage : Page, ILogin
     private void ShadowAuthFailed()
     {
 		basicAuth = TryAuthBy<BasicAuth>().SetLoginButton(login_Btn);
-        basicAuth.UserAuthEvent += (User user) => OnSuccessfulLogin?.Invoke(user);
+        basicAuth.UserAuthEvent += () => OnSuccessfulLogin?.Invoke();
         basicAuth.UserAuthErrorEvent += (Error error) => OnUnsuccessfulLogin?.Invoke(error);
 
         ConfigBaseAuth();
@@ -62,8 +68,22 @@ public class LoginPage : Page, ILogin
 
     private void SuccessAuthorization(string token)
 	{
-        XsollaLogin.Instance.Token = token;
-        SceneManager.LoadScene("Store");
+        ValidateToken(token, () => {
+            XsollaLogin.Instance.Token = token;
+            Debug.Log(string.Format("Your token: {0}", token));
+            SceneManager.LoadScene("Store");
+        }, OnUnsuccessfulLogin);
+    }
+
+	private void ValidateToken(string token, Action onSuccess, Action<Error> onFailed)
+	{
+        XsollaLogin.Instance.GetUserInfo(token, _ => {
+            Debug.Log("Validation success");
+            onSuccess?.Invoke();
+        }, (Error error) => {
+            Debug.LogWarning("Get UserInfo failed!");
+            onFailed?.Invoke(error);
+        });
     }
 
 	private void ConfigBaseAuth()

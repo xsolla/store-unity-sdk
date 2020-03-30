@@ -3,7 +3,7 @@
 namespace Xsolla.Login
 {
 	[Serializable]
-	public class Token
+	public class TokenEntity
 	{
 		public string token;
 	}

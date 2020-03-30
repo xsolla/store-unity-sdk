@@ -70,17 +70,16 @@ public class StoreController : MonoBehaviour
 
 	private void CheckAuth()
 	{
-		if (XsollaLogin.IsExist) {
+		if (XsollaLogin.IsExist && !XsollaLogin.Instance.Token.IsNullOrEmpty()) {
 			print("Store demo starts. Use token obtained from Login: " + XsollaLogin.Instance.Token);
 			XsollaStore.Instance.Token = XsollaLogin.Instance.Token;
 		} else {
-			string launcherToken = LauncherArguments.Instance.GetToken();
-			if (!string.IsNullOrEmpty(launcherToken)) {
-				print("Store demo starts. Use token obtained from Launcher: " + launcherToken);
-				XsollaStore.Instance.Token = launcherToken;
-			} else {
-				print("Store demo starts. Use default hardcoded token: " + DefaultStoreToken);
+			XsollaStore.Instance.Token = LauncherArguments.Instance.GetToken();
+			if (XsollaStore.Instance.Token.IsNullOrEmpty()) {
 				XsollaStore.Instance.Token = DefaultStoreToken;
+				print("Store demo starts. Use default hardcoded token: " + XsollaStore.Instance.Token);
+			} else {
+				print("Store demo starts. Use token obtained from Launcher: " + XsollaStore.Instance.Token);
 			}
 		}
 	}
