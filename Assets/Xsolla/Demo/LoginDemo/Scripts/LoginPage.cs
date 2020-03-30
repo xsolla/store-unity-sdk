@@ -35,7 +35,11 @@ public class LoginPage : Page, ILogin
 
 	private void LauncherAuthFailed()
     {
-        TryAuthBy<SteamAuth>(SteamAuthFailed);
+		if (XsollaSettings.UseSteamAuth) {
+            TryAuthBy<SteamAuth>(SteamAuthFailed);
+        } else {
+            TryAuthBy<ShadowAuth>(ShadowAuthFailed);
+        }        
     }
 
     private void SteamAuthFailed()
