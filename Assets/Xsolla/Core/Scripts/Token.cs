@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.IdentityModel.JsonWebTokens;
 
 namespace Xsolla.Core
@@ -6,9 +7,32 @@ namespace Xsolla.Core
 	public class Token : JsonWebToken
 	{
 		const string EXPIRATION_UNIX_TIME_PARAMETER = "exp";
+		const string USER_ID_URL_PARAMETER = "id";
+		const string CROSS_AUTH_PARAMETER = "is_cross_auth";
+
+		public bool FromSteam { get; set; }
 
 		public Token(string encodedToken) : base(encodedToken)
-		{}
+		{
+			FromSteam = false;
+		}
+
+		public string GetSteamUserID()
+		{
+			if (!IsCrossAuth()) {
+				return string.Empty;
+			}
+			string steamUserUrl = GetPayloadValue<string>(USER_ID_URL_PARAMETER);
+			if (string.IsNullOrEmpty(steamUserUrl)) {
+				return string.Empty;
+			}
+			return steamUserUrl.Split('/').ToList().Last();
+		}
+
+		private bool IsCrossAuth()
+		{
+			return GetPayloadValue<bool>(CROSS_AUTH_PARAMETER);
+		}
 
 		public bool IsExpired()
 		{
