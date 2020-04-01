@@ -18,10 +18,6 @@ namespace Xsolla.Core
 		[SerializeField]
 		bool useSteamAuth = true;
 		[SerializeField]
-		bool useJwtValidation;
-		[SerializeField]
-		string jwtValidationUrl;
-		[SerializeField]
 		bool useProxy;
 		[SerializeField]
 		string callbackUrl;
@@ -54,26 +50,6 @@ namespace Xsolla.Core
 			get { return Instance.useSteamAuth; }
 			set {
 				Instance.useSteamAuth = value;
-				MarkAssetDirty();
-			}
-		}
-
-		public static bool UseJwtValidation
-		{
-			get { return Instance.useJwtValidation; }
-			set
-			{
-				Instance.useJwtValidation = value;
-				MarkAssetDirty();
-			}
-		}
-
-		public static string JwtValidationUrl
-		{
-			get { return Instance.jwtValidationUrl; }
-			set
-			{
-				Instance.jwtValidationUrl = value;
 				MarkAssetDirty();
 			}
 		}

@@ -16,8 +16,6 @@ public class LauncherArguments : MonoSingleton<LauncherArguments>
             return "";
 		}
         List<string> args = Environment.GetCommandLineArgs().ToList();
-        args.ForEach(a => Debug.Log("Application argument: " + a));
-
         for (int i = 0; i < args.Count; i++) {
 			if(args[i].Contains(LAUNCHER_TOKEN)) {
 				if((i + 1) < args.Count) {

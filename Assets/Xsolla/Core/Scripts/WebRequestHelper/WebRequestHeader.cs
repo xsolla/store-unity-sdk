@@ -24,5 +24,10 @@
 		{
 			return new WebRequestHeader {Name = "Accept", Value = "application/json"};
 		}
+
+		public static WebRequestHeader SteamPaymentHeader(string steamUserId)
+		{
+			return new WebRequestHeader { Name = "x-steam-userid", Value = steamUserId };
+		}
 	}
 }

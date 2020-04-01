@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.IdentityModel.JsonWebTokens;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -15,10 +16,15 @@ public class LoginPage : Page, ILogin
 
     private BasicAuth basicAuth;
 
-    public Action<User> OnSuccessfulLogin { get; set; }
+    public Action OnSuccessfulLogin { get; set; }
     public Action<Error> OnUnsuccessfulLogin { get; set; }
 
 	public void Login() => basicAuth?.SoftwareAuth();
+
+	void Awake()
+	{
+        XsollaLogin.Instance.Token = null;
+    }
 
     void Start()
     {
@@ -36,7 +42,7 @@ public class LoginPage : Page, ILogin
 	private void LauncherAuthFailed()
     {
 		if (XsollaSettings.UseSteamAuth) {
-            TryAuthBy<SteamAuth>(SteamAuthFailed);
+            TryAuthBy<SteamAuth>(SteamAuthFailed, (Token token) => token.FromSteam = true);
         } else {
             TryAuthBy<ShadowAuth>(ShadowAuthFailed);
         }        
@@ -50,24 +56,41 @@ public class LoginPage : Page, ILogin
     private void ShadowAuthFailed()
     {
 		basicAuth = TryAuthBy<BasicAuth>().SetLoginButton(login_Btn);
-        basicAuth.UserAuthEvent += (User user) => OnSuccessfulLogin?.Invoke(user);
+        basicAuth.UserAuthEvent += () => OnSuccessfulLogin?.Invoke();
         basicAuth.UserAuthErrorEvent += (Error error) => OnUnsuccessfulLogin?.Invoke(error);
 
         ConfigBaseAuth();
     }
 
-    private T TryAuthBy<T>(Action onFailed = null) where T: MonoBehaviour, ILoginAuthorization
+    private T TryAuthBy<T>(Action onFailed = null, Action<Token> success = null) where T: MonoBehaviour, ILoginAuthorization
 	{
         T auth = gameObject.AddComponent<T>();
-        auth.OnSuccess = SuccessAuthorization;
+        auth.OnSuccess = (string token) => SuccessAuthorization(token, success);
         auth.OnFailed = onFailed;
         return auth;
     }
 
-    private void SuccessAuthorization(string token)
+    private void SuccessAuthorization(string token, Action<Token> success = null)
 	{
-        XsollaLogin.Instance.Token = token;
-        SceneManager.LoadScene("Store");
+        ValidateToken(token, () => {
+            XsollaLogin.Instance.Token = token;
+            success?.Invoke(XsollaLogin.Instance.Token);
+            Debug.Log(string.Format("Your token: {0}", token));
+            SceneManager.LoadScene("Store");
+        }, OnUnsuccessfulLogin);
+    }
+
+
+
+	private void ValidateToken(string token, Action onSuccess, Action<Error> onFailed)
+	{
+        XsollaLogin.Instance.GetUserInfo(token, _ => {
+            Debug.Log("Validation success");
+            onSuccess?.Invoke();
+        }, (Error error) => {
+            Debug.LogWarning("Get UserInfo failed!");
+            onFailed?.Invoke(error);
+        });
     }
 
 	private void ConfigBaseAuth()

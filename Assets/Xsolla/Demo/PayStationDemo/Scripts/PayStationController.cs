@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Xsolla.Core;
 using Xsolla.Core.Popup;
+using Xsolla.Login;
 using Xsolla.PayStation;
 using Xsolla.Store;
 
@@ -43,7 +44,7 @@ public class PayStationController : MonoBehaviour
 		AddListeners();
 	}
 
-	void GetToken(Action<Token> onComplete)
+	void GetToken(Action<TokenEntity> onComplete)
 	{
 		XsollaPayStation.Instance.RequestToken(onComplete, ShowError);
 	}
