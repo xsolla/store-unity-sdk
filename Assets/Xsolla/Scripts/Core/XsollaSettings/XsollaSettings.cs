@@ -16,6 +16,8 @@ namespace Xsolla.Core
 		[SerializeField]
 		string loginId = "e6dfaac6-78a8-11e9-9244-42010aa80004";
 		[SerializeField]
+		bool useSteamAuth = true;
+		[SerializeField]
 		bool useProxy;
 		[SerializeField]
 		string callbackUrl;
@@ -40,6 +42,14 @@ namespace Xsolla.Core
 			set
 			{
 				Instance.loginId = value;
+				MarkAssetDirty();
+			}
+		}
+
+		public static bool UseSteamAuth {
+			get { return Instance.useSteamAuth; }
+			set {
+				Instance.useSteamAuth = value;
 				MarkAssetDirty();
 			}
 		}

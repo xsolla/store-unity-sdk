@@ -73,7 +73,7 @@ namespace Xsolla.Login
 			List<WebRequestHeader> headers = new List<WebRequestHeader> {
 				WebRequestHeader.AuthHeader(Token)
 			};
-			string url = URL_LINKING_CODE_REQUEST + AdditionalUrlParams;
+			string url = URL_LINKING_CODE_REQUEST + "?" + AdditionalUrlParams.TrimStart('&');
 			WebRequestHelper.Instance.PostRequest<LinkingCode>(url, headers, onSuccess, onError);
 		}
 

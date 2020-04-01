@@ -41,7 +41,11 @@ public class LoginPage : Page, ILogin
 
 	private void LauncherAuthFailed()
     {
-        TryAuthBy<SteamAuth>(SteamAuthFailed);
+		if (XsollaSettings.UseSteamAuth) {
+            TryAuthBy<SteamAuth>(SteamAuthFailed, (Token token) => token.FromSteam = true);
+        } else {
+            TryAuthBy<ShadowAuth>(ShadowAuthFailed);
+        }        
     }
 
     private void SteamAuthFailed()
@@ -58,22 +62,25 @@ public class LoginPage : Page, ILogin
         ConfigBaseAuth();
     }
 
-    private T TryAuthBy<T>(Action onFailed = null) where T: MonoBehaviour, ILoginAuthorization
+    private T TryAuthBy<T>(Action onFailed = null, Action<Token> success = null) where T: MonoBehaviour, ILoginAuthorization
 	{
         T auth = gameObject.AddComponent<T>();
-        auth.OnSuccess = SuccessAuthorization;
+        auth.OnSuccess = (string token) => SuccessAuthorization(token, success);
         auth.OnFailed = onFailed;
         return auth;
     }
 
-    private void SuccessAuthorization(string token)
+    private void SuccessAuthorization(string token, Action<Token> success = null)
 	{
         ValidateToken(token, () => {
             XsollaLogin.Instance.Token = token;
+            success?.Invoke(XsollaLogin.Instance.Token);
             Debug.Log(string.Format("Your token: {0}", token));
             SceneManager.LoadScene("Store");
         }, OnUnsuccessfulLogin);
     }
+
+
 
 	private void ValidateToken(string token, Action onSuccess, Action<Error> onFailed)
 	{
