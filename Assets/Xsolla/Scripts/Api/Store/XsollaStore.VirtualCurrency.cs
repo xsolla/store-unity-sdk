@@ -17,11 +17,7 @@ namespace Xsolla.Store
 		{
 			var urlBuilder = new StringBuilder(string.Format(URL_VIRTUAL_CURRENCY_BALANCE, projectId)).Append(AdditionalUrlParams);
 			urlBuilder.Append(GetLocaleUrlParam(locale));
-
-			string platform = GetPlatformUrlParam();
-			if (!string.IsNullOrEmpty(platform)) {
-				urlBuilder.Append(platform);
-			}
+			urlBuilder.Append(GetPlatformUrlParam());
 
 			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.ItemsListErrors);
 		}

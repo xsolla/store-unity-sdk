@@ -51,6 +51,8 @@ namespace Xsolla.Store
 			};
 
 			var urlBuilder = new StringBuilder(string.Format(URL_BUY_ITEM_FOR_VC, projectId, itemId, priceSku)).Append(AdditionalUrlParams);
+			urlBuilder.Append(GetPlatformUrlParam());
+
 			WebRequestHelper.Instance.PostRequest<PurchaseData, TempPurchaseParams>(urlBuilder.ToString(), tempPurchaseParams, GetPaymentHeaders(Token), onSuccess, onError, Error.BuyItemErrors);
 		}
 
