@@ -19,7 +19,7 @@ MonoBehaviour:
   isShadow: 0
   storeProjectId: 44056
   isSandbox: 1
-  platform: 8
+  platform: 1
   paystationTheme: 1
   payStationTokenRequestUrl: https://livedemo.xsolla.com/sdk/token/paystation_demo/
   inAppBrowserEnabled: 1

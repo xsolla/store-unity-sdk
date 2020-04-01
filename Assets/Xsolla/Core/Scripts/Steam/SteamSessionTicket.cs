@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
-using Steamworks;
 using UnityEngine;
+
+#if UNITY_STANDALONE
+using Steamworks;
+#endif
 
 /// <summary>
 /// This ticket you can change for Login JWT
@@ -28,9 +31,13 @@ public class SteamSessionTicket
 	{
         byte[] ticket = new byte[1024];
 		try {
+#if UNITY_STANDALONE
             SteamUser.GetAuthSessionTicket(ticket, 1024, out uint length);
             Array.Resize(ref ticket, (int)length);
-        }catch(Exception e) {
+#else
+            ticket = new byte[0];
+#endif
+        } catch(Exception e) {
             Debug.Log("Get steam session ticket exception: " + e.Message);
             ticket = new byte[0];
         }
