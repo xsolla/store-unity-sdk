@@ -230,8 +230,12 @@ public class StoreController : MonoBehaviour
 		PopupFactory.Instance.CreateError().SetMessage(error.ToString());
 	}
 
-	public void ShowConfirm(Action confirmCase, Action cancelCase = null, string message = "") => PopupFactory.Instance.
-		CreateConfirmation().
+	public void ShowConfirm(
+		Action confirmCase,
+		Action cancelCase = null,
+		string message = "Are you sure you want to buy this item?"
+	) =>
+		PopupFactory.Instance.CreateConfirmation().
 		SetMessage(message).
 		SetConfirmCallback(confirmCase).
 		SetCancelCallback(cancelCase);

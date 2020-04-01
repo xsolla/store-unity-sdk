@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using Xsolla.Core;
+using Xsolla.Core.Popup;
 using Xsolla.Store;
 
 public class ItemUI : MonoBehaviour
@@ -40,7 +41,13 @@ public class ItemUI : MonoBehaviour
 			if (_itemInformation.virtual_prices.Any()) {
 				_storeController.ShowConfirm(
 					() => {
-						XsollaStore.Instance.BuyItem(XsollaSettings.StoreProjectId, _itemInformation.sku, GetVirtualPrice().sku, VirtualCurrencyPurchaseComplete, _storeController.ShowError, null);
+						XsollaStore.Instance.BuyItem(
+							XsollaSettings.StoreProjectId,
+							_itemInformation.sku,
+							GetVirtualPrice().sku,
+							(PurchaseData data) => VirtualCurrencyPurchaseComplete(_itemInformation.name),
+							_storeController.ShowError,
+							null);
 					}, null);
 			} else {
 				bool isItemVirtualCurrency = _groupsController?.GetSelectedGroup().Name == Constants.CurrencyGroupName;
@@ -70,10 +77,12 @@ public class ItemUI : MonoBehaviour
 		});
 	}
 
-	void VirtualCurrencyPurchaseComplete(PurchaseData purchaseData)
+	void VirtualCurrencyPurchaseComplete(string itemName)
 	{
 		_storeController.RefreshInventory();
 		_storeController.RefreshVirtualCurrencyBalance();
+		PopupFactory.Instance.CreateSuccess().
+			SetMessage(String.Format("You are purchased `{0}`!", itemName));
 	}
 
 	public void Initialize(StoreItem itemInformation)
