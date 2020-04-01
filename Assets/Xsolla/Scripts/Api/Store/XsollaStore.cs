@@ -7,11 +7,7 @@ namespace Xsolla.Store
 	[PublicAPI]
 	public partial class XsollaStore : MonoSingleton<XsollaStore>
 	{
-		public string Token
-		{
-			set { PlayerPrefs.SetString(Constants.XsollaStoreToken, value); }
-			get { return PlayerPrefs.GetString(Constants.XsollaStoreToken, string.Empty); }
-		}
+		public Token Token { get; set; }
 
 		string AdditionalUrlParams
 		{

@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: XsollaSettings
   m_EditorClassIdentifier: 
   loginId: e6dfaac6-78a8-11e9-9244-42010aa80004
-  useJwtValidation: 0
-  jwtValidationUrl: 
+  useSteamAuth: 0
   useProxy: 0
   callbackUrl: 
   isShadow: 0

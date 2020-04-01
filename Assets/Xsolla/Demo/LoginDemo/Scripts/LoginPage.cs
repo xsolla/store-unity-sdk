@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections;
+using Microsoft.IdentityModel.JsonWebTokens;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -14,80 +14,98 @@ public class LoginPage : Page, ILogin
     [SerializeField] private Toggle rememberMe_ChkBox;
     [SerializeField] private Toggle showPassword_Toggle;
 
-    const string DefaultLoginId = "e6dfaac6-78a8-11e9-9244-42010aa80004";
-    const string DefaultStoreProjectId = "44056";
+    private BasicAuth basicAuth;
 
-    public Action<User> OnSuccessfulLogin { get; set; }
+    public Action OnSuccessfulLogin { get; set; }
     public Action<Error> OnUnsuccessfulLogin { get; set; }
 
-    private DateTime lastClick;
-    private float rateLimitMs = Constants.LoginPageRateLimitMs;
+	public void Login() => basicAuth?.SoftwareAuth();
 
-    void Awake()
-    {
-        lastClick = DateTime.MinValue;
-        
-        login_InputField.onValueChanged.AddListener(delegate { UpdateButtonState(); });
-        password_InputField.onValueChanged.AddListener(delegate { UpdateButtonState(); });
-        
-        showPassword_Toggle.onValueChanged.AddListener((mood) => {
-            password_InputField.contentType = mood ? InputField.ContentType.Password : InputField.ContentType.Standard;
-            password_InputField.ForceLabelUpdate();
-        });
-        
-        login_Btn.onClick.AddListener(Login);
+	void Awake()
+	{
+        XsollaLogin.Instance.Token = null;
     }
 
     void Start()
     {
+        showPassword_Toggle.onValueChanged.AddListener((isPasswordHidden) => {
+            password_InputField.contentType = isPasswordHidden ? InputField.ContentType.Password : InputField.ContentType.Standard;
+            password_InputField.ForceLabelUpdate();
+        });
+
         login_InputField.text = XsollaLogin.Instance.LastUserLogin;
         password_InputField.text = XsollaLogin.Instance.LastUserPassword;
 
-        UpdateButtonState();
-        
-        LogInHotkeys hotkeys = gameObject.GetComponent<LogInHotkeys>();
-        hotkeys.EnterKeyPressedEvent += Login;
-        hotkeys.TabKeyPressedEvent += ChangeFocus;
-
-        StartCoroutine(TryAuthWithShadowToken());
+        TryAuthBy<LauncherAuth>(LauncherAuthFailed);
     }
 
-    IEnumerator TryAuthWithShadowToken()
+	private void LauncherAuthFailed()
     {
-        if (XsollaSettings.IsShadow) {
-            int datetime = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
-            int r = new System.Random().Next();
-            string appendix = r.ToString() + "_" + datetime.ToString();
-            XsollaLogin.Instance.ShadowAccountUserID = "sdk_temp_user_id_" + appendix;
-            XsollaLogin.Instance.ShadowAccountPlatform = "sdk_test_platform_" + appendix;
-
-            bool busy = true;
-            XsollaLogin.Instance.SignInShadowAccount(
-				XsollaLogin.Instance.ShadowAccountUserID,
-				XsollaLogin.Instance.ShadowAccountPlatform,
-				(string token) => {
-					XsollaLogin.Instance.Token = token;
-					SceneManager.LoadScene("Store");
-					busy = false;
-				},
-				(Error error) => {
-					OnUnsuccessfulLogin?.Invoke(error);
-					busy = false;
-				});
-            yield return new WaitWhile(() => busy);
+		if (XsollaSettings.UseSteamAuth) {
+            TryAuthBy<SteamAuth>(SteamAuthFailed, (Token token) => token.FromSteam = true);
         } else {
-            StartCoroutine(TryAuthWithLauncherToken());
-        }
+            TryAuthBy<ShadowAuth>(ShadowAuthFailed);
+        }        
     }
 
-    IEnumerator TryAuthWithLauncherToken()
+    private void SteamAuthFailed()
     {
-        string launcherToken = LauncherArguments.Instance.GetToken();
-        if (!string.IsNullOrEmpty(launcherToken)) {
-            XsollaLogin.Instance.Token = launcherToken;
+        TryAuthBy<ShadowAuth>(ShadowAuthFailed);
+    }
+
+    private void ShadowAuthFailed()
+    {
+		basicAuth = TryAuthBy<BasicAuth>().SetLoginButton(login_Btn);
+        basicAuth.UserAuthEvent += () => OnSuccessfulLogin?.Invoke();
+        basicAuth.UserAuthErrorEvent += (Error error) => OnUnsuccessfulLogin?.Invoke(error);
+
+        ConfigBaseAuth();
+    }
+
+    private T TryAuthBy<T>(Action onFailed = null, Action<Token> success = null) where T: MonoBehaviour, ILoginAuthorization
+	{
+        T auth = gameObject.AddComponent<T>();
+        auth.OnSuccess = (string token) => SuccessAuthorization(token, success);
+        auth.OnFailed = onFailed;
+        return auth;
+    }
+
+    private void SuccessAuthorization(string token, Action<Token> success = null)
+	{
+        ValidateToken(token, () => {
+            XsollaLogin.Instance.Token = token;
+            success?.Invoke(XsollaLogin.Instance.Token);
+            Debug.Log(string.Format("Your token: {0}", token));
             SceneManager.LoadScene("Store");
-        }
-        yield break;
+        }, OnUnsuccessfulLogin);
+    }
+
+
+
+	private void ValidateToken(string token, Action onSuccess, Action<Error> onFailed)
+	{
+        XsollaLogin.Instance.GetUserInfo(token, _ => {
+            Debug.Log("Validation success");
+            onSuccess?.Invoke();
+        }, (Error error) => {
+            Debug.LogWarning("Get UserInfo failed!");
+            onFailed?.Invoke(error);
+        });
+    }
+
+	private void ConfigBaseAuth()
+	{
+        basicAuth.SetUserName(login_InputField.text);
+        basicAuth.SetPassword(password_InputField.text);
+        basicAuth.SetRememberMe(rememberMe_ChkBox.isOn);
+
+        login_InputField.onValueChanged.AddListener(basicAuth.SetUserName);
+        password_InputField.onValueChanged.AddListener(basicAuth.SetPassword);
+        rememberMe_ChkBox.onValueChanged.AddListener(basicAuth.SetRememberMe);
+
+        LogInHotkeys hotkeys = gameObject.GetComponent<LogInHotkeys>();
+        hotkeys.EnterKeyPressedEvent += basicAuth.SoftwareAuth;
+        hotkeys.TabKeyPressedEvent += ChangeFocus;
     }
 
     private void ChangeFocus()
@@ -96,50 +114,5 @@ public class LoginPage : Page, ILogin
             password_InputField.Select();
         else
             login_InputField.Select();
-    }
-
-    void UpdateButtonState()
-    {
-        login_Btn.interactable = !string.IsNullOrEmpty(login_InputField.text) && password_InputField.text.Length > 5;
-    }
-    
-    private void OnLogin(User user)
-    {
-        if (XsollaLogin.Instance.IsTokenValid && XsollaSettings.UseJwtValidation)
-        {
-            Debug.Log(string.Format("Your token {0} is active", XsollaLogin.Instance.Token));
-        }
-        else if (!XsollaSettings.UseJwtValidation)
-        {
-            Debug.Log("Unsafe signed in");
-        }
-
-        if (XsollaSettings.LoginId == DefaultLoginId)
-        {
-	        SceneManager.LoadScene("Store");
-        }
-        else
-        {
-	        if (XsollaSettings.StoreProjectId == DefaultStoreProjectId)
-	        {
-			    OnSuccessfulLogin?.Invoke(user);
-	        }
-	        else
-	        {
-		        SceneManager.LoadScene("Store");
-	        }
-        }
-    }
-
-    public void Login()
-    {
-        TimeSpan ts = DateTime.Now - lastClick;
-        if (ts.TotalMilliseconds > rateLimitMs) {
-            lastClick += ts;
-            if (!string.IsNullOrEmpty(login_InputField.text) && password_InputField.text.Length > 5) {
-                XsollaLogin.Instance.SignIn(login_InputField.text, password_InputField.text, rememberMe_ChkBox.isOn, OnLogin, OnUnsuccessfulLogin);
-            } else
-                Debug.Log("Fill all fields");
-        }
     }
 }
