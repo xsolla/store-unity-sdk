@@ -10,6 +10,7 @@ namespace Xsolla.Login
 	{
 		private const string URL_USER_REGISTRATION = "https://login.xsolla.com/api/{0}?projectId={1}&login_url={2}";
 		private const string URL_USER_SIGNIN = "https://login.xsolla.com/api/{0}login?projectId={1}&login_url={2}";
+		private const string URL_USER_INFO = "https://login.xsolla.com/api/users/me";
 		private const string URL_PASSWORD_RESET = "https://login.xsolla.com/api/{0}?projectId={1}";
 		private const string URL_LINKING_CODE_REQUEST = "https://login.xsolla.com/api/users/account/code";
 		private const string URL_USER_SHADOW = "https://livedemo.xsolla.com/sdk/shadow_account/auth";
@@ -47,10 +48,10 @@ namespace Xsolla.Login
 		public void SignInShadowAccount(string userId, string platform, Action<string> successCase, Action<Error> failedCase)
 		{
 			string url = URL_USER_SHADOW + "?user_id=" + userId + "&platform=" + platform;
-			WebRequestHelper.Instance.GetRequest(url, null, (Token result) => { successCase?.Invoke(result.token); }, failedCase);
+			WebRequestHelper.Instance.GetRequest(url, null, (TokenEntity result) => { successCase?.Invoke(result.token); }, failedCase);
 		}
 
-		public void SignIn(string username, string password, bool rememberUser, Action<User> onSuccess, Action<Error> onError)
+		public void SignIn(string username, string password, bool rememberUser, Action onSuccess, Action<Error> onError)
 		{
 			var loginData = new LoginJson(username, password, rememberUser);
 			
@@ -62,23 +63,9 @@ namespace Xsolla.Login
 				if (rememberUser) {
 					SaveLoginPassword(username, password);
 				}
-
 				Token = ParseUtils.ParseToken(response.login_url);
-
-				if (XsollaSettings.UseJwtValidation) {
-					ValidateToken(Token, onSuccess, onError);
-				} else {
-					onSuccess?.Invoke(new User());
-				}
+				onSuccess?.Invoke();
 			}, onError, Error.LoginErrors);
-		}
-
-		public void SignOut()
-		{
-			if (PlayerPrefs.HasKey(Constants.XsollaLoginToken))
-				PlayerPrefs.DeleteKey(Constants.XsollaLoginToken);
-			if (PlayerPrefs.HasKey(Constants.XsollaLoginTokenExp))
-				PlayerPrefs.DeleteKey(Constants.XsollaLoginTokenExp);
 		}
 
 		public void RequestLinkingCode(Action<LinkingCode> onSuccess, Action<Error> onError)
@@ -86,13 +73,19 @@ namespace Xsolla.Login
 			List<WebRequestHeader> headers = new List<WebRequestHeader> {
 				WebRequestHeader.AuthHeader(Token)
 			};
-			WebRequestHelper.Instance.PostRequest<LinkingCode>(URL_LINKING_CODE_REQUEST, headers, onSuccess, onError, Error.ResetPasswordErrors);
+			string url = URL_LINKING_CODE_REQUEST + AdditionalUrlParams;
+			WebRequestHelper.Instance.PostRequest<LinkingCode>(url, headers, onSuccess, onError);
 		}
 
 		public void LinkAccount(string userId, string platform, string confirmationCode, Action onSuccess, Action<Error> onError)
 		{
 			string url = URL_LINK_ACCOUNT + "?user_id=" + userId + "&platform=" + platform + "&code=" + confirmationCode;
 			WebRequestHelper.Instance.PostRequest(url, null, onSuccess, onError);
+		}
+
+		public void GetUserInfo(string token, Action<UserInfo> onSuccess, Action<Error> onError)
+		{
+			WebRequestHelper.Instance.GetRequest<UserInfo>(URL_USER_INFO, WebRequestHeader.AuthHeader(token), onSuccess, onError);
 		}
 	}
 }
