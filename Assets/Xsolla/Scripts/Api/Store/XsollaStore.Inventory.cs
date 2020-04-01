@@ -15,11 +15,7 @@ namespace Xsolla.Store
 		{
 			var urlBuilder = new StringBuilder(string.Format(URL_INVENTORY_GET_ITEMS, projectId)).Append(AdditionalUrlParams);
 			urlBuilder.Append(GetLocaleUrlParam(locale));
-
-			string platform = GetPlatformUrlParam();
-			if (!string.IsNullOrEmpty(platform)) {
-				urlBuilder.Append(platform);
-			}
+			urlBuilder.Append(GetPlatformUrlParam());
 
 			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.ItemsListErrors);
 		}
@@ -27,11 +23,7 @@ namespace Xsolla.Store
 		public void ConsumeInventoryItem(string projectId, ConsumeItem item, [CanBeNull] Action onSuccess, [CanBeNull] Action<Error> onError)
 		{
 			var urlBuilder = new StringBuilder(string.Format(URL_INVENTORY_ITEM_CONSUME, projectId)).Append(AdditionalUrlParams);
-
-			string platform = GetPlatformUrlParam();
-			if (!string.IsNullOrEmpty(platform)) {
-				urlBuilder.Append(platform);
-			}
+			urlBuilder.Append(GetPlatformUrlParam());
 
 			var headers = new List<WebRequestHeader>() { WebRequestHeader.AuthHeader(Token), WebRequestHeader.ContentTypeHeader() };
 			WebRequestHelper.Instance.PostRequest(urlBuilder.ToString(), item, headers, onSuccess, onError, Error.ConsumeItemErrors);
