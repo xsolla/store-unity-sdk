@@ -1,6 +1,6 @@
 ﻿namespace Xsolla.Core
 {
-	public static class Constants
+	public static partial class Constants
 	{
 		public const string LoginSdkVersion = "0.5.0.1";
 		public const string StoreSdkVersion = "0.5.0.1";

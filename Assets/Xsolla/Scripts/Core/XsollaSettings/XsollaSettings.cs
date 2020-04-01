@@ -2,6 +2,7 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 using Xsolla.PayStation;
+using Xsolla.Store;
 
 namespace Xsolla.Core
 {
@@ -28,6 +29,8 @@ namespace Xsolla.Core
 		string storeProjectId = "44056";
 		[SerializeField]
 		bool isSandbox = true;
+		[SerializeField]
+		PlatformType platform;
 
 		[SerializeField]
 		public PaystationTheme paystationTheme = PaystationTheme.Dark;
@@ -98,6 +101,14 @@ namespace Xsolla.Core
 			set
 			{
 				Instance.isSandbox = value;
+				MarkAssetDirty();
+			}
+		}
+
+		public static PlatformType Platform {
+			get { return Instance.platform; }
+			set {
+				Instance.platform = value;
 				MarkAssetDirty();
 			}
 		}
