@@ -34,5 +34,13 @@ namespace Xsolla.Store
 			}
 			return string.Format("&currency={0}", currency);
 		}
+
+		string GetPlatformUrlParam()
+		{
+			if(XsollaSettings.Platform == PlatformType.Unknown) {
+				return string.Empty;
+			}
+			return "&platform=" + XsollaSettings.Platform.GetString();
+		}
 	}
 }
