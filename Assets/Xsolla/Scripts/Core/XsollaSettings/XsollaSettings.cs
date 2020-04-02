@@ -15,7 +15,7 @@ namespace Xsolla.Core
 		static XsollaSettings _instance;
 
 		[SerializeField]
-		string loginId = "e6dfaac6-78a8-11e9-9244-42010aa80004";
+		string loginId = Constants.DEFAULT_LOGIN_ID;
 		[SerializeField]
 		bool useSteamAuth = true;
 		[SerializeField]
@@ -26,7 +26,7 @@ namespace Xsolla.Core
 		bool isShadow;
 
 		[SerializeField]
-		string storeProjectId = "44056";
+		string storeProjectId = Constants.DEFAULT_PROJECT_ID;
 		[SerializeField]
 		bool isSandbox = true;
 		[SerializeField]

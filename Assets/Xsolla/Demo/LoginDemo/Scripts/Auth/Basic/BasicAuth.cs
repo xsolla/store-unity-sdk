@@ -6,9 +6,6 @@ using Xsolla.Login;
 
 public class BasicAuth : MonoBehaviour, ILoginAuthorization
 {
-    const string DefaultLoginId = "e6dfaac6-78a8-11e9-9244-42010aa80004";
-    const string DefaultStoreProjectId = "44056";
-
     public Action<string> OnSuccess { get; set; }
 	public Action OnFailed { get; set; }
 
@@ -82,10 +79,12 @@ public class BasicAuth : MonoBehaviour, ILoginAuthorization
 
     private void BasicAuthSuccess()
     {
-        if ((XsollaSettings.LoginId == DefaultLoginId) || (XsollaSettings.StoreProjectId == DefaultStoreProjectId)) {
-            OnSuccess?.Invoke(XsollaLogin.Instance.Token);
-        } else {
-            UserAuthEvent?.Invoke();
-        }
+        OnSuccess?.Invoke(XsollaLogin.Instance.Token);
+        /// TODO: implement this logic in different demo scenes
+        //if ((XsollaSettings.LoginId == Constants.DEFAULT_LOGIN_ID) || (XsollaSettings.StoreProjectId == Constants.DEFAULT_PROJECT_ID)) {
+        //    OnSuccess?.Invoke(XsollaLogin.Instance.Token);
+        //} else {
+        //    UserAuthEvent?.Invoke();
+        //}
     }
 }
