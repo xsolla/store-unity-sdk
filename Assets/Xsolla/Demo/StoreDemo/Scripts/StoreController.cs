@@ -55,7 +55,7 @@ public class StoreController : MonoBehaviour
 
 		XsollaStore.Instance.CreateNewCart(XsollaSettings.StoreProjectId, newCart => { Cart = newCart; }, ShowError);
 
-		XsollaStore.Instance.GetListOfItems(XsollaSettings.StoreProjectId, InitStoreUi, ShowError);
+		XsollaStore.Instance.GetCatalog(XsollaSettings.StoreProjectId, InitStoreUi, ShowError);
 
 		RefreshInventory(() => isInventoryLoaded = true);
 
@@ -144,7 +144,7 @@ public class StoreController : MonoBehaviour
 
 	void InitStoreUi(StoreItems items)
 	{
-		XsollaStore.Instance.GetListOfItemGroups(XsollaSettings.StoreProjectId, groups =>
+		XsollaStore.Instance.GetItemGroups(XsollaSettings.StoreProjectId, groups =>
 		{
 			_groupsController.CreateGroups(items, groups);
 			_itemsController.CreateItems(items);

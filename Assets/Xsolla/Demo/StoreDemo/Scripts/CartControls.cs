@@ -38,7 +38,7 @@ public class CartControls : MonoBehaviour
 			
 				foreach (var cartItem in _storeController.CartModel.CartItems)
 				{
-					XsollaStore.Instance.AddItemToCart(XsollaSettings.StoreProjectId, _storeController.Cart.cart_id, cartItem.Key, cartItem.Value.Quantity,
+					XsollaStore.Instance.UpdateItemInCart(XsollaSettings.StoreProjectId, _storeController.Cart.cart_id, cartItem.Key, cartItem.Value.Quantity,
 						() =>
 						{
 							_completedRequests++;

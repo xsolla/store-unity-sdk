@@ -27,6 +27,18 @@ namespace Xsolla.Login
 			return urlBuilder.ToString();
 		}
 
+		/// <summary>
+		/// User registration method.
+		/// </summary>
+		/// <remarks> Swagger method name:<c>Register</c>.</remarks>
+		/// <see cref="https://developers.xsolla.com/login-api/jwt/jwt-register"/>
+		/// <param name="username">User name.</param>
+		/// <param name="password">User password.</param>
+		/// <param name="email">User email for verification.</param>
+		/// <param name="onSuccess">Success operation callback.</param>
+		/// <param name="onError">Failed operation callback.</param>
+		/// <seealso cref="SignIn"/>
+		/// <seealso cref="ResetPassword"/>
 		public void Registration(string username, string password, string email, Action onSuccess, Action<Error> onError)
 		{
 			var registrationData = new RegistrationJson(username, password, email);
@@ -37,6 +49,45 @@ namespace Xsolla.Login
 			WebRequestHelper.Instance.PostRequest<RegistrationJson>(url, registrationData, onSuccess, onError, Error.RegistrationErrors);
 		}
 
+		/// <summary>
+		/// Perform Base Authorization.
+		/// </summary>
+		/// <remarks> Swagger method name:<c>Auth by Username and Password</c>.</remarks>
+		/// <see cref="https://developers.xsolla.com/login-api/jwt/auth-by-username-and-password"/>
+		/// <param name="username">User name.</param>
+		/// <param name="password">User password.</param>
+		/// <param name="rememberUser">Save user credentionals?</param>
+		/// <param name="onSuccess">Success operation callback.</param>
+		/// <param name="onError">Failed operation callback.</param>
+		/// <seealso cref="SignInShadowAccount"/>
+		/// <seealso cref="Registration"/>
+		/// <seealso cref="ResetPassword"/>
+		public void SignIn(string username, string password, bool rememberUser, Action onSuccess, Action<Error> onError)
+		{
+			var loginData = new LoginJson(username, password, rememberUser);
+
+			string proxy = XsollaSettings.UseProxy ? "proxy/" : string.Empty;
+			string url = GetUrl(URL_USER_SIGNIN, proxy);
+
+			WebRequestHelper.Instance.PostRequest<LoginResponse, LoginJson>(url, loginData, (response) => {
+				if (rememberUser) {
+					SaveLoginPassword(username, password);
+				}
+				Token = ParseUtils.ParseToken(response.login_url);
+				onSuccess?.Invoke();
+			}, onError, Error.LoginErrors);
+		}
+
+		/// <summary>
+		/// Allow user to reset password.
+		/// </summary>
+		/// <remarks> Swagger method name:<c>Reset password</c>.</remarks>
+		/// <see cref="https://developers.xsolla.com/login-api/general/reset-password"/>
+		/// <param name="username">User name.</param>
+		/// <param name="onSuccess">Success operation callback.</param>
+		/// <param name="onError">Failed operation callback.</param>
+		/// <seealso cref="Registration"/>
+		/// <seealso cref="SignIn"/>
 		public void ResetPassword(string username, Action onSuccess, Action<Error> onError)
 		{
 			string proxy = XsollaSettings.UseProxy ? "proxy/registration/password/reset" : "password/reset/request";
@@ -45,27 +96,61 @@ namespace Xsolla.Login
 			WebRequestHelper.Instance.PostRequest<ResetPassword>(url, new ResetPassword(username), onSuccess, onError, Error.ResetPasswordErrors);
 		}
 
+		/// <summary>
+		/// This method used for auth users in the Xsolla Login,
+		/// who plays on the consoles and other platforms
+		/// where Xsolla Login is not used. You must implements it
+		/// on the your server side.
+		/// Your integration flow on the server side:
+		/// <list type="number">
+		///		<item>
+		///			<term>Generate server JWT</term>
+		///			<description>
+		///				<list type="bullet">
+		///					<item>
+		///						<term>Request credentionals</term>
+		///						<description>before write any code, contact with support by link:<see cref="support@xsolla.com"/>
+		///						and request <c>ClientID</c> + <c>ClientSecret</c>.
+		///						</description>
+		///					</item>
+		///					<item>
+		///						<term>Implement method: </term>
+		///						<description>
+		///							<see cref="https://developers.xsolla.com/login-api/oauth-20/generate-user-jwt"/>
+		///							with application/x-www-form-urlencoded payload parameters:
+		///							<list type="bullet">
+		///								<item>
+		///									<description>client_id=YOUR_CLIENT_ID</description>
+		///								</item>
+		///								<item>
+		///									<description>client_secret=YOUR_CLIENT_SECRET</description>
+		///								</item>
+		///								<item>
+		///									<description>grant_type=client_credentials</description>
+		///								</item>
+		///							</list>
+		///						</description>
+		///					</item>
+		///				</list>
+		///			</description>
+		///		</item>
+		///		<item>
+		///			<term>Implement auth method</term>
+		///			<description>
+		///				<see cref="https://developers.xsolla.com/login-api/jwt/auth-by-custom-id"/>
+		///				
+		///			</description>
+		///		</item>
+		/// </list>
+		/// </summary>
+		/// <param name="userId">User unique identifier, provided by Xsolla Login.</param>
+		/// <param name="platform">Platform name.</param>
+		/// <param name="successCase">Success operation callback.</param>
+		/// <param name="failedCase">Failed operation callback.</param>
 		public void SignInShadowAccount(string userId, string platform, Action<string> successCase, Action<Error> failedCase)
 		{
 			string url = URL_USER_SHADOW + "?user_id=" + userId + "&platform=" + platform;
 			WebRequestHelper.Instance.GetRequest(url, null, (TokenEntity result) => { successCase?.Invoke(result.token); }, failedCase);
-		}
-
-		public void SignIn(string username, string password, bool rememberUser, Action onSuccess, Action<Error> onError)
-		{
-			var loginData = new LoginJson(username, password, rememberUser);
-			
-			string proxy = XsollaSettings.UseProxy ? "proxy/" : string.Empty;
-			string url = GetUrl(URL_USER_SIGNIN, proxy);
-
-			WebRequestHelper.Instance.PostRequest<LoginResponse, LoginJson>(url, loginData, (response) =>
-			{
-				if (rememberUser) {
-					SaveLoginPassword(username, password);
-				}
-				Token = ParseUtils.ParseToken(response.login_url);
-				onSuccess?.Invoke();
-			}, onError, Error.LoginErrors);
 		}
 
 		public void RequestLinkingCode(Action<LinkingCode> onSuccess, Action<Error> onError)
