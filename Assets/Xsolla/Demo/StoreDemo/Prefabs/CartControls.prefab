@@ -284,6 +284,8 @@ MonoBehaviour:
   buyButton: {fileID: 5942670174556563874}
   clearCartButton: {fileID: 6803192035229265494}
   priceText: {fileID: 7446015086222729443}
+  LoaderPrefab: {fileID: 7821807633063864268, guid: 92a0ddd244ff54eb492d95594aa9124f,
+    type: 3}
 --- !u!1 &7446015085973821864
 GameObject:
   m_ObjectHideFlags: 0
@@ -442,6 +444,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7446015085648965444}
     m_Modifications:
+    - target: {fileID: 8761578432214116197, guid: dfffa70844d28c4499d39d6571e7e152,
+        type: 3}
+      propertyPath: m_Name
+      value: Item.Clear
+      objectReference: {fileID: 0}
+    - target: {fileID: 8761578432214116197, guid: dfffa70844d28c4499d39d6571e7e152,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5571938582151317058, guid: dfffa70844d28c4499d39d6571e7e152,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -547,16 +559,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 8761578432214116197, guid: dfffa70844d28c4499d39d6571e7e152,
-        type: 3}
-      propertyPath: m_Name
-      value: Item.Clear
-      objectReference: {fileID: 0}
-    - target: {fileID: 8761578432214116197, guid: dfffa70844d28c4499d39d6571e7e152,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1422655356088621779, guid: dfffa70844d28c4499d39d6571e7e152,
         type: 3}
       propertyPath: m_Text
@@ -589,6 +591,37 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 916843159136710526}
     m_Modifications:
+    - target: {fileID: 8761578432214116197, guid: dfffa70844d28c4499d39d6571e7e152,
+        type: 3}
+      propertyPath: m_Name
+      value: pref_SimpleTextButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 8761578432214116197, guid: dfffa70844d28c4499d39d6571e7e152,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8739429482784647599, guid: dfffa70844d28c4499d39d6571e7e152,
+        type: 3}
+      propertyPath: normalStateSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: edc477be087616d44aded15e395a1e57,
+        type: 3}
+    - target: {fileID: 8739429482784647599, guid: dfffa70844d28c4499d39d6571e7e152,
+        type: 3}
+      propertyPath: normalTextColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8739429482784647599, guid: dfffa70844d28c4499d39d6571e7e152,
+        type: 3}
+      propertyPath: normalTextColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8739429482784647599, guid: dfffa70844d28c4499d39d6571e7e152,
+        type: 3}
+      propertyPath: normalTextColor.b
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5571938582151317058, guid: dfffa70844d28c4499d39d6571e7e152,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -694,16 +727,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 8761578432214116197, guid: dfffa70844d28c4499d39d6571e7e152,
-        type: 3}
-      propertyPath: m_Name
-      value: pref_SimpleTextButton
-      objectReference: {fileID: 0}
-    - target: {fileID: 8761578432214116197, guid: dfffa70844d28c4499d39d6571e7e152,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1422655356088621779, guid: dfffa70844d28c4499d39d6571e7e152,
         type: 3}
       propertyPath: m_Text
@@ -745,27 +768,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: edc477be087616d44aded15e395a1e57,
         type: 3}
-    - target: {fileID: 8739429482784647599, guid: dfffa70844d28c4499d39d6571e7e152,
-        type: 3}
-      propertyPath: normalStateSprite
-      value: 
-      objectReference: {fileID: 21300000, guid: edc477be087616d44aded15e395a1e57,
-        type: 3}
-    - target: {fileID: 8739429482784647599, guid: dfffa70844d28c4499d39d6571e7e152,
-        type: 3}
-      propertyPath: normalTextColor.r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8739429482784647599, guid: dfffa70844d28c4499d39d6571e7e152,
-        type: 3}
-      propertyPath: normalTextColor.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8739429482784647599, guid: dfffa70844d28c4499d39d6571e7e152,
-        type: 3}
-      propertyPath: normalTextColor.b
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dfffa70844d28c4499d39d6571e7e152, type: 3}
 --- !u!224 &7377929009484039759 stripped
