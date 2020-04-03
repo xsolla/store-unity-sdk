@@ -10,19 +10,19 @@ namespace Xsolla.Store
         Xsolla,
         Standalone,
         Other
-#if UNITY_ANDROID || UNITY_EDITOR
-		, GooglePlay
+#if UNITY_ANDROID || UNITY_EDITOR || UNITY_STANDALONE // UNITY_STANDALONE - for tests
+        , GooglePlay
 #endif
-#if UNITY_IOS || UNITY_EDITOR
+#if UNITY_IOS || UNITY_EDITOR || UNITY_STANDALONE
         , AppStore
 #endif
-#if UNITY_PS4 || UNITY_EDITOR
+#if UNITY_PS4 || UNITY_EDITOR || UNITY_STANDALONE
         , PlaystationNetwork
 #endif
-#if UNITY_XBOXONE || UNITY_EDITOR
+#if UNITY_XBOXONE || UNITY_EDITOR || UNITY_STANDALONE
         , XboxLive
 #endif
-#if UNITY_WII || UNITY_EDITOR
+#if UNITY_WII || UNITY_EDITOR || UNITY_STANDALONE
         , NintendoShop
 #endif
     }
@@ -34,19 +34,19 @@ namespace Xsolla.Store
 			switch(platform) {
                 case PlatformType.Unknown: return string.Empty;
                 case PlatformType.Xsolla: return Constants.Platform.XSOLLA;
-#if UNITY_IOS || UNITY_EDITOR
+#if UNITY_IOS || UNITY_EDITOR || UNITY_STANDALONE
                 case PlatformType.AppStore: return Constants.Platform.APP_STORE;
 #endif
-#if UNITY_ANDROID || UNITY_EDITOR
+#if UNITY_ANDROID || UNITY_EDITOR || UNITY_STANDALONE
                 case PlatformType.GooglePlay: return Constants.Platform.GOOGLE_PLAY;
 #endif
-#if UNITY_WII || UNITY_EDITOR
+#if UNITY_WII || UNITY_EDITOR || UNITY_STANDALONE
                 case PlatformType.NintendoShop: return Constants.Platform.NINTENDO_SHOP;
 #endif
-#if UNITY_PS4 || UNITY_EDITOR
+#if UNITY_PS4 || UNITY_EDITOR || UNITY_STANDALONE
                 case PlatformType.PlaystationNetwork: return Constants.Platform.PLAYSTATION_NETWORK;
 #endif
-#if UNITY_XBOXONE || UNITY_EDITOR
+#if UNITY_XBOXONE || UNITY_EDITOR || UNITY_STANDALONE
                 case PlatformType.XboxLive: return Constants.Platform.XBOX_LIVE;
 #endif
                 case PlatformType.Standalone: {
