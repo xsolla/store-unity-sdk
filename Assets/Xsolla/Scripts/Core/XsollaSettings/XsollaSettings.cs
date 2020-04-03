@@ -2,6 +2,7 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 using Xsolla.PayStation;
+using Xsolla.Store;
 
 namespace Xsolla.Core
 {
@@ -14,7 +15,7 @@ namespace Xsolla.Core
 		static XsollaSettings _instance;
 
 		[SerializeField]
-		string loginId = "e6dfaac6-78a8-11e9-9244-42010aa80004";
+		string loginId = Constants.DEFAULT_LOGIN_ID;
 		[SerializeField]
 		bool useSteamAuth = true;
 		[SerializeField]
@@ -25,9 +26,11 @@ namespace Xsolla.Core
 		bool isShadow;
 
 		[SerializeField]
-		string storeProjectId = "44056";
+		string storeProjectId = Constants.DEFAULT_PROJECT_ID;
 		[SerializeField]
 		bool isSandbox = true;
+		[SerializeField]
+		PlatformType platform;
 
 		[SerializeField]
 		public PaystationTheme paystationTheme = PaystationTheme.Dark;
@@ -98,6 +101,14 @@ namespace Xsolla.Core
 			set
 			{
 				Instance.isSandbox = value;
+				MarkAssetDirty();
+			}
+		}
+
+		public static PlatformType Platform {
+			get { return Instance.platform; }
+			set {
+				Instance.platform = value;
 				MarkAssetDirty();
 			}
 		}

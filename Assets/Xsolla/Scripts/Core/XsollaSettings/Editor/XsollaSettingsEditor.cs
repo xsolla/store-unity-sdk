@@ -1,6 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 using Xsolla.PayStation;
+using Xsolla.Store;
 
 namespace Xsolla.Core
 {
@@ -12,6 +13,7 @@ namespace Xsolla.Core
 		                                  "Must be identical to Callback URL specified in Publisher Account in Login settings. Required if there are several Callback URLs.";
 		const string SteamAuthTooltip = "If enabled, Login try find Steam client and get `session_ticket`." +
 										"Then this ticket will be changed to JWT.";
+		const string PlatformTooltip = "Publishing platform the user plays on.";
 		
 		[MenuItem("Window/Xsolla/Edit Settings", false, 1000)]
 		public static void Edit()
@@ -40,8 +42,9 @@ namespace Xsolla.Core
 				
 				XsollaSettings.StoreProjectId = EditorGUILayout.TextField(new GUIContent("Project ID"),  XsollaSettings.StoreProjectId);
 				XsollaSettings.IsSandbox = EditorGUILayout.Toggle("Enable sandbox?", XsollaSettings.IsSandbox);
+				XsollaSettings.Platform = (PlatformType)EditorGUILayout.EnumPopup(new GUIContent("Publishing platform", PlatformTooltip), XsollaSettings.Platform);
 			}
-      
+
 			EditorGUILayout.Space();
 			
 			using (new EditorGUILayout.VerticalScope("box"))
