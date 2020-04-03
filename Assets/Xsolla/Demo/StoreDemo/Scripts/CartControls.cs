@@ -58,7 +58,7 @@ public class CartControls : MonoBehaviour
 	{
 		yield return new WaitUntil(() => _completedRequests == _totalItems);
 
-		XsollaStore.Instance.BuyCart(XsollaSettings.StoreProjectId, _storeController.Cart.cart_id, data =>
+		XsollaStore.Instance.CartPurchase(XsollaSettings.StoreProjectId, _storeController.Cart.cart_id, data =>
 		{
 			XsollaStore.Instance.OpenPurchaseUi(data);
 

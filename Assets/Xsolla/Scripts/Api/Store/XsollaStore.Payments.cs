@@ -49,7 +49,7 @@ namespace Xsolla.Store
 		/// <param name="onError">Failed operation callback.</param>
 		/// <param name="purchaseParams">Purchase parameters such as <c>country</c>, <c>locale</c> and <c>currency</c>.</param>
 		/// <seealso cref="OpenPurchaseUi"/>
-		public void BuyItem(string projectId, string itemSku, [CanBeNull] Action<PurchaseData> onSuccess, [CanBeNull] Action<Error> onError, PurchaseParams purchaseParams = null)
+		public void ItemPurchase(string projectId, string itemSku, [CanBeNull] Action<PurchaseData> onSuccess, [CanBeNull] Action<Error> onError, PurchaseParams purchaseParams = null)
 		{
 			TempPurchaseParams tempPurchaseParams = new TempPurchaseParams {
 				sandbox = XsollaSettings.IsSandbox,
@@ -73,7 +73,13 @@ namespace Xsolla.Store
 		/// <param name="onError">Failed operation callback.</param>
 		/// <param name="purchaseParams">Purchase parameters such as <c>country</c>, <c>locale</c> and <c>currency</c>.</param>
 		/// <seealso cref="OpenPurchaseUi"/>
-		public void BuyItem(string projectId, string itemSku, string priceSku, [CanBeNull] Action<PurchaseData> onSuccess, [CanBeNull] Action<Error> onError, PurchaseParams purchaseParams = null)
+		public void ItemPurchaseForVirtualCurrency(
+			string projectId,
+			string itemSku,
+			string priceSku,
+			[CanBeNull] Action<PurchaseData> onSuccess,
+			[CanBeNull] Action<Error> onError,
+			PurchaseParams purchaseParams = null)
 		{
 			TempPurchaseParams tempPurchaseParams = new TempPurchaseParams {
 				sandbox = XsollaSettings.IsSandbox,
@@ -131,7 +137,7 @@ namespace Xsolla.Store
 		/// <param name="orderId">Unique order identifier.</param>
 		/// <param name="onSuccess">Success operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
-		/// <seealso cref="BuyItem"/>
+		/// <seealso cref="ItemPurchaseForVirtualCurrency"/>
 		/// <seealso cref="BuyCart"/>
 		public void CheckOrderStatus(string projectId, int orderId, [NotNull] Action<OrderStatus> onSuccess, [CanBeNull] Action<Error> onError)
 		{

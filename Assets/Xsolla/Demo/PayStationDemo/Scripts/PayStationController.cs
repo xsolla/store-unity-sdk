@@ -87,7 +87,7 @@ public class PayStationController : MonoBehaviour
 		buyCrystalsButton.onClick = () =>
 		{
 			// Launch purchase process
-			XsollaStore.Instance.BuyItem(XsollaSettings.StoreProjectId, CrystalPack, data =>
+			XsollaStore.Instance.ItemPurchase(XsollaSettings.StoreProjectId, CrystalPack, data =>
 			{
 				XsollaStore.Instance.OpenPurchaseUi(data);
 				ProcessOrder(data.order_id, () =>
