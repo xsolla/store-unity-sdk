@@ -74,6 +74,7 @@ public class StoreController : MonoBehaviour
 			print("Store demo starts. Use token obtained from Login: " + XsollaLogin.Instance.Token);
 			XsollaStore.Instance.Token = XsollaLogin.Instance.Token;
 		} else {
+			string jwtEncodedString = LauncherArguments.Instance.GetToken();
 			XsollaStore.Instance.Token = LauncherArguments.Instance.GetToken();
 			if (XsollaStore.Instance.Token.IsNullOrEmpty()) {
 				XsollaStore.Instance.Token = DefaultStoreToken;
