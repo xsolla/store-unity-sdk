@@ -15,10 +15,14 @@ namespace Xsolla.Login
 
 		/// <summary>
 		/// Changes Steam session_ticket to JWT.
+		/// Note: this feature is not work "out the box" yet.
+		/// If you want to enable Steam auth, you need to contact with
+		/// support by email:<see cref="support@xsolla.com".
 		/// </summary>
-		/// <remarks>Documentation will be later.</remarks>
-		/// <param name="appId">Your application Steam AppID</param>
-		/// <param name="sessionTicket">Requested user's session_ticket by SteamAPI</param>
+		/// <remarks> Swagger method name:<c>Cross-auth</c>.</remarks>
+		/// <see cref="https://developers.xsolla.com/login-api/jwt/cross-auth/"/>.
+		/// <param name="appId">Your application Steam AppID.</param>
+		/// <param name="sessionTicket">Requested user's session_ticket by SteamAPI.</param>
 		/// <param name="onSuccess">Success operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		public void SteamAuth(string appId, string sessionTicket, Action<string> onSuccess = null, Action<Error> onError = null)

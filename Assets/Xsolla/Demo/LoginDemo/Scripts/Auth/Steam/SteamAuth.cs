@@ -3,10 +3,6 @@ using UnityEngine;
 using Xsolla.Core;
 using Xsolla.Login;
 
-/// <summary>
-/// Auth by Steam session ticket.
-/// <see cref="https://developers.xsolla.com/login-api/jwt/cross-auth/"/> for more information.
-/// </summary>
 public class SteamAuth : MonoBehaviour, ILoginAuthorization
 {
 	public Action<string> OnSuccess { get ; set; }
