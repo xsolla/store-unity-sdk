@@ -35,7 +35,7 @@ public class PayStationController : MonoBehaviour
 		// Obtain PayStation token to query store API
 		GetToken(token =>
 		{
-			XsollaStore.Instance.Token = token.token;
+			XsollaStore.Instance.Token = new Xsolla.Core.Token(token.token, true);
 			
 			UpdateVirtualCurrencies();
 		});
