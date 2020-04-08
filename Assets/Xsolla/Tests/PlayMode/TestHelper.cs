@@ -49,7 +49,7 @@ public partial class TestHelper : MonoSingleton<TestHelper>
 		return go.GetComponent<T>();
 	}
 
-	public void FreezeFor(int milliSeconds)
+    public void FreezeFor(int milliSeconds)
 	{
 		Thread.Sleep(milliSeconds);
 	}
@@ -115,3 +115,5 @@ public partial class TestHelper : MonoSingleton<TestHelper>
         EmptyScene
 	}
 }
+
+
