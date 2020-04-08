@@ -25,11 +25,7 @@ namespace Tests
         const string ATRRIB_OBJECT = "AttributeItem(Clone)";
         const string POPUP_BUTTON = "SuccessPopupButton";
         const string STORE_BUTTON = "StoreButton";
-        //const string SUCCESS_FIND_ATTRIB = "AutoTestAttrib";
-
-
-
-
+        const string REMOVE_BUTTON = "pref_SimpleIconButton";
 
         [UnityTest]
         public IEnumerator AddedAtribut()
@@ -43,12 +39,10 @@ namespace Tests
             yield return helper.WaitFor(0.01F);
             helper.ClickButton(USERLOGIN_BUTTON);
             yield return helper.WaitFor(5.0F);
-            
             helper.ClickMenuButton(ATTRIB_BUTTON);
             yield return helper.WaitFor(1.0F);
             helper.ClickSimpleTextButton(NEW_BUTTON);
             yield return helper.WaitFor(2.0F);
-
             AttributeItemUI attribute = helper.Find<AttributeItemUI>(ATRRIB_OBJECT);
             helper.SetInputField(NAME_ATRRIB, "AutoTestAttrib");
             attribute.OnKeyEdited();
@@ -61,26 +55,41 @@ namespace Tests
             helper.ClickSimpleTextButton(POPUP_BUTTON);
             yield return helper.WaitFor(2.0F);
             helper.ClickMenuButton(STORE_BUTTON);
-            yield return helper.WaitFor(1.0F);
-           // Assert.True(GameObject.Find(NAME_ATRRIB.) = "AutoTestAttrib");
-       
+            yield return helper.WaitFor(1.5F);
+            Assert.True(GameObject.Find("AttributesSidePanelItem(Clone)"));
             Assert.True(helper.IsScene(TestHelper.Scenes.Store));
             yield return helper.WaitFor(1.5F);
         }
 
 
-        //[UnityTest]
-        //public IEnumerator DeleteAtribut()
-        //{
+        [UnityTest]
+        public IEnumerator DeleteAtribut()
+        {
 
-        //    TestHelper helper = TestHelper.Instance;
-        //    yield return helper.LoadScene(TestHelper.Scenes.Store);
-        //    yield return helper.WaitFor(3.5F);
-        //    helper.ClickSimpleTextButton(SIGN_OUT_BUTTON);
-        //    yield return helper.WaitFor(4.0F);
-        //    Assert.True(helper.IsScene(TestHelper.Scenes.Login));
-        //    yield return helper.WaitFor(1.5F);
-        //}
+            TestHelper helper = TestHelper.Instance;
+            yield return helper.LoadScene(TestHelper.Scenes.Login);
+            yield return helper.WaitFor(1.0F);
+            helper.SetInputField(USERNAME_FIELD, "test123");
+            helper.SetInputField(USERPASSWORD_FIELD, "232323");
+            yield return helper.WaitFor(0.01F);
+            helper.ClickButton(USERLOGIN_BUTTON);
+            yield return helper.WaitFor(5.0F);
+            helper.ClickMenuButton(ATTRIB_BUTTON);
+            yield return helper.WaitFor(1.0F);
+            helper.ClickSimpleButton(REMOVE_BUTTON);
+            yield return helper.WaitFor(2.5F);
+            helper.ClickSimpleTextButton(SAVE_ATRRIB_BUTTON);
+            yield return helper.WaitFor(4.5F);
+            helper.ClickSimpleTextButton(POPUP_BUTTON);
+            yield return helper.WaitFor(2.5F);
+            helper.ClickMenuButton(STORE_BUTTON);
+            yield return helper.WaitFor(1.5F);
+            Assert.False(GameObject.Find("AttributesSidePanelItem(Clone)"));
+            Assert.True(helper.IsScene(TestHelper.Scenes.Store));
+            yield return helper.WaitFor(1.5F);
+           
+ 
+        }
 
 
     }

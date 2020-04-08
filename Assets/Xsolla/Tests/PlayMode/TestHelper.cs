@@ -103,6 +103,17 @@ public partial class TestHelper : MonoSingleton<TestHelper>
 		}
 		return true;
 	}
+
+    public bool ClickSimpleButton(string name)
+    {
+        SimpleButton button = Find<SimpleButton>(name);
+        if (button != null)
+        {
+            button.onClick.Invoke();
+            return true;
+        }
+        return true;
+    }
 }
 
 public partial class TestHelper : MonoSingleton<TestHelper>
