@@ -12,7 +12,7 @@ using NUnit.Framework;
 
 namespace Tests
 {
-	public class Registration
+	public class Case2_Registration
 	{
 		
 		const string SIGNUP_BUTTON = "SignUpTabButton";

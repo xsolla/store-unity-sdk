@@ -11,7 +11,7 @@ using NUnit.Framework;
 
 namespace Tests
 {
-    public class ResetPassword
+    public class Case3_ResetPassword
     {
         const string RESET_URL = "ResetPasswordButton";
         const string RESET_FIELD = "ResetPasswordEmail";

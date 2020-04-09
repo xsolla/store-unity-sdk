@@ -11,18 +11,20 @@ using NUnit.Framework;
 
 namespace Tests
 {
-    public class Autorization
+    public class CartBuyItem
     {
+
         const string USERNAME_FIELD = "LoginUsername";
         const string USERPASSWORD_FIELD = "LoginPassword";
         const string USERLOGIN_BUTTON = "LoginButton";
+        const string ADD_CART_BUTTON = "pref_AddToCartButton";
+        const string CART_MENU_BUTTON = "pref_CartMenuButton";
 
-        const string POPUP_ERROR = "ErrorPopUp";
 
         [UnityTest]
-        public IEnumerator SuccessAutorization()
+        public IEnumerator SuccessBuyCart()
         {
-            
+
             TestHelper helper = TestHelper.Instance;
             yield return helper.LoadScene(TestHelper.Scenes.Login);
             yield return helper.WaitFor(1.0F);
@@ -31,25 +33,16 @@ namespace Tests
             yield return helper.WaitFor(0.01F);
             helper.ClickButton(USERLOGIN_BUTTON);
             yield return helper.WaitFor(5.0F);
+
+            helper.ClickButton(ADD_CART_BUTTON);
+            yield return helper.WaitFor(3.0F);
+
+            helper.ClickMenuButton(CART_MENU_BUTTON);
+            yield return helper.WaitFor(3.0F);
+
             Assert.True(helper.IsScene(TestHelper.Scenes.Store));
             yield return helper.WaitFor(1.5F);
         }
 
-        [UnityTest]
-        public IEnumerator FailedAutorization()
-        {
-     
-            TestHelper helper = TestHelper.Instance;
-            yield return helper.LoadScene(TestHelper.Scenes.Login);
-            yield return helper.WaitFor(3.0F);
-            helper.SetInputField(USERNAME_FIELD, "test123");
-            helper.SetInputField(USERPASSWORD_FIELD, "232324");
-            yield return helper.WaitFor(0.01F);
-            helper.ClickButton(USERLOGIN_BUTTON);
-            yield return helper.WaitFor(1.5F);
-            Assert.True(GameObject.Find(POPUP_ERROR));
-            Assert.True(helper.IsScene(TestHelper.Scenes.Login));
-            yield return helper.WaitFor(1.5F);
-        }
     }
 }
