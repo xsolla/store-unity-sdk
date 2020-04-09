@@ -9,7 +9,7 @@ namespace Xsolla.Login
 	public partial class XsollaLogin : MonoSingleton<XsollaLogin>
 	{
 		private const string URL_LINKING_CODE_REQUEST = "https://login.xsolla.com/api/users/account/code";
-		private const string URL_USER_SHADOW = "https://livedemo.xsolla.com/sdk/shadow_account/auth";
+		private const string URL_USER_CONSOLE_AUTH = "https://livedemo.xsolla.com/sdk/shadow_account/auth";
 		private const string URL_LINK_ACCOUNT = "https://livedemo.xsolla.com/sdk/shadow_account/link";
 
 		#region Comment
@@ -82,9 +82,9 @@ namespace Xsolla.Login
 		/// <param name="successCase">Success operation callback.</param>
 		/// <param name="failedCase">Failed operation callback.</param>
 		#endregion
-		public void SignInShadowAccount(string userId, string platform, Action<string> successCase, Action<Error> failedCase)
+		public void SignInConsoleAccount(string userId, string platform, Action<string> successCase, Action<Error> failedCase)
 		{
-			string url = URL_USER_SHADOW + "?user_id=" + userId + "&platform=" + platform;
+			string url = URL_USER_CONSOLE_AUTH + "?user_id=" + userId + "&platform=" + platform;
 			WebRequestHelper.Instance.GetRequest(url, null, (TokenEntity result) => { successCase?.Invoke(result.token); }, failedCase);
 		}
 
@@ -96,8 +96,8 @@ namespace Xsolla.Login
 		/// <see cref="https://developers.xsolla.com/login-api/users/create-code-for-linking-accounts"/>
 		/// <param name="onSuccess">Success operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
-		/// <seealso cref="SignInShadowAccount"/>
-		/// <seealso cref="LinkAccount"/>
+		/// <seealso cref="SignInConsoleAccount"/>
+		/// <seealso cref="LinkConsoleAccount"/>
 		#endregion
 		public void RequestLinkingCode(Action<LinkingCode> onSuccess, Action<Error> onError)
 		{
@@ -173,10 +173,10 @@ namespace Xsolla.Login
 		/// <param name="confirmationCode">Code, taken from unified account.</param>
 		/// <param name="onSuccess">Success operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
-		/// <seealso cref="SignInShadowAccount"/>
+		/// <seealso cref="SignInConsoleAccount"/>
 		/// <seealso cref="RequestLinkingCode"/>
 		#endregion
-		public void LinkAccount(string userId, string platform, string confirmationCode, Action onSuccess, Action<Error> onError)
+		public void LinkConsoleAccount(string userId, string platform, string confirmationCode, Action onSuccess, Action<Error> onError)
 		{
 			string url = URL_LINK_ACCOUNT + "?user_id=" + userId + "&platform=" + platform + "&code=" + confirmationCode;
 			WebRequestHelper.Instance.PostRequest(url, null, onSuccess, onError);
