@@ -7,16 +7,21 @@ public class SteamAuth : MonoBehaviour, ILoginAuthorization
 {
 	public Action<string> OnSuccess { get ; set; }
 	public Action OnFailed { get; set; }
-    public string AppID = "480";
-    private string ticket = "";
+	private string _ticket = "";
 
 	void Start()
     {
+	    if (!XsollaSettings.UseSteamAuth)
+	    {
+		    OnFailed?.Invoke();
+		    Destroy(this, 0.1F);
+		    return;
+	    }
 #if  UNITY_STANDALONE || UNITY_EDITOR
-        ticket = new SteamSessionTicket().ToString();
+        _ticket = new SteamSessionTicket().ToString();
 #endif
-        if (!string.IsNullOrEmpty(ticket)) {
-            RequestTokenBy(ticket);
+        if (!string.IsNullOrEmpty(_ticket)) {
+            RequestTokenBy(_ticket);
         } else {
             OnFailed?.Invoke();
             Destroy(this, 0.1F);
@@ -25,8 +30,16 @@ public class SteamAuth : MonoBehaviour, ILoginAuthorization
 
 	void RequestTokenBy(string ticket)
 	{
-        XsollaLogin.Instance.SteamAuth(AppID, ticket, SuccessHandler, FailedHandler);
-    }
+		if (int.TryParse(XsollaSettings.SteamAppId, out _))
+		{
+			XsollaLogin.Instance.SteamAuth(XsollaSettings.SteamAppId, ticket, SuccessHandler, FailedHandler);			
+		}
+		else
+		{
+			Debug.LogWarning("Can't parse SteamAppId = " + XsollaSettings.SteamAppId);
+			OnFailed?.Invoke();
+		}
+	}
 
 	void SuccessHandler(string token)
     {
@@ -36,7 +49,8 @@ public class SteamAuth : MonoBehaviour, ILoginAuthorization
 
 	void FailedHandler(Error error)
 	{
-        Debug.Log("Token request by steam session ticket = `" + ticket + "` failed! " + error.ToString());
+        Debug.Log("Token request by steam session ticket = `" + _ticket + "` failed! " + error.ToString());
+        OnFailed?.Invoke();
         Destroy(this, 0.1F);
     }
 }

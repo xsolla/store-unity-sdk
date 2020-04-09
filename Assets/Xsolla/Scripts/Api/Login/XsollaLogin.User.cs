@@ -67,7 +67,7 @@ namespace Xsolla.Login
 		/// <param name="rememberUser">Save user credentionals?</param>
 		/// <param name="onSuccess">Success operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
-		/// <seealso cref="SignInShadowAccount"/>
+		/// <seealso cref="SignInConsoleAccount"/>
 		/// <seealso cref="Registration"/>
 		/// <seealso cref="ResetPassword"/>
 		public void SignIn(string username, string password, bool rememberUser, Action onSuccess, Action<Error> onError = null)

@@ -60,7 +60,5 @@ namespace Xsolla.Login
 		}
 
 		public Token Token { get; set; }
-		public string ShadowAccountUserID { get; set; }
-		public string ShadowAccountPlatform { get; set; }
 	}
 }

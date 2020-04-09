@@ -11,62 +11,63 @@ public class ExtraPanelAccountButtons : MonoBehaviour
 {
 	public event Action<string> OpenUrlEvent;
 	public event Action LinkingAccountComplete;
-	const string URL_MASTER_ACCOUNT = "https://livedemo.xsolla.com/sdk/unity/webgl/";
+	const string URL_MASTER_ACCOUNT = "https://livedemo.xsolla.com/igs-demo/#/";
 
-	[SerializeField]
-	GameObject signOutButton;
+	[SerializeField] private GameObject signOutButton;
 
-	[SerializeField]
-	GameObject accountLinkingButton;
+	[SerializeField] private GameObject accountLinkingButton;
 
-	[SerializeField]
-	GameObject requestCodeButton;
+	[SerializeField] private GameObject requestCodeButton;
 
 	public void Init()
 	{
 		signOutButton.SetActive(true);
-		accountLinkingButton.SetActive(XsollaSettings.IsShadow);
-		requestCodeButton.SetActive(!XsollaSettings.IsShadow);
+		accountLinkingButton.SetActive(!XsollaStore.Instance.Token.IsMasterAccount());
+		requestCodeButton.SetActive(XsollaStore.Instance.Token.IsMasterAccount());
 
 		var btnComponent = signOutButton.GetComponent<SimpleTextButton>();
 		btnComponent.onClick = () => {
 			LauncherArguments.Instance.InvalidateTokenArguments();
 			SceneManager.LoadScene("Login");
 		};
-
-		var requestCodeButtonComponent = requestCodeButton.GetComponent<SimpleTextButton>();
-		requestCodeButtonComponent.onClick = () => {
-			XsollaLogin.Instance.RequestLinkingCode(
-				(LinkingCode code) => PopupFactory.Instance.CreateSuccess().SetMessage("YOUR CODE: " + code.code),
-				ShowError);
-		};
-
-		var accountLinkingButtonComponent = accountLinkingButton.GetComponent<SimpleTextButton>();
-		accountLinkingButtonComponent.onClick = () => {
-			ShowCodeConfirmation((string code) => {
-				XsollaLogin.Instance.LinkAccount(
-					XsollaLogin.Instance.ShadowAccountUserID,
-					XsollaLogin.Instance.ShadowAccountPlatform,
-					code,
-					LinkingAccountHandler,
-					ShowError);
-			});
-			OpenUrlEvent?.Invoke(URL_MASTER_ACCOUNT);
-		};
+		
+		requestCodeButton.SetActive(false);
+		// TODO: coming soon
+		// var requestCodeButtonComponent = requestCodeButton.GetComponent<SimpleTextButton>();
+		// requestCodeButtonComponent.onClick = () => {
+		// 	XsollaLogin.Instance.RequestLinkingCode(
+		// 		(LinkingCode code) => PopupFactory.Instance.CreateSuccess().SetMessage("YOUR CODE: " + code.code),
+		// 		ShowError);
+		// };
+		
+		accountLinkingButton.SetActive(false);
+		// TODO: coming soon
+		// var accountLinkingButtonComponent = accountLinkingButton.GetComponent<SimpleTextButton>();
+		// accountLinkingButtonComponent.onClick = () => {
+		// 	ShowCodeConfirmation((string code) => {
+		// 		XsollaLogin.Instance.LinkConsoleAccount(
+		// 			XsollaSettings.UsernameFromConsolePlatform,
+		// 			XsollaSettings.Platform.GetString(),
+		// 			code,
+		// 			LinkingAccountHandler,
+		// 			ShowError);
+		// 	});
+		// 	OpenUrlEvent?.Invoke(URL_MASTER_ACCOUNT);
+		// };
 	}
 
 	private void LinkingAccountHandler()
 	{
 		PopupFactory.Instance.CreateSuccess();
-		XsollaLogin.Instance.SignInShadowAccount(
-			XsollaLogin.Instance.ShadowAccountUserID,
-			XsollaLogin.Instance.ShadowAccountPlatform,
-			ReloginWithShadowAccountCallback,
+		XsollaLogin.Instance.SignInConsoleAccount(
+			XsollaSettings.UsernameFromConsolePlatform,
+			XsollaSettings.Platform.GetString(),
+			ReloginCallback,
 			ShowError
 		);
 	}
 
-	private void ReloginWithShadowAccountCallback(string newToken)
+	private void ReloginCallback(string newToken)
 	{
 		XsollaLogin.Instance.Token = XsollaStore.Instance.Token = newToken;
 		LinkingAccountComplete?.Invoke();
@@ -74,7 +75,7 @@ public class ExtraPanelAccountButtons : MonoBehaviour
 		requestCodeButton.SetActive(true);
 	}
 
-	private void ShowError(Error error)
+	private static void ShowError(Error error)
 	{
 		PopupFactory.Instance.CreateError().SetMessage(error.ToString());
 	}

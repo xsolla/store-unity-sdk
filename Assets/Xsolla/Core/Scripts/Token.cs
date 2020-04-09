@@ -9,6 +9,7 @@ namespace Xsolla.Core
 		const string EXPIRATION_UNIX_TIME_PARAMETER = "exp";
 		const string USER_ID_URL_PARAMETER = "id";
 		const string CROSS_AUTH_PARAMETER = "is_cross_auth";
+		const string IS_MASTER_ACCOUNT_PARAMETER = "is_master";
 
 		public bool FromSteam { get; set; }
 		private JsonWebToken token;
@@ -25,7 +26,7 @@ namespace Xsolla.Core
 			}
 			FromSteam = false;
 		}
-		
+
 		public string GetSteamUserID()
 		{
 			if (JWTisNullOrEmpty()) {
@@ -43,10 +44,7 @@ namespace Xsolla.Core
 
 		private bool IsCrossAuth()
 		{
-			if (JWTisNullOrEmpty()) {
-				return false;
-			}
-			return token.GetPayloadValue<bool>(CROSS_AUTH_PARAMETER);
+			return !JWTisNullOrEmpty() && token.GetPayloadValue<bool>(CROSS_AUTH_PARAMETER);
 		}
 
 		public bool IsExpired()
@@ -54,8 +52,8 @@ namespace Xsolla.Core
 			if (JWTisNullOrEmpty()) {
 				return false;
 			}
-			int expired = token.GetPayloadValue<int>(EXPIRATION_UNIX_TIME_PARAMETER);
-			int now = (int)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+			var expired = token.GetPayloadValue<int>(EXPIRATION_UNIX_TIME_PARAMETER);
+			var now = (int)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
 			return expired <= now;
 		}
 
@@ -79,6 +77,13 @@ namespace Xsolla.Core
 			return JWTisNullOrEmpty() && PaystationIsNullOrEmpty();
 		}
 
+		public bool IsMasterAccount()
+		{
+			if (JWTisNullOrEmpty())
+				return false;
+			return token.TryGetPayloadValue<bool>(IS_MASTER_ACCOUNT_PARAMETER, out var isMaster) && isMaster;
+		}
+
 		public static implicit operator string(Token token) => token.ToString();
 		public static implicit operator Token(string encodedToken) => new Token(encodedToken);
 
@@ -87,10 +92,7 @@ namespace Xsolla.Core
 			if (!JWTisNullOrEmpty()) {
 				return token.EncodedToken;
 			}
-			if (!PaystationIsNullOrEmpty()) {
-				return PaystationToken;
-			}
-			return string.Empty;
+			return !PaystationIsNullOrEmpty() ? PaystationToken : string.Empty;
 		}
 	}
 }
