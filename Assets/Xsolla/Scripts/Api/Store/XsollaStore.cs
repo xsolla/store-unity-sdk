@@ -37,7 +37,7 @@ namespace Xsolla.Store
 
 		string GetPlatformUrlParam()
 		{
-			if(XsollaSettings.Platform == PlatformType.Unknown) {
+			if(XsollaSettings.Platform == PlatformType.None) {
 				return string.Empty;
 			}
 			return "&platform=" + XsollaSettings.Platform.GetString();

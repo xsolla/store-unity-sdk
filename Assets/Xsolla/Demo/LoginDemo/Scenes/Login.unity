@@ -4716,11 +4716,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f339efdeb5b313438224b921e7f19a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  login_InputField: {fileID: 1889080090}
-  password_InputField: {fileID: 71559836}
-  login_Btn: {fileID: 769948323}
-  rememberMe_ChkBox: {fileID: 1097672491}
-  showPassword_Toggle: {fileID: 932299634}
+  loginInputField: {fileID: 1889080090}
+  passwordInputField: {fileID: 71559836}
+  loginButton: {fileID: 769948323}
+  rememberMeChkBox: {fileID: 1097672491}
+  showPasswordToggle: {fileID: 932299634}
 --- !u!114 &1244510951
 MonoBehaviour:
   m_ObjectHideFlags: 0

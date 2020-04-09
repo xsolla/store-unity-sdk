@@ -275,7 +275,7 @@ PrefabInstance:
     - target: {fileID: 7113498765283074291, guid: 79f0db82dd1949b4c99dc195eb9cc8ab,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 10
+      value: 65.00001
       objectReference: {fileID: 0}
     - target: {fileID: 7113498765283074291, guid: 79f0db82dd1949b4c99dc195eb9cc8ab,
         type: 3}
@@ -285,7 +285,7 @@ PrefabInstance:
     - target: {fileID: 7113498765283074291, guid: 79f0db82dd1949b4c99dc195eb9cc8ab,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: -420
+      value: -310
       objectReference: {fileID: 0}
     - target: {fileID: 7113498765283074291, guid: 79f0db82dd1949b4c99dc195eb9cc8ab,
         type: 3}
@@ -320,7 +320,7 @@ PrefabInstance:
     - target: {fileID: 2234737485639732530, guid: 79f0db82dd1949b4c99dc195eb9cc8ab,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000076293945
+      value: -0.000015258789
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 79f0db82dd1949b4c99dc195eb9cc8ab, type: 3}
@@ -349,11 +349,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3092327604236563937}
     m_Modifications:
-    - target: {fileID: 6247839919388947446, guid: 707de30ff8f7647418323714a5cc38e6,
-        type: 3}
-      propertyPath: m_Name
-      value: AccountButtons
-      objectReference: {fileID: 0}
     - target: {fileID: 6247839919388947447, guid: 707de30ff8f7647418323714a5cc38e6,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -458,6 +453,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6247839919388947446, guid: 707de30ff8f7647418323714a5cc38e6,
+        type: 3}
+      propertyPath: m_Name
+      value: AccountButtons
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 707de30ff8f7647418323714a5cc38e6, type: 3}

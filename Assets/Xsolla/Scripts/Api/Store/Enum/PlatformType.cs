@@ -6,7 +6,7 @@ namespace Xsolla.Store
 {
     public enum PlatformType
     {
-		Unknown,
+		None,
         Xsolla,
         Standalone,
         Other
@@ -32,7 +32,7 @@ namespace Xsolla.Store
         public static string GetString(this PlatformType platform)
 		{
 			switch(platform) {
-                case PlatformType.Unknown: return string.Empty;
+                case PlatformType.None: return string.Empty;
                 case PlatformType.Xsolla: return Constants.Platform.XSOLLA;
 #if UNITY_IOS || UNITY_EDITOR || UNITY_STANDALONE
                 case PlatformType.AppStore: return Constants.Platform.APP_STORE;
