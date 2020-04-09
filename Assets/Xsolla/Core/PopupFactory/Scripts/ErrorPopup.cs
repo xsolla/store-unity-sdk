@@ -16,6 +16,14 @@ namespace Xsolla.Core.Popup
 		[SerializeField]
 		private Text ButtonText;
 
+		protected void Awake()
+		{
+			if (Button != null)
+			{
+				Button.onClick = () => Destroy(gameObject, 0.001F);	
+			}
+		}
+
 		IErrorPopup IErrorPopup.SetButtonText(string buttonText)
 		{
 			ButtonText.text = buttonText;
