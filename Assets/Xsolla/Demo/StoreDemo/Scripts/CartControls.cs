@@ -8,14 +8,16 @@ using Xsolla.Store;
 public class CartControls : MonoBehaviour
 {
 	[SerializeField]
-	SimpleButton buyButton;
+	SimpleTextButton buyButton;
 	[SerializeField]
 	SimpleButton clearCartButton;
 	[SerializeField]
 	Text priceText;
+	[SerializeField]
+	GameObject LoaderPrefab;
+	GameObject LoaderObject;
 
-	int _totalItems;
-	int _completedRequests;
+	int _requestsLeft;
 	
 	StoreController _storeController;
 
@@ -31,34 +33,33 @@ public class CartControls : MonoBehaviour
 
 		buyButton.onClick = (() =>
 		{
-			XsollaStore.Instance.ClearCart(XsollaSettings.StoreProjectId, _storeController.Cart.cart_id, () =>
-			{
-				_totalItems = _storeController.CartModel.CartItems.Count;
-				_completedRequests = 0;
-			
-				foreach (var cartItem in _storeController.CartModel.CartItems)
+			if (!buyButton.IsLocked()) {
+				LockBuyButton();
+				XsollaStore.Instance.ClearCart(XsollaSettings.StoreProjectId, _storeController.Cart.cart_id, () =>
 				{
-					XsollaStore.Instance.AddItemToCart(XsollaSettings.StoreProjectId, _storeController.Cart.cart_id, cartItem.Key, cartItem.Value.Quantity,
-						() =>
-						{
-							_completedRequests++;
-						}, error =>
-						{
-							_completedRequests++;
-							_storeController.ShowError(error); 
-						});
-				}
+					_requestsLeft = _storeController.CartModel.CartItems.Count;
 
-				StartCoroutine(BuyCart());
-			}, _storeController.ShowError);
+					foreach (var cartItem in _storeController.CartModel.CartItems) {
+						XsollaStore.Instance.UpdateItemInCart(XsollaSettings.StoreProjectId, _storeController.Cart.cart_id, cartItem.Key, cartItem.Value.Quantity,
+							() => {
+								_requestsLeft--;
+							}, error => {
+								_requestsLeft--;
+								_storeController.ShowError(error);
+							});
+					}
+
+					StartCoroutine(BuyCartCoroutine());
+				}, _storeController.ShowError);
+			}
 		});
 	}
 
-	IEnumerator BuyCart()
+	IEnumerator BuyCartCoroutine()
 	{
-		yield return new WaitUntil(() => _completedRequests == _totalItems);
+		yield return new WaitWhile(() => _requestsLeft > 0);
 
-		XsollaStore.Instance.BuyCart(XsollaSettings.StoreProjectId, _storeController.Cart.cart_id, data =>
+		XsollaStore.Instance.CartPurchase(XsollaSettings.StoreProjectId, _storeController.Cart.cart_id, data =>
 		{
 			XsollaStore.Instance.OpenPurchaseUi(data);
 
@@ -67,9 +68,30 @@ public class CartControls : MonoBehaviour
 				_storeController.ResetCart();
 				_storeController.RefreshVirtualCurrencyBalance();
 			});
-		}, _storeController.ShowError);
+			UnlockBuyButton();
+		}, (Error error) => {
+			_storeController.ShowError(error);
+			UnlockBuyButton();
+		});
 	}
-	
+
+	private void LockBuyButton()
+	{
+		buyButton.Lock();
+		if (LoaderPrefab != null) {
+			LoaderObject = Instantiate(LoaderPrefab, buyButton.transform);
+		}
+	}
+
+	private void UnlockBuyButton()
+	{
+		buyButton.Unlock();
+		if (LoaderObject != null) {
+			Destroy(LoaderObject);
+			LoaderObject = null;
+		}
+	}
+
 	public void Initialize(float price)
 	{
 		priceText.text = "$" + price.ToString("F2");

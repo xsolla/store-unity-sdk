@@ -3,33 +3,22 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
 using Xsolla.Core;
+using Xsolla.Core.Popup;
 using Xsolla.Login;
 using Xsolla.Store;
 
-
 public class StoreController : MonoBehaviour
-{
-	[SerializeField]
-	GameObject popupPrefab;
-	
+{	
 	GroupsController _groupsController;
 	ItemsController _itemsController;
-	ExtraController _extraController;
+	IExtraPanelController _extraController;
 	ItemsTabControl _itemsTabControl;
-
-	MessagePopup _popup;
 
 	[HideInInspector]
 	public InventoryItems inventory;
 	
-	[HideInInspector]
-	public List<UserAttribute> attributes;
 	public CartModel CartModel { get; private set; }
-
-	public static Dictionary<string, Sprite> ItemIcons;
-	private ImageLoader imageLoader;
 
 	const string DefaultStoreToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE5NjIyMzQwNDgsImlzcyI6Imh0dHBzOi8vbG9naW4ueHNvbGxhLmNvbSIsImlhdCI6MTU2MjE0NzY0OCwidXNlcm5hbWUiOiJ4c29sbGEiLCJ4c29sbGFfbG9naW5fYWNjZXNzX2tleSI6IjA2SWF2ZHpDeEVHbm5aMTlpLUc5TmMxVWFfTWFZOXhTR3ZEVEY4OFE3RnMiLCJzdWIiOiJkMzQyZGFkMi05ZDU5LTExZTktYTM4NC00MjAxMGFhODAwM2YiLCJlbWFpbCI6InN1cHBvcnRAeHNvbGxhLmNvbSIsInR5cGUiOiJ4c29sbGFfbG9naW4iLCJ4c29sbGFfbG9naW5fcHJvamVjdF9pZCI6ImU2ZGZhYWM2LTc4YTgtMTFlOS05MjQ0LTQyMDEwYWE4MDAwNCIsInB1Ymxpc2hlcl9pZCI6MTU5MjR9.GCrW42OguZbLZTaoixCZgAeNLGH2xCeJHxl8u8Xn2aI";
 
@@ -38,10 +27,10 @@ public class StoreController : MonoBehaviour
 	private bool isInventoryLoaded;
 	private bool isCatalogLoaded;
 
+	[HideInInspector]
+	public List<UserAttribute> attributes;
 	private void Awake()
-	{
-		imageLoader = gameObject.AddComponent<ImageLoader>();
-		
+	{		
 		attributes = new List<UserAttribute>();
 	}
 
@@ -50,44 +39,46 @@ public class StoreController : MonoBehaviour
 		_groupsController = FindObjectOfType<GroupsController>();
 		_itemsController = FindObjectOfType<ItemsController>();
 		_extraController = FindObjectOfType<ExtraController>();
+		_extraController.LinkingAccountComplete += _extraController_LinkingAccountComplete;
 		_itemsTabControl = FindObjectOfType<ItemsTabControl>();
-		
-		CartModel = new CartModel();
-		
-		ItemIcons = new Dictionary<string, Sprite>();
 
-		if (FindObjectOfType<XsollaLogin>() != null)
-		{
-			print("Store demo starts. Use token obtained from Login: " + XsollaLogin.Instance.Token);
-			XsollaStore.Instance.Token = XsollaLogin.Instance.Token;
-		}
-		else
-		{
-			string launcherToken = LauncherArguments.Instance.GetToken();
-			if (!string.IsNullOrEmpty(launcherToken)) {
-				print("Store demo starts. Use token obtained from Launcher: " + launcherToken);
-				XsollaStore.Instance.Token = launcherToken;
-			} else {
-				print("Store demo starts. Use default hardcoded token: " + DefaultStoreToken);
-				XsollaStore.Instance.Token = DefaultStoreToken;
-			}
-		}
+		CartModel = new CartModel();
+
+		CheckAuth();
 
 		isCatalogLoaded = false;
 		isInventoryLoaded = false;
 
 		XsollaStore.Instance.CreateNewCart(XsollaSettings.StoreProjectId, newCart => { Cart = newCart; }, ShowError);
 
-		XsollaStore.Instance.GetListOfItems(XsollaSettings.StoreProjectId, InitStoreUi, ShowError);
+		XsollaStore.Instance.GetCatalog(XsollaSettings.StoreProjectId, InitStoreUi, ShowError);
 
 		RefreshInventory(() => isInventoryLoaded = true);
 
 		StartCoroutine(LockPurchasedNonConsumableItemsCoroutine());
 	}
 
-	public void GetImageAsync(string url, Action<string, Sprite> callback)
+	private void _extraController_LinkingAccountComplete()
 	{
-		imageLoader.GetImageAsync(url, callback);
+		RefreshInventory();
+		RefreshVirtualCurrencyBalance();
+	}
+
+	private void CheckAuth()
+	{
+		if (XsollaLogin.IsExist && !XsollaLogin.Instance.Token.IsNullOrEmpty()) {
+			print("Store demo starts. Use token obtained from Login: " + XsollaLogin.Instance.Token);
+			XsollaStore.Instance.Token = XsollaLogin.Instance.Token;
+		} else {
+			string jwtEncodedString = LauncherArguments.Instance.GetToken();
+			XsollaStore.Instance.Token = LauncherArguments.Instance.GetToken();
+			if (XsollaStore.Instance.Token.IsNullOrEmpty()) {
+				XsollaStore.Instance.Token = DefaultStoreToken;
+				print("Store demo starts. Use default hardcoded token: " + XsollaStore.Instance.Token);
+			} else {
+				print("Store demo starts. Use token obtained from Launcher: " + XsollaStore.Instance.Token);
+			}
+		}
 	}
 
 	public void RefreshInventory(Action refreshCallback = null)
@@ -121,7 +112,7 @@ public class StoreController : MonoBehaviour
 		XsollaLogin.Instance.GetUserAttributes(XsollaStore.Instance.Token, XsollaSettings.StoreProjectId, null, null, list =>
 		{
 			attributes = list;
-			_extraController.RefreshAttributesPanel();
+			_extraController.SetAttributes(list);
 			refreshCallback?.Invoke();
 		}, ShowError);
 	}
@@ -150,26 +141,33 @@ public class StoreController : MonoBehaviour
 
 	void InitStoreUi(StoreItems items)
 	{
-		XsollaStore.Instance.GetListOfItemGroups(XsollaSettings.StoreProjectId, groups =>
+		XsollaStore.Instance.GetItemGroups(XsollaSettings.StoreProjectId, groups =>
 		{
 			_groupsController.CreateGroups(items, groups);
 			_itemsController.CreateItems(items);
 
 			_itemsTabControl.Init();
-			_extraController.Init();
+			_extraController.Initialize();
 
 			_groupsController.SelectDefault();
-			XsollaStore.Instance.GetVirtualCurrencyPackagesList(XsollaSettings.StoreProjectId, _itemsController.AddVirtualCurrencyPackage, ShowError);
+			XsollaStore.Instance.GetVirtualCurrencyPackagesList(XsollaSettings.StoreProjectId,
+				packages => {
+					_itemsController.AddVirtualCurrencyPackage(packages);
+					packages.items.ForEach(p => ImageLoader.Instance.GetImageAsync(p.image_url, null));
+				}, ShowError);
 			XsollaStore.Instance.GetVirtualCurrencyList(
 				XsollaSettings.StoreProjectId,
 				currencies =>
 				{
 					_itemsTabControl.VirtualCurrencyBalance.SetCurrencies(currencies);
 					RefreshVirtualCurrencyBalance();
+					currencies.items.ToList().ForEach(c => ImageLoader.Instance.GetImageAsync(c.image_url, null));
 				} , ShowError);
 
 			RefreshAttributes();
 			isCatalogLoaded = true;
+
+			items.items.ToList().ForEach(i => ImageLoader.Instance.GetImageAsync(i.image_url, null));
 		}, ShowError);
 	}
 
@@ -221,29 +219,26 @@ public class StoreController : MonoBehaviour
 		}, ShowError);
 	}
 
-	MessagePopup PreparePopUp()
-	{
-		if (_popup == null)
-			return Instantiate(popupPrefab, gameObject.transform).GetComponent<MessagePopup>();
-		print("Popup is already shown");
-		return null;
-	}
+	public void ShowSuccess(string message = "") => PopupFactory.Instance.CreateSuccess().SetMessage(message);
 
-	public void ShowSuccess() => PreparePopUp()?.ShowSuccess(() => { _popup = null; });
-
-	public void ShowError(Xsolla.Core.Error error)
+	public void ShowError(Error error)
 	{
 		print(error);
-		PreparePopUp()?.ShowError(error, () => { _popup = null; });
+		PopupFactory.Instance.CreateError().SetMessage(error.ToString());
 	}
 
-	public void ShowConfirm(Action confirmCase, Action cancelCase, string message = "")
-	{
-		Text text = PreparePopUp()?.ShowConfirm(
-			() => { confirmCase?.Invoke(); _popup = null; },
-			() => { cancelCase?.Invoke(); _popup = null; }).confirmText;
-		if (!String.IsNullOrEmpty(message)) {
-			text.text = message;
-		}
-	}
+	public void ShowConfirm(
+		Action confirmCase,
+		Action cancelCase = null,
+		string message = "Are you sure you want to buy this item?"
+	) =>
+		PopupFactory.Instance.CreateConfirmation().
+		SetMessage(message).
+		SetConfirmCallback(confirmCase).
+		SetCancelCallback(cancelCase);
+
+	public void ShowConfirmCode(Action<string> confirmCase, Action cancelCase = null) => PopupFactory.Instance.
+		CreateCodeConfirmation().
+		SetConfirmCallback(confirmCase).
+		SetCancelCallback(cancelCase);
 }

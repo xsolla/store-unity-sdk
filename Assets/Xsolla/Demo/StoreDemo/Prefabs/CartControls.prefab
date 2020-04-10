@@ -284,6 +284,8 @@ MonoBehaviour:
   buyButton: {fileID: 5942670174556563874}
   clearCartButton: {fileID: 6803192035229265494}
   priceText: {fileID: 7446015086222729443}
+  LoaderPrefab: {fileID: 7821807633063864268, guid: 92a0ddd244ff54eb492d95594aa9124f,
+    type: 3}
 --- !u!1 &7446015085973821864
 GameObject:
   m_ObjectHideFlags: 0
@@ -510,12 +512,12 @@ PrefabInstance:
     - target: {fileID: 5571938582151317058, guid: dfffa70844d28c4499d39d6571e7e152,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 65
+      value: 67
       objectReference: {fileID: 0}
     - target: {fileID: 5571938582151317058, guid: dfffa70844d28c4499d39d6571e7e152,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 22
+      value: 23
       objectReference: {fileID: 0}
     - target: {fileID: 5571938582151317058, guid: dfffa70844d28c4499d39d6571e7e152,
         type: 3}
@@ -597,6 +599,27 @@ PrefabInstance:
     - target: {fileID: 8761578432214116197, guid: dfffa70844d28c4499d39d6571e7e152,
         type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8739429482784647599, guid: dfffa70844d28c4499d39d6571e7e152,
+        type: 3}
+      propertyPath: normalStateSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: edc477be087616d44aded15e395a1e57,
+        type: 3}
+    - target: {fileID: 8739429482784647599, guid: dfffa70844d28c4499d39d6571e7e152,
+        type: 3}
+      propertyPath: normalTextColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8739429482784647599, guid: dfffa70844d28c4499d39d6571e7e152,
+        type: 3}
+      propertyPath: normalTextColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8739429482784647599, guid: dfffa70844d28c4499d39d6571e7e152,
+        type: 3}
+      propertyPath: normalTextColor.b
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5571938582151317058, guid: dfffa70844d28c4499d39d6571e7e152,
@@ -734,26 +757,10 @@ PrefabInstance:
       propertyPath: m_Color.b
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 8739429482784647599, guid: dfffa70844d28c4499d39d6571e7e152,
+    - target: {fileID: 1422655356088621779, guid: dfffa70844d28c4499d39d6571e7e152,
         type: 3}
-      propertyPath: normalStateSprite
-      value: 
-      objectReference: {fileID: 21300000, guid: edc477be087616d44aded15e395a1e57,
-        type: 3}
-    - target: {fileID: 8739429482784647599, guid: dfffa70844d28c4499d39d6571e7e152,
-        type: 3}
-      propertyPath: normalTextColor.r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8739429482784647599, guid: dfffa70844d28c4499d39d6571e7e152,
-        type: 3}
-      propertyPath: normalTextColor.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8739429482784647599, guid: dfffa70844d28c4499d39d6571e7e152,
-        type: 3}
-      propertyPath: normalTextColor.b
-      value: 1
+      propertyPath: m_FontData.m_MaxSize
+      value: 24
       objectReference: {fileID: 0}
     - target: {fileID: 7411716584711692345, guid: dfffa70844d28c4499d39d6571e7e152,
         type: 3}

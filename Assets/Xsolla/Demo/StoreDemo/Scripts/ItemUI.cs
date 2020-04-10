@@ -1,10 +1,10 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using Xsolla.Core;
+using Xsolla.Core.Popup;
 using Xsolla.Store;
 
 public class ItemUI : MonoBehaviour
@@ -21,7 +21,7 @@ public class ItemUI : MonoBehaviour
 	SimpleTextButton buyButton;
 	[SerializeField]
 	AddToCartButton addToCartButton;
-	
+
 	StoreItem _itemInformation;
 	StoreController _storeController;
 	GroupsController _groupsController;
@@ -35,17 +35,21 @@ public class ItemUI : MonoBehaviour
 
 		var cartGroup = FindObjectOfType<CartGroupUI>();
 
-		buyButton.onClick = (() =>
-		{
+		buyButton.onClick = (() => {
 			if (_itemInformation.virtual_prices.Any()) {
 				_storeController.ShowConfirm(
 					() => {
-						XsollaStore.Instance.BuyItem(XsollaSettings.StoreProjectId, _itemInformation.sku, GetVirtualPrice().sku, VirtualCurrencyPurchaseComplete, _storeController.ShowError, null);
+						XsollaStore.Instance.ItemPurchaseForVirtualCurrency(
+							XsollaSettings.StoreProjectId,
+							_itemInformation.sku,
+							GetVirtualPrice().sku,
+							(PurchaseData data) => VirtualCurrencyPurchaseComplete(_itemInformation.name),
+							_storeController.ShowError,
+							null);
 					}, null);
 			} else {
 				bool isItemVirtualCurrency = _groupsController?.GetSelectedGroup().Name == Constants.CurrencyGroupName;
-				XsollaStore.Instance.BuyItem(XsollaSettings.StoreProjectId, _itemInformation.sku, data =>
-				{
+				XsollaStore.Instance.ItemPurchase(XsollaSettings.StoreProjectId, _itemInformation.sku, data => {
 					XsollaStore.Instance.OpenPurchaseUi(data);
 					_storeController.ProcessOrder(data.order_id, () => {
 						if (isItemVirtualCurrency)
@@ -55,25 +59,23 @@ public class ItemUI : MonoBehaviour
 			}
 		});
 
-		addToCartButton.onClick = (bSelected =>
-		{
-			if (bSelected)
-			{
+		addToCartButton.onClick = (bSelected => {
+			if (bSelected) {
 				_storeController.CartModel.AddCartItem(_itemInformation);
 				cartGroup.IncreaseCounter();
-			}
-			else
-			{
-				_storeController.CartModel.RemoveCartItem(_itemInformation.sku); 
+			} else {
+				_storeController.CartModel.RemoveCartItem(_itemInformation.sku);
 				cartGroup.DecreaseCounter();
 			}
 		});
 	}
 
-	void VirtualCurrencyPurchaseComplete(PurchaseData purchaseData)
+	void VirtualCurrencyPurchaseComplete(string itemName)
 	{
 		_storeController.RefreshInventory();
 		_storeController.RefreshVirtualCurrencyBalance();
+		PopupFactory.Instance.CreateSuccess().
+			SetMessage(String.Format("You are purchased `{0}`!", itemName));
 	}
 
 	public void Initialize(StoreItem itemInformation)
@@ -144,9 +146,8 @@ public class ItemUI : MonoBehaviour
 
 	void OnEnable()
 	{
-		if (_itemImage == null && !string.IsNullOrEmpty(_itemInformation.image_url))
-		{
-			_storeController.GetImageAsync(_itemInformation.image_url, LoadImageCallback);
+		if (_itemImage == null && !string.IsNullOrEmpty(_itemInformation.image_url)) {
+			ImageLoader.Instance.GetImageAsync(_itemInformation.image_url, LoadImageCallback);
 		}
 	}
 
@@ -158,7 +159,7 @@ public class ItemUI : MonoBehaviour
 
 	public void Refresh()
 	{
-		if(addToCartButton.gameObject.activeInHierarchy)
+		if (addToCartButton.gameObject.activeInHierarchy)
 			addToCartButton.Select(_storeController.CartModel.CartItems.ContainsKey(_itemInformation.sku));
 	}
 }

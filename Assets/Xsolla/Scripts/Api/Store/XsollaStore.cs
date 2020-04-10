@@ -7,21 +7,7 @@ namespace Xsolla.Store
 	[PublicAPI]
 	public partial class XsollaStore : MonoSingleton<XsollaStore>
 	{
-		public GameObject InAppBrowserPrefab;
-		private GameObject InAppBrowserObject;
-
-		public string Token
-		{
-			set { PlayerPrefs.SetString(Constants.XsollaStoreToken, value); }
-			get { return PlayerPrefs.GetString(Constants.XsollaStoreToken, string.Empty); }
-		}
-
-		private void OnDestroy()
-		{
-			if(InAppBrowserObject != null) {
-				Destroy(InAppBrowserObject);
-			}
-		}
+		public Token Token { get; set; }
 
 		string AdditionalUrlParams
 		{
@@ -47,6 +33,14 @@ namespace Xsolla.Store
 				return string.Empty;
 			}
 			return string.Format("&currency={0}", currency);
+		}
+
+		string GetPlatformUrlParam()
+		{
+			if(XsollaSettings.Platform == PlatformType.None) {
+				return string.Empty;
+			}
+			return "&platform=" + XsollaSettings.Platform.GetString();
 		}
 	}
 }

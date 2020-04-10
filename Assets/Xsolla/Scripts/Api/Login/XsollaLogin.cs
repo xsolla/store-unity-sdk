@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using System.Text;
 using JetBrains.Annotations;
 using Xsolla.Core;
@@ -51,46 +50,6 @@ namespace Xsolla.Login
 			}
 		}
 
-		public string Token
-		{
-			get
-			{
-				return PlayerPrefs.HasKey(Constants.XsollaLoginToken) ? PlayerPrefs.GetString(Constants.XsollaLoginToken) : string.Empty;
-			}
-			set
-			{
-				PlayerPrefs.SetString(Constants.XsollaLoginToken, value);
-			}
-		}
-
-		public string TokenExp
-		{
-			get
-			{
-				return PlayerPrefs.HasKey(Constants.XsollaLoginTokenExp) ? PlayerPrefs.GetString(Constants.XsollaLoginTokenExp) : string.Empty;
-			}
-			set
-			{
-				PlayerPrefs.SetString(Constants.XsollaLoginTokenExp, value);
-			}
-		}
-
-		public bool IsTokenValid
-		{
-			get
-			{
-				long epochTicks = new DateTime(1970, 1, 1).Ticks;
-				long unixTime = ((DateTime.UtcNow.Ticks - epochTicks) / TimeSpan.TicksPerSecond);
-
-				if (!string.IsNullOrEmpty(TokenExp))
-				{
-					return long.Parse(TokenExp) >= unixTime;
-				}
-				
-				return false;
-			}
-		}
-
 		void SaveLoginPassword(string username, string password)
 		{
 			if (!string.IsNullOrEmpty(XsollaSettings.LoginId))
@@ -100,19 +59,6 @@ namespace Xsolla.Login
 			}
 		}
 
-		public void ValidateToken(string token, Action<User> onSuccess, Action<Core.Error> onError)
-		{
-			if (!string.IsNullOrEmpty(token))
-			{
-				WebRequestHelper.Instance.PostRequest<TokenJson, ValidateToken>(
-					XsollaSettings.JwtValidationUrl, new ValidateToken(token),
-					(response) => {
-						TokenExp = response.token_payload.exp;
-						onSuccess?.Invoke(response.token_payload);
-					}, onError, Core.Error.TokenErrors);
-			}
-			else
-				onError?.Invoke(new Core.Error(ErrorType.InvalidToken, string.Empty, "Failed to parse token"));
-		}
+		public Token Token { get; set; }
 	}
 }
