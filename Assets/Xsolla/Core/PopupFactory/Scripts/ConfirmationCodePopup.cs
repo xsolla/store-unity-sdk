@@ -22,7 +22,14 @@ namespace Xsolla.Core.Popup
 
 		private void Awake()
 		{
-			CancelButton.onClick = () => { Destroy(gameObject, 0.001F); };
+			if (ConfirmButton != null)
+			{
+				ConfirmButton.onClick = () => Destroy(gameObject, 0.001F);
+			}
+			if (CancelButton != null)
+			{
+				CancelButton.onClick = () => Destroy(gameObject, 0.001F);
+			}
 		}
 
 		IConfirmationCodePopup IConfirmationCodePopup.SetTitle(string titleText)
