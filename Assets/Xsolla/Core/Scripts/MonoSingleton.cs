@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Xsolla.Core
 {
@@ -71,6 +72,11 @@ namespace Xsolla.Core
 			{
 				Destroy(gameObject);
 			}
+		}
+
+		private void OnDestroy()
+		{
+			_instance = null;
 		}
 
 		// This function is called when the instance is used the first time

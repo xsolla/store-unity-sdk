@@ -61,10 +61,12 @@ public class ItemUI : MonoBehaviour
 
 		addToCartButton.onClick = (bSelected => {
 			if (bSelected) {
-				_storeController.CartModel.AddCartItem(_itemInformation);
+				UserCart.Instance.AddItem(_itemInformation);
+				//_storeController.CartModel.AddCartItem(_itemInformation);
 				cartGroup.IncreaseCounter();
 			} else {
-				_storeController.CartModel.RemoveCartItem(_itemInformation.sku);
+				UserCart.Instance.RemoveItem(_itemInformation);
+				//_storeController.CartModel.RemoveCartItem(_itemInformation.sku);
 				cartGroup.DecreaseCounter();
 			}
 		});

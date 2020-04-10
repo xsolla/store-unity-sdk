@@ -10,6 +10,8 @@ public class CartGroupUI : MonoBehaviour, IGroup
 	
 	void Awake()
 	{
+		UserCart.Instance.AddItemEvent += item => IncreaseCounter();
+		UserCart.Instance.RemoveItemEvent += item => DecreaseCounter();
 		menuButton.onClick = ((s) =>
 		{
 			if (OnGroupClick != null)
