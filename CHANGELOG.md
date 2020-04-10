@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.5.0.3] - 2020-04-10 
+
+### Added 
+- The utility method of getting the Steam session_ticket for authorization.
+- The ability to process payments through Steam for games distributed on Steam. 
+- Platform parameter to Store API methods. 
+
+### Fixed 
+- Minor bugs.
+
 ## [0.5.0.2] - 2020-03-17
 
 ### Fixed
