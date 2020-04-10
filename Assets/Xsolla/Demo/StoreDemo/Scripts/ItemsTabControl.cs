@@ -1,11 +1,12 @@
 ﻿using System;
 using UnityEngine;
 using Xsolla.Core;
+using Xsolla.Store;
 
 public partial class ItemsTabControl : MonoBehaviour
 {
-	const string StoreButtonText = "Store";
-	const string CartButtonText = "Cart";
+	private const string STORE_BUTTON_TEXT = "Store";
+	private const string CART_BUTTON_TEXT = "Cart";
 
 	[SerializeField]
 	MenuButton storeButton;
@@ -15,15 +16,20 @@ public partial class ItemsTabControl : MonoBehaviour
 	MenuButton attributesButton;
 	[SerializeField]
 	VirtualCurrencyContainer virtualCurrencyBalance;
-	public VirtualCurrencyContainer VirtualCurrencyBalance { get => virtualCurrencyBalance; set => virtualCurrencyBalance = value; }
 
-	private ItemsController itemsController;
-	private GroupsController groupsController;
+	private ItemsController _itemsController;
+	private GroupsController _groupsController;
+
+	private void Awake()
+	{
+		UserCatalog.Instance.UpdateVirtualCurrenciesEvent += virtualCurrencyBalance.SetCurrencies;
+		UserInventory.Instance.UpdateVirtualCurrencyBalanceEvent += virtualCurrencyBalance.SetCurrenciesBalance;
+	}
 
 	public void Init()
 	{
-		groupsController = FindObjectOfType<GroupsController>();
-		itemsController = FindObjectOfType<ItemsController>();
+		_groupsController = FindObjectOfType<GroupsController>();
+		_itemsController = FindObjectOfType<ItemsController>();
 		
 		storeButton.gameObject.SetActive(true);
 		inventoryButton.gameObject.SetActive(true);
@@ -31,41 +37,41 @@ public partial class ItemsTabControl : MonoBehaviour
 		
 		storeButton.Select(false);
 
-		attributesButton.onClick = InternalActivateAttributesTab;
-		storeButton.onClick = InternalActivateStoreTab;
-		inventoryButton.onClick = InternalActivateInventoryTab;
+		attributesButton.onClick = _ => InternalActivateAttributesTab();
+		storeButton.onClick = _ => InternalActivateStoreTab();
+		inventoryButton.onClick = _ => InternalActivateInventoryTab();
 
-		InitHotKeys();	
+		InitHotKeys();
 	}
 
-	private void InternalActivateStoreTab(string s = "")
+	private void InternalActivateStoreTab()
 	{
 		attributesButton.Deselect();
 		inventoryButton.Deselect();
 
-		var selectedGroup = groupsController.GetSelectedGroup();
+		var selectedGroup = _groupsController.GetSelectedGroup();
 		if (selectedGroup != null) {
-			itemsController.ActivateContainer(selectedGroup.Id);
+			_itemsController.ActivateContainer(selectedGroup.Id);
 		}
 	}
 
-	private void InternalActivateInventoryTab(string s = "")
+	private void InternalActivateInventoryTab()
 	{
 		attributesButton.Deselect();
 		storeButton.Deselect();
-		itemsController.ActivateContainer(Constants.InventoryContainerName);
+		_itemsController.ActivateContainer(Constants.InventoryContainerName);
 	}
 
-	private void InternalActivateAttributesTab(string s = "")
+	private void InternalActivateAttributesTab()
 	{
 		storeButton.Deselect();
 		inventoryButton.Deselect();
-		itemsController.ActivateContainer(Constants.AttributesContainerName);
+		_itemsController.ActivateContainer(Constants.AttributesContainerName);
 	}
 
-	public void ActivateStoreTab(string groupID)
+	public void ActivateStoreTab(string groupId)
 	{
-		storeButton.Text = (groupID == Constants.CartGroupName) ? CartButtonText : StoreButtonText;
+		storeButton.Text = (groupId == Constants.CartGroupName) ? CART_BUTTON_TEXT : STORE_BUTTON_TEXT;
 		storeButton.Select(false);
 		attributesButton.Deselect();
 		inventoryButton.Deselect();

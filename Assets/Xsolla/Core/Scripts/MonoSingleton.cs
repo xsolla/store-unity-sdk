@@ -1,11 +1,13 @@
 ﻿using System;
+using UnityEditor;
 using UnityEngine;
+using Xsolla.Store;
 
 namespace Xsolla.Core
 {
 	public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T>
 	{
-		const string PATH_TO_PREFABS = "Prefabs/";
+		const string PATH_TO_PREFABS = "Assets/Xsolla/Resources/Prefabs/";
 		static T _instance;
 
 		public static T Instance
@@ -24,14 +26,25 @@ namespace Xsolla.Core
 
 		private static T InstantiateThis()
 		{
+			string componentName = typeof(T).Name;
+			Debug.Log("No instance of " + componentName);
 			T result = InstantiateFromScene();
 
 			if (result == null)
+			{
 				result = InstantiateFromResources();
+				if (result != null)
+					Debug.Log(componentName + " loaded from resources.");
+			}
+			else
+				Debug.Log(componentName + " found in the scene.");
 
 			if (result == null)
+			{
 				result = InstantiateAsNewObject();
-
+				if (result != null)
+					Debug.Log(componentName + " a temporary one is created.");
+			}
 			return result;
 		}
 
@@ -42,12 +55,22 @@ namespace Xsolla.Core
 
 		private static T InstantiateFromResources()
 		{
-			return Resources.Load<T>(PATH_TO_PREFABS + typeof(T).Name);
+			string path = PATH_TO_PREFABS + typeof(T).Name + ".prefab";
+			
+			T prefab = AssetDatabase.LoadAssetAtPath<T>(path);
+			if (prefab == null) return null;
+			
+			GameObject instance = Instantiate(prefab.gameObject);
+			if (instance != null)
+			{
+				instance.name = typeof(T).Name;
+			}
+			return instance == null ? null : instance.GetComponent<T>();
+			//return Resources.Load<T>(PATH_TO_PREFABS + typeof(T).Name);
 		}
 
 		private static T InstantiateAsNewObject()
 		{
-			Debug.Log("No instance of " + typeof(T) + ", a temporary one is created.");
 			GameObject instance = new GameObject("Temp Instance of " + typeof(T));
 			return instance.AddComponent<T>();
 		}
@@ -76,6 +99,7 @@ namespace Xsolla.Core
 
 		private void OnDestroy()
 		{
+			Debug.Log(typeof(T) + " is destroyed.");
 			_instance = null;
 		}
 
@@ -83,6 +107,11 @@ namespace Xsolla.Core
 		// Put all the initializations you need here, as you would do in Awake
 		public virtual void Init()
 		{
+		}
+
+		private void OnApplicationQuit()
+		{
+			Destroy(gameObject);
 		}
 	}
 }

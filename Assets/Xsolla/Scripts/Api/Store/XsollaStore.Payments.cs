@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -143,6 +144,37 @@ namespace Xsolla.Store
 		{
 			var urlBuilder = new StringBuilder(string.Format(URL_ORDER_GET_STATUS, projectId, orderId)).Append(AdditionalUrlParams);
 			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.OrderStatusErrors);
+		}
+
+		/// <summary>
+		/// Polls Store every 3 seconds to know when payment finished.
+		/// </summary>
+		/// <param name="projectId">Project ID from your Publisher Account.</param>
+		/// <param name="orderId">Unique identifier of created order.</param>
+		/// <param name="onSuccess">Success payment callback.</param>
+		/// <param name="onError">Failed operation callback.</param>
+		public void ProcessOrder(string projectId, int orderId, Action onSuccess = null, Action<Error> onError = null)
+		{
+			StartCoroutine(CheckOrderStatus(projectId, orderId, onSuccess, onError));
+		}
+
+		IEnumerator CheckOrderStatus(string projectId, int orderId, Action onSuccess = null, Action<Error> onError = null)
+		{
+			// Wait 3 seconds
+			yield return new WaitForSeconds(3.0f);
+		
+			CheckOrderStatus(projectId, orderId, status =>
+			{
+				if ((status.Status != OrderStatusType.Paid) && (status.Status != OrderStatusType.Done))
+				{
+					StartCoroutine(CheckOrderStatus(projectId, orderId, onSuccess, onError));
+				}
+				else
+				{
+					Debug.Log($"Order `{orderId}` was successfully processed!");
+					onSuccess?.Invoke();
+				}
+			}, onError);
 		}
 	}
 }

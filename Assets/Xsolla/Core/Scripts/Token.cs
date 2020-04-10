@@ -1,17 +1,23 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.IdentityModel.JsonWebTokens;
+using UnityEngine;
 
 namespace Xsolla.Core
 {
 	public class Token
 	{
-		const string EXPIRATION_UNIX_TIME_PARAMETER = "exp";
-		const string USER_ID_URL_PARAMETER = "id";
-		const string CROSS_AUTH_PARAMETER = "is_cross_auth";
-		const string IS_MASTER_ACCOUNT_PARAMETER = "is_master";
+		private const string EXPIRATION_UNIX_TIME_PARAMETER = "exp";
+		private const string USER_ID_URL_PARAMETER = "id";
+		private const string CROSS_AUTH_PARAMETER = "is_cross_auth";
+		private const string IS_MASTER_ACCOUNT_PARAMETER = "is_master";
+		private const string TOKEN_TYPE_PARAMETER = "type";
+		private const string TOKEN_SERVER_TYPE = "server_custom_id";
 
 		public bool FromSteam { get; set; }
+		/// <summary>
+		/// Login JWT. To see all fields of this token, you can parse it by <see cref="https://jwt.io/"/>
+		/// </summary>
 		private JsonWebToken token;
 		private string PaystationToken;
 
@@ -81,10 +87,16 @@ namespace Xsolla.Core
 		{
 			if (JWTisNullOrEmpty())
 				return false;
+			if (!token.TryGetPayloadValue<string>(TOKEN_TYPE_PARAMETER, out var tokenType))
+			{
+				Debug.LogAssertion($"Something went wrong... Token must have 'type' parameter. Your token = {token}");
+				return true;
+			}
+			if (!tokenType.Equals(TOKEN_SERVER_TYPE)) return true;
 			return token.TryGetPayloadValue<bool>(IS_MASTER_ACCOUNT_PARAMETER, out var isMaster) && isMaster;
 		}
 
-		public static implicit operator string(Token token) => token.ToString();
+		public static implicit operator string(Token token) => (token != null) ? token.ToString() : string.Empty;
 		public static implicit operator Token(string encodedToken) => new Token(encodedToken);
 
 		public override string ToString()

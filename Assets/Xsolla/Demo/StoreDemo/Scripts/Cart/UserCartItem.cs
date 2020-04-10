@@ -1,23 +1,24 @@
 ﻿using System;
-using System.Linq;
-using UnityEngine.SocialPlatforms;
 using Xsolla.Core;
 using Xsolla.Store;
 
 public class UserCartItem
 {
-	public StoreItem Item { get; set; }
+	public StoreItem Item { get; }
 	public int Quantity { get; set; }
-	
-	private float Price => Item.price.amount;
 
+	public string Sku => Item.sku;
+	public float Price => Item.price.amount;
+	public string Currency => Item.price.currency;
+	public string ImageUrl => Item.image_url;
+	public float TotalPrice => Price * Quantity;
+	
 	public UserCartItem(StoreItem storeItem)
 	{
 		Item = storeItem;
 		Quantity = 1;
 	}
-	public float TotalPrice => Price * Quantity;
-
+	
 	/// <summary>
 	/// Software calculation of the discount for demo project;
 	/// </summary>
@@ -40,7 +41,7 @@ public class UserCartItem
 				return Price * Quantity * 0.25f;
 			}
 			
-			if (IsInRange(Quantity, 10, Int32.MaxValue))
+			if (IsInRange(Quantity, 10, int.MaxValue))
 			{
 				return Price * Quantity * 0.5f;
 			}
@@ -48,8 +49,8 @@ public class UserCartItem
 			return 0.0f;
 		}
 	}
-	
-	static bool IsInRange(int value, int minimum, int maximum)
+
+	private static bool IsInRange(int value, int minimum, int maximum)
 	{
 		return value >= minimum && value <= maximum;
 	}

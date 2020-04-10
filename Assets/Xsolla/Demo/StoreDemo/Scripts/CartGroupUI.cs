@@ -12,6 +12,9 @@ public class CartGroupUI : MonoBehaviour, IGroup
 	{
 		UserCart.Instance.AddItemEvent += item => IncreaseCounter();
 		UserCart.Instance.RemoveItemEvent += item => DecreaseCounter();
+		UserCart.Instance.UpdateItemEvent += (item, deltaValue) => ChangeCounter(deltaValue);
+		UserCart.Instance.ClearCartEvent += ResetCounter;
+
 		menuButton.onClick = ((s) =>
 		{
 			if (OnGroupClick != null)
@@ -47,22 +50,30 @@ public class CartGroupUI : MonoBehaviour, IGroup
 	{
 		return menuButton.IsSelected;
 	}
-	
-	public void IncreaseCounter(int value = 1)
+
+	private void SetCounter(int newValue)
 	{
-		_counter += value;
-		menuButton.CounterText = _counter.ToString();
-	}
-	
-	public void DecreaseCounter(int value = 1)
-	{
-		_counter -= value;
+		_counter = newValue;
 		menuButton.CounterText = _counter.ToString();
 	}
 
-	public void ResetCounter()
+	private void IncreaseCounter(int value = 1)
 	{
-		_counter = 0;
-		menuButton.CounterText = _counter.ToString();
+		SetCounter(_counter + 1);
+	}
+
+	private void DecreaseCounter(int value = 1)
+	{
+		SetCounter(_counter - 1);
+	}
+
+	private void ResetCounter()
+	{
+		SetCounter(0);
+	}
+
+	private void ChangeCounter(int deltaValue)
+	{
+		SetCounter(_counter + deltaValue);
 	}
 }
