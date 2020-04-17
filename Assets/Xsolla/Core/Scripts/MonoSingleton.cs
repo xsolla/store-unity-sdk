@@ -55,9 +55,9 @@ namespace Xsolla.Core
 
 		private static T InstantiateFromResources()
 		{
-			string path = PATH_TO_PREFABS + typeof(T).Name + ".prefab";
+			string path = PATH_TO_PREFABS + typeof(T).Name;
 			
-			T prefab = AssetDatabase.LoadAssetAtPath<T>(path);
+			T prefab = Resources.Load<T>(path);
 			if (prefab == null) return null;
 			
 			GameObject instance = Instantiate(prefab.gameObject);
@@ -66,7 +66,6 @@ namespace Xsolla.Core
 				instance.name = typeof(T).Name;
 			}
 			return instance == null ? null : instance.GetComponent<T>();
-			//return Resources.Load<T>(PATH_TO_PREFABS + typeof(T).Name);
 		}
 
 		private static T InstantiateAsNewObject()
