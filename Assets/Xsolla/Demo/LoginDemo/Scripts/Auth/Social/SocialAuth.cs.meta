@@ -1,11 +1,9 @@
 fileFormatVersion: 2
-guid: c5cb757ccfc8d43899eb453b0887dd7e
+guid: e6fa2fff061f4a4a80257fd3ab167637
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences:
-  - InAppBrowserPrefab: {fileID: 2921180944494038115, guid: 5dce3528d1dd7429d94941408d4aa0c4,
-      type: 3}
+  defaultReferences: []
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

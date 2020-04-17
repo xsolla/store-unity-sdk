@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using Microsoft.IdentityModel.JsonWebTokens;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -27,30 +25,7 @@ public class LoginPage : Page, ILogin
             _basicAuth.SoftwareAuth();
         }
     }
-
-    private void OnGUI()
-    {
-        if (GUI.Button(new Rect(10.0F, 10.0F, 80.0F, 30.0F), "Google"))
-        {
-            BrowserHelper.Instance.Open("", true);
-            var browser = BrowserHelper.Instance.GetLastBrowser();
-            
-            browser.BrowserInitEvent += browser2D =>
-            {
-                var coroutine = StartCoroutine(UrlCoroutine());
-                browser2D.BrowserClosedEvent += pageBrowser2D =>
-                {
-                    StopCoroutine(coroutine);
-                };
-            };
-        }
-    }
-
-    IEnumerator UrlCoroutine()
-    {
-        
-    }
-
+    
     private void Awake()
 	{
         XsollaLogin.Instance.Token = null;
