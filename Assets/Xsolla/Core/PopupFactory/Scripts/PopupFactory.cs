@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Xsolla.Core.Popup
 {
@@ -23,7 +25,7 @@ namespace Xsolla.Core.Popup
 		}
 	}
 
-	[AddComponentMenu("")]
+	[AddComponentMenu("Scripts/Xsolla.Core/Popup/PopupFactory")]
 	public class PopupFactory : MonoSingleton<PopupFactory>
 	{
 		public GameObject BackgroundPrefab;
@@ -50,8 +52,8 @@ namespace Xsolla.Core.Popup
 		{
 			if (prefab == null) {
 				Debug.LogError(
-					"You try create object, but prefab for it is null. " +
-					"Check `PopupHelper` script for missing prefabs.");
+					"You try create object, but prefab for it is null. " + Environment.NewLine +
+					"Check `PopupFactory` script for missing prefabs.");
 				return null;
 			}
 			return prefab.CreateObjectFor(parent).AddBackground(BackgroundPrefab);

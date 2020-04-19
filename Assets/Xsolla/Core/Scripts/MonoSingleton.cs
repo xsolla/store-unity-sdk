@@ -2,12 +2,13 @@
 using UnityEditor;
 using UnityEngine;
 using Xsolla.Store;
+using Object = UnityEngine.Object;
 
 namespace Xsolla.Core
 {
 	public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T>
 	{
-		const string PATH_TO_PREFABS = "Assets/Xsolla/Resources/Prefabs/";
+		const string PATH_TO_PREFABS = "Prefabs/";
 		static T _instance;
 
 		public static T Instance
@@ -57,10 +58,10 @@ namespace Xsolla.Core
 		{
 			string path = PATH_TO_PREFABS + typeof(T).Name;
 			
-			T prefab = Resources.Load<T>(path);
+			var prefab = Resources.Load(path);
 			if (prefab == null) return null;
 			
-			GameObject instance = Instantiate(prefab.gameObject);
+			GameObject instance = Instantiate(prefab) as GameObject;
 			if (instance != null)
 			{
 				instance.name = typeof(T).Name;
