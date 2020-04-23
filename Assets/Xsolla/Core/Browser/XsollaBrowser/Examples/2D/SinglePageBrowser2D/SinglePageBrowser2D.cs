@@ -3,13 +3,15 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(Image))]
+[RequireComponent(typeof(BoxCollider2D))]
 public class SinglePageBrowser2D : MonoBehaviour
 {
 	public event Action<IXsollaBrowser> BrowserInitEvent;
 	public event Action<IXsollaBrowser> BrowserClosedEvent;
 
 	[SerializeField]
-	public Vector2 Viewport = new Vector2(800.0F, 600.0F);
+	public Vector2 Viewport = new Vector2(1920.0F, 1080.0F);
 	[SerializeField]
 	public GameObject PreloaderPrefab;
 
@@ -22,14 +24,28 @@ public class SinglePageBrowser2D : MonoBehaviour
 	
 	private void Awake()
 	{
+		CloseButton.gameObject.SetActive(false);
+		
+		Canvas canvas = FindObjectOfType<Canvas>();
+		Rect canvasRect = canvas.pixelRect;
+		if (Viewport.x > canvasRect.width)
+			Viewport.x = canvasRect.width;
+		if (Viewport.y > canvasRect.height)
+			Viewport.y = canvasRect.height;
+		
 		xsollaBrowser = this.GetOrAddComponent<XsollaBrowser>();
 		xsollaBrowser.LogEvent += XsollaBrowser_LogEvent;
+		xsollaBrowser.Launch(new LaunchBrowserOptions()
+		{
+			Width = (int)Viewport.x,
+			Height = (int)Viewport.y,
+		});
+		
 		display = this.GetOrAddComponent<Display2DBehaviour>();
 	}
 
 	private void Start()
 	{
-		CloseButton.gameObject.SetActive(false);
 		if (Camera.main != null)
 			Camera.main.transform.Translate(transform.position - Camera.main.transform.position, Space.World);
 		StartCoroutine(InitializationCoroutine(xsollaBrowser));
@@ -41,13 +57,17 @@ public class SinglePageBrowser2D : MonoBehaviour
 		yield return StartCoroutine(WaitPreloaderCoroutine());
 		
 		display.StartRedrawWith((int)Viewport.x, (int)Viewport.y);
-		display.RedrawFrameCompleteEvent += () =>
-		{
-			CloseButton.gameObject.SetActive(true);
-			CloseButton.onClick.AddListener(CloseButtonPressed);
-		};
+		display.RedrawFrameCompleteEvent += EnableCloseButton;
+		display.ViewportChangedEvent += (width, height) => Viewport = new Vector2(width, height);
 		InitializeInput();
 		BrowserInitEvent?.Invoke(browser);
+	}
+
+	private void EnableCloseButton()
+	{
+		display.RedrawFrameCompleteEvent -= EnableCloseButton;
+		CloseButton.gameObject.SetActive(true);
+		CloseButton.onClick.AddListener(CloseButtonPressed);
 	}
 
 	private IEnumerator WaitPreloaderCoroutine()
@@ -77,7 +97,6 @@ public class SinglePageBrowser2D : MonoBehaviour
 
 	private void OnDestroy()
 	{
-		keyboard.EscapePressed -= Keyboard_EscapePressed;
 		StopAllCoroutines();
 		BrowserClosedEvent?.Invoke(xsollaBrowser);
 		if (mouse != null) {
@@ -89,6 +108,7 @@ public class SinglePageBrowser2D : MonoBehaviour
 			display = null;
 		}
 		if (keyboard != null) {
+			keyboard.EscapePressed -= Keyboard_EscapePressed;
 			Destroy(keyboard);
 			keyboard = null;
 		}

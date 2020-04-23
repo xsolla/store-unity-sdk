@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -60,7 +61,14 @@ public class LoginPage : Page, ILogin
 
     private void ConsoleAuthFailed()
     {
-		_basicAuth = TryAuthBy<BasicAuth>().SetLoginButton(loginButton);
+        TryBasicAuth();
+
+        TryAuthBy<SocialAuth>();
+    }
+
+    private void TryBasicAuth()
+    {
+        _basicAuth = TryAuthBy<BasicAuth>().SetLoginButton(loginButton);
         _basicAuth.UserAuthEvent += () => OnSuccessfulLogin?.Invoke();
         _basicAuth.UserAuthErrorEvent += (Error error) => OnUnsuccessfulLogin?.Invoke(error);
 

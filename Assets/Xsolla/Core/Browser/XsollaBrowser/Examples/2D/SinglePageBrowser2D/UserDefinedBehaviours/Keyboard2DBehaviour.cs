@@ -12,12 +12,15 @@ public class KeyboardBehaviour2D : MonoBehaviour
 	private static readonly List<KeyCode> BlockedKeyCodes = new List<KeyCode> {
 		KeyCode.Escape,
 		KeyCode.LeftShift,
-		KeyCode.RightShift
+		KeyCode.RightShift,
+		KeyCode.LeftAlt,
+		KeyCode.RightAlt,
+		KeyCode.LeftControl,
+		KeyCode.RightControl
 	};
 	
 	private static readonly List<KeyCode> AllKeyCodes = Enum.GetValues(typeof(KeyCode)).OfType<KeyCode>()
-		.Where(k => !k.ToString().Contains("Mouse"))
-		.Except(BlockedKeyCodes)
+		.Where(k => !k.ToString().Contains("Mouse")).Except(BlockedKeyCodes)
 		.ToList();
 
 	private IXsollaBrowserKeyboardInput keyboardInput;
@@ -26,9 +29,16 @@ public class KeyboardBehaviour2D : MonoBehaviour
 	{
 		keyboardInput = gameObject.GetComponent<XsollaBrowser>().Input.Keyboard;
 	}
-
+	
 	private void Update()
-    {
+	{
+		ManualHandleOfKeyCode(KeyCode.LeftShift, "Shift");
+		ManualHandleOfKeyCode(KeyCode.RightShift, "Shift");
+		ManualHandleOfKeyCode(KeyCode.LeftAlt, "Alt");
+		ManualHandleOfKeyCode(KeyCode.RightAlt, "Alt");
+		ManualHandleOfKeyCode(KeyCode.LeftControl, "Control");
+		ManualHandleOfKeyCode(KeyCode.RightControl, "Control");
+
 	    if (Input.GetKeyUp(KeyCode.Escape)) {
 		    EscapePressed?.Invoke();
 	    }
@@ -36,30 +46,17 @@ public class KeyboardBehaviour2D : MonoBehaviour
 	    AllKeyCodes.ForEach(code =>
 	    {
 		    if (!Input.GetKeyDown(code)) return;
-		    Debug.Log("KeyCode up: " + code);
-		    var key = ConvertKeyCode(code);
+		    var key = KeysConverter.Convert(code);
 		    keyboardInput.PressKey(key);
 	    });
     }
 
-	private static string ConvertKeyCode(KeyCode code)
+	private void ManualHandleOfKeyCode(KeyCode code, string keyName)
 	{
-		return IsLetterKey(code) ? ConvertLetter(code) : KeysConverter.Convert(code);
-	}
-
-	private static string ConvertLetter(KeyCode code)
-	{
-		return IsShiftPressed() ? code.ToString() : code.ToString().ToLower();
-	}
-
-	private static bool IsShiftPressed()
-	{
-		return Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
-	}
-	
-	private static bool IsLetterKey(KeyCode code)
-	{
-		return code >= KeyCode.A && code <= KeyCode.Z;
+		if (Input.GetKeyDown(code))
+			keyboardInput.KeyDown(keyName);
+		if (Input.GetKeyUp(code))
+			keyboardInput.KeyUp(keyName);
 	}
 }
 #endif

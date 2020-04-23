@@ -4,17 +4,12 @@
 /// </summary>
 public enum SocialProvider
 {
-    Apple,
-    BattleNet,
-    Discord,
+    None,
     Facebook,
     GitHub,
     Google,
-    GooglePlus,
     Twitch,
-    Twitter,
-    VK,
-    XBox
+    Twitter
 }
 
 public static class SocialProviderConverter
@@ -23,17 +18,11 @@ public static class SocialProviderConverter
     {
         switch (provider)
         {
-            case SocialProvider.Apple: return "apple";
-            case SocialProvider.BattleNet: return "battlenet";
-            case SocialProvider.Discord: return "discord";
             case SocialProvider.Facebook: return "facebook";
             case SocialProvider.GitHub: return "github";
             case SocialProvider.Google: return "google";
-            case SocialProvider.GooglePlus: return "google+";
             case SocialProvider.Twitch: return "twitch";
             case SocialProvider.Twitter: return "twitter";
-            case SocialProvider.VK: return "vk";
-            case SocialProvider.XBox: return "xbox";
             default: return string.Empty;
         }
     }

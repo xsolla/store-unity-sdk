@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Text;
 using JetBrains.Annotations;
 using Xsolla.Core;
@@ -57,6 +58,52 @@ namespace Xsolla.Login
 				PlayerPrefs.SetString(Constants.UserLogin, username);
 				PlayerPrefs.SetString(Constants.UserPassword, Crypto.Encrypt(CryptoKey, password));
 			}
+		}
+
+		private string GetSocialProviderName(SocialProvider provider)
+		{
+			return $"token from {provider.ToString()}";
+		}
+
+		public void DeleteTokenFromSocialNetwork(SocialProvider provider)
+		{
+			var providerName = GetSocialProviderName(provider);
+			if (PlayerPrefs.HasKey(providerName))
+			{
+				PlayerPrefs.DeleteKey(providerName);
+			}
+		}
+
+		public void SaveTokenFromSocialNetwork(SocialProvider provider, string token)
+		{
+			if (!string.IsNullOrEmpty(token))
+			{
+				PlayerPrefs.SetString(GetSocialProviderName(provider), token);
+			}
+		}
+		
+		public string LoadTokenFromSocialNetwork(SocialProvider provider)
+		{
+			var providerName = GetSocialProviderName(provider);
+			var loadedToken = PlayerPrefs.HasKey(providerName) ? PlayerPrefs.GetString(providerName) : string.Empty;
+			if (string.IsNullOrEmpty(loadedToken)) return string.Empty;
+
+			Token token;
+			try
+			{
+				token = new Token(loadedToken);
+			}
+			catch (Exception e)
+			{
+				Debug.LogError($"Can't create {provider.ToString()} token = {loadedToken}. Exception:" + e.Message);
+				PlayerPrefs.DeleteKey(providerName);
+				return string.Empty;
+			}
+			
+			if (token.SecondsLeft() >= 300) return loadedToken;
+			
+			PlayerPrefs.DeleteKey(providerName);
+			return string.Empty;
 		}
 
 		public Token Token { get; set; }

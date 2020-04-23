@@ -41,22 +41,20 @@ public class Preloader2DBehaviour : MonoBehaviour
 	private void XsollaBrowser_FetchingBrowserEvent(int progress)
 	{
 		lock (progressLocker) {
-			if (lastProgress < progress) {
-				Debug.Log(string.Format("Update[%]: {0} => {1}", lastProgress, progress));
-				lastProgress = progress;
-				StartCoroutine(PreloaderCoroutine(progress));
-			}
+			if (lastProgress >= progress) return;
+			Debug.Log($"Update[%]: {lastProgress} => {progress}");
+			lastProgress = progress;
+			StartCoroutine(PreloaderCoroutine(progress));
 		}
 	}
 
 	IEnumerator PreloaderCoroutine(int progress)
 	{
 		yield return new WaitForEndOfFrame();
-		if (PreloaderObject != null) {
-			if (progress > 99)
-				progress = 100;
-			PreloaderObject.GetComponent<PreloaderScript>().SetPercent((uint)progress);
-		}
+		if (PreloaderObject == null) yield break;
+		if (progress > 99)
+			progress = 100;
+		PreloaderObject.GetComponent<PreloaderScript>().SetPercent((uint)progress);
 	}
 
 	IEnumerator PreloaderInstantiateCoroutine()

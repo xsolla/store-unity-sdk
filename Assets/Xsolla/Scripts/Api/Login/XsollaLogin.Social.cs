@@ -14,7 +14,7 @@ namespace Xsolla.Login
 		private const string URL_STEAM_CROSSAUTH = "https://livedemo.xsolla.com/sdk/token/steam";
 
 		private const string URL_SOCIAL_AUTH =
-			"https://login.xsolla.com/api/social/{1}/login_redirect?projectId={0}&login_url={2}:{3}";
+			"https://login.xsolla.com/api/social/{1}/login_redirect?projectId={0}";
 
 		/// <summary>
 		/// Changes Steam session_ticket to JWT.
@@ -43,21 +43,13 @@ namespace Xsolla.Login
 		/// <remarks> Swagger method name:<c>Auth via Social Network</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/login-api/jwt/jwt-auth-via-social-network/"/>.
 		/// <param name="socialProvider">Name of social provider.</param>
-		/// <param name="redirectPort">Port where browser will redirects user after success auth.</param>
-		/// <param name="redirectUrl">Url where browser will redirects user after success auth.</param>
 		/// <param name="invalidateTokens">Invalidate other Jwt of this user?</param>
 		/// <returns></returns>
 		public string GetSocialNetworkAuthUrl(
-			SocialProvider socialProvider, 
-			int redirectPort,
-			bool invalidateTokens = false,
-			string redirectUrl = "https://localhost")
+			SocialProvider socialProvider,
+			bool invalidateTokens = false)
 		{
-			var url = string.Format(URL_SOCIAL_AUTH,
-				XsollaSettings.LoginId,
-				socialProvider.GetParameter(), 
-				redirectUrl, 
-				redirectPort);
+			var url = string.Format(URL_SOCIAL_AUTH, XsollaSettings.LoginId, socialProvider.GetParameter());
 			return invalidateTokens ? (url + "&with_logout=1") : url;
 		}
 	}

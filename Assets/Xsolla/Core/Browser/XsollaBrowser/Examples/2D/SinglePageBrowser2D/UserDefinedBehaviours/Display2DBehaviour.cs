@@ -14,6 +14,12 @@ public class Display2DBehaviour : MonoBehaviour
 	private IXsollaBrowserRender render;
 	private Image image;
 
+	private Canvas canvas;
+	private int CanvasWidth => (int)canvas.pixelRect.width;
+	private int CanvasHeight => (int)canvas.pixelRect.height;
+	
+	private Vector2 imageSize;
+
 	public int Width = 0;
 	public int Height = 0;
 
@@ -21,24 +27,75 @@ public class Display2DBehaviour : MonoBehaviour
 	{
 		image = gameObject.GetComponent<Image>();
 		SetOpacity(image, 0.0F);
-
-		IXsollaBrowser xsollaBrowser = gameObject.GetComponent<XsollaBrowser>();
-		render = xsollaBrowser.Render;
+		imageSize = Vector2.zero;
+		
+		canvas = FindObjectOfType<Canvas>();
+		if (canvas == null)
+		{
+			Debug.LogAssertion("Canvas not found. This browser for 2D project.");
+			Destroy(gameObject);
+			return;
+		}
+		
+		StartCoroutine(InitializeCoroutine());
 	}
-
+	
 	private void OnDestroy()
 	{
 		StopRedraw();
 	}
-
-	public void StartRedrawWith(int width, int height)
+	
+	public static void SetOpacity(Image image, float opacity)
 	{
+		if (image != null) {
+			Color color = image.color;
+			color.a = opacity;
+			image.color = color;
+		}
+	}
+	
+	public bool StartRedrawWith(int width, int height)
+	{
+		if (render == null) return false;
+		
 		StopRedraw();
+		
+		width = GetActualWidth(width);
+		height = GetActualHeight(height);
+		
 		if (Width != width || Height != height) {
 			render.SetResolution(width, height, ViewportCallback);
 		} else {
 			StartCoroutine(RedrawCoroutine(image));
 		}
+
+		return true;
+	}
+
+	private IEnumerator InitializeCoroutine()
+	{
+		yield return new WaitWhile(() => GetComponent<XsollaBrowser>() == null);
+		IXsollaBrowser xsollaBrowser = GetComponent<XsollaBrowser>();
+		yield return new WaitWhile(() => xsollaBrowser.Render == null);
+		render = xsollaBrowser.Render;
+	}
+
+	private void StopRedraw()
+	{
+		SetOpacity(image, 0.0F);
+		
+		if (render == null) return;
+		StopAllCoroutines();
+	}
+	
+	private int GetActualWidth(int width)
+	{
+		return Mathf.Min(width, CanvasWidth);
+	}
+	
+	private int GetActualHeight(int height)
+	{
+		return Mathf.Min(height, CanvasHeight);
 	}
 
 	private void ViewportCallback(int width, int height)
@@ -49,22 +106,7 @@ public class Display2DBehaviour : MonoBehaviour
 		ViewportChangedEvent?.Invoke(width, height);
 		StartCoroutine(RedrawCoroutine(image));
 	}
-
-	public void StopRedraw()
-	{
-		SetOpacity(image, 0.0F);
-		StopAllCoroutines();
-	}
-
-	public static void SetOpacity(Image image, float opacity)
-	{
-		if (image != null) {
-			Color color = image.color;
-			color.a = opacity;
-			image.color = color;
-		}
-	}
-
+	
 	void ResizeCollider()
 	{
 		BoxCollider2D collider = gameObject.GetComponent<BoxCollider2D>();
@@ -75,7 +117,7 @@ public class Display2DBehaviour : MonoBehaviour
 		}
 	}
 
-	IEnumerator RedrawCoroutine(Image image)
+	private IEnumerator RedrawCoroutine(Image image)
 	{
 		while (true) {
 			yield return ActionExtensions.WaitMethod<Sprite>(render.To, sprite =>
