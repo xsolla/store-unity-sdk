@@ -60,7 +60,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73dd7b6b8018044c19cc74a606e60c4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Viewport: {x: 800, y: 800}
+  Viewport: {x: 1280, y: 1024}
   PreloaderPrefab: {fileID: 5561199953690645494, guid: 2dd92bf0d599a4cbf84ad683397d4c79,
     type: 3}
   CloseButton: {fileID: 2404935739728954996}

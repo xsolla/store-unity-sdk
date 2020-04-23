@@ -15,8 +15,8 @@ public class Display2DBehaviour : MonoBehaviour
 	private Image image;
 
 	private Canvas canvas;
-	private int CanvasWidth => (int)canvas.pixelRect.width;
-	private int CanvasHeight => (int)canvas.pixelRect.height;
+	private int CanvasWidth => (int) ((canvas.transform as RectTransform).rect.width);//(int)canvas.pixelRect.width;
+	private int CanvasHeight => (int) ((canvas.transform as RectTransform).rect.height);//(int)canvas.pixelRect.height;
 	
 	private Vector2 imageSize;
 
@@ -90,12 +90,12 @@ public class Display2DBehaviour : MonoBehaviour
 	
 	private int GetActualWidth(int width)
 	{
-		return Mathf.Min(width, CanvasWidth);
+		return Mathf.Min(width, (int)(CanvasWidth * 0.9F));
 	}
 	
 	private int GetActualHeight(int height)
 	{
-		return Mathf.Min(height, CanvasHeight);
+		return Mathf.Min(height, (int)(CanvasHeight * 0.9F));
 	}
 
 	private void ViewportCallback(int width, int height)

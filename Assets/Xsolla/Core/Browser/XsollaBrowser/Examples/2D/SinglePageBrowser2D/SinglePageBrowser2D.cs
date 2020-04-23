@@ -27,11 +27,12 @@ public class SinglePageBrowser2D : MonoBehaviour
 		CloseButton.gameObject.SetActive(false);
 		
 		Canvas canvas = FindObjectOfType<Canvas>();
-		Rect canvasRect = canvas.pixelRect;
+		Rect canvasRect = (canvas.transform as RectTransform).rect;//canvas.pixelRect;
+		
 		if (Viewport.x > canvasRect.width)
-			Viewport.x = canvasRect.width;
+			Viewport.x = canvasRect.width * 0.9F;
 		if (Viewport.y > canvasRect.height)
-			Viewport.y = canvasRect.height;
+			Viewport.y = canvasRect.height * 0.9F;
 		
 		xsollaBrowser = this.GetOrAddComponent<XsollaBrowser>();
 		xsollaBrowser.LogEvent += XsollaBrowser_LogEvent;
