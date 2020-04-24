@@ -13,34 +13,14 @@ namespace Xsolla.Core
 		private const string PLATFORM_TOOLTIP = "Publishing platform the user plays on.";
 		private const string PLATFORM_USERNAME_TOOLTIP = "Social username from console platform";
 
-		private static bool m_useConsoleCheckbox;
-		
-		private void Awake()
-		{
-			m_useConsoleCheckbox = false;
-			if (XsollaSettings.UseSteamAuth)
-			{
-				XsollaSettings.UseConsoleAuth = false;
-			}
-			else
-			{
-				XsollaSettings.UseConsoleAuth = 
-					(XsollaSettings.Platform != PlatformType.None) && 
-					(XsollaSettings.Platform != PlatformType.Xsolla);
-			}
-		}
-
 		private static void PublishingPlatformSettings()
 		{
 			using (new EditorGUILayout.VerticalScope("box"))
 			{
 				GUILayout.Label("Publishing Platform Settings", EditorStyles.boldLabel);
-
 				SteamSettings();
-				
 				ConsoleSettings();
 			}
-			
 			EditorGUILayout.Space();
 		}
 
@@ -53,9 +33,8 @@ namespace Xsolla.Core
 			if (!XsollaSettings.UseSteamAuth) return;
 			
 			XsollaSettings.SteamAppId = EditorGUILayout.TextField("Steam App ID", XsollaSettings.SteamAppId);
-			XsollaSettings.Platform = PlatformType.Other;
+			XsollaSettings.Platform = PlatformType.PC_Other;
 			XsollaSettings.UseConsoleAuth = false;
-			m_useConsoleCheckbox = true;
 		}
 
 		/// <summary>
@@ -63,29 +42,18 @@ namespace Xsolla.Core
 		/// </summary>
 		private static void ConsoleSettings()
 		{
-			if (m_useConsoleCheckbox)
+			XsollaSettings.Platform = (PlatformType)EditorGUILayout.EnumPopup(new GUIContent("Publishing platform", PLATFORM_TOOLTIP), XsollaSettings.Platform);
+			
+			if ((XsollaSettings.Platform == PlatformType.PC_Other) && XsollaSettings.UseSteamAuth) return;
+			XsollaSettings.UseSteamAuth = false;
+			
+			if ((XsollaSettings.Platform != PlatformType.None) && (XsollaSettings.Platform != PlatformType.Xsolla))
 			{
-				XsollaSettings.UseConsoleAuth = EditorGUILayout.Toggle("Use console auth", XsollaSettings.UseConsoleAuth);
-				if (XsollaSettings.UseConsoleAuth)
-				{
-					XsollaSettings.Platform = PlatformType.Xsolla;
-					XsollaSettings.UseSteamAuth = false;
-					m_useConsoleCheckbox = false;
-				}
+				XsollaSettings.UsernameFromConsolePlatform = EditorGUILayout.TextField(new GUIContent("Username from console", PLATFORM_USERNAME_TOOLTIP), XsollaSettings.UsernameFromConsolePlatform);
+				XsollaSettings.UseConsoleAuth = true;
 			}
 			else
-			{
-				if (XsollaSettings.UseSteamAuth) return;
-				XsollaSettings.Platform = (PlatformType)EditorGUILayout.EnumPopup(new GUIContent("Publishing platform", PLATFORM_TOOLTIP), XsollaSettings.Platform);
-				if ((XsollaSettings.Platform != PlatformType.None) && (XsollaSettings.Platform != PlatformType.Xsolla))
-				{
-					XsollaSettings.UsernameFromConsolePlatform = EditorGUILayout.TextField(new GUIContent("Username from console", PLATFORM_USERNAME_TOOLTIP), XsollaSettings.UsernameFromConsolePlatform);						
-				}
-				else
-				{
-					XsollaSettings.UseConsoleAuth = false;
-				}
-			}
+				XsollaSettings.UseConsoleAuth = false;
 		}
 	}
 }

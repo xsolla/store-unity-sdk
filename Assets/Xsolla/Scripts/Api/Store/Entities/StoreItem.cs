@@ -1,4 +1,6 @@
 ﻿using System;
+using Newtonsoft.Json;
+using Xsolla.Core;
 
 namespace Xsolla.Store
 {
@@ -31,9 +33,9 @@ namespace Xsolla.Store
 			{
 				public int? usages_count;
 			}
-			public StoreItem.InventoryOptions.ConsumableOption consumable;
+			public ConsumableOption consumable;
 		}
-
+		
 		public string sku;
 		public string name;
 		public StoreItem.Group[] groups;
@@ -45,5 +47,16 @@ namespace Xsolla.Store
 		public Price price;
 		public StoreItem.VirtualPrice[] virtual_prices;
 		public StoreItem.InventoryOptions inventory_options;
+		
+		public StoreItem DeepClone()
+		{
+			string json = JsonConvert.SerializeObject(this);
+			return JsonConvert.DeserializeObject<StoreItem>(json);
+		}
+
+		public bool IsConsumable()
+		{
+			return inventory_options.consumable != null;
+		}
 	}
 }

@@ -89,20 +89,13 @@ public class LoginPage : Page, ILogin
 
 	private void ValidateToken(string token, Action onSuccess, Action<Error> onFailed)
     {
-        // This is temporary block of code.
-        Func<IEnumerator> success = () => { 
+        XsollaLogin.Instance.GetUserInfo(token, _ => {
+            Debug.Log("Validation success");
             onSuccess?.Invoke();
-            return null;
-        };
-        StartCoroutine(success.Invoke());
-        // TODO: this API method works not correct. So it is will be later. Do not use it yet.
-        // XsollaLogin.Instance.GetUserInfo(token, _ => {
-        //     Debug.Log("Validation success");
-        //     onSuccess?.Invoke();
-        // }, (Error error) => {
-        //     Debug.LogWarning("Get UserInfo failed!");
-        //     onFailed?.Invoke(error);
-        // });
+        }, (Error error) => {
+            Debug.LogWarning("Get UserInfo failed!");
+            onFailed?.Invoke(error);
+        });
     }
 
 	private void ConfigBaseAuth()

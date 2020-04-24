@@ -11,13 +11,12 @@ public class ConsolePlatformAuth : MonoBehaviour, ILoginAuthorization
 	
 	void Start()
 	{
-		// TODO: coming soon.
-		// if (XsollaSettings.UseConsoleAuth) {
-		// 	RequestToken();
-		// } else {
+		if (XsollaSettings.UseConsoleAuth) {
+			RequestToken();
+		} else {
 			OnFailed();
 			Destroy(this, 0.1F);
-		//}
+		}
 	}
 
 	private void RequestToken()
