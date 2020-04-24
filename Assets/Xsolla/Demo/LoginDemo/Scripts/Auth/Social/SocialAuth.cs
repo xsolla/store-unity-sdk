@@ -6,6 +6,7 @@ public class SocialAuth : MonoBehaviour, ILoginAuthorization
 	public Action<string> OnSuccess { get; set; }
 	public Action OnFailed { get; set; }
 
+#if UNITY_STANDALONE
 	private void Start()
 	{
 		var socials = FindObjectOfType<SocialAuthContainer>();
@@ -18,4 +19,5 @@ public class SocialAuth : MonoBehaviour, ILoginAuthorization
 		socials.OnSuccess = token => OnSuccess?.Invoke(token);
 		socials.OnFailed = () => OnFailed.Invoke();
 	}
+#endif
 }

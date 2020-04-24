@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SocialAuthContainer : MonoBehaviour, ILoginAuthorization
 {
+#if UNITY_STANDALONE
     public void Enable()
     {
         transform.GetComponentsInChildren<OneSocialAuth>().ToList().ForEach(auth =>
@@ -13,7 +14,8 @@ public class SocialAuthContainer : MonoBehaviour, ILoginAuthorization
                 auth.Enable();
             });
     }
-
+#endif
+    
     public Action<string> OnSuccess { get; set; }
     public Action OnFailed { get; set; }
 }

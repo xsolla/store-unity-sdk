@@ -20,6 +20,9 @@ public class OneSocialAuth : MonoBehaviour, ILoginAuthorization
 
 	private void Start()
 	{
+#if !UNITY_STANDALONE
+		gameObject.SetActive(false);
+#else
 		_authButton = GetComponent<Button>();
 	}
 
@@ -81,5 +84,6 @@ public class OneSocialAuth : MonoBehaviour, ILoginAuthorization
 		var regex = new Regex(@"[&?]token=\S*");
 		token = regex.Match(newUrl).Value.Replace("?token=", string.Empty).Replace("&token=", string.Empty);
 		return !string.IsNullOrEmpty(token);
+#endif
 	}
 }
