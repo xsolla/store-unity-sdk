@@ -80,11 +80,5 @@ public class BasicAuth : MonoBehaviour, ILoginAuthorization
     private void BasicAuthSuccess()
     {
         OnSuccess?.Invoke(XsollaLogin.Instance.Token);
-        /// TODO: implement this logic in different demo scenes
-        //if ((XsollaSettings.LoginId == Constants.DEFAULT_LOGIN_ID) || (XsollaSettings.StoreProjectId == Constants.DEFAULT_PROJECT_ID)) {
-        //    OnSuccess?.Invoke(XsollaLogin.Instance.Token);
-        //} else {
-        //    UserAuthEvent?.Invoke();
-        //}
     }
 }

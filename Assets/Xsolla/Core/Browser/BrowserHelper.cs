@@ -66,6 +66,11 @@ namespace Xsolla.Core
 				Debug.LogError("You try create browser instance, but it already created!");
 			}
 		}
+
+		public SinglePageBrowser2D GetLastBrowser()
+		{
+			return InAppBrowserObject == null ? null : InAppBrowserObject.GetComponent<SinglePageBrowser2D>();
+		}
 #endif
 	}
 }

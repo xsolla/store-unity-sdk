@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -96,6 +97,7 @@ namespace Xsolla.Core
 		Error CheckResponsePayloadForErrors(UnityWebRequest webRequest, Dictionary<string, ErrorType> errorsToCheck)
 		{
 			string responseData = webRequest.downloadHandler.text;
+			string headers = "";
 			Debug.Log(
 				"URL: " + webRequest.url + Environment.NewLine +
 				"RESPONSE: " + responseData

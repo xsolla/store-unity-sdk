@@ -61,7 +61,7 @@ public class PayStationController : MonoBehaviour
 					items = new[] {currencies.items.ToList().SingleOrDefault(item => item.sku == VirtualCurrencyCrystal)}
 				};
 
-				virtualCurrencyBalanceWidget.SetCurrencies(filteredCurrencies);
+				virtualCurrencyBalanceWidget.SetCurrencies(filteredCurrencies.items.ToList());
 
 				UpdateVirtualCurrenciesBalance(() =>
 				{
@@ -72,14 +72,19 @@ public class PayStationController : MonoBehaviour
 
 	void UpdateVirtualCurrenciesBalance(Action onComplete = null)
 	{
-		XsollaStore.Instance.GetVirtualCurrencyBalance(
-			XsollaSettings.StoreProjectId,
-			(balance) =>
-			{
-				virtualCurrencyBalanceWidget.SetCurrenciesBalance(balance);
-				onComplete?.Invoke();
-			},
-			ShowError);
+		UserInventory.Instance.UpdateVirtualCurrencyBalance(balance =>
+		{
+			virtualCurrencyBalanceWidget.SetCurrenciesBalance(balance);
+			onComplete?.Invoke();
+		}, ShowError);
+		// XsollaStore.Instance.GetVirtualCurrencyBalance(
+		// 	XsollaSettings.StoreProjectId,
+		// 	(balance) =>
+		// 	{
+		// 		virtualCurrencyBalanceWidget.SetCurrenciesBalance(balance);
+		// 		onComplete?.Invoke();
+		// 	},
+		// 	ShowError);
 	}
 
 	void AddListeners()

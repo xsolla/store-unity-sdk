@@ -102,10 +102,10 @@ public class AttributesItemsContainer : MonoBehaviour, IContainer
 		{
 			XsollaLogin.Instance.RemoveUserAttributes(XsollaStore.Instance.Token, XsollaSettings.StoreProjectId, _attributesToRemove, (() =>
 			{
-				_storeController.ShowSuccess();
+				StoreDemoPopup.ShowSuccess();
 				_storeController.RefreshAttributes(Refresh);
-			}), _storeController.ShowError);
-		}, _storeController.ShowError);
+			}), StoreDemoPopup.ShowError);
+		}, StoreDemoPopup.ShowError);
 	}
 
 	void OnRemoveAttribute(UserAttribute attributeToRemove)

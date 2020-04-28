@@ -20,46 +20,25 @@ public class CartItemUI : MonoBehaviour
 	[SerializeField]
 	Text itemQuantity;
 
-	StoreController storeController;
-	Coroutine _loadingRoutine;
-	
-	CartItemModel _itemInformation;
+	private UserCartItem _cartItem;
 
 	void Awake()
 	{
-		storeController = FindObjectOfType<StoreController>();
-		var cartItemContainer = FindObjectOfType<CartItemContainer>();
-		var cartGroup = FindObjectOfType<CartGroupUI>();
-
-		addButton.onClick = (() =>
-		{
-			storeController.CartModel.IncrementCartItem(_itemInformation.Sku);
-			cartItemContainer.Refresh();
-		});
-		
-		delButton.onClick = (() =>
-		{
-			if (_itemInformation.Quantity - 1 <= 0)
-			{
-				cartGroup.DecreaseCounter(_itemInformation.Quantity);
-			}
-
-			storeController.CartModel.DecrementCartItem(_itemInformation.Sku);
-			cartItemContainer.Refresh();
-		});
+		addButton.onClick = () => UserCart.Instance.IncreaseCountOf(_cartItem.Item);
+		delButton.onClick = () => UserCart.Instance.DecreaseCountOf(_cartItem.Item);
 	}
 
-	public void Initialize(CartItemModel itemInformation)
+	public void Initialize(UserCartItem cartItem)
 	{
-		_itemInformation = itemInformation;
+		_cartItem = cartItem;
 
-		itemPrice.text = FormatPriceText(_itemInformation.Currency, _itemInformation.Price);
-		itemName.text = _itemInformation.Name;
-		itemQuantity.text = _itemInformation.Quantity.ToString();
+		itemPrice.text = FormatPriceText(_cartItem.Currency, _cartItem.Price);
+		itemName.text = _cartItem.Item.name;
+		itemQuantity.text = _cartItem.Quantity.ToString();
 		
-		if (_loadingRoutine == null && itemImage.sprite == null && _itemInformation.ImgUrl != "")
+		if (itemImage.sprite == null && !string.IsNullOrEmpty(_cartItem.ImageUrl))
 		{
-			ImageLoader.Instance.GetImageAsync(_itemInformation.ImgUrl, LoadImageCallback);
+			ImageLoader.Instance.GetImageAsync(_cartItem.ImageUrl, LoadImageCallback);
 		}
 	}
 

@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections;
-using Microsoft.IdentityModel.JsonWebTokens;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -27,7 +26,7 @@ public class LoginPage : Page, ILogin
             _basicAuth.SoftwareAuth();
         }
     }
-
+    
     private void Awake()
 	{
         XsollaLogin.Instance.Token = null;
@@ -62,7 +61,14 @@ public class LoginPage : Page, ILogin
 
     private void ConsoleAuthFailed()
     {
-		_basicAuth = TryAuthBy<BasicAuth>().SetLoginButton(loginButton);
+        TryBasicAuth();
+
+        TryAuthBy<SocialAuth>();
+    }
+
+    private void TryBasicAuth()
+    {
+        _basicAuth = TryAuthBy<BasicAuth>().SetLoginButton(loginButton);
         _basicAuth.UserAuthEvent += () => OnSuccessfulLogin?.Invoke();
         _basicAuth.UserAuthErrorEvent += (Error error) => OnUnsuccessfulLogin?.Invoke(error);
 
@@ -89,20 +95,13 @@ public class LoginPage : Page, ILogin
 
 	private void ValidateToken(string token, Action onSuccess, Action<Error> onFailed)
     {
-        // This is temporary block of code.
-        Func<IEnumerator> success = () => { 
+        XsollaLogin.Instance.GetUserInfo(token, _ => {
+            Debug.Log("Validation success");
             onSuccess?.Invoke();
-            return null;
-        };
-        StartCoroutine(success.Invoke());
-        // TODO: this API method works not correct. So it is will be later. Do not use it yet.
-        // XsollaLogin.Instance.GetUserInfo(token, _ => {
-        //     Debug.Log("Validation success");
-        //     onSuccess?.Invoke();
-        // }, (Error error) => {
-        //     Debug.LogWarning("Get UserInfo failed!");
-        //     onFailed?.Invoke(error);
-        // });
+        }, (Error error) => {
+            Debug.LogWarning("Get UserInfo failed!");
+            onFailed?.Invoke(error);
+        });
     }
 
 	private void ConfigBaseAuth()
