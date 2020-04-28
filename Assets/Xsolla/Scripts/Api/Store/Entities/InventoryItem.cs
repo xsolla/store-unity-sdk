@@ -21,6 +21,11 @@ namespace Xsolla.Store
 		public int quantity;
 		public int? remaining_uses;
 		public string instance_id;
+
+		public bool IsConsumable()
+		{
+			return remaining_uses != null;
+		}
 	}
 }
 

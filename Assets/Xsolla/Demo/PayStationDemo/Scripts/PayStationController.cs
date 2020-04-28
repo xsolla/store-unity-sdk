@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Xsolla.Core;
 using Xsolla.Core.Popup;
+using Xsolla.Login;
 using Xsolla.PayStation;
 using Xsolla.Store;
 
@@ -34,7 +35,7 @@ public class PayStationController : MonoBehaviour
 		// Obtain PayStation token to query store API
 		GetToken(token =>
 		{
-			XsollaStore.Instance.Token = token.token;
+			XsollaStore.Instance.Token = new Xsolla.Core.Token(token.token, true);
 			
 			UpdateVirtualCurrencies();
 		});
@@ -43,7 +44,7 @@ public class PayStationController : MonoBehaviour
 		AddListeners();
 	}
 
-	void GetToken(Action<Token> onComplete)
+	void GetToken(Action<TokenEntity> onComplete)
 	{
 		XsollaPayStation.Instance.RequestToken(onComplete, ShowError);
 	}
@@ -60,7 +61,7 @@ public class PayStationController : MonoBehaviour
 					items = new[] {currencies.items.ToList().SingleOrDefault(item => item.sku == VirtualCurrencyCrystal)}
 				};
 
-				virtualCurrencyBalanceWidget.SetCurrencies(filteredCurrencies);
+				virtualCurrencyBalanceWidget.SetCurrencies(filteredCurrencies.items.ToList());
 
 				UpdateVirtualCurrenciesBalance(() =>
 				{
@@ -71,14 +72,19 @@ public class PayStationController : MonoBehaviour
 
 	void UpdateVirtualCurrenciesBalance(Action onComplete = null)
 	{
-		XsollaStore.Instance.GetVirtualCurrencyBalance(
-			XsollaSettings.StoreProjectId,
-			(balance) =>
-			{
-				virtualCurrencyBalanceWidget.SetCurrenciesBalance(balance);
-				onComplete?.Invoke();
-			},
-			ShowError);
+		UserInventory.Instance.UpdateVirtualCurrencyBalance(balance =>
+		{
+			virtualCurrencyBalanceWidget.SetCurrenciesBalance(balance);
+			onComplete?.Invoke();
+		}, ShowError);
+		// XsollaStore.Instance.GetVirtualCurrencyBalance(
+		// 	XsollaSettings.StoreProjectId,
+		// 	(balance) =>
+		// 	{
+		// 		virtualCurrencyBalanceWidget.SetCurrenciesBalance(balance);
+		// 		onComplete?.Invoke();
+		// 	},
+		// 	ShowError);
 	}
 
 	void AddListeners()
@@ -86,7 +92,7 @@ public class PayStationController : MonoBehaviour
 		buyCrystalsButton.onClick = () =>
 		{
 			// Launch purchase process
-			XsollaStore.Instance.BuyItem(XsollaSettings.StoreProjectId, CrystalPack, data =>
+			XsollaStore.Instance.ItemPurchase(XsollaSettings.StoreProjectId, CrystalPack, data =>
 			{
 				XsollaStore.Instance.OpenPurchaseUi(data);
 				ProcessOrder(data.order_id, () =>
