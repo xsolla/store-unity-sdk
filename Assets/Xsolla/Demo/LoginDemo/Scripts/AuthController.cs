@@ -35,7 +35,7 @@ public class AuthController : MonoBehaviour
         };
         resetPassword_Panel.GetComponent<IResetPassword>().OnUnsuccessfulResetPassword = OnError;
         login_Panel.GetComponent<ILogin>().OnUnsuccessfulLogin = OnError;
-        login_Panel.GetComponent<ILogin>().OnSuccessfulLogin = (user) => OpenPopUp("You have successfully logged in", PopUpWindows.Success);
+        login_Panel.GetComponent<ILogin>().OnSuccessfulLogin = () => OpenPopUp("You have successfully logged in", PopUpWindows.Success);
     }
     
     private void PagesController()
@@ -112,8 +112,8 @@ public class AuthController : MonoBehaviour
             OpenPopUp("Xsolla Login settings not completed", PopUpWindows.Warning);
             Debug.Log("Please register Xsolla Publisher Account, and fill the Login ID form. For more details read documentation.\nhttps://github.com/xsolla/login-unity-sdk/blob/master/README.md");
         }
-        else if (XsollaLogin.Instance.IsTokenValid)
-            Debug.Log(string.Format("Your token {0} is active", XsollaLogin.Instance.Token));
+        else if ((XsollaLogin.Instance.Token != null) && !XsollaLogin.Instance.Token.IsExpired())
+            Debug.Log($"Your token {XsollaLogin.Instance.Token} is active");
     }
 
     private void OpenPopUp(string message, PopUpWindows popUp)
@@ -126,7 +126,7 @@ public class AuthController : MonoBehaviour
     private void OpenPopUp(string header, string message)
     {
         CloseAndSave();
-        popUp_Controller.GetComponent<IPopUpController>().OnClosePopUp = new UnityAction(() => ReturnToTheLogIn());
+        popUp_Controller.GetComponent<IPopUpController>().OnClosePopUp = new UnityAction(ReturnToTheLogIn);
         popUp_Controller.GetComponent<IPopUpController>().ShowPopUp(header, message);
         Debug.Log(message);
     }
@@ -147,7 +147,7 @@ public class AuthController : MonoBehaviour
                 OpenPopUp("Invalid Token", PopUpWindows.Error);
                 break;
             case ErrorType.NetworkError:
-                OpenPopUp(string.Format("Network Error: {0}", error.errorMessage), PopUpWindows.Error);
+                OpenPopUp($"Network Error: {error.errorMessage}", PopUpWindows.Error);
                 break;
 			default:
 				string errorMessage =

@@ -1,0 +1,15 @@
+{
+    "name": "Login",
+    "references": [
+        "Core",
+        "CommonAssembly"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": []
+}

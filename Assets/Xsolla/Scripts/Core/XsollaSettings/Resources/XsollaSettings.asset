@@ -13,11 +13,13 @@ MonoBehaviour:
   m_Name: XsollaSettings
   m_EditorClassIdentifier: 
   loginId: b053f3dd-1fce-11ea-b687-42010aa80004
-  useJwtValidation: 0
-  jwtValidationUrl: 
   useProxy: 0
   callbackUrl: 
-  isShadow: 0
+  useSteamAuth: 0
+  steamAppId: 480
+  useConsoleAuth: 0
+  platform: 1
+  usernameFromConsole: testPSMax3
   storeProjectId: 50458
   isSandbox: 1
   paystationTheme: 1

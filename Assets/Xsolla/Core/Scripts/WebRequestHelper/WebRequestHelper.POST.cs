@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Text;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
-using UnityEngine;
 using UnityEngine.Networking;
 
 namespace Xsolla.Core

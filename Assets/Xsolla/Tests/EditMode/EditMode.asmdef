@@ -2,7 +2,9 @@
     "name": "EditMode",
     "references": [
         "Core",
-        "CommonAssembly"
+        "CommonAssembly",
+        "Login",
+        "Store"
     ],
     "optionalUnityReferences": [
         "TestAssemblies"

@@ -1,0 +1,16 @@
+{
+    "name": "Store",
+    "references": [
+        "Core",
+        "CommonAssembly",
+        "Login"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": []
+}

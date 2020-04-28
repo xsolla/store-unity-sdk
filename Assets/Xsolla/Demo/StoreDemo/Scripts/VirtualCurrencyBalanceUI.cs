@@ -13,9 +13,9 @@ public class VirtualCurrencyBalanceUI : MonoBehaviour
 	public void Initialize(StoreItem item)
 	{
 		if(Image != null) {
-			ImageLoader.Instance.GetImageAsync(item.image_url, (string _, Sprite sprite) => Image.sprite = sprite);
+			ImageLoader.Instance.GetImageAsync(item.image_url, (_, sprite) => Image.sprite = sprite);
 		} else {
-			Debug.LogWarning("Your Virtual Currency with sku = `" + item.sku + "` created without Image!");
+			Debug.LogWarning($"Your Virtual Currency with sku = `{item.sku}` created without Image component!");
 		}
 	}
 

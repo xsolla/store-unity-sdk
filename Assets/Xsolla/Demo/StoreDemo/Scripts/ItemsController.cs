@@ -20,36 +20,36 @@ public class ItemsController : MonoBehaviour
 
 	[SerializeField]
 	Transform content;
-	
-	Dictionary<string, GameObject> _containers = new Dictionary<string, GameObject>();
 
-	private GameObject activeContainer;
-	private bool isEmptyCatalog;
-
+	private readonly Dictionary<string, GameObject> _containers = new Dictionary<string, GameObject>();
+	private GameObject _activeContainer;
+	private bool _isEmptyCatalog;
 	IExtraPanelController _extraController;
 
 	void Awake()
 	{
 		_extraController = FindObjectOfType<ExtraController>();
+		
+		UserCart.Instance.ClearCartEvent += RefreshActiveContainer;
+		UserInventory.Instance.UpdateItemsEvent += _ => RefreshActiveContainer();
 	}
 
-	public void CreateItems(StoreItems items)
+	public void CreateItems(List<StoreItem> items)
 	{
 		Dictionary<string, GameObject> defaultContainers = GetDefaultContainers();
-		defaultContainers.ToList().ForEach((KeyValuePair<string, GameObject> container) => {
+		defaultContainers.ToList().ForEach(container => {
 			AddContainer(container.Value, container.Key);
 		});
-
-		List<StoreItem> list = items.items.ToList();
-		isEmptyCatalog = !list.Any();
-		if (!isEmptyCatalog) {
-			foreach (var item in list)  {
-				if (item.groups.Any()) {
-					item.groups.ToList().ForEach((group) => AddItemToContainer(group.name, item));
+		_isEmptyCatalog = !items.Any();
+		if (!_isEmptyCatalog) {
+			items.ForEach(i =>
+			{
+				if (i.groups.Any()) {
+					i.groups.ToList().ForEach((group) => AddItemToContainer(group.name, i));
 				} else {
-					AddItemToContainer(Constants.UngroupedGroupName, item);
+					AddItemToContainer(Constants.UngroupedGroupName, i);
 				}
-			}
+			});
 		} else {
 			ActivateContainer(Constants.EmptyContainerName);
 		}
@@ -94,12 +94,10 @@ public class ItemsController : MonoBehaviour
 		return catalog.Select(k => k.Value.GetComponent<ItemContainer>()).ToList();
 	}
 
-	public void AddVirtualCurrencyPackage(VirtualCurrencyPackages items)
+	public void AddVirtualCurrencyPackages(List<VirtualCurrencyPackage> packages)
 	{
 		var groupContainer = _containers[Constants.CurrencyGroupName];
-		foreach (var item in items.items) {
-			groupContainer.GetComponent<ItemContainer>().AddItem(item);
-		}
+		packages.ForEach(groupContainer.GetComponent<ItemContainer>().AddItem);
 	}
 
 	GameObject AddContainer(GameObject itemContainerPref, string containerName)
@@ -113,14 +111,14 @@ public class ItemsController : MonoBehaviour
 
 	public void ActivateContainer(string groupId)
 	{
-		activeContainer = InternalActivateContainer(_containers.ContainsKey(groupId)
+		_activeContainer = InternalActivateContainer(_containers.ContainsKey(groupId)
 			? groupId
 			: Constants.EmptyContainerName
 		);
-		activeContainer.GetComponent<IContainer>().Refresh();
-		ItemContainer itemContainer = activeContainer.GetComponent<ItemContainer>();
+		_activeContainer.GetComponent<IContainer>().Refresh();
+		ItemContainer itemContainer = _activeContainer.GetComponent<ItemContainer>();
 
-		if (isEmptyCatalog && (itemContainer != null) && (itemContainer.Items.Count == 0)) {
+		if (_isEmptyCatalog && (itemContainer != null) && (itemContainer.Items.Count == 0)) {
 			
 			itemContainer.EnableEmptyContainerMessage();
 		}

@@ -20,6 +20,18 @@ namespace Xsolla.Core.Popup
 		[SerializeField]
 		private Text CancelButtonText;
 
+		private void Awake()
+		{
+			if (ConfirmButton != null)
+			{
+				ConfirmButton.onClick = () => Destroy(gameObject, 0.001F);
+			}
+			if (CancelButton != null)
+			{
+				CancelButton.onClick = () => Destroy(gameObject, 0.001F);
+			}
+		}
+
 		IConfirmationPopup IConfirmationPopup.SetMessage(string messageText)
 		{
 			Message.text = messageText;
