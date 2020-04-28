@@ -51,64 +51,6 @@ namespace Xsolla.Login
 			}
 		}
 
-		public string Token
-		{
-			get
-			{
-				return PlayerPrefs.HasKey(Constants.XsollaLoginToken) ? PlayerPrefs.GetString(Constants.XsollaLoginToken) : string.Empty;
-			}
-			set
-			{
-				PlayerPrefs.SetString(Constants.XsollaLoginToken, value);
-			}
-		}
-
-		public string TokenExp
-		{
-			get
-			{
-				return PlayerPrefs.HasKey(Constants.XsollaLoginTokenExp) ? PlayerPrefs.GetString(Constants.XsollaLoginTokenExp) : string.Empty;
-			}
-			set
-			{
-				PlayerPrefs.SetString(Constants.XsollaLoginTokenExp, value);
-			}
-		}
-
-		public bool IsTokenValid
-		{
-			get
-			{
-				long epochTicks = new DateTime(1970, 1, 1).Ticks;
-				long unixTime = ((DateTime.UtcNow.Ticks - epochTicks) / TimeSpan.TicksPerSecond);
-
-				if (!string.IsNullOrEmpty(TokenExp))
-				{
-					return long.Parse(TokenExp) >= unixTime;
-				}
-				
-				return false;
-			}
-		}
-
-		public string ShadowAccountUserID {
-			get {
-				return PlayerPrefs.HasKey(Constants.UserShadowAccount) ? PlayerPrefs.GetString(Constants.UserShadowAccount) : string.Empty;
-			}
-			set {
-				PlayerPrefs.SetString(Constants.UserShadowAccount, value);
-			}
-		}
-
-		public string ShadowAccountPlatform {
-			get {
-				return PlayerPrefs.HasKey(Constants.UserShadowPlatform) ? PlayerPrefs.GetString(Constants.UserShadowPlatform) : string.Empty;
-			}
-			set {
-				PlayerPrefs.SetString(Constants.UserShadowPlatform, value);
-			}
-		}
-
 		void SaveLoginPassword(string username, string password)
 		{
 			if (!string.IsNullOrEmpty(XsollaSettings.LoginId))
@@ -118,19 +60,52 @@ namespace Xsolla.Login
 			}
 		}
 
-		public void ValidateToken(string token, Action<User> onSuccess, Action<Core.Error> onError)
+		private string GetSocialProviderName(SocialProvider provider)
+		{
+			return $"token from {provider.ToString()}";
+		}
+
+		public void DeleteTokenFromSocialNetwork(SocialProvider provider)
+		{
+			var providerName = GetSocialProviderName(provider);
+			if (PlayerPrefs.HasKey(providerName))
+			{
+				PlayerPrefs.DeleteKey(providerName);
+			}
+		}
+
+		public void SaveTokenFromSocialNetwork(SocialProvider provider, string token)
 		{
 			if (!string.IsNullOrEmpty(token))
 			{
-				WebRequestHelper.Instance.PostRequest<TokenJson, ValidateToken>(
-					XsollaSettings.JwtValidationUrl, new ValidateToken(token),
-					(response) => {
-						TokenExp = response.token_payload.exp;
-						onSuccess?.Invoke(response.token_payload);
-					}, onError, Core.Error.TokenErrors);
+				PlayerPrefs.SetString(GetSocialProviderName(provider), token);
 			}
-			else
-				onError?.Invoke(new Core.Error(ErrorType.InvalidToken, string.Empty, "Failed to parse token"));
 		}
+		
+		public string LoadTokenFromSocialNetwork(SocialProvider provider)
+		{
+			var providerName = GetSocialProviderName(provider);
+			var loadedToken = PlayerPrefs.HasKey(providerName) ? PlayerPrefs.GetString(providerName) : string.Empty;
+			if (string.IsNullOrEmpty(loadedToken)) return string.Empty;
+
+			Token token;
+			try
+			{
+				token = new Token(loadedToken);
+			}
+			catch (Exception e)
+			{
+				Debug.LogError($"Can't create {provider.ToString()} token = {loadedToken}. Exception:" + e.Message);
+				PlayerPrefs.DeleteKey(providerName);
+				return string.Empty;
+			}
+			
+			if (token.SecondsLeft() >= 300) return loadedToken;
+			
+			PlayerPrefs.DeleteKey(providerName);
+			return string.Empty;
+		}
+
+		public Token Token { get; set; }
 	}
 }

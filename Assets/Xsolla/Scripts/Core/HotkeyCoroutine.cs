@@ -5,17 +5,33 @@ using UnityEngine;
 public class HotkeyCoroutine : MonoBehaviour
 {
     public event Action KeyPressedEvent;
-	private KeyCode KeyCode;
-	private float Timeout;
-	private Coroutine coroutine;
+	private KeyCode _keyCode;
+	private float _timeout;
+	private Coroutine _coroutine;
+	private static bool m_isLocked;
 
 	public HotkeyCoroutine StartCoroutine(KeyCode keyCode, float timeout = 0.4F)
 	{
-		KeyCode = keyCode;
-		Timeout = timeout;
+		_keyCode = keyCode;
+		_timeout = timeout;
 		stopCoroutine();
 		startCoroutine();
 		return this;
+	}
+
+	public static void Lock()
+	{
+		m_isLocked = true;
+	}
+	
+	public static void Unlock()
+	{
+		m_isLocked = false;
+	}
+
+	public static bool IsLocked()
+	{
+		return m_isLocked;
 	}
 
 	private void OnEnable()
@@ -35,25 +51,26 @@ public class HotkeyCoroutine : MonoBehaviour
 
 	void startCoroutine()
 	{
-		if (coroutine == null) {
-			coroutine = StartCoroutine(SomeHotkeyCoroutine());
+		if (_coroutine == null) {
+			_coroutine = StartCoroutine(SomeHotkeyCoroutine());
 		}
 	}
 
 	void stopCoroutine()
 	{
-		if (coroutine != null) {
-			StopCoroutine(coroutine);
-			coroutine = null;
+		if (_coroutine != null) {
+			StopCoroutine(_coroutine);
+			_coroutine = null;
 		}
 	}
 
 	IEnumerator SomeHotkeyCoroutine()
 	{
 		while (true) {
-			yield return new WaitForSeconds(Timeout);
-			yield return new WaitUntil(() => Input.GetKeyDown(KeyCode));
-			KeyPressedEvent?.Invoke();
+			yield return new WaitForSeconds(_timeout);
+			yield return new WaitUntil(() => Input.GetKeyDown(_keyCode));
+			if(!m_isLocked)
+				KeyPressedEvent?.Invoke();
 		}
 	}
 }

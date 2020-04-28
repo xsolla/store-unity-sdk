@@ -1,18 +1,15 @@
 ﻿namespace Xsolla.Core
 {
-	public static class Constants
+	public static partial class Constants
 	{
-		public const string LoginSdkVersion = "0.5.0.1";
-		public const string StoreSdkVersion = "0.5.0.1";
-		
-		public const string XsollaLoginToken = "Xsolla_Token";
-		public const string XsollaLoginTokenExp = "Xsolla_Token_Exp";
+		public const string LoginSdkVersion = "0.5.1.0";
+		public const string StoreSdkVersion = "0.5.1.0";
+
+		public const string DEFAULT_PROJECT_ID = "44056";
+		public const string DEFAULT_LOGIN_ID = "e6dfaac6-78a8-11e9-9244-42010aa80004";
+
 		public const string UserLogin = "Xsolla_User_Login";
 		public const string UserPassword = "Xsolla_User_Password";
-		public const string UserShadowAccount = "Xsolla_User_ShadowAccount";
-		public const string UserShadowPlatform = "Xsolla_User_ShadowPlatform";
-
-		public const string XsollaStoreToken = "Xsolla_Store_Token";
 
 		public const string CartGroupName = "CART";
 		public const string CurrencyGroupName = "CURRENCY";

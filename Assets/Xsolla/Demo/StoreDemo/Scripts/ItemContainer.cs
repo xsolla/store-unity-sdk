@@ -15,7 +15,7 @@ public class ItemContainer : MonoBehaviour, IContainer
 
 	public List<ItemUI> Items { get; private set; }
 
-	void Awake()
+	private void Awake()
 	{
 		Items = new List<ItemUI>();
 		DisableEmptyContainerMessage();
@@ -23,9 +23,8 @@ public class ItemContainer : MonoBehaviour, IContainer
 
 	public void AddItem(Xsolla.Store.StoreItem itemInformation)
 	{
-		var item = Instantiate(itemPrefab, itemParent).GetComponent<ItemUI>();
+		ItemUI item = Instantiate(itemPrefab, itemParent).GetComponent<ItemUI>();
 		item.Initialize(itemInformation);
-		
 		Items.Add(item);
 	}
 
@@ -42,7 +41,7 @@ public class ItemContainer : MonoBehaviour, IContainer
 		emptyMessageText.gameObject.SetActive(true);
 	}
 
-	public void DisableEmptyContainerMessage()
+	private void DisableEmptyContainerMessage()
 	{
 		emptyMessageText.gameObject.SetActive(false);
 	}

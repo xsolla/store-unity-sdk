@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Xsolla/Demo/PayStationDemo/Scenes/PayStation.unity
     guid: 2e8141004aedd7842a239db1ce34c95c
+  - enabled: 1
+    path: Assets/Xsolla/Tests/EmptyScene.unity
+    guid: 4ac14e5aebf214917a99721ab17125fb
   m_configObjects: {}

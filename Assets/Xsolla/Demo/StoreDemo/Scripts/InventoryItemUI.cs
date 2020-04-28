@@ -21,14 +21,9 @@ public class InventoryItemUI : MonoBehaviour
 	ConsumeButton consumeButton;
 	
 	InventoryItem _itemInformation;
-	StoreController _storeController;
-
-	Sprite _itemImage;
 
 	private void Awake()
 	{
-		_storeController = FindObjectOfType<StoreController>();
-
 		DisableConsumeButton();
 	}
 
@@ -40,23 +35,26 @@ public class InventoryItemUI : MonoBehaviour
 		itemDescription.text = _itemInformation.description;
 		itemQuantity.text = _itemInformation.quantity.ToString();
 
-		if (_itemImage == null && !string.IsNullOrEmpty(_itemInformation.image_url))
-		{
+		if(!string.IsNullOrEmpty(_itemInformation.image_url))
 			ImageLoader.Instance.GetImageAsync(_itemInformation.image_url, LoadImageCallback);
+		else
+		{
+			loadingCircle.SetActive(false);
+			itemImage.sprite = null;
 		}
 	}
 
 	void LoadImageCallback(string url, Sprite image)
 	{
 		loadingCircle.SetActive(false);
-		itemImage.sprite = _itemImage = image;
+		itemImage.sprite = image;
 
 		RefreshConsumeButton();
 	}
 
 	void RefreshConsumeButton()
 	{
-		if (_itemInformation.remaining_uses != null) {
+		if (_itemInformation.IsConsumable()) {
 			EnableConsumeButton();
 		} else {
 			DisableConsumeButton();
@@ -68,6 +66,11 @@ public class InventoryItemUI : MonoBehaviour
 		consumeButton.gameObject.SetActive(true);
 		consumeButton.onClick = ConsumeHandler;
 		consumeButton.counter.ValueChanged += Counter_ValueChanged;
+	}
+	
+	void DisableConsumeButton()
+	{
+		consumeButton.gameObject.SetActive(false);
 	}
 
 	private void Counter_ValueChanged(int newValue)
@@ -83,11 +86,6 @@ public class InventoryItemUI : MonoBehaviour
 		consumeButton.counter.DecreaseValue(1);
 	}
 
-	void DisableConsumeButton()
-	{
-		consumeButton.gameObject.SetActive(false);
-	}
-
 	void ConsumeHandler()
 	{
 		if(consumeButton.counter > 1) {
@@ -96,15 +94,14 @@ public class InventoryItemUI : MonoBehaviour
 				"so we send " + consumeButton.counter.GetValue() + " requests."
 			);
 		}
-		
-		_storeController.ShowConfirm(
+		StoreDemoPopup.ShowConfirm(
 			() => {
 				loadingCircle.SetActive(true);
 				DisableConsumeButton();
 				ConsumeConfirmCase(consumeButton.counter.GetValue() - 1);
 			},
 			null,
-			"Item '" + _itemInformation.name + "' x " + consumeButton.counter + " will be consumed. Are you sure?"
+			$"Item '{_itemInformation.name}' x {consumeButton.counter} will be consumed. Are you sure?"
 		);
 	}
 
@@ -117,7 +114,7 @@ public class InventoryItemUI : MonoBehaviour
 		}
 	}
 
-	void SendConsumeRequest(Action callback)
+	private void SendConsumeRequest(Action callback)
 	{
 		XsollaStore.Instance.ConsumeInventoryItem(XsollaSettings.StoreProjectId,
 			GetConsumeItemBySku(_itemInformation.sku),
@@ -126,7 +123,7 @@ public class InventoryItemUI : MonoBehaviour
 		);
 	}
 
-	ConsumeItem GetConsumeItemBySku(string sku)
+	private ConsumeItem GetConsumeItemBySku(string sku)
 	{
 		return new ConsumeItem() {
 			sku = sku,
@@ -134,18 +131,18 @@ public class InventoryItemUI : MonoBehaviour
 		};
 	}
 
-	void ConsumeItemsSuccess()
+	private void ConsumeItemsSuccess()
 	{
 		EnableConsumeButton();
 		loadingCircle.SetActive(false);
-		_storeController.ShowSuccess();
-		_storeController.RefreshInventory();
+		StoreDemoPopup.ShowSuccess();
+		UserInventory.Instance.UpdateVirtualItems();
 	}
 
-	void ConsumeItemsFailed(Error error)
+	private void ConsumeItemsFailed(Error error)
 	{
 		EnableConsumeButton();
 		loadingCircle.SetActive(false);
-		_storeController.ShowError(error);
+		StoreDemoPopup.ShowError(error);
 	}
 }

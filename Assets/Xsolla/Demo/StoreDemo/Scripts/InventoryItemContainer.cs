@@ -10,15 +10,11 @@ public class InventoryItemContainer : MonoBehaviour, IContainer
 	[SerializeField]
 	Transform itemParent;
 
-	List<GameObject> _items;
-	
-	StoreController _storeController;
+	private List<GameObject> _items;
 
-	void Awake()
+	private void Awake()
 	{
 		_items = new List<GameObject>();
-		
-		_storeController = FindObjectOfType<StoreController>();
 	}
 
 	public void AddItem(InventoryItem itemInformation)
@@ -28,23 +24,15 @@ public class InventoryItemContainer : MonoBehaviour, IContainer
 		_items.Add(newItem);
 	}
 
-	public void Refresh()
+	private void ClearItems()
 	{
-		ClearInventoryItems();
-
-		foreach (var item in _storeController.inventory.items)
-		{
-			AddItem(item);
-		}
+		_items.ForEach(Destroy);
+		_items.Clear();
 	}
 	
-	void ClearInventoryItems()
+	public void Refresh()
 	{
-		foreach (var item in _items)
-		{
-			Destroy(item);
-		}
-		
-		_items.Clear();
+		ClearItems();
+		UserInventory.Instance.GetItems().ForEach(AddItem);
 	}
 }

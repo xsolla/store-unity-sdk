@@ -8,12 +8,37 @@ using Xsolla.Core;
 
 public partial class TestHelper : MonoSingleton<TestHelper>
 {
-	public void LoadScene(Scenes name)
+	public IEnumerator LoadScene(Scenes scene)
 	{
-		SceneManager.LoadScene(Enum.GetName(typeof(Scenes), name));
-	}
+        if (IsScene(scene))
+            yield return UnloadScene(scene);
+		SceneManager.LoadScene(GetSceneName(scene));
+        yield return new WaitWhile(() => IsScene(scene));
+    }
 
-	public GameObject Find(string name)
+    /// <summary>
+    /// Костыль
+    /// </summary>
+    /// <param name="scene"></param>
+    /// <returns></returns>
+    public IEnumerator UnloadScene(Scenes scene)
+    {
+        yield return LoadScene((scene == Scenes.Login)
+            ? Scenes.EmptyScene
+            : Scenes.Login);
+    }
+
+    public bool IsScene(Scenes scene)
+    {
+        return SceneManager.GetActiveScene() == SceneManager.GetSceneByName(GetSceneName(scene));
+    }
+
+    private string GetSceneName(Scenes scene)
+    {
+        return Enum.GetName(typeof(Scenes), scene);
+    }
+
+    public GameObject Find(string name)
 	{
 		return GameObject.Find(name);
 	}
@@ -24,7 +49,7 @@ public partial class TestHelper : MonoSingleton<TestHelper>
 		return go.GetComponent<T>();
 	}
 
-	public void FreezeFor(int milliSeconds)
+    public void FreezeFor(int milliSeconds)
 	{
 		Thread.Sleep(milliSeconds);
 	}
@@ -78,6 +103,17 @@ public partial class TestHelper : MonoSingleton<TestHelper>
 		}
 		return true;
 	}
+
+    public bool ClickSimpleButton(string name)
+    {
+        SimpleButton button = Find<SimpleButton>(name);
+        if (button != null)
+        {
+            button.onClick.Invoke();
+            return true;
+        }
+        return true;
+    }
 }
 
 public partial class TestHelper : MonoSingleton<TestHelper>
@@ -86,6 +122,9 @@ public partial class TestHelper : MonoSingleton<TestHelper>
 	{
 		Login,
 		Store,
-		PayStation
+		PayStation,
+        EmptyScene
 	}
 }
+
+
