@@ -1,3 +1,14 @@
-﻿{
-	"name": "Core"
+{
+    "name": "Core",
+    "references": [
+        "ThirdParty"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": []
 }

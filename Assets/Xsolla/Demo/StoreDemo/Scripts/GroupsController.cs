@@ -71,11 +71,18 @@ public class GroupsController : MonoBehaviour
 	{
 		if (_groups.Exists(group => group.Id == groupId))
 			return;
-		var newGroup = Instantiate(groupPref, scrollView.transform).GetComponent<IGroup>();
+		var newGroupGameObject = Instantiate(groupPref, scrollView.transform);
+		newGroupGameObject.name = 
+			"Group_" +
+			groupName.ToUpper().First() + 
+			groupName.Substring(1).Replace(" ", "").ToLower(); 
+			
+		var newGroup = newGroupGameObject.GetComponent<IGroup>();
 		newGroup.Id = groupId;
 		newGroup.Name  = groupName;
 		newGroup.OnGroupClick += SelectGroup;
-
+		
+		
 		_groups.Add(newGroup);
 	}
 

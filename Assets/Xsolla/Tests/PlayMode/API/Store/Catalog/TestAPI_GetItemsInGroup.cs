@@ -17,7 +17,7 @@ namespace Tests
 
         protected override void Request()
         {
-            StoreAPI.GetListOfItemsByGroup(XsollaSettings.StoreProjectId, ITEMS_GROUP, SuccessRequest, FailedRequest);
+            StoreAPI.GetGroupItems(XsollaSettings.StoreProjectId, ITEMS_GROUP, SuccessRequest, FailedRequest);
         }
 
         private void SuccessRequest(StoreItems items)

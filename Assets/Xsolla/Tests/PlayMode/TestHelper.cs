@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -38,15 +40,53 @@ public partial class TestHelper : MonoSingleton<TestHelper>
         return Enum.GetName(typeof(Scenes), scene);
     }
 
+    public List<GameObject> FindAll(string name)
+    {
+	    return FindObjectsOfType<GameObject>().
+		    Where(o => o.name.Equals(name)).
+		    Where(o => o.activeInHierarchy).ToList();
+    }
+    
+    public List<T> FindAll<T>(string name) where T: Component
+    {
+	    List<T> result = new List<T>();
+	    List<GameObject> objects = FindAll(name);
+	    objects.ForEach(o => result.AddRange(GetComponentsRecursive<T>(o)));
+	    return result;
+    }
+
+    private List<T> GetComponentsRecursive<T>(GameObject go) where T : Component
+    {
+	    List<T> result = new List<T>();
+	    
+	    var component = go.GetComponent<T>();
+	    if (component != null)
+		    result.Add(component);
+	    
+	    for (var i = 0; i < go.transform.childCount; i++)
+	    {
+		    result.AddRange(GetComponentsRecursive<T>(go.transform.GetChild(i).gameObject));
+	    }
+	    return result;
+    }
+
     public GameObject Find(string name)
-	{
-		return GameObject.Find(name);
+    {
+	    List<GameObject> objects = FindAll(name);
+	    return (objects.Count > 0) ? objects.First() : null;
 	}
+
+    public T FindIn<T>(GameObject where, string what) where T: Component
+    {
+	    List<T> components = GetComponentsRecursive<T>(where);
+	    components = components.Where(c => c.gameObject.name.Equals(name)).ToList();
+	    return (components.Count > 0) ? components.First() : null;
+    }
 
 	public T Find<T>(string name) where T : Component
 	{
-		GameObject go = Find(name);
-		return go.GetComponent<T>();
+		List<T> components = FindAll<T>(name);
+		return (components.Count > 0) ? components.First() : null;
 	}
 
     public void FreezeFor(int milliSeconds)
