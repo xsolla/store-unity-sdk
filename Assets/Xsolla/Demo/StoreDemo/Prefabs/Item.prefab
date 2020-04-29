@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 916843159136710526}
   m_Layer: 5
-  m_Name: Item.Button
+  m_Name: CartButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -301,7 +301,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7446015086131469273}
   m_Layer: 5
-  m_Name: Item.Button
+  m_Name: BuyButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -536,7 +536,7 @@ GameObject:
   - component: {fileID: 2381715879316594950}
   - component: {fileID: 7594090925547553581}
   m_Layer: 5
-  m_Name: Buttons
+  m_Name: Item.Buttons
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -593,6 +593,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7446015086131469273}
     m_Modifications:
+    - target: {fileID: 8761578432214116197, guid: dfffa70844d28c4499d39d6571e7e152,
+        type: 3}
+      propertyPath: m_Name
+      value: pref_SimpleTextButton
+      objectReference: {fileID: 0}
     - target: {fileID: 5571938582151317058, guid: dfffa70844d28c4499d39d6571e7e152,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -697,11 +702,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8761578432214116197, guid: dfffa70844d28c4499d39d6571e7e152,
-        type: 3}
-      propertyPath: m_Name
-      value: pref_SimpleTextButton
       objectReference: {fileID: 0}
     - target: {fileID: 1422655356088621779, guid: dfffa70844d28c4499d39d6571e7e152,
         type: 3}
