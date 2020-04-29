@@ -1,6 +1,8 @@
 {
     "name": "Core",
-    "references": [],
+    "references": [
+        "ThirdParty"
+    ],
     "optionalUnityReferences": [],
     "includePlatforms": [],
     "excludePlatforms": [],
