@@ -100,6 +100,8 @@ public class ItemUI : MonoBehaviour
 		buyButton.Text = text;
 		itemName.text = _itemInformation.name;
 		itemDescription.text = _itemInformation.description;
+
+		gameObject.name = "Item_" + _itemInformation.name.Replace(" ", "");
 		ImageLoader.Instance.GetImageAsync(_itemInformation.image_url, LoadImageCallback);
 	}
 

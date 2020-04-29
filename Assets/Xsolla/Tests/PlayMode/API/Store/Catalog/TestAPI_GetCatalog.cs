@@ -10,7 +10,7 @@ namespace Tests
 
         protected override void Request()
         {
-            StoreAPI.GetListOfItems(XsollaSettings.StoreProjectId, SuccessRequest, FailedRequest);
+            StoreAPI.GetCatalog(XsollaSettings.StoreProjectId, SuccessRequest, FailedRequest);
         }
 
         private void SuccessRequest(StoreItems items)
