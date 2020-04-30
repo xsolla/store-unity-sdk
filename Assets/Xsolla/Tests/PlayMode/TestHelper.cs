@@ -191,6 +191,18 @@ public partial class TestHelper : MonoSingleton<TestHelper>
         }
         return true;
     }
+
+    public bool ClickCartMenuButton(string name)
+    {
+        CartMenuButton button = Find<CartMenuButton>(name);
+        if (button != null)
+        {
+            button.onClick.DynamicInvoke();
+            return true;
+        }
+        return true;
+    }
+
 }
 
 public partial class TestHelper : MonoSingleton<TestHelper>
