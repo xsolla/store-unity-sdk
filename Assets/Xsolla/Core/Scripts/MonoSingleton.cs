@@ -93,7 +93,7 @@ namespace Xsolla.Core
 			}
 		}
 
-		private void OnDestroy()
+		protected virtual void OnDestroy()
 		{
 			Debug.Log(typeof(T) + " is destroyed.");
 			_instance = null;
