@@ -10,15 +10,14 @@ using Xsolla.Core;
 
 public partial class TestHelper : MonoSingleton<TestHelper>
 {
-	public IEnumerator LoadScene(Scenes scene)
+	public IEnumerator LoadScene(Scenes scene, float timeout = 5.0F)
 	{
         if (IsScene(scene))
             yield return UnloadScene(scene);
 		SceneManager.LoadScene(GetSceneName(scene));
-        yield return new WaitWhile(() => IsScene(scene));
-        yield return new WaitForSeconds(0.5F);
-        yield return new WaitWhile(() => WebRequestHelper.Instance.IsBusy());
-    }
+		yield return new WaitForSeconds(2.0F);
+		yield return WaitScene(scene, timeout);
+	}
 
     /// <summary>
     /// Костыль
@@ -40,25 +39,68 @@ public partial class TestHelper : MonoSingleton<TestHelper>
     public IEnumerator WaitScene(Scenes scene, float timeout)
     {
 	    bool busy = true;
-	    Action callback = () =>
+	    Coroutine sceneCoroutine = null, timeoutCoroutine = null;
+	    sceneCoroutine = StartCoroutine(WaitSceneCoroutine(scene, () =>
 	    {
-		    StopAllCoroutines();
+		    StopCoroutine(timeoutCoroutine);
 		    busy = false;
-	    };
-	    StartCoroutine(WaitSceneCoroutine(scene, callback));
-	    StartCoroutine(TimeoutCoroutine(timeout, callback));
+	    }));
+	    timeoutCoroutine = StartCoroutine(WaitTimeoutCoroutine(timeout, () =>
+	    {
+		    StopCoroutine(sceneCoroutine);
+		    busy = false;
+	    }));
 	    yield return new WaitWhile(() => busy);
     }
 
     IEnumerator WaitSceneCoroutine(Scenes scene, Action callback)
     {
 	    yield return new WaitUntil(() => IsScene(scene));
+	    yield return WaitWebRequests();
 	    callback?.Invoke();
     }
 
-    IEnumerator TimeoutCoroutine(float timeout, Action callback)
+    public IEnumerator WaitWebRequests(float noRequestTimeout = 1.0F)
+    {
+	    yield return StartCoroutine(WaitWebRequestCoroutine(noRequestTimeout));
+    }
+
+    IEnumerator WaitWebRequestCoroutine(float noRequestTimeout = 1.0F)
+    {
+	    bool noRequestTimeoutElapsed = false;
+	    
+	    Coroutine timeCoroutine = null, busyCoroutine = null;
+	    Action timeCoroutineCallback, noBusyCoroutineCallback, busyCoroutineCallback = null;
+	    
+	    timeCoroutineCallback = () =>
+	    {
+		    noRequestTimeoutElapsed = true;
+		    StopCoroutine(busyCoroutine);
+	    };
+	    noBusyCoroutineCallback = () =>
+	    {
+		    timeCoroutine = StartCoroutine(WaitTimeoutCoroutine(noRequestTimeout, timeCoroutineCallback));
+		    busyCoroutine = StartCoroutine(WaitBooleanCoroutine(() => WebRequestHelper.Instance.IsBusy(), busyCoroutineCallback));
+	    };
+	    busyCoroutineCallback = () =>
+	    {
+		    StopCoroutine(timeCoroutine);
+		    busyCoroutine = StartCoroutine(WaitBooleanCoroutine(() => !WebRequestHelper.Instance.IsBusy(), noBusyCoroutineCallback));
+	    };
+	    
+	    busyCoroutine = StartCoroutine(WaitBooleanCoroutine(() => !WebRequestHelper.Instance.IsBusy(), noBusyCoroutineCallback));
+	    yield return new WaitWhile(() => noRequestTimeoutElapsed);
+    }
+
+    IEnumerator WaitTimeoutCoroutine(float timeout, Action callback = null)
     {
 	    yield return new WaitForSeconds(timeout);
+	    callback?.Invoke();
+    }
+    
+    IEnumerator WaitBooleanCoroutine(Func<bool> condition, Action callback = null)
+    {
+	    yield return new WaitUntil(condition);
 	    callback?.Invoke();
     }
 

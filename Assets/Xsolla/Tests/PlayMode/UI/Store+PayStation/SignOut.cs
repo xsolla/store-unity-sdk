@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine.TestTools;
 using NUnit.Framework;
+using UnityEngine;
 
 namespace Tests
 {
@@ -14,6 +15,8 @@ namespace Tests
             TestHelper helper = TestHelper.Instance;
             // Load Store scene
             yield return helper.LoadScene(TestHelper.Scenes.Store);
+            // Assert expected result
+            Assert.True(helper.IsScene(TestHelper.Scenes.Store));
             // Click SignOut button
             helper.ClickSimpleTextButton(SIGN_OUT_BUTTON);
             // Wait one of: Login scene loaded or Timeout is expired
