@@ -51,11 +51,20 @@ public partial class TestHelper : MonoSingleton<TestHelper>
     {
 	    List<T> result = new List<T>();
 	    List<GameObject> objects = FindAll(name);
-	    objects.ForEach(o => result.AddRange(GetComponentsRecursive<T>(o)));
+	    objects.ForEach(o => result.AddRange(SearchComponentsRecursive<T>(o)));
+	    return result;
+    }
+    
+    private List<GameObject> SearchGameObjectRecursive(GameObject go, string objectName)
+    {
+	    if(go.name.Equals(objectName))return new List<GameObject>{go};
+	    List<GameObject> result = new List<GameObject>();
+	    for (var i = 0; i < go.transform.childCount; i++)
+		    result.AddRange(SearchGameObjectRecursive(go.transform.GetChild(i).gameObject, objectName));
 	    return result;
     }
 
-    private List<T> GetComponentsRecursive<T>(GameObject go) where T : Component
+    private List<T> SearchComponentsRecursive<T>(GameObject go) where T : Component
     {
 	    List<T> result = new List<T>();
 	    
@@ -65,7 +74,7 @@ public partial class TestHelper : MonoSingleton<TestHelper>
 	    
 	    for (var i = 0; i < go.transform.childCount; i++)
 	    {
-		    result.AddRange(GetComponentsRecursive<T>(go.transform.GetChild(i).gameObject));
+		    result.AddRange(SearchComponentsRecursive<T>(go.transform.GetChild(i).gameObject));
 	    }
 	    return result;
     }
@@ -78,8 +87,9 @@ public partial class TestHelper : MonoSingleton<TestHelper>
 
     public T FindIn<T>(GameObject where, string what) where T: Component
     {
-	    List<T> components = GetComponentsRecursive<T>(where);
-	    components = components.Where(c => c.gameObject.name.Equals(name)).ToList();
+	    List<GameObject> objects = SearchGameObjectRecursive(where, what);
+	    List<T> components = new List<T>();
+		objects.ForEach(o => components.AddRange(SearchComponentsRecursive<T>(o)));
 	    return (components.Count > 0) ? components.First() : null;
     }
 
