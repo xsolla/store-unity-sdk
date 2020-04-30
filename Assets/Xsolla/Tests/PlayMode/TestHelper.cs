@@ -16,6 +16,8 @@ public partial class TestHelper : MonoSingleton<TestHelper>
             yield return UnloadScene(scene);
 		SceneManager.LoadScene(GetSceneName(scene));
         yield return new WaitWhile(() => IsScene(scene));
+        yield return new WaitForSeconds(0.5F);
+        yield return new WaitWhile(() => WebRequestHelper.Instance.IsBusy());
     }
 
     /// <summary>
@@ -33,6 +35,31 @@ public partial class TestHelper : MonoSingleton<TestHelper>
     public bool IsScene(Scenes scene)
     {
         return SceneManager.GetActiveScene() == SceneManager.GetSceneByName(GetSceneName(scene));
+    }
+
+    public IEnumerator WaitScene(Scenes scene, float timeout)
+    {
+	    bool busy = true;
+	    Action callback = () =>
+	    {
+		    StopAllCoroutines();
+		    busy = false;
+	    };
+	    StartCoroutine(WaitSceneCoroutine(scene, callback));
+	    StartCoroutine(TimeoutCoroutine(timeout, callback));
+	    yield return new WaitWhile(() => busy);
+    }
+
+    IEnumerator WaitSceneCoroutine(Scenes scene, Action callback)
+    {
+	    yield return new WaitUntil(() => IsScene(scene));
+	    callback?.Invoke();
+    }
+
+    IEnumerator TimeoutCoroutine(float timeout, Action callback)
+    {
+	    yield return new WaitForSeconds(timeout);
+	    callback?.Invoke();
     }
 
     private string GetSceneName(Scenes scene)
