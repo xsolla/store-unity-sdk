@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Networking;
 
 namespace Xsolla.Core
@@ -56,6 +57,12 @@ namespace Xsolla.Core
 		{
 			yield return InternalPerformWebRequest(webRequest,
 				() => ProcessRequest(webRequest, onComplete, onError, errorsToCheck));
+		}
+		
+		private IEnumerator PerformWebRequest(UnityWebRequest webRequest, Action<Texture2D> onComplete, Action<Error> onError)
+		{
+			yield return InternalPerformWebRequest(webRequest,
+				() => ProcessRequest(webRequest, onComplete, onError));
 		}
 
 		private IEnumerator SendWebRequest(UnityWebRequest webRequest)
