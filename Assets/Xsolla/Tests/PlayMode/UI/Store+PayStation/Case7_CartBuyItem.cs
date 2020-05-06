@@ -53,7 +53,11 @@ namespace Tests
           //  Assert.True(UserCart.Instance.GetItems().Count == 1);
             yield return helper.WaitFor(2.0F);
 
-            helper.ClickCartMenuButton(CART_BUTTON);
+            GameObject section = TestHelper.Instance.Find("Group_Cart");
+            CartMenuButton section2 = TestHelper.Instance.FindIn<CartMenuButton>(section, "pref_CartMenuButton");
+            section2.OnPointerDown(new PointerEventData(EventSystem.current));
+            section2.OnPointerUp(new PointerEventData(EventSystem.current));
+
             yield return helper.WaitFor(5.0F);
             Assert.True(helper.IsScene(TestHelper.Scenes.Store));
 

@@ -16,17 +16,15 @@ namespace Tests
     public class Case8_BuyOneClick
     {
 
-        const string CART_BUTTON = "pref_CartMenuButton";
-
-
 
         const string USERNAME_FIELD = "LoginUsername";
         const string USERPASSWORD_FIELD = "LoginPassword";
         const string USERLOGIN_BUTTON = "LoginButton";
         const string SUCCESS_BUTTON = "SuccessPopupButton";
+        const string BROWSER_CLOSE = "CloseBrowserButton";
 
         [UnityTest]
-        public IEnumerator SuccessBuyCart()
+        public IEnumerator SuccessBuyOneClick()
         {
 
             TestHelper helper = TestHelper.Instance;
@@ -39,7 +37,7 @@ namespace Tests
             yield return helper.WaitFor(0.01F);
             helper.ClickButton(USERLOGIN_BUTTON);
             yield return helper.WaitScene(TestHelper.Scenes.Store, 4.0F);
-            yield return helper.WaitFor(5.0F);
+           
 
 
 
@@ -52,7 +50,7 @@ namespace Tests
             cartButton.OnPointerDown(new PointerEventData(EventSystem.current));
             cartButton.OnPointerUp(new PointerEventData(EventSystem.current));
            // yield return TestHelper.Instance.WaitFor(5F);
-            yield return helper.WaitFor(5.0F);
+            yield return helper.WaitFor(4.5F);
 
             SinglePageBrowser2D browser2D = BrowserHelper.Instance.GetLastBrowser();
             if (browser2D != null)
@@ -154,15 +152,17 @@ namespace Tests
                 string str39 = KeysConverter.Convert(KeyCode.KeypadEnter);
                 xsollaBrowser.Input.Keyboard.PressKey(str39);
 
-                yield return helper.WaitFor(7.0F);
-
-                helper.ClickSimpleTextButton(SUCCESS_BUTTON);
-                yield return helper.WaitFor(5.0F);
-
-                string str41 = KeysConverter.Convert(KeyCode.Escape);
-                xsollaBrowser.Input.Keyboard.PressKey(str41);
+   
 
                 yield return helper.WaitFor(3.0F);
+
+                helper.ClickSimpleTextButton(SUCCESS_BUTTON);
+
+                yield return helper.WaitFor(1.0F);
+
+                //helper.ClickCloseBrowserButton(BROWSER_CLOSE);
+
+                yield return helper.WaitFor(1.0F);
                 Assert.True(helper.IsScene(TestHelper.Scenes.Store));
             }
 

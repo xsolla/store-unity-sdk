@@ -253,6 +253,16 @@ public partial class TestHelper : MonoSingleton<TestHelper>
         return true;
     }
 
+    //public bool ClickCloseBrowserButton(string name)
+    //{
+    //    CloseBrowserButton button = Find<CloseBrowserButton>(name);
+    //    if (button != null)
+    //    {
+    //        button.onClick.Invoke();
+    //        return true;
+    //    }
+    //    return true;
+    //}
 }
 
 public partial class TestHelper : MonoSingleton<TestHelper>
