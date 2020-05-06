@@ -14,7 +14,7 @@ namespace Tests
         {
             TestHelper helper = TestHelper.Instance;
             // Load Store scene
-            yield return helper.LoadScene(TestHelper.Scenes.Store);
+            yield return helper.LoadScene(TestHelper.Scenes.Store, 10.0F);
             // Assert expected result
             Assert.True(helper.IsScene(TestHelper.Scenes.Store));
             // Click SignOut button
