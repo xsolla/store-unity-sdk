@@ -21,9 +21,10 @@ namespace Tests
         const string USERPASSWORD_FIELD = "LoginPassword";
         const string USERLOGIN_BUTTON = "LoginButton";
         const string SUCCESS_BUTTON = "SuccessPopupButton";
-        const string BROWSER_CLOSE = "CloseBrowserButton";
+       
 
         [UnityTest]
+        [Timeout(100000000)]
         public IEnumerator SuccessBuyOneClick()
         {
 
@@ -44,12 +45,12 @@ namespace Tests
             yield return helper.WaitFor(1.0F);
 
 
-            GameObject bodyArmor = TestHelper.Instance.Find("Item_Test_item");
+           GameObject bodyArmor = TestHelper.Instance.Find("Item_Test_item");
            SimpleTextButton cartButton = TestHelper.Instance.FindIn<SimpleTextButton>(bodyArmor, "BuyButton");
 
             cartButton.OnPointerDown(new PointerEventData(EventSystem.current));
             cartButton.OnPointerUp(new PointerEventData(EventSystem.current));
-           // yield return TestHelper.Instance.WaitFor(5F);
+
             yield return helper.WaitFor(4.5F);
 
             SinglePageBrowser2D browser2D = BrowserHelper.Instance.GetLastBrowser();
@@ -152,22 +153,26 @@ namespace Tests
                 string str39 = KeysConverter.Convert(KeyCode.KeypadEnter);
                 xsollaBrowser.Input.Keyboard.PressKey(str39);
 
-   
+
 
                 yield return helper.WaitFor(3.0F);
 
                 helper.ClickSimpleTextButton(SUCCESS_BUTTON);
 
-                yield return helper.WaitFor(1.0F);
+                yield return helper.WaitFor(6.0F);
 
-                //helper.ClickCloseBrowserButton(BROWSER_CLOSE);
+                GameObject close = TestHelper.Instance.Find("pref_SinglePageBrowser2D(Clone)");
+                Button close2 = TestHelper.Instance.FindIn<Button>(close, "Button");
+                close2.OnPointerDown(new PointerEventData(EventSystem.current));
+                close2.OnPointerUp(new PointerEventData(EventSystem.current));
 
-                yield return helper.WaitFor(1.0F);
+
+                yield return helper.WaitFor(5.0F);
                 Assert.True(helper.IsScene(TestHelper.Scenes.Store));
-            }
-
-          
         }
+
+
+    }
 
     }
 }
