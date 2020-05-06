@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using UnityEngine;
@@ -40,23 +41,26 @@ public partial class TestHelper : MonoSingleton<TestHelper>
     {
 	    bool busy = true;
 	    Coroutine sceneCoroutine = null, timeoutCoroutine = null;
+	    Debug.Log($"Wait scene = `{scene.ToString()}`");
 	    sceneCoroutine = StartCoroutine(WaitSceneCoroutine(scene, () =>
 	    {
 		    StopCoroutine(timeoutCoroutine);
+		    Debug.Log($"Scene = `{scene.ToString()}` is loaded.");
 		    busy = false;
 	    }));
 	    timeoutCoroutine = StartCoroutine(WaitTimeoutCoroutine(timeout, () =>
 	    {
 		    StopCoroutine(sceneCoroutine);
+		    Debug.Log($"ATTENTION: wait scene `{scene.ToString()}` coroutine exit by timeout = {timeout.ToString(CultureInfo.CurrentCulture)}");
 		    busy = false;
 	    }));
 	    yield return new WaitWhile(() => busy);
     }
 
-    IEnumerator WaitSceneCoroutine(Scenes scene, Action callback)
+    IEnumerator WaitSceneCoroutine(Scenes scene, Action callback, float noRequestTimeout = 1.0F)
     {
 	    yield return new WaitUntil(() => IsScene(scene));
-	    yield return WaitWebRequests();
+	    yield return WaitWebRequests(noRequestTimeout);
 	    callback?.Invoke();
     }
 
@@ -65,31 +69,35 @@ public partial class TestHelper : MonoSingleton<TestHelper>
 	    yield return StartCoroutine(WaitWebRequestCoroutine(noRequestTimeout));
     }
 
-    IEnumerator WaitWebRequestCoroutine(float noRequestTimeout = 1.0F)
+    IEnumerator WaitWebRequestCoroutine(float noRequestTimeout)
     {
 	    bool noRequestTimeoutElapsed = false;
 	    
 	    Coroutine timeCoroutine = null, busyCoroutine = null;
 	    Action timeCoroutineCallback, noBusyCoroutineCallback, busyCoroutineCallback = null;
 	    
+	    Debug.Log($"Wait web request helper.");
 	    timeCoroutineCallback = () =>
 	    {
-		    noRequestTimeoutElapsed = true;
 		    StopCoroutine(busyCoroutine);
+		    Debug.Log($"Wait web request timeout = {noRequestTimeout.ToString(CultureInfo.CurrentCulture)} is elapsed.");
+		    noRequestTimeoutElapsed = true;
 	    };
 	    noBusyCoroutineCallback = () =>
 	    {
+		    Debug.Log($"Web request helper is NOT busy.");
 		    timeCoroutine = StartCoroutine(WaitTimeoutCoroutine(noRequestTimeout, timeCoroutineCallback));
 		    busyCoroutine = StartCoroutine(WaitBooleanCoroutine(() => WebRequestHelper.Instance.IsBusy(), busyCoroutineCallback));
 	    };
 	    busyCoroutineCallback = () =>
 	    {
 		    StopCoroutine(timeCoroutine);
+		    Debug.Log($"Web request helper is busy.");
 		    busyCoroutine = StartCoroutine(WaitBooleanCoroutine(() => !WebRequestHelper.Instance.IsBusy(), noBusyCoroutineCallback));
 	    };
 	    
 	    busyCoroutine = StartCoroutine(WaitBooleanCoroutine(() => !WebRequestHelper.Instance.IsBusy(), noBusyCoroutineCallback));
-	    yield return new WaitWhile(() => noRequestTimeoutElapsed);
+	    yield return new WaitWhile(() => !noRequestTimeoutElapsed);
     }
 
     IEnumerator WaitTimeoutCoroutine(float timeout, Action callback = null)
