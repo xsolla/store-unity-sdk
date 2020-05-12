@@ -211,7 +211,7 @@ GameObject:
   - component: {fileID: 8159901679378360219}
   - component: {fileID: 449485201159558410}
   m_Layer: 5
-  m_Name: CartCouner
+  m_Name: ItemCount
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -947,6 +947,16 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 3620293792778854422, guid: 672121fe7e09a46718f2ee6cae117626,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3620293792778854422, guid: 672121fe7e09a46718f2ee6cae117626,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3577694456258680480, guid: 672121fe7e09a46718f2ee6cae117626,
         type: 3}
       propertyPath: m_Name
@@ -966,16 +976,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3620293792778854422, guid: 672121fe7e09a46718f2ee6cae117626,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3620293792778854422, guid: 672121fe7e09a46718f2ee6cae117626,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8967897405119260238, guid: 672121fe7e09a46718f2ee6cae117626,
         type: 3}
