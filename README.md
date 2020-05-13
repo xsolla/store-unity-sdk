@@ -33,9 +33,11 @@
 * Visual Studio 2015
 * Unity 2018.3.0f2 and higher
 
-**Note:** The SDK is stable for the following Unity versions:
+**NOTE:** The SDK is stable for the following Unity versions:
 * 2018.3.0f2
 * 2019.3.4f1
+
+**NOTE:** Only Mono compliant is supported when creating a game build.
 
 ## Target OS
 * iOS
