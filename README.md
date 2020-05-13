@@ -37,7 +37,7 @@
 * 2018.3.0f2
 * 2019.3.4f1
 
-**NOTE:** Only Mono compliant is supported when creating a game build.
+**NOTE:** Only Mono сompiler is supported when creating a game build.
 
 ## Target OS
 * iOS
