@@ -10,9 +10,11 @@ namespace Xsolla.Core
 		private GameObject InAppBrowserPrefab;
 		private GameObject InAppBrowserObject;
 
+#if UNITY_WEBGL
 		[DllImport("__Internal")]
 		private static extern void Purchase(string token, bool sandbox);
-
+#endif
+		
 		private void OnDestroy()
 		{
 			if(InAppBrowserObject != null) {
@@ -23,11 +25,13 @@ namespace Xsolla.Core
 
 		public void OpenPurchase(string url, string token, bool isSandbox, bool inAppBrowserEnabled = false)
 		{
+#if UNITY_WEBGL
 			if((Application.platform == RuntimePlatform.WebGLPlayer) && inAppBrowserEnabled) {
 				Purchase(token, isSandbox);
-			} else {
-				Open(url + token, inAppBrowserEnabled);
+				return;
 			}
+#endif
+			Open(url + token, inAppBrowserEnabled);
 		}
 
 		public void Open(string url, bool inAppBrowserEnabled = false)
