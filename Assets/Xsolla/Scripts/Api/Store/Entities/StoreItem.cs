@@ -33,7 +33,14 @@ namespace Xsolla.Store
 			{
 				public int? usages_count;
 			}
+			[Serializable]
+			public class ExpirationPeriod
+			{
+				public string type;
+				public int value;
+			}
 			public ConsumableOption consumable;
+			public ExpirationPeriod expiration_period;
 		}
 		
 		public string sku;
