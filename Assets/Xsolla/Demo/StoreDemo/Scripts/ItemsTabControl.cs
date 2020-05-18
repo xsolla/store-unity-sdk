@@ -13,6 +13,8 @@ public partial class ItemsTabControl : MonoBehaviour
 	[SerializeField]
 	MenuButton inventoryButton;
 	[SerializeField]
+	MenuButton subscriptionsButton;
+	[SerializeField]
 	MenuButton attributesButton;
 	[SerializeField]
 	VirtualCurrencyContainer virtualCurrencyBalance;
@@ -30,16 +32,18 @@ public partial class ItemsTabControl : MonoBehaviour
 	{
 		_groupsController = FindObjectOfType<GroupsController>();
 		_itemsController = FindObjectOfType<ItemsController>();
-		
+
 		storeButton.gameObject.SetActive(true);
 		inventoryButton.gameObject.SetActive(true);
+		subscriptionsButton.gameObject.SetActive(true);
 		attributesButton.gameObject.SetActive(true);
-		
+
 		storeButton.Select(false);
 
 		attributesButton.onClick = _ => InternalActivateAttributesTab();
 		storeButton.onClick = _ => InternalActivateStoreTab();
 		inventoryButton.onClick = _ => InternalActivateInventoryTab();
+		subscriptionsButton.onClick = _ => InternalActivateSubscriptionsTab();
 
 		InitHotKeys();
 	}
@@ -48,9 +52,11 @@ public partial class ItemsTabControl : MonoBehaviour
 	{
 		attributesButton.Deselect();
 		inventoryButton.Deselect();
+		subscriptionsButton.Deselect();
 
 		var selectedGroup = _groupsController.GetSelectedGroup();
-		if (selectedGroup != null) {
+		if (selectedGroup != null)
+		{
 			_itemsController.ActivateContainer(selectedGroup.Id);
 		}
 	}
@@ -59,13 +65,23 @@ public partial class ItemsTabControl : MonoBehaviour
 	{
 		attributesButton.Deselect();
 		storeButton.Deselect();
+		subscriptionsButton.Deselect();
 		_itemsController.ActivateContainer(Constants.InventoryContainerName);
+	}
+
+	private void InternalActivateSubscriptionsTab()
+	{
+		storeButton.Deselect();
+		inventoryButton.Deselect();
+		attributesButton.Deselect();
+		_itemsController.ActivateContainer(Constants.SubscriptionsContainerName);
 	}
 
 	private void InternalActivateAttributesTab()
 	{
 		storeButton.Deselect();
 		inventoryButton.Deselect();
+		subscriptionsButton.Deselect();
 		_itemsController.ActivateContainer(Constants.AttributesContainerName);
 	}
 
@@ -75,5 +91,6 @@ public partial class ItemsTabControl : MonoBehaviour
 		storeButton.Select(false);
 		attributesButton.Deselect();
 		inventoryButton.Deselect();
+		subscriptionsButton.Deselect();
 	}
 }

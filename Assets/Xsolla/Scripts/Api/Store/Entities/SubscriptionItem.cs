@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 namespace Xsolla.Store
 {
 	[Serializable]
-	public class Subscription
+	public class SubscriptionItem
 	{
 		public string sku;
 		public string name;
@@ -12,7 +12,7 @@ namespace Xsolla.Store
 		public string description;
 		public string image_url;
 		public string status;
-		public long expired_at;
+		public long? expired_at;
 		
 		[JsonProperty("class")]
 		public string subscription_class;

@@ -65,5 +65,10 @@ namespace Xsolla.Store
 		{
 			return inventory_options.consumable != null;
 		}
+
+		public bool IsSubscription()
+		{
+			return inventory_options.expiration_period != null;
+		}
 	}
 }

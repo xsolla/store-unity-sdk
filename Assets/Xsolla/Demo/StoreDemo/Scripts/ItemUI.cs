@@ -21,6 +21,10 @@ public class ItemUI : MonoBehaviour
 	SimpleTextButton buyButton;
 	[SerializeField]
 	AddToCartButton addToCartButton;
+	[SerializeField]
+	GameObject SubscriptionBadge;
+	[SerializeField]
+	Text SubscriptionPeriod;
 
 	StoreItem _itemInformation;
 	GroupsController _groupsController;
@@ -47,9 +51,17 @@ public class ItemUI : MonoBehaviour
 					XsollaStore.Instance.ProcessOrder(XsollaSettings.StoreProjectId, data.order_id, () =>
 					{
 						if (isItemVirtualCurrency)
+						{
 							UserInventory.Instance.UpdateVirtualCurrencyBalance();
+						}
+						else if (_itemInformation.IsSubscription())
+						{
+							UserSubscriptions.Instance.UpdateSupscriptions();
+						}
 						else
+						{
 							UserInventory.Instance.UpdateVirtualItems();
+						}
 						StoreDemoPopup.ShowSuccess();
 					});
 				}, StoreDemoPopup.ShowError);
@@ -67,7 +79,11 @@ public class ItemUI : MonoBehaviour
 
 	void VirtualCurrencyPurchaseComplete(string currencyName)
 	{
-		UserInventory.Instance.UpdateVirtualItems();
+		if (_itemInformation.IsSubscription())
+			UserSubscriptions.Instance.UpdateSupscriptions();
+		else
+			UserInventory.Instance.UpdateVirtualItems();
+
 		UserInventory.Instance.UpdateVirtualCurrencyBalance();
 		StoreDemoPopup.ShowSuccess($"You are purchased `{currencyName}`!");
 	}
@@ -78,6 +94,14 @@ public class ItemUI : MonoBehaviour
 		string currency;
 		string price;
 		string text = "";
+
+		if (_itemInformation.IsSubscription())
+		{
+			var expPeriod = _itemInformation.inventory_options.expiration_period;
+			var pluralSuffix = expPeriod.value > 1 ? "s" : string.Empty;
+			SubscriptionPeriod.text = $"{expPeriod.value} {expPeriod.type}{pluralSuffix}";
+			SubscriptionBadge.SetActive(true);
+		}
 
 		if (_itemInformation.virtual_prices.Any()) {
 			StoreItem.VirtualPrice virtualPrice = GetVirtualPrice();

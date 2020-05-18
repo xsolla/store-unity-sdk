@@ -17,7 +17,7 @@ namespace Xsolla.Store
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
 		/// <param name="onSuccess">Success operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
-		public void GetInventoryItems(string projectId, [NotNull] Action<Subscriptions> onSuccess, [CanBeNull] Action<Error> onError)
+		public void GetSubscriptions(string projectId, [NotNull] Action<SubscriptionItems> onSuccess, [CanBeNull] Action<Error> onError)
 		{
 			var urlBuilder = new StringBuilder(string.Format(URL_GET_SUBSCRIPTIONS, projectId)).Append(AdditionalUrlParams);
 			urlBuilder.Append(GetPlatformUrlParam());

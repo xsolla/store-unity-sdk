@@ -96,10 +96,16 @@ public class StoreController : MonoBehaviour
 		UserInventory.Instance.UpdateVirtualCurrencyBalance(null, StoreDemoPopup.ShowError);
 	}
 
+	private void RefreshSubscriptions(Action refreshCallback = null)
+	{
+		UserSubscriptions.Instance.UpdateSupscriptions(_ => refreshCallback?.Invoke(), StoreDemoPopup.ShowError);
+	}
+
 	private void RefreshUserState()
 	{
 		RefreshInventory();
 		RefreshVirtualCurrencyBalance();
+		RefreshSubscriptions();
 	}
 	
 	void LockPurchasedNonConsumableItems()
@@ -139,8 +145,11 @@ public class StoreController : MonoBehaviour
 			_extraController.Initialize();
 
 			_groupsController.SelectDefault();
-			
-			RefreshInventory();
+
+			RefreshSubscriptions(() =>
+			{
+				RefreshInventory();
+			});
 			UserCatalog.Instance.UpdateVirtualCurrencyPackages(
 				_itemsController.AddVirtualCurrencyPackages, StoreDemoPopup.ShowError);
 			UserCatalog.Instance.UpdateVirtualCurrencies(_ =>
