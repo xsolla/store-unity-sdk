@@ -7,7 +7,7 @@ namespace Xsolla.Store
 	{
 		public string cart_id;
 		public bool is_free;
-		public CartPrice price;
+		public Price price;
 		public CartItem[] items;
 	}
 }
