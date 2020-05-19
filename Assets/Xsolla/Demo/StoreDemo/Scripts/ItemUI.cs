@@ -75,17 +75,14 @@ public class ItemUI : MonoBehaviour
 	public void Initialize(StoreItem itemInformation)
 	{
 		_itemInformation = itemInformation;
-		string currency;
-		string price;
 		string text = "";
-
 		if (_itemInformation.virtual_prices.Any()) {
-			StoreItem.VirtualPrice virtualPrice = GetVirtualPrice();
-			text = FormatVirtualCurrencyBuyButtonText(virtualPrice.name, virtualPrice.amount);
+			VirtualPrice virtualPrice = GetVirtualPrice();
+			text = FormatVirtualCurrencyBuyButtonText(virtualPrice.name, virtualPrice.GetAmount());
 			addToCartButton.gameObject.SetActive(false);
 		} else {
 			if (_itemInformation.price != null) {
-				price = _itemInformation.price.amount.ToString("F2");
+				string currency;
 				if (_itemInformation.price.currency == RegionalCurrency.CurrencyCode) {
 					currency = RegionalCurrency.CurrencySymbol;
 				} else {
@@ -94,7 +91,8 @@ public class ItemUI : MonoBehaviour
 						currency = _itemInformation.price.currency;// if there is no symbol for specified currency then display currency code instead
 					}
 				}
-				text = FormatBuyButtonText(currency, price);
+				Price price = _itemInformation.price;
+				text = FormatBuyButtonText(currency, price.GetAmount());
 			}
 		}
 		buyButton.Text = text;
@@ -123,20 +121,20 @@ public class ItemUI : MonoBehaviour
 		addToCartButton.gameObject.SetActive(false);
 	}
 
-	StoreItem.VirtualPrice GetVirtualPrice()
+	VirtualPrice GetVirtualPrice()
 	{
-		List<StoreItem.VirtualPrice> prices = _itemInformation.virtual_prices.ToList();
+		List<VirtualPrice> prices = _itemInformation.virtual_prices.ToList();
 		return (prices.Count(p => p.is_default) > 0) ? prices.First(p => p.is_default) : prices.First();
 	}
 
-	string FormatBuyButtonText(string currency, string price)
+	private string FormatBuyButtonText(string currency, float price)
 	{
-		return $"BUY FOR {currency}{price}";
+		return $"BUY FOR {currency}{price:F2}";
 	}
 
-	string FormatVirtualCurrencyBuyButtonText(string currency, string price)
+	private string FormatVirtualCurrencyBuyButtonText(string currency, uint price)
 	{
-		return string.Format("BUY FOR" + Environment.NewLine + "{0} {1}", price, currency);
+		return "BUY FOR" + Environment.NewLine + $"{price:D} {currency}";
 	}
 
 	public void Refresh()

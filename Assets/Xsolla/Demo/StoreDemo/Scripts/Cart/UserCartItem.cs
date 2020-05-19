@@ -8,7 +8,7 @@ public class UserCartItem
 	public int Quantity { get; set; }
 
 	public string Sku => Item.sku;
-	public float Price => Item.price.amount;
+	public float Price => Item.price.GetAmount();
 	public string Currency => Item.price.currency;
 	public string ImageUrl => Item.image_url;
 	public float TotalPrice => Price * Quantity;

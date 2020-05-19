@@ -15,9 +15,9 @@ public class PopUp : Page, IPopUp
         }
     }
 
-    protected void Awake()
+    protected virtual void Awake()
     {
-        close_Button.onClick.AddListener(() => Close());
+        close_Button.onClick.AddListener(Close);
     }
     public void ShowPopUp(string message)
     {
