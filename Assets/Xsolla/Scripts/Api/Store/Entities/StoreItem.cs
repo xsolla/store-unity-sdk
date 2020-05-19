@@ -1,5 +1,6 @@
 ﻿using System;
 using Newtonsoft.Json;
+using UnityEngine;
 using Xsolla.Core;
 
 namespace Xsolla.Store
@@ -56,7 +57,7 @@ namespace Xsolla.Store
 
 		public bool IsSubscription()
 		{
-			return inventory_options.expiration_period != null;
+			return inventory_options?.expiration_period != null;
 		}
 	}
 }
