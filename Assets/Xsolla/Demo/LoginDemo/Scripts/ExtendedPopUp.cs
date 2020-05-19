@@ -14,10 +14,10 @@ public class ExtendedPopUp : PopUp, IExtendedPopUp
             returnToLogin_Button.onClick.AddListener(value);
         }
     }
-    private void Awake()
+    protected override void Awake()
     {
         base.Awake();
-        returnToLogin_Button.onClick.AddListener(()=>Close());
+        returnToLogin_Button.onClick.AddListener(Close);
     }
     public void ShowPopUp(string header, string message)
     {
