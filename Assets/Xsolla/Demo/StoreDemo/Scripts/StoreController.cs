@@ -127,6 +127,11 @@ public class StoreController : MonoBehaviour
 		List<StoreItem> catalogItems = UserCatalog.Instance.GetItems().
 			Where(i => !i.IsConsumable()).
 			Where(i => inventoryItems.Exists(inv => inv.sku.Equals(i.sku))).ToList();
+		List<SubscriptionItem> subscriptionItems = UserSubscriptions.Instance.GetItems();
+		List<StoreItem> catalogSubscriptions = UserCatalog.Instance.GetItems().
+			Where(i => i.IsSubscription()).
+			Where(i => subscriptionItems.Exists(sub => sub.sku.Equals(i.sku) && sub.IsActive())).ToList();
+		catalogItems.AddRange(catalogSubscriptions);
 		List<ItemUI> containersItems = new List<ItemUI>();
 		_itemsController.GetCatalogContainers().ForEach(c => containersItems.AddRange(c.Items));
 		containersItems = containersItems.Where(i => catalogItems.Exists(cat => cat.sku.Equals(i.GetSku()))).ToList();

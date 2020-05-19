@@ -7,10 +7,6 @@ using Xsolla.Store;
 
 public class SubscriptionItemUI : MonoBehaviour
 {
-	private const string SUBSCRIPTION_STATUS_NONE = "none";
-	private const string SUBSCRIPTION_STATUS_ACTIVE = "active";
-	private const string SUBSCRIPTION_STATUS_EXPIRED = "expired";
-	
 	[SerializeField]
 	Image itemImage;
 	[SerializeField]
@@ -35,20 +31,20 @@ public class SubscriptionItemUI : MonoBehaviour
 
 		itemStatus.text = _itemInformation.status.ToUpper();
 
-		switch (_itemInformation.status)
+		switch (itemInformation.Status)
 		{
-			case SUBSCRIPTION_STATUS_NONE:
+			case SubscriptionStatusType.None:
 				itemStatus.text = "Subscription not purchased";
 				break;
-			case SUBSCRIPTION_STATUS_ACTIVE:
+			case SubscriptionStatusType.Active:
 				itemStatus.text = "Subscription active until";
 				break;
-			case SUBSCRIPTION_STATUS_EXPIRED:
+			case SubscriptionStatusType.Expired:
 				itemStatus.text = "Subscription expired at";
 				break;
 		}
 
-		if (_itemInformation.expired_at != null && _itemInformation.status != SUBSCRIPTION_STATUS_NONE)
+		if (_itemInformation.expired_at != null && _itemInformation.Status != SubscriptionStatusType.None)
 		{
 			itemExpiration.text = UnixTimeToDateTime(_itemInformation.expired_at.Value).ToString();
 			itemExpiration.gameObject.SetActive(true);
