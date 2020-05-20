@@ -8,8 +8,7 @@
 		public const string DEFAULT_PROJECT_ID = "44056";
 		public const string DEFAULT_LOGIN_ID = "e6dfaac6-78a8-11e9-9244-42010aa80004";
 
-		public const string UserLogin = "Xsolla_User_Login";
-		public const string UserPassword = "Xsolla_User_Password";
+		public const string LAST_SUCCESS_AUTH_TOKEN = "xsolla_login_last_success_auth_token";
 
 		public const string CartGroupName = "CART";
 		public const string CurrencyGroupName = "CURRENCY";
