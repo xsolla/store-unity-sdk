@@ -59,6 +59,8 @@ public partial class ItemsTabControl : MonoBehaviour
 		{
 			_itemsController.ActivateContainer(selectedGroup.Id);
 		}
+
+		virtualCurrencyBalance.gameObject.SetActive(true);
 	}
 
 	private void InternalActivateInventoryTab()
@@ -67,6 +69,8 @@ public partial class ItemsTabControl : MonoBehaviour
 		storeButton.Deselect();
 		subscriptionsButton.Deselect();
 		_itemsController.ActivateContainer(Constants.InventoryContainerName);
+
+		virtualCurrencyBalance.gameObject.SetActive(true);
 	}
 
 	private void InternalActivateSubscriptionsTab()
@@ -75,6 +79,8 @@ public partial class ItemsTabControl : MonoBehaviour
 		inventoryButton.Deselect();
 		attributesButton.Deselect();
 		_itemsController.ActivateContainer(Constants.SubscriptionsContainerName);
+
+		virtualCurrencyBalance.gameObject.SetActive(false);
 	}
 
 	private void InternalActivateAttributesTab()
@@ -83,6 +89,8 @@ public partial class ItemsTabControl : MonoBehaviour
 		inventoryButton.Deselect();
 		subscriptionsButton.Deselect();
 		_itemsController.ActivateContainer(Constants.AttributesContainerName);
+
+		virtualCurrencyBalance.gameObject.SetActive(false);
 	}
 
 	public void ActivateStoreTab(string groupId)
