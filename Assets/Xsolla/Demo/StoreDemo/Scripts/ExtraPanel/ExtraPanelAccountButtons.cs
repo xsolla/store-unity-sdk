@@ -11,7 +11,7 @@ public class ExtraPanelAccountButtons : MonoBehaviour
 {
 	public event Action<string> OpenUrlEvent;
 	public event Action LinkingAccountComplete;
-	private const string URL_MASTER_ACCOUNT = "https://livedemo.xsolla.com/igs-demo/#/";
+	private const string URL_MASTER_ACCOUNT = "https://livedemo.xsolla.com/sdk-demo/";
 
 	[SerializeField] private GameObject signOutButton;
 	[SerializeField] private GameObject accountLinkingButton;
