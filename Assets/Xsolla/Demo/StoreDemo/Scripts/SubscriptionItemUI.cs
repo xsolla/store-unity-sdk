@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Globalization;
 using UnityEngine;
 using UnityEngine.UI;
 using Xsolla.Core;
@@ -46,7 +47,7 @@ public class SubscriptionItemUI : MonoBehaviour
 
 		if (_itemInformation.expired_at != null && _itemInformation.Status != SubscriptionStatusType.None)
 		{
-			itemExpiration.text = UnixTimeToDateTime(_itemInformation.expired_at.Value).ToString();
+			itemExpiration.text = UnixTimeToDateTime(_itemInformation.expired_at.Value).ToString("d");
 			itemExpiration.gameObject.SetActive(true);
 		}
 
