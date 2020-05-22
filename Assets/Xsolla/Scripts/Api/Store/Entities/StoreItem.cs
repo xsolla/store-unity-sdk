@@ -1,5 +1,6 @@
 ﻿using System;
 using Newtonsoft.Json;
+using UnityEngine;
 using Xsolla.Core;
 
 namespace Xsolla.Store
@@ -21,7 +22,14 @@ namespace Xsolla.Store
 			{
 				public int? usages_count;
 			}
+			[Serializable]
+			public class ExpirationPeriod
+			{
+				public string type;
+				public int value;
+			}
 			public ConsumableOption consumable;
+			public ExpirationPeriod expiration_period;
 		}
 		
 		public string sku;
@@ -45,6 +53,11 @@ namespace Xsolla.Store
 		public bool IsConsumable()
 		{
 			return inventory_options.consumable != null;
+		}
+
+		public bool IsSubscription()
+		{
+			return inventory_options?.expiration_period != null;
 		}
 	}
 }

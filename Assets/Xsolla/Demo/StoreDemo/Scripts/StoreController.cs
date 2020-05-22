@@ -96,10 +96,16 @@ public class StoreController : MonoBehaviour
 		UserInventory.Instance.UpdateVirtualCurrencyBalance(null, StoreDemoPopup.ShowError);
 	}
 
+	private void RefreshSubscriptions(Action refreshCallback = null)
+	{
+		UserSubscriptions.Instance.UpdateSupscriptions(_ => refreshCallback?.Invoke(), StoreDemoPopup.ShowError);
+	}
+
 	private void RefreshUserState()
 	{
 		RefreshInventory();
 		RefreshVirtualCurrencyBalance();
+		RefreshSubscriptions();
 	}
 	
 	void LockPurchasedNonConsumableItems()
@@ -121,6 +127,11 @@ public class StoreController : MonoBehaviour
 		List<StoreItem> catalogItems = UserCatalog.Instance.GetItems().
 			Where(i => !i.IsConsumable()).
 			Where(i => inventoryItems.Exists(inv => inv.sku.Equals(i.sku))).ToList();
+		List<SubscriptionItem> subscriptionItems = UserSubscriptions.Instance.GetItems();
+		List<StoreItem> catalogSubscriptions = UserCatalog.Instance.GetItems().
+			Where(i => i.IsSubscription()).
+			Where(i => subscriptionItems.Exists(sub => sub.sku.Equals(i.sku) && sub.IsActive())).ToList();
+		catalogItems.AddRange(catalogSubscriptions);
 		List<ItemUI> containersItems = new List<ItemUI>();
 		_itemsController.GetCatalogContainers().ForEach(c => containersItems.AddRange(c.Items));
 		containersItems = containersItems.Where(i => catalogItems.Exists(cat => cat.sku.Equals(i.GetSku()))).ToList();
@@ -139,8 +150,11 @@ public class StoreController : MonoBehaviour
 			_extraController.Initialize();
 
 			_groupsController.SelectDefault();
-			
-			RefreshInventory();
+
+			RefreshSubscriptions(() =>
+			{
+				RefreshInventory();
+			});
 			UserCatalog.Instance.UpdateVirtualCurrencyPackages(
 				_itemsController.AddVirtualCurrencyPackages, StoreDemoPopup.ShowError);
 			UserCatalog.Instance.UpdateVirtualCurrencies(_ =>
