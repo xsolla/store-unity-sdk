@@ -47,7 +47,7 @@ public class SubscriptionItemUI : MonoBehaviour
 
 		if (_itemInformation.expired_at != null && _itemInformation.Status != SubscriptionStatusType.None)
 		{
-			itemExpiration.text = UnixTimeToDateTime(_itemInformation.expired_at.Value).ToString("d");
+			itemExpiration.text = UnixTimeToDateTime(_itemInformation.expired_at.Value).ToString("dd/MM/yyyy hh:mm:tt");
 			itemExpiration.gameObject.SetActive(true);
 		}
 
