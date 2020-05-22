@@ -100,5 +100,7 @@ public partial class ItemsTabControl : MonoBehaviour
 		attributesButton.Deselect();
 		inventoryButton.Deselect();
 		subscriptionsButton.Deselect();
+		
+		virtualCurrencyBalance.gameObject.SetActive(true);
 	}
 }
