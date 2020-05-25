@@ -23,12 +23,7 @@ public class ExtraPanelAccountButtons : MonoBehaviour
 		var btnComponent = signOutButton.GetComponent<SimpleTextButton>();
 		btnComponent.onClick = () => {
 			LauncherArguments.Instance.InvalidateTokenArguments();
-			if (XsollaStore.Instance.Token.FromSocialNetwork())
-			{
-				var provider = XsollaStore.Instance.Token.GetSocialProvider();
-				if(provider != SocialProvider.None)
-					XsollaLogin.Instance.DeleteTokenFromSocialNetwork(provider);	
-			}
+			XsollaLogin.Instance.DeleteToken(Constants.LAST_SUCCESS_AUTH_TOKEN);
 			SceneManager.LoadScene("Login");
 		};
 

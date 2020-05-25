@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -19,7 +18,7 @@ public class LoginPage : Page, ILogin
     public Action OnSuccessfulLogin { get; set; }
     public Action<Error> OnUnsuccessfulLogin { get; set; }
 
-	public void Login()
+    public void Login()
     {
         if (_basicAuth != null)
         {
@@ -39,16 +38,18 @@ public class LoginPage : Page, ILogin
             passwordInputField.ForceLabelUpdate();
         });
 
-        loginInputField.text = XsollaLogin.Instance.LastUserLogin;
-        passwordInputField.text = XsollaLogin.Instance.LastUserPassword;
-
-        TryAuthBy<LauncherAuth>(LauncherAuthFailed);
+        TryAuthBy<SavedTokenAuth>(SavedTokenAuthFailed);
     }
 
+    private void SavedTokenAuthFailed()
+    {
+        TryAuthBy<LauncherAuth>(LauncherAuthFailed);
+    }
+    
 	private void LauncherAuthFailed()
     {
 		if (XsollaSettings.UseSteamAuth) {
-            TryAuthBy<SteamAuth>(SteamAuthFailed, (Token token) => token.FromSteam = true);
+            TryAuthBy<SteamAuth>(SteamAuthFailed, token => token.FromSteam = true);
         } else {
             TryAuthBy<ConsolePlatformAuth>(ConsoleAuthFailed);
         }        
@@ -63,14 +64,14 @@ public class LoginPage : Page, ILogin
     {
         TryBasicAuth();
 
-        TryAuthBy<SocialAuth>();
+        TryAuthBy<SocialAuth>(null, token => XsollaLogin.Instance.SaveToken(Constants.LAST_SUCCESS_AUTH_TOKEN, token));
     }
 
     private void TryBasicAuth()
     {
         _basicAuth = TryAuthBy<BasicAuth>().SetLoginButton(loginButton);
         _basicAuth.UserAuthEvent += () => OnSuccessfulLogin?.Invoke();
-        _basicAuth.UserAuthErrorEvent += (Error error) => OnUnsuccessfulLogin?.Invoke(error);
+        _basicAuth.UserAuthErrorEvent += error => OnUnsuccessfulLogin?.Invoke(error);
 
         ConfigBaseAuth();
     }
@@ -87,6 +88,10 @@ public class LoginPage : Page, ILogin
 	{
         ValidateToken(token, () => {
             XsollaLogin.Instance.Token = token;
+            if(rememberMeChkBox.isOn)
+                XsollaLogin.Instance.SaveToken(Constants.LAST_SUCCESS_AUTH_TOKEN, token);
+            else
+                XsollaLogin.Instance.DeleteToken(Constants.LAST_SUCCESS_AUTH_TOKEN);
             success?.Invoke(XsollaLogin.Instance.Token);
             Debug.Log($"Your token: {token}");
             SceneManager.LoadScene("Store");
@@ -98,7 +103,7 @@ public class LoginPage : Page, ILogin
         XsollaLogin.Instance.GetUserInfo(token, _ => {
             Debug.Log("Validation success");
             onSuccess?.Invoke();
-        }, (Error error) => {
+        }, error => {
             Debug.LogWarning("Get UserInfo failed!");
             onFailed?.Invoke(error);
         });
