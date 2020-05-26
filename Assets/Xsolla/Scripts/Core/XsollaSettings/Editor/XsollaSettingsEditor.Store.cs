@@ -7,16 +7,28 @@ namespace Xsolla.Core
 {
 	public partial class XsollaSettingsEditor : UnityEditor.Editor
 	{
-		private void XsollaStoreSettings()
+		private bool XsollaStoreSettings()
 		{
+			var changed = false;
 			using (new EditorGUILayout.VerticalScope("box"))
 			{
 				GUILayout.Label("Store SDK Settings", EditorStyles.boldLabel);
-				XsollaSettings.StoreProjectId = EditorGUILayout.TextField(new GUIContent("Project ID"),  XsollaSettings.StoreProjectId);
-				XsollaSettings.IsSandbox = EditorGUILayout.Toggle("Enable sandbox?", XsollaSettings.IsSandbox);
+				var projectId = EditorGUILayout.TextField(new GUIContent("Project ID"),  XsollaSettings.StoreProjectId);
+				if (projectId != XsollaSettings.StoreProjectId)
+				{
+					XsollaSettings.StoreProjectId = projectId;
+					changed = true;
+				}
+				var sandbox = EditorGUILayout.Toggle("Enable sandbox?", XsollaSettings.IsSandbox);
+				if (sandbox != XsollaSettings.IsSandbox)
+				{
+					XsollaSettings.IsSandbox = sandbox;
+					changed = true;
+				}
 			}
-
 			EditorGUILayout.Space();
+			
+			return changed;
 		}
 	}
 }

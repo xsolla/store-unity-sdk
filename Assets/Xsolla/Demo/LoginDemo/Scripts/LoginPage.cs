@@ -69,7 +69,13 @@ public class LoginPage : Page, ILogin
 
     private void TryBasicAuth()
     {
-        _basicAuth = TryAuthBy<BasicAuth>().SetLoginButton(loginButton);
+        _basicAuth = TryAuthBy<BasicAuth>(null, token =>
+        {
+            if(rememberMeChkBox.isOn)
+                XsollaLogin.Instance.SaveToken(Constants.LAST_SUCCESS_AUTH_TOKEN, token);
+            else
+                XsollaLogin.Instance.DeleteToken(Constants.LAST_SUCCESS_AUTH_TOKEN);
+        }).SetLoginButton(loginButton);
         _basicAuth.UserAuthEvent += () => OnSuccessfulLogin?.Invoke();
         _basicAuth.UserAuthErrorEvent += error => OnUnsuccessfulLogin?.Invoke(error);
 
@@ -88,10 +94,6 @@ public class LoginPage : Page, ILogin
 	{
         ValidateToken(token, () => {
             XsollaLogin.Instance.Token = token;
-            if(rememberMeChkBox.isOn)
-                XsollaLogin.Instance.SaveToken(Constants.LAST_SUCCESS_AUTH_TOKEN, token);
-            else
-                XsollaLogin.Instance.DeleteToken(Constants.LAST_SUCCESS_AUTH_TOKEN);
             success?.Invoke(XsollaLogin.Instance.Token);
             Debug.Log($"Your token: {token}");
             SceneManager.LoadScene("Store");

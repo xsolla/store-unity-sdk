@@ -11,12 +11,16 @@ namespace Xsolla.Store
 
 		public float GetAmount()
 		{
-			return float.Parse(amount);
+			return string.IsNullOrEmpty(amount)
+				? 0F
+				: float.Parse(amount);
 		}
 
 		public float GetAmountWithoutDiscount()
 		{
-			return float.Parse(amount_without_discount);
+			return string.IsNullOrEmpty(amount_without_discount) 
+				? 0F
+				: float.Parse(amount_without_discount);
 		}
 	}
 }
