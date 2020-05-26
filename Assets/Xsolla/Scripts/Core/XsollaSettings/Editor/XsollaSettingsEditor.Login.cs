@@ -11,17 +11,35 @@ namespace Xsolla.Core
 		const string CallbackUrlTooltip = "URL to redirect the user to after registration/authentication/password reset. " +
 		                                  "Must be identical to Callback URL specified in Publisher Account in Login settings. Required if there are several Callback URLs.";
 		
-		private void XsollaLoginSettings()
+		private bool XsollaLoginSettings()
 		{
+			bool changed = false;
+			
 			using (new EditorGUILayout.VerticalScope("box"))
 			{
 				GUILayout.Label("Login SDK Settings", EditorStyles.boldLabel);
-				XsollaSettings.LoginId = EditorGUILayout.TextField(new GUIContent("Login ID [?]", LoginIdTooltip),  XsollaSettings.LoginId);
-				XsollaSettings.UseProxy = EditorGUILayout.Toggle("Enable proxy?", XsollaSettings.UseProxy);
-				XsollaSettings.CallbackUrl = EditorGUILayout.TextField(new GUIContent("Callback URL [?]", CallbackUrlTooltip),  XsollaSettings.CallbackUrl);
+				var loginId = EditorGUILayout.TextField(new GUIContent("Login ID [?]", LoginIdTooltip),  XsollaSettings.LoginId);
+				if (loginId != XsollaSettings.LoginId)
+				{
+					XsollaSettings.LoginId = loginId;
+					changed = true;
+				}
+				var proxy = EditorGUILayout.Toggle("Enable proxy?", XsollaSettings.UseProxy);
+				if (proxy != XsollaSettings.UseProxy)
+				{
+					XsollaSettings.UseProxy = proxy;
+					changed = true;
+				}
+				var callback = EditorGUILayout.TextField(new GUIContent("Callback URL [?]", CallbackUrlTooltip),  XsollaSettings.CallbackUrl);
+				if (callback != XsollaSettings.CallbackUrl)
+				{
+					XsollaSettings.CallbackUrl = callback;
+					changed = true;
+				}
 			}
-			
 			EditorGUILayout.Space();
+			
+			return changed;
 		}
 	}
 }
