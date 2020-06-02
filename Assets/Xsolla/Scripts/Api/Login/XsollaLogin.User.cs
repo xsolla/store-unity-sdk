@@ -78,9 +78,6 @@ namespace Xsolla.Login
 			string url = GetUrl(URL_USER_SIGNIN, proxy);
 
 			WebRequestHelper.Instance.PostRequest<LoginResponse, LoginJson>(url, loginData, (response) => {
-				if (rememberUser) {
-					SaveLoginPassword(username, password);
-				}
 				Token = ParseUtils.ParseToken(response.login_url);
 				onSuccess?.Invoke();
 			}, onError, Error.LoginErrors);

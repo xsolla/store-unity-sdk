@@ -5,8 +5,23 @@ namespace Xsolla.Store
 	[Serializable]
 	public class Price
 	{
-		public float amount;
+		public string amount;
+		public string amount_without_discount;
 		public string currency;
+
+		public float GetAmount()
+		{
+			return string.IsNullOrEmpty(amount)
+				? 0F
+				: float.Parse(amount);
+		}
+
+		public float GetAmountWithoutDiscount()
+		{
+			return string.IsNullOrEmpty(amount_without_discount) 
+				? 0F
+				: float.Parse(amount_without_discount);
+		}
 	}
 }
 

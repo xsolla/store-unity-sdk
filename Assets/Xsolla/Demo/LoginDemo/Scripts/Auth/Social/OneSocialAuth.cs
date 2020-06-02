@@ -20,7 +20,7 @@ public class OneSocialAuth : MonoBehaviour, ILoginAuthorization
 
 	private void Start()
 	{
-#if !UNITY_STANDALONE
+#if !UNITY_STANDALONE && !UNITY_EDITOR
 		gameObject.SetActive(false);
 #else
 		_authButton = GetComponent<Button>();
@@ -38,8 +38,6 @@ public class OneSocialAuth : MonoBehaviour, ILoginAuthorization
 	{
 		if(HotkeyCoroutine.IsLocked()) return;
 		HotkeyCoroutine.Lock();
-		
-		if(LoadSavedToken()) return;
 
 		string url = XsollaLogin.Instance.GetSocialNetworkAuthUrl(provider, invalidateUserOldJwt);
 		Debug.Log($"Social url: {url}");
@@ -56,15 +54,7 @@ public class OneSocialAuth : MonoBehaviour, ILoginAuthorization
 				}
 			};
 	}
-
-	private bool LoadSavedToken()
-	{
-		var loadedToken = XsollaLogin.Instance.LoadTokenFromSocialNetwork(provider);
-		if (string.IsNullOrEmpty(loadedToken)) return false;
-		StartCoroutine(SuccessAuthCoroutine(loadedToken));
-		return true;
-	}
-
+	
 	private void BrowserCloseHandler()
 	{
 		HotkeyCoroutine.Unlock();
@@ -73,7 +63,6 @@ public class OneSocialAuth : MonoBehaviour, ILoginAuthorization
 	private IEnumerator SuccessAuthCoroutine(string token)
 	{
 		yield return new WaitForEndOfFrame();
-		XsollaLogin.Instance.SaveTokenFromSocialNetwork(provider, token);
 		Destroy(BrowserHelper.Instance.gameObject);
 		BrowserCloseHandler();
 		OnSuccess?.Invoke(token);
