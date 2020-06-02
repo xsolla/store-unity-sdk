@@ -4,11 +4,11 @@ namespace Xsolla.Core
 {
 	public class FindByTag : IFindCriteria<XmlNode>
 	{
-		private readonly string _tag;
+		private readonly string tag;
 
 		public FindByTag(string tag)
 		{
-			_tag = tag;
+			this.tag = tag;
 		}
 
 		public bool MatchesCriteria(XmlNode xmlNode)
@@ -18,7 +18,7 @@ namespace Xsolla.Core
 				return false;
 			}
 
-			return _tag.Equals(xmlNode.Name);
+			return tag.Equals(xmlNode.Name);
 		}
 	}
 }

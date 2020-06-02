@@ -4,13 +4,13 @@ namespace Xsolla.Core
 {
 	public class FindByChildName : IFindCriteria<XmlNode>
 	{
-		private readonly string _tag;
-		private readonly BaseManifestNode _childNode;
+		private readonly string tag;
+		private readonly BaseManifestNode childNode;
 
 		public FindByChildName(string tag, BaseManifestNode childNode)
 		{
-			_tag = tag;
-			_childNode = childNode;
+			this.tag = tag;
+			this.childNode = childNode;
 		}
 
 		public bool MatchesCriteria(XmlNode xmlNode)
@@ -20,10 +20,10 @@ namespace Xsolla.Core
 				return false;
 			}
 
-			if (_tag.Equals(xmlNode.Name))
+			if (tag.Equals(xmlNode.Name))
 			{
-				var childNode = xmlNode.FindNodeRecursive(new FindByName(_childNode));
-				return childNode != null;
+				var child = xmlNode.FindNodeRecursive(new FindByName(this.childNode));
+				return child != null;
 			}
 
 			return false;
