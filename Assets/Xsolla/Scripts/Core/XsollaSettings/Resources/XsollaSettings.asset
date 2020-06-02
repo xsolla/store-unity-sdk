@@ -12,16 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52405bf87e920c34796e9e06cc914ce8, type: 3}
   m_Name: XsollaSettings
   m_EditorClassIdentifier: 
-  loginId: e6dfaac6-78a8-11e9-9244-42010aa80004
-  useProxy: 0
+  loginId: 7f9585ca-9767-11ea-a85b-42010aa80004
+  useProxy: 1
   callbackUrl: 
   useSteamAuth: 0
   steamAppId: 480
   useConsoleAuth: 0
   platform: 1
   usernameFromConsole: testPSMax3
-  storeProjectId: 44056
+  storeProjectId: 65005
   isSandbox: 1
   paystationTheme: 1
   payStationTokenRequestUrl: https://livedemo.xsolla.com/sdk/token/paystation_demo/
-  inAppBrowserEnabled: 1
+  inAppBrowserEnabled: 0
+  useDeepLinking: 1
+  redirectUrl: https://nineva.com/return2

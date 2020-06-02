@@ -32,6 +32,9 @@ namespace Xsolla.Core
 		[SerializeField] private string payStationTokenRequestUrl = "https://livedemo.xsolla.com/sdk/token/paystation_demo/";
 		[SerializeField] private bool inAppBrowserEnabled = true;
 
+		[SerializeField] private bool useDeepLinking = false;
+		[SerializeField] private string redirectUrl;
+
 		public static string LoginId
 		{
 			get => Instance.loginId;
@@ -145,6 +148,26 @@ namespace Xsolla.Core
 			get => Instance.inAppBrowserEnabled;
 			set {
 				Instance.inAppBrowserEnabled = value;
+				MarkAssetDirty();
+			}
+		}
+
+		public static bool UseDeepLinking
+		{
+			get => Instance.useDeepLinking;
+			set
+			{
+				Instance.useDeepLinking = value;
+				MarkAssetDirty();
+			}
+		}
+
+		public static string RedirectUrl
+		{
+			get => Instance.redirectUrl;
+			set
+			{
+				Instance.redirectUrl = value;
 				MarkAssetDirty();
 			}
 		}

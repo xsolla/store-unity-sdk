@@ -22,6 +22,8 @@ namespace Xsolla.Core
 
 			XsollaPaystationSettings();
 
+			XsollaAndroidSettings();
+
 			if (changed)
 			{
 				XsollaLogin.Instance.DeleteToken(Constants.LAST_SUCCESS_AUTH_TOKEN);
