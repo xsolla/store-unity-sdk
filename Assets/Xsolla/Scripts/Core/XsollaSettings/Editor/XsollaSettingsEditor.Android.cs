@@ -13,7 +13,7 @@ namespace Xsolla.Core
 			{
 				GUILayout.Label("Android Settings", EditorStyles.boldLabel);
 				XsollaSettings.UseDeepLinking = EditorGUILayout.Toggle("Use deep linking?", XsollaSettings.UseDeepLinking);
-				XsollaSettings.RedirectUrl = EditorGUILayout.TextField(new GUIContent("Redirect URL"),  XsollaSettings.RedirectUrl);
+				XsollaSettings.DeepLinkRedirectUrl = EditorGUILayout.TextField(new GUIContent("Redirect URL"),  XsollaSettings.DeepLinkRedirectUrl);
 			}
 
 			EditorGUILayout.Space();

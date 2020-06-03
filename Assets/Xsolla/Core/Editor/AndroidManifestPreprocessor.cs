@@ -49,13 +49,13 @@ namespace Xsolla.Core
 
 			var manifest = new AndroidManifestWrapper(manifestPath);
 
-			if (string.IsNullOrEmpty(XsollaSettings.RedirectUrl))
+			if (string.IsNullOrEmpty(XsollaSettings.DeepLinkRedirectUrl))
 			{
 				Debug.LogError("Redirect URL for Android deep linking is empty. Please check plugin settings.");
 				return;
 			}
 
-			var redirectUrl = new Uri(XsollaSettings.RedirectUrl);
+			var redirectUrl = new Uri(XsollaSettings.DeepLinkRedirectUrl);
 
 			var data = new DataNode(redirectUrl.Scheme, redirectUrl.Host, redirectUrl.PathAndQuery);
 			var action = new ActionNode("android.intent.action.VIEW");
@@ -69,6 +69,8 @@ namespace Xsolla.Core
 			intentFilter.AddChildNode(categoryDefault);
 			intentFilter.AddChildNode(categoryBrowsable);
 
+			var manifestChanged = false;
+
 			// action node used to identify main game activity
 			var mainActivityAction = new ActionNode("android.intent.action.MAIN");
 
@@ -76,16 +78,21 @@ namespace Xsolla.Core
 			if (manifest.ContainsNode(new FindByChildName(AndroidManifestConstants.ActivityTag, mainActivityAction), new FindByLabel(intentFilter)))
 			{
 				manifest.RemoveNode(new FindByChildName(AndroidManifestConstants.ActivityTag, mainActivityAction), new FindByLabel(intentFilter));
+				manifestChanged = true;
 			}
 
 			if (XsollaSettings.UseDeepLinking)
 			{
 				manifest.AddNode(intentFilter, new FindByChildName(AndroidManifestConstants.ActivityTag, mainActivityAction));
+				manifestChanged = true;
 			}
 
-			manifest.SaveManifest();
+			if (manifestChanged)
+			{
+				manifest.SaveManifest();
+			}
 		}
-		
+
 		static string FindAndroidManifestBackup(string path)
 		{
 			foreach (var dir in Directory.GetDirectories(path))

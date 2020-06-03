@@ -33,7 +33,7 @@ namespace Xsolla.Core
 		[SerializeField] private bool inAppBrowserEnabled = true;
 
 		[SerializeField] private bool useDeepLinking = false;
-		[SerializeField] private string redirectUrl;
+		[SerializeField] private string deepLinkRedirectUrl;
 
 		public static string LoginId
 		{
@@ -162,12 +162,12 @@ namespace Xsolla.Core
 			}
 		}
 
-		public static string RedirectUrl
+		public static string DeepLinkRedirectUrl
 		{
-			get => Instance.redirectUrl;
+			get => Instance.deepLinkRedirectUrl;
 			set
 			{
-				Instance.redirectUrl = value;
+				Instance.deepLinkRedirectUrl = value;
 				MarkAssetDirty();
 			}
 		}

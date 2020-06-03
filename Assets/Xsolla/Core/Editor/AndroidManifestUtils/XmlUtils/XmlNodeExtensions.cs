@@ -52,9 +52,13 @@ namespace Xsolla.Core
 				var prefix = split[0];
 				var name = split[1];
 
-				var xmlNamespace = xmlDocument.FindNodeInChildren(new FindByTag(AndroidManifestConstants.ManifestTag)).GetNamespaceOfPrefix(prefix);
+				var manifest = xmlDocument.FindNodeInChildren(new FindByTag(AndroidManifestConstants.ManifestTag));
 
-				xmlElement.SetAttribute(name, xmlNamespace, attribute.Value);
+				if (manifest != null)
+				{
+					var xmlNamespace = manifest.GetNamespaceOfPrefix(prefix);
+					xmlElement.SetAttribute(name, xmlNamespace, attribute.Value);
+				}
 			}
 
 			node.ChildNodes.ForEach(childNode => xmlElement.AddAndroidManifestNode(xmlDocument, childNode));

@@ -14,17 +14,14 @@ namespace Xsolla.Core
 
 		public bool MatchesCriteria(XmlNode xmlNode)
 		{
-			if (xmlNode != null)
+			if (xmlNode != null && xmlNode.Attributes != null)
 			{
 				if (xmlNode.Name.Equals(node.Tag, StringComparison.InvariantCultureIgnoreCase))
 				{
-					if (xmlNode.Attributes != null)
-					{
-						var attributeNode = xmlNode.Attributes.GetNamedItem(AndroidManifestConstants.LabelAttribute);
-						return attributeNode != null
+					var attributeNode = xmlNode.Attributes.GetNamedItem(AndroidManifestConstants.LabelAttribute);
+					return attributeNode != null
 							&& node.Attributes.ContainsKey(AndroidManifestConstants.LabelAttribute)
 							&& attributeNode.Value.Equals(node.Attributes[AndroidManifestConstants.LabelAttribute]);
-					}
 				}
 			}
 
