@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace Xsolla.Store
 {
@@ -13,14 +14,14 @@ namespace Xsolla.Store
 		{
 			return string.IsNullOrEmpty(amount)
 				? 0F
-				: float.Parse(amount);
+				: float.Parse(amount, CultureInfo.InvariantCulture);
 		}
 
 		public float GetAmountWithoutDiscount()
 		{
 			return string.IsNullOrEmpty(amount_without_discount) 
 				? 0F
-				: float.Parse(amount_without_discount);
+				: float.Parse(amount_without_discount, CultureInfo.InvariantCulture);
 		}
 	}
 }
