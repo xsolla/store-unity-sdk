@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 using UnityEngine;
 using Xsolla.Core;
@@ -8,6 +10,14 @@ namespace Xsolla.Store
 	[Serializable]
 	public class StoreItem
 	{
+		static readonly Dictionary<string, VirtualItemType> VirtualItemTypes =
+			new Dictionary<string, VirtualItemType>()
+			{
+				{"consumable", VirtualItemType.Consumable},
+				{"non_consumable", VirtualItemType.NonConsumable},
+				{"non_renewing_subscription", VirtualItemType.NonRenewingSubscription}
+			};
+
 		[Serializable]
 		public class Group
 		{
@@ -37,6 +47,7 @@ namespace Xsolla.Store
 		public Group[] groups;
 		public string[] attributes;
 		public string type;
+		public string virtual_item_type;
 		public string description;
 		public string image_url;
 		public bool is_free;
@@ -52,12 +63,25 @@ namespace Xsolla.Store
 
 		public bool IsConsumable()
 		{
-			return inventory_options.consumable != null;
+			return VirtualItemType == VirtualItemType.Consumable;
 		}
 
 		public bool IsSubscription()
 		{
-			return inventory_options?.expiration_period != null;
+			return VirtualItemType == VirtualItemType.NonRenewingSubscription;
+		}
+		
+		public VirtualItemType VirtualItemType
+		{
+			get
+			{
+				if (virtual_item_type != null && VirtualItemTypes.Keys.Contains(virtual_item_type))
+				{
+					return VirtualItemTypes[virtual_item_type];
+				}
+
+				return VirtualItemType.None;
+			}
 		}
 	}
 }

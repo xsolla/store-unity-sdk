@@ -57,7 +57,7 @@ namespace Xsolla.Store
 
         private List<InventoryItem> FilterSubscriptions(List<InventoryItem> items)
         {
-            return items.Where(i => !UserSubscriptions.Instance.IsSubscription(i.sku)).ToList();
+            return items.Where(i => i.VirtualItemType != VirtualItemType.NonRenewingSubscription).ToList();
         }
     }    
 }
