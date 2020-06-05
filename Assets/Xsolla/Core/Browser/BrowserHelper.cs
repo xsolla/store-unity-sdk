@@ -22,7 +22,9 @@ namespace Xsolla.Core
 
 		public void OpenPurchase(string url, string token, bool isSandbox, bool inAppBrowserEnabled = false)
 		{
-			if((Application.platform == RuntimePlatform.WebGLPlayer) && inAppBrowserEnabled) {
+			if((Application.platform == RuntimePlatform.WebGLPlayer) && inAppBrowserEnabled)
+			{
+				Screen.fullScreen = false;
 				Purchase(token, isSandbox);
 			} else {
 				Open(url + token, inAppBrowserEnabled);
