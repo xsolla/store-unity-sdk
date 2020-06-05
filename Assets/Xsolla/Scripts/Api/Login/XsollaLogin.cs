@@ -9,101 +9,50 @@ namespace Xsolla.Login
 	[PublicAPI]
 	public partial class XsollaLogin : MonoSingleton<XsollaLogin>
 	{
-		string AdditionalUrlParams
+		private string AdditionalUrlParams => $"&engine=unity&engine_v={Application.unityVersion}&sdk=login&sdk_v={Constants.LoginSdkVersion}";
+
+		private byte[] CryptoKey => Encoding.ASCII.GetBytes(XsollaSettings.LoginId.Replace("-", string.Empty).Substring(0, 16));
+
+		public void DeleteToken(string key)
 		{
-			get
+			if (!string.IsNullOrEmpty(key) && PlayerPrefs.HasKey(key))
 			{
-				return string.Format("&engine=unity&engine_v={0}&sdk=login&sdk_v={1}", Application.unityVersion, Constants.LoginSdkVersion);
-			}
-		}
-		
-		byte[] CryptoKey
-		{
-			get
-			{
-				return Encoding.ASCII.GetBytes(XsollaSettings.LoginId.Replace("-", string.Empty).Substring(0, 16));
+				PlayerPrefs.DeleteKey(key);
 			}
 		}
 
-		public string LastUserLogin
-		{
-			get
-			{
-				if (PlayerPrefs.HasKey(Constants.UserLogin) && !string.IsNullOrEmpty(XsollaSettings.LoginId))
-				{
-					return PlayerPrefs.GetString(Constants.UserLogin);
-				}
-				
-				return string.Empty;
-			}
-		}
-
-		public string LastUserPassword
-		{
-			get
-			{
-				if (PlayerPrefs.HasKey(Constants.UserPassword) && !string.IsNullOrEmpty(XsollaSettings.LoginId))
-				{
-					return Crypto.Decrypt(CryptoKey, PlayerPrefs.GetString(Constants.UserPassword));
-				}
-					
-				return string.Empty;
-			}
-		}
-
-		void SaveLoginPassword(string username, string password)
-		{
-			if (!string.IsNullOrEmpty(XsollaSettings.LoginId))
-			{
-				PlayerPrefs.SetString(Constants.UserLogin, username);
-				PlayerPrefs.SetString(Constants.UserPassword, Crypto.Encrypt(CryptoKey, password));
-			}
-		}
-
-		private string GetSocialProviderName(SocialProvider provider)
-		{
-			return $"token from {provider.ToString()}";
-		}
-
-		public void DeleteTokenFromSocialNetwork(SocialProvider provider)
-		{
-			var providerName = GetSocialProviderName(provider);
-			if (PlayerPrefs.HasKey(providerName))
-			{
-				PlayerPrefs.DeleteKey(providerName);
-			}
-		}
-
-		public void SaveTokenFromSocialNetwork(SocialProvider provider, string token)
+		public void SaveToken(string key, string token)
 		{
 			if (!string.IsNullOrEmpty(token))
 			{
-				PlayerPrefs.SetString(GetSocialProviderName(provider), token);
+				PlayerPrefs.SetString(key, token);
 			}
 		}
-		
-		public string LoadTokenFromSocialNetwork(SocialProvider provider)
-		{
-			var providerName = GetSocialProviderName(provider);
-			var loadedToken = PlayerPrefs.HasKey(providerName) ? PlayerPrefs.GetString(providerName) : string.Empty;
-			if (string.IsNullOrEmpty(loadedToken)) return string.Empty;
 
-			Token token;
+		public bool LoadToken(string key, out string token)
+		{
+			token = PlayerPrefs.HasKey(key) ? PlayerPrefs.GetString(key) : string.Empty;
+			if (string.IsNullOrEmpty(token))
+			{
+				return false;
+			}
+			Token t;
 			try
 			{
-				token = new Token(loadedToken);
+				t = new Token(token);
 			}
 			catch (Exception e)
 			{
-				Debug.LogError($"Can't create {provider.ToString()} token = {loadedToken}. Exception:" + e.Message);
-				PlayerPrefs.DeleteKey(providerName);
-				return string.Empty;
+				Debug.LogError($"Can't create {key} token = {token}. Exception:" + e.Message);
+				PlayerPrefs.DeleteKey(key);
+				token = string.Empty;
+				return false;
 			}
 			
-			if (token.SecondsLeft() >= 300) return loadedToken;
-			
-			PlayerPrefs.DeleteKey(providerName);
-			return string.Empty;
+			if (t.SecondsLeft() >= 300) return true;
+			PlayerPrefs.DeleteKey(key);
+			token = string.Empty;
+			return false;
 		}
 
 		public Token Token { get; set; }

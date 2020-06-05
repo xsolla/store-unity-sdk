@@ -16,6 +16,9 @@ public class ItemsController : MonoBehaviour
 	GameObject inventoryContainerPrefab;
 
 	[SerializeField]
+	GameObject subscriptionContainerPrefab;
+
+	[SerializeField]
 	GameObject attributesContainerPrefab;
 
 	[SerializeField]
@@ -69,6 +72,7 @@ public class ItemsController : MonoBehaviour
 		Dictionary<string, GameObject> otherContainers = new Dictionary<string, GameObject>() {
 			{ Constants.CartGroupName, cartContainerPrefab },
 			{ Constants.InventoryContainerName, inventoryContainerPrefab },
+			{ Constants.SubscriptionsContainerName, subscriptionContainerPrefab },
 			{ Constants.AttributesContainerName, attributesContainerPrefab }
 		};
 		itemContainers.ToList().ForEach((container) => { otherContainers.Add(container.Key, container.Value); });

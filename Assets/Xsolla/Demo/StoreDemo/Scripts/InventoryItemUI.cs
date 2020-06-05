@@ -26,15 +26,42 @@ public class InventoryItemUI : MonoBehaviour
 	{
 		DisableConsumeButton();
 	}
-
+	
 	public void Initialize(InventoryItem itemInformation)
 	{
 		_itemInformation = itemInformation;
-
+		
 		itemName.text = _itemInformation.name;
 		itemDescription.text = _itemInformation.description;
-		itemQuantity.text = _itemInformation.quantity.ToString();
+		
+		ChangeItemQuantity(_itemInformation);
+		ChangeImageUrl(_itemInformation);
+	}
 
+	private void ChangeItemQuantity(InventoryItem itemInformation)
+	{
+		if (_itemInformation.quantity != null)
+		{
+			SetItemCounterVisibility(true);
+			itemQuantity.text = _itemInformation.quantity.ToString();
+		}
+		else
+			SetItemCounterVisibility(false);
+	}
+	
+	private void SetItemCounterVisibility(bool isVisible)
+	{
+		var image = transform.Find("Item.Image");
+		if (image == null) return;
+		var counter = image.transform.Find("ItemCount");
+		if (counter != null)
+		{
+			counter.gameObject.SetActive(isVisible);
+		}
+	}
+
+	private void ChangeImageUrl(InventoryItem itemInformation)
+	{
 		if(!string.IsNullOrEmpty(_itemInformation.image_url))
 			ImageLoader.Instance.GetImageAsync(_itemInformation.image_url, LoadImageCallback);
 		else

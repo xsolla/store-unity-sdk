@@ -21,6 +21,10 @@ public class ItemUI : MonoBehaviour
 	SimpleTextButton buyButton;
 	[SerializeField]
 	AddToCartButton addToCartButton;
+	[SerializeField]
+	GameObject SubscriptionBadge;
+	[SerializeField]
+	Text SubscriptionPeriod;
 
 	StoreItem _itemInformation;
 	GroupsController _groupsController;
@@ -47,9 +51,17 @@ public class ItemUI : MonoBehaviour
 					XsollaStore.Instance.ProcessOrder(XsollaSettings.StoreProjectId, data.order_id, () =>
 					{
 						if (isItemVirtualCurrency)
+						{
 							UserInventory.Instance.UpdateVirtualCurrencyBalance();
+						}
+						else if (_itemInformation.IsSubscription())
+						{
+							UserSubscriptions.Instance.UpdateSupscriptions();
+						}
 						else
+						{
 							UserInventory.Instance.UpdateVirtualItems();
+						}
 						StoreDemoPopup.ShowSuccess();
 					});
 				}, StoreDemoPopup.ShowError);
@@ -67,7 +79,11 @@ public class ItemUI : MonoBehaviour
 
 	void VirtualCurrencyPurchaseComplete(string currencyName)
 	{
-		UserInventory.Instance.UpdateVirtualItems();
+		if (_itemInformation.IsSubscription())
+			UserSubscriptions.Instance.UpdateSupscriptions();
+		else
+			UserInventory.Instance.UpdateVirtualItems();
+
 		UserInventory.Instance.UpdateVirtualCurrencyBalance();
 		StoreDemoPopup.ShowSuccess($"You are purchased `{currencyName}`!");
 	}
@@ -75,17 +91,21 @@ public class ItemUI : MonoBehaviour
 	public void Initialize(StoreItem itemInformation)
 	{
 		_itemInformation = itemInformation;
-		string currency;
-		string price;
 		string text = "";
-
+		if (_itemInformation.IsSubscription())
+		{
+			var expPeriod = _itemInformation.inventory_options.expiration_period;
+			var pluralSuffix = expPeriod.value > 1 ? "s" : string.Empty;
+			SubscriptionPeriod.text = $"{expPeriod.value} {expPeriod.type}{pluralSuffix}";
+			SubscriptionBadge.SetActive(true);
+		}
 		if (_itemInformation.virtual_prices.Any()) {
-			StoreItem.VirtualPrice virtualPrice = GetVirtualPrice();
-			text = FormatVirtualCurrencyBuyButtonText(virtualPrice.name, virtualPrice.amount);
+			VirtualPrice virtualPrice = GetVirtualPrice();
+			text = FormatVirtualCurrencyBuyButtonText(virtualPrice.name, virtualPrice.GetAmount());
 			addToCartButton.gameObject.SetActive(false);
 		} else {
 			if (_itemInformation.price != null) {
-				price = _itemInformation.price.amount.ToString("F2");
+				string currency;
 				if (_itemInformation.price.currency == RegionalCurrency.CurrencyCode) {
 					currency = RegionalCurrency.CurrencySymbol;
 				} else {
@@ -94,7 +114,8 @@ public class ItemUI : MonoBehaviour
 						currency = _itemInformation.price.currency;// if there is no symbol for specified currency then display currency code instead
 					}
 				}
-				text = FormatBuyButtonText(currency, price);
+				Price price = _itemInformation.price;
+				text = FormatBuyButtonText(currency, price.GetAmount());
 			}
 		}
 		buyButton.Text = text;
@@ -123,20 +144,20 @@ public class ItemUI : MonoBehaviour
 		addToCartButton.gameObject.SetActive(false);
 	}
 
-	StoreItem.VirtualPrice GetVirtualPrice()
+	VirtualPrice GetVirtualPrice()
 	{
-		List<StoreItem.VirtualPrice> prices = _itemInformation.virtual_prices.ToList();
+		List<VirtualPrice> prices = _itemInformation.virtual_prices.ToList();
 		return (prices.Count(p => p.is_default) > 0) ? prices.First(p => p.is_default) : prices.First();
 	}
 
-	string FormatBuyButtonText(string currency, string price)
+	private string FormatBuyButtonText(string currency, float price)
 	{
-		return $"BUY FOR {currency}{price}";
+		return $"BUY FOR {currency}{price:F2}";
 	}
 
-	string FormatVirtualCurrencyBuyButtonText(string currency, string price)
+	private string FormatVirtualCurrencyBuyButtonText(string currency, uint price)
 	{
-		return string.Format("BUY FOR" + Environment.NewLine + "{0} {1}", price, currency);
+		return "BUY FOR" + Environment.NewLine + $"{price:D} {currency}";
 	}
 
 	public void Refresh()
