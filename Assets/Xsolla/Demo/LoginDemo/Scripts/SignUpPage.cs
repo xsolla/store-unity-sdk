@@ -113,7 +113,7 @@ public class SignUpPage :  Page, ISignUp
     {
         if (!string.IsNullOrEmpty(email))
         {
-            var emailPattern = "^[a-zA-Z0-9-_.]+[@][a-zA-Z0-9-_.]+[.][a-zA-Z]+$";
+            var emailPattern = "^[a-zA-Z0-9-_.+]+[@][a-zA-Z0-9-_.]+[.][a-zA-Z]+$";
             var regex = new Regex(emailPattern);
             return regex.IsMatch(email);
         }
