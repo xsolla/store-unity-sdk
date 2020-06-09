@@ -1,4 +1,5 @@
 ﻿using UnityEditor;
+using Xsolla.Login;
 
 namespace Xsolla.Core
 {
@@ -13,13 +14,18 @@ namespace Xsolla.Core
 
 		public override void OnInspectorGUI()
 		{
-			XsollaLoginSettings();
+			var changed = XsollaLoginSettings();
 
-			PublishingPlatformSettings();
+			changed = changed || PublishingPlatformSettings();
 
-			XsollaStoreSettings();
+			changed = changed || XsollaStoreSettings();
 
 			XsollaPaystationSettings();
+
+			if (changed)
+			{
+				XsollaLogin.Instance.DeleteToken(Constants.LAST_SUCCESS_AUTH_TOKEN);
+			}
 		}
 	}
 }

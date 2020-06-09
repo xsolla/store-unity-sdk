@@ -1,4 +1,8 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEditor;
+using UnityEngine;
+using Xsolla.Store;
+using Object = UnityEngine.Object;
 
 namespace Xsolla.Core
 {
@@ -23,14 +27,25 @@ namespace Xsolla.Core
 
 		private static T InstantiateThis()
 		{
+			string componentName = typeof(T).Name;
+			Debug.Log("No instance of " + componentName);
 			T result = InstantiateFromScene();
 
 			if (result == null)
+			{
 				result = InstantiateFromResources();
+				if (result != null)
+					Debug.Log(componentName + " loaded from resources.");
+			}
+			else
+				Debug.Log(componentName + " found in the scene.");
 
 			if (result == null)
+			{
 				result = InstantiateAsNewObject();
-
+				if (result != null)
+					Debug.Log(componentName + " a temporary one is created.");
+			}
 			return result;
 		}
 
@@ -41,12 +56,21 @@ namespace Xsolla.Core
 
 		private static T InstantiateFromResources()
 		{
-			return Resources.Load<T>(PATH_TO_PREFABS + typeof(T).Name);
+			string path = PATH_TO_PREFABS + typeof(T).Name;
+			
+			var prefab = Resources.Load(path);
+			if (prefab == null) return null;
+			
+			GameObject instance = Instantiate(prefab) as GameObject;
+			if (instance != null)
+			{
+				instance.name = typeof(T).Name;
+			}
+			return instance == null ? null : instance.GetComponent<T>();
 		}
 
 		private static T InstantiateAsNewObject()
 		{
-			Debug.Log("No instance of " + typeof(T) + ", a temporary one is created.");
 			GameObject instance = new GameObject("Temp Instance of " + typeof(T));
 			return instance.AddComponent<T>();
 		}
@@ -73,10 +97,21 @@ namespace Xsolla.Core
 			}
 		}
 
+		protected virtual void OnDestroy()
+		{
+			Debug.Log(typeof(T) + " is destroyed.");
+			_instance = null;
+		}
+
 		// This function is called when the instance is used the first time
 		// Put all the initializations you need here, as you would do in Awake
 		public virtual void Init()
 		{
+		}
+
+		private void OnApplicationQuit()
+		{
+			Destroy(gameObject);
 		}
 	}
 }

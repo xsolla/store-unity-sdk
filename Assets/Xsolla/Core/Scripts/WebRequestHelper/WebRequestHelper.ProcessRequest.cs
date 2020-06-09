@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 
 namespace Xsolla.Core
 {
@@ -46,6 +48,31 @@ namespace Xsolla.Core
 				string data = webRequest.downloadHandler.text;
 				if (data != null) {
 					onComplete?.Invoke(data);
+				} else {
+					error = Error.UnknownError;
+				}
+			}
+			if (error != null) {
+				TriggerOnError(onError, error);
+			}
+		}
+		
+		/// <summary>
+		/// Processing request and invoke Texture2D (Action<Texture2D>) callback by success
+		/// </summary>
+		/// <param name="webRequest"></param>
+		/// <param name="onComplete"></param>
+		/// <param name="onError"></param>
+		void ProcessRequest(UnityWebRequest webRequest, Action<Texture2D> onComplete, Action<Error> onError)
+		{
+			Error error = null;
+			if (webRequest.isNetworkError || webRequest.isHttpError)
+				error = Error.NetworkError;
+			if (error == null)
+			{
+				var texture = ((DownloadHandlerTexture)webRequest.downloadHandler).texture;
+				if (texture != null) {
+					onComplete?.Invoke(texture);
 				} else {
 					error = Error.UnknownError;
 				}

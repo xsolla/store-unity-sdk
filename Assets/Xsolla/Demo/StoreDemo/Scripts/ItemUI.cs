@@ -21,80 +21,91 @@ public class ItemUI : MonoBehaviour
 	SimpleTextButton buyButton;
 	[SerializeField]
 	AddToCartButton addToCartButton;
+	[SerializeField]
+	GameObject SubscriptionBadge;
+	[SerializeField]
+	Text SubscriptionPeriod;
 
 	StoreItem _itemInformation;
-	StoreController _storeController;
 	GroupsController _groupsController;
-
-	Sprite _itemImage;
 
 	void Awake()
 	{
-		_storeController = FindObjectOfType<StoreController>();
 		_groupsController = FindObjectOfType<GroupsController>();
-
-		var cartGroup = FindObjectOfType<CartGroupUI>();
 
 		buyButton.onClick = (() => {
 			if (_itemInformation.virtual_prices.Any()) {
-				_storeController.ShowConfirm(
+				StoreDemoPopup.ShowConfirm(
 					() => {
 						XsollaStore.Instance.ItemPurchaseForVirtualCurrency(
 							XsollaSettings.StoreProjectId,
 							_itemInformation.sku,
 							GetVirtualPrice().sku,
-							(PurchaseData data) => VirtualCurrencyPurchaseComplete(_itemInformation.name),
-							_storeController.ShowError,
-							null);
-					}, null);
+							data => VirtualCurrencyPurchaseComplete(_itemInformation.name),
+							StoreDemoPopup.ShowError);
+					});
 			} else {
-				bool isItemVirtualCurrency = _groupsController?.GetSelectedGroup().Name == Constants.CurrencyGroupName;
+				bool isItemVirtualCurrency = _groupsController.GetSelectedGroup().Name == Constants.CurrencyGroupName;
 				XsollaStore.Instance.ItemPurchase(XsollaSettings.StoreProjectId, _itemInformation.sku, data => {
 					XsollaStore.Instance.OpenPurchaseUi(data);
-					_storeController.ProcessOrder(data.order_id, () => {
+					XsollaStore.Instance.ProcessOrder(XsollaSettings.StoreProjectId, data.order_id, () =>
+					{
 						if (isItemVirtualCurrency)
-							_storeController.RefreshVirtualCurrencyBalance();
+						{
+							UserInventory.Instance.UpdateVirtualCurrencyBalance();
+						}
+						else if (_itemInformation.IsSubscription())
+						{
+							UserSubscriptions.Instance.UpdateSupscriptions();
+						}
+						else
+						{
+							UserInventory.Instance.UpdateVirtualItems();
+						}
+						StoreDemoPopup.ShowSuccess();
 					});
-				}, _storeController.ShowError);
+				}, StoreDemoPopup.ShowError);
 			}
 		});
 
 		addToCartButton.onClick = (bSelected => {
 			if (bSelected) {
-				_storeController.CartModel.AddCartItem(_itemInformation);
-				cartGroup.IncreaseCounter();
+				UserCart.Instance.AddItem(_itemInformation);
 			} else {
-				_storeController.CartModel.RemoveCartItem(_itemInformation.sku);
-				cartGroup.DecreaseCounter();
+				UserCart.Instance.RemoveItem(_itemInformation);
 			}
 		});
 	}
 
-	void VirtualCurrencyPurchaseComplete(string itemName)
+	void VirtualCurrencyPurchaseComplete(string currencyName)
 	{
-		_storeController.RefreshInventory();
-		_storeController.RefreshVirtualCurrencyBalance();
-		PopupFactory.Instance.CreateSuccess().
-			SetMessage(String.Format("You are purchased `{0}`!", itemName));
+		if (_itemInformation.IsSubscription())
+			UserSubscriptions.Instance.UpdateSupscriptions();
+		else
+			UserInventory.Instance.UpdateVirtualItems();
+
+		UserInventory.Instance.UpdateVirtualCurrencyBalance();
+		StoreDemoPopup.ShowSuccess($"You are purchased `{currencyName}`!");
 	}
 
 	public void Initialize(StoreItem itemInformation)
 	{
 		_itemInformation = itemInformation;
-		string currency;
-		string price;
 		string text = "";
-
+		if (_itemInformation.IsSubscription())
+		{
+			var expPeriod = _itemInformation.inventory_options.expiration_period;
+			var pluralSuffix = expPeriod.value > 1 ? "s" : string.Empty;
+			SubscriptionPeriod.text = $"{expPeriod.value} {expPeriod.type}{pluralSuffix}";
+			SubscriptionBadge.SetActive(true);
+		}
 		if (_itemInformation.virtual_prices.Any()) {
-			StoreItem.VirtualPrice virtualPrice = GetVirtualPrice();
-			price = virtualPrice.amount;
-			currency = virtualPrice.name;
-			text = FormatVirtualCurrencyBuyButtonText(currency, price);
-
+			VirtualPrice virtualPrice = GetVirtualPrice();
+			text = FormatVirtualCurrencyBuyButtonText(virtualPrice.name, virtualPrice.GetAmount());
 			addToCartButton.gameObject.SetActive(false);
 		} else {
 			if (_itemInformation.price != null) {
-				price = _itemInformation.price.amount.ToString("F2");
+				string currency;
 				if (_itemInformation.price.currency == RegionalCurrency.CurrencyCode) {
 					currency = RegionalCurrency.CurrencySymbol;
 				} else {
@@ -103,24 +114,29 @@ public class ItemUI : MonoBehaviour
 						currency = _itemInformation.price.currency;// if there is no symbol for specified currency then display currency code instead
 					}
 				}
-				text = FormatBuyButtonText(currency, price);
+				Price price = _itemInformation.price;
+				text = FormatBuyButtonText(currency, price.GetAmount());
 			}
 		}
 		buyButton.Text = text;
 		itemName.text = _itemInformation.name;
 		itemDescription.text = _itemInformation.description;
+
+		gameObject.name = "Item_" + _itemInformation.name.Replace(" ", "");
+		ImageLoader.Instance.GetImageAsync(_itemInformation.image_url, LoadImageCallback);
 	}
 
+	private void LoadImageCallback(string url, Sprite image)
+	{
+		loadingCircle.SetActive(false);
+		itemImage.sprite = image;
+	}
+	
 	public string GetSku()
 	{
 		return _itemInformation.sku;
 	}
-
-	public bool IsConsumable()
-	{
-		return _itemInformation.inventory_options.consumable != null;
-	}
-
+	
 	public void Lock()
 	{
 		buyButton.Text = "Purchased";
@@ -128,38 +144,25 @@ public class ItemUI : MonoBehaviour
 		addToCartButton.gameObject.SetActive(false);
 	}
 
-	StoreItem.VirtualPrice GetVirtualPrice()
+	VirtualPrice GetVirtualPrice()
 	{
-		List<StoreItem.VirtualPrice> prices = _itemInformation.virtual_prices.ToList();
+		List<VirtualPrice> prices = _itemInformation.virtual_prices.ToList();
 		return (prices.Count(p => p.is_default) > 0) ? prices.First(p => p.is_default) : prices.First();
 	}
 
-	string FormatBuyButtonText(string currency, string price)
+	private string FormatBuyButtonText(string currency, float price)
 	{
-		return string.Format("BUY FOR {0}{1}", currency, price);
+		return $"BUY FOR {currency}{price:F2}";
 	}
 
-	string FormatVirtualCurrencyBuyButtonText(string currency, string price)
+	private string FormatVirtualCurrencyBuyButtonText(string currency, uint price)
 	{
-		return string.Format("BUY FOR" + System.Environment.NewLine + "{0} {1}", price, currency);
-	}
-
-	void OnEnable()
-	{
-		if (_itemImage == null && !string.IsNullOrEmpty(_itemInformation.image_url)) {
-			ImageLoader.Instance.GetImageAsync(_itemInformation.image_url, LoadImageCallback);
-		}
-	}
-
-	void LoadImageCallback(string url, Sprite image)
-	{
-		loadingCircle.SetActive(false);
-		itemImage.sprite = _itemImage = image;
+		return "BUY FOR" + Environment.NewLine + $"{price:D} {currency}";
 	}
 
 	public void Refresh()
 	{
 		if (addToCartButton.gameObject.activeInHierarchy)
-			addToCartButton.Select(_storeController.CartModel.CartItems.ContainsKey(_itemInformation.sku));
+			addToCartButton.Select(UserCart.Instance.Contains(_itemInformation));
 	}
 }

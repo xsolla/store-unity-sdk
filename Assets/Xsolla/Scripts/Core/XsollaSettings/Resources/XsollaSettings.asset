@@ -19,7 +19,7 @@ MonoBehaviour:
   steamAppId: 480
   useConsoleAuth: 0
   platform: 1
-  usernameFromConsole: testGoogleMax
+  usernameFromConsole: testPSMax3
   storeProjectId: 44056
   isSandbox: 1
   paystationTheme: 1

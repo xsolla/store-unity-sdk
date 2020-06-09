@@ -53,23 +53,16 @@ public class GroupsController : MonoBehaviour
 		};
 	}
 
-	public void CreateGroups(StoreItems items, Groups groups)
+	public void CreateGroupsBy(List<StoreItem> items)
 	{
-		foreach (var item in items.items)
+		items.ForEach(i =>
 		{
-			if (item.groups.Any())
-			{
-				foreach (var group in item.groups)
-				{
-					AddGroup(groupPrefab, group.name, group.name);
-				}
-			}
+			if (i.groups.Any())
+				i.groups.ToList().ForEach(group => AddGroup(groupPrefab, group.name, group.name));
 			else
-			{
 				AddGroup(groupPrefab, Constants.UngroupedGroupName, Constants.UngroupedGroupName);
-			}
-		}
-
+		});
+		
 		AddGroup(groupPrefab, Constants.CurrencyGroupName, Constants.CurrencyGroupName);
 		AddGroup(groupCartPrefab, Constants.CartGroupName, Constants.CartGroupName);
 	}
@@ -78,23 +71,25 @@ public class GroupsController : MonoBehaviour
 	{
 		if (_groups.Exists(group => group.Id == groupId))
 			return;
-		var newGroup = Instantiate(groupPref, scrollView.transform).GetComponent<IGroup>();
+		var newGroupGameObject = Instantiate(groupPref, scrollView.transform);
+		newGroupGameObject.name = 
+			"Group_" +
+			groupName.ToUpper().First() + 
+			groupName.Substring(1).Replace(" ", "").ToLower(); 
+			
+		var newGroup = newGroupGameObject.GetComponent<IGroup>();
 		newGroup.Id = groupId;
 		newGroup.Name  = groupName;
 		newGroup.OnGroupClick += SelectGroup;
-
+		
+		
 		_groups.Add(newGroup);
 	}
 
 	void ChangeSelection(string groupId)
 	{
-		foreach (var group in _groups)
-		{
-			if (group.Id != groupId)
-			{
-				group.Deselect();
-			}
-		}
+		_groups.Where(g => g.Id != groupId).ToList().
+			ForEach(g => g.Deselect());
 	}
 
 	private void SelectGroup(string id)

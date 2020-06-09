@@ -17,7 +17,7 @@ namespace Xsolla.Core
 			pendingImages = new List<string>();
 		}
 
-		private void OnDestroy()
+		protected override void OnDestroy()
 		{
 			StopAllCoroutines();
 			pendingImages.Clear();
@@ -41,13 +41,11 @@ namespace Xsolla.Core
 
 		IEnumerator LoadImage(string url)
 		{
-			Sprite image;
-			using (var www = new WWW(url)) {
-				yield return www;
-				image = Sprite.Create(www.texture, new Rect(0, 0, www.texture.width, www.texture.height), new Vector2(0.5f, 0.5f));
-			}
-			images.Add(url, image);
-			pendingImages.Remove(url);
+			yield return WebRequestHelper.Instance.ImageRequestCoroutine(url, sprite =>
+			{
+				images.Add(url, sprite);
+				pendingImages.Remove(url);
+			});
 		}
 
 		IEnumerator WaitImage(string url, Action<string, Sprite> callback)

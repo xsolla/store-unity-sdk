@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Text;
 using JetBrains.Annotations;
 using Xsolla.Core;
@@ -8,55 +9,50 @@ namespace Xsolla.Login
 	[PublicAPI]
 	public partial class XsollaLogin : MonoSingleton<XsollaLogin>
 	{
-		string AdditionalUrlParams
+		private string AdditionalUrlParams => $"&engine=unity&engine_v={Application.unityVersion}&sdk=login&sdk_v={Constants.LoginSdkVersion}";
+
+		private byte[] CryptoKey => Encoding.ASCII.GetBytes(XsollaSettings.LoginId.Replace("-", string.Empty).Substring(0, 16));
+
+		public void DeleteToken(string key)
 		{
-			get
+			if (!string.IsNullOrEmpty(key) && PlayerPrefs.HasKey(key))
 			{
-				return string.Format("&engine=unity&engine_v={0}&sdk=login&sdk_v={1}", Application.unityVersion, Constants.LoginSdkVersion);
-			}
-		}
-		
-		byte[] CryptoKey
-		{
-			get
-			{
-				return Encoding.ASCII.GetBytes(XsollaSettings.LoginId.Replace("-", string.Empty).Substring(0, 16));
+				PlayerPrefs.DeleteKey(key);
 			}
 		}
 
-		public string LastUserLogin
+		public void SaveToken(string key, string token)
 		{
-			get
+			if (!string.IsNullOrEmpty(token))
 			{
-				if (PlayerPrefs.HasKey(Constants.UserLogin) && !string.IsNullOrEmpty(XsollaSettings.LoginId))
-				{
-					return PlayerPrefs.GetString(Constants.UserLogin);
-				}
-				
-				return string.Empty;
+				PlayerPrefs.SetString(key, token);
 			}
 		}
 
-		public string LastUserPassword
+		public bool LoadToken(string key, out string token)
 		{
-			get
+			token = PlayerPrefs.HasKey(key) ? PlayerPrefs.GetString(key) : string.Empty;
+			if (string.IsNullOrEmpty(token))
 			{
-				if (PlayerPrefs.HasKey(Constants.UserPassword) && !string.IsNullOrEmpty(XsollaSettings.LoginId))
-				{
-					return Crypto.Decrypt(CryptoKey, PlayerPrefs.GetString(Constants.UserPassword));
-				}
-					
-				return string.Empty;
+				return false;
 			}
-		}
-
-		void SaveLoginPassword(string username, string password)
-		{
-			if (!string.IsNullOrEmpty(XsollaSettings.LoginId))
+			Token t;
+			try
 			{
-				PlayerPrefs.SetString(Constants.UserLogin, username);
-				PlayerPrefs.SetString(Constants.UserPassword, Crypto.Encrypt(CryptoKey, password));
+				t = new Token(token);
 			}
+			catch (Exception e)
+			{
+				Debug.LogError($"Can't create {key} token = {token}. Exception:" + e.Message);
+				PlayerPrefs.DeleteKey(key);
+				token = string.Empty;
+				return false;
+			}
+			
+			if (t.SecondsLeft() >= 300) return true;
+			PlayerPrefs.DeleteKey(key);
+			token = string.Empty;
+			return false;
 		}
 
 		public Token Token { get; set; }
