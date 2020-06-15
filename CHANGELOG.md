@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.5.1.2] - 2020-06-09 
+
+### Added 
+- Support of a build process by the IL2CPP compiler.
+
+### Fixed 
+- Minor bugs.
+
+
 ## [0.5.1.1] - 2020-05-27 
 
 ### Added 

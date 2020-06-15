@@ -127,7 +127,6 @@ public class StoreController : MonoBehaviour
 		List<StoreItem> catalogItems = UserCatalog.Instance.GetItems().
 			Where(i => !i.IsConsumable() && !i.IsSubscription()).
 			Where(i => inventoryItems.Exists(inv => inv.sku.Equals(i.sku))).ToList();
-		List<SubscriptionItem> subscriptionItems = UserSubscriptions.Instance.GetItems();
 		List<ItemUI> containersItems = new List<ItemUI>();
 		_itemsController.GetCatalogContainers().ForEach(c => containersItems.AddRange(c.Items));
 		containersItems = containersItems.Where(i => catalogItems.Exists(cat => cat.sku.Equals(i.GetSku()))).ToList();
@@ -147,10 +146,9 @@ public class StoreController : MonoBehaviour
 
 			_groupsController.SelectDefault();
 
-			RefreshSubscriptions(() =>
-			{
-				RefreshInventory();
-			});
+			RefreshSubscriptions();
+			RefreshInventory();
+
 			UserCatalog.Instance.UpdateVirtualCurrencyPackages(
 				_itemsController.AddVirtualCurrencyPackages, StoreDemoPopup.ShowError);
 			UserCatalog.Instance.UpdateVirtualCurrencies(_ =>
