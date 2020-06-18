@@ -46,12 +46,18 @@ namespace Xsolla.Store
         private void RefreshCallback(InventoryItems items)
         {
             _items = FilterVirtualCurrency(items.items);
+            _items = FilterSubscriptions(_items);
         }
         
         private List<InventoryItem> FilterVirtualCurrency(InventoryItem[] items)
         {
             return items.ToList().
                 Where(i => i.type != VIRTUAL_CURRENCY_ITEM_TYPE).ToList();
+        }
+
+        private List<InventoryItem> FilterSubscriptions(List<InventoryItem> items)
+        {
+            return items.Where(i => i.VirtualItemType != VirtualItemType.NonRenewingSubscription).ToList();
         }
     }    
 }

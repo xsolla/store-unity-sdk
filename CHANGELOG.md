@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.5.1.2] - 2020-06-09 
+
+### Added 
+- Support of a build process by the IL2CPP compiler.
+
+### Fixed 
+- Minor bugs.
+
+
+## [0.5.1.1] - 2020-05-27 
+
+### Added 
+- The ability to sell non-recurring subscriptions.
+
+### Fixed 
+- Minor bugs.
+
+
 ## [0.5.1.0] - 2020-04-27 
 
 ### Added 
