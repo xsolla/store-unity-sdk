@@ -9,6 +9,7 @@ public partial class ItemsTabControl : MonoBehaviour
 	{
 		Store,
 		Inventory,
+		Subscriptions,
 		Attributes
 	}
 
@@ -20,6 +21,7 @@ public partial class ItemsTabControl : MonoBehaviour
 		tabSelectHandler = new Dictionary<TabNames, Action>() {
 			{ TabNames.Store, () => { storeButton.Select(); InternalActivateStoreTab(); } },
 			{ TabNames.Inventory, () => { inventoryButton.Select(); InternalActivateInventoryTab(); } },
+			{ TabNames.Subscriptions, () => { subscriptionsButton.Select(); InternalActivateSubscriptionsTab(); } },
 			{ TabNames.Attributes, () => { attributesButton.Select(); InternalActivateAttributesTab(); } }
 		};
 

@@ -11,7 +11,7 @@ public class ExtraPanelAccountButtons : MonoBehaviour
 {
 	public event Action<string> OpenUrlEvent;
 	public event Action LinkingAccountComplete;
-	private const string URL_MASTER_ACCOUNT = "https://livedemo.xsolla.com/igs-demo/#/";
+	private const string URL_MASTER_ACCOUNT = "https://livedemo.xsolla.com/sdk-demo/";
 
 	[SerializeField] private GameObject signOutButton;
 	[SerializeField] private GameObject accountLinkingButton;
@@ -23,12 +23,7 @@ public class ExtraPanelAccountButtons : MonoBehaviour
 		var btnComponent = signOutButton.GetComponent<SimpleTextButton>();
 		btnComponent.onClick = () => {
 			LauncherArguments.Instance.InvalidateTokenArguments();
-			if (XsollaStore.Instance.Token.FromSocialNetwork())
-			{
-				var provider = XsollaStore.Instance.Token.GetSocialProvider();
-				if(provider != SocialProvider.None)
-					XsollaLogin.Instance.DeleteTokenFromSocialNetwork(provider);	
-			}
+			XsollaLogin.Instance.DeleteToken(Constants.LAST_SUCCESS_AUTH_TOKEN);
 			SceneManager.LoadScene("Login");
 		};
 
