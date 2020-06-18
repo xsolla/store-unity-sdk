@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.UI;
-using Xsolla;
 using Xsolla.Core;
 using Xsolla.Login;
 
@@ -24,10 +24,21 @@ public class SignUpPage :  Page, ISignUp
         }
     }
 
+    private bool IsAllFieldsAreFilled
+    {
+        get
+        {
+            return  !string.IsNullOrEmpty(login_InputField.text) &&
+                    !string.IsNullOrEmpty(email_InputField.text) &&
+                    !string.IsNullOrEmpty(password_InputField.text) &&
+                    password_InputField.text.Length > 5;
+        }
+    }
+
     public Action OnSuccessfulSignUp { get; set; }
     public Action<Error> OnUnsuccessfulSignUp { get; set; }
 
-    void Awake()
+    private void Awake()
     {
         login_InputField.onValueChanged.AddListener(delegate { UpdateButtonState(); });
         password_InputField.onValueChanged.AddListener(delegate { UpdateButtonState(); });
@@ -54,6 +65,32 @@ public class SignUpPage :  Page, ISignUp
         UpdateButtonState();
     }
 
+    public void SignUp()
+    {
+        TimeSpan ts = DateTime.Now - lastClick;
+        if (ts.TotalMilliseconds > rateLimitMs) {
+            lastClick += ts;
+
+            var isFieldsFilled = IsAllFieldsAreFilled;
+            var isEmailValid = ValidateEmail(email_InputField.text);
+
+            if (isFieldsFilled && isEmailValid)
+            {
+                XsollaLogin.Instance.Registration(login_InputField.text, password_InputField.text, email_InputField.text, OnSuccessfulSignUp, OnUnsuccessfulSignUp);
+            }
+            else if (!isEmailValid)
+            {
+                Debug.Log($"Invalid email: {email_InputField.text}");
+                Error error = new Error(errorType: ErrorType.RegistrationNotAllowedException, errorMessage: "Invalid email");
+                OnUnsuccessfulSignUp?.Invoke(error);
+            }
+            else
+            {
+                Debug.Log("Fill all fields");
+            }
+        }
+    }
+
     private void ChangeFocus()
     {
         if (login_InputField.isFocused) {
@@ -67,20 +104,22 @@ public class SignUpPage :  Page, ISignUp
         }
     }
     
-    void UpdateButtonState()
+    private void UpdateButtonState()
     {
-        create_Btn.interactable = !string.IsNullOrEmpty(login_InputField.text) && !string.IsNullOrEmpty(email_InputField.text) && !string.IsNullOrEmpty(password_InputField.text) && password_InputField.text.Length > 5;
+        create_Btn.interactable = IsAllFieldsAreFilled;
     }
-    
-    public void SignUp()
+
+    private bool ValidateEmail(string email)
     {
-        TimeSpan ts = DateTime.Now - lastClick;
-        if (ts.TotalMilliseconds > rateLimitMs) {
-            lastClick += ts;
-            if (!string.IsNullOrEmpty(login_InputField.text) && !string.IsNullOrEmpty(email_InputField.text) && !string.IsNullOrEmpty(password_InputField.text) && password_InputField.text.Length > 5) {
-                XsollaLogin.Instance.Registration(login_InputField.text, password_InputField.text, email_InputField.text, OnSuccessfulSignUp, OnUnsuccessfulSignUp);
-            } else
-                Debug.Log("Fill all fields");
+        if (!string.IsNullOrEmpty(email))
+        {
+            var emailPattern = "^[a-zA-Z0-9-_.+]+[@][a-zA-Z0-9-_.]+[.][a-zA-Z]+$";
+            var regex = new Regex(emailPattern);
+            return regex.IsMatch(email);
+        }
+        else
+        {
+            return false;
         }
     }
 }

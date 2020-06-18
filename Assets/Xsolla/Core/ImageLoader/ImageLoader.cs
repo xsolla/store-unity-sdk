@@ -17,7 +17,7 @@ namespace Xsolla.Core
 			pendingImages = new List<string>();
 		}
 
-		private void OnDestroy()
+		protected override void OnDestroy()
 		{
 			StopAllCoroutines();
 			pendingImages.Clear();
