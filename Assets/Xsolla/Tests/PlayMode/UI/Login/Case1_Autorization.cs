@@ -22,7 +22,6 @@ namespace Tests
         [UnityTest]
         public IEnumerator SuccessAutorization()
         {
-            
             TestHelper helper = TestHelper.Instance;
             yield return helper.LoadScene(TestHelper.Scenes.Login);
             yield return helper.WaitFor(1.0F);
@@ -38,7 +37,6 @@ namespace Tests
         [UnityTest]
         public IEnumerator FailedAutorization()
         {
-     
             TestHelper helper = TestHelper.Instance;
             yield return helper.LoadScene(TestHelper.Scenes.Login);
             yield return helper.WaitFor(3.0F);

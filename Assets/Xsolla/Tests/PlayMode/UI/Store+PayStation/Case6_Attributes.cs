@@ -28,9 +28,9 @@ namespace Tests
         const string REMOVE_BUTTON = "pref_SimpleIconButton";
 
         [UnityTest]
+        [Timeout(100000000)]
         public IEnumerator AddedAtribut()
         {
-
             TestHelper helper = TestHelper.Instance;
             yield return helper.LoadScene(TestHelper.Scenes.Login);
             yield return helper.WaitFor(1.0F);
@@ -38,7 +38,7 @@ namespace Tests
             helper.SetInputField(USERPASSWORD_FIELD, "232323");
             yield return helper.WaitFor(0.01F);
             helper.ClickButton(USERLOGIN_BUTTON);
-            yield return helper.WaitScene(TestHelper.Scenes.Store, 4.0F);
+            yield return helper.WaitScene(TestHelper.Scenes.Store, 10.0F);
             yield return helper.WaitFor(5.0F);
             helper.ClickMenuButton(ATTRIB_BUTTON);
             yield return helper.WaitFor(1.5F);

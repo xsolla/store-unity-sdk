@@ -40,7 +40,7 @@ namespace Tests
             helper.SetInputField(USERPASSWORD_FIELD, "232323");
             yield return helper.WaitFor(0.01F);
             helper.ClickButton(USERLOGIN_BUTTON);
-            yield return helper.WaitScene(TestHelper.Scenes.Store, 4.0F);
+            yield return helper.WaitScene(TestHelper.Scenes.Store, 10.0F);
 
 
 
@@ -48,7 +48,8 @@ namespace Tests
             yield return helper.WaitFor(1.0F);
 
 
-            GameObject bodyArmor = TestHelper.Instance.Find("Item_Test_item");
+            GameObject bodyArmor = TestHelper.Instance.Find("Item_BodyArmor");
+            Assert.False(bodyArmor == null);
             SimpleTextButton cartButton = TestHelper.Instance.FindIn<SimpleTextButton>(bodyArmor, "BuyButton");
 
             cartButton.OnPointerDown(new PointerEventData(EventSystem.current));
