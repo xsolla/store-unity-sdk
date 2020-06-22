@@ -55,6 +55,11 @@ namespace Xsolla.Login
 			return false;
 		}
 
-		public Token Token { get; set; }
+		private Token _token;
+		public Token Token
+		{
+			get => _token ?? (_token = new Token());
+			set => _token = value;
+		}
 	}
 }
