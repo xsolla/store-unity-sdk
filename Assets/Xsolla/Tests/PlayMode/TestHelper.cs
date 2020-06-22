@@ -1,123 +1,14 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Threading;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Xsolla.Core;
 
 public partial class TestHelper : MonoSingleton<TestHelper>
 {
-	public IEnumerator LoadScene(Scenes scene, float timeout = 5.0F)
-	{
-        if (IsScene(scene))
-            yield return UnloadScene(scene);
-		SceneManager.LoadScene(GetSceneName(scene));
-		yield return new WaitForSeconds(2.0F);
-		yield return WaitScene(scene, timeout);
-	}
-
-    /// <summary>
-    /// Костыль
-    /// </summary>
-    /// <param name="scene"></param>
-    /// <returns></returns>
-    public IEnumerator UnloadScene(Scenes scene)
-    {
-        yield return LoadScene((scene == Scenes.Login)
-            ? Scenes.EmptyScene
-            : Scenes.Login);
-    }
-
-    public bool IsScene(Scenes scene)
-    {
-        return SceneManager.GetActiveScene() == SceneManager.GetSceneByName(GetSceneName(scene));
-    }
-
-    public IEnumerator WaitScene(Scenes scene, float timeout)
-    {
-	    bool busy = true;
-	    Coroutine sceneCoroutine = null, timeoutCoroutine = null;
-	    Debug.Log($"Wait scene = `{scene.ToString()}`");
-	    sceneCoroutine = StartCoroutine(WaitSceneCoroutine(scene, () =>
-	    {
-		    StopCoroutine(timeoutCoroutine);
-		    Debug.Log($"Scene = `{scene.ToString()}` is loaded.");
-		    busy = false;
-	    }));
-	    timeoutCoroutine = StartCoroutine(WaitTimeoutCoroutine(timeout, () =>
-	    {
-		    StopCoroutine(sceneCoroutine);
-		    Debug.Log($"ATTENTION: wait scene `{scene.ToString()}` coroutine exit by timeout = {timeout.ToString(CultureInfo.CurrentCulture)}");
-		    busy = false;
-	    }));
-	    yield return new WaitWhile(() => busy);
-    }
-
-    IEnumerator WaitSceneCoroutine(Scenes scene, Action callback, float noRequestTimeout = 1.0F)
-    {
-	    yield return new WaitUntil(() => IsScene(scene));
-	    yield return WaitWebRequests(noRequestTimeout);
-	    callback?.Invoke();
-    }
-
-    public IEnumerator WaitWebRequests(float noRequestTimeout = 1.0F)
-    {
-	    yield return StartCoroutine(WaitWebRequestCoroutine(noRequestTimeout));
-    }
-
-    IEnumerator WaitWebRequestCoroutine(float noRequestTimeout)
-    {
-	    bool noRequestTimeoutElapsed = false;
-	    
-	    Coroutine timeCoroutine = null, busyCoroutine = null;
-	    Action timeCoroutineCallback, noBusyCoroutineCallback, busyCoroutineCallback = null;
-	    
-	    Debug.Log($"Wait web request helper.");
-	    timeCoroutineCallback = () =>
-	    {
-		    StopCoroutine(busyCoroutine);
-		    Debug.Log($"Wait web request timeout = {noRequestTimeout.ToString(CultureInfo.CurrentCulture)} is elapsed.");
-		    noRequestTimeoutElapsed = true;
-	    };
-	    noBusyCoroutineCallback = () =>
-	    {
-		    Debug.Log($"Web request helper is NOT busy.");
-		    timeCoroutine = StartCoroutine(WaitTimeoutCoroutine(noRequestTimeout, timeCoroutineCallback));
-		    busyCoroutine = StartCoroutine(WaitBooleanCoroutine(() => WebRequestHelper.Instance.IsBusy(), busyCoroutineCallback));
-	    };
-	    busyCoroutineCallback = () =>
-	    {
-		    StopCoroutine(timeCoroutine);
-		    Debug.Log($"Web request helper is busy.");
-		    busyCoroutine = StartCoroutine(WaitBooleanCoroutine(() => !WebRequestHelper.Instance.IsBusy(), noBusyCoroutineCallback));
-	    };
-	    
-	    busyCoroutine = StartCoroutine(WaitBooleanCoroutine(() => !WebRequestHelper.Instance.IsBusy(), noBusyCoroutineCallback));
-	    yield return new WaitWhile(() => !noRequestTimeoutElapsed);
-    }
-
-    IEnumerator WaitTimeoutCoroutine(float timeout, Action callback = null)
-    {
-	    yield return new WaitForSeconds(timeout);
-	    callback?.Invoke();
-    }
-    
-    IEnumerator WaitBooleanCoroutine(Func<bool> condition, Action callback = null)
-    {
-	    yield return new WaitUntil(condition);
-	    callback?.Invoke();
-    }
-
-    private string GetSceneName(Scenes scene)
-    {
-        return Enum.GetName(typeof(Scenes), scene);
-    }
-
-    public List<GameObject> FindAll(string name)
+	public List<GameObject> FindAll(string name)
     {
 	    return FindObjectsOfType<GameObject>().
 		    Where(o => o.name.Equals(name)).
@@ -241,17 +132,15 @@ public partial class TestHelper : MonoSingleton<TestHelper>
         }
         return true;
     }
+
+    public bool ClickCartMenuButton(string name)
+    {
+        CartMenuButton button = Find<CartMenuButton>(name);
+        if (button != null)
+        {
+            button.onClick.DynamicInvoke();
+            return true;
+        }
+        return true;
+    }
 }
-
-public partial class TestHelper : MonoSingleton<TestHelper>
-{
-	public enum Scenes
-	{
-		Login,
-		Store,
-		PayStation,
-        EmptyScene
-	}
-}
-
-
