@@ -11,7 +11,7 @@ using NUnit.Framework;
 
 namespace Tests
 {
-    public class Attributes
+    public class Case6_Attributes
     {
 
         const string USERNAME_FIELD = "LoginUsername";
@@ -28,9 +28,9 @@ namespace Tests
         const string REMOVE_BUTTON = "pref_SimpleIconButton";
 
         [UnityTest]
+        [Timeout(100000000)]
         public IEnumerator AddedAtribut()
         {
-
             TestHelper helper = TestHelper.Instance;
             yield return helper.LoadScene(TestHelper.Scenes.Login);
             yield return helper.WaitFor(1.0F);
@@ -38,9 +38,10 @@ namespace Tests
             helper.SetInputField(USERPASSWORD_FIELD, "232323");
             yield return helper.WaitFor(0.01F);
             helper.ClickButton(USERLOGIN_BUTTON);
+            yield return helper.WaitScene(TestHelper.Scenes.Store, 10.0F);
             yield return helper.WaitFor(5.0F);
             helper.ClickMenuButton(ATTRIB_BUTTON);
-            yield return helper.WaitFor(1.0F);
+            yield return helper.WaitFor(1.5F);
             helper.ClickSimpleTextButton(NEW_BUTTON);
             yield return helper.WaitFor(2.0F);
             AttributeItemUI attribute = helper.Find<AttributeItemUI>(ATRRIB_OBJECT);
@@ -67,15 +68,8 @@ namespace Tests
         {
 
             TestHelper helper = TestHelper.Instance;
-            yield return helper.LoadScene(TestHelper.Scenes.Login);
-            yield return helper.WaitFor(1.0F);
-            helper.SetInputField(USERNAME_FIELD, "test123");
-            helper.SetInputField(USERPASSWORD_FIELD, "232323");
-            yield return helper.WaitFor(0.01F);
-            helper.ClickButton(USERLOGIN_BUTTON);
-            yield return helper.WaitFor(5.0F);
             helper.ClickMenuButton(ATTRIB_BUTTON);
-            yield return helper.WaitFor(1.0F);
+            yield return helper.WaitFor(3.5F);
             helper.ClickSimpleButton(REMOVE_BUTTON);
             yield return helper.WaitFor(2.5F);
             helper.ClickSimpleTextButton(SAVE_ATRRIB_BUTTON);

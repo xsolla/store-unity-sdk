@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 public class CloseBrowserButton : MonoBehaviour
 {
+    public readonly object onClick;
     public Button CloseButton;
     
     void Start()

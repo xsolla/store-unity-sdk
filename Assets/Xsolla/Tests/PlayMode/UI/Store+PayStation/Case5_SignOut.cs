@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Tests
 {
-    public class SignOut
+    public class Case5_SignOut
     {
         const string SIGN_OUT_BUTTON = "Button_SignOut";
 
