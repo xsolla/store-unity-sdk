@@ -116,31 +116,12 @@ public class UserCart : MonoSingleton<UserCart>
     public void Purchase(Action onSuccess = null, Action<Error> onError = null)
     {
         if (!GetItems().Any()) return;
-        XsollaStore.Instance.ClearCart(XsollaSettings.StoreProjectId, _cartEntity.cart_id, () =>
-        {
-            List<UserCartItem> items = GetCartItems();
-            if (!items.Any()) return;
-            StartCoroutine(CartFillingCoroutine(items, onSuccess, onError));
-        }, onError);
+        XsollaStore.Instance.FillCart(XsollaSettings.StoreProjectId, 
+            GetCartItems().Select(i => new CartFillItem{sku = i.Sku, quantity = i.Quantity}).ToList(),
+            () => PurchaseCart(onSuccess, onError),
+            onError);
     }
 
-    IEnumerator CartFillingCoroutine(List<UserCartItem> items, Action onSuccess = null, Action<Error> onError = null)
-    {
-        int addItemRequestsLeft = items.Count();
-        items.ForEach(i =>
-        {
-            XsollaStore.Instance.UpdateItemInCart(
-                XsollaSettings.StoreProjectId, _cartEntity.cart_id, i.Item.sku, i.Quantity, () => {
-                    addItemRequestsLeft--;
-                }, error => {
-                    addItemRequestsLeft--;
-                    onError?.Invoke(error);
-                });
-        });
-        yield return new WaitWhile(() => addItemRequestsLeft > 0);
-        PurchaseCart(onSuccess, onError);
-    }
-    
     void PurchaseCart(Action onSuccess = null, Action<Error> onError = null)
     {
         XsollaStore.Instance.CartPurchase(XsollaSettings.StoreProjectId, _cartEntity.cart_id, data =>
@@ -152,9 +133,15 @@ public class UserCart : MonoSingleton<UserCart>
                 onSuccess?.Invoke();
                 PurchaseCartEvent?.Invoke();
             }, onError);
-            
-            Clear();
+
+            StartCoroutine(ClearCartWithDelay(3.0F));
         }, onError);
+    }
+
+    IEnumerator ClearCartWithDelay(float delaySeconds)
+    {
+        yield return new WaitForSeconds(delaySeconds);
+        Clear();
     }
     
     private void ShowError(Error error)

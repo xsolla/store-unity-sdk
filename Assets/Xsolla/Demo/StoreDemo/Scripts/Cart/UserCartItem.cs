@@ -1,5 +1,4 @@
-﻿using System;
-using Xsolla.Core;
+﻿using Xsolla.Core;
 using Xsolla.Store;
 
 public class UserCartItem
