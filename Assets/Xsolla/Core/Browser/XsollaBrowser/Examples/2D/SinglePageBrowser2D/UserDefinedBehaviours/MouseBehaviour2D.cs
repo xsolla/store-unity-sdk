@@ -9,7 +9,8 @@ using System;
 public class MouseBehaviour2D : MonoBehaviour,
 	IPointerEnterHandler,
 	IPointerExitHandler,
-	IPointerClickHandler
+	IPointerClickHandler,
+	IScrollHandler
 {
 	private BoxCollider2D browserCollider;
     private IXsollaBrowserMouseInput browserMouse;
@@ -18,6 +19,8 @@ public class MouseBehaviour2D : MonoBehaviour,
     Coroutine mouseMovementCoroutine;
     Canvas canvas;
     Camera canvasCamera;
+
+	public int ScrollSpeed { get; set; } = -75;
 
 	private void Awake()
 	{
@@ -56,7 +59,14 @@ public class MouseBehaviour2D : MonoBehaviour,
         browserMouse.Click(mousePosition, (Vector2 pos) => Debug.Log("Click handled by: " + pos.ToString()));
     }
 
-    IEnumerator MouseCoroutine()
+
+	void IScrollHandler.OnScroll(PointerEventData eventData)
+	{
+		var scrollDelta = eventData.scrollDelta * ScrollSpeed;
+		browserMouse.Scroll(scrollDelta);
+	}
+
+	IEnumerator MouseCoroutine()
     {
         Vector2 lastPosition = Vector2.zero;
 		while (true) {
