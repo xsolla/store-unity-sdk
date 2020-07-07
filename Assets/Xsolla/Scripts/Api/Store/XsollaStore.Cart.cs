@@ -7,11 +7,11 @@ namespace Xsolla.Store
 {
 	public partial class XsollaStore : MonoSingleton<XsollaStore>
 	{
-		private const string URL_CART_CREATE_NEW = "https://store.xsolla.com/api/v2/project/{0}/cart";
-		private const string URL_CART_ITEM_UPDATE = "https://store.xsolla.com/api/v2/project/{0}/cart/{1}/item/{2}";
-		private const string URL_CART_ITEM_REMOVE = "https://store.xsolla.com/api/v2/project/{0}/cart/{1}/item/{2}";
-		private const string URL_CART_GET_ITEMS = "https://store.xsolla.com/api/v2/project/{0}/cart/{1}";
-		private const string URL_CART_CLEAR = "https://store.xsolla.com/api/v2/project/{0}/cart/{1}/clear";
+		private const string URL_CART_CREATE_NEW = BASE_STORE_API_URL + "/cart";
+		private const string URL_CART_ITEM_UPDATE = BASE_STORE_API_URL + "/cart/{1}/item/{2}";
+		private const string URL_CART_ITEM_REMOVE = BASE_STORE_API_URL + "/cart/{1}/item/{2}";
+		private const string URL_CART_GET_ITEMS = BASE_STORE_API_URL + "/cart/{1}";
+		private const string URL_CART_CLEAR = BASE_STORE_API_URL + "/cart/{1}/clear";
 
 		/// <summary>
 		/// Creates a new cart on the Xsolla side.

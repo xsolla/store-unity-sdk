@@ -7,9 +7,9 @@ namespace Xsolla.Store
 {
 	public partial class XsollaStore : MonoSingleton<XsollaStore>
 	{
-		private const string URL_VIRTUAL_CURRENCY_BALANCE = "https://store.xsolla.com/api/v2/project/{0}/user/virtual_currency_balance";
-		private const string URL_VIRTUAL_CURRENCY_LIST = "https://store.xsolla.com/api/v2/project/{0}/items/virtual_currency";
-		private const string URL_VIRTUAL_CURRENCY_PACKAGES_IN_PROJECT = "https://store.xsolla.com/api/v2/project/{0}/items/virtual_currency/package";
+		private const string URL_VIRTUAL_CURRENCY_BALANCE = BASE_STORE_API_URL + "/user/virtual_currency_balance";
+		private const string URL_VIRTUAL_CURRENCY_LIST = BASE_STORE_API_URL + "/items/virtual_currency";
+		private const string URL_VIRTUAL_CURRENCY_PACKAGES_IN_PROJECT = BASE_STORE_API_URL + "/items/virtual_currency/package";
 
 		/// <summary>
 		/// Returns balance for all virtual currencies.
