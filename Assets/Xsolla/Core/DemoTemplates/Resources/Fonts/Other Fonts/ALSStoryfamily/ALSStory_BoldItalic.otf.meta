@@ -1,0 +1,24 @@
+fileFormatVersion: 2
+guid: c403a738df8714e52b9f1bd56d6a4246
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Story
+  fontNames:
+  - Story
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 02ef2343f584b4c2195ca654d60638da, type: 3}
+  - {fileID: 12800000, guid: 500ce5b6cc6074a0fb1fa8b5cc5fd811, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

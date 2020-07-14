@@ -1,0 +1,27 @@
+fileFormatVersion: 2
+guid: 363570410975647219108f984c119c88
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Sharp Grotesk Light
+  fontNames:
+  - Sharp Grotesk Light
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 2b1de1b0552f14c9b8d7ea4ca9204b5c, type: 3}
+  - {fileID: 12800000, guid: 356c4e62e5b4746e89bc4b873487fedf, type: 3}
+  - {fileID: 12800000, guid: 26f6d2a7b167742abbae1e28df727d27, type: 3}
+  - {fileID: 12800000, guid: 30e57b69b6a284e598b5e8e9d0728509, type: 3}
+  - {fileID: 12800000, guid: 1b49dcad913b44912bb6211447658a64, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
