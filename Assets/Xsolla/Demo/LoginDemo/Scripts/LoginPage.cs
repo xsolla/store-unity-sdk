@@ -64,7 +64,8 @@ public class LoginPage : Page, ILogin
     {
         TryBasicAuth();
 
-        TryAuthBy<SocialAuth>(null, token => XsollaLogin.Instance.SaveToken(Constants.LAST_SUCCESS_AUTH_TOKEN, token));
+        TryAuthBy<SocialAuth>(onFailed: () => OnUnsuccessfulLogin?.Invoke(new Error(errorMessage:"Social auth failed")),
+                            success: token => XsollaLogin.Instance.SaveToken(Constants.LAST_SUCCESS_AUTH_TOKEN, token));
     }
 
     private void TryBasicAuth()

@@ -37,3 +37,5 @@ sysinfo.txt
 
 # Downloaded browser instance
 .local-chromium/
+
+.vscode/

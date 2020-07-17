@@ -33,6 +33,9 @@ namespace Xsolla.Core
 		[SerializeField] private string payStationTokenRequestUrl = "https://livedemo.xsolla.com/sdk/token/paystation_demo/";
 		[SerializeField] private bool inAppBrowserEnabled = true;
 
+		[SerializeField] private string facebookAppId;
+		[SerializeField] private string googleServerId;
+
 		public static string LoginId
 		{
 			get => Instance.loginId;
@@ -159,6 +162,19 @@ namespace Xsolla.Core
 				MarkAssetDirty();
 			}
 		}
+
+		public static string FacebookAppId
+		{
+			get => Instance.facebookAppId;
+			set => Instance.facebookAppId = value;
+		}
+
+		public static string GoogleServerId
+		{
+			get => Instance.googleServerId;
+			set => Instance.googleServerId = value;
+		}
+
 
 		public static XsollaSettings Instance
 		{

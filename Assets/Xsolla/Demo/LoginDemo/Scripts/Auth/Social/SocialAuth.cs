@@ -17,7 +17,7 @@ public class SocialAuth : MonoBehaviour, ILoginAuthorization
 		}
 		socials.Enable();
 		socials.OnSuccess = token => OnSuccess?.Invoke(token);
-		socials.OnFailed = () => OnFailed.Invoke();
+		socials.OnFailed = () => OnFailed?.Invoke();
 	}
 #endif
 }
