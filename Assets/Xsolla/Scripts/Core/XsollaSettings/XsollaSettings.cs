@@ -16,6 +16,7 @@ namespace Xsolla.Core
 
 		[SerializeField] private string loginId = Constants.DEFAULT_LOGIN_ID;
 		[SerializeField] private bool useProxy;
+		[SerializeField] private bool jwtTokenInvalidationEnabled;
 		[SerializeField] private string callbackUrl;
 		
 		[SerializeField] private bool useSteamAuth = true;
@@ -64,6 +65,16 @@ namespace Xsolla.Core
 			set
 			{
 				Instance.useProxy = value;
+				MarkAssetDirty();
+			}
+		}
+
+		public static bool JwtTokenInvalidationEnabled
+		{
+			get => Instance.jwtTokenInvalidationEnabled;
+			set
+			{
+				Instance.jwtTokenInvalidationEnabled = value;
 				MarkAssetDirty();
 			}
 		}

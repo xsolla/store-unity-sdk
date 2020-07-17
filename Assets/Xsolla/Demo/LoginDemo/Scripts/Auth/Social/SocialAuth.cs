@@ -6,7 +6,7 @@ public class SocialAuth : MonoBehaviour, ILoginAuthorization
 	public Action<string> OnSuccess { get; set; }
 	public Action OnFailed { get; set; }
 
-#if UNITY_STANDALONE
+#if UNITY_STANDALONE || UNITY_EDITOR || UNITY_ANDROID
 	private void Start()
 	{
 		var socials = FindObjectOfType<SocialAuthContainer>();

@@ -9,11 +9,11 @@ namespace Xsolla.Login
 		/// <summary>
 		/// Temporary Steam auth endpoint. Will be changed later.
 		/// </summary>
-		private const string URL_STEAM_CROSSAUTH = 
-			"https://login.xsolla.com/api/social/steam/cross_auth?projectId={0}&app_id={1}&session_ticket={2}&is_redirect=false";
+		private const string URL_STEAM_CROSSAUTH =
+			"https://login.xsolla.com/api/social/steam/cross_auth?projectId={0}&app_id={1}&with_logout={2}&session_ticket={3}&is_redirect=false";
 
 		private const string URL_SOCIAL_AUTH =
-			"https://login.xsolla.com/api/social/{1}/login_redirect?projectId={0}";
+            "https://login.xsolla.com/api/social/{0}/login_redirect?projectId={1}&with_logout={2}";
 
 		/// <summary>
 		/// Changes Steam session_ticket to JWT.
@@ -29,7 +29,9 @@ namespace Xsolla.Login
 		/// <param name="onError">Failed operation callback.</param>
 		public void SteamAuth(string appId, string sessionTicket, Action<string> onSuccess = null, Action<Error> onError = null)
 		{
-			var url = string.Format(URL_STEAM_CROSSAUTH, XsollaSettings.LoginId, appId, sessionTicket);
+			var projectId = XsollaSettings.LoginId;
+			var with_logout = XsollaSettings.JwtTokenInvalidationEnabled ? "1" : "0";
+			var url = string.Format(URL_STEAM_CROSSAUTH, projectId, appId, with_logout, sessionTicket);
 			WebRequestHelper.Instance.GetRequest<CrossAuthResponse>(url, null, response =>
 			{
 				string[] separator = {"token="};
@@ -53,12 +55,11 @@ namespace Xsolla.Login
 		/// <param name="socialProvider">Name of social provider.</param>
 		/// <param name="invalidateTokens">Invalidate other Jwt of this user?</param>
 		/// <returns></returns>
-		public string GetSocialNetworkAuthUrl(
-			SocialProvider socialProvider,
-			bool invalidateTokens = false)
+		public string GetSocialNetworkAuthUrl(SocialProvider socialProvider)
 		{
-			var url = string.Format(URL_SOCIAL_AUTH, XsollaSettings.LoginId, socialProvider.GetParameter());
-			return invalidateTokens ? (url + "&with_logout=1") : url;
+			var projectId = XsollaSettings.LoginId;
+			var with_logout = XsollaSettings.JwtTokenInvalidationEnabled ? "1" : "0";
+			return string.Format(URL_SOCIAL_AUTH, socialProvider.GetParameter(), projectId, with_logout);
 		}
 	}
 }

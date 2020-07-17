@@ -13,8 +13,6 @@ public class OneSocialAuth : MonoBehaviour, ILoginAuthorization
 
 	[SerializeField]
 	private SocialProvider provider;
-	[SerializeField]
-	private bool invalidateUserOldJwt;
 	
 	private Button _authButton;
 
@@ -39,7 +37,7 @@ public class OneSocialAuth : MonoBehaviour, ILoginAuthorization
 		if(HotkeyCoroutine.IsLocked()) return;
 		HotkeyCoroutine.Lock();
 
-		string url = XsollaLogin.Instance.GetSocialNetworkAuthUrl(provider, invalidateUserOldJwt);
+		string url = XsollaLogin.Instance.GetSocialNetworkAuthUrl(provider);
 		Debug.Log($"Social url: {url}");
 		BrowserHelper.Instance.Open(url, true);
 		var singlePageBrowser = BrowserHelper.Instance.GetLastBrowser();
