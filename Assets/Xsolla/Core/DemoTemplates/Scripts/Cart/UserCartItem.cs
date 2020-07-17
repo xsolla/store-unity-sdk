@@ -1,19 +1,17 @@
-﻿using System;
-using Xsolla.Core;
-using Xsolla.Store;
+﻿using Xsolla.Core;
 
 public class UserCartItem
 {
-	public StoreItem Item { get; }
+	public CatalogItemModel Item { get; }
 	public int Quantity { get; set; }
 
-	public string Sku => Item.sku;
-	public float Price => Item.price.GetAmount();
-	public string Currency => Item.price.currency;
-	public string ImageUrl => Item.image_url;
+	public string Sku => Item.Sku;
+	public float  Price => Item.Price.HasValue ? Item.Price.Value.Value : 0F;
+	public string Currency => Item.Price?.Key;
+	public string ImageUrl => Item.ImageUrl;
 	public float TotalPrice => Price * Quantity;
 	
-	public UserCartItem(StoreItem storeItem)
+	public UserCartItem(CatalogItemModel storeItem)
 	{
 		Item = storeItem;
 		Quantity = 1;
@@ -33,17 +31,17 @@ public class UserCartItem
 			
 			if (IsInRange(Quantity, 2, 4))
 			{
-				return Price * Quantity * 0.1f;
+				return TotalPrice * 0.1f;
 			}
 			
 			if (IsInRange(Quantity, 5, 9))
 			{
-				return Price * Quantity * 0.25f;
+				return TotalPrice * 0.25f;
 			}
 			
 			if (IsInRange(Quantity, 10, int.MaxValue))
 			{
-				return Price * Quantity * 0.5f;
+				return TotalPrice * 0.5f;
 			}
 
 			return 0.0f;

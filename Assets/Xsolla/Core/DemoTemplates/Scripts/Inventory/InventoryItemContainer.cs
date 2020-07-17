@@ -22,7 +22,7 @@ public class InventoryItemContainer : MonoBehaviour, IContainer
 
 	public void Refresh()
 	{
-		RefreshInternal(UserInventory.Instance.Items);
+		RefreshInternal(UserInventory.Instance.VirtualItems);
 	}
 
 	private void RefreshInternal(List<InventoryItemModel> items)

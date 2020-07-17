@@ -20,26 +20,26 @@ public class ItemsController : MonoBehaviour
 		_isEmptyCatalog = true;
 	}
 
-	public void Init(IDemoImplementation demoImplementation)
-	{
-		_demoImplementation = demoImplementation;
-		_containers.ToList().ForEach(
-			pair => pair.Value.GetComponent<IContainer>().SetStoreImplementation(_demoImplementation));
-	}
+	// public void Init(IDemoImplementation demoImplementation)
+	// {
+	// 	_demoImplementation = demoImplementation;
+	// 	_containers.ToList().ForEach(
+	// 		pair => pair.Value.GetComponent<IContainer>().SetStoreImplementation(_demoImplementation));
+	// }
 
-	public void AddItemToContainer(string containerName, CatalogItemModel item)
-	{
-		var container = _containers.ContainsKey(containerName)
-			? _containers[containerName]
-			: AddContainer(itemsContainerPrefab, containerName);
-		if (_isEmptyCatalog)
-		{
-			_isEmptyCatalog = false;
-			ActivateContainer(containerName);
-		}
-
-		container.GetComponent<ItemContainer>().AddItem(item);
-	}
+	// public void AddItemToContainer(string containerName, CatalogItemModel item)
+	// {
+	// 	var container = _containers.ContainsKey(containerName)
+	// 		? _containers[containerName]
+	// 		: AddContainer(itemsContainerPrefab, containerName);
+	// 	if (_isEmptyCatalog)
+	// 	{
+	// 		_isEmptyCatalog = false;
+	// 		ActivateContainer(containerName);
+	// 	}
+	//
+	// 	container.GetComponent<ItemContainer>().AddItem(item);
+	// }
 
 	private Dictionary<string, GameObject> GetDefaultContainers()
 	{
@@ -64,7 +64,7 @@ public class ItemsController : MonoBehaviour
 	{
 		var newContainer = Instantiate(itemContainerPref, content);
 		newContainer.name = containerName;
-		newContainer.GetComponent<IContainer>().SetStoreImplementation(_demoImplementation);
+		//newContainer.GetComponent<IContainer>().SetStoreImplementation(_demoImplementation);
 		newContainer.SetActive(false);
 		_containers.Add(containerName, newContainer);
 		return newContainer;

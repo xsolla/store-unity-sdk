@@ -1,8 +1,4 @@
-﻿using System;
-using UnityEditor;
-using UnityEngine;
-using Xsolla.Store;
-using Object = UnityEngine.Object;
+﻿using UnityEngine;
 
 namespace Xsolla.Core
 {

@@ -33,7 +33,7 @@ public class CartItemUI : MonoBehaviour
 		_cartItem = cartItem;
 
 		itemPrice.text = FormatPriceText(_cartItem.Currency, _cartItem.Price);
-		itemName.text = _cartItem.Item.name;
+		itemName.text = _cartItem.Item.Name;
 		itemQuantity.text = _cartItem.Quantity.ToString();
 		
 		if (itemImage.sprite == null && !string.IsNullOrEmpty(_cartItem.ImageUrl))

@@ -28,8 +28,16 @@ public class ValueCounterVisibility : MonoBehaviour, IPointerEnterHandler, IPoin
 		float targetTextWidth = (visible ? 0.6F : 1.0F) * maxWidth;
 		float targetCounterWidth = maxWidth - targetTextWidth;
 
-		StartCoroutine(ChangeSizeCoroutine(consumeText, targetTextWidth, maxWidth));
-		StartCoroutine(ChangeSizeCoroutine(valueCounter, targetCounterWidth, maxWidth));
+		if (visible)
+		{
+			StartCoroutine(ChangeSizeCoroutine(consumeText, targetTextWidth, maxWidth));
+			StartCoroutine(ChangeSizeCoroutine(valueCounter, targetCounterWidth, maxWidth));
+		}
+		else
+		{
+			StartCoroutine(ChangeSizeCoroutine(valueCounter, targetCounterWidth, maxWidth));
+			StartCoroutine(ChangeSizeCoroutine(consumeText, targetTextWidth, maxWidth));
+		}
 
 		while (true)
 		{

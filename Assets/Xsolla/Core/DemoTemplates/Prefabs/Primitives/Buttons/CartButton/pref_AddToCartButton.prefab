@@ -67,7 +67,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 0c559399669951140a1cb4e83f2f5a3d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: edc7cafa2f69f4471a66f56281092dd7, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -88,14 +88,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87b6263777adc87459e4ae07bca62b70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  normalStateSprite: {fileID: 21300000, guid: 0c559399669951140a1cb4e83f2f5a3d, type: 3}
-  selectedStateSprite: {fileID: 21300000, guid: a1d32eb5cf1276048a6b66047421d074,
+  normalStateSprite: {fileID: 21300000, guid: edc7cafa2f69f4471a66f56281092dd7, type: 3}
+  selectedStateSprite: {fileID: 21300000, guid: a840fd495a8e34a9bb72dc404b1b4f29,
     type: 3}
-  hoverUnselectedStateSprite: {fileID: 21300000, guid: 6674301538c541044b24f1c9a764c63c,
+  hoverUnselectedStateSprite: {fileID: 21300000, guid: a840fd495a8e34a9bb72dc404b1b4f29,
     type: 3}
-  hoverSelectedStateSprite: {fileID: 21300000, guid: 99cbda6090300ca4d966a77a9ccd9990,
+  hoverSelectedStateSprite: {fileID: 21300000, guid: a840fd495a8e34a9bb72dc404b1b4f29,
     type: 3}
-  pressedStateSprite: {fileID: 21300000, guid: 99cbda6090300ca4d966a77a9ccd9990, type: 3}
+  pressedStateSprite: {fileID: 21300000, guid: 929ec9491513c46fba429b86d764f774, type: 3}
 --- !u!1 &8106487249676211831
 GameObject:
   m_ObjectHideFlags: 0
@@ -113,7 +113,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1011394667539327191
 RectTransform:
   m_ObjectHideFlags: 0

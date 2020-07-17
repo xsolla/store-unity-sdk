@@ -94,11 +94,8 @@ public class AddToCartButton : MonoBehaviour, IPointerDownHandler, IPointerEnter
 			{
 				OnHoverUnselected();
 			}
-			
-			if (onClick != null)
-			{
-				onClick.Invoke(_isSelected);
-			}
+
+			onClick?.Invoke(_isSelected);
 		}
 		
 		_isClickInProgress = false;

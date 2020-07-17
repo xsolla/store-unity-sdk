@@ -6,22 +6,23 @@ using UnityEngine;
 using Xsolla.Core;
 using Xsolla.Store;
 
-public partial class DemoImplementation : MonoSingleton<DemoImplementation>, IDemoImplementation
+public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 {
 	public void GetInventoryItems(Action<List<InventoryItemModel>> onSuccess, Action<Error> onError = null)
 	{
 		XsollaStore.Instance.GetInventoryItems(XsollaSettings.StoreProjectId, items =>
 		{
-			var inventoryItems = items.items.Select(i => new InventoryItemModel
-			{
-				Sku = i.sku,
-				Description = i.description,
-				Name = i.name,
-				ImageUrl = i.image_url,
-				IsConsumable = i.IsConsumable(),
-				InstanceId = i.instance_id,
-				RemainingUses = (uint?)i.quantity
-			}).ToList();
+			var inventoryItems = items.items.Where(i => !i.IsVirtualCurrency() && !i.IsSubscription()).Select(
+				i => new InventoryItemModel 
+				{
+					Sku = i.sku,
+					Description = i.description,
+					Name = i.name,
+					ImageUrl = i.image_url,
+					IsConsumable = i.IsConsumable(),
+					InstanceId = i.instance_id,
+					RemainingUses = (uint?)i.quantity
+				}).ToList();
 			onSuccess?.Invoke(inventoryItems);
 		}, WrapErrorCallback(onError));
 	}
@@ -43,6 +44,42 @@ public partial class DemoImplementation : MonoSingleton<DemoImplementation>, IDe
 		}, WrapErrorCallback(onError));
 	}
 
+	public void GetUserSubscriptions(Action<List<UserSubscriptionModel>> onSuccess, Action<Error> onError = null)
+	{
+		XsollaStore.Instance.GetSubscriptions(XsollaSettings.StoreProjectId, items =>
+		{
+			var subscriptionItems = items.items.Select(i => new UserSubscriptionModel
+			{
+				Sku = i.sku,
+				Description = i.description,
+				Name = i.name,
+				ImageUrl = i.image_url,
+				IsConsumable = false,
+				Status = GetSubscriptionStatus(i.status),
+				Expired = i.expired_at.HasValue ? UnixTimeToDateTime(i.expired_at.Value) : (DateTime?) null
+			}).ToList();
+			onSuccess?.Invoke(subscriptionItems);
+		}, WrapErrorCallback(onError));
+	}
+
+	private static UserSubscriptionModel.SubscriptionStatusType GetSubscriptionStatus(string status)
+	{
+		if(string.IsNullOrEmpty(status)) return UserSubscriptionModel.SubscriptionStatusType.None;
+		switch (status)
+		{
+			case "active": return UserSubscriptionModel.SubscriptionStatusType.Active;
+			case "expired": return UserSubscriptionModel.SubscriptionStatusType.Expired;
+			default: return UserSubscriptionModel.SubscriptionStatusType.None;
+		}
+	}
+	
+	private DateTime UnixTimeToDateTime(long unixTime)
+	{
+		DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+		dtDateTime = dtDateTime.AddSeconds(unixTime).ToLocalTime();
+		return dtDateTime;
+	}
+
 	public void ConsumeInventoryItem(InventoryItemModel item, uint count, Action<InventoryItemModel> onSuccess, Action<InventoryItemModel> onFailed = null)
 	{
 		StartCoroutine(ConsumeCoroutine(item, count, onSuccess, onFailed));
@@ -50,12 +87,11 @@ public partial class DemoImplementation : MonoSingleton<DemoImplementation>, IDe
 
 	IEnumerator ConsumeCoroutine(InventoryItemModel item, uint count, Action<InventoryItemModel> onSuccess, Action<InventoryItemModel> onFailed = null)
 	{
-		while (count > 0)
+		while (count-- > 0)
 		{
 			var busy = true;
 			SendConsumeOneItemRequest(item, () => busy = false, () => WrapErrorCallback(_ => onFailed?.Invoke(item)));
 			yield return new WaitWhile(() => busy);
-			count--;
 		}
 		onSuccess?.Invoke(item);
 	}

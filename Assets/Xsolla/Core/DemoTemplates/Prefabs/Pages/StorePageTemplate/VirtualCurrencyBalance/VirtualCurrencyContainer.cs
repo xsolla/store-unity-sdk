@@ -6,26 +6,43 @@ public class VirtualCurrencyContainer : MonoBehaviour
 {
 	public GameObject virtualCurrencyBalancePrefab;
 
-	private Dictionary<string, VirtualCurrencyBalanceUI> _currencies =
+	private readonly Dictionary<string, VirtualCurrencyBalanceUI> _currencies =
 		new Dictionary<string, VirtualCurrencyBalanceUI>();
 
 	private void Awake()
 	{
-		if (virtualCurrencyBalancePrefab == null)
-		{
-			Debug.LogAssertion("VirtualCurrencyBalancePrefab is missing!");
-			Destroy(gameObject);
-		}
+		if (virtualCurrencyBalancePrefab != null) return;
+		Debug.LogAssertion("VirtualCurrencyBalancePrefab is missing!");
+		Destroy(gameObject);
 	}
 
-	public void SetCurrencies(List<CatalogVirtualCurrencyModel> items)
+	private void Start()
+	{
+		if (UserCatalog.Instance.IsUpdated && UserInventory.Instance.IsUpdated)
+		{
+			SetCurrencies(UserCatalog.Instance.Currencies);
+			SetCurrenciesBalance(UserInventory.Instance.Balance);
+		}
+		UserCatalog.Instance.UpdateVirtualCurrenciesEvent += SetCurrencies;
+		UserInventory.Instance.UpdateVirtualCurrencyBalanceEvent += SetCurrenciesBalance;
+	}
+
+	private void OnDestroy()
+	{
+		if(UserCatalog.IsExist)
+			UserCatalog.Instance.UpdateVirtualCurrenciesEvent -= SetCurrencies;
+		if(UserInventory.IsExist)
+			UserInventory.Instance.UpdateVirtualCurrencyBalanceEvent -= SetCurrenciesBalance;
+	}
+
+	private void SetCurrencies(List<CatalogVirtualCurrencyModel> items)
 	{
 		_currencies.Values.ToList().ForEach(c =>
 		{
 			if (c.gameObject != null)
 				Destroy(c.gameObject);
 		});
-		List<CatalogVirtualCurrencyModel> uniqueItems = new List<CatalogVirtualCurrencyModel>();
+		var uniqueItems = new List<CatalogVirtualCurrencyModel>();
 		items.ForEach(i =>
 		{
 			if (uniqueItems.Count(u => u.CurrencySku.Equals(i.CurrencySku)) == 0)
@@ -37,16 +54,17 @@ public class VirtualCurrencyContainer : MonoBehaviour
 
 	private VirtualCurrencyBalanceUI AddCurrency(CatalogVirtualCurrencyModel item)
 	{
+		if (item == null) return null;
 		if (_currencies.ContainsKey(item.CurrencySku)) return _currencies[item.CurrencySku];
 		if (string.IsNullOrEmpty(item.ImageUrl)) return null;
-		GameObject currencyBalance = Instantiate(virtualCurrencyBalancePrefab, transform);
-		VirtualCurrencyBalanceUI balanceUi = currencyBalance.GetComponent<VirtualCurrencyBalanceUI>();
+		var currencyBalance = Instantiate(virtualCurrencyBalancePrefab, transform);
+		var balanceUi = currencyBalance.GetComponent<VirtualCurrencyBalanceUI>();
 		balanceUi.Initialize(item);
 		_currencies.Add(item.CurrencySku, balanceUi);
 		return balanceUi;
 	}
 
-	public void SetCurrenciesBalance(List<VirtualCurrencyBalanceModel> balance)
+	private void SetCurrenciesBalance(List<VirtualCurrencyBalanceModel> balance)
 	{
 		balance.ForEach(SetCurrencyBalance);
 	}

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,8 +7,6 @@ using Xsolla.Core;
 
 public class InventoryItemUI : MonoBehaviour
 {
-	private const int PLAYFAB_API_CONSUME_ITEMS_LIMIT = 25;
-
 	[SerializeField] private Image itemImage;
 	[SerializeField] private GameObject loadingCircle;
 	[SerializeField] private Text itemName;
@@ -15,9 +14,11 @@ public class InventoryItemUI : MonoBehaviour
 	[SerializeField] private GameObject itemQuantityImage;
 	[SerializeField] private Text itemQuantityText;
 	[SerializeField] private ConsumeButton consumeButton;
+	[SerializeField] private Text notPurchasedText;
+	[SerializeField] private GameObject expirationTimeObject;
+	[SerializeField] private Text expirationTimeText;
 
-	private InventoryItemModel _itemInformation;
-	private CatalogVirtualItemModel _catalogItem;
+	private ItemModel _itemInformation;
 	private IDemoImplementation _demoImplementation;
 
 	private void Awake()
@@ -25,35 +26,25 @@ public class InventoryItemUI : MonoBehaviour
 		DisableConsumeButton();
 	}
 
-	public void Initialize(InventoryItemModel itemInformation, IDemoImplementation demoImplementation)
+	public void Initialize(ItemModel itemInformation, IDemoImplementation demoImplementation)
 	{
 		_demoImplementation = demoImplementation;
 		_itemInformation = itemInformation;
-		_catalogItem = UserCatalog.Instance.VirtualItems
-			.FirstOrDefault(c => c.Sku.Equals(itemInformation.Sku));
 
 		itemName.text = _itemInformation.Name;
-		if (_itemInformation.RemainingUses == null)
-		{
-			if (itemQuantityImage != null)
-				itemQuantityImage.SetActive(false);
-			else
-			{
-				if (itemQuantityText != null)
-					itemQuantityText.text = string.Empty;
-			}
-		}
-		else
-			itemQuantityText.text = _itemInformation.RemainingUses.Value.ToString();
+		itemDescription.text = _itemInformation.Description;
 
-		if (_catalogItem == null) return;
-		itemDescription.text = _catalogItem.Description;
-		if (!string.IsNullOrEmpty(_catalogItem.ImageUrl))
-			ImageLoader.Instance.GetImageAsync(_catalogItem.ImageUrl, LoadImageCallback);
+		LoadImage(_itemInformation.ImageUrl);
+	}
+
+	private void LoadImage(string url)
+	{
+		if (!string.IsNullOrEmpty(url))
+			ImageLoader.Instance.GetImageAsync(url, LoadImageCallback);
 		else
 		{
-			loadingCircle.SetActive(false);
-			itemImage.sprite = null;
+			Debug.LogError($"Inventory item with sku = '{_itemInformation.Sku}' have not image!");
+			LoadImageCallback(string.Empty, null);
 		}
 	}
 
@@ -62,19 +53,114 @@ public class InventoryItemUI : MonoBehaviour
 		loadingCircle.SetActive(false);
 		itemImage.sprite = image;
 
-		RefreshConsumeButton();
+		RefreshUi();
 	}
 
-	private void RefreshConsumeButton()
+	private void RefreshUi()
 	{
-		if (_itemInformation.IsConsumable)
-		{
-			EnableConsumeButton();
-		}
+		DisableQuantityImage();
+		DisableConsumeButton();
+		DisableExpirationText();
+		DisableNotPurchasedText();
+		
+		if (_itemInformation.IsSubscription())
+			DrawSubscriptionItem();
 		else
 		{
-			DisableConsumeButton();
+			if (_itemInformation.IsConsumable)
+				DrawConsumableVirtualItem();
+			else
+				DrawNonConsumableVirtualItem();
 		}
+	}
+
+	private void DrawSubscriptionItem()
+	{
+		var model = UserInventory.Instance.Subscriptions.First(i => i.Sku.Equals(_itemInformation.Sku));
+		if (model.Status != UserSubscriptionModel.SubscriptionStatusType.None && model.Expired.HasValue)
+		{
+			var expired = model.Expired.Value.ToString("dd/MM/yyyy hh:mm:tt");
+			EnableExpirationText(
+				(model.Status == UserSubscriptionModel.SubscriptionStatusType.Active && model.Expired > DateTime.Now) 
+				? GetRemainingTime(model.Expired.Value)
+				: $"Expired at {expired}");
+		}else
+			EnableNotPurchasedText();
+	}
+
+	private string GetRemainingTime(DateTime expiredDateTime)
+	{
+		var timeLeft = expiredDateTime - DateTime.Now;
+		StartCoroutine(RemainingTimeCoroutine(timeLeft.TotalSeconds > 60 ? 60 : 1));
+		if (timeLeft.TotalDays >= 30)
+			return $"{(int)(timeLeft.TotalDays / 30)} month{(timeLeft.TotalDays > 60 ? "s" : "")} remaining";
+		if (timeLeft.TotalDays > 1)
+			return $"{timeLeft.TotalDays} day{(timeLeft.TotalDays > 1 ? "s" : "")} remaining";
+		if (timeLeft.TotalHours > 1)
+			return $"{timeLeft.TotalHours} hour{(timeLeft.TotalHours > 1 ? "s" : "")} remaining";
+		if (timeLeft.TotalMinutes > 1)
+			return $"{timeLeft.TotalMinutes} minute{(timeLeft.TotalMinutes > 1 ? "s" : "")} remaining";
+		return $"{timeLeft.TotalSeconds} second{(timeLeft.TotalSeconds > 1 ? "s" : "")} remaining";
+	}
+
+	private IEnumerator RemainingTimeCoroutine(float waitSeconds)
+	{
+		yield return new WaitForSeconds(waitSeconds);
+		RefreshUi();
+	}
+
+	private void DrawConsumableVirtualItem()
+	{
+		var model = UserInventory.Instance.VirtualItems.First(i => i.Sku.Equals(_itemInformation.Sku));
+		DrawItemsCount(model);
+		EnableConsumeButton();
+	}
+	
+	private void DrawNonConsumableVirtualItem()
+	{
+		var model = UserInventory.Instance.VirtualItems.First(i => i.Sku.Equals(_itemInformation.Sku));
+		DrawItemsCount(model);
+		EnableNotPurchasedText();
+	}
+	
+	private void DrawItemsCount(InventoryItemModel model)
+	{
+		if (model.RemainingUses == null || itemQuantityImage == null) return;
+		EnableQuantityImage();
+		itemQuantityText.text = model.RemainingUses.Value.ToString();
+	}
+
+	private void EnableQuantityImage()
+	{
+		itemQuantityImage.SetActive(true);
+	}
+	
+	private void DisableQuantityImage()
+	{
+		itemQuantityImage.SetActive(false);
+	}
+
+	private void EnableNotPurchasedText()
+	{
+		if(notPurchasedText != null)
+			notPurchasedText.gameObject.SetActive(true);
+	}
+	
+	private void DisableNotPurchasedText()
+	{
+		if(notPurchasedText != null)
+			notPurchasedText.gameObject.SetActive(false);
+	}
+
+	private void EnableExpirationText(string text)
+	{
+		expirationTimeObject.SetActive(true);
+		expirationTimeText.text = text;
+	}
+	
+	private void DisableExpirationText()
+	{
+		expirationTimeObject.SetActive(false);
 	}
 
 	private void EnableConsumeButton()
@@ -85,45 +171,56 @@ public class InventoryItemUI : MonoBehaviour
 			consumeButton.counter.IncreaseValue(1 - consumeButton.counter.GetValue());
 		consumeButton.counter.ValueChanged += Counter_ValueChanged;
 	}
-
+	
 	private void DisableConsumeButton()
 	{
 		consumeButton.counter.ValueChanged -= Counter_ValueChanged;
 		consumeButton.gameObject.SetActive(false);
 	}
 
-	private void Counter_ValueChanged(int newValue)
-	{
-		if (newValue > _itemInformation.RemainingUses || newValue > PLAYFAB_API_CONSUME_ITEMS_LIMIT)
-		{
-			StartCoroutine(DecreaseConsumeQuantityCoroutine());
-		}
-	}
-
-	private IEnumerator DecreaseConsumeQuantityCoroutine()
-	{
-		yield return new WaitForEndOfFrame();
-		consumeButton.counter.DecreaseValue(1);
-	}
-
 	private void ConsumeHandler()
 	{
 		loadingCircle.SetActive(true);
 		DisableConsumeButton();
-		_demoImplementation.ConsumeInventoryItem(_itemInformation, (uint) consumeButton.counter.GetValue(),
-			_ => ConsumeItemsSuccess(), _ => ConsumeItemsFailed());
+		var model = UserInventory.Instance.VirtualItems.First(i => i.Sku.Equals(_itemInformation.Sku));
+		_demoImplementation.ConsumeInventoryItem(
+			model, (uint) consumeButton.counter.GetValue(), _ => ConsumeItemsSuccess(), _ => ConsumeItemsFailed());
 	}
 
 	private void ConsumeItemsSuccess()
 	{
-		EnableConsumeButton();
-		loadingCircle.SetActive(false);
-		UserInventory.Instance.Refresh();
+		UserInventory.Instance.Refresh(() =>
+		{
+			EnableConsumeButton();
+			loadingCircle.SetActive(false);
+			RefreshUi();
+		});
 	}
 
 	private void ConsumeItemsFailed()
 	{
 		EnableConsumeButton();
 		loadingCircle.SetActive(false);
+	}
+	
+	private void Counter_ValueChanged(int newValue)
+	{
+		var model = UserInventory.Instance.VirtualItems.First(i => i.Sku.Equals(_itemInformation.Sku));
+		if (newValue > model.RemainingUses)
+			StartCoroutine(ChangeConsumeQuantityCoroutine((-1) * ((int)model.RemainingUses - newValue)));
+		else
+		{
+			if (newValue == 0)
+				StartCoroutine(ChangeConsumeQuantityCoroutine(1));
+		}
+	}
+
+	private IEnumerator ChangeConsumeQuantityCoroutine(int deltaValue)
+	{
+		yield return new WaitForEndOfFrame();
+		if(deltaValue < 0)
+			consumeButton.counter.DecreaseValue(deltaValue * (-1));
+		else
+			consumeButton.counter.IncreaseValue(deltaValue);
 	}
 }

@@ -10,6 +10,9 @@ public interface IDemoImplementation
 
 	void GetCatalogVirtualCurrencies([NotNull] Action<List<CatalogVirtualCurrencyModel>> onSuccess,
 		[CanBeNull] Action<Error> onError = null);
+	
+	void GetCatalogSubscriptions([NotNull] Action<List<CatalogSubscriptionItemModel>> onSuccess,
+		[CanBeNull] Action<Error> onError = null);
 
 	List<string> GetCatalogGroupsByItem(CatalogItemModel item);
 
@@ -17,6 +20,9 @@ public interface IDemoImplementation
 		[CanBeNull] Action<Error> onError = null);
 
 	void GetVirtualCurrencyBalance([NotNull] Action<List<VirtualCurrencyBalanceModel>> onSuccess,
+		[CanBeNull] Action<Error> onError = null);
+	
+	void GetUserSubscriptions([NotNull] Action<List<UserSubscriptionModel>> onSuccess,
 		[CanBeNull] Action<Error> onError = null);
 
 	void ConsumeInventoryItem(InventoryItemModel item, uint count, [NotNull] Action<InventoryItemModel> onSuccess,

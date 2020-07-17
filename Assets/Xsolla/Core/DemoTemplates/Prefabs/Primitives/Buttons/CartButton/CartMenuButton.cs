@@ -24,14 +24,8 @@ public class CartMenuButton : SimpleTextButton
 	
 	public string CounterText
 	{
-		get
-		{
-			return counterText.text;
-		}
-		set
-		{
-			counterText.text = value;
-		}
+		get => counterText.text;
+		set => counterText.text = value;
 	}
 	
 	protected override void OnNormal()

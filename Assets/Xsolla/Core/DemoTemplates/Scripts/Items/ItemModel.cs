@@ -10,4 +10,5 @@ public abstract class ItemModel
 	public bool IsConsumable;
 
 	public abstract bool IsVirtualCurrency();
+	public abstract bool IsSubscription();
 }

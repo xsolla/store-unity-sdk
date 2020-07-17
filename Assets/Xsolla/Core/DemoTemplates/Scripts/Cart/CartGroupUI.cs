@@ -20,10 +20,6 @@ public class CartGroupUI : MonoBehaviour, IGroup
 	}
 
 	public string Id { get; set; }
-	// {
-	// 	get { return menuButton.Id; }
-	// 	set { menuButton.Id = value; }
-	// }
 
 	public string Name
 	{

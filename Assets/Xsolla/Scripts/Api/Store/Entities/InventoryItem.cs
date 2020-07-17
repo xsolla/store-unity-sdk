@@ -14,6 +14,7 @@ namespace Xsolla.Store
 				{"non_consumable", VirtualItemType.NonConsumable},
 				{"non_renewing_subscription", VirtualItemType.NonRenewingSubscription}
 			};
+		private const string VIRTUAL_CURRENCY_TYPE = "virtual_currency";
 
 		[Serializable]
 		public class Group
@@ -37,12 +38,22 @@ namespace Xsolla.Store
 		{
 			return VirtualItemType == VirtualItemType.Consumable;
 		}
+
+		public bool IsVirtualCurrency()
+		{
+			return !string.IsNullOrEmpty(type) && type.Equals(VIRTUAL_CURRENCY_TYPE);
+		}
+
+		public bool IsSubscription()
+		{
+			return VirtualItemType == VirtualItemType.NonRenewingSubscription;
+		}
 		
 		public VirtualItemType VirtualItemType
 		{
 			get
 			{
-				if (virtual_item_type != null && VirtualItemTypes.Keys.Contains(virtual_item_type))
+				if (!string.IsNullOrEmpty(virtual_item_type) && VirtualItemTypes.Keys.Contains(virtual_item_type))
 				{
 					return VirtualItemTypes[virtual_item_type];
 				}

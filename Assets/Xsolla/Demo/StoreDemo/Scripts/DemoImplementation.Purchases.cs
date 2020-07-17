@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 using Xsolla.Core;
 using Xsolla.Store;
 
-public partial class DemoImplementation : MonoSingleton<DemoImplementation>, IDemoImplementation
+public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 {
 	public void PurchaseForRealMoney(CatalogItemModel item, Action<CatalogItemModel> onSuccess = null, Action<Error> onError = null)
 	{

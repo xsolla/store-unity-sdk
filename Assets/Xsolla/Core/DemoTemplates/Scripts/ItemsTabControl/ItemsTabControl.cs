@@ -5,16 +5,9 @@ public partial class ItemsTabControl : MonoBehaviour
 {
 	[SerializeField] private MenuButton storeButton;
 	[SerializeField] private MenuButton inventoryButton;
-	[SerializeField] private VirtualCurrencyContainer virtualCurrencyBalance;
 
 	private ItemsController _itemsController;
 	private GroupsController _groupsController;
-
-	private void Awake()
-	{
-		UserCatalog.Instance.UpdateVirtualCurrenciesEvent += virtualCurrencyBalance.SetCurrencies;
-		UserInventory.Instance.UpdateVirtualCurrencyBalanceEvent += virtualCurrencyBalance.SetCurrenciesBalance;
-	}
 
 	public void Init()
 	{

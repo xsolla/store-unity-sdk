@@ -2,23 +2,16 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ItemContainer : MonoBehaviour, IContainer
+public class ItemContainer : MonoBehaviour
 {
-	[SerializeField] GameObject itemPrefab;
 	[SerializeField] Transform itemParent;
 	[SerializeField] Text emptyMessageText;
 
-	private readonly List<ItemUI> _items = new List<ItemUI>();
-	private IDemoImplementation _demoImplementation;
+	private readonly List<GameObject> _items = new List<GameObject>();
 
 	private void Awake()
 	{
 		DisableEmptyContainerMessage();
-	}
-
-	public void SetStoreImplementation(IDemoImplementation demoImplementation)
-	{
-		_demoImplementation = demoImplementation;
 	}
 
 	public bool IsEmpty()
@@ -26,11 +19,24 @@ public class ItemContainer : MonoBehaviour, IContainer
 		return _items.Count == 0;
 	}
 
-	public void AddItem(CatalogItemModel virtualItemInformation)
+	public GameObject AddItem(GameObject itemPrefab)
 	{
-		ItemUI item = Instantiate(itemPrefab, itemParent).GetComponent<ItemUI>();
-		item.Initialize(virtualItemInformation, _demoImplementation);
-		_items.Add(item);
+		var itemObject = Instantiate(itemPrefab, itemParent);
+		_items.Add(itemObject);
+		return itemObject;
+	}
+
+	public void RemoveItem(GameObject itemForRemove)
+	{
+		if (!_items.Contains(itemForRemove)) return;
+		_items.Remove(itemForRemove);
+		Destroy(itemForRemove);
+	}
+
+	public void Clear()
+	{
+		_items.ForEach(Destroy);
+		_items.Clear();
 	}
 
 	public void EnableEmptyContainerMessage(string text = null)
@@ -43,9 +49,5 @@ public class ItemContainer : MonoBehaviour, IContainer
 	private void DisableEmptyContainerMessage()
 	{
 		emptyMessageText.gameObject.SetActive(false);
-	}
-
-	public void Refresh()
-	{
 	}
 }

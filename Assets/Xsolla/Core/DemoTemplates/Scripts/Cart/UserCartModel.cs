@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Xsolla.Store;
 
 public class UserCartModel
 {
@@ -12,21 +11,21 @@ public class UserCartModel
         _items = new List<UserCartItem>();
     }
 
-    private Predicate<UserCartItem> SearchPredicate(StoreItem item) => cartItem => cartItem.Sku.Equals(item.sku);
+    private Predicate<UserCartItem> SearchPredicate(CatalogItemModel item) => cartItem => cartItem.Sku.Equals(item.Sku);
 
-    private UserCartItem FindCartItemBy(StoreItem storeItem) => GetCartItems().Find(SearchPredicate(storeItem));
+    private UserCartItem FindCartItemBy(CatalogItemModel catalogItemModel) => GetCartItems().Find(SearchPredicate(catalogItemModel));
     
-    public UserCartItem GetItem(StoreItem item)
+    public UserCartItem GetItem(CatalogItemModel item)
     {
         return FindCartItemBy(item);
     }
     
-    private bool Exist(StoreItem item)
+    private bool Exist(CatalogItemModel item)
     {
         return _items.Exists(SearchPredicate(item));
     }
 
-    public UserCartItem AddItem(StoreItem item)
+    public UserCartItem AddItem(CatalogItemModel item)
     {
         if (!Exist(item))
         {
@@ -35,7 +34,7 @@ public class UserCartModel
         return GetItem(item);
     }
     
-    public bool RemoveItem(StoreItem item)
+    public bool RemoveItem(CatalogItemModel item)
     {
         if(!Exist(item)) return false;
         UserCartItem cartItem = GetItem(item);
@@ -43,7 +42,7 @@ public class UserCartModel
         return true;
     }
 
-    public UserCartItem IncreaseCountOf(StoreItem item)
+    public UserCartItem IncreaseCountOf(CatalogItemModel item)
     {
         if (!Exist(item)) return null;
         UserCartItem cartItem = GetItem(item);
@@ -51,7 +50,7 @@ public class UserCartModel
         return cartItem;
     }
     
-    public UserCartItem DecreaseCountOf(StoreItem item)
+    public UserCartItem DecreaseCountOf(CatalogItemModel item)
     {
         if (!Exist(item)) return null;
         
@@ -67,11 +66,6 @@ public class UserCartModel
     public List<UserCartItem> GetCartItems()
     {
         return _items;
-    }
-    
-    public List<StoreItem> GetItems()
-    {
-        return GetCartItems().Select(cartItem => cartItem.Item.DeepClone()).ToList();
     }
 
     public void Clear()

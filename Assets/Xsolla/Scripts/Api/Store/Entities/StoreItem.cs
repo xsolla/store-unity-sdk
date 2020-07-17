@@ -37,6 +37,41 @@ namespace Xsolla.Store
 			{
 				public string type;
 				public int value;
+
+				public TimeSpan ToTimeSpan()
+				{
+					var dt = DateTime.Now;
+					switch (type)
+					{
+						case "minute":
+							dt = dt.AddMinutes(value);
+							break;
+						case "hour":
+							dt = dt.AddHours(value);
+							break;
+						case "day":
+							dt = dt.AddDays(value);
+							break;
+						case "week":
+							dt = dt.AddDays(7 * value);
+							break;
+						case "month":
+							dt = dt.AddMonths(value);
+							break;
+						case "year":
+							dt = dt.AddYears(value);
+							break;
+					}
+					return dt - DateTime.Now;
+				}
+
+				public override string ToString()
+				{
+					var result = $"{value} {type}";
+					if (value > 1)
+						result += "s";
+					return result;
+				}
 			}
 			public ConsumableOption consumable;
 			public ExpirationPeriod expiration_period;

@@ -29,7 +29,7 @@ public class UserCart : MonoSingleton<UserCart>
         }, ShowError);
     }
 
-    public void AddItem(StoreItem item)
+    public void AddItem(CatalogItemModel item)
     {
         UserCartItem cartItem = _cart.AddItem(item);
         if (cartItem != null)
@@ -38,14 +38,14 @@ public class UserCart : MonoSingleton<UserCart>
         }
     }
 
-    public void RemoveItem(StoreItem item)
+    public void RemoveItem(CatalogItemModel item)
     {
         UserCartItem cartItem = _cart.GetItem(item);
         if(!_cart.RemoveItem(item)) return;
         RemoveItemEvent?.Invoke(cartItem);
     }
 
-    public void IncreaseCountOf(StoreItem item)
+    public void IncreaseCountOf(CatalogItemModel item)
     {
         UserCartItem cartItem = _cart.IncreaseCountOf(item);
         if (cartItem != null)
@@ -54,7 +54,7 @@ public class UserCart : MonoSingleton<UserCart>
         }
     }
     
-    public void DecreaseCountOf(StoreItem item)
+    public void DecreaseCountOf(CatalogItemModel item)
     {
         UserCartItem cartItem = _cart.DecreaseCountOf(item);
         if (cartItem == null) return;
@@ -68,21 +68,11 @@ public class UserCart : MonoSingleton<UserCart>
         }
     }
 
-    public bool Contains(StoreItem item)
-    {
-        return _cart.GetItems().Exists(i => i.sku.Equals(item.sku));
-    }
-
     public List<UserCartItem> GetCartItems()
     {
         return _cart.GetCartItems();
     }
     
-    public List<StoreItem> GetItems()
-    {
-        return _cart.GetItems();
-    }
-
     public void Clear()
     {
         _cart.Clear();
@@ -115,7 +105,7 @@ public class UserCart : MonoSingleton<UserCart>
     
     public void Purchase(Action onSuccess = null, Action<Error> onError = null)
     {
-        if (!GetItems().Any()) return;
+        if (!GetCartItems().Any()) return;
         XsollaStore.Instance.ClearCart(XsollaSettings.StoreProjectId, _cartEntity.cart_id, () =>
         {
             List<UserCartItem> items = GetCartItems();
@@ -130,7 +120,7 @@ public class UserCart : MonoSingleton<UserCart>
         items.ForEach(i =>
         {
             XsollaStore.Instance.UpdateItemInCart(
-                XsollaSettings.StoreProjectId, _cartEntity.cart_id, i.Item.sku, i.Quantity, () => {
+                XsollaSettings.StoreProjectId, _cartEntity.cart_id, i.Sku, i.Quantity, () => {
                     addItemRequestsLeft--;
                 }, error => {
                     addItemRequestsLeft--;
