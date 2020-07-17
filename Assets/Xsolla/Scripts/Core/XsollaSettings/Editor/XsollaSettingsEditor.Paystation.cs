@@ -6,7 +6,7 @@ namespace Xsolla.Core
 {
 	public partial class XsollaSettingsEditor : UnityEditor.Editor
 	{
-		private static void XsollaPaystationSettings()
+		private static bool XsollaPaystationSettings()
 		{
 			using (new EditorGUILayout.VerticalScope("box"))
 			{
@@ -17,6 +17,7 @@ namespace Xsolla.Core
 			}
       
 			EditorGUILayout.Space();
+            return false;
 		}
 	}
 }
