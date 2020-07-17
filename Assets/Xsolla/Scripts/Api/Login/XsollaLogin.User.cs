@@ -77,6 +77,9 @@ namespace Xsolla.Login
 			string proxy = XsollaSettings.UseProxy ? "proxy/" : string.Empty;
 			string url = GetUrl(URL_USER_SIGNIN, proxy);
 
+			var tokenInvalidationFlag = XsollaSettings.JwtTokenInvalidationEnabled ? "&with_logout=1" : "&with_logout=0";
+			url += tokenInvalidationFlag;
+
 			WebRequestHelper.Instance.PostRequest<LoginResponse, LoginJson>(url, loginData, (response) => {
 				Token = ParseUtils.ParseToken(response.login_url);
 				onSuccess?.Invoke();

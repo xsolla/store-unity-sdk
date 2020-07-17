@@ -15,9 +15,26 @@ public class SavedTokenAuth : MonoBehaviour, ILoginAuthorization
 	private void Start()
 	{
 		if (XsollaLogin.Instance.LoadToken(Constants.LAST_SUCCESS_AUTH_TOKEN, out var token))
-			OnSuccess?.Invoke(token);
+			ValidateSavedToken(token);
 		else
 			OnFailed?.Invoke();
 		Destroy(this, 0.1F);
+	}
+
+	private void ValidateSavedToken(string token)
+	{
+		Action<UserInfo> onValidationSuccess = _ =>
+		{
+			Debug.Log("Saved token validation success");
+			OnSuccess?.Invoke(token);
+		};
+
+		Action<Error> onValidationError = _ =>
+		{
+			Debug.Log("Saved token validation error (probably expired)");
+			OnFailed?.Invoke();
+		};
+
+		XsollaLogin.Instance.GetUserInfo(token, onValidationSuccess, onValidationError);
 	}
 }
