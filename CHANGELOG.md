@@ -4,7 +4,7 @@
 
 ### Added 
 - The ability of native authentication via social networks.
-- The ability invalidation token. 
+- The ability of invalidation token. 
 
 
 ## [0.5.1.2] - 2020-06-09 
