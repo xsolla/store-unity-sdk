@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -93,6 +94,7 @@ public class LoginPage : Page, ILogin
 
     private void SuccessAuthorization(string token, Action<Token> success = null)
 	{
+        token = token.Split('&').First();
         ValidateToken(token, () => {
             XsollaLogin.Instance.Token = token;
             success?.Invoke(XsollaLogin.Instance.Token);
