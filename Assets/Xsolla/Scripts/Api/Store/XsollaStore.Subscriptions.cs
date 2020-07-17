@@ -7,7 +7,7 @@ namespace Xsolla.Store
 {
 	public partial class XsollaStore : MonoSingleton<XsollaStore>
 	{
-		private const string URL_GET_SUBSCRIPTIONS = "https://store.xsolla.com/api/v2/project/{0}/user/subscriptions";
+		private const string URL_GET_SUBSCRIPTIONS = BASE_STORE_API_URL + "/user/subscriptions";
 
 		/// <summary>
 		/// Retrieves the current user’s subscriptions.

@@ -9,9 +9,9 @@ namespace Xsolla.Store
 {
 	public partial class XsollaStore : MonoSingleton<XsollaStore>
 	{
-		private const string URL_CATALOG_GET_ITEMS = "https://store.xsolla.com/api/v2/project/{0}/items/virtual_items";
-		private const string URL_CATALOG_GET_ITEMS_IN_GROUP = "https://store.xsolla.com/api/v2/project/{0}/items/virtual_items/group/{1}";
-		private const string URL_CATALOG_GET_GROUPS = "https://store.xsolla.com/api/v2/project/{0}/items/groups";
+		private const string URL_CATALOG_GET_ITEMS = BASE_STORE_API_URL + "/items/virtual_items";
+		private const string URL_CATALOG_GET_ITEMS_IN_GROUP = BASE_STORE_API_URL + "/items/virtual_items/group/{1}";
+		private const string URL_CATALOG_GET_GROUPS = BASE_STORE_API_URL + "/items/groups";
 
 		/// <summary>
 		/// Returns all items in catalog.

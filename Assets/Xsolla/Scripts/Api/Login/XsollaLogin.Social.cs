@@ -1,8 +1,6 @@
 ﻿using System;
-using UnityEngine;
+using System.Linq;
 using Xsolla.Core;
-using System.Net;
-using System.Net.Sockets;
 
 namespace Xsolla.Login
 {
@@ -11,7 +9,8 @@ namespace Xsolla.Login
 		/// <summary>
 		/// Temporary Steam auth endpoint. Will be changed later.
 		/// </summary>
-		private const string URL_STEAM_CROSSAUTH = "https://livedemo.xsolla.com/sdk/token/steam";
+		private const string URL_STEAM_CROSSAUTH = 
+			"https://login.xsolla.com/api/social/steam/cross_auth?projectId={0}&app_id={1}&session_ticket={2}&is_redirect=false";
 
 		private const string URL_SOCIAL_AUTH =
 			"https://login.xsolla.com/api/social/{1}/login_redirect?projectId={0}";
@@ -30,11 +29,20 @@ namespace Xsolla.Login
 		/// <param name="onError">Failed operation callback.</param>
 		public void SteamAuth(string appId, string sessionTicket, Action<string> onSuccess = null, Action<Error> onError = null)
 		{
-			string url = URL_STEAM_CROSSAUTH;
-			url += "?projectId=" + XsollaSettings.LoginId;
-			url += "&app_id=" + appId;
-			url += "&session_ticket=" + sessionTicket;
-			WebRequestHelper.Instance.GetRequest<TokenEntity>(url, null, token => onSuccess?.Invoke(token.token), onError);
+			var url = string.Format(URL_STEAM_CROSSAUTH, XsollaSettings.LoginId, appId, sessionTicket);
+			WebRequestHelper.Instance.GetRequest<CrossAuthResponse>(url, null, response =>
+			{
+				string[] separator = {"token="};
+				var parts = response.login_url.Split(separator, StringSplitOptions.None).ToList();
+				if (parts.Count > 1)
+				{
+					onSuccess?.Invoke(parts.Last());
+				}
+				else
+				{
+					onError?.Invoke(Error.UnknownError);
+				}
+			}, onError);
 		}
 
 		/// <summary>
