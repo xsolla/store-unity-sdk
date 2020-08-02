@@ -8,7 +8,8 @@ public class AttributeItemsManager : MonoBehaviour
 {
 #pragma warning disable 0649
 	[SerializeField] GameObject AttributeItemPrefab;
-	[SerializeField] Transform AttributesParentTransform;
+	[SerializeField] Transform CustomAttributesParentTransform;
+	[SerializeField] Transform ReadOnlyAttributesParentTransform;
 	[SerializeField] SimpleButton NewButton;
 	[SerializeField] SimpleButton SaveButton;
 #pragma warning restore 0649
@@ -16,7 +17,7 @@ public class AttributeItemsManager : MonoBehaviour
 	private const string CUSTOM_ATTRIBUTE_KEY = "CustomAttribute";
 	private const string CUSTOM_ATTRIBUTE_VALUE = "Custom value";
 
-	private Dictionary<string, AttributeItem> _readOnlyAttributes;
+	private List<AttributeItem> _readOnlyAttributes;
 	private Dictionary<string, AttributeItem> _customAttributes;
 	private List<string> _removedAttributes;
 	private bool _isInitialized;
@@ -26,8 +27,8 @@ public class AttributeItemsManager : MonoBehaviour
 
 	private void Awake()
 	{
-		NewButton.onClick = AddNewAttribute;
-		SaveButton.onClick = SaveAttributes;
+		NewButton.onClick += AddNewAttribute;
+		SaveButton.onClick += SaveAttributes;
 
 		AttributeItem.OnKeyChanged += HandleKeyChanged;
 		AttributeItem.OnValueChanged += HandleValueChanged;
@@ -46,13 +47,13 @@ public class AttributeItemsManager : MonoBehaviour
 	public void Initialize(List<UserAttribute> userReadOnlyAttributes = null, List<UserAttribute> userCustomAttributes = null)
 	{
 		if (userReadOnlyAttributes != null)
-			_readOnlyAttributes = InstantiateAndPackAttributes(userReadOnlyAttributes, isReadOnly: true);
+			_readOnlyAttributes = InstantiateReadOnlyAttributes(userReadOnlyAttributes);
 
 		if (userCustomAttributes != null)
-			_customAttributes = InstantiateAndPackAttributes(userCustomAttributes, isReadOnly: false);
+			_customAttributes = InstantiateCustomAttributes(userCustomAttributes);
 
 		if (_readOnlyAttributes == null)
-			_readOnlyAttributes = new Dictionary<string, AttributeItem>();
+			_readOnlyAttributes = new List<AttributeItem>();
 
 		if (_customAttributes == null)
 			_customAttributes = new Dictionary<string, AttributeItem>();
@@ -60,29 +61,43 @@ public class AttributeItemsManager : MonoBehaviour
 		_isInitialized = true;
 	}
 
-	private Dictionary<string, AttributeItem> InstantiateAndPackAttributes(List<UserAttribute> userAttributes, bool isReadOnly)
+	private List<AttributeItem> InstantiateReadOnlyAttributes(List<UserAttribute> userAttributes)
+	{
+		var result = new List<AttributeItem>(capacity: userAttributes.Count);
+
+		foreach (var attribute in userAttributes)
+		{
+			var attributeItem = InstantiateAttribute(attribute, isReadOnly: true, parentTransform: ReadOnlyAttributesParentTransform);
+			result.Add(attributeItem);
+		}
+
+		return result;
+	}
+
+	private Dictionary<string, AttributeItem> InstantiateCustomAttributes(List<UserAttribute> userAttributes)
 	{
 		var result = new Dictionary<string, AttributeItem>(capacity: userAttributes.Count);
 
 		foreach (var attribute in userAttributes)
 		{
-			var attributeItemObject = Instantiate<GameObject>(AttributeItemPrefab, AttributesParentTransform);
-			var attributeItem = attributeItemObject.GetComponent<AttributeItem>();
-			
-			attributeItem.IsReadOnly = isReadOnly;
-			attributeItem.IsPublic = attribute.permission != "private";
-			attributeItem.Key = attribute.key;
-			attributeItem.Value = attribute.value;
-
-			var newKey = attribute.key;
-
-			if (result.ContainsKey(newKey))
-				Debug.LogError($"AttributeItemsManager.InstantiateAndPackAttributes: Duplicated key. Key:{newKey}");
-
-			result[newKey] = attributeItem;
+			var attributeItem = InstantiateAttribute(attribute, isReadOnly: false, parentTransform: CustomAttributesParentTransform);
+			result[attributeItem.Key] = attributeItem;
 		}
 
 		return result;
+	}
+
+	private AttributeItem InstantiateAttribute(UserAttribute userAttribute, bool isReadOnly, Transform parentTransform)
+	{
+		var attributeItemObject = Instantiate<GameObject>(AttributeItemPrefab, parentTransform);
+		var attributeItem = attributeItemObject.GetComponent<AttributeItem>();
+
+		attributeItem.IsReadOnly = isReadOnly;
+		attributeItem.IsPublic = userAttribute.permission != "private";
+		attributeItem.Key = userAttribute.key;
+		attributeItem.Value = userAttribute.value;
+
+		return attributeItem;
 	}
 
 	private void HandleKeyChanged(AttributeItem attributeItem, string oldKey, string newKey)
@@ -97,7 +112,7 @@ public class AttributeItemsManager : MonoBehaviour
 			Debug.Log($"AttributeItemsManager.HandleKeyChanged: New key does not follow rules MaxLength:256 Pattern:[A-Za-z0-9_]+ OldKey:{oldKey} NewKey:{newKey}");
 			attributeItem.Key = oldKey;
 		}
-		else if (_readOnlyAttributes.ContainsKey(newKey) || _customAttributes.ContainsKey(newKey))
+		else if (_customAttributes.ContainsKey(newKey))
 		{
 			Debug.Log($"AttributeItemsManager.HandleKeyChanged: This key already exists. Key:{newKey}");
 			attributeItem.Key = oldKey;
@@ -167,7 +182,7 @@ public class AttributeItemsManager : MonoBehaviour
 			customKey = $"{CUSTOM_ATTRIBUTE_KEY}_{customCount}";
 		}
 
-		var attributeItemObject = Instantiate<GameObject>(AttributeItemPrefab, AttributesParentTransform);
+		var attributeItemObject = Instantiate<GameObject>(AttributeItemPrefab, CustomAttributesParentTransform);
 		var attributeItem = attributeItemObject.GetComponent<AttributeItem>();
 
 		attributeItem.IsReadOnly = false;
@@ -191,7 +206,7 @@ public class AttributeItemsManager : MonoBehaviour
 		}
 
 		var modifiedAttributes = new List<UserAttribute>();
-		var garbageAttributes = new List<AttributeItem>();
+		var garbageAttributeItems = new List<AttributeItem>();
 
 		foreach (var pair in _customAttributes)
 		{
@@ -199,7 +214,7 @@ public class AttributeItemsManager : MonoBehaviour
 			
 			if (attribute.IsNew && !attribute.IsModified)
 			{
-				garbageAttributes.Add(attribute);
+				garbageAttributeItems.Add(attribute);
 			}
 			else if (attribute.IsModified)
 			{
@@ -215,7 +230,7 @@ public class AttributeItemsManager : MonoBehaviour
 			}
 		}
 
-		foreach (var garbage in garbageAttributes)
+		foreach (var garbage in garbageAttributeItems)
 		{
 			_customAttributes.Remove(garbage.Key);
 			Destroy(garbage.gameObject);

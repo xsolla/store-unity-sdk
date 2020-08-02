@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using Xsolla.Core;
@@ -8,6 +8,7 @@ namespace Xsolla.Login
 	public partial class XsollaLogin : MonoSingleton<XsollaLogin>
 	{
 		private const string URL_USER_GET_ATTRIBUTES = "https://login.xsolla.com/api/attributes/users/me/get";
+		private const string URL_USER_GET_READONLY_ATTRIBUTES = "https://login.xsolla.com/api/attributes/users/me/get_read_only";
 		private const string URL_USER_UPDATE_ATTRIBUTES = "https://login.xsolla.com/api/attributes/users/me/update";
 
 		/// <summary>
@@ -17,13 +18,14 @@ namespace Xsolla.Login
 		/// <see cref="https://developers.xsolla.com/login-api/attributes/get-user-attributes-from-client"/>
 		/// <param name="token">JWT from Xsolla Login.</param>
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
-		/// <param name="attributeKeys">Attributes names list.</param>
+		/// <param name="attributeKeys">Attributes names list filter</param>
 		/// <param name="userId">Login user id. Can be null, because this info exist in token.</param>
+		/// <param name="attributeType">User attribute type to get</param>
 		/// <param name="onSuccess">Success operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		/// <seealso cref="UpdateUserAttributes"/>
 		/// <seealso cref="RemoveUserAttributes"/>
-		public void GetUserAttributes(string token, string projectId, List<string> attributeKeys, string userId, [NotNull] Action<List<UserAttribute>> onSuccess, [CanBeNull] Action<Error> onError)
+		public void GetUserAttributes(string token, string projectId, UserAttributeType attributeType, [CanBeNull] List<string> attributeKeys, [CanBeNull] string userId, [NotNull] Action<List<UserAttribute>> onSuccess, [CanBeNull] Action<Error> onError)
 		{
 			var getAttributesRequestBody = new GetAttributesJson(attributeKeys, projectId, userId);
 			
@@ -31,7 +33,19 @@ namespace Xsolla.Login
 			headers.Add(WebRequestHeader.AuthHeader(token));
 			headers.Add(WebRequestHeader.ContentTypeHeader());
 			
-			WebRequestHelper.Instance.PostRequest(URL_USER_GET_ATTRIBUTES, getAttributesRequestBody, headers, onSuccess, onError);
+			string url = default(string);
+
+			switch (attributeType)
+			{
+				case UserAttributeType.CUSTOM:
+					url = URL_USER_GET_ATTRIBUTES;
+					break;
+				case UserAttributeType.READONLY:
+					url = URL_USER_GET_READONLY_ATTRIBUTES;
+					break;
+			}
+
+			WebRequestHelper.Instance.PostRequest(url, getAttributesRequestBody, headers, onSuccess, onError);
 		}
 
 		/// <summary>
