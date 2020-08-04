@@ -6,28 +6,28 @@ using UnityEngine.UI;
 using Xsolla.Core;
 using Xsolla.Login;
 
-public class OneSocialAuth : MonoBehaviour, ILoginAuthorization
+public class OneSocialAuth : MonoBehaviour, ISocialAuthorization
 {
 	public Action<string> OnSuccess { get; set; }
 	public Action OnFailed { get; set; }
 
 	[SerializeField]
 	private SocialProvider provider;
-	[SerializeField]
-	private bool invalidateUserOldJwt;
 	
 	private Button _authButton;
 
 	private void Start()
 	{
-#if !UNITY_STANDALONE && !UNITY_EDITOR
-		gameObject.SetActive(false);
-#else
+#if UNITY_STANDALONE || UNITY_EDITOR
 		_authButton = GetComponent<Button>();
+#else
+		gameObject.SetActive(false);
+#endif
 	}
 
 	public void Enable()
 	{
+#if UNITY_STANDALONE || UNITY_EDITOR
 		if (_authButton != null)
 		{
 			_authButton.onClick.AddListener(SocialNetworkAuth);
@@ -39,7 +39,7 @@ public class OneSocialAuth : MonoBehaviour, ILoginAuthorization
 		if(HotkeyCoroutine.IsLocked()) return;
 		HotkeyCoroutine.Lock();
 
-		string url = XsollaLogin.Instance.GetSocialNetworkAuthUrl(provider, invalidateUserOldJwt);
+		string url = XsollaLogin.Instance.GetSocialNetworkAuthUrl(provider);
 		Debug.Log($"Social url: {url}");
 		BrowserHelper.Instance.Open(url, true);
 		var singlePageBrowser = BrowserHelper.Instance.GetLastBrowser();

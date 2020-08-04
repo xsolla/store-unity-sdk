@@ -10,7 +10,9 @@ namespace Xsolla.Core
 		const string LoginIdTooltip = "Login ID from your Publisher Account.";
 		const string CallbackUrlTooltip = "URL to redirect the user to after registration/authentication/password reset. " +
 		                                  "Must be identical to Callback URL specified in Publisher Account in Login settings. Required if there are several Callback URLs.";
-		
+		const string JwtInvalidationTooltip = "Each time a user logs in, their previous JWT token becomes invalid.";
+
+
 		private bool XsollaLoginSettings()
 		{
 			bool changed = false;
@@ -34,6 +36,12 @@ namespace Xsolla.Core
 				if (callback != XsollaSettings.CallbackUrl)
 				{
 					XsollaSettings.CallbackUrl = callback;
+					changed = true;
+				}
+				var jwtTokenInvalidationEnabled = EditorGUILayout.Toggle(new GUIContent("Enable JWT invalidation? [?]", JwtInvalidationTooltip), XsollaSettings.JwtTokenInvalidationEnabled);
+				if (jwtTokenInvalidationEnabled != XsollaSettings.JwtTokenInvalidationEnabled)
+				{
+					XsollaSettings.JwtTokenInvalidationEnabled = jwtTokenInvalidationEnabled;
 					changed = true;
 				}
 			}

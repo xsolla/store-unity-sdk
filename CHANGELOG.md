@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.2.0] - 2020-07-17 
+
+### Added 
+- The ability of native authentication via social networks.
+- The ability of invalidation token. 
+
+
 ## [0.5.1.2] - 2020-06-09 
 
 ### Added 

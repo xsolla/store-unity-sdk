@@ -25,3 +25,7 @@ MonoBehaviour:
   paystationTheme: 1
   payStationTokenRequestUrl: https://livedemo.xsolla.com/sdk/token/paystation_demo/
   inAppBrowserEnabled: 1
+  facebookAppId: 
+  googleServerId: 
+  useDeepLinking: 0
+  deepLinkRedirectUrl: 

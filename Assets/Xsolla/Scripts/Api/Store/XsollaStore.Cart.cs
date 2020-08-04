@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using JetBrains.Annotations;
 using Xsolla.Core;
@@ -7,11 +8,12 @@ namespace Xsolla.Store
 {
 	public partial class XsollaStore : MonoSingleton<XsollaStore>
 	{
-		private const string URL_CART_CREATE_NEW = "https://store.xsolla.com/api/v2/project/{0}/cart";
-		private const string URL_CART_ITEM_UPDATE = "https://store.xsolla.com/api/v2/project/{0}/cart/{1}/item/{2}";
-		private const string URL_CART_ITEM_REMOVE = "https://store.xsolla.com/api/v2/project/{0}/cart/{1}/item/{2}";
-		private const string URL_CART_GET_ITEMS = "https://store.xsolla.com/api/v2/project/{0}/cart/{1}";
-		private const string URL_CART_CLEAR = "https://store.xsolla.com/api/v2/project/{0}/cart/{1}/clear";
+		private const string URL_CART_CREATE_NEW = BASE_STORE_API_URL + "/cart";
+		private const string URL_CART_ITEM_UPDATE = BASE_STORE_API_URL + "/cart/{1}/item/{2}";
+		private const string URL_CART_ITEM_REMOVE = BASE_STORE_API_URL + "/cart/{1}/item/{2}";
+		private const string URL_CART_GET_ITEMS = BASE_STORE_API_URL + "/cart/{1}";
+		private const string URL_CART_CLEAR = BASE_STORE_API_URL + "/cart/{1}/clear";
+		private const string URL_CART_FILL = BASE_STORE_API_URL + "/cart/fill";
 
 		/// <summary>
 		/// Creates a new cart on the Xsolla side.
@@ -26,6 +28,23 @@ namespace Xsolla.Store
 			var urlBuilder = new StringBuilder(string.Format(URL_CART_CREATE_NEW, projectId)).Append(AdditionalUrlParams);
 
 			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.CreateCartErrors);
+		}
+
+		/// <summary>
+		/// Fills the cart with items. If the cart already has an item,
+		/// the existing item will be replaced by the given value.
+		/// </summary>
+		/// <remarks> Swagger method name:<c>Fills the cart with items</c>.</remarks>
+		/// <see cref="https://developers.xsolla.com/store-api/cart/cart-fill"/>
+		/// <param name="projectId">Project ID from your Publisher Account.</param>
+		/// <param name="items">Items for purchase.</param>
+		/// <param name="onSuccess">Success operation callback.</param>
+		/// <param name="onError">Failed operation callback.</param>
+		public void FillCart(string projectId, List<CartFillItem> items, [NotNull] Action onSuccess, [CanBeNull] Action<Error> onError)
+		{
+			var urlBuilder = new StringBuilder(string.Format(URL_CART_FILL, projectId)).Append(AdditionalUrlParams);
+			CartFillEntity entity = new CartFillEntity {items = items};
+			WebRequestHelper.Instance.PutRequest(urlBuilder.ToString(), entity, WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.CreateCartErrors);
 		}
 
 		/// <summary>
