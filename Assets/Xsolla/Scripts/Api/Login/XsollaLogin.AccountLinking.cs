@@ -84,7 +84,8 @@ namespace Xsolla.Login
 		#endregion
 		public void SignInConsoleAccount(string userId, string platform, Action<string> successCase, Action<Error> failedCase)
 		{
-			string url = URL_USER_CONSOLE_AUTH + "?user_id=" + userId + "&platform=" + platform;
+			var with_logout = XsollaSettings.JwtTokenInvalidationEnabled ? "1" : "0";
+			string url = $"{URL_USER_CONSOLE_AUTH}?user_id={userId}&platform={platform}&with_logout={with_logout}";
 			WebRequestHelper.Instance.GetRequest(url, null, (TokenEntity result) => { successCase?.Invoke(result.token); }, failedCase);
 		}
 
@@ -104,7 +105,7 @@ namespace Xsolla.Login
 			List<WebRequestHeader> headers = new List<WebRequestHeader> {
 				WebRequestHeader.AuthHeader(Token)
 			};
-			string url = URL_LINKING_CODE_REQUEST + "?" + AdditionalUrlParams.TrimStart('&');
+			string url = $"{URL_LINKING_CODE_REQUEST}?{AdditionalUrlParams.TrimStart('&')}";
 			WebRequestHelper.Instance.PostRequest<LinkingCode>(url, headers, onSuccess, onError);
 		}
 
@@ -178,7 +179,7 @@ namespace Xsolla.Login
 		#endregion
 		public void LinkConsoleAccount(string userId, string platform, string confirmationCode, Action onSuccess, Action<Error> onError)
 		{
-			string url = URL_LINK_ACCOUNT + "?user_id=" + userId + "&platform=" + platform + "&code=" + confirmationCode;
+			string url = $"{URL_LINK_ACCOUNT}?user_id={userId}&platform={platform}&code={confirmationCode}";
 			WebRequestHelper.Instance.PostRequest(url, null, onSuccess, onError);
 		}
 	}

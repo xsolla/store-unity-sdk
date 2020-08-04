@@ -9,6 +9,8 @@ namespace Xsolla.Store
 	{
 		public Token Token { get; set; }
 
+		private const string BASE_STORE_API_URL = "https://store.xsolla.com/api/v2/project/{0}";
+		
 		string AdditionalUrlParams
 		{
 			get

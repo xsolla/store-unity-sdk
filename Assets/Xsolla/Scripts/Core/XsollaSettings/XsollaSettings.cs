@@ -16,6 +16,7 @@ namespace Xsolla.Core
 
 		[SerializeField] private string loginId = Constants.DEFAULT_LOGIN_ID;
 		[SerializeField] private bool useProxy;
+		[SerializeField] private bool jwtTokenInvalidationEnabled;
 		[SerializeField] private string callbackUrl;
 		
 		[SerializeField] private bool useSteamAuth = true;
@@ -31,6 +32,9 @@ namespace Xsolla.Core
 		public PaystationTheme paystationTheme = PaystationTheme.Dark;
 		[SerializeField] private string payStationTokenRequestUrl = "https://livedemo.xsolla.com/sdk/token/paystation_demo/";
 		[SerializeField] private bool inAppBrowserEnabled = true;
+
+		[SerializeField] private string facebookAppId;
+		[SerializeField] private string googleServerId;
 
 		[SerializeField] private bool useDeepLinking = false;
 		[SerializeField] private string deepLinkRedirectUrl;
@@ -67,6 +71,16 @@ namespace Xsolla.Core
 			set
 			{
 				Instance.useProxy = value;
+				MarkAssetDirty();
+			}
+		}
+
+		public static bool JwtTokenInvalidationEnabled
+		{
+			get => Instance.jwtTokenInvalidationEnabled;
+			set
+			{
+				Instance.jwtTokenInvalidationEnabled = value;
 				MarkAssetDirty();
 			}
 		}
@@ -151,6 +165,19 @@ namespace Xsolla.Core
 				MarkAssetDirty();
 			}
 		}
+
+		public static string FacebookAppId
+		{
+			get => Instance.facebookAppId;
+			set => Instance.facebookAppId = value;
+		}
+
+		public static string GoogleServerId
+		{
+			get => Instance.googleServerId;
+			set => Instance.googleServerId = value;
+		}
+
 
 		public static bool UseDeepLinking
 		{

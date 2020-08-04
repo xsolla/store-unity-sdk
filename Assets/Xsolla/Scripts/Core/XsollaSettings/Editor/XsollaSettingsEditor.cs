@@ -1,4 +1,4 @@
-﻿using UnityEditor;
+using UnityEditor;
 using Xsolla.Login;
 
 namespace Xsolla.Core
@@ -14,13 +14,11 @@ namespace Xsolla.Core
 
 		public override void OnInspectorGUI()
 		{
-			var changed = XsollaLoginSettings();
-
-			changed = changed || PublishingPlatformSettings();
-
-			changed = changed || XsollaStoreSettings();
-
-			XsollaPaystationSettings();
+			var changed =   XsollaLoginSettings() ||
+                            PublishingPlatformSettings() ||
+			                XsollaStoreSettings() ||
+                            XsollaPaystationSettings() ||
+                            AndroidSDKSettings();
 
 			XsollaAndroidSettings();
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -64,7 +65,8 @@ public class LoginPage : Page, ILogin
     {
         TryBasicAuth();
 
-        TryAuthBy<SocialAuth>(null, token => XsollaLogin.Instance.SaveToken(Constants.LAST_SUCCESS_AUTH_TOKEN, token));
+        TryAuthBy<SocialAuth>(onFailed: () => OnUnsuccessfulLogin?.Invoke(new Error(errorMessage:"Social auth failed")),
+                            success: token => XsollaLogin.Instance.SaveToken(Constants.LAST_SUCCESS_AUTH_TOKEN, token));
     }
 
     private void TryBasicAuth()
@@ -92,6 +94,7 @@ public class LoginPage : Page, ILogin
 
     private void SuccessAuthorization(string token, Action<Token> success = null)
 	{
+        token = token.Split('&').First();
         ValidateToken(token, () => {
             XsollaLogin.Instance.Token = token;
             success?.Invoke(XsollaLogin.Instance.Token);
