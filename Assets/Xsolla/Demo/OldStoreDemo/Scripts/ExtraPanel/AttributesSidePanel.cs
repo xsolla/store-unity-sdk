@@ -15,16 +15,16 @@ public class AttributesSidePanel : MonoBehaviour
 	private void Awake()
 	{
 		_items = new List<GameObject>();
-		UserAttributes.Instance.AttributesChangedEvent += SetAttributes;
+		OldUserAttributes.Instance.AttributesChangedEvent += SetAttributes;
 	}
 	
-	private void SetAttributes(List<UserAttributeModel> attributes)
+	private void SetAttributes(List<OldUserAttributeModel> attributes)
 	{
 		ClearItems();
 		attributes.ForEach(AddAttributeItem);
 	}
 	
-	private void AddAttributeItem(UserAttributeModel attribute)
+	private void AddAttributeItem(OldUserAttributeModel attribute)
 	{
 		GameObject newItem = Instantiate(attributeItemPrefab, itemParent);
 		_items.Add(newItem);

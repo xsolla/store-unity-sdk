@@ -11,7 +11,7 @@ public class AttributesSidePanelItem : MonoBehaviour
 	[SerializeField]
 	Text attributeValue;
 	
-	public void Initialize(UserAttributeModel itemInformation)
+	public void Initialize(OldUserAttributeModel itemInformation)
 	{
 		attributeKey.text = itemInformation.key;
 		attributeValue.text = itemInformation.value;

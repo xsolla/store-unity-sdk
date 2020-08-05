@@ -73,6 +73,11 @@ public class SimpleButton : MonoBehaviour, ISimpleButton
 			i.sprite = sprite;
 	}
 
+	protected void SetImageSprite(Sprite sprite)
+	{
+		SetImageSprite(image, sprite);
+	}
+
 	protected virtual void OnNormal()
 	{
 		SetImageSprite(image, normalStateSprite);
