@@ -4,17 +4,15 @@ using UnityEngine.UI;
 
 public class CartControls : MonoBehaviour
 {
-	[SerializeField]
-	SimpleTextButton buyButton;
+	[SerializeField] private SimpleTextButton buyButton;
+	[SerializeField] private SimpleButton clearCartButton;
 	
-	[SerializeField]
-	SimpleButton clearCartButton;
-	
-	[SerializeField]
-	Text priceText;
-	
-	[SerializeField]
-	GameObject LoaderPrefab;
+	[SerializeField] private Text totalPriceText;
+	[SerializeField] private Text subtotalPriceText;
+	[SerializeField] private Text discountPriceText;
+	[SerializeField] private Text subtotalLabelText;
+	[SerializeField] private Text discountLabelText;
+	[SerializeField] private GameObject loaderPrefab;
 
 	private GameObject _loaderObject;
 
@@ -26,6 +24,11 @@ public class CartControls : MonoBehaviour
 		set => clearCartButton.onClick = value;
 	}
 
+	private void Start()
+	{
+		HideDiscount();
+	}
+
 	public bool IsBuyButtonLocked()
 	{
 		return buyButton.IsLocked();
@@ -34,8 +37,8 @@ public class CartControls : MonoBehaviour
 	public void LockBuyButton()
 	{
 		buyButton.Lock();
-		if (LoaderPrefab != null) {
-			_loaderObject = Instantiate(LoaderPrefab, buyButton.transform);
+		if (loaderPrefab != null) {
+			_loaderObject = Instantiate(loaderPrefab, buyButton.transform);
 		}
 	}
 
@@ -48,8 +51,35 @@ public class CartControls : MonoBehaviour
 		_loaderObject = null;
 	}
 
-	public void Initialize(float price)
+	public void Initialize(float totalPrice, bool showDiscount = false, float discount = 0F)
 	{
-		priceText.text = "$" + price.ToString("F2");
+		totalPriceText.text = GetFormattedPrice(totalPrice);
+		if(showDiscount)
+			ShowDiscount(discount, totalPrice + discount);
+		else
+			HideDiscount();
+	}
+
+	private void HideDiscount()
+	{
+		subtotalLabelText.gameObject.SetActive(false);
+		subtotalPriceText.gameObject.SetActive(false);
+		discountLabelText.gameObject.SetActive(false);
+		discountPriceText.gameObject.SetActive(false);
+	}
+
+	private void ShowDiscount(float discount, float subtotal)
+	{
+		subtotalLabelText.gameObject.SetActive(true);
+		subtotalPriceText.gameObject.SetActive(true);
+		discountLabelText.gameObject.SetActive(true);
+		discountPriceText.gameObject.SetActive(true);
+		discountPriceText.text = $"-{GetFormattedPrice(discount)}";
+		subtotalPriceText.text = GetFormattedPrice(subtotal);
+	}
+
+	private string GetFormattedPrice(float price)
+	{
+		return $"${price:F2}";
 	}
 }

@@ -95,12 +95,12 @@ public class InventoryItemUI : MonoBehaviour
 		if (timeLeft.TotalDays >= 30)
 			return $"{(int)(timeLeft.TotalDays / 30)} month{(timeLeft.TotalDays > 60 ? "s" : "")} remaining";
 		if (timeLeft.TotalDays > 1)
-			return $"{timeLeft.TotalDays} day{(timeLeft.TotalDays > 1 ? "s" : "")} remaining";
+			return $"{(uint)(timeLeft.TotalDays)} day{(timeLeft.TotalDays > 1 ? "s" : "")} remaining";
 		if (timeLeft.TotalHours > 1)
-			return $"{timeLeft.TotalHours} hour{(timeLeft.TotalHours > 1 ? "s" : "")} remaining";
+			return $"{(uint)(timeLeft.TotalHours)} hour{(timeLeft.TotalHours > 1 ? "s" : "")} remaining";
 		if (timeLeft.TotalMinutes > 1)
-			return $"{timeLeft.TotalMinutes} minute{(timeLeft.TotalMinutes > 1 ? "s" : "")} remaining";
-		return $"{timeLeft.TotalSeconds} second{(timeLeft.TotalSeconds > 1 ? "s" : "")} remaining";
+			return $"{(uint)(timeLeft.TotalMinutes)} minute{(timeLeft.TotalMinutes > 1 ? "s" : "")} remaining";
+		return $"{(uint)(timeLeft.TotalSeconds)} second{(timeLeft.TotalSeconds > 1 ? "s" : "")} remaining";
 	}
 
 	private IEnumerator RemainingTimeCoroutine(float waitSeconds)

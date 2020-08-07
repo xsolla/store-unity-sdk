@@ -30,7 +30,6 @@ public class DemoController : MonoSingleton<DemoController>, IMenuStateMachine
 
     protected override void OnDestroy()
     {
-        base.OnDestroy();
         if (UserCatalog.IsExist)
             Destroy(UserCatalog.Instance.gameObject);
         if (UserInventory.IsExist)
@@ -43,6 +42,9 @@ public class DemoController : MonoSingleton<DemoController>, IMenuStateMachine
             Destroy(UserAttributes.Instance.gameObject);
         if (UserSubscriptions.IsExist)
             Destroy(UserSubscriptions.Instance.gameObject);
+        if(PopupFactory.IsExist)
+            Destroy(PopupFactory.Instance.gameObject);
+        base.OnDestroy();
     }
 
     public IDemoImplementation GetImplementation()

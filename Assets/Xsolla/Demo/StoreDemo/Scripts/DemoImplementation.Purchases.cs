@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Xsolla.Core;
 using Xsolla.Store;
@@ -13,8 +14,8 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 			XsollaStore.Instance.OpenPurchaseUi(data);
 			XsollaStore.Instance.ProcessOrder(XsollaSettings.StoreProjectId, data.order_id, () =>
 			{
-				UserInventory.Instance.Refresh();
-				StoreDemoPopup.ShowSuccess();
+				PurchaseComplete(item);
+				onSuccess?.Invoke(item);
 			}, WrapErrorCallback(onError));
 		}, WrapErrorCallback(onError));
 	}
@@ -28,17 +29,54 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 				item.Sku, 
 				item.VirtualPrice?.Key, _ =>
 				{
-					PurchaseForVirtualCurrencyComplete(item);
+					PurchaseComplete(item);
+					onSuccess?.Invoke(item);
 				}, WrapErrorCallback(onError));
 		});
 	}
 
-	private void PurchaseForVirtualCurrencyComplete(CatalogItemModel item)
+	public void PurchaseCart(List<UserCartItem> items, Action<List<UserCartItem>> onSuccess, Action<Error> onError = null)
 	{
-		if (item.IsVirtualCurrency())
+		if (!items.Any()) return;
+		XsollaStore.Instance.CreateNewCart(XsollaSettings.StoreProjectId, newCart =>
 		{
-			UserInventory.Instance.Refresh();
-		}
-		StoreDemoPopup.ShowSuccess($"You are purchased '{item.Name}'");
+			XsollaStore.Instance.ClearCart(XsollaSettings.StoreProjectId, newCart.cart_id, () =>
+			{
+				var cartItems = items.Select(i => new CartFillItem
+				{
+					sku = i.Sku,
+					quantity = i.Quantity
+				}).ToList();
+				XsollaStore.Instance.FillCart(XsollaSettings.StoreProjectId, cartItems, () =>
+				{
+					XsollaStore.Instance.CartPurchase(XsollaSettings.StoreProjectId, newCart.cart_id, data =>
+					{
+						XsollaStore.Instance.OpenPurchaseUi(data);
+						XsollaStore.Instance.ProcessOrder(XsollaSettings.StoreProjectId, data.order_id, () =>
+						{
+							PurchaseComplete();
+							onSuccess?.Invoke(items);
+							UserCart.Instance.Clear();
+						}, WrapErrorCallback(onError));
+					}, WrapErrorCallback(onError));
+				}, WrapErrorCallback(onError));
+			}, WrapErrorCallback(onError));
+		}, WrapErrorCallback(onError));
+	}
+
+	private static void PurchaseComplete(CatalogItemModel item = null)
+	{
+		UserInventory.Instance.Refresh();
+		CloseInGameBrowserIfExist();
+		if(item != null)
+			StoreDemoPopup.ShowSuccess($"You are purchased '{item.Name}'");
+		else
+			StoreDemoPopup.ShowSuccess();
+	}
+	
+	private static void CloseInGameBrowserIfExist()
+	{
+		if(BrowserHelper.Instance.GetLastBrowser() != null)
+			Destroy(BrowserHelper.Instance, 0.1F);
 	}
 }

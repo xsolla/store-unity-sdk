@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class InventoryMenuController : MonoBehaviour
 {
+	private const string ALL_ITEMS_GROUP = "ALL";
+	
 	[SerializeField] private GameObject itemPrefab;
 	[SerializeField] private ItemContainer itemsContainer;
 	[SerializeField] private GroupsController groupsController;
@@ -25,30 +27,31 @@ public class InventoryMenuController : MonoBehaviour
 
 	private void PutItemsToContainer(string groupName)
 	{
-		var items = new List<ItemModel>();
-		UserInventory.Instance.AllItems.ForEach(i =>
-		{
-			if(i.IsVirtualCurrency()) return;
-			if (i.IsSubscription())
+		var items = (groupName.Equals(ALL_ITEMS_GROUP))
+			? UserInventory.Instance.AllItems
+			: UserInventory.Instance.AllItems.Where(i =>
 			{
-				if (!UserCatalog.Instance.Subscriptions.Any(sub => sub.Sku.Equals(i.Sku)))
+				if(i.IsVirtualCurrency()) return false;
+				if (i.IsSubscription())
 				{
-					Debug.LogError($"User subscription with sku = '{i.Sku}' have not equal catalog item!");
-					return;
+					if (!UserCatalog.Instance.Subscriptions.Any(sub => sub.Sku.Equals(i.Sku)))
+					{
+						Debug.LogError($"User subscription with sku = '{i.Sku}' have not equal catalog item!");
+						return false;
+					}
 				}
-			}
-			else
-			{
-				if (!UserCatalog.Instance.VirtualItems.Any(cat => cat.Sku.Equals(i.Sku)))
+				else
 				{
-					Debug.LogError($"Inventory item with sku = '{i.Sku}' have not equal catalog item!");
-					return;
+					if (!UserCatalog.Instance.VirtualItems.Any(cat => cat.Sku.Equals(i.Sku)))
+					{
+						Debug.LogError($"Inventory item with sku = '{i.Sku}' have not equal catalog item!");
+						return false;
+					}
 				}
-			}
-			var catalogItem = UserCatalog.Instance.AllItems.First(cat => cat.Sku.Equals(i.Sku));
-			if (_demoImplementation.GetCatalogGroupsByItem(catalogItem).Any(g => g.Equals(groupName)))
-				items.Add(i);
-		});
+				var catalogItem = UserCatalog.Instance.AllItems.First(cat => cat.Sku.Equals(i.Sku));
+				return _demoImplementation.GetCatalogGroupsByItem(catalogItem).Any(g => g.Equals(groupName));
+			}).ToList();
+		
 		itemsContainer.Clear();
 		items.ForEach(i =>
 		{
@@ -65,12 +68,13 @@ public class InventoryMenuController : MonoBehaviour
 
 	private void CreateAndFillInventoryGroups(List<CatalogItemModel> items)
 	{
-		var groups = new List<string>();
+		var groups = new List<string>{ALL_ITEMS_GROUP};
+		groupsController.AddGroup(ALL_ITEMS_GROUP);
+		
 		if (items.Any())
 			items.ForEach(i => groups.AddRange(_demoImplementation.GetCatalogGroupsByItem(i)));
-		else
-			groupsController.AddGroup("ALL");
 		groups = groups.Distinct().ToList();
+		groups.Remove(ALL_ITEMS_GROUP);
 		groups.ForEach(groupName => groupsController.AddGroup(groupName));
 		groupsController.SelectDefault();
 	}

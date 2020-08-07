@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CartItemContainer : MonoBehaviour, IContainer
@@ -7,9 +8,6 @@ public class CartItemContainer : MonoBehaviour, IContainer
 	GameObject cartItemPrefab;
 
 	[SerializeField]
-	GameObject cartDiscountPrefab;
-	
-	[SerializeField]
 	GameObject cartControlsPrefab;
 	
 	[SerializeField]
@@ -17,20 +15,18 @@ public class CartItemContainer : MonoBehaviour, IContainer
 
 	private IDemoImplementation _demoImplementation;
 
-	private List<GameObject> _cartItems;
+	private readonly List<GameObject> _cartItems = new List<GameObject>();
 	private GameObject _discountPanel;
 	private GameObject _cartControls;
 	
-	void Awake()
+	private void Start()
 	{
-		_cartItems = new List<GameObject>();
-
 		UserCart.Instance.ClearCartEvent += ClearContainerItems;
 		UserCart.Instance.AddItemEvent += (_) => Refresh();
 		UserCart.Instance.RemoveItemEvent += (_) => Refresh();
 		UserCart.Instance.UpdateItemEvent += (item, deltaQuantity) => Refresh();
 	}
-	
+
 	private void ClearContainerItems()
 	{
 		_cartItems.ForEach(Destroy);
@@ -50,14 +46,10 @@ public class CartItemContainer : MonoBehaviour, IContainer
 		ClearContainerItems();
 		
 		if(UserCart.Instance.IsEmpty()) return;
-		UserCart.Instance.GetCartItems().ForEach(AddCartItem);
+		UserCart.Instance.GetItems().ForEach(AddCartItem);
 		
-		var discount = UserCart.Instance.CalculateCartDiscount();
-		if (discount > 0.0f)
-		{
-			AddDiscount(discount);
-		}
 		var fullPrice = UserCart.Instance.CalculateFullPrice();
+		var discount = UserCart.Instance.CalculateCartDiscount();
 		AddControls(fullPrice - discount);
 	}
 
@@ -68,24 +60,19 @@ public class CartItemContainer : MonoBehaviour, IContainer
 		_cartItems.Add(newItem);
 	}
 
-	private void AddDiscount(float discountAmount)
-	{
-		_discountPanel = Instantiate(cartDiscountPrefab, itemParent);
-		_discountPanel.GetComponent<CartDiscountUI>().Initialize(discountAmount);
-	}
-
 	private void AddControls(float price)
 	{
 		_cartControls = Instantiate(cartControlsPrefab, itemParent);
-		CartControls controls = _cartControls.GetComponent<CartControls>();
-		controls.Initialize(price);
+		var controls = _cartControls.GetComponent<CartControls>();
+		var discount = UserCart.Instance.CalculateCartDiscount();
+		controls.Initialize(price, discount >= 0.01F, discount);
 		controls.OnBuyCart = OnBuyCart;
 		controls.OnClearCart = OnClearCart;
 	}
 
 	private void OnBuyCart()
 	{
-		CartControls controls = _cartControls.GetComponent<CartControls>();
+		var controls = _cartControls.GetComponent<CartControls>();
 		if (controls.IsBuyButtonLocked()) return;
 		controls.LockBuyButton();
 		UserCart.Instance.Purchase(controls.UnlockBuyButton, _ => controls.UnlockBuyButton());

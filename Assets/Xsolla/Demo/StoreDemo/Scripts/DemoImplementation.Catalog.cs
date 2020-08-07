@@ -41,6 +41,25 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 		onSuccess?.Invoke(_itemsCache);
 	}
 	
+	public void GetVirtualCurrencies(Action<List<VirtualCurrencyModel>> onSuccess, Action<Error> onError = null)
+	{
+		XsollaStore.Instance.GetVirtualCurrencyList(XsollaSettings.StoreProjectId, items =>
+		{
+			var currencies = items.items.ToList();
+			if (currencies.Any())
+			{
+				var result = currencies.Select(c =>
+				{
+					var model = new VirtualCurrencyModel();
+					FillItemModel(model, c);
+					return model;
+				}).ToList();
+				onSuccess?.Invoke(result);
+			}
+			else onSuccess?.Invoke(new List<VirtualCurrencyModel>());
+		}, WrapErrorCallback(onError));
+	}
+
 	public void GetCatalogVirtualItems(Action<List<CatalogVirtualItemModel>> onSuccess, Action<Error> onError = null)
 	{
 		RequestStoreItems(items =>
@@ -59,7 +78,7 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 		}, WrapErrorCallback(onError));
 	}
 	
-	public void GetCatalogVirtualCurrencies(Action<List<CatalogVirtualCurrencyModel>> onSuccess, Action<Error> onError = null)
+	public void GetCatalogVirtualCurrencyPackages(Action<List<CatalogVirtualCurrencyModel>> onSuccess, Action<Error> onError = null)
 	{
 		XsollaStore.Instance.GetVirtualCurrencyPackagesList(XsollaSettings.StoreProjectId, packages =>
 		{
@@ -110,12 +129,17 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 			_itemsGroups[item.sku].AddRange(groups);
 	}
 
-	private static void FillCatalogItem(CatalogItemModel model, StoreItem item)
+	private static void FillItemModel(ItemModel model, StoreItem item)
 	{
 		model.Sku = item.sku;
 		model.Name = item.name;
 		model.Description = item.description;
 		model.ImageUrl = item.image_url;
+	}
+	
+	private static void FillCatalogItem(CatalogItemModel model, StoreItem item)
+	{
+		FillItemModel(model, item);
 		model.RealPrice = GetRealPrice(item);
 		model.VirtualPrice = GetVirtualPrice(item);
 	}

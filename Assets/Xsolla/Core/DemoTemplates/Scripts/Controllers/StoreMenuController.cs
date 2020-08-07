@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class StoreMenuController : MonoBehaviour
 {
+	private const string ALL_ITEMS_GROUP = "ALL";
+	
 	[SerializeField] private GameObject itemPrefab;  
 	[SerializeField] private GroupsController groupsController;
 	[SerializeField] private ItemContainer itemsContainer;
@@ -24,8 +26,11 @@ public class StoreMenuController : MonoBehaviour
 
 	private void PutItemsToContainer(string groupName)
 	{
-		var items = UserCatalog.Instance.AllItems.Where(i => 
+		var items = (groupName.Equals(ALL_ITEMS_GROUP))
+			? UserCatalog.Instance.AllItems
+			: UserCatalog.Instance.AllItems.Where(i => 
 				_demoImplementation.GetCatalogGroupsByItem(i).Contains(groupName)).ToList();
+		
 		itemsContainer.Clear();
 		items.ForEach(i =>
 		{
@@ -42,12 +47,13 @@ public class StoreMenuController : MonoBehaviour
 
 	private void CreateAndFillCatalogGroups(List<CatalogItemModel> items)
 	{
-		List<string> groups = new List<string>();
+		List<string> groups = new List<string> {ALL_ITEMS_GROUP};
+		groupsController.AddGroup(ALL_ITEMS_GROUP);
+		
 		if (items.Any())
 			items.ForEach(i => groups.AddRange(_demoImplementation.GetCatalogGroupsByItem(i)));
-		else
-			groupsController.AddGroup("ALL");
 		groups = groups.Distinct().ToList();
+		groups.Remove(ALL_ITEMS_GROUP);
 		groups.ForEach(groupName => groupsController.AddGroup(groupName));
 		groupsController.SelectDefault();
 	}

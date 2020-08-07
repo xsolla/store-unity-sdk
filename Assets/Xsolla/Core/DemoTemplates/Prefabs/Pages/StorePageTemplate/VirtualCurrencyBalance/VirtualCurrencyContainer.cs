@@ -20,7 +20,7 @@ public class VirtualCurrencyContainer : MonoBehaviour
 	{
 		if (UserCatalog.Instance.IsUpdated && UserInventory.Instance.IsUpdated)
 		{
-			SetCurrencies(UserCatalog.Instance.Currencies);
+			SetCurrencies(UserCatalog.Instance.VirtualCurrencies);
 			SetCurrenciesBalance(UserInventory.Instance.Balance);
 		}
 		UserCatalog.Instance.UpdateVirtualCurrenciesEvent += SetCurrencies;
@@ -35,32 +35,26 @@ public class VirtualCurrencyContainer : MonoBehaviour
 			UserInventory.Instance.UpdateVirtualCurrencyBalanceEvent -= SetCurrenciesBalance;
 	}
 
-	private void SetCurrencies(List<CatalogVirtualCurrencyModel> items)
+	private void SetCurrencies(List<VirtualCurrencyModel> items)
 	{
 		_currencies.Values.ToList().ForEach(c =>
 		{
 			if (c.gameObject != null)
 				Destroy(c.gameObject);
 		});
-		var uniqueItems = new List<CatalogVirtualCurrencyModel>();
-		items.ForEach(i =>
-		{
-			if (uniqueItems.Count(u => u.CurrencySku.Equals(i.CurrencySku)) == 0)
-				uniqueItems.Add(i);
-		});
 		_currencies.Clear();
-		uniqueItems.ForEach(i => AddCurrency(i));
+		items.ForEach(i => AddCurrency(i));
 	}
 
-	private VirtualCurrencyBalanceUI AddCurrency(CatalogVirtualCurrencyModel item)
+	private VirtualCurrencyBalanceUI AddCurrency(VirtualCurrencyModel item)
 	{
 		if (item == null) return null;
-		if (_currencies.ContainsKey(item.CurrencySku)) return _currencies[item.CurrencySku];
+		if (_currencies.ContainsKey(item.Sku)) return _currencies[item.Sku];
 		if (string.IsNullOrEmpty(item.ImageUrl)) return null;
 		var currencyBalance = Instantiate(virtualCurrencyBalancePrefab, transform);
 		var balanceUi = currencyBalance.GetComponent<VirtualCurrencyBalanceUI>();
 		balanceUi.Initialize(item);
-		_currencies.Add(item.CurrencySku, balanceUi);
+		_currencies.Add(item.Sku, balanceUi);
 		return balanceUi;
 	}
 
@@ -71,12 +65,10 @@ public class VirtualCurrencyContainer : MonoBehaviour
 
 	private void SetCurrencyBalance(VirtualCurrencyBalanceModel balance)
 	{
-		AddCurrency(new CatalogVirtualCurrencyModel
+		AddCurrency(new VirtualCurrencyModel
 		{
 			Sku = balance.Sku,
-			CurrencySku = balance.Sku,
-			ImageUrl = balance.ImageUrl,
-			Amount = balance.Amount
+			ImageUrl = balance.ImageUrl
 		})?.SetBalance(balance.Amount);
 	}
 }

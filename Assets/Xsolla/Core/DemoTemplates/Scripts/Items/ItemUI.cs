@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -59,19 +61,37 @@ public class ItemUI : MonoBehaviour
 		EnablePrice(true);
 		cartButton.gameObject.SetActive(false);
 		itemPriceVcText.text = virtualItem.VirtualPrice?.Value.ToString();
-		var currencies = UserInventory.Instance.Balance;
-		currencies = currencies.Where(c => c.Sku.Equals(virtualItem.VirtualPrice?.Key)).ToList();
-		if (currencies.Any())
-			ImageLoader.Instance.GetImageAsync(currencies.First().ImageUrl, (_, sprite) => itemPriceVcImage.sprite = sprite);
+		InitializeVcImage(virtualItem);
+	}
+
+	private void InitializeVcImage(CatalogItemModel virtualItem)
+	{
+		StartCoroutine(WaitCatalogUpdate(() =>
+		{
+			var currencySku = virtualItem.VirtualPrice?.Key;
+			var currency = UserCatalog.Instance.VirtualCurrencies.First(vc => vc.Sku.Equals(currencySku));
+			ImageLoader.Instance.GetImageAsync(currency.ImageUrl, (_, sprite) => itemPriceVcImage.sprite = sprite);
+		}));
+	}
+
+	IEnumerator WaitCatalogUpdate(Action callback)
+	{
+		yield return new WaitUntil(() => UserCatalog.Instance.IsUpdated);
+		callback?.Invoke();
 	}
 
 	private void InitializeRealPrice(CatalogItemModel virtualItem)
 	{
 		EnablePrice(false);
 		cartButton.gameObject.SetActive(true);
+		if (UserCart.Instance.Contains(virtualItem.Sku))
+			cartButton.Select(true);
 		cartButton.onClick = isSelected =>
 		{
-			UserCart.Instance.AddItem(_itemInformation);
+			if(isSelected)
+				UserCart.Instance.AddItem(_itemInformation);
+			else
+				UserCart.Instance.RemoveItem(_itemInformation);
 		};
 		var realPrice = virtualItem.RealPrice;
 		if (realPrice == null)

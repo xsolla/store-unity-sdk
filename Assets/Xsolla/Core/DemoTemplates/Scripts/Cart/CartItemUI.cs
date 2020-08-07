@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
 using Xsolla.Core;
@@ -15,17 +15,41 @@ public class CartItemUI : MonoBehaviour
 	[SerializeField]
 	SimpleButton addButton;
 	[SerializeField]
-	SimpleButton delButton;
+	SimpleButton removeButton;
+	[SerializeField]
+	SimpleButton deleteButton;
 	
 	[SerializeField]
 	Text itemQuantity;
 
 	private UserCartItem _cartItem;
 
-	void Awake()
+	private void Start()
 	{
 		addButton.onClick = () => UserCart.Instance.IncreaseCountOf(_cartItem.Item);
-		delButton.onClick = () => UserCart.Instance.DecreaseCountOf(_cartItem.Item);
+		removeButton.onClick = () => UserCart.Instance.DecreaseCountOf(_cartItem.Item);
+		deleteButton.onClick = () => UserCart.Instance.RemoveItem(_cartItem.Item);
+
+		UserCart.Instance.RemoveItemEvent += RemoveItemHandler;
+		UserCart.Instance.UpdateItemEvent += UpdateItemHandler;
+	}
+
+	private void OnDestroy()
+	{
+		UserCart.Instance.RemoveItemEvent -= RemoveItemHandler;
+		UserCart.Instance.UpdateItemEvent -= UpdateItemHandler;
+	}
+
+	private void RemoveItemHandler(UserCartItem item)
+	{
+		if (!item.Equals(_cartItem)) return;
+		Destroy(gameObject, 0.1F);
+	}
+
+	private void UpdateItemHandler(UserCartItem item, int deltaCount)
+	{
+		if (!item.Equals(_cartItem)) return;
+		itemQuantity.text = _cartItem.Quantity.ToString();
 	}
 
 	public void Initialize(UserCartItem cartItem)
@@ -36,7 +60,7 @@ public class CartItemUI : MonoBehaviour
 		itemName.text = _cartItem.Item.Name;
 		itemQuantity.text = _cartItem.Quantity.ToString();
 		
-		if (itemImage.sprite == null && !string.IsNullOrEmpty(_cartItem.ImageUrl))
+		if (itemImage.sprite != null && !string.IsNullOrEmpty(_cartItem.ImageUrl))
 		{
 			ImageLoader.Instance.GetImageAsync(_cartItem.ImageUrl, LoadImageCallback);
 		}
@@ -50,11 +74,8 @@ public class CartItemUI : MonoBehaviour
 	string FormatPriceText(string currency, float price)
 	{
 		var currencySymbol = RegionalCurrency.GetCurrencySymbol(currency);
-		if (string.IsNullOrEmpty(currencySymbol))
-		{
-			return string.Format("{0}{1}", currency, price);
-		}
-		
-		return string.Format("{0}{1}", currencySymbol, price);
+		return string.IsNullOrEmpty(currencySymbol) 
+			? $"{currency}{price}" 
+			: $"{currencySymbol}{price}";
 	}
 }

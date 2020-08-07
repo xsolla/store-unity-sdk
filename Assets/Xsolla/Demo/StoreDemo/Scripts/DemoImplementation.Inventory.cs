@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Xsolla.Core;
+using Xsolla.Core.Popup;
 using Xsolla.Store;
 
 public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
@@ -82,7 +83,10 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 
 	public void ConsumeInventoryItem(InventoryItemModel item, uint count, Action<InventoryItemModel> onSuccess, Action<InventoryItemModel> onFailed = null)
 	{
-		StartCoroutine(ConsumeCoroutine(item, count, onSuccess, onFailed));
+		StoreDemoPopup.ShowConsumeConfirmation(item.Name, count, () =>
+		{
+			StartCoroutine(ConsumeCoroutine(item, count, onSuccess, onFailed));
+		}, () => onFailed?.Invoke(item));
 	}
 
 	IEnumerator ConsumeCoroutine(InventoryItemModel item, uint count, Action<InventoryItemModel> onSuccess, Action<InventoryItemModel> onFailed = null)

@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Linq;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class CartMenuButtonCounter : MonoBehaviour
@@ -12,17 +14,42 @@ public class CartMenuButtonCounter : MonoBehaviour
         set => counterText.text = value.ToString();
     }
 
-    private void Awake()
+    private void Start()
     {
-        Counter = 0;
+        Counter = UserCart.Instance.GetItems().Sum(i => i.Quantity);
+        UserCart.Instance.AddItemEvent += IncreaseCounter;
+        UserCart.Instance.RemoveItemEvent += DecreaseCounter;
+        UserCart.Instance.UpdateItemEvent += UpdateCounter;
+        UserCart.Instance.ClearCartEvent += ResetCounter;
+        button.onClick = () => DemoController.Instance.SetState(MenuState.Cart);
+    }
+
+    private void OnDestroy()
+    {
+        if (!UserCart.IsExist) return;
+        UserCart.Instance.AddItemEvent -= IncreaseCounter;
+        UserCart.Instance.RemoveItemEvent -= DecreaseCounter;
+        UserCart.Instance.UpdateItemEvent -= UpdateCounter;
+        UserCart.Instance.ClearCartEvent -= ResetCounter;
+    }
+
+    private void IncreaseCounter(UserCartItem item)
+    {
+        Counter++;
     }
     
-    void Start()
+    private void DecreaseCounter(UserCartItem item)
     {
-        UserCart.Instance.AddItemEvent += _ => Counter++;
-        UserCart.Instance.RemoveItemEvent += _ => Counter--;
-        UserCart.Instance.UpdateItemEvent += (_, deltaValue) => Counter += deltaValue;
-        UserCart.Instance.ClearCartEvent += () => Counter = 0;
-        button.onClick = () => DemoController.Instance.SetState(MenuState.Cart);
+        Counter--;
+    }
+
+    private void UpdateCounter(UserCartItem item, int delta)
+    {
+        Counter += delta;
+    }
+
+    private void ResetCounter()
+    {
+        Counter = 0;
     }
 }

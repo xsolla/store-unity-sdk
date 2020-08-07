@@ -8,15 +8,17 @@ using Xsolla.Core;
 
 public class UserCatalog : MonoSingleton<UserCatalog>
 {
+	public event Action<List<VirtualCurrencyModel>> UpdateVirtualCurrenciesEvent;
 	public event Action<List<CatalogVirtualItemModel>> UpdateItemsEvent;
-	public event Action<List<CatalogVirtualCurrencyModel>> UpdateVirtualCurrenciesEvent;
+	public event Action<List<CatalogVirtualCurrencyModel>> UpdateVirtualCurrencyPackagesEvent;
 	public event Action<List<CatalogSubscriptionItemModel>> UpdateSubscriptionsEvent;
 
 	private IDemoImplementation _demoImplementation;
 
+	public List<VirtualCurrencyModel> VirtualCurrencies { get; private set; }
 	public List<CatalogItemModel> AllItems { get; private set; }
 	public List<CatalogVirtualItemModel> VirtualItems { get; private set; }
-	public List<CatalogVirtualCurrencyModel> Currencies { get; private set; }
+	public List<CatalogVirtualCurrencyModel> CurrencyPackages { get; private set; }
 	public List<CatalogSubscriptionItemModel> Subscriptions { get; private set; }
 
 	public bool IsUpdated { get; private set; }
@@ -24,9 +26,10 @@ public class UserCatalog : MonoSingleton<UserCatalog>
 	public void Init(IDemoImplementation demoImplementation)
 	{
 		_demoImplementation = demoImplementation;
+		VirtualCurrencies = new List<VirtualCurrencyModel>();
 		AllItems = new List<CatalogItemModel>();
 		VirtualItems = new List<CatalogVirtualItemModel>();
-		Currencies = new List<CatalogVirtualCurrencyModel>();
+		CurrencyPackages = new List<CatalogVirtualCurrencyModel>();
 		Subscriptions = new List<CatalogSubscriptionItemModel>();
 	}
 
@@ -49,10 +52,11 @@ public class UserCatalog : MonoSingleton<UserCatalog>
 			yield break;
 		}
 
-		yield return StartCoroutine(UpdateVirtualItemsCoroutine(errorCallback));
 		yield return StartCoroutine(UpdateVirtualCurrenciesCoroutine(errorCallback));
+		yield return StartCoroutine(UpdateVirtualItemsCoroutine(errorCallback));
+		yield return StartCoroutine(UpdateVirtualCurrencyPackagesCoroutine(errorCallback));
 		yield return StartCoroutine(UpdateSubscriptionsCoroutine(errorCallback));
-
+		
 		if (isError) yield break;
 		IsUpdated = true;
 		onSuccess?.Invoke();
@@ -81,6 +85,18 @@ public class UserCatalog : MonoSingleton<UserCatalog>
 			AllItems.AddRange(uniqueItems);
 	}
 
+	private IEnumerator UpdateVirtualCurrenciesCoroutine(Action<Error> onError = null)
+	{
+		var busy = true;
+		_demoImplementation.GetVirtualCurrencies(items =>
+		{
+			VirtualCurrencies = items;
+			UpdateVirtualCurrenciesEvent?.Invoke(items);
+			busy = false;
+		}, onError);
+		yield return new WaitWhile(() => busy);
+	}
+	
 	private IEnumerator UpdateVirtualItemsCoroutine(Action<Error> onError = null)
 	{
 		yield return StartCoroutine(UpdateSomeItemsCoroutine<CatalogVirtualItemModel>(
@@ -91,13 +107,13 @@ public class UserCatalog : MonoSingleton<UserCatalog>
 			}, onError));
 	}
 
-	private IEnumerator UpdateVirtualCurrenciesCoroutine(Action<Error> onError = null)
+	private IEnumerator UpdateVirtualCurrencyPackagesCoroutine(Action<Error> onError = null)
 	{
 		yield return StartCoroutine(UpdateSomeItemsCoroutine<CatalogVirtualCurrencyModel>(
-		_demoImplementation.GetCatalogVirtualCurrencies, items =>
+		_demoImplementation.GetCatalogVirtualCurrencyPackages, items =>
 		{
-			Currencies = items;
-			UpdateVirtualCurrenciesEvent?.Invoke(items);
+			CurrencyPackages = items;
+			UpdateVirtualCurrencyPackagesEvent?.Invoke(items);
 		}, onError));
 	}
 	

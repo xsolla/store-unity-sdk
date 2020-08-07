@@ -52,4 +52,9 @@ public class UserCartItem
 	{
 		return value >= minimum && value <= maximum;
 	}
+
+	public override bool Equals(object obj)
+	{
+		return obj is UserCartItem item && Sku.Equals(item.Sku);
+	}
 }

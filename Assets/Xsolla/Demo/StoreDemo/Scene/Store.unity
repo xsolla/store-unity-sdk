@@ -365,16 +365,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 6389733742678192273, guid: 4af1ad141a08941d8bc07459eb260991,
+    - target: {fileID: 6389733742317925048, guid: 4af1ad141a08941d8bc07459eb260991,
         type: 3}
-      propertyPath: m_Name
-      value: DemoController
-      objectReference: {fileID: 0}
-    - target: {fileID: 6389733742678192273, guid: 4af1ad141a08941d8bc07459eb260991,
+      propertyPath: canvas
+      value: 
+      objectReference: {fileID: 1895898360}
+    - target: {fileID: 6389733742317925048, guid: 4af1ad141a08941d8bc07459eb260991,
         type: 3}
-      propertyPath: m_IsActive
+      propertyPath: initialState
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6389733742317925048, guid: 4af1ad141a08941d8bc07459eb260991,
+        type: 3}
+      propertyPath: buyCurrencyMenuPrefab
+      value: 
+      objectReference: {fileID: 5920836100163376800, guid: 15e31fa00847745c09f431c2fac9e3b3,
+        type: 3}
     - target: {fileID: 6389733742678192272, guid: 4af1ad141a08941d8bc07459eb260991,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -430,14 +436,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6389733742317925048, guid: 4af1ad141a08941d8bc07459eb260991,
+    - target: {fileID: 6389733742678192273, guid: 4af1ad141a08941d8bc07459eb260991,
         type: 3}
-      propertyPath: canvas
-      value: 
-      objectReference: {fileID: 1895898360}
-    - target: {fileID: 6389733742317925048, guid: 4af1ad141a08941d8bc07459eb260991,
+      propertyPath: m_Name
+      value: DemoController
+      objectReference: {fileID: 0}
+    - target: {fileID: 6389733742678192273, guid: 4af1ad141a08941d8bc07459eb260991,
         type: 3}
-      propertyPath: initialState
+      propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []

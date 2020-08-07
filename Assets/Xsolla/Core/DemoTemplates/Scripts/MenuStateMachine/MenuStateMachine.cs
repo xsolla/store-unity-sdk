@@ -16,7 +16,7 @@ public class MenuStateMachine : MonoBehaviour, IMenuStateMachine
 	[SerializeField] private GameObject profileMenuPrefab;
 
 	private Dictionary<MenuState, GameObject> _stateMachine;
-	private List<MenuState> _stateTrace = new List<MenuState>();
+	private readonly List<MenuState> _stateTrace = new List<MenuState>();
 	private MenuState _state;
 	private GameObject _stateObject;
 
@@ -45,6 +45,8 @@ public class MenuStateMachine : MonoBehaviour, IMenuStateMachine
 
 	public void SetState(MenuState state)
 	{
+		MenuState oldState = _state;
+		
 		if (_state != state)
 		{
 			_stateTrace.Add(_state);
@@ -58,17 +60,25 @@ public class MenuStateMachine : MonoBehaviour, IMenuStateMachine
 		}
 
 		if (_stateMachine[state] != null)
+		{
 			_stateObject = Instantiate(_stateMachine[_state], canvas.transform);
+			HandleSomeCases(oldState, state);
+		}
 		else
 		{
 			PopupFactory.Instance.CreateError().
 				SetMessage($"Prefab object is null for state = {_state.ToString()}. Changing state to initial.").
-				SetCallback(() => SetState(initialState));
+				SetCallback(() =>
+				{
+					ClearTrace();
+					SetState(initialState);
+				});
 		}
 	}
-
+	
 	public void SetPreviousState()
 	{
+		if(CheckHardcodedBackCases()) return;
 		if (_stateTrace.Any())
 		{
 			var state = _stateTrace.Last();
@@ -78,5 +88,26 @@ public class MenuStateMachine : MonoBehaviour, IMenuStateMachine
 		}
 		else
 			SetState(initialState);
+	}
+
+	private bool CheckHardcodedBackCases()
+	{
+		if(_state == MenuState.Store || _state == MenuState.Inventory || _state == MenuState.Profile)
+			SetState(MenuState.Main);
+		return false;
+	}
+	
+	private void HandleSomeCases(MenuState lastState, MenuState newState)
+	{
+		if(lastState == newState) return;
+		if(lastState == MenuState.Cart && newState == MenuState.Inventory)
+			ClearTrace();
+		if(newState == MenuState.Main || newState == MenuState.Authorization)
+			ClearTrace();
+	}
+
+	private void ClearTrace()
+	{
+		_stateTrace.Clear();
 	}
 }

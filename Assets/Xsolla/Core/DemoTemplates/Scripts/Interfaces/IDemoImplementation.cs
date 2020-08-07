@@ -5,10 +5,13 @@ using Xsolla.Core;
 
 public interface IDemoImplementation
 {
+	void GetVirtualCurrencies([NotNull] Action<List<VirtualCurrencyModel>> onSuccess,
+		[CanBeNull] Action<Error> onError = null);
+	
 	void GetCatalogVirtualItems([NotNull] Action<List<CatalogVirtualItemModel>> onSuccess,
 		[CanBeNull] Action<Error> onError = null);
 
-	void GetCatalogVirtualCurrencies([NotNull] Action<List<CatalogVirtualCurrencyModel>> onSuccess,
+	void GetCatalogVirtualCurrencyPackages([NotNull] Action<List<CatalogVirtualCurrencyModel>> onSuccess,
 		[CanBeNull] Action<Error> onError = null);
 	
 	void GetCatalogSubscriptions([NotNull] Action<List<CatalogSubscriptionItemModel>> onSuccess,
@@ -32,5 +35,8 @@ public interface IDemoImplementation
 		[CanBeNull] Action<Error> onError = null);
 
 	void PurchaseForVirtualCurrency(CatalogItemModel item, [CanBeNull] Action<CatalogItemModel> onSuccess = null,
+		[CanBeNull] Action<Error> onError = null);
+
+	void PurchaseCart(List<UserCartItem> items, [NotNull] Action<List<UserCartItem>> onSuccess, 
 		[CanBeNull] Action<Error> onError = null);
 }
