@@ -67,7 +67,7 @@ public class LoginPageCreateController : LoginPageController
 				base.OnError?.Invoke(error);
 			};
 
-			XsollaLogin.Instance.Registration(username, password, email, onSuccessfulCreate, onFailedCreate);
+			DemoController.Instance.GetImplementation().Registration(username, password, email, onSuccessfulCreate, onFailedCreate);
 		}
 		else if (!isEmailValid)
 		{

@@ -18,7 +18,7 @@ public class BasicAuth : StoreStringActionResult, ILoginAuthorization
 			if(_isDemoUser && _isJwtInvalidationEnabled)
 				XsollaSettings.JwtTokenInvalidationEnabled = false;
 
-			XsollaLogin.Instance.SignIn(username, password, rememberMe, BasicAuthSuccess, BasicAuthFailed);
+			DemoController.Instance.GetImplementation().SignIn(username, password, rememberMe, BasicAuthSuccess, BasicAuthFailed);
 		}
 		else
 		{
@@ -63,7 +63,7 @@ public class BasicAuth : StoreStringActionResult, ILoginAuthorization
 	private void BasicAuthSuccess()
 	{
 		RestoreJwtInvalidationIfNeeded();
-		base.OnSuccess?.Invoke(XsollaLogin.Instance.Token);
+		base.OnSuccess?.Invoke(DemoController.Instance.GetImplementation().Token);
 	}
 
 	private void BasicAuthFailed(Error error)

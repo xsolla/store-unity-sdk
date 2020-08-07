@@ -35,13 +35,13 @@ public partial class LoginPageEnterController : LoginPageController
 
 	private void ValidateToken(string token, Action onSuccess, Action<Error> onFailed)
 	{
-		XsollaLogin.Instance.GetUserInfo(token, info => { UserInfoContainer.UserInfo = info; onSuccess.Invoke(); }, onFailed);
+		DemoController.Instance.GetImplementation().GetUserInfo(token, info => { UserInfoContainer.UserInfo = info; onSuccess.Invoke(); }, onFailed);
 	}
 
 	private void CompleteSuccessfulAuth(string token, bool isBasicAuth = false, bool isPaystation = false, bool isSteam = false, bool isSaveToken = false)
 	{
 		if(isSaveToken)
-			XsollaLogin.Instance.SaveToken(Constants.LAST_SUCCESS_AUTH_TOKEN, token);
+			DemoController.Instance.GetImplementation().SaveToken(Constants.LAST_SUCCESS_AUTH_TOKEN, token);
 
 		if (!isBasicAuth)
 		{
@@ -49,7 +49,7 @@ public partial class LoginPageEnterController : LoginPageController
 
 			var jwtToken = new Token(token, isPaystation);
 			jwtToken.FromSteam = isSteam;
-			XsollaLogin.Instance.Token = jwtToken;
+			DemoController.Instance.GetImplementation().Token = jwtToken;
 		}
 
 		IsAuthInProgress = false;

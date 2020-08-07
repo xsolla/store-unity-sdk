@@ -7,7 +7,7 @@ using Xsolla.Login;
 using Xsolla.Store;
 
 [AddComponentMenu("Scripts/Xsolla.Store/Extra/ExtraPanelAccountButtons")]
-public class ExtraPanelAccountButtons : MonoBehaviour
+public class OldExtraPanelAccountButtons : MonoBehaviour
 {
 	public event Action<string> OpenUrlEvent;
 	public event Action LinkingAccountComplete;

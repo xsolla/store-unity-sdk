@@ -39,8 +39,8 @@ public class DemoController : MonoSingleton<DemoController>, IMenuStateMachine
             Destroy(UserCart.Instance.gameObject);
         if (UserInventory.IsExist)
             Destroy(UserInventory.Instance.gameObject);
-        if (UserAttributes.IsExist)
-            Destroy(UserAttributes.Instance.gameObject);
+        if (OldUserAttributes.IsExist)
+            Destroy(OldUserAttributes.Instance.gameObject);
         if (UserSubscriptions.IsExist)
             Destroy(UserSubscriptions.Instance.gameObject);
     }

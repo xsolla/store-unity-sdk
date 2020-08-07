@@ -4,7 +4,7 @@ using Xsolla.Login;
 
 public abstract class UserAttributesRequestBase : StoreActionResult
 {
-	protected string Token => XsollaLogin.Instance.Token;
+	protected string Token => DemoController.Instance.GetImplementation().Token;
 	protected string ProjectID => XsollaSettings.StoreProjectId;
 
 	protected bool IsRequestPossible

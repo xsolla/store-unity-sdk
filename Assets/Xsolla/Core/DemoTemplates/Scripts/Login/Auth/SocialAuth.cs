@@ -19,7 +19,7 @@ public class SocialAuth : StoreStringActionResult, ILoginAuthorization
 		{
 			HotkeyCoroutine.Lock();
 
-			string url = XsollaLogin.Instance.GetSocialNetworkAuthUrl(provider);
+			string url = DemoController.Instance.GetImplementation().GetSocialNetworkAuthUrl(provider);
 			Debug.Log($"Social url: {url}");
 			BrowserHelper.Instance.Open(url, true);
 

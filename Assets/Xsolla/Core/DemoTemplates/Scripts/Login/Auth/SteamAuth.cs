@@ -32,7 +32,7 @@ public class SteamAuth : StoreStringActionResult, ILoginAuthorization
 	{
 		if (int.TryParse(XsollaSettings.SteamAppId, out _))
 		{
-			XsollaLogin.Instance.SteamAuth(XsollaSettings.SteamAppId, ticket, SuccessHandler, FailHandler);
+			DemoController.Instance.GetImplementation().SteamAuth(XsollaSettings.SteamAppId, ticket, SuccessHandler, FailHandler);
 		}
 		else
 		{

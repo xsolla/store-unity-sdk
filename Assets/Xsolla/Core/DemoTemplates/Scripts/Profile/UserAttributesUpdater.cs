@@ -19,7 +19,7 @@ public class UserAttributesUpdater : UserAttributesRequestBase
 		if (!base.IsRequestPossible)
 			return;
 
-		XsollaLogin.Instance.RemoveUserAttributes(base.Token, base.ProjectID, attributeKeys, base.OnSuccess, base.OnError);
+		DemoController.Instance.GetImplementation().RemoveUserAttributes(base.Token, base.ProjectID, attributeKeys, base.OnSuccess, base.OnError);
 	}
 
 	private void UpdateAttributes(List<UserAttribute> updatedAttributes)
@@ -27,6 +27,6 @@ public class UserAttributesUpdater : UserAttributesRequestBase
 		if (!base.IsRequestPossible)
 			return;
 
-		XsollaLogin.Instance.UpdateUserAttributes(base.Token, base.ProjectID, updatedAttributes, base.OnSuccess, base.OnError);
+		DemoController.Instance.GetImplementation().UpdateUserAttributes(base.Token, base.ProjectID, updatedAttributes, base.OnSuccess, base.OnError);
 	}
 }

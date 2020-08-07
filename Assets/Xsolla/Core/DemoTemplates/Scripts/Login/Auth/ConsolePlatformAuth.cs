@@ -22,7 +22,7 @@ public class ConsolePlatformAuth : StoreStringActionResult, ILoginAuthorization
 
 	private void RequestToken()
 	{
-		XsollaLogin.Instance.SignInConsoleAccount(
+		DemoController.Instance.GetImplementation().SignInConsoleAccount(
 			userId: XsollaSettings.UsernameFromConsolePlatform,
 			platform: XsollaSettings.Platform.GetString(),
 			SuccessHandler,

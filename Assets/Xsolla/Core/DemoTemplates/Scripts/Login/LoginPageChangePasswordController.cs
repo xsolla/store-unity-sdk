@@ -58,7 +58,7 @@ public class LoginPageChangePasswordController : LoginPageController
 			base.OnError?.Invoke(error);
 		};
 
-		XsollaLogin.Instance.ResetPassword(email, onSuccessfulPasswordChange, onFailedPasswordChange);
+		DemoController.Instance.GetImplementation().ResetPassword(email, onSuccessfulPasswordChange, onFailedPasswordChange);
 		IsPasswordChangeInProgress = false;
 	}
 }

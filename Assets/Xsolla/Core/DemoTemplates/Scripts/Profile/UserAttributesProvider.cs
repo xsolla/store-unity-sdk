@@ -33,6 +33,6 @@ public class UserAttributesProvider : UserAttributesRequestBase
 			base.OnSuccess?.Invoke();
 		};
 
-		XsollaLogin.Instance.GetUserAttributes(base.Token, base.ProjectID, this.AttributeType, attributeKeys, userId, onSuccessGet, base.OnError);
+		DemoController.Instance.GetImplementation().GetUserAttributes(base.Token, base.ProjectID, this.AttributeType, attributeKeys, userId, onSuccessGet, base.OnError);
 	}
 }
