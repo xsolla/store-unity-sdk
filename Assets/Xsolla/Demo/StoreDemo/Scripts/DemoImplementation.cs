@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using Xsolla.Core;
+using Xsolla.Login;
 using Xsolla.Store;
 
 public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
@@ -13,6 +14,17 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 		{
 			XsollaStore.Instance.Token = DefaultStoreToken;
 		}
+	}
+
+	private void Start()
+	{
+		DemoController.Instance.StateChangingEvent += (state, newState) =>
+		{
+			if (newState == MenuState.Main)
+			{
+				XsollaLogin.Instance.Token = XsollaStore.Instance.Token = GetUserToken();
+			}
+		};
 	}
 
 	public Token GetUserToken()

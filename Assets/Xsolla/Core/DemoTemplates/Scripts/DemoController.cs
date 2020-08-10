@@ -14,6 +14,12 @@ public class DemoController : MonoSingleton<DemoController>, IMenuStateMachine
 
     private IDemoImplementation _demoImplementation;
 
+    public event MenuStateMachine.StateChangeDelegate StateChangingEvent
+    {
+        add => stateMachine.StateChangingEvent += value;
+        remove => stateMachine.StateChangingEvent -= value;
+    }
+    
     public override void Init()
     {
         base.Init();

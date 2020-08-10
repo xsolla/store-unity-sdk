@@ -6,7 +6,17 @@ using Xsolla.Core.Popup;
 
 public partial class MenuStateMachine : MonoBehaviour, IMenuStateMachine
 {
-	public event Action<MenuState, MenuState> StateChangingEvent;
+	/// <summary>
+	/// Changing state delegate.
+	/// </summary>
+	/// <param name="lastState">Previous state of state machine</param>
+	/// <param name="newState">New/Current state of state machine</param>
+	public delegate void StateChangeDelegate(MenuState lastState, MenuState newState);
+	/// <summary>
+	/// Invoked before state is changing.
+	/// </summary>
+	public event StateChangeDelegate StateChangingEvent;
+	
 	[SerializeField] private Canvas canvas;
 	[SerializeField] private MenuState initialState;
 	[SerializeField] private GameObject authMenuPrefab;
