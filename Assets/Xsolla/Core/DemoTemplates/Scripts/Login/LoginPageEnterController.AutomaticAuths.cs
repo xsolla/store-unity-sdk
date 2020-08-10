@@ -1,0 +1,58 @@
+﻿using System;
+using UnityEngine;
+using Xsolla.Core;
+
+public partial class LoginPageEnterController : LoginPageController
+{
+	private static bool _isFirstLaunch = true;
+	private int _autoAuthState = 0;
+
+	private void Start()
+	{
+		if(_isFirstLaunch)
+		{
+			_isFirstLaunch = false;
+			IsAuthInProgress = true;
+			RunAutomaticAuths();
+		}
+	}
+
+	private void RunAutomaticAuths()
+	{
+		Action<string> onSuccessfulAutomaticAuth = token =>
+		{
+			ValidateToken(token,
+				onSuccess: () => CompleteSuccessfulAuth(token),
+				onFailed: null);
+		};
+
+		Action<Error> onFailedAutomaticAuth = error =>
+		{
+			if(error != null)
+			{
+				ProcessError(error);
+			}
+			else
+			{
+				_autoAuthState++;
+				RunAutomaticAuths();
+			}
+		};
+
+		switch (_autoAuthState)
+		{
+			case 0:
+				TryAuthBy<SavedTokenAuth>(args: null, onSuccess: onSuccessfulAutomaticAuth, onFailed: onFailedAutomaticAuth);
+				break;
+			case 1:
+				TryAuthBy<LauncherAuth>(args: null, onSuccess: onSuccessfulAutomaticAuth, onFailed: onFailedAutomaticAuth);
+				break;
+			case 2:
+				TryAuthBy<ConsolePlatformAuth>(args: null, onSuccess: onSuccessfulAutomaticAuth, onFailed: onFailedAutomaticAuth);
+				break;
+			default:
+				IsAuthInProgress = false;
+				break;
+		}
+	}
+}

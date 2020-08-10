@@ -28,14 +28,14 @@ public class AuthController : MonoBehaviour
 
     private void PagesEvents()
     {
-        signUp_Panel.GetComponent<ISignUp>().OnSuccessfulSignUp = () => OpenPopUp("Account successfully created", string.Format("Please check {0} and confirm your email", signUp_Panel.GetComponent<ISignUp>().SignUpEmail));
-        signUp_Panel.GetComponent<ISignUp>().OnUnsuccessfulSignUp = OnError;
-        resetPassword_Panel.GetComponent<IResetPassword>().OnSuccessfulResetPassword = () => {
+        signUp_Panel.GetComponent<OldISignUp>().OnSuccessfulSignUp = () => OpenPopUp("Account successfully created", string.Format("Please check {0} and confirm your email", signUp_Panel.GetComponent<OldISignUp>().SignUpEmail));
+        signUp_Panel.GetComponent<OldISignUp>().OnUnsuccessfulSignUp = OnError;
+        resetPassword_Panel.GetComponent<OldIResetPassword>().OnSuccessfulResetPassword = () => {
 			OpenPopUp("Password successfully reset", "Please check your email and change the password"); 
         };
-        resetPassword_Panel.GetComponent<IResetPassword>().OnUnsuccessfulResetPassword = OnError;
-        login_Panel.GetComponent<ILogin>().OnUnsuccessfulLogin = OnError;
-        login_Panel.GetComponent<ILogin>().OnSuccessfulLogin = () => OpenPopUp("You have successfully logged in", PopUpWindows.Success);
+        resetPassword_Panel.GetComponent<OldIResetPassword>().OnUnsuccessfulResetPassword = OnError;
+        login_Panel.GetComponent<OldILogin>().OnUnsuccessfulLogin = OnError;
+        login_Panel.GetComponent<OldILogin>().OnSuccessfulLogin = () => OpenPopUp("You have successfully logged in", PopUpWindows.Success);
     }
     
     private void PagesController()

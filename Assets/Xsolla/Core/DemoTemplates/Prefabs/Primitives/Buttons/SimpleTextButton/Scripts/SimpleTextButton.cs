@@ -16,6 +16,8 @@ public class SimpleTextButton : SimpleButtonLockDecorator
 		set => buttonText.text = value;
 	}
 
+	protected Text ButtonTextComponent => buttonText;
+
 	protected override void OnNormal()
 	{
 		base.OnNormal();

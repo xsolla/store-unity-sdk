@@ -1,0 +1,83 @@
+﻿using System;
+using UnityEngine;
+using Xsolla.Core;
+using Xsolla.Core.Popup;
+using Xsolla.Login;
+using Xsolla.Store;
+
+public class AccountLinkingManager : MonoBehaviour
+{
+#pragma warning disable 0649
+	[SerializeField] private SimpleButton accountLinkingButton;
+	[SerializeField] private SimpleButton getAccountLinkButton;
+#pragma warning restore 0649
+
+	private const string URL_MASTER_ACCOUNT = "https://livedemo.xsolla.com/sdk-demo/";
+
+	public event Action<string> OpenUrlEvent;
+	public event Action LinkingAccountComplete;
+
+	private void Start()
+	{
+		if (DemoController.Instance.GetImplementation().Token.IsMasterAccount())
+			GetAccountLinkButtonEnable();
+		else
+			LinkingButtonEnable();
+	}
+
+	private void GetAccountLinkButtonEnable()
+	{
+		accountLinkingButton.gameObject.SetActive(false);
+		getAccountLinkButton.gameObject.SetActive(true);
+
+		getAccountLinkButton.onClick = () =>
+		{
+			DemoController.Instance.GetImplementation().RequestLinkingCode(
+				code => StoreDemoPopup.ShowSuccess($"YOUR CODE: {code.code}"),
+				StoreDemoPopup.ShowError);
+		};
+	}
+
+	private void LinkingButtonEnable()
+	{
+		getAccountLinkButton.gameObject.SetActive(false);
+		accountLinkingButton.gameObject.SetActive(true);
+		
+		accountLinkingButton.onClick = () =>
+		{
+			ShowCodeConfirmation(code =>
+			{
+				DemoController.Instance.GetImplementation().LinkConsoleAccount(
+					XsollaSettings.UsernameFromConsolePlatform,
+					XsollaSettings.Platform.GetString(),
+					code,
+					LinkingAccountHandler,
+					StoreDemoPopup.ShowError);
+			});
+			OpenUrlEvent?.Invoke(URL_MASTER_ACCOUNT);
+		};
+	}
+
+	private void LinkingAccountHandler()
+	{
+		PopupFactory.Instance.CreateSuccess();
+		DemoController.Instance.GetImplementation().SignInConsoleAccount(
+			XsollaSettings.UsernameFromConsolePlatform,
+			XsollaSettings.Platform.GetString(),
+			ReloginCallback,
+			StoreDemoPopup.ShowError
+		);
+	}
+
+	private void ReloginCallback(string newToken)
+	{
+		DemoController.Instance.GetImplementation().Token = newToken;
+		LinkingAccountComplete?.Invoke();
+		Start();
+	}
+
+	private void ShowCodeConfirmation(Action<string> callback)
+	{
+		PopupFactory.Instance.CreateCodeConfirmation().SetConfirmCallback(callback);
+	}
+}

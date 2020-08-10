@@ -16,6 +16,9 @@ public class SimpleButton : MonoBehaviour, ISimpleButton
 	public Action onClick;
 	private DateTime lastClick;
 
+	public static event Action OnCursorEnter;
+	public static event Action OnCursorExit;
+
 	public float RateLimitMs { get; set; } = 500.0F;
 
 	void Awake()
@@ -73,13 +76,20 @@ public class SimpleButton : MonoBehaviour, ISimpleButton
 			i.sprite = sprite;
 	}
 
+	protected void SetImageSprite(Sprite sprite)
+	{
+		SetImageSprite(image, sprite);
+	}
+
 	protected virtual void OnNormal()
 	{
+		OnCursorExit?.Invoke();
 		SetImageSprite(image, normalStateSprite);
 	}
 
 	protected virtual void OnHover()
 	{
+		OnCursorEnter?.Invoke();
 		SetImageSprite(image, hoverStateSprite);
 	}
 

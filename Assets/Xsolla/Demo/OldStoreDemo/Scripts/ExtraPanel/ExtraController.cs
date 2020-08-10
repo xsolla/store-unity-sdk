@@ -7,7 +7,7 @@ using Xsolla.Login;
 public class ExtraController : MonoBehaviour, IExtraPanelController
 {
 	[SerializeField]
-	ExtraPanelAccountButtons accountButtons;
+	OldExtraPanelAccountButtons accountButtons;
 
 	[SerializeField]
 	ExtraPanelInfoButtons infoButtons;
