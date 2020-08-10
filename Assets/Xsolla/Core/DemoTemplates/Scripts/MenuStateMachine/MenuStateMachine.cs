@@ -1,13 +1,20 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Xsolla.Core.Popup;
 
-public class MenuStateMachine : MonoBehaviour, IMenuStateMachine
+public partial class MenuStateMachine : MonoBehaviour, IMenuStateMachine
 {
+	public event Action<MenuState, MenuState> StateChangingEvent;
 	[SerializeField] private Canvas canvas;
 	[SerializeField] private MenuState initialState;
 	[SerializeField] private GameObject authMenuPrefab;
+	[SerializeField] private GameObject authFailedMenuPrefab;
+	[SerializeField] private GameObject registrationMenuPrefab;
+	[SerializeField] private GameObject registrationSuccessMenuPrefab;
+	[SerializeField] private GameObject changePasswordMenuPrefab;
+	[SerializeField] private GameObject changePasswordSuccessMenuPrefab;
 	[SerializeField] private GameObject mainMenuPrefab;
 	[SerializeField] private GameObject storeMenuPrefab;
 	[SerializeField] private GameObject buyCurrencyMenuPrefab;
@@ -27,6 +34,11 @@ public class MenuStateMachine : MonoBehaviour, IMenuStateMachine
 		_stateMachine = new Dictionary<MenuState, GameObject>
 		{
 			{MenuState.Authorization, authMenuPrefab},
+			{MenuState.AuthorizationFailed, authFailedMenuPrefab},
+			{MenuState.Registration, registrationMenuPrefab},
+			{MenuState.RegistrationSuccess, registrationSuccessMenuPrefab},
+			{MenuState.ChangePassword, changePasswordMenuPrefab},
+			{MenuState.ChangePasswordSuccess, changePasswordSuccessMenuPrefab},
 			{MenuState.Main, mainMenuPrefab},
 			{MenuState.Store, storeMenuPrefab},
 			{MenuState.BuyCurrency, buyCurrencyMenuPrefab},
@@ -59,10 +71,12 @@ public class MenuStateMachine : MonoBehaviour, IMenuStateMachine
 			_stateObject = null;
 		}
 
-		if (_stateMachine[state] != null)
+		if (_stateMachine[_state] != null)
 		{
+			StateChangingEvent?.Invoke(oldState, _state);
 			_stateObject = Instantiate(_stateMachine[_state], canvas.transform);
-			HandleSomeCases(oldState, state);
+			CheckAuthorizationState(_state, _stateObject);
+			HandleSomeCases(oldState, _state);
 		}
 		else
 		{

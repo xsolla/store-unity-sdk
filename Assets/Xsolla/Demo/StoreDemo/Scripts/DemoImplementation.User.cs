@@ -16,6 +16,7 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 
 	public void SaveToken(string key, string token) => XsollaLogin.Instance.SaveToken(key, token);
 	public bool LoadToken(string key, out string token) => XsollaLogin.Instance.LoadToken(key, out token);
+	public void DeleteToken(string key) => XsollaLogin.Instance.DeleteToken(key);
 #endregion
 
 #region User

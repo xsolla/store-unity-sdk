@@ -2,7 +2,6 @@
 using System.Linq;
 using UnityEngine;
 using Xsolla.Core;
-using Xsolla.Login;
 
 public partial class LoginPageEnterController : LoginPageController
 {
@@ -54,6 +53,7 @@ public partial class LoginPageEnterController : LoginPageController
 
 		IsAuthInProgress = false;
 		base.OnSuccess?.Invoke();
+		DemoController.Instance.SetState(MenuState.Main);
 	}
 
 	private void ProcessError(Error error)

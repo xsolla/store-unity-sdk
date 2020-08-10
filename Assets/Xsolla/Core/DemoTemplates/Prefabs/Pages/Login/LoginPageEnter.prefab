@@ -406,18 +406,6 @@ MonoBehaviour:
   - {fileID: 7992357165286662489}
   - {fileID: 6921466262339829167}
   SteamLoginButton: {fileID: 4198999206004384145}
---- !u!114 &2796436177668608761
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7907913669611144744}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d854b0a3038f4848859f72c43da0988, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &395973113361874688
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -618,6 +606,31 @@ PrefabInstance:
       propertyPath: m_Name
       value: ForgetPasswordButton
       objectReference: {fileID: 0}
+    - target: {fileID: 6594657589939941921, guid: de270c316387df447a255547067c89df,
+        type: 3}
+      propertyPath: NormalStateObjects.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6594657589939941921, guid: de270c316387df447a255547067c89df,
+        type: 3}
+      propertyPath: HoverStateObjects.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6594657589939941921, guid: de270c316387df447a255547067c89df,
+        type: 3}
+      propertyPath: NormalStateObjects.Array.data[0]
+      value: 
+      objectReference: {fileID: 652853379}
+    - target: {fileID: 6594657589939941921, guid: de270c316387df447a255547067c89df,
+        type: 3}
+      propertyPath: NormalStateObjects.Array.data[1]
+      value: 
+      objectReference: {fileID: 984213945}
+    - target: {fileID: 6594657589939941921, guid: de270c316387df447a255547067c89df,
+        type: 3}
+      propertyPath: HoverStateObjects.Array.data[0]
+      value: 
+      objectReference: {fileID: 294595135}
     - target: {fileID: 5571938582151317058, guid: de270c316387df447a255547067c89df,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -723,31 +736,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6594657589939941921, guid: de270c316387df447a255547067c89df,
-        type: 3}
-      propertyPath: NormalStateObjects.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6594657589939941921, guid: de270c316387df447a255547067c89df,
-        type: 3}
-      propertyPath: HoverStateObjects.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6594657589939941921, guid: de270c316387df447a255547067c89df,
-        type: 3}
-      propertyPath: NormalStateObjects.Array.data[0]
-      value: 
-      objectReference: {fileID: 652853379}
-    - target: {fileID: 6594657589939941921, guid: de270c316387df447a255547067c89df,
-        type: 3}
-      propertyPath: NormalStateObjects.Array.data[1]
-      value: 
-      objectReference: {fileID: 984213945}
-    - target: {fileID: 6594657589939941921, guid: de270c316387df447a255547067c89df,
-        type: 3}
-      propertyPath: HoverStateObjects.Array.data[0]
-      value: 
-      objectReference: {fileID: 294595135}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: de270c316387df447a255547067c89df, type: 3}
 --- !u!224 &5571938580971436853 stripped
@@ -928,24 +916,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: SteamAuthButton
       objectReference: {fileID: 0}
-    - target: {fileID: 4198999204825581834, guid: 62c3f4944d30341a9a523a2e5da06fae,
-        type: 3}
-      propertyPath: normalStateSprite
-      value: 
-      objectReference: {fileID: 21300000, guid: a93b170525c874af784ad24f82f38ef3,
-        type: 3}
-    - target: {fileID: 4198999204825581834, guid: 62c3f4944d30341a9a523a2e5da06fae,
-        type: 3}
-      propertyPath: hoverStateSprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 652117e2d48d1bd49b4f0e25c89894ff,
-        type: 3}
-    - target: {fileID: 4198999204825581834, guid: 62c3f4944d30341a9a523a2e5da06fae,
-        type: 3}
-      propertyPath: pressedStateSprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 18204ca780a36854194eee1246dbf844,
-        type: 3}
     - target: {fileID: 5571938582151317058, guid: 62c3f4944d30341a9a523a2e5da06fae,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1092,6 +1062,24 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4198999204825581834, guid: 62c3f4944d30341a9a523a2e5da06fae,
+        type: 3}
+      propertyPath: normalStateSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: a93b170525c874af784ad24f82f38ef3,
+        type: 3}
+    - target: {fileID: 4198999204825581834, guid: 62c3f4944d30341a9a523a2e5da06fae,
+        type: 3}
+      propertyPath: hoverStateSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 652117e2d48d1bd49b4f0e25c89894ff,
+        type: 3}
+    - target: {fileID: 4198999204825581834, guid: 62c3f4944d30341a9a523a2e5da06fae,
+        type: 3}
+      propertyPath: pressedStateSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 18204ca780a36854194eee1246dbf844,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 62c3f4944d30341a9a523a2e5da06fae, type: 3}
 --- !u!114 &4198999206004384145 stripped
@@ -1117,11 +1105,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: LoginButton
-      objectReference: {fileID: 0}
-    - target: {fileID: 3699472388581246444, guid: 5bd9ec22caee7ba4b878814a69af2baf,
-        type: 3}
-      propertyPath: m_Text
-      value: LOGIN
       objectReference: {fileID: 0}
     - target: {fileID: 3699472388235449381, guid: 5bd9ec22caee7ba4b878814a69af2baf,
         type: 3}
@@ -1227,6 +1210,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3699472388581246444, guid: 5bd9ec22caee7ba4b878814a69af2baf,
+        type: 3}
+      propertyPath: m_Text
+      value: LOGIN
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5bd9ec22caee7ba4b878814a69af2baf, type: 3}
@@ -1627,50 +1615,50 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 8644187888068811781, guid: 9cf5d905c0d2b7b4db56e86899d45bc6,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8644187888068811781, guid: 9cf5d905c0d2b7b4db56e86899d45bc6,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8644187888068811781, guid: 9cf5d905c0d2b7b4db56e86899d45bc6,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8644187888068811781, guid: 9cf5d905c0d2b7b4db56e86899d45bc6,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8644187887805121082, guid: 9cf5d905c0d2b7b4db56e86899d45bc6,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8644187887805121082, guid: 9cf5d905c0d2b7b4db56e86899d45bc6,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8644187887805121082, guid: 9cf5d905c0d2b7b4db56e86899d45bc6,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8644187887805121082, guid: 9cf5d905c0d2b7b4db56e86899d45bc6,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9027233173765662795, guid: 9cf5d905c0d2b7b4db56e86899d45bc6,
         type: 3}
       propertyPath: m_Name
       value: SignUpButton
-      objectReference: {fileID: 0}
-    - target: {fileID: 8644187888068811781, guid: 9cf5d905c0d2b7b4db56e86899d45bc6,
-        type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8644187888068811781, guid: 9cf5d905c0d2b7b4db56e86899d45bc6,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8644187888068811781, guid: 9cf5d905c0d2b7b4db56e86899d45bc6,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8644187888068811781, guid: 9cf5d905c0d2b7b4db56e86899d45bc6,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8644187887805121082, guid: 9cf5d905c0d2b7b4db56e86899d45bc6,
-        type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8644187887805121082, guid: 9cf5d905c0d2b7b4db56e86899d45bc6,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8644187887805121082, guid: 9cf5d905c0d2b7b4db56e86899d45bc6,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8644187887805121082, guid: 9cf5d905c0d2b7b4db56e86899d45bc6,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7556269568857228678, guid: 9cf5d905c0d2b7b4db56e86899d45bc6,
         type: 3}
@@ -1679,6 +1667,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9cf5d905c0d2b7b4db56e86899d45bc6, type: 3}
+--- !u!224 &5505775174947660107 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 8349074904051573044, guid: 9cf5d905c0d2b7b4db56e86899d45bc6,
+    type: 3}
+  m_PrefabInstance: {fileID: 4590766959724068991}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &7017008380027666105 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6833304013476789958, guid: 9cf5d905c0d2b7b4db56e86899d45bc6,
@@ -1688,12 +1682,6 @@ GameObject:
 --- !u!1 &7907913669611144744 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5911858173590160983, guid: 9cf5d905c0d2b7b4db56e86899d45bc6,
-    type: 3}
-  m_PrefabInstance: {fileID: 4590766959724068991}
-  m_PrefabAsset: {fileID: 0}
---- !u!224 &5505775174947660107 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 8349074904051573044, guid: 9cf5d905c0d2b7b4db56e86899d45bc6,
     type: 3}
   m_PrefabInstance: {fileID: 4590766959724068991}
   m_PrefabAsset: {fileID: 0}

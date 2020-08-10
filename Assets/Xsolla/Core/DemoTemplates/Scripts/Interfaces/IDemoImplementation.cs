@@ -6,6 +6,8 @@ using Xsolla.Login;
 
 public interface IDemoImplementation
 {
+	Token GetUserToken();
+	
 	void GetVirtualCurrencies([NotNull] Action<List<VirtualCurrencyModel>> onSuccess,
 		[CanBeNull] Action<Error> onError = null);
 	
@@ -47,6 +49,8 @@ public interface IDemoImplementation
 	void SaveToken(string key, string token);
 
 	bool LoadToken(string key, out string token);
+
+	void DeleteToken(string key);
 
 	void GetUserInfo(string token, [NotNull] Action<UserInfo> onSuccess, [CanBeNull] Action<Error> onError = null);
 

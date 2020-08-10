@@ -15,6 +15,10 @@ public partial class LoginPageEnterController : LoginPageController
 			IsAuthInProgress = true;
 			RunAutomaticAuths();
 		}
+		else
+		{
+			DemoController.Instance.GetImplementation().DeleteToken(Constants.LAST_SUCCESS_AUTH_TOKEN);
+		}
 	}
 
 	private void RunAutomaticAuths()

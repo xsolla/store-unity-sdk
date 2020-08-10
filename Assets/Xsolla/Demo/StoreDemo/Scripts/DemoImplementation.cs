@@ -15,6 +15,15 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 		}
 	}
 
+	public Token GetUserToken()
+	{
+		if (Token == null || Token.IsNullOrEmpty())
+		{
+			return DefaultStoreToken;
+		}
+		return Token;
+	}
+
 	private Action<Error> WrapErrorCallback(Action<Error> onError)
 	{
 		return error =>
