@@ -77,6 +77,12 @@ namespace Xsolla.Core
 		{
 			PostRequest(url, null, onComplete, onError, errorsToCheck);
 		}
+		
+		public void PostUploadRequest<T>(string url, string pathToFile, List<WebRequestHeader> requestHeaders, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
+			where T: class
+		{
+			StartCoroutine(PostUploadRequestCor(url, pathToFile, requestHeaders, onComplete, onError, errorsToCheck));
+		}
 
 		IEnumerator PostRequestCor(string url, object jsonObject, List<WebRequestHeader> requestHeaders, Action onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
 		{
@@ -98,16 +104,41 @@ namespace Xsolla.Core
 
 			yield return StartCoroutine(PerformWebRequest(webRequest, onComplete, onError, errorsToCheck));
 		}
+		
+		IEnumerator PostUploadRequestCor<T>(string url, string pathToFile, List<WebRequestHeader> requestHeaders, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
+		{
+			UnityWebRequest webRequest = PreparePostUploadRequest(url, pathToFile, requestHeaders);
+
+			yield return StartCoroutine(PerformWebRequest(webRequest, onComplete, onError, errorsToCheck));
+		}
 
 		private UnityWebRequest PreparePostWebRequest(string url, object jsonObject, List<WebRequestHeader> requestHeaders)
 		{
-			UnityWebRequest webRequest = UnityWebRequest.Post(url, "POST");
+			UnityWebRequest webRequest = UnityWebRequest.Post(url, UnityWebRequest.kHttpVerbPOST);
 			webRequest.timeout = 10;
 
 			AttachBodyToPostRequest(webRequest, jsonObject);
 			AttachHeadersToPostRequest(webRequest, requestHeaders);
 
 			return webRequest;
+		}
+		
+		private UnityWebRequest PreparePostUploadRequest(string url, string pathToFile, List<WebRequestHeader> requestHeaders)
+		{
+			var webRequest = UnityWebRequest.Post(url, UnityWebRequest.kHttpVerbPOST);
+			webRequest.timeout = 10;
+
+			AttachFileToUploadRequest(webRequest, pathToFile);
+			AttachHeadersToPostRequest(webRequest, requestHeaders);
+
+			return webRequest;
+		}
+		
+		private void AttachFileToUploadRequest(UnityWebRequest webRequest, string pathToFile)
+		{
+			if (!string.IsNullOrEmpty(pathToFile)) {
+				webRequest.uploadHandler = new UploadHandlerFile(pathToFile);
+			}
 		}
 
 		private void AttachBodyToPostRequest(UnityWebRequest webRequest, object jsonObject)
