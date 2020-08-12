@@ -9,8 +9,6 @@ public class LoginActionsCreatePageProxer : MonoBehaviour
 	[SerializeField] SimpleButton SteamLoginButton;
 #pragma warning restore 0649
 
-	public Action<Action<LoginPageEnterController, object>, object> OnActionRequest;
-
 	private void Awake()
 	{
 		if (SocialLoginButtons != null)
@@ -28,11 +26,22 @@ public class LoginActionsCreatePageProxer : MonoBehaviour
 
 	private void RequestSocialAuth(SocialProvider provider)
 	{
-		OnActionRequest?.Invoke(LoginActionExamples.RunSocialAuthDelegate, provider);
+		ExecuteProxyRequest(LoginActionExamples.RunSocialAuthDelegate, provider);
 	}
 
 	private void RequestSteamAuth()
 	{
-		OnActionRequest?.Invoke(LoginActionExamples.RunSteamAuthDelegate, null);
+		ExecuteProxyRequest(LoginActionExamples.RunSteamAuthDelegate, null);
+	}
+
+	private void ExecuteProxyRequest(Action<LoginPageEnterController, object> proxyRequest, object proxyArgument)
+	{
+		var proxyObject = new GameObject();
+		var proxyScript = proxyObject.AddComponent<LoginCreateToAuthProxyRequestHolder>();
+
+		proxyScript.ProxyRequest = proxyRequest;
+		proxyScript.ProxyArgument = proxyArgument;
+
+		DemoController.Instance.SetState(MenuState.Authorization);
 	}
 }

@@ -32,7 +32,7 @@ public partial class LoginPageEnterController : LoginPageController
 		}
 
 		if (SteamLoginButton != null)
-			SteamLoginButton.onClick += RunSteamAuth;
+			SteamLoginButton.onClick += RunManualSteamAuth;
 	}
 
 	private void PrepareAndRunBasicAuth()
@@ -92,7 +92,7 @@ public partial class LoginPageEnterController : LoginPageController
 #endif
 	}
 
-	public void RunSteamAuth()
+	public void RunManualSteamAuth()
 	{
 		if (IsAuthInProgress)
 			return;

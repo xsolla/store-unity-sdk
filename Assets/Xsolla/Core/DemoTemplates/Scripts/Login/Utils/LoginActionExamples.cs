@@ -21,6 +21,6 @@ public static class LoginActionExamples
 
 	private static void RunSteamAuth(LoginPageEnterController loginController, object arg)
 	{
-		loginController.RunSteamAuth();
+		loginController.RunManualSteamAuth();
 	}
 }

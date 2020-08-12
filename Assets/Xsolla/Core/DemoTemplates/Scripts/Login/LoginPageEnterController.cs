@@ -53,7 +53,6 @@ public partial class LoginPageEnterController : LoginPageController
 
 		IsAuthInProgress = false;
 		base.OnSuccess?.Invoke();
-		DemoController.Instance.SetState(MenuState.Main);
 	}
 
 	private void ProcessError(Error error)

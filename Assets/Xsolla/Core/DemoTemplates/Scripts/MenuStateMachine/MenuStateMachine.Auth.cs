@@ -36,6 +36,8 @@ public partial class MenuStateMachine : MonoBehaviour, IMenuStateMachine
 					pageController.OnSuccess = () => SetState(MenuState.Main);
 					pageController.OnError = _ => SetState(MenuState.AuthorizationFailed);
 				}
+
+				buttonsProvider.OKButton.onClick += () => SetState(MenuState.ChangePassword);
 				break;
 			}
 			case MenuState.AuthorizationFailed:

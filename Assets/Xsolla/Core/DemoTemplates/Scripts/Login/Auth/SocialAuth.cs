@@ -77,6 +77,7 @@ public class SocialAuth : StoreStringActionResult, ILoginAuthorization
 	private void BrowserCloseHandler()
 	{
 		HotkeyCoroutine.Unlock();
+		base.OnError?.Invoke(null);
 	}
 
 	private IEnumerator SuccessAuthCoroutine(string token)

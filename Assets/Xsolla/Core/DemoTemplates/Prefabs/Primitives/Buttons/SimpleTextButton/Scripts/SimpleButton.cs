@@ -26,6 +26,11 @@ public class SimpleButton : MonoBehaviour, ISimpleButton
 		lastClick = DateTime.MinValue;
 	}
 
+	private void OnDisable()
+	{
+		OnNormal();
+	}
+
 	public virtual void OnDrag(PointerEventData eventData)
 	{
 	}
