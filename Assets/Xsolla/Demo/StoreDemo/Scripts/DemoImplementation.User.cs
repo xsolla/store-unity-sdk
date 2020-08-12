@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 using Xsolla.Core;
 using Xsolla.Login;
@@ -14,9 +15,21 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 		set => XsollaLogin.Instance.Token = value;
 	}
 
+	public Token GetDemoUserToken()
+	{
+		return "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE5NjIyMzQwNDgsImlzcyI6Imh0dHBzOi8vbG9naW4ueHNvbGxhLmNvbSIsImlhdCI6MTU2MjE0NzY0OCwidXNlcm5hbWUiOiJ4c29sbGEiLCJ4c29sbGFfbG9naW5fYWNjZXNzX2tleSI6IjA2SWF2ZHpDeEVHbm5aMTlpLUc5TmMxVWFfTWFZOXhTR3ZEVEY4OFE3RnMiLCJzdWIiOiJkMzQyZGFkMi05ZDU5LTExZTktYTM4NC00MjAxMGFhODAwM2YiLCJlbWFpbCI6InN1cHBvcnRAeHNvbGxhLmNvbSIsInR5cGUiOiJ4c29sbGFfbG9naW4iLCJ4c29sbGFfbG9naW5fcHJvamVjdF9pZCI6ImU2ZGZhYWM2LTc4YTgtMTFlOS05MjQ0LTQyMDEwYWE4MDAwNCIsInB1Ymxpc2hlcl9pZCI6MTU5MjR9.GCrW42OguZbLZTaoixCZgAeNLGH2xCeJHxl8u8Xn2aI";
+	}
 	public void SaveToken(string key, string token) => XsollaLogin.Instance.SaveToken(key, token);
 	public bool LoadToken(string key, out string token) => XsollaLogin.Instance.LoadToken(key, out token);
 	public void DeleteToken(string key) => XsollaLogin.Instance.DeleteToken(key);
+	public void ValidateToken(string token, Action<string> onSuccess = null, Action<Error> onError = null)
+	{
+		GetUserInfo(token, info =>
+		{
+			UserInfoContainer.UserInfo = info; 
+			onSuccess?.Invoke(token);
+		}, onError);
+	}
 #endregion
 
 #region User

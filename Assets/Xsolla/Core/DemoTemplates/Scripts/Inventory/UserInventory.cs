@@ -8,6 +8,7 @@ using Xsolla.Core;
 
 public class UserInventory : MonoSingleton<UserInventory>
 {
+	public event Action RefreshEvent;
 	public event Action<List<InventoryItemModel>> UpdateItemsEvent;
 	public event Action<List<VirtualCurrencyBalanceModel>> UpdateVirtualCurrencyBalanceEvent;
 	public event Action<List<UserSubscriptionModel>> UpdateSubscriptionsEvent;
@@ -83,6 +84,7 @@ public class UserInventory : MonoSingleton<UserInventory>
 		UpdateVirtualCurrencyBalanceEvent?.Invoke(Balance);
 		UpdateItemsEvent?.Invoke(VirtualItems);
 		UpdateSubscriptionsEvent?.Invoke(Subscriptions);
+		RefreshEvent?.Invoke();
 		onSuccess?.Invoke();
 	}
 }

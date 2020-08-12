@@ -46,11 +46,16 @@ public interface IDemoImplementation
 
 	Token Token { get; set; }
 
+	Token GetDemoUserToken();
+	
 	void SaveToken(string key, string token);
 
 	bool LoadToken(string key, out string token);
 
 	void DeleteToken(string key);
+
+	void ValidateToken(string token, [CanBeNull] Action<string> onSuccess = null, 
+		[CanBeNull] Action<Error> onError = null);
 
 	void GetUserInfo(string token, [NotNull] Action<UserInfo> onSuccess, [CanBeNull] Action<Error> onError = null);
 

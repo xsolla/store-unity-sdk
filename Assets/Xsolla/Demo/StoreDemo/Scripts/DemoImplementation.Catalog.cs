@@ -15,7 +15,7 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 
 	private void RequestStoreItems(Action<List<StoreItem>> onSuccess, Action<Error> onError = null)
 	{
-		if (_itemsCache == null || (DateTime.Now - _cacheTime).Seconds > 10)
+		if (_itemsCache == null || (DateTime.Now - _cacheTime).TotalSeconds > 10)
 		{
 			if (!_inProgress)
 			{

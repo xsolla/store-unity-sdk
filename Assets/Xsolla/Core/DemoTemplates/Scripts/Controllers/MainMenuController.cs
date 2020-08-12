@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Xsolla.Core;
+using Xsolla.Core.Popup;
+using Xsolla.Store;
 
 public class MainMenuController : BaseMenuController
 {
@@ -14,16 +16,28 @@ public class MainMenuController : BaseMenuController
 	
 	private void Start()
 	{
-		AttachButtonCallback(storeButton, () => DemoController.Instance.SetState(MenuState.Store));
-		AttachButtonCallback(inventoryButton, () => DemoController.Instance.SetState(MenuState.Inventory));
-		AttachButtonCallback(profileButton, () => DemoController.Instance.SetState(MenuState.Profile));
-		AttachButtonCallback(logoutButton, () => DemoController.Instance.SetState(MenuState.Authorization));
+		AttachButtonCallback(storeButton, () => SetMenuState(MenuState.Store));
+		AttachButtonCallback(inventoryButton, () => SetMenuState(MenuState.Inventory));
+		AttachButtonCallback(profileButton, () => SetMenuState(MenuState.Profile));
+		AttachButtonCallback(logoutButton, () => SetMenuState(MenuState.Authorization));
 		
 		AttachUrlToButton(documentationButton, DemoController.Instance.documentationUrl);
 		AttachUrlToButton(feedbackButton, DemoController.Instance.feedbackUrl);
 		AttachUrlToButton(publisherAccountButton, DemoController.Instance.publisherUrl);
 
 		Initialization();
+	}
+
+	private static void SetMenuState(MenuState state)
+	{
+		if (UserInventory.Instance.IsUpdated && UserCatalog.Instance.IsUpdated)
+			DemoController.Instance.SetState(state);
+		else
+		{
+			PopupFactory.Instance.CreateWaiting()
+				.SetCloseCondition(() => UserInventory.Instance.IsUpdated && UserCatalog.Instance.IsUpdated)
+				.SetCloseHandler(() => DemoController.Instance.SetState(state));
+		}
 	}
 
 	private static void Initialization()

@@ -57,4 +57,9 @@ public class UserCartItem
 	{
 		return obj is UserCartItem item && Sku.Equals(item.Sku);
 	}
+
+	public override int GetHashCode()
+	{
+		return base.GetHashCode();
+	}
 }

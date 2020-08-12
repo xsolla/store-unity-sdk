@@ -49,17 +49,9 @@ public partial class LoginPageEnterController : LoginPageController
 
 		object[] args = { username, password, rememberMe };
 
-		Action<string> onSuccessfulBasicAuth = token =>
-		{
-			ValidateToken(token,
-				onSuccess: () => CompleteSuccessfulAuth(token, isBasicAuth: true, isSaveToken: rememberMe),
-				onFailed: error => ProcessError(error));
-		};
-
-		Action<Error> onFailedBasicAuth = error =>
-		{
-			ProcessError(error);
-		};
+		Action<string> onSuccessfulBasicAuth = token => DemoController.Instance.GetImplementation()
+			.ValidateToken(token, t => CompleteSuccessfulAuth(token, true, isSaveToken: rememberMe), ProcessError);
+		Action<Error> onFailedBasicAuth = ProcessError;
 
 		TryAuthBy<BasicAuth>(args, onSuccessfulBasicAuth, onFailedBasicAuth);
 	}
@@ -70,20 +62,11 @@ public partial class LoginPageEnterController : LoginPageController
 			return;
 
 		IsAuthInProgress = true;
-
 		object[] args = { socialProvider };
 
-		Action<string> onSuccessfulSocialAuth = token =>
-		{
-			ValidateToken(token,
-				onSuccess: () => CompleteSuccessfulAuth(token, isSaveToken: true),
-				onFailed: error => ProcessError(error));
-		};
-
-		Action<Error> onFailedSocialAuth = error =>
-		{
-			ProcessError(error);
-		};
+		Action<string> onSuccessfulSocialAuth = token => DemoController.Instance.GetImplementation()
+			.ValidateToken(token, t => CompleteSuccessfulAuth(token, true, isSaveToken: true), ProcessError);
+		Action<Error> onFailedSocialAuth = ProcessError;
 
 #if UNITY_EDITOR || UNITY_STANDALONE
 		TryAuthBy<SocialAuth>(args, onSuccessfulSocialAuth, onFailedSocialAuth);
@@ -99,17 +82,9 @@ public partial class LoginPageEnterController : LoginPageController
 
 		IsAuthInProgress = true;
 
-		Action<string> onSuccessfulSteamAuth = token =>
-		{
-			ValidateToken(token,
-				onSuccess: () => CompleteSuccessfulAuth(token: token, isSteam: true, isSaveToken: true),
-				onFailed: error => ProcessError(error));
-		};
-
-		Action<Error> onFailedSteamAuth = error =>
-		{
-			ProcessError(error);
-		};
+		Action<string> onSuccessfulSteamAuth = token => DemoController.Instance.GetImplementation()
+			.ValidateToken(token, t => CompleteSuccessfulAuth(token, true, isSteam: true, isSaveToken: true), ProcessError);
+		Action<Error> onFailedSteamAuth = ProcessError;
 
 		TryAuthBy<SteamAuth>(args: null, onSuccess: onSuccessfulSteamAuth, onFailed: onFailedSteamAuth);
 	}

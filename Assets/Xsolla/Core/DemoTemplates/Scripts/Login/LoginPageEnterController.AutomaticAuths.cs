@@ -23,12 +23,8 @@ public partial class LoginPageEnterController : LoginPageController
 
 	private void RunAutomaticAuths()
 	{
-		Action<string> onSuccessfulAutomaticAuth = token =>
-		{
-			ValidateToken(token,
-				onSuccess: () => CompleteSuccessfulAuth(token),
-				onFailed: null);
-		};
+		Action<string> onSuccessfulAutomaticAuth =
+			token => DemoController.Instance.GetImplementation().ValidateToken(token, t => CompleteSuccessfulAuth(t));
 
 		Action<Error> onFailedAutomaticAuth = error =>
 		{

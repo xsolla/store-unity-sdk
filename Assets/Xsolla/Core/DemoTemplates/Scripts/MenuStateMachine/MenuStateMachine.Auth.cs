@@ -1,7 +1,4 @@
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using Xsolla.Core.Popup;
 
 public partial class MenuStateMachine : MonoBehaviour, IMenuStateMachine
 {
@@ -24,7 +21,11 @@ public partial class MenuStateMachine : MonoBehaviour, IMenuStateMachine
 					buttonsProvider.LogInButton.onClick += () => SetState(MenuState.Authorization);
 			}
 			if (buttonsProvider.DemoUserButton != null)
-				buttonsProvider.DemoUserButton.onClick += () => SetState(MenuState.Main);
+				buttonsProvider.DemoUserButton.onClick += () =>
+				{
+					DemoController.Instance.GetImplementation().ValidateToken(
+						DemoController.Instance.GetImplementation().GetDemoUserToken(), _ => SetState(MenuState.Main));
+				};
 		}
 
 		switch (state)

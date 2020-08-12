@@ -189,12 +189,7 @@ public class InventoryItemUI : MonoBehaviour
 
 	private void ConsumeItemsSuccess()
 	{
-		UserInventory.Instance.Refresh(() =>
-		{
-			EnableConsumeButton();
-			loadingCircle.SetActive(false);
-			RefreshUi();
-		});
+		UserInventory.Instance.Refresh();
 	}
 
 	private void ConsumeItemsFailed()

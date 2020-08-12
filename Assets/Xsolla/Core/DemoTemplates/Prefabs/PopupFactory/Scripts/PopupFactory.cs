@@ -30,6 +30,7 @@ namespace Xsolla.Core.Popup
 		public GameObject ErrorPopupPrefab;
 		public GameObject ConfirmPopupPrefab;
 		public GameObject ConfirmCodePopupPrefab;
+		public GameObject WaitingPopupPrefab;
 
 		private GameObject canvas;
 
@@ -71,5 +72,8 @@ namespace Xsolla.Core.Popup
 
 		public IConfirmationCodePopup CreateCodeConfirmation() => CreateDefaultPopup(ConfirmCodePopupPrefab, canvas)
 			?.GetComponent<ConfirmationCodePopup>();
+		
+		public IWaitingPopup CreateWaiting() =>
+			CreateDefaultPopup(WaitingPopupPrefab, canvas)?.GetComponent<WaitingPopup>();
 	}
 }

@@ -12,6 +12,7 @@ public class InventoryMenuController : MonoBehaviour
 	[SerializeField] private GroupsController groupsController;
 	
 	private IDemoImplementation _demoImplementation;
+	private string _group;
 
 	private void OnDestroy()
 	{
@@ -23,10 +24,12 @@ public class InventoryMenuController : MonoBehaviour
 		_demoImplementation = DemoController.Instance.GetImplementation();
 		groupsController.GroupSelectedEvent += PutItemsToContainer;
 		StartCoroutine(InventoryCoroutine());
+		UserInventory.Instance.RefreshEvent += () => PutItemsToContainer(_group);
 	}
 
 	private void PutItemsToContainer(string groupName)
 	{
+		_group = groupName;
 		var items = (groupName.Equals(ALL_ITEMS_GROUP))
 			? UserInventory.Instance.AllItems
 			: UserInventory.Instance.AllItems.Where(i =>

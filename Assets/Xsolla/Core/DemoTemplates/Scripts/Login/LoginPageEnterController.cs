@@ -31,12 +31,7 @@ public partial class LoginPageEnterController : LoginPageController
 		auth.OnError = onFailed;
 		auth.TryAuth(args);
 	}
-
-	private void ValidateToken(string token, Action onSuccess, Action<Error> onFailed)
-	{
-		DemoController.Instance.GetImplementation().GetUserInfo(token, info => { UserInfoContainer.UserInfo = info; onSuccess.Invoke(); }, onFailed);
-	}
-
+	
 	private void CompleteSuccessfulAuth(string token, bool isBasicAuth = false, bool isPaystation = false, bool isSteam = false, bool isSaveToken = false)
 	{
 		if(isSaveToken)
