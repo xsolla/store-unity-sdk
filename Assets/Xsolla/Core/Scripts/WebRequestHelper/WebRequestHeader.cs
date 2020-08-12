@@ -5,6 +5,15 @@
 		public string Name { get; set; }
 		public string Value { get; set; }
 
+		public WebRequestHeader()
+		{}
+		
+		public WebRequestHeader(string name, string value)
+		{
+			Name = name;
+			Value = value;
+		}
+
 		public static WebRequestHeader AuthHeader(string bearerTokenValue)
 		{
 			return new WebRequestHeader {Name = "Authorization", Value = string.Format("Bearer {0}", bearerTokenValue)};

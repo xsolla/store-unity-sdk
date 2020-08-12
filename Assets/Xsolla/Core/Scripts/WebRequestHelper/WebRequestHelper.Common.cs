@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Networking;
 
 namespace Xsolla.Core
@@ -7,18 +8,30 @@ namespace Xsolla.Core
 	{
 		public void AddOptionalHeadersTo(UnityWebRequest request)
 		{
-			if (Application.platform != RuntimePlatform.WebGLPlayer) {
-				request.SetRequestHeader("X-ENGINE", "UNITY");
-				request.SetRequestHeader("X-ENGINE-V", Application.unityVersion.ToUpper());
-				request.SetRequestHeader("X-SDK", "STORE");
-				request.SetRequestHeader("X-SDK-V", Constants.StoreSdkVersion);
-			}
+			if (Application.platform != RuntimePlatform.WebGLPlayer)
+				GetAdditionalHeaders().ForEach(h => request.SetRequestHeader(h.Name, h.Value));
+		}
+
+		public List<WebRequestHeader> GetAdditionalHeaders()
+		{
+			return new List<WebRequestHeader>
+			{
+				new WebRequestHeader("X-ENGINE", "UNITY"),
+				new WebRequestHeader("X-ENGINE-V", Application.unityVersion.ToUpper()),
+				new WebRequestHeader("X-SDK", "STORE"),
+				new WebRequestHeader("X-SDK-V", Constants.StoreSdkVersion)
+			};
 		}
 
 		public void AddContentTypeHeaderTo(UnityWebRequest request)
 		{
-			WebRequestHeader contentHeader = WebRequestHeader.ContentTypeHeader();
+			var contentHeader = GetContentTypeHeader();
 			request.SetRequestHeader(contentHeader.Name, contentHeader.Value);
+		}
+
+		public WebRequestHeader GetContentTypeHeader()
+		{
+			return WebRequestHeader.ContentTypeHeader();
 		}
 	}
 }
