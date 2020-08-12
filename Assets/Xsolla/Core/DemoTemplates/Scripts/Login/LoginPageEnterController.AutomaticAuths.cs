@@ -54,6 +54,9 @@ public partial class LoginPageEnterController : LoginPageController
 			case 2:
 				TryAuthBy<ConsolePlatformAuth>(args: null, onSuccess: onSuccessfulAutomaticAuth, onFailed: onFailedAutomaticAuth);
 				break;
+			case 3:
+				TryAuthBy<SteamAuth>(args: null, onSuccess: onSuccessfulAutomaticAuth, onFailed: onFailedAutomaticAuth);
+				break;
 			default:
 				IsAuthInProgress = false;
 				break;

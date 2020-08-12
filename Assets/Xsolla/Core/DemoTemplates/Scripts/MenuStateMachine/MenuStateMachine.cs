@@ -116,8 +116,11 @@ public partial class MenuStateMachine : MonoBehaviour, IMenuStateMachine
 
 	private bool CheckHardcodedBackCases()
 	{
-		if(_state == MenuState.Store || _state == MenuState.Inventory || _state == MenuState.Profile)
+		if (_state == MenuState.Store || _state == MenuState.Inventory || _state == MenuState.Profile)
+		{
 			SetState(MenuState.Main);
+			return true;
+		}
 		return false;
 	}
 	
@@ -128,6 +131,17 @@ public partial class MenuStateMachine : MonoBehaviour, IMenuStateMachine
 			ClearTrace();
 		if(newState == MenuState.Main || newState == MenuState.Authorization)
 			ClearTrace();
+		if(lastState == MenuState.Registration && newState == MenuState.Authorization)
+		{
+			var proxyScript = FindObjectOfType<LoginCreateToAuthProxyRequestHolder>();
+			var loginEnterScript = _stateObject.GetComponent<LoginPageEnterController>();
+
+			if(proxyScript != null && loginEnterScript != null)
+				loginEnterScript.RunLoginAction(proxyScript.ProxyRequest, proxyScript.ProxyArgument);
+
+			if(proxyScript != null)
+				Destroy(proxyScript.gameObject);
+		}
 	}
 
 	private void ClearTrace()
