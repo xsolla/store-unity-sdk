@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using Xsolla.Core;
 using Xsolla.Core.Popup;
 using Xsolla.Store;
@@ -31,7 +32,50 @@ public class DemoController : MonoSingleton<DemoController>, IMenuStateMachine
                 SetMessage("DemoController object have not any script, that implements 'IDemoImplementation' interface. " +
                            "Implement this interface and attach to DemoController object.").
                 SetCallback(() => Destroy(gameObject, 0.1F));
+            return;
         }
+        
+        StateChangingEvent += OnStateChangingEvent;
+    }
+
+    private void OnStateChangingEvent(MenuState lastState, MenuState newState)
+    {
+        if (lastState == MenuState.Main && newState == MenuState.Authorization)
+        {
+            if (UserInventory.IsExist)
+                Destroy(UserInventory.Instance.gameObject);
+            if (UserSubscriptions.IsExist)
+                Destroy(UserSubscriptions.Instance.gameObject);
+            if (OldUserAttributes.IsExist)
+                Destroy(OldUserAttributes.Instance.gameObject);
+        }
+
+        if (
+            (lastState == MenuState.Authorization 
+             || lastState == MenuState.Registration 
+             || lastState == MenuState.RegistrationSuccess) 
+            && newState == MenuState.Main)
+        {
+            UpdateCatalogAndInventory();
+        }
+    }
+    
+    private void UpdateCatalogAndInventory()
+    {
+        if(!UserInventory.IsExist)
+            UserInventory.Instance.Init(_demoImplementation);
+        if (!UserCatalog.IsExist)
+            UserCatalog.Instance.Init(_demoImplementation);
+        UserCatalog.Instance.UpdateItems(() =>
+        { 	// This method used for fastest async image loading
+            StartLoadItemImages(UserCatalog.Instance.AllItems);
+            UserInventory.Instance.Refresh();
+        });
+    }
+    
+    private static void StartLoadItemImages(List<CatalogItemModel> items)
+    {
+        items.ForEach(i => ImageLoader.Instance.GetImageAsync(i.ImageUrl, null));
     }
 
     protected override void OnDestroy()
@@ -42,8 +86,6 @@ public class DemoController : MonoSingleton<DemoController>, IMenuStateMachine
             Destroy(UserInventory.Instance.gameObject);
         if (UserCart.IsExist)
             Destroy(UserCart.Instance.gameObject);
-        if (UserInventory.IsExist)
-            Destroy(UserInventory.Instance.gameObject);
         if (OldUserAttributes.IsExist)
             Destroy(OldUserAttributes.Instance.gameObject);
         if (UserSubscriptions.IsExist)

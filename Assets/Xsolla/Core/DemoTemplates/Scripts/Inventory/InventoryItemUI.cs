@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using Xsolla.Core;
+using Xsolla.Core.Popup;
 
 public class InventoryItemUI : MonoBehaviour
 {
@@ -180,24 +181,12 @@ public class InventoryItemUI : MonoBehaviour
 
 	private void ConsumeHandler()
 	{
-		loadingCircle.SetActive(true);
-		DisableConsumeButton();
 		var model = UserInventory.Instance.VirtualItems.First(i => i.Sku.Equals(_itemInformation.Sku));
-		_demoImplementation.ConsumeInventoryItem(
-			model, (uint) consumeButton.counter.GetValue(), _ => ConsumeItemsSuccess(), _ => ConsumeItemsFailed());
+		DisableConsumeButton();
+		_demoImplementation.ConsumeInventoryItem(model, (uint) consumeButton.counter.GetValue(), 
+			_ => UserInventory.Instance.Refresh(), _ => EnableConsumeButton());
 	}
 
-	private void ConsumeItemsSuccess()
-	{
-		UserInventory.Instance.Refresh();
-	}
-
-	private void ConsumeItemsFailed()
-	{
-		EnableConsumeButton();
-		loadingCircle.SetActive(false);
-	}
-	
 	private void Counter_ValueChanged(int newValue)
 	{
 		var model = UserInventory.Instance.VirtualItems.First(i => i.Sku.Equals(_itemInformation.Sku));

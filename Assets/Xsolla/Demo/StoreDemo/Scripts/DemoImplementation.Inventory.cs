@@ -91,12 +91,16 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 
 	IEnumerator ConsumeCoroutine(InventoryItemModel item, uint count, Action<InventoryItemModel> onSuccess, Action<InventoryItemModel> onFailed = null)
 	{
+		var isFinished = false;
+		PopupFactory.Instance.CreateWaiting()
+			.SetCloseCondition(() => isFinished);
 		while (count-- > 0)
 		{
 			var busy = true;
 			SendConsumeOneItemRequest(item, () => busy = false, () => WrapErrorCallback(_ => onFailed?.Invoke(item)));
 			yield return new WaitWhile(() => busy);
 		}
+		isFinished = true;
 		onSuccess?.Invoke(item);
 	}
 

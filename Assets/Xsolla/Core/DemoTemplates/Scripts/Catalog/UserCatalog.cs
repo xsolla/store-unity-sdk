@@ -35,6 +35,7 @@ public class UserCatalog : MonoSingleton<UserCatalog>
 
 	public void UpdateItems([CanBeNull] Action onSuccess = null, [CanBeNull] Action<Error> onError = null)
 	{
+		IsUpdated = false;
 		StartCoroutine(UpdateItemsCoroutine(onSuccess, onError));
 	}
 

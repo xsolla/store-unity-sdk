@@ -27,7 +27,7 @@ public class StoreMenuController : MonoBehaviour
 	private void PutItemsToContainer(string groupName)
 	{
 		var items = (groupName.Equals(ALL_ITEMS_GROUP))
-			? UserCatalog.Instance.AllItems
+			? UserCatalog.Instance.AllItems.Where(i => !i.IsVirtualCurrency()).ToList()
 			: UserCatalog.Instance.AllItems.Where(i => 
 				_demoImplementation.GetCatalogGroupsByItem(i).Contains(groupName)).ToList();
 		

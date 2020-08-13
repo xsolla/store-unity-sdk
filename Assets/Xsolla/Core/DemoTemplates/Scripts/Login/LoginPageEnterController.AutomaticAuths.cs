@@ -25,6 +25,8 @@ public partial class LoginPageEnterController : LoginPageController
 	{
 		Action<string> onSuccessfulAutomaticAuth =
 			token => DemoController.Instance.GetImplementation().ValidateToken(token, t => CompleteSuccessfulAuth(t));
+		Action<string> onSuccessfulSteamAuth =
+			token => DemoController.Instance.GetImplementation().ValidateToken(token, t => CompleteSuccessfulAuth(t, isSteam: true));
 
 		Action<Error> onFailedAutomaticAuth = error =>
 		{
@@ -51,7 +53,7 @@ public partial class LoginPageEnterController : LoginPageController
 				TryAuthBy<ConsolePlatformAuth>(args: null, onSuccess: onSuccessfulAutomaticAuth, onFailed: onFailedAutomaticAuth);
 				break;
 			case 3:
-				TryAuthBy<SteamAuth>(args: null, onSuccess: onSuccessfulAutomaticAuth, onFailed: onFailedAutomaticAuth);
+				TryAuthBy<SteamAuth>(args: null, onSuccess: onSuccessfulSteamAuth, onFailed: onFailedAutomaticAuth);
 				break;
 			default:
 				IsAuthInProgress = false;

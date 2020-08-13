@@ -122,6 +122,7 @@ public class ItemUI : MonoBehaviour
 	private void LoadImageCallback(string url, Sprite image)
 	{
 		loadingCircle.SetActive(false);
+		itemImage.gameObject.SetActive(true);
 		itemImage.sprite = image;
 		InitExpirationTime(_itemInformation);
 	}

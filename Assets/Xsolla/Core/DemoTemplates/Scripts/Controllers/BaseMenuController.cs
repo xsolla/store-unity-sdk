@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using Xsolla.Core;
+using Xsolla.Core.Popup;
 
 public abstract class BaseMenuController : MonoBehaviour
 {
@@ -17,6 +18,18 @@ public abstract class BaseMenuController : MonoBehaviour
 		if (!string.IsNullOrEmpty(url))
 		{
 			AttachButtonCallback(button, () => BrowserHelper.Instance.Open(url));
+		}
+	}
+	
+	protected static void SetMenuState(MenuState state, Func<bool> condition = null)
+	{
+		if (condition == null || condition.Invoke())
+			DemoController.Instance.SetState(state);
+		else
+		{
+			PopupFactory.Instance.CreateWaiting()
+				.SetCloseCondition(condition)
+				.SetCloseHandler(() => DemoController.Instance.SetState(state));
 		}
 	}
 }
