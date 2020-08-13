@@ -100,10 +100,11 @@ public class DemoController : MonoSingleton<DemoController>, IMenuStateMachine
         return _demoImplementation;
     }
 
-    public void SetState(MenuState state)
+    public GameObject SetState(MenuState state)
     {
         if (stateMachine != null)
             stateMachine.SetState(state);
+        return null;
     }
 
     public void SetPreviousState()

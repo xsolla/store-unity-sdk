@@ -52,7 +52,12 @@ public partial class MenuStateMachine : MonoBehaviour, IMenuStateMachine
 				if (pageController != null)
 				{
 					pageController.OnSuccess = () => SetState(MenuState.RegistrationSuccess);
-					pageController.OnError = _ => SetState(MenuState.Main);
+					pageController.OnError = err =>
+					{
+						var obj = SetState(MenuState.RegistrationFailed);
+						if(obj != null)
+							obj.GetComponent<LoginPageErrorShower>()?.ShowError(err);
+					};
 				}
 				break;
 			}
@@ -62,12 +67,23 @@ public partial class MenuStateMachine : MonoBehaviour, IMenuStateMachine
 					buttonsProvider.OKButton.onClick += () => SetState(MenuState.Authorization);
 				break;
 			}
+			case MenuState.RegistrationFailed:
+			{
+				if (buttonsProvider != null)
+					buttonsProvider.OKButton.onClick += () => SetState(MenuState.Registration);
+				break;
+			}
 			case MenuState.ChangePassword:
 			{
 				if (pageController != null)
 				{
 					pageController.OnSuccess = () => SetState(MenuState.ChangePasswordSuccess);
-					pageController.OnError = _ => SetState(MenuState.Authorization);
+					pageController.OnError = err =>
+					{
+						var obj = SetState(MenuState.ChangePasswordFailed);
+						if (obj != null)
+							obj.GetComponent<LoginPageErrorShower>()?.ShowError(err);
+					};
 				}
 				break;
 			}
@@ -75,6 +91,12 @@ public partial class MenuStateMachine : MonoBehaviour, IMenuStateMachine
 			{
 				if (buttonsProvider)
 					buttonsProvider.OKButton.onClick += () => SetState(MenuState.Authorization);
+				break;
+			}
+			case MenuState.ChangePasswordFailed:
+			{
+				if (buttonsProvider != null)
+					buttonsProvider.OKButton.onClick += () => SetState(MenuState.ChangePassword);
 				break;
 			}
 		}

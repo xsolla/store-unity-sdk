@@ -1,9 +1,10 @@
 using System;
+using UnityEngine;
 using static MenuStateMachine;
 
 public interface IMenuStateMachine
 {
 	event StateChangeDelegate StateChangingEvent;
-	void SetState(MenuState state);
+	GameObject SetState(MenuState state);
 	void SetPreviousState();
 }

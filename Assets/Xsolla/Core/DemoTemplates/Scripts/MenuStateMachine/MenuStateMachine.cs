@@ -22,8 +22,10 @@ public partial class MenuStateMachine : MonoBehaviour, IMenuStateMachine
 	[SerializeField] private GameObject authMenuPrefab;
 	[SerializeField] private GameObject authFailedMenuPrefab;
 	[SerializeField] private GameObject registrationMenuPrefab;
+	[SerializeField] private GameObject registrationFailedMenuPrefab;
 	[SerializeField] private GameObject registrationSuccessMenuPrefab;
 	[SerializeField] private GameObject changePasswordMenuPrefab;
+	[SerializeField] private GameObject changePasswordFailedMenuPrefab;
 	[SerializeField] private GameObject changePasswordSuccessMenuPrefab;
 	[SerializeField] private GameObject mainMenuPrefab;
 	[SerializeField] private GameObject storeMenuPrefab;
@@ -46,8 +48,10 @@ public partial class MenuStateMachine : MonoBehaviour, IMenuStateMachine
 			{MenuState.Authorization, authMenuPrefab},
 			{MenuState.AuthorizationFailed, authFailedMenuPrefab},
 			{MenuState.Registration, registrationMenuPrefab},
+			{MenuState.RegistrationFailed, registrationFailedMenuPrefab},
 			{MenuState.RegistrationSuccess, registrationSuccessMenuPrefab},
 			{MenuState.ChangePassword, changePasswordMenuPrefab},
+			{MenuState.ChangePasswordFailed, changePasswordFailedMenuPrefab},
 			{MenuState.ChangePasswordSuccess, changePasswordSuccessMenuPrefab},
 			{MenuState.Main, mainMenuPrefab},
 			{MenuState.Store, storeMenuPrefab},
@@ -65,7 +69,7 @@ public partial class MenuStateMachine : MonoBehaviour, IMenuStateMachine
 			SetState(initialState);
 	}
 
-	public void SetState(MenuState state)
+	public GameObject SetState(MenuState state)
 	{
 		MenuState oldState = _state;
 		
@@ -90,14 +94,11 @@ public partial class MenuStateMachine : MonoBehaviour, IMenuStateMachine
 		}
 		else
 		{
-			PopupFactory.Instance.CreateError().
-				SetMessage($"Prefab object is null for state = {_state.ToString()}. Changing state to initial.").
-				SetCallback(() =>
-				{
-					ClearTrace();
-					SetState(initialState);
-				});
+			Debug.LogError($"Prefab object is null for state = {_state.ToString()}. Changing state to initial.");
+			ClearTrace();
+			SetState(initialState);
 		}
+		return _stateObject;
 	}
 	
 	public void SetPreviousState()

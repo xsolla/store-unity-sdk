@@ -52,6 +52,7 @@ public class InventoryItemUI : MonoBehaviour
 	private void LoadImageCallback(string url, Sprite image)
 	{
 		loadingCircle.SetActive(false);
+		itemImage.gameObject.SetActive(true);
 		itemImage.sprite = image;
 
 		RefreshUi();

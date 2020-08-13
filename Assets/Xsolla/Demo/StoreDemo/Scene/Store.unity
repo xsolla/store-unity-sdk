@@ -449,6 +449,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6843898244374627520, guid: 1048628c3a390c04bab761d00f2ccb0f,
         type: 3}
+    - target: {fileID: 6389733742317925048, guid: 4af1ad141a08941d8bc07459eb260991,
+        type: 3}
+      propertyPath: registrationFailedMenuPrefab
+      value: 
+      objectReference: {fileID: 860802679669836760, guid: 2168f73684fbbd0478f39b01f8eaab0a,
+        type: 3}
+    - target: {fileID: 6389733742317925048, guid: 4af1ad141a08941d8bc07459eb260991,
+        type: 3}
+      propertyPath: changePasswordFailedMenuPrefab
+      value: 
+      objectReference: {fileID: 860802679669836760, guid: 2168f73684fbbd0478f39b01f8eaab0a,
+        type: 3}
     - target: {fileID: 6389733742678192272, guid: 4af1ad141a08941d8bc07459eb260991,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -503,6 +515,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6389733742678192287, guid: 4af1ad141a08941d8bc07459eb260991,
+        type: 3}
+      propertyPath: documentationUrl
+      value: https://developers.xsolla.com/sdk/game-engines/unity/
+      objectReference: {fileID: 0}
+    - target: {fileID: 6389733742678192287, guid: 4af1ad141a08941d8bc07459eb260991,
+        type: 3}
+      propertyPath: publisherUrl
+      value: https://publisher.xsolla.com/signup?store_type=sdk
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4af1ad141a08941d8bc07459eb260991, type: 3}
