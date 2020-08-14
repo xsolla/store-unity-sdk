@@ -471,6 +471,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5505775174947660107}
     m_Modifications:
+    - target: {fileID: 6239920049321602527, guid: 5e1abf5099416e54b93e92e01e2b4b0e,
+        type: 3}
+      propertyPath: m_Name
+      value: InputFieldPassword
+      objectReference: {fileID: 0}
     - target: {fileID: 372030109927796500, guid: 5e1abf5099416e54b93e92e01e2b4b0e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -576,11 +581,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6239920049321602527, guid: 5e1abf5099416e54b93e92e01e2b4b0e,
-        type: 3}
-      propertyPath: m_Name
-      value: InputFieldPassword
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5e1abf5099416e54b93e92e01e2b4b0e, type: 3}
 --- !u!114 &2641304028841838865 stripped
@@ -602,6 +602,36 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5505775174947660107}
     m_Modifications:
+    - target: {fileID: 8761578432214116197, guid: de270c316387df447a255547067c89df,
+        type: 3}
+      propertyPath: m_Name
+      value: ForgetPasswordButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 6594657589939941921, guid: de270c316387df447a255547067c89df,
+        type: 3}
+      propertyPath: NormalStateObjects.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6594657589939941921, guid: de270c316387df447a255547067c89df,
+        type: 3}
+      propertyPath: HoverStateObjects.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6594657589939941921, guid: de270c316387df447a255547067c89df,
+        type: 3}
+      propertyPath: NormalStateObjects.Array.data[0]
+      value: 
+      objectReference: {fileID: 652853379}
+    - target: {fileID: 6594657589939941921, guid: de270c316387df447a255547067c89df,
+        type: 3}
+      propertyPath: NormalStateObjects.Array.data[1]
+      value: 
+      objectReference: {fileID: 984213945}
+    - target: {fileID: 6594657589939941921, guid: de270c316387df447a255547067c89df,
+        type: 3}
+      propertyPath: HoverStateObjects.Array.data[0]
+      value: 
+      objectReference: {fileID: 294595135}
     - target: {fileID: 5571938582151317058, guid: de270c316387df447a255547067c89df,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -707,36 +737,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6594657589939941921, guid: de270c316387df447a255547067c89df,
-        type: 3}
-      propertyPath: NormalStateObjects.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6594657589939941921, guid: de270c316387df447a255547067c89df,
-        type: 3}
-      propertyPath: HoverStateObjects.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6594657589939941921, guid: de270c316387df447a255547067c89df,
-        type: 3}
-      propertyPath: NormalStateObjects.Array.data[0]
-      value: 
-      objectReference: {fileID: 652853379}
-    - target: {fileID: 6594657589939941921, guid: de270c316387df447a255547067c89df,
-        type: 3}
-      propertyPath: NormalStateObjects.Array.data[1]
-      value: 
-      objectReference: {fileID: 984213945}
-    - target: {fileID: 6594657589939941921, guid: de270c316387df447a255547067c89df,
-        type: 3}
-      propertyPath: HoverStateObjects.Array.data[0]
-      value: 
-      objectReference: {fileID: 294595135}
-    - target: {fileID: 8761578432214116197, guid: de270c316387df447a255547067c89df,
-        type: 3}
-      propertyPath: m_Name
-      value: ForgetPasswordButton
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: de270c316387df447a255547067c89df, type: 3}
 --- !u!114 &6594657588900581206 stripped
@@ -768,6 +768,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: LoginButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 3699472388581246444, guid: 5bd9ec22caee7ba4b878814a69af2baf,
+        type: 3}
+      propertyPath: m_Text
+      value: LOG IN
       objectReference: {fileID: 0}
     - target: {fileID: 3699472388235449381, guid: 5bd9ec22caee7ba4b878814a69af2baf,
         type: 3}
@@ -873,11 +878,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3699472388581246444, guid: 5bd9ec22caee7ba4b878814a69af2baf,
-        type: 3}
-      propertyPath: m_Text
-      value: LOGIN
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5bd9ec22caee7ba4b878814a69af2baf, type: 3}
@@ -1168,11 +1168,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 760030089884185234, guid: 9cf5d905c0d2b7b4db56e86899d45bc6,
+    - target: {fileID: 5911858173590160983, guid: 9cf5d905c0d2b7b4db56e86899d45bc6,
         type: 3}
-      propertyPath: OKButton
-      value: 
-      objectReference: {fileID: 6594657588900581206}
+      propertyPath: m_Name
+      value: LoginPageEnter
+      objectReference: {fileID: 0}
     - target: {fileID: 3412875550082063693, guid: 9cf5d905c0d2b7b4db56e86899d45bc6,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1278,23 +1278,29 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 5911858173590160983, guid: 9cf5d905c0d2b7b4db56e86899d45bc6,
+    - target: {fileID: 760030089884185234, guid: 9cf5d905c0d2b7b4db56e86899d45bc6,
+        type: 3}
+      propertyPath: OKButton
+      value: 
+      objectReference: {fileID: 6594657588900581206}
+    - target: {fileID: 9027233173765662795, guid: 9cf5d905c0d2b7b4db56e86899d45bc6,
         type: 3}
       propertyPath: m_Name
-      value: LoginPageEnter
+      value: SignUpButton
       objectReference: {fileID: 0}
     - target: {fileID: 7556269568857228678, guid: 9cf5d905c0d2b7b4db56e86899d45bc6,
         type: 3}
       propertyPath: m_Text
       value: SIGN UP
       objectReference: {fileID: 0}
-    - target: {fileID: 9027233173765662795, guid: 9cf5d905c0d2b7b4db56e86899d45bc6,
-        type: 3}
-      propertyPath: m_Name
-      value: SignUpButton
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9cf5d905c0d2b7b4db56e86899d45bc6, type: 3}
+--- !u!1 &7017008380027666105 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6833304013476789958, guid: 9cf5d905c0d2b7b4db56e86899d45bc6,
+    type: 3}
+  m_PrefabInstance: {fileID: 4590766959724068991}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &7907913669611144744 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5911858173590160983, guid: 9cf5d905c0d2b7b4db56e86899d45bc6,
@@ -1307,12 +1313,6 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 4590766959724068991}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &7017008380027666105 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6833304013476789958, guid: 9cf5d905c0d2b7b4db56e86899d45bc6,
-    type: 3}
-  m_PrefabInstance: {fileID: 4590766959724068991}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5245145512680402624
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1320,6 +1320,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5505775174947660107}
     m_Modifications:
+    - target: {fileID: 8761578432214116197, guid: f74bbedcf4dd55749b557b04585c0da9,
+        type: 3}
+      propertyPath: m_Name
+      value: TwitterAuthButton
+      objectReference: {fileID: 0}
     - target: {fileID: 4195053241921295760, guid: f74bbedcf4dd55749b557b04585c0da9,
         type: 3}
       propertyPath: normalStateSprite
@@ -1454,11 +1459,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 8e9d3e41a8f934685961dceae0c68fc1,
         type: 3}
-    - target: {fileID: 8761578432214116197, guid: f74bbedcf4dd55749b557b04585c0da9,
-        type: 3}
-      propertyPath: m_Name
-      value: TwitterAuthButton
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f74bbedcf4dd55749b557b04585c0da9, type: 3}
 --- !u!114 &8285869872879860560 stripped
@@ -1480,6 +1480,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5505775174947660107}
     m_Modifications:
+    - target: {fileID: 8761578432214116197, guid: f74bbedcf4dd55749b557b04585c0da9,
+        type: 3}
+      propertyPath: m_Name
+      value: FacebookAuthButton
+      objectReference: {fileID: 0}
     - target: {fileID: 4195053241921295760, guid: f74bbedcf4dd55749b557b04585c0da9,
         type: 3}
       propertyPath: normalStateSprite
@@ -1614,11 +1619,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 68729c34dc2974250bc2c7b4b48b5fc9,
         type: 3}
-    - target: {fileID: 8761578432214116197, guid: f74bbedcf4dd55749b557b04585c0da9,
-        type: 3}
-      propertyPath: m_Name
-      value: FacebookAuthButton
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f74bbedcf4dd55749b557b04585c0da9, type: 3}
 --- !u!114 &7992357165286662489 stripped
@@ -1640,6 +1640,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5505775174947660107}
     m_Modifications:
+    - target: {fileID: 8761578432214116197, guid: f74bbedcf4dd55749b557b04585c0da9,
+        type: 3}
+      propertyPath: m_Name
+      value: GoogleAuthButton
+      objectReference: {fileID: 0}
     - target: {fileID: 4195053241921295760, guid: f74bbedcf4dd55749b557b04585c0da9,
         type: 3}
       propertyPath: normalStateSprite
@@ -1774,11 +1779,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: a4fded63a77c844579fd1c87c2a57d2a,
         type: 3}
-    - target: {fileID: 8761578432214116197, guid: f74bbedcf4dd55749b557b04585c0da9,
-        type: 3}
-      propertyPath: m_Name
-      value: GoogleAuthButton
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f74bbedcf4dd55749b557b04585c0da9, type: 3}
 --- !u!114 &6921466262339829167 stripped
