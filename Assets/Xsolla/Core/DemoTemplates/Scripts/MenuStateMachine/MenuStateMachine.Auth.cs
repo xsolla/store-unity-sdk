@@ -1,4 +1,5 @@
 using UnityEngine;
+using Xsolla.Core;
 
 public partial class MenuStateMachine : MonoBehaviour, IMenuStateMachine
 {
@@ -24,7 +25,11 @@ public partial class MenuStateMachine : MonoBehaviour, IMenuStateMachine
 				buttonsProvider.DemoUserButton.onClick += () =>
 				{
 					DemoController.Instance.GetImplementation().ValidateToken(
-						DemoController.Instance.GetImplementation().GetDemoUserToken(), _ => SetState(MenuState.Main));
+						DemoController.Instance.GetImplementation().GetDemoUserToken(), token =>
+						{
+							DemoController.Instance.GetImplementation().SaveToken(Constants.LAST_SUCCESS_AUTH_TOKEN, token);
+							SetState(MenuState.Main);
+						});
 				};
 		}
 

@@ -13,6 +13,9 @@ public class CursorChanger : MonoBehaviour
 	{
 		SimpleButton.OnCursorEnter += ChangeToButtonHoverCursor;
 		SimpleButton.OnCursorExit += ChangeBackToDefault;
+		
+		AddToCartButton.OnCursorEnter += ChangeToButtonHoverCursor;
+		AddToCartButton.OnCursorExit += ChangeBackToDefault;
 
 		InputFieldCursorEventProvider.OnCursorEnter += ChangeToInputFieldHoverCursor;
 		InputFieldCursorEventProvider.OnCursorExit += ChangeBackToDefault;
@@ -22,6 +25,9 @@ public class CursorChanger : MonoBehaviour
 	{
 		SimpleButton.OnCursorEnter -= ChangeToButtonHoverCursor;
 		SimpleButton.OnCursorExit -= ChangeBackToDefault;
+		
+		AddToCartButton.OnCursorEnter -= ChangeToButtonHoverCursor;
+		AddToCartButton.OnCursorExit -= ChangeBackToDefault;
 
 		InputFieldCursorEventProvider.OnCursorEnter -= ChangeToInputFieldHoverCursor;
 		InputFieldCursorEventProvider.OnCursorExit -= ChangeBackToDefault;

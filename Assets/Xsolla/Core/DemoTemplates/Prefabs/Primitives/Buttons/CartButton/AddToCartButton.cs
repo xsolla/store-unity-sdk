@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class AddToCartButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler, IPointerUpHandler, IDragHandler
 {
+	public static event Action OnCursorEnter;
+	public static event Action OnCursorExit;
+
 	Image _image;
 
 	[SerializeField]
@@ -49,6 +52,7 @@ public class AddToCartButton : MonoBehaviour, IPointerDownHandler, IPointerEnter
 	
 	public void OnPointerEnter(PointerEventData eventData)
 	{
+		OnCursorEnter?.Invoke();
 		if (!_isSelected)
 		{
 			OnHoverUnselected();
@@ -61,6 +65,7 @@ public class AddToCartButton : MonoBehaviour, IPointerDownHandler, IPointerEnter
 
 	public void OnPointerExit(PointerEventData eventData)
 	{
+		OnCursorExit?.Invoke();
 		if (_isSelected)
 		{
 			OnSelected();
