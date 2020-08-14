@@ -3,12 +3,12 @@ using System.Collections;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using Xsolla.Core;
-using Xsolla.Login;
 
 public class SocialAuth : StoreStringActionResult, ILoginAuthorization
 {
 	public void TryAuth(params object[] args)
 	{
+#if UNITY_EDITOR || UNITY_STANDALONE
 		if (HotkeyCoroutine.IsLocked())
 		{
 			base.OnError?.Invoke(null);
@@ -43,6 +43,7 @@ public class SocialAuth : StoreStringActionResult, ILoginAuthorization
 			Debug.LogError("SocialAuth.TryAuth: Could not extract argument");
 			base.OnError?.Invoke(new Error(errorMessage: "Social auth failed"));
 		}
+#endif
 	}
 
 	private bool TryExtractProvider(object[] args, out SocialProvider provider)
@@ -83,9 +84,11 @@ public class SocialAuth : StoreStringActionResult, ILoginAuthorization
 	private IEnumerator SuccessAuthCoroutine(string token)
 	{
 		yield return new WaitForEndOfFrame();
+#if UNITY_EDITOR || UNITY_STANDALONE
 		Destroy(BrowserHelper.Instance.gameObject);
 		BrowserCloseHandler();
 		base.OnSuccess?.Invoke(token);
+#endif
 	}
 
 	private static bool IsRedirectWithToken(string newUrl, out string token)

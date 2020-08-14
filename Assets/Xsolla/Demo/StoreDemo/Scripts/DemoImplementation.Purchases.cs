@@ -67,16 +67,19 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 	private static void PurchaseComplete(CatalogItemModel item = null)
 	{
 		UserInventory.Instance.Refresh();
+#if (UNITY_EDITOR || UNITY_STANDALONE)
 		CloseInGameBrowserIfExist();
+#endif
 		if(item != null)
 			StoreDemoPopup.ShowSuccess($"You are purchased '{item.Name}'");
 		else
 			StoreDemoPopup.ShowSuccess();
 	}
-	
+#if (UNITY_EDITOR || UNITY_STANDALONE)	
 	private static void CloseInGameBrowserIfExist()
 	{
 		if(BrowserHelper.Instance.GetLastBrowser() != null)
 			Destroy(BrowserHelper.Instance, 0.1F);
 	}
+#endif
 }
