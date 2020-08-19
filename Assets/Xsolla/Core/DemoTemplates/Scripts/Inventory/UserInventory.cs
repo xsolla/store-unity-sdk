@@ -19,9 +19,6 @@ public class UserInventory : MonoSingleton<UserInventory>
 	public List<UserSubscriptionModel> Subscriptions { get; private set; }
 
 	public bool IsUpdated { get; private set; }
-	private bool _balanceUpdated;
-	private bool _itemsUpdated;
-	private bool _subscriptionsUpdated;
 
 	private IDemoImplementation _demoImplementation;
 
@@ -49,42 +46,48 @@ public class UserInventory : MonoSingleton<UserInventory>
 		}
 		
 		IsUpdated = false;
-		_balanceUpdated = false;
-		_itemsUpdated = false;
-		_subscriptionsUpdated = false;
-
 		StartCoroutine(WaitItemUpdatingCoroutine(onSuccess));
-		
+	}
+
+	private IEnumerator WaitItemUpdatingCoroutine(Action onSuccess = null, Action<Error> onError = null)
+	{
+		var balanceUpdated = false;
+		var itemsUpdated = false;
+		var subscriptionsUpdated = false;
+
 		_demoImplementation.GetVirtualCurrencyBalance(balance =>
 		{
 			Balance = balance;
-			_balanceUpdated = true;
+			balanceUpdated = true;
 		}, onError);
 
 		_demoImplementation.GetInventoryItems(items =>
 		{
 			VirtualItems = items.Where(i => !i.IsVirtualCurrency() && !i.IsSubscription()).ToList();
-			_itemsUpdated = true;
+			itemsUpdated = true;
 		}, onError);
 		
 		_demoImplementation.GetUserSubscriptions(items =>
 		{
 			Subscriptions = items;
-			_subscriptionsUpdated = true;
+			subscriptionsUpdated = true;
 		}, onError);
+		yield return new WaitUntil(() => balanceUpdated && itemsUpdated && subscriptionsUpdated);
+		
+		IsUpdated = true;
+		HandleInventoryUpdate(onSuccess);
 	}
 
-	private IEnumerator WaitItemUpdatingCoroutine(Action onSuccess = null)
+	private void HandleInventoryUpdate(Action callback)
 	{
-		yield return new WaitUntil(() => _balanceUpdated && _itemsUpdated && _subscriptionsUpdated);
 		AllItems.Clear();
 		AllItems.AddRange(VirtualItems);
 		AllItems.AddRange(Subscriptions);
-		IsUpdated = true;
+		
 		UpdateVirtualCurrencyBalanceEvent?.Invoke(Balance);
 		UpdateItemsEvent?.Invoke(VirtualItems);
 		UpdateSubscriptionsEvent?.Invoke(Subscriptions);
 		RefreshEvent?.Invoke();
-		onSuccess?.Invoke();
+		callback?.Invoke();
 	}
 }

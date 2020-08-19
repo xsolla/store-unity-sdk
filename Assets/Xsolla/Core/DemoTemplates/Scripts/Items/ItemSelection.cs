@@ -6,15 +6,14 @@ using UnityEngine.UI;
 
 public class ItemSelection : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    public Sprite itemSelectionSprite;
-    [SerializeField] private Image itemSelectionImage;
+    [SerializeField] private GameObject itemSelectionImage;
     [SerializeField] private List<SelectableArea> someArea;
     private int _counter;
 
     void Start()
     {
         if (itemSelectionImage != null)
-            itemSelectionImage.gameObject.SetActive(false);
+            itemSelectionImage.SetActive(false);
         if (someArea != null && someArea.Any())
         {
             someArea.ForEach(s => s.OnPointerEnterEvent += EnableSelection);
@@ -36,15 +35,14 @@ public class ItemSelection : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     {
         _counter++;
         if (_counter <= 0) _counter = 1;
-        if (itemSelectionImage == null || itemSelectionSprite == null) return;
-        itemSelectionImage.gameObject.SetActive(true);
-        itemSelectionImage.sprite = itemSelectionSprite;
+        if (itemSelectionImage == null) return;
+        itemSelectionImage.SetActive(true);
     }
 
     private void DisableSelection()
     {
         _counter--;
         if (itemSelectionImage != null && _counter <= 0)
-            itemSelectionImage.gameObject.SetActive(false);
+            itemSelectionImage.SetActive(false);
     }
 }

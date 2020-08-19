@@ -5,14 +5,10 @@ namespace Xsolla.Login
 	/// <summary>
 	/// User's friend entity.
 	/// </summary>
-	/// <see cref="https://developers.xsolla.com/user-account-api/user-friends/getusersmerelationships"/>
+	/// <see cref="https://developers.xsolla.com/user-account-api/user-friends/get-friends"/>
 	[Serializable]
-	public class UserFriend
+	public class UserFriendEntity
 	{
-		/// <summary>
-		/// User status. Can be 'online' or 'offline'.
-		/// </summary>
-		public string presence;
 		/// <summary>
 		/// Type of the user with the specified JWT. 
 		/// </summary>
@@ -32,7 +28,7 @@ namespace Xsolla.Login
 
 		public bool IsOnline()
 		{
-			return presence.Equals("online");
+			return !string.IsNullOrEmpty(user.presence) && user.presence.Equals("online");
 		}
 	}
 }

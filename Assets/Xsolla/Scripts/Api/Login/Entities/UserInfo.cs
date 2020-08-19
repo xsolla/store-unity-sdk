@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 
 namespace Xsolla.Login
 {
@@ -34,9 +35,13 @@ namespace Xsolla.Login
 		public string last_login;
 		public string last_name;
 		public string name;
-		public string nick_name;
+		public string nickname;
 		public string phone;
 		public string picture;
 		public string registered;
+		/// <summary>
+		/// User status. Can be 'online' or 'offline'.
+		/// </summary>
+		[CanBeNull] public string presence;
 	}
 }

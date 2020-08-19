@@ -324,7 +324,7 @@ PrefabInstance:
     - target: {fileID: 5238395885742302551, guid: 7f003be1b0f79475ba939890e91ac884,
         type: 3}
       propertyPath: m_Text
-      value: YOUREMAIL@gmail.com
+      value: YOUREMAIL@GMAIL.COM
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7f003be1b0f79475ba939890e91ac884, type: 3}

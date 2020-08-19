@@ -34,7 +34,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -0.000015258789}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1282758041924415677
@@ -337,11 +337,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5973447092412298334}
     m_Modifications:
-    - target: {fileID: 5609149927491425521, guid: c52660a045bb44e3583b10c9af473c6a,
-        type: 3}
-      propertyPath: m_Name
-      value: CartMenuButton
-      objectReference: {fileID: 0}
     - target: {fileID: 5609149927491425520, guid: c52660a045bb44e3583b10c9af473c6a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -446,6 +441,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5609149927491425521, guid: c52660a045bb44e3583b10c9af473c6a,
+        type: 3}
+      propertyPath: m_Name
+      value: CartMenuButton
       objectReference: {fileID: 0}
     - target: {fileID: 5609149926633850170, guid: c52660a045bb44e3583b10c9af473c6a,
         type: 3}

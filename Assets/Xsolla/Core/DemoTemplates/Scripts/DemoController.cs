@@ -50,13 +50,17 @@ public class DemoController : MonoSingleton<DemoController>, IMenuStateMachine
                 Destroy(OldUserAttributes.Instance.gameObject);
         }
 
-        if (
-            (lastState == MenuState.Authorization 
-             || lastState == MenuState.Registration 
-             || lastState == MenuState.RegistrationSuccess) 
+        HandleSuccessfulAuth(lastState, newState);
+    }
+
+    private void HandleSuccessfulAuth(MenuState lastState, MenuState newState)
+    {
+        if ((lastState == MenuState.Authorization || lastState == MenuState.Registration 
+                                                  || lastState == MenuState.RegistrationSuccess) 
             && newState == MenuState.Main)
         {
             UpdateCatalogAndInventory();
+            UserFriends.Instance.UpdateFriends();
         }
     }
     
@@ -90,6 +94,8 @@ public class DemoController : MonoSingleton<DemoController>, IMenuStateMachine
             Destroy(OldUserAttributes.Instance.gameObject);
         if (UserSubscriptions.IsExist)
             Destroy(UserSubscriptions.Instance.gameObject);
+        if(UserFriends.IsExist)
+            Destroy(UserFriends.Instance.gameObject);
         if(PopupFactory.IsExist)
             Destroy(PopupFactory.Instance.gameObject);
         base.OnDestroy();

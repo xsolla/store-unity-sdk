@@ -314,7 +314,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 1
+  m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -460,6 +460,12 @@ PrefabInstance:
       propertyPath: changePasswordFailedMenuPrefab
       value: 
       objectReference: {fileID: 860802679669836760, guid: 2168f73684fbbd0478f39b01f8eaab0a,
+        type: 3}
+    - target: {fileID: 6389733742317925048, guid: 4af1ad141a08941d8bc07459eb260991,
+        type: 3}
+      propertyPath: friendsMenuPrefab
+      value: 
+      objectReference: {fileID: 7187304734922887917, guid: 4886fcf4b72474ee99c777a007a7e5c1,
         type: 3}
     - target: {fileID: 6389733742678192272, guid: 4af1ad141a08941d8bc07459eb260991,
         type: 3}
