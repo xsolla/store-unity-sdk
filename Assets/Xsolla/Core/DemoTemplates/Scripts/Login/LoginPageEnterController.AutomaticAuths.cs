@@ -23,11 +23,6 @@ public partial class LoginPageEnterController : LoginPageController
 
 	private void RunAutomaticAuths()
 	{
-		Action<string> onSuccessfulAutomaticAuth =
-			token => DemoController.Instance.GetImplementation().ValidateToken(token, t => CompleteSuccessfulAuth(t));
-		Action<string> onSuccessfulSteamAuth =
-			token => DemoController.Instance.GetImplementation().ValidateToken(token, t => CompleteSuccessfulAuth(t, isSteam: true));
-
 		Action<Error> onFailedAutomaticAuth = error =>
 		{
 			if(error != null)
@@ -40,6 +35,12 @@ public partial class LoginPageEnterController : LoginPageController
 				RunAutomaticAuths();
 			}
 		};
+
+		Action<string> onSuccessfulAutomaticAuth =
+			token => DemoController.Instance.GetImplementation().ValidateToken(token, onSuccess: validToken => CompleteSuccessfulAuth(validToken), onError: _ => onFailedAutomaticAuth.Invoke(null));
+		Action<string> onSuccessfulSteamAuth =
+			token => DemoController.Instance.GetImplementation().ValidateToken(token, onSuccess: validToken => CompleteSuccessfulAuth(validToken, isSteam: true), onError: _ => onFailedAutomaticAuth.Invoke(null));
+
 
 		switch (_autoAuthState)
 		{

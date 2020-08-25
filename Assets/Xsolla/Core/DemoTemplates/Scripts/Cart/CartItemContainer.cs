@@ -65,7 +65,7 @@ public class CartItemContainer : MonoBehaviour, IContainer
 		_cartControls = Instantiate(cartControlsPrefab, itemParent);
 		var controls = _cartControls.GetComponent<CartControls>();
 		var discount = UserCart.Instance.CalculateCartDiscount();
-		controls.Initialize(price, discount >= 0.01F, discount);
+		controls.Initialize(price, discount);
 		controls.OnBuyCart = OnBuyCart;
 		controls.OnClearCart = OnClearCart;
 	}

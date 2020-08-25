@@ -24,7 +24,8 @@ public class CartMenuController : MonoBehaviour
 		}
 		UserCart.Instance.ClearCartEvent += Refresh;
 		UserCart.Instance.UpdateItemEvent += OnUpdateItemEvent;
-		
+		UserCart.Instance.RemoveItemEvent += OnRemoveItemEvent;
+
 		cartControls.OnClearCart = UserCart.Instance.Clear;
 		cartControls.OnBuyCart = OnBuyCart;
 		Refresh();
@@ -34,12 +35,11 @@ public class CartMenuController : MonoBehaviour
 	{
 		UserCart.Instance.ClearCartEvent -= Refresh;
 		UserCart.Instance.UpdateItemEvent -= OnUpdateItemEvent;
+		UserCart.Instance.RemoveItemEvent -= OnRemoveItemEvent;
 	}
 
-	private void OnUpdateItemEvent(UserCartItem item, int deltaCount)
-	{
-		Refresh();
-	}
+	private void OnUpdateItemEvent(UserCartItem item, int deltaCount) => Refresh();
+	private void OnRemoveItemEvent(UserCartItem item) => Refresh();
 
 	private void Refresh()
 	{
@@ -56,13 +56,12 @@ public class CartMenuController : MonoBehaviour
 
 	private void InitPrices()
 	{
-		var fullPrice = UserCart.Instance.CalculateFullPrice();
-		var totalPrice = fullPrice;
+		var totalPrice = UserCart.Instance.CalculateFullPrice();
 		var discount = UserCart.Instance.CalculateCartDiscount();
 		if (discount >= 0.01F)
 		{
 			totalPrice -= discount;
-			cartControls.Initialize(totalPrice, true, discount);
+			cartControls.Initialize(totalPrice, discount);
 		}else
 			cartControls.Initialize(totalPrice);
 	}

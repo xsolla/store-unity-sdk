@@ -22,22 +22,32 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 	{
 		var error = Error.UnknownError;
 		
-		if (XsollaSettings.LoginId == Constants.DEFAULT_LOGIN_ID || 
-		    XsollaSettings.LoginId == Constants.DEFAULT_PLATFORM_LOGIN_ID)
+		if (string.IsNullOrEmpty(XsollaSettings.LoginId))
 		{
-			if (XsollaSettings.StoreProjectId != Constants.DEFAULT_PROJECT_ID)
-			{
-				error.errorMessage = $"You change [XsollaSettings->ProjectID] to '{XsollaSettings.StoreProjectId}', but not change LoginID. Change LoginID from '{XsollaSettings.LoginId}' to correct value.";
-				StoreDemoPopup.ShowError(error);
-			}
+			error.errorMessage = "Xsolla Login settings were not completed. Please copy the Login project ID from your Publisher Account and add it to your project settings";
+			StoreDemoPopup.ShowError(error);
+			return;
 		}
-		else
+
+		if (string.IsNullOrEmpty(XsollaSettings.StoreProjectId))
 		{
-			if (XsollaSettings.StoreProjectId == Constants.DEFAULT_PROJECT_ID)
-			{
-				error.errorMessage = $"You change [XsollaSettings->LoginID] to '{XsollaSettings.LoginId}', but not change ProjectID. Change ProjectID from '{XsollaSettings.StoreProjectId}' to correct value.";
-				StoreDemoPopup.ShowError(error);
-			}
+			error.errorMessage = "Xsolla Login settings were not completed. Please copy the Store Project ID from your Publisher Account and add it to your project settings";
+			StoreDemoPopup.ShowError(error);
+			return;
+		}
+
+		var isDefaultLoginID = XsollaSettings.LoginId == Constants.DEFAULT_LOGIN_ID || XsollaSettings.LoginId == Constants.DEFAULT_PLATFORM_LOGIN_ID;
+		var isDefaultProjectID = XsollaSettings.StoreProjectId == Constants.DEFAULT_PROJECT_ID;
+
+		if (isDefaultLoginID && !isDefaultProjectID)
+		{
+			error.errorMessage = $"You changed [XsollaSettings->ProjectID] to '{XsollaSettings.StoreProjectId}', but did not change LoginID. Change LoginID from '{XsollaSettings.LoginId}' to correct value.";
+			StoreDemoPopup.ShowError(error);
+		}
+		else if (!isDefaultLoginID && isDefaultProjectID)
+		{
+			error.errorMessage = $"You changed [XsollaSettings->LoginID] to '{XsollaSettings.LoginId}', but did not change ProjectID. Change ProjectID from '{XsollaSettings.StoreProjectId}' to correct value.";
+			StoreDemoPopup.ShowError(error);
 		}
 	}
 

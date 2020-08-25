@@ -20,6 +20,8 @@ public class ItemUI : MonoBehaviour
 	[SerializeField] Text expirationTimeText;
 	[SerializeField] SimpleTextButton buyButton;
 	[SerializeField] AddToCartButton cartButton;
+	[SerializeField] GameObject prices;
+	[SerializeField] GameObject purchasedText;
 
 	private IDemoImplementation _demoImplementation;
 	private CatalogItemModel _itemInformation;
@@ -45,6 +47,21 @@ public class ItemUI : MonoBehaviour
 
 		InitializeVirtualItem(virtualItem);
 		AttachBuyButtonHandler(virtualItem);
+
+		if (!virtualItem.IsConsumable)
+		{
+			var sameItemFromInventory = UserInventory.Instance.VirtualItems.FirstOrDefault(i => i.Sku.Equals(_itemInformation.Sku));
+			var isAlreadyPurchased = sameItemFromInventory != null;
+			
+			if (isAlreadyPurchased)
+				DisablePrice();
+		}
+	}
+
+	private void DisablePrice()
+	{
+		prices.SetActive(false);
+		purchasedText.SetActive(true);
 	}
 
 	private void EnablePrice(bool isVirtualPrice)

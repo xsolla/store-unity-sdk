@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4152072911374603590}
   - component: {fileID: 4152072911374603585}
   - component: {fileID: 4692677786678962016}
+  - component: {fileID: 1913458167573841119}
   m_Layer: 5
   m_Name: VirtualCurrenciesBalance
   m_TagString: Untagged
@@ -35,7 +36,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
   m_AnchoredPosition: {x: -788, y: 0}
-  m_SizeDelta: {x: 1024, y: 50}
+  m_SizeDelta: {x: 0, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &4152072911374603585
 MonoBehaviour:
@@ -74,3 +75,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   virtualCurrencyBalancePrefab: {fileID: 8396083916771944554, guid: 81009cdd06f88488e9c0de2d0c3f5a5c,
     type: 3}
+--- !u!114 &1913458167573841119
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4152072911374603591}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1741964061, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 2
+  m_VerticalFit: 0

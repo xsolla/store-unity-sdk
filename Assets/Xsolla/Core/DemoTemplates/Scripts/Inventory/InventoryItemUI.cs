@@ -15,7 +15,7 @@ public class InventoryItemUI : MonoBehaviour
 	[SerializeField] private GameObject itemQuantityImage;
 	[SerializeField] private Text itemQuantityText;
 	[SerializeField] private ConsumeButton consumeButton;
-	[SerializeField] private Text notPurchasedText;
+	[SerializeField] private Text purchasedStatusText;
 	[SerializeField] private GameObject expirationTimeObject;
 	[SerializeField] private Text expirationTimeText;
 
@@ -63,7 +63,7 @@ public class InventoryItemUI : MonoBehaviour
 		DisableQuantityImage();
 		DisableConsumeButton();
 		DisableExpirationText();
-		DisableNotPurchasedText();
+		DisablePurchasedStatusText();
 		
 		if (_itemInformation.IsSubscription())
 			DrawSubscriptionItem();
@@ -87,7 +87,7 @@ public class InventoryItemUI : MonoBehaviour
 				? GetRemainingTime(model.Expired.Value)
 				: $"Expired at {expired}");
 		}else
-			EnableNotPurchasedText();
+			EnablePurchasedStatusText(isPurchased: false);
 	}
 
 	private string GetRemainingTime(DateTime expiredDateTime)
@@ -122,7 +122,7 @@ public class InventoryItemUI : MonoBehaviour
 	{
 		var model = UserInventory.Instance.VirtualItems.First(i => i.Sku.Equals(_itemInformation.Sku));
 		DrawItemsCount(model);
-		EnableNotPurchasedText();
+		EnablePurchasedStatusText(isPurchased: true);
 	}
 	
 	private void DrawItemsCount(InventoryItemModel model)
@@ -142,16 +142,19 @@ public class InventoryItemUI : MonoBehaviour
 		itemQuantityImage.SetActive(false);
 	}
 
-	private void EnableNotPurchasedText()
+	private void EnablePurchasedStatusText(bool isPurchased)
 	{
-		if(notPurchasedText != null)
-			notPurchasedText.gameObject.SetActive(true);
+		if(purchasedStatusText != null)
+		{
+			purchasedStatusText.text = isPurchased ? "Purchased" : "Not purchased";
+			purchasedStatusText.gameObject.SetActive(true);
+		}
 	}
 	
-	private void DisableNotPurchasedText()
+	private void DisablePurchasedStatusText()
 	{
-		if(notPurchasedText != null)
-			notPurchasedText.gameObject.SetActive(false);
+		if(purchasedStatusText != null)
+			purchasedStatusText.gameObject.SetActive(false);
 	}
 
 	private void EnableExpirationText(string text)
