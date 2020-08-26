@@ -260,6 +260,49 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1789949355
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1789949357}
+  - component: {fileID: 1789949356}
+  m_Layer: 0
+  m_Name: XsollaLogin
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1789949356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1789949355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d78907c5a4da7c4a872f9cc11c6f53e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1789949357
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1789949355}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1895898357
 GameObject:
   m_ObjectHideFlags: 0
@@ -386,81 +429,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: DemoController
       objectReference: {fileID: 0}
-    - target: {fileID: 6389733742678192273, guid: 4af1ad141a08941d8bc07459eb260991,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6389733742317925048, guid: 4af1ad141a08941d8bc07459eb260991,
         type: 3}
       propertyPath: canvas
       value: 
       objectReference: {fileID: 1895898360}
-    - target: {fileID: 6389733742317925048, guid: 4af1ad141a08941d8bc07459eb260991,
-        type: 3}
-      propertyPath: initialState
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6389733742317925048, guid: 4af1ad141a08941d8bc07459eb260991,
-        type: 3}
-      propertyPath: buyCurrencyMenuPrefab
-      value: 
-      objectReference: {fileID: 5920836100163376800, guid: 15e31fa00847745c09f431c2fac9e3b3,
-        type: 3}
-    - target: {fileID: 6389733742317925048, guid: 4af1ad141a08941d8bc07459eb260991,
-        type: 3}
-      propertyPath: authMenuPrefab
-      value: 
-      objectReference: {fileID: 7907913669611144744, guid: c89eccb3c8399904d977130e0d8afe56,
-        type: 3}
-    - target: {fileID: 6389733742317925048, guid: 4af1ad141a08941d8bc07459eb260991,
-        type: 3}
-      propertyPath: authFailedMenuPrefab
-      value: 
-      objectReference: {fileID: 860802679669836760, guid: 2168f73684fbbd0478f39b01f8eaab0a,
-        type: 3}
-    - target: {fileID: 6389733742317925048, guid: 4af1ad141a08941d8bc07459eb260991,
-        type: 3}
-      propertyPath: registrationMenuPrefab
-      value: 
-      objectReference: {fileID: 2444199083377736940, guid: a06f3d8450391f1419578b9f5e0ff526,
-        type: 3}
-    - target: {fileID: 6389733742317925048, guid: 4af1ad141a08941d8bc07459eb260991,
-        type: 3}
-      propertyPath: registrationSuccessMenuPrefab
-      value: 
-      objectReference: {fileID: 8190964347215985164, guid: ae2895290ef37114a83270a9a0f73e1f,
-        type: 3}
-    - target: {fileID: 6389733742317925048, guid: 4af1ad141a08941d8bc07459eb260991,
-        type: 3}
-      propertyPath: changePasswordMenuPrefab
-      value: 
-      objectReference: {fileID: 7817862460140412975, guid: 63fb8b9e261908045a58310805c06cf4,
-        type: 3}
-    - target: {fileID: 6389733742317925048, guid: 4af1ad141a08941d8bc07459eb260991,
-        type: 3}
-      propertyPath: changePasswordSuccessMenuPrefab
-      value: 
-      objectReference: {fileID: 7512206854554231357, guid: c62b071f0afa79b4a803aa754c36e1de,
-        type: 3}
-    - target: {fileID: 6389733742317925048, guid: 4af1ad141a08941d8bc07459eb260991,
-        type: 3}
-      propertyPath: profileMenuPrefab
-      value: 
-      objectReference: {fileID: 6843898244374627520, guid: 1048628c3a390c04bab761d00f2ccb0f,
-        type: 3}
-    - target: {fileID: 6389733742317925048, guid: 4af1ad141a08941d8bc07459eb260991,
-        type: 3}
-      propertyPath: registrationFailedMenuPrefab
-      value: 
-      objectReference: {fileID: 860802679669836760, guid: 2168f73684fbbd0478f39b01f8eaab0a,
-        type: 3}
-    - target: {fileID: 6389733742317925048, guid: 4af1ad141a08941d8bc07459eb260991,
-        type: 3}
-      propertyPath: changePasswordFailedMenuPrefab
-      value: 
-      objectReference: {fileID: 860802679669836760, guid: 2168f73684fbbd0478f39b01f8eaab0a,
-        type: 3}
     - target: {fileID: 6389733742678192272, guid: 4af1ad141a08941d8bc07459eb260991,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -515,16 +488,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6389733742678192287, guid: 4af1ad141a08941d8bc07459eb260991,
-        type: 3}
-      propertyPath: documentationUrl
-      value: https://developers.xsolla.com/sdk/game-engines/unity/
-      objectReference: {fileID: 0}
-    - target: {fileID: 6389733742678192287, guid: 4af1ad141a08941d8bc07459eb260991,
-        type: 3}
-      propertyPath: publisherUrl
-      value: https://publisher.xsolla.com/signup?store_type=sdk
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4af1ad141a08941d8bc07459eb260991, type: 3}

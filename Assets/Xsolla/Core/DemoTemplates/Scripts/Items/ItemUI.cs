@@ -39,7 +39,7 @@ public class ItemUI : MonoBehaviour
 	{
 		_demoImplementation = demoImplementation;
 		_itemInformation = virtualItem;
-		
+
 		if (virtualItem.VirtualPrice != null)
 			InitializeVirtualCurrencyPrice(virtualItem);
 		else

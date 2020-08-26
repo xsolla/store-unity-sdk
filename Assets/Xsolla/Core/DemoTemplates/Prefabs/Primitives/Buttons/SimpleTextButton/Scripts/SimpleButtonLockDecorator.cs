@@ -35,17 +35,17 @@ public class SimpleButtonLockDecorator : SimpleButton
 	public override void OnPointerEnter(PointerEventData eventData)
 	{
 		if (!IsLocked())
-		{
 			base.OnPointerEnter(eventData);
-		}
+		else
+			base.RaiseOnCursorEnter();
 	}
 
 	public override void OnPointerExit(PointerEventData eventData)
 	{
 		if (!IsLocked())
-		{
 			base.OnPointerExit(eventData);
-		}
+		else
+			base.RaiseOnCursorExit();
 	}
 
 	public override void OnDrag(PointerEventData eventData)

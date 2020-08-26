@@ -27,6 +27,7 @@ public partial class MenuStateMachine : MonoBehaviour, IMenuStateMachine
 					DemoController.Instance.GetImplementation().ValidateToken(
 						DemoController.Instance.GetImplementation().GetDemoUserToken(), token =>
 						{
+							DemoController.Instance.GetImplementation().Token = token;
 							DemoController.Instance.GetImplementation().SaveToken(Constants.LAST_SUCCESS_AUTH_TOKEN, token);
 							SetState(MenuState.Main);
 						});

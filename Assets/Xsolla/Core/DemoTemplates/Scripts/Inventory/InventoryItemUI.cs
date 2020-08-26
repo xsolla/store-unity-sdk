@@ -195,7 +195,10 @@ public class InventoryItemUI : MonoBehaviour
 	{
 		var model = UserInventory.Instance.VirtualItems.First(i => i.Sku.Equals(_itemInformation.Sku));
 		if (newValue > model.RemainingUses)
-			StartCoroutine(ChangeConsumeQuantityCoroutine((-1) * ((int)model.RemainingUses - newValue)));
+		{
+			var delta = (int)model.RemainingUses - newValue;
+			StartCoroutine(ChangeConsumeQuantityCoroutine(delta));
+		}
 		else
 		{
 			if (newValue == 0)
@@ -207,7 +210,7 @@ public class InventoryItemUI : MonoBehaviour
 	{
 		yield return new WaitForEndOfFrame();
 		if(deltaValue < 0)
-			consumeButton.counter.DecreaseValue(deltaValue * (-1));
+			consumeButton.counter.DecreaseValue(-deltaValue);
 		else
 			consumeButton.counter.IncreaseValue(deltaValue);
 	}

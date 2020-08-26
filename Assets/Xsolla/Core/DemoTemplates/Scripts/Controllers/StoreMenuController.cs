@@ -42,6 +42,7 @@ public class StoreMenuController : MonoBehaviour
 	private IEnumerator CatalogCoroutine()
 	{
 		yield return new WaitUntil(() => UserCatalog.Instance.IsUpdated);
+		yield return new WaitUntil(() => UserInventory.Instance.IsUpdated);
 		CreateAndFillCatalogGroups(UserCatalog.Instance.AllItems);
 	}
 

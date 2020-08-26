@@ -58,6 +58,34 @@ MonoBehaviour:
   testCardsButton: {fileID: 5249250421169350514}
   backButton: {fileID: 6774461474787788918}
   buyCurrencyButton: {fileID: 101725668240946080}
+--- !u!114 &132875725943766070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4162830560899900324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1741964061, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 2
+  m_VerticalFit: 0
+--- !u!114 &324625493437106284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7277067944759618831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1741964061, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 2
+  m_VerticalFit: 0
 --- !u!1001 &515100772654986667
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -308,16 +336,21 @@ PrefabInstance:
     - target: {fileID: 3400111667480522819, guid: 7e06737cbc29b4606b26c26464fb7745,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -265
+      value: -115
       objectReference: {fileID: 0}
     - target: {fileID: 3400111667480522819, guid: 7e06737cbc29b4606b26c26464fb7745,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 300
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3400111667480522819, guid: 7e06737cbc29b4606b26c26464fb7745,
         type: 3}
       propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3400111667480522819, guid: 7e06737cbc29b4606b26c26464fb7745,
+        type: 3}
+      propertyPath: m_Pivot.x
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3576954798974170560, guid: 7e06737cbc29b4606b26c26464fb7745,
@@ -393,12 +426,22 @@ PrefabInstance:
     - target: {fileID: 3506510476554186953, guid: 7e06737cbc29b4606b26c26464fb7745,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 275
       objectReference: {fileID: 0}
     - target: {fileID: 3506510476554186953, guid: 7e06737cbc29b4606b26c26464fb7745,
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3506510476554186953, guid: 7e06737cbc29b4606b26c26464fb7745,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3506510476554186953, guid: 7e06737cbc29b4606b26c26464fb7745,
+        type: 3}
+      propertyPath: m_Pivot.x
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8152693290644522836, guid: 7e06737cbc29b4606b26c26464fb7745,
         type: 3}
@@ -420,11 +463,38 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8471473903389533442, guid: 7e06737cbc29b4606b26c26464fb7745,
+        type: 3}
+      propertyPath: m_FontData.m_FontSize
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 8471473903389533442, guid: 7e06737cbc29b4606b26c26464fb7745,
+        type: 3}
+      propertyPath: m_FontData.m_MinSize
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8471473903389533442, guid: 7e06737cbc29b4606b26c26464fb7745,
+        type: 3}
+      propertyPath: m_Text
+      value: YOUREMAIL@gmail.com
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7e06737cbc29b4606b26c26464fb7745, type: 3}
 --- !u!224 &4909955838153948705 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5259625456143330843, guid: 7e06737cbc29b4606b26c26464fb7745,
+    type: 3}
+  m_PrefabInstance: {fileID: 927279377392275514}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7277067944759618831 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7503855780270210357, guid: 7e06737cbc29b4606b26c26464fb7745,
+    type: 3}
+  m_PrefabInstance: {fileID: 927279377392275514}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4162830560899900324 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3826656674812736414, guid: 7e06737cbc29b4606b26c26464fb7745,
     type: 3}
   m_PrefabInstance: {fileID: 927279377392275514}
   m_PrefabAsset: {fileID: 0}

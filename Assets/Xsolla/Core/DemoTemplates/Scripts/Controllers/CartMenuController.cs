@@ -70,7 +70,7 @@ public class CartMenuController : MonoBehaviour
 	{
 		if (cartControls.IsBuyButtonLocked()) return;
 		cartControls.LockBuyButton();
-		UserCart.Instance.Purchase(() => DemoController.Instance.SetPreviousState());
+		UserCart.Instance.Purchase(onSuccess: () => DemoController.Instance.SetPreviousState(), onError: _ => cartControls.UnlockBuyButton());
 	}
 
 	private void PutItemsToContainer(List<UserCartItem> items)
