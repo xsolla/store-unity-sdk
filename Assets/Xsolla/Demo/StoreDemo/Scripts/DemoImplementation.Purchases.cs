@@ -37,7 +37,15 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 
 	public void PurchaseCart(List<UserCartItem> items, Action<List<UserCartItem>> onSuccess, Action<Error> onError = null)
 	{
-		if (!items.Any()) return;
+		if (!items.Any())
+		{
+			var error = new Error(errorMessage: "Cart is empty");
+			var errorToInvoke = WrapErrorCallback(onError);
+			errorToInvoke?.Invoke(error);
+			return;
+		}
+
+
 		XsollaStore.Instance.CreateNewCart(XsollaSettings.StoreProjectId, newCart =>
 		{
 			XsollaStore.Instance.ClearCart(XsollaSettings.StoreProjectId, newCart.cart_id, () =>

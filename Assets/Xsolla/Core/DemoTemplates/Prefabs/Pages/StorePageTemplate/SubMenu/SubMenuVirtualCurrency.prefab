@@ -94,11 +94,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 719144267, guid: b49b6c9b3f527404bb299bfa9fea0870, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -120
+      value: 1180
       objectReference: {fileID: 0}
     - target: {fileID: 719144267, guid: b49b6c9b3f527404bb299bfa9fea0870, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -50
       objectReference: {fileID: 0}
     - target: {fileID: 719144267, guid: b49b6c9b3f527404bb299bfa9fea0870, type: 3}
       propertyPath: m_SizeDelta.x
@@ -110,19 +110,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 719144267, guid: b49b6c9b3f527404bb299bfa9fea0870, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 719144267, guid: b49b6c9b3f527404bb299bfa9fea0870, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 719144267, guid: b49b6c9b3f527404bb299bfa9fea0870, type: 3}
-      propertyPath: m_AnchorMax.x
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 719144267, guid: b49b6c9b3f527404bb299bfa9fea0870, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 719144267, guid: b49b6c9b3f527404bb299bfa9fea0870, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 719144267, guid: b49b6c9b3f527404bb299bfa9fea0870, type: 3}
       propertyPath: m_Pivot.x
@@ -214,17 +214,17 @@ PrefabInstance:
     - target: {fileID: 4152072911374603590, guid: e226d9f318c194dbc9bb1c7edd4b26be,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -788
+      value: 1040
       objectReference: {fileID: 0}
     - target: {fileID: 4152072911374603590, guid: e226d9f318c194dbc9bb1c7edd4b26be,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -50
       objectReference: {fileID: 0}
     - target: {fileID: 4152072911374603590, guid: e226d9f318c194dbc9bb1c7edd4b26be,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 1024
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4152072911374603590, guid: e226d9f318c194dbc9bb1c7edd4b26be,
         type: 3}
@@ -234,22 +234,22 @@ PrefabInstance:
     - target: {fileID: 4152072911374603590, guid: e226d9f318c194dbc9bb1c7edd4b26be,
         type: 3}
       propertyPath: m_AnchorMin.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4152072911374603590, guid: e226d9f318c194dbc9bb1c7edd4b26be,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4152072911374603590, guid: e226d9f318c194dbc9bb1c7edd4b26be,
-        type: 3}
-      propertyPath: m_AnchorMax.x
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4152072911374603590, guid: e226d9f318c194dbc9bb1c7edd4b26be,
         type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4152072911374603590, guid: e226d9f318c194dbc9bb1c7edd4b26be,
+        type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4152072911374603590, guid: e226d9f318c194dbc9bb1c7edd4b26be,
         type: 3}
@@ -261,7 +261,13 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 6755583268972166820, guid: e226d9f318c194dbc9bb1c7edd4b26be,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 6755583268972166820, guid: e226d9f318c194dbc9bb1c7edd4b26be, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: e226d9f318c194dbc9bb1c7edd4b26be, type: 3}
 --- !u!224 &5154708925432307376 stripped
 RectTransform:

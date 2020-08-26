@@ -9,6 +9,6 @@ public class InputFieldCursorEventProvider : MonoBehaviour, IPointerEnterHandler
 	public static event Action OnCursorEnter;
 	public static event Action OnCursorExit;
 
-	public void OnPointerEnter(PointerEventData eventData) => OnCursorEnter?.Invoke();
-	public void OnPointerExit(PointerEventData eventData) => OnCursorExit?.Invoke();
+	void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData) => OnCursorEnter?.Invoke();
+	void IPointerExitHandler.OnPointerExit(PointerEventData eventData) => OnCursorExit?.Invoke();
 }

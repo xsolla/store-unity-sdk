@@ -15,17 +15,17 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 
 	private void RequestStoreItems(Action<List<StoreItem>> onSuccess, Action<Error> onError = null)
 	{
-		if (_itemsCache == null || (DateTime.Now - _cacheTime).TotalSeconds > 2)
+		if (_itemsCache == null || (DateTime.Now - _cacheTime).TotalMilliseconds > 500)
 		{
 			if (!_inProgress)
 			{
 				_inProgress = true;
 				XsollaStore.Instance.GetCatalog(XsollaSettings.StoreProjectId, items =>
 				{
+					_inProgress = false;
 					_cacheTime = DateTime.Now;
 					_itemsCache = items.items.ToList();
 					onSuccess?.Invoke(_itemsCache);
-					_inProgress = false;
 				}, WrapErrorCallback(onError));	
 			}
 			else

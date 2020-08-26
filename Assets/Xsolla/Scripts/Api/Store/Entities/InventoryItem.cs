@@ -30,8 +30,8 @@ namespace Xsolla.Store
 		public string virtual_item_type;
 		public StoreItem.Group[] groups;
 		public string image_url;
-		public int? quantity;
-		public int? remaining_uses;
+		public uint? quantity;
+		public uint? remaining_uses;
 		public string instance_id;
 
 		public bool IsConsumable()

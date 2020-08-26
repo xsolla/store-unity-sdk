@@ -26,6 +26,9 @@ public class MenuButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 	bool _isClickInProgress;
 	bool _isSelected;
 
+	public static event Action OnCursorEnter;
+	public static event Action OnCursorExit;
+
 	public Action<string> onClick;
 	private DateTime lastClick;
 	private float rateLimitMs = StoreConstants.DEFAULT_BUTTON_RATE_LIMIT_MS;
@@ -91,6 +94,8 @@ public class MenuButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 
 	public void OnPointerEnter(PointerEventData eventData)
 	{
+		OnCursorEnter?.Invoke();
+
 		if (!_isSelected)
 		{
 			OnHover();
@@ -99,6 +104,8 @@ public class MenuButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 
 	public void OnPointerExit(PointerEventData eventData)
 	{
+		OnCursorExit?.Invoke();
+
 		if (_isSelected)
 		{
 			OnSelected();

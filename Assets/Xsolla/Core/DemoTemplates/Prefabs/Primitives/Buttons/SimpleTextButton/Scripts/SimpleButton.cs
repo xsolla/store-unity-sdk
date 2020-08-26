@@ -88,13 +88,13 @@ public class SimpleButton : MonoBehaviour, ISimpleButton
 
 	protected virtual void OnNormal()
 	{
-		OnCursorExit?.Invoke();
+		RaiseOnCursorExit();
 		SetImageSprite(image, normalStateSprite);
 	}
 
 	protected virtual void OnHover()
 	{
-		OnCursorEnter?.Invoke();
+		RaiseOnCursorEnter();
 		SetImageSprite(image, hoverStateSprite);
 	}
 
@@ -102,4 +102,7 @@ public class SimpleButton : MonoBehaviour, ISimpleButton
 	{
 		SetImageSprite(image, pressedStateSprite);
 	}
+
+	protected void RaiseOnCursorEnter() => OnCursorEnter?.Invoke();
+	protected void RaiseOnCursorExit() => OnCursorExit?.Invoke();
 }

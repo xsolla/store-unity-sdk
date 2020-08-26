@@ -5,6 +5,7 @@ using Xsolla.Login;
 
 public class BasicAuth : StoreStringActionResult, ILoginAuthorization
 {
+	private const string DEMO_USER_NAME = "XSOLLA";
 	private bool _isDemoUser;
 	private bool _isJwtInvalidationEnabled;
 
@@ -12,7 +13,7 @@ public class BasicAuth : StoreStringActionResult, ILoginAuthorization
 	{
 		if (TryExtractArgs(args, out string username, out string password, out bool rememberMe))
 		{
-			_isDemoUser = (username == DemoUserAuthRunner.DemoUser && password == DemoUserAuthRunner.DemoUser);
+			_isDemoUser = (username.ToUpper() == DEMO_USER_NAME && password.ToUpper() == DEMO_USER_NAME);
 			_isJwtInvalidationEnabled = XsollaSettings.JwtTokenInvalidationEnabled;
 
 			if(_isDemoUser && _isJwtInvalidationEnabled)

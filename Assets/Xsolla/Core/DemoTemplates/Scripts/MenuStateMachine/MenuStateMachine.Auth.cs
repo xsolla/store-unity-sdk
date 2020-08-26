@@ -27,6 +27,7 @@ public partial class MenuStateMachine : MonoBehaviour, IMenuStateMachine
 					DemoController.Instance.GetImplementation().ValidateToken(
 						DemoController.Instance.GetImplementation().GetDemoUserToken(), token =>
 						{
+							DemoController.Instance.GetImplementation().Token = token;
 							DemoController.Instance.GetImplementation().SaveToken(Constants.LAST_SUCCESS_AUTH_TOKEN, token);
 							SetState(MenuState.Main);
 						});
@@ -40,8 +41,13 @@ public partial class MenuStateMachine : MonoBehaviour, IMenuStateMachine
 				if (pageController != null)
 				{
 					pageController.OnSuccess = () => SetState(MenuState.Main);
-					pageController.OnError = _ => SetState(MenuState.AuthorizationFailed);
-				}
+						pageController.OnError = err =>
+						{
+							var obj = SetState(MenuState.AuthorizationFailed);
+							if (obj != null)
+								obj.GetComponent<LoginPageErrorShower>()?.ShowError(err);
+						};
+					}
 
 				buttonsProvider.OKButton.onClick += () => SetState(MenuState.ChangePassword);
 				break;

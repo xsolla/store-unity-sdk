@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using System.Linq;
 using UnityEngine;
 
@@ -30,9 +31,10 @@ public class InventoryMenuController : MonoBehaviour
 	private void PutItemsToContainer(string groupName)
 	{
 		_group = groupName;
-		var items = (groupName.Equals(ALL_ITEMS_GROUP))
-			? UserInventory.Instance.AllItems
-			: UserInventory.Instance.AllItems.Where(i =>
+
+		var predicate = groupName.Equals(ALL_ITEMS_GROUP) ? new Func<string, bool>(_ => true) : g => g.Equals(groupName);
+
+		var items = UserInventory.Instance.AllItems.Where(i =>
 			{
 				if(i.IsVirtualCurrency()) return false;
 				if (i.IsSubscription())
@@ -41,6 +43,12 @@ public class InventoryMenuController : MonoBehaviour
 					{
 						Debug.LogError($"User subscription with sku = '{i.Sku}' have not equal catalog item!");
 						return false;
+					}
+
+					var model = UserInventory.Instance.Subscriptions.First(x => x.Sku.Equals(i.Sku));
+					if (!(model.Status != UserSubscriptionModel.SubscriptionStatusType.None && model.Expired.HasValue))
+					{
+						return false;//This is a non-purchased subscription
 					}
 				}
 				else
@@ -52,7 +60,7 @@ public class InventoryMenuController : MonoBehaviour
 					}
 				}
 				var catalogItem = UserCatalog.Instance.AllItems.First(cat => cat.Sku.Equals(i.Sku));
-				return _demoImplementation.GetCatalogGroupsByItem(catalogItem).Any(g => g.Equals(groupName));
+				return _demoImplementation.GetCatalogGroupsByItem(catalogItem).Any(predicate);
 			}).ToList();
 		
 		itemsContainer.Clear();
