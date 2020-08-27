@@ -38,19 +38,43 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 	public void BlockUser(FriendModel user, Action<FriendModel> onSuccess = null, Action<Error> onError = null)
 	{
 		XsollaLogin.Instance.UpdateUserFriends(XsollaLogin.Instance.Token, FriendAction.BlockFriend, user.Id,
-			_ => onSuccess?.Invoke(user), onError);
+			() => onSuccess?.Invoke(user), onError);
 	}
 
 	public void UnblockUser(FriendModel user, Action<FriendModel> onSuccess = null, Action<Error> onError = null)
 	{
 		XsollaLogin.Instance.UpdateUserFriends(XsollaLogin.Instance.Token, FriendAction.UnblockFriend, user.Id,
-			_ => onSuccess?.Invoke(user), onError);
+			() => onSuccess?.Invoke(user), onError);
+	}
+
+	public void SendFriendshipInvite(FriendModel user, Action<FriendModel> onSuccess = null, Action<Error> onError = null)
+	{
+		XsollaLogin.Instance.UpdateUserFriends(XsollaLogin.Instance.Token, FriendAction.SendInviteRequest, user.Id,
+			() => onSuccess?.Invoke(user), onError);
 	}
 
 	public void RemoveFriend(FriendModel user, Action<FriendModel> onSuccess = null, Action<Error> onError = null)
 	{
 		XsollaLogin.Instance.UpdateUserFriends(XsollaLogin.Instance.Token, FriendAction.RemoveFriend, user.Id,
-			_ => onSuccess?.Invoke(user), onError);
+			() => onSuccess?.Invoke(user), onError);
+	}
+	
+	public void AcceptFriendship(FriendModel user, Action<FriendModel> onSuccess = null, Action<Error> onError = null)
+	{
+		XsollaLogin.Instance.UpdateUserFriends(XsollaLogin.Instance.Token, FriendAction.AcceptInvite, user.Id,
+			() => onSuccess?.Invoke(user), onError);
+	}
+	
+	public void DeclineFriendship(FriendModel user, Action<FriendModel> onSuccess = null, Action<Error> onError = null)
+	{
+		XsollaLogin.Instance.UpdateUserFriends(XsollaLogin.Instance.Token, FriendAction.DenyInvite, user.Id,
+			() => onSuccess?.Invoke(user), onError);
+	}
+	
+	public void CancelFriendshipRequest(FriendModel user, Action<FriendModel> onSuccess = null, Action<Error> onError = null)
+	{
+		XsollaLogin.Instance.UpdateUserFriends(XsollaLogin.Instance.Token, FriendAction.CancelRequest, user.Id,
+			() => onSuccess?.Invoke(user), onError);
 	}
 
 	private void GetUsersByType(FriendsSearchType searchType, UserRelationship relationship,

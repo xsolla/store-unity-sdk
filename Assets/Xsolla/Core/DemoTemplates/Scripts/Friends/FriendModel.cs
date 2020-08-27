@@ -23,7 +23,8 @@ public class FriendModel
 
 	public override bool Equals(object obj)
 	{
-		return string.IsNullOrEmpty(Id) ? base.Equals(obj) : Id.Equals(obj);
+		if (!(obj is FriendModel)) return false;
+		return string.IsNullOrEmpty(Id) ? base.Equals(obj) : Id.Equals(((FriendModel) obj).Id);
 	}
 
 	public override int GetHashCode()

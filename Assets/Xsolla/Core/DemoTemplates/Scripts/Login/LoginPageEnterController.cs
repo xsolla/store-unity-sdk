@@ -46,6 +46,7 @@ public partial class LoginPageEnterController : LoginPageController
 			DemoController.Instance.GetImplementation().Token = jwtToken;
 		}
 
+		Debug.Log($"Successful auth with token = {token}");
 		IsAuthInProgress = false;
 		base.OnSuccess?.Invoke();
 	}

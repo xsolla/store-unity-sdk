@@ -60,8 +60,20 @@ public interface IDemoImplementation
 	
 	void UnblockUser(FriendModel user, [CanBeNull] Action<FriendModel> onSuccess = null, 
 		[CanBeNull] Action<Error> onError = null);
+
+	void SendFriendshipInvite(FriendModel user, Action<FriendModel> onSuccess = null,
+		Action<Error> onError = null);
 	
 	void RemoveFriend(FriendModel user, [CanBeNull] Action<FriendModel> onSuccess = null, 
+		[CanBeNull] Action<Error> onError = null);
+
+	void AcceptFriendship(FriendModel user, [CanBeNull] Action<FriendModel> onSuccess = null,
+		[CanBeNull] Action<Error> onError = null);
+	
+	void DeclineFriendship(FriendModel user, [CanBeNull] Action<FriendModel> onSuccess = null,
+		[CanBeNull] Action<Error> onError = null);
+	
+	void CancelFriendshipRequest(FriendModel user, [CanBeNull] Action<FriendModel> onSuccess = null,
 		[CanBeNull] Action<Error> onError = null);
 
 	Token Token { get; set; }

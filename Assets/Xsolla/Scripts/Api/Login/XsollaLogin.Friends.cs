@@ -116,7 +116,7 @@ namespace Xsolla.Login
 		/// <param name="user">The Xsolla Login user ID to change relationship with.</param>
 		/// <param name="onSuccess">Success operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
-		public void UpdateUserFriends(string token, FriendAction action, string user, Action<UserFriendUpdateResponse> onSuccess, Action<Error> onError)
+		public void UpdateUserFriends(string token, FriendAction action, string user, Action onSuccess, Action<Error> onError)
 		{
 			var request = new UserFriendUpdate
 			{

@@ -51,6 +51,12 @@ namespace Xsolla.Core
 		{
 			StartCoroutine(PostRequestCor(url, jsonObject, requestHeaders, onComplete, onError, errorsToCheck));
 		}
+		
+		public void PostRequest<D>(string url, D jsonObject, WebRequestHeader requestHeader, Action onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
+			where D : class
+		{
+			StartCoroutine(PostRequestCor(url, jsonObject, new List<WebRequestHeader>{requestHeader}, onComplete, onError, errorsToCheck));
+		}
 
 		public void PostRequest<D>(string url, D jsonObject = null, Action onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
 			where D : class

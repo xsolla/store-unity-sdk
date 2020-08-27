@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 using Xsolla.Core;
 
@@ -7,21 +8,23 @@ public class FriendUI : MonoBehaviour
     [SerializeField] private Image avatarImage;
     [SerializeField] private Image statusImage;
     [SerializeField] private Text nickname;
-    [SerializeField] private SimpleButton actionsButton;
-    [SerializeField] private GameObject actionsList;
+    [SerializeField] private FriendActionsButton actionsButton;
     [SerializeField] private FriendButtonsUI userButtons;
+    
+    public FriendModel FriendModel { get; private set; }
     
     public void Initialize(FriendModel friend)
     {
         if(friend == null) return;
+        FriendModel = friend;
 
-        InitAvatar(friend);
+        InitAvatar(FriendModel);
 
-        InitStatus(friend);
+        InitStatus(FriendModel);
 
-        InitNickname(friend);
-
-        InitActionsButton(friend);
+        InitNickname(FriendModel);
+        
+        SetUserState(FriendModel.Relationship);
     }
 
     private void InitAvatar(FriendModel friend)
@@ -68,16 +71,79 @@ public class FriendUI : MonoBehaviour
             nickname.text = text;
     }
 
-    private void InitActionsButton(FriendModel friendModel)
+    public void SetUserState(UserState state)
     {
-        if (actionsButton != null && actionsList != null)
+        BaseUserStateUI userState;
+        switch (state)
         {
-            actionsList.GetComponent<FriendActionsUI>().Init(friendModel, userButtons);
-            actionsList.gameObject.SetActive(false);
-            actionsButton.onClick = () =>
+            case UserState.Initial:
             {
-                actionsList.SetActive(!actionsList.activeInHierarchy);
-            };
+                userState = gameObject.AddComponent<UserStateInitial>();
+                break;
+            }
+            case UserState.MyFriend:
+            {
+                userState = gameObject.AddComponent<UserStateMyFriend>();
+                break;
+            }
+            case UserState.Pending:
+            {
+                userState = gameObject.AddComponent<UserStatePending>();
+                break;
+            }
+            case UserState.Requested:
+            {
+                userState = gameObject.AddComponent<UserStateRequested>();
+                break;
+            }
+            case UserState.Blocked:
+            {
+                userState = gameObject.AddComponent<UserStateBlocked>();
+                break;
+            }
+            default:
+            {
+                Debug.LogWarning($"Set up handle of user state = '{state.ToString()}' in FriendUI.cs");
+                return;
+            }
+        }
+        userState.Init(this, userButtons, actionsButton);
+    }
+
+    public void SetUserState(UserRelationship relationship)
+    {
+        switch (relationship)
+        {
+            case UserRelationship.Unknown:
+            {
+                SetUserState(UserState.Initial);
+                break;
+            }
+            case UserRelationship.Friend:
+            {
+                SetUserState(UserState.MyFriend);
+                break;
+            }
+            case UserRelationship.Pending:
+            {
+                SetUserState(UserState.Pending);
+                break;
+            }
+            case UserRelationship.Requested:
+            {
+                SetUserState(UserState.Requested);
+                break;
+            }
+            case UserRelationship.Blocked:
+            {
+                SetUserState(UserState.Blocked);
+                break;
+            }
+            default:
+            {
+                Debug.LogException(new ArgumentOutOfRangeException(nameof(relationship), relationship, null));
+                break;
+            }
         }
     }
 }
