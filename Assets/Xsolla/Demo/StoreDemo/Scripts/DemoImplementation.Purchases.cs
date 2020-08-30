@@ -60,6 +60,12 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 					XsollaStore.Instance.CartPurchase(XsollaSettings.StoreProjectId, newCart.cart_id, data =>
 					{
 						XsollaStore.Instance.OpenPurchaseUi(data);
+
+						var browser = BrowserHelper.Instance.GetLastBrowser();
+
+						if (browser != null)
+							browser.BrowserClosedEvent += _ => onError?.Invoke(null);
+
 						XsollaStore.Instance.ProcessOrder(XsollaSettings.StoreProjectId, data.order_id, () =>
 						{
 							PurchaseComplete();

@@ -48,11 +48,11 @@ public class AccountLinkingManager : MonoBehaviour
 			ShowCodeConfirmation(code =>
 			{
 				DemoController.Instance.GetImplementation().LinkConsoleAccount(
-					XsollaSettings.UsernameFromConsolePlatform,
-					XsollaSettings.Platform.GetString(),
-					code,
-					LinkingAccountHandler,
-					StoreDemoPopup.ShowError);
+					userId: XsollaSettings.UsernameFromConsolePlatform,
+					platform: XsollaSettings.Platform.GetString(),
+					confirmationCode: code,
+					onSuccess: LinkingAccountHandler,
+					onError: StoreDemoPopup.ShowError);
 			});
 			OpenUrlEvent?.Invoke(URL_MASTER_ACCOUNT);
 		};
@@ -62,10 +62,10 @@ public class AccountLinkingManager : MonoBehaviour
 	{
 		PopupFactory.Instance.CreateSuccess();
 		DemoController.Instance.GetImplementation().SignInConsoleAccount(
-			XsollaSettings.UsernameFromConsolePlatform,
-			XsollaSettings.Platform.GetString(),
-			ReloginCallback,
-			StoreDemoPopup.ShowError
+			userId: XsollaSettings.UsernameFromConsolePlatform,
+			platform: XsollaSettings.Platform.GetString(),
+			successCase: ReloginCallback,
+			failedCase: StoreDemoPopup.ShowError
 		);
 	}
 
@@ -74,6 +74,7 @@ public class AccountLinkingManager : MonoBehaviour
 		DemoController.Instance.GetImplementation().Token = newToken;
 		LinkingAccountComplete?.Invoke();
 		Start();
+		DemoController.Instance.SetState(MenuState.Inventory);
 	}
 
 	private void ShowCodeConfirmation(Action<string> callback)

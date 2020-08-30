@@ -19,8 +19,8 @@ public class MainMenuController : BaseMenuController
 		AttachButtonCallback(profileButton, () => SetMenuState(MenuState.Profile));
 		AttachButtonCallback(logoutButton, () => SetMenuState(MenuState.Authorization));
 		
-		AttachUrlToButton(documentationButton, DemoController.Instance.documentationUrl);
-		AttachUrlToButton(feedbackButton, DemoController.Instance.feedbackUrl);
-		AttachUrlToButton(publisherAccountButton, DemoController.Instance.publisherUrl);
+		AttachUrlToButton(documentationButton, DemoController.Instance.UrlContainer.GetUrl(UrlType.DocumentationUrl));
+		AttachUrlToButton(feedbackButton, DemoController.Instance.UrlContainer.GetUrl(UrlType.FeedbackUrl));
+		AttachUrlToButton(publisherAccountButton, DemoController.Instance.UrlContainer.GetUrl(UrlType.PublisherUrl));
 	}
 }

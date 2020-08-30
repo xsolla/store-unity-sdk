@@ -54,7 +54,7 @@ public class CartControls : MonoBehaviour
 
 	public void Initialize(float totalPrice = 0f, float discount = 0f)
 	{
-		totalPriceText.text = GetFormattedPrice(totalPrice);
+		totalPriceText.text = PriceFormatter.FormatPrice(totalPrice);
 		ShowTotal(totalPrice >= 0.01f);
 
 		if (discount >= 0.01f)
@@ -83,12 +83,7 @@ public class CartControls : MonoBehaviour
 		subtotalPriceText.gameObject.SetActive(true);
 		discountLabelText.gameObject.SetActive(true);
 		discountPriceText.gameObject.SetActive(true);
-		discountPriceText.text = $"-{GetFormattedPrice(discount)}";
-		subtotalPriceText.text = GetFormattedPrice(subtotal);
-	}
-
-	private string GetFormattedPrice(float price)
-	{
-		return $"${price:F2}";
+		discountPriceText.text = $"-{PriceFormatter.FormatPrice(discount)}";
+		subtotalPriceText.text = PriceFormatter.FormatPrice(subtotal);
 	}
 }

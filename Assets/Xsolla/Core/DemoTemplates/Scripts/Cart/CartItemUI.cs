@@ -11,6 +11,8 @@ public class CartItemUI : MonoBehaviour
 	Text itemName;
 	[SerializeField]
 	Text itemPrice;
+	[SerializeField]
+	Text itemPriceWithoutDiscount;
 
 	[SerializeField]
 	SimpleButton addButton;
@@ -56,9 +58,16 @@ public class CartItemUI : MonoBehaviour
 	{
 		_cartItem = cartItem;
 
-		itemPrice.text = FormatPriceText(_cartItem.Currency, _cartItem.Price);
+		itemPrice.text = PriceFormatter.FormatPrice(_cartItem.Currency, _cartItem.Price);
 		itemName.text = _cartItem.Item.Name;
 		itemQuantity.text = _cartItem.Quantity.ToString();
+
+		var priceWithoutDiscount = _cartItem.PriceWithoutDiscount;
+
+		if (priceWithoutDiscount != default(float) && priceWithoutDiscount != _cartItem.Price)
+			itemPriceWithoutDiscount.text = PriceFormatter.FormatPrice(_cartItem.Currency, priceWithoutDiscount);
+		else
+			itemPriceWithoutDiscount.text = string.Empty;
 		
 		if (itemImage.sprite != null && !string.IsNullOrEmpty(_cartItem.ImageUrl))
 		{
@@ -69,13 +78,5 @@ public class CartItemUI : MonoBehaviour
 	void LoadImageCallback(string url, Sprite image)
 	{
 		itemImage.sprite = image;
-	}
-
-	string FormatPriceText(string currency, float price)
-	{
-		var currencySymbol = RegionalCurrency.GetCurrencySymbol(currency);
-		return string.IsNullOrEmpty(currencySymbol) 
-			? $"{currency}{price}" 
-			: $"{currencySymbol}{price}";
 	}
 }

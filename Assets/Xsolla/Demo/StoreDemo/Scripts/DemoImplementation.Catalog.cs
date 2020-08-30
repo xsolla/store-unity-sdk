@@ -140,27 +140,45 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 	private static void FillCatalogItem(CatalogItemModel model, StoreItem item)
 	{
 		FillItemModel(model, item);
-		model.RealPrice = GetRealPrice(item);
-		model.VirtualPrice = GetVirtualPrice(item);
+
+		model.RealPrice = GetRealPrice(item, out var realPriceWithoutDiscount);
+		model.RealPriceWithoutDiscount = realPriceWithoutDiscount;
+
+		model.VirtualPrice = GetVirtualPrice(item, out var virtualPriceWithoutDiscount);
+		model.VirtualPriceWithoutDiscount = virtualPriceWithoutDiscount;
 	}
 
-	private static KeyValuePair<string, float>? GetRealPrice(StoreItem item)
+	private static KeyValuePair<string, float>? GetRealPrice(StoreItem item, out KeyValuePair<string, float>? priceWithoutDiscount)
 	{
-		if (item.price == null) return null;
+		if (item.price == null)
+		{
+			priceWithoutDiscount = null;
+			return null;
+		}
+
+		priceWithoutDiscount = new KeyValuePair<string, float>(item.price.currency, item.price.GetAmountWithoutDiscount());
 		return new KeyValuePair<string, float>(item.price.currency, item.price.GetAmount());
 	}
-	
-	private static KeyValuePair<string, uint>? GetVirtualPrice(StoreItem item)
+
+	private static KeyValuePair<string, uint>? GetVirtualPrice(StoreItem item, out KeyValuePair<string, uint>? priceWithoutDiscount)
 	{
 		var virtualPrices = item.virtual_prices.ToList();
-		if (!virtualPrices.Any()) return null;
+
+		if (!virtualPrices.Any())
+		{
+			priceWithoutDiscount = null;
+			return null;
+		}
+
 		var virtualPrice = virtualPrices.Count(v => v.is_default) == 0
 			? virtualPrices.First()
 			: virtualPrices.First(v => v.is_default); 
+
+		priceWithoutDiscount = new KeyValuePair<string, uint>(virtualPrice.sku, virtualPrice.GetAmountWithoutDiscount());
 		return  new KeyValuePair<string, uint>(virtualPrice.sku, virtualPrice.GetAmount());
 	}
-	
-	public List<string> GetCatalogGroupsByItem(CatalogItemModel item)
+
+	public List<string> GetCatalogGroupsByItem(ItemModel item)
 	{
 		return _itemsGroups.ContainsKey(item.Sku) ? _itemsGroups[item.Sku] : new List<string>();
 	}

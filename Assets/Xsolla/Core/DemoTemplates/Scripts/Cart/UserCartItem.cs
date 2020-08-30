@@ -7,9 +7,10 @@ public class UserCartItem
 
 	public string Sku => Item.Sku;
 	public float  Price => Item.Price.HasValue ? Item.Price.Value.Value : 0F;
+	public float  PriceWithoutDiscount => Item.RealPriceWithoutDiscount.HasValue ? Item.RealPriceWithoutDiscount.Value.Value : 0F;
 	public string Currency => Item.Price?.Key;
 	public string ImageUrl => Item.ImageUrl;
-	public float TotalPrice => Price * Quantity;
+	public float  TotalPrice => Price * Quantity;
 	
 	public UserCartItem(CatalogItemModel storeItem)
 	{

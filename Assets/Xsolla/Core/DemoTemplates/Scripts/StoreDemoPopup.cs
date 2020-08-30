@@ -18,7 +18,13 @@ namespace Xsolla.Store
             PopupFactory.Instance.CreateError().SetMessage(error.ToString());
         }
 
-        public static void ShowConfirm(
+		public static void ShowLoginSettingsError(string errorText)
+		{
+			Debug.LogError(errorText);
+			PopupFactory.Instance.CreateLoginSettingsError().SetMessage(errorText);
+		}
+
+		public static void ShowConfirm(
             Action confirmCase,
             Action cancelCase = null,
             string message = "Are you sure you want to buy this item?"
