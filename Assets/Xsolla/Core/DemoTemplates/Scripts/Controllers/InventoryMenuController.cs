@@ -23,9 +23,22 @@ public class InventoryMenuController : MonoBehaviour
 	protected virtual void Start()
 	{
 		_demoImplementation = DemoController.Instance.GetImplementation();
-		groupsController.GroupSelectedEvent += PutItemsToContainer;
+		groupsController.GroupSelectedEvent += PutItemsToContainerOnGroupSelect;
 		StartCoroutine(InventoryCoroutine());
-		UserInventory.Instance.RefreshEvent += () => PutItemsToContainer(_group);
+		UserInventory.Instance.RefreshEvent += () => PutItemsToContainerOnRefreshEvent(_group);
+	}
+
+	private void PutItemsToContainerOnGroupSelect(string groupName)
+	{
+		PutItemsToContainer(groupName);
+	}
+
+	private void PutItemsToContainerOnRefreshEvent(string groupName)
+	{
+		if (string.IsNullOrEmpty(groupName))
+			groupName = ALL_ITEMS_GROUP;
+
+		PutItemsToContainer(groupName);
 	}
 
 	private void PutItemsToContainer(string groupName)

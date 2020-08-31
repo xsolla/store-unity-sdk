@@ -12,11 +12,6 @@ public class AccountLinkingManager : MonoBehaviour
 	[SerializeField] private SimpleButton getAccountLinkButton;
 #pragma warning restore 0649
 
-	private const string URL_MASTER_ACCOUNT = "https://livedemo.xsolla.com/sdk-demo/";
-
-	public event Action<string> OpenUrlEvent;
-	public event Action LinkingAccountComplete;
-
 	private void Start()
 	{
 		if (DemoController.Instance.GetImplementation().Token.IsMasterAccount())
@@ -30,7 +25,7 @@ public class AccountLinkingManager : MonoBehaviour
 		accountLinkingButton.gameObject.SetActive(false);
 		getAccountLinkButton.gameObject.SetActive(true);
 
-		getAccountLinkButton.onClick = () =>
+		getAccountLinkButton.onClick += () =>
 		{
 			DemoController.Instance.GetImplementation().RequestLinkingCode(
 				code => StoreDemoPopup.ShowSuccess($"YOUR CODE: {code.code}"),
@@ -43,7 +38,7 @@ public class AccountLinkingManager : MonoBehaviour
 		getAccountLinkButton.gameObject.SetActive(false);
 		accountLinkingButton.gameObject.SetActive(true);
 		
-		accountLinkingButton.onClick = () =>
+		accountLinkingButton.onClick += () =>
 		{
 			ShowCodeConfirmation(code =>
 			{
@@ -54,7 +49,6 @@ public class AccountLinkingManager : MonoBehaviour
 					onSuccess: LinkingAccountHandler,
 					onError: StoreDemoPopup.ShowError);
 			});
-			OpenUrlEvent?.Invoke(URL_MASTER_ACCOUNT);
 		};
 	}
 
@@ -64,16 +58,28 @@ public class AccountLinkingManager : MonoBehaviour
 		DemoController.Instance.GetImplementation().SignInConsoleAccount(
 			userId: XsollaSettings.UsernameFromConsolePlatform,
 			platform: XsollaSettings.Platform.GetString(),
-			successCase: ReloginCallback,
+			successCase: OnSuccessConsoleLogin,
 			failedCase: StoreDemoPopup.ShowError
 		);
 	}
 
-	private void ReloginCallback(string newToken)
+	private void OnSuccessConsoleLogin(string newToken)
+	{
+		DemoController.Instance.GetImplementation().ValidateToken(
+			token: newToken,
+			onSuccess: validToken => ApplyNewToken(validToken),
+			onError: StoreDemoPopup.ShowError);
+	}
+
+	private void ApplyNewToken(string newToken)
 	{
 		DemoController.Instance.GetImplementation().Token = newToken;
-		LinkingAccountComplete?.Invoke();
-		Start();
+		DemoController.Instance.SetState(MenuState.Main);
+		UserInventory.Instance.Refresh(onSuccess: GoToInventory, onError: StoreDemoPopup.ShowError);
+	}
+
+	private void GoToInventory()
+	{
 		DemoController.Instance.SetState(MenuState.Inventory);
 	}
 
