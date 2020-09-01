@@ -10,11 +10,10 @@ public class LauncherArguments : MonoSingleton<LauncherArguments>
 
     public string GetToken()
 	{
-		if(invalidated) {
-            return "";
+		if(invalidated || Environment.GetCommandLineArgs().Count(a => a.Contains(LAUNCHER_TOKEN)) == 0) {
+            return string.Empty;
 		}
-		var args = Environment.GetCommandLineArgs().ToList();
-        var str = args.First(a => a.Contains(LAUNCHER_TOKEN));
+		var str = Environment.GetCommandLineArgs().First(a => a.Contains(LAUNCHER_TOKEN));
         return !string.IsNullOrEmpty(str) ? str.Split('=')[1] : string.Empty;
 	}
 
