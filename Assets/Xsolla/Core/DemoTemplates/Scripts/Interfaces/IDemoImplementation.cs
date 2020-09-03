@@ -85,4 +85,9 @@ public interface IDemoImplementation
 	void UpdateUserAttributes(string token, string projectId, List<UserAttribute> attributes, Action onSuccess, Action<Error> onError);
 
 	void RemoveUserAttributes(string token, string projectId, List<string> attributeKeys, Action onSuccess, Action<Error> onError);
+
+#region OAuth2.0
+	bool IsOAuthTokenRefreshInProgress { get; }
+	void ExchangeCodeToToken(string code, Action<string> onSuccessExchange = null, Action<Error> onError = null);
+#endregion
 }

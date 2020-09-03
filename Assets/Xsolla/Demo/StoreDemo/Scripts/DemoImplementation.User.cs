@@ -101,4 +101,13 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 		XsollaLogin.Instance.RemoveUserAttributes(token, projectId, attributeKeys, onSuccess, onError);
 	}
 #endregion
+
+#region OAuth2.0
+	public bool IsOAuthTokenRefreshInProgress => XsollaLogin.Instance.IsOAuthTokenRefreshInProgress;
+
+	public void ExchangeCodeToToken(string code, Action<string> onSuccessExchange = null, Action<Error> onError = null)
+	{
+		XsollaLogin.Instance.ExchangeCodeToToken(code, onSuccessExchange, onError);
+	}
+#endregion
 }

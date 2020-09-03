@@ -16,8 +16,10 @@ namespace Xsolla.Core
 
 		[SerializeField] private string loginId = Constants.DEFAULT_LOGIN_ID;
 		[SerializeField] private bool useProxy;
-		[SerializeField] private bool jwtTokenInvalidationEnabled;
 		[SerializeField] private string callbackUrl;
+		[SerializeField] private AuthorizationType authorizationType;
+		[SerializeField] private bool jwtTokenInvalidationEnabled;
+		[SerializeField] private int oauthClientId;
 		
 		[SerializeField] private bool useSteamAuth = true;
 		[SerializeField] private string steamAppId = "480";
@@ -75,12 +77,32 @@ namespace Xsolla.Core
 			}
 		}
 
+		public static AuthorizationType AuthorizationType
+		{
+			get => Instance.authorizationType;
+			set
+			{
+				Instance.authorizationType = value;
+				MarkAssetDirty();
+			}
+		}
+
 		public static bool JwtTokenInvalidationEnabled
 		{
 			get => Instance.jwtTokenInvalidationEnabled;
 			set
 			{
 				Instance.jwtTokenInvalidationEnabled = value;
+				MarkAssetDirty();
+			}
+		}
+
+		public static int OAuthClientId
+		{
+			get => Instance.oauthClientId;
+			set
+			{
+				Instance.oauthClientId = value;
 				MarkAssetDirty();
 			}
 		}
