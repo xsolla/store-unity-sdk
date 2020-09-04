@@ -10,6 +10,7 @@ public class FriendUI : MonoBehaviour
     [SerializeField] private Text nickname;
     [SerializeField] private FriendActionsButton actionsButton;
     [SerializeField] private FriendButtonsUI userButtons;
+    [SerializeField] private FriendStatusLineUI userStatusLine;
     
     public FriendModel FriendModel { get; private set; }
     
@@ -107,7 +108,7 @@ public class FriendUI : MonoBehaviour
                 return;
             }
         }
-        userState.Init(this, userButtons, actionsButton);
+        userState.Init(this, userButtons, userStatusLine, actionsButton);
     }
 
     public void SetUserState(UserRelationship relationship)

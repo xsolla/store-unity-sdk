@@ -33,6 +33,11 @@ public class FriendButtonsUI : MonoBehaviour
     {
         return SetButtonVisibility(addFriendButton, true);
     }
+    
+    public SimpleTextButton DisableAddFriendButton()
+    {
+        return SetButtonVisibility(addFriendButton, false);
+    }
 
     public SimpleTextButton EnableAcceptButton()
     {

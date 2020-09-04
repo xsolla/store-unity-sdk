@@ -117,6 +117,12 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 313499650710526930, guid: 021a5561721ed4361aaf16db756b1bca,
+        type: 3}
+      propertyPath: hoverStateSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 20e9b031efb7645148f4f357249ef9cf,
+        type: 3}
     - target: {fileID: 4674086751303676028, guid: 021a5561721ed4361aaf16db756b1bca,
         type: 3}
       propertyPath: m_AnchoredPosition.x

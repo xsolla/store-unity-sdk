@@ -16,7 +16,17 @@ public class FriendsMenuController : MonoBehaviour
     [SerializeField] private GroupsController groupsController;
     [SerializeField] private ItemContainer usersContainer;
     [SerializeField] private InputField userSearchBox;
-    
+
+    private void Awake()
+    {
+        UserFriends.Instance.StopRefreshUsers();
+    }
+
+    private void OnDestroy()
+    {
+        UserFriends.Instance.StartRefreshUsers();
+    }
+
     void Start()
     {
         if (groupsController != null)
@@ -32,10 +42,23 @@ public class FriendsMenuController : MonoBehaviour
     {
         if(groupsController == null) return;
         groupsController.RemoveAll();
-        groupsController.AddGroup(USER_FRIENDS_GROUP).GetComponent<FriendGroup>().SetUsersCount(UserFriends.Instance.Friends.Count);
-        groupsController.AddGroup(PENDING_USERS_GROUP).GetComponent<FriendGroup>().SetUsersCount(UserFriends.Instance.Pending.Count);
-        groupsController.AddGroup(REQUESTED_USERS_GROUP).GetComponent<FriendGroup>().SetUsersCount(UserFriends.Instance.Requested.Count);
-        groupsController.AddGroup(BLOCKED_USERS_GROUP).GetComponent<FriendGroup>().SetUsersCount(UserFriends.Instance.Blocked.Count);
+        
+        var friendsGroup = groupsController.AddGroup(USER_FRIENDS_GROUP).GetComponent<FriendGroup>();
+        friendsGroup.SetUsersCount(UserFriends.Instance.Friends.Count);
+        UserFriends.Instance.UserFriendsUpdatedEvent += () => friendsGroup.SetUsersCount(UserFriends.Instance.Friends.Count);
+        
+        var pendingGroup = groupsController.AddGroup(PENDING_USERS_GROUP).GetComponent<FriendGroup>();
+        pendingGroup.SetUsersCount(UserFriends.Instance.Pending.Count);
+        UserFriends.Instance.PendingUsersUpdatedEvent += () => pendingGroup.SetUsersCount(UserFriends.Instance.Pending.Count);
+        
+        var requestedGroup = groupsController.AddGroup(REQUESTED_USERS_GROUP).GetComponent<FriendGroup>();
+        requestedGroup.SetUsersCount(UserFriends.Instance.Requested.Count);
+        UserFriends.Instance.RequestedUsersUpdatedEvent += () => requestedGroup.SetUsersCount(UserFriends.Instance.Requested.Count);
+        
+        var blockedGroup = groupsController.AddGroup(BLOCKED_USERS_GROUP).GetComponent<FriendGroup>();
+        blockedGroup.SetUsersCount(UserFriends.Instance.Blocked.Count);
+        UserFriends.Instance.BlockedUsersUpdatedEvent += () => blockedGroup.SetUsersCount(UserFriends.Instance.Blocked.Count);
+        
         groupsController.SelectDefault();
     }
 

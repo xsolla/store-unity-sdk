@@ -11,17 +11,19 @@ public abstract class BaseUserStateUI : MonoBehaviour
 	protected FriendUI Friend;
 	protected FriendButtonsUI UserButtons;
 	protected FriendActionsButton ActionsButton;
+	protected FriendStatusLineUI StatusLine;
 	
 	protected abstract void InitUserButtons(FriendButtonsUI buttons);
 	protected abstract void InitUserActionsButton(FriendActionsButton actionsButton);
 	protected virtual void InitOtherElements()
 	{ }
 	
-	public void Init(FriendUI friend, FriendButtonsUI userButtons, FriendActionsButton actionsButton)
+	public void Init(FriendUI friend, FriendButtonsUI userButtons, FriendStatusLineUI statusLine, FriendActionsButton actionsButton)
 	{
 		Friend = friend;
 		UserButtons = userButtons;
 		ActionsButton = actionsButton;
+		StatusLine = statusLine;
 
 		if (UserButtons != null)
 		{

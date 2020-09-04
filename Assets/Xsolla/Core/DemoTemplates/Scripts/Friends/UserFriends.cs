@@ -7,6 +7,8 @@ using Xsolla.Core;
 
 public class UserFriends : MonoSingleton<UserFriends>
 {
+	private const float REFRESH_USER_FRIENDS_TIMEOUT = 10.0F;
+	
 	public event Action UserFriendsUpdatedEvent;
 	public event Action BlockedUsersUpdatedEvent;
 	public event Action PendingUsersUpdatedEvent;
@@ -19,6 +21,8 @@ public class UserFriends : MonoSingleton<UserFriends>
 	public List<FriendModel> Pending { get; private set; }
 	public List<FriendModel> Requested { get; private set; }
 
+	private Coroutine RefreshCoroutine;
+
 	public override void Init()
 	{
 		base.Init();
@@ -27,12 +31,52 @@ public class UserFriends : MonoSingleton<UserFriends>
 		Blocked = new List<FriendModel>();
 		Pending = new List<FriendModel>();
 		Requested = new List<FriendModel>();
+
+		StartRefreshUsers();
+	}
+
+	public void StartRefreshUsers()
+	{
+		StopRefreshUsers();
+		RefreshCoroutine = StartCoroutine(PeriodicallyRefreshUserFriends());
+	}
+
+	public void StopRefreshUsers()
+	{
+		if (RefreshCoroutine == null) return;
+		StopCoroutine(RefreshCoroutine);
+		RefreshCoroutine = null;
+	}
+
+	private void RefreshUsersMethod([CanBeNull] Action onSuccess = null, [CanBeNull] Action<Error> onError = null)
+	{
+		IsUpdated = false;
+		StartCoroutine(UpdateFriendsCoroutine(onSuccess, onError));
 	}
 	
 	public void UpdateFriends([CanBeNull] Action onSuccess = null, [CanBeNull] Action<Error> onError = null)
 	{
-		IsUpdated = false;
-		StartCoroutine(UpdateFriendsCoroutine(onSuccess, onError));
+		StopRefreshUsers();
+		RefreshUsersMethod(() =>
+		{
+			onSuccess?.Invoke();
+			StartRefreshUsers();
+		}, err =>
+		{
+			onError?.Invoke(err);
+			StartRefreshUsers();
+		});
+	}
+	
+	private IEnumerator PeriodicallyRefreshUserFriends()
+	{
+		while (true)
+		{
+			yield return new WaitForSeconds(REFRESH_USER_FRIENDS_TIMEOUT);
+			var busy = true;
+			RefreshUsersMethod(() => busy = false, _ => busy = false);
+			yield return new WaitWhile(() => busy);	
+		}
 	}
 	
 	private IEnumerator UpdateFriendsCoroutine(Action onSuccess, Action<Error> onError)
@@ -127,9 +171,7 @@ public class UserFriends : MonoSingleton<UserFriends>
 	
 	public void BlockUser(FriendModel user, [CanBeNull] Action<FriendModel> onSuccess = null, [CanBeNull] Action<Error> onError = null)
 	{
-		if (!Friends.Contains(user) && !Pending.Contains(user) && !Requested.Contains(user))
-			ShowErrorMessage($"Can not block user with nickname = {user.Nickname}, because we have not this user in friend system!", onError);
-		else
+		if (!Blocked.Contains(user))
 			DemoController.Instance.GetImplementation().BlockUser(user, u =>
 			{
 				RemoveUserFromMemory(user);

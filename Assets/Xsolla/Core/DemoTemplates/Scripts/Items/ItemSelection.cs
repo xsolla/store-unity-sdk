@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -6,6 +7,9 @@ using UnityEngine.UI;
 
 public class ItemSelection : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
+    public event Action OnPointerEnterEvent;
+    public event Action OnPointerExitEvent;
+    
     [SerializeField] private GameObject itemSelectionImage;
     [SerializeField] private List<SelectableArea> someArea;
     private int _counter;
@@ -35,14 +39,18 @@ public class ItemSelection : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     {
         _counter++;
         if (_counter <= 0) _counter = 1;
-        if (itemSelectionImage == null) return;
+        if (itemSelectionImage == null || _counter > 1) return;
         itemSelectionImage.SetActive(true);
+        OnPointerEnterEvent?.Invoke();
     }
 
     private void DisableSelection()
     {
         _counter--;
         if (itemSelectionImage != null && _counter <= 0)
+        {
+            OnPointerExitEvent?.Invoke();
             itemSelectionImage.SetActive(false);
+        }
     }
 }

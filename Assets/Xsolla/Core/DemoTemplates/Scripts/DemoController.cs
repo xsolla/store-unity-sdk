@@ -40,6 +40,8 @@ public class DemoController : MonoSingleton<DemoController>, IMenuStateMachine
     {
         if (lastState == MenuState.Main && newState == MenuState.Authorization)
         {
+            if(UserFriends.IsExist)
+                Destroy(UserFriends.Instance.gameObject);
             if (UserInventory.IsExist)
                 Destroy(UserInventory.Instance.gameObject);
             if (UserSubscriptions.IsExist)
