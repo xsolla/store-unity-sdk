@@ -11,7 +11,11 @@ public class VirtualCurrencyBalanceUI : MonoBehaviour
 	{
 		if (Image != null)
 		{
-			ImageLoader.Instance.GetImageAsync(item.ImageUrl, (_, sprite) => Image.sprite = sprite);
+			ImageLoader.Instance.GetImageAsync(item.ImageUrl, (_, sprite) =>
+			{
+				if (Image/*still*/!= null)
+					Image.sprite = sprite;
+			});
 		}
 		else
 		{

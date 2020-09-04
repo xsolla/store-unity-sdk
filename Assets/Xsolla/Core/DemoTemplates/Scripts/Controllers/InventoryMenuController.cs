@@ -23,9 +23,22 @@ public class InventoryMenuController : MonoBehaviour
 	protected virtual void Start()
 	{
 		_demoImplementation = DemoController.Instance.GetImplementation();
-		groupsController.GroupSelectedEvent += PutItemsToContainer;
+		groupsController.GroupSelectedEvent += PutItemsToContainerOnGroupSelect;
 		StartCoroutine(InventoryCoroutine());
-		UserInventory.Instance.RefreshEvent += () => PutItemsToContainer(_group);
+		UserInventory.Instance.RefreshEvent += () => PutItemsToContainerOnRefreshEvent(_group);
+	}
+
+	private void PutItemsToContainerOnGroupSelect(string groupName)
+	{
+		PutItemsToContainer(groupName);
+	}
+
+	private void PutItemsToContainerOnRefreshEvent(string groupName)
+	{
+		if (string.IsNullOrEmpty(groupName))
+			groupName = ALL_ITEMS_GROUP;
+
+		PutItemsToContainer(groupName);
 	}
 
 	private void PutItemsToContainer(string groupName)
@@ -74,19 +87,34 @@ public class InventoryMenuController : MonoBehaviour
 	private IEnumerator InventoryCoroutine()
 	{
 		yield return new WaitUntil(() => UserInventory.Instance.IsUpdated);
-		CreateAndFillInventoryGroups(UserCatalog.Instance.AllItems);
+		CreateAndFillInventoryGroups(UserInventory.Instance.AllItems);
 	}
 
-	private void CreateAndFillInventoryGroups(List<CatalogItemModel> items)
+	private void CreateAndFillInventoryGroups(List<ItemModel> items)
 	{
-		var groups = new List<string>{ALL_ITEMS_GROUP};
 		groupsController.AddGroup(ALL_ITEMS_GROUP);
-		
-		if (items.Any())
-			items.ForEach(i => groups.AddRange(_demoImplementation.GetCatalogGroupsByItem(i)));
-		groups = groups.Distinct().ToList();
-		groups.Remove(ALL_ITEMS_GROUP);
-		groups.ForEach(groupName => groupsController.AddGroup(groupName));
+
+		var itemGroups = new HashSet<string>();
+
+		foreach (var item in items)
+		{
+			if (item.IsSubscription() && item is UserSubscriptionModel subscription && subscription.Status == UserSubscriptionModel.SubscriptionStatusType.None)
+			{
+				//Do nothing, skip this item
+				continue;
+			}
+			else
+			{
+				var currentItemGroups = _demoImplementation.GetCatalogGroupsByItem(item);
+
+				foreach (var group in currentItemGroups)
+					itemGroups.Add(group);
+			}
+		}
+
+		foreach (var group in itemGroups)
+			groupsController.AddGroup(group);
+
 		groupsController.SelectDefault();
 	}
 }

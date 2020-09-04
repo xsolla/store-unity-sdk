@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6389733742678192272}
   - component: {fileID: 6389733742678192287}
   - component: {fileID: 6389733742678192286}
+  - component: {fileID: 1218190968}
   m_Layer: 0
   m_Name: DemoController
   m_TagString: Untagged
@@ -46,10 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stateMachine: {fileID: 6389733742317925048}
-  documentationUrl: https://developers.xsolla.com/sdk/game-engines/unity/
-  feedbackUrl: 
-  publisherUrl: http://publisher.xsolla.com/signup?store_type=sdk&utm_source=unity&utm_medium=demo&utm_campaign=marketplace
-  testCardsUrl: https://developers.xsolla.com/api/v1/pay-station/#api_payment_ui_test_cards
+  _urlContainer: {fileID: 1218190968}
 --- !u!114 &6389733742678192286
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62,6 +60,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4deb5d7469340709400c19fceadbc0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1218190968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6389733742678192273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1c10664097c59d4c93f67a61c9bb8df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Urls:
+  - https://developers.xsolla.com/sdk/game-engines/unity/
+  - 
+  - http://publisher.xsolla.com/signup?store_type=sdk&utm_source=unity&utm_medium=demo&utm_campaign=marketplace
+  - https://developers.xsolla.com/api/v1/pay-station/#api_payment_ui_test_cards
+  - https://xsolla.com{0}privacypolicy
+  - https://developers.xsolla.com/sdk/game-engines/unity/#sdk_use_xsolla_servers_how_to_use_user_attributes
+  - https://developers.xsolla.com/sdk/game-engines/unity/#unity_sdk_use_xsolla_servers_login_unity_sdk
+  - https://livedemo.xsolla.com/sdk-demo/#/
 --- !u!1001 &863570254387835792
 PrefabInstance:
   m_ObjectHideFlags: 0

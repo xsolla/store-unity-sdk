@@ -8,10 +8,9 @@ public class PrivacyPolicyUrlSetter : MonoBehaviour
 	[SerializeField] private OpenUrlOnClick PrivacyPolicyOpenScript;
 #pragma warning restore 0649
 
-	private string _urlTemplate = "https://xsolla.com{0}privacypolicy";
-
-	private void Awake()
+	private void Start()
 	{
+		var currentUrl = PrivacyPolicyOpenScript.URL;
 		var currentLanguage = Application.systemLanguage;
 		var urlAddition = default(string);
 
@@ -39,7 +38,6 @@ public class PrivacyPolicyUrlSetter : MonoBehaviour
 				break;
 		}
 
-		var privacyPolicyUrl = string.Format(_urlTemplate, urlAddition);
-		PrivacyPolicyOpenScript.URL = privacyPolicyUrl;
+		PrivacyPolicyOpenScript.URL = string.Format(currentUrl, urlAddition);
 	}
 }

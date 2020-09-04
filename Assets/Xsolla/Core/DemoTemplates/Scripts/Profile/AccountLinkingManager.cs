@@ -12,11 +12,6 @@ public class AccountLinkingManager : MonoBehaviour
 	[SerializeField] private SimpleButton getAccountLinkButton;
 #pragma warning restore 0649
 
-	private const string URL_MASTER_ACCOUNT = "https://livedemo.xsolla.com/sdk-demo/";
-
-	public event Action<string> OpenUrlEvent;
-	public event Action LinkingAccountComplete;
-
 	private void Start()
 	{
 		if (DemoController.Instance.GetImplementation().Token.IsMasterAccount())
@@ -30,7 +25,7 @@ public class AccountLinkingManager : MonoBehaviour
 		accountLinkingButton.gameObject.SetActive(false);
 		getAccountLinkButton.gameObject.SetActive(true);
 
-		getAccountLinkButton.onClick = () =>
+		getAccountLinkButton.onClick += () =>
 		{
 			DemoController.Instance.GetImplementation().RequestLinkingCode(
 				code => StoreDemoPopup.ShowSuccess($"YOUR CODE: {code.code}"),
@@ -43,18 +38,17 @@ public class AccountLinkingManager : MonoBehaviour
 		getAccountLinkButton.gameObject.SetActive(false);
 		accountLinkingButton.gameObject.SetActive(true);
 		
-		accountLinkingButton.onClick = () =>
+		accountLinkingButton.onClick += () =>
 		{
 			ShowCodeConfirmation(code =>
 			{
 				DemoController.Instance.GetImplementation().LinkConsoleAccount(
-					XsollaSettings.UsernameFromConsolePlatform,
-					XsollaSettings.Platform.GetString(),
-					code,
-					LinkingAccountHandler,
-					StoreDemoPopup.ShowError);
+					userId: XsollaSettings.UsernameFromConsolePlatform,
+					platform: XsollaSettings.Platform.GetString(),
+					confirmationCode: code,
+					onSuccess: LinkingAccountHandler,
+					onError: StoreDemoPopup.ShowError);
 			});
-			OpenUrlEvent?.Invoke(URL_MASTER_ACCOUNT);
 		};
 	}
 
@@ -62,18 +56,31 @@ public class AccountLinkingManager : MonoBehaviour
 	{
 		PopupFactory.Instance.CreateSuccess();
 		DemoController.Instance.GetImplementation().SignInConsoleAccount(
-			XsollaSettings.UsernameFromConsolePlatform,
-			XsollaSettings.Platform.GetString(),
-			ReloginCallback,
-			StoreDemoPopup.ShowError
+			userId: XsollaSettings.UsernameFromConsolePlatform,
+			platform: XsollaSettings.Platform.GetString(),
+			successCase: OnSuccessConsoleLogin,
+			failedCase: StoreDemoPopup.ShowError
 		);
 	}
 
-	private void ReloginCallback(string newToken)
+	private void OnSuccessConsoleLogin(string newToken)
+	{
+		DemoController.Instance.GetImplementation().ValidateToken(
+			token: newToken,
+			onSuccess: validToken => ApplyNewToken(validToken),
+			onError: StoreDemoPopup.ShowError);
+	}
+
+	private void ApplyNewToken(string newToken)
 	{
 		DemoController.Instance.GetImplementation().Token = newToken;
-		LinkingAccountComplete?.Invoke();
-		Start();
+		DemoController.Instance.SetState(MenuState.Main);
+		UserInventory.Instance.Refresh(onSuccess: GoToInventory, onError: StoreDemoPopup.ShowError);
+	}
+
+	private void GoToInventory()
+	{
+		DemoController.Instance.SetState(MenuState.Inventory);
 	}
 
 	private void ShowCodeConfirmation(Action<string> callback)

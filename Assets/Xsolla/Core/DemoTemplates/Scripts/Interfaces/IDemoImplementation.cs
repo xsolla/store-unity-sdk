@@ -20,7 +20,7 @@ public interface IDemoImplementation
 	void GetCatalogSubscriptions([NotNull] Action<List<CatalogSubscriptionItemModel>> onSuccess,
 		[CanBeNull] Action<Error> onError = null);
 
-	List<string> GetCatalogGroupsByItem(CatalogItemModel item);
+	List<string> GetCatalogGroupsByItem(ItemModel item);
 
 	void GetInventoryItems([NotNull] Action<List<InventoryItemModel>> onSuccess,
 		[CanBeNull] Action<Error> onError = null);

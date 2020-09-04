@@ -7,13 +7,11 @@ using Xsolla.Store;
 public class DemoController : MonoSingleton<DemoController>, IMenuStateMachine
 {
     [SerializeField]private MenuStateMachine stateMachine;
-    [SerializeField]public string documentationUrl;
-    [SerializeField]public string feedbackUrl;
-    [SerializeField]public string publisherUrl;
-    [SerializeField]public string testCardsUrl = 
-        "https://developers.xsolla.com/api/v1/pay-station/#api_payment_ui_test_cards";
+	[SerializeField]private UrlContainer _urlContainer;
 
-    private IDemoImplementation _demoImplementation;
+	private IDemoImplementation _demoImplementation;
+
+	public UrlContainer UrlContainer => _urlContainer;
 
     public event MenuStateMachine.StateChangeDelegate StateChangingEvent
     {

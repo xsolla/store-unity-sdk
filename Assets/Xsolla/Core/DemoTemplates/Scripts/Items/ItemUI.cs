@@ -13,7 +13,6 @@ public class ItemUI : MonoBehaviour
 	[SerializeField] Text itemDescription;
 	[SerializeField] Text itemPrice;
 	[SerializeField] Text itemPriceWithoutDiscount;
-	[SerializeField] Image itemPriceStrokeImage;
 	[SerializeField] Image itemPriceVcImage;
 	[SerializeField] Text itemPriceVcText;
 	[SerializeField] GameObject expirationTimeObject;
@@ -68,7 +67,6 @@ public class ItemUI : MonoBehaviour
 	{
 		itemPrice.gameObject.SetActive(!isVirtualPrice);
 		itemPriceWithoutDiscount.gameObject.SetActive(false);
-		itemPriceStrokeImage.gameObject.SetActive(false);
 		itemPriceVcImage.gameObject.SetActive(isVirtualPrice);
 		itemPriceVcText.gameObject.SetActive(isVirtualPrice);
 	}
@@ -117,10 +115,24 @@ public class ItemUI : MonoBehaviour
 			return;
 		}
 		var valuePair = realPrice.Value;
-		var currency = RegionalCurrency.GetCurrencySymbol(valuePair.Key);
-		var price = valuePair.Value.ToString("F2");
-		itemPrice.text = FormatPriceText(currency, price);
-		itemPriceWithoutDiscount.text = FormatPriceText(currency, price);
+		var currency = valuePair.Key;
+		var price = valuePair.Value;
+		itemPrice.text = PriceFormatter.FormatPrice(currency, price);
+
+		var priceWithoutDiscountContainer = virtualItem.RealPriceWithoutDiscount;
+
+		if (priceWithoutDiscountContainer == null || !priceWithoutDiscountContainer.HasValue || priceWithoutDiscountContainer.Value.Value == default(float))
+			return;
+
+		var priceWithoutDiscount = priceWithoutDiscountContainer.Value.Value;
+
+		if (priceWithoutDiscount == price)
+			return;
+		else
+		{
+			itemPriceWithoutDiscount.text = PriceFormatter.FormatPrice(currency, priceWithoutDiscount);
+			itemPriceWithoutDiscount.gameObject.SetActive(true);
+		}
 	}
 
 	private void InitializeVirtualItem(CatalogItemModel virtualItem)
@@ -168,10 +180,5 @@ public class ItemUI : MonoBehaviour
 		{
 			buyButton.onClick = () => _demoImplementation.PurchaseForVirtualCurrency(virtualItem);
 		}
-	}
-
-	private static string FormatPriceText(string currency, string price)
-	{
-		return $"{currency}{price}";
 	}
 }

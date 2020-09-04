@@ -10,9 +10,9 @@ public class CommonStoreMenuController : BaseMenuController
 
 	private void Start()
 	{
-		AttachUrlToButton(publisherAccountButton, DemoController.Instance.publisherUrl);
-		AttachUrlToButton(documentationButton, DemoController.Instance.documentationUrl);
-		AttachUrlToButton(testCardsButton, DemoController.Instance.testCardsUrl);
+		AttachUrlToButton(publisherAccountButton, DemoController.Instance.UrlContainer.GetUrl(UrlType.PublisherUrl));
+		AttachUrlToButton(documentationButton, DemoController.Instance.UrlContainer.GetUrl(UrlType.DocumentationUrl));
+		AttachUrlToButton(testCardsButton, DemoController.Instance.UrlContainer.GetUrl(UrlType.TestCardsUrl));
 		AttachButtonCallback(backButton, () => DemoController.Instance.SetPreviousState());
 		AttachButtonCallback(buyCurrencyButton, 
 			() => SetMenuState(MenuState.BuyCurrency, () => UserCatalog.Instance.IsUpdated));
