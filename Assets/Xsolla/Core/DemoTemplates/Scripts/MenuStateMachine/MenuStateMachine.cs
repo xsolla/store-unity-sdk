@@ -33,6 +33,7 @@ public partial class MenuStateMachine : MonoBehaviour, IMenuStateMachine
 	[SerializeField] private GameObject cartMenuPrefab;
 	[SerializeField] private GameObject inventoryMenuPrefab;
 	[SerializeField] private GameObject profileMenuPrefab;
+	[SerializeField] private GameObject loginSettingsErrorPrefab;
 
 	private Dictionary<MenuState, GameObject> _stateMachine;
 	private readonly List<MenuState> _stateTrace = new List<MenuState>();
@@ -59,6 +60,7 @@ public partial class MenuStateMachine : MonoBehaviour, IMenuStateMachine
 			{MenuState.Cart, cartMenuPrefab},
 			{MenuState.Inventory, inventoryMenuPrefab},
 			{MenuState.Profile, profileMenuPrefab},
+			{MenuState.LoginSettingsError, loginSettingsErrorPrefab}
 		};
 		if (_stateMachine[initialState] == null)
 		{
@@ -141,6 +143,17 @@ public partial class MenuStateMachine : MonoBehaviour, IMenuStateMachine
 				loginEnterScript.RunLoginAction(proxyScript.ProxyRequest, proxyScript.ProxyArgument);
 
 			if(proxyScript != null)
+				Destroy(proxyScript.gameObject);
+		}
+		if (newState == MenuState.LoginSettingsError)
+		{
+			var proxyScript = FindObjectOfType<LoginSettingsErrorHolder>();
+			var errorShower = _stateObject.GetComponent<LoginPageErrorShower>();
+
+			if (proxyScript != null && errorShower != null)
+				errorShower.ShowError(proxyScript.LoginSettingsError);
+
+			if (proxyScript != null)
 				Destroy(proxyScript.gameObject);
 		}
 	}

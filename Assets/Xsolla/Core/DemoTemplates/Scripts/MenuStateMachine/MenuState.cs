@@ -13,5 +13,6 @@ public enum MenuState
 	BuyCurrency,
 	Cart,
 	Inventory,
-	Profile
+	Profile,
+	LoginSettingsError
 }

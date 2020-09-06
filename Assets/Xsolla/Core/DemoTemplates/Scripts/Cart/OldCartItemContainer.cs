@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CartItemContainer : MonoBehaviour, IContainer
+public class OldCartItemContainer : MonoBehaviour, IContainer
 {
 	[SerializeField]
 	GameObject cartItemPrefab;

@@ -158,6 +158,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6843898244374627520, guid: 1048628c3a390c04bab761d00f2ccb0f,
         type: 3}
+    - target: {fileID: 6003545067062460712, guid: 4c9de83f6301c4c08b382f0fd508f1f4,
+        type: 3}
+      propertyPath: loginSettingsErrorPrefab
+      value: 
+      objectReference: {fileID: 860802679669836760, guid: cf24102a48934604f83eb36f1e712329,
+        type: 3}
     - target: {fileID: 6003545067062460713, guid: 4c9de83f6301c4c08b382f0fd508f1f4,
         type: 3}
       propertyPath: m_LocalPosition.x

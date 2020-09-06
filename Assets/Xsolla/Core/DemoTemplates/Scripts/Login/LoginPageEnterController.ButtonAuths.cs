@@ -65,7 +65,7 @@ public partial class LoginPageEnterController : LoginPageController
 		object[] args = { socialProvider };
 
 		Action<string> onSuccessfulSocialAuth = token => DemoController.Instance.GetImplementation()
-			.ValidateToken(token, t => CompleteSuccessfulAuth(token, true, isSaveToken: true), ProcessError);
+			.ValidateToken(token, t => CompleteSuccessfulAuth(token, isSaveToken: true), ProcessError);
 		Action<Error> onFailedSocialAuth = ProcessError;
 
 #if UNITY_EDITOR || UNITY_STANDALONE
@@ -83,7 +83,7 @@ public partial class LoginPageEnterController : LoginPageController
 		IsAuthInProgress = true;
 
 		Action<string> onSuccessfulSteamAuth = token => DemoController.Instance.GetImplementation()
-			.ValidateToken(token, t => CompleteSuccessfulAuth(token, true, isSteam: true, isSaveToken: true), ProcessError);
+			.ValidateToken(token, t => CompleteSuccessfulAuth(token, isSteam: true, isSaveToken: true), ProcessError);
 		Action<Error> onFailedSteamAuth = ProcessError;
 
 		TryAuthBy<SteamAuth>(args: null, onSuccess: onSuccessfulSteamAuth, onFailed: onFailedSteamAuth);

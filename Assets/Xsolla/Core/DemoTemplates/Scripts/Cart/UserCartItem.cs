@@ -10,7 +10,7 @@ public class UserCartItem
 	public float  PriceWithoutDiscount => Item.RealPriceWithoutDiscount.HasValue ? Item.RealPriceWithoutDiscount.Value.Value : 0F;
 	public string Currency => Item.Price?.Key;
 	public string ImageUrl => Item.ImageUrl;
-	public float  TotalPrice => Price * Quantity;
+	public float  TotalPrice => PriceWithoutDiscount * Quantity;
 	
 	public UserCartItem(CatalogItemModel storeItem)
 	{
@@ -26,26 +26,26 @@ public class UserCartItem
 		get
 		{
 			if (XsollaSettings.StoreProjectId != "44056")
-			{
 				return 0.0f;
-			}
 			
+			float totalDiscount = 0.0f;
+			
+			//Discount based on item quantity
 			if (IsInRange(Quantity, 2, 4))
+				totalDiscount += TotalPrice * 0.1f;
+			else if (IsInRange(Quantity, 5, 9))
+				totalDiscount += TotalPrice * 0.25f;
+			else if (IsInRange(Quantity, 10, int.MaxValue))
+				totalDiscount += TotalPrice * 0.5f;
+
+			//Discount based on single item discount
+			if (PriceWithoutDiscount != 0F && PriceWithoutDiscount != Price)
 			{
-				return TotalPrice * 0.1f;
-			}
-			
-			if (IsInRange(Quantity, 5, 9))
-			{
-				return TotalPrice * 0.25f;
-			}
-			
-			if (IsInRange(Quantity, 10, int.MaxValue))
-			{
-				return TotalPrice * 0.5f;
+				var priceDifference = PriceWithoutDiscount - Price;
+				totalDiscount += priceDifference * (float)Quantity;
 			}
 
-			return 0.0f;
+			return totalDiscount;
 		}
 	}
 
