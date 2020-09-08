@@ -6,15 +6,15 @@ using UnityEngine;
 /// </summary>
 public class AndroidSDKSocialAuthListener : MonoBehaviour
 {
-    public event Action<string> OnSocialAuthResult;
+	public event Action<string> OnSocialAuthResult;
 
-    /// <summary>
-    /// This method is called from within AndroidSDK by using Unity.SendMessage
-    /// </summary>
-    /// <param name="authResult"></param>
-    public void ReceiveSocialAuthResult(string authResult)
-    {
-        Debug.Log("AndroidSDKListener.ReceiveSocialAuthResult: auth result arrived");
-        OnSocialAuthResult?.Invoke(authResult);
-    }
+	/// <summary>
+	/// This method is called from within AndroidSDK by using Unity.SendMessage
+	/// </summary>
+	/// <param name="authResult"></param>
+	public void ReceiveSocialAuthResult(string authResult)
+	{
+		Debug.Log("AndroidSDKListener.ReceiveSocialAuthResult: auth result arrived");
+		OnSocialAuthResult?.Invoke(authResult);
+	}
 }

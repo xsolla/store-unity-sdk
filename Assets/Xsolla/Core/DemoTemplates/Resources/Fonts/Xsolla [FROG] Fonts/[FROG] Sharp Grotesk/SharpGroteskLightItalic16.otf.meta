@@ -1,0 +1,24 @@
+fileFormatVersion: 2
+guid: 1c1e732a567e34613857ef4f8ba1d75c
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Sharp Grotesk Light Italic
+  fontNames:
+  - Sharp Grotesk Light Italic
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 034148180855a4185bdf77182c84595c, type: 3}
+  - {fileID: 12800000, guid: 11df319c093774295bea1a6d8821da06, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

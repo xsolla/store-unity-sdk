@@ -1,0 +1,33 @@
+fileFormatVersion: 2
+guid: bb802a57bdbc7447d873b74bbabdac69
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Sharp Grotesk Semibold Italic
+  fontNames:
+  - Sharp Grotesk Semibold Italic
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 2fa500c0af014435790a75c6a03e60e2, type: 3}
+  - {fileID: 12800000, guid: a496e171e6d6a4857bd1b94ced8da88a, type: 3}
+  - {fileID: 12800000, guid: 6f1cc57295837408584c1942df343d35, type: 3}
+  - {fileID: 12800000, guid: 596f0e74e09fa466c8c5c5e7abfb44c8, type: 3}
+  - {fileID: 12800000, guid: 61987985517c24c698dc1ec0a7dfa7b9, type: 3}
+  - {fileID: 12800000, guid: 243a74a5fcb2b4195a35e564f1fb015f, type: 3}
+  - {fileID: 12800000, guid: b980517904d0042cfa140016e109ef3b, type: 3}
+  - {fileID: 12800000, guid: 468f63e902b7c44c0bd00f65336f8fde, type: 3}
+  - {fileID: 12800000, guid: 67867bcac7ece44e6982f79b31d495e3, type: 3}
+  - {fileID: 12800000, guid: 3553663e7b82c4126910edfe615c3a56, type: 3}
+  - {fileID: 12800000, guid: 79992c5f7b94042158c9ddc17384ec79, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,40 @@
+fileFormatVersion: 2
+guid: d4689a800748a4afaaa6e80dfc65b0b2
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Sharp Grotesk Thin
+  fontNames:
+  - Sharp Grotesk Thin
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 7bfde970f6c904bf1a093428b9f823a1, type: 3}
+  - {fileID: 12800000, guid: bd3da9d00fb044b28aa5d85aa03d8f19, type: 3}
+  - {fileID: 12800000, guid: 3a91971168e214b8083d61b5b8a29be4, type: 3}
+  - {fileID: 12800000, guid: 603fb66130a3048fd96b685c8ca7ec21, type: 3}
+  - {fileID: 12800000, guid: 4eea9322e71bb41bcac79ec8b8b4b21d, type: 3}
+  - {fileID: 12800000, guid: b51b57f3ec83c4021b1d6c71c6d33c6f, type: 3}
+  - {fileID: 12800000, guid: 80019575d8a64405f87746b932d72de1, type: 3}
+  - {fileID: 12800000, guid: 9f49b1952c63b40d7abe100de6a79a1d, type: 3}
+  - {fileID: 12800000, guid: af353387811324dff8bf1d09fa6f48e8, type: 3}
+  - {fileID: 12800000, guid: 747b1a97ecd1d4e789648ae0e7409305, type: 3}
+  - {fileID: 12800000, guid: 234449d9dc0c1458cb607307d2164027, type: 3}
+  - {fileID: 12800000, guid: 2a7674bb4deb24e0093a63887179ba01, type: 3}
+  - {fileID: 12800000, guid: 2edf9eeb5c1494f65a3417b9475092e3, type: 3}
+  - {fileID: 12800000, guid: 0305797d7765a43e583bab06daa77be8, type: 3}
+  - {fileID: 12800000, guid: c70e725e1f0cb4d5a92008fc0a8f8d1f, type: 3}
+  - {fileID: 12800000, guid: 1fdca95fc0f4f4c4c97e2d448e0ec4c7, type: 3}
+  - {fileID: 12800000, guid: c1cd947f992ff41ecb6121fef31d1d39, type: 3}
+  - {fileID: 12800000, guid: 4276069fcc3614e89a9d587878ee7645, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

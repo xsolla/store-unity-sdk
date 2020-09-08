@@ -1,0 +1,28 @@
+fileFormatVersion: 2
+guid: 398e921784ca54a77bf52ba39c081ae3
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Sharp Grotesk Medium
+  fontNames:
+  - Sharp Grotesk Medium
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 0a80ccd080dee4635beaf0ac5271df0b, type: 3}
+  - {fileID: 12800000, guid: 2ece18e19303f410f9593b085a5bbcff, type: 3}
+  - {fileID: 12800000, guid: 2de74dc38129f4cf38856460ae7ad980, type: 3}
+  - {fileID: 12800000, guid: 282258b405aec447dbab0caa43a0a8b8, type: 3}
+  - {fileID: 12800000, guid: 134faa1a028694625889513449ee36c6, type: 3}
+  - {fileID: 12800000, guid: 031895eb2ba2246529335b4fb097db87, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

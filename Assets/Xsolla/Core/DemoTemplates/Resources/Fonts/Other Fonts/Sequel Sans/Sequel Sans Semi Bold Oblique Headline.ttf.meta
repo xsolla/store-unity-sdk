@@ -1,0 +1,26 @@
+fileFormatVersion: 2
+guid: 086a7fa6093a34db7b19baea0e560cc6
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Sequel Sans
+  fontNames:
+  - Sequel Sans
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 02486f4160a0648d1b5df74947fc95c9, type: 3}
+  - {fileID: 12800000, guid: 021dff719090848fa814834cb7708ef0, type: 3}
+  - {fileID: 12800000, guid: 02d4eb8226a374d6693beb7d853065bb, type: 3}
+  - {fileID: 12800000, guid: 01b65734a26a34d659023b7c8a138495, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,26 @@
+fileFormatVersion: 2
+guid: 418d75c1f13fd45acb2bdd3583959fb8
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Sharp Grotesk Black Italic
+  fontNames:
+  - Sharp Grotesk Black Italic
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 15f26477d9a9047d89b4607a2aaa0d46, type: 3}
+  - {fileID: 12800000, guid: 25c8c91b885154818bcd33ca2bccd835, type: 3}
+  - {fileID: 12800000, guid: 0306ef2c2fa414a218ff71a81ee84c41, type: 3}
+  - {fileID: 12800000, guid: 38410fade652a4fe0877bd9934bd7702, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
