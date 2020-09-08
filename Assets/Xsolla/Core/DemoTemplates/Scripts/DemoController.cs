@@ -49,9 +49,14 @@ public class DemoController : MonoSingleton<DemoController>, IMenuStateMachine
         }
 
         if (
-            (lastState == MenuState.Authorization 
-             || lastState == MenuState.Registration 
-             || lastState == MenuState.RegistrationSuccess) 
+            (lastState == MenuState.Authorization
+			|| lastState == MenuState.AuthorizationFailed
+			|| lastState == MenuState.ChangePassword
+			|| lastState == MenuState.ChangePasswordFailed
+			|| lastState == MenuState.ChangePasswordSuccess
+			|| lastState == MenuState.Registration
+			|| lastState == MenuState.RegistrationFailed
+			|| lastState == MenuState.RegistrationSuccess)
             && newState == MenuState.Main)
         {
             UpdateCatalogAndInventory();
