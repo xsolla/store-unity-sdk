@@ -9,6 +9,8 @@ namespace Xsolla.Login
 	[PublicAPI]
 	public partial class XsollaLogin : MonoSingleton<XsollaLogin>
 	{
+		public event Action TokenChanged;
+		
 		private string AdditionalUrlParams => $"&engine=unity&engine_v={Application.unityVersion}&sdk=login&sdk_v={Constants.LoginSdkVersion}";
 
 		private byte[] CryptoKey => Encoding.ASCII.GetBytes(XsollaSettings.LoginId.Replace("-", string.Empty).Substring(0, 16));
@@ -65,7 +67,11 @@ namespace Xsolla.Login
 		public Token Token
 		{
 			get => _token ?? (_token = new Token());
-			set => _token = value;
+			set
+			{
+				_token = value;
+				TokenChanged?.Invoke();
+			}
 		}
 	}
 }

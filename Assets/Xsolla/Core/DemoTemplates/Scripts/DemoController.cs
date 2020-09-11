@@ -46,7 +46,9 @@ public class DemoController : MonoSingleton<DemoController>, IMenuStateMachine
                 Destroy(UserSubscriptions.Instance.gameObject);
             if (OldUserAttributes.IsExist)
                 Destroy(OldUserAttributes.Instance.gameObject);
-        }
+
+			GetImplementation().Token = null;
+		}
 
         if (
             (lastState == MenuState.Authorization

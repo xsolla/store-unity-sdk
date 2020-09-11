@@ -11,6 +11,10 @@ namespace Xsolla.Login
 		private const string URL_OAUTH_GENERATE_JWT = "https://login.xsolla.com/api/oauth2/token";
 		private const string DEFAULT_REDIRECT_URI = "https://login.xsolla.com/api/blank";
 		private Coroutine _refreshTokenCoroutine = null;
+#if UNITY_ANDROID
+		private const int ANDROID_TOKEN_REFRESH_RATE = 3600;
+#endif
+
 
 		/// <summary>
 		/// Will return 'true' during refresh token process, false otherwise
@@ -19,13 +23,61 @@ namespace Xsolla.Login
 
 		private void InitOAuth2_0()
 		{
+			this.TokenChanged += () =>
+			{
+				if (IsOAuthTokenRefreshInProgress)
+					return;
+
+				if (this.Token.IsNullOrEmpty())
+					StopTokenRefreshAndClearData();
+				else
+					SetNextTokenRefresh();
+			};
+
+			SetNextTokenRefresh();
+		}
+
+		private void StopTokenRefreshAndClearData()
+		{
+			if (_refreshTokenCoroutine != null)
+				StopCoroutine(_refreshTokenCoroutine);
+
+			ClearTokenRefreshData();
+			IsOAuthTokenRefreshInProgress = false;
+
+			Debug.Log("Token refresh cancelled");
+		}
+
+		private void ClearTokenRefreshData()
+		{
+			DeleteToken(Constants.LAST_SUCCESS_OAUTH_REFRESH_TOKEN);
+			DeleteToken(Constants.OAUTH_REFRESH_TOKEN_EXPIRATION_TIME);
+		}
+
+		private void SetNextTokenRefresh()
+		{
+			var refreshTime = 0;
+			var secondsLeftUntilExpiration = LoadTokenExpirationTime();
+
+			if (secondsLeftUntilExpiration > 0)
+				refreshTime = secondsLeftUntilExpiration;
+			else
+			{
+				Debug.Log("OAuth token expired and needs to be refreshed");
+				IsOAuthTokenRefreshInProgress = true;
+			}
+
+			SetRefreshAfter(refreshTime);
+		}
+
+		private int LoadTokenExpirationTime()
+		{
 			var loadedExpirationTime = PlayerPrefs.GetString(Constants.OAUTH_REFRESH_TOKEN_EXPIRATION_TIME, defaultValue: string.Empty);
 
 			if (string.IsNullOrEmpty(loadedExpirationTime))
 			{
 				Debug.Log("Could not load OAuth token expiration time");
-				SetRefreshAfter(0);
-				return;
+				return 0;
 			}
 
 			DateTime parsedExpirationTime;
@@ -33,22 +85,10 @@ namespace Xsolla.Login
 			if (DateTime.TryParse(loadedExpirationTime, out parsedExpirationTime) == false)
 			{
 				Debug.LogError("Could not parse loaded OAuth token expiration time");
-				SetRefreshAfter(0);
-				return;
+				return 0;
 			}
 
-			var tokenExpirationTime = 0;
-			var secondsLeftUntilExpiration = (int)(parsedExpirationTime - DateTime.Now).TotalSeconds;
-
-			if (secondsLeftUntilExpiration > 0)
-				tokenExpirationTime = secondsLeftUntilExpiration;
-			else
-			{
-				Debug.Log("OAuth token expired and needs to be refreshed");
-				IsOAuthTokenRefreshInProgress = true;
-			}
-
-			SetRefreshAfter(tokenExpirationTime);
+			return (int)(parsedExpirationTime - DateTime.Now).TotalSeconds;
 		}
 
 		private void SetRefreshAfter(int seconds)
@@ -68,17 +108,32 @@ namespace Xsolla.Login
 
 		private void RefreshToken()
 		{
-			if (this.LoadToken(Constants.LAST_SUCCESS_AUTH_TOKEN, out _) == false)
+#if UNITY_ANDROID
+			string loadedToken = default(string);
+			if (this.Token.IsNullOrEmpty() && this.LoadToken(Constants.LAST_SUCCESS_AUTH_TOKEN, out loadedToken) == false)
+#else
+			if (this.Token.IsNullOrEmpty() && this.LoadToken(Constants.LAST_SUCCESS_AUTH_TOKEN, out _) == false)
+#endif
 			{
 				Debug.Log("Token refresh is not available due to lack of active token");
-				PlayerPrefs.DeleteKey(Constants.LAST_SUCCESS_OAUTH_REFRESH_TOKEN);
-				PlayerPrefs.DeleteKey(Constants.OAUTH_REFRESH_TOKEN_EXPIRATION_TIME);
+				ClearTokenRefreshData();
 				IsOAuthTokenRefreshInProgress = false;
 				return;
 			}
 
 			IsOAuthTokenRefreshInProgress = true;
 			Debug.Log("OAuth token refresh is in progress");
+
+#if UNITY_ANDROID
+			var currentToken = this.Token.IsNullOrEmpty() ? new Token(loadedToken) : this.Token;
+			var isSocial = currentToken.FromSocialNetwork();
+
+			if (isSocial)
+			{
+				TryRefreshAndroidSocial();
+				return;
+			}
+#endif
 
 			var clientId = XsollaSettings.OAuthClientId;
 			var refreshToken = PlayerPrefs.GetString(Constants.LAST_SUCCESS_OAUTH_REFRESH_TOKEN, string.Empty);
@@ -95,10 +150,47 @@ namespace Xsolla.Login
 			}
 			else
 			{
-				Debug.LogError("Could not load saved refresh token");
+				Debug.LogWarning("Could not load saved refresh token");
 				IsOAuthTokenRefreshInProgress = false;
 			}
 		}
+
+#if UNITY_ANDROID
+		private void TryRefreshAndroidSocial()
+		{
+			using (var helper = new AndroidSDKSocialAuthHelper())
+			{
+				if (!helper.IsRefreshSocialTokenPossible)
+				{
+					Debug.Log("Android social token refresh is not available at the moment");
+					IsOAuthTokenRefreshInProgress = false;
+					return;
+				}
+
+				Action<string> onSuccessRefresh = newToken =>
+				{
+					var surrogateResponse = new LoginOAuthJsonResponse()
+					{
+						access_token = newToken,
+						expires_in = ANDROID_TOKEN_REFRESH_RATE,
+						refresh_token = string.Empty,
+					};
+
+					ProcessOAuthResponse(surrogateResponse);
+				};
+
+				Action<Error> onError = error =>
+				{
+					if (error != null)
+						Debug.LogError(error.errorMessage);
+
+					IsOAuthTokenRefreshInProgress = false;
+				};
+
+				IsOAuthTokenRefreshInProgress = helper.TryRefreshSocialToken(onSuccessRefresh, onError);
+			}
+		}
+#endif
 
 		private void SendOAuthGenerateJwtRequest(WWWForm requestData, Action<string> onSuccessGenerate = null, Action<Error> onError = null)
 		{
@@ -106,8 +198,7 @@ namespace Xsolla.Login
 				url: URL_OAUTH_GENERATE_JWT,
 				data: requestData,
 				onComplete: response => ProcessOAuthResponse(response, onSuccessGenerate),
-				onError: error => { IsOAuthTokenRefreshInProgress = false; Debug.Log($"Generate JWT failed: {error.errorMessage}"); onError?.Invoke(error); },
-				errorsToCheck: Error.LoginErrors);
+				onError: error => { IsOAuthTokenRefreshInProgress = false; Debug.Log($"Generate JWT failed: {error.errorMessage}"); onError?.Invoke(error); });
 		}
 
 		private void ProcessOAuthResponse(LoginOAuthJsonResponse response, Action<string> onSuccessToken = null)
