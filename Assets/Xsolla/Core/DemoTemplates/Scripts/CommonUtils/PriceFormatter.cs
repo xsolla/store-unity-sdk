@@ -1,4 +1,5 @@
-﻿using Xsolla.Core;
+using System;
+using Xsolla.Core;
 
 public static class PriceFormatter
 {
@@ -22,19 +23,8 @@ public static class PriceFormatter
 		var outputCurrency = string.IsNullOrEmpty(currencySymbol) ? currency : currencySymbol;
 		LastCurrency = outputCurrency;
 		
-		var roundDownPrice = RoundDown(price);
+		var roundDownPrice = Math.Round((decimal)price, 2, MidpointRounding.AwayFromZero);
 
 		return $"{outputCurrency}{roundDownPrice:F2}";
-	}
-
-	private static float RoundDown(float value)
-	{
-		//example: value 1.4958f
-		var multipliedValue = value * 100f;//149.58f
-		var convertedToInt = (int)multipliedValue;//149
-		var convertedBackToFloat = (float)convertedToInt;//149.0f
-		var result = convertedBackToFloat * 0.01f;//1.49f
-
-		return result;
 	}
 }
