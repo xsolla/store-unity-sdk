@@ -25,21 +25,21 @@ public class UserCartItem
 	{
 		get
 		{
-			if (XsollaSettings.StoreProjectId != "44056")
-				return 0.0f;
-			
 			float totalDiscount = 0.0f;
 			
-			//Discount based on item quantity
-			if (IsInRange(Quantity, 2, 4))
-				totalDiscount += TotalPrice * 0.1f;
-			else if (IsInRange(Quantity, 5, 9))
-				totalDiscount += TotalPrice * 0.25f;
-			else if (IsInRange(Quantity, 10, int.MaxValue))
-				totalDiscount += TotalPrice * 0.5f;
+			if (XsollaSettings.StoreProjectId == "44056")
+			{
+				//Cutom discount based on item quantity to match backend rules for this project
+				if (IsInRange(Quantity, 2, 4))
+					totalDiscount += (Price * Quantity) * 0.1f;
+				else if (IsInRange(Quantity, 5, 9))
+					totalDiscount += (Price * Quantity) * 0.25f;
+				else if (IsInRange(Quantity, 10, int.MaxValue))
+					totalDiscount += (Price * Quantity) * 0.5f;
+			}
 
 			//Discount based on single item discount
-			if (PriceWithoutDiscount != 0F && PriceWithoutDiscount != Price)
+			if (PriceWithoutDiscount != Price)
 			{
 				var priceDifference = PriceWithoutDiscount - Price;
 				totalDiscount += priceDifference * (float)Quantity;
