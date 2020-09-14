@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 using Xsolla.Core;
 using Xsolla.Core.Popup;
@@ -44,8 +44,8 @@ public class DemoController : MonoSingleton<DemoController>, IMenuStateMachine
                 Destroy(UserInventory.Instance.gameObject);
             if (UserSubscriptions.IsExist)
                 Destroy(UserSubscriptions.Instance.gameObject);
-            if (OldUserAttributes.IsExist)
-                Destroy(OldUserAttributes.Instance.gameObject);
+            if (UserCart.IsExist)
+                Destroy(UserCart.Instance.gameObject);
         }
 
         if (
