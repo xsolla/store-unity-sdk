@@ -19,6 +19,7 @@ namespace Xsolla.Core
 			}
 			catch (Exception e)
 			{
+				Debug.LogWarning($"Deserialization failed for {typeof(T)}");
 				Debug.LogException(e);
 			}
 	

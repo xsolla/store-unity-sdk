@@ -1,0 +1,27 @@
+fileFormatVersion: 2
+guid: 31cb6cc8cb78e4756abe06859780be7f
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Graphik LC
+  fontNames:
+  - Graphik LC
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 09531ad7f330341549943055ee18adde, type: 3}
+  - {fileID: 12800000, guid: 00a74ca85869945ac9f745c79dc92466, type: 3}
+  - {fileID: 12800000, guid: 11cec73dab177412f858750b5d676d71, type: 3}
+  - {fileID: 12800000, guid: 192f97cd2f54648748827cb37ba80e67, type: 3}
+  - {fileID: 12800000, guid: 308dffceaa6b14935a9473edd7c02be7, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

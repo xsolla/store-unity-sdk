@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   loginId: e6dfaac6-78a8-11e9-9244-42010aa80004
   useProxy: 0
+  jwtTokenInvalidationEnabled: 0
   callbackUrl: 
   useSteamAuth: 0
   steamAppId: 480
