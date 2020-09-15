@@ -14,5 +14,6 @@ public enum MenuState
 	Cart,
 	Inventory,
 	Profile,
-	Friends
+	Friends,
+	LoginSettingsError
 }

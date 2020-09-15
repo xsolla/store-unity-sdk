@@ -15,17 +15,23 @@ public class InventoryMenuController : MonoBehaviour
 	private IDemoImplementation _demoImplementation;
 	private string _group;
 
-	private void OnDestroy()
-	{
-		StopAllCoroutines();
-	}
-
 	protected virtual void Start()
 	{
 		_demoImplementation = DemoController.Instance.GetImplementation();
 		groupsController.GroupSelectedEvent += PutItemsToContainerOnGroupSelect;
 		StartCoroutine(InventoryCoroutine());
-		UserInventory.Instance.RefreshEvent += () => PutItemsToContainerOnRefreshEvent(_group);
+		UserInventory.Instance.RefreshEvent += OnUserInventoryRefresh;
+	}
+
+	private void OnDestroy()
+	{
+		StopAllCoroutines();
+		UserInventory.Instance.RefreshEvent -= OnUserInventoryRefresh;
+	}
+
+	private void OnUserInventoryRefresh()
+	{
+		PutItemsToContainerOnRefreshEvent(_group);
 	}
 
 	private void PutItemsToContainerOnGroupSelect(string groupName)

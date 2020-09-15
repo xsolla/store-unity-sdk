@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 using Xsolla.Core;
 using Xsolla.Core.Popup;
@@ -46,8 +46,8 @@ public class DemoController : MonoSingleton<DemoController>, IMenuStateMachine
                 Destroy(UserInventory.Instance.gameObject);
             if (UserSubscriptions.IsExist)
                 Destroy(UserSubscriptions.Instance.gameObject);
-            if (OldUserAttributes.IsExist)
-                Destroy(OldUserAttributes.Instance.gameObject);
+            if (UserCart.IsExist)
+                Destroy(UserCart.Instance.gameObject);
         }
 
         HandleSuccessfulAuth(lastState, newState);
@@ -56,7 +56,9 @@ public class DemoController : MonoSingleton<DemoController>, IMenuStateMachine
     private void HandleSuccessfulAuth(MenuState lastState, MenuState newState)
     {
         if ((lastState == MenuState.Authorization || lastState == MenuState.Registration 
-                                                  || lastState == MenuState.RegistrationSuccess) 
+                                                  || lastState == MenuState.RegistrationSuccess
+                                                  || lastState == MenuState.ChangePassword
+			                                      || lastState == MenuState.ChangePasswordSuccess)
             && newState == MenuState.Main)
         {
             UpdateCatalogAndInventory();
@@ -72,9 +74,12 @@ public class DemoController : MonoSingleton<DemoController>, IMenuStateMachine
             UserCatalog.Instance.Init(_demoImplementation);
         UserCatalog.Instance.UpdateItems(() =>
         {
-            UserInventory.Instance.Refresh();
-            // This method used for fastest async image loading
-            StartLoadItemImages(UserCatalog.Instance.AllItems);
+			if (UserInventory.IsExist)
+			{
+				UserInventory.Instance.Refresh();
+				// This method used for fastest async image loading
+				StartLoadItemImages(UserCatalog.Instance.AllItems);
+			}
         });
     }
     

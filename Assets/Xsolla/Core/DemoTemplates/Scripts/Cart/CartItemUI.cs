@@ -13,6 +13,8 @@ public class CartItemUI : MonoBehaviour
 	Text itemPrice;
 	[SerializeField]
 	Text itemPriceWithoutDiscount;
+	[SerializeField]
+	GameObject discountIco;
 
 	[SerializeField]
 	SimpleButton addButton;
@@ -65,9 +67,15 @@ public class CartItemUI : MonoBehaviour
 		var priceWithoutDiscount = _cartItem.PriceWithoutDiscount;
 
 		if (priceWithoutDiscount != default(float) && priceWithoutDiscount != _cartItem.Price)
+		{
 			itemPriceWithoutDiscount.text = PriceFormatter.FormatPrice(_cartItem.Currency, priceWithoutDiscount);
+			discountIco.SetActive(true);
+		}
 		else
+		{
 			itemPriceWithoutDiscount.text = string.Empty;
+			discountIco.SetActive(false);
+		}
 		
 		if (itemImage.sprite != null && !string.IsNullOrEmpty(_cartItem.ImageUrl))
 		{

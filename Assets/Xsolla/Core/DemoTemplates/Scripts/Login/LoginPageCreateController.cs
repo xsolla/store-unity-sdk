@@ -14,6 +14,9 @@ public class LoginPageCreateController : LoginPageController
 	[SerializeField] private SimpleButton CreateButton;
 #pragma warning restore 0649
 
+	private static string _lastUsername;
+	private static string _lastEmail;
+
 	private bool IsCreateInProgress
 	{
 		get => base.IsInProgress;
@@ -37,6 +40,15 @@ public class LoginPageCreateController : LoginPageController
 			CreateButton.onClick += PrepareAndRunCreate;
 	}
 
+	private void Start()
+	{
+		if (!string.IsNullOrEmpty(_lastUsername))
+			UsernameInputField.text = _lastUsername;
+
+		if (!string.IsNullOrEmpty(_lastEmail))
+			EmailInputField.text = _lastEmail;
+	}
+
 	private void PrepareAndRunCreate()
 	{
 		RunCreate(UsernameInputField.text, EmailInputField.text, PasswordInputField.text);
@@ -46,6 +58,9 @@ public class LoginPageCreateController : LoginPageController
 	{
 		if (IsCreateInProgress)
 			return;
+
+		_lastEmail = email;
+		_lastUsername = username;
 
 		IsCreateInProgress = true;
 
@@ -58,6 +73,8 @@ public class LoginPageCreateController : LoginPageController
 			{
 				Debug.Log("LoginPageCreateController: Create success");
 				UserInfoContainer.LastEmail = email;
+				_lastUsername = null;
+				_lastEmail = null;
 				base.OnSuccess?.Invoke();
 			};
 

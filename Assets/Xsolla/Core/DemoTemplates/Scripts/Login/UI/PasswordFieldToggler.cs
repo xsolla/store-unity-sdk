@@ -21,7 +21,7 @@ public class PasswordFieldToggler : MonoBehaviour
 
 	void ToggleShowPassword(bool show)
 	{
-		_passwordInputField.contentType = show ? InputField.ContentType.Password : InputField.ContentType.Standard;
+		_passwordInputField.contentType = show ? InputField.ContentType.Standard : InputField.ContentType.Password;
 		_passwordInputField.ForceLabelUpdate();
 	}
 }

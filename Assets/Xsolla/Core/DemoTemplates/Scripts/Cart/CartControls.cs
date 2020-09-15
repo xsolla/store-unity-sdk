@@ -25,11 +25,6 @@ public class CartControls : MonoBehaviour
 		set => clearCartButton.onClick = value;
 	}
 
-	private void Start()
-	{
-		HideDiscount();
-	}
-
 	public bool IsBuyButtonLocked()
 	{
 		return buyButton.IsLocked();
