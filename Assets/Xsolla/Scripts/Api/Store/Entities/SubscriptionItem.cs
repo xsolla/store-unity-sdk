@@ -26,12 +26,7 @@ namespace Xsolla.Store
 
 		[JsonProperty("class")]
 		public string subscription_class;
-
-		public bool IsActive()
-		{
-			return Status == SubscriptionStatusType.Active;
-		}
-
+		
 		public SubscriptionStatusType Status
 		{
 			get

@@ -9,7 +9,9 @@ public enum SocialProvider
     GitHub,
     Google,
     Twitch,
-    Twitter
+    Twitter,
+    Steam,
+    Xbox
 }
 
 public static class SocialProviderConverter
@@ -23,6 +25,8 @@ public static class SocialProviderConverter
             case SocialProvider.Google: return "google";
             case SocialProvider.Twitch: return "twitch";
             case SocialProvider.Twitter: return "twitter";
+            case SocialProvider.Steam: return "steam";
+            case SocialProvider.Xbox: return "xbox";
             default: return string.Empty;
         }
     }

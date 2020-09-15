@@ -1,0 +1,28 @@
+fileFormatVersion: 2
+guid: 3c29e304d39024b509671cf5b83ad3e8
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Sharp Grotesk Book Italic
+  fontNames:
+  - Sharp Grotesk Book Italic
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 0c3e0f723564c440fa2834519a0efcde, type: 3}
+  - {fileID: 12800000, guid: 22514ac42ba804646bf273ab42f57d97, type: 3}
+  - {fileID: 12800000, guid: 00f889e6462674672b27f580f1939c90, type: 3}
+  - {fileID: 12800000, guid: 1e4ed2e717ce84432856bacb268e6a0f, type: 3}
+  - {fileID: 12800000, guid: 25f1b0b968c4045818c9c403ad2a8075, type: 3}
+  - {fileID: 12800000, guid: 1c687d8fe93ba4ba0abfa36ae6e72855, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,38 @@
+fileFormatVersion: 2
+guid: d796f8379d5cc42a5b69771a2abb0330
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Sharp Grotesk Book
+  fontNames:
+  - Sharp Grotesk Book
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 67e9e6308f83d411fb2e3f664ec1cccf, type: 3}
+  - {fileID: 12800000, guid: 24107290ea598446990aaf7194842980, type: 3}
+  - {fileID: 12800000, guid: 46fc9911154cc435e939d57461b04ff4, type: 3}
+  - {fileID: 12800000, guid: adf83e614447948dcaccbb87c70582c0, type: 3}
+  - {fileID: 12800000, guid: 3e9d31e296dac46f3a26f975131b37a2, type: 3}
+  - {fileID: 12800000, guid: 81cc0ab46a6cf4462806161109f56e6a, type: 3}
+  - {fileID: 12800000, guid: c78fa407d4c6047dba6076d7ba6fd560, type: 3}
+  - {fileID: 12800000, guid: 5e04dab74529f443aa62195825b139e1, type: 3}
+  - {fileID: 12800000, guid: 9d16edd79a42d4601bc62db67c87d032, type: 3}
+  - {fileID: 12800000, guid: 6524f6f80fda449d4a5d011e0a12d11b, type: 3}
+  - {fileID: 12800000, guid: d70daf9ac25d045c683dd42ad7fcb499, type: 3}
+  - {fileID: 12800000, guid: 5e4b6debd24d24986a6b5f8fb6e1d37b, type: 3}
+  - {fileID: 12800000, guid: 51daa90cc2ac944d7991a9d1b4e893d3, type: 3}
+  - {fileID: 12800000, guid: 580032bdd8a574375b75f1fe9ebd1800, type: 3}
+  - {fileID: 12800000, guid: bbe05afd1b1eb442dbe830a4f74d5af7, type: 3}
+  - {fileID: 12800000, guid: 124650aec690f474f93270dd39920bbf, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

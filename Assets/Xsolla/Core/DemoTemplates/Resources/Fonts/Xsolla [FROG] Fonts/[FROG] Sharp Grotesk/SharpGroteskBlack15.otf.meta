@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 0e44d0217af8a4684ab95e04074a375c
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Sharp Grotesk Black
+  fontNames:
+  - Sharp Grotesk Black
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 0bcbd212634e14f80b51c799f9bf4f9e, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

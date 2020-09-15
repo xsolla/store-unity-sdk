@@ -1,4 +1,19 @@
 # Changelog
+## [0.6.0.0] - 2020-09-15 
+
+### Added 
+- The ability to get read-only attributes on the client side.
+
+### Changed
+- Demo maps UI.
+
+
+## [0.5.2.0] - 2020-07-17 
+
+### Added 
+- The ability of native authentication via social networks.
+- The ability of invalidation token. 
+
 
 ## [0.5.1.2] - 2020-06-09 
 

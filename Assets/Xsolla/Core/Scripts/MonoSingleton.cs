@@ -1,14 +1,10 @@
-﻿using System;
-using UnityEditor;
-using UnityEngine;
-using Xsolla.Store;
-using Object = UnityEngine.Object;
+﻿using UnityEngine;
 
 namespace Xsolla.Core
 {
 	public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T>
 	{
-		const string PATH_TO_PREFABS = "Prefabs/";
+		const string PATH_TO_PREFABS = "";
 		static T _instance;
 
 		public static T Instance

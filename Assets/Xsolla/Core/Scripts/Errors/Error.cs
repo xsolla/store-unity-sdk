@@ -16,7 +16,7 @@ namespace Xsolla.Core
 			this.statusCode = statusCode;
 			this.errorMessage = errorMessage;
 			this.errorCode = errorCode;
-			this.ErrorType = errorType;
+			ErrorType = errorType;
 		}
 
 		public static Error NetworkError
@@ -49,7 +49,16 @@ namespace Xsolla.Core
 		
 		public override string ToString()
 		{
-			return string.Format("Error - Type: {0}. Status code: {1}. Error code: {2}. Error message: {3}.", ErrorType, statusCode, errorCode, errorMessage);
+			var message = string.Empty;
+			if (ErrorType != ErrorType.UnknownError)
+				message += $"Type: {ErrorType}. ";
+			if (!string.IsNullOrEmpty(statusCode))
+				message += $"Status code: {statusCode}. ";
+			if (!string.IsNullOrEmpty(errorCode))
+				message += $"Error code: {errorCode}. ";
+			if (!string.IsNullOrEmpty(errorMessage))
+				message += $"Message: {errorMessage}. ";
+			return message;
 		}
 	}
 }
