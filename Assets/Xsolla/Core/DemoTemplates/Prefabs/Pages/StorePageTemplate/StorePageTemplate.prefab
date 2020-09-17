@@ -93,6 +93,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 101725668887708157}
     m_Modifications:
+    - target: {fileID: 454695992835351265, guid: 728845d89227f4bf8a955ce71d1a952f,
+        type: 3}
+      propertyPath: m_Name
+      value: StorePageContent
+      objectReference: {fileID: 0}
     - target: {fileID: 454695992835351270, guid: 728845d89227f4bf8a955ce71d1a952f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -197,11 +202,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 454695992835351265, guid: 728845d89227f4bf8a955ce71d1a952f,
-        type: 3}
-      propertyPath: m_Name
-      value: StorePageContent
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 728845d89227f4bf8a955ce71d1a952f, type: 3}
@@ -505,6 +505,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 101725668887708157}
     m_Modifications:
+    - target: {fileID: 1532829631196356342, guid: 1b5645cc17dfc42e283217145014cca2,
+        type: 3}
+      propertyPath: m_Name
+      value: SubMenu
+      objectReference: {fileID: 0}
     - target: {fileID: 1532829631196356343, guid: 1b5645cc17dfc42e283217145014cca2,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -609,11 +614,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1532829631196356342, guid: 1b5645cc17dfc42e283217145014cca2,
-        type: 3}
-      propertyPath: m_Name
-      value: SubMenu
       objectReference: {fileID: 0}
     - target: {fileID: 1532829631029076666, guid: 1b5645cc17dfc42e283217145014cca2,
         type: 3}
@@ -757,6 +757,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 101725668887708157}
     m_Modifications:
+    - target: {fileID: 4886329109157310239, guid: 29e28888d99464690a97f7343069a316,
+        type: 3}
+      propertyPath: m_Name
+      value: Footer
+      objectReference: {fileID: 0}
     - target: {fileID: 4886329109157310236, guid: 29e28888d99464690a97f7343069a316,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -862,15 +867,26 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 4886329109157310239, guid: 29e28888d99464690a97f7343069a316,
-        type: 3}
-      propertyPath: m_Name
-      value: Footer
-      objectReference: {fileID: 0}
     - target: {fileID: 547327688527078578, guid: 29e28888d99464690a97f7343069a316,
         type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 190
+      objectReference: {fileID: 0}
+    - target: {fileID: 1206970651362986770, guid: 29e28888d99464690a97f7343069a316,
+        type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: f70b0d194d863d14eaa3261671349a4b,
+        type: 3}
+    - target: {fileID: 1206970651362986770, guid: 29e28888d99464690a97f7343069a316,
+        type: 3}
+      propertyPath: m_FontData.m_FontSize
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 1206970651362986770, guid: 29e28888d99464690a97f7343069a316,
+        type: 3}
+      propertyPath: m_FontData.m_MaxSize
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 4497134367297352274, guid: 29e28888d99464690a97f7343069a316,
         type: 3}
@@ -995,6 +1011,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 101725668887708157}
     m_Modifications:
+    - target: {fileID: 7372969442764771299, guid: 61ae11edd4240420ab192b4cb485cf22,
+        type: 3}
+      propertyPath: m_Name
+      value: Background
+      objectReference: {fileID: 0}
     - target: {fileID: 7372969442764771300, guid: 61ae11edd4240420ab192b4cb485cf22,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1099,11 +1120,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7372969442764771299, guid: 61ae11edd4240420ab192b4cb485cf22,
-        type: 3}
-      propertyPath: m_Name
-      value: Background
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 61ae11edd4240420ab192b4cb485cf22, type: 3}

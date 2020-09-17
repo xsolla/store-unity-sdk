@@ -6,7 +6,7 @@ public abstract class BaseUserStateUI : MonoBehaviour
 {
 	private const string BLOCK_USER_OPTION = "BLOCK USER";
 	private const string UNBLOCK_USER_OPTION = "UNBLOCK USER";
-	private const string DELETE_USER_OPTION = "DELETE USER";
+	private const string DELETE_USER_OPTION = "DELETE FRIEND";
 	
 	protected FriendUI Friend;
 	protected FriendButtonsUI UserButtons;

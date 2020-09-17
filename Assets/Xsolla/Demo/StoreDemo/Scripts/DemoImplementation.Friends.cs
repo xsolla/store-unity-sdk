@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Xsolla.Core;
+using Xsolla.Core.Popup;
 using Xsolla.Login;
 
 public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
@@ -37,8 +38,14 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 
 	public void BlockUser(FriendModel user, Action<FriendModel> onSuccess = null, Action<Error> onError = null)
 	{
-		XsollaLogin.Instance.UpdateUserFriends(XsollaLogin.Instance.Token, FriendAction.BlockFriend, user.Id,
-			() => onSuccess?.Invoke(user), onError);
+		PopupFactory.Instance.CreateConfirmation()
+			.SetMessage($"Block {user.Nickname}?")
+			.SetConfirmButtonText("BLOCK")
+			.SetConfirmCallback(() =>
+			{
+				XsollaLogin.Instance.UpdateUserFriends(XsollaLogin.Instance.Token, FriendAction.BlockFriend, user.Id,
+					() => onSuccess?.Invoke(user), onError);
+			});
 	}
 
 	public void UnblockUser(FriendModel user, Action<FriendModel> onSuccess = null, Action<Error> onError = null)
@@ -55,8 +62,14 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 
 	public void RemoveFriend(FriendModel user, Action<FriendModel> onSuccess = null, Action<Error> onError = null)
 	{
-		XsollaLogin.Instance.UpdateUserFriends(XsollaLogin.Instance.Token, FriendAction.RemoveFriend, user.Id,
-			() => onSuccess?.Invoke(user), onError);
+		PopupFactory.Instance.CreateConfirmation()
+			.SetMessage($"Remove {user.Nickname} from the friend list?")
+			.SetConfirmButtonText("REMOVE")
+			.SetConfirmCallback(() =>
+			{
+				XsollaLogin.Instance.UpdateUserFriends(XsollaLogin.Instance.Token, FriendAction.RemoveFriend, user.Id,
+					() => onSuccess?.Invoke(user), onError);
+			});
 	}
 	
 	public void AcceptFriendship(FriendModel user, Action<FriendModel> onSuccess = null, Action<Error> onError = null)

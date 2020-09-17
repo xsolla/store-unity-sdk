@@ -13,6 +13,7 @@ public class ItemSelection : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     [SerializeField] private GameObject itemSelectionImage;
     [SerializeField] private List<SelectableArea> someArea;
     private int _counter;
+    private static ItemSelection _selectedItem;
 
     void Start()
     {
@@ -24,9 +25,18 @@ public class ItemSelection : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             someArea.ForEach(s => s.OnPointerExitEvent += DisableSelection);
         }
     }
+
+    private void DisableSelectedItem()
+    {
+        while (_selectedItem != null && !_selectedItem.Equals(this))
+        {
+            _selectedItem.OnPointerExit(null);
+        }
+    }
     
     public void OnPointerEnter(PointerEventData eventData)
     {
+        DisableSelectedItem();
         EnableSelection();
     }
 
@@ -40,6 +50,7 @@ public class ItemSelection : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         _counter++;
         if (_counter <= 0) _counter = 1;
         if (itemSelectionImage == null || _counter > 1) return;
+        _selectedItem = this;
         itemSelectionImage.SetActive(true);
         OnPointerEnterEvent?.Invoke();
     }
@@ -49,6 +60,7 @@ public class ItemSelection : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         _counter--;
         if (itemSelectionImage != null && _counter <= 0)
         {
+            _selectedItem = null;
             OnPointerExitEvent?.Invoke();
             itemSelectionImage.SetActive(false);
         }

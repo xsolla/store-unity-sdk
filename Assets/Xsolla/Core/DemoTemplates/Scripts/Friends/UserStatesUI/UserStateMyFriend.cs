@@ -7,7 +7,7 @@ public class UserStateMyFriend : BaseUserStateUI
 
     protected override void InitUserActionsButton(FriendActionsButton actionsButton)
     {
-        EnableBlockUserOption();
         EnableDeleteUserOption();
+        EnableBlockUserOption();
     }
 }
