@@ -7,10 +7,10 @@ public class FriendStatusLineUI : MonoBehaviour
 
 	private void Start()
 	{
-		ClearAll();
+		ClearMessage();
 	}
 
-	private void ClearAll()
+	public void ClearMessage()
 	{
 		if(RequestAcceptedObject != null)
 			RequestAcceptedObject.SetActive(false);
@@ -20,14 +20,14 @@ public class FriendStatusLineUI : MonoBehaviour
 
 	public void EnableRequestAcceptedMessage()
 	{
-		ClearAll();
+		ClearMessage();
 		if(RequestAcceptedObject != null)
 			RequestAcceptedObject.SetActive(true);
 	}
 	
 	public void EnableRequestDeclinedMessage()
 	{
-		ClearAll();
+		ClearMessage();
 		if(RequestDeclinedObject != null)
 			RequestDeclinedObject.SetActive(true);
 	}

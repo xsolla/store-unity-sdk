@@ -25,11 +25,15 @@ public abstract class BaseUserStateUI : MonoBehaviour
 		ActionsButton = actionsButton;
 		StatusLine = statusLine;
 
+		if (StatusLine != null)
+			StatusLine.ClearMessage();
+		
 		if (UserButtons != null)
 		{
 			UserButtons.DisableAll();
 			InitUserButtons(UserButtons);
 		}
+		
 		if (ActionsButton != null)
 		{
 			ActionsButton.gameObject.SetActive(true);

@@ -809,11 +809,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4351850269655956175}
     m_Modifications:
-    - target: {fileID: 453104852351747900, guid: 77912901b3298424880fc331a5d7ff71,
-        type: 3}
-      propertyPath: m_Name
-      value: UserInfo
-      objectReference: {fileID: 0}
     - target: {fileID: 825731642587169259, guid: 77912901b3298424880fc331a5d7ff71,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -924,6 +919,56 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1448673799904918713, guid: 77912901b3298424880fc331a5d7ff71,
+        type: 3}
+      propertyPath: normalTextColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1448673799904918713, guid: 77912901b3298424880fc331a5d7ff71,
+        type: 3}
+      propertyPath: normalTextColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1448673799904918713, guid: 77912901b3298424880fc331a5d7ff71,
+        type: 3}
+      propertyPath: normalTextColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1448673799904918713, guid: 77912901b3298424880fc331a5d7ff71,
+        type: 3}
+      propertyPath: hoverTextColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1448673799904918713, guid: 77912901b3298424880fc331a5d7ff71,
+        type: 3}
+      propertyPath: hoverTextColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1448673799904918713, guid: 77912901b3298424880fc331a5d7ff71,
+        type: 3}
+      propertyPath: hoverTextColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1448673799904918713, guid: 77912901b3298424880fc331a5d7ff71,
+        type: 3}
+      propertyPath: pressedTextColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1448673799904918713, guid: 77912901b3298424880fc331a5d7ff71,
+        type: 3}
+      propertyPath: pressedTextColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1448673799904918713, guid: 77912901b3298424880fc331a5d7ff71,
+        type: 3}
+      propertyPath: pressedTextColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 453104852351747900, guid: 77912901b3298424880fc331a5d7ff71,
+        type: 3}
+      propertyPath: m_Name
+      value: UserInfo
+      objectReference: {fileID: 0}
     - target: {fileID: 8596206985050887767, guid: 77912901b3298424880fc331a5d7ff71,
         type: 3}
       propertyPath: m_AnchorMin.y
@@ -948,6 +993,36 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3517414448920291416, guid: 77912901b3298424880fc331a5d7ff71,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3517414448920291416, guid: 77912901b3298424880fc331a5d7ff71,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3517414448920291416, guid: 77912901b3298424880fc331a5d7ff71,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1448673800770874743, guid: 77912901b3298424880fc331a5d7ff71,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1448673800770874743, guid: 77912901b3298424880fc331a5d7ff71,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1448673800770874743, guid: 77912901b3298424880fc331a5d7ff71,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 77912901b3298424880fc331a5d7ff71, type: 3}
@@ -994,11 +1069,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4351850269655956175}
     m_Modifications:
-    - target: {fileID: 1761808395752577106, guid: ac44c37c4338543f49d974740b3a577d,
-        type: 3}
-      propertyPath: m_Name
-      value: Friend.OptionsButton
-      objectReference: {fileID: 0}
     - target: {fileID: 4204404270746712882, guid: ac44c37c4338543f49d974740b3a577d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1104,6 +1174,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 1761808395752577106, guid: ac44c37c4338543f49d974740b3a577d,
+        type: 3}
+      propertyPath: m_Name
+      value: Friend.OptionsButton
+      objectReference: {fileID: 0}
     - target: {fileID: 575562476672681750, guid: ac44c37c4338543f49d974740b3a577d,
         type: 3}
       propertyPath: m_SizeDelta.y
@@ -1166,16 +1241,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4351850269655956175}
     m_Modifications:
-    - target: {fileID: 3013932406790810417, guid: 99b10f31f64c540e48963281494640b6,
-        type: 3}
-      propertyPath: m_Name
-      value: Friend.Selection
-      objectReference: {fileID: 0}
-    - target: {fileID: 3013932406790810417, guid: 99b10f31f64c540e48963281494640b6,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 9204620651899699821, guid: 99b10f31f64c540e48963281494640b6,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1280,6 +1345,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3013932406790810417, guid: 99b10f31f64c540e48963281494640b6,
+        type: 3}
+      propertyPath: m_Name
+      value: Friend.Selection
+      objectReference: {fileID: 0}
+    - target: {fileID: 3013932406790810417, guid: 99b10f31f64c540e48963281494640b6,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7422843594927866420, guid: 99b10f31f64c540e48963281494640b6,
         type: 3}
@@ -1328,11 +1403,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4351850269655956175}
     m_Modifications:
-    - target: {fileID: 38870077025409572, guid: 537c968e6091746969e9aa43eb6728ea,
-        type: 3}
-      propertyPath: m_Name
-      value: BlurMask
-      objectReference: {fileID: 0}
     - target: {fileID: 5989661782479461187, guid: 537c968e6091746969e9aa43eb6728ea,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1437,6 +1507,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 38870077025409572, guid: 537c968e6091746969e9aa43eb6728ea,
+        type: 3}
+      propertyPath: m_Name
+      value: BlurMask
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 537c968e6091746969e9aa43eb6728ea, type: 3}
