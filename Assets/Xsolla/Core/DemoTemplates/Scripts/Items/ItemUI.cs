@@ -85,7 +85,14 @@ public class ItemUI : MonoBehaviour
 		{
 			var currencySku = virtualItem.VirtualPrice?.Key;
 			var currency = UserCatalog.Instance.VirtualCurrencies.First(vc => vc.Sku.Equals(currencySku));
-			ImageLoader.Instance.GetImageAsync(currency.ImageUrl, (_, sprite) => itemPriceVcImage.sprite = sprite);
+			if (!string.IsNullOrEmpty(currency.ImageUrl))
+			{
+				ImageLoader.Instance.GetImageAsync(currency.ImageUrl, (_, sprite) => itemPriceVcImage.sprite = sprite);	
+			}
+			else
+			{
+				Debug.LogError($"Virtual currency item with sku = '{virtualItem.Sku}' without image!");
+			}
 		}));
 	}
 
@@ -145,7 +152,14 @@ public class ItemUI : MonoBehaviour
 		itemName.text = virtualItem.Name;
 		itemDescription.text = virtualItem.Description;
 		gameObject.name = "Item_" + virtualItem.Name.Replace(" ", "");
-		ImageLoader.Instance.GetImageAsync(virtualItem.ImageUrl, LoadImageCallback);
+		if (!string.IsNullOrEmpty(virtualItem.ImageUrl))
+		{
+			ImageLoader.Instance.GetImageAsync(virtualItem.ImageUrl, LoadImageCallback);	
+		}
+		else
+		{
+			Debug.LogError($"Virtual item item with sku = '{virtualItem.Sku}' without image!");
+		}
 	}
 	
 	private void LoadImageCallback(string url, Sprite image)

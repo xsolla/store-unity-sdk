@@ -100,7 +100,8 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 				{
 					var result = ConvertFriendEntity(f, relationship);
 					// this method used at this place for fastest image loading
-					ImageLoader.Instance.GetImageAsync(result.AvatarUrl, null);
+					if(!string.IsNullOrEmpty(result.AvatarUrl))
+						ImageLoader.Instance.GetImageAsync(result.AvatarUrl, null);
 					return result;
 				}).ToList());
 			}, WrapErrorCallback(onError));
