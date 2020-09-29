@@ -1,9 +1,8 @@
-﻿using System;
+using System;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.UI;
 using Xsolla.Core;
-using Xsolla.Login;
 
 public class LoginPageCreateController : LoginPageController
 {
@@ -14,8 +13,14 @@ public class LoginPageCreateController : LoginPageController
 	[SerializeField] private SimpleButton CreateButton;
 #pragma warning restore 0649
 
-	private static string _lastUsername;
-	private static string _lastEmail;
+	public static string LastUsername { get; private set; }
+	public static string LastEmail { get; private set; }
+
+	public static void DropLastCredentials()
+	{
+		LastUsername = null;
+		LastEmail = null;
+	}
 
 	private bool IsCreateInProgress
 	{
@@ -42,11 +47,11 @@ public class LoginPageCreateController : LoginPageController
 
 	private void Start()
 	{
-		if (!string.IsNullOrEmpty(_lastUsername))
-			UsernameInputField.text = _lastUsername;
+		if (!string.IsNullOrEmpty(LastUsername))
+			UsernameInputField.text = LastUsername;
 
-		if (!string.IsNullOrEmpty(_lastEmail))
-			EmailInputField.text = _lastEmail;
+		if (!string.IsNullOrEmpty(LastEmail))
+			EmailInputField.text = LastEmail;
 	}
 
 	private void PrepareAndRunCreate()
@@ -59,8 +64,8 @@ public class LoginPageCreateController : LoginPageController
 		if (IsCreateInProgress)
 			return;
 
-		_lastEmail = email;
-		_lastUsername = username;
+		LastEmail = email;
+		LastUsername = username;
 
 		IsCreateInProgress = true;
 
@@ -72,9 +77,6 @@ public class LoginPageCreateController : LoginPageController
 			Action onSuccessfulCreate = () =>
 			{
 				Debug.Log("LoginPageCreateController: Create success");
-				UserInfoContainer.LastEmail = email;
-				_lastUsername = null;
-				_lastEmail = null;
 				base.OnSuccess?.Invoke();
 			};
 

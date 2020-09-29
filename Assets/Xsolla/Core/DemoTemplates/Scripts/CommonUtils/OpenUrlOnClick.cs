@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+using UnityEngine;
+using Xsolla.Core;
 
 public class OpenUrlOnClick : MonoBehaviour
 {
@@ -23,6 +24,6 @@ public class OpenUrlOnClick : MonoBehaviour
 
 	private void OpenUrl()
 	{
-		Application.OpenURL(URL);
+		BrowserHelper.Instance.Open(URL);
 	}
 }

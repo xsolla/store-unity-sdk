@@ -1,10 +1,8 @@
 using System;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using UnityEngine;
 using Xsolla.Core;
 using Xsolla.Login;
-using Xsolla.Store;
 
 public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 {
@@ -25,18 +23,23 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 	public void DeleteToken(string key) => XsollaLogin.Instance.DeleteToken(key);
 	public void ValidateToken(string token, Action<string> onSuccess = null, Action<Error> onError = null)
 	{
-		GetUserInfo(token, info =>
-		{
-			UserInfoContainer.UserInfo = info; 
-			onSuccess?.Invoke(token);
-		}, onError);
+		GetUserInfo(token, info => onSuccess?.Invoke(token), onError);
 	}
 #endregion
 
 #region User
+
+	private readonly Dictionary<string, UserInfo> _userCache = new Dictionary<string, UserInfo>();
 	public void GetUserInfo(string token, Action<UserInfo> onSuccess, Action<Error> onError = null)
 	{
-		XsollaLogin.Instance.GetUserInfo(token, onSuccess, onError);
+		if (_userCache.ContainsKey(token))
+			onSuccess?.Invoke(_userCache[token]);
+		else
+			XsollaLogin.Instance.GetUserInfo(token, info =>
+			{
+				_userCache[token] = info;
+				onSuccess?.Invoke(info);
+			}, onError);
 	}
 
 	public void Registration(string username, string password, string email, Action onSuccess, Action<Error> onError = null)
