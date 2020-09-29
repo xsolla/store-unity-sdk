@@ -27,8 +27,8 @@ public partial class LoginPageEnterController : LoginPageController
 	{
 		T auth = base.gameObject.AddComponent<T>();
 		Debug.Log($"Trying {auth.GetType().Name}");
-		auth.OnSuccess = onSuccess;
-		auth.OnError = onFailed;
+		auth.OnSuccess = token => { Destroy(auth); onSuccess?.Invoke(token); };
+		auth.OnError = error => { Destroy(auth); onFailed?.Invoke(error); };
 		auth.TryAuth(args);
 	}
 	

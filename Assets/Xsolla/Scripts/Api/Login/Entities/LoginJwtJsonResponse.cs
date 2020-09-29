@@ -1,7 +1,7 @@
 ﻿using System;
 
 [Serializable]
-public class LoginResponse
+public class LoginJwtJsonResponse
 {
 	public string login_url;
 }

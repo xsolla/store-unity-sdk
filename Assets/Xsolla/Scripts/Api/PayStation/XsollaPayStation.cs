@@ -9,7 +9,7 @@ namespace Xsolla.PayStation
 	{
 		public void RequestToken([NotNull] Action<TokenEntity> onSuccess, [CanBeNull] Action<Error> onError)
 		{
-			WebRequestHelper.Instance.PostRequest(XsollaSettings.PayStationTokenRequestUrl, null, onSuccess, onError);
+			WebRequestHelper.Instance.PostRequest(XsollaSettings.PayStationTokenRequestUrl, requestHeaders: null, onSuccess, onError);
 		}
 	}
 }

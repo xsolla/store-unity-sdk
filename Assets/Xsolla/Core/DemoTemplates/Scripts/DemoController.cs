@@ -46,7 +46,9 @@ public class DemoController : MonoSingleton<DemoController>, IMenuStateMachine
                 Destroy(UserSubscriptions.Instance.gameObject);
             if (UserCart.IsExist)
                 Destroy(UserCart.Instance.gameObject);
-        }
+
+			GetImplementation().Token = null;
+		}
 
         if (
             (lastState == MenuState.Authorization

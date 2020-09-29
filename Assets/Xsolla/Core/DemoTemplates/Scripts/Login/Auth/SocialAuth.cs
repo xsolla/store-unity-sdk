@@ -25,18 +25,15 @@ public class SocialAuth : StoreStringActionResult, ILoginAuthorization
 
 			var singlePageBrowser = BrowserHelper.Instance.GetLastBrowser();
 
-			Debug.Log($"BROWSER IS NULL: {singlePageBrowser == null}");
+			if (singlePageBrowser == null)
+			{
+				Debug.LogError("Browser is null");
+				base.OnError?.Invoke(Error.UnknownError);
+				return;
+			}
 
 			singlePageBrowser.BrowserClosedEvent += _ => BrowserCloseHandler();
-			singlePageBrowser.GetComponent<XsollaBrowser>().Navigate.UrlChangedEvent +=
-				(browser, newUrl) =>
-				{
-					if (IsRedirectWithToken(newUrl, out var token))
-					{
-						Debug.Log($"We take{Environment.NewLine}from URL:{newUrl}{Environment.NewLine}token = {token}");
-						StartCoroutine(SuccessAuthCoroutine(token));
-					}
-				};
+			singlePageBrowser.GetComponent<XsollaBrowser>().Navigate.UrlChangedEvent += UrlChangedHandler;
 		}
 		else
 		{
@@ -75,10 +72,29 @@ public class SocialAuth : StoreStringActionResult, ILoginAuthorization
 		return true;
 	}
 
+
 	private void BrowserCloseHandler()
 	{
 		HotkeyCoroutine.Unlock();
 		base.OnError?.Invoke(null);
+	}
+
+	private void UrlChangedHandler(IXsollaBrowser browser, string newUrl)
+	{
+		if (XsollaSettings.AuthorizationType == AuthorizationType.JWT && ParseUtils.TryGetValueFromUrl(newUrl, ParseParameter.token, out var token))
+		{
+			Debug.Log($"We take{Environment.NewLine}from URL:{newUrl}{Environment.NewLine}token = {token}");
+			StartCoroutine(SuccessAuthCoroutine(token));
+		}
+		else if (XsollaSettings.AuthorizationType == AuthorizationType.OAuth2_0 && ParseUtils.TryGetValueFromUrl(newUrl, ParseParameter.code, out var code))
+		{
+			Debug.Log($"We take{Environment.NewLine}from URL:{newUrl}{Environment.NewLine}code = {code}");
+			DemoController.Instance.GetImplementation().ExchangeCodeToToken(
+				code,
+				onSuccessExchange: socialToken => StartCoroutine(SuccessAuthCoroutine(socialToken)),
+				onError: error => { Debug.LogError(error.errorMessage); base.OnError?.Invoke(error); }
+				);
+		}
 	}
 
 	private IEnumerator SuccessAuthCoroutine(string token)
@@ -86,15 +102,8 @@ public class SocialAuth : StoreStringActionResult, ILoginAuthorization
 		yield return new WaitForEndOfFrame();
 #if UNITY_EDITOR || UNITY_STANDALONE
 		Destroy(BrowserHelper.Instance.gameObject);
-		BrowserCloseHandler();
-		base.OnSuccess?.Invoke(token);
+		HotkeyCoroutine.Unlock();
 #endif
-	}
-
-	private static bool IsRedirectWithToken(string newUrl, out string token)
-	{
-		var regex = new Regex(@"[&?]token=\S*");
-		token = regex.Match(newUrl).Value.Replace("?token=", string.Empty).Replace("&token=", string.Empty);
-		return !string.IsNullOrEmpty(token);
+		base.OnSuccess?.Invoke(token);
 	}
 }
