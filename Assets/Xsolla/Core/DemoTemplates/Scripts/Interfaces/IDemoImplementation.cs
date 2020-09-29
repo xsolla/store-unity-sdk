@@ -43,6 +43,38 @@ public interface IDemoImplementation
 	void PurchaseCart(List<UserCartItem> items, [NotNull] Action<List<UserCartItem>> onSuccess, 
 		[CanBeNull] Action<Error> onError = null);
 
+	void GetUserFriends([CanBeNull] Action<List<FriendModel>> onSuccess = null, 
+		[CanBeNull] Action<Error> onError = null);
+	
+	void GetBlockedUsers([CanBeNull] Action<List<FriendModel>> onSuccess = null, 
+		[CanBeNull] Action<Error> onError = null);
+	
+	void GetPendingUsers([CanBeNull] Action<List<FriendModel>> onSuccess = null, 
+		[CanBeNull] Action<Error> onError = null);
+	
+	void GetRequestedUsers([CanBeNull] Action<List<FriendModel>> onSuccess = null, 
+		[CanBeNull] Action<Error> onError = null);
+	
+	void BlockUser(FriendModel user, [CanBeNull] Action<FriendModel> onSuccess = null, 
+		[CanBeNull] Action<Error> onError = null);
+	
+	void UnblockUser(FriendModel user, [CanBeNull] Action<FriendModel> onSuccess = null, 
+		[CanBeNull] Action<Error> onError = null);
+
+	void SendFriendshipInvite(FriendModel user, Action<FriendModel> onSuccess = null,
+		Action<Error> onError = null);
+	
+	void RemoveFriend(FriendModel user, [CanBeNull] Action<FriendModel> onSuccess = null, 
+		[CanBeNull] Action<Error> onError = null);
+
+	void AcceptFriendship(FriendModel user, [CanBeNull] Action<FriendModel> onSuccess = null,
+		[CanBeNull] Action<Error> onError = null);
+	
+	void DeclineFriendship(FriendModel user, [CanBeNull] Action<FriendModel> onSuccess = null,
+		[CanBeNull] Action<Error> onError = null);
+	
+	void CancelFriendshipRequest(FriendModel user, [CanBeNull] Action<FriendModel> onSuccess = null,
+		[CanBeNull] Action<Error> onError = null);
 
 	Token Token { get; set; }
 

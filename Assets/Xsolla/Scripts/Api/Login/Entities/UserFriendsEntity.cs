@@ -6,9 +6,9 @@ namespace Xsolla.Login
 	/// <summary>
 	/// User's friends entity.
 	/// </summary>
-	/// <see cref="https://developers.xsolla.com/user-account-api/user-friends/getusersmerelationships"/>
+	/// <see cref="https://developers.xsolla.com/user-account-api/user-friends/get-friends"/>
 	[Serializable]
-	public class UserFriends
+	public class UserFriendsEntity
 	{
 		/// <summary>
 		/// TEMPORARY UNDER MAINTENANCE.
@@ -21,6 +21,6 @@ namespace Xsolla.Login
 		/// <summary>
 		/// Friends details.
 		/// </summary>
-		public List<UserFriend> relationships;
+		public List<UserFriendEntity> relationships;
 	}
 }

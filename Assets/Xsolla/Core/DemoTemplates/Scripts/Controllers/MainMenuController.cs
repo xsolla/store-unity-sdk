@@ -7,6 +7,7 @@ public class MainMenuController : BaseMenuController
 	[SerializeField] private SimpleButton documentationButton;
 	[SerializeField] private SimpleButton publisherAccountButton;
 	[SerializeField] private SimpleButton profileButton;
+	[SerializeField] private SimpleButton friendsButton;
 	[SerializeField] private SimpleButton feedbackButton;
 	[SerializeField] private SimpleButton logoutButton;
 	
@@ -16,8 +17,12 @@ public class MainMenuController : BaseMenuController
 			() => SetMenuState(MenuState.Store, () => UserCatalog.Instance.IsUpdated));
 		AttachButtonCallback(inventoryButton, 
 			() => SetMenuState(MenuState.Inventory, () => UserInventory.Instance.IsUpdated));
-		AttachButtonCallback(profileButton, () => SetMenuState(MenuState.Profile));
-		AttachButtonCallback(logoutButton, () => SetMenuState(MenuState.Authorization));
+		AttachButtonCallback(profileButton, 
+			() => SetMenuState(MenuState.Profile));
+		AttachButtonCallback(friendsButton, 
+			() => SetMenuState(MenuState.Friends, () => UserFriends.Instance.IsUpdated));
+		AttachButtonCallback(logoutButton, 
+			() => SetMenuState(MenuState.Authorization));
 		
 		AttachUrlToButton(documentationButton, DemoController.Instance.UrlContainer.GetUrl(UrlType.DocumentationUrl));
 		AttachUrlToButton(feedbackButton, DemoController.Instance.UrlContainer.GetUrl(UrlType.FeedbackUrl));
