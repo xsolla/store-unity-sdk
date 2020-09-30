@@ -121,7 +121,7 @@ public partial class MenuStateMachine : MonoBehaviour, IMenuStateMachine
 
 	private bool CheckHardcodedBackCases()
 	{
-		if (_state == MenuState.Store || _state == MenuState.Inventory || _state == MenuState.Profile || _state == MenuState.Friends)
+		if (_state != MenuState.Main && _state.IsPostAuthState())
 		{
 			SetState(MenuState.Main);
 			return true;

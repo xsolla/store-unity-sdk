@@ -23,16 +23,21 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 	public void DeleteToken(string key) => XsollaLogin.Instance.DeleteToken(key);
 	public void ValidateToken(string token, Action<string> onSuccess = null, Action<Error> onError = null)
 	{
-		GetUserInfo(token, info => onSuccess?.Invoke(token), onError);
+		GetUserInfo(token, useCache: false, onSuccess:info => onSuccess?.Invoke(token), onError:onError);
 	}
 #endregion
 
 #region User
 
-	private readonly Dictionary<string, UserInfo> _userCache = new Dictionary<string, UserInfo>();
-	public void GetUserInfo(string token, Action<UserInfo> onSuccess, Action<Error> onError = null)
+	public void GetUserInfo(string token, Action<UserInfo> onSuccess = null, Action<Error> onError = null)
 	{
-		if (_userCache.ContainsKey(token))
+		GetUserInfo(token, useCache: true, onSuccess, onError);
+	}
+
+	private readonly Dictionary<string, UserInfo> _userCache = new Dictionary<string, UserInfo>();
+	public void GetUserInfo(string token, bool useCache = true, Action<UserInfo> onSuccess = null, Action<Error> onError = null)
+	{
+		if (useCache && _userCache.ContainsKey(token))
 			onSuccess?.Invoke(_userCache[token]);
 		else
 			XsollaLogin.Instance.GetUserInfo(token, info =>

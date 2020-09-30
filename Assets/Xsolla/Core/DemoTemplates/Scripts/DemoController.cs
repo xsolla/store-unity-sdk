@@ -38,7 +38,7 @@ public class DemoController : MonoSingleton<DemoController>, IMenuStateMachine
 
     private void OnStateChangingEvent(MenuState lastState, MenuState newState)
     {
-        if (lastState == MenuState.Main && newState == MenuState.Authorization)
+        if (lastState.IsPostAuthState() && newState.IsAuthState())
         {
             if(UserFriends.IsExist)
                 Destroy(UserFriends.Instance.gameObject);
@@ -52,16 +52,7 @@ public class DemoController : MonoSingleton<DemoController>, IMenuStateMachine
 			GetImplementation().Token = null;
 		}
 
-        HandleSuccessfulAuth(lastState, newState);
-    }
-
-    private void HandleSuccessfulAuth(MenuState lastState, MenuState newState)
-    {
-        if ((lastState == MenuState.Authorization || lastState == MenuState.Registration 
-                                                  || lastState == MenuState.RegistrationSuccess
-                                                  || lastState == MenuState.ChangePassword
-			                                      || lastState == MenuState.ChangePasswordSuccess)
-            && newState == MenuState.Main)
+        if (lastState.IsAuthState() && newState == MenuState.Main)
         {
             UpdateCatalogAndInventory();
             UserFriends.Instance.UpdateFriends();

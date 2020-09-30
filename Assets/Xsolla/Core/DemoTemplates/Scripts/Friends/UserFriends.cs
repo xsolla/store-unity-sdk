@@ -81,20 +81,33 @@ public class UserFriends : MonoSingleton<UserFriends>
 	
 	private IEnumerator UpdateFriendsCoroutine(Action onSuccess, Action<Error> onError)
 	{
+		bool? isTokenValid = null;
 		bool friendsBusy = true;
 		bool blockedBusy = true;
 		bool pendingBusy = true;
 		bool requestedBusy = true;
 
-		UpdateUserFriends(() => friendsBusy = false, onError);
-		UpdateBlockedUsers(() => blockedBusy = false, onError);
-		UpdatePendingUsers(() => pendingBusy = false, onError);
-		UpdateRequestedUsers(() => requestedBusy = false, onError);
-		yield return new WaitWhile(() => friendsBusy || blockedBusy || pendingBusy || requestedBusy);
-		
-		IsUpdated = true;
-		onSuccess?.Invoke();
-		AllUsersUpdatedEvent?.Invoke();
+		DemoController.Instance.GetImplementation().ValidateToken(DemoController.Instance.GetImplementation().Token, onSuccess: _ => isTokenValid = true, onError: _ => isTokenValid = false);
+		yield return new WaitWhile(() => isTokenValid == null);
+
+		if (isTokenValid == true)
+		{
+			UpdateUserFriends(() => friendsBusy = false, onError);
+			UpdateBlockedUsers(() => blockedBusy = false, onError);
+			UpdatePendingUsers(() => pendingBusy = false, onError);
+			UpdateRequestedUsers(() => requestedBusy = false, onError);
+			yield return new WaitWhile(() => friendsBusy || blockedBusy || pendingBusy || requestedBusy);
+
+			IsUpdated = true;
+			onSuccess?.Invoke();
+			AllUsersUpdatedEvent?.Invoke();
+		}
+		else
+		{
+			StoreDemoPopup.ShowError(new Error(errorMessage: "Access token is not valid"));
+			DemoController.Instance.SetState(MenuState.Authorization);
+			StopRefreshUsers();
+		}
 	}
 	
 	private void UpdateUserFriends(Action onSuccess = null, Action<Error> onError = null)
