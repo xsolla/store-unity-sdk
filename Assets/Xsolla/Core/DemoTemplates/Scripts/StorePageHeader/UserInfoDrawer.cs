@@ -19,7 +19,8 @@ public class UserInfoDrawer : MonoBehaviour
 	    var busy = true;
 	    DemoController.Instance.GetImplementation().GetUserInfo(XsollaLogin.Instance.Token, info =>
 	    {
-		    userEmail.text = info.email.ToUpper();
+			if (userEmail != null)
+				userEmail.text = info?.email?.ToUpper() ?? string.Empty;
 		    busy = false;
 	    }, _ => busy = false);
 	    
