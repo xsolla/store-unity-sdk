@@ -286,6 +286,16 @@ PrefabInstance:
       propertyPath: m_FontData.m_HorizontalOverflow
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3811203807736094141, guid: bfc0c4d552fbe4e38a06e5eb5d3f2773,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3811203807736094141, guid: bfc0c4d552fbe4e38a06e5eb5d3f2773,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bfc0c4d552fbe4e38a06e5eb5d3f2773, type: 3}
 --- !u!224 &5364573669991083413 stripped
