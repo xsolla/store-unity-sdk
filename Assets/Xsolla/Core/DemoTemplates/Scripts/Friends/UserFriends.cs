@@ -104,7 +104,7 @@ public class UserFriends : MonoSingleton<UserFriends>
 		}
 		else
 		{
-			StoreDemoPopup.ShowError(new Error(errorMessage: "Access token is not valid"));
+			StoreDemoPopup.ShowError(new Error(errorMessage: "Your token is not valid"));
 			DemoController.Instance.SetState(MenuState.Authorization);
 			StopRefreshUsers();
 		}
