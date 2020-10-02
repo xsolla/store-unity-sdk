@@ -1,4 +1,10 @@
 # Changelog
+## [0.6.1.0] - 2020-10-02 
+
+### Added 
+- Friends system functionality.
+- The support for OAuth 2.0 authorization.
+
 ## [0.6.0.0] - 2020-09-15 
 
 ### Added 
