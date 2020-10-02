@@ -11,11 +11,18 @@ public class VirtualCurrencyBalanceUI : MonoBehaviour
 	{
 		if (Image != null)
 		{
-			ImageLoader.Instance.GetImageAsync(item.ImageUrl, (_, sprite) =>
+			if (!string.IsNullOrEmpty(item.ImageUrl))
 			{
-				if (Image/*still*/!= null)
-					Image.sprite = sprite;
-			});
+				ImageLoader.Instance.GetImageAsync(item.ImageUrl, (_, sprite) =>
+				{
+					if (Image/*still*/!= null)
+						Image.sprite = sprite;
+				});
+			}
+			else
+			{
+				Debug.LogError($"Item with sku = '{item.Sku}' without image!");
+			}
 		}
 		else
 		{

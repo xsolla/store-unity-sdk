@@ -25,6 +25,8 @@ namespace Xsolla.Core
 			if (changed)
 			{
 				XsollaLogin.Instance.DeleteToken(Constants.LAST_SUCCESS_AUTH_TOKEN);
+				XsollaLogin.Instance.DeleteToken(Constants.LAST_SUCCESS_OAUTH_REFRESH_TOKEN);
+				XsollaLogin.Instance.DeleteToken(Constants.OAUTH_REFRESH_TOKEN_EXPIRATION_TIME);
 			}
 		}
 	}

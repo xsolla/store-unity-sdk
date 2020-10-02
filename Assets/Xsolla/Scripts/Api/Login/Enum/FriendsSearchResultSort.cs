@@ -1,10 +1,10 @@
 /// <summary>
 /// Condition for sorting users.
 /// </summary>
-/// <see cref="https://developers.xsolla.com/user-account-api/user-friends/getusersmerelationships"/>
+/// <see cref="https://developers.xsolla.com/user-account-api/user-friends/get-friends"/>
 public enum FriendsSearchResultsSort
 {
-    ByName,
+    ByNickname,
     ByUpdated
 }
 
@@ -14,7 +14,7 @@ public static class FriendsSearchResultsSortConverter
     {
         switch (provider)
         {
-            case FriendsSearchResultsSort.ByName: return "by_name";
+            case FriendsSearchResultsSort.ByNickname: return "by_nickname";
             case FriendsSearchResultsSort.ByUpdated: return "by_updated";
             default: return string.Empty;
         }

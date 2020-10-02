@@ -57,7 +57,7 @@ namespace Xsolla.Core
 			if (!string.IsNullOrEmpty(errorCode))
 				message += $"Error code: {errorCode}. ";
 			if (!string.IsNullOrEmpty(errorMessage))
-				message += $"Message: {errorMessage}. ";
+				message += $"{errorMessage}. ";
 			return message;
 		}
 	}

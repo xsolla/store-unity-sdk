@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class LoginCreateEmailReplacer : MonoBehaviour
@@ -12,13 +12,15 @@ public class LoginCreateEmailReplacer : MonoBehaviour
 	// Start is called before the first frame update
 	void Start()
     {
-		var actualEmail = UserInfoContainer.LastEmail;
+		var createAccountEmail = LoginPageCreateController.LastEmail;
 
-		if (!string.IsNullOrEmpty(actualEmail))
+		if (!string.IsNullOrEmpty(createAccountEmail))
 		{
 			var currentMessage = EmailText.text;
-			var modifiedMessage = currentMessage.Replace(_emailTextTemplate, actualEmail);
+			var modifiedMessage = currentMessage.Replace(_emailTextTemplate, createAccountEmail);
 			EmailText.text = modifiedMessage;
 		}
+
+		LoginPageCreateController.DropLastCredentials();
     }
 }

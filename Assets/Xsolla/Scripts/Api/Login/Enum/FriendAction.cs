@@ -44,9 +44,9 @@ public static class FriendActionConverter
             case FriendAction.CancelRequest: return "friend_request_cancel";
             case FriendAction.AcceptInvite: return "friend_request_approve";
             case FriendAction.DenyInvite: return "friend_request_deny";
-            case FriendAction.RemoveFriend: return "friend_request_remove";
-            case FriendAction.BlockFriend: return "friend_request_block";
-            case FriendAction.UnblockFriend: return "friend_request_unblock";
+            case FriendAction.RemoveFriend: return "friend_remove";
+            case FriendAction.BlockFriend: return "block";
+            case FriendAction.UnblockFriend: return "unblock";
             default: return string.Empty;
         }
     }

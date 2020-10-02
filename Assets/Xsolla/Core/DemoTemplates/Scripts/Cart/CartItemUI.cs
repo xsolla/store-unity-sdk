@@ -77,9 +77,16 @@ public class CartItemUI : MonoBehaviour
 			discountIco.SetActive(false);
 		}
 		
-		if (itemImage.sprite != null && !string.IsNullOrEmpty(_cartItem.ImageUrl))
+		if (itemImage.sprite != null)
 		{
-			ImageLoader.Instance.GetImageAsync(_cartItem.ImageUrl, LoadImageCallback);
+			if (!string.IsNullOrEmpty(_cartItem.ImageUrl))
+			{
+				ImageLoader.Instance.GetImageAsync(_cartItem.ImageUrl, LoadImageCallback);
+			}
+			else
+			{
+				Debug.LogError($"Cart item with sku = '{_cartItem.Sku}' without image!");
+			}
 		}
 	}
 

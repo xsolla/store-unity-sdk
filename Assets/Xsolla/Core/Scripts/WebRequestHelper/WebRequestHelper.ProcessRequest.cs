@@ -117,9 +117,9 @@ namespace Xsolla.Core
 		{
 			Debug.Log(
 				"URL: " + url + Environment.NewLine +
-				"RESPONSE: " + data
+				"RESPONSE: " + (string.IsNullOrEmpty(data) ? string.Empty : data) 
 				);
-			return (data != null) ? TryParseErrorMessage(data, errorsToCheck) : null;
+			return !string.IsNullOrEmpty(data) ? TryParseErrorMessage(data, errorsToCheck) : null;
 		}
 
 		Error TryParseErrorMessage(string json, Dictionary<string, ErrorType> errorsToCheck)
