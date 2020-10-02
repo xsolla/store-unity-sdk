@@ -38,28 +38,24 @@ public class DemoController : MonoSingleton<DemoController>, IMenuStateMachine
 
     private void OnStateChangingEvent(MenuState lastState, MenuState newState)
     {
-        if (lastState == MenuState.Main && newState == MenuState.Authorization)
+        if (lastState.IsPostAuthState() && newState.IsAuthState())
         {
+            if(UserFriends.IsExist)
+                Destroy(UserFriends.Instance.gameObject);
             if (UserInventory.IsExist)
                 Destroy(UserInventory.Instance.gameObject);
             if (UserSubscriptions.IsExist)
                 Destroy(UserSubscriptions.Instance.gameObject);
             if (UserCart.IsExist)
                 Destroy(UserCart.Instance.gameObject);
-        }
 
-        if (
-            (lastState == MenuState.Authorization
-			|| lastState == MenuState.AuthorizationFailed
-			|| lastState == MenuState.ChangePassword
-			|| lastState == MenuState.ChangePasswordFailed
-			|| lastState == MenuState.ChangePasswordSuccess
-			|| lastState == MenuState.Registration
-			|| lastState == MenuState.RegistrationFailed
-			|| lastState == MenuState.RegistrationSuccess)
-            && newState == MenuState.Main)
+			GetImplementation().Token = null;
+		}
+
+        if (lastState.IsAuthState() && newState == MenuState.Main)
         {
             UpdateCatalogAndInventory();
+            UserFriends.Instance.UpdateFriends();
         }
     }
     
@@ -82,7 +78,17 @@ public class DemoController : MonoSingleton<DemoController>, IMenuStateMachine
     
     private static void StartLoadItemImages(List<CatalogItemModel> items)
     {
-        items.ForEach(i => ImageLoader.Instance.GetImageAsync(i.ImageUrl, null));
+        items.ForEach(i =>
+        {
+            if (!string.IsNullOrEmpty(i.ImageUrl))
+            {
+                ImageLoader.Instance.GetImageAsync(i.ImageUrl, null);    
+            }
+            else
+            {
+                Debug.LogError($"Catalog item with sku = '{i.Sku}' without image!");
+            }
+        });
     }
 
     protected override void OnDestroy()
@@ -97,6 +103,8 @@ public class DemoController : MonoSingleton<DemoController>, IMenuStateMachine
             Destroy(OldUserAttributes.Instance.gameObject);
         if (UserSubscriptions.IsExist)
             Destroy(UserSubscriptions.Instance.gameObject);
+        if(UserFriends.IsExist)
+            Destroy(UserFriends.Instance.gameObject);
         if(PopupFactory.IsExist)
             Destroy(PopupFactory.Instance.gameObject);
         base.OnDestroy();

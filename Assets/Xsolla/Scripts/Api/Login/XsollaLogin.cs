@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 using System.Text;
 using JetBrains.Annotations;
@@ -9,9 +9,17 @@ namespace Xsolla.Login
 	[PublicAPI]
 	public partial class XsollaLogin : MonoSingleton<XsollaLogin>
 	{
+		public event Action TokenChanged;
+		
 		private string AdditionalUrlParams => $"&engine=unity&engine_v={Application.unityVersion}&sdk=login&sdk_v={Constants.LoginSdkVersion}";
 
 		private byte[] CryptoKey => Encoding.ASCII.GetBytes(XsollaSettings.LoginId.Replace("-", string.Empty).Substring(0, 16));
+
+		private void Awake()
+		{
+			if (XsollaSettings.AuthorizationType == AuthorizationType.OAuth2_0)
+				InitOAuth2_0();
+		}
 
 		public void DeleteToken(string key)
 		{
@@ -59,7 +67,11 @@ namespace Xsolla.Login
 		public Token Token
 		{
 			get => _token ?? (_token = new Token());
-			set => _token = value;
+			set
+			{
+				_token = value;
+				TokenChanged?.Invoke();
+			}
 		}
 	}
 }

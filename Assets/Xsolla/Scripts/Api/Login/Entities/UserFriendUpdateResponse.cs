@@ -12,10 +12,10 @@ namespace Xsolla.Login
 		/// <summary>
 		/// Type of the user with the specified JWT.
 		/// </summary>
-		public string status_incoming;
+		//public string status_incoming;
 		/// <summary>
 		/// Type of the requested user.
 		/// </summary>
-		public string status_outgoing;
+		//public string status_outgoing;
 	}
 }

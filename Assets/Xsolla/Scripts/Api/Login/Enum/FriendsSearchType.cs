@@ -1,7 +1,7 @@
 /// <summary>
 /// Condition for sorting users.
 /// </summary>
-/// <see cref="https://developers.xsolla.com/user-account-api/user-friends/getusersmerelationships"/>
+/// <see cref="https://developers.xsolla.com/user-account-api/user-friends/get-friends"/>
 public enum FriendsSearchType
 {
     Added,

@@ -1,6 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
+using UnityEngine;
 using Xsolla.Core;
 
 namespace Xsolla.Login
@@ -8,7 +10,9 @@ namespace Xsolla.Login
 	public partial class XsollaLogin : MonoSingleton<XsollaLogin>
 	{
 		private const string URL_USER_REGISTRATION = "https://login.xsolla.com/api/{0}?projectId={1}&login_url={2}";
+		private const string URL_USER_OAUTH_REGISTRATION = "https://login.xsolla.com/api/oauth2/user?response_type=code&client_id={0}&state=xsollatest&redirect_uri=https://login.xsolla.com/api/blank";
 		private const string URL_USER_SIGNIN = "https://login.xsolla.com/api/{0}login?projectId={1}&login_url={2}";
+		private const string URL_USER_OAUTH_SIGNIN = "https://login.xsolla.com/api/oauth2/login/token?client_id={0}&scope=offline";
 		private const string URL_USER_INFO = "https://login.xsolla.com/api/users/me";
 		private const string URL_USER_PHONE = "https://login.xsolla.com/api/users/me/phone";
 		private const string URL_USER_PICTURE = "https://login.xsolla.com/api/users/me/picture";
@@ -16,7 +20,7 @@ namespace Xsolla.Login
 		private const string URL_SEARCH_USER = "https://login.xsolla.com/api/users/search/by_nickname?nickname={0}&offset={1}&limit={2}";
 		private const string URL_USER_PUBLIC_INFO = "https://login.xsolla.com/api/users/{0}/public";
 
-		private string GetUrl(string url, string proxy, bool useCallback = true)
+		private string GetJwtUrl(string url, string proxy, bool useCallback = true)
 		{
 			StringBuilder urlBuilder;
 			if (useCallback)
@@ -65,9 +69,18 @@ namespace Xsolla.Login
 		public void Registration(string username, string password, string email, Action onSuccess, Action<Error> onError = null)
 		{
 			var registrationData = new RegistrationJson(username, password, email);
+			string url = default(string);
 			
-			string proxy = XsollaSettings.UseProxy ? "proxy/registration" : "user";
-			string url = GetUrl(URL_USER_REGISTRATION, proxy);
+			if (XsollaSettings.AuthorizationType == AuthorizationType.JWT)
+			{
+				string proxy = XsollaSettings.UseProxy ? "proxy/registration" : "user";
+				url = GetJwtUrl(URL_USER_REGISTRATION, proxy);
+			}
+			else/*if (XsollaSettings.AuthorizationType == AuthorizationType.OAuth2_0)*/
+			{
+				var clientId = XsollaSettings.OAuthClientId;
+				url = string.Format(URL_USER_OAUTH_REGISTRATION, clientId);
+			}
 
 			WebRequestHelper.Instance.PostRequest<RegistrationJson>(url, registrationData, onSuccess, onError, Error.RegistrationErrors);
 		}
@@ -87,18 +100,40 @@ namespace Xsolla.Login
 		/// <seealso cref="ResetPassword"/>
 		public void SignIn(string username, string password, bool rememberUser, Action onSuccess, Action<Error> onError = null)
 		{
-			var loginData = new LoginJson(username, password, rememberUser);
+			if (XsollaSettings.AuthorizationType == AuthorizationType.JWT)
+				JwtSignIn(username, password, rememberUser, onSuccess, onError);
+			else/*if (XsollaSettings.AuthorizationType == AuthorizationType.OAuth2_0)*/
+				OAuthSignIn(username, password, onSuccess, onError);
+		}
+
+		private void JwtSignIn(string username, string password, bool rememberUser, Action onSuccess, Action<Error> onError)
+		{
+			var loginData = new LoginJwtJsonRequest(username, password, rememberUser);
 
 			string proxy = XsollaSettings.UseProxy ? "proxy/" : string.Empty;
-			string url = GetUrl(URL_USER_SIGNIN, proxy);
+			string url = GetJwtUrl(URL_USER_SIGNIN, proxy);
 
 			var tokenInvalidationFlag = XsollaSettings.JwtTokenInvalidationEnabled ? "&with_logout=1" : "&with_logout=0";
 			url += tokenInvalidationFlag;
 
-			WebRequestHelper.Instance.PostRequest<LoginResponse, LoginJson>(url, loginData, (response) => {
+			WebRequestHelper.Instance.PostRequest<LoginJwtJsonResponse, LoginJwtJsonRequest>(url, loginData, (response) => {
 				Token = ParseUtils.ParseToken(response.login_url);
 				onSuccess?.Invoke();
 			}, onError, Error.LoginErrors);
+		}
+
+		private void OAuthSignIn(string username, string password, Action onSuccess, Action<Error> onError)
+		{
+			var loginData = new LoginOAuthJsonRequest(username, password);
+			var url = string.Format(URL_USER_OAUTH_SIGNIN, XsollaSettings.OAuthClientId);
+
+			Action<LoginOAuthJsonResponse> successCallback = response =>
+			{
+				this.ProcessOAuthResponse(response);
+				onSuccess?.Invoke();
+			};
+
+			WebRequestHelper.Instance.PostRequest<LoginOAuthJsonResponse, LoginOAuthJsonRequest>(url, loginData, successCallback, onError, Error.LoginErrors);
 		}
 
 		/// <summary>
@@ -114,7 +149,7 @@ namespace Xsolla.Login
 		public void ResetPassword(string username, Action onSuccess, Action<Error> onError = null)
 		{
 			string proxy = XsollaSettings.UseProxy ? "proxy/registration/password/reset" : "password/reset/request";
-			string url = GetUrl(URL_PASSWORD_RESET, proxy, false);
+			string url = GetJwtUrl(URL_PASSWORD_RESET, proxy, false);
 			
 			WebRequestHelper.Instance.PostRequest(url, new ResetPassword(username), onSuccess, onError, Error.ResetPasswordErrors);
 		}

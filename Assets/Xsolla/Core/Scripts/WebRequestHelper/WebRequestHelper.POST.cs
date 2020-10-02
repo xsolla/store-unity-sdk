@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
+using UnityEngine;
 using UnityEngine.Networking;
 
 namespace Xsolla.Core
@@ -37,19 +38,25 @@ namespace Xsolla.Core
 		public void PostRequest<T>(string url, List<WebRequestHeader> requestHeaders, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
 			where T : class
 		{
-			StartCoroutine(PostRequestCor(url, null, requestHeaders, onComplete, onError, errorsToCheck));
+			StartCoroutine(PostRequestCor(url, jsonObject: null, requestHeaders, onComplete, onError, errorsToCheck));
 		}
 
 		public void PostRequest<T>(string url, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
 			where T : class
 		{
-			PostRequest(url, null, onComplete, onError, errorsToCheck);
+			PostRequest(url, requestHeaders: null, onComplete, onError, errorsToCheck);
 		}
 
 		public void PostRequest<D>(string url, D jsonObject, List<WebRequestHeader> requestHeaders, Action onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
 			where D : class
 		{
 			StartCoroutine(PostRequestCor(url, jsonObject, requestHeaders, onComplete, onError, errorsToCheck));
+		}
+		
+		public void PostRequest<D>(string url, D jsonObject, WebRequestHeader requestHeader, Action onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
+			where D : class
+		{
+			StartCoroutine(PostRequestCor(url, jsonObject, new List<WebRequestHeader>{requestHeader}, onComplete, onError, errorsToCheck));
 		}
 
 		public void PostRequest<D>(string url, D jsonObject = null, Action onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
@@ -65,17 +72,23 @@ namespace Xsolla.Core
 
 		public void PostRequest(string url, Action<string> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
 		{
-			PostRequest(url, null, onComplete, onError, errorsToCheck);
+			PostRequest(url, requestHeaders: null, onComplete, onError, errorsToCheck);
 		}
 
 		public void PostRequest(string url, List<WebRequestHeader> requestHeaders, Action onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
 		{
-			StartCoroutine(PostRequestCor(url, null, requestHeaders, onComplete, onError, errorsToCheck));
+			StartCoroutine(PostRequestCor(url, jsonObject: null, requestHeaders, onComplete, onError, errorsToCheck));
 		}
 
 		public void PostRequest(string url, Action onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
 		{
-			PostRequest(url, null, onComplete, onError, errorsToCheck);
+			PostRequest(url, requestHeaders: null, onComplete, onError, errorsToCheck);
+		}
+
+		public void PostRequest<T>(string url, WWWForm data, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
+			where T : class
+		{
+			StartCoroutine(PostRequestCor<T>(url, data, onComplete, onError, errorsToCheck));
 		}
 		
 		public void PostUploadRequest<T>(string url, string pathToFile, List<WebRequestHeader> requestHeaders, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
@@ -110,6 +123,13 @@ namespace Xsolla.Core
 			UnityWebRequest webRequest = PreparePostUploadRequest(url, pathToFile, requestHeaders);
 
 			yield return StartCoroutine(PerformWebRequest(webRequest, onComplete, onError, errorsToCheck));
+		}
+
+		IEnumerator PostRequestCor<T>(string url, WWWForm data, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
+		{
+			UnityWebRequest webRequest = UnityWebRequest.Post(url, data);
+
+			yield return StartCoroutine(PerformWebRequest<T>(webRequest, onComplete, onError, errorsToCheck));
 		}
 
 		private UnityWebRequest PreparePostWebRequest(string url, object jsonObject, List<WebRequestHeader> requestHeaders)

@@ -60,6 +60,7 @@ public class SubscriptionItemUI : MonoBehaviour
 			ImageLoader.Instance.GetImageAsync(_itemInformation.image_url, LoadImageCallback);
 		else
 		{
+			Debug.LogError($"Subscription item with sku = '{itemInformation.sku}' without image!");
 			loadingCircle.SetActive(false);
 			itemImage.sprite = null;
 		}

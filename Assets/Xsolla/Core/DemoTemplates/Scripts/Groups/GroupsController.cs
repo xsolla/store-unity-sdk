@@ -11,6 +11,7 @@ public class GroupsController : MonoBehaviour
 	[SerializeField] private RectTransform scrollView;
 
 	public List<IGroup> Groups { get; private set; }
+	private readonly List<GameObject> _groupObjects = new List<GameObject>(); 
 
 	private void Awake()
 	{
@@ -53,11 +54,12 @@ public class GroupsController : MonoBehaviour
 		SelectGroup(group.Id);
 	}
 
-	public void AddGroup(string groupName)
+	public GameObject AddGroup(string groupName)
 	{
 		if (Groups.Exists(group => group.Name == groupName))
-			return;
+			return _groupObjects.First(o => o.GetComponent<IGroup>().Name == groupName);
 		var newGroupGameObject = Instantiate(groupPrefab, scrollView.transform);
+		_groupObjects.Add(newGroupGameObject);
 		newGroupGameObject.name =
 			"Group_" +
 			groupName.ToUpper().First() +
@@ -69,6 +71,7 @@ public class GroupsController : MonoBehaviour
 		newGroup.OnGroupClick += SelectGroup;
 
 		Groups.Add(newGroup);
+		return newGroupGameObject;
 	}
 
 	private void SelectGroup(string groupId)
@@ -93,5 +96,12 @@ public class GroupsController : MonoBehaviour
 		SelectDefault();
 		selected = Groups.Find(group => group.IsSelected());
 		return selected;
+	}
+
+	public void RemoveAll()
+	{
+		_groupObjects.ForEach(Destroy);
+		_groupObjects.Clear();
+		Groups.Clear();
 	}
 }

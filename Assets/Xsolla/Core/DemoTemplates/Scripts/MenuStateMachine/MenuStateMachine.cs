@@ -33,6 +33,7 @@ public partial class MenuStateMachine : MonoBehaviour, IMenuStateMachine
 	[SerializeField] private GameObject cartMenuPrefab;
 	[SerializeField] private GameObject inventoryMenuPrefab;
 	[SerializeField] private GameObject profileMenuPrefab;
+	[SerializeField] private GameObject friendsMenuPrefab;
 	[SerializeField] private GameObject loginSettingsErrorPrefab;
 
 	private Dictionary<MenuState, GameObject> _stateMachine;
@@ -60,7 +61,8 @@ public partial class MenuStateMachine : MonoBehaviour, IMenuStateMachine
 			{MenuState.Cart, cartMenuPrefab},
 			{MenuState.Inventory, inventoryMenuPrefab},
 			{MenuState.Profile, profileMenuPrefab},
-			{MenuState.LoginSettingsError, loginSettingsErrorPrefab}
+			{MenuState.Friends, friendsMenuPrefab},
+			{MenuState.LoginSettingsError, loginSettingsErrorPrefab},
 		};
 		if (_stateMachine[initialState] == null)
 		{
@@ -119,7 +121,7 @@ public partial class MenuStateMachine : MonoBehaviour, IMenuStateMachine
 
 	private bool CheckHardcodedBackCases()
 	{
-		if (_state == MenuState.Store || _state == MenuState.Inventory || _state == MenuState.Profile)
+		if (_state != MenuState.Main && _state.IsPostAuthState())
 		{
 			SetState(MenuState.Main);
 			return true;

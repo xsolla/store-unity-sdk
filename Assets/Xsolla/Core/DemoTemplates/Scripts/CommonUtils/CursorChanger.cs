@@ -22,6 +22,9 @@ public class CursorChanger : MonoBehaviour
 
 		InputFieldCursorEventProvider.OnCursorEnter += ChangeToInputFieldHoverCursor;
 		InputFieldCursorEventProvider.OnCursorExit += ChangeBackToDefault;
+		
+		BlurSelectedUser.OnActivated += ChangeToButtonHoverCursor;
+		BlurSelectedUser.OnDeactivated += ChangeBackToDefault;
 	}
 
 	private void OnDestroy()
@@ -37,6 +40,9 @@ public class CursorChanger : MonoBehaviour
 
 		InputFieldCursorEventProvider.OnCursorEnter -= ChangeToInputFieldHoverCursor;
 		InputFieldCursorEventProvider.OnCursorExit -= ChangeBackToDefault;
+		
+		BlurSelectedUser.OnActivated -= ChangeToButtonHoverCursor;
+		BlurSelectedUser.OnDeactivated -= ChangeBackToDefault;
 	}
 
 	private void ChangeToButtonHoverCursor() => SetCursorTexture(ButtonHoverCursor);
