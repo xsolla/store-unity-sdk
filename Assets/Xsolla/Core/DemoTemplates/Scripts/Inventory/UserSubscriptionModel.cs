@@ -12,6 +12,7 @@ public class UserSubscriptionModel : ItemModel
 	
 	public override bool IsVirtualCurrency() => false;
 	public override bool IsSubscription() => true;
+	public override bool IsBundle() => false;
 
 	public SubscriptionStatusType Status { get; set; }
 	public DateTime? Expired { get; set; }

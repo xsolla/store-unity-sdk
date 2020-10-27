@@ -8,22 +8,29 @@ using Xsolla.Store;
 
 public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 {
+	private const uint CATALOG_CACHE_TIMEOUT = 500;
+	
 	private readonly Dictionary<string, List<string>> _itemsGroups = new Dictionary<string, List<string>>();
+	
 	private List<StoreItem> _itemsCache;
-	private DateTime _cacheTime = DateTime.Now;
-	private bool _inProgress;
+	private DateTime _itemsCacheTime = DateTime.Now;
+	private bool _refreshItemsInProgress;
+	
+	private List<CatalogBundleItemModel> _bundlesCache;
+	private DateTime _bundlesCacheTime = DateTime.Now;
+	private bool _refreshBundlesInProgress;
 
 	private void RequestStoreItems(Action<List<StoreItem>> onSuccess, Action<Error> onError = null)
 	{
-		if (_itemsCache == null || (DateTime.Now - _cacheTime).TotalMilliseconds > 500)
+		if (_itemsCache == null || (DateTime.Now - _itemsCacheTime).TotalMilliseconds > CATALOG_CACHE_TIMEOUT)
 		{
-			if (!_inProgress)
+			if (!_refreshItemsInProgress)
 			{
-				_inProgress = true;
+				_refreshItemsInProgress = true;
 				XsollaStore.Instance.GetCatalog(XsollaSettings.StoreProjectId, items =>
 				{
-					_inProgress = false;
-					_cacheTime = DateTime.Now;
+					_refreshItemsInProgress = false;
+					_itemsCacheTime = DateTime.Now;
 					_itemsCache = items.items.ToList();
 					onSuccess?.Invoke(_itemsCache);
 				}, WrapErrorCallback(onError));	
@@ -37,7 +44,7 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 
 	private IEnumerator WaitItemsCoroutine(Action<List<StoreItem>> onSuccess)
 	{
-		yield return new WaitWhile(() => _inProgress);
+		yield return new WaitWhile(() => _refreshItemsInProgress);
 		onSuccess?.Invoke(_itemsCache);
 	}
 	
@@ -116,6 +123,54 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 			});
 			onSuccess?.Invoke(subscriptionItems);
 		}, WrapErrorCallback(onError));
+	}
+
+	public void GetCatalogBundles(Action<List<CatalogBundleItemModel>> onSuccess, Action<Error> onError = null)
+	{
+		if (_bundlesCache == null || (DateTime.Now - _itemsCacheTime).TotalMilliseconds > CATALOG_CACHE_TIMEOUT)
+		{
+			if (!_refreshBundlesInProgress)
+			{
+				XsollaStore.Instance.GetBundles(XsollaSettings.StoreProjectId, bundles =>
+				{
+					var bundleItems = new List<CatalogBundleItemModel>();
+					bundles.items.ToList().ForEach(b =>
+					{
+						bundleItems.Add(new CatalogBundleItemModel
+						{
+							Sku = b.sku,
+							Name = b.name,
+							Description = b.description,
+							ImageUrl = b.image_url
+						});
+						bundleItems.Last().Content = new List<CatalogItemModel>();
+					});
+					_bundlesCache = bundleItems;
+					
+					bundles.items.ToList().ForEach(b =>
+					{
+						var model = _bundlesCache.First(c => c.Sku.Equals(b.sku));
+						b.content.ToList().ForEach(c =>
+						{
+							var item = _itemsCache.Any(i => i.sku.Equals(c.sku)) ? _itemsCache.First(i => i.sku.Equals(c.sku)) : _bundlesCache.First(i => i.Sku.Equals(c.sku));
+							//model.Content.Add(new CatalogItemModel());
+						});
+					});
+					
+					_bundlesCacheTime = DateTime.Now;
+					_refreshBundlesInProgress = false;
+					onSuccess?.Invoke(bundleItems);
+				}, WrapErrorCallback(onError));
+			}
+			else StartCoroutine(WaitBundlesCoroutine(onSuccess));
+		}
+		else onSuccess?.Invoke(_bundlesCache);
+	}
+	
+	private IEnumerator WaitBundlesCoroutine(Action<List<CatalogBundleItemModel>> onSuccess)
+	{
+		yield return new WaitWhile(() => _refreshBundlesInProgress);
+		onSuccess?.Invoke(_bundlesCache);
 	}
 
 	private void AddItemGroups(StoreItem item)

@@ -19,6 +19,9 @@ public interface IDemoImplementation
 	
 	void GetCatalogSubscriptions([NotNull] Action<List<CatalogSubscriptionItemModel>> onSuccess,
 		[CanBeNull] Action<Error> onError = null);
+	
+	void GetCatalogBundles([NotNull] Action<List<CatalogBundleItemModel>> onSuccess,
+		[CanBeNull] Action<Error> onError = null);
 
 	List<string> GetCatalogGroupsByItem(ItemModel item);
 
