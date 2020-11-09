@@ -67,5 +67,14 @@ namespace Xsolla.Core
 				{"401", ErrorType.InvalidToken},
 				{"404", ErrorType.OrderNotFound},
 			};
+		
+		public static readonly Dictionary<string, ErrorType> CouponErrors =
+			new Dictionary<string, ErrorType>()
+			{
+				{"401", ErrorType.InvalidToken},
+				{"403", ErrorType.AuthorizationHeaderNotSent},
+				{"404", ErrorType.InvalidCoupon},
+				{"422", ErrorType.InvalidData},
+			};
 	}
 }
