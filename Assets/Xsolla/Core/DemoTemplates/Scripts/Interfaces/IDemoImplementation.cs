@@ -118,6 +118,8 @@ public interface IDemoImplementation
 
 	void RemoveUserAttributes(string token, string projectId, List<string> attributeKeys, Action onSuccess, Action<Error> onError);
 
+	void RedeemCouponCode(string couponCode, [NotNull] Action<List<CouponRedeemedItemModel>> onSuccess, [CanBeNull] Action<Error> onError);
+
 #region OAuth2.0
 	bool IsOAuthTokenRefreshInProgress { get; }
 	void ExchangeCodeToToken(string code, Action<string> onSuccessExchange = null, Action<Error> onError = null);

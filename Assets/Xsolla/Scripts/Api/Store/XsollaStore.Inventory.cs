@@ -59,7 +59,7 @@ namespace Xsolla.Store
 		/// <param name="couponCode">Unique coupon code. Contains letters and numbers.</param>
 		/// <param name="onSuccess">Success operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
-		public void RedeemCouponCode(string projectId, CouponCode couponCode, [CanBeNull] Action<CouponRedeemedItems> onSuccess, [CanBeNull] Action<Error> onError)
+		public void RedeemCouponCode(string projectId, CouponCode couponCode, [NotNull] Action<CouponRedeemedItems> onSuccess, [CanBeNull] Action<Error> onError)
 		{
 			var urlBuilder = new StringBuilder(string.Format(URL_INVENTORY_REDEEM_COUPON, projectId)).Append(AdditionalUrlParams);
 			urlBuilder.Append(GetPlatformUrlParam());
