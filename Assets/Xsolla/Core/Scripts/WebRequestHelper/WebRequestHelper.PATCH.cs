@@ -12,19 +12,19 @@ namespace Xsolla.Core
 {
 	public partial class WebRequestHelper : MonoSingleton<WebRequestHelper>
 	{
-		public void PatchRequest<T, D>(string url, D jsonObject, WebRequestHeader requestHeader = null, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
+		public void PatchRequest<T, D>(string url, D jsonObject, List<WebRequestHeader> requestHeaders = null, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
 		{
-			StartCoroutine(PatchRequestCor<T, D>(url, jsonObject, requestHeader, onComplete, onError, errorsToCheck));
+			StartCoroutine(PatchRequestCor<T, D>(url, jsonObject, requestHeaders, onComplete, onError, errorsToCheck));
 		}
 
-		IEnumerator PatchRequestCor<T, D>(string url, D jsonObject, WebRequestHeader requestHeader = null, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
+		IEnumerator PatchRequestCor<T, D>(string url, D jsonObject, List<WebRequestHeader> requestHeaders = null, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
 		{
-			var headers = GetAdditionalHeaders();
-			headers.Add(GetContentTypeHeader());
-			if(requestHeader != null)
-				headers.Add(requestHeader);
-			
-			var task = PatchAsync(url, jsonObject, headers);
+			if (requestHeaders != null)
+				requestHeaders.Add(WebRequestHeader.ContentTypeHeader());
+			else
+				requestHeaders = new List<WebRequestHeader>() { WebRequestHeader.ContentTypeHeader() };
+
+			var task = PatchAsync(url, jsonObject, requestHeaders);
 			task.Start();
 			yield return new WaitWhile(() => task.IsCompleted || task.IsCanceled || task.IsFaulted);
 			if (!task.IsCompleted)

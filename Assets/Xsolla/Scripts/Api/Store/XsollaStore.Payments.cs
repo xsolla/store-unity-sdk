@@ -26,15 +26,18 @@ namespace Xsolla.Store
 		/// <returns></returns>
 		private List<WebRequestHeader> GetPaymentHeaders(Token token)
 		{
-			List<WebRequestHeader> headers = new List<WebRequestHeader> {
-				WebRequestHeader.AuthHeader(token)
-			};
-			if (token.FromSteam) {
+			List<WebRequestHeader> headers = null;
+
+			if (token.FromSteam)
+			{
 				string userId = token.GetSteamUserID();
-				if (!string.IsNullOrEmpty(userId)) {
-					headers.Add(WebRequestHeader.SteamPaymentHeader(userId));
-				}
+				if (!string.IsNullOrEmpty(userId))
+					headers = AppendAnalyticHeadersTo(WebRequestHeader.AuthHeader(token), WebRequestHeader.SteamPaymentHeader(userId));
 			}
+
+			if (headers == null)
+				headers = AppendAnalyticHeadersTo(WebRequestHeader.AuthHeader(token));
+
 			return headers;
 		}
 
@@ -52,12 +55,13 @@ namespace Xsolla.Store
 		/// <seealso cref="OpenPurchaseUi"/>
 		public void ItemPurchase(string projectId, string itemSku, [CanBeNull] Action<PurchaseData> onSuccess, [CanBeNull] Action<Error> onError, PurchaseParams purchaseParams = null)
 		{
-			TempPurchaseParams tempPurchaseParams = new TempPurchaseParams {
+			TempPurchaseParams tempPurchaseParams = new TempPurchaseParams
+			{
 				sandbox = XsollaSettings.IsSandbox,
 				settings = new TempPurchaseParams.Settings(XsollaSettings.PaystationTheme)
 			};
 
-			var urlBuilder = new StringBuilder(string.Format(URL_BUY_ITEM, projectId, itemSku)).Append(AdditionalUrlParams);
+			var urlBuilder = new StringBuilder(string.Format(URL_BUY_ITEM, projectId, itemSku)).Append(AnalyticUrlAddition);
 			WebRequestHelper.Instance.PostRequest<PurchaseData, TempPurchaseParams>(urlBuilder.ToString(), tempPurchaseParams, GetPaymentHeaders(Token), onSuccess, onError, Error.BuyItemErrors);
 		}
 
@@ -82,12 +86,13 @@ namespace Xsolla.Store
 			[CanBeNull] Action<Error> onError,
 			PurchaseParams purchaseParams = null)
 		{
-			TempPurchaseParams tempPurchaseParams = new TempPurchaseParams {
+			TempPurchaseParams tempPurchaseParams = new TempPurchaseParams
+			{
 				sandbox = XsollaSettings.IsSandbox,
 				settings = new TempPurchaseParams.Settings(XsollaSettings.PaystationTheme)
 			};
 
-			var urlBuilder = new StringBuilder(string.Format(URL_BUY_ITEM_FOR_VC, projectId, itemSku, priceSku)).Append(AdditionalUrlParams);
+			var urlBuilder = new StringBuilder(string.Format(URL_BUY_ITEM_FOR_VC, projectId, itemSku, priceSku)).Append(AnalyticUrlAddition);
 			urlBuilder.Append(GetPlatformUrlParam());
 
 			WebRequestHelper.Instance.PostRequest<PurchaseData, TempPurchaseParams>(urlBuilder.ToString(), tempPurchaseParams, GetPaymentHeaders(Token), onSuccess, onError, Error.BuyItemErrors);
@@ -105,12 +110,13 @@ namespace Xsolla.Store
 		/// <param name="purchaseParams">Purchase parameters such as <c>country</c>, <c>locale</c> and <c>currency</c>.</param>
 		public void CartPurchase(string projectId, string cartId, [CanBeNull] Action<PurchaseData> onSuccess, [CanBeNull] Action<Error> onError, PurchaseParams purchaseParams = null)
 		{
-			TempPurchaseParams tempPurchaseParams = new TempPurchaseParams {
+			TempPurchaseParams tempPurchaseParams = new TempPurchaseParams
+			{
 				sandbox = XsollaSettings.IsSandbox,
 				settings = new TempPurchaseParams.Settings(XsollaSettings.PaystationTheme)
 			};
 
-			var urlBuilder = new StringBuilder(string.Format(URL_BUY_CART, projectId, cartId)).Append(AdditionalUrlParams);
+			var urlBuilder = new StringBuilder(string.Format(URL_BUY_CART, projectId, cartId)).Append(AnalyticUrlAddition);
 			WebRequestHelper.Instance.PostRequest<PurchaseData, TempPurchaseParams>(urlBuilder.ToString(), tempPurchaseParams, GetPaymentHeaders(Token), onSuccess, onError, Error.BuyCartErrors);
 		}
 
@@ -142,8 +148,8 @@ namespace Xsolla.Store
 		/// <seealso cref="CartPurchase"/>
 		public void CheckOrderStatus(string projectId, int orderId, [NotNull] Action<OrderStatus> onSuccess, [CanBeNull] Action<Error> onError)
 		{
-			var urlBuilder = new StringBuilder(string.Format(URL_ORDER_GET_STATUS, projectId, orderId)).Append(AdditionalUrlParams);
-			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.OrderStatusErrors);
+			var urlBuilder = new StringBuilder(string.Format(URL_ORDER_GET_STATUS, projectId, orderId)).Append(AnalyticUrlAddition);
+			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), AuthAndAnalyticHeaders, onSuccess, onError, Error.OrderStatusErrors);
 		}
 
 		/// <summary>

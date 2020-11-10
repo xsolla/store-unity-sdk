@@ -1,8 +1,5 @@
 ﻿using System;
-using UnityEngine;
-using System.Text;
 using Xsolla.Core;
-using System.Collections.Generic;
 
 namespace Xsolla.Login
 {
@@ -85,8 +82,8 @@ namespace Xsolla.Login
 		public void SignInConsoleAccount(string userId, string platform, Action<string> successCase, Action<Error> failedCase)
 		{
 			var with_logout = XsollaSettings.JwtTokenInvalidationEnabled ? "1" : "0";
-			string url = $"{URL_USER_CONSOLE_AUTH}?user_id={userId}&platform={platform}&with_logout={with_logout}";
-			WebRequestHelper.Instance.GetRequest(url, null, (TokenEntity result) => { successCase?.Invoke(result.token); }, failedCase);
+			var url = $"{URL_USER_CONSOLE_AUTH}?user_id={userId}&platform={platform}&with_logout={with_logout}&{AnalyticUrlAddition}";
+			WebRequestHelper.Instance.GetRequest(url, AnalyticHeaders, (TokenEntity result) => { successCase?.Invoke(result.token); }, failedCase);
 		}
 
 		#region Comment
@@ -102,11 +99,8 @@ namespace Xsolla.Login
 		#endregion
 		public void RequestLinkingCode(Action<LinkingCode> onSuccess, Action<Error> onError)
 		{
-			List<WebRequestHeader> headers = new List<WebRequestHeader> {
-				WebRequestHeader.AuthHeader(Token)
-			};
-			string url = $"{URL_LINKING_CODE_REQUEST}?{AdditionalUrlParams.TrimStart('&')}";
-			WebRequestHelper.Instance.PostRequest<LinkingCode>(url, headers, onSuccess, onError);
+			var url = $"{URL_LINKING_CODE_REQUEST}?{AnalyticUrlAddition}";
+			WebRequestHelper.Instance.PostRequest<LinkingCode>(url, AuthAndAnalyticHeaders, onSuccess, onError);
 		}
 
 		#region Comment
@@ -179,8 +173,8 @@ namespace Xsolla.Login
 		#endregion
 		public void LinkConsoleAccount(string userId, string platform, string confirmationCode, Action onSuccess, Action<Error> onError)
 		{
-			string url = $"{URL_LINK_ACCOUNT}?user_id={userId}&platform={platform}&code={confirmationCode}";
-			WebRequestHelper.Instance.PostRequest(url, null, onSuccess, onError);
+			var url = $"{URL_LINK_ACCOUNT}?user_id={userId}&platform={platform}&code={confirmationCode}&{AnalyticUrlAddition}";
+			WebRequestHelper.Instance.PostRequest(url, AnalyticHeaders, onSuccess, onError);
 		}
 	}
 }

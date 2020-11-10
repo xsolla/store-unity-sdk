@@ -172,14 +172,13 @@ namespace Xsolla.Core
 
 		private void AttachHeadersToPostRequest(UnityWebRequest webRequest, List<WebRequestHeader> requestHeaders)
 		{
-			AddContentTypeHeaderTo(webRequest);
-			AddOptionalHeadersTo(webRequest);
+			if (requestHeaders != null)
+				requestHeaders.Add(WebRequestHeader.ContentTypeHeader());
+			else
+				requestHeaders = new List<WebRequestHeader>() { WebRequestHeader.ContentTypeHeader() };
 
-			if (requestHeaders != null) {
-				foreach (WebRequestHeader header in requestHeaders) {
-					webRequest.SetRequestHeader(header.Name, header.Value);
-				}
-			}
+			foreach (var header in requestHeaders)
+				webRequest.SetRequestHeader(header.Name, header.Value);
 		}
 	}
 }

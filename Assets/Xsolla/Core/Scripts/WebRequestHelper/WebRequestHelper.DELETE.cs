@@ -1,37 +1,32 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
-using Newtonsoft.Json;
-using UnityEngine;
 using UnityEngine.Networking;
 
 namespace Xsolla.Core
 {
 	public partial class WebRequestHelper : MonoSingleton<WebRequestHelper>
 	{
-		public void DeleteRequest(string url, WebRequestHeader requestHeader, Action onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
+		public void DeleteRequest(string url, List<WebRequestHeader> requestHeaders, Action onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
 		{
-			StartCoroutine(DeleteRequestCor(url, requestHeader, onComplete, onError, errorsToCheck));
+			StartCoroutine(DeleteRequestCor(url, requestHeaders, onComplete, onError, errorsToCheck));
 		}
-		
-		IEnumerator DeleteRequestCor(string url, WebRequestHeader requestHeader, Action onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
+
+		IEnumerator DeleteRequestCor(string url, List<WebRequestHeader> requestHeaders, Action onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
 		{
 			var webRequest = UnityWebRequest.Delete(url);
 			webRequest.downloadHandler = new DownloadHandlerBuffer();
 
-			AttachHeadersToDeleteRequest(webRequest, requestHeader);
+			AttachHeadersToDeleteRequest(webRequest, requestHeaders);
 
 			yield return StartCoroutine(PerformWebRequest(webRequest, onComplete, onError, errorsToCheck));
 		}
 
-		private void AttachHeadersToDeleteRequest(UnityWebRequest webRequest, WebRequestHeader requestHeader)
+		private void AttachHeadersToDeleteRequest(UnityWebRequest webRequest, List<WebRequestHeader> requestHeaders)
 		{
-			AddOptionalHeadersTo(webRequest);
-
-			if (requestHeader != null) {
-				webRequest.SetRequestHeader(requestHeader.Name, requestHeader.Value);
-			}
+			if (requestHeaders != null)
+				foreach (var header in requestHeaders)
+					webRequest.SetRequestHeader(header.Name, header.Value);
 		}
 	}
 }

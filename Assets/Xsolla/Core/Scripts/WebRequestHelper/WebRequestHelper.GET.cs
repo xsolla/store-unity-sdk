@@ -1,29 +1,24 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
-using Newtonsoft.Json;
-using UnityEngine;
 using UnityEngine.Networking;
 
 namespace Xsolla.Core
 {
 	public partial class WebRequestHelper : MonoSingleton<WebRequestHelper>
 	{
-		public void GetRequest<T>(string url, WebRequestHeader requestHeader = null, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
+		public void GetRequest<T>(string url, List<WebRequestHeader> requestHeaders = null, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
 		{
-			StartCoroutine(GetRequestCor<T>(url, requestHeader, onComplete, onError, errorsToCheck));
+			StartCoroutine(GetRequestCor<T>(url, requestHeaders, onComplete, onError, errorsToCheck));
 		}
 
-		IEnumerator GetRequestCor<T>(string url, WebRequestHeader requestHeader = null, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
+		IEnumerator GetRequestCor<T>(string url, List<WebRequestHeader> requestHeaders = null, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
 		{
 			var webRequest = UnityWebRequest.Get(url);
 
-			AddOptionalHeadersTo(webRequest);
-			if (requestHeader != null)
-			{
-				webRequest.SetRequestHeader(requestHeader.Name, requestHeader.Value);
-			}
+			if (requestHeaders != null)
+				foreach (var header in requestHeaders)
+					webRequest.SetRequestHeader(header.Name, header.Value);
 
 			yield return StartCoroutine(PerformWebRequest(webRequest, onComplete, onError, errorsToCheck));
 		}

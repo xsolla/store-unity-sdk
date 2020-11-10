@@ -9,27 +9,16 @@ namespace Xsolla.Login
 {
 	public partial class XsollaLogin : MonoSingleton<XsollaLogin>
 	{
-		private const string URL_USER_REGISTRATION = "https://login.xsolla.com/api/{0}?projectId={1}&login_url={2}";
-		private const string URL_USER_OAUTH_REGISTRATION = "https://login.xsolla.com/api/oauth2/user?response_type=code&client_id={0}&state=xsollatest&redirect_uri=https://login.xsolla.com/api/blank";
-		private const string URL_USER_SIGNIN = "https://login.xsolla.com/api/{0}login?projectId={1}&login_url={2}";
-		private const string URL_USER_OAUTH_SIGNIN = "https://login.xsolla.com/api/oauth2/login/token?client_id={0}&scope=offline";
-		private const string URL_USER_INFO = "https://login.xsolla.com/api/users/me";
-		private const string URL_USER_PHONE = "https://login.xsolla.com/api/users/me/phone";
-		private const string URL_USER_PICTURE = "https://login.xsolla.com/api/users/me/picture";
-		private const string URL_PASSWORD_RESET = "https://login.xsolla.com/api/{0}?projectId={1}";
-		private const string URL_SEARCH_USER = "https://login.xsolla.com/api/users/search/by_nickname?nickname={0}&offset={1}&limit={2}";
-		private const string URL_USER_PUBLIC_INFO = "https://login.xsolla.com/api/users/{0}/public";
-
-		private string GetJwtUrl(string url, string proxy, bool useCallback = true)
-		{
-			StringBuilder urlBuilder;
-			if (useCallback)
-				urlBuilder = new StringBuilder(string.Format(url, proxy, XsollaSettings.LoginId, XsollaSettings.CallbackUrl));
-			else
-				urlBuilder = new StringBuilder(string.Format(url, proxy, XsollaSettings.LoginId));
-			urlBuilder.Append(AdditionalUrlParams);
-			return urlBuilder.ToString();
-		}
+		private const string URL_USER_REGISTRATION = "https://login.xsolla.com/api/{0}?projectId={1}&login_url={2}&{3}";
+		private const string URL_USER_OAUTH_REGISTRATION = "https://login.xsolla.com/api/oauth2/user?response_type=code&client_id={0}&state=xsollatest&redirect_uri=https://login.xsolla.com/api/blank&{1}";
+		private const string URL_USER_SIGNIN = "https://login.xsolla.com/api/{0}login?projectId={1}&login_url={2}&{3}&{4}";
+		private const string URL_USER_OAUTH_SIGNIN = "https://login.xsolla.com/api/oauth2/login/token?client_id={0}&scope=offline&{1}";
+		private const string URL_USER_INFO = "https://login.xsolla.com/api/users/me?{0}";
+		private const string URL_USER_PHONE = "https://login.xsolla.com/api/users/me/phone?{0}";
+		private const string URL_USER_PICTURE = "https://login.xsolla.com/api/users/me/picture?{0}";
+		private const string URL_PASSWORD_RESET = "https://login.xsolla.com/api/{0}?projectId={1}&{2}";
+		private const string URL_SEARCH_USER = "https://login.xsolla.com/api/users/search/by_nickname?nickname={0}&offset={1}&limit={2}&{3}";
+		private const string URL_USER_PUBLIC_INFO = "https://login.xsolla.com/api/users/{0}/public?{1}";
 
 		/// <summary>
 		/// Return saved user info by JWT.
@@ -39,7 +28,9 @@ namespace Xsolla.Login
 		/// <param name="onError">Failed operation callback.</param>
 		public void GetUserInfo(string token, Action<UserInfo> onSuccess, Action<Error> onError = null)
 		{
-			WebRequestHelper.Instance.GetRequest(URL_USER_INFO, WebRequestHeader.AuthHeader(token), onSuccess, onError);
+			var url = string.Format(URL_USER_INFO, AnalyticUrlAddition);
+			var headers = AppendAnalyticHeadersTo(WebRequestHeader.AuthHeader(token));
+			WebRequestHelper.Instance.GetRequest(url, headers, onSuccess, onError);
 		}
 		
 		/// <summary>
@@ -51,7 +42,9 @@ namespace Xsolla.Login
 		/// <param name="onError">Failed operation callback.</param>
 		public void UpdateUserInfo(string token, UserInfoUpdate info, Action<UserInfo> onSuccess, Action<Error> onError = null)
 		{
-			WebRequestHelper.Instance.PatchRequest(URL_USER_INFO, info, WebRequestHeader.AuthHeader(token), onSuccess, onError);
+			var url = string.Format(URL_USER_INFO, AnalyticUrlAddition);
+			var headers = AppendAnalyticHeadersTo(WebRequestHeader.AuthHeader(token));
+			WebRequestHelper.Instance.PatchRequest(url, info, headers, onSuccess, onError);
 		}
 
 		/// <summary>
@@ -73,16 +66,16 @@ namespace Xsolla.Login
 			
 			if (XsollaSettings.AuthorizationType == AuthorizationType.JWT)
 			{
-				string proxy = XsollaSettings.UseProxy ? "proxy/registration" : "user";
-				url = GetJwtUrl(URL_USER_REGISTRATION, proxy);
+				var proxy = XsollaSettings.UseProxy ? "proxy/registration" : "user";
+				url = string.Format(URL_USER_REGISTRATION, proxy, XsollaSettings.LoginId, XsollaSettings.CallbackUrl, AnalyticUrlAddition);
 			}
 			else/*if (XsollaSettings.AuthorizationType == AuthorizationType.OAuth2_0)*/
 			{
 				var clientId = XsollaSettings.OAuthClientId;
-				url = string.Format(URL_USER_OAUTH_REGISTRATION, clientId);
+				url = string.Format(URL_USER_OAUTH_REGISTRATION, clientId, AnalyticUrlAddition);
 			}
 
-			WebRequestHelper.Instance.PostRequest<RegistrationJson>(url, registrationData, onSuccess, onError, Error.RegistrationErrors);
+			WebRequestHelper.Instance.PostRequest<RegistrationJson>(url, registrationData, AnalyticHeaders, onSuccess, onError, Error.RegistrationErrors);
 		}
 
 		/// <summary>
@@ -110,13 +103,11 @@ namespace Xsolla.Login
 		{
 			var loginData = new LoginJwtJsonRequest(username, password, rememberUser);
 
-			string proxy = XsollaSettings.UseProxy ? "proxy/" : string.Empty;
-			string url = GetJwtUrl(URL_USER_SIGNIN, proxy);
+			var proxy = XsollaSettings.UseProxy ? "proxy/" : string.Empty;
+			var tokenInvalidationFlag = XsollaSettings.JwtTokenInvalidationEnabled ? "with_logout=1" : "with_logout=0";
+			var url = string.Format(URL_USER_SIGNIN, proxy, XsollaSettings.LoginId, XsollaSettings.CallbackUrl, tokenInvalidationFlag, AnalyticUrlAddition);
 
-			var tokenInvalidationFlag = XsollaSettings.JwtTokenInvalidationEnabled ? "&with_logout=1" : "&with_logout=0";
-			url += tokenInvalidationFlag;
-
-			WebRequestHelper.Instance.PostRequest<LoginJwtJsonResponse, LoginJwtJsonRequest>(url, loginData, (response) => {
+			WebRequestHelper.Instance.PostRequest<LoginJwtJsonResponse, LoginJwtJsonRequest>(url, loginData, AnalyticHeaders, (response) => {
 				Token = ParseUtils.ParseToken(response.login_url);
 				onSuccess?.Invoke();
 			}, onError, Error.LoginErrors);
@@ -125,7 +116,7 @@ namespace Xsolla.Login
 		private void OAuthSignIn(string username, string password, Action onSuccess, Action<Error> onError)
 		{
 			var loginData = new LoginOAuthJsonRequest(username, password);
-			var url = string.Format(URL_USER_OAUTH_SIGNIN, XsollaSettings.OAuthClientId);
+			var url = string.Format(URL_USER_OAUTH_SIGNIN, XsollaSettings.OAuthClientId, AnalyticUrlAddition);
 
 			Action<LoginOAuthJsonResponse> successCallback = response =>
 			{
@@ -133,7 +124,7 @@ namespace Xsolla.Login
 				onSuccess?.Invoke();
 			};
 
-			WebRequestHelper.Instance.PostRequest<LoginOAuthJsonResponse, LoginOAuthJsonRequest>(url, loginData, successCallback, onError, Error.LoginErrors);
+			WebRequestHelper.Instance.PostRequest<LoginOAuthJsonResponse, LoginOAuthJsonRequest>(url, loginData, AnalyticHeaders, successCallback, onError, Error.LoginErrors);
 		}
 
 		/// <summary>
@@ -148,10 +139,10 @@ namespace Xsolla.Login
 		/// <seealso cref="SignIn"/>
 		public void ResetPassword(string username, Action onSuccess, Action<Error> onError = null)
 		{
-			string proxy = XsollaSettings.UseProxy ? "proxy/registration/password/reset" : "password/reset/request";
-			string url = GetJwtUrl(URL_PASSWORD_RESET, proxy, false);
-			
-			WebRequestHelper.Instance.PostRequest(url, new ResetPassword(username), onSuccess, onError, Error.ResetPasswordErrors);
+			var proxy = XsollaSettings.UseProxy ? "proxy/registration/password/reset" : "password/reset/request";
+			var url = string.Format(URL_PASSWORD_RESET, proxy, XsollaSettings.LoginId, AnalyticUrlAddition);
+
+			WebRequestHelper.Instance.PostRequest(url, new ResetPassword(username), AnalyticHeaders, onSuccess, onError, Error.ResetPasswordErrors);
 		}
 
 		/// <summary>
@@ -168,10 +159,9 @@ namespace Xsolla.Login
 		/// <param name="onError">Failed operation callback.</param>
 		public void SearchUsers(string token, string nickname, uint offset, uint limit, Action<FoundUsers> onSuccess, Action<Error> onError = null)
 		{
-			var urlBuilder = new StringBuilder(string.Format(URL_SEARCH_USER, nickname, offset, limit));
-			urlBuilder.Append(AdditionalUrlParams);
-			var url = urlBuilder.ToString();
-			WebRequestHelper.Instance.GetRequest(url, WebRequestHeader.AuthHeader(token), onSuccess, onError);
+			var url = string.Format(URL_SEARCH_USER, nickname, offset, limit, AnalyticUrlAddition);
+			var headers = AppendAnalyticHeadersTo(WebRequestHeader.AuthHeader(token));
+			WebRequestHelper.Instance.GetRequest(url, headers, onSuccess, onError);
 		}
 
 		/// <summary>
@@ -185,10 +175,9 @@ namespace Xsolla.Login
 		/// <param name="onError">Failed operation callback.</param>
 		public void GetPublicInfo(string token, string user, Action<UserPublicInfo> onSuccess, Action<Error> onError = null)
 		{
-			var urlBuilder = new StringBuilder(string.Format(URL_USER_PUBLIC_INFO, user));
-			urlBuilder.Append(AdditionalUrlParams);
-			var url = urlBuilder.ToString();
-			WebRequestHelper.Instance.GetRequest(url, WebRequestHeader.AuthHeader(token), onSuccess, onError);
+			var url = string.Format(URL_USER_PUBLIC_INFO, user, AnalyticUrlAddition);
+			var headers = AppendAnalyticHeadersTo(WebRequestHeader.AuthHeader(token));
+			WebRequestHelper.Instance.GetRequest(url, headers, onSuccess, onError);
 		}
 
 		/// <summary>
@@ -204,8 +193,11 @@ namespace Xsolla.Login
 		/// <seealso cref="DeleteUserPhoneNumber"/>
 		public void GetUserPhoneNumber(string token, Action<string> onSuccess, Action<Error> onError)
 		{
-			WebRequestHelper.Instance.GetRequest(URL_USER_PHONE, WebRequestHeader.AuthHeader(token), 
-				(UserPhoneNumber number) => onSuccess?.Invoke(number.phone_number), onError);
+			var url = string.Format(URL_USER_PHONE, AnalyticUrlAddition);
+			var headers = AppendAnalyticHeadersTo(WebRequestHeader.AuthHeader(token));
+			WebRequestHelper.Instance.GetRequest(url, headers,
+				onComplete: (UserPhoneNumber number) => onSuccess?.Invoke(number.phone_number),
+				onError: onError);
 		}
 
 		/// <summary>
@@ -222,9 +214,10 @@ namespace Xsolla.Login
 		/// <seealso cref="DeleteUserPhoneNumber"/>
 		public void ChangeUserPhoneNumber(string token, string phoneNumber, Action onSuccess, Action<Error> onError)
 		{
-			var request = new UserPhoneNumber {phone_number = phoneNumber};
-			var headers = new List<WebRequestHeader> {WebRequestHeader.AuthHeader(token)};
-			WebRequestHelper.Instance.PostRequest(URL_USER_PHONE, request, headers, onSuccess, onError);
+			var url = string.Format(URL_USER_PHONE, AnalyticUrlAddition);
+			var request = new UserPhoneNumber { phone_number = phoneNumber };
+			var headers = AppendAnalyticHeadersTo(WebRequestHeader.AuthHeader(token));
+			WebRequestHelper.Instance.PostRequest(url, request, headers, onSuccess, onError);
 		}
 		
 		/// <summary>
@@ -241,7 +234,10 @@ namespace Xsolla.Login
 		/// <seealso cref="ChangeUserPhoneNumber"/>
 		public void DeleteUserPhoneNumber(string token, string phoneNumber, Action onSuccess, Action<Error> onError)
 		{
-			WebRequestHelper.Instance.DeleteRequest(URL_USER_PHONE + $"/{phoneNumber}", WebRequestHeader.AuthHeader(token), onSuccess, onError);
+			var url = URL_USER_PHONE.Replace("?", $"/{phoneNumber}?");
+			url = string.Format(url, AnalyticUrlAddition);
+			var headers = AppendAnalyticHeadersTo(WebRequestHeader.AuthHeader(token));
+			WebRequestHelper.Instance.DeleteRequest(url, headers, onSuccess, onError);
 		}
 
 		/// <summary>
@@ -256,9 +252,11 @@ namespace Xsolla.Login
 		/// <seealso cref="DeleteUserPicture"/>
 		public void UploadUserPicture(string token, string pathToPicture, Action<string> onSuccess, Action<Error> onError)
 		{
-			var headers = new List<WebRequestHeader> { WebRequestHeader.AuthHeader(token) };
-			WebRequestHelper.Instance.PostUploadRequest(URL_USER_PICTURE, pathToPicture, headers, 
-				(UserPictureUploadResponse response) => onSuccess?.Invoke(response.picture), onError);
+			var url = string.Format(URL_USER_PICTURE, AnalyticUrlAddition);
+			var headers = AppendAnalyticHeadersTo(WebRequestHeader.AuthHeader(token));
+			WebRequestHelper.Instance.PostUploadRequest(url, pathToPicture, headers,
+				onComplete: (UserPictureUploadResponse response) => onSuccess?.Invoke(response.picture),
+				onError: onError);
 		}
 		
 		/// <summary>
@@ -272,7 +270,9 @@ namespace Xsolla.Login
 		/// <seealso cref="UploadUserPicture"/>
 		public void DeleteUserPicture(string token, Action onSuccess, Action<Error> onError)
 		{
-			WebRequestHelper.Instance.DeleteRequest(URL_USER_PICTURE, WebRequestHeader.AuthHeader(token), onSuccess, onError);
+			var url = string.Format(URL_USER_PICTURE, AnalyticUrlAddition);
+			var headers = AppendAnalyticHeadersTo(WebRequestHeader.AuthHeader(token));
+			WebRequestHelper.Instance.DeleteRequest(url, headers, onSuccess, onError);
 		}
 	}
 }
