@@ -67,5 +67,10 @@ namespace Xsolla.Core.Popup
 			ErrorMessage.gameObject.SetActive(true);
 			return this;
 		}
+
+		public void Close()
+		{
+			Destroy(gameObject, 0.001F);
+		}
 	}
 }

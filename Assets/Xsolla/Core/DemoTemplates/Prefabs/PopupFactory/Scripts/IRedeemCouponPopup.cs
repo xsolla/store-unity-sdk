@@ -7,5 +7,6 @@ namespace Xsolla.Core.Popup
 		IRedeemCouponPopup SetRedeemCallback(Action<string> buttonPressed);
 		IRedeemCouponPopup SetCancelCallback(Action buttonPressed);
 		IRedeemCouponPopup ShowError();
+		void Close();
 	}
 }

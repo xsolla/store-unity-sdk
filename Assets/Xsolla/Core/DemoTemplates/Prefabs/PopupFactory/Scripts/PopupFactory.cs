@@ -32,6 +32,7 @@ namespace Xsolla.Core.Popup
 		public GameObject ConfirmCodePopupPrefab;
 		public GameObject WaitingPopupPrefab;
 		public GameObject RedeemCouponPrefab;
+		public GameObject CouponRewardsPrefab;
 
 		private GameObject canvas;
 
@@ -79,5 +80,8 @@ namespace Xsolla.Core.Popup
 		
 		public IRedeemCouponPopup CreateRedeemCoupon() =>
 			CreateDefaultPopup(RedeemCouponPrefab, canvas)?.GetComponent<RedeemCouponPopup>();
+		
+		public ICouponRewardsPopup CreateCouponRewards() =>
+			CreateDefaultPopup(CouponRewardsPrefab, canvas)?.GetComponent<CouponRewardsPopup>();
 	}
 }

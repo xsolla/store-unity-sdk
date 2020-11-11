@@ -19,7 +19,9 @@ public class CouponsManager : MonoBehaviour
 		{
 			DemoController.Instance.GetImplementation().RedeemCouponCode(code, redeemedItems =>
 			{
-				
+				redeemCouponPopup.Close();
+				UserInventory.Instance.Refresh();
+				PopupFactory.Instance.CreateCouponRewards().SetItems(redeemedItems);
 			}, error => redeemCouponPopup.ShowError());
 		});
 	}
