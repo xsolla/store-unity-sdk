@@ -85,14 +85,10 @@ public class ItemUI : MonoBehaviour
 		{
 			var currencySku = virtualItem.VirtualPrice?.Key;
 			var currency = UserCatalog.Instance.VirtualCurrencies.First(vc => vc.Sku.Equals(currencySku));
-			if (!string.IsNullOrEmpty(currency.ImageUrl))
-			{
-				ImageLoader.Instance.GetImageAsync(currency.ImageUrl, (_, sprite) => itemPriceVcImage.sprite = sprite);	
-			}
+			if(!string.IsNullOrEmpty(virtualItem.ImageUrl))
+				ImageLoader.Instance.GetImageAsync(currency.ImageUrl, (_, sprite) => itemPriceVcImage.sprite = sprite);
 			else
-			{
 				Debug.LogError($"Virtual currency item with sku = '{virtualItem.Sku}' without image!");
-			}
 		}));
 	}
 

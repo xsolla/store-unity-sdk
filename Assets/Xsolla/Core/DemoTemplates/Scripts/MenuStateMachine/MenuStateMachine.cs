@@ -35,6 +35,7 @@ public partial class MenuStateMachine : MonoBehaviour, IMenuStateMachine
 	[SerializeField] private GameObject profileMenuPrefab;
 	[SerializeField] private GameObject characterMenuPrefab;
 	[SerializeField] private GameObject friendsMenuPrefab;
+	[SerializeField] private GameObject socialFriendsMenuPrefab;
 	[SerializeField] private GameObject loginSettingsErrorPrefab;
 
 	private Dictionary<MenuState, GameObject> _stateMachine;
@@ -64,6 +65,7 @@ public partial class MenuStateMachine : MonoBehaviour, IMenuStateMachine
 			{MenuState.Profile, profileMenuPrefab},
 			{MenuState.Character, characterMenuPrefab},
 			{MenuState.Friends, friendsMenuPrefab},
+			{MenuState.SocialFriends, socialFriendsMenuPrefab},
 			{MenuState.LoginSettingsError, loginSettingsErrorPrefab},
 		};
 		if (_stateMachine[initialState] == null)
@@ -136,7 +138,7 @@ public partial class MenuStateMachine : MonoBehaviour, IMenuStateMachine
 		if(lastState == newState) return;
 		if(lastState == MenuState.Cart && newState == MenuState.Inventory)
 			ClearTrace();
-		if(newState == MenuState.Main || newState == MenuState.Authorization)
+		if(newState == MenuState.Main || newState == MenuState.Authorization || newState == MenuState.Friends || newState == MenuState.SocialFriends)
 			ClearTrace();
 		if(lastState == MenuState.Registration && newState == MenuState.Authorization)
 		{

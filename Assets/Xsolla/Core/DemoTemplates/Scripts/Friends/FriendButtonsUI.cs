@@ -8,11 +8,6 @@ public class FriendButtonsUI : MonoBehaviour
     [SerializeField] private SimpleTextButton cancelRequestButton;
     [SerializeField] private SimpleTextButton unblockButton;
 
-    private void Awake()
-    {
-        DisableAll();
-    }
-
     private SimpleTextButton SetButtonVisibility(SimpleTextButton button, bool isVisible)
     {
         if(button != null)

@@ -11,7 +11,11 @@ public enum SocialProvider
     Twitch,
     Twitter,
     Steam,
-    Xbox
+    Xbox,
+    Discord,
+    Vk,
+    Naver,
+    Kakao
 }
 
 public static class SocialProviderConverter
@@ -27,6 +31,10 @@ public static class SocialProviderConverter
             case SocialProvider.Twitter: return "twitter";
             case SocialProvider.Steam: return "steam";
             case SocialProvider.Xbox: return "xbox";
+            case SocialProvider.Discord: return "discord";
+            case SocialProvider.Vk: return "vk";
+            case SocialProvider.Naver: return "naver";
+            case SocialProvider.Kakao: return "kakao";
             default: return string.Empty;
         }
     }

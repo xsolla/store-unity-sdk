@@ -23,6 +23,7 @@ namespace Xsolla.Login
 		/// <summary>
 		/// Return saved user info by JWT.
 		/// </summary>
+		/// <see cref="https://developers.xsolla.com/user-account-api/all-user-details/get-user-details"/>
 		/// <param name="token">JWT from Xsolla Login.</param>
 		/// <param name="onSuccess">Success operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
@@ -36,6 +37,7 @@ namespace Xsolla.Login
 		/// <summary>
 		/// Updates the details of the authenticated user by JWT.
 		/// </summary>
+		/// <see cref="https://developers.xsolla.com/user-account-api/all-user-details/patchusersme"/>
 		/// <param name="token">JWT from Xsolla Login.</param>
 		/// <param name="info">User information.</param>
 		/// <param name="onSuccess">Success operation callback.</param>
@@ -149,8 +151,8 @@ namespace Xsolla.Login
 		/// Search users by nickname in the same Login as current user.
 		/// NOTE: User can search only 1 time per second.
 		/// </summary>
-		/// <remarks> Swagger method name:<c>Search user by nickname</c>.</remarks>
-		/// <see cref="https://go-xsolla-login.doc.srv.loc/login-api/users/get-users-search-by-nickname"/>
+		/// <remarks> Swagger method name:<c>Search Users by Nickname</c>.</remarks>
+		/// <see cref="https://go-xsolla-login.doc.srv.loc/login-api/users/search-users-by-nickname"/>
 		/// <param name="token">JWT from Xsolla Login.</param>
 		/// <param name="nickname">User's nickname.</param>
 		/// <param name="offset">Offset.</param>

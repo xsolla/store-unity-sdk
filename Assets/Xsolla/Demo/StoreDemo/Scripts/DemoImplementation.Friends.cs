@@ -90,6 +90,22 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 			() => onSuccess?.Invoke(user), onError);
 	}
 
+	public void GetFriendsFromSocialNetworks(Action<List<FriendModel>> onSuccess = null, Action<Error> onError = null)
+	{
+		XsollaLogin.Instance.GetUserSocialFriends(XsollaLogin.Instance.Token, SocialProvider.None, 0, 20, false,
+			friends =>
+			{
+				onSuccess?.Invoke(friends.data.Select(f =>
+				{
+					var result = ConvertFriendEntity(f);
+					// this method used at this place for fastest image loading
+					if(!string.IsNullOrEmpty(result.AvatarUrl))
+						ImageLoader.Instance.GetImageAsync(result.AvatarUrl, null);
+					return result;
+				}).ToList());
+			}, onError);
+	}
+
 	private void GetUsersByType(FriendsSearchType searchType, UserRelationship relationship,
 		Action<List<FriendModel>> onSuccess = null, Action<Error> onError = null)
 	{
@@ -105,6 +121,20 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 					return result;
 				}).ToList());
 			}, WrapErrorCallback(onError));
+	}
+
+	private FriendModel ConvertFriendEntity(UserSocialFriend friend)
+	{
+		var user = UserFriends.Instance.GetUserById(friend.xl_uid);
+		var result = new FriendModel
+		{
+			Id = friend.xl_uid,
+			Nickname = friend.name,
+			AvatarUrl = friend.avatar
+		};
+		result.Status = user?.Status ?? UserOnlineStatus.Unknown;
+		result.Relationship = user?.Relationship ?? UserRelationship.Unknown;
+		return result;
 	}
 
 	private FriendModel ConvertFriendEntity(UserFriendEntity friend, UserRelationship relationship)

@@ -1,7 +1,4 @@
 using System;
-using System.Linq;
-using System.Threading.Tasks;
-using UnityEngine;
 using Xsolla.Core;
 
 namespace Xsolla.Login
@@ -16,6 +13,9 @@ namespace Xsolla.Login
 
 		private const string URL_OAUT_STEAM_CROSSAUTH =
 			"https://login.xsolla.com/api/oauth2/social/steam/cross_auth?app_id={0}&client_id={1}&session_ticket={2}&is_redirect=false&redirect_uri=https://login.xsolla.com/api/blank&response_type=code&scope=offline&state=xsollatest&{3}";
+		
+		private const string URL_LINK_SOCIAL_NETWORK =
+			"https://login.xsolla.com/api/users/me/social_providers/{0}/login_url?{1}";
 
 		private const string URL_SOCIAL_AUTH =
             "https://login.xsolla.com/api/social/{0}/login_redirect?projectId={1}&with_logout={2}&{3}";
@@ -51,16 +51,10 @@ namespace Xsolla.Login
 
 				onSuccessResponse = response =>
 				{
-					string[] separator = { "token=" };
-					var parts = response.login_url.Split(separator, StringSplitOptions.None).ToList();
-					if (parts.Count > 1)
-					{
-						onSuccess?.Invoke(parts.Last());
-					}
+					if (ParseUtils.TryGetValueFromUrl(response.login_url, ParseParameter.token, out string token))
+						onSuccess?.Invoke(token);
 					else
-					{
 						onError?.Invoke(Error.UnknownError);
-					}
 				};
 			}
 			else/*if (XsollaSettings.AuthorizationType == AuthorizationType.OAuth2_0)*/
@@ -103,6 +97,12 @@ namespace Xsolla.Login
 
 				return string.Format(URL_OAUTH_SOCIAL_AUTH, socialNetwork, clientId, state, AnalyticUrlAddition);
 			}
+		}
+
+		public void LinkSocialProvider(SocialProvider socialProvider)
+		{
+			var url = string.Format(URL_LINK_SOCIAL_NETWORK, socialProvider.GetParameter(), AnalyticUrlAddition);
+			WebRequestHelper.Instance.GetRequest<object>(url, AuthAndAnalyticHeaders, null);
 		}
 	}
 }

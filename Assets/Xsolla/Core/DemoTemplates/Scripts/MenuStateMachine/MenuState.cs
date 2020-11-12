@@ -16,7 +16,8 @@ public enum MenuState
 	Inventory = 14,
 	Profile = 15,
 	Character = 16,
-	Friends = 17
+	Friends = 17,
+	SocialFriends = 18,
 }
 
 public static class MenuStateExtension

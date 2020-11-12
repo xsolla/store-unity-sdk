@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using JetBrains.Annotations;
 using UnityEngine;
 using Xsolla.Core;
 using Xsolla.Login;
@@ -88,6 +90,28 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 	{
 		XsollaLogin.Instance.DeleteUserPhoneNumber(token, phoneNumber, onSuccess, onError);
 	}
+	
+	public void SearchUsersByNickname(string nickname, Action<List<FriendModel>> onSuccess = null, Action<Error> onError = null)
+	{
+		XsollaLogin.Instance.SearchUsers(XsollaLogin.Instance.Token, nickname, 0, 20, 
+			onSuccess: users =>
+			{
+				onSuccess?.Invoke(users.users.Where(u => !u.is_me).Select(u =>
+				{
+					var result = new FriendModel
+					{
+						Id = u.user_id,
+						AvatarUrl = u.avatar,
+						Nickname = u.nickname,
+					};
+					var user = UserFriends.Instance.GetUserById(result.Id);
+					result.Status = user?.Status ?? UserOnlineStatus.Unknown;
+					result.Relationship = user?.Relationship ?? UserRelationship.Unknown;
+					return result;
+				}).ToList());
+			},
+			onError: onError);
+	}
 #endregion
 
 #region Social
@@ -99,6 +123,11 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 	public string GetSocialNetworkAuthUrl(SocialProvider socialProvider)
 	{
 		return XsollaLogin.Instance.GetSocialNetworkAuthUrl(socialProvider);
+	}
+	
+	public void LinkSocialProvider(SocialProvider socialProvider)
+	{
+		XsollaLogin.Instance.LinkSocialProvider(socialProvider);
 	}
 #endregion
 

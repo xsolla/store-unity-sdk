@@ -30,21 +30,16 @@ public class FriendUI : MonoBehaviour
 
     private void InitAvatar(FriendModel friend)
     {
-        if (!string.IsNullOrEmpty(friend.AvatarUrl) && avatarImage != null)
+        if (!string.IsNullOrEmpty(friend.AvatarUrl))
         {
-            if (!string.IsNullOrEmpty(friend.AvatarUrl))
+            ImageLoader.Instance.GetImageAsync(friend.AvatarUrl, (url, sprite) =>
             {
-                ImageLoader.Instance.GetImageAsync(friend.AvatarUrl, (url, sprite) =>
-                {
-                    avatarImage.gameObject.SetActive(true);
-                    avatarImage.sprite = sprite;
-                });    
-            }
-            else
-            {
-                Debug.LogError($"Friend with nickname = '{friend.Nickname}' without image!");
-            }
+                avatarImage.gameObject.SetActive(true);
+                avatarImage.sprite = sprite;
+            });    
         }
+        else
+			avatarImage.gameObject.SetActive(true);
     }
 
     private void InitStatus(FriendModel friend)

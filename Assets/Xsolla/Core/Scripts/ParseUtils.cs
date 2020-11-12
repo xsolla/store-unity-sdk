@@ -71,7 +71,7 @@ namespace Xsolla.Core
 			Debug.Log($"Trying to find {parameterName} in URL:{url}");
 
 			var regex = new Regex($"[&?]{parameterName}=[a-zA-Z0-9._-]+");
-			value = regex.Match(url).Value.Replace($"{parameterName}=", string.Empty).Replace("&", string.Empty).Replace("?", string.Empty);
+			value = regex.Match(url)?.Value?.Replace($"{parameterName}=", string.Empty).Replace("&", string.Empty).Replace("?", string.Empty);
 			return !string.IsNullOrEmpty(value);
 		}
 	}	

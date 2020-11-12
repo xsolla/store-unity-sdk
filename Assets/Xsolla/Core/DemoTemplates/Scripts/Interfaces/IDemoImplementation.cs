@@ -78,6 +78,12 @@ public interface IDemoImplementation
 	
 	void CancelFriendshipRequest(FriendModel user, [CanBeNull] Action<FriendModel> onSuccess = null,
 		[CanBeNull] Action<Error> onError = null);
+	
+	void GetFriendsFromSocialNetworks([CanBeNull] Action<List<FriendModel>> onSuccess = null,
+		[CanBeNull] Action<Error> onError = null);
+	
+	void SearchUsersByNickname(string nickname, [CanBeNull] Action<List<FriendModel>> onSuccess = null,
+		[CanBeNull] Action<Error> onError = null);
 
 	Token Token { get; set; }
 
@@ -113,6 +119,8 @@ public interface IDemoImplementation
 		[CanBeNull] Action<Error> onError = null);
 
 	string GetSocialNetworkAuthUrl(SocialProvider socialProvider);
+
+	void LinkSocialProvider(SocialProvider socialProvider);
 
 	void SignInConsoleAccount(string userId, string platform, Action<string> successCase, Action<Error> failedCase);
 
