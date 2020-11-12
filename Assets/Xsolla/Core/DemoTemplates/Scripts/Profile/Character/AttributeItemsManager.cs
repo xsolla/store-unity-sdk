@@ -21,12 +21,14 @@ public class AttributeItemsManager : MonoBehaviour
 	private Dictionary<string, AttributeItem> _customAttributes;
 	private List<string> _removedAttributes;
 	private bool _isInitialized;
+	private bool _isAlive;
 
 	public Action<List<string>> OnRemoveUserAttributes;
 	public Action<List<UserAttribute>> OnUpdateUserAttributes;
 
 	private void Awake()
 	{
+		_isAlive = true;
 		NewButton.onClick += AddNewAttribute;
 		SaveButton.onClick += SaveAttributes;
 
@@ -39,6 +41,7 @@ public class AttributeItemsManager : MonoBehaviour
 
 	private void OnDestroy()
 	{
+		_isAlive = false;
 		AttributeItem.OnKeyChanged -= HandleKeyChanged;
 		AttributeItem.OnValueChanged -= HandleValueChanged;
 		AttributeItem.OnRemoveRequest -= HandleRemoveRequest;
@@ -46,6 +49,9 @@ public class AttributeItemsManager : MonoBehaviour
 
 	public void Initialize(List<UserAttribute> userReadOnlyAttributes = null, List<UserAttribute> userCustomAttributes = null)
 	{
+		if(!_isAlive)//This method may be called after user switched to another page, this is a workaround to this problem
+			return;
+
 		if (userReadOnlyAttributes != null)
 			_readOnlyAttributes = InstantiateReadOnlyAttributes(userReadOnlyAttributes);
 

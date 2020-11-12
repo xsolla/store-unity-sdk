@@ -31,6 +31,9 @@ public interface IDemoImplementation
 	void GetUserSubscriptions([NotNull] Action<List<UserSubscriptionModel>> onSuccess,
 		[CanBeNull] Action<Error> onError = null);
 
+	void ConsumeVirtualCurrency(InventoryItemModel currency, uint count, [NotNull] Action onSuccess,
+		[CanBeNull] Action onFailed = null);
+
 	void ConsumeInventoryItem(InventoryItemModel item, uint count, [NotNull] Action<InventoryItemModel> onSuccess,
 		[CanBeNull] Action<InventoryItemModel> onFailed = null);
 
@@ -91,6 +94,12 @@ public interface IDemoImplementation
 
 	void GetUserInfo(string token, [NotNull] Action<UserInfo> onSuccess, [CanBeNull] Action<Error> onError = null);
 
+	void UpdateUserInfo(string token, UserInfoUpdate info, Action<UserInfo> onSuccess, Action<Error> onError = null);
+
+	void ChangeUserPhoneNumber(string token, string phoneNumber, Action onSuccess, Action<Error> onError);
+
+	void DeleteUserPhoneNumber(string token, string phoneNumber, Action onSuccess, Action<Error> onError);
+
 	void Registration(string username, string password, string email, [NotNull] Action onSuccess,
 		[CanBeNull] Action<Error> onError = null);
 
@@ -121,5 +130,10 @@ public interface IDemoImplementation
 #region OAuth2.0
 	bool IsOAuthTokenRefreshInProgress { get; }
 	void ExchangeCodeToToken(string code, Action<string> onSuccessExchange = null, Action<Error> onError = null);
+	#endregion
+
+#region Picture
+	void UploadUserPicture(string token, byte[] pictureData, string boundary, Action<string> onSuccess, Action<Error> onError);
+	void DeleteUserPicture(string token, Action onSuccess, Action<Error> onError);
 #endregion
 }

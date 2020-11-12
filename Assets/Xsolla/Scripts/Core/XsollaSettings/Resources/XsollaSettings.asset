@@ -18,6 +18,7 @@ MonoBehaviour:
   authorizationType: 0
   jwtTokenInvalidationEnabled: 0
   oauthClientId: 59
+  requestNicknameOnAuth: 1
   useSteamAuth: 0
   steamAppId: 480
   useConsoleAuth: 0

@@ -76,7 +76,7 @@ MonoBehaviour:
   - https://developers.xsolla.com/sdk/game-engines/unity/
   - 
   - http://publisher.xsolla.com/signup?store_type=sdk&utm_source=unity&utm_medium=demo&utm_campaign=marketplace
-  - https://developers.xsolla.com/api/v1/pay-station/#api_payment_ui_test_cards
+  - https://developers.xsolla.com/doc/pay-station/references/test-cards/
   - https://xsolla.com{0}privacypolicy
   - https://developers.xsolla.com/sdk/game-engines/unity/#sdk_use_xsolla_servers_how_to_use_user_attributes
   - https://developers.xsolla.com/sdk/game-engines/unity/#unity_sdk_use_xsolla_servers_login_unity_sdk
@@ -157,6 +157,18 @@ PrefabInstance:
       propertyPath: profileMenuPrefab
       value: 
       objectReference: {fileID: 6843898244374627520, guid: 1048628c3a390c04bab761d00f2ccb0f,
+        type: 3}
+    - target: {fileID: 6003545067062460712, guid: 4c9de83f6301c4c08b382f0fd508f1f4,
+        type: 3}
+      propertyPath: characterMenuPrefab
+      value: 
+      objectReference: {fileID: 6843898244374627520, guid: 154f4dc4039983f45b87cd72621eb453,
+        type: 3}
+    - target: {fileID: 6003545067062460712, guid: 4c9de83f6301c4c08b382f0fd508f1f4,
+        type: 3}
+      propertyPath: friendsMenuPrefab
+      value: 
+      objectReference: {fileID: 7187304734922887917, guid: 4886fcf4b72474ee99c777a007a7e5c1,
         type: 3}
     - target: {fileID: 6003545067062460712, guid: 4c9de83f6301c4c08b382f0fd508f1f4,
         type: 3}

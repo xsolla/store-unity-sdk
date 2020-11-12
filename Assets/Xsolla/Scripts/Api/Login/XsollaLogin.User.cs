@@ -243,26 +243,24 @@ namespace Xsolla.Login
 		/// <summary>
 		/// Uploads the profile picture of the authenticated user by JWT.
 		/// </summary>
-		/// <remarks> Swagger method name:<c>Delete User Phone Number</c>.</remarks>
+		/// <remarks> Swagger method name:<c>Upload User Picture</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/user-account-api/user-picture/postusersmepicture"/>
 		/// <param name="token">JWT from Xsolla Login.</param>
-		/// <param name="pathToPicture">Path to user profile picture in the binary format.</param>
+		/// <param name="pictureData">User profile picture in the binary format.</param>
 		/// <param name="onSuccess">Success operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		/// <seealso cref="DeleteUserPicture"/>
-		public void UploadUserPicture(string token, string pathToPicture, Action<string> onSuccess, Action<Error> onError)
+		public void UploadUserPicture(string token, byte[] pictureData, string boundary, Action<string> onSuccess, Action<Error> onError)
 		{
 			var url = string.Format(URL_USER_PICTURE, AnalyticUrlAddition);
-			var headers = AppendAnalyticHeadersTo(WebRequestHeader.AuthHeader(token));
-			WebRequestHelper.Instance.PostUploadRequest(url, pathToPicture, headers,
-				onComplete: (UserPictureUploadResponse response) => onSuccess?.Invoke(response.picture),
-				onError: onError);
+			var headers = AppendAnalyticHeadersTo(WebRequestHeader.AuthHeader(token), new WebRequestHeader() { Name = "Content-type", Value = $"multipart/form-data; boundary ={boundary}" });
+			WebRequestHelper.Instance.PostUploadRequest(URL_USER_PICTURE, pictureData, headers, onSuccess, onError);
 		}
 		
 		/// <summary>
 		/// Deletes the profile picture of the authenticated user by JWT.
 		/// </summary>
-		/// <remarks> Swagger method name:<c>Delete User Phone Number</c>.</remarks>
+		/// <remarks> Swagger method name:<c>Delete User Picture</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/user-account-api/user-picture/deleteusersmepicture"/>
 		/// <param name="token">JWT from Xsolla Login.</param>
 		/// <param name="onSuccess">Success operation callback.</param>

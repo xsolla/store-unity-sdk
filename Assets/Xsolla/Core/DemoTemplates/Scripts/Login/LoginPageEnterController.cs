@@ -47,6 +47,7 @@ public partial class LoginPageEnterController : LoginPageController
 		}
 
 		Debug.Log($"Successful auth with token = {token}");
+		MainMenuNicknameChecker.ResetFlag();
 		IsAuthInProgress = false;
 		base.OnSuccess?.Invoke();
 	}

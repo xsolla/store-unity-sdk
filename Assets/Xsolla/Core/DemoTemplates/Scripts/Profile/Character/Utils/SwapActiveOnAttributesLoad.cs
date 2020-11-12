@@ -9,7 +9,7 @@ public class SwapActiveOnAttributesLoad : MonoBehaviour
 	[SerializeField] private GameObject[] InactiveObjects;
 #pragma warning restore 0649
 
-	private bool IsAttributesLoaded => AttributesParent.transform.childCount > 0;
+	private bool IsAttributesLoaded => AttributesParent?.transform?.childCount > 0;
 
 	private void Awake()
 	{
@@ -17,6 +17,11 @@ public class SwapActiveOnAttributesLoad : MonoBehaviour
 			SwapActive();
 
 		AttributesProvider.OnSuccess += SwapActive;
+	}
+
+	private void OnDestroy()
+	{
+		AttributesProvider.OnSuccess -= SwapActive;
 	}
 
 	private void SwapActive()

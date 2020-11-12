@@ -72,6 +72,13 @@ namespace Xsolla.Core
 						changed = true;
 					}
 				}
+
+				var nickname = EditorGUILayout.Toggle("Request nickname on auth?", XsollaSettings.RequestNicknameOnAuth);
+				if (nickname != XsollaSettings.RequestNicknameOnAuth)
+				{
+					XsollaSettings.RequestNicknameOnAuth = nickname;
+					changed = true;
+				}
 			}
 			EditorGUILayout.Space();
 			

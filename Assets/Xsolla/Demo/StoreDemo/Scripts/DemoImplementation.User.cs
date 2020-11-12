@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Xsolla.Core;
 using Xsolla.Login;
+using Xsolla.Store;
 
 public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 {
@@ -10,7 +11,11 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 	public Token Token
 	{
 		get => XsollaLogin.Instance.Token;
-		set => XsollaLogin.Instance.Token = value;
+		set
+		{
+			XsollaLogin.Instance.Token = value;
+			XsollaStore.Instance.Token = value;
+		}
 	}
 
 	public Token GetDemoUserToken()
@@ -35,7 +40,7 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 	}
 
 	private readonly Dictionary<string, UserInfo> _userCache = new Dictionary<string, UserInfo>();
-	public void GetUserInfo(string token, bool useCache = true, Action<UserInfo> onSuccess = null, Action<Error> onError = null)
+	public void GetUserInfo(string token, bool useCache, Action<UserInfo> onSuccess, Action<Error> onError = null)
 	{
 		if (useCache && _userCache.ContainsKey(token))
 			onSuccess?.Invoke(_userCache[token]);
@@ -45,6 +50,18 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 				_userCache[token] = info;
 				onSuccess?.Invoke(info);
 			}, onError);
+	}
+
+	public void UpdateUserInfo(string token, UserInfoUpdate info, Action<UserInfo> onSuccess, Action<Error> onError = null)
+	{
+		Action<UserInfo> successCallback = newInfo =>
+		{
+			_userCache[token] = newInfo;
+			onSuccess?.Invoke(newInfo);
+		};
+
+		XsollaLogin.Instance.UpdateUserInfo(token, info, successCallback, onError);
+
 	}
 
 	public void Registration(string username, string password, string email, Action onSuccess, Action<Error> onError = null)
@@ -60,6 +77,16 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 	public void ResetPassword(string username, Action onSuccess, Action<Error> onError = null)
 	{
 		XsollaLogin.Instance.ResetPassword(username, onSuccess, onError);
+	}
+
+	public void ChangeUserPhoneNumber(string token, string phoneNumber, Action onSuccess, Action<Error> onError)
+	{
+		XsollaLogin.Instance.ChangeUserPhoneNumber(token, phoneNumber, onSuccess, onError);
+	}
+
+	public void DeleteUserPhoneNumber(string token, string phoneNumber, Action onSuccess, Action<Error> onError)
+	{
+		XsollaLogin.Instance.DeleteUserPhoneNumber(token, phoneNumber, onSuccess, onError);
 	}
 #endregion
 
@@ -116,6 +143,18 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 	public void ExchangeCodeToToken(string code, Action<string> onSuccessExchange = null, Action<Error> onError = null)
 	{
 		XsollaLogin.Instance.ExchangeCodeToToken(code, onSuccessExchange, onError);
+	}
+	#endregion
+
+#region Picture
+	public void UploadUserPicture(string token, byte[] pictureData, string boundary, Action<string> onSuccess, Action<Error> onError)
+	{
+		XsollaLogin.Instance.UploadUserPicture(token, pictureData, boundary, onSuccess, onError);
+	}
+
+	public void DeleteUserPicture(string token, Action onSuccess, Action<Error> onError)
+	{
+		XsollaLogin.Instance.DeleteUserPicture(token, onSuccess, onError);
 	}
 #endregion
 }

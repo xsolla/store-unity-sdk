@@ -2,7 +2,6 @@
 using UnityEngine;
 using Xsolla.Core;
 using Xsolla.Core.Popup;
-using Xsolla.Login;
 using Xsolla.Store;
 
 public class AccountLinkingManager : MonoBehaviour
@@ -42,49 +41,57 @@ public class AccountLinkingManager : MonoBehaviour
 		{
 			ShowCodeConfirmation(code =>
 			{
+				var linkingResult = new LinkingResultContainer();
+				PopupFactory.Instance.CreateWaiting().SetCloseCondition(() => linkingResult.IsLinked != null);
+
 				DemoController.Instance.GetImplementation().LinkConsoleAccount(
 					userId: XsollaSettings.UsernameFromConsolePlatform,
 					platform: XsollaSettings.Platform.GetString(),
 					confirmationCode: code,
-					onSuccess: LinkingAccountHandler,
-					onError: StoreDemoPopup.ShowError);
+					onSuccess: () => LinkingAccountHandler(linkingResult),
+					onError: error => { linkingResult.IsLinked = false; StoreDemoPopup.ShowError(error); });
 			});
 		};
 	}
 
-	private void LinkingAccountHandler()
+	private void LinkingAccountHandler(LinkingResultContainer linkingResult)
 	{
-		PopupFactory.Instance.CreateSuccess();
 		DemoController.Instance.GetImplementation().SignInConsoleAccount(
 			userId: XsollaSettings.UsernameFromConsolePlatform,
 			platform: XsollaSettings.Platform.GetString(),
-			successCase: OnSuccessConsoleLogin,
-			failedCase: StoreDemoPopup.ShowError
+			successCase: newToken => OnSuccessConsoleLogin(newToken, linkingResult),
+			failedCase: error => { linkingResult.IsLinked = false; StoreDemoPopup.ShowError(error); }
 		);
 	}
 
-	private void OnSuccessConsoleLogin(string newToken)
+	private void OnSuccessConsoleLogin(string newToken, LinkingResultContainer linkingResult)
 	{
 		DemoController.Instance.GetImplementation().ValidateToken(
 			token: newToken,
-			onSuccess: validToken => ApplyNewToken(validToken),
-			onError: StoreDemoPopup.ShowError);
+			onSuccess: validToken => ApplyNewToken(validToken, linkingResult),
+			onError: error => { linkingResult.IsLinked = false; StoreDemoPopup.ShowError(error); });
 	}
 
-	private void ApplyNewToken(string newToken)
+	private void ApplyNewToken(string newToken, LinkingResultContainer linkingResult)
 	{
 		DemoController.Instance.GetImplementation().Token = newToken;
-		DemoController.Instance.SetState(MenuState.Main);
-		UserInventory.Instance.Refresh(onSuccess: GoToInventory, onError: StoreDemoPopup.ShowError);
+		UserInventory.Instance.Refresh(onSuccess: () => GoToInventory(linkingResult), onError: error => { linkingResult.IsLinked = false; StoreDemoPopup.ShowError(error); });
 	}
 
-	private void GoToInventory()
+	private void GoToInventory(LinkingResultContainer linkingResult)
 	{
+		linkingResult.IsLinked = true;
 		DemoController.Instance.SetState(MenuState.Inventory);
+		PopupFactory.Instance.CreateSuccess();
 	}
 
 	private void ShowCodeConfirmation(Action<string> callback)
 	{
 		PopupFactory.Instance.CreateCodeConfirmation().SetConfirmCallback(callback);
+	}
+
+	private class LinkingResultContainer
+	{
+		public bool? IsLinked;
 	}
 }

@@ -20,22 +20,19 @@ public class SimpleTextButton : SimpleButtonLockDecorator
 
 	protected override void OnNormal()
 	{
-		base.OnNormal();
-
 		buttonText.color = normalTextColor;
+		base.OnNormal();
 	}
 
 	protected override void OnHover()
 	{
-		base.OnHover();
-
 		buttonText.color = hoverTextColor;
+		base.OnHover();
 	}
 
 	protected override void OnPressed()
 	{
-		base.OnPressed();
-
 		buttonText.color = pressedTextColor;
+		base.OnPressed();
 	}
 }
