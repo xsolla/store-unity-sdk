@@ -78,8 +78,8 @@ namespace Xsolla.Core.Popup
 		public IWaitingPopup CreateWaiting() =>
 			CreateDefaultPopup(WaitingPopupPrefab, canvas)?.GetComponent<WaitingPopup>();
 		
-		public IRedeemCouponPopup CreateRedeemCoupon() =>
-			CreateDefaultPopup(RedeemCouponPrefab, canvas)?.GetComponent<RedeemCouponPopup>();
+		public ICouponRedeemPopup CreateRedeemCoupon() =>
+			CreateDefaultPopup(RedeemCouponPrefab, canvas)?.GetComponent<CouponRedeemPopup>();
 		
 		public ICouponRewardsPopup CreateCouponRewards() =>
 			CreateDefaultPopup(CouponRewardsPrefab, canvas)?.GetComponent<CouponRewardsPopup>();

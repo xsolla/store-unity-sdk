@@ -5,7 +5,7 @@ using UnityEngine.UI;
 namespace Xsolla.Core.Popup
 {
 	[AddComponentMenu("Scripts/Xsolla.Core/Popup/RedeemCouponPopup")]
-	public class RedeemCouponPopup : MonoBehaviour, IRedeemCouponPopup
+	public class CouponRedeemPopup : MonoBehaviour, ICouponRedeemPopup
 	{
 		[SerializeField] private InputField CodeInputField;
 		[SerializeField] private Text ErrorMessage;
@@ -42,7 +42,7 @@ namespace Xsolla.Core.Popup
 			}
 		}
 
-		public IRedeemCouponPopup SetRedeemCallback(Action<string> buttonPressed)
+		public ICouponRedeemPopup SetRedeemCallback(Action<string> buttonPressed)
 		{
 			RedeemButton.onClick = () =>
 			{
@@ -52,7 +52,7 @@ namespace Xsolla.Core.Popup
 			return this;
 		}
 
-		public IRedeemCouponPopup SetCancelCallback(Action buttonPressed)
+		public ICouponRedeemPopup SetCancelCallback(Action buttonPressed)
 		{
 			CancelButton.onClick = () =>
 			{
@@ -62,7 +62,7 @@ namespace Xsolla.Core.Popup
 			return this;
 		}
 
-		public IRedeemCouponPopup ShowError()
+		public ICouponRedeemPopup ShowError()
 		{
 			ErrorMessage.gameObject.SetActive(true);
 			return this;
