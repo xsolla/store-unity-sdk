@@ -127,4 +127,9 @@ public class DemoController : MonoSingleton<DemoController>, IMenuStateMachine
         if (stateMachine != null)
             stateMachine.SetPreviousState();
     }
+
+    public string GetWebStoreUrl()
+    {
+        return $"{XsollaSettings.WebStoreUrl}?token={_demoImplementation.Token}&remember_me=false";
+    }
 }

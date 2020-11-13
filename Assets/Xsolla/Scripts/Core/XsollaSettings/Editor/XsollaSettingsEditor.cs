@@ -18,7 +18,8 @@ namespace Xsolla.Core
                             PublishingPlatformSettings() ||
 			                XsollaStoreSettings() ||
                             XsollaPaystationSettings() ||
-                            AndroidSDKSettings();
+                            AndroidSDKSettings() ||
+							InventorySDKSettings();
 
 			XsollaAndroidSettings();
 
