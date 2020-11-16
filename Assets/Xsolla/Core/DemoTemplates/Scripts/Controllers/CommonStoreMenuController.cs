@@ -7,6 +7,7 @@ public class CommonStoreMenuController : BaseMenuController
 	[SerializeField] private SimpleButton testCardsButton;
 	[SerializeField] private SimpleButton backButton;
 	[SerializeField] private SimpleButton buyCurrencyButton;
+	[SerializeField] private SimpleButton tutorialButton;
 
 	private void Start()
 	{
@@ -16,5 +17,11 @@ public class CommonStoreMenuController : BaseMenuController
 		AttachButtonCallback(backButton, () => DemoController.Instance.SetPreviousState());
 		AttachButtonCallback(buyCurrencyButton, 
 			() => SetMenuState(MenuState.BuyCurrency, () => UserCatalog.Instance.IsUpdated));
+
+		if (tutorialButton != null && DemoController.Instance.IsTutorialAvailable)
+		{
+			tutorialButton.gameObject.SetActive(true);
+			AttachButtonCallback(tutorialButton, () => DemoController.Instance.TutorialManager.ShowTutorial(false));
+		}
 	}
 }

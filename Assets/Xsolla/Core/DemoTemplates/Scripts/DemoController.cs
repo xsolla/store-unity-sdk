@@ -10,8 +10,12 @@ public class DemoController : MonoSingleton<DemoController>, IMenuStateMachine
 	[SerializeField]private UrlContainer _urlContainer;
 
 	private IDemoImplementation _demoImplementation;
+    private TutorialManager _tutorialManager;
 
 	public UrlContainer UrlContainer => _urlContainer;
+    public TutorialManager TutorialManager => _tutorialManager;
+
+    public bool IsTutorialAvailable => _tutorialManager != null;
 
     public event MenuStateMachine.StateChangeDelegate StateChangingEvent
     {
@@ -34,6 +38,8 @@ public class DemoController : MonoSingleton<DemoController>, IMenuStateMachine
         }
         
         StateChangingEvent += OnStateChangingEvent;
+
+        _tutorialManager = GetComponent<TutorialManager>();
     }
 
     private void OnStateChangingEvent(MenuState lastState, MenuState newState)
@@ -56,6 +62,15 @@ public class DemoController : MonoSingleton<DemoController>, IMenuStateMachine
         {
             UpdateCatalogAndInventory();
             UserFriends.Instance.UpdateFriends();
+            
+            if (_tutorialManager != null && !_tutorialManager.IsTutorialCompleted())
+            {
+                _tutorialManager.ShowTutorial();
+            }
+            else
+            {
+                Debug.LogWarning("Tutorial is not available for this demo.");
+            }
         }
     }
     

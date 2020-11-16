@@ -57,7 +57,9 @@ MonoBehaviour:
     type: 3}
   NicknamePopupPrefab: {fileID: 2151185845519967173, guid: 0478ac52edb07ca438bc65a9ed6011c7,
     type: 3}
-  RedeemCouponPrefab: {fileID: 2151185845519967173, guid: 32db63925643b554c80fd99a28a74fe9,
+  RedeemCouponPopupPrefab: {fileID: 2151185845519967173, guid: 32db63925643b554c80fd99a28a74fe9,
     type: 3}
-  CouponRewardsPrefab: {fileID: 8129972910254772181, guid: 1514f28ff6e8b32478d9e3b28ac762c2,
+  CouponRewardsPopupPrefab: {fileID: 8129972910254772181, guid: 1514f28ff6e8b32478d9e3b28ac762c2,
+    type: 3}
+  TutorialPopupPrefab: {fileID: 2151185845519967173, guid: cae2fd41e8e52ef4fa63b30ecfdc2044,
     type: 3}
