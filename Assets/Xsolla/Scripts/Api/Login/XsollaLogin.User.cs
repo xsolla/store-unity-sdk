@@ -32,7 +32,7 @@ namespace Xsolla.Login
 		}
 
 		/// <summary>
-		/// Return saved user info by JWT.
+		/// Returns saved user info by JWT.
 		/// </summary>
 		/// <param name="token">JWT from Xsolla Login.</param>
 		/// <param name="onSuccess">Success operation callback.</param>
@@ -86,14 +86,14 @@ namespace Xsolla.Login
 		}
 
 		/// <summary>
-		/// Perform Base Authorization.
+		/// Performs basic authentication.
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Auth by Username and Password</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/login-api/jwt/auth-by-username-and-password"/>
 		/// <param name="username">User name.</param>
 		/// <param name="password">User password.</param>
 		/// <param name="rememberUser">Save user credentionals?</param>
-		/// <param name="onSuccess">Success operation callback.</param>
+		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		/// <seealso cref="SignInConsoleAccount"/>
 		/// <seealso cref="Registration"/>
@@ -137,12 +137,12 @@ namespace Xsolla.Login
 		}
 
 		/// <summary>
-		/// Allow user to reset password.
+		/// Allows user to reset password.
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Reset password</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/login-api/general/reset-password"/>
 		/// <param name="username">User name.</param>
-		/// <param name="onSuccess">Success operation callback.</param>
+		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		/// <seealso cref="Registration"/>
 		/// <seealso cref="SignIn"/>
@@ -155,7 +155,7 @@ namespace Xsolla.Login
 		}
 
 		/// <summary>
-		/// Search users by nickname in the same Login as current user.
+		/// Search users by nickname in the same Login project as current user.
 		/// NOTE: User can search only 1 time per second.
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Search user by nickname</c>.</remarks>
@@ -164,7 +164,7 @@ namespace Xsolla.Login
 		/// <param name="nickname">User's nickname.</param>
 		/// <param name="offset">Offset.</param>
 		/// <param name="limit">Limit.</param>
-		/// <param name="onSuccess">Success operation callback.</param>
+		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		public void SearchUsers(string token, string nickname, uint offset, uint limit, Action<FoundUsers> onSuccess, Action<Error> onError = null)
 		{
@@ -181,7 +181,7 @@ namespace Xsolla.Login
 		/// <see cref="https://go-xsolla-login.doc.srv.loc/login-api/users/get-public-user-profile"/>
 		/// <param name="token">JWT from Xsolla Login.</param>
 		/// <param name="user">The Xsolla Login user ID.</param>
-		/// <param name="onSuccess">Success operation callback.</param>
+		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		public void GetPublicInfo(string token, string user, Action<UserPublicInfo> onSuccess, Action<Error> onError = null)
 		{
@@ -198,7 +198,7 @@ namespace Xsolla.Login
 		/// <see cref="https://developers.xsolla.com/user-account-api/user-phone-number/getusersmephone"/>
 		/// <see cref="https://en.wikipedia.org/wiki/National_conventions_for_writing_telephone_numbers"/>
 		/// <param name="token">JWT from Xsolla Login.</param>
-		/// <param name="onSuccess">Success operation callback.</param>
+		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		/// <seealso cref="ChangeUserPhoneNumber"/>
 		/// <seealso cref="DeleteUserPhoneNumber"/>
@@ -216,7 +216,7 @@ namespace Xsolla.Login
 		/// <see cref="https://en.wikipedia.org/wiki/National_conventions_for_writing_telephone_numbers"/>
 		/// <param name="token">JWT from Xsolla Login.</param>
 		/// <param name="phoneNumber">User's phone number.</param>
-		/// <param name="onSuccess">Success operation callback.</param>
+		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		/// <seealso cref="GetUserPhoneNumber"/>
 		/// <seealso cref="DeleteUserPhoneNumber"/>
@@ -235,7 +235,7 @@ namespace Xsolla.Login
 		/// <see cref="https://en.wikipedia.org/wiki/National_conventions_for_writing_telephone_numbers"/>
 		/// <param name="token">JWT from Xsolla Login.</param>
 		/// <param name="phoneNumber">User's phone number.</param>
-		/// <param name="onSuccess">Success operation callback.</param>
+		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		/// <seealso cref="GetUserPhoneNumber"/>
 		/// <seealso cref="ChangeUserPhoneNumber"/>
@@ -251,7 +251,7 @@ namespace Xsolla.Login
 		/// <see cref="https://developers.xsolla.com/user-account-api/user-picture/postusersmepicture"/>
 		/// <param name="token">JWT from Xsolla Login.</param>
 		/// <param name="pathToPicture">Path to user profile picture in the binary format.</param>
-		/// <param name="onSuccess">Success operation callback.</param>
+		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		/// <seealso cref="DeleteUserPicture"/>
 		public void UploadUserPicture(string token, string pathToPicture, Action<string> onSuccess, Action<Error> onError)
@@ -267,7 +267,7 @@ namespace Xsolla.Login
 		/// <remarks> Swagger method name:<c>Delete User Phone Number</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/user-account-api/user-picture/deleteusersmepicture"/>
 		/// <param name="token">JWT from Xsolla Login.</param>
-		/// <param name="onSuccess">Success operation callback.</param>
+		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		/// <seealso cref="UploadUserPicture"/>
 		public void DeleteUserPicture(string token, Action onSuccess, Action<Error> onError)
