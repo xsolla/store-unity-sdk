@@ -23,7 +23,7 @@ namespace Xsolla.Login
 		/// </summary>
 		public uint offset;
 		/// <summary>
-		/// Total number of friends that are you can get.
+		/// Total number of friends that you can get.
 		/// </summary>
 		public uint total_count;
 		/// <summary>
