@@ -15,7 +15,7 @@ namespace Xsolla.Login
 		/// </summary>
 		public uint offset;
 		/// <summary>
-		/// Total number of users that are you can get.
+		/// Total number of users that you can get.
 		/// </summary>
 		public uint total_count;
 		/// <summary>
