@@ -12,16 +12,16 @@ namespace Xsolla.Login
 		private const string URL_USER_UPDATE_ATTRIBUTES = "https://login.xsolla.com/api/attributes/users/me/update";
 
 		/// <summary>
-		/// Return user attributes
+		/// Returns user attributes.
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Get User's Attributes from Client</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/login-api/attributes/get-user-attributes-from-client"/>
 		/// <param name="token">JWT from Xsolla Login.</param>
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
 		/// <param name="attributeKeys">Attributes names list filter</param>
-		/// <param name="userId">Login user id. Can be null, because this info exist in token.</param>
+		/// <param name="userId">Login user ID. Can be null, because this info exist in the token.</param>
 		/// <param name="attributeType">User attribute type to get</param>
-		/// <param name="onSuccess">Success operation callback.</param>
+		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		/// <seealso cref="UpdateUserAttributes"/>
 		/// <seealso cref="RemoveUserAttributes"/>
@@ -49,14 +49,14 @@ namespace Xsolla.Login
 		}
 
 		/// <summary>
-		/// Update user attributes values
+		/// Updates user attributes' values.
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Update User's Attributes from Client</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/login-api/attributes/update-users-attributes-from-client"/>
 		/// <param name="token">JWT from Xsolla Login.</param>
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
 		/// <param name="attributes">Attributes list.</param>
-		/// <param name="onSuccess">Success operation callback.</param>
+		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		/// <seealso cref="GetUserAttributes"/>
 		/// <seealso cref="RemoveUserAttributes"/>
@@ -72,7 +72,7 @@ namespace Xsolla.Login
 		}
 
 		/// <summary>
-		/// Remove user attributes
+		/// Removes user attributes.
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Update User's Attributes from Client</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/login-api/attributes/update-users-attributes-from-client"/>
