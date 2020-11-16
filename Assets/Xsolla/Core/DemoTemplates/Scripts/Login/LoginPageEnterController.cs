@@ -5,7 +5,7 @@ using Xsolla.Core;
 
 public partial class LoginPageEnterController : LoginPageController
 {
-	private bool IsAuthInProgress
+	public bool IsAuthInProgress
 	{
 		get => base.IsInProgress;
 
@@ -65,7 +65,7 @@ public partial class LoginPageEnterController : LoginPageController
 		}
 	}
 
-	public void RunLoginAction(Action<LoginPageEnterController, object> action, object arg = null)
+	public void RunLoginProxyAction(Action<LoginPageEnterController, object> action, object arg = null)
 	{
 		action.Invoke(this, arg);
 	}

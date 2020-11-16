@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using Xsolla.Core;
-using Xsolla.Login;
+using Xsolla.Core.Popup;
 
 public partial class LoginPageEnterController : LoginPageController
 {
@@ -46,6 +46,7 @@ public partial class LoginPageEnterController : LoginPageController
 			return;
 
 		IsAuthInProgress = true;
+		PopupFactory.Instance.CreateWaiting().SetCloseCondition(() => IsAuthInProgress == false);
 
 		object[] args = { username, password, rememberMe };
 
@@ -81,6 +82,7 @@ public partial class LoginPageEnterController : LoginPageController
 			return;
 
 		IsAuthInProgress = true;
+		PopupFactory.Instance.CreateWaiting().SetCloseCondition(() => IsAuthInProgress == false);
 
 		Action<string> onSuccessfulSteamAuth = token => DemoController.Instance.GetImplementation()
 			.ValidateToken(token, t => CompleteSuccessfulAuth(token, isSteam: true, isSaveToken: true), ProcessError);

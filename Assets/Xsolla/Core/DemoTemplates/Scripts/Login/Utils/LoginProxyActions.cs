@@ -1,10 +1,15 @@
 ﻿using System;
-using UnityEngine;
 
-public static class LoginActionExamples
+public static class LoginProxyActions
 {
+	public static Action<LoginPageEnterController, object> RunDemoUserAuthDelegate => RunDemoUserAuthMethod;
 	public static Action<LoginPageEnterController, object> RunSocialAuthDelegate => RunSocialAuthMethod;
 	public static Action<LoginPageEnterController, object> RunSteamAuthDelegate => RunSteamAuth;
+
+	private static void RunDemoUserAuthMethod(LoginPageEnterController loginController, object arg)
+	{
+		loginController.RunBasicAuth(username: "xsolla", password: "xsolla", rememberMe: true);
+	}
 
 	private static void RunSocialAuthMethod(LoginPageEnterController loginController, object arg)
 	{

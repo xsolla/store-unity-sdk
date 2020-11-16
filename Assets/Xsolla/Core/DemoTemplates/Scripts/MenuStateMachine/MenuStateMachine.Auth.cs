@@ -3,6 +3,8 @@ using Xsolla.Core;
 
 public partial class MenuStateMachine : MonoBehaviour, IMenuStateMachine
 {
+	private bool IsAuthInProgress => _stateObject.GetComponent<LoginPageEnterController>()?.IsAuthInProgress ?? false;
+
 	void CheckAuthorizationState(MenuState state, GameObject go)
 	{
 		if(go == null) return;
@@ -17,20 +19,34 @@ public partial class MenuStateMachine : MonoBehaviour, IMenuStateMachine
 			if (buttonsProvider.LogInButton != null)
 			{
 				if(state == MenuState.Authorization)
-					buttonsProvider.LogInButton.onClick += () => SetState(MenuState.Registration);
+					buttonsProvider.LogInButton.onClick += () =>
+					{
+						if (IsAuthInProgress)
+							return;
+						else
+							SetState(MenuState.Registration);
+					};
 				else
 					buttonsProvider.LogInButton.onClick += () => SetState(MenuState.Authorization);
 			}
 			if (buttonsProvider.DemoUserButton != null)
 				buttonsProvider.DemoUserButton.onClick += () =>
 				{
-					DemoController.Instance.GetImplementation().ValidateToken(
-						DemoController.Instance.GetImplementation().GetDemoUserToken(), token =>
-						{
-							DemoController.Instance.GetImplementation().Token = token;
-							DemoController.Instance.GetImplementation().SaveToken(Constants.LAST_SUCCESS_AUTH_TOKEN, token);
-							SetState(MenuState.Main);
-						});
+					if (IsAuthInProgress)
+						return;
+
+					var proxyObject = new GameObject();
+					var proxyScript = proxyObject.AddComponent<LoginProxyActionHolder>();
+
+					proxyScript.ProxyAction = LoginProxyActions.RunDemoUserAuthDelegate;
+					proxyScript.ProxyActionArgument = null;
+
+					//State machine does not handle switching to the same state so pressing DemoUserButton while
+					//in MenuState.Authorization results in failure, this is a workaround
+					if (state == MenuState.Authorization)
+						DemoController.Instance.SetState(MenuState.RegistrationSuccess);
+
+					DemoController.Instance.SetState(MenuState.Authorization);
 				};
 		}
 
@@ -49,7 +65,13 @@ public partial class MenuStateMachine : MonoBehaviour, IMenuStateMachine
 						};
 					}
 
-				buttonsProvider.OKButton.onClick += () => SetState(MenuState.ChangePassword);
+				buttonsProvider.OKButton.onClick += () =>
+				{ 
+					if (IsAuthInProgress)
+						return;
+					else
+						SetState(MenuState.ChangePassword);
+				};
 				break;
 			}
 			case MenuState.AuthorizationFailed:
