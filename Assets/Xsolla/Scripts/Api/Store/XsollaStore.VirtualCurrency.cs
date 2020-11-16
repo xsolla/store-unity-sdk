@@ -17,7 +17,7 @@ namespace Xsolla.Store
 		/// <remarks> Swagger method name:<c>Get the current user's virtual balance</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/store-api/inventory-client/get-user-virtual-balance"/>
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
-		/// <param name="onSuccess">Success operation callback.</param>
+		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		/// <param name="locale">Defines localization of item's text fields.</param>
 		public void GetVirtualCurrencyBalance(string projectId, [NotNull] Action<VirtualCurrenciesBalance> onSuccess, [CanBeNull] Action<Error> onError, [CanBeNull] string locale = null)
@@ -35,7 +35,7 @@ namespace Xsolla.Store
 		/// <remarks> Swagger method name:<c>Get virtual currency list</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/store-api/items/get-virtual-currency"/>
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
-		/// <param name="onSuccess">Success operation callback.</param>
+		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		/// <param name="locale">Defines localization of item's text fields.</param>
 		public void GetVirtualCurrencyList(string projectId, [NotNull] Action<VirtualCurrencyItems> onSuccess, [CanBeNull] Action<Error> onError, [CanBeNull] string locale = null)
@@ -52,7 +52,7 @@ namespace Xsolla.Store
 		/// <remarks> Swagger method name:<c>Get virtual currency package list</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/store-api/items/get-virtual-currency-package"/>
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
-		/// <param name="onSuccess">Success operation callback.</param>
+		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		/// <param name="locale">Defines localization of item's text fields.</param>
 		public void GetVirtualCurrencyPackagesList(string projectId, [NotNull] Action<VirtualCurrencyPackages> onSuccess, [CanBeNull] Action<Error> onError, [CanBeNull] string locale = null)
