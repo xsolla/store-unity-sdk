@@ -21,7 +21,7 @@ namespace Xsolla.Store
 		/// <remarks> Swagger method name:<c>Get current user's cart</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/store-api/cart/get-user-cart"/>
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
-		/// <param name="onSuccess">Success operation callback.</param>
+		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		public void CreateNewCart(string projectId, [NotNull] Action<Cart> onSuccess, [CanBeNull] Action<Error> onError)
 		{
@@ -38,7 +38,7 @@ namespace Xsolla.Store
 		/// <see cref="https://developers.xsolla.com/store-api/cart/cart-fill"/>
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
 		/// <param name="items">Items for purchase.</param>
-		/// <param name="onSuccess">Success operation callback.</param>
+		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		public void FillCart(string projectId, List<CartFillItem> items, [NotNull] Action onSuccess, [CanBeNull] Action<Error> onError)
 		{
@@ -55,8 +55,8 @@ namespace Xsolla.Store
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
 		/// <param name="cartId">Unique cart identifier.</param>
 		/// <param name="itemSku">SKU of item for purchase.</param>
-		/// <param name="quantity">Quantity of purchased item.</param>
-		/// <param name="onSuccess">Success operation callback.</param>
+		/// <param name="quantity">Quantity of purchased items.</param>
+		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		/// <seealso cref="CreateNewCart"/>
 		public void UpdateItemInCart(string projectId, string cartId, string itemSku, int quantity, [CanBeNull] Action onSuccess, [CanBeNull] Action<Error> onError)
@@ -75,7 +75,7 @@ namespace Xsolla.Store
 		/// <see cref="https://developers.xsolla.com/store-api/cart/cart-clear-by-id"/>
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
 		/// <param name="cartId">Unique cart identifier.</param>
-		/// <param name="onSuccess">Success operation callback.</param>
+		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		public void ClearCart(string projectId, string cartId, [CanBeNull] Action onSuccess, [CanBeNull] Action<Error> onError)
 		{
@@ -91,7 +91,7 @@ namespace Xsolla.Store
 		/// <see cref="https://developers.xsolla.com/store-api/cart/get-cart-by-id"/>
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
 		/// <param name="cartId">Unique cart identifier.</param>
-		/// <param name="onSuccess">Success operation callback.</param>
+		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		/// <param name="locale">Defines localization of item's text fields.</param>
 		/// <param name="currency">Defines currency of item's price.</param>
@@ -105,14 +105,14 @@ namespace Xsolla.Store
 		}
 
 		/// <summary>
-		/// Delete item from the cart.
+		/// Deletes item from the cart.
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Delete cart line item by cart ID</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/store-api/cart/delete-item-by-cart-id"/>
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
 		/// <param name="cartId">Unique cart identifier.</param>
 		/// <param name="itemSku">Item SKU to delete.</param>
-		/// <param name="onSuccess">Success operation callback.</param>
+		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		public void RemoveItemFromCart(string projectId, string cartId, string itemSku, [CanBeNull] Action onSuccess, [CanBeNull] Action<Error> onError)
 		{
