@@ -12,7 +12,7 @@ namespace Xsolla.Login
 		private const string URL_USER_UPDATE_ATTRIBUTES = "https://login.xsolla.com/api/attributes/users/me/update";
 
 		/// <summary>
-		/// Returns user attributes.
+		/// Return user attributes
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Get User's Attributes from Client</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/login-api/attributes/get-user-attributes-from-client"/>
@@ -49,7 +49,7 @@ namespace Xsolla.Login
 		}
 
 		/// <summary>
-		/// Updates user attributes values.
+		/// Update user attributes values
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Update User's Attributes from Client</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/login-api/attributes/update-users-attributes-from-client"/>
@@ -72,7 +72,7 @@ namespace Xsolla.Login
 		}
 
 		/// <summary>
-		/// Removes user attributes.
+		/// Remove user attributes
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Update User's Attributes from Client</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/login-api/attributes/update-users-attributes-from-client"/>
