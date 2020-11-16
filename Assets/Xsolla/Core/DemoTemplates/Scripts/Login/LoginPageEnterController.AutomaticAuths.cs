@@ -1,6 +1,6 @@
 ﻿using System;
-using UnityEngine;
 using Xsolla.Core;
+using Xsolla.Core.Popup;
 
 public partial class LoginPageEnterController : LoginPageController
 {
@@ -13,6 +13,7 @@ public partial class LoginPageEnterController : LoginPageController
 		{
 			_isFirstLaunch = false;
 			IsAuthInProgress = true;
+			PopupFactory.Instance.CreateWaiting().SetCloseCondition(() => IsAuthInProgress == false);
 			RunAutomaticAuths();
 		}
 		else

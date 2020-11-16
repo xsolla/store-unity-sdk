@@ -87,8 +87,6 @@ public interface IDemoImplementation
 
 	Token Token { get; set; }
 
-	Token GetDemoUserToken();
-	
 	void SaveToken(string key, string token);
 
 	bool LoadToken(string key, out string token);

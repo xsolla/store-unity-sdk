@@ -140,13 +140,13 @@ public partial class MenuStateMachine : MonoBehaviour, IMenuStateMachine
 			ClearTrace();
 		if(newState == MenuState.Main || newState == MenuState.Authorization || newState == MenuState.Friends || newState == MenuState.SocialFriends)
 			ClearTrace();
-		if(lastState == MenuState.Registration && newState == MenuState.Authorization)
+		if(newState == MenuState.Authorization)
 		{
-			var proxyScript = FindObjectOfType<LoginCreateToAuthProxyRequestHolder>();
+			var proxyScript = FindObjectOfType<LoginProxyActionHolder>();
 			var loginEnterScript = _stateObject.GetComponent<LoginPageEnterController>();
 
 			if(proxyScript != null && loginEnterScript != null)
-				loginEnterScript.RunLoginAction(proxyScript.ProxyRequest, proxyScript.ProxyArgument);
+				loginEnterScript.RunLoginProxyAction(proxyScript.ProxyAction, proxyScript.ProxyActionArgument);
 
 			if(proxyScript != null)
 				Destroy(proxyScript.gameObject);
