@@ -19,7 +19,7 @@ namespace Xsolla.Store
 		/// <remarks> Swagger method name:<c>Get virtual items list</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/store-api/items/get-virtual-items"/>
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
-		/// <param name="onSuccess">Success operation callback.</param>
+		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		/// <param name="locale">Defines localization of item's text fields.</param>
 		/// <param name="currency">Defines currency of item's price.</param>
@@ -39,7 +39,7 @@ namespace Xsolla.Store
 		/// <see cref="https://developers.xsolla.com/store-api/items/get-virtual-items-group"/>
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
 		/// <param name="groupExternalId">Group external ID.</param>
-		/// <param name="onSuccess">Success operation callback.</param>
+		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		/// <param name="locale">Defines localization of item's text fields.</param>
 		/// <param name="currency">Defines currency of item's price.</param>
@@ -58,7 +58,7 @@ namespace Xsolla.Store
 		/// <remarks> Swagger method name:<c>Get items groups list</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/store-api/groups/get-item-groups"/>
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
-		/// <param name="onSuccess">Success operation callback.</param>
+		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		/// <param name="locale">Defines localization of item's text fields.</param>
 		public void GetItemGroups(string projectId, [NotNull] Action<Groups> onSuccess, [CanBeNull] Action<Error> onError, [CanBeNull] string locale = null)
