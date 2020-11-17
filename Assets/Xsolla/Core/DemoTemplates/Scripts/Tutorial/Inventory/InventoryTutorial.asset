@@ -20,21 +20,24 @@ MonoBehaviour:
       add items to your inventory in the tutorial.
     prevButtonText: NO, THANKS
     nextButtonText: "LET\u2019S START"
-    highlightTag: 
+    highlightElement: 
+    screenToActivate: 0
   - title: 'In the demo, you can add items to the inventory in one of the following
       ways:  '
     description: 1. Buy some items in the web store\n2. Redeem a coupon code to get
       bonus items\n3. Link a platform account to your main account
     prevButtonText: BACK
     nextButtonText: NEXT
-    highlightTag: 
+    highlightElement: 
+    screenToActivate: 0
   - title: Buy items in the web store
     description: 1. Go to the web store.\n2. Log in to the same account as you used
       for the demo.\n3. Buy some items. You can use our test cards.\n \n The items
       you purchased will be available in the inventory.
     prevButtonText: BACK
     nextButtonText: NEXT
-    highlightTag: 
+    highlightElement: WebStoreMenuButton
+    screenToActivate: 2
   - title: Redeem a coupon code
     description: "1. Click the REDEEM COUPON button in the top navigation bar.\\n2.
       Enter one of our test codes \u201CBONUS2020\u201D or \u201CWINTER2021\u201D
@@ -42,7 +45,8 @@ MonoBehaviour:
       inventory."
     prevButtonText: BACK
     nextButtonText: NEXT
-    highlightTag: 
+    highlightElement: RedeemCouponButton
+    screenToActivate: 1
   - title: Account linking
     description: Use account linking to manage a single cross-platform inventory on
       different platforms. Check documentation to learn more about account linking
@@ -55,4 +59,5 @@ MonoBehaviour:
       account will be available in the inventory after linking accounts is successful.
     prevButtonText: BACK
     nextButtonText: DONE
-    highlightTag: 
+    highlightElement: AccountLinkingMenuButton
+    screenToActivate: 2

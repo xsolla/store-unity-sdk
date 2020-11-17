@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,15 +8,15 @@ namespace Xsolla.Core.Popup
 {
 	public class TutorialPopup : MonoBehaviour, ITutorialPopup
 	{
-		[SerializeField] private SimpleTextButton BackButton;
-		[SerializeField] private SimpleTextButton NextButton;
-		[SerializeField] private SimpleTextButton StartButton;
-		[SerializeField] private SimpleTextButton CancelButton;
-		
-		[SerializeField] private SimpleButton CloseButton;
+		[SerializeField] private SimpleTextButton backButton;
+		[SerializeField] private SimpleTextButton nextButton;
+		[SerializeField] private SimpleTextButton startButton;
+		[SerializeField] private SimpleTextButton cancelButton;
 
-		[SerializeField] private Text Title;
-		[SerializeField] private Text Description;
+		[SerializeField] private SimpleButton closeButton;
+
+		[SerializeField] private Text titleText;
+		[SerializeField] private Text descriptionText;
 
 		private TutorialInfo _tutorialInfo;
 		private bool _showWelcomeMessage;
@@ -22,69 +24,43 @@ namespace Xsolla.Core.Popup
 		private Action _onTutorialCompleted;
 
 		private int _currentStepIndex;
+		private RectTransform _highlightCopy;
 
 		private bool IsTutorialInfoValid => _tutorialInfo != null && _tutorialInfo.tutorialSteps.Count > 0;
 		private int FirstStepIndex => _showWelcomeMessage ? 0 : 1;
 
+		private TutorialInfo.TutorialStep CurrentStepInfo => _tutorialInfo.tutorialSteps[_currentStepIndex];
+
 		private void Awake()
 		{
-			BackButton.onClick = MoveToPreviousStep;
-			NextButton.onClick = MoveToNextStep;
-			StartButton.onClick = MoveToNextStep;
+			backButton.onClick = MoveToPreviousStep;
+			nextButton.onClick = MoveToNextStep;
+			startButton.onClick = MoveToNextStep;
 
-			CancelButton.onClick = () => { Destroy(gameObject, 0.001F); };
-			CloseButton.onClick = () => { Destroy(gameObject, 0.001F); };
+			cancelButton.onClick = () => { Destroy(gameObject, 0.001F); };
+			closeButton.onClick = () => { Destroy(gameObject, 0.001F); };
 		}
 
 		public ITutorialPopup SetTutorialInfo(TutorialInfo info, bool showWelcomeMessage)
 		{
 			_tutorialInfo = info;
 			_showWelcomeMessage = showWelcomeMessage;
-
-			// skip welcome step if we're supposed to
 			_currentStepIndex = FirstStepIndex;
+
+			if (IsTutorialInfoValid)
+			{
+				startButton.Text = _tutorialInfo.tutorialSteps[0].nextButtonText;
+				cancelButton.Text = _tutorialInfo.tutorialSteps[0].prevButtonText;
+			}
 
 			RefreshTutorial();
 
 			return this;
 		}
 
-		void MoveToNextStep()
-		{
-			if (!IsTutorialInfoValid)
-			{
-				Destroy(gameObject, 0.001F);
-				return;
-			}
-
-			_currentStepIndex++;
-
-			if (_currentStepIndex >= _tutorialInfo.tutorialSteps.Count)
-			{
-				_onTutorialCompleted?.Invoke();
-				Destroy(gameObject, 0.001F);
-				return;
-			}
-
-			RefreshTutorial();
-		}
-
-		void MoveToPreviousStep()
-		{
-			if (!IsTutorialInfoValid)
-			{
-				Destroy(gameObject, 0.001F);
-				return;
-			}
-
-			_currentStepIndex--;
-
-			RefreshTutorial();
-		}
-
 		public ITutorialPopup SetCancelCallback(Action onCancel)
 		{
-			CancelButton.onClick = () =>
+			cancelButton.onClick = () =>
 			{
 				onCancel?.Invoke();
 				Destroy(gameObject, 0.001F);
@@ -98,22 +74,64 @@ namespace Xsolla.Core.Popup
 			return this;
 		}
 
-		void RefreshTutorial()
+		private void RefreshTutorial()
 		{
-			var currentStepInfo = _tutorialInfo.tutorialSteps[_currentStepIndex];
+			titleText.text = CurrentStepInfo.FormattedTitle;
+			descriptionText.text = CurrentStepInfo.FormattedDescription;
 
-			Title.text = currentStepInfo.title.Replace("\\n", "\n");
-			Description.text = currentStepInfo.description.Replace("\\n", "\n");
+			nextButton.Text = CurrentStepInfo.nextButtonText;
+			backButton.Text = CurrentStepInfo.prevButtonText;
 
-			NextButton.Text = currentStepInfo.nextButtonText;
-			BackButton.Text = currentStepInfo.prevButtonText;
-			StartButton.Text = currentStepInfo.nextButtonText;
-			CancelButton.Text = currentStepInfo.prevButtonText;
+			RefreshBackgroundScreen();
+
+			StartCoroutine(RefreshElementHighlight());
 
 			RefreshButtonsVisibility();
 		}
 
-		void RefreshButtonsVisibility()
+		private void RefreshBackgroundScreen()
+		{
+			if (CurrentStepInfo.screenToActivate != ActivationScreen.None)
+			{
+				if (CurrentStepInfo.screenToActivate == ActivationScreen.Inventory)
+					DemoController.Instance.SetState(MenuState.Inventory);
+				if (CurrentStepInfo.screenToActivate == ActivationScreen.MainMenu)
+					DemoController.Instance.SetState(MenuState.Main);
+
+				transform.SetAsLastSibling();
+			}
+		}
+
+		private IEnumerator RefreshElementHighlight()
+		{
+			if (_highlightCopy != null)
+				Destroy(_highlightCopy.gameObject);
+
+			yield return new WaitForSeconds(0.1f);
+
+
+			if (!string.IsNullOrEmpty(CurrentStepInfo.highlightElementId))
+			{
+				var highlightableObjects = GameObject.FindGameObjectsWithTag(Constants.INVENTORY_TUTORIAL_HIGHLIGHT_TAG);
+
+				var highlightObject = highlightableObjects.FirstOrDefault(
+					obj => obj.activeSelf && obj.GetComponent<HighlightElement>().ID == CurrentStepInfo.highlightElementId);
+
+				if (highlightObject == null)
+					yield break;
+
+				var highlightObjectParent = (RectTransform) highlightObject.transform.parent;
+
+				_highlightCopy = Instantiate(highlightObjectParent, transform);
+
+				_highlightCopy.position = highlightObjectParent.position;
+				_highlightCopy.sizeDelta = highlightObjectParent.sizeDelta;
+
+				_highlightCopy.GetComponentInChildren<HighlightElement>().Highlight();
+			}
+		}
+
+		private void RefreshButtonsVisibility()
 		{
 			if (_currentStepIndex == FirstStepIndex)
 			{
@@ -124,8 +142,8 @@ namespace Xsolla.Core.Popup
 				}
 				else
 				{
-					// no Back button should be displayed for first tutorial step
-					BackButton.gameObject.SetActive(false);
+					// 'Back' button should not be displayed for the first tutorial step in case there is no welcome message
+					backButton.gameObject.SetActive(false);
 				}
 			}
 			else
@@ -135,16 +153,49 @@ namespace Xsolla.Core.Popup
 			}
 		}
 
-		void SetDefaultButtonsVisibility(bool show)
+		private void SetDefaultButtonsVisibility(bool show)
 		{
-			BackButton.gameObject.SetActive(show);
-			NextButton.gameObject.SetActive(show);
+			backButton.gameObject.SetActive(show);
+			nextButton.gameObject.SetActive(show);
 		}
 
-		void SetWelcomeButtonsVisibility(bool show)
+		private void SetWelcomeButtonsVisibility(bool show)
 		{
-			StartButton.gameObject.SetActive(show);
-			CancelButton.gameObject.SetActive(show);
+			startButton.gameObject.SetActive(show);
+			cancelButton.gameObject.SetActive(show);
+		}
+
+		private void MoveToNextStep()
+		{
+			if (!IsTutorialInfoValid)
+			{
+				Destroy(gameObject, 0.001F);
+				return;
+			}
+
+			_currentStepIndex++;
+
+			if (_currentStepIndex < _tutorialInfo.tutorialSteps.Count)
+			{
+				RefreshTutorial();
+				return;
+			}
+
+			_onTutorialCompleted?.Invoke();
+			Destroy(gameObject, 0.001F);
+		}
+
+		private void MoveToPreviousStep()
+		{
+			if (!IsTutorialInfoValid)
+			{
+				Destroy(gameObject, 0.001F);
+				return;
+			}
+
+			_currentStepIndex--;
+
+			RefreshTutorial();
 		}
 	}
 }

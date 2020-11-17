@@ -27,5 +27,6 @@
 		public const float LoginPageRateLimitMs = 1500.0F;
 
 		public const string INVENTORY_TUTORIAL_COMPLETED = "xsolla_inventory_tutorial_completion_flag";
+		public const string INVENTORY_TUTORIAL_HIGHLIGHT_TAG = "Highlight";
 	}
 }

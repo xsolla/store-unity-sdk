@@ -219,13 +219,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cffdac3d8b7bba4297328452314505d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BackButton: {fileID: 2726842111168432423}
-  NextButton: {fileID: 9023555334099701300}
-  StartButton: {fileID: 5576735025467430402}
-  CancelButton: {fileID: 8903756767941182781}
-  CloseButton: {fileID: 1560534815587771796}
-  Title: {fileID: 5038020635828188201}
-  Description: {fileID: 6417658651974901579}
+  backButton: {fileID: 2726842111168432423}
+  nextButton: {fileID: 9023555334099701300}
+  startButton: {fileID: 5576735025467430402}
+  cancelButton: {fileID: 8903756767941182781}
+  closeButton: {fileID: 1560534815587771796}
+  titleText: {fileID: 5038020635828188201}
+  descriptionText: {fileID: 6417658651974901579}
 --- !u!114 &4086294188714635241
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -573,6 +573,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7542889820504356160}
     m_Modifications:
+    - target: {fileID: 4688991624373441373, guid: 152bec8f0073348f998b57e8d0d2d56c,
+        type: 3}
+      propertyPath: m_Name
+      value: CancelButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 4688991624373441373, guid: 152bec8f0073348f998b57e8d0d2d56c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4886599519023862064, guid: 152bec8f0073348f998b57e8d0d2d56c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -678,16 +688,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 4688991624373441373, guid: 152bec8f0073348f998b57e8d0d2d56c,
-        type: 3}
-      propertyPath: m_Name
-      value: CancelButton
-      objectReference: {fileID: 0}
-    - target: {fileID: 4688991624373441373, guid: 152bec8f0073348f998b57e8d0d2d56c,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6091341236943683216, guid: 152bec8f0073348f998b57e8d0d2d56c,
         type: 3}
       propertyPath: m_Text
@@ -727,10 +727,6 @@ PrefabInstance:
     - target: {fileID: 719144266, guid: b49b6c9b3f527404bb299bfa9fea0870, type: 3}
       propertyPath: m_IsActive
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 373216386, guid: b49b6c9b3f527404bb299bfa9fea0870, type: 3}
-      propertyPath: m_Text
-      value: START
       objectReference: {fileID: 0}
     - target: {fileID: 719144267, guid: b49b6c9b3f527404bb299bfa9fea0870, type: 3}
       propertyPath: m_LocalPosition.x
@@ -815,6 +811,10 @@ PrefabInstance:
     - target: {fileID: 719144267, guid: b49b6c9b3f527404bb299bfa9fea0870, type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 373216386, guid: b49b6c9b3f527404bb299bfa9fea0870, type: 3}
+      propertyPath: m_Text
+      value: START
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b49b6c9b3f527404bb299bfa9fea0870, type: 3}
@@ -1019,10 +1019,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 373216386, guid: b49b6c9b3f527404bb299bfa9fea0870, type: 3}
-      propertyPath: m_Text
-      value: NEXT
-      objectReference: {fileID: 0}
     - target: {fileID: 719144267, guid: b49b6c9b3f527404bb299bfa9fea0870, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1107,6 +1103,10 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 373216386, guid: b49b6c9b3f527404bb299bfa9fea0870, type: 3}
+      propertyPath: m_Text
+      value: NEXT
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b49b6c9b3f527404bb299bfa9fea0870, type: 3}
 --- !u!224 &9023555334099701299 stripped
@@ -1134,6 +1134,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7542889820504356160}
     m_Modifications:
+    - target: {fileID: 4688991624373441373, guid: 152bec8f0073348f998b57e8d0d2d56c,
+        type: 3}
+      propertyPath: m_Name
+      value: BackButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 4688991624373441373, guid: 152bec8f0073348f998b57e8d0d2d56c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4886599519023862064, guid: 152bec8f0073348f998b57e8d0d2d56c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1238,16 +1248,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4688991624373441373, guid: 152bec8f0073348f998b57e8d0d2d56c,
-        type: 3}
-      propertyPath: m_Name
-      value: BackButton
-      objectReference: {fileID: 0}
-    - target: {fileID: 4688991624373441373, guid: 152bec8f0073348f998b57e8d0d2d56c,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6091341236943683216, guid: 152bec8f0073348f998b57e8d0d2d56c,
         type: 3}
