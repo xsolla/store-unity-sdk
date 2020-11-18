@@ -20,7 +20,7 @@ MonoBehaviour:
       add items to your inventory in the tutorial.
     prevButtonText: NO, THANKS
     nextButtonText: "LET\u2019S START"
-    highlightElement: 
+    highlightElementId: 
     screenToActivate: 0
   - title: 'In the demo, you can add items to the inventory in one of the following
       ways:  '
@@ -28,7 +28,7 @@ MonoBehaviour:
       bonus items\n3. Link a platform account to your main account
     prevButtonText: BACK
     nextButtonText: NEXT
-    highlightElement: 
+    highlightElementId: 
     screenToActivate: 0
   - title: Buy items in the web store
     description: 1. Go to the web store.\n2. Log in to the same account as you used
@@ -36,7 +36,7 @@ MonoBehaviour:
       you purchased will be available in the inventory.
     prevButtonText: BACK
     nextButtonText: NEXT
-    highlightElement: WebStoreMenuButton
+    highlightElementId: WebStoreMenuButton
     screenToActivate: 2
   - title: Redeem a coupon code
     description: "1. Click the REDEEM COUPON button in the top navigation bar.\\n2.
@@ -45,7 +45,7 @@ MonoBehaviour:
       inventory."
     prevButtonText: BACK
     nextButtonText: NEXT
-    highlightElement: RedeemCouponButton
+    highlightElementId: RedeemCouponButton
     screenToActivate: 1
   - title: Account linking
     description: Use account linking to manage a single cross-platform inventory on
@@ -59,5 +59,5 @@ MonoBehaviour:
       account will be available in the inventory after linking accounts is successful.
     prevButtonText: BACK
     nextButtonText: DONE
-    highlightElement: AccountLinkingMenuButton
+    highlightElementId: AccountLinkingMenuButton
     screenToActivate: 2
