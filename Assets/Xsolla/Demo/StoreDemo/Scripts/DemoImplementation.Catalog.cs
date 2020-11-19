@@ -9,13 +9,13 @@ using Xsolla.Store;
 public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 {
 	private const uint CATALOG_CACHE_TIMEOUT = 500;
-	
+
 	private readonly Dictionary<string, List<string>> _itemsGroups = new Dictionary<string, List<string>>();
-	
+
 	private List<StoreItem> _itemsCache;
 	private DateTime _itemsCacheTime = DateTime.Now;
 	private bool _refreshItemsInProgress;
-	
+
 	private List<CatalogBundleItemModel> _bundlesCache;
 	private DateTime _bundlesCacheTime = DateTime.Now;
 	private bool _refreshBundlesInProgress;
@@ -33,7 +33,7 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 					_itemsCacheTime = DateTime.Now;
 					_itemsCache = items.items.ToList();
 					onSuccess?.Invoke(_itemsCache);
-				}, WrapErrorCallback(onError));	
+				}, WrapErrorCallback(onError));
 			}
 			else
 				StartCoroutine(WaitItemsCoroutine(onSuccess));
@@ -47,7 +47,7 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 		yield return new WaitWhile(() => _refreshItemsInProgress);
 		onSuccess?.Invoke(_itemsCache);
 	}
-	
+
 	public void GetVirtualCurrencies(Action<List<VirtualCurrencyModel>> onSuccess, Action<Error> onError = null)
 	{
 		XsollaStore.Instance.GetVirtualCurrencyList(XsollaSettings.StoreProjectId, items =>
@@ -84,7 +84,7 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 			onSuccess?.Invoke(virtualItems);
 		}, WrapErrorCallback(onError));
 	}
-	
+
 	public void GetCatalogVirtualCurrencyPackages(Action<List<CatalogVirtualCurrencyModel>> onSuccess, Action<Error> onError = null)
 	{
 		XsollaStore.Instance.GetVirtualCurrencyPackagesList(XsollaSettings.StoreProjectId, packages =>
@@ -95,7 +95,7 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 				currencies.Add(new CatalogVirtualCurrencyModel
 				{
 					IsConsumable = p.IsConsumable(),
-					Amount = (uint)p.content.First().quantity,
+					Amount = (uint) p.content.First().quantity,
 					CurrencySku = p.content.First().sku
 				});
 				FillCatalogItem(currencies.Last(), p);
@@ -104,7 +104,7 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 			onSuccess?.Invoke(currencies);
 		}, WrapErrorCallback(onError));
 	}
-	
+
 	public void GetCatalogSubscriptions(Action<List<CatalogSubscriptionItemModel>> onSuccess, Action<Error> onError = null)
 	{
 		RequestStoreItems(items =>
@@ -143,20 +143,34 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 							Description = b.description,
 							ImageUrl = b.image_url
 						});
+						FillBundleItem(bundleItems.Last(), b);
 						bundleItems.Last().Content = new List<CatalogItemModel>();
 					});
 					_bundlesCache = bundleItems;
-					
+
 					bundles.items.ToList().ForEach(b =>
 					{
 						var model = _bundlesCache.First(c => c.Sku.Equals(b.sku));
 						b.content.ToList().ForEach(c =>
 						{
-							var item = _itemsCache.Any(i => i.sku.Equals(c.sku)) ? _itemsCache.First(i => i.sku.Equals(c.sku)) : _bundlesCache.First(i => i.Sku.Equals(c.sku));
-							//model.Content.Add(new CatalogItemModel());
+							if (_itemsCache.Any(i => i.sku.Equals(c.sku)))
+							{
+								var item = _itemsCache.First(i => i.sku.Equals(c.sku));
+								model.Content.Add(new CatalogVirtualItemModel()
+								{
+									IsConsumable = item.IsConsumable()
+								});
+								FillCatalogItem(model.Content.Last(), item);
+								AddItemGroups(item);
+							}
+							else if (_bundlesCache.Any(i => i.Sku.Equals(c.sku)))
+							{
+								var item = _bundlesCache.First(i => i.Sku.Equals(c.sku));
+								model.Content.Add(item);
+							}
 						});
 					});
-					
+
 					_bundlesCacheTime = DateTime.Now;
 					_refreshBundlesInProgress = false;
 					onSuccess?.Invoke(bundleItems);
@@ -166,7 +180,7 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 		}
 		else onSuccess?.Invoke(_bundlesCache);
 	}
-	
+
 	private IEnumerator WaitBundlesCoroutine(Action<List<CatalogBundleItemModel>> onSuccess)
 	{
 		yield return new WaitWhile(() => _refreshBundlesInProgress);
@@ -176,11 +190,11 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 	private void AddItemGroups(StoreItem item)
 	{
 		var groups = item.groups.Select(g => g.name).ToList();
-		if(!_itemsGroups.ContainsKey(item.sku))
+		if (!_itemsGroups.ContainsKey(item.sku))
 			_itemsGroups.Add(item.sku, new List<string>());
 		else
 			groups = groups.Except(_itemsGroups[item.sku]).ToList();
-		if(groups.Any())
+		if (groups.Any())
 			_itemsGroups[item.sku].AddRange(groups);
 	}
 
@@ -191,7 +205,7 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 		model.Description = item.description;
 		model.ImageUrl = item.image_url;
 	}
-	
+
 	private static void FillCatalogItem(CatalogItemModel model, StoreItem item)
 	{
 		FillItemModel(model, item);
@@ -227,10 +241,114 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 
 		var virtualPrice = virtualPrices.Count(v => v.is_default) == 0
 			? virtualPrices.First()
-			: virtualPrices.First(v => v.is_default); 
+			: virtualPrices.First(v => v.is_default);
 
 		priceWithoutDiscount = new KeyValuePair<string, uint>(virtualPrice.sku, virtualPrice.GetAmountWithoutDiscount());
-		return  new KeyValuePair<string, uint>(virtualPrice.sku, virtualPrice.GetAmount());
+		return new KeyValuePair<string, uint>(virtualPrice.sku, virtualPrice.GetAmount());
+	}
+
+	private static void FillBundleItem(CatalogBundleItemModel model, BundleItem item)
+	{
+		model.RealPrice = GetBundleRealPrice(item, out var realPriceWithoutDiscount);
+		model.RealPriceWithoutDiscount = realPriceWithoutDiscount;
+
+		model.VirtualPrice = GetBundleVirtualPrice(item, out var virtualPriceWithoutDiscount);
+		model.VirtualPriceWithoutDiscount = virtualPriceWithoutDiscount;
+
+		model.ContentRealPrice = GetBundleContentRealPrice(item, out var contentRealPriceWithoutDiscount);
+		model.ContentRealPriceWithoutDiscount = contentRealPriceWithoutDiscount;
+
+		model.ContentVirtualPrice = GetBundleContentVirtualPrice(item, out var contentVirtualPriceWithoutDiscount);
+		model.ContentVirtualPriceWithoutDiscount = contentVirtualPriceWithoutDiscount;
+	}
+
+	private static KeyValuePair<string, float>? GetBundleRealPrice(BundleItem item, out KeyValuePair<string, float>? priceWithoutDiscount)
+	{
+		if (item.price == null)
+		{
+			priceWithoutDiscount = null;
+			return null;
+		}
+
+		priceWithoutDiscount = new KeyValuePair<string, float>(item.price.currency, item.price.GetAmountWithoutDiscount());
+		return new KeyValuePair<string, float>(item.price.currency, item.price.GetAmount());
+	}
+
+	private static KeyValuePair<string, uint>? GetBundleVirtualPrice(BundleItem item, out KeyValuePair<string, uint>? priceWithoutDiscount)
+	{
+		var virtualPrices = item.virtual_prices.ToList();
+
+		if (!virtualPrices.Any())
+		{
+			priceWithoutDiscount = null;
+			return null;
+		}
+
+		var virtualPrice = virtualPrices.Count(v => v.is_default) == 0
+			? virtualPrices.First()
+			: virtualPrices.First(v => v.is_default);
+
+		priceWithoutDiscount = new KeyValuePair<string, uint>(virtualPrice.sku, virtualPrice.GetAmountWithoutDiscount());
+		return new KeyValuePair<string, uint>(virtualPrice.sku, virtualPrice.GetAmount());
+	}
+
+	private static KeyValuePair<string, float>? GetBundleContentRealPrice(BundleItem bundle, out KeyValuePair<string, float>? priceWithoutDiscount)
+	{
+		if (bundle.total_content_price == null)
+		{
+			priceWithoutDiscount = null;
+			return null;
+		}
+
+		priceWithoutDiscount = new KeyValuePair<string, float>(bundle.total_content_price.currency, bundle.total_content_price.GetAmountWithoutDiscount());
+		return new KeyValuePair<string, float>(bundle.total_content_price.currency, bundle.total_content_price.GetAmount());
+	}
+
+	private static KeyValuePair<string, uint>? GetBundleContentVirtualPrice(BundleItem bundle, out KeyValuePair<string, uint>? priceWithoutDiscount)
+	{
+		var bundleContent = bundle.content.ToList();
+
+		if (!bundleContent.Any())
+		{
+			priceWithoutDiscount = null;
+			return null;
+		}
+
+		uint contentVirtualPrice = 0;
+		uint contentVirtualPriceWithoutDiscount = 0;
+		string virtualCurrency = "";
+
+		foreach (var bundleContentItem in bundleContent)
+		{
+			var virtualPrices = bundleContentItem.virtual_prices.ToList();
+
+			if (!virtualPrices.Any())
+			{
+				priceWithoutDiscount = null;
+				return null;
+			}
+
+			var virtualPrice = virtualPrices.Count(v => v.is_default) == 0
+				? virtualPrices.First()
+				: virtualPrices.First(v => v.is_default);
+
+			if (string.IsNullOrEmpty(virtualCurrency))
+			{
+				virtualCurrency = virtualPrice.sku;
+			}
+
+			if (virtualCurrency != virtualPrice.sku)
+			{
+				priceWithoutDiscount = null;
+				return null;
+			}
+
+			contentVirtualPrice += virtualPrice.GetAmount();
+			contentVirtualPriceWithoutDiscount += virtualPrice.GetAmountWithoutDiscount();
+		}
+
+		priceWithoutDiscount = new KeyValuePair<string, uint>(virtualCurrency, contentVirtualPriceWithoutDiscount);
+		return new KeyValuePair<string, uint>(virtualCurrency, contentVirtualPrice);
 	}
 
 	public List<string> GetCatalogGroupsByItem(ItemModel item)
