@@ -15,31 +15,21 @@ namespace Xsolla.Core.Popup
 		private void Awake()
 		{
 			RedeemButton.Disable();
+			RedeemButton.onClick = () => Destroy(gameObject, 0.001F);
 
-			if (RedeemButton != null)
-			{
-				RedeemButton.onClick = () => Destroy(gameObject, 0.001F);
-			}
+			CancelButton.onClick = () => Destroy(gameObject, 0.001F);
 
-			if (CancelButton != null)
+			CodeInputField.onValueChanged.AddListener(newValue =>
 			{
-				CancelButton.onClick = () => Destroy(gameObject, 0.001F);
-			}
-
-			if (CodeInputField != null)
-			{
-				CodeInputField.onValueChanged.AddListener(newValue =>
+				if (string.IsNullOrEmpty(newValue))
 				{
-					if (string.IsNullOrEmpty(newValue))
-					{
-						RedeemButton?.Disable();
-					}
-					else
-					{
-						RedeemButton?.Enable();
-					}
-				});
-			}
+					RedeemButton?.Disable();
+				}
+				else
+				{
+					RedeemButton?.Enable();
+				}
+			});
 		}
 
 		public ICouponRedeemPopup SetRedeemCallback(Action<string> buttonPressed)
