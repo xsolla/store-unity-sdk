@@ -13,8 +13,6 @@
 		public const string LAST_SUCCESS_OAUTH_REFRESH_TOKEN = "xsolla_login_last_success_oauth_refresh_token";
 		public const string OAUTH_REFRESH_TOKEN_EXPIRATION_TIME = "xsolla_login_oauth_refresh_token_expiration_time";
 
-		public const string DEFAULT_WEB_STORE_URL = "https://livedemo.xsolla.com/sdk-account-linking/";
-
 		public const string CartGroupName = "CART";
 		public const string CurrencyGroupName = "CURRENCY";
 		public const string UngroupedGroupName = "UNGROUPED";
