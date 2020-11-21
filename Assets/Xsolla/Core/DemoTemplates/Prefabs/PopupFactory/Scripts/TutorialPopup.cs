@@ -169,6 +169,7 @@ namespace Xsolla.Core.Popup
 		{
 			if (!IsTutorialInfoValid)
 			{
+				Debug.LogError("Tutorial popup info is invalid or missing!");
 				Destroy(gameObject, 0.001F);
 				return;
 			}
@@ -189,6 +190,7 @@ namespace Xsolla.Core.Popup
 		{
 			if (!IsTutorialInfoValid)
 			{
+				Debug.LogError("Tutorial popup info is invalid or missing!");
 				Destroy(gameObject, 0.001F);
 				return;
 			}

@@ -6,6 +6,11 @@ public class TutorialManager : MonoBehaviour
 {
 	[SerializeField] private TutorialInfo _tutorialInfo;
 
+#if UNITY_EDITOR
+	[ContextMenu("Drop tutorial")]
+	public void DropTutorial() => PlayerPrefs.SetInt(Constants.INVENTORY_TUTORIAL_COMPLETED, 0);
+#endif
+
 	public void ShowTutorial(bool showWelcomeMessage = true)
 	{
 		var tutorialPopup = PopupFactory.Instance.CreateTutorial();
