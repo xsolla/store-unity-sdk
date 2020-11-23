@@ -15,10 +15,10 @@ public class CommonStoreMenuController : BaseMenuController
 		AttachUrlToButton(documentationButton, DemoController.Instance.UrlContainer.GetUrl(UrlType.DocumentationUrl));
 		AttachUrlToButton(testCardsButton, DemoController.Instance.UrlContainer.GetUrl(UrlType.TestCardsUrl));
 		AttachButtonCallback(backButton, () => DemoController.Instance.SetPreviousState());
-		AttachButtonCallback(buyCurrencyButton, 
+		AttachButtonCallback(buyCurrencyButton,
 			() => SetMenuState(MenuState.BuyCurrency, () => UserCatalog.Instance.IsUpdated));
 
-		if (tutorialButton != null && DemoController.Instance.IsTutorialAvailable)
+		if (DemoController.Instance.IsTutorialAvailable)
 		{
 			tutorialButton.gameObject.SetActive(true);
 			AttachButtonCallback(tutorialButton, () => DemoController.Instance.TutorialManager.ShowTutorial(false));

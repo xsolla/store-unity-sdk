@@ -143,6 +143,11 @@ public class DemoController : MonoSingleton<DemoController>, IMenuStateMachine
             stateMachine.SetPreviousState();
     }
 
+    public bool IsStateAvailable(MenuState state)
+    {
+        return stateMachine.IsStateAvailable(state);
+    }
+
     public string GetWebStoreUrl()
     {
         return $"{XsollaSettings.WebStoreUrl}?token={_demoImplementation.Token}&remember_me=false";

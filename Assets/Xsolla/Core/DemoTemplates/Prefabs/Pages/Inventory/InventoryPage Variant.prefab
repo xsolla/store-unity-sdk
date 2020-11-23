@@ -83,6 +83,20 @@ MonoBehaviour:
     type: 3}
   itemsContainer: {fileID: 6317981237814126328}
   groupsController: {fileID: 8356758418184468639}
+--- !u!114 &8751856430991178980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3189242410528169710}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 591e9ed51e83345d0ab68c8857a7a750, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buyCurrencyButton: {fileID: 3189242410889028147}
+  virtualCurrencyBalance: {fileID: 3189242410923036720}
 --- !u!1 &8672133550488970030
 GameObject:
   m_ObjectHideFlags: 0
@@ -491,6 +505,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 101725668341006754, guid: 982908fb0a92a4049bef12afc0fee349,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 101725668887708154, guid: 982908fb0a92a4049bef12afc0fee349,
         type: 3}
       propertyPath: m_Name
@@ -501,6 +520,11 @@ PrefabInstance:
       propertyPath: tutorialButton
       value: 
       objectReference: {fileID: 4249194996875315661}
+    - target: {fileID: 8014812735050238528, guid: 982908fb0a92a4049bef12afc0fee349,
+        type: 3}
+      propertyPath: virtualCurrencyBalance
+      value: 
+      objectReference: {fileID: 3189242410923036720}
     - target: {fileID: 101725668887708157, guid: 982908fb0a92a4049bef12afc0fee349,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -806,11 +830,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 101725668341006754, guid: 982908fb0a92a4049bef12afc0fee349,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 34187652361133515, guid: 982908fb0a92a4049bef12afc0fee349,
         type: 3}
       propertyPath: m_AnchorMin.y
@@ -951,11 +970,28 @@ PrefabInstance:
       propertyPath: m_Texture
       value: 
       objectReference: {fileID: 2800000, guid: 77ca98546431047feb3dfcce737d7165, type: 3}
+    - target: {fileID: 101725667662008189, guid: 982908fb0a92a4049bef12afc0fee349,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 982908fb0a92a4049bef12afc0fee349, type: 3}
 --- !u!1 &3189242411452436585 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 101725668887708154, guid: 982908fb0a92a4049bef12afc0fee349,
+    type: 3}
+  m_PrefabInstance: {fileID: 3254714842152227219}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3189242410528169710 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 101725667662008189, guid: 982908fb0a92a4049bef12afc0fee349,
+    type: 3}
+  m_PrefabInstance: {fileID: 3254714842152227219}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3189242410923036720 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 101725668341006755, guid: 982908fb0a92a4049bef12afc0fee349,
     type: 3}
   m_PrefabInstance: {fileID: 3254714842152227219}
   m_PrefabAsset: {fileID: 0}
@@ -965,6 +1001,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 3254714842152227219}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3189242410889028147 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 101725668240946080, guid: 982908fb0a92a4049bef12afc0fee349,
+    type: 3}
+  m_PrefabInstance: {fileID: 3254714842152227219}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 324f3b63bb596476ea74d1b010da30f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &4249194996875315661 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1716783716492253278, guid: 982908fb0a92a4049bef12afc0fee349,
