@@ -144,7 +144,7 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 							ImageUrl = b.image_url
 						});
 						FillBundleItem(bundleItems.Last(), b);
-						bundleItems.Last().Content = new List<CatalogItemModel>();
+						bundleItems.Last().Content = new List<BundleContentItem>();
 					});
 					_bundlesCache = bundleItems;
 
@@ -156,17 +156,18 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 							if (_itemsCache.Any(i => i.sku.Equals(c.sku)))
 							{
 								var item = _itemsCache.First(i => i.sku.Equals(c.sku));
-								model.Content.Add(new CatalogVirtualItemModel()
+								var catalogItem = new CatalogVirtualItemModel
 								{
 									IsConsumable = item.IsConsumable()
-								});
-								FillCatalogItem(model.Content.Last(), item);
+								};
+								model.Content.Add(new BundleContentItem(catalogItem, c.quantity));
+								FillCatalogItem(model.Content.Last().Item, item);
 								AddItemGroups(item);
 							}
 							else if (_bundlesCache.Any(i => i.Sku.Equals(c.sku)))
 							{
 								var item = _bundlesCache.First(i => i.Sku.Equals(c.sku));
-								model.Content.Add(item);
+								model.Content.Add(new BundleContentItem(item, c.quantity));
 							}
 						});
 					});

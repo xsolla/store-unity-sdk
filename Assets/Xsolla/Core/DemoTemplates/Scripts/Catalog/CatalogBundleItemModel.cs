@@ -12,5 +12,5 @@ public class CatalogBundleItemModel : CatalogItemModel
 	public KeyValuePair<string, uint>? ContentVirtualPrice { get; set; }
 	public KeyValuePair<string, uint>? ContentVirtualPriceWithoutDiscount { get; set; }
 
-	public List<CatalogItemModel> Content { get; set; }
+	public List<BundleContentItem> Content { get; set; }
 }

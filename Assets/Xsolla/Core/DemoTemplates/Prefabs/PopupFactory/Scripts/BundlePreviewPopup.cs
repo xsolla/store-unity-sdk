@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using Xsolla.Store;
 
 namespace Xsolla.Core.Popup
 {
@@ -18,6 +19,10 @@ namespace Xsolla.Core.Popup
 		[SerializeField] Text bundlePriceVcWithoutDiscount;
 
 		[SerializeField] SimpleButton closeButton;
+		[SerializeField] SimpleTextButton buyButton;
+
+		[SerializeField] GameObject itemPrefab;
+		[SerializeField] ItemContainer itemsContainer;
 
 		public IBundlePreviewPopup SetBundleInfo(CatalogBundleItemModel bundle)
 		{
@@ -38,7 +43,11 @@ namespace Xsolla.Core.Popup
 			else
 				InitializeRealPrice(bundle);
 
+			bundle.Content.ForEach(AddBundleContentItem);
+
 			closeButton.onClick = () => { Destroy(gameObject, 0.001F); };
+
+			AttachBuyButtonHandler(bundle);
 
 			return this;
 		}
@@ -65,7 +74,7 @@ namespace Xsolla.Core.Popup
 			bundlePriceVc.text = bundle.VirtualPrice?.Value.ToString();
 			bundlePriceVcWithoutDiscount.text = bundle.ContentVirtualPriceWithoutDiscount?.Value.ToString();
 
-			InitializeVcImage(bundle);
+			InitializeVcImages(bundle);
 		}
 
 		private void InitializeRealPrice(CatalogBundleItemModel bundle)
@@ -107,7 +116,7 @@ namespace Xsolla.Core.Popup
 			bundleImage.sprite = image;
 		}
 
-		private void InitializeVcImage(CatalogBundleItemModel bundle)
+		private void InitializeVcImages(CatalogBundleItemModel bundle)
 		{
 			var currencySku = bundle.VirtualPrice?.Key;
 			var currency = UserCatalog.Instance.VirtualCurrencies.First(vc => vc.Sku.Equals(currencySku));
@@ -122,6 +131,31 @@ namespace Xsolla.Core.Popup
 			else
 			{
 				Debug.LogError($"Bundle with sku = '{bundle.Sku}' virtual currency price has no image!");
+			}
+		}
+
+		private void AddBundleContentItem(BundleContentItem bundleContentItem)
+		{
+			itemsContainer.AddItem(itemPrefab).GetComponent<BundleItemUI>().Initialize(bundleContentItem);
+		}
+
+		private void AttachBuyButtonHandler(CatalogItemModel virtualItem)
+		{
+			if (virtualItem.VirtualPrice == null)
+			{
+				buyButton.onClick = () =>
+				{
+					Destroy(gameObject, 0.001F);
+					DemoController.Instance.GetImplementation().PurchaseForRealMoney(virtualItem);
+				};
+			}
+			else
+			{
+				buyButton.onClick = () =>
+				{
+					Destroy(gameObject, 0.001F);
+					DemoController.Instance.GetImplementation().PurchaseForVirtualCurrency(virtualItem);
+				};
 			}
 		}
 	}
