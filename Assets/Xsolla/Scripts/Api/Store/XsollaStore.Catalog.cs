@@ -49,7 +49,7 @@ namespace Xsolla.Store
 			urlBuilder.Append(GetLocaleUrlParam(locale));
 			urlBuilder.Append(GetCurrencyUrlParam(currency));
 
-			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), null, onSuccess, onError, Error.ItemsListErrors);
+			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), AnalyticHeaders, onSuccess, onError, Error.ItemsListErrors);
 		}
 		
 		/// <summary>
@@ -68,7 +68,7 @@ namespace Xsolla.Store
 			urlBuilder.Append(GetLocaleUrlParam(locale));
 			urlBuilder.Append(GetCurrencyUrlParam(currency));
 
-			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), null, onSuccess, onError, Error.ItemsListErrors);
+			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), AnalyticHeaders, onSuccess, onError, Error.ItemsListErrors);
 		}
 
 		/// <summary>

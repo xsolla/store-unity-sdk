@@ -15,21 +15,19 @@ public class BundleItemUI : MonoBehaviour
 		itemDescription.text = item.Description;
 		itemQuantity.text = item.Quantity.ToString();
 
-		if (itemImage.sprite != null)
+		if (!string.IsNullOrEmpty(item.ImageUrl))
 		{
-			if (!string.IsNullOrEmpty(item.ImageUrl))
-			{
-				ImageLoader.Instance.GetImageAsync(item.ImageUrl, LoadImageCallback);
-			}
-			else
-			{
-				Debug.LogError($"Bundle content item with sku = '{item.Sku}' without image!");
-			}
+			ImageLoader.Instance.GetImageAsync(item.ImageUrl, LoadImageCallback);
+		}
+		else
+		{
+			Debug.LogError($"Bundle content item with sku = '{item.Sku}' without image!");
 		}
 	}
 
 	void LoadImageCallback(string url, Sprite image)
 	{
-		itemImage.sprite = image;
+		if (itemImage)
+			itemImage.sprite = image;
 	}
 }
