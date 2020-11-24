@@ -3,26 +3,25 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using Newtonsoft.Json;
-using UnityEngine;
 using UnityEngine.Networking;
 
 namespace Xsolla.Core
 {
 	public partial class WebRequestHelper : MonoSingleton<WebRequestHelper>
 	{
-		public void PutRequest<T>(string url, T jsonObject, WebRequestHeader requestHeader, Action onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T: class
+		public void PutRequest<T>(string url, T jsonObject, List<WebRequestHeader> requestHeaders, Action onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
 		{
-			StartCoroutine(PutRequestCor(url, jsonObject, requestHeader, onComplete, onError, errorsToCheck));
+			StartCoroutine(PutRequestCor(url, jsonObject, requestHeaders, onComplete, onError, errorsToCheck));
 		}
 
-		IEnumerator PutRequestCor<T>(string url, T jsonObject, WebRequestHeader requestHeader, Action onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T: class
+		IEnumerator PutRequestCor<T>(string url, T jsonObject, List<WebRequestHeader> requestHeaders, Action onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
 		{
 			UnityWebRequest webRequest = new UnityWebRequest(url, "PUT") {
 				downloadHandler = new DownloadHandlerBuffer()
 			};
 			
 			AttachBodyToPutRequest(webRequest, jsonObject);
-			AttachHeadersToPutRequest(webRequest, requestHeader);
+			AttachHeadersToPutRequest(webRequest, requestHeaders);
 
 			yield return StartCoroutine(PerformWebRequest(webRequest, onComplete, onError, errorsToCheck));
 		}
@@ -36,14 +35,15 @@ namespace Xsolla.Core
 			}
 		}
 
-		private void AttachHeadersToPutRequest(UnityWebRequest webRequest, WebRequestHeader requestHeader)
+		private void AttachHeadersToPutRequest(UnityWebRequest webRequest, List<WebRequestHeader> requestHeaders)
 		{
-			AddOptionalHeadersTo(webRequest);
-			AddContentTypeHeaderTo(webRequest);
+			if (requestHeaders != null)
+				requestHeaders.Add(WebRequestHeader.ContentTypeHeader());
+			else
+				requestHeaders = new List<WebRequestHeader>() { WebRequestHeader.ContentTypeHeader() };
 
-			if (requestHeader != null) {
-				webRequest.SetRequestHeader(requestHeader.Name, requestHeader.Value);
-			}
+			foreach (var header in requestHeaders)
+				webRequest.SetRequestHeader(header.Name, header.Value);
 		}
 	}
 }

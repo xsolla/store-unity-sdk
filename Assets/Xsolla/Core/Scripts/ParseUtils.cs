@@ -28,9 +28,18 @@ namespace Xsolla.Core
 		
 		public static Error ParseError(string json)
 		{
-			if (JsonConvert.DeserializeObject(json) is JArray)
+			try
 			{
-				// if json is a simple array return null to avoid raising exception while trying to parse it as an error
+				if (JsonConvert.DeserializeObject(json) is JArray)
+				{
+					// if json is a simple array return null to avoid raising exception while trying to parse it as an error
+					return null;
+				}
+			}
+			catch (Exception ex)
+			{
+				//if this is not a json at all
+				Debug.LogError(ex.Message);
 				return null;
 			}
 			
@@ -62,7 +71,7 @@ namespace Xsolla.Core
 			Debug.Log($"Trying to find {parameterName} in URL:{url}");
 
 			var regex = new Regex($"[&?]{parameterName}=[a-zA-Z0-9._-]+");
-			value = regex.Match(url).Value.Replace($"{parameterName}=", string.Empty).Replace("&", string.Empty).Replace("?", string.Empty);
+			value = regex.Match(url)?.Value?.Replace($"{parameterName}=", string.Empty).Replace("&", string.Empty).Replace("?", string.Empty);
 			return !string.IsNullOrEmpty(value);
 		}
 	}	

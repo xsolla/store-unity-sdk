@@ -28,20 +28,17 @@ namespace Xsolla.Login
 		public void GetUserAttributes(string token, string projectId, UserAttributeType attributeType, [CanBeNull] List<string> attributeKeys, [CanBeNull] string userId, [NotNull] Action<List<UserAttribute>> onSuccess, [CanBeNull] Action<Error> onError)
 		{
 			var getAttributesRequestBody = new GetAttributesJson(attributeKeys, projectId, userId);
-			
-			var headers = new List<WebRequestHeader>();
-			headers.Add(WebRequestHeader.AuthHeader(token));
-			headers.Add(WebRequestHeader.ContentTypeHeader());
-			
+			var headers = AppendAnalyticHeadersTo(WebRequestHeader.AuthHeader(token), WebRequestHeader.ContentTypeHeader());
+
 			string url = default(string);
 
 			switch (attributeType)
 			{
 				case UserAttributeType.CUSTOM:
-					url = URL_USER_GET_ATTRIBUTES;
+					url = $"{URL_USER_GET_ATTRIBUTES}?{AnalyticUrlAddition}";
 					break;
 				case UserAttributeType.READONLY:
-					url = URL_USER_GET_READONLY_ATTRIBUTES;
+					url = $"{URL_USER_GET_READONLY_ATTRIBUTES}?{AnalyticUrlAddition}";
 					break;
 			}
 
@@ -63,12 +60,9 @@ namespace Xsolla.Login
 		public void UpdateUserAttributes(string token, string projectId, List<UserAttribute> attributes, Action onSuccess, Action<Error> onError)
 		{
 			var modifyAttributesRequestBody = new ModifyAttributesJson(attributes, projectId, null);
-			
-			var headers = new List<WebRequestHeader>();
-			headers.Add(WebRequestHeader.AuthHeader(token));
-			headers.Add(WebRequestHeader.ContentTypeHeader());
-			
-			WebRequestHelper.Instance.PostRequest(URL_USER_UPDATE_ATTRIBUTES, modifyAttributesRequestBody, headers, onSuccess, onError);
+			var headers = AppendAnalyticHeadersTo(WebRequestHeader.AuthHeader(token), WebRequestHeader.ContentTypeHeader());
+
+			WebRequestHelper.Instance.PostRequest($"{URL_USER_UPDATE_ATTRIBUTES}?{AnalyticUrlAddition}", modifyAttributesRequestBody, headers, onSuccess, onError);
 		}
 
 		/// <summary>
@@ -86,12 +80,9 @@ namespace Xsolla.Login
 		public void RemoveUserAttributes(string token, string projectId, List<string> attributeKeys, Action onSuccess, Action<Error> onError)
 		{
 			var removeAttributesRequestBody = new ModifyAttributesJson(null, projectId, attributeKeys);
-			
-			var headers = new List<WebRequestHeader>();
-			headers.Add(WebRequestHeader.AuthHeader(token));
-			headers.Add(WebRequestHeader.ContentTypeHeader());
-			
-			WebRequestHelper.Instance.PostRequest(URL_USER_UPDATE_ATTRIBUTES, removeAttributesRequestBody, headers, onSuccess, onError);
+			var headers = AppendAnalyticHeadersTo(WebRequestHeader.AuthHeader(token), WebRequestHeader.ContentTypeHeader());
+
+			WebRequestHelper.Instance.PostRequest($"{URL_USER_UPDATE_ATTRIBUTES}?{AnalyticUrlAddition}", removeAttributesRequestBody, headers, onSuccess, onError);
 		}
 	}
 }

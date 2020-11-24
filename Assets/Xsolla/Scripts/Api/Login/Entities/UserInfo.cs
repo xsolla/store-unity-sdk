@@ -39,6 +39,7 @@ namespace Xsolla.Login
 		public string phone;
 		public string picture;
 		public string registered;
+		public string username;
 		/// <summary>
 		/// User status. Can be 'online' or 'offline'.
 		/// </summary>

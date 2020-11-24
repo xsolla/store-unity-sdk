@@ -31,7 +31,13 @@
 * Mac OS 10.12 and higher
 * DirectX 10
 * Visual Studio 2015
-* Unity 2017.4.22 and higher
+* Unity 2018.3.0f2 and higher
+
+**NOTE:** The SDK is stable for the following Unity versions:
+* 2018.3.0f2
+* 2019.3.4f1
+
+**NOTE:** Only Mono сompiler is supported when creating a game build.
 
 ## Target OS
 * iOS

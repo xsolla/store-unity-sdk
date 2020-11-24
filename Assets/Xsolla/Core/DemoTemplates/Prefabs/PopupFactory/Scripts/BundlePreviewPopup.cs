@@ -74,6 +74,12 @@ namespace Xsolla.Core.Popup
 			bundlePriceVc.text = bundle.VirtualPrice?.Value.ToString();
 			bundlePriceVcWithoutDiscount.text = bundle.ContentVirtualPriceWithoutDiscount?.Value.ToString();
 
+			if (!bundle.ContentVirtualPriceWithoutDiscount.HasValue)
+			{
+				bundlePriceVcWithoutDiscountImage.gameObject.SetActive(false);
+				bundlePriceVcWithoutDiscount.gameObject.SetActive(false);
+			}
+
 			InitializeVcImages(bundle);
 		}
 

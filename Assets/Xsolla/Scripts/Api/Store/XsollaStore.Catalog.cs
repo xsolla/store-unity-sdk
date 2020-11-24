@@ -25,11 +25,11 @@ namespace Xsolla.Store
 		/// <param name="currency">Defines currency of item's price.</param>
 		public void GetCatalog(string projectId, [NotNull] Action<StoreItems> onSuccess, [CanBeNull] Action<Error> onError, [CanBeNull] string locale = null, [CanBeNull] string currency = null)
 		{
-			var urlBuilder = new StringBuilder(string.Format(URL_CATALOG_GET_ITEMS, projectId)).Append(AdditionalUrlParams);
+			var urlBuilder = new StringBuilder(string.Format(URL_CATALOG_GET_ITEMS, projectId)).Append(AnalyticUrlAddition);
 			urlBuilder.Append(GetLocaleUrlParam(locale));
 			urlBuilder.Append(GetCurrencyUrlParam(currency));
 
-			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), null, onSuccess, onError, Error.ItemsListErrors);
+			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), AnalyticHeaders, onSuccess, onError, Error.ItemsListErrors);
 		}
 
 		/// <summary>
@@ -45,7 +45,7 @@ namespace Xsolla.Store
 		/// <param name="currency">Defines currency of item's price.</param>
 		public void GetBundle(string projectId, string sku, [NotNull] Action<BundleItem> onSuccess, [CanBeNull] Action<Error> onError, [CanBeNull] string locale = null, [CanBeNull] string currency = null)
 		{
-			var urlBuilder = new StringBuilder(string.Format(URL_CATALOG_GET_BUNDLE, projectId, sku)).Append(AdditionalUrlParams);
+			var urlBuilder = new StringBuilder(string.Format(URL_CATALOG_GET_BUNDLE, projectId, sku)).Append(AnalyticUrlAddition);
 			urlBuilder.Append(GetLocaleUrlParam(locale));
 			urlBuilder.Append(GetCurrencyUrlParam(currency));
 
@@ -64,7 +64,7 @@ namespace Xsolla.Store
 		/// <param name="currency">Defines currency of item's price.</param>
 		public void GetBundles(string projectId, [NotNull] Action<BundleItems> onSuccess, [CanBeNull] Action<Error> onError, [CanBeNull] string locale = null, [CanBeNull] string currency = null)
 		{
-			var urlBuilder = new StringBuilder(string.Format(URL_CATALOG_GET_BUNDLES, projectId)).Append(AdditionalUrlParams);
+			var urlBuilder = new StringBuilder(string.Format(URL_CATALOG_GET_BUNDLES, projectId)).Append(AnalyticUrlAddition);
 			urlBuilder.Append(GetLocaleUrlParam(locale));
 			urlBuilder.Append(GetCurrencyUrlParam(currency));
 
@@ -84,11 +84,11 @@ namespace Xsolla.Store
 		/// <param name="currency">Defines currency of item's price.</param>
 		public void GetGroupItems(string projectId, string groupExternalId, [NotNull] Action<StoreItems> onSuccess, [CanBeNull] Action<Error> onError, [CanBeNull] string locale = null, [CanBeNull] string currency = null)
 		{
-			var urlBuilder = new StringBuilder(string.Format(URL_CATALOG_GET_ITEMS_IN_GROUP, projectId, groupExternalId)).Append(AdditionalUrlParams);
+			var urlBuilder = new StringBuilder(string.Format(URL_CATALOG_GET_ITEMS_IN_GROUP, projectId, groupExternalId)).Append(AnalyticUrlAddition);
 			urlBuilder.Append(GetLocaleUrlParam(locale));
 			urlBuilder.Append(GetCurrencyUrlParam(currency));
 
-			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), null, onSuccess, onError, Error.ItemsListErrors);
+			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), AnalyticHeaders, onSuccess, onError, Error.ItemsListErrors);
 		}
 
 		/// <summary>
@@ -102,10 +102,10 @@ namespace Xsolla.Store
 		/// <param name="locale">Defines localization of item's text fields.</param>
 		public void GetItemGroups(string projectId, [NotNull] Action<Groups> onSuccess, [CanBeNull] Action<Error> onError, [CanBeNull] string locale = null)
 		{
-			var urlBuilder = new StringBuilder(string.Format(URL_CATALOG_GET_GROUPS, projectId)).Append(AdditionalUrlParams);
+			var urlBuilder = new StringBuilder(string.Format(URL_CATALOG_GET_GROUPS, projectId)).Append(AnalyticUrlAddition);
 			urlBuilder.Append(GetLocaleUrlParam(locale));
 
-			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), null, onSuccess, onError);
+			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), AnalyticHeaders, onSuccess, onError);
 		}
 	}
 }

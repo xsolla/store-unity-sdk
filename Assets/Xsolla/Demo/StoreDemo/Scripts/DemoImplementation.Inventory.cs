@@ -81,6 +81,30 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 		return dtDateTime;
 	}
 
+	public void ConsumeVirtualCurrency(InventoryItemModel currency, uint count, Action onSuccess, Action onFailed = null)
+	{
+		StoreDemoPopup.ShowConsumeConfirmation(currency.Name, count, () =>
+		{
+			if (count > int.MaxValue)
+			{
+				var errorMessage = "Count exceeds max possible value";
+				Debug.LogError("Count exceeds MaxValue");
+				StoreDemoPopup.ShowError(new Error(errorMessage: errorMessage));
+				onFailed?.Invoke();
+				return;
+			}
+
+			var convertedCount = (int?)count;
+
+			var isFinished = false;
+			PopupFactory.Instance.CreateWaiting().SetCloseCondition(() => isFinished);
+			SendConsumeItemRequest(currency, convertedCount,
+				onSuccess: () => { isFinished = true; onSuccess?.Invoke(); },
+				onError: WrapErrorCallback( _ => { isFinished = true; onFailed?.Invoke(); }));
+
+		}, onFailed);
+	}
+
 	public void ConsumeInventoryItem(InventoryItemModel item, uint count, Action<InventoryItemModel> onSuccess, Action<InventoryItemModel> onFailed = null)
 	{
 		StoreDemoPopup.ShowConsumeConfirmation(item.Name, count, () =>
@@ -97,20 +121,20 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 		while (count-- > 0)
 		{
 			var busy = true;
-			SendConsumeOneItemRequest(item, () => busy = false, () => WrapErrorCallback(_ => onFailed?.Invoke(item)));
+			SendConsumeItemRequest(item, 1, () => busy = false, WrapErrorCallback(_ => onFailed?.Invoke(item)));
 			yield return new WaitWhile(() => busy);
 		}
 		isFinished = true;
 		onSuccess?.Invoke(item);
 	}
 
-	private void SendConsumeOneItemRequest(InventoryItemModel item, Action onSuccess, Action onError)
+	private void SendConsumeItemRequest(InventoryItemModel item, int? count, Action onSuccess, Action<Error> onError)
 	{
 		XsollaStore.Instance.ConsumeInventoryItem(XsollaSettings.StoreProjectId, new ConsumeItem
 		{
 			sku = item.Sku,
 			instance_id = item.InstanceId,
-			quantity = 1
-		}, onSuccess, _ => onError?.Invoke());
+			quantity = count
+		}, onSuccess, onError);
 	}
 }

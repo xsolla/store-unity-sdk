@@ -20,7 +20,8 @@ namespace Xsolla.Core
 		[SerializeField] private AuthorizationType authorizationType;
 		[SerializeField] private bool jwtTokenInvalidationEnabled;
 		[SerializeField] private int oauthClientId;
-		
+		[SerializeField] private bool requestNicknameOnAuth;
+
 		[SerializeField] private bool useSteamAuth = true;
 		[SerializeField] private string steamAppId = "480";
 		[SerializeField] private bool useConsoleAuth;
@@ -103,6 +104,16 @@ namespace Xsolla.Core
 			set
 			{
 				Instance.oauthClientId = value;
+				MarkAssetDirty();
+			}
+		}
+
+		public static bool RequestNicknameOnAuth
+		{
+			get => Instance.requestNicknameOnAuth;
+			set
+			{
+				Instance.requestNicknameOnAuth = value;
 				MarkAssetDirty();
 			}
 		}

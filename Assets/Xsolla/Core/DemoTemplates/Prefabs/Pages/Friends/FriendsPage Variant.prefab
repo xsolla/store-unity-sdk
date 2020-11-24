@@ -201,14 +201,10 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 3782068388262229781, guid: 603bc4c7b4a9642708aeb3378d1101f9,
         type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3782068388262229781, guid: 603bc4c7b4a9642708aeb3378d1101f9,
+      propertyPath: groupPrefab
+      value: 
+      objectReference: {fileID: 19797946730710431, guid: af0c2128da48c4c5189414f105bb8c7a,
         type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8080787672106066064, guid: 603bc4c7b4a9642708aeb3378d1101f9,
         type: 3}
       propertyPath: m_Name

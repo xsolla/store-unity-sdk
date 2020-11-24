@@ -97,6 +97,11 @@ namespace Xsolla.Core
 			StartCoroutine(PostUploadRequestCor(url, pathToFile, requestHeaders, onComplete, onError, errorsToCheck));
 		}
 
+		public void PostUploadRequest(string url, byte[] fileData, List<WebRequestHeader> requestHeaders, Action<string> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
+		{
+			StartCoroutine(PostUploadRequestCor(url, fileData, requestHeaders, onComplete, onError, errorsToCheck));
+		}
+
 		IEnumerator PostRequestCor(string url, object jsonObject, List<WebRequestHeader> requestHeaders, Action onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
 		{
 			UnityWebRequest webRequest = PreparePostWebRequest(url, jsonObject, requestHeaders);
@@ -121,6 +126,16 @@ namespace Xsolla.Core
 		IEnumerator PostUploadRequestCor<T>(string url, string pathToFile, List<WebRequestHeader> requestHeaders, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
 		{
 			UnityWebRequest webRequest = PreparePostUploadRequest(url, pathToFile, requestHeaders);
+
+			yield return StartCoroutine(PerformWebRequest(webRequest, onComplete, onError, errorsToCheck));
+		}
+
+		IEnumerator PostUploadRequestCor(string url, byte[] fileData, List<WebRequestHeader> requestHeaders, Action<string> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
+		{
+			UnityWebRequest webRequest = UnityWebRequest.Post(url, UnityWebRequest.kHttpVerbPOST);
+			webRequest.timeout = 10;
+			webRequest.uploadHandler = (UploadHandler)new UploadHandlerRaw(fileData);
+			AttachHeadersToPostRequest(webRequest, requestHeaders, withContentType: false);
 
 			yield return StartCoroutine(PerformWebRequest(webRequest, onComplete, onError, errorsToCheck));
 		}
@@ -170,16 +185,18 @@ namespace Xsolla.Core
 			}
 		}
 
-		private void AttachHeadersToPostRequest(UnityWebRequest webRequest, List<WebRequestHeader> requestHeaders)
+		private void AttachHeadersToPostRequest(UnityWebRequest webRequest, List<WebRequestHeader> requestHeaders, bool withContentType = true)
 		{
-			AddContentTypeHeaderTo(webRequest);
-			AddOptionalHeadersTo(webRequest);
-
-			if (requestHeaders != null) {
-				foreach (WebRequestHeader header in requestHeaders) {
-					webRequest.SetRequestHeader(header.Name, header.Value);
-				}
+			if (withContentType)
+			{
+				if (requestHeaders != null)
+					requestHeaders.Add(WebRequestHeader.ContentTypeHeader());
+				else
+					requestHeaders = new List<WebRequestHeader>() { WebRequestHeader.ContentTypeHeader() };
 			}
+
+			foreach (var header in requestHeaders)
+				webRequest.SetRequestHeader(header.Name, header.Value);
 		}
 	}
 }

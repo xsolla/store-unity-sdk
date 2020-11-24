@@ -2291,6 +2291,12 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 6111799266400893949}
   m_PrefabAsset: {fileID: 0}
+--- !u!224 &5102229506481936920 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 1305968820272112101, guid: a9bbeb979980a439fabfde0fc12d93e7,
+    type: 3}
+  m_PrefabInstance: {fileID: 6111799266400893949}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1015543915632413067 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6541081271408603766, guid: a9bbeb979980a439fabfde0fc12d93e7,

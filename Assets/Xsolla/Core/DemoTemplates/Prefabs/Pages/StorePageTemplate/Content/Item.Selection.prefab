@@ -327,7 +327,7 @@ RectTransform:
   - {fileID: 3719426341843328285}
   - {fileID: 3284985988699149736}
   - {fileID: 9184926101273907171}
-  m_Father: {fileID: 9204620651899699821}
+  m_Father: {fileID: 4722982690250020749}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -343,10 +343,10 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 9204620651899699821}
+  - component: {fileID: 4722982690250020749}
   - component: {fileID: 6845644036351205763}
   - component: {fileID: 7422843594927866420}
-  - component: {fileID: 1581859835080278358}
+  - component: {fileID: 406572092660181965}
   m_Layer: 5
   m_Name: Item.Selection
   m_TagString: Untagged
@@ -354,7 +354,7 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!224 &9204620651899699821
+--- !u!224 &4722982690250020749
 RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -398,7 +398,7 @@ MonoBehaviour:
   someArea:
   - {fileID: 0}
   - {fileID: 0}
---- !u!114 &1581859835080278358
+--- !u!114 &406572092660181965
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

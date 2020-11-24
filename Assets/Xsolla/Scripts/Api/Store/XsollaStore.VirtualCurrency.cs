@@ -22,11 +22,11 @@ namespace Xsolla.Store
 		/// <param name="locale">Defines localization of item's text fields.</param>
 		public void GetVirtualCurrencyBalance(string projectId, [NotNull] Action<VirtualCurrenciesBalance> onSuccess, [CanBeNull] Action<Error> onError, [CanBeNull] string locale = null)
 		{
-			var urlBuilder = new StringBuilder(string.Format(URL_VIRTUAL_CURRENCY_BALANCE, projectId)).Append(AdditionalUrlParams);
+			var urlBuilder = new StringBuilder(string.Format(URL_VIRTUAL_CURRENCY_BALANCE, projectId)).Append(AnalyticUrlAddition);
 			urlBuilder.Append(GetLocaleUrlParam(locale));
 			urlBuilder.Append(GetPlatformUrlParam());
 
-			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.ItemsListErrors);
+			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), AuthAndAnalyticHeaders, onSuccess, onError, Error.ItemsListErrors);
 		}
 
 		/// <summary>
@@ -40,10 +40,10 @@ namespace Xsolla.Store
 		/// <param name="locale">Defines localization of item's text fields.</param>
 		public void GetVirtualCurrencyList(string projectId, [NotNull] Action<VirtualCurrencyItems> onSuccess, [CanBeNull] Action<Error> onError, [CanBeNull] string locale = null)
 		{
-			var urlBuilder = new StringBuilder(string.Format(URL_VIRTUAL_CURRENCY_LIST, projectId)).Append(AdditionalUrlParams);
+			var urlBuilder = new StringBuilder(string.Format(URL_VIRTUAL_CURRENCY_LIST, projectId)).Append(AnalyticUrlAddition);
 			urlBuilder.Append(GetLocaleUrlParam(locale));
 
-			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.ItemsListErrors);
+			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), AuthAndAnalyticHeaders, onSuccess, onError, Error.ItemsListErrors);
 		}
 
 		/// <summary>
@@ -57,10 +57,10 @@ namespace Xsolla.Store
 		/// <param name="locale">Defines localization of item's text fields.</param>
 		public void GetVirtualCurrencyPackagesList(string projectId, [NotNull] Action<VirtualCurrencyPackages> onSuccess, [CanBeNull] Action<Error> onError, [CanBeNull] string locale = null)
 		{
-			var urlBuilder = new StringBuilder(string.Format(URL_VIRTUAL_CURRENCY_PACKAGES_IN_PROJECT, projectId)).Append(AdditionalUrlParams);
+			var urlBuilder = new StringBuilder(string.Format(URL_VIRTUAL_CURRENCY_PACKAGES_IN_PROJECT, projectId)).Append(AnalyticUrlAddition);
 			urlBuilder.Append(GetLocaleUrlParam(locale));
 
-			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.ItemsListErrors);
+			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), AuthAndAnalyticHeaders, onSuccess, onError, Error.ItemsListErrors);
 		}
 	}
 }

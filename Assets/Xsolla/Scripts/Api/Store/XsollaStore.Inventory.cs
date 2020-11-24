@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
 using JetBrains.Annotations;
 using Xsolla.Core;
@@ -22,11 +21,11 @@ namespace Xsolla.Store
 		/// <param name="locale">Defines localization of item's text fields.</param>
 		public void GetInventoryItems(string projectId, [NotNull] Action<InventoryItems> onSuccess, [CanBeNull] Action<Error> onError, [CanBeNull] string locale = null)
 		{
-			var urlBuilder = new StringBuilder(string.Format(URL_INVENTORY_GET_ITEMS, projectId)).Append(AdditionalUrlParams);
+			var urlBuilder = new StringBuilder(string.Format(URL_INVENTORY_GET_ITEMS, projectId)).Append(AnalyticUrlAddition);
 			urlBuilder.Append(GetLocaleUrlParam(locale));
 			urlBuilder.Append(GetPlatformUrlParam());
 
-			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.ItemsListErrors);
+			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), AuthAndAnalyticHeaders, onSuccess, onError, Error.ItemsListErrors);
 		}
 
 		/// <summary>
@@ -41,10 +40,11 @@ namespace Xsolla.Store
 		/// <param name="onError">Failed operation callback.</param>
 		public void ConsumeInventoryItem(string projectId, ConsumeItem item, [CanBeNull] Action onSuccess, [CanBeNull] Action<Error> onError)
 		{
-			var urlBuilder = new StringBuilder(string.Format(URL_INVENTORY_ITEM_CONSUME, projectId)).Append(AdditionalUrlParams);
+			var urlBuilder = new StringBuilder(string.Format(URL_INVENTORY_ITEM_CONSUME, projectId)).Append(AnalyticUrlAddition);
 			urlBuilder.Append(GetPlatformUrlParam());
 
-			var headers = new List<WebRequestHeader>() { WebRequestHeader.AuthHeader(Token), WebRequestHeader.ContentTypeHeader() };
+			var headers = AppendAnalyticHeadersTo(WebRequestHeader.AuthHeader(Token), WebRequestHeader.ContentTypeHeader());
+
 			WebRequestHelper.Instance.PostRequest(urlBuilder.ToString(), item, headers, onSuccess, onError, Error.ConsumeItemErrors);
 		}
 	}

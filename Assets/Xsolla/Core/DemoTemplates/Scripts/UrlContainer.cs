@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class UrlContainer : MonoBehaviour
 {
-	public string[] Urls;
+	[SerializeField] public string[] Urls;
 
 	public string GetUrl(UrlType urlType)
 	{

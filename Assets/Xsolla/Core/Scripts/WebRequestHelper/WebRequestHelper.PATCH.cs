@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -12,31 +14,32 @@ namespace Xsolla.Core
 {
 	public partial class WebRequestHelper : MonoSingleton<WebRequestHelper>
 	{
-		public void PatchRequest<T, D>(string url, D jsonObject, WebRequestHeader requestHeader = null, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
+		public void PatchRequest<T, D>(string url, D jsonObject, List<WebRequestHeader> requestHeaders = null, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
 		{
-			StartCoroutine(PatchRequestCor<T, D>(url, jsonObject, requestHeader, onComplete, onError, errorsToCheck));
+			StartCoroutine(PatchRequestCor<T, D>(url, jsonObject, requestHeaders, onComplete, onError, errorsToCheck));
 		}
 
-		IEnumerator PatchRequestCor<T, D>(string url, D jsonObject, WebRequestHeader requestHeader = null, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
+		IEnumerator PatchRequestCor<T, D>(string url, D jsonObject, List<WebRequestHeader> requestHeaders = null, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
 		{
-			var headers = GetAdditionalHeaders();
-			headers.Add(GetContentTypeHeader());
-			if(requestHeader != null)
-				headers.Add(requestHeader);
-			
-			var task = PatchAsync(url, jsonObject, headers);
-			task.Start();
-			yield return new WaitWhile(() => task.IsCompleted || task.IsCanceled || task.IsFaulted);
+			if (requestHeaders != null)
+				requestHeaders.Add(WebRequestHeader.ContentTypeHeader());
+			else
+				requestHeaders = new List<WebRequestHeader>() { WebRequestHeader.ContentTypeHeader() };
+
+			var task = PatchAsync(url, jsonObject, requestHeaders);
+
+			yield return new WaitUntil(() => task.IsCompleted || task.IsCanceled || task.IsFaulted);
 			if (!task.IsCompleted)
 			{
 				Debug.LogError($"PATCH task is {(task.IsCanceled ? "canceled" : "faulted")}");
 				yield break;
 			}
-			HttpResponseMessage response = task.Result;
-			Error error = CheckResponsePayloadForErrors(url, response.Content.ToString(), errorsToCheck);
+			string response = task.Result;
+
+			Error error = CheckResponsePayloadForErrors(url, response, errorsToCheck);
 			if (error == null)
 			{
-				T responseData = GetResponsePayload<T>(response.Content.ToString());
+				T responseData = GetResponsePayload<T>(response);
 				if(responseData != null) {
 					onComplete?.Invoke(responseData);
 				} else {
@@ -46,29 +49,71 @@ namespace Xsolla.Core
 			TriggerOnError(onError, error);
 		}
 
-		private async Task<HttpResponseMessage> PatchAsync<T>(string url, T data, List<WebRequestHeader> headers = null)
+		private async Task<string> PatchAsync<T>(string url, T data, List<WebRequestHeader> headers = null)
 		{
-			var client = new HttpClient();
 			var method = new HttpMethod("PATCH");
-			var request = new HttpRequestMessage(new HttpMethod("PATCH"), url) {
-				Content = new ByteArrayContent(GetJsonData(data))
-			};
+			var jsonString = GetJsonDataAsStringForPatch<T>(data);
+			HttpContent content = new StringContent(jsonString, Encoding.UTF8, "application/json");
+
+			var request = new HttpRequestMessage(method, url) {Content = content};
+
 			if (headers != null && headers.Any())
-				headers.ForEach(h => request.Headers.Add(h.Name, h.Value));
+			{
+				headers.ForEach(header =>
+				{
+					try
+					{
+						request.Headers.TryAddWithoutValidation(header.Name, header.Value);
+					}
+					catch (Exception ex)
+					{
+						Debug.LogWarning($"Could not assign header name: {header.Name} value: {header.Value}, attempt resulted in error: {ex.Message}");
+					}
+				});
+			}
+
+			var client = new HttpClient();
+			client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
 			var response = new HttpResponseMessage();
-			try {
+			try
+			{
 				response = await client.SendAsync(request);
-			} catch(TaskCanceledException e) {
+			}
+			catch(Exception e)
+			{
 				Debug.LogError($"ERROR: {e}");
 			}
-			return response;
+
+			return await response.Content.ReadAsStringAsync();
 		}
 
-		private byte[] GetJsonData<T>(T jsonObject)
+
+		//Be aware - this method is suitable only for JSON-classes that have string-only fields
+		private string GetJsonDataAsStringForPatch<T>(T jsonObject)
 		{
-			if (jsonObject == null) return new byte[0];
-			var jsonData = JsonConvert.SerializeObject(jsonObject).Replace('\n', ' ');
-			return new UTF8Encoding().GetBytes(jsonData);
+			var type = typeof(T);
+			var fields = type.GetFields(BindingFlags.Public | BindingFlags.Instance);
+			var builder = new StringBuilder();
+			builder.Append("{");
+
+			if (fields != null && fields.Length > 0)
+			{
+				foreach (var field in fields)
+				{
+					var key = field.Name;
+					var value = field.GetValue(jsonObject) as string;
+
+					if (value != null)
+						builder.Append($"\"{key}\":\"{value}\"").Append(",");
+				}
+
+				builder.Remove(builder.Length - 1, 1);
+			}
+
+			builder.Append("}");
+
+			return builder.ToString();
 		}
 	}
 }
