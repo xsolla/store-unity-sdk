@@ -21,6 +21,7 @@ public class ItemUI : MonoBehaviour
 	[SerializeField] SimpleTextButton buyButton;
 	[SerializeField] SimpleTextButton previewButton;
 	[SerializeField] AddToCartButton cartButton;
+	[SerializeField] SimpleTextButton checkoutButtonButton;
 	[SerializeField] GameObject prices;
 	[SerializeField] GameObject purchasedText;
 
@@ -64,6 +65,11 @@ public class ItemUI : MonoBehaviour
 			if (isAlreadyPurchased)
 				DisablePrice();
 		}
+
+		if (UserCart.Instance.Contains(virtualItem.Sku))
+			EnableCheckout(true);
+
+		checkoutButtonButton.onClick = () => DemoController.Instance.SetState(MenuState.Cart);
 	}
 
 	private void DisablePrice()
@@ -84,6 +90,14 @@ public class ItemUI : MonoBehaviour
 		itemPriceWithoutDiscount.gameObject.SetActive(false);
 		itemPriceVcImage.gameObject.SetActive(isVirtualPrice);
 		itemPriceVcText.gameObject.SetActive(isVirtualPrice);
+	}
+
+	private void EnableCheckout(bool enableCheckout)
+	{
+		checkoutButtonButton.gameObject.SetActive(enableCheckout);
+		previewButton.gameObject.SetActive(!enableCheckout);
+		cartButton.gameObject.SetActive(!enableCheckout);
+		buyButton.gameObject.SetActive(!enableCheckout);
 	}
 
 	private void InitializeVirtualCurrencyPrice(CatalogItemModel virtualItem)
@@ -129,6 +143,8 @@ public class ItemUI : MonoBehaviour
 				UserCart.Instance.AddItem(_itemInformation);
 			else
 				UserCart.Instance.RemoveItem(_itemInformation);
+
+			EnableCheckout(isSelected);
 		};
 		var realPrice = virtualItem.RealPrice;
 		if (realPrice == null)
