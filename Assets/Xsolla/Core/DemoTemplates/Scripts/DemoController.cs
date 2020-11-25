@@ -63,9 +63,16 @@ public class DemoController : MonoSingleton<DemoController>, IMenuStateMachine
             UpdateCatalogAndInventory();
             UserFriends.Instance.UpdateFriends();
             
-            if (_tutorialManager != null && !_tutorialManager.IsTutorialCompleted())
+            if (_tutorialManager != null)
             {
-                _tutorialManager.ShowTutorial();
+                if (!_tutorialManager.IsTutorialCompleted())
+                {
+                    _tutorialManager.ShowTutorial();
+                }
+                else
+                {
+                    Debug.Log("Skipping tutorial since it was already completed.");
+                }
             }
             else
             {
