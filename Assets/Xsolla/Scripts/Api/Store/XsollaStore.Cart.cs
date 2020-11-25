@@ -24,6 +24,9 @@ namespace Xsolla.Store
 		private const string URL_CART_CURRENT_FILL = BASE_STORE_API_URL + "/cart/fill";
 		private const string URL_CART_SPECIFIC_FILL = BASE_STORE_API_URL + "/cart/{1}/fill";
 
+		private const string URL_REDEEM_PROMOCODE = BASE_STORE_API_URL + "/promocode/redeem";
+		private const string URL_GET_PROMOCODE_REWARD = BASE_STORE_API_URL + "/promocode/code/{1}/rewards";
+
 		/// <summary>
 		/// Creates a new cart on the Xsolla side.
 		/// </summary>
@@ -187,6 +190,44 @@ namespace Xsolla.Store
 		{
 			var urlBuilder = new StringBuilder(string.Format(URL_CART_SPECIFIC_ITEM_REMOVE, projectId, cartId, itemSku)).Append(AnalyticUrlAddition);
 			WebRequestHelper.Instance.DeleteRequest(urlBuilder.ToString(), AuthAndAnalyticHeaders, onSuccess, onError, Error.DeleteFromCartErrors);
+		}
+
+		/// <summary>
+		/// Redeems a code of promo code. After redeeming a promo code, the user will get free items and/or the price of cart will be decreased.
+		/// </summary>
+		/// <remarks> Swagger method name:<c>Redeem promo code</c>.</remarks>
+		/// <see cref="https://developers.xsolla.com/store-api/promotions/promo-codes/redeem-promo-code/"/>
+		/// <param name="projectId">Project ID from your Publisher Account.</param>
+		/// <param name="promocode">Unique code of promocode. Contains letters and numbers.</param>
+		/// <param name="cartId">Unique cart identifier. Optional.</param>
+		/// <param name="onSuccess">Success operation callback.</param>
+		/// <param name="onError">Failed operation callback.</param>
+		public void RedeemPromocode(string projectId, string promocode, string cartId, [NotNull] Action<CartItems> onSuccess, [CanBeNull] Action<Error> onError)
+		{
+			var urlBuilder = new StringBuilder(string.Format(URL_REDEEM_PROMOCODE, projectId)).Append(AnalyticUrlAddition);
+			var request = new RedeemPromocodeRequest()
+			{
+				coupon_code = promocode,
+				cart = string.IsNullOrEmpty(cartId) ? null : new RedeemPromocodeRequest.Cart {id = cartId}
+			};
+			WebRequestHelper.Instance.PostRequest(urlBuilder.ToString(), request, AuthAndAnalyticHeaders, onSuccess, onError, Error.DeleteFromCartErrors);
+		}
+		
+		/// <summary>
+		/// Gets promo code rewards by its code. Can be used to allow users to choose one of many items as a bonus.
+		/// The usual case is choosing a DRM if the promo code contains a game as a bonus (type=unit).
+		/// </summary>
+		/// <remarks> Swagger method name:<c>Get promo code reward</c>.</remarks>
+		/// <see cref="https://developers.xsolla.com/store-api/promotions/promo-codes/get-promo-code-rewards-by-code/"/>
+		/// <param name="projectId">Project ID from your Publisher Account.</param>
+		/// <param name="promocode">Unique code of promocode. Contains letters and numbers.</param>
+		/// <param name="onSuccess">Success operation callback.</param>
+		/// <param name="onError">Failed operation callback.</param>
+		public void GetPromocodeReward(string projectId, string promocode, [NotNull] Action<PromocodeReward> onSuccess, [CanBeNull] Action<Error> onError)
+		{
+			var urlBuilder = new StringBuilder(string.Format(URL_GET_PROMOCODE_REWARD, projectId, promocode)).Append(AnalyticUrlAddition);
+
+			WebRequestHelper.Instance.PostRequest(urlBuilder.ToString(), AuthAndAnalyticHeaders, onSuccess, onError, Error.DeleteFromCartErrors);
 		}
 	}
 }

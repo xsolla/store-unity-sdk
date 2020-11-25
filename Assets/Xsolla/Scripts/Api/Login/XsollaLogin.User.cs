@@ -19,6 +19,8 @@ namespace Xsolla.Login
 		private const string URL_PASSWORD_RESET = "https://login.xsolla.com/api/{0}?projectId={1}&{2}";
 		private const string URL_SEARCH_USER = "https://login.xsolla.com/api/users/search/by_nickname?nickname={0}&offset={1}&limit={2}&{3}";
 		private const string URL_USER_PUBLIC_INFO = "https://login.xsolla.com/api/users/{0}/public?{1}";
+		private const string URL_USER_CHECK_AGE = "https://login.xsolla.com/api/users/age/check?{0}";
+		private const string URL_USER_GET_EMAIL = "https://login.xsolla.com/api/users/me/email?{0}";
 
 		/// <summary>
 		/// Return saved user info by JWT.
@@ -33,7 +35,7 @@ namespace Xsolla.Login
 			var headers = AppendAnalyticHeadersTo(WebRequestHeader.AuthHeader(token));
 			WebRequestHelper.Instance.GetRequest(url, headers, onSuccess, onError);
 		}
-		
+
 		/// <summary>
 		/// Updates the details of the authenticated user by JWT.
 		/// </summary>
@@ -65,13 +67,13 @@ namespace Xsolla.Login
 		{
 			var registrationData = new RegistrationJson(username, password, email);
 			string url = default(string);
-			
+
 			if (XsollaSettings.AuthorizationType == AuthorizationType.JWT)
 			{
 				var proxy = XsollaSettings.UseProxy ? "proxy/registration" : "user";
 				url = string.Format(URL_USER_REGISTRATION, proxy, XsollaSettings.LoginId, XsollaSettings.CallbackUrl, AnalyticUrlAddition);
 			}
-			else/*if (XsollaSettings.AuthorizationType == AuthorizationType.OAuth2_0)*/
+			else /*if (XsollaSettings.AuthorizationType == AuthorizationType.OAuth2_0)*/
 			{
 				var clientId = XsollaSettings.OAuthClientId;
 				url = string.Format(URL_USER_OAUTH_REGISTRATION, clientId, AnalyticUrlAddition);
@@ -97,7 +99,7 @@ namespace Xsolla.Login
 		{
 			if (XsollaSettings.AuthorizationType == AuthorizationType.JWT)
 				JwtSignIn(username, password, rememberUser, onSuccess, onError);
-			else/*if (XsollaSettings.AuthorizationType == AuthorizationType.OAuth2_0)*/
+			else /*if (XsollaSettings.AuthorizationType == AuthorizationType.OAuth2_0)*/
 				OAuthSignIn(username, password, onSuccess, onError);
 		}
 
@@ -109,7 +111,8 @@ namespace Xsolla.Login
 			var tokenInvalidationFlag = XsollaSettings.JwtTokenInvalidationEnabled ? "with_logout=1" : "with_logout=0";
 			var url = string.Format(URL_USER_SIGNIN, proxy, XsollaSettings.LoginId, XsollaSettings.CallbackUrl, tokenInvalidationFlag, AnalyticUrlAddition);
 
-			WebRequestHelper.Instance.PostRequest<LoginJwtJsonResponse, LoginJwtJsonRequest>(url, loginData, AnalyticHeaders, (response) => {
+			WebRequestHelper.Instance.PostRequest<LoginJwtJsonResponse, LoginJwtJsonRequest>(url, loginData, AnalyticHeaders, (response) =>
+			{
 				Token = ParseUtils.ParseToken(response.login_url);
 				onSuccess?.Invoke();
 			}, onError, Error.LoginErrors);
@@ -217,11 +220,11 @@ namespace Xsolla.Login
 		public void ChangeUserPhoneNumber(string token, string phoneNumber, Action onSuccess, Action<Error> onError)
 		{
 			var url = string.Format(URL_USER_PHONE, AnalyticUrlAddition);
-			var request = new UserPhoneNumber { phone_number = phoneNumber };
+			var request = new UserPhoneNumber {phone_number = phoneNumber};
 			var headers = AppendAnalyticHeadersTo(WebRequestHeader.AuthHeader(token));
 			WebRequestHelper.Instance.PostRequest(url, request, headers, onSuccess, onError);
 		}
-		
+
 		/// <summary>
 		/// Deletes the phone number of the authenticated user by JWT.
 		/// </summary>
@@ -255,10 +258,10 @@ namespace Xsolla.Login
 		public void UploadUserPicture(string token, byte[] pictureData, string boundary, Action<string> onSuccess, Action<Error> onError)
 		{
 			var url = string.Format(URL_USER_PICTURE, AnalyticUrlAddition);
-			var headers = AppendAnalyticHeadersTo(WebRequestHeader.AuthHeader(token), new WebRequestHeader() { Name = "Content-type", Value = $"multipart/form-data; boundary ={boundary}" });
+			var headers = AppendAnalyticHeadersTo(WebRequestHeader.AuthHeader(token), new WebRequestHeader() {Name = "Content-type", Value = $"multipart/form-data; boundary ={boundary}"});
 			WebRequestHelper.Instance.PostUploadRequest(URL_USER_PICTURE, pictureData, headers, onSuccess, onError);
 		}
-		
+
 		/// <summary>
 		/// Deletes the profile picture of the authenticated user by JWT.
 		/// </summary>
@@ -273,6 +276,42 @@ namespace Xsolla.Login
 			var url = string.Format(URL_USER_PICTURE, AnalyticUrlAddition);
 			var headers = AppendAnalyticHeadersTo(WebRequestHeader.AuthHeader(token));
 			WebRequestHelper.Instance.DeleteRequest(url, headers, onSuccess, onError);
+		}
+
+		/// <summary>
+		/// Checks user’s age for a particular region.
+		/// The age requirements depend on the region. Service determines the user’s location by the IP address.
+		/// </summary>
+		/// <remarks> Swagger method name:<c>Check User's Age</c>.</remarks>
+		/// <see cref="https://developers.xsolla.com/login-api/methods/users/check-users-age/"/>
+		/// <param name="dateOfBirth">User's birth date in the YYYY-MM-DD format.</param>
+		/// <param name="onSuccess">Success operation callback.</param>
+		/// <param name="onError">Failed operation callback.</param>
+		public void CheckUserAge(string dateOfBirth, Action<UserCheckAgeResult> onSuccess, Action<Error> onError)
+		{
+			var url = string.Format(URL_USER_CHECK_AGE, AnalyticUrlAddition);
+			var request = new UserCheckAgeRequest
+			{
+				dob = dateOfBirth,
+				project_id = XsollaSettings.LoginId
+			};
+			WebRequestHelper.Instance.PostRequest(url, request, AnalyticHeaders, onSuccess, onError);
+		}
+
+		/// <summary>
+		/// Gets the email of the authenticated user by JWT.
+		/// </summary>
+		/// <remarks> Swagger method name:<c>GetUserEmail</c>.</remarks>
+		/// <see cref="https://developers.xsolla.com/user-account-api/user-email/getusersmeemail/"/>
+		/// /// <param name="token">JWT from Xsolla Login.</param>
+		/// <param name="onSuccess">Success operation callback.</param>
+		/// <param name="onError">Failed operation callback.</param>
+		public void GetUserEmail(string token, Action<string> onSuccess, Action<Error> onError)
+		{
+			var url = string.Format(URL_USER_GET_EMAIL, AnalyticUrlAddition);
+			var headers = AppendAnalyticHeadersTo(WebRequestHeader.AuthHeader(token));
+			Action<UserEmail> successCallback = response => { onSuccess?.Invoke(response.current_email); };
+			WebRequestHelper.Instance.GetRequest(url, headers, successCallback, onError);
 		}
 	}
 }

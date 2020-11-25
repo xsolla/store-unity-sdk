@@ -106,5 +106,14 @@ namespace Xsolla.Login
 				TokenChanged?.Invoke();
 			}
 		}
+		
+		string GetLocaleUrlParam(string locale)
+		{
+			if (string.IsNullOrEmpty(locale))
+			{
+				return string.Empty;
+			}
+			return string.Format("&locale={0}", locale);
+		}
 	}
 }
