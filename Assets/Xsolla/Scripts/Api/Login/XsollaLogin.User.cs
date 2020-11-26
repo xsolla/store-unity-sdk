@@ -21,6 +21,9 @@ namespace Xsolla.Login
 		private const string URL_USER_PUBLIC_INFO = "https://login.xsolla.com/api/users/{0}/public?{1}";
 		private const string URL_USER_CHECK_AGE = "https://login.xsolla.com/api/users/age/check?{0}";
 		private const string URL_USER_GET_EMAIL = "https://login.xsolla.com/api/users/me/email?{0}";
+		private const string URL_USER_SOCIAL_NETWORK_TOKEN_AUTH = "https://login.xsolla.com/api/social/{0}/login_with_token?projectId={1}&payload={2}&{3}&{4}";
+		private const string URL_USER_OAUTH_SOCIAL_NETWORK_TOKEN_AUTH = "https://login.xsolla.com/api/oauth2/social/{0}/login_with_token?client_id={1}&response_type=code&redirect_uri=https://login.xsolla.com/api/blank&state=xsollatest&scope=offline&{2}";
+		private const string URL_USER_OAUTH_PLATFORM_PROVIDER = "https://login.xsolla.com/api/oauth2/cross/{0}/login?client_id={1}&scope=offline&{2}";
 
 		/// <summary>
 		/// Return saved user info by JWT.
@@ -312,6 +315,80 @@ namespace Xsolla.Login
 			var headers = AppendAnalyticHeadersTo(WebRequestHeader.AuthHeader(token));
 			Action<UserEmail> successCallback = response => { onSuccess?.Invoke(response.current_email); };
 			WebRequestHelper.Instance.GetRequest(url, headers, successCallback, onError);
+		}
+
+		/// <summary>
+		/// Authenticates the user with the access token using social network credentials.
+		/// </summary>
+		/// <remarks> Swagger method name:<c>Auth via Access Token of Social Network</c>.</remarks>
+		/// <see cref="https://developers.xsolla.com/login-api/methods/jwt/auth-via-access-token-of-social-network/"/>
+		/// <see cref="https://developers.xsolla.com/login-api/methods/oauth-20/oauth-20-auth-via-access-token-of-social-network/"/>
+		/// <param name="accessToken">Access token received from a social network.</param>
+		/// <param name="accessTokenSecret">Parameter oauth_token_secret received from the authorization request. Required for Twitter only.</param>
+		/// <param name="providerName">Name of the social network connected to the Login in Publisher Account.</param>
+		/// <param name="payload">Custom data. The value of the parameter will be returned in the user JWT payload claim.</param>
+		/// <param name="onSuccess">Success operation callback.</param>
+		/// <param name="onError">Failed operation callback.</param>
+		public void AuthWithSocialNetworkAccessToken(string accessToken, string accessTokenSecret, string providerName, string payload, Action<string> onSuccess, Action<Error> onError = null)
+		{
+			if (XsollaSettings.AuthorizationType == AuthorizationType.JWT)
+				JwtAuthWithSocialNetworkAccessToken(accessToken, accessTokenSecret, providerName, payload, onSuccess, onError);
+			else /*if (XsollaSettings.AuthorizationType == AuthorizationType.OAuth2_0)*/
+				OAuthAuthWithSocialNetworkAccessToken(accessToken, accessTokenSecret, providerName, payload, onSuccess, onError);
+		}
+
+		private void JwtAuthWithSocialNetworkAccessToken(string accessToken, string accessTokenSecret, string providerName, string payload, Action<string> onSuccess, Action<Error> onError)
+		{
+			var tokenInvalidationFlag = XsollaSettings.JwtTokenInvalidationEnabled ? "with_logout=1" : "with_logout=0";
+			var url = string.Format(URL_USER_SOCIAL_NETWORK_TOKEN_AUTH, providerName, XsollaSettings.LoginId, payload, tokenInvalidationFlag, AnalyticUrlAddition);
+
+			var requestData = new SocialNetworkAccessTokenRequest
+			{
+				access_token = accessToken,
+				access_token_secret = accessTokenSecret
+			};
+
+			WebRequestHelper.Instance.PostRequest(url, requestData, AnalyticHeaders, (TokenEntity result) => { onSuccess?.Invoke(result.token); }, onError, Error.LoginErrors);
+		}
+
+		private void OAuthAuthWithSocialNetworkAccessToken(string accessToken, string accessTokenSecret, string providerName, string payload, Action<string> onSuccess, Action<Error> onError)
+		{
+			var url = string.Format(URL_USER_OAUTH_SOCIAL_NETWORK_TOKEN_AUTH, providerName, XsollaSettings.OAuthClientId, AnalyticUrlAddition);
+
+			var requestData = new SocialNetworkAccessTokenRequest
+			{
+				access_token = accessToken,
+				access_token_secret = accessTokenSecret
+			};
+
+			WebRequestHelper.Instance.PostRequest(url, requestData, AnalyticHeaders, onSuccess, onError, Error.LoginErrors);
+		}
+
+		/// <summary>
+		/// Authenticates via provider project. Calls to exchange the provider JWT by the client JWT.
+		/// </summary>
+		/// <remarks> Swagger method name:<c>Authentication via Provider Project</c>.</remarks>
+		/// <see cref="https://developers.xsolla.com/login-api/methods/oauth-20/authentication-via-provider-project/"/>
+		/// <param name="accessToken">JWT received after authentication in the provider project.</param>
+		/// <param name="platformProviderName">Name of the provider project.</param>
+		/// <param name="onSuccess">Success operation callback.</param>
+		/// <param name="onError">Failed operation callback.</param>
+		public void AuthViaProviderProject(string accessToken, string platformProviderName, Action onSuccess, Action<Error> onError)
+		{
+			var url = string.Format(URL_USER_OAUTH_PLATFORM_PROVIDER, platformProviderName, XsollaSettings.OAuthClientId, AnalyticUrlAddition);
+
+			Action<LoginOAuthJsonResponse> successCallback = response =>
+			{
+				this.ProcessOAuthResponse(response);
+				onSuccess?.Invoke();
+			};
+
+			var requestData = new WWWForm();
+			requestData.AddField("access_token", accessToken);
+
+			var headers = AppendAnalyticHeadersTo(new WebRequestHeader() {Name = "Content-type", Value = "application/x-www-form-urlencoded"});
+
+			WebRequestHelper.Instance.PostRequest(url, requestData, headers, successCallback, onError, Error.LoginErrors);
 		}
 	}
 }
