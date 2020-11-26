@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using Xsolla.Core;
+using Xsolla.Core.Popup;
 
 public class ItemUI : MonoBehaviour
 {
@@ -18,7 +19,9 @@ public class ItemUI : MonoBehaviour
 	[SerializeField] GameObject expirationTimeObject;
 	[SerializeField] Text expirationTimeText;
 	[SerializeField] SimpleTextButton buyButton;
+	[SerializeField] SimpleTextButton previewButton;
 	[SerializeField] AddToCartButton cartButton;
+	[SerializeField] SimpleTextButton checkoutButtonButton;
 	[SerializeField] GameObject prices;
 	[SerializeField] GameObject purchasedText;
 
@@ -45,16 +48,28 @@ public class ItemUI : MonoBehaviour
 			InitializeRealPrice(virtualItem);
 
 		InitializeVirtualItem(virtualItem);
-		AttachBuyButtonHandler(virtualItem);
+
+		if (!virtualItem.IsBundle())
+			AttachBuyButtonHandler(virtualItem);
+		else
+		{
+			DisableBuy();
+			AttachPreviewButtonHandler(virtualItem);
+		}
 
 		if (!virtualItem.IsConsumable)
 		{
 			var sameItemFromInventory = UserInventory.Instance.VirtualItems.FirstOrDefault(i => i.Sku.Equals(_itemInformation.Sku));
 			var isAlreadyPurchased = sameItemFromInventory != null;
-			
+
 			if (isAlreadyPurchased)
 				DisablePrice();
 		}
+
+		if (UserCart.Instance.Contains(virtualItem.Sku))
+			EnableCheckout(true);
+
+		checkoutButtonButton.onClick = () => DemoController.Instance.SetState(MenuState.Cart);
 	}
 
 	private void DisablePrice()
@@ -63,12 +78,26 @@ public class ItemUI : MonoBehaviour
 		purchasedText.SetActive(true);
 	}
 
+	private void DisableBuy()
+	{
+		buyButton.gameObject.SetActive(false);
+		previewButton.gameObject.SetActive(true);
+	}
+
 	private void EnablePrice(bool isVirtualPrice)
 	{
 		itemPrice.gameObject.SetActive(!isVirtualPrice);
 		itemPriceWithoutDiscount.gameObject.SetActive(false);
 		itemPriceVcImage.gameObject.SetActive(isVirtualPrice);
 		itemPriceVcText.gameObject.SetActive(isVirtualPrice);
+	}
+
+	private void EnableCheckout(bool enableCheckout)
+	{
+		checkoutButtonButton.gameObject.SetActive(enableCheckout);
+		previewButton.gameObject.SetActive(!enableCheckout);
+		cartButton.gameObject.SetActive(!enableCheckout);
+		buyButton.gameObject.SetActive(!enableCheckout);
 	}
 
 	private void InitializeVirtualCurrencyPrice(CatalogItemModel virtualItem)
@@ -85,7 +114,8 @@ public class ItemUI : MonoBehaviour
 		{
 			var currencySku = virtualItem.VirtualPrice?.Key;
 			var currency = UserCatalog.Instance.VirtualCurrencies.First(vc => vc.Sku.Equals(currencySku));
-			if(!string.IsNullOrEmpty(virtualItem.ImageUrl))
+
+			if (!string.IsNullOrEmpty(currency.ImageUrl))
 				ImageLoader.Instance.GetImageAsync(currency.ImageUrl, (_, sprite) => itemPriceVcImage.sprite = sprite);
 			else
 				Debug.LogError($"Virtual currency item with sku = '{virtualItem.Sku}' without image!");
@@ -106,10 +136,12 @@ public class ItemUI : MonoBehaviour
 			cartButton.Select(true);
 		cartButton.onClick = isSelected =>
 		{
-			if(isSelected)
+			if (isSelected)
 				UserCart.Instance.AddItem(_itemInformation);
 			else
 				UserCart.Instance.RemoveItem(_itemInformation);
+
+			EnableCheckout(isSelected);
 		};
 		var realPrice = virtualItem.RealPrice;
 		if (realPrice == null)
@@ -117,6 +149,7 @@ public class ItemUI : MonoBehaviour
 			Debug.LogError($"Catalog item with sku = {virtualItem.Sku} have not any price!");
 			return;
 		}
+
 		var valuePair = realPrice.Value;
 		var currency = valuePair.Key;
 		var price = valuePair.Value;
@@ -145,19 +178,20 @@ public class ItemUI : MonoBehaviour
 			Debug.LogError($"Try initialize item with sku = {virtualItem.Sku} without name!");
 			virtualItem.Name = virtualItem.Sku;
 		}
+
 		itemName.text = virtualItem.Name;
 		itemDescription.text = virtualItem.Description;
 		gameObject.name = "Item_" + virtualItem.Name.Replace(" ", "");
 		if (!string.IsNullOrEmpty(virtualItem.ImageUrl))
 		{
-			ImageLoader.Instance.GetImageAsync(virtualItem.ImageUrl, LoadImageCallback);	
+			ImageLoader.Instance.GetImageAsync(virtualItem.ImageUrl, LoadImageCallback);
 		}
 		else
 		{
 			Debug.LogError($"Virtual item item with sku = '{virtualItem.Sku}' without image!");
 		}
 	}
-	
+
 	private void LoadImageCallback(string url, Sprite image)
 	{
 		loadingCircle.SetActive(false);
@@ -165,17 +199,18 @@ public class ItemUI : MonoBehaviour
 		itemImage.sprite = image;
 		InitExpirationTime(_itemInformation);
 	}
-	
+
 	private void InitExpirationTime(CatalogItemModel virtualItem)
 	{
 		expirationTimeObject.SetActive(false);
-		if(!virtualItem.IsSubscription()) return;
+		if (!virtualItem.IsSubscription()) return;
 		var subscription = UserCatalog.Instance.Subscriptions.First(s => s.Sku.Equals(virtualItem.Sku));
 		if (subscription == null)
 		{
 			Debug.LogError($"Something went wrong... Can not find subscription item with sku = '{virtualItem.Sku}'!");
 			return;
 		}
+
 		expirationTimeObject.SetActive(true);
 		expirationTimeText.text = subscription.ExpirationPeriodText;
 	}
@@ -190,5 +225,10 @@ public class ItemUI : MonoBehaviour
 		{
 			buyButton.onClick = () => _demoImplementation.PurchaseForVirtualCurrency(virtualItem);
 		}
+	}
+
+	private void AttachPreviewButtonHandler(CatalogItemModel virtualItem)
+	{
+		previewButton.onClick = () => { PopupFactory.Instance.CreateBundlePreview().SetBundleInfo((CatalogBundleItemModel) virtualItem); };
 	}
 }

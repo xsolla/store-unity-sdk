@@ -6,8 +6,8 @@ namespace Xsolla.Login
 	public partial class XsollaLogin : MonoSingleton<XsollaLogin>
 	{
 		private const string URL_LINKING_CODE_REQUEST = "https://login.xsolla.com/api/users/account/code";
-		private const string URL_USER_CONSOLE_AUTH = "https://livedemo.xsolla.com/sdk/shadow_account/auth";
-		private const string URL_LINK_ACCOUNT = "https://livedemo.xsolla.com/sdk/shadow_account/link";
+		private const string URL_USER_CONSOLE_AUTH = "https://livedemo.xsolla.com/sdk/sdk-shadow-account/auth";
+		private const string URL_LINK_ACCOUNT = "https://livedemo.xsolla.com/sdk/sdk-shadow-account/link";
 
 		#region Comment
 		/// <summary>

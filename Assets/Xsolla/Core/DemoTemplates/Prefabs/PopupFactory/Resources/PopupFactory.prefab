@@ -53,6 +53,8 @@ MonoBehaviour:
     type: 3}
   WaitingPopupPrefab: {fileID: 556361876373794609, guid: 9ca05e708e5f143be94b06a87fef194a,
     type: 3}
+  BundlePreviewPopupPrefab: {fileID: 8129972910254772181, guid: 1514f28ff6e8b32478d9e3b28ac762c2,
+    type: 3}
   ResetPasswordPopupPrefab: {fileID: 8129972910254772181, guid: 8ffcbd06fa7695547945d3de3397659a,
     type: 3}
   NicknamePopupPrefab: {fileID: 2151185845519967173, guid: 0478ac52edb07ca438bc65a9ed6011c7,

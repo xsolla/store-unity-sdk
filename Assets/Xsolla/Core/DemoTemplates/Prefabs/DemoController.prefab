@@ -80,7 +80,7 @@ MonoBehaviour:
   - https://xsolla.com{0}privacypolicy
   - https://developers.xsolla.com/sdk/game-engines/unity/#sdk_use_xsolla_servers_how_to_use_user_attributes
   - https://developers.xsolla.com/sdk/game-engines/unity/#unity_sdk_use_xsolla_servers_login_unity_sdk
-  - https://livedemo.xsolla.com/sdk-demo/#/
+  - https://livedemo.xsolla.com/sdk-account-linking/
 --- !u!1001 &863570254387835792
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -169,6 +169,12 @@ PrefabInstance:
       propertyPath: friendsMenuPrefab
       value: 
       objectReference: {fileID: 7187304734922887917, guid: 4886fcf4b72474ee99c777a007a7e5c1,
+        type: 3}
+    - target: {fileID: 6003545067062460712, guid: 4c9de83f6301c4c08b382f0fd508f1f4,
+        type: 3}
+      propertyPath: socialFriendsMenuPrefab
+      value: 
+      objectReference: {fileID: 7106663182902892708, guid: 1281d98bd7bc8e08f80b46c1624d9509,
         type: 3}
     - target: {fileID: 6003545067062460712, guid: 4c9de83f6301c4c08b382f0fd508f1f4,
         type: 3}
