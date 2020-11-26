@@ -15,6 +15,8 @@ namespace Xsolla.Core.Popup
 
 		[SerializeField] private SimpleButton closeButton;
 
+		[SerializeField] private SimpleButton documentationButton;
+
 		[SerializeField] private Text titleText;
 		[SerializeField] private Text descriptionText;
 
@@ -150,6 +152,22 @@ namespace Xsolla.Core.Popup
 			{
 				SetDefaultButtonsVisibility(true);
 				SetWelcomeButtonsVisibility(false);
+			}
+
+			RefreshDocumentationButton();
+		}
+
+		private void RefreshDocumentationButton()
+		{
+			if (!string.IsNullOrEmpty(CurrentStepInfo.associatedDocumentation))
+			{
+				documentationButton.gameObject.SetActive(true);
+				documentationButton.onClick = () => { BrowserHelper.Instance.Open(CurrentStepInfo.associatedDocumentation); };
+			}
+			else
+			{
+				documentationButton.gameObject.SetActive(false);
+				documentationButton.onClick = null;
 			}
 		}
 

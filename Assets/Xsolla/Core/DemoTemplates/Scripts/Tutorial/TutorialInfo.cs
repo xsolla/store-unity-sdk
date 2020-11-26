@@ -21,6 +21,7 @@ public class TutorialInfo : ScriptableObject
 		public string nextButtonText;
 		public string highlightElementId;
 		public ActivationScreen screenToActivate;
+		public string associatedDocumentation;
 
 		public string FormattedTitle => title.Replace("\\n", "\n");
 		public string FormattedDescription => description.Replace("\\n", "\n");

@@ -22,6 +22,7 @@ MonoBehaviour:
     nextButtonText: "LET\u2019S START"
     highlightElementId: 
     screenToActivate: 0
+    associatedDocumentation: 
   - title: 'In the demo, you can add items to the inventory in one of the following
       ways:  '
     description: 1. Buy some items in the web store\n2. Redeem a coupon code to get
@@ -30,6 +31,7 @@ MonoBehaviour:
     nextButtonText: NEXT
     highlightElementId: 
     screenToActivate: 0
+    associatedDocumentation: 
   - title: Buy items in the web store
     description: 1. Go to the web store.\n2. Log in to the same account as you used
       for the demo.\n3. Buy some items. You can use our test cards.\n \n The items
@@ -38,6 +40,7 @@ MonoBehaviour:
     nextButtonText: NEXT
     highlightElementId: WebStoreMenuButton
     screenToActivate: 2
+    associatedDocumentation: 
   - title: Redeem a coupon code
     description: "1. Click the REDEEM COUPON button in the top navigation bar.\\n2.
       Enter one of our test codes \u201CBONUS2020\u201D or \u201CWINTER2021\u201D
@@ -47,6 +50,7 @@ MonoBehaviour:
     nextButtonText: NEXT
     highlightElementId: RedeemCouponButton
     screenToActivate: 1
+    associatedDocumentation: 
   - title: Account linking
     description: Use account linking to manage a single cross-platform inventory on
       different platforms. Check documentation to learn more about account linking
@@ -61,3 +65,4 @@ MonoBehaviour:
     nextButtonText: DONE
     highlightElementId: AccountLinkingMenuButton
     screenToActivate: 2
+    associatedDocumentation: https://developers.xsolla.com/sdk/unity/use-xsolla-servers/how-tos/#unity_sdk_use_xsolla_servers_how_to_try_account_linking_in_demo
