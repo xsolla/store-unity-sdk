@@ -123,6 +123,11 @@ public partial class MenuStateMachine : MonoBehaviour, IMenuStateMachine
 			SetState(initialState);
 	}
 
+	public bool IsStateAvailable(MenuState state)
+	{
+		return _stateMachine[state] != null;
+	}
+
 	private bool CheckHardcodedBackCases()
 	{
 		if (_state.IsPostAuthState() && _state != MenuState.Main && _state != MenuState.BuyCurrency)

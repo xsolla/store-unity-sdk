@@ -113,6 +113,23 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 		}, () => onFailed?.Invoke(item));
 	}
 
+	public void RedeemCouponCode(string couponCode, Action<List<CouponRedeemedItemModel>> onSuccess, Action<Error> onError)
+	{
+		var isFinished = false;
+		PopupFactory.Instance.CreateWaiting()
+			.SetCloseCondition(() => isFinished);
+
+		SendRedeemCouponCodeRequest(couponCode, (redeemedItems) =>
+		{
+			isFinished = true;
+			onSuccess?.Invoke(redeemedItems);
+		}, WrapRedeemCouponErrorCallback(error =>
+		{
+			isFinished = true;
+			onError?.Invoke(error);
+		}));
+	}
+
 	IEnumerator ConsumeCoroutine(InventoryItemModel item, uint count, Action<InventoryItemModel> onSuccess, Action<InventoryItemModel> onFailed = null)
 	{
 		var isFinished = false;
@@ -136,5 +153,34 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 			instance_id = item.InstanceId,
 			quantity = count
 		}, onSuccess, onError);
+	}
+	
+	private void SendRedeemCouponCodeRequest(string couponCode, Action<List<CouponRedeemedItemModel>> onSuccess, Action<Error> onError)
+	{
+		XsollaStore.Instance.RedeemCouponCode(XsollaSettings.StoreProjectId, new CouponCode {coupon_code = couponCode}, redeemedItems =>
+		{
+			var redeemedItemModels = redeemedItems.items.Select(
+				i => new CouponRedeemedItemModel 
+				{
+					Sku = i.sku,
+					Description = i.description,
+					Name = i.name,
+					ImageUrl = i.image_url,
+					Quantity = i.quantity,
+				}).ToList();
+			onSuccess?.Invoke(redeemedItemModels);
+		}, onError);
+	}
+	
+	private Action<Error> WrapRedeemCouponErrorCallback(Action<Error> onError)
+	{
+		return error =>
+		{
+			if (error.ErrorType != ErrorType.InvalidCoupon)
+			{
+				StoreDemoPopup.ShowError(error);
+			}
+			onError?.Invoke(error);
+		};
 	}
 }

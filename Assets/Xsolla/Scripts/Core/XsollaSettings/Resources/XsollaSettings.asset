@@ -33,3 +33,4 @@ MonoBehaviour:
   googleServerId: 
   useDeepLinking: 0
   deepLinkRedirectUrl: 
+  webStoreUrl: https://livedemo.xsolla.com/sdk-account-linking/
