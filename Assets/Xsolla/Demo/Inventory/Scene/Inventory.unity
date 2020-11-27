@@ -559,5 +559,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1218190968, guid: 4af1ad141a08941d8bc07459eb260991, type: 3}
+      propertyPath: Urls.Array.data[3]
+      value: https://developers.xsolla.com/doc/pay-station/references/test-cards/#pay_station_references_test_cards
+      objectReference: {fileID: 0}
+    - target: {fileID: 1218190968, guid: 4af1ad141a08941d8bc07459eb260991, type: 3}
+      propertyPath: Urls.Array.data[0]
+      value: https://developers.xsolla.com/sdk/unity/use-xsolla-servers/
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4af1ad141a08941d8bc07459eb260991, type: 3}
