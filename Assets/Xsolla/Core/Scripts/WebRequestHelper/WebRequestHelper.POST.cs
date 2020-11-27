@@ -91,6 +91,12 @@ namespace Xsolla.Core
 			StartCoroutine(PostRequestCor<T>(url, data, onComplete, onError, errorsToCheck));
 		}
 		
+		public void PostRequest<T>(string url, WWWForm data, List<WebRequestHeader> requestHeaders, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
+			where T : class
+		{
+			StartCoroutine(PostRequestCor<T>(url, data, requestHeaders, onComplete, onError, errorsToCheck));
+		}
+		
 		public void PostUploadRequest<T>(string url, string pathToFile, List<WebRequestHeader> requestHeaders, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
 			where T: class
 		{
@@ -143,6 +149,15 @@ namespace Xsolla.Core
 		IEnumerator PostRequestCor<T>(string url, WWWForm data, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
 		{
 			UnityWebRequest webRequest = UnityWebRequest.Post(url, data);
+
+			yield return StartCoroutine(PerformWebRequest<T>(webRequest, onComplete, onError, errorsToCheck));
+		}
+		
+		IEnumerator PostRequestCor<T>(string url, WWWForm data, List<WebRequestHeader> requestHeaders, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
+		{
+			UnityWebRequest webRequest = UnityWebRequest.Post(url, data);
+
+			AttachHeadersToPostRequest(webRequest, requestHeaders, false);
 
 			yield return StartCoroutine(PerformWebRequest<T>(webRequest, onComplete, onError, errorsToCheck));
 		}

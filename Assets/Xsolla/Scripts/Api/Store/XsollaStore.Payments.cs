@@ -13,7 +13,8 @@ namespace Xsolla.Store
 	{
 		private const string URL_BUY_ITEM = BASE_STORE_API_URL + "/payment/item/{1}";
 		private const string URL_BUY_ITEM_FOR_VC = BASE_STORE_API_URL + "/payment/item/{1}/virtual/{2}";
-		private const string URL_BUY_CART = BASE_STORE_API_URL + "/payment/cart/{1}";
+		private const string URL_BUY_CURRENT_CART = BASE_STORE_API_URL + "/payment/cart";
+		private const string URL_BUY_SPECIFIC_CART = BASE_STORE_API_URL + "/payment/cart/{1}";
 
 		private const string URL_ORDER_GET_STATUS = BASE_STORE_API_URL + "/order/{1}";
 		private const string URL_PAYSTATION_UI = "https://secure.xsolla.com/paystation2/?access_token=";
@@ -97,12 +98,33 @@ namespace Xsolla.Store
 
 			WebRequestHelper.Instance.PostRequest<PurchaseData, TempPurchaseParams>(urlBuilder.ToString(), tempPurchaseParams, GetPaymentHeaders(Token), onSuccess, onError, Error.BuyItemErrors);
 		}
+		
+		/// <summary>
+		/// Returns the Paystation Token for the purchase of the items in the current cart.
+		/// </summary>
+		/// <remarks> Swagger method name:<c>Creates an order with all items from the current cart</c>.</remarks>
+		/// <see cref="https://developers.xsolla.com/store-api/cart-payment/payment/create-order/"/>
+		/// <param name="projectId">Project ID from your Publisher Account.</param>
+		/// <param name="onSuccess">Success operation callback.</param>
+		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="purchaseParams">Purchase parameters such as <c>country</c>, <c>locale</c> and <c>currency</c>.</param>
+		public void CartPurchase(string projectId, [CanBeNull] Action<PurchaseData> onSuccess, [CanBeNull] Action<Error> onError, PurchaseParams purchaseParams = null)
+		{
+			TempPurchaseParams tempPurchaseParams = new TempPurchaseParams
+			{
+				sandbox = XsollaSettings.IsSandbox,
+				settings = new TempPurchaseParams.Settings(XsollaSettings.PaystationTheme)
+			};
+
+			var urlBuilder = new StringBuilder(string.Format(URL_BUY_CURRENT_CART, projectId)).Append(AnalyticUrlAddition);
+			WebRequestHelper.Instance.PostRequest<PurchaseData, TempPurchaseParams>(urlBuilder.ToString(), tempPurchaseParams, GetPaymentHeaders(Token), onSuccess, onError, Error.BuyCartErrors);
+		}
 
 		/// <summary>
 		/// Returns the Paystation Token for the purchase of the items in the specified cart.
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Creates an order with all items from the particular cart</c>.</remarks>
-		/// <see cref="https://developers.xsolla.com/store-api/payment/create-order-by-cart-id"/>
+		/// <see cref="https://developers.xsolla.com/store-api/cart-payment/payment/create-order-by-cart-id/"/>
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
 		/// <param name="cartId">Unique cart identifier.</param>
 		/// <param name="onSuccess">Success operation callback.</param>
@@ -116,7 +138,7 @@ namespace Xsolla.Store
 				settings = new TempPurchaseParams.Settings(XsollaSettings.PaystationTheme)
 			};
 
-			var urlBuilder = new StringBuilder(string.Format(URL_BUY_CART, projectId, cartId)).Append(AnalyticUrlAddition);
+			var urlBuilder = new StringBuilder(string.Format(URL_BUY_SPECIFIC_CART, projectId, cartId)).Append(AnalyticUrlAddition);
 			WebRequestHelper.Instance.PostRequest<PurchaseData, TempPurchaseParams>(urlBuilder.ToString(), tempPurchaseParams, GetPaymentHeaders(Token), onSuccess, onError, Error.BuyCartErrors);
 		}
 
