@@ -11,11 +11,11 @@ namespace Xsolla.Login
 
 		#region Comment
 		/// <summary>
-		/// This method used for auth users in the Xsolla Login,
-		/// who plays on the consoles and other platforms
-		/// where Xsolla Login is not used. You must implements it
+		/// This method is used for authenticating users in Xsolla Login,
+		/// who play on the consoles and other platforms
+		/// where Xsolla Login isn't used. You must implement it
 		/// on the your server side.
-		/// Your integration flow on the server side:
+		/// Integration flow on the server side:
 		/// <list type="number">
 		///		<item>
 		///			<term>Generate server JWT</term>
@@ -105,11 +105,11 @@ namespace Xsolla.Login
 
 		#region Comment
 		/// <summary>
-		/// This method used for auth users in the Xsolla Login,
-		/// who plays on the consoles and other platforms
-		/// where Xsolla Login is not used. You must implements it
+		/// This method is used for authenticating users in Xsolla Login,
+		/// who play on the consoles and other platforms
+		/// where Xsolla Login isn't used. You must implement it
 		/// on the your server side.
-		/// Your integration flow on the server side:
+		/// Integration flow on the server side:
 		/// <list type="number">
 		///		<item>
 		///			<term>Generate server JWT</term>
@@ -143,7 +143,7 @@ namespace Xsolla.Login
 		///			</description>
 		///		</item>
 		///		<item>
-		///			<term>Implement linking accounts method</term>
+		///			<term>Implement APIs for account linking</term>
 		///			<description>
 		///				<see cref="https://developers.xsolla.com/login-api/users/link-accounts-by-code"/>
 		///				with:

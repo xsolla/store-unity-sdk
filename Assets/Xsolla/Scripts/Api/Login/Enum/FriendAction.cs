@@ -5,31 +5,31 @@
 public enum FriendAction
 {
     /// <summary>
-    /// Send friend request.
+    /// Send friend request
     /// </summary>
     SendInviteRequest,
     /// <summary>
-    /// Cancel the friend request that was sent.
+    /// Cancel sent friend request
     /// </summary>
     CancelRequest,
     /// <summary>
-    /// Confirm the friend request.
+    /// Confirm  friend request
     /// </summary>
     AcceptInvite,
     /// <summary>
-    /// Cancel the friend request that was received.
+    /// Cancel received friend request
     /// </summary>
     DenyInvite,
     /// <summary>
-    /// Delete the user from the friend list.
+    /// Delete user from the friend list
     /// </summary>
     RemoveFriend,
     /// <summary>
-    /// Block the user.
+    /// Block user
     /// </summary>
     BlockFriend,
     /// <summary>
-    /// Unblock the user.
+    /// Unblock user
     /// </summary>
     UnblockFriend
 }

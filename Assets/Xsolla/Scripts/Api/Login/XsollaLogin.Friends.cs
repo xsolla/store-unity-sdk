@@ -15,7 +15,7 @@ namespace Xsolla.Login
 		private const string URL_USER_SOCIAL_FRIENDS = "https://login.xsolla.com/api/users/me/social_friends?offset={0}&limit{1}&with_xl_uid{2}";
 		private const int USER_FRIENDS_DEFAULT_PAGINATION_LIMIT = 20;
 		/// <summary>
-		/// Gets user’s friends from a social provider.
+		/// Gets user’s friends from social provider.
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Get User's Friends</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/login-api/methods/users/get-users-friends/"/>.
@@ -24,7 +24,7 @@ namespace Xsolla.Login
 		/// <param name="offset">Offset.</param>
 		/// <param name="limit">Limit.</param>
 		/// <param name="withUid"></param>
-		/// <param name="onSuccess">Success operation callback.</param>
+		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		public void GetUserSocialFriends(string token, SocialProvider provider = SocialProvider.None, uint offset = 0, uint limit = 500, bool withUid = false, Action<UserSocialFriends> onSuccess = null, Action<Error> onError = null)
 		{
@@ -39,7 +39,7 @@ namespace Xsolla.Login
 		}
 
 		/// <summary>
-		/// Gets the friends of the authenticated user.
+		/// Gets friends of authenticated user.
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Get Friends</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/user-account-api/user-friends/get-friends"/>.
@@ -48,7 +48,7 @@ namespace Xsolla.Login
 		/// <param name="sortType">Condition for sorting users.</param>
 		/// <param name="order">Condition for sorting users.</param>
 		/// <param name="count">Maximum friends.</param>
-		/// <param name="onSuccess">Success operation callback.</param>
+		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		public void GetUserFriends(
 			string token,
@@ -100,14 +100,14 @@ namespace Xsolla.Login
 		}
 
 		/// <summary>
-		/// Updates the friend list of the authenticated user.
+		/// Updates friend list of authenticated user.
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Update Friends</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/user-account-api/user-friends/postusersmerelationships"/>.
 		/// <param name="token">JWT from Xsolla Login.</param>
 		/// <param name="action">Type of the action.</param>
 		/// <param name="user">The Xsolla Login user ID to change relationship with.</param>
-		/// <param name="onSuccess">Success operation callback.</param>
+		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		public void UpdateUserFriends(string token, FriendAction action, string user, Action onSuccess, Action<Error> onError)
 		{

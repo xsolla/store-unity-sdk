@@ -25,7 +25,7 @@ namespace Xsolla.Store
 		public string sku;
 		public string name;
 		public string description;
-		//public object attributes; Don't use it yet.
+		//Public object attributes; Don't use it yet.
 		public string type;
 		public string virtual_item_type;
 		public StoreItem.Group[] groups;

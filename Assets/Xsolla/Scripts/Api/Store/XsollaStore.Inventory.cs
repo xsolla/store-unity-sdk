@@ -19,7 +19,7 @@ namespace Xsolla.Store
 		/// <remarks> Swagger method name:<c>Get the current user's inventory</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/store-api/inventory-client/get-user-inventory"/>
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
-		/// <param name="onSuccess">Success operation callback.</param>
+		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		/// <param name="locale">Defines localization of item's text fields.</param>
 		public void GetInventoryItems(string projectId, [NotNull] Action<InventoryItems> onSuccess, [CanBeNull] Action<Error> onError, [CanBeNull] string locale = null)
@@ -32,14 +32,14 @@ namespace Xsolla.Store
 		}
 
 		/// <summary>
-		/// Consume item from inventory.
-		/// Please note: API support consume only one item now (quantity = 1).
+		/// Consumes item from inventory.
+		/// Please note: API supports consuming of only one item now (quantity = 1).
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Consume item</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/store-api/inventory-client/consume-item"/>
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
 		/// <param name="item">Contains consume parameters.</param>
-		/// <param name="onSuccess">Success operation callback.</param>
+		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		public void ConsumeInventoryItem(string projectId, ConsumeItem item, [CanBeNull] Action onSuccess, [CanBeNull] Action<Error> onError)
 		{
