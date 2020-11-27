@@ -8,8 +8,8 @@ namespace Xsolla.Store
 	public partial class XsollaStore : MonoSingleton<XsollaStore>
 	{
 		private const string URL_VIRTUAL_CURRENCY_BALANCE = BASE_STORE_API_URL + "/user/virtual_currency_balance";
-		private const string URL_VIRTUAL_CURRENCY_LIST = BASE_STORE_API_URL + "/items/virtual_currency";
-		private const string URL_VIRTUAL_CURRENCY_PACKAGES_IN_PROJECT = BASE_STORE_API_URL + "/items/virtual_currency/package";
+		private const string URL_VIRTUAL_CURRENCY_LIST = BASE_STORE_API_URL + "/items/virtual_currency?offset={1}&limit={2}";
+		private const string URL_VIRTUAL_CURRENCY_PACKAGES_IN_PROJECT = BASE_STORE_API_URL + "/items/virtual_currency/package?offset={1}&limit={2}";
 
 		/// <summary>
 		/// Returns balance for all virtual currencies.
@@ -38,9 +38,12 @@ namespace Xsolla.Store
 		/// <param name="onSuccess">Success operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		/// <param name="locale">Defines localization of item's text fields.</param>
-		public void GetVirtualCurrencyList(string projectId, [NotNull] Action<VirtualCurrencyItems> onSuccess, [CanBeNull] Action<Error> onError, [CanBeNull] string locale = null)
+		/// <param name="offset">Number of the element from which the list is generated (the count starts from 0).</param>
+		/// <param name="limit">Limit for the number of elements on the page.</param>
+		public void GetVirtualCurrencyList(string projectId, [NotNull] Action<VirtualCurrencyItems> onSuccess, [CanBeNull] Action<Error> onError, [CanBeNull] string locale = null, int offset = 0, int limit = 50)
 		{
-			var urlBuilder = new StringBuilder(string.Format(URL_VIRTUAL_CURRENCY_LIST, projectId)).Append(AnalyticUrlAddition);
+			var analyticUrlAddition = AnalyticUrlAddition.Replace('?', '&');
+			var urlBuilder = new StringBuilder(string.Format(URL_VIRTUAL_CURRENCY_LIST, projectId, offset, limit)).Append(analyticUrlAddition);
 			urlBuilder.Append(GetLocaleUrlParam(locale));
 
 			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), AuthAndAnalyticHeaders, onSuccess, onError, Error.ItemsListErrors);
@@ -55,9 +58,12 @@ namespace Xsolla.Store
 		/// <param name="onSuccess">Success operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		/// <param name="locale">Defines localization of item's text fields.</param>
-		public void GetVirtualCurrencyPackagesList(string projectId, [NotNull] Action<VirtualCurrencyPackages> onSuccess, [CanBeNull] Action<Error> onError, [CanBeNull] string locale = null)
+		/// <param name="offset">Number of the element from which the list is generated (the count starts from 0).</param>
+		/// <param name="limit">Limit for the number of elements on the page.</param>
+		public void GetVirtualCurrencyPackagesList(string projectId, [NotNull] Action<VirtualCurrencyPackages> onSuccess, [CanBeNull] Action<Error> onError, [CanBeNull] string locale = null, int offset = 0, int limit = 50)
 		{
-			var urlBuilder = new StringBuilder(string.Format(URL_VIRTUAL_CURRENCY_PACKAGES_IN_PROJECT, projectId)).Append(AnalyticUrlAddition);
+			var analyticUrlAddition = AnalyticUrlAddition.Replace('?', '&');
+			var urlBuilder = new StringBuilder(string.Format(URL_VIRTUAL_CURRENCY_PACKAGES_IN_PROJECT, projectId, offset, limit)).Append(analyticUrlAddition);
 			urlBuilder.Append(GetLocaleUrlParam(locale));
 
 			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), AuthAndAnalyticHeaders, onSuccess, onError, Error.ItemsListErrors);
