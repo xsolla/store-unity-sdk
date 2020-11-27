@@ -4,5 +4,6 @@ public enum UserState
 	MyFriend,
 	Pending,
 	Requested,
-	Blocked
+	Blocked,
+	SocialNonXsolla
 }

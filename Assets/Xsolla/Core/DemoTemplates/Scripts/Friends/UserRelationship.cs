@@ -19,5 +19,9 @@ public enum UserRelationship
 	/// <summary>
 	/// Friendship request sent to user.
 	/// </summary>
-	Requested
+	Requested,
+	/// <summary>
+	/// Friend from social network without Xsolla account.
+	/// </summary>
+	SocialNonXsolla
 }

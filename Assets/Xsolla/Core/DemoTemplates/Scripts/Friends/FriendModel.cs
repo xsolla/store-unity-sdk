@@ -20,6 +20,10 @@ public class FriendModel
 	/// Friend relationship.
 	/// </summary>
 	public UserRelationship Relationship;
+	/// <summary>
+	/// Friend from social network
+	/// </summary>
+	public SocialProvider SocialProvider = SocialProvider.None;
 
 	public override bool Equals(object obj)
 	{

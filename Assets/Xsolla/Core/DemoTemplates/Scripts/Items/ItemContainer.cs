@@ -47,7 +47,7 @@ public class ItemContainer : MonoBehaviour
 			emptyMessageText.text = text;
 	}
 
-	private void DisableEmptyContainerMessage()
+	public void DisableEmptyContainerMessage()
 	{
 		if(emptyMessageText == null) return;
 		emptyMessageText.gameObject.SetActive(false);

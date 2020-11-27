@@ -74,7 +74,7 @@ public class GroupsController : MonoBehaviour
 		return newGroupGameObject;
 	}
 
-	private void SelectGroup(string groupId)
+	public void SelectGroup(string groupId)
 	{
 		Groups.Where(g => g.Id != groupId).ToList().ForEach(g => g.Deselect());
 		GroupSelectedEvent?.Invoke(groupId);

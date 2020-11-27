@@ -16,9 +16,12 @@ namespace Xsolla.Login
 
 		private const string URL_OAUT_STEAM_CROSSAUTH =
 			"https://login.xsolla.com/api/oauth2/social/steam/cross_auth?app_id={0}&client_id={1}&session_ticket={2}&is_redirect=false&redirect_uri=https://login.xsolla.com/api/blank&response_type=code&scope=offline&state=xsollatest&{3}";
+		
+		private const string URL_LINK_SOCIAL_NETWORK = 
+			"https://login.xsolla.com/api/users/me/social_providers/{0}/login_url?login_url={1}&{2}";
 
-		private const string URL_LINK_SOCIAL_NETWORK =
-			"https://login.xsolla.com/api/users/me/social_providers/{0}/login_url?{1}";
+		private const string URL_GET_LINKED_SOCIAL_NETWORKS =
+			"https://login.xsolla.com/api/users/me/social_providers?{0}";
 
 		private const string URL_SOCIAL_AUTH =
 			"https://login.xsolla.com/api/social/{0}/login_redirect?projectId={1}&with_logout={2}&{3}";
@@ -105,10 +108,33 @@ namespace Xsolla.Login
 			}
 		}
 
-		public void LinkSocialProvider(SocialProvider socialProvider)
+		/// <summary>
+		/// Links the social network, which is used by the player for authentication, to the user account.
+		/// </summary>
+		/// <remarks> Swagger method name:<c>Link Social Network To Account</c>.</remarks>
+		/// <see cref="https://developers.xsolla.com/user-account-api/social-networks/link-social-network-to-account/"/>.
+		/// <param name="socialProvider">Name of social provider.</param>
+		/// <param name="urlCallback">Success operation callback.</param>
+		/// <param name="onError">Failed operation callback.</param>
+		public void LinkSocialProvider(SocialProvider socialProvider, Action<string> urlCallback, Action<Error> onError = null)
 		{
-			var url = string.Format(URL_LINK_SOCIAL_NETWORK, socialProvider.GetParameter(), AnalyticUrlAddition);
-			WebRequestHelper.Instance.GetRequest<object>(url, AuthAndAnalyticHeaders, null);
+			var redirectUrl = !string.IsNullOrEmpty(XsollaSettings.CallbackUrl) ? XsollaSettings.CallbackUrl : DEFAULT_REDIRECT_URI;
+			var url = string.Format(URL_LINK_SOCIAL_NETWORK, socialProvider.GetParameter(), redirectUrl, AnalyticUrlAddition);
+			WebRequestHelper.Instance.GetRequest<LinkSocialProviderResponse>(url, AuthAndAnalyticHeaders,
+				response => urlCallback?.Invoke(response.url));
+		}
+
+		/// <summary>
+		/// Gets a list of the social networks linked to the user account.
+		/// </summary>
+		/// <remarks> Swagger method name:<c>Get Linked Networks</c>.</remarks>
+		/// <see cref="https://developers.xsolla.com/user-account-api/social-networks/get-linked-networks/"/>.
+		/// <param name="onSuccess">Success operation callback.</param>
+		/// <param name="onError">Failed operation callback.</param>
+		public void GetLinkedSocialProviders(Action<List<LinkedSocialNetwork>> onSuccess, Action<Error> onError = null)
+		{
+			var url = string.Format(URL_GET_LINKED_SOCIAL_NETWORKS, AnalyticUrlAddition);
+			WebRequestHelper.Instance.GetRequest(url, AuthAndAnalyticHeaders, onSuccess, onError);
 		}
 
 		/// <summary>

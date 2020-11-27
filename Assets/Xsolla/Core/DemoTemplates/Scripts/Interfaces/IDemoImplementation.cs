@@ -82,6 +82,9 @@ public interface IDemoImplementation
 	void CancelFriendshipRequest(FriendModel user, [CanBeNull] Action<FriendModel> onSuccess = null,
 		[CanBeNull] Action<Error> onError = null);
 	
+	void ForceUpdateFriendsFromSocialNetworks([CanBeNull] Action onSuccess = null,
+		[CanBeNull] Action<Error> onError = null);
+	
 	void GetFriendsFromSocialNetworks([CanBeNull] Action<List<FriendModel>> onSuccess = null,
 		[CanBeNull] Action<Error> onError = null);
 	
@@ -100,6 +103,8 @@ public interface IDemoImplementation
 		[CanBeNull] Action<Error> onError = null);
 
 	void GetUserInfo(string token, [NotNull] Action<UserInfo> onSuccess, [CanBeNull] Action<Error> onError = null);
+
+	void GetPublicInfo(string token, string user, Action<UserPublicInfo> onSuccess, Action<Error> onError = null);
 
 	void UpdateUserInfo(string token, UserInfoUpdate info, Action<UserInfo> onSuccess, Action<Error> onError = null);
 
@@ -121,7 +126,9 @@ public interface IDemoImplementation
 
 	string GetSocialNetworkAuthUrl(SocialProvider socialProvider);
 
-	void LinkSocialProvider(SocialProvider socialProvider);
+	void LinkSocialProvider(SocialProvider socialProvider, Action<SocialProvider> onSuccess, Action<Error> onError = null);
+	
+	void GetLinkedSocialProviders(Action<List<LinkedSocialNetwork>> onSuccess, Action<Error> onError = null);
 
 	void SignInConsoleAccount(string userId, string platform, Action<string> successCase, Action<Error> failedCase);
 

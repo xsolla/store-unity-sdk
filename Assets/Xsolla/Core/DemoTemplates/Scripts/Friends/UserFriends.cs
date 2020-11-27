@@ -8,7 +8,7 @@ using Xsolla.Core;
 
 public class UserFriends : MonoSingleton<UserFriends>
 {
-	private const float REFRESH_USER_FRIENDS_TIMEOUT = 10.0F;
+	private const float REFRESH_USER_FRIENDS_TIMEOUT = 20.0F;
 	
 	public event Action UserFriendsUpdatedEvent;
 	public event Action BlockedUsersUpdatedEvent;
@@ -96,6 +96,7 @@ public class UserFriends : MonoSingleton<UserFriends>
 	private IEnumerator UpdateFriendsCoroutine(Action onSuccess, Action<Error> onError)
 	{
 		bool? isTokenValid = null;
+		bool socialBusy = true;
 		bool friendsBusy = true;
 		bool blockedBusy = true;
 		bool pendingBusy = true;
@@ -106,12 +107,14 @@ public class UserFriends : MonoSingleton<UserFriends>
 
 		if (isTokenValid == true)
 		{
+			UpdateUserSocialFriends(() => socialBusy = false, onError);
 			UpdateUserFriends(() => friendsBusy = false, onError);
 			UpdateBlockedUsers(() => blockedBusy = false, onError);
 			UpdatePendingUsers(() => pendingBusy = false, onError);
 			UpdateRequestedUsers(() => requestedBusy = false, onError);
-			yield return new WaitWhile(() => friendsBusy || blockedBusy || pendingBusy || requestedBusy);
+			yield return new WaitWhile(() => friendsBusy || blockedBusy || pendingBusy || requestedBusy || socialBusy);
 
+			UpdateSocialFriends();
 			IsUpdated = true;
 			onSuccess?.Invoke();
 			AllUsersUpdatedEvent?.Invoke();
@@ -122,6 +125,11 @@ public class UserFriends : MonoSingleton<UserFriends>
 			DemoController.Instance.SetState(MenuState.Authorization);
 			StopRefreshUsers();
 		}
+	}
+
+	private void UpdateUserSocialFriends(Action onSuccess = null, Action<Error> onError = null)
+	{
+		DemoController.Instance.GetImplementation().ForceUpdateFriendsFromSocialNetworks(onSuccess, onError);
 	}
 	
 	private void UpdateUserFriends(Action onSuccess = null, Action<Error> onError = null)
