@@ -11,8 +11,10 @@ public class FriendUI : MonoBehaviour
     [SerializeField] private FriendActionsButton actionsButton;
     [SerializeField] private FriendButtonsUI userButtons;
     [SerializeField] private FriendStatusLineUI userStatusLine;
-    
-    public FriendModel FriendModel { get; private set; }
+	[SerializeField] private GameObject SocialFriendship;
+	[SerializeField] private SocialProviderContainer[] SocialFriendshipMarkers;
+
+	public FriendModel FriendModel { get; private set; }
     
     public void Initialize(FriendModel friend)
     {
@@ -20,12 +22,10 @@ public class FriendUI : MonoBehaviour
         FriendModel = friend;
 
         InitAvatar(FriendModel);
-
         InitStatus(FriendModel);
-
         InitNickname(FriendModel);
-        
         SetUserState(FriendModel.Relationship);
+		SetSocialFriendship(FriendModel.SocialProvider);
     }
 
     private void InitAvatar(FriendModel friend)
@@ -34,8 +34,11 @@ public class FriendUI : MonoBehaviour
         {
             ImageLoader.Instance.GetImageAsync(friend.AvatarUrl, (url, sprite) =>
             {
-                avatarImage.gameObject.SetActive(true);
-                avatarImage.sprite = sprite;
+				if (avatarImage)
+				{
+					avatarImage.gameObject.SetActive(true);
+					avatarImage.sprite = sprite;
+				}
             });    
         }
         else
@@ -104,6 +107,11 @@ public class FriendUI : MonoBehaviour
                 userState = gameObject.AddComponent<UserStateBlocked>();
                 break;
             }
+			case UserState.SocialNonXsolla:
+			{
+				userState = gameObject.AddComponent<UserStateSocialNonXsolla>();
+				break;
+			}
             default:
             {
                 Debug.LogWarning($"Set up handle of user state = '{state.ToString()}' in FriendUI.cs");
@@ -142,6 +150,11 @@ public class FriendUI : MonoBehaviour
                 SetUserState(UserState.Blocked);
                 break;
             }
+			case UserRelationship.SocialNonXsolla:
+			{
+				SetUserState(UserState.SocialNonXsolla);
+				break;
+			}
             default:
             {
                 Debug.LogException(new ArgumentOutOfRangeException(nameof(relationship), relationship, null));
@@ -149,4 +162,24 @@ public class FriendUI : MonoBehaviour
             }
         }
     }
+
+	public void AddSocialFriendshipMark(SocialProvider socialProvider)
+	{
+		SocialFriendship.SetActive(true);
+
+		foreach (var marker in SocialFriendshipMarkers)
+		{
+			if (marker.SocialProvider == socialProvider)
+			{
+				marker.gameObject.SetActive(true);
+				break;
+			}
+		}
+	}
+
+	private void SetSocialFriendship(SocialProvider provider)
+	{
+		if (provider != SocialProvider.None)
+			AddSocialFriendshipMark(provider);
+	}
 }

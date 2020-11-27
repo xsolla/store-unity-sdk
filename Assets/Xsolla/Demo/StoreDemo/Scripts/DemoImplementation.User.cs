@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
@@ -9,6 +10,7 @@ using Xsolla.Store;
 
 public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 {
+	private const int NETWORKS_CACHE_TIMEOUT = 5;
 #region Token
 	public Token Token
 	{
@@ -64,6 +66,11 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 
 		XsollaLogin.Instance.UpdateUserInfo(token, info, successCallback, onError);
 
+	}
+
+	public void GetPublicInfo(string token, string user, Action<UserPublicInfo> onSuccess, Action<Error> onError = null)
+	{
+		XsollaLogin.Instance.GetPublicInfo(token, user, onSuccess, onError = null);
 	}
 
 	public void Registration(string username, string password, string email, Action onSuccess, Action<Error> onError = null)
@@ -125,11 +132,80 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 		return XsollaLogin.Instance.GetSocialNetworkAuthUrl(socialProvider);
 	}
 	
-	public void LinkSocialProvider(SocialProvider socialProvider)
+	public void LinkSocialProvider(SocialProvider socialProvider, Action<SocialProvider> onSuccess, Action<Error> onError = null)
 	{
-		XsollaLogin.Instance.LinkSocialProvider(socialProvider);
+		XsollaLogin.Instance.LinkSocialProvider(socialProvider, 
+			url =>
+			{
+				BrowserHelper.Instance.Open(url, XsollaSettings.InAppBrowserEnabled);
+				BrowserHelper.Instance.GetLastBrowser().BrowserClosedEvent += _ => onError?.Invoke(null);
+				BrowserHelper.Instance.GetLastBrowser().BrowserInitEvent += activeBrowser =>
+				{
+					activeBrowser.Navigate.UrlChangedEvent += (browser, newUrl) =>
+					{
+						Debug.Log($"URL = {newUrl}");
+
+						if (ParseUtils.TryGetValueFromUrl(newUrl, ParseParameter.token, out _))
+						{
+							StartCoroutine(CloseBrowserCoroutine());
+							onSuccess?.Invoke(socialProvider);
+						}
+					};
+				};
+			},
+			WrapErrorCallback(onError));
 	}
-#endregion
+
+	private IEnumerator CloseBrowserCoroutine()
+	{
+		yield return new WaitForEndOfFrame();
+#if UNITY_EDITOR || UNITY_STANDALONE
+		Destroy(BrowserHelper.Instance.gameObject);
+		HotkeyCoroutine.Unlock();
+#endif
+	}
+
+	private List<LinkedSocialNetwork> _networksCache;
+	private DateTime _networksCacheTime;
+	private bool _networksCacheInProgress;
+	
+	public void GetLinkedSocialProviders(Action<List<LinkedSocialNetwork>> onSuccess, Action<Error> onError = null)
+	{
+		if (_networksCacheInProgress)
+		{
+			StartCoroutine(WaitLinkedSocialProviders(onSuccess));
+			return;
+		}
+		if ((DateTime.Now - _networksCacheTime).Seconds > NETWORKS_CACHE_TIMEOUT || _networksCache == null)
+		{
+			_networksCacheInProgress = true;
+			XsollaLogin.Instance.GetLinkedSocialProviders(networks =>
+			{
+				_networksCache = networks;
+				_networksCacheTime = DateTime.Now;
+				onSuccess?.Invoke(_networksCache);
+				_networksCacheInProgress = false;
+			}, error =>
+			{
+				if (_networksCache == null)
+					_networksCache = new List<LinkedSocialNetwork>();
+				WrapErrorCallback(onError)?.Invoke(error);
+				_networksCacheInProgress = false;
+			});
+		}
+		else
+		{
+			onSuccess?.Invoke(_networksCache);
+		}
+	}
+
+	private IEnumerator WaitLinkedSocialProviders(Action<List<LinkedSocialNetwork>> onSuccess)
+	{
+		yield return new WaitWhile(() => _networksCacheInProgress);
+		onSuccess?.Invoke(_networksCache);
+	}
+
+	#endregion
 
 #region AccountLinking
 	public void SignInConsoleAccount(string userId, string platform, Action<string> successCase, Action<Error> failedCase)

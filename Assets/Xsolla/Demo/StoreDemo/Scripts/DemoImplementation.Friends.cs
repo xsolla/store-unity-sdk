@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -90,20 +91,69 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 			() => onSuccess?.Invoke(user), onError);
 	}
 
+	public void ForceUpdateFriendsFromSocialNetworks(Action onSuccess = null, Action<Error> onError = null)
+	{
+		XsollaLogin.Instance.UpdateUserSocialFriends(XsollaLogin.Instance.Token, SocialProvider.None, onSuccess, onError);
+	}
+
 	public void GetFriendsFromSocialNetworks(Action<List<FriendModel>> onSuccess = null, Action<Error> onError = null)
 	{
 		XsollaLogin.Instance.GetUserSocialFriends(XsollaLogin.Instance.Token, SocialProvider.None, 0, 20, false,
-			friends =>
+			onSuccess: friends => StartCoroutine(ConvertSocialFriendsToRecommended(friends.data, onSuccess, onError)),
+			onError);
+	}
+
+	private IEnumerator ConvertSocialFriendsToRecommended(List<UserSocialFriend> socialFriends, Action<List<FriendModel>> onSuccess = null, Action<Error> onError = null)
+	{
+		var recommendedFriends = new List<FriendModel>(socialFriends.Count);
+
+		foreach (var socialFriend in socialFriends)
+		{
+			var recommendedFriend = ConvertFriendEntity(socialFriend);
+
+			if (recommendedFriend.Relationship == UserRelationship.SocialNonXsolla)//Social friend without linked Xsolla account
 			{
-				onSuccess?.Invoke(friends.data.Select(f =>
+				//Proceed
+			}
+			else if (recommendedFriend.Relationship != UserRelationship.Unknown)//User is already added/blocked/requested
+			{
+				continue;//Skip this user, they should not appear as recommended
+			}
+			else//Social friend with linked Xsolla account, replace nickname and avatar with ones from Xsolla
+			{
+				var token = DemoController.Instance.GetImplementation().Token;
+				bool? isUserinfoObtained = null;
+
+				DemoController.Instance.GetImplementation().GetPublicInfo(token, recommendedFriend.Id,
+					onSuccess: info =>
+					{
+						recommendedFriend.Nickname = info.nickname;
+						recommendedFriend.AvatarUrl = info.avatar;
+						isUserinfoObtained = true;
+					},
+					onError: error =>
+					{
+						onError?.Invoke(error);
+						isUserinfoObtained = false;
+					});
+
+				yield return new WaitWhile(() => isUserinfoObtained == null);
+
+				if (isUserinfoObtained == false)
 				{
-					var result = ConvertFriendEntity(f);
-					// this method used at this place for fastest image loading
-					if(!string.IsNullOrEmpty(result.AvatarUrl))
-						ImageLoader.Instance.GetImageAsync(result.AvatarUrl, null);
-					return result;
-				}).ToList());
-			}, onError);
+					Debug.LogError($"Could not get user information. UserID: {recommendedFriend.Id}");
+					yield break;
+				}
+			}
+
+			recommendedFriends.Add(recommendedFriend);
+
+			//Avatar preload
+			if (!string.IsNullOrEmpty(recommendedFriend.AvatarUrl))
+				ImageLoader.Instance.GetImageAsync(recommendedFriend.AvatarUrl, null);
+		}
+
+		onSuccess?.Invoke(recommendedFriends);
 	}
 
 	private void GetUsersByType(FriendsSearchType searchType, UserRelationship relationship,
@@ -125,15 +175,28 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 
 	private FriendModel ConvertFriendEntity(UserSocialFriend friend)
 	{
-		var user = UserFriends.Instance.GetUserById(friend.xl_uid);
 		var result = new FriendModel
 		{
 			Id = friend.xl_uid,
 			Nickname = friend.name,
 			AvatarUrl = friend.avatar
 		};
-		result.Status = user?.Status ?? UserOnlineStatus.Unknown;
-		result.Relationship = user?.Relationship ?? UserRelationship.Unknown;
+
+		if (!string.IsNullOrEmpty(friend.xl_uid))//Xsolla ID not null - this is a registered Xsolla user with linked social account
+		{
+			var existingFriend = UserFriends.Instance.GetUserById(friend.xl_uid);
+			result.Status = existingFriend?.Status ?? UserOnlineStatus.Unknown;
+			result.Relationship = existingFriend?.Relationship ?? UserRelationship.Unknown;
+		}
+		else
+		{
+			result.Status = UserOnlineStatus.Unknown;
+			result.Relationship = UserRelationship.SocialNonXsolla;
+		}
+
+		if (Enum.TryParse<SocialProvider>(friend.platform, ignoreCase: true, out SocialProvider provider))
+			result.SocialProvider = provider;
+
 		return result;
 	}
 

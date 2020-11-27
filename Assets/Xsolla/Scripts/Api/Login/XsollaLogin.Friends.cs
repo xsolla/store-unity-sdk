@@ -12,8 +12,10 @@ namespace Xsolla.Login
 	{
 		private const string URL_USER_GET_FRIENDS = "https://login.xsolla.com/api/users/me/relationships?type={0}&sort_by={1}&sort_order={2}&limit={3}&{4}";
 		private const string URL_USER_UPDATE_FRIENDS = "https://login.xsolla.com/api/users/me/relationships?{0}";
-		private const string URL_USER_SOCIAL_FRIENDS = "https://login.xsolla.com/api/users/me/social_friends?offset={0}&limit{1}&with_xl_uid{2}";
+		private const string URL_USER_SOCIAL_FRIENDS = "https://login.xsolla.com/api/users/me/social_friends?offset={0}&limit={1}&with_xl_uid={2}{3}&{4}";
+		private const string URL_USER_UPDATE_SOCIAL_FRIENDS = "https://login.xsolla.com/api/users/me/social_friends/update?{1}{0}";
 		private const int USER_FRIENDS_DEFAULT_PAGINATION_LIMIT = 20;
+		
 		/// <summary>
 		/// Gets user’s friends from a social provider.
 		/// </summary>
@@ -28,16 +30,32 @@ namespace Xsolla.Login
 		/// <param name="onError">Failed operation callback.</param>
 		public void GetUserSocialFriends(string token, SocialProvider provider = SocialProvider.None, uint offset = 0, uint limit = 500, bool withUid = false, Action<UserSocialFriends> onSuccess = null, Action<Error> onError = null)
 		{
-			var urlBuilder = new StringBuilder(
-				string.Format(URL_USER_SOCIAL_FRIENDS, offset, limit, withUid ? "true" : "false"));
-			if(provider != SocialProvider.None)
-				urlBuilder.Append($"&platform={provider.GetParameter()}");
-			urlBuilder.Append($"&{AnalyticUrlAddition}");
+			var withUidFlag = withUid ? "true" : "false";
+			var providerUrlAddition = provider != SocialProvider.None ? $"&platform={provider.GetParameter()}" : string.Empty;
+			var url = string.Format(URL_USER_SOCIAL_FRIENDS, offset, limit, withUidFlag, providerUrlAddition, AnalyticUrlAddition);
 
 			var headers = AppendAnalyticHeadersTo(WebRequestHeader.AuthHeader(token));
-			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), headers, onSuccess, onError);
+			WebRequestHelper.Instance.GetRequest(url, headers, onSuccess, onError);
 		}
+		
+		/// <summary>
+		/// Begins processing to update a list of user’s friends from a social provider.
+		/// </summary>
+		/// <remarks> Swagger method name:<c>Update User's Friends</c>.</remarks>
+		/// <see cref="https://developers.xsolla.com/login-api/methods/users/update-users-friends/"/>.
+		/// <param name="token">JWT from Xsolla Login.</param>
+		/// <param name="provider">Name of social provider.</param>
+		/// <param name="onSuccess">Success operation callback.</param>
+		/// <param name="onError">Failed operation callback.</param>
+		public void UpdateUserSocialFriends(string token, SocialProvider provider = SocialProvider.None, Action onSuccess = null, Action<Error> onError = null)
+		{
+			var providerUrlAddition = provider != SocialProvider.None ? $"&platform={provider.GetParameter()}" : string.Empty;
+			var url = string.Format(URL_USER_UPDATE_SOCIAL_FRIENDS, providerUrlAddition, AnalyticUrlAddition);
+			var headers = AppendAnalyticHeadersTo(WebRequestHeader.AuthHeader(token));
 
+			WebRequestHelper.Instance.PostRequest(url, headers, onSuccess, onError);
+		}
+		
 		/// <summary>
 		/// Gets the friends of the authenticated user.
 		/// </summary>

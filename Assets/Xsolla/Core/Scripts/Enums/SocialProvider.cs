@@ -1,3 +1,5 @@
+using System;
+
 /// <summary>
 /// Social providers list for Login Social Auth.
 /// See full list at <see cref="https://developers.xsolla.com/login-api/jwt/jwt-auth-via-social-network/"/>.
@@ -38,4 +40,14 @@ public static class SocialProviderConverter
             default: return string.Empty;
         }
     }
+}
+
+[Serializable]
+public class LinkedSocialNetwork
+{
+    public string full_name;
+    public string nickname;
+    public string picture;
+    public string provider;
+    public string social_id;
 }

@@ -1,104 +1,52 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using Xsolla.Core;
 
 public class SocialFriendsMenuController : MonoBehaviour
 {
-    private const float SearchUsersTimeout = 2.0F;
-    
-    [SerializeField] private GameObject userPrefab;
-    [SerializeField] private GroupsController groupsController;
+#pragma warning disable 0649
+	[SerializeField] private GameObject userPrefab;
     [SerializeField] private ItemContainer usersContainer;
-    [SerializeField] private FriendSearchBox searchBox;
+	[SerializeField] private FriendSystemSocialNetwork[] SocialNetworks;
+#pragma warning restore 0649
 
-	[SerializeField] private GameObject[] SearchContent;
-	[SerializeField] private GameObject SocialContent;
-	[SerializeField] private GameObject EmptySearchResultContent;
-
-	private List<string> _nicknames;
-
-    private void Awake()
-    {
-		gameObject.AddComponent<FriendsMenuHelper>();
-		_nicknames = new List<string>();
-    }
-
-    void Start()
-    {
-        StartCoroutine(SearchUsersCoroutine(RefreshUsersContainer, StoreDemoPopup.ShowError));
-        if (groupsController != null)
-        {
-            FriendsMenuHelper.RefreshGroups(groupsController, FriendsMenuHelper.ADD_FRIENDS_GROUP);
-            Action<string> groupChangedCallback = group =>
-            {
-                FriendsMenuHelper.RefreshGroups(groupsController, group);
-                DemoController.Instance.SetState(MenuState.Friends);
-            };
-            groupsController.GroupSelectedEvent += _ => groupsController.GroupSelectedEvent -= groupChangedCallback;
-            groupsController.GroupSelectedEvent += groupChangedCallback;
-            if (searchBox != null)
-            {
-				searchBox.SearchRequest += SearchboxInputFinished;
-				searchBox.ClearSearchRequest += () => SearchboxInputFinished(null);
-			}
-        }
-    }
-    
-    private void SearchboxInputFinished(string text)
-    {
-        if(string.IsNullOrEmpty(text))
-			SwitchUI(UIState.Social);
-        else
-			_nicknames.Add(text);
-    }
-
-	private void SwitchUI(UIState state)
+	private void Awake()
 	{
-		foreach (var item in SearchContent)
-			SetActive(item, state == UIState.Search);
-
-		SetActive(SocialContent, state == UIState.Social);
-		SetActive(EmptySearchResultContent, state == UIState.EmptySearchResult);
+		foreach (var network in SocialNetworks)
+			network.StateChanged += NetworkOnStateChanged;
 	}
 
-	private void SetActive(GameObject gameObject, bool targetState)
+	private void NetworkOnStateChanged(SocialProvider socialProvider, FriendSystemSocialNetwork.State state)
 	{
-		if(gameObject != null && gameObject.activeSelf != targetState)
-			gameObject.SetActive(targetState);
+		DemoController.Instance.GetImplementation().GetFriendsFromSocialNetworks(RefreshUsersContainer);
 	}
 
-    private IEnumerator SearchUsersCoroutine(Action<List<FriendModel>> onSuccess, Action<Error> onError = null)
+	private void RefreshUsersContainer(List<FriendModel> users)
     {
-        while (true)
-        {
-            yield return new WaitUntil(() => _nicknames.Any());
-            var nickname = _nicknames.Last();
-            _nicknames.Clear();
-            UserFriends.Instance.SearchUsersByNickname(nickname, onSuccess, onError);
-            yield return new WaitForSeconds(SearchUsersTimeout);
-        }
-    }
-    
-    private void RefreshUsersContainer(List<FriendModel> users)
-    {
+		var addedUsers = new List<FriendModel>();
+		var createdFriendUIs = new List<FriendUI>();
+
         usersContainer.Clear();
-        users.ForEach(u =>
+        users.ForEach(newUser =>
         {
-            var go = usersContainer.AddItem(userPrefab);
-            go.GetComponent<FriendUI>().Initialize(u);
+			int index;
+			if ((index = addedUsers.IndexOf(newUser)) != -1)//This will be true for Xsolla users with several social networks linked
+			{
+				createdFriendUIs[index].AddSocialFriendshipMark(newUser.SocialProvider);
+			}
+			else
+			{
+				var FriendUIgameObject = usersContainer.AddItem(userPrefab);
+				var friendUIscript = FriendUIgameObject.GetComponent<FriendUI>();
+				friendUIscript.Initialize(newUser);
+
+				addedUsers.Add(newUser);
+				createdFriendUIs.Add(friendUIscript);
+			}
         });
 
-		if (users.Count > 0)
-			SwitchUI(UIState.Search);
+		if(usersContainer.IsEmpty())
+			usersContainer.EnableEmptyContainerMessage();
 		else
-			SwitchUI(UIState.EmptySearchResult);
-	}
-
-	private enum UIState
-	{
-		Social, Search, EmptySearchResult
+			usersContainer.DisableEmptyContainerMessage();
 	}
 }
