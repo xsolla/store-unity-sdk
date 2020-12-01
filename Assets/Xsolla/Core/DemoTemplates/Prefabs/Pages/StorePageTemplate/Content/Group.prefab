@@ -66,11 +66,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6244690360313918096}
     m_Modifications:
-    - target: {fileID: 622149985842944864, guid: bfc0c4d552fbe4e38a06e5eb5d3f2773,
-        type: 3}
-      propertyPath: m_Name
-      value: pref_MenuButton
-      objectReference: {fileID: 0}
     - target: {fileID: 706992244782302560, guid: bfc0c4d552fbe4e38a06e5eb5d3f2773,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -251,6 +246,11 @@ PrefabInstance:
       propertyPath: image
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 622149985842944864, guid: bfc0c4d552fbe4e38a06e5eb5d3f2773,
+        type: 3}
+      propertyPath: m_Name
+      value: pref_MenuButton
+      objectReference: {fileID: 0}
     - target: {fileID: 3380471753738665331, guid: bfc0c4d552fbe4e38a06e5eb5d3f2773,
         type: 3}
       propertyPath: m_Color.r
@@ -286,6 +286,12 @@ PrefabInstance:
       propertyPath: m_FontData.m_HorizontalOverflow
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3380471753738665331, guid: bfc0c4d552fbe4e38a06e5eb5d3f2773,
+        type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: f70b0d194d863d14eaa3261671349a4b,
+        type: 3}
     - target: {fileID: 3811203807736094141, guid: bfc0c4d552fbe4e38a06e5eb5d3f2773,
         type: 3}
       propertyPath: m_AnchoredPosition.x

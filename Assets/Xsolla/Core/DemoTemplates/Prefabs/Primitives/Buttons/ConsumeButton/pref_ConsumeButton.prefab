@@ -135,6 +135,27 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 484071514074044412, guid: f6bb185416d0f4ddfa7b150f2f6b54fc,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 484071514074044412, guid: f6bb185416d0f4ddfa7b150f2f6b54fc,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 0e265dfc18fe543509aaa94589440c60,
+        type: 3}
+    - target: {fileID: 484071514074044412, guid: f6bb185416d0f4ddfa7b150f2f6b54fc,
+        type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 484071514074044412, guid: f6bb185416d0f4ddfa7b150f2f6b54fc,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5031097062129708876, guid: f6bb185416d0f4ddfa7b150f2f6b54fc,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -275,27 +296,6 @@ PrefabInstance:
       propertyPath: m_AnchorMax.x
       value: 0.6363
       objectReference: {fileID: 0}
-    - target: {fileID: 484071514074044412, guid: f6bb185416d0f4ddfa7b150f2f6b54fc,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 484071514074044412, guid: f6bb185416d0f4ddfa7b150f2f6b54fc,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 0e265dfc18fe543509aaa94589440c60,
-        type: 3}
-    - target: {fileID: 484071514074044412, guid: f6bb185416d0f4ddfa7b150f2f6b54fc,
-        type: 3}
-      propertyPath: m_Type
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 484071514074044412, guid: f6bb185416d0f4ddfa7b150f2f6b54fc,
-        type: 3}
-      propertyPath: m_Color.a
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6521136923546809066, guid: f6bb185416d0f4ddfa7b150f2f6b54fc,
         type: 3}
       propertyPath: m_Enabled
@@ -339,6 +339,12 @@ PrefabInstance:
       propertyPath: image
       value: 
       objectReference: {fileID: 6248131993104798907}
+    - target: {fileID: 2637382723458107904, guid: f6bb185416d0f4ddfa7b150f2f6b54fc,
+        type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: f70b0d194d863d14eaa3261671349a4b,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f6bb185416d0f4ddfa7b150f2f6b54fc, type: 3}
 --- !u!1 &3883889219284057257 stripped

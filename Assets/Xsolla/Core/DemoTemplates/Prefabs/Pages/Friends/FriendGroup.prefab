@@ -404,6 +404,12 @@ PrefabInstance:
       propertyPath: m_FontData.m_BestFit
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7878114894541378950, guid: 82429e687545062419eadf82f261b8fe,
+        type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: f70b0d194d863d14eaa3261671349a4b,
+        type: 3}
     - target: {fileID: 3996300143766915891, guid: 82429e687545062419eadf82f261b8fe,
         type: 3}
       propertyPath: m_IsActive

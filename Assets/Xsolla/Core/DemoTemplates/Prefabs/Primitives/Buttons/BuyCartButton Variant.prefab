@@ -201,7 +201,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 38d57e24c9f60614b87fa99bbe7e7d60, type: 3}
+    m_Font: {fileID: 12800000, guid: f70b0d194d863d14eaa3261671349a4b, type: 3}
     m_FontSize: 19
     m_FontStyle: 0
     m_BestFit: 1
@@ -221,14 +221,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 719144266, guid: b49b6c9b3f527404bb299bfa9fea0870, type: 3}
-      propertyPath: m_Name
-      value: BuyCartButton Variant
-      objectReference: {fileID: 0}
-    - target: {fileID: 719144268, guid: b49b6c9b3f527404bb299bfa9fea0870, type: 3}
-      propertyPath: buttonText
-      value: 
-      objectReference: {fileID: 3151777779295328536}
     - target: {fileID: 719144267, guid: b49b6c9b3f527404bb299bfa9fea0870, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -313,6 +305,23 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 719144266, guid: b49b6c9b3f527404bb299bfa9fea0870, type: 3}
+      propertyPath: m_Name
+      value: BuyCartButton Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 373216384, guid: b49b6c9b3f527404bb299bfa9fea0870, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 719144268, guid: b49b6c9b3f527404bb299bfa9fea0870, type: 3}
+      propertyPath: buttonText
+      value: 
+      objectReference: {fileID: 3151777779295328536}
+    - target: {fileID: 5898628772083899561, guid: b49b6c9b3f527404bb299bfa9fea0870,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 373216386, guid: b49b6c9b3f527404bb299bfa9fea0870, type: 3}
       propertyPath: m_Text
       value: SECURE CHECKOUT
@@ -321,15 +330,11 @@ PrefabInstance:
       propertyPath: m_FontData.m_MaxSize
       value: 19
       objectReference: {fileID: 0}
-    - target: {fileID: 373216384, guid: b49b6c9b3f527404bb299bfa9fea0870, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5898628772083899561, guid: b49b6c9b3f527404bb299bfa9fea0870,
+    - target: {fileID: 373216386, guid: b49b6c9b3f527404bb299bfa9fea0870, type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: f70b0d194d863d14eaa3261671349a4b,
         type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b49b6c9b3f527404bb299bfa9fea0870, type: 3}
 --- !u!224 &2584258076097908065 stripped

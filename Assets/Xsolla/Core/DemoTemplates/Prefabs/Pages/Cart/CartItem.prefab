@@ -140,7 +140,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 38d57e24c9f60614b87fa99bbe7e7d60, type: 3}
+    m_Font: {fileID: 12800000, guid: f70b0d194d863d14eaa3261671349a4b, type: 3}
     m_FontSize: 16
     m_FontStyle: 0
     m_BestFit: 1
@@ -503,7 +503,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 38d57e24c9f60614b87fa99bbe7e7d60, type: 3}
+    m_Font: {fileID: 12800000, guid: f70b0d194d863d14eaa3261671349a4b, type: 3}
     m_FontSize: 22
     m_FontStyle: 0
     m_BestFit: 1
@@ -730,7 +730,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 38d57e24c9f60614b87fa99bbe7e7d60, type: 3}
+    m_Font: {fileID: 12800000, guid: f70b0d194d863d14eaa3261671349a4b, type: 3}
     m_FontSize: 20
     m_FontStyle: 0
     m_BestFit: 0
@@ -1027,7 +1027,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 58, y: 0}
+  m_AnchoredPosition: {x: 55, y: 0}
   m_SizeDelta: {x: 0, y: 16}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &1064342948829263570
@@ -1167,11 +1167,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2078348763469646406}
     m_Modifications:
-    - target: {fileID: 979697548713195622, guid: ce09aef50fd454cd8870501c93d08ca7,
-        type: 3}
-      propertyPath: m_Name
-      value: QuadIconButton
-      objectReference: {fileID: 0}
     - target: {fileID: 4133306158996396353, guid: ce09aef50fd454cd8870501c93d08ca7,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1276,6 +1271,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 979697548713195622, guid: ce09aef50fd454cd8870501c93d08ca7,
+        type: 3}
+      propertyPath: m_Name
+      value: QuadIconButton
       objectReference: {fileID: 0}
     - target: {fileID: 5218620045299744384, guid: ce09aef50fd454cd8870501c93d08ca7,
         type: 3}
@@ -1335,11 +1335,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2240820563971334840}
     m_Modifications:
-    - target: {fileID: 979697548713195622, guid: ce09aef50fd454cd8870501c93d08ca7,
-        type: 3}
-      propertyPath: m_Name
-      value: QuadIconButton
-      objectReference: {fileID: 0}
     - target: {fileID: 4133306158996396353, guid: ce09aef50fd454cd8870501c93d08ca7,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1444,6 +1439,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 979697548713195622, guid: ce09aef50fd454cd8870501c93d08ca7,
+        type: 3}
+      propertyPath: m_Name
+      value: QuadIconButton
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ce09aef50fd454cd8870501c93d08ca7, type: 3}
@@ -1472,11 +1472,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1546038138739584660}
     m_Modifications:
-    - target: {fileID: 979697548713195622, guid: ce09aef50fd454cd8870501c93d08ca7,
-        type: 3}
-      propertyPath: m_Name
-      value: QuadIconButton
-      objectReference: {fileID: 0}
     - target: {fileID: 4133306158996396353, guid: ce09aef50fd454cd8870501c93d08ca7,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1581,6 +1576,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 979697548713195622, guid: ce09aef50fd454cd8870501c93d08ca7,
+        type: 3}
+      propertyPath: m_Name
+      value: QuadIconButton
       objectReference: {fileID: 0}
     - target: {fileID: 4100780810346969352, guid: ce09aef50fd454cd8870501c93d08ca7,
         type: 3}

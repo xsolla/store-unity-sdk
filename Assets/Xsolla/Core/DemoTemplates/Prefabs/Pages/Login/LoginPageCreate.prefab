@@ -145,7 +145,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 468a63e7555174231b5fae4889edf3d3, type: 3}
+    m_Font: {fileID: 12800000, guid: f70b0d194d863d14eaa3261671349a4b, type: 3}
     m_FontSize: 39
     m_FontStyle: 0
     m_BestFit: 0
@@ -226,7 +226,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 12800000, guid: e6ea17cea65c54e43a5d1c9c31d526f0, type: 3}
+    m_Font: {fileID: 12800000, guid: f70b0d194d863d14eaa3261671349a4b, type: 3}
     m_FontSize: 11
     m_FontStyle: 0
     m_BestFit: 0
@@ -646,7 +646,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 12800000, guid: e6ea17cea65c54e43a5d1c9c31d526f0, type: 3}
+    m_Font: {fileID: 12800000, guid: f70b0d194d863d14eaa3261671349a4b, type: 3}
     m_FontSize: 17
     m_FontStyle: 0
     m_BestFit: 0
@@ -1760,26 +1760,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4378197915580130942}
     m_Modifications:
-    - target: {fileID: 7038695296841708733, guid: 5c87b0385bd6d6745830bdb1416a289d,
-        type: 3}
-      propertyPath: m_Name
-      value: Underline
-      objectReference: {fileID: 0}
-    - target: {fileID: 1269202866160880754, guid: 5c87b0385bd6d6745830bdb1416a289d,
-        type: 3}
-      propertyPath: m_Color.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1269202866160880754, guid: 5c87b0385bd6d6745830bdb1416a289d,
-        type: 3}
-      propertyPath: m_Color.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1269202866160880754, guid: 5c87b0385bd6d6745830bdb1416a289d,
-        type: 3}
-      propertyPath: m_Color.a
-      value: 0.69803923
-      objectReference: {fileID: 0}
     - target: {fileID: 1201182467432330090, guid: 5c87b0385bd6d6745830bdb1416a289d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1885,6 +1865,26 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7038695296841708733, guid: 5c87b0385bd6d6745830bdb1416a289d,
+        type: 3}
+      propertyPath: m_Name
+      value: Underline
+      objectReference: {fileID: 0}
+    - target: {fileID: 1269202866160880754, guid: 5c87b0385bd6d6745830bdb1416a289d,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1269202866160880754, guid: 5c87b0385bd6d6745830bdb1416a289d,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1269202866160880754, guid: 5c87b0385bd6d6745830bdb1416a289d,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 0.69803923
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5c87b0385bd6d6745830bdb1416a289d, type: 3}
 --- !u!1 &1170798760490495589 stripped
@@ -1900,21 +1900,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 17300616306695055}
     m_Modifications:
-    - target: {fileID: 8761578432214116197, guid: de270c316387df447a255547067c89df,
-        type: 3}
-      propertyPath: m_Name
-      value: PrivacyPolicyButton
-      objectReference: {fileID: 0}
-    - target: {fileID: 6594657589939941921, guid: de270c316387df447a255547067c89df,
-        type: 3}
-      propertyPath: NormalStateObjects.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6594657589939941921, guid: de270c316387df447a255547067c89df,
-        type: 3}
-      propertyPath: NormalStateObjects.Array.data[0]
-      value: 
-      objectReference: {fileID: 1170798760490495589}
     - target: {fileID: 5571938582151317058, guid: de270c316387df447a255547067c89df,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2020,6 +2005,21 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8761578432214116197, guid: de270c316387df447a255547067c89df,
+        type: 3}
+      propertyPath: m_Name
+      value: PrivacyPolicyButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 6594657589939941921, guid: de270c316387df447a255547067c89df,
+        type: 3}
+      propertyPath: NormalStateObjects.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6594657589939941921, guid: de270c316387df447a255547067c89df,
+        type: 3}
+      propertyPath: NormalStateObjects.Array.data[0]
+      value: 
+      objectReference: {fileID: 1170798760490495589}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: de270c316387df447a255547067c89df, type: 3}
 --- !u!114 &3032353510291804701 stripped

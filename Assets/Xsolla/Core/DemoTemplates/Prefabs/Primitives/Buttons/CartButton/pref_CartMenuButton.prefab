@@ -90,33 +90,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 0}
-  text: {fileID: 3380471753738665331}
   normalStateSprite: {fileID: 21300000, guid: cdcf1e7856de9bc4e8d5ed97189b5d61, type: 3}
-  selectedStateSprite: {fileID: 21300000, guid: 8af479ab14716c94aa90058d984f36f6,
-    type: 3}
   hoverStateSprite: {fileID: 21300000, guid: 7dc89da8aa7f8ee46bdb8773cbe84707, type: 3}
   pressedStateSprite: {fileID: 21300000, guid: 443513b927c244d4cbe2c55dbc0cb3f8, type: 3}
-  normalStateTextColor: {r: 0.972549, g: 0.06666667, b: 0.3647059, a: 1}
-  selectedStateTextColor: {r: 1, g: 1, b: 1, a: 1}
-  hoverStateTextColor: {r: 0.972549, g: 0.06666667, b: 0.3647059, a: 1}
-  pressedStateTextColor: {r: 1, g: 1, b: 1, a: 1}
-  capitalizeText: 1
+  buttonText: {fileID: 0}
+  normalTextColor: {r: 0, g: 0, b: 0, a: 0}
+  hoverTextColor: {r: 0, g: 0, b: 0, a: 0}
+  pressedTextColor: {r: 0, g: 0, b: 0, a: 0}
   counterText: {fileID: 5303701703713330140}
   counterImage: {fileID: 2444792297683211494}
-  cartImage: {fileID: 0}
   normalCounterSprite: {fileID: 21300000, guid: 23714932f6c33fb44b2a0ea74a27078e,
-    type: 3}
-  selectedCounterSprite: {fileID: 21300000, guid: 2ff86a81e1fa9fd4d83852334f571390,
     type: 3}
   hoverCounterSprite: {fileID: 21300000, guid: 23714932f6c33fb44b2a0ea74a27078e, type: 3}
   pressedCounterSprite: {fileID: 21300000, guid: 2ff86a81e1fa9fd4d83852334f571390,
     type: 3}
-  normalCartSprite: {fileID: 21300000, guid: 869c450ba5d488b4886cd47804693f6c, type: 3}
-  selectedCartSprite: {fileID: 21300000, guid: 0287ea5b87c20ea4199418362d510f54, type: 3}
-  hoverCartSprite: {fileID: 21300000, guid: 869c450ba5d488b4886cd47804693f6c, type: 3}
-  pressedCartSprite: {fileID: 21300000, guid: 0287ea5b87c20ea4199418362d510f54, type: 3}
   normalCounterTextColor: {r: 1, g: 1, b: 1, a: 1}
-  selectedCounterTextColor: {r: 0.972549, g: 0.06666667, b: 0.3647059, a: 1}
   hoverCounterTextColor: {r: 1, g: 1, b: 1, a: 1}
   pressedCounterTextColor: {r: 0.972549, g: 0.06666667, b: 0.3647059, a: 1}
 --- !u!1 &8415190486198657990
@@ -185,7 +173,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 38d57e24c9f60614b87fa99bbe7e7d60, type: 3}
+    m_Font: {fileID: 12800000, guid: f70b0d194d863d14eaa3261671349a4b, type: 3}
     m_FontSize: 16
     m_FontStyle: 0
     m_BestFit: 0

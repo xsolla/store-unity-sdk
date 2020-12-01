@@ -139,7 +139,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 570556af6766f4d3b9d7739f25b830eb, type: 3}
+    m_Font: {fileID: 12800000, guid: f70b0d194d863d14eaa3261671349a4b, type: 3}
     m_FontSize: 16
     m_FontStyle: 0
     m_BestFit: 1
@@ -218,7 +218,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 570556af6766f4d3b9d7739f25b830eb, type: 3}
+    m_Font: {fileID: 12800000, guid: f70b0d194d863d14eaa3261671349a4b, type: 3}
     m_FontSize: 16
     m_FontStyle: 0
     m_BestFit: 1
@@ -238,31 +238,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 6594657589939941921, guid: de270c316387df447a255547067c89df,
-        type: 3}
-      propertyPath: NormalStateObjects.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6594657589939941921, guid: de270c316387df447a255547067c89df,
-        type: 3}
-      propertyPath: HoverStateObjects.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6594657589939941921, guid: de270c316387df447a255547067c89df,
-        type: 3}
-      propertyPath: NormalStateObjects.Array.data[0]
-      value: 
-      objectReference: {fileID: 8268190510561603781}
-    - target: {fileID: 6594657589939941921, guid: de270c316387df447a255547067c89df,
-        type: 3}
-      propertyPath: NormalStateObjects.Array.data[1]
-      value: 
-      objectReference: {fileID: 1013852533944635481}
-    - target: {fileID: 6594657589939941921, guid: de270c316387df447a255547067c89df,
-        type: 3}
-      propertyPath: HoverStateObjects.Array.data[0]
-      value: 
-      objectReference: {fileID: 6439532135617777170}
     - target: {fileID: 5571938582151317058, guid: de270c316387df447a255547067c89df,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -371,8 +346,33 @@ PrefabInstance:
     - target: {fileID: 8761578432214116197, guid: de270c316387df447a255547067c89df,
         type: 3}
       propertyPath: m_Name
-      value: Hyperlink
+      value: pref_Hyperlink Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 6594657589939941921, guid: de270c316387df447a255547067c89df,
+        type: 3}
+      propertyPath: NormalStateObjects.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6594657589939941921, guid: de270c316387df447a255547067c89df,
+        type: 3}
+      propertyPath: HoverStateObjects.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6594657589939941921, guid: de270c316387df447a255547067c89df,
+        type: 3}
+      propertyPath: NormalStateObjects.Array.data[0]
+      value: 
+      objectReference: {fileID: 8268190510561603781}
+    - target: {fileID: 6594657589939941921, guid: de270c316387df447a255547067c89df,
+        type: 3}
+      propertyPath: NormalStateObjects.Array.data[1]
+      value: 
+      objectReference: {fileID: 1013852533944635481}
+    - target: {fileID: 6594657589939941921, guid: de270c316387df447a255547067c89df,
+        type: 3}
+      propertyPath: HoverStateObjects.Array.data[0]
+      value: 
+      objectReference: {fileID: 6439532135617777170}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: de270c316387df447a255547067c89df, type: 3}
 --- !u!224 &1792662203378965702 stripped

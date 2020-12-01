@@ -252,12 +252,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 348873891}
   m_CullTransparentMesh: 0
---- !u!224 &431079153 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 5571938582151317058, guid: dfffa70844d28c4499d39d6571e7e152,
-    type: 3}
-  m_PrefabInstance: {fileID: 1859462898}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &431079154 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8739429482784647599, guid: dfffa70844d28c4499d39d6571e7e152,
@@ -301,7 +295,7 @@ RectTransform:
   m_Children:
   - {fileID: 1437167429}
   - {fileID: 1038396913}
-  - {fileID: 431079153}
+  - {fileID: 1859462899}
   m_Father: {fileID: 1288147814}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -466,10 +460,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1239ac113a2dc5f4b92cb0c4b3c30d49, type: 3}
---- !u!224 &867650433 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 3589097797552973669, guid: 1239ac113a2dc5f4b92cb0c4b3c30d49,
-    type: 3}
+--- !u!4 &867650433 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 867650432}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1016654554
@@ -530,7 +523,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 38d57e24c9f60614b87fa99bbe7e7d60, type: 3}
+    m_Font: {fileID: 12800000, guid: f70b0d194d863d14eaa3261671349a4b, type: 3}
     m_FontSize: 14
     m_FontStyle: 0
     m_BestFit: 1
@@ -687,10 +680,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8c8ecf0c4bcf42bea0099ee23917b88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!224 &1038396913 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 1575407266226674554, guid: 9d56331ead4004d4e9cb13ab065f3eb4,
-    type: 3}
+--- !u!4 &1038396913 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 1038396911}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1111228886
@@ -1052,11 +1044,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 755417741}
     m_Modifications:
-    - target: {fileID: 8761578432214116197, guid: dfffa70844d28c4499d39d6571e7e152,
-        type: 3}
-      propertyPath: m_Name
-      value: Button_BuyCrystals
-      objectReference: {fileID: 0}
     - target: {fileID: 5571938582151317058, guid: dfffa70844d28c4499d39d6571e7e152,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1162,6 +1149,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 8761578432214116197, guid: dfffa70844d28c4499d39d6571e7e152,
+        type: 3}
+      propertyPath: m_Name
+      value: Button_BuyCrystals
+      objectReference: {fileID: 0}
     - target: {fileID: 1422655356088621779, guid: dfffa70844d28c4499d39d6571e7e152,
         type: 3}
       propertyPath: m_Text
@@ -1169,6 +1161,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dfffa70844d28c4499d39d6571e7e152, type: 3}
+--- !u!4 &1859462899 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 1859462898}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2100366642
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1288,9 +1285,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1239ac113a2dc5f4b92cb0c4b3c30d49, type: 3}
---- !u!224 &2100366643 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 3589097797552973669, guid: 1239ac113a2dc5f4b92cb0c4b3c30d49,
-    type: 3}
+--- !u!4 &2100366643 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 2100366642}
   m_PrefabAsset: {fileID: 0}

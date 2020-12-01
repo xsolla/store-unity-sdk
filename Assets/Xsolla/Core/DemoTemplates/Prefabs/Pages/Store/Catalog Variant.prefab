@@ -36,21 +36,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Catalog Variant
       objectReference: {fileID: 0}
-    - target: {fileID: 3002424666013222801, guid: bcdf391dbb2904702ac69cba13a080f2,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -0.000030517578
-      objectReference: {fileID: 0}
-    - target: {fileID: 3002424666013222801, guid: bcdf391dbb2904702ac69cba13a080f2,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3002424666013222801, guid: bcdf391dbb2904702ac69cba13a080f2,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8549492572417780522, guid: bcdf391dbb2904702ac69cba13a080f2,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -156,15 +141,36 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 4596230957919251783, guid: bcdf391dbb2904702ac69cba13a080f2,
+        type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: f70b0d194d863d14eaa3261671349a4b,
+        type: 3}
+    - target: {fileID: 3002424666013222801, guid: bcdf391dbb2904702ac69cba13a080f2,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.000030517578
+      objectReference: {fileID: 0}
+    - target: {fileID: 3002424666013222801, guid: bcdf391dbb2904702ac69cba13a080f2,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3002424666013222801, guid: bcdf391dbb2904702ac69cba13a080f2,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6889944961037081920, guid: bcdf391dbb2904702ac69cba13a080f2,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6889944961037081920, guid: bcdf391dbb2904702ac69cba13a080f2,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6889944961037081920, guid: bcdf391dbb2904702ac69cba13a080f2,
         type: 3}
@@ -181,21 +187,6 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1605368710140160542, guid: bcdf391dbb2904702ac69cba13a080f2,
-        type: 3}
-      propertyPath: m_ChildControlWidth
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1605368710140160542, guid: bcdf391dbb2904702ac69cba13a080f2,
-        type: 3}
-      propertyPath: m_ChildForceExpandWidth
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1605368710140160542, guid: bcdf391dbb2904702ac69cba13a080f2,
-        type: 3}
-      propertyPath: m_Spacing
-      value: 23
-      objectReference: {fileID: 0}
     - target: {fileID: 7688086264233294129, guid: bcdf391dbb2904702ac69cba13a080f2,
         type: 3}
       propertyPath: m_HorizontalFit
@@ -210,6 +201,31 @@ PrefabInstance:
         type: 3}
       propertyPath: m_ScrollSensitivity
       value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 291228917344447374, guid: bcdf391dbb2904702ac69cba13a080f2,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 291228917344447374, guid: bcdf391dbb2904702ac69cba13a080f2,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1605368710140160542, guid: bcdf391dbb2904702ac69cba13a080f2,
+        type: 3}
+      propertyPath: m_ChildControlWidth
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1605368710140160542, guid: bcdf391dbb2904702ac69cba13a080f2,
+        type: 3}
+      propertyPath: m_ChildForceExpandWidth
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1605368710140160542, guid: bcdf391dbb2904702ac69cba13a080f2,
+        type: 3}
+      propertyPath: m_Spacing
+      value: 23
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1605368710140160542, guid: bcdf391dbb2904702ac69cba13a080f2, type: 3}

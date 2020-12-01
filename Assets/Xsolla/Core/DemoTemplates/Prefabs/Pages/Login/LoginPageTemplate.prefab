@@ -93,6 +93,18 @@ MonoBehaviour:
   ExitButton: {fileID: 5641951885822059440}
   DemoUserButton: {fileID: 755014741267433087}
   LogInButton: {fileID: 7257588183781052445}
+--- !u!114 &2338949997112525463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6319451771458542566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93c9a4fab98222146a5258e8a7b8c85e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &5834605472606757054
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -106,18 +118,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   exitButton: {fileID: 5641951885822059440}
---- !u!114 &2338949997112525463
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6319451771458542566}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93c9a4fab98222146a5258e8a7b8c85e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &6833304013476789958
 GameObject:
   m_ObjectHideFlags: 0
@@ -198,11 +198,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2717354487022298040}
     m_Modifications:
-    - target: {fileID: 4688991624373441373, guid: 152bec8f0073348f998b57e8d0d2d56c,
-        type: 3}
-      propertyPath: m_Name
-      value: ExitButton
-      objectReference: {fileID: 0}
     - target: {fileID: 4886599519023862064, guid: 152bec8f0073348f998b57e8d0d2d56c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -308,6 +303,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 4688991624373441373, guid: 152bec8f0073348f998b57e8d0d2d56c,
+        type: 3}
+      propertyPath: m_Name
+      value: ExitButton
+      objectReference: {fileID: 0}
     - target: {fileID: 6091341236943683216, guid: 152bec8f0073348f998b57e8d0d2d56c,
         type: 3}
       propertyPath: m_Text
@@ -346,11 +346,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2717354487022298040}
     m_Modifications:
-    - target: {fileID: 4688991624373441373, guid: 152bec8f0073348f998b57e8d0d2d56c,
-        type: 3}
-      propertyPath: m_Name
-      value: LogInButton
-      objectReference: {fileID: 0}
     - target: {fileID: 4886599519023862064, guid: 152bec8f0073348f998b57e8d0d2d56c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -456,6 +451,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4688991624373441373, guid: 152bec8f0073348f998b57e8d0d2d56c,
+        type: 3}
+      propertyPath: m_Name
+      value: LogInButton
+      objectReference: {fileID: 0}
     - target: {fileID: 6091341236943683216, guid: 152bec8f0073348f998b57e8d0d2d56c,
         type: 3}
       propertyPath: m_Text
@@ -488,11 +488,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3412875550082063693}
     m_Modifications:
-    - target: {fileID: 3581749019319966985, guid: 7b3e54198160d4b519fe3231112b0478,
-        type: 3}
-      propertyPath: m_Name
-      value: XsollusLargeLogo
-      objectReference: {fileID: 0}
     - target: {fileID: 3581749019319966990, guid: 7b3e54198160d4b519fe3231112b0478,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -598,6 +593,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 3581749019319966985, guid: 7b3e54198160d4b519fe3231112b0478,
+        type: 3}
+      propertyPath: m_Name
+      value: XsollusLargeLogo
+      objectReference: {fileID: 0}
     - target: {fileID: 3581749020015185276, guid: 7b3e54198160d4b519fe3231112b0478,
         type: 3}
       propertyPath: m_AnchorMin.y
@@ -638,6 +638,12 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3581749019750388544, guid: 7b3e54198160d4b519fe3231112b0478,
+        type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: f70b0d194d863d14eaa3261671349a4b,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7b3e54198160d4b519fe3231112b0478, type: 3}
 --- !u!224 &8644187888334639688 stripped
@@ -653,11 +659,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2717354487022298040}
     m_Modifications:
-    - target: {fileID: 4688991624373441373, guid: 152bec8f0073348f998b57e8d0d2d56c,
-        type: 3}
-      propertyPath: m_Name
-      value: DemoUserButton
-      objectReference: {fileID: 0}
     - target: {fileID: 4886599519023862064, guid: 152bec8f0073348f998b57e8d0d2d56c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -763,6 +764,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4688991624373441373, guid: 152bec8f0073348f998b57e8d0d2d56c,
+        type: 3}
+      propertyPath: m_Name
+      value: DemoUserButton
+      objectReference: {fileID: 0}
     - target: {fileID: 6091341236943683216, guid: 152bec8f0073348f998b57e8d0d2d56c,
         type: 3}
       propertyPath: m_Text
@@ -795,11 +801,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6778514820650883544}
     m_Modifications:
-    - target: {fileID: 7372969442764771299, guid: 61ae11edd4240420ab192b4cb485cf22,
-        type: 3}
-      propertyPath: m_Name
-      value: Background
-      objectReference: {fileID: 0}
     - target: {fileID: 7372969442764771300, guid: 61ae11edd4240420ab192b4cb485cf22,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -904,6 +905,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7372969442764771299, guid: 61ae11edd4240420ab192b4cb485cf22,
+        type: 3}
+      propertyPath: m_Name
+      value: Background
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 61ae11edd4240420ab192b4cb485cf22, type: 3}

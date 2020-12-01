@@ -1693,7 +1693,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 12800000, guid: e6ea17cea65c54e43a5d1c9c31d526f0, type: 3}
+    m_Font: {fileID: 12800000, guid: f70b0d194d863d14eaa3261671349a4b, type: 3}
     m_FontSize: 20
     m_FontStyle: 0
     m_BestFit: 1
@@ -1911,7 +1911,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 12800000, guid: e6ea17cea65c54e43a5d1c9c31d526f0, type: 3}
+    m_Font: {fileID: 12800000, guid: f70b0d194d863d14eaa3261671349a4b, type: 3}
     m_FontSize: 28
     m_FontStyle: 1
     m_BestFit: 1
@@ -2124,10 +2124,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 406521590013647184}
     m_Modifications:
-    - target: {fileID: 719144266, guid: b49b6c9b3f527404bb299bfa9fea0870, type: 3}
-      propertyPath: m_Name
-      value: BuyButton
-      objectReference: {fileID: 0}
     - target: {fileID: 719144267, guid: b49b6c9b3f527404bb299bfa9fea0870, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2212,6 +2208,10 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 719144266, guid: b49b6c9b3f527404bb299bfa9fea0870, type: 3}
+      propertyPath: m_Name
+      value: BuyButton
+      objectReference: {fileID: 0}
     - target: {fileID: 373216386, guid: b49b6c9b3f527404bb299bfa9fea0870, type: 3}
       propertyPath: m_Text
       value: BUY NOW
@@ -2243,11 +2243,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2167753013255927937}
     m_Modifications:
-    - target: {fileID: 979697548713195622, guid: ce09aef50fd454cd8870501c93d08ca7,
-        type: 3}
-      propertyPath: m_Name
-      value: QuadIconButton
-      objectReference: {fileID: 0}
     - target: {fileID: 4133306158996396353, guid: ce09aef50fd454cd8870501c93d08ca7,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2352,6 +2347,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 979697548713195622, guid: ce09aef50fd454cd8870501c93d08ca7,
+        type: 3}
+      propertyPath: m_Name
+      value: QuadIconButton
       objectReference: {fileID: 0}
     - target: {fileID: 5218620045299744384, guid: ce09aef50fd454cd8870501c93d08ca7,
         type: 3}
@@ -2411,16 +2411,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7008027859213946545}
     m_Modifications:
-    - target: {fileID: 5014799156419990335, guid: de0c0115ff6d74fbfaf4b7593bc4d5f0,
-        type: 3}
-      propertyPath: m_Name
-      value: pref_LoadingCircle
-      objectReference: {fileID: 0}
-    - target: {fileID: 5014799156419990335, guid: de0c0115ff6d74fbfaf4b7593bc4d5f0,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3589097797552973669, guid: de0c0115ff6d74fbfaf4b7593bc4d5f0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2525,6 +2515,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5014799156419990335, guid: de0c0115ff6d74fbfaf4b7593bc4d5f0,
+        type: 3}
+      propertyPath: m_Name
+      value: pref_LoadingCircle
+      objectReference: {fileID: 0}
+    - target: {fileID: 5014799156419990335, guid: de0c0115ff6d74fbfaf4b7593bc4d5f0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1707614189360940445, guid: de0c0115ff6d74fbfaf4b7593bc4d5f0,
         type: 3}
