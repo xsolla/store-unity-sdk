@@ -20,7 +20,8 @@ namespace Xsolla.Core
 		[SerializeField] private AuthorizationType authorizationType;
 		[SerializeField] private bool jwtTokenInvalidationEnabled;
 		[SerializeField] private int oauthClientId;
-		
+		[SerializeField] private bool requestNicknameOnAuth;
+
 		[SerializeField] private bool useSteamAuth = true;
 		[SerializeField] private string steamAppId = "480";
 		[SerializeField] private bool useConsoleAuth;
@@ -40,6 +41,8 @@ namespace Xsolla.Core
 
 		[SerializeField] private bool useDeepLinking = false;
 		[SerializeField] private string deepLinkRedirectUrl;
+
+		[SerializeField] private string webStoreUrl = "https://livedemo.xsolla.com/sdk-account-linking/";
 
 		public static string LoginId
 		{
@@ -103,6 +106,16 @@ namespace Xsolla.Core
 			set
 			{
 				Instance.oauthClientId = value;
+				MarkAssetDirty();
+			}
+		}
+
+		public static bool RequestNicknameOnAuth
+		{
+			get => Instance.requestNicknameOnAuth;
+			set
+			{
+				Instance.requestNicknameOnAuth = value;
 				MarkAssetDirty();
 			}
 		}
@@ -217,6 +230,16 @@ namespace Xsolla.Core
 			set
 			{
 				Instance.deepLinkRedirectUrl = value;
+				MarkAssetDirty();
+			}
+		}
+
+		public static string WebStoreUrl
+		{
+			get => Instance.webStoreUrl;
+			set
+			{
+				Instance.webStoreUrl = value;
 				MarkAssetDirty();
 			}
 		}

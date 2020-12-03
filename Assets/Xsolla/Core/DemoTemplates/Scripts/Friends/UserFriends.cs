@@ -1,18 +1,20 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using JetBrains.Annotations;
 using UnityEngine;
 using Xsolla.Core;
 
 public class UserFriends : MonoSingleton<UserFriends>
 {
-	private const float REFRESH_USER_FRIENDS_TIMEOUT = 10.0F;
+	private const float REFRESH_USER_FRIENDS_TIMEOUT = 20.0F;
 	
 	public event Action UserFriendsUpdatedEvent;
 	public event Action BlockedUsersUpdatedEvent;
 	public event Action PendingUsersUpdatedEvent;
 	public event Action RequestedUsersUpdatedEvent;
+	public event Action SocialFriendsUpdatedEvent;
 	public event Action AllUsersUpdatedEvent;
 	public bool IsUpdated { get; private set; }
 	
@@ -20,6 +22,7 @@ public class UserFriends : MonoSingleton<UserFriends>
 	public List<FriendModel> Blocked { get; private set; }
 	public List<FriendModel> Pending { get; private set; }
 	public List<FriendModel> Requested { get; private set; }
+	public List<FriendModel> SocialFriends { get; private set; }
 
 	private Coroutine RefreshCoroutine;
 
@@ -31,10 +34,21 @@ public class UserFriends : MonoSingleton<UserFriends>
 		Blocked = new List<FriendModel>();
 		Pending = new List<FriendModel>();
 		Requested = new List<FriendModel>();
+		SocialFriends = new List<FriendModel>();
 
 		StartRefreshUsers();
 	}
 
+	public FriendModel GetUserById(string userId)
+	{
+		Func<FriendModel, bool> predicate = u => u.Id.Equals(userId);
+		if (Friends.Any(predicate)) return Friends.First(predicate);
+		if (Pending.Any(predicate)) return Pending.First(predicate);
+		if (Blocked.Any(predicate)) return Blocked.First(predicate);
+		if (Requested.Any(predicate)) return Requested.First(predicate);
+		return null;
+	}
+	
 	public void StartRefreshUsers()
 	{
 		StopRefreshUsers();
@@ -82,6 +96,7 @@ public class UserFriends : MonoSingleton<UserFriends>
 	private IEnumerator UpdateFriendsCoroutine(Action onSuccess, Action<Error> onError)
 	{
 		bool? isTokenValid = null;
+		bool socialBusy = true;
 		bool friendsBusy = true;
 		bool blockedBusy = true;
 		bool pendingBusy = true;
@@ -92,12 +107,14 @@ public class UserFriends : MonoSingleton<UserFriends>
 
 		if (isTokenValid == true)
 		{
+			UpdateUserSocialFriends(() => socialBusy = false, onError);
 			UpdateUserFriends(() => friendsBusy = false, onError);
 			UpdateBlockedUsers(() => blockedBusy = false, onError);
 			UpdatePendingUsers(() => pendingBusy = false, onError);
 			UpdateRequestedUsers(() => requestedBusy = false, onError);
-			yield return new WaitWhile(() => friendsBusy || blockedBusy || pendingBusy || requestedBusy);
+			yield return new WaitWhile(() => friendsBusy || blockedBusy || pendingBusy || requestedBusy || socialBusy);
 
+			UpdateSocialFriends();
 			IsUpdated = true;
 			onSuccess?.Invoke();
 			AllUsersUpdatedEvent?.Invoke();
@@ -108,6 +125,11 @@ public class UserFriends : MonoSingleton<UserFriends>
 			DemoController.Instance.SetState(MenuState.Authorization);
 			StopRefreshUsers();
 		}
+	}
+
+	private void UpdateUserSocialFriends(Action onSuccess = null, Action<Error> onError = null)
+	{
+		DemoController.Instance.GetImplementation().ForceUpdateFriendsFromSocialNetworks(onSuccess, onError);
 	}
 	
 	private void UpdateUserFriends(Action onSuccess = null, Action<Error> onError = null)
@@ -146,6 +168,16 @@ public class UserFriends : MonoSingleton<UserFriends>
 		{
 			Requested = users;
 			RequestedUsersUpdatedEvent?.Invoke();
+			onSuccess?.Invoke();
+		}, onError);
+	}
+	
+	private void UpdateSocialFriends(Action onSuccess = null, Action<Error> onError = null)
+	{
+		DemoController.Instance.GetImplementation().GetFriendsFromSocialNetworks(users =>
+		{
+			SocialFriends = users;
+			SocialFriendsUpdatedEvent?.Invoke();
 			onSuccess?.Invoke();
 		}, onError);
 	}
@@ -265,5 +297,11 @@ public class UserFriends : MonoSingleton<UserFriends>
 				RemoveUserFromMemory(user);
 				onSuccess?.Invoke(u);
 			}, onError);
+	}
+
+	public void SearchUsersByNickname(string nickname, [CanBeNull] Action<List<FriendModel>> onSuccess = null,
+		[CanBeNull] Action<Error> onError = null)
+	{
+		DemoController.Instance.GetImplementation().SearchUsersByNickname(nickname, onSuccess, onError);
 	}
 }

@@ -15,11 +15,14 @@ public enum MenuState
 	Cart = 13,
 	Inventory = 14,
 	Profile = 15,
-	Friends = 16
+	Character = 16,
+	Friends = 17,
+	SocialFriends = 18,
+	None = 19
 }
 
 public static class MenuStateExtension
 {
 	public static bool IsAuthState(this MenuState menuState) => (int)menuState < 10;
-	public static bool IsPostAuthState(this MenuState menuState) => !menuState.IsAuthState();
+	public static bool IsPostAuthState(this MenuState menuState) => !menuState.IsAuthState() && menuState != MenuState.None;
 }

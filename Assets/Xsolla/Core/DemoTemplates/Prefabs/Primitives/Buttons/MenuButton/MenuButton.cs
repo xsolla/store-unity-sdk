@@ -23,6 +23,8 @@ public class MenuButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 
 	[SerializeField] bool capitalizeText = true;
 
+	[SerializeField] bool isSelectable = true;
+
 	bool _isClickInProgress;
 	bool _isSelected;
 
@@ -85,7 +87,7 @@ public class MenuButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 
 	public bool IsSelected
 	{
-		get { return _isSelected; }
+		get { return _isSelected && isSelectable; }
 	}
 
 	public void OnDrag(PointerEventData eventData)
@@ -96,7 +98,7 @@ public class MenuButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 	{
 		OnCursorEnter?.Invoke();
 
-		if (!_isSelected)
+		if (!IsSelected)
 		{
 			OnHover();
 		}
@@ -106,7 +108,7 @@ public class MenuButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 	{
 		OnCursorExit?.Invoke();
 
-		if (_isSelected)
+		if (IsSelected)
 		{
 			OnSelected();
 		}
@@ -122,7 +124,7 @@ public class MenuButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 	{
 		_isClickInProgress = true;
 
-		if (!_isSelected)
+		if (!IsSelected)
 		{
 			OnPressed();
 		}
@@ -130,7 +132,7 @@ public class MenuButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 
 	public void OnPointerUp(PointerEventData eventData)
 	{
-		if (_isClickInProgress && !_isSelected)
+		if (_isClickInProgress && !IsSelected)
 		{
 			_isSelected = true;
 

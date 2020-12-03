@@ -1,24 +1,21 @@
 ﻿using System;
-using UnityEngine;
-using System.Text;
 using Xsolla.Core;
-using System.Collections.Generic;
 
 namespace Xsolla.Login
 {
 	public partial class XsollaLogin : MonoSingleton<XsollaLogin>
 	{
 		private const string URL_LINKING_CODE_REQUEST = "https://login.xsolla.com/api/users/account/code";
-		private const string URL_USER_CONSOLE_AUTH = "https://livedemo.xsolla.com/sdk/shadow_account/auth";
-		private const string URL_LINK_ACCOUNT = "https://livedemo.xsolla.com/sdk/shadow_account/link";
+		private const string URL_USER_CONSOLE_AUTH = "https://livedemo.xsolla.com/sdk/sdk-shadow-account/auth";
+		private const string URL_LINK_ACCOUNT = "https://livedemo.xsolla.com/sdk/sdk-shadow-account/link";
 
 		#region Comment
 		/// <summary>
-		/// This method used for auth users in the Xsolla Login,
-		/// who plays on the consoles and other platforms
-		/// where Xsolla Login is not used. You must implements it
+		/// This method is used for authenticating users in Xsolla Login,
+		/// who play on the consoles and other platforms
+		/// where Xsolla Login isn't used. You must implement it
 		/// on the your server side.
-		/// Your integration flow on the server side:
+		/// Integration flow on the server side:
 		/// <list type="number">
 		///		<item>
 		///			<term>Generate server JWT</term>
@@ -85,8 +82,8 @@ namespace Xsolla.Login
 		public void SignInConsoleAccount(string userId, string platform, Action<string> successCase, Action<Error> failedCase)
 		{
 			var with_logout = XsollaSettings.JwtTokenInvalidationEnabled ? "1" : "0";
-			string url = $"{URL_USER_CONSOLE_AUTH}?user_id={userId}&platform={platform}&with_logout={with_logout}";
-			WebRequestHelper.Instance.GetRequest(url, null, (TokenEntity result) => { successCase?.Invoke(result.token); }, failedCase);
+			var url = $"{URL_USER_CONSOLE_AUTH}?user_id={userId}&platform={platform}&with_logout={with_logout}&{AnalyticUrlAddition}";
+			WebRequestHelper.Instance.GetRequest(url, AnalyticHeaders, (TokenEntity result) => { successCase?.Invoke(result.token); }, failedCase);
 		}
 
 		#region Comment
@@ -102,20 +99,17 @@ namespace Xsolla.Login
 		#endregion
 		public void RequestLinkingCode(Action<LinkingCode> onSuccess, Action<Error> onError)
 		{
-			List<WebRequestHeader> headers = new List<WebRequestHeader> {
-				WebRequestHeader.AuthHeader(Token)
-			};
-			string url = $"{URL_LINKING_CODE_REQUEST}?{AdditionalUrlParams.TrimStart('&')}";
-			WebRequestHelper.Instance.PostRequest<LinkingCode>(url, headers, onSuccess, onError);
+			var url = $"{URL_LINKING_CODE_REQUEST}?{AnalyticUrlAddition}";
+			WebRequestHelper.Instance.PostRequest<LinkingCode>(url, AuthAndAnalyticHeaders, onSuccess, onError);
 		}
 
 		#region Comment
 		/// <summary>
-		/// This method used for auth users in the Xsolla Login,
-		/// who plays on the consoles and other platforms
-		/// where Xsolla Login is not used. You must implements it
+		/// This method is used for authenticating users in Xsolla Login,
+		/// who play on the consoles and other platforms
+		/// where Xsolla Login isn't used. You must implement it
 		/// on the your server side.
-		/// Your integration flow on the server side:
+		/// Integration flow on the server side:
 		/// <list type="number">
 		///		<item>
 		///			<term>Generate server JWT</term>
@@ -149,7 +143,7 @@ namespace Xsolla.Login
 		///			</description>
 		///		</item>
 		///		<item>
-		///			<term>Implement linking accounts method</term>
+		///			<term>Implement APIs for account linking</term>
 		///			<description>
 		///				<see cref="https://developers.xsolla.com/login-api/users/link-accounts-by-code"/>
 		///				with:
@@ -179,8 +173,8 @@ namespace Xsolla.Login
 		#endregion
 		public void LinkConsoleAccount(string userId, string platform, string confirmationCode, Action onSuccess, Action<Error> onError)
 		{
-			string url = $"{URL_LINK_ACCOUNT}?user_id={userId}&platform={platform}&code={confirmationCode}";
-			WebRequestHelper.Instance.PostRequest(url, null, onSuccess, onError);
+			var url = $"{URL_LINK_ACCOUNT}?user_id={userId}&platform={platform}&code={confirmationCode}&{AnalyticUrlAddition}";
+			WebRequestHelper.Instance.PostRequest(url, AnalyticHeaders, onSuccess, onError);
 		}
 	}
 }

@@ -11,6 +11,7 @@ public class UserCatalog : MonoSingleton<UserCatalog>
 	public event Action<List<VirtualCurrencyModel>> UpdateVirtualCurrenciesEvent;
 	public event Action<List<CatalogVirtualItemModel>> UpdateItemsEvent;
 	public event Action<List<CatalogVirtualCurrencyModel>> UpdateVirtualCurrencyPackagesEvent;
+	public event Action<List<CatalogBundleItemModel>> UpdateBundlesEvent;
 	public event Action<List<CatalogSubscriptionItemModel>> UpdateSubscriptionsEvent;
 
 	private IDemoImplementation _demoImplementation;
@@ -19,6 +20,7 @@ public class UserCatalog : MonoSingleton<UserCatalog>
 	public List<CatalogItemModel> AllItems { get; private set; }
 	public List<CatalogVirtualItemModel> VirtualItems { get; private set; }
 	public List<CatalogVirtualCurrencyModel> CurrencyPackages { get; private set; }
+	public List<CatalogBundleItemModel> Bundles { get; private set; }
 	public List<CatalogSubscriptionItemModel> Subscriptions { get; private set; }
 
 	public bool IsUpdated { get; private set; }
@@ -30,6 +32,7 @@ public class UserCatalog : MonoSingleton<UserCatalog>
 		AllItems = new List<CatalogItemModel>();
 		VirtualItems = new List<CatalogVirtualItemModel>();
 		CurrencyPackages = new List<CatalogVirtualCurrencyModel>();
+		Bundles = new List<CatalogBundleItemModel>();
 		Subscriptions = new List<CatalogSubscriptionItemModel>();
 	}
 
@@ -57,6 +60,7 @@ public class UserCatalog : MonoSingleton<UserCatalog>
 		yield return StartCoroutine(UpdateVirtualItemsCoroutine(errorCallback));
 		yield return StartCoroutine(UpdateVirtualCurrencyPackagesCoroutine(errorCallback));
 		yield return StartCoroutine(UpdateSubscriptionsCoroutine(errorCallback));
+		yield return StartCoroutine(UpdateBundlesCoroutine(errorCallback));
 		
 		if (isError) yield break;
 		IsUpdated = true;
@@ -116,6 +120,16 @@ public class UserCatalog : MonoSingleton<UserCatalog>
 			CurrencyPackages = items;
 			UpdateVirtualCurrencyPackagesEvent?.Invoke(items);
 		}, onError));
+	}
+	
+	private IEnumerator UpdateBundlesCoroutine(Action<Error> onError = null)
+	{
+		yield return StartCoroutine(UpdateSomeItemsCoroutine<CatalogBundleItemModel>(
+			_demoImplementation.GetCatalogBundles, items =>
+			{
+				Bundles = items;
+				UpdateBundlesEvent?.Invoke(items);
+			}, onError));
 	}
 	
 	private IEnumerator UpdateSubscriptionsCoroutine(Action<Error> onError = null)

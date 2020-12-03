@@ -60,9 +60,8 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 	public Token GetUserToken()
 	{
 		if (Token == null || Token.IsNullOrEmpty())
-		{
-			return DemoController.Instance.GetImplementation().GetDemoUserToken();
-		}
+			Debug.LogError("Token was not obtained before use");
+
 		return Token;
 	}
 

@@ -17,7 +17,7 @@ namespace Xsolla.Login
 
 
 		/// <summary>
-		/// Will return 'true' during refresh token process, false otherwise
+		/// Returns 'true' during refresh token process, or false otherwise.
 		/// </summary>
 		public bool IsOAuthTokenRefreshInProgress { get; private set; } = false;
 

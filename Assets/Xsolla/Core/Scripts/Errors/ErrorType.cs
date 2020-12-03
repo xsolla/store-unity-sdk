@@ -5,6 +5,7 @@
 		UnknownError,
 		NetworkError,
 		InvalidToken,
+		AuthorizationHeaderNotSent,
 
 		MethodIsNotAllowed,
 		InvalidData,
@@ -12,6 +13,7 @@
 		UserNotFound,
 		CartNotFound,
 		OrderNotFound,
+		InvalidCoupon,
 
 		PasswordResetingNotAllowedForProject,
 		TokenVerificationException,

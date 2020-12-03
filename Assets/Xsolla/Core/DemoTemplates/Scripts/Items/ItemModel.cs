@@ -11,4 +11,5 @@ public abstract class ItemModel
 
 	public abstract bool IsVirtualCurrency();
 	public abstract bool IsSubscription();
+	public abstract bool IsBundle();
 }

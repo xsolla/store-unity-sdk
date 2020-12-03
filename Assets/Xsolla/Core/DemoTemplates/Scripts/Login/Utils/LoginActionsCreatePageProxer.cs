@@ -1,6 +1,5 @@
 ﻿using System;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class LoginActionsCreatePageProxer : MonoBehaviour
 {
@@ -26,21 +25,21 @@ public class LoginActionsCreatePageProxer : MonoBehaviour
 
 	private void RequestSocialAuth(SocialProvider provider)
 	{
-		ExecuteProxyRequest(LoginActionExamples.RunSocialAuthDelegate, provider);
+		ExecuteProxyRequest(LoginProxyActions.RunSocialAuthDelegate, provider);
 	}
 
 	private void RequestSteamAuth()
 	{
-		ExecuteProxyRequest(LoginActionExamples.RunSteamAuthDelegate, null);
+		ExecuteProxyRequest(LoginProxyActions.RunSteamAuthDelegate, null);
 	}
 
 	private void ExecuteProxyRequest(Action<LoginPageEnterController, object> proxyRequest, object proxyArgument)
 	{
 		var proxyObject = new GameObject();
-		var proxyScript = proxyObject.AddComponent<LoginCreateToAuthProxyRequestHolder>();
+		var proxyScript = proxyObject.AddComponent<LoginProxyActionHolder>();
 
-		proxyScript.ProxyRequest = proxyRequest;
-		proxyScript.ProxyArgument = proxyArgument;
+		proxyScript.ProxyAction = proxyRequest;
+		proxyScript.ProxyActionArgument = proxyArgument;
 
 		DemoController.Instance.SetState(MenuState.Authorization);
 	}

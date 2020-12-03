@@ -12,18 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52405bf87e920c34796e9e06cc914ce8, type: 3}
   m_Name: XsollaSettings
   m_EditorClassIdentifier: 
-  loginId: e6dfaac6-78a8-11e9-9244-42010aa80004
+  loginId: 026201e3-7e40-11ea-a85b-42010aa80004
   useProxy: 0
   callbackUrl: 
   authorizationType: 0
   jwtTokenInvalidationEnabled: 0
-  oauthClientId: 59
+  oauthClientId: 57
+  requestNicknameOnAuth: 1
   useSteamAuth: 0
   steamAppId: 480
   useConsoleAuth: 0
   platform: 1
   usernameFromConsole: testPSMax3
-  storeProjectId: 44056
+  storeProjectId: 77640
   isSandbox: 1
   paystationTheme: 1
   payStationTokenRequestUrl: https://livedemo.xsolla.com/sdk/token/paystation_demo/
@@ -32,3 +33,4 @@ MonoBehaviour:
   googleServerId: 
   useDeepLinking: 0
   deepLinkRedirectUrl: 
+  webStoreUrl: https://livedemo.xsolla.com/sdk-account-linking/

@@ -129,6 +129,11 @@ public abstract class BaseUserStateUI : MonoBehaviour
 		UserButtons.EnableDeclineButton().onClick = () => { DeclineFriendshipMethod(callback); };
 	}
 	
+	protected void EnableCancelFriendshipRequestButton(Action callback = null)
+	{
+		UserButtons.EnableCancelRequestButton().onClick = () => { CancelFriendshipRequestMethod(callback); };
+	}
+	
 	protected void EnableDeleteUserOption(Action callback = null)
 	{
 		ActionsButton.AddAction(DELETE_USER_OPTION, () =>
@@ -139,10 +144,5 @@ public abstract class BaseUserStateUI : MonoBehaviour
 				callback?.Invoke();
 			}, StoreDemoPopup.ShowError);
 		});
-	}
-	
-	protected void EnableCancelFriendshipRequestButton(Action callback = null)
-	{
-		UserButtons.EnableCancelRequestButton().onClick = () => { CancelFriendshipRequestMethod(callback); };
 	}
 }

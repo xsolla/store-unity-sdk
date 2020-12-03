@@ -19,10 +19,10 @@ namespace Xsolla.Store
 		/// <param name="onError">Failed operation callback.</param>
 		public void GetSubscriptions(string projectId, [NotNull] Action<SubscriptionItems> onSuccess, [CanBeNull] Action<Error> onError)
 		{
-			var urlBuilder = new StringBuilder(string.Format(URL_GET_SUBSCRIPTIONS, projectId)).Append(AdditionalUrlParams);
+			var urlBuilder = new StringBuilder(string.Format(URL_GET_SUBSCRIPTIONS, projectId)).Append(AnalyticUrlAddition);
 			urlBuilder.Append(GetPlatformUrlParam());
 
-			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.ItemsListErrors);
+			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), AuthAndAnalyticHeaders, onSuccess, onError, Error.ItemsListErrors);
 		}
 	}
 }

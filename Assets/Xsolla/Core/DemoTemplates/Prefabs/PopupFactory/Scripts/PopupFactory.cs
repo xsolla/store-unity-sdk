@@ -31,6 +31,12 @@ namespace Xsolla.Core.Popup
 		public GameObject ConfirmPopupPrefab;
 		public GameObject ConfirmCodePopupPrefab;
 		public GameObject WaitingPopupPrefab;
+		public GameObject BundlePreviewPopupPrefab;
+		public GameObject ResetPasswordPopupPrefab;
+		public GameObject NicknamePopupPrefab;
+		public GameObject RedeemCouponPopupPrefab;
+		public GameObject CouponRewardsPopupPrefab;
+		public GameObject TutorialPopupPrefab;
 
 		private GameObject canvas;
 
@@ -72,8 +78,26 @@ namespace Xsolla.Core.Popup
 
 		public IConfirmationCodePopup CreateCodeConfirmation() => CreateDefaultPopup(ConfirmCodePopupPrefab, canvas)
 			?.GetComponent<ConfirmationCodePopup>();
-		
+
 		public IWaitingPopup CreateWaiting() =>
 			CreateDefaultPopup(WaitingPopupPrefab, canvas)?.GetComponent<WaitingPopup>();
+
+		public IBundlePreviewPopup CreateBundlePreview() =>
+			CreateDefaultPopup(BundlePreviewPopupPrefab, canvas)?.GetComponent<BundlePreviewPopup>();
+
+		public ISuccessPopup CreateSuccessPasswordReset() =>
+			CreateDefaultPopup(ResetPasswordPopupPrefab, canvas)?.GetComponent<SuccessPopup>();
+
+		public INicknamePopup CreateNickname() =>
+			CreateDefaultPopup(NicknamePopupPrefab, canvas)?.GetComponent<NicknamePopup>();
+
+		public ICouponRedeemPopup CreateRedeemCoupon() =>
+			CreateDefaultPopup(RedeemCouponPopupPrefab, canvas)?.GetComponent<CouponRedeemPopup>();
+		
+		public ICouponRewardsPopup CreateCouponRewards() =>
+			CreateDefaultPopup(CouponRewardsPopupPrefab, canvas)?.GetComponent<CouponRewardsPopup>();
+
+		public ITutorialPopup CreateTutorial() =>
+			CreateDefaultPopup(TutorialPopupPrefab, canvas)?.GetComponent<TutorialPopup>();
 	}
 }

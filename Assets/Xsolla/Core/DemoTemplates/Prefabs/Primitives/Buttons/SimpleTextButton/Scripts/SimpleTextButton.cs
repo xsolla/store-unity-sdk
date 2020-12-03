@@ -18,24 +18,27 @@ public class SimpleTextButton : SimpleButtonLockDecorator
 
 	protected Text ButtonTextComponent => buttonText;
 
+	private void SetButtonTextColor(Color color)
+	{
+		if(buttonText != null)
+			buttonText.color = color;
+	}
+	
 	protected override void OnNormal()
 	{
+		SetButtonTextColor(normalTextColor);
 		base.OnNormal();
-
-		buttonText.color = normalTextColor;
 	}
 
 	protected override void OnHover()
 	{
+		SetButtonTextColor(hoverTextColor);
 		base.OnHover();
-
-		buttonText.color = hoverTextColor;
 	}
 
 	protected override void OnPressed()
 	{
+		SetButtonTextColor(pressedTextColor);
 		base.OnPressed();
-
-		buttonText.color = pressedTextColor;
 	}
 }

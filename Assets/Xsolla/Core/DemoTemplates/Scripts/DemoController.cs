@@ -10,8 +10,12 @@ public class DemoController : MonoSingleton<DemoController>, IMenuStateMachine
 	[SerializeField]private UrlContainer _urlContainer;
 
 	private IDemoImplementation _demoImplementation;
+    private TutorialManager _tutorialManager;
 
 	public UrlContainer UrlContainer => _urlContainer;
+    public TutorialManager TutorialManager => _tutorialManager;
+
+    public bool IsTutorialAvailable => _tutorialManager != null;
 
     public event MenuStateMachine.StateChangeDelegate StateChangingEvent
     {
@@ -34,6 +38,8 @@ public class DemoController : MonoSingleton<DemoController>, IMenuStateMachine
         }
         
         StateChangingEvent += OnStateChangingEvent;
+
+        _tutorialManager = GetComponent<TutorialManager>();
     }
 
     private void OnStateChangingEvent(MenuState lastState, MenuState newState)
@@ -56,6 +62,22 @@ public class DemoController : MonoSingleton<DemoController>, IMenuStateMachine
         {
             UpdateCatalogAndInventory();
             UserFriends.Instance.UpdateFriends();
+            
+            if (_tutorialManager != null)
+            {
+                if (!_tutorialManager.IsTutorialCompleted())
+                {
+                    _tutorialManager.ShowTutorial();
+                }
+                else
+                {
+                    Debug.Log("Skipping tutorial since it was already completed.");
+                }
+            }
+            else
+            {
+                Debug.LogWarning("Tutorial is not available for this demo.");
+            }
         }
     }
     
@@ -126,5 +148,15 @@ public class DemoController : MonoSingleton<DemoController>, IMenuStateMachine
     {
         if (stateMachine != null)
             stateMachine.SetPreviousState();
+    }
+
+    public bool IsStateAvailable(MenuState state)
+    {
+        return stateMachine.IsStateAvailable(state);
+    }
+
+    public string GetWebStoreUrl()
+    {
+        return $"{XsollaSettings.WebStoreUrl}?token={_demoImplementation.Token}&remember_me=false";
     }
 }

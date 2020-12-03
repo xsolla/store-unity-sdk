@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class FriendActionsButton : MonoBehaviour
+public class FriendActionsButton : MonoBehaviour, IPointerExitHandler
 {
     [SerializeField] private GameObject actionPrefab;
     [SerializeField] private Transform actionContainer;
     
     private readonly List<GameObject> _actions = new List<GameObject>();
+	private bool _isActionInProgress = false;
 
     private void OnDestroy()
     {
@@ -27,7 +29,12 @@ public class FriendActionsButton : MonoBehaviour
         }
     }
 
-    public void AddAction(string actionName, Action callback)
+	void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
+	{
+		actionContainer.gameObject.SetActive(false);
+	}
+
+	public void AddAction(string actionName, Action callback)
     {
         if (actionPrefab != null && actionContainer != null)
         {
@@ -36,9 +43,11 @@ public class FriendActionsButton : MonoBehaviour
             button.Text = actionName;
             button.onClick = () =>
             {
-                actionContainer.gameObject.SetActive(false);
-                callback?.Invoke();
-            };
+				_isActionInProgress = true;
+				actionContainer.gameObject.SetActive(false);
+				callback?.Invoke();
+				_isActionInProgress = false;
+			};
             _actions.Add(go);
         }
         else

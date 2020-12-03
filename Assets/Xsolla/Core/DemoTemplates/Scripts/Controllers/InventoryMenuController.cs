@@ -60,7 +60,7 @@ public class InventoryMenuController : MonoBehaviour
 				{
 					if (!UserCatalog.Instance.Subscriptions.Any(sub => sub.Sku.Equals(i.Sku)))
 					{
-						Debug.LogError($"User subscription with sku = '{i.Sku}' have not equal catalog item!");
+						Debug.Log($"User subscription with sku = '{i.Sku}' have not equal catalog item!");
 						return false;
 					}
 
@@ -74,7 +74,7 @@ public class InventoryMenuController : MonoBehaviour
 				{
 					if (!UserCatalog.Instance.VirtualItems.Any(cat => cat.Sku.Equals(i.Sku)))
 					{
-						Debug.LogError($"Inventory item with sku = '{i.Sku}' have not equal catalog item!");
+						Debug.Log($"Inventory item with sku = '{i.Sku}' have not equal catalog item!");
 						return false;
 					}
 				}

@@ -1,3 +1,5 @@
+using System;
+
 /// <summary>
 /// Social providers list for Login Social Auth.
 /// See full list at <see cref="https://developers.xsolla.com/login-api/jwt/jwt-auth-via-social-network/"/>.
@@ -11,7 +13,11 @@ public enum SocialProvider
     Twitch,
     Twitter,
     Steam,
-    Xbox
+    Xbox,
+    Discord,
+    Vk,
+    Naver,
+    Kakao
 }
 
 public static class SocialProviderConverter
@@ -27,7 +33,21 @@ public static class SocialProviderConverter
             case SocialProvider.Twitter: return "twitter";
             case SocialProvider.Steam: return "steam";
             case SocialProvider.Xbox: return "xbox";
+            case SocialProvider.Discord: return "discord";
+            case SocialProvider.Vk: return "vk";
+            case SocialProvider.Naver: return "naver";
+            case SocialProvider.Kakao: return "kakao";
             default: return string.Empty;
         }
     }
+}
+
+[Serializable]
+public class LinkedSocialNetwork
+{
+    public string full_name;
+    public string nickname;
+    public string picture;
+    public string provider;
+    public string social_id;
 }

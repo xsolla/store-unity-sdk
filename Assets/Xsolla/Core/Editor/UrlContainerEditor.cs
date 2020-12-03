@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
@@ -24,7 +24,12 @@ public class UrlContainerEditor : Editor
 				var value = EditorGUILayout.TextField(typeNames[i], urlContainer.Urls[i]);
 
 				if(value != urlContainer.Urls[i])
-					urlContainer.Urls[i] = value;
+				{
+					var serializedTarget = new SerializedObject(target);
+					var property = serializedTarget.FindProperty("Urls");
+					property.GetArrayElementAtIndex(i).stringValue = value;
+					serializedTarget.ApplyModifiedProperties();
+				}
 			}
 		}
 	}

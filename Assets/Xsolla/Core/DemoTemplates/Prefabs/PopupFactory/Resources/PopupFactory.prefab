@@ -47,11 +47,21 @@ MonoBehaviour:
     type: 3}
   ErrorPopupPrefab: {fileID: 3340558264923615202, guid: b3d6303fdf4e6496b99691b1b6c3da3f,
     type: 3}
-  LoginSettingsErrorPopupPrefab: {fileID: 3340558264923615202, guid: e8978739bcaca9c4c9c3218f13fabb6d,
-    type: 3}
   ConfirmPopupPrefab: {fileID: 5852370263131820392, guid: 6354b0b17b24b419fad96133527070f2,
     type: 3}
   ConfirmCodePopupPrefab: {fileID: 2151185845519967173, guid: e1176ad20af9e450c8845de6f4b98d4c,
     type: 3}
   WaitingPopupPrefab: {fileID: 556361876373794609, guid: 9ca05e708e5f143be94b06a87fef194a,
+    type: 3}
+  BundlePreviewPopupPrefab: {fileID: 8129972910254772181, guid: 1514f28ff6e8b32478d9e3b28ac762c2,
+    type: 3}
+  ResetPasswordPopupPrefab: {fileID: 8129972910254772181, guid: 8ffcbd06fa7695547945d3de3397659a,
+    type: 3}
+  NicknamePopupPrefab: {fileID: 2151185845519967173, guid: 0478ac52edb07ca438bc65a9ed6011c7,
+    type: 3}
+  RedeemCouponPopupPrefab: {fileID: 2151185845519967173, guid: 32db63925643b554c80fd99a28a74fe9,
+    type: 3}
+  CouponRewardsPopupPrefab: {fileID: 8129972910254772181, guid: 1514f28ff6e8b32478d9e3b28ac762c2,
+    type: 3}
+  TutorialPopupPrefab: {fileID: 2151185845519967173, guid: cae2fd41e8e52ef4fa63b30ecfdc2044,
     type: 3}

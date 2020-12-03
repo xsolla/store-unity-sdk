@@ -10,13 +10,14 @@ namespace Xsolla.Login
 {
 	public partial class XsollaLogin : MonoSingleton<XsollaLogin>
 	{
-		private const string URL_USER_GET_FRIENDS = 
-			"https://login.xsolla.com/api/users/me/relationships?type={0}&sort_by={1}&sort_order={2}&limit={3}";
-		private const string URL_USER_UPDATE_FRIENDS = "https://login.xsolla.com/api/users/me/relationships";
-		private const string URL_USER_SOCIAL_FRIENDS = "https://login.xsolla.com/api/users/me/social_friends?offset={0}&limit{1}&with_xl_uid{2}";
+		private const string URL_USER_GET_FRIENDS = "https://login.xsolla.com/api/users/me/relationships?type={0}&sort_by={1}&sort_order={2}&limit={3}&{4}";
+		private const string URL_USER_UPDATE_FRIENDS = "https://login.xsolla.com/api/users/me/relationships?{0}";
+		private const string URL_USER_SOCIAL_FRIENDS = "https://login.xsolla.com/api/users/me/social_friends?offset={0}&limit={1}&with_xl_uid={2}{3}&{4}";
+		private const string URL_USER_UPDATE_SOCIAL_FRIENDS = "https://login.xsolla.com/api/users/me/social_friends/update?{1}{0}";
 		private const int USER_FRIENDS_DEFAULT_PAGINATION_LIMIT = 20;
+		
 		/// <summary>
-		/// Gets user’s friends from a social provider.
+		/// Gets user’s friends from social provider.
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Get User's Friends</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/login-api/methods/users/get-users-friends/"/>.
@@ -25,20 +26,38 @@ namespace Xsolla.Login
 		/// <param name="offset">Offset.</param>
 		/// <param name="limit">Limit.</param>
 		/// <param name="withUid"></param>
-		/// <param name="onSuccess">Success operation callback.</param>
+		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		public void GetUserSocialFriends(string token, SocialProvider provider = SocialProvider.None, uint offset = 0, uint limit = 500, bool withUid = false, Action<UserSocialFriends> onSuccess = null, Action<Error> onError = null)
 		{
-			var urlBuilder = new StringBuilder(
-				string.Format(URL_USER_SOCIAL_FRIENDS, offset, limit, withUid ? "true" : "false"));
-			if(provider != SocialProvider.None)
-				urlBuilder.Append($"&platform={provider.GetParameter()}");
-			urlBuilder.Append(AdditionalUrlParams);
-			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), WebRequestHeader.AuthHeader(token), onSuccess, onError);
-		}
+			var withUidFlag = withUid ? "true" : "false";
+			var providerUrlAddition = provider != SocialProvider.None ? $"&platform={provider.GetParameter()}" : string.Empty;
+			var url = string.Format(URL_USER_SOCIAL_FRIENDS, offset, limit, withUidFlag, providerUrlAddition, AnalyticUrlAddition);
 
+			var headers = AppendAnalyticHeadersTo(WebRequestHeader.AuthHeader(token));
+			WebRequestHelper.Instance.GetRequest(url, headers, onSuccess, onError);
+		}
+		
 		/// <summary>
-		/// Gets the friends of the authenticated user.
+		/// Begins processing to update a list of user’s friends from a social provider.
+		/// </summary>
+		/// <remarks> Swagger method name:<c>Update User's Friends</c>.</remarks>
+		/// <see cref="https://developers.xsolla.com/login-api/methods/users/update-users-friends/"/>.
+		/// <param name="token">JWT from Xsolla Login.</param>
+		/// <param name="provider">Name of social provider.</param>
+		/// <param name="onSuccess">Success operation callback.</param>
+		/// <param name="onError">Failed operation callback.</param>
+		public void UpdateUserSocialFriends(string token, SocialProvider provider = SocialProvider.None, Action onSuccess = null, Action<Error> onError = null)
+		{
+			var providerUrlAddition = provider != SocialProvider.None ? $"&platform={provider.GetParameter()}" : string.Empty;
+			var url = string.Format(URL_USER_UPDATE_SOCIAL_FRIENDS, providerUrlAddition, AnalyticUrlAddition);
+			var headers = AppendAnalyticHeadersTo(WebRequestHeader.AuthHeader(token));
+
+			WebRequestHelper.Instance.PostRequest(url, headers, onSuccess, onError);
+		}
+		
+		/// <summary>
+		/// Gets friends of authenticated user.
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Get Friends</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/user-account-api/user-friends/get-friends"/>.
@@ -47,7 +66,7 @@ namespace Xsolla.Login
 		/// <param name="sortType">Condition for sorting users.</param>
 		/// <param name="order">Condition for sorting users.</param>
 		/// <param name="count">Maximum friends.</param>
-		/// <param name="onSuccess">Success operation callback.</param>
+		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		public void GetUserFriends(
 			string token,
@@ -59,18 +78,11 @@ namespace Xsolla.Login
 		{
 			if (count <= 0)
 			{
-				Debug.LogError($"Can not requests friends with limit = 0!");
+				Debug.LogError($"Can not requests friends with count {count}");
 				return;
 			}
-			var url = GetUrlForFriends(type, sortType, order, USER_FRIENDS_DEFAULT_PAGINATION_LIMIT);
+			var url = string.Format(URL_USER_GET_FRIENDS, type.GetParameter(), sortType.GetParameter(), order.GetParameter(), USER_FRIENDS_DEFAULT_PAGINATION_LIMIT, AnalyticUrlAddition);
 			StartCoroutine(GetUserFriendsCoroutine(token, url, count, onSuccess, onError));
-		}
-
-		private string GetUrlForFriends(FriendsSearchType type, FriendsSearchResultsSort sortType, FriendsSearchResultsSortOrder order, int limit)
-		{
-			return new StringBuilder(
-				string.Format(URL_USER_GET_FRIENDS, type.GetParameter(), sortType.GetParameter(), order.GetParameter(), limit)
-			).ToString();
 		}
 
 		IEnumerator GetUserFriendsCoroutine(string token, string url, int count, Action<List<UserFriendEntity>> onSuccess, Action<Error> onError)
@@ -101,20 +113,19 @@ namespace Xsolla.Login
 
 		private void GetUserFriendsInternal(string token, string url, Action<UserFriendsEntity> onSuccess = null, Action<Error> onError = null)
 		{
-			var urlBuilder = new StringBuilder(url);
-			urlBuilder.Append(AdditionalUrlParams);
-			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), WebRequestHeader.AuthHeader(token), onSuccess, onError);
+			var headers = AppendAnalyticHeadersTo(WebRequestHeader.AuthHeader(token));
+			WebRequestHelper.Instance.GetRequest(url, headers, onSuccess, onError);
 		}
 
 		/// <summary>
-		/// Updates the friend list of the authenticated user.
+		/// Updates friend list of authenticated user.
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Update Friends</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/user-account-api/user-friends/postusersmerelationships"/>.
 		/// <param name="token">JWT from Xsolla Login.</param>
 		/// <param name="action">Type of the action.</param>
 		/// <param name="user">The Xsolla Login user ID to change relationship with.</param>
-		/// <param name="onSuccess">Success operation callback.</param>
+		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		public void UpdateUserFriends(string token, FriendAction action, string user, Action onSuccess, Action<Error> onError)
 		{
@@ -123,9 +134,9 @@ namespace Xsolla.Login
 				action = action.GetParameter(),
 				user = user
 			};
-			var urlBuilder = new StringBuilder(URL_USER_UPDATE_FRIENDS);
-			urlBuilder.Append("?" + AdditionalUrlParams.TrimStart('&'));
-			WebRequestHelper.Instance.PostRequest(urlBuilder.ToString(), request, WebRequestHeader.AuthHeader(token), onSuccess, onError);
+			var url = string.Format(URL_USER_UPDATE_FRIENDS, AnalyticUrlAddition);
+			var headers = AppendAnalyticHeadersTo(WebRequestHeader.AuthHeader(token));
+			WebRequestHelper.Instance.PostRequest(url, request, headers, onSuccess, onError);
 		}
 	}
 }
