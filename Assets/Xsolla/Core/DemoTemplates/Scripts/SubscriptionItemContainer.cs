@@ -2,44 +2,46 @@ using System.Collections.Generic;
 using UnityEngine;
 using Xsolla.Store;
 
-public class SubscriptionItemContainer : MonoBehaviour, IContainer
+namespace Xsolla.Demo
 {
-	[SerializeField]
-	GameObject itemPrefab;
-
-	[SerializeField]
-	Transform itemParent;
-
-	private IDemoImplementation _demoImplementation;
-	private List<GameObject> _items;
-
-	private void Awake()
+	public class SubscriptionItemContainer : MonoBehaviour, IContainer
 	{
-		_items = new List<GameObject>();
-	}
+		[SerializeField]
+		GameObject itemPrefab = default;
 
-	public void AddItem(SubscriptionItem itemInformation)
-	{
-		var newItem = Instantiate(itemPrefab, itemParent);
-		newItem.GetComponent<SubscriptionItemUI>().Initialize(itemInformation);
-		_items.Add(newItem);
-	}
+		[SerializeField]
+		Transform itemParent = default;
 
-	private void ClearItems()
-	{
-		_items.ForEach(Destroy);
-		_items.Clear();
-	}
+		private IDemoImplementation _demoImplementation;
+		private List<GameObject> _items;
 
-	public void SetStoreImplementation(IDemoImplementation demoImplementation)
-	{
-		_demoImplementation = demoImplementation;
-	}
+		private void Awake()
+		{
+			_items = new List<GameObject>();
+		}
 
-	public void Refresh()
-	{
-		ClearItems();
-		UserSubscriptions.Instance.GetItems().ForEach(AddItem);
+		public void AddItem(SubscriptionItem itemInformation)
+		{
+			var newItem = Instantiate(itemPrefab, itemParent);
+			newItem.GetComponent<SubscriptionItemUI>().Initialize(itemInformation);
+			_items.Add(newItem);
+		}
+
+		private void ClearItems()
+		{
+			_items.ForEach(Destroy);
+			_items.Clear();
+		}
+
+		public void SetStoreImplementation(IDemoImplementation demoImplementation)
+		{
+			_demoImplementation = demoImplementation;
+		}
+
+		public void Refresh()
+		{
+			ClearItems();
+			UserSubscriptions.Instance.GetItems().ForEach(AddItem);
+		}
 	}
 }
-	

@@ -1,12 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class CouponRedeemedItemModel
+﻿namespace Xsolla.Demo
 {
-	public string Sku;
-	public string Name;
-	public string Description;
-	public string ImageUrl;
-	public int Quantity;
+	public class CouponRedeemedItemModel
+	{
+		public string Sku;
+		public string Name;
+		public string Description;
+		public string ImageUrl;
+		public int Quantity;
+	}
 }

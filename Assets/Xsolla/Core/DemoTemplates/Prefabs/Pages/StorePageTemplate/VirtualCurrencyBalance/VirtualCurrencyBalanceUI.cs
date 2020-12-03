@@ -1,38 +1,41 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 using Xsolla.Core;
 
-public class VirtualCurrencyBalanceUI : MonoBehaviour
+namespace Xsolla.Demo
 {
-	[SerializeField] public Image Image;
-	[SerializeField] public Text Text;
-
-	public void Initialize(ItemModel item)
+	public class VirtualCurrencyBalanceUI : MonoBehaviour
 	{
-		if (Image != null)
+		[SerializeField] public Image Image = default;
+		[SerializeField] public Text Text = default;
+
+		public void Initialize(ItemModel item)
 		{
-			if (!string.IsNullOrEmpty(item.ImageUrl))
+			if (Image != null)
 			{
-				ImageLoader.Instance.GetImageAsync(item.ImageUrl, (_, sprite) =>
+				if (!string.IsNullOrEmpty(item.ImageUrl))
 				{
-					if (Image/*still*/!= null)
-						Image.sprite = sprite;
-				});
+					ImageLoader.Instance.GetImageAsync(item.ImageUrl, (_, sprite) =>
+					{
+						if (Image/*still*/!= null)
+							Image.sprite = sprite;
+					});
+				}
+				else
+				{
+					Debug.LogError($"Item with sku = '{item.Sku}' without image!");
+				}
 			}
 			else
 			{
-				Debug.LogError($"Item with sku = '{item.Sku}' without image!");
+				Debug.LogWarning($"Your Virtual Currency with sku = `{item.Sku}` created without Image component!");
 			}
 		}
-		else
-		{
-			Debug.LogWarning($"Your Virtual Currency with sku = `{item.Sku}` created without Image component!");
-		}
-	}
 
-	public void SetBalance(uint balance)
-	{
-		if (Text)
-			Text.text = balance.ToString();
+		public void SetBalance(uint balance)
+		{
+			if (Text)
+				Text.text = balance.ToString();
+		}
 	}
 }

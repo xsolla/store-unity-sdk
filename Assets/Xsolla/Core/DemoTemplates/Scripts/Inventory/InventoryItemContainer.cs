@@ -1,46 +1,49 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class InventoryItemContainer : MonoBehaviour, IContainer
+namespace Xsolla.Demo
 {
-	[SerializeField] private GameObject itemPrefab;
-	[SerializeField] private Transform itemParent;
-
-	private List<GameObject> _items;
-	private IDemoImplementation _demoImplementation;
-
-	private void Awake()
+	public class InventoryItemContainer : MonoBehaviour, IContainer
 	{
-		_items = new List<GameObject>();
-		UserInventory.Instance.UpdateItemsEvent += RefreshInternal;
-	}
+		[SerializeField] private GameObject itemPrefab = default;
+		[SerializeField] private Transform itemParent = default;
 
-	public void SetStoreImplementation(IDemoImplementation demoImplementation)
-	{
-		_demoImplementation = demoImplementation;
-	}
+		private List<GameObject> _items;
+		private IDemoImplementation _demoImplementation;
 
-	public void Refresh()
-	{
-		RefreshInternal(UserInventory.Instance.VirtualItems);
-	}
+		private void Awake()
+		{
+			_items = new List<GameObject>();
+			UserInventory.Instance.UpdateItemsEvent += RefreshInternal;
+		}
 
-	private void RefreshInternal(List<InventoryItemModel> items)
-	{
-		ClearItems();
-		items.ForEach(AddItem);
-	}
+		public void SetStoreImplementation(IDemoImplementation demoImplementation)
+		{
+			_demoImplementation = demoImplementation;
+		}
 
-	private void ClearItems()
-	{
-		_items.ForEach(Destroy);
-		_items.Clear();
-	}
+		public void Refresh()
+		{
+			RefreshInternal(UserInventory.Instance.VirtualItems);
+		}
 
-	private void AddItem(InventoryItemModel itemInformation)
-	{
-		var newItem = Instantiate(itemPrefab, itemParent);
-		newItem.GetComponent<InventoryItemUI>().Initialize(itemInformation, _demoImplementation);
-		_items.Add(newItem);
+		private void RefreshInternal(List<InventoryItemModel> items)
+		{
+			ClearItems();
+			items.ForEach(AddItem);
+		}
+
+		private void ClearItems()
+		{
+			_items.ForEach(Destroy);
+			_items.Clear();
+		}
+
+		private void AddItem(InventoryItemModel itemInformation)
+		{
+			var newItem = Instantiate(itemPrefab, itemParent);
+			newItem.GetComponent<InventoryItemUI>().Initialize(itemInformation, _demoImplementation);
+			_items.Add(newItem);
+		}
 	}
 }

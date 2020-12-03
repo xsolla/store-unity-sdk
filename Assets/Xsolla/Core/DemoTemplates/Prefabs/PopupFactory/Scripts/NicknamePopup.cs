@@ -1,16 +1,15 @@
-﻿using System;
+using System;
 using UnityEngine;
+using Xsolla.Demo;
 
 namespace Xsolla.Core.Popup
 {
 	[AddComponentMenu("Scripts/Xsolla.Core/Popup/NicknamePopup")]
 	public class NicknamePopup : MonoBehaviour, INicknamePopup
 	{
-#pragma warning disable 0649
-		[SerializeField] SimpleButton ContinueButton;
-		[SerializeField] SimpleButton CancelButton;
-		[SerializeField] UserProfileEntryEditor Editor;
-#pragma warning restore 0649
+		[SerializeField] SimpleButton ContinueButton = default;
+		[SerializeField] SimpleButton CancelButton = default;
+		[SerializeField] UserProfileEntryEditor Editor = default;
 
 		private string UserInput { get; set; }
 

@@ -1,30 +1,33 @@
 using System;
 using Xsolla.Core;
 
-public static class PriceFormatter
+namespace Xsolla.Demo
 {
-	private static string _lastCurrency;
-	private const string DEFAULT_CURRENCY = "$";
-
-	private static string LastCurrency
+	public static class PriceFormatter
 	{
-		get => _lastCurrency ?? DEFAULT_CURRENCY;
-		set => _lastCurrency = value;
-	}
+		private static string _lastCurrency;
+		private const string DEFAULT_CURRENCY = "$";
 
-	public static string FormatPrice(float price)
-	{
-		return FormatPrice(LastCurrency, price);
-	}
+		private static string LastCurrency
+		{
+			get => _lastCurrency ?? DEFAULT_CURRENCY;
+			set => _lastCurrency = value;
+		}
 
-	public static string FormatPrice(string currency, float price)
-	{
-		var currencySymbol = RegionalCurrency.GetCurrencySymbol(currency);
-		var outputCurrency = string.IsNullOrEmpty(currencySymbol) ? currency : currencySymbol;
-		LastCurrency = outputCurrency;
+		public static string FormatPrice(float price)
+		{
+			return FormatPrice(LastCurrency, price);
+		}
+
+		public static string FormatPrice(string currency, float price)
+		{
+			var currencySymbol = RegionalCurrency.GetCurrencySymbol(currency);
+			var outputCurrency = string.IsNullOrEmpty(currencySymbol) ? currency : currencySymbol;
+			LastCurrency = outputCurrency;
 		
-		var roundDownPrice = Math.Round((decimal)price, 2, MidpointRounding.AwayFromZero);
+			var roundDownPrice = Math.Round((decimal)price, 2, MidpointRounding.AwayFromZero);
 
-		return $"{outputCurrency}{roundDownPrice:F2}";
+			return $"{outputCurrency}{roundDownPrice:F2}";
+		}
 	}
 }

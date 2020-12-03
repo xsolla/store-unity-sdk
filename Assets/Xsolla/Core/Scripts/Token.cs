@@ -16,8 +16,7 @@ namespace Xsolla.Core
 		
 		private const string TOKEN_SERVER_TYPE = "server_custom_id";
 		private const string TOKEN_SOCIAL_TYPE = "social";
-		
-		public bool FromSteam { get; set; }
+
 		/// <summary>
 		/// Login JWT. To see all fields of this token, you can parse it by <see cref="https://jwt.io/"/>
 		/// </summary>
@@ -33,27 +32,25 @@ namespace Xsolla.Core
 					token = new JsonWebToken(encodedToken);
 				}
 			}
-			FromSteam = false;
 		}
 
 		public string GetSteamUserID()
 		{
-			if (JWTisNullOrEmpty()) {
+			if (JWTisNullOrEmpty())
 				return string.Empty;
-			}
-			if (!IsCrossAuth()) {
+
+			if (!IsCrossAuth())
 				return string.Empty;
-			}
-			string steamUserUrl = token.GetPayloadValue<string>(USER_ID_URL_PARAMETER);
-			if (string.IsNullOrEmpty(steamUserUrl)) {
+
+			if (token.TryGetPayloadValue<string>(USER_ID_URL_PARAMETER, out string steamUserUrl) && !string.IsNullOrEmpty(steamUserUrl))
+				return steamUserUrl.Split('/').ToList().Last();
+			else
 				return string.Empty;
-			}
-			return steamUserUrl.Split('/').ToList().Last();
 		}
 
 		private bool IsCrossAuth()
 		{
-			return !JWTisNullOrEmpty() && token.GetPayloadValue<bool>(CROSS_AUTH_PARAMETER);
+			return !JWTisNullOrEmpty() && token.TryGetPayloadValue<bool>(CROSS_AUTH_PARAMETER, out bool isValuePresent) && isValuePresent;
 		}
 
 		public bool FromSocialNetwork()

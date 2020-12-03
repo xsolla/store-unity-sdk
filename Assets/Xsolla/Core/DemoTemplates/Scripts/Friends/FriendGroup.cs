@@ -1,25 +1,28 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class FriendGroup : MonoBehaviour
+namespace Xsolla.Demo
 {
-    [SerializeField] private Text userCounterText;
-    
-    public void SetUsersCount(int count)
-    {
-        if(userCounterText != null)
-            userCounterText.text = count > 0 ?  $" ({count})" : string.Empty;
-    }
+	public class FriendGroup : MonoBehaviour
+	{
+		[SerializeField] private Text userCounterText = default;
 
-    private void OnEnable()
-    {
-        if(userCounterText != null)
-            userCounterText.gameObject.SetActive(true);
-    }
+		public void SetUsersCount(int count)
+		{
+			if(userCounterText != null)
+				userCounterText.text = count > 0 ?  $" ({count})" : string.Empty;
+		}
 
-    private void OnDisable()
-    {
-        if(userCounterText != null)
-            userCounterText.gameObject.SetActive(false);
-    }
+		private void OnEnable()
+		{
+			if(userCounterText != null)
+				userCounterText.gameObject.SetActive(true);
+		}
+
+		private void OnDisable()
+		{
+			if(userCounterText != null)
+				userCounterText.gameObject.SetActive(false);
+		}
+	}
 }

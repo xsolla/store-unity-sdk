@@ -1,109 +1,111 @@
-﻿using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class ValueCounterVisibility : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+namespace Xsolla.Demo
 {
-	public float Speed = 1.0F;
-	public HorizontalSizeChanger consumeText;
-	public HorizontalSizeChanger valueCounter;
-
-	private RectTransform rectTransform;
-
-	private void Awake()
+	public class ValueCounterVisibility : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 	{
-		rectTransform = gameObject.GetComponent<RectTransform>();
-	}
+		public float Speed = 1.0F;
+		public HorizontalSizeChanger consumeText;
+		public HorizontalSizeChanger valueCounter;
 
-	private void Start()
-	{
-		SetVisibility(false);
-	}
+		private RectTransform _rectTransform;
 
-	IEnumerator ChangeVisibilityCoroutine(bool visible)
-	{
-		float maxWidth = rectTransform.rect.width;
-		float visibleWidthLimit = maxWidth * 0.05F;
-		float targetTextWidth = (visible ? 0.6F : 1.0F) * maxWidth;
-		float targetCounterWidth = maxWidth - targetTextWidth;
-
-		if (visible)
+		private void Awake()
 		{
-			StartCoroutine(ChangeSizeCoroutine(consumeText, targetTextWidth, maxWidth));
-			StartCoroutine(ChangeSizeCoroutine(valueCounter, targetCounterWidth, maxWidth));
-		}
-		else
-		{
-			StartCoroutine(ChangeSizeCoroutine(valueCounter, targetCounterWidth, maxWidth));
-			StartCoroutine(ChangeSizeCoroutine(consumeText, targetTextWidth, maxWidth));
+			_rectTransform = gameObject.GetComponent<RectTransform>();
 		}
 
-		while (true)
+		private void Start()
 		{
-			yield return new WaitForEndOfFrame();
+			SetVisibility(false);
+		}
+
+		IEnumerator ChangeVisibilityCoroutine(bool visible)
+		{
+			float maxWidth = _rectTransform.rect.width;
+			float visibleWidthLimit = maxWidth * 0.05F;
+			float targetTextWidth = (visible ? 0.6F : 1.0F) * maxWidth;
+			float targetCounterWidth = maxWidth - targetTextWidth;
 
 			if (visible)
 			{
-				if (valueCounter.GetWidth() > visibleWidthLimit)
-				{
-					break;
-				}
+				StartCoroutine(ChangeSizeCoroutine(consumeText, targetTextWidth, maxWidth));
+				StartCoroutine(ChangeSizeCoroutine(valueCounter, targetCounterWidth, maxWidth));
 			}
 			else
 			{
-				if (valueCounter.GetWidth() < visibleWidthLimit)
+				StartCoroutine(ChangeSizeCoroutine(valueCounter, targetCounterWidth, maxWidth));
+				StartCoroutine(ChangeSizeCoroutine(consumeText, targetTextWidth, maxWidth));
+			}
+
+			while (true)
+			{
+				yield return new WaitForEndOfFrame();
+
+				if (visible)
 				{
-					break;
+					if (valueCounter.GetWidth() > visibleWidthLimit)
+					{
+						break;
+					}
 				}
+				else
+				{
+					if (valueCounter.GetWidth() < visibleWidthLimit)
+					{
+						break;
+					}
+				}
+			}
+
+			valueCounter.gameObject.SetActive(visible);
+		}
+
+		IEnumerator ChangeSizeCoroutine(HorizontalSizeChanger sizeChanger, float newValue, float maxSize)
+		{
+			float step = maxSize * 0.01F;
+			while (true)
+			{
+				yield return new WaitForEndOfFrame();
+				if (!ChangeSize(sizeChanger, newValue, step))
+					break;
 			}
 		}
 
-		valueCounter.gameObject.SetActive(visible);
-	}
-
-	IEnumerator ChangeSizeCoroutine(HorizontalSizeChanger sizeChanger, float newValue, float maxSize)
-	{
-		float step = maxSize * 0.01F;
-		while (true)
+		bool ChangeSize(HorizontalSizeChanger sizeChanger, float newSize, float step)
 		{
-			yield return new WaitForEndOfFrame();
-			if (!ChangeSize(sizeChanger, newValue, step))
-				break;
+			float width = sizeChanger.GetWidth();
+			float delta = newSize - width;
+
+			if (Mathf.Abs(delta) > step)
+			{
+				delta *= Speed * Time.deltaTime;
+				sizeChanger.SetWidth(width + delta);
+				return true;
+			}
+			else
+			{
+				sizeChanger.SetWidth(newSize);
+				return false;
+			}
 		}
-	}
 
-	bool ChangeSize(HorizontalSizeChanger sizeChanger, float newSize, float step)
-	{
-		float width = sizeChanger.GetWidth();
-		float delta = newSize - width;
-
-		if (Mathf.Abs(delta) > step)
+		void SetVisibility(bool visibility)
 		{
-			delta *= Speed * Time.deltaTime;
-			sizeChanger.SetWidth(width + delta);
-			return true;
+			StopAllCoroutines();
+			StartCoroutine(ChangeVisibilityCoroutine(visibility));
 		}
-		else
+
+		void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
 		{
-			sizeChanger.SetWidth(newSize);
-			return false;
+			SetVisibility(true);
 		}
-	}
 
-	void SetVisibility(bool visibility)
-	{
-		StopAllCoroutines();
-		StartCoroutine(ChangeVisibilityCoroutine(visibility));
-	}
-
-	void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
-	{
-		SetVisibility(true);
-	}
-
-	void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
-	{
-		SetVisibility(false);
+		void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
+		{
+			SetVisibility(false);
+		}
 	}
 }

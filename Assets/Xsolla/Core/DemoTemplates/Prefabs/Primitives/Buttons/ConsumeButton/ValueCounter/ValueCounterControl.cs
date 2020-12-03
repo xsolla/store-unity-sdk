@@ -1,32 +1,35 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 using Xsolla.Core;
 
-public class ValueCounterControl : MonoBehaviour
+namespace Xsolla.Demo
 {
-	public SimpleTextButton increaseButton;
-	public SimpleTextButton decreaseButton;
-	public Text counterValueText;
-	public float timeout = StoreConstants.DEFAULT_BUTTON_RATE_LIMIT_MS;
-
-	private ValueCounter counter;
-
-	void Start()
+	public class ValueCounterControl : MonoBehaviour
 	{
-		counter = gameObject.GetComponent<ValueCounter>();
-		counter.ValueChanged += Counter_ValueChanged;
+		public SimpleTextButton increaseButton;
+		public SimpleTextButton decreaseButton;
+		public Text counterValueText;
+		public float timeout = StoreConstants.DEFAULT_BUTTON_RATE_LIMIT_MS;
 
-		counterValueText.text = counter.ToString();
+		private ValueCounter _counter;
 
-		increaseButton.onClick = () => counter++;
-		decreaseButton.onClick = () => counter--;
+		void Start()
+		{
+			_counter = gameObject.GetComponent<ValueCounter>();
+			_counter.ValueChanged += Counter_ValueChanged;
 
-		increaseButton.RateLimitMs = timeout;
-		decreaseButton.RateLimitMs = timeout;
-	}
+			counterValueText.text = _counter.ToString();
 
-	private void Counter_ValueChanged(int value)
-	{
-		counterValueText.text = value.ToString();
+			increaseButton.onClick = () => _counter++;
+			decreaseButton.onClick = () => _counter--;
+
+			increaseButton.RateLimitMs = timeout;
+			decreaseButton.RateLimitMs = timeout;
+		}
+
+		private void Counter_ValueChanged(int value)
+		{
+			counterValueText.text = value.ToString();
+		}
 	}
 }

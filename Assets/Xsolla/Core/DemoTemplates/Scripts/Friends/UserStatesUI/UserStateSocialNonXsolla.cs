@@ -1,12 +1,15 @@
-﻿public class UserStateSocialNonXsolla : BaseUserStateUI
+﻿namespace Xsolla.Demo
 {
-    protected override void InitUserButtons(FriendButtonsUI buttons)
-    {
-        //Do nothing
-    }
+	public class UserStateSocialNonXsolla : BaseUserStateUI
+	{
+		protected override void InitUserButtons(FriendButtonsUI buttons)
+		{
+			//Do nothing
+		}
 
-    protected override void InitUserActionsButton(FriendActionsButton actionsButton)
-    {
-        actionsButton.gameObject.SetActive(false);
-    }
+		protected override void InitUserActionsButton(FriendActionsButton actionsButton)
+		{
+			actionsButton.gameObject.SetActive(false);
+		}
+	}
 }

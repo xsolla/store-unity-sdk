@@ -1,14 +1,17 @@
 ﻿using System;
 
-[Serializable]
-public class LoginOAuthJsonRequest
+namespace Xsolla.Login
 {
-	public string username;
-	public string password;
-
-	public LoginOAuthJsonRequest(string username, string password)
+	[Serializable]
+	public class LoginOAuthJsonRequest
 	{
-		this.username = username;
-		this.password = password;
+		public string username;
+		public string password;
+
+		public LoginOAuthJsonRequest(string username, string password)
+		{
+			this.username = username;
+			this.password = password;
+		}
 	}
 }

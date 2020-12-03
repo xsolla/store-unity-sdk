@@ -1,108 +1,110 @@
-﻿using System;
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using Xsolla.Core;
 
-public class SimpleButton : MonoBehaviour, ISimpleButton
+namespace Xsolla.Demo
 {
-	[SerializeField] Image image;
-	[SerializeField] Sprite normalStateSprite;
-	[SerializeField] Sprite hoverStateSprite;
-	[SerializeField] Sprite pressedStateSprite;
-
-	bool _isClickInProgress;
-
-	public Action onClick;
-	private DateTime lastClick;
-
-	public static event Action OnCursorEnter;
-	public static event Action OnCursorExit;
-
-	public float RateLimitMs { get; set; } = 500.0F;
-
-	void Awake()
+	public class SimpleButton : MonoBehaviour, ISimpleButton
 	{
-		lastClick = DateTime.MinValue;
-	}
+		[SerializeField] Image image = default;
+		[SerializeField] Sprite normalStateSprite = default;
+		[SerializeField] Sprite hoverStateSprite = default;
+		[SerializeField] Sprite pressedStateSprite = default;
 
-	private void OnDisable()
-	{
-		OnNormal();
-	}
+		bool _isClickInProgress;
 
-	public virtual void OnDrag(PointerEventData eventData)
-	{
-	}
+		public Action onClick;
+		private DateTime lastClick;
 
-	public virtual void OnPointerEnter(PointerEventData eventData)
-	{
-		OnHover();
-	}
+		public static event Action OnCursorEnter;
+		public static event Action OnCursorExit;
 
-	public virtual void OnPointerExit(PointerEventData eventData)
-	{
-		OnNormal();
+		public float RateLimitMs { get; set; } = 500.0F;
 
-		_isClickInProgress = false;
-	}
-
-	public virtual void OnPointerDown(PointerEventData eventData)
-	{
-		_isClickInProgress = true;
-
-		OnPressed();
-	}
-
-	private void PerformClickEvent()
-	{
-		TimeSpan ts = DateTime.Now - lastClick;
-		if (ts.TotalMilliseconds > RateLimitMs)
+		void Awake()
 		{
-			lastClick += ts;
-			onClick?.Invoke();
+			lastClick = DateTime.MinValue;
 		}
-	}
 
-	public virtual void OnPointerUp(PointerEventData eventData)
-	{
-		if (_isClickInProgress)
+		private void OnDisable()
+		{
+			OnNormal();
+		}
+
+		public virtual void OnDrag(PointerEventData eventData)
+		{
+		}
+
+		public virtual void OnPointerEnter(PointerEventData eventData)
 		{
 			OnHover();
-			PerformClickEvent();
 		}
 
-		_isClickInProgress = false;
-	}
+		public virtual void OnPointerExit(PointerEventData eventData)
+		{
+			OnNormal();
+
+			_isClickInProgress = false;
+		}
+
+		public virtual void OnPointerDown(PointerEventData eventData)
+		{
+			_isClickInProgress = true;
+
+			OnPressed();
+		}
+
+		private void PerformClickEvent()
+		{
+			TimeSpan ts = DateTime.Now - lastClick;
+			if (ts.TotalMilliseconds > RateLimitMs)
+			{
+				lastClick += ts;
+				onClick?.Invoke();
+			}
+		}
+
+		public virtual void OnPointerUp(PointerEventData eventData)
+		{
+			if (_isClickInProgress)
+			{
+				OnHover();
+				PerformClickEvent();
+			}
+
+			_isClickInProgress = false;
+		}
 	
-	protected void SetImageSprite(Image i, Sprite sprite)
-	{
-		if(i != null && sprite != null)
-			i.sprite = sprite;
-	}
+		protected void SetImageSprite(Image i, Sprite sprite)
+		{
+			if(i != null && sprite != null)
+				i.sprite = sprite;
+		}
 
-	protected void SetImageSprite(Sprite sprite)
-	{
-		SetImageSprite(image, sprite);
-	}
+		protected void SetImageSprite(Sprite sprite)
+		{
+			SetImageSprite(image, sprite);
+		}
 
-	protected virtual void OnNormal()
-	{
-		SetImageSprite(image, normalStateSprite);
-		RaiseOnCursorExit();
-	}
+		protected virtual void OnNormal()
+		{
+			SetImageSprite(image, normalStateSprite);
+			RaiseOnCursorExit();
+		}
 
-	protected virtual void OnHover()
-	{
-		SetImageSprite(image, hoverStateSprite);
-		RaiseOnCursorEnter();
-	}
+		protected virtual void OnHover()
+		{
+			SetImageSprite(image, hoverStateSprite);
+			RaiseOnCursorEnter();
+		}
 
-	protected virtual void OnPressed()
-	{
-		SetImageSprite(image, pressedStateSprite);
-	}
+		protected virtual void OnPressed()
+		{
+			SetImageSprite(image, pressedStateSprite);
+		}
 
-	protected void RaiseOnCursorEnter() => OnCursorEnter?.Invoke();
-	protected void RaiseOnCursorExit() => OnCursorExit?.Invoke();
+		protected void RaiseOnCursorEnter() => OnCursorEnter?.Invoke();
+		protected void RaiseOnCursorExit() => OnCursorExit?.Invoke();
+	}
 }

@@ -1,23 +1,26 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 
-public class HighlightElement : MonoBehaviour
+namespace Xsolla.Demo
 {
-	[SerializeField] private string Id;
-	[SerializeField] Color highlightColor;
-	public string ID => Id;
-
-	public void Highlight()
+	public class HighlightElement : MonoBehaviour
 	{
-		// in case highlighted object is a button any interaction with it should be disabled
-		GetComponentInChildren<SimpleTextButton>()?.Lock();
+		[SerializeField] private string Id = default;
+		[SerializeField] Color highlightColor = default;
+		public string ID => Id;
 
-		var image = GetComponentInChildren<Image>();
-		if (image != null)
-			image.color = highlightColor;
+		public void Highlight()
+		{
+			// in case highlighted object is a button any interaction with it should be disabled
+			GetComponentInChildren<SimpleTextButton>()?.Lock();
 
-		var text = GetComponentInChildren<Text>();
-		if (text != null)
-			text.color = highlightColor;
+			var image = GetComponentInChildren<Image>();
+			if (image != null)
+				image.color = highlightColor;
+
+			var text = GetComponentInChildren<Text>();
+			if (text != null)
+				text.color = highlightColor;
+		}
 	}
 }

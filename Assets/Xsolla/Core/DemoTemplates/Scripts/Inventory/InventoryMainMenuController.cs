@@ -1,31 +1,34 @@
-﻿using UnityEngine;
+using UnityEngine;
 
-public class InventoryMainMenuController : BaseMenuController
+namespace Xsolla.Demo
 {
-	[SerializeField] private SimpleButton inventoryButton;
-	[SerializeField] private SimpleButton webStoreButton;
-	[SerializeField] private SimpleButton documentationButton;
-	[SerializeField] private SimpleButton publisherAccountButton;
-	[SerializeField] private SimpleButton logoutButton;
-	[SerializeField] private SimpleButton tutorialButton;
-
-	private void Start()
+	public class InventoryMainMenuController : BaseMenuController
 	{
-		AttachButtonCallback(inventoryButton,
-			() => SetMenuState(MenuState.Inventory, () => UserInventory.Instance.IsUpdated));
-		AttachButtonCallback(logoutButton,
-			() => SetMenuState(MenuState.Authorization));
+		[SerializeField] private SimpleButton inventoryButton = default;
+		[SerializeField] private SimpleButton webStoreButton = default;
+		[SerializeField] private SimpleButton documentationButton = default;
+		[SerializeField] private SimpleButton publisherAccountButton = default;
+		[SerializeField] private SimpleButton logoutButton = default;
+		[SerializeField] private SimpleButton tutorialButton = default;
 
-		AttachUrlToButton(documentationButton, DemoController.Instance.UrlContainer.GetUrl(UrlType.DocumentationUrl));
-		AttachUrlToButton(publisherAccountButton, DemoController.Instance.UrlContainer.GetUrl(UrlType.PublisherUrl));
+		private void Start()
+		{
+			AttachButtonCallback(inventoryButton,
+				() => SetMenuState(MenuState.Inventory, () => UserInventory.Instance.IsUpdated));
+			AttachButtonCallback(logoutButton,
+				() => SetMenuState(MenuState.Authorization));
 
-		AttachUrlToButton(webStoreButton, DemoController.Instance.GetWebStoreUrl());
+			AttachUrlToButton(documentationButton, DemoController.Instance.UrlContainer.GetUrl(UrlType.DocumentationUrl));
+			AttachUrlToButton(publisherAccountButton, DemoController.Instance.UrlContainer.GetUrl(UrlType.PublisherUrl));
 
-		AttachButtonCallback(tutorialButton,
-			() =>
-			{
-				if (DemoController.Instance.IsTutorialAvailable)
-					DemoController.Instance.TutorialManager.ShowTutorial(false);
-			});
+			AttachUrlToButton(webStoreButton, DemoController.Instance.GetWebStoreUrl());
+
+			AttachButtonCallback(tutorialButton,
+				() =>
+				{
+					if (DemoController.Instance.IsTutorialAvailable)
+						DemoController.Instance.TutorialManager.ShowTutorial(false);
+				});
+		}
 	}
 }

@@ -1,7 +1,5 @@
 using UnityEditor;
 using UnityEngine;
-using Xsolla.PayStation;
-using Xsolla.Store;
 
 namespace Xsolla.Core
 {
@@ -9,10 +7,9 @@ namespace Xsolla.Core
 	{
 		const string LoginIdTooltip = "Login ID from your Publisher Account.";
 		const string CallbackUrlTooltip = "URL to redirect the user to after registration/authentication/password reset. " +
-		                                  "Must be identical to Callback URL specified in Publisher Account in Login settings. Required if there are several Callback URLs.";
+											"Must be identical to Callback URL specified in Publisher Account in Login settings. Required if there are several Callback URLs.";
 		const string JwtInvalidationTooltip = "Each time a user logs in, their previous JWT token becomes invalid.";
 		const string OAuthClientIdTooltip = "Your application ID. You will get it after sending the request to enable the OAuth 2.0 protocol. To get your application ID again, please contact your Account Manager.";
-
 
 		private bool XsollaLoginSettings()
 		{
@@ -86,4 +83,3 @@ namespace Xsolla.Core
 		}
 	}
 }
-

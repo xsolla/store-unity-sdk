@@ -1,46 +1,48 @@
-﻿using System;
+using System;
 using UnityEngine;
+using Xsolla.Core;
 
-public class LoginActionsCreatePageProxer : MonoBehaviour
+namespace Xsolla.Demo
 {
-#pragma warning disable 0649
-	[SerializeField] SimpleSocialButton[] SocialLoginButtons;
-	[SerializeField] SimpleButton SteamLoginButton;
-#pragma warning restore 0649
-
-	private void Awake()
+	public class LoginActionsCreatePageProxer : MonoBehaviour
 	{
-		if (SocialLoginButtons != null)
+		[SerializeField] SimpleSocialButton[] SocialLoginButtons = default;
+		[SerializeField] SimpleButton SteamLoginButton = default;
+
+		private void Awake()
 		{
-			foreach (var socialButton in SocialLoginButtons)
+			if (SocialLoginButtons != null)
 			{
-				if (socialButton != null)
-					socialButton.onClick += () => RequestSocialAuth(socialButton.SocialProvider);
+				foreach (var socialButton in SocialLoginButtons)
+				{
+					if (socialButton != null)
+						socialButton.onClick += () => RequestSocialAuth(socialButton.SocialProvider);
+				}
 			}
+
+			if (SteamLoginButton != null)
+				SteamLoginButton.onClick += RequestSteamAuth;
 		}
 
-		if (SteamLoginButton != null)
-			SteamLoginButton.onClick += RequestSteamAuth;
-	}
+		private void RequestSocialAuth(SocialProvider provider)
+		{
+			ExecuteProxyRequest(LoginProxyActions.RunSocialAuthDelegate, provider);
+		}
 
-	private void RequestSocialAuth(SocialProvider provider)
-	{
-		ExecuteProxyRequest(LoginProxyActions.RunSocialAuthDelegate, provider);
-	}
+		private void RequestSteamAuth()
+		{
+			ExecuteProxyRequest(LoginProxyActions.RunSteamAuthDelegate, null);
+		}
 
-	private void RequestSteamAuth()
-	{
-		ExecuteProxyRequest(LoginProxyActions.RunSteamAuthDelegate, null);
-	}
+		private void ExecuteProxyRequest(Action<LoginPageEnterController, object> proxyRequest, object proxyArgument)
+		{
+			var proxyObject = new GameObject();
+			var proxyScript = proxyObject.AddComponent<LoginProxyActionHolder>();
 
-	private void ExecuteProxyRequest(Action<LoginPageEnterController, object> proxyRequest, object proxyArgument)
-	{
-		var proxyObject = new GameObject();
-		var proxyScript = proxyObject.AddComponent<LoginProxyActionHolder>();
+			proxyScript.ProxyAction = proxyRequest;
+			proxyScript.ProxyActionArgument = proxyArgument;
 
-		proxyScript.ProxyAction = proxyRequest;
-		proxyScript.ProxyActionArgument = proxyArgument;
-
-		DemoController.Instance.SetState(MenuState.Authorization);
+			DemoController.Instance.SetState(MenuState.Authorization);
+		}
 	}
 }

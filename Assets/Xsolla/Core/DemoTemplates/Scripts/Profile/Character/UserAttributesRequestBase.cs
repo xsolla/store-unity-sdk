@@ -1,31 +1,33 @@
 ﻿using UnityEngine;
 using Xsolla.Core;
-using Xsolla.Login;
 
-public abstract class UserAttributesRequestBase : StoreActionResult
+namespace Xsolla.Demo
 {
-	protected string Token => DemoController.Instance.GetImplementation().Token;
-	protected string ProjectID => XsollaSettings.StoreProjectId;
-
-	protected bool IsRequestPossible
+	public abstract class UserAttributesRequestBase : StoreActionResult
 	{
-		get
+		protected string Token => DemoController.Instance.GetImplementation().Token;
+		protected string ProjectID => XsollaSettings.StoreProjectId;
+
+		protected bool IsRequestPossible
 		{
-			bool requestPossible = true;
-
-			if (string.IsNullOrEmpty(Token))
+			get
 			{
-				Debug.LogError("UserAttributesRequestBase.IsRequestPossible: Token is null or empty, can not get or update user attributes. You must be logged in to request attributes");
-				requestPossible = false;
-			}
+				bool requestPossible = true;
 
-			if (string.IsNullOrEmpty(ProjectID))
-			{
-				Debug.LogError("UserAttributesRequestBase.IsRequestPossible: ProjectID is null or empty, can not get or update user attributes. You must specify Project ID in Xsolla settings");
-				requestPossible = false;
-			}
+				if (string.IsNullOrEmpty(Token))
+				{
+					Debug.LogError("UserAttributesRequestBase.IsRequestPossible: Token is null or empty, can not get or update user attributes. You must be logged in to request attributes");
+					requestPossible = false;
+				}
 
-			return requestPossible;
+				if (string.IsNullOrEmpty(ProjectID))
+				{
+					Debug.LogError("UserAttributesRequestBase.IsRequestPossible: ProjectID is null or empty, can not get or update user attributes. You must specify Project ID in Xsolla settings");
+					requestPossible = false;
+				}
+
+				return requestPossible;
+			}
 		}
 	}
 }

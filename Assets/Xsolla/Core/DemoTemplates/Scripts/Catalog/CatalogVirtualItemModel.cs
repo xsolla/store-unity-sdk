@@ -1,6 +1,9 @@
-public class CatalogVirtualItemModel : CatalogItemModel
+namespace Xsolla.Demo
 {
-	public override bool IsVirtualCurrency() => false;
-	public override bool IsSubscription() => false;
-	public override bool IsBundle() => false;
+	public class CatalogVirtualItemModel : CatalogItemModel
+	{
+		public override bool IsVirtualCurrency() => false;
+		public override bool IsSubscription() => false;
+		public override bool IsBundle() => false;
+	}
 }

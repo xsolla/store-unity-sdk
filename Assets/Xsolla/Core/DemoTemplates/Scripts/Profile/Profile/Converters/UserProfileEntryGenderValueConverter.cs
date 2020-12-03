@@ -1,24 +1,27 @@
-﻿public class UserProfileEntryGenderValueConverter : BaseUserProfileValueConverter
+﻿namespace Xsolla.Demo
 {
-	public override string Convert(string value)
+	public class UserProfileEntryGenderValueConverter : BaseUserProfileValueConverter
 	{
-		if (value == UserProfileGender.MALE_SHORT)
-			return UserProfileGender.MALE;
+		public override string Convert(string value)
+		{
+			if (value == UserProfileGender.MALE_SHORT)
+				return UserProfileGender.MALE;
 
-		if (value == UserProfileGender.FEMALE_SHORT)
-			return UserProfileGender.FEMALE;
+			if (value == UserProfileGender.FEMALE_SHORT)
+				return UserProfileGender.FEMALE;
 
-		return value;
-	}
+			return value;
+		}
 
-	public override string ConvertBack(string value)
-	{
-		if (value == UserProfileGender.MALE)
-			return UserProfileGender.MALE_SHORT;
+		public override string ConvertBack(string value)
+		{
+			if (value == UserProfileGender.MALE)
+				return UserProfileGender.MALE_SHORT;
 
-		if (value == UserProfileGender.FEMALE)
-			return UserProfileGender.FEMALE_SHORT;
+			if (value == UserProfileGender.FEMALE)
+				return UserProfileGender.FEMALE_SHORT;
 
-		return value;
+			return value;
+		}
 	}
 }

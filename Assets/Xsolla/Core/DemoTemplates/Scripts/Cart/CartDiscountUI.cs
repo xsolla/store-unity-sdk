@@ -1,15 +1,17 @@
-﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CartDiscountUI : MonoBehaviour
+namespace Xsolla.Demo
 {
-	[SerializeField]
-	Text discountAmount;
-
-	public void Initialize(float discount)
+	public class CartDiscountUI : MonoBehaviour
 	{
-		Debug.Log("Discount = " + discount);
-		discountAmount.text = $"- {PriceFormatter.FormatPrice(discount)}";
+		[SerializeField]
+		Text discountAmount = default;
+
+		public void Initialize(float discount)
+		{
+			Debug.Log("Discount = " + discount);
+			discountAmount.text = $"- {PriceFormatter.FormatPrice(discount)}";
+		}
 	}
 }

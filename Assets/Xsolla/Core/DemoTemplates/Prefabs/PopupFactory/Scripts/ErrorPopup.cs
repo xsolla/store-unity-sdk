@@ -1,16 +1,17 @@
-﻿using System;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
+using Xsolla.Demo;
 
 namespace Xsolla.Core.Popup
 {
 	[AddComponentMenu("Scripts/Xsolla.Core/Popup/ErrorPopup")]
 	public class ErrorPopup : MonoBehaviour, IErrorPopup
 	{
-		[SerializeField] private Text Title;
-		[SerializeField] private Text Message;
-		[SerializeField] private SimpleTextButton Button;
-		[SerializeField] private Text ButtonText;
+		[SerializeField] private Text Title = default;
+		[SerializeField] private Text Message = default;
+		[SerializeField] private SimpleTextButton Button = default;
+		[SerializeField] private Text ButtonText = default;
 
 		protected void Awake()
 		{

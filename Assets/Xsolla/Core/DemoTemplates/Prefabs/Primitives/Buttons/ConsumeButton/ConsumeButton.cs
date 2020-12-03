@@ -1,24 +1,27 @@
 ﻿using System;
 using UnityEngine;
 
-public class ConsumeButton : MonoBehaviour
+namespace Xsolla.Demo
 {
-	public SimpleTextButton consumeButton;
-	public Action onClick { get; set; }
-	public ValueCounter counter;
-
-	void Start()
+	public class ConsumeButton : MonoBehaviour
 	{
-		consumeButton.onClick = () =>
+		public SimpleTextButton consumeButton;
+		public Action onClick { get; set; }
+		public ValueCounter counter;
+
+		void Start()
 		{
-			if (counter > 0)
+			consumeButton.onClick = () =>
 			{
-				onClick?.Invoke();
-			}
-			else
-			{
-				Debug.Log("You try consume item with quantity = 0!");
-			}
-		};
+				if (counter > 0)
+				{
+					onClick?.Invoke();
+				}
+				else
+				{
+					Debug.Log("You try consume item with quantity = 0!");
+				}
+			};
+		}
 	}
 }

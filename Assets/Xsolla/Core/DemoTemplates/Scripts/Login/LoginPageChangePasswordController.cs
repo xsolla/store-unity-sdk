@@ -2,63 +2,63 @@
 using Xsolla.Core;
 using UnityEngine;
 using UnityEngine.UI;
-using Xsolla.Login;
 
-public class LoginPageChangePasswordController : LoginPageController
+namespace Xsolla.Demo
 {
-#pragma warning disable 0649
-	[SerializeField] InputField EmailInputField;
-	[SerializeField] SimpleButton ChangePasswordButton;
-#pragma warning restore 0649
-
-	private bool IsPasswordChangeInProgress
+	public class LoginPageChangePasswordController : LoginPageController
 	{
-		get => base.IsInProgress;
-		set
+		[SerializeField] InputField EmailInputField = default;
+		[SerializeField] SimpleButton ChangePasswordButton = default;
+
+		private bool IsPasswordChangeInProgress
 		{
-			if (value == true)
+			get => base.IsInProgress;
+			set
 			{
-				base.OnStarted?.Invoke();
-				Debug.Log("LoginPageChangePasswordController: Password reset started");
+				if (value == true)
+				{
+					base.OnStarted?.Invoke();
+					Debug.Log("LoginPageChangePasswordController: Password reset started");
+				}
+				else
+					Debug.Log("LoginPageChangePasswordController: Password reset ended");
+
+				base.IsInProgress = value;
 			}
-			else
-				Debug.Log("LoginPageChangePasswordController: Password reset ended");
-
-			base.IsInProgress = value;
 		}
-	}
 
-	private void Awake()
-	{
-		if (ChangePasswordButton != null)
-			ChangePasswordButton.onClick += PrepareAndRunPasswordChange;
-	}
-
-	private void PrepareAndRunPasswordChange()
-	{
-		RunPasswordChange(EmailInputField.text);
-	}
-
-	public void RunPasswordChange(string email)
-	{
-		if (IsPasswordChangeInProgress)
-			return;
-
-		IsPasswordChangeInProgress = true;
-
-		Action onSuccessfulPasswordChange = () =>
+		private void Awake()
 		{
-			Debug.Log("LoginPageChangePasswordController: Password change success");
-			base.OnSuccess?.Invoke();
-		};
+			if (ChangePasswordButton != null)
+				ChangePasswordButton.onClick += PrepareAndRunPasswordChange;
+		}
 
-		Action<Error> onFailedPasswordChange = error =>
+		private void PrepareAndRunPasswordChange()
 		{
-			Debug.LogError($"LoginPageChangePasswordController: Password change error: {error.ToString()}");
-			base.OnError?.Invoke(error);
-		};
+			RunPasswordChange(EmailInputField.text);
+		}
 
-		DemoController.Instance.GetImplementation().ResetPassword(email, onSuccessfulPasswordChange, onFailedPasswordChange);
-		IsPasswordChangeInProgress = false;
+		public void RunPasswordChange(string email)
+		{
+			if (IsPasswordChangeInProgress)
+				return;
+
+			IsPasswordChangeInProgress = true;
+
+			Action onSuccessfulPasswordChange = () =>
+			{
+				Debug.Log("LoginPageChangePasswordController: Password change success");
+				base.OnSuccess?.Invoke();
+			};
+
+			Action<Error> onFailedPasswordChange = error =>
+			{
+				Debug.LogError($"LoginPageChangePasswordController: Password change error: {error.ToString()}");
+				base.OnError?.Invoke(error);
+			};
+
+			DemoController.Instance.GetImplementation().ResetPassword(email, onSuccessfulPasswordChange, onFailedPasswordChange);
+			IsPasswordChangeInProgress = false;
+		}
 	}
 }

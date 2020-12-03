@@ -1,49 +1,53 @@
-﻿using UnityEngine;
+using UnityEngine;
 using Xsolla.Core;
+using Xsolla.Store;
 
-public partial class ItemsTabControl : MonoBehaviour
+namespace Xsolla.Demo
 {
-	[SerializeField] private MenuButton storeButton;
-	[SerializeField] private MenuButton inventoryButton;
-
-	private ItemsController _itemsController;
-	private GroupsController _groupsController;
-
-	public void Init()
+	public partial class ItemsTabControl : MonoBehaviour
 	{
-		_groupsController = FindObjectOfType<GroupsController>();
-		_itemsController = FindObjectOfType<ItemsController>();
+		[SerializeField] private MenuButton storeButton = default;
+		[SerializeField] private MenuButton inventoryButton = default;
 
-		storeButton.gameObject.SetActive(true);
-		inventoryButton.gameObject.SetActive(true);
+		private ItemsController _itemsController;
+		private GroupsController _groupsController;
 
-		storeButton.Select(false);
-		storeButton.onClick = _ => InternalActivateStoreTab();
-		inventoryButton.onClick = _ => InternalActivateInventoryTab();
-
-		InitHotKeys();
-	}
-
-	private void InternalActivateStoreTab()
-	{
-		inventoryButton.Deselect();
-
-		var selectedGroup = _groupsController.GetSelectedGroup();
-		if (selectedGroup != null)
+		public void Init()
 		{
-			_itemsController.ActivateContainer(selectedGroup.Id);
+			_groupsController = FindObjectOfType<GroupsController>();
+			_itemsController = FindObjectOfType<ItemsController>();
+
+			storeButton.gameObject.SetActive(true);
+			inventoryButton.gameObject.SetActive(true);
+
+			storeButton.Select(false);
+			storeButton.onClick = _ => InternalActivateStoreTab();
+			inventoryButton.onClick = _ => InternalActivateInventoryTab();
+
+			InitHotKeys();
 		}
-	}
 
-	private void InternalActivateInventoryTab()
-	{
-		storeButton.Deselect();
-		_itemsController.ActivateContainer(StoreConstants.INVENTORY_CONTAINER_NAME);
-	}
+		private void InternalActivateStoreTab()
+		{
+			inventoryButton.Deselect();
 
-	public void ActivateStoreTab()
-	{
-		storeButton.Select(false);
-		inventoryButton.Deselect();
+			var selectedGroup = _groupsController.GetSelectedGroup();
+			if (selectedGroup != null)
+			{
+				_itemsController.ActivateContainer(selectedGroup.Id);
+			}
+		}
+
+		private void InternalActivateInventoryTab()
+		{
+			storeButton.Deselect();
+			_itemsController.ActivateContainer(StoreConstants.INVENTORY_CONTAINER_NAME);
+		}
+
+		public void ActivateStoreTab()
+		{
+			storeButton.Select(false);
+			inventoryButton.Deselect();
+		}
 	}
 }

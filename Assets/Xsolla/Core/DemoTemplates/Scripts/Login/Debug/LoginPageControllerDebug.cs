@@ -1,12 +1,15 @@
 ﻿using UnityEngine;
 
-public class LoginPageControllerDebug : MonoBehaviour
+namespace Xsolla.Demo
 {
-	private void Awake()
+	public class LoginPageControllerDebug : MonoBehaviour
 	{
-		var loginPage = GetComponent<LoginPageController>();
+		private void Awake()
+		{
+			var loginPage = GetComponent<LoginPageController>();
 
-		loginPage.OnSuccess += () => Debug.Log($"LoginPageControllerDebug: SUCCESSFUL ACTION");
-		loginPage.OnError += error => Debug.LogError($"LoginPageControllerDebug: ACTION ERROR: {error}");
+			loginPage.OnSuccess += () => Debug.Log($"LoginPageControllerDebug: SUCCESSFUL ACTION");
+			loginPage.OnError += error => Debug.LogError($"LoginPageControllerDebug: ACTION ERROR: {error}");
+		}
 	}
 }

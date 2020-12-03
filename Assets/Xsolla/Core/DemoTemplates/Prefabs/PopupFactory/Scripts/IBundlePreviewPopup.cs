@@ -1,4 +1,4 @@
-﻿using System;
+using Xsolla.Demo;
 
 namespace Xsolla.Core.Popup
 {

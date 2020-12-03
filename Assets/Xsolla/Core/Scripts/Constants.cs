@@ -1,4 +1,4 @@
-﻿namespace Xsolla.Core
+namespace Xsolla.Core
 {
 	public static partial class Constants
 	{

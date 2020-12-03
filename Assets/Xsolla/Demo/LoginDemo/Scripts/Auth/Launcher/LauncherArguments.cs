@@ -2,23 +2,26 @@
 using System.Linq;
 using Xsolla.Core;
 
-public class LauncherArguments : MonoSingleton<LauncherArguments>
+namespace Xsolla.Demo
 {
-    const string LAUNCHER_TOKEN = "xsolla-login-jwt";
-
-    private bool invalidated = false;
-
-    public string GetToken()
+	public class LauncherArguments : MonoSingleton<LauncherArguments>
 	{
-		if(invalidated || Environment.GetCommandLineArgs().Count(a => a.Contains(LAUNCHER_TOKEN)) == 0) {
-            return string.Empty;
+		const string LAUNCHER_TOKEN = "xsolla-login-jwt";
+
+		private bool invalidated = false;
+
+		public string GetToken()
+		{
+			if(invalidated || Environment.GetCommandLineArgs().Count(a => a.Contains(LAUNCHER_TOKEN)) == 0) {
+				return string.Empty;
+			}
+			var str = Environment.GetCommandLineArgs().First(a => a.Contains(LAUNCHER_TOKEN));
+			return !string.IsNullOrEmpty(str) ? str.Split('=')[1] : string.Empty;
 		}
-		var str = Environment.GetCommandLineArgs().First(a => a.Contains(LAUNCHER_TOKEN));
-        return !string.IsNullOrEmpty(str) ? str.Split('=')[1] : string.Empty;
-	}
 
-	public void InvalidateTokenArguments()
-	{
-        invalidated = true;
-    }
+		public void InvalidateTokenArguments()
+		{
+			invalidated = true;
+		}
+	}
 }

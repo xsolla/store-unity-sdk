@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
+using Xsolla.Core;
 
-public class SocialProviderContainer : MonoBehaviour
+namespace Xsolla.Demo
 {
-	public SocialProvider SocialProvider;
+	public class SocialProviderContainer : MonoBehaviour
+	{
+		public SocialProvider SocialProvider;
+	}
 }

@@ -1,27 +1,28 @@
-﻿using UnityEngine;
+using UnityEngine;
 
-[RequireComponent(typeof(LogInHotkeys))]
-public class OnEnterButtonPresser : MonoBehaviour
+namespace Xsolla.Demo
 {
-#pragma warning disable 0649
-	[SerializeField] SimpleButton Button;
-#pragma warning restore 0649
-
-	private void Awake()
+	[RequireComponent(typeof(LogInHotkeys))]
+	public class OnEnterButtonPresser : MonoBehaviour
 	{
-		this.GetComponent<LogInHotkeys>().EnterKeyPressedEvent += TryPressButton;
-	}
+		[SerializeField] SimpleButton Button = default;
 
-	private void TryPressButton()
-	{
-		if (Button is SimpleButtonLockDecorator lockableButton)
+		private void Awake()
 		{
-			if (!lockableButton.IsLocked())
-				lockableButton.onClick?.Invoke();
+			this.GetComponent<LogInHotkeys>().EnterKeyPressedEvent += TryPressButton;
 		}
-		else
+
+		private void TryPressButton()
 		{
-			Button.onClick?.Invoke();
+			if (Button is SimpleButtonLockDecorator lockableButton)
+			{
+				if (!lockableButton.IsLocked())
+					lockableButton.onClick?.Invoke();
+			}
+			else
+			{
+				Button.onClick?.Invoke();
+			}
 		}
 	}
 }

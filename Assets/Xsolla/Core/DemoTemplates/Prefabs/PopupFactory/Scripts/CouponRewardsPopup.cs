@@ -1,13 +1,14 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
+using Xsolla.Demo;
 
 namespace Xsolla.Core.Popup
 {
 	[AddComponentMenu("Scripts/Xsolla.Core/Popup/CouponRewardsPopup")]
 	public class CouponRewardsPopup : MonoBehaviour, ICouponRewardsPopup
 	{
-		[SerializeField] private GameObject itemPrefab;
-		[SerializeField] private ItemContainer itemsContainer;
+		[SerializeField] private GameObject itemPrefab = default;
+		[SerializeField] private ItemContainer itemsContainer = default;
 
 		public ICouponRewardsPopup SetItems(List<CouponRedeemedItemModel> items)
 		{

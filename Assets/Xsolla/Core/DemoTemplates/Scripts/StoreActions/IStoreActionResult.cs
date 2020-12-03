@@ -1,8 +1,11 @@
 ﻿using System;
 using Xsolla.Core;
 
-public interface IStoreActionResult
+namespace Xsolla.Demo
 {
-	Action OnSuccess { get; set; }
-	Action<Error> OnError { get; set; }
+	public interface IStoreActionResult
+	{
+		Action OnSuccess { get; set; }
+		Action<Error> OnError { get; set; }
+	}
 }

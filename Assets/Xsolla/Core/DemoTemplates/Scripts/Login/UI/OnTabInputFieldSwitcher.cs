@@ -1,38 +1,39 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(LogInHotkeys))]
-public class OnTabInputFieldSwitcher : MonoBehaviour
+namespace Xsolla.Demo
 {
-#pragma warning disable 0649
-	[SerializeField] InputField[] InputFields;
-#pragma warning restore 0649
-
-	private int _currentField = -1;
-
-	private void Awake()
+	[RequireComponent(typeof(LogInHotkeys))]
+	public class OnTabInputFieldSwitcher : MonoBehaviour
 	{
-		this.GetComponent<LogInHotkeys>().TabKeyPressedEvent += SwitchToNextInputField;
+		[SerializeField] InputField[] InputFields = default;
 
-		for (int i = 0; i < InputFields.Length; i++)
+		private int _currentField = -1;
+
+		private void Awake()
 		{
-			int index = i;
-			InputFields[i].onValueChanged.AddListener(_ => SetCurrentField(index));
+			this.GetComponent<LogInHotkeys>().TabKeyPressedEvent += SwitchToNextInputField;
+
+			for (int i = 0; i < InputFields.Length; i++)
+			{
+				int index = i;
+				InputFields[i].onValueChanged.AddListener(_ => SetCurrentField(index));
+			}
 		}
-	}
 
-	private void SwitchToNextInputField()
-	{
-		_currentField++;
+		private void SwitchToNextInputField()
+		{
+			_currentField++;
 
-		if(_currentField >= InputFields.Length)
-			_currentField = 0;
+			if(_currentField >= InputFields.Length)
+				_currentField = 0;
 
-		InputFields[_currentField].Select();
-	}
+			InputFields[_currentField].Select();
+		}
 
-	private void SetCurrentField(int index)
-	{
-		_currentField = index;
+		private void SetCurrentField(int index)
+		{
+			_currentField = index;
+		}
 	}
 }

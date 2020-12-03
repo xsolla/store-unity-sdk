@@ -1,11 +1,14 @@
 using System;
 
-public class CatalogSubscriptionItemModel : CatalogItemModel
+namespace Xsolla.Demo
 {
-	public override bool IsVirtualCurrency() => false;
-	public override bool IsSubscription() => true;
-	public override bool IsBundle() => false;
+	public class CatalogSubscriptionItemModel : CatalogItemModel
+	{
+		public override bool IsVirtualCurrency() => false;
+		public override bool IsSubscription() => true;
+		public override bool IsBundle() => false;
 	
-	public TimeSpan ExpirationPeriod { get; set; }
-	public string ExpirationPeriodText { get; set; }
+		public TimeSpan ExpirationPeriod { get; set; }
+		public string ExpirationPeriodText { get; set; }
+	}
 }

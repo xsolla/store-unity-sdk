@@ -2,27 +2,30 @@
 using UnityEngine;
 using Xsolla.Core;
 
-public class SavedTokenAuth : StoreStringActionResult, ILoginAuthorization
+namespace Xsolla.Demo
 {
-	public void TryAuth(params object[] args)
+	public class SavedTokenAuth : StoreStringActionResult, ILoginAuthorization
 	{
-		StartCoroutine(LoadToken());
-	}
-
-	private IEnumerator LoadToken()
-	{
-		if (XsollaSettings.AuthorizationType == AuthorizationType.OAuth2_0)
-			yield return new WaitWhile(() => DemoController.Instance.GetImplementation().IsOAuthTokenRefreshInProgress);
-
-		if (DemoController.Instance.GetImplementation().LoadToken(Constants.LAST_SUCCESS_AUTH_TOKEN, out var token))
+		public void TryAuth(params object[] args)
 		{
-			Debug.Log("SavedTokenAuth.TryAuth: Token loaded");
-			base.OnSuccess?.Invoke(token);
+			StartCoroutine(LoadToken());
 		}
-		else
+
+		private IEnumerator LoadToken()
 		{
-			Debug.Log("SavedTokenAuth.TryAuth: No token");
-			base.OnError?.Invoke(null);
+			if (XsollaSettings.AuthorizationType == AuthorizationType.OAuth2_0)
+				yield return new WaitWhile(() => DemoController.Instance.GetImplementation().IsOAuthTokenRefreshInProgress);
+
+			if (DemoController.Instance.GetImplementation().LoadToken(Constants.LAST_SUCCESS_AUTH_TOKEN, out var token))
+			{
+				Debug.Log("SavedTokenAuth.TryAuth: Token loaded");
+				base.OnSuccess?.Invoke(token);
+			}
+			else
+			{
+				Debug.Log("SavedTokenAuth.TryAuth: No token");
+				base.OnError?.Invoke(null);
+			}
 		}
 	}
 }

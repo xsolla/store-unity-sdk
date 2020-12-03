@@ -2,10 +2,13 @@
 using UnityEngine;
 using Xsolla.Core;
 
-public abstract class LoginPageController : MonoBehaviour, IStoreActionResult, IStoreActionProgress
+namespace Xsolla.Demo
 {
-	public Action OnStarted { get; set; }
-	public Action OnSuccess { get; set; }
-	public Action<Error> OnError { get; set; }
-	public bool IsInProgress { get; protected set; }
+	public abstract class LoginPageController : MonoBehaviour, IStoreActionResult, IStoreActionProgress
+	{
+		public Action OnStarted { get; set; }
+		public Action OnSuccess { get; set; }
+		public Action<Error> OnError { get; set; }
+		public bool IsInProgress { get; protected set; }
+	}
 }

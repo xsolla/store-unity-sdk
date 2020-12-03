@@ -9,8 +9,8 @@ namespace Xsolla.Store
 		[Serializable]
 		private class CalculatedPrice
 		{
-			public string amount;
-			public string amount_without_discount;
+			public string amount = default;
+			public string amount_without_discount = default;
 		}
 		public string sku;
 		public string name;
@@ -19,7 +19,7 @@ namespace Xsolla.Store
 		public string image_url;
 		public uint amount;
 		public uint amount_without_discount;
-		[JsonProperty]private CalculatedPrice calculated_price;
+		[JsonProperty]private CalculatedPrice calculated_price = default;
 		public bool is_default;
 		
 
@@ -44,4 +44,3 @@ namespace Xsolla.Store
 		}
 	}
 }
-

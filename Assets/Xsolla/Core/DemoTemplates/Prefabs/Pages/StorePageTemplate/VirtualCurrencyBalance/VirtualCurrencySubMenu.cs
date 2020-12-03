@@ -1,19 +1,22 @@
-﻿using UnityEngine;
+using UnityEngine;
 
-public class VirtualCurrencySubMenu : MonoBehaviour
+namespace Xsolla.Demo
 {
-	[SerializeField] private SimpleButton buyCurrencyButton;
-	[SerializeField] private GameObject virtualCurrencyBalance;
-
-	private void Start()
+	public class VirtualCurrencySubMenu : MonoBehaviour
 	{
-		if (!DemoController.Instance.IsStateAvailable(MenuState.BuyCurrency))
-		{
-			buyCurrencyButton.gameObject.SetActive(false);
+		[SerializeField] private SimpleButton buyCurrencyButton = default;
+		[SerializeField] private GameObject virtualCurrencyBalance = default;
 
-			var balancePosition = virtualCurrencyBalance.GetComponent<RectTransform>().anchoredPosition;
-			balancePosition.x = 0;
-			virtualCurrencyBalance.GetComponent<RectTransform>().anchoredPosition = balancePosition;
+		private void Start()
+		{
+			if (!DemoController.Instance.IsStateAvailable(MenuState.BuyCurrency))
+			{
+				buyCurrencyButton.gameObject.SetActive(false);
+
+				var balancePosition = virtualCurrencyBalance.GetComponent<RectTransform>().anchoredPosition;
+				balancePosition.x = 0;
+				virtualCurrencyBalance.GetComponent<RectTransform>().anchoredPosition = balancePosition;
+			}
 		}
 	}
 }

@@ -1,56 +1,55 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class CursorChanger : MonoBehaviour
+namespace Xsolla.Demo
 {
-#pragma warning disable 0649
-	[SerializeField] private Texture2D ButtonHoverCursor;
-	[SerializeField] private Texture2D InputFieldHoverCursor;
-#pragma warning restore 0649
-
-	private void Awake()
+	public class CursorChanger : MonoBehaviour
 	{
-		SimpleButton.OnCursorEnter += ChangeToButtonHoverCursor;
-		SimpleButton.OnCursorExit += ChangeBackToDefault;
+		[SerializeField] private Texture2D ButtonHoverCursor = default;
+		[SerializeField] private Texture2D InputFieldHoverCursor = default;
+
+		private void Awake()
+		{
+			SimpleButton.OnCursorEnter += ChangeToButtonHoverCursor;
+			SimpleButton.OnCursorExit += ChangeBackToDefault;
 		
-		AddToCartButton.OnCursorEnter += ChangeToButtonHoverCursor;
-		AddToCartButton.OnCursorExit += ChangeBackToDefault;
+			AddToCartButton.OnCursorEnter += ChangeToButtonHoverCursor;
+			AddToCartButton.OnCursorExit += ChangeBackToDefault;
 
-		MenuButton.OnCursorEnter += ChangeToButtonHoverCursor;
-		MenuButton.OnCursorExit += ChangeBackToDefault;
+			MenuButton.OnCursorEnter += ChangeToButtonHoverCursor;
+			MenuButton.OnCursorExit += ChangeBackToDefault;
 
-		InputFieldCursorEventProvider.OnCursorEnter += ChangeToInputFieldHoverCursor;
-		InputFieldCursorEventProvider.OnCursorExit += ChangeBackToDefault;
+			InputFieldCursorEventProvider.OnCursorEnter += ChangeToInputFieldHoverCursor;
+			InputFieldCursorEventProvider.OnCursorExit += ChangeBackToDefault;
 		
-		BlurSelectedUser.OnActivated += ChangeToButtonHoverCursor;
-		BlurSelectedUser.OnDeactivated += ChangeBackToDefault;
-	}
+			BlurSelectedUser.OnActivated += ChangeToButtonHoverCursor;
+			BlurSelectedUser.OnDeactivated += ChangeBackToDefault;
+		}
 
-	private void OnDestroy()
-	{
-		SimpleButton.OnCursorEnter -= ChangeToButtonHoverCursor;
-		SimpleButton.OnCursorExit -= ChangeBackToDefault;
+		private void OnDestroy()
+		{
+			SimpleButton.OnCursorEnter -= ChangeToButtonHoverCursor;
+			SimpleButton.OnCursorExit -= ChangeBackToDefault;
 		
-		AddToCartButton.OnCursorEnter -= ChangeToButtonHoverCursor;
-		AddToCartButton.OnCursorExit -= ChangeBackToDefault;
+			AddToCartButton.OnCursorEnter -= ChangeToButtonHoverCursor;
+			AddToCartButton.OnCursorExit -= ChangeBackToDefault;
 
-		MenuButton.OnCursorEnter -= ChangeToButtonHoverCursor;
-		MenuButton.OnCursorExit -= ChangeBackToDefault;
+			MenuButton.OnCursorEnter -= ChangeToButtonHoverCursor;
+			MenuButton.OnCursorExit -= ChangeBackToDefault;
 
-		InputFieldCursorEventProvider.OnCursorEnter -= ChangeToInputFieldHoverCursor;
-		InputFieldCursorEventProvider.OnCursorExit -= ChangeBackToDefault;
+			InputFieldCursorEventProvider.OnCursorEnter -= ChangeToInputFieldHoverCursor;
+			InputFieldCursorEventProvider.OnCursorExit -= ChangeBackToDefault;
 		
-		BlurSelectedUser.OnActivated -= ChangeToButtonHoverCursor;
-		BlurSelectedUser.OnDeactivated -= ChangeBackToDefault;
-	}
+			BlurSelectedUser.OnActivated -= ChangeToButtonHoverCursor;
+			BlurSelectedUser.OnDeactivated -= ChangeBackToDefault;
+		}
 
-	private void ChangeToButtonHoverCursor() => SetCursorTexture(ButtonHoverCursor);
-	private void ChangeToInputFieldHoverCursor() => SetCursorTexture(InputFieldHoverCursor);
-	private void ChangeBackToDefault() => SetCursorTexture(null);
+		private void ChangeToButtonHoverCursor() => SetCursorTexture(ButtonHoverCursor);
+		private void ChangeToInputFieldHoverCursor() => SetCursorTexture(InputFieldHoverCursor);
+		private void ChangeBackToDefault() => SetCursorTexture(null);
 
-	private void SetCursorTexture(Texture2D texture)
-	{
-		Cursor.SetCursor(texture, Vector2.zero, CursorMode.ForceSoftware);
+		private void SetCursorTexture(Texture2D texture)
+		{
+			Cursor.SetCursor(texture, Vector2.zero, CursorMode.ForceSoftware);
+		}
 	}
 }

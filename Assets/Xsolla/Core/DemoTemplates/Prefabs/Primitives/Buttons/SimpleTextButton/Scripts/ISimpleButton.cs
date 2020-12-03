@@ -1,11 +1,12 @@
-﻿using System;
-using UnityEngine.EventSystems;
+﻿using UnityEngine.EventSystems;
 
-public interface ISimpleButton :
-	IPointerDownHandler,
-	IPointerEnterHandler,
-	IPointerExitHandler,
-	IPointerUpHandler,
-	IDragHandler
+namespace Xsolla.Demo
 {
+	public interface ISimpleButton :
+		IPointerDownHandler,
+		IPointerEnterHandler,
+		IPointerExitHandler,
+		IPointerUpHandler,
+		IDragHandler
+	{	}
 }

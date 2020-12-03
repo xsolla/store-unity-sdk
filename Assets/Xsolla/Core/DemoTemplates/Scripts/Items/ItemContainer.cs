@@ -1,55 +1,58 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ItemContainer : MonoBehaviour
+namespace Xsolla.Demo
 {
-	[SerializeField] Transform itemParent;
-	[SerializeField] Text emptyMessageText;
-
-	private readonly List<GameObject> _items = new List<GameObject>();
-
-	private void Awake()
+	public class ItemContainer : MonoBehaviour
 	{
-		DisableEmptyContainerMessage();
-	}
+		[SerializeField] Transform itemParent = default;
+		[SerializeField] Text emptyMessageText = default;
 
-	public bool IsEmpty()
-	{
-		return _items.Count == 0;
-	}
+		private readonly List<GameObject> _items = new List<GameObject>();
 
-	public GameObject AddItem(GameObject itemPrefab)
-	{
-		var itemObject = Instantiate(itemPrefab, itemParent);
-		_items.Add(itemObject);
-		return itemObject;
-	}
+		private void Awake()
+		{
+			DisableEmptyContainerMessage();
+		}
 
-	public void RemoveItem(GameObject itemForRemove)
-	{
-		if (!_items.Contains(itemForRemove)) return;
-		_items.Remove(itemForRemove);
-		Destroy(itemForRemove);
-	}
+		public bool IsEmpty()
+		{
+			return _items.Count == 0;
+		}
 
-	public void Clear()
-	{
-		_items.ForEach(Destroy);
-		_items.Clear();
-	}
+		public GameObject AddItem(GameObject itemPrefab)
+		{
+			var itemObject = Instantiate(itemPrefab, itemParent);
+			_items.Add(itemObject);
+			return itemObject;
+		}
 
-	public void EnableEmptyContainerMessage(string text = null)
-	{
-		if(emptyMessageText == null) return;
-		emptyMessageText.gameObject.SetActive(true);
-		if (!string.IsNullOrEmpty(text))
-			emptyMessageText.text = text;
-	}
+		public void RemoveItem(GameObject itemForRemove)
+		{
+			if (!_items.Contains(itemForRemove)) return;
+			_items.Remove(itemForRemove);
+			Destroy(itemForRemove);
+		}
 
-	public void DisableEmptyContainerMessage()
-	{
-		if(emptyMessageText == null) return;
-		emptyMessageText.gameObject.SetActive(false);
+		public void Clear()
+		{
+			_items.ForEach(Destroy);
+			_items.Clear();
+		}
+
+		public void EnableEmptyContainerMessage(string text = null)
+		{
+			if(emptyMessageText == null) return;
+			emptyMessageText.gameObject.SetActive(true);
+			if (!string.IsNullOrEmpty(text))
+				emptyMessageText.text = text;
+		}
+
+		public void DisableEmptyContainerMessage()
+		{
+			if(emptyMessageText == null) return;
+			emptyMessageText.gameObject.SetActive(false);
+		}
 	}
 }

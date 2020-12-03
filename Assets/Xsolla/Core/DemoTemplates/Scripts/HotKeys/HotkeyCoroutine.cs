@@ -2,78 +2,81 @@
 using System.Collections;
 using UnityEngine;
 
-public class HotkeyCoroutine : MonoBehaviour
+namespace Xsolla.Demo
 {
-	public event Action KeyPressedEvent;
-	private KeyCode _keyCode;
-	private float _timeout;
-	private Coroutine _coroutine;
-	private static bool m_isLocked;
-
-	public HotkeyCoroutine StartCoroutine(KeyCode keyCode, float timeout = 0.4F)
+	public class HotkeyCoroutine : MonoBehaviour
 	{
-		_keyCode = keyCode;
-		_timeout = timeout;
-		stopCoroutine();
-		startCoroutine();
-		return this;
-	}
+		public event Action KeyPressedEvent;
+		private KeyCode _keyCode;
+		private float _timeout;
+		private Coroutine _coroutine;
+		private static bool m_isLocked;
 
-	public static void Lock()
-	{
-		m_isLocked = true;
-	}
-
-	public static void Unlock()
-	{
-		m_isLocked = false;
-	}
-
-	public static bool IsLocked()
-	{
-		return m_isLocked;
-	}
-
-	private void OnEnable()
-	{
-		startCoroutine();
-	}
-
-	private void OnDisable()
-	{
-		stopCoroutine();
-	}
-
-	private void OnDestroy()
-	{
-		StopAllCoroutines();
-	}
-
-	void startCoroutine()
-	{
-		if (_coroutine == null)
+		public HotkeyCoroutine StartCoroutine(KeyCode keyCode, float timeout = 0.4F)
 		{
-			_coroutine = StartCoroutine(SomeHotkeyCoroutine());
+			_keyCode = keyCode;
+			_timeout = timeout;
+			stopCoroutine();
+			startCoroutine();
+			return this;
 		}
-	}
 
-	void stopCoroutine()
-	{
-		if (_coroutine != null)
+		public static void Lock()
 		{
-			StopCoroutine(_coroutine);
-			_coroutine = null;
+			m_isLocked = true;
 		}
-	}
 
-	IEnumerator SomeHotkeyCoroutine()
-	{
-		while (true)
+		public static void Unlock()
 		{
-			yield return new WaitForSeconds(_timeout);
-			yield return new WaitUntil(() => Input.GetKeyDown(_keyCode));
-			if (!m_isLocked)
-				KeyPressedEvent?.Invoke();
+			m_isLocked = false;
+		}
+
+		public static bool IsLocked()
+		{
+			return m_isLocked;
+		}
+
+		private void OnEnable()
+		{
+			startCoroutine();
+		}
+
+		private void OnDisable()
+		{
+			stopCoroutine();
+		}
+
+		private void OnDestroy()
+		{
+			StopAllCoroutines();
+		}
+
+		void startCoroutine()
+		{
+			if (_coroutine == null)
+			{
+				_coroutine = StartCoroutine(SomeHotkeyCoroutine());
+			}
+		}
+
+		void stopCoroutine()
+		{
+			if (_coroutine != null)
+			{
+				StopCoroutine(_coroutine);
+				_coroutine = null;
+			}
+		}
+
+		IEnumerator SomeHotkeyCoroutine()
+		{
+			while (true)
+			{
+				yield return new WaitForSeconds(_timeout);
+				yield return new WaitUntil(() => Input.GetKeyDown(_keyCode));
+				if (!m_isLocked)
+					KeyPressedEvent?.Invoke();
+			}
 		}
 	}
 }

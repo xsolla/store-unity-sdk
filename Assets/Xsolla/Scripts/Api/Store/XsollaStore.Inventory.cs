@@ -33,7 +33,6 @@ namespace Xsolla.Store
 
 		/// <summary>
 		/// Consumes item from inventory.
-		/// Please note: API supports consuming of only one item now (quantity = 1).
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Consume item</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/store-api/inventory-client/consume-item"/>

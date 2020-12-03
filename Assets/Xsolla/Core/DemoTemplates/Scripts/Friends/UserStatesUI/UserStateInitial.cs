@@ -1,12 +1,15 @@
-﻿public class UserStateInitial : BaseUserStateUI
+﻿namespace Xsolla.Demo
 {
-    protected override void InitUserButtons(FriendButtonsUI buttons)
-    {
-        EnableAddFriendButton();
-    }
+	public class UserStateInitial : BaseUserStateUI
+	{
+		protected override void InitUserButtons(FriendButtonsUI buttons)
+		{
+			EnableAddFriendButton();
+		}
 
-    protected override void InitUserActionsButton(FriendActionsButton actionsButton)
-    {
-        EnableBlockUserOption();
-    }
+		protected override void InitUserActionsButton(FriendActionsButton actionsButton)
+		{
+			EnableBlockUserOption();
+		}
+	}
 }

@@ -1,17 +1,18 @@
-﻿using System;
+using System;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.UI;
+using Xsolla.Demo;
 
 namespace Xsolla.Core.Popup
 {
 	[AddComponentMenu("Scripts/Xsolla.Core/Popup/SuccessPopup")]
 	public class SuccessPopup : MonoBehaviour, ISuccessPopup
 	{
-		[SerializeField] private Text title;
-		[SerializeField] private Text message;
-		[SerializeField] private SimpleTextButton button;
-		[SerializeField] private Text buttonText;
+		[SerializeField] private Text title = default;
+		[SerializeField] private Text message = default;
+		[SerializeField] private SimpleTextButton button = default;
+		[SerializeField] private Text buttonText = default;
 
 		private void Awake()
 		{

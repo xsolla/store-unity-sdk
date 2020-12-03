@@ -1,22 +1,23 @@
 ﻿using UnityEngine;
 
-public class SimpleTextButtonDisableable : SimpleTextButton
+namespace Xsolla.Demo
 {
-#pragma warning disable 0649
-	[SerializeField] Sprite disabledStateSprite;
-	[SerializeField] Color disabledTextColor;
-#pragma warning restore 0649
-
-	public void Disable()
+	public class SimpleTextButtonDisableable : SimpleTextButton
 	{
-		base.Lock();
-		base.SetImageSprite(disabledStateSprite);
-		base.ButtonTextComponent.color = disabledTextColor;
-	}
+		[SerializeField] Sprite disabledStateSprite = default;
+		[SerializeField] Color disabledTextColor = default;
 
-	public void Enable()
-	{
-		base.Unlock();
-		base.OnNormal();
+		public void Disable()
+		{
+			base.Lock();
+			base.SetImageSprite(disabledStateSprite);
+			base.ButtonTextComponent.color = disabledTextColor;
+		}
+
+		public void Enable()
+		{
+			base.Unlock();
+			base.OnNormal();
+		}
 	}
 }

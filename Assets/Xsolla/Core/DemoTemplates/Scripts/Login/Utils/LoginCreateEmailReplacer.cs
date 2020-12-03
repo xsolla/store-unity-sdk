@@ -1,26 +1,27 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LoginCreateEmailReplacer : MonoBehaviour
+namespace Xsolla.Demo
 {
-#pragma warning disable 0649
-	[SerializeField] Text EmailText;
-#pragma warning restore 0649
+	public class LoginCreateEmailReplacer : MonoBehaviour
+	{
+		[SerializeField] Text EmailText = default;
 
-	private string _emailTextTemplate = "{email@domen.com}";
+		private string _emailTextTemplate = "{email@domen.com}";
 
-	// Start is called before the first frame update
-	void Start()
-    {
-		var createAccountEmail = LoginPageCreateController.LastEmail;
-
-		if (!string.IsNullOrEmpty(createAccountEmail))
+		// Start is called before the first frame update
+		void Start()
 		{
-			var currentMessage = EmailText.text;
-			var modifiedMessage = currentMessage.Replace(_emailTextTemplate, createAccountEmail);
-			EmailText.text = modifiedMessage;
-		}
+			var createAccountEmail = LoginPageCreateController.LastEmail;
 
-		LoginPageCreateController.DropLastCredentials();
-    }
+			if (!string.IsNullOrEmpty(createAccountEmail))
+			{
+				var currentMessage = EmailText.text;
+				var modifiedMessage = currentMessage.Replace(_emailTextTemplate, createAccountEmail);
+				EmailText.text = modifiedMessage;
+			}
+
+			LoginPageCreateController.DropLastCredentials();
+		}
+	}
 }

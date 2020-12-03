@@ -1,4 +1,7 @@
-﻿public enum UserProfileEntryType
+﻿namespace Xsolla.Demo
 {
-	Email, Password, Username, Nickname, PhoneNumber, FirstName, LastName, DateOfBirth, Gender
+	public enum UserProfileEntryType
+	{
+		Email, Password, Username, Nickname, PhoneNumber, FirstName, LastName, DateOfBirth, Gender
+	}
 }

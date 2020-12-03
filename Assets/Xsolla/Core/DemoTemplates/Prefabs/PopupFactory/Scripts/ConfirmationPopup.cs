@@ -1,18 +1,19 @@
-﻿using System;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
+using Xsolla.Demo;
 
 namespace Xsolla.Core.Popup
 {
 	[AddComponentMenu("Scripts/Xsolla.Core/Popup/ConfirmationPopup")]
 	public class ConfirmationPopup : MonoBehaviour, IConfirmationPopup
 	{
-		[SerializeField] private Text Title;
-		[SerializeField] private Text Message;
-		[SerializeField] private SimpleTextButton ConfirmButton;
-		[SerializeField] private Text ConfirmButtonText;
-		[SerializeField] private SimpleTextButton CancelButton;
-		[SerializeField] private Text CancelButtonText;
+		[SerializeField] private Text Title = default;
+		[SerializeField] private Text Message = default;
+		[SerializeField] private SimpleTextButton ConfirmButton = default;
+		[SerializeField] private Text ConfirmButtonText = default;
+		[SerializeField] private SimpleTextButton CancelButton = default;
+		[SerializeField] private Text CancelButtonText = default;
 
 		private void Awake()
 		{

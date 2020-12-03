@@ -1,29 +1,30 @@
 using UnityEngine;
 using Xsolla.Core;
 
-public class OpenUrlOnClick : MonoBehaviour
+namespace Xsolla.Demo
 {
-#pragma warning disable 0649
-	[SerializeField] private SimpleButton Button;
-	[SerializeField] private UrlType UrlType;
-#pragma warning restore 0649
-
-	private string _url;
-
-	public string URL
+	public class OpenUrlOnClick : MonoBehaviour
 	{
-		get => _url;
-		set => _url = value;
-	}
+		[SerializeField] private SimpleButton Button = default;
+		[SerializeField] private UrlType UrlType = default;
 
-	private void Awake()
-	{
-		Button.onClick += OpenUrl;
-		URL = DemoController.Instance.UrlContainer.GetUrl(UrlType);
-	}
+		private string _url;
 
-	private void OpenUrl()
-	{
-		BrowserHelper.Instance.Open(URL);
+		public string URL
+		{
+			get => _url;
+			set => _url = value;
+		}
+
+		private void Awake()
+		{
+			Button.onClick += OpenUrl;
+			URL = DemoController.Instance.UrlContainer.GetUrl(UrlType);
+		}
+
+		private void OpenUrl()
+		{
+			BrowserHelper.Instance.Open(URL);
+		}
 	}
 }

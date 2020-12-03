@@ -1,35 +1,38 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 using Xsolla.Core;
 
-public class CouponRewardItemUI : MonoBehaviour
+namespace Xsolla.Demo
 {
-	[SerializeField] Image itemImage;
-	[SerializeField] Text itemName;
-	[SerializeField] Text itemDescription;
-	[SerializeField] Text itemQuantity;
-
-	public void Initialize(CouponRedeemedItemModel rewardItem)
+	public class CouponRewardItemUI : MonoBehaviour
 	{
-		itemName.text = rewardItem.Name;
-		itemDescription.text = rewardItem.Description;
-		itemQuantity.text = rewardItem.Quantity.ToString();
+		[SerializeField] Image itemImage = default;
+		[SerializeField] Text itemName = default;
+		[SerializeField] Text itemDescription = default;
+		[SerializeField] Text itemQuantity = default;
 
-		if (itemImage.sprite != null)
+		public void Initialize(CouponRedeemedItemModel rewardItem)
 		{
-			if (!string.IsNullOrEmpty(rewardItem.ImageUrl))
+			itemName.text = rewardItem.Name;
+			itemDescription.text = rewardItem.Description;
+			itemQuantity.text = rewardItem.Quantity.ToString();
+
+			if (itemImage.sprite != null)
 			{
-				ImageLoader.Instance.GetImageAsync(rewardItem.ImageUrl, LoadImageCallback);
-			}
-			else
-			{
-				Debug.LogError($"Coupon reward item item with sku = '{rewardItem.Sku}' without image!");
+				if (!string.IsNullOrEmpty(rewardItem.ImageUrl))
+				{
+					ImageLoader.Instance.GetImageAsync(rewardItem.ImageUrl, LoadImageCallback);
+				}
+				else
+				{
+					Debug.LogError($"Coupon reward item item with sku = '{rewardItem.Sku}' without image!");
+				}
 			}
 		}
-	}
 
-	void LoadImageCallback(string url, Sprite image)
-	{
-		itemImage.sprite = image;
+		void LoadImageCallback(string url, Sprite image)
+		{
+			itemImage.sprite = image;
+		}
 	}
 }

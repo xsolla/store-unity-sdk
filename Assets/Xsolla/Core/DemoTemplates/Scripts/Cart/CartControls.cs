@@ -1,84 +1,87 @@
-﻿using System;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CartControls : MonoBehaviour
+namespace Xsolla.Demo
 {
-	[SerializeField] private SimpleTextButton buyButton;
-	[SerializeField] private SimpleButton clearCartButton;
-	
-	[SerializeField] private Text totalPriceText;
-	[SerializeField] private Text subtotalPriceText;
-	[SerializeField] private Text discountPriceText;
-	[SerializeField] private Text totalLabelText;
-	[SerializeField] private Text subtotalLabelText;
-	[SerializeField] private Text discountLabelText;
-	[SerializeField] private GameObject loaderPrefab;
-
-	private GameObject _loaderObject;
-
-	public Action OnBuyCart
+	public class CartControls : MonoBehaviour
 	{
-		set => buyButton.onClick = value;
-	}
-	public Action OnClearCart {
-		set => clearCartButton.onClick = value;
-	}
+		[SerializeField] private SimpleTextButton buyButton = default;
+		[SerializeField] private SimpleButton clearCartButton = default;
 
-	public bool IsBuyButtonLocked()
-	{
-		return buyButton.IsLocked();
-	}
-	
-	public void LockBuyButton()
-	{
-		buyButton.Lock();
-		if (loaderPrefab != null) {
-			_loaderObject = Instantiate(loaderPrefab, buyButton.transform);
+		[SerializeField] private Text totalPriceText = default;
+		[SerializeField] private Text subtotalPriceText = default;
+		[SerializeField] private Text discountPriceText = default;
+		[SerializeField] private Text totalLabelText = default;
+		[SerializeField] private Text subtotalLabelText = default;
+		[SerializeField] private Text discountLabelText = default;
+		[SerializeField] private GameObject loaderPrefab = default;
+
+		private GameObject _loaderObject;
+
+		public Action OnBuyCart
+		{
+			set => buyButton.onClick = value;
 		}
-	}
+		public Action OnClearCart {
+			set => clearCartButton.onClick = value;
+		}
 
-	public void UnlockBuyButton()
-	{
-		buyButton.Unlock();
+		public bool IsBuyButtonLocked()
+		{
+			return buyButton.IsLocked();
+		}
+	
+		public void LockBuyButton()
+		{
+			buyButton.Lock();
+			if (loaderPrefab != null) {
+				_loaderObject = Instantiate(loaderPrefab, buyButton.transform);
+			}
+		}
+
+		public void UnlockBuyButton()
+		{
+			buyButton.Unlock();
 		
-		if (_loaderObject == null) return;
-		Destroy(_loaderObject);
-		_loaderObject = null;
-	}
+			if (_loaderObject == null) return;
+			Destroy(_loaderObject);
+			_loaderObject = null;
+		}
 
-	public void Initialize(float totalPrice = 0f, float discount = 0f)
-	{
-		totalPriceText.text = PriceFormatter.FormatPrice(totalPrice);
-		ShowTotal(totalPrice >= 0.01f);
+		public void Initialize(float totalPrice = 0f, float discount = 0f)
+		{
+			totalPriceText.text = PriceFormatter.FormatPrice(totalPrice);
+			ShowTotal(totalPrice >= 0.01f);
 
-		if (discount >= 0.01f)
-			ShowDiscount(discount, totalPrice + discount);
-		else
-			HideDiscount();
-	}
+			if (discount >= 0.01f)
+				ShowDiscount(discount, totalPrice + discount);
+			else
+				HideDiscount();
+		}
 
-	private void ShowTotal(bool show)
-	{
-		totalLabelText.gameObject.SetActive(show);
-		totalPriceText.gameObject.SetActive(show);
-	}
+		private void ShowTotal(bool show)
+		{
+			totalLabelText.gameObject.SetActive(show);
+			totalPriceText.gameObject.SetActive(show);
+		}
 
-	private void HideDiscount()
-	{
-		subtotalLabelText.gameObject.SetActive(false);
-		subtotalPriceText.gameObject.SetActive(false);
-		discountLabelText.gameObject.SetActive(false);
-		discountPriceText.gameObject.SetActive(false);
-	}
+		private void HideDiscount()
+		{
+			subtotalLabelText.gameObject.SetActive(false);
+			subtotalPriceText.gameObject.SetActive(false);
+			discountLabelText.gameObject.SetActive(false);
+			discountPriceText.gameObject.SetActive(false);
+		}
 
-	private void ShowDiscount(float discount, float subtotal)
-	{
-		subtotalLabelText.gameObject.SetActive(true);
-		subtotalPriceText.gameObject.SetActive(true);
-		discountLabelText.gameObject.SetActive(true);
-		discountPriceText.gameObject.SetActive(true);
-		discountPriceText.text = $"-{PriceFormatter.FormatPrice(discount)}";
-		subtotalPriceText.text = PriceFormatter.FormatPrice(subtotal);
+		private void ShowDiscount(float discount, float subtotal)
+		{
+			subtotalLabelText.gameObject.SetActive(true);
+			subtotalPriceText.gameObject.SetActive(true);
+			discountLabelText.gameObject.SetActive(true);
+			discountPriceText.gameObject.SetActive(true);
+			discountPriceText.text = $"-{PriceFormatter.FormatPrice(discount)}";
+			subtotalPriceText.text = PriceFormatter.FormatPrice(subtotal);
+		}
 	}
 }

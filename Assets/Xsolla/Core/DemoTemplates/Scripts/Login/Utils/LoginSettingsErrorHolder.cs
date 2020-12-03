@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 
-public class LoginSettingsErrorHolder : MonoBehaviour
+namespace Xsolla.Demo
 {
-	public string LoginSettingsError { get; set; }
+	public class LoginSettingsErrorHolder : MonoBehaviour
+	{
+		public string LoginSettingsError { get; set; }
+	}
 }

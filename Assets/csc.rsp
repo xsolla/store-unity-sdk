@@ -1,2 +1,1 @@
-﻿-nowarn:0649
--r:System.Web.dll
+﻿-r:System.Web.dll

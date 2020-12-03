@@ -1,93 +1,94 @@
-﻿using System;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using Xsolla.Core;
 using Xsolla.Core.Popup;
 
-public partial class LoginPageEnterController : LoginPageController
+namespace Xsolla.Demo
 {
-#pragma warning disable 0649
-	[SerializeField] InputField EmailInputField;
-	[SerializeField] InputField PasswordInputField;
-	[SerializeField] Toggle RememberMeCheckbox;
-
-	[SerializeField] SimpleButton LoginButton;
-
-	[SerializeField] SimpleSocialButton[] SocialLoginButtons;
-	[SerializeField] SimpleButton SteamLoginButton;
-#pragma warning restore 0649
-
-	private void Awake()
+	public partial class LoginPageEnterController : LoginPageController
 	{
-		if (LoginButton != null)
-			LoginButton.onClick += PrepareAndRunBasicAuth;
+		[SerializeField] InputField EmailInputField = default;
+		[SerializeField] InputField PasswordInputField = default;
+		[SerializeField] Toggle RememberMeCheckbox = default;
 
-		if (SocialLoginButtons != null)
+		[SerializeField] SimpleButton LoginButton = default;
+
+		[SerializeField] SimpleSocialButton[] SocialLoginButtons = default;
+		[SerializeField] SimpleButton SteamLoginButton = default;
+
+		private void Awake()
 		{
-			foreach (var socialButton in SocialLoginButtons)
+			if (LoginButton != null)
+				LoginButton.onClick += PrepareAndRunBasicAuth;
+
+			if (SocialLoginButtons != null)
 			{
-				if (socialButton != null)
-					socialButton.onClick += () => RunSocialAuth(socialButton.SocialProvider);
+				foreach (var socialButton in SocialLoginButtons)
+				{
+					if (socialButton != null)
+						socialButton.onClick += () => RunSocialAuth(socialButton.SocialProvider);
+				}
 			}
+
+			if (SteamLoginButton != null)
+				SteamLoginButton.onClick += RunManualSteamAuth;
 		}
 
-		if (SteamLoginButton != null)
-			SteamLoginButton.onClick += RunManualSteamAuth;
-	}
+		private void PrepareAndRunBasicAuth()
+		{
+			RunBasicAuth(EmailInputField.text, PasswordInputField.text, RememberMeCheckbox.isOn);
+		}
 
-	private void PrepareAndRunBasicAuth()
-	{
-		RunBasicAuth(EmailInputField.text, PasswordInputField.text, RememberMeCheckbox.isOn);
-	}
+		public void RunBasicAuth(string username, string password, bool rememberMe)
+		{
+			if(IsAuthInProgress)
+				return;
 
-	public void RunBasicAuth(string username, string password, bool rememberMe)
-	{
-		if(IsAuthInProgress)
-			return;
+			IsAuthInProgress = true;
+			PopupFactory.Instance.CreateWaiting().SetCloseCondition(() => IsAuthInProgress == false);
 
-		IsAuthInProgress = true;
-		PopupFactory.Instance.CreateWaiting().SetCloseCondition(() => IsAuthInProgress == false);
+			object[] args = { username, password, rememberMe };
 
-		object[] args = { username, password, rememberMe };
+			Action<string> onSuccessfulBasicAuth = token => DemoController.Instance.GetImplementation()
+				.ValidateToken(token, t => CompleteSuccessfulAuth(token, true, isSaveToken: rememberMe), ProcessError);
+			Action<Error> onFailedBasicAuth = ProcessError;
 
-		Action<string> onSuccessfulBasicAuth = token => DemoController.Instance.GetImplementation()
-			.ValidateToken(token, t => CompleteSuccessfulAuth(token, true, isSaveToken: rememberMe), ProcessError);
-		Action<Error> onFailedBasicAuth = ProcessError;
+			TryAuthBy<BasicAuth>(args, onSuccessfulBasicAuth, onFailedBasicAuth);
+		}
 
-		TryAuthBy<BasicAuth>(args, onSuccessfulBasicAuth, onFailedBasicAuth);
-	}
+		public void RunSocialAuth(SocialProvider socialProvider)
+		{
+			if (IsAuthInProgress)
+				return;
 
-	public void RunSocialAuth(SocialProvider socialProvider)
-	{
-		if (IsAuthInProgress)
-			return;
+			IsAuthInProgress = true;
+			object[] args = { socialProvider };
 
-		IsAuthInProgress = true;
-		object[] args = { socialProvider };
+			Action<string> onSuccessfulSocialAuth = token => DemoController.Instance.GetImplementation()
+				.ValidateToken(token, t => CompleteSuccessfulAuth(token, isSaveToken: true), ProcessError);
+			Action<Error> onFailedSocialAuth = ProcessError;
 
-		Action<string> onSuccessfulSocialAuth = token => DemoController.Instance.GetImplementation()
-			.ValidateToken(token, t => CompleteSuccessfulAuth(token, isSaveToken: true), ProcessError);
-		Action<Error> onFailedSocialAuth = ProcessError;
+	#if UNITY_EDITOR || UNITY_STANDALONE
+			TryAuthBy<SocialAuth>(args, onSuccessfulSocialAuth, onFailedSocialAuth);
+	#elif UNITY_ANDROID
+			TryAuthBy<AndroidSocialAuth>(args, onSuccessfulSocialAuth, onFailedSocialAuth);
+	#endif
+		}
 
-#if UNITY_EDITOR || UNITY_STANDALONE
-		TryAuthBy<SocialAuth>(args, onSuccessfulSocialAuth, onFailedSocialAuth);
-#elif UNITY_ANDROID
-		TryAuthBy<AndroidSocialAuth>(args, onSuccessfulSocialAuth, onFailedSocialAuth);
-#endif
-	}
+		public void RunManualSteamAuth()
+		{
+			if (IsAuthInProgress)
+				return;
 
-	public void RunManualSteamAuth()
-	{
-		if (IsAuthInProgress)
-			return;
+			IsAuthInProgress = true;
+			PopupFactory.Instance.CreateWaiting().SetCloseCondition(() => IsAuthInProgress == false);
 
-		IsAuthInProgress = true;
-		PopupFactory.Instance.CreateWaiting().SetCloseCondition(() => IsAuthInProgress == false);
+			Action<string> onSuccessfulSteamAuth = token => DemoController.Instance.GetImplementation()
+				.ValidateToken(token, t => CompleteSuccessfulAuth(token, isSaveToken: true), ProcessError);
+			Action<Error> onFailedSteamAuth = ProcessError;
 
-		Action<string> onSuccessfulSteamAuth = token => DemoController.Instance.GetImplementation()
-			.ValidateToken(token, t => CompleteSuccessfulAuth(token, isSteam: true, isSaveToken: true), ProcessError);
-		Action<Error> onFailedSteamAuth = ProcessError;
-
-		TryAuthBy<SteamAuth>(args: null, onSuccess: onSuccessfulSteamAuth, onFailed: onFailedSteamAuth);
+			TryAuthBy<SteamAuth>(args: null, onSuccess: onSuccessfulSteamAuth, onFailed: onFailedSteamAuth);
+		}
 	}
 }

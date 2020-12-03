@@ -1,4 +1,9 @@
-﻿public class SimpleSocialButton : SimpleButton
+﻿using Xsolla.Core;
+
+namespace Xsolla.Demo
 {
-	public SocialProvider SocialProvider;
+	public class SimpleSocialButton : SimpleButton
+	{
+		public SocialProvider SocialProvider;
+	}
 }

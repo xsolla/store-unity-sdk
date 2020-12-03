@@ -9,4 +9,3 @@ namespace Xsolla.Store
 		public int order_id;
 	}
 }
-

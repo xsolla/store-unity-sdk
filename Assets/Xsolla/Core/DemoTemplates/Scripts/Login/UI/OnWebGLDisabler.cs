@@ -1,11 +1,14 @@
 ﻿using UnityEngine;
 
-public class OnWebGLDisabler : MonoBehaviour
+namespace Xsolla.Demo
 {
-#if UNITY_WEBGL
-	private void Start()
+	public class OnWebGLDisabler : MonoBehaviour
 	{
-		this.gameObject.SetActive(false);
+	#if UNITY_WEBGL
+		private void Start()
+		{
+			this.gameObject.SetActive(false);
+		}
+	#endif
 	}
-#endif
 }

@@ -15,10 +15,9 @@ namespace Xsolla.Core
 				XsollaSettings.PayStationTokenRequestUrl = EditorGUILayout.TextField(new GUIContent("Token request URL"),  XsollaSettings.PayStationTokenRequestUrl);
 				XsollaSettings.InAppBrowserEnabled = EditorGUILayout.Toggle("Enable in-app browser?", XsollaSettings.InAppBrowserEnabled);
 			}
-      
+
 			EditorGUILayout.Space();
-            return false;
+			return false;
 		}
 	}
 }
-

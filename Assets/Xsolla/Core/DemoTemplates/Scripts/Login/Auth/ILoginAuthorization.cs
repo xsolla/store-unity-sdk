@@ -1,4 +1,7 @@
-﻿public interface ILoginAuthorization : IStoreStringAction
+﻿namespace Xsolla.Demo
 {
-	void TryAuth(params object[] args);
+	public interface ILoginAuthorization : IStoreStringAction
+	{
+		void TryAuth(params object[] args);
+	}
 }

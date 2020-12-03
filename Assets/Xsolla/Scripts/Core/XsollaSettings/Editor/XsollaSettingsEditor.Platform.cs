@@ -1,7 +1,5 @@
-﻿using System;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
-using Xsolla.Login;
 using Xsolla.Store;
 
 namespace Xsolla.Core
@@ -9,7 +7,7 @@ namespace Xsolla.Core
 	public partial class XsollaSettingsEditor : UnityEditor.Editor
 	{
 		private const string STEAM_AUTH_TOOLTIP = "If enabled, Login try find Steam client and get `session_ticket`." +
-		                                        "Then this ticket will be changed to JWT.";
+												"Then this ticket will be changed to JWT.";
 
 		private const string PLATFORM_TOOLTIP = "Publishing platform the user plays on.";
 		private const string PLATFORM_USERNAME_TOOLTIP = "Social username from console platform";
@@ -87,4 +85,3 @@ namespace Xsolla.Core
 		}
 	}
 }
-

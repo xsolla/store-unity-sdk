@@ -1,49 +1,52 @@
-﻿using System;
+using System;
 using UnityEngine;
 
-public class ValueCounter : MonoBehaviour
+namespace Xsolla.Demo
 {
-	public event Action<int> ValueChanged;
-	private int value;
-
-	public int GetValue()
+	public class ValueCounter : MonoBehaviour
 	{
-		return value;
-	}
+		public event Action<int> ValueChanged;
+		private int _value;
 
-	public void IncreaseValue(int delta)
-	{
-		value += delta;
-		ValueChanged?.Invoke(value);
-	}
+		public int GetValue()
+		{
+			return _value;
+		}
 
-	public void DecreaseValue(int delta)
-	{
-		if (delta > value)
-			delta = value;
-		value -= delta;
-		ValueChanged?.Invoke(value);
-	}
+		public void IncreaseValue(int delta)
+		{
+			_value += delta;
+			ValueChanged?.Invoke(_value);
+		}
 
-	public override string ToString()
-	{
-		return value.ToString();
-	}
+		public void DecreaseValue(int delta)
+		{
+			if (delta > _value)
+				delta = _value;
+			_value -= delta;
+			ValueChanged?.Invoke(_value);
+		}
 
-	public static ValueCounter operator ++(ValueCounter value)
-	{
-		value.IncreaseValue(1);
-		return value;
-	}
+		public override string ToString()
+		{
+			return _value.ToString();
+		}
 
-	public static ValueCounter operator --(ValueCounter value)
-	{
-		value.DecreaseValue(1);
-		return value;
-	}
+		public static ValueCounter operator ++(ValueCounter value)
+		{
+			value.IncreaseValue(1);
+			return value;
+		}
 
-	public static implicit operator int(ValueCounter value)
-	{
-		return value.GetValue();
+		public static ValueCounter operator --(ValueCounter value)
+		{
+			value.DecreaseValue(1);
+			return value;
+		}
+
+		public static implicit operator int(ValueCounter value)
+		{
+			return value.GetValue();
+		}
 	}
 }

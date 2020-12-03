@@ -1,7 +1,10 @@
 ﻿using System;
 
-[Serializable]
-public class LoginJwtJsonResponse
+namespace Xsolla.Login
 {
-	public string login_url;
+	[Serializable]
+	public class LoginJwtJsonResponse
+	{
+		public string login_url;
+	}
 }

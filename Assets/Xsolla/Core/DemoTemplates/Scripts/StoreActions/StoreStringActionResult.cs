@@ -2,8 +2,11 @@
 using UnityEngine;
 using Xsolla.Core;
 
-public abstract class StoreStringActionResult : MonoBehaviour, IStoreStringAction
+namespace Xsolla.Demo
 {
-	public Action<string> OnSuccess { get; set; }
-	public Action<Error> OnError { get; set; }
+	public abstract class StoreStringActionResult : MonoBehaviour, IStoreStringAction
+	{
+		public Action<string> OnSuccess { get; set; }
+		public Action<Error> OnError { get; set; }
+	}
 }

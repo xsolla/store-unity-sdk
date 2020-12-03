@@ -1,9 +1,12 @@
 ﻿using UnityEngine;
 
-public class FixScriptForEmptyPrefab : MonoBehaviour
+namespace Xsolla.Demo
 {
-    private void Start()
-    {
-        Destroy(this);
-    }
+	public class FixScriptForEmptyPrefab : MonoBehaviour
+	{
+		private void Start()
+		{
+			Destroy(this);
+		}
+	}
 }

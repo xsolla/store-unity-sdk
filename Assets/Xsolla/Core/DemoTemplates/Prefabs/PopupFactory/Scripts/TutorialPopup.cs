@@ -1,24 +1,25 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using Xsolla.Demo;
 
 namespace Xsolla.Core.Popup
 {
 	public class TutorialPopup : MonoBehaviour, ITutorialPopup
 	{
-		[SerializeField] private SimpleTextButton backButton;
-		[SerializeField] private SimpleTextButton nextButton;
-		[SerializeField] private SimpleTextButton startButton;
-		[SerializeField] private SimpleTextButton cancelButton;
+		[SerializeField] private SimpleTextButton backButton = default;
+		[SerializeField] private SimpleTextButton nextButton = default;
+		[SerializeField] private SimpleTextButton startButton = default;
+		[SerializeField] private SimpleTextButton cancelButton = default;
 
-		[SerializeField] private SimpleButton closeButton;
+		[SerializeField] private SimpleButton closeButton = default;
 
-		[SerializeField] private SimpleButton documentationButton;
+		[SerializeField] private SimpleButton documentationButton = default;
 
-		[SerializeField] private Text titleText;
-		[SerializeField] private Text descriptionText;
+		[SerializeField] private Text titleText = default;
+		[SerializeField] private Text descriptionText = default;
 
 		private TutorialInfo _tutorialInfo;
 		private bool _showWelcomeMessage;

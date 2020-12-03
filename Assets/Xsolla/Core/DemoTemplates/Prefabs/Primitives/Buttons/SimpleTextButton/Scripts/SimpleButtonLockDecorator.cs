@@ -1,58 +1,61 @@
-﻿using UnityEngine.EventSystems;
+using UnityEngine.EventSystems;
 
-public class SimpleButtonLockDecorator : SimpleButton
+namespace Xsolla.Demo
 {
-	bool isLocked = false;
-
-	public void Lock()
+	public class SimpleButtonLockDecorator : SimpleButton
 	{
-		isLocked = true;
-	}
+		bool _isLocked = false;
 
-	public void Unlock()
-	{
-		isLocked = false;
-	}
-
-	public bool IsLocked() => isLocked;
-
-	public override void OnPointerDown(PointerEventData eventData)
-	{
-		if (!IsLocked())
+		public void Lock()
 		{
-			base.OnPointerDown(eventData);
+			_isLocked = true;
 		}
-	}
 
-	public override void OnPointerUp(PointerEventData eventData)
-	{
-		if (!IsLocked())
+		public void Unlock()
 		{
-			base.OnPointerUp(eventData);
+			_isLocked = false;
 		}
-	}
 
-	public override void OnPointerEnter(PointerEventData eventData)
-	{
-		if (!IsLocked())
-			base.OnPointerEnter(eventData);
-		else
-			base.RaiseOnCursorEnter();
-	}
+		public bool IsLocked() => _isLocked;
 
-	public override void OnPointerExit(PointerEventData eventData)
-	{
-		if (!IsLocked())
-			base.OnPointerExit(eventData);
-		else
-			base.RaiseOnCursorExit();
-	}
-
-	public override void OnDrag(PointerEventData eventData)
-	{
-		if (!IsLocked())
+		public override void OnPointerDown(PointerEventData eventData)
 		{
-			base.OnDrag(eventData);
+			if (!IsLocked())
+			{
+				base.OnPointerDown(eventData);
+			}
+		}
+
+		public override void OnPointerUp(PointerEventData eventData)
+		{
+			if (!IsLocked())
+			{
+				base.OnPointerUp(eventData);
+			}
+		}
+
+		public override void OnPointerEnter(PointerEventData eventData)
+		{
+			if (!IsLocked())
+				base.OnPointerEnter(eventData);
+			else
+				base.RaiseOnCursorEnter();
+		}
+
+		public override void OnPointerExit(PointerEventData eventData)
+		{
+			if (!IsLocked())
+				base.OnPointerExit(eventData);
+			else
+				base.RaiseOnCursorExit();
+		}
+
+		public override void OnDrag(PointerEventData eventData)
+		{
+			if (!IsLocked())
+			{
+				base.OnDrag(eventData);
+			}
 		}
 	}
 }

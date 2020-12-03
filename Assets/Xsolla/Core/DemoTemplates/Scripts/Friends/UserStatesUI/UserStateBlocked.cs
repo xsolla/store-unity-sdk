@@ -1,14 +1,15 @@
-﻿using System;
-
-public class UserStateBlocked : BaseUserStateUI
+﻿namespace Xsolla.Demo
 {
-    protected override void InitUserButtons(FriendButtonsUI buttons)
-    {
-        EnableUnblockUserButton();
-    }
+	public class UserStateBlocked : BaseUserStateUI
+	{
+		protected override void InitUserButtons(FriendButtonsUI buttons)
+		{
+			EnableUnblockUserButton();
+		}
 
-    protected override void InitUserActionsButton(FriendActionsButton actionsButton)
-    {
-        actionsButton.gameObject.SetActive(false);
-    }
+		protected override void InitUserActionsButton(FriendActionsButton actionsButton)
+		{
+			actionsButton.gameObject.SetActive(false);
+		}
+	}
 }

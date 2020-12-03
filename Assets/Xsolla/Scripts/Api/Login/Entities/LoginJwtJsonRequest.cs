@@ -1,16 +1,19 @@
 ﻿using System;
 
-[Serializable]
-public class LoginJwtJsonRequest
+namespace Xsolla.Login
 {
-	public string username;
-	public string password;
-	public bool remember_me;
-
-	public LoginJwtJsonRequest(string username, string password, bool rememberMe)
+	[Serializable]
+	public class LoginJwtJsonRequest
 	{
-		this.username = username;
-		this.password = password;
-		this.remember_me = rememberMe;
+		public string username;
+		public string password;
+		public bool remember_me;
+
+		public LoginJwtJsonRequest(string username, string password, bool rememberMe)
+		{
+			this.username = username;
+			this.password = password;
+			this.remember_me = rememberMe;
+		}
 	}
 }

@@ -1,7 +1,10 @@
 ﻿using System;
 
-public interface IStoreActionProgress
+namespace Xsolla.Demo
 {
-	Action OnStarted { get; set; }
-	bool IsInProgress { get; }
+	public interface IStoreActionProgress
+	{
+		Action OnStarted { get; set; }
+		bool IsInProgress { get; }
+	}
 }

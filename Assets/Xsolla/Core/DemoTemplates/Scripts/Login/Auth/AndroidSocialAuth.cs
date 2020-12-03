@@ -1,139 +1,139 @@
 ﻿using System;
-using System.Collections;
-using System.Text.RegularExpressions;
 using UnityEngine;
 using Xsolla.Core;
-using Xsolla.Login;
 
-public class AndroidSocialAuth : StoreStringActionResult, ILoginAuthorization
+namespace Xsolla.Demo
 {
-	private AndroidSDKSocialAuthListener _listener;
-	private SocialProvider _requestedProvider;
-
-	public void TryAuth(params object[] args)
+	public class AndroidSocialAuth : StoreStringActionResult, ILoginAuthorization
 	{
-		if (TryExtractProvider(args, out SocialProvider provider))
+		private AndroidSDKSocialAuthListener _listener;
+		private SocialProvider _requestedProvider;
+
+		public void TryAuth(params object[] args)
 		{
-			SetListener();
-			_requestedProvider = provider;
+			if (TryExtractProvider(args, out SocialProvider provider))
+			{
+				SetListener();
+				_requestedProvider = provider;
+
+				try
+				{
+					using (var sdkHelper = new AndroidSDKSocialAuthHelper())
+					{
+						sdkHelper.PerformSocialAuth(provider);
+					}
+
+					Debug.Log("AndroidSocialAuth.SocialNetworkAuth: auth request was sent");
+				}
+				catch (Exception ex)
+				{
+					Debug.LogError($"AndroidSocialAuth.SocialNetworkAuth: {ex.Message}");
+					RemoveListener();
+					base.OnError?.Invoke(new Error(errorMessage: "Social auth failed"));
+				}
+			}
+			else
+			{
+				Debug.LogWarning("AndroidSocialAuth.TryAuth: Could not extract argument");
+				base.OnError?.Invoke(new Error(errorMessage: "Social auth failed"));
+			}
+		}
+
+		private bool TryExtractProvider(object[] args, out SocialProvider provider)
+		{
+			provider = default(SocialProvider);
+
+			if (args == null)
+			{
+				Debug.LogError("AndroidSocialAuth.TryExtractProvider: 'object[] args' was null");
+				return false;
+			}
+
+			if (args.Length != 1)
+			{
+				Debug.LogError($"AndroidSocialAuth.TryExtractProvider: args.Length expected 1, was {args.Length}");
+				return false;
+			}
 
 			try
 			{
-				using (var sdkHelper = new AndroidSDKSocialAuthHelper())
-				{
-					sdkHelper.PerformSocialAuth(provider);
-				}
-
-				Debug.Log("AndroidSocialAuth.SocialNetworkAuth: auth request was sent");
+				provider = (SocialProvider)args[0];
 			}
 			catch (Exception ex)
 			{
-				Debug.LogError($"AndroidSocialAuth.SocialNetworkAuth: {ex.Message}");
-				RemoveListener();
-				base.OnError?.Invoke(new Error(errorMessage: "Social auth failed"));
+				Debug.LogError($"AndroidSocialAuth.TryExtractProvider: Error during argument extraction: {ex.Message}");
+				return false;
 			}
-		}
-		else
-		{
-			Debug.LogWarning("AndroidSocialAuth.TryAuth: Could not extract argument");
-			base.OnError?.Invoke(new Error(errorMessage: "Social auth failed"));
-		}
-	}
 
-	private bool TryExtractProvider(object[] args, out SocialProvider provider)
-	{
-		provider = default(SocialProvider);
-
-		if (args == null)
-		{
-			Debug.LogError("AndroidSocialAuth.TryExtractProvider: 'object[] args' was null");
-			return false;
+			return true;
 		}
 
-		if (args.Length != 1)
+		private void SetListener()
 		{
-			Debug.LogError($"AndroidSocialAuth.TryExtractProvider: args.Length expected 1, was {args.Length}");
-			return false;
+			var listenerObject = new GameObject("SocialNetworks");
+			listenerObject.transform.parent = this.transform;
+
+			_listener = listenerObject.AddComponent<AndroidSDKSocialAuthListener>();
+			_listener.OnSocialAuthResult += OnSocialAuthResult;
 		}
 
-		try
+		private void RemoveListener()
 		{
-			provider = (SocialProvider)args[0];
-		}
-		catch (Exception ex)
-		{
-			Debug.LogError($"AndroidSocialAuth.TryExtractProvider: Error during argument extraction: {ex.Message}");
-			return false;
+			_listener.OnSocialAuthResult -= OnSocialAuthResult;
+			Destroy(_listener.gameObject);
 		}
 
-		return true;
-	}
-
-	private void SetListener()
-	{
-		var listenerObject = new GameObject("SocialNetworks");
-		listenerObject.transform.parent = this.transform;
-
-		_listener = listenerObject.AddComponent<AndroidSDKSocialAuthListener>();
-		_listener.OnSocialAuthResult += OnSocialAuthResult;
-	}
-
-	private void RemoveListener()
-	{
-		_listener.OnSocialAuthResult -= OnSocialAuthResult;
-		Destroy(_listener.gameObject);
-	}
-
-	private void OnSocialAuthResult(string authResult)
-	{
-		RemoveListener();
-
-		if (authResult == null)
+		private void OnSocialAuthResult(string authResult)
 		{
-			Debug.LogError("AndroidSocialAuth.OnSocialAuthResult: authResult was null");
-			return;
-		}
+			RemoveListener();
 
-		var args = authResult.Split('#');
+			if (authResult == null)
+			{
+				Debug.LogError("AndroidSocialAuth.OnSocialAuthResult: authResult was null");
+				return;
+			}
 
-		if (args.Length != 3)
-		{
-			Debug.LogError($"AndroidSocialAuth.OnSocialAuthResult: args.Length != 3. Result was {authResult}");
-			return;
-		}
+			var args = authResult.Split('#');
 
-		var socialProvider = args[0];
+			if (args.Length != 3)
+			{
+				Debug.LogError($"AndroidSocialAuth.OnSocialAuthResult: args.Length != 3. Result was {authResult}");
+				return;
+			}
 
-		if (socialProvider.ToUpper() != _requestedProvider.ToString().ToUpper())
-		{
-			Debug.LogError($"AndroidSocialAuth.OnSocialAuthResult: args.Provider was {socialProvider} when expected {_requestedProvider}");
-			return;
-		}
+			var socialProvider = args[0];
 
-		Debug.Log($"AndroidSocialAuth.OnSocialAuthResult: processing auth result for {socialProvider}");
+			if (socialProvider.ToUpper() != _requestedProvider.ToString().ToUpper())
+			{
+				Debug.LogError($"AndroidSocialAuth.OnSocialAuthResult: args.Provider was {socialProvider} when expected {_requestedProvider}");
+				return;
+			}
 
-		var authStatus = args[1].ToUpper();
-		var messageBody = args[2];
-		var logHeader = $"AndroidSocialAuth.OnSocialAuthResult: authResult for {socialProvider} returned";
+			Debug.Log($"AndroidSocialAuth.OnSocialAuthResult: processing auth result for {socialProvider}");
 
-		switch (authStatus)
-		{
-			case "SUCCESS":
-				Debug.Log($"{logHeader} SUCCESS. Token: {messageBody}");
-				base.OnSuccess?.Invoke(messageBody);
-				break;
-			case "ERROR":
-				Debug.LogError($"{logHeader} ERROR. Error message: {messageBody}");
-				base.OnError?.Invoke(new Error(errorMessage: "Social auth failed"));
-				break;
-			case "CANCELLED":
-				Debug.Log($"{logHeader} CANCELLED. Additional info: {messageBody}");
-				base.OnError?.Invoke(null);
-				break;
-			default:
-				Debug.LogError($"{logHeader} unexpected authResult: {authStatus}");
-				base.OnError?.Invoke(new Error(errorMessage: "Social auth failed"));
-				break;
+			var authStatus = args[1].ToUpper();
+			var messageBody = args[2];
+			var logHeader = $"AndroidSocialAuth.OnSocialAuthResult: authResult for {socialProvider} returned";
+
+			switch (authStatus)
+			{
+				case "SUCCESS":
+					Debug.Log($"{logHeader} SUCCESS. Token: {messageBody}");
+					base.OnSuccess?.Invoke(messageBody);
+					break;
+				case "ERROR":
+					Debug.LogError($"{logHeader} ERROR. Error message: {messageBody}");
+					base.OnError?.Invoke(new Error(errorMessage: "Social auth failed"));
+					break;
+				case "CANCELLED":
+					Debug.Log($"{logHeader} CANCELLED. Additional info: {messageBody}");
+					base.OnError?.Invoke(null);
+					break;
+				default:
+					Debug.LogError($"{logHeader} unexpected authResult: {authStatus}");
+					base.OnError?.Invoke(new Error(errorMessage: "Social auth failed"));
+					break;
+			}
 		}
 	}
 }

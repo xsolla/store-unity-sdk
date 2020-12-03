@@ -3,33 +3,36 @@ using UnityEngine;
 using Xsolla.Core;
 using Xsolla.Core.Popup;
 
-public abstract class BaseMenuController : MonoBehaviour
+namespace Xsolla.Demo
 {
-	protected static void AttachButtonCallback(SimpleButton button, Action callback)
+	public abstract class BaseMenuController : MonoBehaviour
 	{
-		if (button != null && callback != null)
+		protected static void AttachButtonCallback(SimpleButton button, Action callback)
 		{
-			button.onClick = callback;
+			if (button != null && callback != null)
+			{
+				button.onClick = callback;
+			}
 		}
-	}
 
-	protected static void AttachUrlToButton(SimpleButton button, string url)
-	{
-		if (!string.IsNullOrEmpty(url))
+		protected static void AttachUrlToButton(SimpleButton button, string url)
 		{
-			AttachButtonCallback(button, () => BrowserHelper.Instance.Open(url));
+			if (!string.IsNullOrEmpty(url))
+			{
+				AttachButtonCallback(button, () => BrowserHelper.Instance.Open(url));
+			}
 		}
-	}
 	
-	protected static void SetMenuState(MenuState state, Func<bool> condition = null)
-	{
-		if (condition == null || condition.Invoke())
-			DemoController.Instance.SetState(state);
-		else
+		protected static void SetMenuState(MenuState state, Func<bool> condition = null)
 		{
-			PopupFactory.Instance.CreateWaiting()
-				.SetCloseCondition(condition)
-				.SetCloseHandler(() => DemoController.Instance.SetState(state));
+			if (condition == null || condition.Invoke())
+				DemoController.Instance.SetState(state);
+			else
+			{
+				PopupFactory.Instance.CreateWaiting()
+					.SetCloseCondition(condition)
+					.SetCloseHandler(() => DemoController.Instance.SetState(state));
+			}
 		}
 	}
 }

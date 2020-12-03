@@ -1,4 +1,7 @@
-﻿public interface IContainer
+﻿namespace Xsolla.Demo
 {
-	void Refresh();
+	public interface IContainer
+	{
+		void Refresh();
+	}
 }

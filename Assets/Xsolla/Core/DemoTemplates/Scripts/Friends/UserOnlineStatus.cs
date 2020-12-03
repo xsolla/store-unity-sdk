@@ -1,15 +1,18 @@
-public enum UserOnlineStatus
+namespace Xsolla.Demo
 {
-	/// <summary>
-	/// Unknown status.
-	/// </summary>
-	Unknown,
-	/// <summary>
-	/// User is online.
-	/// </summary>
-	Online,
-	/// <summary>
-	/// User is offline.
-	/// </summary>
-	Offline
+	public enum UserOnlineStatus
+	{
+		/// <summary>
+		/// Unknown status.
+		/// </summary>
+		Unknown,
+		/// <summary>
+		/// User is online.
+		/// </summary>
+		Online,
+		/// <summary>
+		/// User is offline.
+		/// </summary>
+		Offline
+	}
 }

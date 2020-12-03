@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using System.Text;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -29,14 +28,10 @@ namespace Xsolla.Store
 		{
 			List<WebRequestHeader> headers = null;
 
-			if (token.FromSteam)
-			{
-				string userId = token.GetSteamUserID();
-				if (!string.IsNullOrEmpty(userId))
-					headers = AppendAnalyticHeadersTo(WebRequestHeader.AuthHeader(token), WebRequestHeader.SteamPaymentHeader(userId));
-			}
-
-			if (headers == null)
+			string steamUserId = token.GetSteamUserID();
+			if (!string.IsNullOrEmpty(steamUserId))
+				headers = AppendAnalyticHeadersTo(WebRequestHeader.AuthHeader(token), WebRequestHeader.SteamPaymentHeader(steamUserId));
+			else
 				headers = AppendAnalyticHeadersTo(WebRequestHeader.AuthHeader(token));
 
 			return headers;

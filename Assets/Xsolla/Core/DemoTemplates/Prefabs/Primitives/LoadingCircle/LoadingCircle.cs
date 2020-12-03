@@ -1,18 +1,21 @@
 ﻿using UnityEngine;
 
-public class LoadingCircle : MonoBehaviour
+namespace Xsolla.Demo
 {
-	[SerializeField] float rotateSpeed = 200f;
-
-	RectTransform _rectComponent;
-
-	void Start()
+	public class LoadingCircle : MonoBehaviour
 	{
-		_rectComponent = GetComponent<RectTransform>();
-	}
+		[SerializeField] float rotateSpeed = 200f;
 
-	void Update()
-	{
-		_rectComponent.Rotate(0f, 0f, rotateSpeed * Time.deltaTime);
+		RectTransform _rectComponent;
+
+		void Start()
+		{
+			_rectComponent = GetComponent<RectTransform>();
+		}
+
+		void Update()
+		{
+			_rectComponent.Rotate(0f, 0f, rotateSpeed * Time.deltaTime);
+		}
 	}
 }

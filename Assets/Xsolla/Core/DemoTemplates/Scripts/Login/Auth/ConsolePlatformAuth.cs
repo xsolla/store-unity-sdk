@@ -1,43 +1,44 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using Xsolla.Core;
-using Xsolla.Login;
 using Xsolla.Store;
 
-public class ConsolePlatformAuth : StoreStringActionResult, ILoginAuthorization
+namespace Xsolla.Demo
 {
-	public void TryAuth(params object[] args)
+	public class ConsolePlatformAuth : StoreStringActionResult, ILoginAuthorization
 	{
-		if (XsollaSettings.UseConsoleAuth)
+		public void TryAuth(params object[] args)
 		{
-			Debug.Log("ConsolePlatformAuth.TryAuth: Console auth enabled, trying to get token");
-			RequestToken();
+			if (XsollaSettings.UseConsoleAuth)
+			{
+				Debug.Log("ConsolePlatformAuth.TryAuth: Console auth enabled, trying to get token");
+				RequestToken();
+			}
+			else
+			{
+				Debug.Log("ConsolePlatformAuth.TryAuth: Console auth disabled");
+				base.OnError?.Invoke(null);
+			}
 		}
-		else
+
+		private void RequestToken()
 		{
-			Debug.Log("ConsolePlatformAuth.TryAuth: Console auth disabled");
-			base.OnError?.Invoke(null);
+			DemoController.Instance.GetImplementation().SignInConsoleAccount(
+				userId: XsollaSettings.UsernameFromConsolePlatform,
+				platform: XsollaSettings.Platform.GetString(),
+				SuccessHandler,
+				FailHandler);
 		}
-	}
 
-	private void RequestToken()
-	{
-		DemoController.Instance.GetImplementation().SignInConsoleAccount(
-			userId: XsollaSettings.UsernameFromConsolePlatform,
-			platform: XsollaSettings.Platform.GetString(),
-			SuccessHandler,
-			FailHandler);
-	}
+		private void SuccessHandler(string token)
+		{
+			Debug.Log("ConsolePlatformAuth.SuccessHandler: Token loaded");
+			base.OnSuccess?.Invoke(token);
+		}
 
-	private void SuccessHandler(string token)
-	{
-		Debug.Log("ConsolePlatformAuth.SuccessHandler: Token loaded");
-		base.OnSuccess?.Invoke(token);
-	}
-
-	private void FailHandler(Error error)
-	{
-		Debug.LogError($"Failed request token by console account with user = `{XsollaSettings.UsernameFromConsolePlatform}` and platform = `{XsollaSettings.Platform.GetString()}`. Error:{error.ToString()}");
-		base.OnError?.Invoke(error);
+		private void FailHandler(Error error)
+		{
+			Debug.LogError($"Failed request token by console account with user = `{XsollaSettings.UsernameFromConsolePlatform}` and platform = `{XsollaSettings.Platform.GetString()}`. Error:{error.ToString()}");
+			base.OnError?.Invoke(error);
+		}
 	}
 }

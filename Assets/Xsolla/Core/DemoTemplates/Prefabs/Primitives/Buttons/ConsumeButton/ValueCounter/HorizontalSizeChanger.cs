@@ -1,23 +1,26 @@
-﻿using UnityEngine;
+using UnityEngine;
 
-public class HorizontalSizeChanger : MonoBehaviour
+namespace Xsolla.Demo
 {
-	public RectTransform.Edge edge;
-
-	private RectTransform rectTransform;
-
-	private void Awake()
+	public class HorizontalSizeChanger : MonoBehaviour
 	{
-		rectTransform = GetComponent<RectTransform>();
-	}
+		public RectTransform.Edge edge;
 
-	public void SetWidth(float value)
-	{
-		rectTransform.SetInsetAndSizeFromParentEdge(edge, 0, value);
-	}
+		private RectTransform _rectTransform;
 
-	public float GetWidth()
-	{
-		return rectTransform.rect.width;
+		private void Awake()
+		{
+			_rectTransform = GetComponent<RectTransform>();
+		}
+
+		public void SetWidth(float value)
+		{
+			_rectTransform.SetInsetAndSizeFromParentEdge(edge, 0, value);
+		}
+
+		public float GetWidth()
+		{
+			return _rectTransform.rect.width;
+		}
 	}
 }

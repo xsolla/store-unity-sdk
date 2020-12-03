@@ -1,22 +1,25 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class PopupOverlay : MonoBehaviour
+namespace Xsolla.Core.Popup
 {
-    private void Start()
-    {
-        StartCoroutine(OverlayCoroutine());
-    }
+	public class PopupOverlay : MonoBehaviour
+	{
+		private void Start()
+		{
+			StartCoroutine(OverlayCoroutine());
+		}
 
-    private void OnDestroy()
-    {
-        StopAllCoroutines();
-    }
+		private void OnDestroy()
+		{
+			StopAllCoroutines();
+		}
 
-    private IEnumerator OverlayCoroutine()
-    {
-        yield return new WaitForSeconds(0.5F);
-        transform.SetAsLastSibling();
-        StartCoroutine(OverlayCoroutine());
-    }
+		private IEnumerator OverlayCoroutine()
+		{
+			yield return new WaitForSeconds(0.5F);
+			transform.SetAsLastSibling();
+			StartCoroutine(OverlayCoroutine());
+		}
+	}
 }

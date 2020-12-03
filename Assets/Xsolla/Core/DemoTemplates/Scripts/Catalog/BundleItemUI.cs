@@ -1,33 +1,36 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 using Xsolla.Core;
 
-public class BundleItemUI : MonoBehaviour
+namespace Xsolla.Demo
 {
-	[SerializeField] private Image itemImage;
-	[SerializeField] private Text itemName;
-	[SerializeField] private Text itemDescription;
-	[SerializeField] private Text itemQuantity;
-
-	public void Initialize(BundleContentItem item)
+	public class BundleItemUI : MonoBehaviour
 	{
-		itemName.text = item.Name;
-		itemDescription.text = item.Description;
-		itemQuantity.text = item.Quantity.ToString();
+		[SerializeField] private Image itemImage = default;
+		[SerializeField] private Text itemName = default;
+		[SerializeField] private Text itemDescription = default;
+		[SerializeField] private Text itemQuantity = default;
 
-		if (!string.IsNullOrEmpty(item.ImageUrl))
+		public void Initialize(BundleContentItem item)
 		{
-			ImageLoader.Instance.GetImageAsync(item.ImageUrl, LoadImageCallback);
-		}
-		else
-		{
-			Debug.LogError($"Bundle content item with sku = '{item.Sku}' without image!");
-		}
-	}
+			itemName.text = item.Name;
+			itemDescription.text = item.Description;
+			itemQuantity.text = item.Quantity.ToString();
 
-	void LoadImageCallback(string url, Sprite image)
-	{
-		if (itemImage)
-			itemImage.sprite = image;
+			if (!string.IsNullOrEmpty(item.ImageUrl))
+			{
+				ImageLoader.Instance.GetImageAsync(item.ImageUrl, LoadImageCallback);
+			}
+			else
+			{
+				Debug.LogError($"Bundle content item with sku = '{item.Sku}' without image!");
+			}
+		}
+
+		void LoadImageCallback(string url, Sprite image)
+		{
+			if (itemImage)
+				itemImage.sprite = image;
+		}
 	}
 }

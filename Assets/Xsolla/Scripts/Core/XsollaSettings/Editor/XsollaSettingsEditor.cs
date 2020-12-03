@@ -1,5 +1,5 @@
 using UnityEditor;
-using Xsolla.Login;
+using UnityEngine;
 
 namespace Xsolla.Core
 {
@@ -14,22 +14,27 @@ namespace Xsolla.Core
 
 		public override void OnInspectorGUI()
 		{
-			var changed =   XsollaLoginSettings() ||
-                            PublishingPlatformSettings() ||
-			                XsollaStoreSettings() ||
-                            XsollaPaystationSettings() ||
-                            AndroidSDKSettings() ||
+			var changed =	XsollaLoginSettings() ||
+							PublishingPlatformSettings() ||
+							XsollaStoreSettings() ||
+							XsollaPaystationSettings() ||
+							AndroidSDKSettings() ||
 							InventorySDKSettings();
 
 			XsollaAndroidSettings();
 
 			if (changed)
 			{
-				XsollaLogin.Instance.DeleteToken(Constants.LAST_SUCCESS_AUTH_TOKEN);
-				XsollaLogin.Instance.DeleteToken(Constants.LAST_SUCCESS_OAUTH_REFRESH_TOKEN);
-				XsollaLogin.Instance.DeleteToken(Constants.OAUTH_REFRESH_TOKEN_EXPIRATION_TIME);
+				DeleteRecord(Constants.LAST_SUCCESS_AUTH_TOKEN);
+				DeleteRecord(Constants.LAST_SUCCESS_OAUTH_REFRESH_TOKEN);
+				DeleteRecord(Constants.OAUTH_REFRESH_TOKEN_EXPIRATION_TIME);
 			}
+		}
+
+		private void DeleteRecord(string key)
+		{
+			if (!string.IsNullOrEmpty(key) && PlayerPrefs.HasKey(key))
+				PlayerPrefs.DeleteKey(key);
 		}
 	}
 }
-

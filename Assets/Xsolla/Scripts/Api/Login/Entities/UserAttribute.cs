@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 namespace Xsolla.Login
 {
@@ -23,5 +20,3 @@ namespace Xsolla.Login
 		}
 	}
 }
-
-

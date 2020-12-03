@@ -1,27 +1,30 @@
 using UnityEngine;
 
-public class CommonStoreMenuController : BaseMenuController
+namespace Xsolla.Demo
 {
-	[SerializeField] private SimpleButton publisherAccountButton;
-	[SerializeField] private SimpleButton documentationButton;
-	[SerializeField] private SimpleButton testCardsButton;
-	[SerializeField] private SimpleButton backButton;
-	[SerializeField] private SimpleButton buyCurrencyButton;
-	[SerializeField] private SimpleButton tutorialButton;
-
-	private void Start()
+	public class CommonStoreMenuController : BaseMenuController
 	{
-		AttachUrlToButton(publisherAccountButton, DemoController.Instance.UrlContainer.GetUrl(UrlType.PublisherUrl));
-		AttachUrlToButton(documentationButton, DemoController.Instance.UrlContainer.GetUrl(UrlType.DocumentationUrl));
-		AttachUrlToButton(testCardsButton, DemoController.Instance.UrlContainer.GetUrl(UrlType.TestCardsUrl));
-		AttachButtonCallback(backButton, () => DemoController.Instance.SetPreviousState());
-		AttachButtonCallback(buyCurrencyButton,
-			() => SetMenuState(MenuState.BuyCurrency, () => UserCatalog.Instance.IsUpdated));
+		[SerializeField] private SimpleButton publisherAccountButton = default;
+		[SerializeField] private SimpleButton documentationButton = default;
+		[SerializeField] private SimpleButton testCardsButton = default;
+		[SerializeField] private SimpleButton backButton = default;
+		[SerializeField] private SimpleButton buyCurrencyButton = default;
+		[SerializeField] private SimpleButton tutorialButton = default;
 
-		if (DemoController.Instance.IsTutorialAvailable)
+		private void Start()
 		{
-			tutorialButton.gameObject.SetActive(true);
-			AttachButtonCallback(tutorialButton, () => DemoController.Instance.TutorialManager.ShowTutorial(false));
+			AttachUrlToButton(publisherAccountButton, DemoController.Instance.UrlContainer.GetUrl(UrlType.PublisherUrl));
+			AttachUrlToButton(documentationButton, DemoController.Instance.UrlContainer.GetUrl(UrlType.DocumentationUrl));
+			AttachUrlToButton(testCardsButton, DemoController.Instance.UrlContainer.GetUrl(UrlType.TestCardsUrl));
+			AttachButtonCallback(backButton, () => DemoController.Instance.SetPreviousState());
+			AttachButtonCallback(buyCurrencyButton,
+				() => SetMenuState(MenuState.BuyCurrency, () => UserCatalog.Instance.IsUpdated));
+
+			if (DemoController.Instance.IsTutorialAvailable)
+			{
+				tutorialButton.gameObject.SetActive(true);
+				AttachButtonCallback(tutorialButton, () => DemoController.Instance.TutorialManager.ShowTutorial(false));
+			}
 		}
 	}
 }

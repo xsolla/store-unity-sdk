@@ -1,43 +1,42 @@
-﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class PrivacyPolicyUrlSetter : MonoBehaviour
+namespace Xsolla.Demo
 {
-#pragma warning disable 0649
-	[SerializeField] private OpenUrlOnClick PrivacyPolicyOpenScript;
-#pragma warning restore 0649
-
-	private void Start()
+	public class PrivacyPolicyUrlSetter : MonoBehaviour
 	{
-		var currentUrl = PrivacyPolicyOpenScript.URL;
-		var currentLanguage = Application.systemLanguage;
-		var urlAddition = default(string);
+		[SerializeField] private OpenUrlOnClick PrivacyPolicyOpenScript = default;
 
-		switch (currentLanguage)
+		private void Start()
 		{
-			case SystemLanguage.German:
-				urlAddition = "/de/";
-				break;
-			case SystemLanguage.Korean:
-				urlAddition = "/ko/";
-				break;
-			case SystemLanguage.Chinese:
-			case SystemLanguage.ChineseSimplified:
-			case SystemLanguage.ChineseTraditional:
-				urlAddition = "/zh/";
-				break;
-			case SystemLanguage.Japanese:
-				urlAddition = "/ja/";
-				break;
-			case SystemLanguage.Russian:
-				urlAddition = "/ru/";
-				break;
-			default:
-				urlAddition = "/";
-				break;
-		}
+			var currentUrl = PrivacyPolicyOpenScript.URL;
+			var currentLanguage = Application.systemLanguage;
+			var urlAddition = default(string);
 
-		PrivacyPolicyOpenScript.URL = string.Format(currentUrl, urlAddition);
+			switch (currentLanguage)
+			{
+				case SystemLanguage.German:
+					urlAddition = "/de/";
+					break;
+				case SystemLanguage.Korean:
+					urlAddition = "/ko/";
+					break;
+				case SystemLanguage.Chinese:
+				case SystemLanguage.ChineseSimplified:
+				case SystemLanguage.ChineseTraditional:
+					urlAddition = "/zh/";
+					break;
+				case SystemLanguage.Japanese:
+					urlAddition = "/ja/";
+					break;
+				case SystemLanguage.Russian:
+					urlAddition = "/ru/";
+					break;
+				default:
+					urlAddition = "/";
+					break;
+			}
+
+			PrivacyPolicyOpenScript.URL = string.Format(currentUrl, urlAddition);
+		}
 	}
 }

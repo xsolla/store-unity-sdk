@@ -1,28 +1,29 @@
-﻿using UnityEngine;
+using UnityEngine;
 using Xsolla.Core.Popup;
 
-public class CouponsManager : MonoBehaviour
+namespace Xsolla.Demo
 {
-#pragma warning disable 0649
-	[SerializeField] private SimpleTextButton redeemCouponButton;
-#pragma warning restore 0649
-
-	void Start()
+	public class CouponsManager : MonoBehaviour
 	{
-		redeemCouponButton.onClick += ShowRedeemCouponPopup;
-	}
+		[SerializeField] private SimpleTextButton redeemCouponButton = default;
 
-	private void ShowRedeemCouponPopup()
-	{
-		var redeemCouponPopup = PopupFactory.Instance.CreateRedeemCoupon();
-		redeemCouponPopup.SetRedeemCallback(code =>
+		void Start()
 		{
-			DemoController.Instance.GetImplementation().RedeemCouponCode(code, redeemedItems =>
+			redeemCouponButton.onClick += ShowRedeemCouponPopup;
+		}
+
+		private void ShowRedeemCouponPopup()
+		{
+			var redeemCouponPopup = PopupFactory.Instance.CreateRedeemCoupon();
+			redeemCouponPopup.SetRedeemCallback(code =>
 			{
-				redeemCouponPopup.Close();
-				UserInventory.Instance.Refresh();
-				PopupFactory.Instance.CreateCouponRewards().SetItems(redeemedItems);
-			}, error => redeemCouponPopup.ShowError());
-		});
+				DemoController.Instance.GetImplementation().RedeemCouponCode(code, redeemedItems =>
+				{
+					redeemCouponPopup.Close();
+					UserInventory.Instance.Refresh();
+					PopupFactory.Instance.CreateCouponRewards().SetItems(redeemedItems);
+				}, error => redeemCouponPopup.ShowError());
+			});
+		}
 	}
 }

@@ -3,36 +3,37 @@ using System.Collections.Generic;
 using UnityEngine;
 using Xsolla.Login;
 
-public class UserAttributesProvider : UserAttributesRequestBase
+namespace Xsolla.Demo
 {
-#pragma warning disable 0649
-	[SerializeField] private AttributeItemsManager ItemsManager;
-	[SerializeField] private UserAttributeType AttributeType;
-#pragma warning restore 0649
-
-	private void Start()
+	public class UserAttributesProvider : UserAttributesRequestBase
 	{
-		if (!base.IsRequestPossible)
-			return;
+		[SerializeField] private AttributeItemsManager ItemsManager = default;
+		[SerializeField] private UserAttributeType AttributeType = default;
 
-		List<string> attributeKeys = null;//Get all existing attributes without filter
-		string userId = null;//Get current user attributes
-
-		Action<List<UserAttribute>> onSuccessGet = result =>
+		private void Start()
 		{
-			switch (AttributeType)
+			if (!base.IsRequestPossible)
+				return;
+
+			List<string> attributeKeys = null;//Get all existing attributes without filter
+			string userId = null;//Get current user attributes
+
+			Action<List<UserAttribute>> onSuccessGet = result =>
 			{
-				case UserAttributeType.CUSTOM:
-					ItemsManager.Initialize(userCustomAttributes: result);
-					break;
-				case UserAttributeType.READONLY:
-					ItemsManager.Initialize(userReadOnlyAttributes: result);
-					break;
-			}
+				switch (AttributeType)
+				{
+					case UserAttributeType.CUSTOM:
+						ItemsManager.Initialize(userCustomAttributes: result);
+						break;
+					case UserAttributeType.READONLY:
+						ItemsManager.Initialize(userReadOnlyAttributes: result);
+						break;
+				}
 
-			base.OnSuccess?.Invoke();
-		};
+				base.OnSuccess?.Invoke();
+			};
 
-		DemoController.Instance.GetImplementation().GetUserAttributes(base.Token, base.ProjectID, this.AttributeType, attributeKeys, userId, onSuccessGet, base.OnError);
+			DemoController.Instance.GetImplementation().GetUserAttributes(base.Token, base.ProjectID, this.AttributeType, attributeKeys, userId, onSuccessGet, base.OnError);
+		}
 	}
 }

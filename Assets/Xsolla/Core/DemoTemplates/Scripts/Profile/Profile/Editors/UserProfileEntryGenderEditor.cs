@@ -1,68 +1,69 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class UserProfileEntryGenderEditor : UserProfileEntryEditor
+namespace Xsolla.Demo
 {
-#pragma warning disable 0649
-	[SerializeField] Toggle MaleCheckbox;
-	[SerializeField] Toggle FemaleCheckbox;
-#pragma warning restore 0649
-
-	private bool _skipNextCheck;
-
-	public override void SetInitial(string value)
+	public class UserProfileEntryGenderEditor : UserProfileEntryEditor
 	{
-		if (string.IsNullOrEmpty(value))
-			return;
+		[SerializeField] Toggle MaleCheckbox = default;
+		[SerializeField] Toggle FemaleCheckbox = default;
 
-		bool? isMale = null;
+		private bool _skipNextCheck;
 
-		if (value == UserProfileGender.MALE)
-			isMale = true;
-		else if (value == UserProfileGender.FEMALE)
-			isMale = false;
-
-		if (isMale != null)
+		public override void SetInitial(string value)
 		{
-			_skipNextCheck = true;
+			if (string.IsNullOrEmpty(value))
+				return;
 
-			if (isMale == true)
+			bool? isMale = null;
+
+			if (value == UserProfileGender.MALE)
+				isMale = true;
+			else if (value == UserProfileGender.FEMALE)
+				isMale = false;
+
+			if (isMale != null)
 			{
-				MaleCheckbox.isOn = true;
-				FemaleCheckbox.isOn = false;
+				_skipNextCheck = true;
+
+				if (isMale == true)
+				{
+					MaleCheckbox.isOn = true;
+					FemaleCheckbox.isOn = false;
+				}
+				else
+				{
+					MaleCheckbox.isOn = false;
+					FemaleCheckbox.isOn = true;
+				}
+
+				_skipNextCheck = false;
 			}
 			else
-			{
-				MaleCheckbox.isOn = false;
-				FemaleCheckbox.isOn = true;
-			}
-
-			_skipNextCheck = false;
+				Debug.LogWarning($"Could not set initial value: {value}");
 		}
-		else
-			Debug.LogWarning($"Could not set initial value: {value}");
-	}
 
-	private void Awake()
-	{
-		MaleCheckbox.onValueChanged.AddListener(MaleCheckboxValueChange);
-		FemaleCheckbox.onValueChanged.AddListener(FemaleCheckboxValueChange);
-	}
-
-	private void MaleCheckboxValueChange(bool newValue) => ProcessValueChange(isMaleCheckBox: true, newValue);
-	private void FemaleCheckboxValueChange(bool newValue) => ProcessValueChange(isMaleCheckBox: false, newValue);
-
-	private void ProcessValueChange(bool isMaleCheckBox, bool newValue)
-	{
-		if(newValue/*== true*/ && !_skipNextCheck)
+		private void Awake()
 		{
-			if (isMaleCheckBox)
-				FemaleCheckbox.isOn = false;
-			else
-				MaleCheckbox.isOn = false;
+			MaleCheckbox.onValueChanged.AddListener(MaleCheckboxValueChange);
+			FemaleCheckbox.onValueChanged.AddListener(FemaleCheckboxValueChange);
+		}
 
-			var result = isMaleCheckBox ? UserProfileGender.MALE : UserProfileGender.FEMALE;
-			base.RaiseEntryEdited(result);
+		private void MaleCheckboxValueChange(bool newValue) => ProcessValueChange(isMaleCheckBox: true, newValue);
+		private void FemaleCheckboxValueChange(bool newValue) => ProcessValueChange(isMaleCheckBox: false, newValue);
+
+		private void ProcessValueChange(bool isMaleCheckBox, bool newValue)
+		{
+			if(newValue/*== true*/ && !_skipNextCheck)
+			{
+				if (isMaleCheckBox)
+					FemaleCheckbox.isOn = false;
+				else
+					MaleCheckbox.isOn = false;
+
+				var result = isMaleCheckBox ? UserProfileGender.MALE : UserProfileGender.FEMALE;
+				base.RaiseEntryEdited(result);
+			}
 		}
 	}
 }

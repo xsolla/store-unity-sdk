@@ -1,10 +1,12 @@
-using System;
 using UnityEngine;
-using static MenuStateMachine;
+using static Xsolla.Demo.MenuStateMachine;
 
-public interface IMenuStateMachine
+namespace Xsolla.Demo
 {
-	event StateChangeDelegate StateChangingEvent;
-	GameObject SetState(MenuState state);
-	void SetPreviousState();
+	public interface IMenuStateMachine
+	{
+		event StateChangeDelegate StateChangingEvent;
+		GameObject SetState(MenuState state);
+		void SetPreviousState();
+	}
 }

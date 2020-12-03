@@ -1,12 +1,15 @@
 ﻿using System;
 
-[Serializable]
-public class ResetPassword
+namespace Xsolla.Login
 {
-	public string username;
-
-	public ResetPassword(string username)
+	[Serializable]
+	public class ResetPassword
 	{
-		this.username = username;
+		public string username;
+
+		public ResetPassword(string username)
+		{
+			this.username = username;
+		}
 	}
 }

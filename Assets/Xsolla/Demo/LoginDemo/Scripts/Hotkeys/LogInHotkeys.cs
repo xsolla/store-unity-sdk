@@ -4,25 +4,28 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class LogInHotkeys : MonoBehaviour
+namespace Xsolla.Demo
 {
-    public event Action EnterKeyPressedEvent;
-    public event Action TabKeyPressedEvent;
-
-	private void Start()
+	public class LogInHotkeys : MonoBehaviour
 	{
-		gameObject.AddComponent<HotkeyCoroutine>()
-			.StartCoroutine(KeyCode.Return, 0.2F)
-			.KeyPressedEvent += () => EnterKeyPressedEvent?.Invoke();
+		public event Action EnterKeyPressedEvent;
+		public event Action TabKeyPressedEvent;
 
-		gameObject.AddComponent<HotkeyCoroutine>()
-			.StartCoroutine(KeyCode.Tab, 0.2F)
-			.KeyPressedEvent += () => TabKeyPressedEvent?.Invoke();
-	}
+		private void Start()
+		{
+			gameObject.AddComponent<HotkeyCoroutine>()
+				.StartCoroutine(KeyCode.Return, 0.2F)
+				.KeyPressedEvent += () => EnterKeyPressedEvent?.Invoke();
 
-	private void OnDestroy()
-	{
-		List<HotkeyCoroutine> hotkeys = gameObject.GetComponents<HotkeyCoroutine>().ToList();
-		hotkeys.ForEach(h => Destroy(h));
+			gameObject.AddComponent<HotkeyCoroutine>()
+				.StartCoroutine(KeyCode.Tab, 0.2F)
+				.KeyPressedEvent += () => TabKeyPressedEvent?.Invoke();
+		}
+
+		private void OnDestroy()
+		{
+			List<HotkeyCoroutine> hotkeys = gameObject.GetComponents<HotkeyCoroutine>().ToList();
+			hotkeys.ForEach(h => Destroy(h));
+		}
 	}
 }

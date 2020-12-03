@@ -1,28 +1,28 @@
-﻿using System.Linq;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-using Xsolla.Store;
+using Xsolla.Demo;
 
 namespace Xsolla.Core.Popup
 {
 	public class BundlePreviewPopup : MonoBehaviour, IBundlePreviewPopup
 	{
-		[SerializeField] Image bundleImage;
-		[SerializeField] GameObject loadingCircle;
-		[SerializeField] Text bundleName;
-		[SerializeField] Text bundleInfo;
-		[SerializeField] Text bundlePrice;
-		[SerializeField] Text bundlePriceWithoutDiscount;
-		[SerializeField] Image bundlePriceVcImage;
-		[SerializeField] Text bundlePriceVc;
-		[SerializeField] Image bundlePriceVcWithoutDiscountImage;
-		[SerializeField] Text bundlePriceVcWithoutDiscount;
+		[SerializeField] Image bundleImage = default;
+		[SerializeField] GameObject loadingCircle = default;
+		[SerializeField] Text bundleName = default;
+		[SerializeField] Text bundleInfo = default;
+		[SerializeField] Text bundlePrice = default;
+		[SerializeField] Text bundlePriceWithoutDiscount = default;
+		[SerializeField] Image bundlePriceVcImage = default;
+		[SerializeField] Text bundlePriceVc = default;
+		[SerializeField] Image bundlePriceVcWithoutDiscountImage = default;
+		[SerializeField] Text bundlePriceVcWithoutDiscount = default;
 
-		[SerializeField] SimpleButton closeButton;
-		[SerializeField] SimpleTextButton buyButton;
+		[SerializeField] SimpleButton closeButton = default;
+		[SerializeField] SimpleTextButton buyButton = default;
 
-		[SerializeField] GameObject itemPrefab;
-		[SerializeField] ItemContainer itemsContainer;
+		[SerializeField] GameObject itemPrefab = default;
+		[SerializeField] ItemContainer itemsContainer = default;
 
 		public IBundlePreviewPopup SetBundleInfo(CatalogBundleItemModel bundle)
 		{

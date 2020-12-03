@@ -1,19 +1,22 @@
 using System;
 
-[Serializable]
-public class UserSubscriptionModel : ItemModel
+namespace Xsolla.Demo
 {
-	public enum SubscriptionStatusType
+	[Serializable]
+	public class UserSubscriptionModel : ItemModel
 	{
-		None,
-		Active,
-		Expired
-	}
+		public enum SubscriptionStatusType
+		{
+			None,
+			Active,
+			Expired
+		}
 	
-	public override bool IsVirtualCurrency() => false;
-	public override bool IsSubscription() => true;
-	public override bool IsBundle() => false;
+		public override bool IsVirtualCurrency() => false;
+		public override bool IsSubscription() => true;
+		public override bool IsBundle() => false;
 
-	public SubscriptionStatusType Status { get; set; }
-	public DateTime? Expired { get; set; }
+		public SubscriptionStatusType Status { get; set; }
+		public DateTime? Expired { get; set; }
+	}
 }

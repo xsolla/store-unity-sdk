@@ -1,97 +1,99 @@
-﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
 using Xsolla.Core;
 
-public class CartItemUI : MonoBehaviour
+namespace Xsolla.Demo
 {
-	[SerializeField]
-	Image itemImage;
-	[SerializeField]
-	Text itemName;
-	[SerializeField]
-	Text itemPrice;
-	[SerializeField]
-	Text itemPriceWithoutDiscount;
-	[SerializeField]
-	GameObject discountIco;
-
-	[SerializeField]
-	SimpleButton addButton;
-	[SerializeField]
-	SimpleButton removeButton;
-	[SerializeField]
-	SimpleButton deleteButton;
-	
-	[SerializeField]
-	Text itemQuantity;
-
-	private UserCartItem _cartItem;
-
-	private void Start()
+	public class CartItemUI : MonoBehaviour
 	{
-		addButton.onClick = () => UserCart.Instance.IncreaseCountOf(_cartItem.Item);
-		removeButton.onClick = () => UserCart.Instance.DecreaseCountOf(_cartItem.Item);
-		deleteButton.onClick = () => UserCart.Instance.RemoveItem(_cartItem.Item);
+		[SerializeField]
+		Image itemImage = default;
+		[SerializeField]
+		Text itemName = default;
+		[SerializeField]
+		Text itemPrice = default;
+		[SerializeField]
+		Text itemPriceWithoutDiscount = default;
+		[SerializeField]
+		GameObject discountIco = default;
 
-		UserCart.Instance.RemoveItemEvent += RemoveItemHandler;
-		UserCart.Instance.UpdateItemEvent += UpdateItemHandler;
-	}
+		[SerializeField]
+		SimpleButton addButton = default;
+		[SerializeField]
+		SimpleButton removeButton = default;
+		[SerializeField]
+		SimpleButton deleteButton = default;
 
-	private void OnDestroy()
-	{
-		UserCart.Instance.RemoveItemEvent -= RemoveItemHandler;
-		UserCart.Instance.UpdateItemEvent -= UpdateItemHandler;
-	}
+		[SerializeField]
+		Text itemQuantity = default;
 
-	private void RemoveItemHandler(UserCartItem item)
-	{
-		if (!item.Equals(_cartItem)) return;
-		Destroy(gameObject, 0.1F);
-	}
+		private UserCartItem _cartItem;
 
-	private void UpdateItemHandler(UserCartItem item, int deltaCount)
-	{
-		if (!item.Equals(_cartItem)) return;
-		itemQuantity.text = _cartItem.Quantity.ToString();
-	}
-
-	public void Initialize(UserCartItem cartItem)
-	{
-		_cartItem = cartItem;
-
-		itemPrice.text = PriceFormatter.FormatPrice(_cartItem.Currency, _cartItem.Price);
-		itemName.text = _cartItem.Item.Name;
-		itemQuantity.text = _cartItem.Quantity.ToString();
-
-		var priceWithoutDiscount = _cartItem.PriceWithoutDiscount;
-
-		if (priceWithoutDiscount != default(float) && priceWithoutDiscount != _cartItem.Price)
+		private void Start()
 		{
-			itemPriceWithoutDiscount.text = PriceFormatter.FormatPrice(_cartItem.Currency, priceWithoutDiscount);
-			discountIco.SetActive(true);
+			addButton.onClick = () => UserCart.Instance.IncreaseCountOf(_cartItem.Item);
+			removeButton.onClick = () => UserCart.Instance.DecreaseCountOf(_cartItem.Item);
+			deleteButton.onClick = () => UserCart.Instance.RemoveItem(_cartItem.Item);
+
+			UserCart.Instance.RemoveItemEvent += RemoveItemHandler;
+			UserCart.Instance.UpdateItemEvent += UpdateItemHandler;
 		}
-		else
+
+		private void OnDestroy()
 		{
-			itemPriceWithoutDiscount.text = string.Empty;
-			discountIco.SetActive(false);
+			UserCart.Instance.RemoveItemEvent -= RemoveItemHandler;
+			UserCart.Instance.UpdateItemEvent -= UpdateItemHandler;
 		}
-		
-		if (itemImage.sprite != null)
+
+		private void RemoveItemHandler(UserCartItem item)
 		{
-			if (!string.IsNullOrEmpty(_cartItem.ImageUrl))
+			if (!item.Equals(_cartItem)) return;
+			Destroy(gameObject, 0.1F);
+		}
+
+		private void UpdateItemHandler(UserCartItem item, int deltaCount)
+		{
+			if (!item.Equals(_cartItem)) return;
+			itemQuantity.text = _cartItem.Quantity.ToString();
+		}
+
+		public void Initialize(UserCartItem cartItem)
+		{
+			_cartItem = cartItem;
+
+			itemPrice.text = PriceFormatter.FormatPrice(_cartItem.Currency, _cartItem.Price);
+			itemName.text = _cartItem.Item.Name;
+			itemQuantity.text = _cartItem.Quantity.ToString();
+
+			var priceWithoutDiscount = _cartItem.PriceWithoutDiscount;
+
+			if (priceWithoutDiscount != default(float) && priceWithoutDiscount != _cartItem.Price)
 			{
-				ImageLoader.Instance.GetImageAsync(_cartItem.ImageUrl, LoadImageCallback);
+				itemPriceWithoutDiscount.text = PriceFormatter.FormatPrice(_cartItem.Currency, priceWithoutDiscount);
+				discountIco.SetActive(true);
 			}
 			else
 			{
-				Debug.LogError($"Cart item with sku = '{_cartItem.Sku}' without image!");
+				itemPriceWithoutDiscount.text = string.Empty;
+				discountIco.SetActive(false);
+			}
+		
+			if (itemImage.sprite != null)
+			{
+				if (!string.IsNullOrEmpty(_cartItem.ImageUrl))
+				{
+					ImageLoader.Instance.GetImageAsync(_cartItem.ImageUrl, LoadImageCallback);
+				}
+				else
+				{
+					Debug.LogError($"Cart item with sku = '{_cartItem.Sku}' without image!");
+				}
 			}
 		}
-	}
 
-	void LoadImageCallback(string url, Sprite image)
-	{
-		itemImage.sprite = image;
+		void LoadImageCallback(string url, Sprite image)
+		{
+			itemImage.sprite = image;
+		}
 	}
 }

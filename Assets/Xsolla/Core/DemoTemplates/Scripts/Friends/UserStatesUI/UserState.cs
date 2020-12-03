@@ -1,9 +1,12 @@
-public enum UserState
+namespace Xsolla.Demo
 {
-	Initial,
-	MyFriend,
-	Pending,
-	Requested,
-	Blocked,
-	SocialNonXsolla
+	public enum UserState
+	{
+		Initial,
+		MyFriend,
+		Pending,
+		Requested,
+		Blocked,
+		SocialNonXsolla
+	}
 }

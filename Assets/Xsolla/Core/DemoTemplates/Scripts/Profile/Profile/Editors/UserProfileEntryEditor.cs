@@ -1,14 +1,17 @@
 ﻿using System;
 using UnityEngine;
 
-public abstract class UserProfileEntryEditor : MonoBehaviour
+namespace Xsolla.Demo
 {
-	public event Action<string> UserProfileEntryEdited;
-
-	protected void RaiseEntryEdited(string value)
+	public abstract class UserProfileEntryEditor : MonoBehaviour
 	{
-		UserProfileEntryEdited?.Invoke(value);
-	}
+		public event Action<string> UserProfileEntryEdited;
 
-	public abstract void SetInitial(string value);
+		protected void RaiseEntryEdited(string value)
+		{
+			UserProfileEntryEdited?.Invoke(value);
+		}
+
+		public abstract void SetInitial(string value);
+	}
 }

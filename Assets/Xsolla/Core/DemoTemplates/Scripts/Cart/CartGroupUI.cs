@@ -1,73 +1,76 @@
-﻿using System;
+using System;
 using UnityEngine;
 using Xsolla.Core;
 
-public class CartGroupUI : MonoBehaviour, IGroup
+namespace Xsolla.Demo
 {
-	[SerializeField]
-	CartMenuButton menuButton;
+	public class CartGroupUI : MonoBehaviour, IGroup
+	{
+		[SerializeField]
+		CartMenuButton menuButton = default;
+
+		int _counter;
 	
-	int _counter;
+		void Awake()
+		{
+			UserCart.Instance.AddItemEvent += item => IncreaseCounter();
+			UserCart.Instance.RemoveItemEvent += item => DecreaseCounter();
+			UserCart.Instance.UpdateItemEvent += (item, deltaValue) => ChangeCounter(deltaValue);
+			UserCart.Instance.ClearCartEvent += ResetCounter;
+
+			menuButton.onClick = () => OnGroupClick?.Invoke(Constants.CartGroupName);
+		}
+
+		public string Id { get; set; }
+
+		public string Name
+		{
+			get { return menuButton.Text; }
+			set { menuButton.Text = value; }
+		}
+
+		public Action<string> OnGroupClick { get; set; }
+
+		public void Select()
+		{
+			//menuButton.Select();
+		}
+
+		public void Deselect()
+		{
+			//menuButton.Deselect();
+		}
 	
-	void Awake()
-	{
-		UserCart.Instance.AddItemEvent += item => IncreaseCounter();
-		UserCart.Instance.RemoveItemEvent += item => DecreaseCounter();
-		UserCart.Instance.UpdateItemEvent += (item, deltaValue) => ChangeCounter(deltaValue);
-		UserCart.Instance.ClearCartEvent += ResetCounter;
+		public bool IsSelected()
+		{
+			return false;
+			//return menuButton.IsSelected;
+		}
 
-		menuButton.onClick = () => OnGroupClick?.Invoke(Constants.CartGroupName);
-	}
+		private void SetCounter(int newValue)
+		{
+			_counter = newValue;
+			menuButton.CounterText = _counter.ToString();
+		}
 
-	public string Id { get; set; }
+		private void IncreaseCounter(int value = 1)
+		{
+			SetCounter(_counter + 1);
+		}
 
-	public string Name
-	{
-		get { return menuButton.Text; }
-		set { menuButton.Text = value; }
-	}
+		private void DecreaseCounter(int value = 1)
+		{
+			SetCounter(_counter - 1);
+		}
 
-	public Action<string> OnGroupClick { get; set; }
+		private void ResetCounter()
+		{
+			SetCounter(0);
+		}
 
-	public void Select()
-	{
-		//menuButton.Select();
-	}
-
-	public void Deselect()
-	{
-		//menuButton.Deselect();
-	}
-	
-	public bool IsSelected()
-	{
-		return false;
-		//return menuButton.IsSelected;
-	}
-
-	private void SetCounter(int newValue)
-	{
-		_counter = newValue;
-		menuButton.CounterText = _counter.ToString();
-	}
-
-	private void IncreaseCounter(int value = 1)
-	{
-		SetCounter(_counter + 1);
-	}
-
-	private void DecreaseCounter(int value = 1)
-	{
-		SetCounter(_counter - 1);
-	}
-
-	private void ResetCounter()
-	{
-		SetCounter(0);
-	}
-
-	private void ChangeCounter(int deltaValue)
-	{
-		SetCounter(_counter + deltaValue);
+		private void ChangeCounter(int deltaValue)
+		{
+			SetCounter(_counter + deltaValue);
+		}
 	}
 }

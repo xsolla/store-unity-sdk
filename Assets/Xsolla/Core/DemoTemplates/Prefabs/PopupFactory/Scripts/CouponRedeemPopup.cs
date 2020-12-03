@@ -1,16 +1,17 @@
-﻿using System;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
+using Xsolla.Demo;
 
 namespace Xsolla.Core.Popup
 {
 	[AddComponentMenu("Scripts/Xsolla.Core/Popup/RedeemCouponPopup")]
 	public class CouponRedeemPopup : MonoBehaviour, ICouponRedeemPopup
 	{
-		[SerializeField] private InputField CodeInputField;
-		[SerializeField] private Text ErrorMessage;
-		[SerializeField] private SimpleTextButtonDisableable RedeemButton;
-		[SerializeField] private SimpleTextButton CancelButton;
+		[SerializeField] private InputField CodeInputField = default;
+		[SerializeField] private Text ErrorMessage = default;
+		[SerializeField] private SimpleTextButtonDisableable RedeemButton = default;
+		[SerializeField] private SimpleTextButton CancelButton = default;
 
 		private void Awake()
 		{

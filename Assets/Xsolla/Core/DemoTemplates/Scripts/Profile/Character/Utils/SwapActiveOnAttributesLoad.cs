@@ -1,38 +1,39 @@
 ﻿using UnityEngine;
 
-public class SwapActiveOnAttributesLoad : MonoBehaviour
+namespace Xsolla.Demo
 {
-#pragma warning disable 0649
-	[SerializeField] private UserAttributesProvider AttributesProvider;
-	[SerializeField] private Transform AttributesParent;
-	[SerializeField] private GameObject[] ActiveObjects;
-	[SerializeField] private GameObject[] InactiveObjects;
-#pragma warning restore 0649
-
-	private bool IsAttributesLoaded => AttributesParent?.transform?.childCount > 0;
-
-	private void Awake()
+	public class SwapActiveOnAttributesLoad : MonoBehaviour
 	{
-		if (/*already*/IsAttributesLoaded)
-			SwapActive();
+		[SerializeField] private UserAttributesProvider AttributesProvider = default;
+		[SerializeField] private Transform AttributesParent = default;
+		[SerializeField] private GameObject[] ActiveObjects = default;
+		[SerializeField] private GameObject[] InactiveObjects = default;
 
-		AttributesProvider.OnSuccess += SwapActive;
-	}
+		private bool IsAttributesLoaded => AttributesParent?.transform?.childCount > 0;
 
-	private void OnDestroy()
-	{
-		AttributesProvider.OnSuccess -= SwapActive;
-	}
-
-	private void SwapActive()
-	{
-		if (IsAttributesLoaded)
+		private void Awake()
 		{
-			foreach (var item in ActiveObjects)
-				item.SetActive(false);
+			if (/*already*/IsAttributesLoaded)
+				SwapActive();
 
-			foreach (var item in InactiveObjects)
-				item.SetActive(true);
+			AttributesProvider.OnSuccess += SwapActive;
+		}
+
+		private void OnDestroy()
+		{
+			AttributesProvider.OnSuccess -= SwapActive;
+		}
+
+		private void SwapActive()
+		{
+			if (IsAttributesLoaded)
+			{
+				foreach (var item in ActiveObjects)
+					item.SetActive(false);
+
+				foreach (var item in InactiveObjects)
+					item.SetActive(true);
+			}
 		}
 	}
 }
