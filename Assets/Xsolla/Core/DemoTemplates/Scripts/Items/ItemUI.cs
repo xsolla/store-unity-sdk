@@ -14,6 +14,7 @@ namespace Xsolla.Demo
 		[SerializeField] GameObject loadingCircle = default;
 		[SerializeField] Text itemName = default;
 		[SerializeField] Text itemDescription = default;
+		[SerializeField] int itemDescriptionLength = default;
 		[SerializeField] Text itemPrice = default;
 		[SerializeField] Text itemPriceWithoutDiscount = default;
 		[SerializeField] Image itemPriceVcImage = default;
@@ -118,7 +119,11 @@ namespace Xsolla.Demo
 				var currency = UserCatalog.Instance.VirtualCurrencies.First(vc => vc.Sku.Equals(currencySku));
 
 				if (!string.IsNullOrEmpty(currency.ImageUrl))
-					ImageLoader.Instance.GetImageAsync(currency.ImageUrl, (_, sprite) => itemPriceVcImage.sprite = sprite);
+					ImageLoader.Instance.GetImageAsync(currency.ImageUrl, (_, sprite) =>
+					{
+						if (itemPriceVcImage)
+							itemPriceVcImage.sprite = sprite;
+					});
 				else
 					Debug.LogError($"Virtual currency item with sku = '{virtualItem.Sku}' without image!");
 			}));
@@ -182,7 +187,7 @@ namespace Xsolla.Demo
 			}
 
 			itemName.text = virtualItem.Name;
-			itemDescription.text = virtualItem.Description;
+			itemDescription.text = ShortenDescription(virtualItem.Description, itemDescriptionLength);
 			gameObject.name = "Item_" + virtualItem.Name.Replace(" ", "");
 			if (!string.IsNullOrEmpty(virtualItem.ImageUrl))
 			{
@@ -232,6 +237,25 @@ namespace Xsolla.Demo
 		private void AttachPreviewButtonHandler(CatalogItemModel virtualItem)
 		{
 			previewButton.onClick = () => { PopupFactory.Instance.CreateBundlePreview().SetBundleInfo((CatalogBundleItemModel) virtualItem); };
+		}
+
+		private string ShortenDescription(string input, int limit)
+		{
+			if (input.Length <= limit)
+				return input;
+
+			if (limit > input.Length - 1)
+				limit = input.Length - 1;
+
+			var spacePosition = input.LastIndexOf(" ", limit);
+			var result = default(string);
+
+			if (spacePosition != -1)
+				result = input.Substring(0, spacePosition);
+			else
+				result = input.Substring(0, limit);
+
+			return result;
 		}
 	}
 }
