@@ -37,8 +37,8 @@ namespace Xsolla.Store
 		/// <param name="onError">Failed operation callback.</param>
 		public void CreateNewCart(string projectId, [NotNull] Action<Cart> onSuccess, [CanBeNull] Action<Error> onError)
 		{
-			var urlBuilder = new StringBuilder(string.Format(URL_CART_CREATE_NEW, projectId)).Append(AnalyticUrlAddition);
-			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), AuthAndAnalyticHeaders, onSuccess, onError, Error.CreateCartErrors);
+			var url = string.Format(URL_CART_CREATE_NEW, projectId);
+			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.CreateCartErrors);
 		}
 
 		/// <summary>
@@ -53,9 +53,9 @@ namespace Xsolla.Store
 		/// <param name="onError">Failed operation callback.</param>
 		public void FillCart(string projectId, List<CartFillItem> items, [NotNull] Action onSuccess, [CanBeNull] Action<Error> onError)
 		{
-			var urlBuilder = new StringBuilder(string.Format(URL_CART_CURRENT_FILL, projectId)).Append(AnalyticUrlAddition);
+			var url = string.Format(URL_CART_CURRENT_FILL, projectId);
 			var entity = new CartFillEntity {items = items};
-			WebRequestHelper.Instance.PutRequest(urlBuilder.ToString(), entity, AuthAndAnalyticHeaders, onSuccess, onError, Error.CreateCartErrors);
+			WebRequestHelper.Instance.PutRequest(SdkType.Store, url, entity, WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.CreateCartErrors);
 		}
 
 		/// <summary>
@@ -71,9 +71,9 @@ namespace Xsolla.Store
 		/// <param name="onError">Failed operation callback.</param>
 		public void FillCart(string projectId, string cartId, List<CartFillItem> items, [NotNull] Action onSuccess, [CanBeNull] Action<Error> onError)
 		{
-			var urlBuilder = new StringBuilder(string.Format(URL_CART_SPECIFIC_FILL, projectId, cartId)).Append(AnalyticUrlAddition);
+			var url = string.Format(URL_CART_SPECIFIC_FILL, projectId, cartId);
 			var entity = new CartFillEntity {items = items};
-			WebRequestHelper.Instance.PutRequest(urlBuilder.ToString(), entity, AuthAndAnalyticHeaders, onSuccess, onError, Error.CreateCartErrors);
+			WebRequestHelper.Instance.PutRequest(SdkType.Store, url, entity, WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.CreateCartErrors);
 		}
 
 		/// <summary>
@@ -89,9 +89,9 @@ namespace Xsolla.Store
 		/// <seealso cref="CreateNewCart"/>
 		public void UpdateItemInCart(string projectId, string itemSku, int quantity, [CanBeNull] Action onSuccess, [CanBeNull] Action<Error> onError)
 		{
-			var urlBuilder = new StringBuilder(string.Format(URL_CART_CURRENT_ITEM_UPDATE, projectId, itemSku)).Append(AnalyticUrlAddition);
+			var url = string.Format(URL_CART_CURRENT_ITEM_UPDATE, projectId, itemSku);
 			var jsonObject = new Quantity {quantity = quantity};
-			WebRequestHelper.Instance.PutRequest<Quantity>(urlBuilder.ToString(), jsonObject, AuthAndAnalyticHeaders, onSuccess, onError, Error.AddToCartCartErrors);
+			WebRequestHelper.Instance.PutRequest<Quantity>(SdkType.Store, url, jsonObject, WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.AddToCartCartErrors);
 		}
 
 		/// <summary>
@@ -108,9 +108,9 @@ namespace Xsolla.Store
 		/// <seealso cref="CreateNewCart"/>
 		public void UpdateItemInCart(string projectId, string cartId, string itemSku, int quantity, [CanBeNull] Action onSuccess, [CanBeNull] Action<Error> onError)
 		{
-			var urlBuilder = new StringBuilder(string.Format(URL_CART_SPECIFIC_ITEM_UPDATE, projectId, cartId, itemSku)).Append(AnalyticUrlAddition);
+			var url = string.Format(URL_CART_SPECIFIC_ITEM_UPDATE, projectId, cartId, itemSku);
 			var jsonObject = new Quantity {quantity = quantity};
-			WebRequestHelper.Instance.PutRequest<Quantity>(urlBuilder.ToString(), jsonObject, AuthAndAnalyticHeaders, onSuccess, onError, Error.AddToCartCartErrors);
+			WebRequestHelper.Instance.PutRequest<Quantity>(SdkType.Store, url, jsonObject, WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.AddToCartCartErrors);
 		}
 
 		/// <summary>
@@ -123,8 +123,8 @@ namespace Xsolla.Store
 		/// <param name="onError">Failed operation callback.</param>
 		public void ClearCart(string projectId, [CanBeNull] Action onSuccess, [CanBeNull] Action<Error> onError)
 		{
-			var urlBuilder = new StringBuilder(string.Format(URL_CART_CURRENT_CLEAR, projectId)).Append(AnalyticUrlAddition);
-			WebRequestHelper.Instance.PutRequest<Quantity>(urlBuilder.ToString(), null, AuthAndAnalyticHeaders, onSuccess, onError, Error.AddToCartCartErrors);
+			var url = string.Format(URL_CART_CURRENT_CLEAR, projectId);
+			WebRequestHelper.Instance.PutRequest<Quantity>(SdkType.Store, url, null, WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.AddToCartCartErrors);
 		}
 
 		/// <summary>
@@ -138,8 +138,8 @@ namespace Xsolla.Store
 		/// <param name="onError">Failed operation callback.</param>
 		public void ClearCart(string projectId, string cartId, [CanBeNull] Action onSuccess, [CanBeNull] Action<Error> onError)
 		{
-			var urlBuilder = new StringBuilder(string.Format(URL_CART_SPECIFIC_CLEAR, projectId, cartId)).Append(AnalyticUrlAddition);
-			WebRequestHelper.Instance.PutRequest<Quantity>(urlBuilder.ToString(), null, AuthAndAnalyticHeaders, onSuccess, onError, Error.AddToCartCartErrors);
+			var url = string.Format(URL_CART_SPECIFIC_CLEAR, projectId, cartId);
+			WebRequestHelper.Instance.PutRequest<Quantity>(SdkType.Store, url, null, WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.AddToCartCartErrors);
 		}
 
 		/// <summary>
@@ -155,10 +155,12 @@ namespace Xsolla.Store
 		/// <param name="currency">Defines currency of item's price.</param>
 		public void GetCartItems(string projectId, string cartId, [NotNull] Action<CartItems> onSuccess, [CanBeNull] Action<Error> onError, [CanBeNull] string locale = null, [CanBeNull] string currency = null)
 		{
-			var urlBuilder = new StringBuilder(string.Format(URL_CART_GET_ITEMS, projectId, cartId)).Append(AnalyticUrlAddition);
-			urlBuilder.Append(GetLocaleUrlParam(locale));
-			urlBuilder.Append(GetCurrencyUrlParam(currency));
-			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), AuthAndAnalyticHeaders, onSuccess, onError, Error.GetCartItemsErrors);
+			var url = string.Format(URL_CART_GET_ITEMS, projectId, cartId);
+			var localeParam = GetLocaleUrlParam(locale);
+			var currencyParam = GetCurrencyUrlParam(currency);
+			url = ConcatUrlAndParams(url, localeParam, currencyParam);
+
+			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.GetCartItemsErrors);
 		}
 
 		/// <summary>
@@ -172,8 +174,8 @@ namespace Xsolla.Store
 		/// <param name="onError">Failed operation callback.</param>
 		public void RemoveItemFromCart(string projectId, string itemSku, [CanBeNull] Action onSuccess, [CanBeNull] Action<Error> onError)
 		{
-			var urlBuilder = new StringBuilder(string.Format(URL_CART_CURRENT_ITEM_REMOVE, projectId, itemSku)).Append(AnalyticUrlAddition);
-			WebRequestHelper.Instance.DeleteRequest(urlBuilder.ToString(), AuthAndAnalyticHeaders, onSuccess, onError, Error.DeleteFromCartErrors);
+			var url = string.Format(URL_CART_CURRENT_ITEM_REMOVE, projectId, itemSku);
+			WebRequestHelper.Instance.DeleteRequest(SdkType.Store, url, WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.DeleteFromCartErrors);
 		}
 
 		/// <summary>
@@ -188,8 +190,8 @@ namespace Xsolla.Store
 		/// <param name="onError">Failed operation callback.</param>
 		public void RemoveItemFromCart(string projectId, string cartId, string itemSku, [CanBeNull] Action onSuccess, [CanBeNull] Action<Error> onError)
 		{
-			var urlBuilder = new StringBuilder(string.Format(URL_CART_SPECIFIC_ITEM_REMOVE, projectId, cartId, itemSku)).Append(AnalyticUrlAddition);
-			WebRequestHelper.Instance.DeleteRequest(urlBuilder.ToString(), AuthAndAnalyticHeaders, onSuccess, onError, Error.DeleteFromCartErrors);
+			var url = string.Format(URL_CART_SPECIFIC_ITEM_REMOVE, projectId, cartId, itemSku);
+			WebRequestHelper.Instance.DeleteRequest(SdkType.Store, url, WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.DeleteFromCartErrors);
 		}
 
 		/// <summary>
@@ -204,13 +206,13 @@ namespace Xsolla.Store
 		/// <param name="onError">Failed operation callback.</param>
 		public void RedeemPromocode(string projectId, string promocode, string cartId, [NotNull] Action<CartItems> onSuccess, [CanBeNull] Action<Error> onError)
 		{
-			var urlBuilder = new StringBuilder(string.Format(URL_REDEEM_PROMOCODE, projectId)).Append(AnalyticUrlAddition);
+			var url = string.Format(URL_REDEEM_PROMOCODE, projectId);
 			var request = new RedeemPromocodeRequest()
 			{
 				coupon_code = promocode,
 				cart = string.IsNullOrEmpty(cartId) ? null : new RedeemPromocodeRequest.Cart {id = cartId}
 			};
-			WebRequestHelper.Instance.PostRequest(urlBuilder.ToString(), request, AuthAndAnalyticHeaders, onSuccess, onError, Error.DeleteFromCartErrors);
+			WebRequestHelper.Instance.PostRequest(SdkType.Store, url, request, WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.DeleteFromCartErrors);
 		}
 		
 		/// <summary>
@@ -225,9 +227,9 @@ namespace Xsolla.Store
 		/// <param name="onError">Failed operation callback.</param>
 		public void GetPromocodeReward(string projectId, string promocode, [NotNull] Action<PromocodeReward> onSuccess, [CanBeNull] Action<Error> onError)
 		{
-			var urlBuilder = new StringBuilder(string.Format(URL_GET_PROMOCODE_REWARD, projectId, promocode)).Append(AnalyticUrlAddition);
+			var url = string.Format(URL_GET_PROMOCODE_REWARD, projectId, promocode);
 
-			WebRequestHelper.Instance.PostRequest(urlBuilder.ToString(), AuthAndAnalyticHeaders, onSuccess, onError, Error.DeleteFromCartErrors);
+			WebRequestHelper.Instance.PostRequest(SdkType.Store, url, WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.DeleteFromCartErrors);
 		}
 	}
 }

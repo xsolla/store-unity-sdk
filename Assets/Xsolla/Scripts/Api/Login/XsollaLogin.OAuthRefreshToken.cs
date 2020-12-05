@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using UnityEngine;
 using Xsolla.Core;
@@ -194,6 +194,7 @@ namespace Xsolla.Login
 		private void SendOAuthGenerateJwtRequest(WWWForm requestData, Action<string> onSuccessGenerate = null, Action<Error> onError = null)
 		{
 			WebRequestHelper.Instance.PostRequest<LoginOAuthJsonResponse>(
+				sdkType: SdkType.Login,
 				url: URL_OAUTH_GENERATE_JWT,
 				data: requestData,
 				onComplete: response => ProcessOAuthResponse(response, onSuccessGenerate),

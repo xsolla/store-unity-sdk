@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
@@ -9,13 +9,22 @@ namespace Xsolla.Core
 {
 	public partial class WebRequestHelper : MonoSingleton<WebRequestHelper>
 	{
-		public void PutRequest<T>(string url, T jsonObject, List<WebRequestHeader> requestHeaders, Action onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
+		public void PutRequest<T>(SdkType sdkType, string url, T jsonObject, List<WebRequestHeader> requestHeaders, Action onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
 		{
-			StartCoroutine(PutRequestCor(url, jsonObject, requestHeaders, onComplete, onError, errorsToCheck));
+			var headers = AppendAnalyticHeaders(sdkType, requestHeaders?.ToArray());
+			StartCoroutine(PutRequestCor(sdkType, url, jsonObject, headers, onComplete, onError, errorsToCheck));
 		}
 
-		IEnumerator PutRequestCor<T>(string url, T jsonObject, List<WebRequestHeader> requestHeaders, Action onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
+		public void PutRequest<T>(SdkType sdkType, string url, T jsonObject, WebRequestHeader requestHeader, Action onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
 		{
+			var headers = AppendAnalyticHeaders(sdkType, requestHeader);
+			StartCoroutine(PutRequestCor(sdkType, url, jsonObject, headers, onComplete, onError, errorsToCheck));
+		}
+
+		IEnumerator PutRequestCor<T>(SdkType sdkType, string url, T jsonObject, List<WebRequestHeader> requestHeaders, Action onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
+		{
+			url = AppendAnalyticsToUrl(sdkType, url);
+
 			UnityWebRequest webRequest = new UnityWebRequest(url, "PUT") {
 				downloadHandler = new DownloadHandlerBuffer()
 			};
@@ -42,8 +51,7 @@ namespace Xsolla.Core
 			else
 				requestHeaders = new List<WebRequestHeader>() { WebRequestHeader.ContentTypeHeader() };
 
-			foreach (var header in requestHeaders)
-				webRequest.SetRequestHeader(header.Name, header.Value);
+			AttachHeaders(webRequest, requestHeaders);
 		}
 	}
 }

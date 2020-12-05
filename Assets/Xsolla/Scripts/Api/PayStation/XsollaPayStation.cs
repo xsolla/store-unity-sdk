@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using JetBrains.Annotations;
 using Xsolla.Core;
 using Xsolla.Login;
@@ -9,7 +9,7 @@ namespace Xsolla.PayStation
 	{
 		public void RequestToken([NotNull] Action<TokenEntity> onSuccess, [CanBeNull] Action<Error> onError)
 		{
-			WebRequestHelper.Instance.PostRequest(XsollaSettings.PayStationTokenRequestUrl, requestHeaders: null, onSuccess, onError);
+			WebRequestHelper.Instance.PostRequest<TokenEntity>(SdkType.Store, XsollaSettings.PayStationTokenRequestUrl, onSuccess, onError);
 		}
 	}
 }

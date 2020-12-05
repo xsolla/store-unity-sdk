@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Text;
 using JetBrains.Annotations;
 using Xsolla.Core;
@@ -19,10 +19,11 @@ namespace Xsolla.Store
 		/// <param name="onError">Failed operation callback.</param>
 		public void GetSubscriptions(string projectId, [NotNull] Action<SubscriptionItems> onSuccess, [CanBeNull] Action<Error> onError)
 		{
-			var urlBuilder = new StringBuilder(string.Format(URL_GET_SUBSCRIPTIONS, projectId)).Append(AnalyticUrlAddition);
-			urlBuilder.Append(GetPlatformUrlParam());
+			var url = string.Format(URL_GET_SUBSCRIPTIONS, projectId);
+			var platformParam = GetPlatformUrlParam();
+			url = ConcatUrlAndParams(url, platformParam);
 
-			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), AuthAndAnalyticHeaders, onSuccess, onError, Error.ItemsListErrors);
+			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.ItemsListErrors);
 		}
 	}
 }

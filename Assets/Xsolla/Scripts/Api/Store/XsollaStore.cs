@@ -1,5 +1,6 @@
-﻿using JetBrains.Annotations;
+using JetBrains.Annotations;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 using Xsolla.Core;
 
@@ -12,64 +13,51 @@ namespace Xsolla.Store
 
 		private const string BASE_STORE_API_URL = "https://store.xsolla.com/api/v2/project/{0}";
 
-		string AnalyticUrlAddition => $"?engine=unity&engine_v={Application.unityVersion}&sdk=store&sdk_v={Constants.StoreSdkVersion}";
-
-		private List<WebRequestHeader> AnalyticHeaders
-		{
-			get
-			{
-				if (Application.platform != RuntimePlatform.WebGLPlayer)
-				{
-					return new List<WebRequestHeader>
-					{
-						new WebRequestHeader() { Name = "X-ENGINE", Value = "UNITY" },
-						new WebRequestHeader() { Name = "X-ENGINE-V", Value = Application.unityVersion.ToUpper() },
-						new WebRequestHeader() { Name = "X-SDK", Value = "STORE" },
-						new WebRequestHeader() { Name = "X-SDK-V", Value = Constants.StoreSdkVersion.ToUpper() },
-					};
-				}
-				else
-					return new List<WebRequestHeader>();
-			}
-		}
-
-		private List<WebRequestHeader> AppendAnalyticHeadersTo(params WebRequestHeader[] headers)
-		{
-			var analyticHeaders = AnalyticHeaders;
-			var result = new List<WebRequestHeader>(capacity: analyticHeaders.Count + headers.Length);
-
-			result.AddRange(headers);
-			result.AddRange(analyticHeaders);
-
-			return result;
-		}
-
-		private List<WebRequestHeader> AuthAndAnalyticHeaders => AppendAnalyticHeadersTo(WebRequestHeader.AuthHeader(Token));
-
 		string GetLocaleUrlParam(string locale)
 		{
 			if (string.IsNullOrEmpty(locale))
-			{
 				return string.Empty;
-			}
-			return string.Format("&locale={0}", locale);
+			else
+				return $"&locale={locale}";
 		}
 		
 		string GetCurrencyUrlParam(string currency)
 		{
 			if (string.IsNullOrEmpty(currency))
-			{
 				return string.Empty;
-			}
-			return string.Format("&currency={0}", currency);
+			else
+				return $"&currency={currency}";
 		}
 
 		string GetPlatformUrlParam()
 		{
-			if(XsollaSettings.Platform == PlatformType.None) {
+			if(XsollaSettings.Platform == PlatformType.None)
 				return string.Empty;
+			else
+				return $"&platform={XsollaSettings.Platform.GetString()}";
+		}
+
+		private string ConcatUrlAndParams(string url, params string[] parameters)
+		{
+			var isQuestionMarkRequired = !url.Contains("?");
+			var isFirstParamPassed = false;
+			var builder = new StringBuilder(url);
+
+			foreach (var item in parameters)
+			{
+				if (!string.IsNullOrEmpty(item))
+				{
+					if (isQuestionMarkRequired && !isFirstParamPassed)
+					{
+						isFirstParamPassed = true;
+						builder.Append(item.Replace("&", "?"));
+					}
+					else
+						builder.Append(item);
+				}
 			}
-			return "&platform=" + XsollaSettings.Platform.GetString();
+
+			return builder.ToString();
 		}
 	}
 }

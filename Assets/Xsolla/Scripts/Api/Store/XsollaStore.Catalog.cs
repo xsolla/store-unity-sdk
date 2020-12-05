@@ -26,12 +26,12 @@ namespace Xsolla.Store
 		/// <param name="limit">Limit for the number of elements on the page.</param>
 		public void GetCatalog(string projectId, [NotNull] Action<StoreItems> onSuccess, [CanBeNull] Action<Error> onError, [CanBeNull] string locale = null, [CanBeNull] string currency = null, int offset = 0, int limit = 50)
 		{
-			var analyticUrlAddition = AnalyticUrlAddition.Replace('?', '&');
-			var urlBuilder = new StringBuilder(string.Format(URL_CATALOG_GET_ITEMS, projectId, offset, limit)).Append(analyticUrlAddition);
-			urlBuilder.Append(GetLocaleUrlParam(locale));
-			urlBuilder.Append(GetCurrencyUrlParam(currency));
+			var url = string.Format(URL_CATALOG_GET_ITEMS, projectId, offset, limit);
+			var localeParam = GetLocaleUrlParam(locale);
+			var currencyParam = GetCurrencyUrlParam(currency);
+			url = ConcatUrlAndParams(url, localeParam, currencyParam);
 
-			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), AnalyticHeaders, onSuccess, onError, Error.ItemsListErrors);
+			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, onSuccess, onError, Error.ItemsListErrors);
 		}
 
 		/// <summary>
@@ -47,11 +47,12 @@ namespace Xsolla.Store
 		/// <param name="currency">Defines currency of item's price.</param>
 		public void GetBundle(string projectId, string sku, [NotNull] Action<BundleItem> onSuccess, [CanBeNull] Action<Error> onError, [CanBeNull] string locale = null, [CanBeNull] string currency = null)
 		{
-			var urlBuilder = new StringBuilder(string.Format(URL_CATALOG_GET_BUNDLE, projectId, sku)).Append(AnalyticUrlAddition);
-			urlBuilder.Append(GetLocaleUrlParam(locale));
-			urlBuilder.Append(GetCurrencyUrlParam(currency));
+			var url = string.Format(URL_CATALOG_GET_BUNDLE, projectId, sku);
+			var localeParam = GetLocaleUrlParam(locale);
+			var currencyParam = GetCurrencyUrlParam(currency);
+			url = ConcatUrlAndParams(url, localeParam, currencyParam);
 
-			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), AnalyticHeaders, onSuccess, onError, Error.ItemsListErrors);
+			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, onSuccess, onError, Error.ItemsListErrors);
 		}
 
 		/// <summary>
@@ -66,11 +67,12 @@ namespace Xsolla.Store
 		/// <param name="currency">Defines currency of item's price.</param>
 		public void GetBundles(string projectId, [NotNull] Action<BundleItems> onSuccess, [CanBeNull] Action<Error> onError, [CanBeNull] string locale = null, [CanBeNull] string currency = null)
 		{
-			var urlBuilder = new StringBuilder(string.Format(URL_CATALOG_GET_BUNDLES, projectId)).Append(AnalyticUrlAddition);
-			urlBuilder.Append(GetLocaleUrlParam(locale));
-			urlBuilder.Append(GetCurrencyUrlParam(currency));
+			var url = string.Format(URL_CATALOG_GET_BUNDLES, projectId);
+			var localeParam = GetLocaleUrlParam(locale);
+			var currencyParam = GetCurrencyUrlParam(currency);
+			url = ConcatUrlAndParams(url, localeParam, currencyParam);
 
-			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), AnalyticHeaders, onSuccess, onError, Error.ItemsListErrors);
+			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, onSuccess, onError, Error.ItemsListErrors);
 		}
 
 		/// <summary>
@@ -86,11 +88,12 @@ namespace Xsolla.Store
 		/// <param name="currency">Defines currency of item's price.</param>
 		public void GetGroupItems(string projectId, string groupExternalId, [NotNull] Action<StoreItems> onSuccess, [CanBeNull] Action<Error> onError, [CanBeNull] string locale = null, [CanBeNull] string currency = null)
 		{
-			var urlBuilder = new StringBuilder(string.Format(URL_CATALOG_GET_ITEMS_IN_GROUP, projectId, groupExternalId)).Append(AnalyticUrlAddition);
-			urlBuilder.Append(GetLocaleUrlParam(locale));
-			urlBuilder.Append(GetCurrencyUrlParam(currency));
+			var url = string.Format(URL_CATALOG_GET_ITEMS_IN_GROUP, projectId, groupExternalId);
+			var localeParam = GetLocaleUrlParam(locale);
+			var currencyParam = GetCurrencyUrlParam(currency);
+			url = ConcatUrlAndParams(url, localeParam, currencyParam);
 
-			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), AnalyticHeaders, onSuccess, onError, Error.ItemsListErrors);
+			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, onSuccess, onError, Error.ItemsListErrors);
 		}
 
 		/// <summary>
@@ -106,11 +109,11 @@ namespace Xsolla.Store
 		/// <param name="limit">Limit for the number of elements on the page.</param>
 		public void GetItemGroups(string projectId, [NotNull] Action<Groups> onSuccess, [CanBeNull] Action<Error> onError, [CanBeNull] string locale = null, int offset = 0, int limit = 50)
 		{
-			var analyticUrlAddition = AnalyticUrlAddition.Replace('?', '&');
-			var urlBuilder = new StringBuilder(string.Format(URL_CATALOG_GET_GROUPS, projectId, offset, limit)).Append(analyticUrlAddition);
-			urlBuilder.Append(GetLocaleUrlParam(locale));
+			var url = string.Format(URL_CATALOG_GET_GROUPS, projectId, offset, limit);
+			var localeParam = GetLocaleUrlParam(locale);
+			url = ConcatUrlAndParams(url, localeParam);
 
-			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), AnalyticHeaders, onSuccess, onError);
+			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, onSuccess, onError);
 		}
 	}
 }

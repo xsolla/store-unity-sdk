@@ -24,11 +24,12 @@ namespace Xsolla.Store
 		/// <param name="locale">Defines localization of item's text fields.</param>
 		public void GetInventoryItems(string projectId, [NotNull] Action<InventoryItems> onSuccess, [CanBeNull] Action<Error> onError, [CanBeNull] string locale = null)
 		{
-			var urlBuilder = new StringBuilder(string.Format(URL_INVENTORY_GET_ITEMS, projectId)).Append(AnalyticUrlAddition);
-			urlBuilder.Append(GetLocaleUrlParam(locale));
-			urlBuilder.Append(GetPlatformUrlParam());
+			var url = string.Format(URL_INVENTORY_GET_ITEMS, projectId);
+			var localeParam = GetLocaleUrlParam(locale);
+			var platformParam = GetPlatformUrlParam();
+			url = ConcatUrlAndParams(url, localeParam, platformParam);
 
-			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), AuthAndAnalyticHeaders, onSuccess, onError, Error.ItemsListErrors);
+			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.ItemsListErrors);
 		}
 
 		/// <summary>
@@ -42,12 +43,13 @@ namespace Xsolla.Store
 		/// <param name="onError">Failed operation callback.</param>
 		public void ConsumeInventoryItem(string projectId, ConsumeItem item, [CanBeNull] Action onSuccess, [CanBeNull] Action<Error> onError)
 		{
-			var urlBuilder = new StringBuilder(string.Format(URL_INVENTORY_ITEM_CONSUME, projectId)).Append(AnalyticUrlAddition);
-			urlBuilder.Append(GetPlatformUrlParam());
+			var url = string.Format(URL_INVENTORY_ITEM_CONSUME, projectId);
+			var platformParam = GetPlatformUrlParam();
+			url = ConcatUrlAndParams(url, platformParam);
 
-			var headers = AppendAnalyticHeadersTo(WebRequestHeader.AuthHeader(Token), WebRequestHeader.ContentTypeHeader());
+			var headers = new List<WebRequestHeader>() { WebRequestHeader.AuthHeader(Token), WebRequestHeader.ContentTypeHeader() };
 
-			WebRequestHelper.Instance.PostRequest(urlBuilder.ToString(), item, headers, onSuccess, onError, Error.ConsumeItemErrors);
+			WebRequestHelper.Instance.PostRequest(SdkType.Store, url, item, headers, onSuccess, onError, Error.ConsumeItemErrors);
 		}
 
 		/// <summary>
@@ -61,11 +63,12 @@ namespace Xsolla.Store
 		/// <param name="onError">Failed operation callback.</param>
 		public void RedeemCouponCode(string projectId, CouponCode couponCode, [NotNull] Action<CouponRedeemedItems> onSuccess, [CanBeNull] Action<Error> onError)
 		{
-			var urlBuilder = new StringBuilder(string.Format(URL_INVENTORY_REDEEM_COUPON, projectId)).Append(AnalyticUrlAddition);
-			urlBuilder.Append(GetPlatformUrlParam());
+			var url = string.Format(URL_INVENTORY_REDEEM_COUPON, projectId);
+			var platformParam = GetPlatformUrlParam();
+			url = ConcatUrlAndParams(url, platformParam);
 
 			var headers = new List<WebRequestHeader>() { WebRequestHeader.AuthHeader(Token), WebRequestHeader.ContentTypeHeader() };
-			WebRequestHelper.Instance.PostRequest(urlBuilder.ToString(), couponCode, headers, onSuccess, onError, Error.CouponErrors);
+			WebRequestHelper.Instance.PostRequest(SdkType.Store, url, couponCode, headers, onSuccess, onError, Error.CouponErrors);
 		}
 
 		/// <summary>
@@ -80,12 +83,13 @@ namespace Xsolla.Store
 		/// <param name="onError">Failed operation callback.</param>
 		public void GetCouponRewards(string projectId, string couponCode, [NotNull] Action<CouponReward> onSuccess, [CanBeNull] Action<Error> onError, [CanBeNull] string locale = null)
 		{
-			var urlBuilder = new StringBuilder(string.Format(URL_INVENTORY_GET_COUPON_REWARDS, projectId, couponCode)).Append(AnalyticUrlAddition);
-			urlBuilder.Append(GetLocaleUrlParam(locale));
-			urlBuilder.Append(GetPlatformUrlParam());
-
+			var url = string.Format(URL_INVENTORY_GET_COUPON_REWARDS, projectId, couponCode);
+			var localeParam = GetLocaleUrlParam(locale);
+			var platformParam = GetPlatformUrlParam();
+			url = ConcatUrlAndParams(url, localeParam, platformParam);
+			
 			var headers = new List<WebRequestHeader>() { WebRequestHeader.AuthHeader(Token), WebRequestHeader.ContentTypeHeader() };
-			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), headers, onSuccess, onError, Error.CouponErrors);
+			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, headers, onSuccess, onError, Error.CouponErrors);
 		}
 	}
 }

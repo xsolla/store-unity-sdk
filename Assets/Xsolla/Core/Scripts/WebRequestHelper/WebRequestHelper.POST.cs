@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
@@ -11,133 +11,164 @@ namespace Xsolla.Core
 {
 	public partial class WebRequestHelper : MonoSingleton<WebRequestHelper>
 	{
-		public void PostRequest<T, D>(string url, D jsonObject, List<WebRequestHeader> requestHeaders, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
+		#region PostRequest<T,D>
+		public void PostRequest<T, D>(SdkType sdkType, string url, D jsonObject, List<WebRequestHeader> requestHeaders, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
 			where T : class
 			where D : class
 		{
-			StartCoroutine(PostRequestCor<T>(url, jsonObject, requestHeaders, onComplete, onError, errorsToCheck));
+			var headers = AppendAnalyticHeaders(sdkType, requestHeaders?.ToArray());
+			StartCoroutine(PostRequestCor<T>(sdkType, url, jsonObject, headers, onComplete, onError, errorsToCheck));
 		}
 
-		public void PostRequest<T, D>(string url, D jsonObject, [NotNull]WebRequestHeader requestHeader, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
+		public void PostRequest<T, D>(SdkType sdkType, string url, D jsonObject, [NotNull]WebRequestHeader requestHeader, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
 			where T : class
 			where D : class
 		{
-			List<WebRequestHeader> headers = (requestHeader != null)
-				? new List<WebRequestHeader> { requestHeader }
-				: null;
-			PostRequest<T, D>(url, jsonObject, headers, onComplete, onError, errorsToCheck);
+			var headers = AppendAnalyticHeaders(sdkType, requestHeader);
+			StartCoroutine(PostRequestCor<T>(sdkType, url, jsonObject, headers, onComplete, onError, errorsToCheck));
 		}
 
-		public void PostRequest<T, D>(string url, D jsonObject, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
+		public void PostRequest<T, D>(SdkType sdkType, string url, D jsonObject, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
 			where T : class
 			where D : class
 		{
-			PostRequest<T, D>(url, jsonObject, new List<WebRequestHeader>(), onComplete, onError, errorsToCheck);
+			var headers = GetAnalyticHeaders(sdkType);
+			StartCoroutine(PostRequestCor<T>(sdkType, url, jsonObject, headers, onComplete, onError, errorsToCheck));
 		}
+		#endregion
 
-		public void PostRequest<T>(string url, List<WebRequestHeader> requestHeaders, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
+		#region PostRequest<T>
+		public void PostRequest<T>(SdkType sdkType, string url, List<WebRequestHeader> requestHeaders, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
 			where T : class
 		{
-			StartCoroutine(PostRequestCor(url, jsonObject: null, requestHeaders, onComplete, onError, errorsToCheck));
+			var headers = AppendAnalyticHeaders(sdkType, requestHeaders?.ToArray());
+			StartCoroutine(PostRequestCor<T>(sdkType, url, jsonObject: null, headers, onComplete, onError, errorsToCheck));
 		}
 
-		public void PostRequest<T>(string url, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
+		public void PostRequest<T>(SdkType sdkType, string url, WebRequestHeader requestHeader, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
 			where T : class
 		{
-			PostRequest(url, requestHeaders: null, onComplete, onError, errorsToCheck);
+			var headers = AppendAnalyticHeaders(sdkType, requestHeader);
+			StartCoroutine(PostRequestCor<T>(sdkType, url, jsonObject: null, headers, onComplete, onError, errorsToCheck));
 		}
 
-		public void PostRequest<D>(string url, D jsonObject, List<WebRequestHeader> requestHeaders, Action onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
+		public void PostRequest<T>(SdkType sdkType, string url, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
+			where T : class
+		{
+			var headers = GetAnalyticHeaders(sdkType);
+			StartCoroutine(PostRequestCor<T>(sdkType, url, jsonObject: null, headers, onComplete, onError, errorsToCheck));
+		}
+		#endregion
+
+		#region PostRequest<D> with jsonObject
+		public void PostRequest<D>(SdkType sdkType, string url, D jsonObject, List<WebRequestHeader> requestHeaders, Action onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
 			where D : class
 		{
-			StartCoroutine(PostRequestCor(url, jsonObject, requestHeaders, onComplete, onError, errorsToCheck));
+			var headers = AppendAnalyticHeaders(sdkType, requestHeaders?.ToArray());
+			StartCoroutine(PostRequestCor(sdkType, url, jsonObject, headers, onComplete, onError, errorsToCheck));
 		}
-		
-		public void PostRequest<D>(string url, D jsonObject, WebRequestHeader requestHeader, Action onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
+
+		public void PostRequest<D>(SdkType sdkType, string url, D jsonObject, WebRequestHeader requestHeader, Action onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
 			where D : class
 		{
-			StartCoroutine(PostRequestCor(url, jsonObject, new List<WebRequestHeader>{requestHeader}, onComplete, onError, errorsToCheck));
+			var headers = AppendAnalyticHeaders(sdkType, requestHeader);
+			StartCoroutine(PostRequestCor(sdkType, url, jsonObject, headers, onComplete, onError, errorsToCheck));
 		}
 
-		public void PostRequest<D>(string url, D jsonObject = null, Action onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
+		public void PostRequest<D>(SdkType sdkType, string url, D jsonObject = null, Action onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
 			where D : class
 		{
-			PostRequest(url, jsonObject, new List<WebRequestHeader>(), onComplete, onError, errorsToCheck);
+			var headers = GetAnalyticHeaders(sdkType);
+			StartCoroutine(PostRequestCor(sdkType, url, jsonObject, headers, onComplete, onError, errorsToCheck));
 		}
+		#endregion
 
-		public void PostRequest(string url, List<WebRequestHeader> requestHeaders, Action<string> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
+		#region PostRequest
+		public void PostRequest(SdkType sdkType, string url, List<WebRequestHeader> requestHeaders, Action onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
 		{
-			StartCoroutine(PostRequestCor(url, null, requestHeaders, onComplete, onError, errorsToCheck));
+			var headers = AppendAnalyticHeaders(sdkType, requestHeaders?.ToArray());
+			StartCoroutine(PostRequestCor(sdkType, url, jsonObject: null, headers, onComplete, onError, errorsToCheck));
 		}
 
-		public void PostRequest(string url, Action<string> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
+		public void PostRequest(SdkType sdkType, string url, WebRequestHeader requestHeader, Action onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
 		{
-			PostRequest(url, requestHeaders: null, onComplete, onError, errorsToCheck);
+			var headers = AppendAnalyticHeaders(sdkType, requestHeader);
+			StartCoroutine(PostRequestCor(sdkType, url, jsonObject: null, headers, onComplete, onError, errorsToCheck));
 		}
 
-		public void PostRequest(string url, List<WebRequestHeader> requestHeaders, Action onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
+		public void PostRequest(SdkType sdkType, string url, Action onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
 		{
-			StartCoroutine(PostRequestCor(url, jsonObject: null, requestHeaders, onComplete, onError, errorsToCheck));
+			var headers = GetAnalyticHeaders(sdkType);
+			StartCoroutine(PostRequestCor(sdkType, url, jsonObject: null, headers, onComplete, onError, errorsToCheck));
 		}
+		#endregion
 
-		public void PostRequest(string url, Action onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
-		{
-			PostRequest(url, requestHeaders: null, onComplete, onError, errorsToCheck);
-		}
-
-		public void PostRequest<T>(string url, WWWForm data, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
+		#region PostRquest<T> with WWWForm
+		public void PostRequest<T>(SdkType sdkType, string url, WWWForm data, List<WebRequestHeader> requestHeaders, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
 			where T : class
 		{
-			StartCoroutine(PostRequestCor<T>(url, data, onComplete, onError, errorsToCheck));
+			var headers = AppendAnalyticHeaders(sdkType, requestHeaders?.ToArray());
+			StartCoroutine(PostRequestCor<T>(sdkType, url, data, headers, onComplete, onError, errorsToCheck));
 		}
-		
-		public void PostRequest<T>(string url, WWWForm data, List<WebRequestHeader> requestHeaders, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
+
+		public void PostRequest<T>(SdkType sdkType, string url, WWWForm data, WebRequestHeader requestHeader, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
 			where T : class
 		{
-			StartCoroutine(PostRequestCor<T>(url, data, requestHeaders, onComplete, onError, errorsToCheck));
+			var headers = AppendAnalyticHeaders(sdkType, requestHeader);
+			StartCoroutine(PostRequestCor<T>(sdkType, url, data, headers, onComplete, onError, errorsToCheck));
 		}
-		
-		public void PostUploadRequest<T>(string url, string pathToFile, List<WebRequestHeader> requestHeaders, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
+
+		public void PostRequest<T>(SdkType sdkType, string url, WWWForm data, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
+			where T : class
+		{
+			var headers = GetAnalyticHeaders(sdkType);
+			StartCoroutine(PostRequestCor<T>(sdkType, url, data, headers, onComplete, onError, errorsToCheck));
+		}
+		#endregion
+
+		#region PostUploadRequest
+		public void PostUploadRequest<T>(SdkType sdkType, string url, string pathToFile, List<WebRequestHeader> requestHeaders, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
 			where T: class
 		{
-			StartCoroutine(PostUploadRequestCor(url, pathToFile, requestHeaders, onComplete, onError, errorsToCheck));
+			var headers = AppendAnalyticHeaders(sdkType, requestHeaders?.ToArray());
+			StartCoroutine(PostUploadRequestCor(sdkType, url, pathToFile, headers, onComplete, onError, errorsToCheck));
 		}
 
-		public void PostUploadRequest(string url, byte[] fileData, List<WebRequestHeader> requestHeaders, Action<string> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
+		public void PostUploadRequest(SdkType sdkType, string url, byte[] fileData, List<WebRequestHeader> requestHeaders, Action<string> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
 		{
-			StartCoroutine(PostUploadRequestCor(url, fileData, requestHeaders, onComplete, onError, errorsToCheck));
+			var headers = AppendAnalyticHeaders(sdkType, requestHeaders?.ToArray());
+			StartCoroutine(PostUploadRequestCor(sdkType, url, fileData, headers, onComplete, onError, errorsToCheck));
 		}
+		#endregion
 
-		IEnumerator PostRequestCor(string url, object jsonObject, List<WebRequestHeader> requestHeaders, Action onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
+
+		IEnumerator PostRequestCor(SdkType sdkType, string url, object jsonObject, List<WebRequestHeader> requestHeaders, Action onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
 		{
+			url = AppendAnalyticsToUrl(sdkType, url);
 			UnityWebRequest webRequest = PreparePostWebRequest(url, jsonObject, requestHeaders);
 
 			yield return StartCoroutine(PerformWebRequest(webRequest, onComplete, onError, errorsToCheck));
 		}
 
-		IEnumerator PostRequestCor(string url, object jsonObject, List<WebRequestHeader> requestHeaders, Action<string> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
+		IEnumerator PostRequestCor<T>(SdkType sdkType, string url, object jsonObject, List<WebRequestHeader> requestHeaders, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
 		{
-			UnityWebRequest webRequest = PreparePostWebRequest(url, jsonObject, requestHeaders);
-
-			yield return StartCoroutine(PerformWebRequest(webRequest, onComplete, onError, errorsToCheck));
-		}
-
-		IEnumerator PostRequestCor<T>(string url, object jsonObject, List<WebRequestHeader> requestHeaders, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
-		{
+			url = AppendAnalyticsToUrl(sdkType, url);
 			UnityWebRequest webRequest = PreparePostWebRequest(url, jsonObject, requestHeaders);
 
 			yield return StartCoroutine(PerformWebRequest(webRequest, onComplete, onError, errorsToCheck));
 		}
 		
-		IEnumerator PostUploadRequestCor<T>(string url, string pathToFile, List<WebRequestHeader> requestHeaders, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
+		IEnumerator PostUploadRequestCor<T>(SdkType sdkType, string url, string pathToFile, List<WebRequestHeader> requestHeaders, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
 		{
+			url = AppendAnalyticsToUrl(sdkType, url);
 			UnityWebRequest webRequest = PreparePostUploadRequest(url, pathToFile, requestHeaders);
 
 			yield return StartCoroutine(PerformWebRequest(webRequest, onComplete, onError, errorsToCheck));
 		}
 
-		IEnumerator PostUploadRequestCor(string url, byte[] fileData, List<WebRequestHeader> requestHeaders, Action<string> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
+		IEnumerator PostUploadRequestCor(SdkType sdkType, string url, byte[] fileData, List<WebRequestHeader> requestHeaders, Action<string> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
 		{
+			url = AppendAnalyticsToUrl(sdkType, url);
 			UnityWebRequest webRequest = UnityWebRequest.Post(url, UnityWebRequest.kHttpVerbPOST);
 			webRequest.timeout = 10;
 			webRequest.uploadHandler = (UploadHandler)new UploadHandlerRaw(fileData);
@@ -145,19 +176,13 @@ namespace Xsolla.Core
 
 			yield return StartCoroutine(PerformWebRequest(webRequest, onComplete, onError, errorsToCheck));
 		}
-
-		IEnumerator PostRequestCor<T>(string url, WWWForm data, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
-		{
-			UnityWebRequest webRequest = UnityWebRequest.Post(url, data);
-
-			yield return StartCoroutine(PerformWebRequest<T>(webRequest, onComplete, onError, errorsToCheck));
-		}
 		
-		IEnumerator PostRequestCor<T>(string url, WWWForm data, List<WebRequestHeader> requestHeaders, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
+		IEnumerator PostRequestCor<T>(SdkType sdkType, string url, WWWForm data, List<WebRequestHeader> requestHeaders, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
 		{
+			url = AppendAnalyticsToUrl(sdkType, url);
 			UnityWebRequest webRequest = UnityWebRequest.Post(url, data);
 
-			AttachHeadersToPostRequest(webRequest, requestHeaders, false);
+			AttachHeadersToPostRequest(webRequest, requestHeaders, withContentType: false);
 
 			yield return StartCoroutine(PerformWebRequest<T>(webRequest, onComplete, onError, errorsToCheck));
 		}
@@ -210,8 +235,7 @@ namespace Xsolla.Core
 					requestHeaders = new List<WebRequestHeader>() { WebRequestHeader.ContentTypeHeader() };
 			}
 
-			foreach (var header in requestHeaders)
-				webRequest.SetRequestHeader(header.Name, header.Value);
+			AttachHeaders(webRequest, requestHeaders);
 		}
 	}
 }

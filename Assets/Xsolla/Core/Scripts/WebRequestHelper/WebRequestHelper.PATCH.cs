@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,17 +13,28 @@ namespace Xsolla.Core
 {
 	public partial class WebRequestHelper : MonoSingleton<WebRequestHelper>
 	{
-		public void PatchRequest<T, D>(string url, D jsonObject, List<WebRequestHeader> requestHeaders = null, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
+		public void PatchRequest<T, D>(SdkType sdkType, string url, D jsonObject, List<WebRequestHeader> requestHeaders, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
 		{
-			StartCoroutine(PatchRequestCor<T, D>(url, jsonObject, requestHeaders, onComplete, onError, errorsToCheck));
+			var headers = AppendAnalyticHeaders(sdkType, requestHeaders?.ToArray());
+			StartCoroutine(PatchRequestCor<T, D>(sdkType, url, jsonObject, headers, onComplete, onError, errorsToCheck));
 		}
 
-		IEnumerator PatchRequestCor<T, D>(string url, D jsonObject, List<WebRequestHeader> requestHeaders = null, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
+		public void PatchRequest<T, D>(SdkType sdkType, string url, D jsonObject, WebRequestHeader requestHeader, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
 		{
-			if (requestHeaders != null)
-				requestHeaders.Add(WebRequestHeader.ContentTypeHeader());
-			else
-				requestHeaders = new List<WebRequestHeader>() { WebRequestHeader.ContentTypeHeader() };
+			var headers = AppendAnalyticHeaders(sdkType, requestHeader);
+			StartCoroutine(PatchRequestCor<T, D>(sdkType, url, jsonObject, headers, onComplete, onError, errorsToCheck));
+		}
+
+		public void PatchRequest<T, D>(SdkType sdkType, string url, D jsonObject, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
+		{
+			var headers = GetAnalyticHeaders(sdkType);
+			StartCoroutine(PatchRequestCor<T, D>(sdkType, url, jsonObject, headers, onComplete, onError, errorsToCheck));
+		}
+
+		IEnumerator PatchRequestCor<T, D>(SdkType sdkType, string url, D jsonObject, List<WebRequestHeader> requestHeaders = null, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
+		{
+			url = AppendAnalyticsToUrl(sdkType, url);
+			requestHeaders.Add(WebRequestHeader.ContentTypeHeader());
 
 			var task = PatchAsync(url, jsonObject, requestHeaders);
 

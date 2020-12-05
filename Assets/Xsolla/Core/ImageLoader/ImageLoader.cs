@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System;
@@ -39,14 +39,14 @@ namespace Xsolla.Core
 			else/*if (!images.ContainsKey(url))*/
 			{
 				images[url] = null;
-				StartCoroutine(LoadImage(url));
+				LoadImage(url);
 				StartCoroutine(WaitImage(url, callback));
 			}
 		}
 
-		IEnumerator LoadImage(string url)
+		private void LoadImage(string url)
 		{
-			yield return WebRequestHelper.Instance.ImageRequestCoroutine(url, 
+			WebRequestHelper.Instance.ImageRequest(url,
 				onComplete: sprite => images[url] = sprite,
 				onError: error => Debug.LogError(error.errorMessage));
 		}

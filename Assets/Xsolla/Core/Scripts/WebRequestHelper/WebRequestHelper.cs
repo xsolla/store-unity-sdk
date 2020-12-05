@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -72,6 +72,13 @@ namespace Xsolla.Core
 #else
 			yield return webRequest.Send();
 #endif
+		}
+
+		private void AttachHeaders(UnityWebRequest webRequest, List<WebRequestHeader> requestHeaders)
+		{
+			if (requestHeaders != null)
+				foreach (var header in requestHeaders)
+					webRequest.SetRequestHeader(header.Name, header.Value);
 		}
 	}
 }

@@ -9,10 +9,10 @@ namespace Xsolla.Login
 {
 	public partial class XsollaLogin : MonoSingleton<XsollaLogin>
 	{
-		private const string URL_USER_GET_FRIENDS = "https://login.xsolla.com/api/users/me/relationships?type={0}&sort_by={1}&sort_order={2}&limit={3}&{4}";
-		private const string URL_USER_UPDATE_FRIENDS = "https://login.xsolla.com/api/users/me/relationships?{0}";
-		private const string URL_USER_SOCIAL_FRIENDS = "https://login.xsolla.com/api/users/me/social_friends?offset={0}&limit={1}&with_xl_uid={2}{3}&{4}";
-		private const string URL_USER_UPDATE_SOCIAL_FRIENDS = "https://login.xsolla.com/api/users/me/social_friends/update?{1}{0}";
+		private const string URL_USER_GET_FRIENDS = "https://login.xsolla.com/api/users/me/relationships?type={0}&sort_by={1}&sort_order={2}&limit={3}";
+		private const string URL_USER_UPDATE_FRIENDS = "https://login.xsolla.com/api/users/me/relationships";
+		private const string URL_USER_SOCIAL_FRIENDS = "https://login.xsolla.com/api/users/me/social_friends?offset={0}&limit={1}&with_xl_uid={2}{3}";
+		private const string URL_USER_UPDATE_SOCIAL_FRIENDS = "https://login.xsolla.com/api/users/me/social_friends/update{0}";
 		private const int USER_FRIENDS_DEFAULT_PAGINATION_LIMIT = 20;
 		
 		/// <summary>
@@ -31,10 +31,9 @@ namespace Xsolla.Login
 		{
 			var withUidFlag = withUid ? "true" : "false";
 			var providerUrlAddition = provider != SocialProvider.None ? $"&platform={provider.GetParameter()}" : string.Empty;
-			var url = string.Format(URL_USER_SOCIAL_FRIENDS, offset, limit, withUidFlag, providerUrlAddition, AnalyticUrlAddition);
+			var url = string.Format(URL_USER_SOCIAL_FRIENDS, offset, limit, withUidFlag, providerUrlAddition);
 
-			var headers = AppendAnalyticHeadersTo(WebRequestHeader.AuthHeader(token));
-			WebRequestHelper.Instance.GetRequest(url, headers, onSuccess, onError);
+			WebRequestHelper.Instance.GetRequest(SdkType.Login, url, WebRequestHeader.AuthHeader(token), onSuccess, onError);
 		}
 		
 		/// <summary>
@@ -48,11 +47,10 @@ namespace Xsolla.Login
 		/// <param name="onError">Failed operation callback.</param>
 		public void UpdateUserSocialFriends(string token, SocialProvider provider = SocialProvider.None, Action onSuccess = null, Action<Error> onError = null)
 		{
-			var providerUrlAddition = provider != SocialProvider.None ? $"&platform={provider.GetParameter()}" : string.Empty;
-			var url = string.Format(URL_USER_UPDATE_SOCIAL_FRIENDS, providerUrlAddition, AnalyticUrlAddition);
-			var headers = AppendAnalyticHeadersTo(WebRequestHeader.AuthHeader(token));
+			var providerUrlAddition = provider != SocialProvider.None ? $"?platform={provider.GetParameter()}" : string.Empty;
+			var url = string.Format(URL_USER_UPDATE_SOCIAL_FRIENDS, providerUrlAddition);
 
-			WebRequestHelper.Instance.PostRequest(url, headers, onSuccess, onError);
+			WebRequestHelper.Instance.PostRequest(SdkType.Login, url, WebRequestHeader.AuthHeader(token), onSuccess, onError);
 		}
 		
 		/// <summary>
@@ -80,7 +78,7 @@ namespace Xsolla.Login
 				Debug.LogError($"Can not requests friends with count {count}");
 				return;
 			}
-			var url = string.Format(URL_USER_GET_FRIENDS, type.GetParameter(), sortType.GetParameter(), order.GetParameter(), USER_FRIENDS_DEFAULT_PAGINATION_LIMIT, AnalyticUrlAddition);
+			var url = string.Format(URL_USER_GET_FRIENDS, type.GetParameter(), sortType.GetParameter(), order.GetParameter(), USER_FRIENDS_DEFAULT_PAGINATION_LIMIT);
 			StartCoroutine(GetUserFriendsCoroutine(token, url, count, onSuccess, onError));
 		}
 
@@ -112,8 +110,7 @@ namespace Xsolla.Login
 
 		private void GetUserFriendsInternal(string token, string url, Action<UserFriendsEntity> onSuccess = null, Action<Error> onError = null)
 		{
-			var headers = AppendAnalyticHeadersTo(WebRequestHeader.AuthHeader(token));
-			WebRequestHelper.Instance.GetRequest(url, headers, onSuccess, onError);
+			WebRequestHelper.Instance.GetRequest(SdkType.Login, url, WebRequestHeader.AuthHeader(token), onSuccess, onError);
 		}
 
 		/// <summary>
@@ -133,9 +130,7 @@ namespace Xsolla.Login
 				action = action.GetParameter(),
 				user = user
 			};
-			var url = string.Format(URL_USER_UPDATE_FRIENDS, AnalyticUrlAddition);
-			var headers = AppendAnalyticHeadersTo(WebRequestHeader.AuthHeader(token));
-			WebRequestHelper.Instance.PostRequest(url, request, headers, onSuccess, onError);
+			WebRequestHelper.Instance.PostRequest(SdkType.Login, URL_USER_UPDATE_FRIENDS, request, WebRequestHeader.AuthHeader(token), onSuccess, onError);
 		}
 	}
 }

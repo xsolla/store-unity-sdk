@@ -22,11 +22,12 @@ namespace Xsolla.Store
 		/// <param name="locale">Defines localization of item's text fields.</param>
 		public void GetVirtualCurrencyBalance(string projectId, [NotNull] Action<VirtualCurrenciesBalance> onSuccess, [CanBeNull] Action<Error> onError, [CanBeNull] string locale = null)
 		{
-			var urlBuilder = new StringBuilder(string.Format(URL_VIRTUAL_CURRENCY_BALANCE, projectId)).Append(AnalyticUrlAddition);
-			urlBuilder.Append(GetLocaleUrlParam(locale));
-			urlBuilder.Append(GetPlatformUrlParam());
+			var url = string.Format(URL_VIRTUAL_CURRENCY_BALANCE, projectId);
+			var localeParam = GetLocaleUrlParam(locale);
+			var platformParam = GetPlatformUrlParam();
+			url = ConcatUrlAndParams(url, localeParam, platformParam);
 
-			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), AuthAndAnalyticHeaders, onSuccess, onError, Error.ItemsListErrors);
+			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.ItemsListErrors);
 		}
 
 		/// <summary>
@@ -42,11 +43,11 @@ namespace Xsolla.Store
 		/// <param name="limit">Limit for the number of elements on the page.</param>
 		public void GetVirtualCurrencyList(string projectId, [NotNull] Action<VirtualCurrencyItems> onSuccess, [CanBeNull] Action<Error> onError, [CanBeNull] string locale = null, int offset = 0, int limit = 50)
 		{
-			var analyticUrlAddition = AnalyticUrlAddition.Replace('?', '&');
-			var urlBuilder = new StringBuilder(string.Format(URL_VIRTUAL_CURRENCY_LIST, projectId, offset, limit)).Append(analyticUrlAddition);
-			urlBuilder.Append(GetLocaleUrlParam(locale));
+			var url = string.Format(URL_VIRTUAL_CURRENCY_LIST, projectId, offset, limit);
+			var localeParam = GetLocaleUrlParam(locale);
+			url = ConcatUrlAndParams(url, localeParam);
 
-			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), AuthAndAnalyticHeaders, onSuccess, onError, Error.ItemsListErrors);
+			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.ItemsListErrors);
 		}
 
 		/// <summary>
@@ -62,11 +63,11 @@ namespace Xsolla.Store
 		/// <param name="limit">Limit for the number of elements on the page.</param>
 		public void GetVirtualCurrencyPackagesList(string projectId, [NotNull] Action<VirtualCurrencyPackages> onSuccess, [CanBeNull] Action<Error> onError, [CanBeNull] string locale = null, int offset = 0, int limit = 50)
 		{
-			var analyticUrlAddition = AnalyticUrlAddition.Replace('?', '&');
-			var urlBuilder = new StringBuilder(string.Format(URL_VIRTUAL_CURRENCY_PACKAGES_IN_PROJECT, projectId, offset, limit)).Append(analyticUrlAddition);
-			urlBuilder.Append(GetLocaleUrlParam(locale));
+			var url = string.Format(URL_VIRTUAL_CURRENCY_PACKAGES_IN_PROJECT, projectId, offset, limit);
+			var localeParam = GetLocaleUrlParam(locale);
+			url = ConcatUrlAndParams(url, localeParam);
 
-			WebRequestHelper.Instance.GetRequest(urlBuilder.ToString(), AuthAndAnalyticHeaders, onSuccess, onError, Error.ItemsListErrors);
+			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.ItemsListErrors);
 		}
 	}
 }
