@@ -23,7 +23,7 @@ namespace Xsolla.Demo
 			if (DemoController.Instance.IsTutorialAvailable)
 			{
 				tutorialButton.gameObject.SetActive(true);
-				AttachButtonCallback(tutorialButton, () => DemoController.Instance.TutorialManager.ShowTutorial(false));
+				AttachButtonCallback(tutorialButton, () => DemoController.Instance.ShowTutorial(false));
 			}
 		}
 	}

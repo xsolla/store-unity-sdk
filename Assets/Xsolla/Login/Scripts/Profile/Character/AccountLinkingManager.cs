@@ -2,7 +2,6 @@ using System;
 using UnityEngine;
 using Xsolla.Core;
 using Xsolla.Core.Popup;
-using Xsolla.Store;
 
 namespace Xsolla.Demo
 {
@@ -75,7 +74,11 @@ namespace Xsolla.Demo
 		private void ApplyNewToken(string newToken, LinkingResultContainer linkingResult)
 		{
 			DemoController.Instance.LoginDemo.Token = newToken;
-			UserInventory.Instance.Refresh(onSuccess: () => GoToInventory(linkingResult), onError: error => { linkingResult.IsLinked = false; StoreDemoPopup.ShowError(error); });
+
+			if (DemoController.Instance.InventoryDemo == null)
+				FindObjectOfType<UserInfoDrawer>()?.Refresh();
+			else
+				UserInventory.Instance.Refresh(onSuccess: () => GoToInventory(linkingResult), onError: error => { linkingResult.IsLinked = false; StoreDemoPopup.ShowError(error); });
 		}
 
 		private void GoToInventory(LinkingResultContainer linkingResult)

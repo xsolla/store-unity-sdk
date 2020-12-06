@@ -2,7 +2,6 @@ using System;
 using UnityEngine;
 using Xsolla.Core;
 using Xsolla.Login;
-using Xsolla.Store;
 
 namespace Xsolla.Demo
 {
@@ -14,7 +13,8 @@ namespace Xsolla.Demo
 			{
 				if (newState == MenuState.Main)
 				{
-					XsollaLogin.Instance.Token = XsollaStore.Instance.Token = GetUserToken();
+					XsollaLogin.Instance.Token = GetUserToken();
+					UpdateStoreToken();
 				}
 			};
 			ValidateXsollaSettings();
@@ -75,5 +75,7 @@ namespace Xsolla.Demo
 				onError?.Invoke(error);
 			};
 		}
+
+		partial void UpdateStoreToken();
 	}
 }

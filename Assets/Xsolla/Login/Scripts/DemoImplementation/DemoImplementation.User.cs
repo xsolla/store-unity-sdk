@@ -5,7 +5,6 @@ using System.Linq;
 using UnityEngine;
 using Xsolla.Core;
 using Xsolla.Login;
-using Xsolla.Store;
 
 namespace Xsolla.Demo
 {
@@ -19,7 +18,7 @@ namespace Xsolla.Demo
 			set
 			{
 				XsollaLogin.Instance.Token = value;
-				XsollaStore.Instance.Token = value;
+				UpdateStoreToken();
 			}
 		}
 		public void SaveToken(string key, string token) => XsollaLogin.Instance.SaveToken(key, token);

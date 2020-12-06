@@ -2,25 +2,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using Xsolla.Core;
 using Xsolla.Core.Popup;
-using Xsolla.Store;
 
 namespace Xsolla.Demo
 {
-	public class DemoController : MonoSingleton<DemoController>, IMenuStateMachine
+	public partial class DemoController : MonoSingleton<DemoController>, IMenuStateMachine
 	{
 		[SerializeField]private MenuStateMachine stateMachine = default;
 		[SerializeField]private UrlContainer _urlContainer = default;
-
-		private TutorialManager _tutorialManager;
 
 		public ILoginDemoImplementation LoginDemo { get; private set; }
 		public IStoreDemoImplementation StoreDemo { get; private set; }
 		public IInventoryDemoImplementation InventoryDemo { get; private set; }
 
 		public UrlContainer UrlContainer => _urlContainer;
-		public TutorialManager TutorialManager => _tutorialManager;
-
-		public bool IsTutorialAvailable => _tutorialManager != null;
+		public bool IsTutorialAvailable { get; private set; } = false;
 
 		public event MenuStateMachine.StateChangeDelegate StateChangingEvent
 		{
@@ -37,9 +32,7 @@ namespace Xsolla.Demo
 			InventoryDemo = GetComponent<IInventoryDemoImplementation>();
 
 			StateChangingEvent += OnStateChangingEvent;
-
-			if (InventoryDemo != null)
-				_tutorialManager = GetComponent<TutorialManager>();
+			InitInventory();
 		}
 
 		private void OnStateChangingEvent(MenuState lastState, MenuState newState)
@@ -48,12 +41,9 @@ namespace Xsolla.Demo
 			{
 				if(UserFriends.IsExist)
 					Destroy(UserFriends.Instance.gameObject);
-				if (UserInventory.IsExist)
-					Destroy(UserInventory.Instance.gameObject);
-				if (UserSubscriptions.IsExist)
-					Destroy(UserSubscriptions.Instance.gameObject);
-				if (UserCart.IsExist)
-					Destroy(UserCart.Instance.gameObject);
+
+				DestroyInventory();
+				DestroyStore();
 
 				LoginDemo.Token = null;
 			}
@@ -63,66 +53,21 @@ namespace Xsolla.Demo
 				UpdateCatalogAndInventory();
 				UserFriends.Instance.UpdateFriends();
 
-				if (_tutorialManager != null)
-				{
-					if (!_tutorialManager.IsTutorialCompleted())
-					{
-						_tutorialManager.ShowTutorial();
-					}
-					else
-					{
-						Debug.Log("Skipping tutorial since it was already completed.");
-					}
-				}
-				else
-				{
-					Debug.LogWarning("Tutorial is not available for this demo.");
-				}
+				AutoStartTutorial();
 			}
 		}
 
 		private void UpdateCatalogAndInventory()
 		{
-			if(!UserInventory.IsExist)
-				UserInventory.Instance.Init(InventoryDemo);
-			if (!UserCatalog.IsExist)
-				UserCatalog.Instance.Init(StoreDemo, InventoryDemo);
-			UserCatalog.Instance.UpdateItems(() =>
-			{
-				if (UserInventory.IsExist)
-				{
-					UserInventory.Instance.Refresh();
-					// This method used for fastest async image loading
-					StartLoadItemImages(UserCatalog.Instance.AllItems);
-				}
-			});
-		}
-
-		private static void StartLoadItemImages(List<CatalogItemModel> items)
-		{
-			items.ForEach(i =>
-			{
-				if (!string.IsNullOrEmpty(i.ImageUrl))
-				{
-					ImageLoader.Instance.GetImageAsync(i.ImageUrl, null);    
-				}
-				else
-				{
-					Debug.LogError($"Catalog item with sku = '{i.Sku}' without image!");
-				}
-			});
+			UpdateStore();
+			UpdateInventory();
 		}
 
 		protected override void OnDestroy()
 		{
-			if (UserCatalog.IsExist)
-				Destroy(UserCatalog.Instance.gameObject);
-			if (UserInventory.IsExist)
-				Destroy(UserInventory.Instance.gameObject);
-			if (UserCart.IsExist)
-				Destroy(UserCart.Instance.gameObject);
-			if (UserSubscriptions.IsExist)
-				Destroy(UserSubscriptions.Instance.gameObject);
+			DestroyStore();
+			DestroyInventory();
+
 			if(UserFriends.IsExist)
 				Destroy(UserFriends.Instance.gameObject);
 			if(PopupFactory.IsExist)
@@ -152,5 +97,17 @@ namespace Xsolla.Demo
 		{
 			return $"{XsollaSettings.WebStoreUrl}?token={LoginDemo.Token}&remember_me=false";
 		}
+
+		public void ShowTutorial(bool showWelcomeMessage) => ManualStartTutorial(showWelcomeMessage);
+
+		partial void InitInventory();
+		partial void AutoStartTutorial();
+		partial void ManualStartTutorial(bool showWelcomeMessage);
+
+		partial void UpdateInventory();
+		partial void UpdateStore();
+
+		partial void DestroyInventory();
+		partial void DestroyStore();
 	}
 }

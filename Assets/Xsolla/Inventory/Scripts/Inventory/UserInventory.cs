@@ -8,7 +8,7 @@ using Xsolla.Core;
 
 namespace Xsolla.Demo
 {
-	public class UserInventory : MonoSingleton<UserInventory>
+	public partial class UserInventory : MonoSingleton<UserInventory>
 	{
 		public event Action RefreshEvent;
 		public event Action<List<InventoryItemModel>> UpdateItemsEvent;
@@ -19,8 +19,6 @@ namespace Xsolla.Demo
 		public List<InventoryItemModel> VirtualItems { get; private set; }
 		public List<VirtualCurrencyBalanceModel> Balance { get; private set; }
 		public List<UserSubscriptionModel> Subscriptions { get; private set; }
-
-		public bool IsUpdated { get; private set; }
 
 		private IInventoryDemoImplementation _demoImplementation;
 
@@ -34,7 +32,7 @@ namespace Xsolla.Demo
 			Subscriptions = new List<UserSubscriptionModel>();
 		}
 
-		public void Refresh(Action onSuccess = null, [CanBeNull] Action<Error> onError = null)
+		partial void RefreshInventory(Action onSuccess, [CanBeNull] Action<Error> onError)
 		{
 			if (_demoImplementation == null)
 			{
@@ -48,7 +46,7 @@ namespace Xsolla.Demo
 			}
 		
 			IsUpdated = false;
-			StartCoroutine(WaitItemUpdatingCoroutine(onSuccess));
+			StartCoroutine(WaitItemUpdatingCoroutine(onSuccess, onError));
 		}
 
 		private IEnumerator WaitItemUpdatingCoroutine(Action onSuccess = null, Action<Error> onError = null)

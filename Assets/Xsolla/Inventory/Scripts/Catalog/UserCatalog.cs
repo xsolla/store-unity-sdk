@@ -8,7 +8,7 @@ using Xsolla.Core;
 
 namespace Xsolla.Demo
 {
-	public class UserCatalog : MonoSingleton<UserCatalog>
+	public partial class UserCatalog : MonoSingleton<UserCatalog>
 	{
 		public event Action<List<VirtualCurrencyModel>> UpdateVirtualCurrenciesEvent;
 		public event Action<List<CatalogVirtualItemModel>> UpdateItemsEvent;
@@ -25,8 +25,6 @@ namespace Xsolla.Demo
 		public List<CatalogVirtualCurrencyModel> CurrencyPackages { get; private set; }
 		public List<CatalogBundleItemModel> Bundles { get; private set; }
 		public List<CatalogSubscriptionItemModel> Subscriptions { get; private set; }
-
-		public bool IsUpdated { get; private set; }
 
 		public void Init(IStoreDemoImplementation storeDemo, IInventoryDemoImplementation inventoryDemo)
 		{

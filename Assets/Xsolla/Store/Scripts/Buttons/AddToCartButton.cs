@@ -5,11 +5,8 @@ using UnityEngine.UI;
 
 namespace Xsolla.Demo
 {
-	public class AddToCartButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler, IPointerUpHandler, IDragHandler
+	public partial class AddToCartButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler, IPointerUpHandler, IDragHandler
 	{
-		public static event Action OnCursorEnter;
-		public static event Action OnCursorExit;
-
 		Image _image;
 
 		[SerializeField]

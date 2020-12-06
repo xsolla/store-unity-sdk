@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -24,7 +24,7 @@ namespace Xsolla.Core.Popup
 	}
 
 	[AddComponentMenu("Scripts/Xsolla.Core/Popup/PopupFactory")]
-	public class PopupFactory : MonoSingleton<PopupFactory>
+	public partial class PopupFactory : MonoSingleton<PopupFactory>
 	{
 		public GameObject SuccessPopupPrefab;
 		public GameObject ErrorPopupPrefab;
@@ -82,22 +82,10 @@ namespace Xsolla.Core.Popup
 		public IWaitingPopup CreateWaiting() =>
 			CreateDefaultPopup(WaitingPopupPrefab, canvas)?.GetComponent<WaitingPopup>();
 
-		public IBundlePreviewPopup CreateBundlePreview() =>
-			CreateDefaultPopup(BundlePreviewPopupPrefab, canvas)?.GetComponent<BundlePreviewPopup>();
-
 		public ISuccessPopup CreateSuccessPasswordReset() =>
 			CreateDefaultPopup(ResetPasswordPopupPrefab, canvas)?.GetComponent<SuccessPopup>();
 
 		public INicknamePopup CreateNickname() =>
 			CreateDefaultPopup(NicknamePopupPrefab, canvas)?.GetComponent<NicknamePopup>();
-
-		public ICouponRedeemPopup CreateRedeemCoupon() =>
-			CreateDefaultPopup(RedeemCouponPopupPrefab, canvas)?.GetComponent<CouponRedeemPopup>();
-		
-		public ICouponRewardsPopup CreateCouponRewards() =>
-			CreateDefaultPopup(CouponRewardsPopupPrefab, canvas)?.GetComponent<CouponRewardsPopup>();
-
-		public ITutorialPopup CreateTutorial() =>
-			CreateDefaultPopup(TutorialPopupPrefab, canvas)?.GetComponent<TutorialPopup>();
 	}
 }
