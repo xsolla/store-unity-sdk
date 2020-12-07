@@ -63,7 +63,7 @@ namespace Xsolla.Demo
 						if (!UserCatalog.Instance.Subscriptions.Any(sub => sub.Sku.Equals(i.Sku)))
 						{
 							Debug.Log($"User subscription with sku = '{i.Sku}' have not equal catalog item!");
-							return true;
+							return false;
 						}
 
 						var model = UserInventory.Instance.Subscriptions.First(x => x.Sku.Equals(i.Sku));
@@ -77,7 +77,7 @@ namespace Xsolla.Demo
 						if (!UserCatalog.Instance.VirtualItems.Any(cat => cat.Sku.Equals(i.Sku)))
 						{
 							Debug.Log($"Inventory item with sku = '{i.Sku}' have not equal catalog item!");
-							return true;
+							return false;
 						}
 					}
 					var catalogItem = UserCatalog.Instance.AllItems.First(cat => cat.Sku.Equals(i.Sku));

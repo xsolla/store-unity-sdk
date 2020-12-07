@@ -8,7 +8,7 @@ namespace Xsolla.Demo
 		partial void UpdateStore()
 		{
 			if (!UserCatalog.IsExist)
-				UserCatalog.Instance.Init(StoreDemo, InventoryDemo);
+				UserCatalog.Instance.Init(InventoryDemo);
 			UserCatalog.Instance.UpdateItems(() =>
 			{
 				if (UserInventory.IsExist)

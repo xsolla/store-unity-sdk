@@ -5,7 +5,7 @@ using Xsolla.Core;
 
 namespace Xsolla.Demo
 {
-	public partial interface IStoreDemoImplementation
+	public partial interface IInventoryDemoImplementation
 	{
 		void GetCatalogVirtualItems([NotNull] Action<List<CatalogVirtualItemModel>> onSuccess,
 		[CanBeNull] Action<Error> onError = null);
