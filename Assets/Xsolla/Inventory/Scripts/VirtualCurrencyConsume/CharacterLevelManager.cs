@@ -28,13 +28,6 @@ namespace Xsolla.Demo
 
 		private void Start()
 		{
-			var isValidDemo = DemoController.Instance.InventoryDemo != null;
-			if (!isValidDemo)
-			{
-				DisableUI();
-				return;
-			}
-
 			var token = DemoController.Instance.LoginDemo.Token;
 
 			Action<UserInfo> successCallback = info =>
@@ -59,21 +52,22 @@ namespace Xsolla.Demo
 
 			if(_targetCurrency == null)
 			{
-				Debug.Log("Could not obtain target currency, disabling VC consumption UI");
-				DisableUI();
+				Debug.Log("Could not obtain target currency");
+				LevelUpButton.onClick -= TryUpTheLevel;
 				return;
 			}
+
+			EnableUI();
 
 			_characterLevel = LoadLevel(_characterLevelEntry);
 			ShowLevel(_characterLevel);
 			DrawPrice(_targetCurrency, LevelUpPrice);
 		}
 
-		private void DisableUI()
+		private void EnableUI()
 		{
-			LevelUpButton.gameObject.SetActive(false);
-			LevelText.gameObject.SetActive(false);
-			LevelUpButton.onClick -= TryUpTheLevel;
+			LevelUpButton.gameObject.SetActive(true);
+			LevelText.gameObject.SetActive(true);
 		}
 
 		private void TryUpTheLevel()

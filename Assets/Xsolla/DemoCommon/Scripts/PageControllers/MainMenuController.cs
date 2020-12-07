@@ -82,7 +82,7 @@ namespace Xsolla.Demo
 			AttachButtonCallback(tutorialButton, () =>
 			{
 				if (DemoController.Instance.IsTutorialAvailable)
-					DemoController.Instance.TutorialManager.ShowTutorial(false);
+					DemoController.Instance.ShowTutorial(false);
 			});
 		}
 

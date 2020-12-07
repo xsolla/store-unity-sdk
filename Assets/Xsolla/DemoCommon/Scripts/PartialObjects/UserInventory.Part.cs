@@ -1,5 +1,6 @@
 using System;
 using JetBrains.Annotations;
+using UnityEngine;
 using Xsolla.Core;
 
 namespace Xsolla.Demo
@@ -14,5 +15,13 @@ namespace Xsolla.Demo
 		}
 
 		partial void RefreshInventory(Action onSuccess = null, Action<Error> onError = null);
+
+#if UNITY_EDITOR
+		[ContextMenu("Show IsUpdated")]
+		public void ShowIsUpdated()
+		{
+			Debug.Log($"# # # Inventory IsUpdated: {IsUpdated}");
+		}
+#endif
 	}
 }

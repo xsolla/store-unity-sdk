@@ -22,6 +22,14 @@ namespace Xsolla.Demo
 		{
 			if (!UserInventory.IsExist)
 				UserInventory.Instance.Init(InventoryDemo);
+
+			if (StoreDemo == null)
+			{
+				UserCatalog.Instance.Init(StoreDemo, InventoryDemo);
+				UserCatalog.Instance.UpdateItems(
+					onSuccess: () => UserInventory.Instance.Refresh(),
+					onError: error => Debug.LogError($"InventorySDK init failure: {error}"));
+			}
 		}
 
 		partial void DestroyInventory()
