@@ -9,11 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 09c9c8f70041bc24ca331b4fe1db7b95, type: 3}
   m_Name: InventoryTutorial
-  m_EditorClassIdentifier: Assembly-CSharp::TutorialInfo
+  m_EditorClassIdentifier: 
   tutorialSteps:
-  - title: 'Welcome to Xsolla Inventory SDK demo! '
+  - title: Welcome to Xsolla Inventory SDK demo!
     description: Inventory SDK allows you to use Xsolla Player Inventory independently
       from our payment solution on platforms that for any reason prohibit the use
       of Xsolla In-Game Store and Pay Station.\n We will show you different ways to
@@ -24,7 +24,7 @@ MonoBehaviour:
     screenToActivate: 0
     associatedDocumentation: 
   - title: 'In the demo, you can add items to the inventory in one of the following
-      ways:  '
+      ways:'
     description: 1. Buy some items in the web store\n2. Redeem a coupon code to get
       bonus items\n3. Link a platform account to your main account
     prevButtonText: BACK

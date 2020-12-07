@@ -9,7 +9,7 @@ namespace Xsolla.Demo
 		[SerializeField] private TutorialInfo _tutorialInfo = default;
 
 	#if UNITY_EDITOR
-		[ContextMenu("Drop tutorial")]
+		[ContextMenu("Reset tutorial")]
 		public void DropTutorial() => PlayerPrefs.SetInt(Constants.INVENTORY_TUTORIAL_COMPLETED, 0);
 	#endif
 
