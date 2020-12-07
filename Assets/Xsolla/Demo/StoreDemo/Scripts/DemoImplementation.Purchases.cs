@@ -69,7 +69,7 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 
 						XsollaStore.Instance.ProcessOrder(XsollaSettings.StoreProjectId, data.order_id, () =>
 						{
-							PurchaseComplete();
+							PurchaseComplete(null, () => DemoController.Instance.SetPreviousState());
 							onSuccess?.Invoke(items);
 							UserCart.Instance.Clear();
 						}, WrapErrorCallback(onError));
@@ -79,7 +79,7 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 		}, WrapErrorCallback(onError));
 	}
 
-	private static void PurchaseComplete(CatalogItemModel item = null)
+	private static void PurchaseComplete(CatalogItemModel item = null, Action popupButtonCallback = null)
 	{
 		UserInventory.Instance.Refresh();
 #if (UNITY_EDITOR || UNITY_STANDALONE)
@@ -88,7 +88,7 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 		if(item != null)
 			StoreDemoPopup.ShowSuccess($"You are purchased '{item.Name}'");
 		else
-			StoreDemoPopup.ShowSuccess();
+			StoreDemoPopup.ShowSuccess(null, popupButtonCallback);
 	}
 #if (UNITY_EDITOR || UNITY_STANDALONE)	
 	private static void CloseInGameBrowserIfExist()
