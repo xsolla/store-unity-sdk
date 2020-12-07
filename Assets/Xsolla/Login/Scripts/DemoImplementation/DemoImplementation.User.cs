@@ -18,7 +18,7 @@ namespace Xsolla.Demo
 			set
 			{
 				XsollaLogin.Instance.Token = value;
-				UpdateStoreToken();
+				UpdateStoreToken(value);
 			}
 		}
 		public void SaveToken(string key, string token) => XsollaLogin.Instance.SaveToken(key, token);

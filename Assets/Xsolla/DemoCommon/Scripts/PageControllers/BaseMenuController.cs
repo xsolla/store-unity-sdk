@@ -12,6 +12,7 @@ namespace Xsolla.Demo
 			if (button != null && callback != null)
 			{
 				button.onClick = callback;
+				button.transform.parent.gameObject.SetActive(true);
 			}
 		}
 

@@ -45,7 +45,7 @@ namespace Xsolla.Demo
 			}
 			else
 			{
-				Debug.LogWarning("Tutorial is not available for this demo.");
+				Debug.Log("Tutorial is not available for this demo.");
 			}
 		}
 

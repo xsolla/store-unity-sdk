@@ -28,6 +28,13 @@ namespace Xsolla.Demo
 
 		private void Start()
 		{
+			var isValidDemo = DemoController.Instance.InventoryDemo != null;
+			if (!isValidDemo)
+			{
+				DisableUI();
+				return;
+			}
+
 			var token = DemoController.Instance.LoginDemo.Token;
 
 			Action<UserInfo> successCallback = info =>

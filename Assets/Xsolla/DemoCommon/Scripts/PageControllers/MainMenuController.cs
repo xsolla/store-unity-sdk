@@ -7,32 +7,108 @@ namespace Xsolla.Demo
 	{
 		[SerializeField] private SimpleButton storeButton = default;
 		[SerializeField] private SimpleButton inventoryButton = default;
-		[SerializeField] private SimpleButton documentationButton = default;
-		[SerializeField] private SimpleButton publisherAccountButton = default;
+		[SerializeField] private SimpleButton webStoreButton = default;
+		[SerializeField] private AccountLinkingManagerManual accountLinkingManager = default;
 		[SerializeField] private SimpleButton profileButton = default;
 		[SerializeField] private SimpleButton characterButton = default;
 		[SerializeField] private SimpleButton friendsButton = default;
+		[SerializeField] private SimpleButton publisherAccountButton = default;
+		[SerializeField] private SimpleButton documentationButton = default;
 		[SerializeField] private SimpleButton feedbackButton = default;
 		[SerializeField] private SimpleButton logoutButton = default;
+		[SerializeField] private SimpleButton tutorialButton = default;
 
 		private void Start()
 		{
-			AttachButtonCallback(storeButton, 
+			var demoType = GetDemoType();
+
+			switch (demoType)
+			{
+				case DemoType.Login:
+					InitLoginDemo();
+					break;
+				case DemoType.Store:
+					InitStoreDemo();
+					break;
+				case DemoType.Inventory:
+					InitInventoryDemo();
+					break;
+				default:
+					Debug.LogError($"Unexpected demo tyep: '{demoType}'");
+					break;
+			}
+		}
+
+		private DemoType GetDemoType()
+		{
+			var isInventoryDemoAvailable = DemoController.Instance.InventoryDemo != null;
+			var isStoreDemoAvailable = DemoController.Instance.StoreDemo != null;
+
+			if (isInventoryDemoAvailable && isStoreDemoAvailable)
+				return DemoType.Store;
+			else if (isInventoryDemoAvailable && !isStoreDemoAvailable)
+				return DemoType.Inventory;
+			else/*if (!isInventoryDemoAvailable && !isStoreDemoAvailable)*/
+				return DemoType.Login;
+		}
+
+		private void InitLoginDemo()
+		{
+			InitLoginButtons();
+			InitCommonButtons();
+		}
+
+		private void InitStoreDemo()
+		{
+			AttachButtonCallback(storeButton,
 				() => SetMenuState(MenuState.Store, () => UserCatalog.Instance.IsUpdated && UserInventory.Instance.IsUpdated));
-			AttachButtonCallback(inventoryButton, 
+			AttachButtonCallback(inventoryButton,
 				() => SetMenuState(MenuState.Inventory, () => UserInventory.Instance.IsUpdated));
+
+			InitLoginButtons();
+			InitCommonButtons();
+		}
+
+		private void InitInventoryDemo()
+		{
+			AttachButtonCallback(inventoryButton, () => SetMenuState(MenuState.Inventory, () => UserInventory.Instance.IsUpdated));
+
+			AttachUrlToButton(webStoreButton, DemoController.Instance.GetWebStoreUrl());
+
+			accountLinkingManager.Init();
+			
+			InitCommonButtons();
+
+			AttachButtonCallback(tutorialButton, () =>
+			{
+				if (DemoController.Instance.IsTutorialAvailable)
+					DemoController.Instance.TutorialManager.ShowTutorial(false);
+			});
+		}
+
+		private void InitLoginButtons()
+		{
 			AttachButtonCallback(profileButton,
 				() => SetMenuState(MenuState.Profile, () => UserCatalog.Instance.IsUpdated));
 			AttachButtonCallback(characterButton,
 				() => SetMenuState(MenuState.Character, () => UserCatalog.Instance.IsUpdated));
-			AttachButtonCallback(friendsButton, 
+			AttachButtonCallback(friendsButton,
 				() => SetMenuState(MenuState.Friends, () => UserFriends.Instance.IsUpdated));
-			AttachButtonCallback(logoutButton, 
-				() => SetMenuState(MenuState.Authorization, () => !WebRequestHelper.Instance.IsBusy()));
-		
+		}
+
+		private void InitCommonButtons()
+		{
+			AttachUrlToButton(publisherAccountButton, DemoController.Instance.UrlContainer.GetUrl(UrlType.PublisherUrl));
 			AttachUrlToButton(documentationButton, DemoController.Instance.UrlContainer.GetUrl(UrlType.DocumentationUrl));
 			AttachUrlToButton(feedbackButton, DemoController.Instance.UrlContainer.GetUrl(UrlType.FeedbackUrl));
-			AttachUrlToButton(publisherAccountButton, DemoController.Instance.UrlContainer.GetUrl(UrlType.PublisherUrl));
+
+			AttachButtonCallback(logoutButton,
+				() => SetMenuState(MenuState.Authorization, () => !WebRequestHelper.Instance.IsBusy()));
+		}
+
+		private enum DemoType
+		{
+			Login, Store, Inventory
 		}
 	}
 }

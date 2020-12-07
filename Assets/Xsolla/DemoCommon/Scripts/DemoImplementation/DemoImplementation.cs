@@ -13,8 +13,9 @@ namespace Xsolla.Demo
 			{
 				if (newState == MenuState.Main)
 				{
-					XsollaLogin.Instance.Token = GetUserToken();
-					UpdateStoreToken();
+					var token = GetUserToken();
+					XsollaLogin.Instance.Token = token;
+					UpdateStoreToken(token);
 				}
 			};
 			ValidateXsollaSettings();
@@ -76,6 +77,6 @@ namespace Xsolla.Demo
 			};
 		}
 
-		partial void UpdateStoreToken();
+		partial void UpdateStoreToken(Token token);
 	}
 }
