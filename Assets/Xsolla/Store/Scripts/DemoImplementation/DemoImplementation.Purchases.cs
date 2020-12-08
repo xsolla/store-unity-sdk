@@ -71,7 +71,7 @@ namespace Xsolla.Demo
 
 							XsollaStore.Instance.ProcessOrder(XsollaSettings.StoreProjectId, data.order_id, () =>
 							{
-								PurchaseComplete();
+								PurchaseComplete(null, () => DemoController.Instance.SetPreviousState());
 								onSuccess?.Invoke(items);
 								UserCart.Instance.Clear();
 							}, WrapErrorCallback(onError));
@@ -81,7 +81,7 @@ namespace Xsolla.Demo
 			}, WrapErrorCallback(onError));
 		}
 
-		private static void PurchaseComplete(CatalogItemModel item = null)
+		private static void PurchaseComplete(CatalogItemModel item = null, Action popupButtonCallback = null)
 		{
 			UserInventory.Instance.Refresh();
 	#if (UNITY_EDITOR || UNITY_STANDALONE)
@@ -90,7 +90,7 @@ namespace Xsolla.Demo
 			if(item != null)
 				StoreDemoPopup.ShowSuccess($"You are purchased '{item.Name}'");
 			else
-				StoreDemoPopup.ShowSuccess();
+				StoreDemoPopup.ShowSuccess(null, popupButtonCallback);
 		}
 	#if (UNITY_EDITOR || UNITY_STANDALONE)	
 		private static void CloseInGameBrowserIfExist()

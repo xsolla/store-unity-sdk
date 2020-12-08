@@ -136,7 +136,7 @@ namespace Xsolla.Demo
 
 		private bool CheckHardcodedBackCases()
 		{
-			if (_state.IsPostAuthState() && _state != MenuState.Main && _state != MenuState.BuyCurrency)
+			if (_state.IsPostAuthState() && _state != MenuState.Main && _state != MenuState.BuyCurrency && _state != MenuState.Cart)
 			{
 				SetState(MenuState.Main);
 				return true;

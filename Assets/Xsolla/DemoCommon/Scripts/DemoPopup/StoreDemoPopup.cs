@@ -7,10 +7,12 @@ namespace Xsolla.Demo
 {
 	public static class StoreDemoPopup
 	{
-		public static void ShowSuccess(
-			string message = "Everything happened as it should"
-		) =>
-			PopupFactory.Instance.CreateSuccess().SetMessage(message);
+		public static void ShowSuccess(string message = "Everything happened as it should", Action buttonCallback = null)
+		{
+			var popup = PopupFactory.Instance.CreateSuccess();
+			popup.SetMessage(message);
+			popup.SetCallback(buttonCallback);
+		}
 
 		public static void ShowError(Error error)
 		{
