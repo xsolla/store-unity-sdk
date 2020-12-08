@@ -1,5 +1,6 @@
 using UnityEngine;
 using Xsolla.Core;
+using Xsolla.Core.Popup;
 
 namespace Xsolla.Demo
 {
@@ -71,7 +72,16 @@ namespace Xsolla.Demo
 
 		private void InitInventoryDemo()
 		{
-			AttachButtonCallback(inventoryButton, () => SetMenuState(MenuState.Inventory, () => UserInventory.Instance.IsUpdated));
+			AttachButtonCallback(inventoryButton, () =>
+			{
+				if (UserInventory.Instance.IsUpdated)
+				{
+					UserInventory.Instance.Refresh(() => SetMenuState(MenuState.Inventory));
+					PopupFactory.Instance.CreateWaiting().SetCloseCondition(() => UserInventory.Instance.IsUpdated);
+				}
+				else
+					SetMenuState(MenuState.Inventory, () => UserInventory.Instance.IsUpdated);
+			});
 
 			AttachUrlToButton(webStoreButton, DemoController.Instance.GetWebStoreUrl());
 
