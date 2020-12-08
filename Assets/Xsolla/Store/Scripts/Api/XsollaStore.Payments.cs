@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
@@ -51,12 +51,7 @@ namespace Xsolla.Store
 		/// <seealso cref="OpenPurchaseUi"/>
 		public void ItemPurchase(string projectId, string itemSku, [CanBeNull] Action<PurchaseData> onSuccess, [CanBeNull] Action<Error> onError, PurchaseParams purchaseParams = null)
 		{
-			TempPurchaseParams tempPurchaseParams = new TempPurchaseParams
-			{
-				sandbox = XsollaSettings.IsSandbox,
-				settings = new TempPurchaseParams.Settings(XsollaSettings.PaystationTheme)
-			};
-
+			var tempPurchaseParams = GenerateTempPurchaseParams(purchaseParams);
 			var url = string.Format(URL_BUY_ITEM, projectId, itemSku);
 			WebRequestHelper.Instance.PostRequest<PurchaseData, TempPurchaseParams>(SdkType.Store, url, tempPurchaseParams, GetPaymentHeaders(Token), onSuccess, onError, Error.BuyItemErrors);
 		}
@@ -106,12 +101,7 @@ namespace Xsolla.Store
 		/// <param name="purchaseParams">Purchase parameters such as <c>country</c>, <c>locale</c> and <c>currency</c>.</param>
 		public void CartPurchase(string projectId, [CanBeNull] Action<PurchaseData> onSuccess, [CanBeNull] Action<Error> onError, PurchaseParams purchaseParams = null)
 		{
-			TempPurchaseParams tempPurchaseParams = new TempPurchaseParams
-			{
-				sandbox = XsollaSettings.IsSandbox,
-				settings = new TempPurchaseParams.Settings(XsollaSettings.PaystationTheme)
-			};
-
+			var tempPurchaseParams = GenerateTempPurchaseParams(purchaseParams);
 			var url = string.Format(URL_BUY_CURRENT_CART, projectId);
 			WebRequestHelper.Instance.PostRequest<PurchaseData, TempPurchaseParams>(SdkType.Store, url, tempPurchaseParams, GetPaymentHeaders(Token), onSuccess, onError, Error.BuyCartErrors);
 		}
@@ -128,12 +118,7 @@ namespace Xsolla.Store
 		/// <param name="purchaseParams">Purchase parameters such as <c>country</c>, <c>locale</c> and <c>currency</c>.</param>
 		public void CartPurchase(string projectId, string cartId, [CanBeNull] Action<PurchaseData> onSuccess, [CanBeNull] Action<Error> onError, PurchaseParams purchaseParams = null)
 		{
-			TempPurchaseParams tempPurchaseParams = new TempPurchaseParams
-			{
-				sandbox = XsollaSettings.IsSandbox,
-				settings = new TempPurchaseParams.Settings(XsollaSettings.PaystationTheme)
-			};
-
+			var tempPurchaseParams = GenerateTempPurchaseParams(purchaseParams);
 			var url = string.Format(URL_BUY_SPECIFIC_CART, projectId, cartId);
 			WebRequestHelper.Instance.PostRequest<PurchaseData, TempPurchaseParams>(SdkType.Store, url, tempPurchaseParams, GetPaymentHeaders(Token), onSuccess, onError, Error.BuyCartErrors);
 		}
@@ -199,6 +184,18 @@ namespace Xsolla.Store
 					onSuccess?.Invoke();
 				}
 			}, onError);
+		}
+
+		private TempPurchaseParams GenerateTempPurchaseParams(PurchaseParams purchaseParams)
+		{
+			return new TempPurchaseParams()
+			{
+				sandbox = XsollaSettings.IsSandbox,
+				settings = new TempPurchaseParams.Settings(XsollaSettings.PaystationTheme),
+				customParameters = purchaseParams?.customParameters,
+				currency = purchaseParams?.currency,
+				locale = purchaseParams?.locale
+			};
 		}
 	}
 }
