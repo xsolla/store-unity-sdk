@@ -1,7 +1,6 @@
 using System.IO;
 using UnityEditor;
 using UnityEngine;
-using Xsolla.PayStation;
 
 namespace Xsolla.Core
 {
@@ -30,9 +29,7 @@ namespace Xsolla.Core
 		[SerializeField] private string storeProjectId = Constants.DEFAULT_PROJECT_ID;
 		[SerializeField] private bool isSandbox = true;
 
-		[SerializeField]
-		public PaystationTheme paystationTheme = PaystationTheme.Dark;
-		[SerializeField] private string payStationTokenRequestUrl = "https://livedemo.xsolla.com/sdk/token/paystation_demo/";
+		[SerializeField] public PaystationTheme paystationTheme = PaystationTheme.Dark;
 		[SerializeField] private bool inAppBrowserEnabled = true;
 
 		[SerializeField] private string facebookAppId;
@@ -177,16 +174,6 @@ namespace Xsolla.Core
 			get => Instance.paystationTheme;
 			set {
 				Instance.paystationTheme = value;
-				MarkAssetDirty();
-			}
-		}
-
-		public static string PayStationTokenRequestUrl
-		{
-			get => Instance.payStationTokenRequestUrl;
-			set
-			{
-				Instance.payStationTokenRequestUrl = value;
 				MarkAssetDirty();
 			}
 		}

@@ -1,4 +1,4 @@
-﻿using UnityEditor;
+using UnityEditor;
 using UnityEngine;
 
 namespace Xsolla.Core
@@ -23,6 +23,8 @@ namespace Xsolla.Core
 					XsollaSettings.IsSandbox = sandbox;
 					changed = true;
 				}
+				XsollaSettings.PaystationTheme = (PaystationTheme)EditorGUILayout.EnumPopup("Paystation theme", XsollaSettings.PaystationTheme);
+				XsollaSettings.InAppBrowserEnabled = EditorGUILayout.Toggle("Enable in-app browser?", XsollaSettings.InAppBrowserEnabled);
 			}
 			EditorGUILayout.Space();
 			

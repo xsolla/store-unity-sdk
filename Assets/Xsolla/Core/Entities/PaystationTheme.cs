@@ -1,4 +1,4 @@
-﻿namespace Xsolla.PayStation
+namespace Xsolla.Core
 {
 	[System.Serializable]
 	public enum PaystationTheme
