@@ -17,7 +17,7 @@ namespace Xsolla.Demo
 
 		private void Start()
 		{
-			if (_isFirstLaunch)
+			if (_isFirstLaunch && XsollaSettings.AuthorizationType != AuthorizationType.AccessToken)
 			{
 				_isFirstLaunch = false;
 				CheckNicknamePresence();

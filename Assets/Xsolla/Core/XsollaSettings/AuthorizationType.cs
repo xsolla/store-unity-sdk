@@ -1,7 +1,7 @@
-﻿namespace Xsolla.Core
+namespace Xsolla.Core
 {
 	public enum AuthorizationType
 	{
-		JWT, OAuth2_0
+		JWT, OAuth2_0, AccessToken
 	}
 }

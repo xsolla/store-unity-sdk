@@ -1,5 +1,4 @@
 using System;
-using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.UI;
 using Xsolla.Core;
@@ -102,20 +101,6 @@ namespace Xsolla.Demo
 			}
 
 			IsCreateInProgress = false;
-		}
-
-		private bool ValidateEmail(string email)
-		{
-			if (!string.IsNullOrEmpty(email))
-			{
-				var emailPattern = "^[a-zA-Z0-9-_.+]+[@][a-zA-Z0-9-_.]+[.][a-zA-Z]+$";
-				var regex = new Regex(emailPattern);
-				return regex.IsMatch(email);
-			}
-			else
-			{
-				return false;
-			}
 		}
 	}
 }

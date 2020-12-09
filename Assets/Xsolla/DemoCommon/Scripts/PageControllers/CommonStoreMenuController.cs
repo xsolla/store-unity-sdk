@@ -20,7 +20,7 @@ namespace Xsolla.Demo
 			AttachButtonCallback(buyCurrencyButton,
 				() => SetMenuState(MenuState.BuyCurrency, () => UserCatalog.Instance.IsUpdated));
 
-			if (DemoController.Instance.IsTutorialAvailable)
+			if (DemoController.Instance.IsTutorialAvailable && !DemoController.Instance.IsAccessTokenAuth)
 			{
 				tutorialButton.gameObject.SetActive(true);
 				AttachButtonCallback(tutorialButton, () => DemoController.Instance.ShowTutorial(false));

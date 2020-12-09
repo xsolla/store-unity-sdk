@@ -40,7 +40,7 @@ namespace Xsolla.Demo
 
 		partial void AutoStartTutorial()
 		{
-			if (_tutorialManager != null)
+			if (_tutorialManager != null && !IsAccessTokenAuth)
 			{
 				if (!_tutorialManager.IsTutorialCompleted())
 				{

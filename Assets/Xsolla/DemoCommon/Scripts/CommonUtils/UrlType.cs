@@ -10,5 +10,6 @@
 		AttributesUrl = 5,
 		LoginSetupUrl = 6,
 		AccountLinkingUrl = 7,
+		SdkBackendGithubUrl = 8
 	}
 }

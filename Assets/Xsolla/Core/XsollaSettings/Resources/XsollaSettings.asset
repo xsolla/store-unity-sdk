@@ -19,6 +19,7 @@ MonoBehaviour:
   jwtTokenInvalidationEnabled: 0
   oauthClientId: 57
   requestNicknameOnAuth: 1
+  authServerUrl: https://xsolla-sdk-backend.nl-k8s-stage.srv.local
   useSteamAuth: 0
   steamAppId: 480
   useConsoleAuth: 0
@@ -27,7 +28,6 @@ MonoBehaviour:
   storeProjectId: 77640
   isSandbox: 1
   paystationTheme: 1
-  payStationTokenRequestUrl: https://livedemo.xsolla.com/sdk/token/paystation_demo/
   inAppBrowserEnabled: 1
   facebookAppId: 
   googleServerId: 

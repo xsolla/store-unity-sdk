@@ -22,6 +22,7 @@ namespace Xsolla.Login
 		private const string URL_USER_SOCIAL_NETWORK_TOKEN_AUTH = "https://login.xsolla.com/api/social/{0}/login_with_token?projectId={1}&payload={2}&{3}";
 		private const string URL_USER_OAUTH_SOCIAL_NETWORK_TOKEN_AUTH = "https://login.xsolla.com/api/oauth2/social/{0}/login_with_token?client_id={1}&response_type=code&redirect_uri=https://login.xsolla.com/api/blank&state=xsollatest&scope=offline";
 		private const string URL_USER_OAUTH_PLATFORM_PROVIDER = "https://login.xsolla.com/api/oauth2/cross/{0}/login?client_id={1}&scope=offline";
+		private const string URL_GET_ACCESS_TOKEN = "{0}/login";
 
 		/// <summary>
 		/// Returns saved user info by JWT.
@@ -370,6 +371,28 @@ namespace Xsolla.Login
 			var header = new WebRequestHeader() {Name = "Content-type", Value = "application/x-www-form-urlencoded"};
 
 			WebRequestHelper.Instance.PostRequest(SdkType.Login, url, requestData, header, successCallback, onError, Error.LoginErrors);
+		}
+
+		/// <summary>
+		/// Gets user access token provided by game backend.
+		/// </summary>
+		/// <param name="userEmail">User email.</param>
+		/// <param name="onSuccess">Successful operation callback.</param>
+		/// <param name="onError">Failed operation callback.</param>
+		public void GetUserAccessToken(string userEmail, Action onSuccess, Action<Error> onError = null)
+		{
+			var url = string.Format(URL_GET_ACCESS_TOKEN, XsollaSettings.AuthServerUrl);
+
+			var requestData = new AccessTokenRequest
+			{
+				email = userEmail
+			};
+
+			WebRequestHelper.Instance.PostRequest<AccessTokenResponse, AccessTokenRequest>(SdkType.Login, url, requestData, response =>
+			{
+				Token = new Token(response.access_token, true);
+				onSuccess?.Invoke();
+			}, onError, Error.LoginErrors);
 		}
 	}
 }

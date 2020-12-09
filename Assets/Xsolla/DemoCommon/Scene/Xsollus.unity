@@ -451,5 +451,13 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 8ae21f99598854d4c98515a4221a59d6,
         type: 2}
+    - target: {fileID: 1218190968, guid: 4af1ad141a08941d8bc07459eb260991, type: 3}
+      propertyPath: Urls.Array.size
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1218190968, guid: 4af1ad141a08941d8bc07459eb260991, type: 3}
+      propertyPath: Urls.Array.data[8]
+      value: https://github.com/xsolla/xsolla-sdk-backend
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4af1ad141a08941d8bc07459eb260991, type: 3}

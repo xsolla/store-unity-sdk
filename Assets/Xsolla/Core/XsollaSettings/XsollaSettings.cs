@@ -13,30 +13,31 @@ namespace Xsolla.Core
 		private static XsollaSettings _instance;
 
 		[SerializeField] private string loginId = Constants.DEFAULT_LOGIN_ID;
-		[SerializeField] private bool useProxy;
-		[SerializeField] private string callbackUrl;
-		[SerializeField] private AuthorizationType authorizationType;
-		[SerializeField] private bool jwtTokenInvalidationEnabled;
-		[SerializeField] private int oauthClientId;
-		[SerializeField] private bool requestNicknameOnAuth;
+		[SerializeField] private bool useProxy = default;
+		[SerializeField] private string callbackUrl = default;
+		[SerializeField] private AuthorizationType authorizationType = default;
+		[SerializeField] private bool jwtTokenInvalidationEnabled = default;
+		[SerializeField] private int oauthClientId = default;
+		[SerializeField] private bool requestNicknameOnAuth = default;
+		[SerializeField] private string authServerUrl = "https://xsolla-sdk-backend.nl-k8s-stage.srv.local";
 
 		[SerializeField] private bool useSteamAuth = true;
 		[SerializeField] private string steamAppId = "480";
-		[SerializeField] private bool useConsoleAuth;
+		[SerializeField] private bool useConsoleAuth = default;
 		[SerializeField] private PlatformType platform = PlatformType.Xsolla;
-		[SerializeField] private string usernameFromConsole;
-		
+		[SerializeField] private string usernameFromConsole = default;
+
 		[SerializeField] private string storeProjectId = Constants.DEFAULT_PROJECT_ID;
 		[SerializeField] private bool isSandbox = true;
 
 		[SerializeField] public PaystationTheme paystationTheme = PaystationTheme.Dark;
 		[SerializeField] private bool inAppBrowserEnabled = true;
 
-		[SerializeField] private string facebookAppId;
-		[SerializeField] private string googleServerId;
+		[SerializeField] private string facebookAppId = default;
+		[SerializeField] private string googleServerId = default;
 
 		[SerializeField] private bool useDeepLinking = false;
-		[SerializeField] private string deepLinkRedirectUrl;
+		[SerializeField] private string deepLinkRedirectUrl = default;
 
 		[SerializeField] private string webStoreUrl = "https://livedemo.xsolla.com/sdk-account-linking/";
 
@@ -52,7 +53,8 @@ namespace Xsolla.Core
 
 		public static bool UseSteamAuth {
 			get => Instance.useSteamAuth;
-			set {
+			set
+			{
 				Instance.useSteamAuth = value;
 				MarkAssetDirty();
 			}
@@ -60,7 +62,8 @@ namespace Xsolla.Core
 		
 		public static string SteamAppId {
 			get => Instance.steamAppId;
-			set {
+			set
+			{
 				Instance.steamAppId = value;
 				MarkAssetDirty();
 			}
@@ -116,9 +119,20 @@ namespace Xsolla.Core
 			}
 		}
 
+		public static string AuthServerUrl
+		{
+			get => Instance.authServerUrl;
+			set
+			{
+				Instance.authServerUrl = value;
+				MarkAssetDirty();
+			}
+		}
+
 		public static bool UseConsoleAuth {
 			get => Instance.useConsoleAuth;
-			set {
+			set
+			{
 				Instance.useConsoleAuth = value;
 				MarkAssetDirty();
 			}
@@ -126,7 +140,8 @@ namespace Xsolla.Core
 		
 		public static string UsernameFromConsolePlatform {
 			get => Instance.usernameFromConsole;
-			set {
+			set
+			{
 				Instance.usernameFromConsole = value;
 				MarkAssetDirty();
 			}
@@ -141,7 +156,7 @@ namespace Xsolla.Core
 				MarkAssetDirty();
 			}
 		}
-		
+
 		public static string StoreProjectId
 		{
 			get => Instance.storeProjectId;
@@ -151,7 +166,7 @@ namespace Xsolla.Core
 				MarkAssetDirty();
 			}
 		}
-		
+
 		public static bool IsSandbox
 		{
 			get => Instance.isSandbox;
@@ -164,7 +179,8 @@ namespace Xsolla.Core
 
 		public static PlatformType Platform {
 			get => Instance.platform;
-			set {
+			set
+			{
 				Instance.platform = value;
 				MarkAssetDirty();
 			}
@@ -181,7 +197,8 @@ namespace Xsolla.Core
 		public static bool InAppBrowserEnabled
 		{
 			get => Instance.inAppBrowserEnabled;
-			set {
+			set
+			{
 				Instance.inAppBrowserEnabled = value;
 				MarkAssetDirty();
 			}
@@ -198,7 +215,6 @@ namespace Xsolla.Core
 			get => Instance.googleServerId;
 			set => Instance.googleServerId = value;
 		}
-
 
 		public static bool UseDeepLinking
 		{
@@ -260,7 +276,7 @@ namespace Xsolla.Core
 				foreach (var f in Directory.GetFiles(d))
 				{
 					if (f.Contains("XsollaSettingsEditor.cs"))
-					{ 
+					{
 						return f;
 					}
 				}

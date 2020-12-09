@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 using Xsolla.Core;
 using Xsolla.Core.Popup;
@@ -16,6 +15,7 @@ namespace Xsolla.Demo
 
 		public UrlContainer UrlContainer => _urlContainer;
 		public bool IsTutorialAvailable { get; private set; } = false;
+		public bool IsAccessTokenAuth => XsollaSettings.AuthorizationType == AuthorizationType.AccessToken;
 
 		public event MenuStateMachine.StateChangeDelegate StateChangingEvent
 		{
@@ -51,7 +51,9 @@ namespace Xsolla.Demo
 			if (lastState.IsAuthState() && newState == MenuState.Main)
 			{
 				UpdateCatalogAndInventory();
-				UserFriends.Instance.UpdateFriends();
+
+				if (!IsAccessTokenAuth)
+					UserFriends.Instance.UpdateFriends();
 
 				AutoStartTutorial();
 			}

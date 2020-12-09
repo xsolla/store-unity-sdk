@@ -51,6 +51,9 @@ namespace Xsolla.Demo
 		void SteamAuth(string appId, string sessionTicket, [CanBeNull] Action<string> onSuccess = null,
 			[CanBeNull] Action<Error> onError = null);
 
+		void AccessTokenAuth(string email, [NotNull] Action onSuccess,
+			[CanBeNull] Action<Error> onError = null);
+
 		string GetSocialNetworkAuthUrl(SocialProvider socialProvider);
 
 		void Registration(string username, string password, string email, [NotNull] Action onSuccess,
