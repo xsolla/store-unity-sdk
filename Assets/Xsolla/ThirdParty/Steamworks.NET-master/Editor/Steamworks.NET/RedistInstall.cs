@@ -13,7 +13,11 @@ using System.IO;
 [InitializeOnLoad]
 public class RedistInstall {
 	static RedistInstall() {
+#if UNITY_EDITOR_WIN
+		CopyFile("Assets\\Plugins\\Steamworks.NET\\redist", "steam_appid.txt", false);
+#else
 		CopyFile("Assets/Plugins/Steamworks.NET/redist", "steam_appid.txt", false);
+#endif
 
 		// We only need to copy the dll into the project root on <= Unity 5.0
 #if UNITY_EDITOR_WIN && (UNITY_4_7 || UNITY_5_0)

@@ -1,5 +1,6 @@
-﻿using System.Runtime.InteropServices;
+using System.Runtime.InteropServices;
 using UnityEngine;
+using Xsolla.Core.Browser;
 
 namespace Xsolla.Core
 {
@@ -7,15 +8,15 @@ namespace Xsolla.Core
 	public class BrowserHelper : MonoSingleton<BrowserHelper>
 	{
 		[SerializeField]
-		private GameObject InAppBrowserPrefab;
-		private GameObject _inAppBrowserObject;
+		private GameObject InAppBrowserPrefab = default;
+		private GameObject _inAppBrowserObject = default;
 
 #if UNITY_WEBGL
 		[DllImport("__Internal")]
 		private static extern void Purchase(string token, bool sandbox);
 #endif
 
-    protected override void OnDestroy()
+		protected override void OnDestroy()
 		{
 			if (_inAppBrowserObject == null) return;
 			Destroy(_inAppBrowserObject);
@@ -37,8 +38,11 @@ namespace Xsolla.Core
 		public void Open(string url, bool inAppBrowserEnabled = false)
 		{
 			switch (Application.platform) {
-				case RuntimePlatform.WebGLPlayer: {
-					Application.ExternalEval($"window.open(\"{url}\",\"_blank\")");
+				case RuntimePlatform.WebGLPlayer:
+					{
+#pragma warning disable 0618
+						Application.ExternalEval($"window.open(\"{url}\",\"_blank\")");
+#pragma warning restore 0618
 						break;
 					}
 				default: {

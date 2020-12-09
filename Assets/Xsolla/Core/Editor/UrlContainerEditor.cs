@@ -1,46 +1,51 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using UnityEditor;
 using System;
 
-[CustomEditor(typeof(UrlContainer))]
-public class UrlContainerEditor : Editor
+namespace Xsolla.Demo
 {
-	private static bool _unfold = false;
-
-	public override void OnInspectorGUI()
+	[CustomEditor(typeof(UrlContainer))]
+	public class UrlContainerEditor : Editor
 	{
-		_unfold = EditorGUILayout.Foldout(_unfold, "URLs for store demo buttons");
+		private static bool _unfold = false;
 
-		if (_unfold)
+		public override void OnInspectorGUI()
 		{
-			var urlContainer = target as UrlContainer;
-			var typeNames = Enum.GetNames(typeof(UrlType));
-			urlContainer.Urls = ResizeArrayIfNeeded(typeNames.Length, urlContainer.Urls);
+			_unfold = EditorGUILayout.Foldout(_unfold, "URLs for store demo buttons");
 
-			for (int i = 0; i < typeNames.Length; i++)
+			if (_unfold)
 			{
-				var value = EditorGUILayout.TextField(typeNames[i], urlContainer.Urls[i]);
+				var urlContainer = target as UrlContainer;
+				var typeNames = Enum.GetNames(typeof(UrlType));
+				urlContainer.Urls = ResizeArrayIfNeeded(typeNames.Length, urlContainer.Urls);
 
-				if(value != urlContainer.Urls[i])
-					urlContainer.Urls[i] = value;
+				for (int i = 0; i < typeNames.Length; i++)
+				{
+					var value = EditorGUILayout.TextField(typeNames[i], urlContainer.Urls[i]);
+
+					if(value != urlContainer.Urls[i])
+					{
+						var serializedTarget = new SerializedObject(target);
+						var property = serializedTarget.FindProperty("Urls");
+						property.GetArrayElementAtIndex(i).stringValue = value;
+						serializedTarget.ApplyModifiedProperties();
+					}
+				}
 			}
 		}
-	}
 
-	private string[] ResizeArrayIfNeeded(int targetLength, string[] array)
-	{
-		if (array.Length == targetLength)
-			return array;
-		else
+		private string[] ResizeArrayIfNeeded(int targetLength, string[] array)
 		{
-			string[] newArray = new string[targetLength];
-			var length = targetLength > array.Length ? array.Length : targetLength;
+			if (array.Length == targetLength)
+				return array;
+			else
+			{
+				string[] newArray = new string[targetLength];
+				var length = targetLength > array.Length ? array.Length : targetLength;
 
-			Array.Copy(sourceArray: array, destinationArray: newArray, length);
+				Array.Copy(sourceArray: array, destinationArray: newArray, length);
 
-			return newArray;
+				return newArray;
+			}
 		}
 	}
 }

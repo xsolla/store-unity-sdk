@@ -1,4 +1,24 @@
 # Changelog
+## [0.6.2.0] - 2020-10-02 
+
+### Added 
+- Social friends system functionality.
+- Coupon functionality.
+- Bundle functionality.
+- Additional API methods.
+- Catalog pagination.
+- Inventory SDK demo.
+- User profile functionality.
+- Virtual currency consumption functionality.
+- Friends search functionality.
+
+### Changed
+- Analitycs implementation.
+
+### Fixed
+- Demo user button behavior.
+- Unity Editor crash after updating plugin.
+
 ## [0.6.1.0] - 2020-10-02 
 
 ### Added 
