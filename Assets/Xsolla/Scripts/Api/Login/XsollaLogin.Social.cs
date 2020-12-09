@@ -83,12 +83,12 @@ namespace Xsolla.Login
 		}
 
 		/// <summary>
-		/// Get `url` for social authentication in browser.
+		/// Get `url` for social authentication in the browser.
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Auth via Social Network</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/login-api/jwt/jwt-auth-via-social-network/"/>.
 		/// <param name="socialProvider">Name of social provider.</param>
-		/// <param name="oauthState">Value used for additional user verification on backend. Must be at least 8 symbols long. Will be "xsollatest" by default.</param>
+		/// <param name="oauthState">Value used for additional user verification on back end. Must be at least 8 characters long. Will be "xsollatest" by default.</param>
 		/// <see cref="https://developers.xsolla.com/login-api/methods/oauth-20/oauth-20-auth-via-social-network"/>.
 		public string GetSocialNetworkAuthUrl(SocialProvider socialProvider, string oauthState = null)
 		{
@@ -113,8 +113,8 @@ namespace Xsolla.Login
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Link Social Network To Account</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/user-account-api/social-networks/link-social-network-to-account/"/>.
-		/// <param name="socialProvider">Name of social provider.</param>
-		/// <param name="urlCallback">Success operation callback.</param>
+		/// <param name="socialProvider">Name of the social provider.</param>
+		/// <param name="urlCallback">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		public void LinkSocialProvider(SocialProvider socialProvider, Action<string> urlCallback, Action<Error> onError = null)
 		{
@@ -143,7 +143,7 @@ namespace Xsolla.Login
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Get Links for Social Auth</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/user-account-api/social-networks/getusersmeloginurls/"/>.
-		/// <param name="onSuccess">Success operation callback.</param>
+		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		/// <param name="locale">Defines localization request localization settings.</param>
 		public void GetLinksForSocialAuth(Action<List<SocialNetworkLink>> onSuccess, Action<Error> onError = null, string locale = null)
