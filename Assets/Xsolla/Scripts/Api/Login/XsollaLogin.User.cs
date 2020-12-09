@@ -26,11 +26,11 @@ namespace Xsolla.Login
 		private const string URL_USER_OAUTH_PLATFORM_PROVIDER = "https://login.xsolla.com/api/oauth2/cross/{0}/login?client_id={1}&scope=offline&{2}";
 
 		/// <summary>
-		/// Returns saved user info by JWT.
+		/// Returns the saved user info by a JWT.
 		/// </summary>
 		/// <see cref="https://developers.xsolla.com/user-account-api/all-user-details/get-user-details"/>
 		/// <param name="token">JWT from Xsolla Login.</param>
-		/// <param name="onSuccess">Success operation callback.</param>
+		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		public void GetUserInfo(string token, Action<UserInfo> onSuccess, Action<Error> onError = null)
 		{
@@ -40,12 +40,12 @@ namespace Xsolla.Login
 		}
 
 		/// <summary>
-		/// Updates the details of the authenticated user by JWT.
+		/// Updates the details of the authenticated user by a JWT.
 		/// </summary>
 		/// <see cref="https://developers.xsolla.com/user-account-api/all-user-details/patchusersme"/>
 		/// <param name="token">JWT from Xsolla Login.</param>
 		/// <param name="info">User information.</param>
-		/// <param name="onSuccess">Success operation callback.</param>
+		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		public void UpdateUserInfo(string token, UserInfoUpdate info, Action<UserInfo> onSuccess, Action<Error> onError = null)
 		{
@@ -62,7 +62,7 @@ namespace Xsolla.Login
 		/// <param name="username">User name.</param>
 		/// <param name="password">User password.</param>
 		/// <param name="email">User email for verification.</param>
-		/// <param name="onSuccess">Success operation callback.</param>
+		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		/// <seealso cref="SignIn"/>
 		/// <seealso cref="ResetPassword"/>
@@ -92,7 +92,7 @@ namespace Xsolla.Login
 		/// <see cref="https://developers.xsolla.com/login-api/jwt/auth-by-username-and-password"/>
 		/// <param name="username">User name.</param>
 		/// <param name="password">User password.</param>
-		/// <param name="rememberUser">Save user credentionals?</param>
+		/// <param name="rememberUser">Save user credentials?</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		/// <seealso cref="SignInConsoleAccount"/>
@@ -136,7 +136,7 @@ namespace Xsolla.Login
 		}
 
 		/// <summary>
-		/// Allows user to reset password.
+		/// Allows users to reset password.
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Reset password</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/login-api/general/reset-password"/>
@@ -154,7 +154,7 @@ namespace Xsolla.Login
 		}
 
 		/// <summary>
-		/// Search users by nickname in the same Login project as current user.
+		/// Search users by nickname in the same Login project as a current user.
 		/// NOTE: User can search only 1 time per second.
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Search Users by Nickname</c>.</remarks>
@@ -189,7 +189,7 @@ namespace Xsolla.Login
 		}
 
 		/// <summary>
-		/// Gets the phone number of the authenticated user by JWT.
+		/// Gets the phone number of the authenticated user by a JWT.
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Get User Phone Number</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/user-account-api/user-phone-number/getusersmephone"/>
@@ -209,7 +209,7 @@ namespace Xsolla.Login
 		}
 
 		/// <summary>
-		/// Updates the phone number of the authenticated user by JWT.
+		/// Updates the phone number of the authenticated user by a JWT.
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Update User Phone Number</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/user-account-api/user-phone-number/postusersmephone"/>
@@ -229,7 +229,7 @@ namespace Xsolla.Login
 		}
 
 		/// <summary>
-		/// Deletes the phone number of the authenticated user by JWT.
+		/// Deletes the phone number of the authenticated user by a JWT.
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Delete User Phone Number</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/user-account-api/user-phone-number/deleteusersmephonephonenumber"/>
@@ -249,13 +249,13 @@ namespace Xsolla.Login
 		}
 
 		/// <summary>
-		/// Uploads the profile picture of the authenticated user by JWT.
+		/// Uploads the profile picture of the authenticated user by a JWT.
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Upload User Picture</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/user-account-api/user-picture/postusersmepicture"/>
 		/// <param name="token">JWT from Xsolla Login.</param>
 		/// <param name="pictureData">User profile picture in the binary format.</param>
-		/// <param name="onSuccess">Success operation callback.</param>
+		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		/// <seealso cref="DeleteUserPicture"/>
 		public void UploadUserPicture(string token, byte[] pictureData, string boundary, Action<string> onSuccess, Action<Error> onError)
@@ -266,7 +266,7 @@ namespace Xsolla.Login
 		}
 
 		/// <summary>
-		/// Deletes the profile picture of the authenticated user by JWT.
+		/// Deletes the profile picture of the authenticated user by a JWT.
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Delete User Picture</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/user-account-api/user-picture/deleteusersmepicture"/>
@@ -288,7 +288,7 @@ namespace Xsolla.Login
 		/// <remarks> Swagger method name:<c>Check User's Age</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/login-api/methods/users/check-users-age/"/>
 		/// <param name="dateOfBirth">User's birth date in the YYYY-MM-DD format.</param>
-		/// <param name="onSuccess">Success operation callback.</param>
+		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		public void CheckUserAge(string dateOfBirth, Action<UserCheckAgeResult> onSuccess, Action<Error> onError)
 		{
@@ -307,7 +307,7 @@ namespace Xsolla.Login
 		/// <remarks> Swagger method name:<c>GetUserEmail</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/user-account-api/user-email/getusersmeemail/"/>
 		/// /// <param name="token">JWT from Xsolla Login.</param>
-		/// <param name="onSuccess">Success operation callback.</param>
+		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		public void GetUserEmail(string token, Action<string> onSuccess, Action<Error> onError)
 		{
@@ -371,7 +371,7 @@ namespace Xsolla.Login
 		/// <see cref="https://developers.xsolla.com/login-api/methods/oauth-20/authentication-via-provider-project/"/>
 		/// <param name="accessToken">JWT received after authentication in the provider project.</param>
 		/// <param name="platformProviderName">Name of the provider project.</param>
-		/// <param name="onSuccess">Success operation callback.</param>
+		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		public void AuthViaProviderProject(string accessToken, string platformProviderName, Action onSuccess, Action<Error> onError)
 		{
