@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Xsolla.Core;
 
@@ -17,8 +18,11 @@ namespace Xsolla.Demo
 		[SerializeField] private Text itemQuantityText = default;
 		[SerializeField] private ConsumeButton consumeButton = default;
 		[SerializeField] private Text purchasedStatusText = default;
-		[SerializeField] private GameObject expirationTimeObject = default;
-		[SerializeField] private Text expirationTimeText = default;
+		[SerializeField] private GameObject remainingTimeObject = default;
+		[SerializeField] private Text remainingTimeTimeText = default;
+		[SerializeField] private GameObject expiredTimeObject = default;
+		[SerializeField] private Text expiredTimeText = default;
+		[SerializeField] private SimpleTextButton renewSubscriptionButton = default;
 
 		private ItemModel _itemInformation;
 		private IInventoryDemoImplementation _demoImplementation;
@@ -37,6 +41,21 @@ namespace Xsolla.Demo
 			itemDescription.text = _itemInformation.Description;
 
 			LoadImage(_itemInformation.ImageUrl);
+
+			if (_itemInformation.IsSubscription())
+				AttachRenewSubscriptionHandler();
+		}
+
+		private void AttachRenewSubscriptionHandler()
+		{
+			if (DemoController.Instance.StoreDemo == null)
+				return;
+
+			var subscriptionItem = UserCatalog.Instance.AllItems.First(s => s.Sku == _itemInformation.Sku);
+			if (subscriptionItem.VirtualPrice == null)
+				renewSubscriptionButton.onClick = () => DemoController.Instance.StoreDemo.PurchaseForRealMoney(subscriptionItem);
+			else
+				renewSubscriptionButton.onClick = () => DemoController.Instance.StoreDemo.PurchaseForVirtualCurrency(subscriptionItem);
 		}
 
 		private void LoadImage(string url)
@@ -65,7 +84,7 @@ namespace Xsolla.Demo
 			DisableConsumeButton();
 			DisableExpirationText();
 			DisablePurchasedStatusText();
-		
+
 			if (_itemInformation.IsSubscription())
 				DrawSubscriptionItem();
 			else
@@ -82,13 +101,30 @@ namespace Xsolla.Demo
 			var model = UserInventory.Instance.Subscriptions.First(i => i.Sku.Equals(_itemInformation.Sku));
 			if (model.Status != UserSubscriptionModel.SubscriptionStatusType.None && model.Expired.HasValue)
 			{
-				var expired = model.Expired.Value.ToString("dd/MM/yyyy hh:mm:tt");
-				EnableExpirationText(
-					(model.Status == UserSubscriptionModel.SubscriptionStatusType.Active && model.Expired > DateTime.Now) 
-					? GetRemainingTime(model.Expired.Value)
-					: $"Expired at {expired}");
-			}else
+				var isExpired = model.Status == UserSubscriptionModel.SubscriptionStatusType.Expired || model.Expired <= DateTime.Now;
+				if (isExpired)
+					EnableExpiredTimeText(GetPassedTime(model.Expired.Value));
+				else
+					EnableRemainingTimeText(GetRemainingTime(model.Expired.Value));
+			}
+			else
 				EnablePurchasedStatusText(isPurchased: false);
+		}
+
+		private void EnableRemainingTimeText(string text)
+		{
+			remainingTimeObject.SetActive(true);
+			expiredTimeObject.SetActive(false);
+
+			remainingTimeTimeText.text = text;
+		}
+
+		private void EnableExpiredTimeText(string text)
+		{
+			remainingTimeObject.SetActive(false);
+			expiredTimeObject.SetActive(true);
+
+			expiredTimeText.text = $"Expired {text}";
 		}
 
 		private string GetRemainingTime(DateTime expiredDateTime)
@@ -96,14 +132,29 @@ namespace Xsolla.Demo
 			var timeLeft = expiredDateTime - DateTime.Now;
 			StartCoroutine(RemainingTimeCoroutine(timeLeft.TotalSeconds > 60 ? 60 : 1));
 			if (timeLeft.TotalDays >= 30)
-				return $"{(int)(timeLeft.TotalDays / 30)} month{(timeLeft.TotalDays > 60 ? "s" : "")} remaining";
+				return $"{(int) (timeLeft.TotalDays / 30)} month{(timeLeft.TotalDays > 60 ? "s" : "")} remaining";
 			if (timeLeft.TotalDays > 1)
-				return $"{(uint)(timeLeft.TotalDays)} day{(timeLeft.TotalDays > 1 ? "s" : "")} remaining";
+				return $"{(uint) (timeLeft.TotalDays)} day{(timeLeft.TotalDays > 1 ? "s" : "")} remaining";
 			if (timeLeft.TotalHours > 1)
-				return $"{(uint)(timeLeft.TotalHours)} hour{(timeLeft.TotalHours > 1 ? "s" : "")} remaining";
+				return $"{(uint) (timeLeft.TotalHours)} hour{(timeLeft.TotalHours > 1 ? "s" : "")} remaining";
 			if (timeLeft.TotalMinutes > 1)
-				return $"{(uint)(timeLeft.TotalMinutes)} minute{(timeLeft.TotalMinutes > 1 ? "s" : "")} remaining";
-			return $"{(uint)(timeLeft.TotalSeconds)} second{(timeLeft.TotalSeconds > 1 ? "s" : "")} remaining";
+				return $"{(uint) (timeLeft.TotalMinutes)} minute{(timeLeft.TotalMinutes > 1 ? "s" : "")} remaining";
+			return $"{(uint) (timeLeft.TotalSeconds)} second{(timeLeft.TotalSeconds > 1 ? "s" : "")} remaining";
+		}
+
+		private string GetPassedTime(DateTime expiredDateTime)
+		{
+			var timePassed = DateTime.Now - expiredDateTime;
+			StartCoroutine(RemainingTimeCoroutine(timePassed.TotalSeconds > 60 ? 60 : 1));
+			if (timePassed.TotalDays >= 30)
+				return $"{(int) (timePassed.TotalDays / 30)} month{(timePassed.TotalDays > 60 ? "s" : "")} ago";
+			if (timePassed.TotalDays > 1)
+				return $"{(uint) (timePassed.TotalDays)} day{(timePassed.TotalDays > 1 ? "s" : "")} ago";
+			if (timePassed.TotalHours > 1)
+				return $"{(uint) (timePassed.TotalHours)} hour{(timePassed.TotalHours > 1 ? "s" : "")} ago";
+			if (timePassed.TotalMinutes > 1)
+				return $"{(uint) (timePassed.TotalMinutes)} minute{(timePassed.TotalMinutes > 1 ? "s" : "")} ago";
+			return $"{(uint) (timePassed.TotalSeconds)} second{(timePassed.TotalSeconds > 1 ? "s" : "")} ago";
 		}
 
 		private IEnumerator RemainingTimeCoroutine(float waitSeconds)
@@ -118,14 +169,14 @@ namespace Xsolla.Demo
 			DrawItemsCount(model);
 			EnableConsumeButton();
 		}
-	
+
 		private void DrawNonConsumableVirtualItem()
 		{
 			var model = UserInventory.Instance.VirtualItems.First(i => i.Sku.Equals(_itemInformation.Sku));
 			DrawItemsCount(model);
 			EnablePurchasedStatusText(isPurchased: true);
 		}
-	
+
 		private void DrawItemsCount(InventoryItemModel model)
 		{
 			if (model.RemainingUses == null || itemQuantityImage == null) return;
@@ -137,7 +188,7 @@ namespace Xsolla.Demo
 		{
 			itemQuantityImage.SetActive(true);
 		}
-	
+
 		private void DisableQuantityImage()
 		{
 			itemQuantityImage.SetActive(false);
@@ -145,28 +196,22 @@ namespace Xsolla.Demo
 
 		private void EnablePurchasedStatusText(bool isPurchased)
 		{
-			if(purchasedStatusText != null)
+			if (purchasedStatusText != null)
 			{
 				purchasedStatusText.text = isPurchased ? "Purchased" : "Not purchased";
 				purchasedStatusText.gameObject.SetActive(true);
 			}
 		}
-	
+
 		private void DisablePurchasedStatusText()
 		{
-			if(purchasedStatusText != null)
+			if (purchasedStatusText != null)
 				purchasedStatusText.gameObject.SetActive(false);
 		}
 
-		private void EnableExpirationText(string text)
-		{
-			expirationTimeObject.SetActive(true);
-			expirationTimeText.text = text;
-		}
-	
 		private void DisableExpirationText()
 		{
-			expirationTimeObject.SetActive(false);
+			remainingTimeObject.SetActive(false);
 		}
 
 		private void EnableConsumeButton()
@@ -177,7 +222,7 @@ namespace Xsolla.Demo
 				consumeButton.counter.IncreaseValue(1 - consumeButton.counter.GetValue());
 			consumeButton.counter.ValueChanged += Counter_ValueChanged;
 		}
-	
+
 		private void DisableConsumeButton()
 		{
 			consumeButton.counter.ValueChanged -= Counter_ValueChanged;
@@ -197,7 +242,7 @@ namespace Xsolla.Demo
 			var model = UserInventory.Instance.VirtualItems.First(i => i.Sku.Equals(_itemInformation.Sku));
 			if (newValue > model.RemainingUses)
 			{
-				var delta = (int)model.RemainingUses - newValue;
+				var delta = (int) model.RemainingUses - newValue;
 				StartCoroutine(ChangeConsumeQuantityCoroutine(delta));
 			}
 			else
@@ -210,7 +255,7 @@ namespace Xsolla.Demo
 		private IEnumerator ChangeConsumeQuantityCoroutine(int deltaValue)
 		{
 			yield return new WaitForEndOfFrame();
-			if(deltaValue < 0)
+			if (deltaValue < 0)
 				consumeButton.counter.DecreaseValue(-deltaValue);
 			else
 				consumeButton.counter.IncreaseValue(deltaValue);
