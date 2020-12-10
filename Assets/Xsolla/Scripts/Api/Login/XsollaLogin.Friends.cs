@@ -17,12 +17,12 @@ namespace Xsolla.Login
 		private const int USER_FRIENDS_DEFAULT_PAGINATION_LIMIT = 20;
 		
 		/// <summary>
-		/// Gets user’s friends from social provider.
+		/// Gets user’s friends from the social provider.
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Get User's Friends</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/login-api/methods/users/get-users-friends/"/>.
 		/// <param name="token">JWT from Xsolla Login.</param>
-		/// <param name="provider">Name of social provider.</param>
+		/// <param name="provider">Name of a social provider.</param>
 		/// <param name="offset">Offset.</param>
 		/// <param name="limit">Limit.</param>
 		/// <param name="withUid"></param>
@@ -44,8 +44,8 @@ namespace Xsolla.Login
 		/// <remarks> Swagger method name:<c>Update User's Friends</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/login-api/methods/users/update-users-friends/"/>.
 		/// <param name="token">JWT from Xsolla Login.</param>
-		/// <param name="provider">Name of social provider.</param>
-		/// <param name="onSuccess">Success operation callback.</param>
+		/// <param name="provider">Name of a social provider.</param>
+		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		public void UpdateUserSocialFriends(string token, SocialProvider provider = SocialProvider.None, Action onSuccess = null, Action<Error> onError = null)
 		{
