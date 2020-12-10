@@ -11,12 +11,14 @@ namespace Xsolla.Demo
 		[SerializeField] InputField EmailInputField = default;
 		[SerializeField] InputField PasswordInputField = default;
 		[SerializeField] Toggle RememberMeCheckbox = default;
-
 		[SerializeField] SimpleButton LoginButton = default;
 
-		[SerializeField] SimpleSocialButton[] SocialLoginButtons = default;
-		[SerializeField] SimpleButton SteamLoginButton = default;
+		[Space]
+		[SerializeField] private SimpleSocialButton[] MainSocialLoginButtons = default;
+		[SerializeField] private SimpleButton OtheSocialNetworksButton = default;
+		[SerializeField] private SocialNetworksWidget SocialNetworksWidget = default;
 
+		[Space]
 		[SerializeField] InputField EmailAccessTokenAuthInputField = default;
 		[SerializeField] SimpleButton LoginAccessTokenAuthButton = default;
 
@@ -25,24 +27,17 @@ namespace Xsolla.Demo
 
 		private void Awake()
 		{
-			if (LoginButton != null)
-				LoginButton.onClick += PrepareAndRunBasicAuth;
+			LoginButton.onClick += PrepareAndRunBasicAuth;
+			LoginAccessTokenAuthButton.onClick += PrepareAndRunAccessTokenAuth;
 
-			if (SocialLoginButtons != null)
+			SocialNetworksWidget.OnSocialButtonClick = RunSocialAuth;
+			OtheSocialNetworksButton.onClick += () => SocialNetworksWidget.gameObject.SetActive(true);
+			
+			foreach (var button in MainSocialLoginButtons)
 			{
-				foreach (var socialButton in SocialLoginButtons)
-				{
-					if (socialButton != null)
-						socialButton.onClick += () => RunSocialAuth(socialButton.SocialProvider);
-				}
+				button.onClick += () => RunSocialAuth(button.SocialProvider);
 			}
-
-			if (SteamLoginButton != null)
-				SteamLoginButton.onClick += RunManualSteamAuth;
-
-			if (LoginAccessTokenAuthButton)
-				LoginAccessTokenAuthButton.onClick += PrepareAndRunAccessTokenAuth;
-
+			
 			if (DemoController.Instance.IsAccessTokenAuth)
 			{
 				LoginAuthPage.SetActive(false);
