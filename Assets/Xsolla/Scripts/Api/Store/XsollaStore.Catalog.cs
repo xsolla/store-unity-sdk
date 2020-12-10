@@ -14,7 +14,7 @@ namespace Xsolla.Store
 		private const string URL_CATALOG_GET_GROUPS = BASE_STORE_API_URL + "/items/groups?offset={1}&limit={2}";
 
 		/// <summary>
-		/// Returns all items in catalog.
+		/// Returns all items in a catalog.
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Get virtual items list</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/store-api/items/get-virtual-items"/>
@@ -41,7 +41,7 @@ namespace Xsolla.Store
 		/// <see cref="https://developers.xsolla.com/store-api/bundles/catalog/get-bundle"/>
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
 		/// <param name="sku"></param>
-		/// <param name="onSuccess">Success operation callback.</param>
+		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		/// <param name="locale">Defines localization of item's text fields.</param>
 		/// <param name="currency">Defines currency of item's price.</param>
@@ -55,12 +55,12 @@ namespace Xsolla.Store
 		}
 
 		/// <summary>
-		/// Returns all bundles in catalog.
+		/// Returns all bundles in a catalog.
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Get list of bundles</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/store-api/bundles/catalog/get-bundle-list"/>
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
-		/// <param name="onSuccess">Success operation callback.</param>
+		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		/// <param name="locale">Defines localization of item's text fields.</param>
 		/// <param name="currency">Defines currency of item's price.</param>
