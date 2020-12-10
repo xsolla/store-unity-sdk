@@ -32,7 +32,7 @@ namespace Xsolla.Store
 		}
 
 		/// <summary>
-		/// Consumes item from inventory.
+		/// Consumes an item from the inventory.
 		/// Please note: API supports consuming of only one item now (quantity = 1).
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Consume item</c>.</remarks>
@@ -58,7 +58,7 @@ namespace Xsolla.Store
 		/// <see cref="https://developers.xsolla.com/store-api/promotions/coupons/redeem-coupon/"/>
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
 		/// <param name="couponCode">Unique coupon code. Contains letters and numbers.</param>
-		/// <param name="onSuccess">Success operation callback.</param>
+		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		public void RedeemCouponCode(string projectId, CouponCode couponCode, [NotNull] Action<CouponRedeemedItems> onSuccess, [CanBeNull] Action<Error> onError)
 		{
@@ -77,7 +77,7 @@ namespace Xsolla.Store
 		/// <see cref="https://developers.xsolla.com/store-api/promotions/coupons/get-coupon-rewards-by-code/"/>
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
 		/// <param name="couponCode">Unique case sensitive code. Contains letters and numbers.</param>
-		/// <param name="onSuccess">Success operation callback.</param>
+		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		public void GetCouponRewards(string projectId, string couponCode, [NotNull] Action<CouponReward> onSuccess, [CanBeNull] Action<Error> onError, [CanBeNull] string locale = null)
 		{
