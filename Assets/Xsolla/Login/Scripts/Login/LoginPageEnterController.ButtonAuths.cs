@@ -15,7 +15,7 @@ namespace Xsolla.Demo
 
 		[Space]
 		[SerializeField] private SimpleSocialButton[] MainSocialLoginButtons = default;
-		[SerializeField] private SimpleButton OtheSocialNetworksButton = default;
+		[SerializeField] private SimpleButton OtheSocialNetworksButton = default; 
 		[SerializeField] private SocialNetworksWidget SocialNetworksWidget = default;
 
 		[Space]
