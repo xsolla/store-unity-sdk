@@ -21,19 +21,21 @@ namespace Xsolla.Demo
 		{
 			_demoImplementation = DemoController.Instance.InventoryDemo;
 			groupsController.GroupSelectedEvent += PutItemsToContainerOnGroupSelect;
-			StartCoroutine(InventoryCoroutine());
 			UserInventory.Instance.RefreshEvent += OnUserInventoryRefresh;
+			StartCoroutine(UpdateGroupsAfterInventoryUpdate());
 		}
 
 		private void OnDestroy()
 		{
 			StopAllCoroutines();
+			groupsController.GroupSelectedEvent -= PutItemsToContainerOnGroupSelect;
 			UserInventory.Instance.RefreshEvent -= OnUserInventoryRefresh;
 		}
 
 		private void OnUserInventoryRefresh()
 		{
 			PutItemsToContainerOnRefreshEvent(_group);
+			StartCoroutine(UpdateGroupsAfterInventoryUpdate());
 		}
 
 		private void PutItemsToContainerOnGroupSelect(string groupName)
@@ -92,7 +94,7 @@ namespace Xsolla.Demo
 			}); 
 		}
 
-		private IEnumerator InventoryCoroutine()
+		private IEnumerator UpdateGroupsAfterInventoryUpdate()
 		{
 			yield return new WaitUntil(() => UserInventory.Instance.IsUpdated);
 			CreateAndFillInventoryGroups(UserInventory.Instance.AllItems);
