@@ -1,10 +1,10 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 namespace Xsolla.Demo
 {
-	public class OnWebGLDisabler : MonoBehaviour
+	public class OnAndroidDisabler : MonoBehaviour
 	{
-#if UNITY_WEBGL
+#if UNITY_ANDROID
 		private void Awake()
 		{
 			this.gameObject.SetActive(false);

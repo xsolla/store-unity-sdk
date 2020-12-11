@@ -56,6 +56,11 @@ namespace Xsolla.Core
 
 		private List<WebRequestHeader> GetAnalyticHeaders(SdkType analyticsType)
 		{
+			//These headers cause network error in WebGL environment
+			//'Access to XMLHttpRequest ... has been blocked by CORS policy: Request header field x-engine is not allowed by Access-Control-Allow-Headers in preflight response.'
+			if (Application.platform == RuntimePlatform.WebGLPlayer)
+				return new List<WebRequestHeader>();
+
 			GetSdkSpecificParameters(analyticsType, out string sdkType, out string sdkVersion);
 
 			var result = new List<WebRequestHeader>

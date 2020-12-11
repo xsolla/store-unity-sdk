@@ -8,9 +8,9 @@ namespace Xsolla.Demo
 	#if UNITY_ANDROID
 		private void Start()
 		{
-			var token = DemoController.Instance.GetImplementation().Token;
+			var token = DemoController.Instance.LoginDemo.Token;
 
-			DemoController.Instance.GetImplementation().GetUserInfo(token,
+			DemoController.Instance.LoginDemo.GetUserInfo(token,
 				onSuccess: info =>
 				{
 					if (string.IsNullOrEmpty(info.email))

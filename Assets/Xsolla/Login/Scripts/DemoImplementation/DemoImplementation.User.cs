@@ -133,6 +133,7 @@ namespace Xsolla.Demo
 	
 		public void LinkSocialProvider(SocialProvider socialProvider, Action<SocialProvider> onSuccess, Action<Error> onError = null)
 		{
+#if UNITY_EDITOR || UNITY_STANDALONE
 			XsollaLogin.Instance.LinkSocialProvider(socialProvider, 
 				url =>
 				{
@@ -153,6 +154,11 @@ namespace Xsolla.Demo
 					};
 				},
 				WrapErrorCallback(onError));
+#else
+			var errorMessage = "DemoImplementation.LinkSocialProvider: This functionality is not supported elswere except Editor and Standalone build";
+			Debug.LogError(errorMessage);
+			onError?.Invoke(new Error(ErrorType.MethodIsNotAllowed, errorMessage: errorMessage));
+#endif
 		}
 
 		private IEnumerator CloseBrowserCoroutine()

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +16,9 @@ namespace Xsolla.Demo
 		[SerializeField] private FriendSearchBox searchBox = default;
 
 		[SerializeField] private GameObject[] SearchContent = default;
+#if UNITY_EDITOR || UNITY_STANDALONE
 		[SerializeField] private GameObject SocialContent = default;
+#endif
 		[SerializeField] private GameObject EmptySearchResultContent = default;
 
 		private List<string> _nicknames;
@@ -49,7 +51,9 @@ namespace Xsolla.Demo
 			foreach (var item in SearchContent)
 				SetActive(item, state == UIState.Search);
 
+#if UNITY_EDITOR || UNITY_STANDALONE
 			SetActive(SocialContent, state == UIState.Social);
+#endif
 			SetActive(EmptySearchResultContent, state == UIState.EmptySearchResult);
 		}
 

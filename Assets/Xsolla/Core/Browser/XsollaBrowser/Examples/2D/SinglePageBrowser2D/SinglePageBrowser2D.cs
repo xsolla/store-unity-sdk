@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,16 +9,14 @@ namespace Xsolla.Core.Browser
 	[RequireComponent(typeof(BoxCollider2D))]
 	public class SinglePageBrowser2D : MonoBehaviour
 	{
+		[SerializeField] private Vector2 Viewport = new Vector2(1920.0F, 1080.0F);
+		[SerializeField] private GameObject PreloaderPrefab = default;
+
+		public Button CloseButton;
+#if UNITY_EDITOR || UNITY_STANDALONE
 		public event Action<IXsollaBrowser> BrowserInitEvent;
 		public event Action<IXsollaBrowser> BrowserClosedEvent;
 
-		[SerializeField]
-		public Vector2 Viewport = new Vector2(1920.0F, 1080.0F);
-		[SerializeField]
-		public GameObject PreloaderPrefab = default;
-
-		public Button CloseButton;
-	#if (UNITY_EDITOR || UNITY_STANDALONE)
 		XsollaBrowser xsollaBrowser;
 		Display2DBehaviour display;
 		KeyboardBehaviour2D keyboard;
@@ -125,6 +123,6 @@ namespace Xsolla.Core.Browser
 		{
 			Debug.Log(obj);
 		}
-	#endif
+#endif
 	}
 }

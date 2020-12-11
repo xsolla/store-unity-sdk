@@ -7,8 +7,10 @@ namespace Xsolla.Core
 	[AddComponentMenu("Scripts/Xsolla.Core/Browser/BrowserHelper")]
 	public class BrowserHelper : MonoSingleton<BrowserHelper>
 	{
-		[SerializeField]
-		private GameObject InAppBrowserPrefab = default;
+#if UNITY_EDITOR || UNITY_STANDALONE
+		[SerializeField] private GameObject InAppBrowserPrefab = default;
+#endif
+
 		private GameObject _inAppBrowserObject = default;
 
 #if UNITY_WEBGL
@@ -18,7 +20,9 @@ namespace Xsolla.Core
 
 		protected override void OnDestroy()
 		{
-			if (_inAppBrowserObject == null) return;
+			if (_inAppBrowserObject == null)
+				return;
+
 			Destroy(_inAppBrowserObject);
 			_inAppBrowserObject = null;
 		}
@@ -26,7 +30,8 @@ namespace Xsolla.Core
 		public void OpenPurchase(string url, string token, bool isSandbox, bool inAppBrowserEnabled = false)
 		{
 #if UNITY_WEBGL
-			if((Application.platform == RuntimePlatform.WebGLPlayer) && inAppBrowserEnabled) {
+			if((Application.platform == RuntimePlatform.WebGLPlayer) && inAppBrowserEnabled)
+			{
 				Screen.fullScreen = false;
 				Purchase(token, isSandbox);
 				return;
@@ -37,41 +42,45 @@ namespace Xsolla.Core
 
 		public void Open(string url, bool inAppBrowserEnabled = false)
 		{
-			switch (Application.platform) {
+			switch (Application.platform)
+			{
 				case RuntimePlatform.WebGLPlayer:
-					{
 #pragma warning disable 0618
-						Application.ExternalEval($"window.open(\"{url}\",\"_blank\")");
+					Application.ExternalEval($"window.open(\"{url}\",\"_blank\")");
 #pragma warning restore 0618
+					break;
+				default:
+#if UNITY_EDITOR || UNITY_STANDALONE
+
+					if (inAppBrowserEnabled && InAppBrowserPrefab != null)
+					{
+						OpenInAppBrowser(url);
 						break;
 					}
-				default: {
-#if (UNITY_EDITOR || UNITY_STANDALONE)
-						if (inAppBrowserEnabled && (InAppBrowserPrefab != null)) {
-							OpenInAppBrowser(url);
-						} else
 #endif
-							Application.OpenURL(url);
-						break;
-					}
+					Application.OpenURL(url);
+					break;
 			}
 		}
 
-#if (UNITY_EDITOR || UNITY_STANDALONE)
+#if UNITY_EDITOR || UNITY_STANDALONE
 		private void OpenInAppBrowser(string url)
 		{
-			if (_inAppBrowserObject == null) {
+			if (_inAppBrowserObject == null)
+			{
 				Canvas canvas = FindObjectOfType<Canvas>();
-				if(canvas == null) {
+				if(canvas == null)
+				{
 					Debug.LogError("Can not find canvas! So can not draw 2D browser!");
 					return;
 				}
+
 				_inAppBrowserObject = Instantiate(InAppBrowserPrefab, canvas.transform);
 				XsollaBrowser xsollaBrowser = _inAppBrowserObject.GetComponent<XsollaBrowser>();
 				xsollaBrowser.Navigate.To(url);
-			} else {
-				Debug.LogError("You try create browser instance, but it already created!");
 			}
+			else
+				Debug.LogError("Attempt to create secondary browser instance");
 		}
 
 		public SinglePageBrowser2D GetLastBrowser()
