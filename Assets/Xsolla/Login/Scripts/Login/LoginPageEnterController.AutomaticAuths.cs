@@ -11,7 +11,7 @@ namespace Xsolla.Demo
 
 		private void Start()
 		{
-			if(_isFirstLaunch)
+			if (_isFirstLaunch)
 			{
 				_isFirstLaunch = false;
 				IsAuthInProgress = true;
@@ -28,7 +28,7 @@ namespace Xsolla.Demo
 		{
 			Action<Error> onFailedAutomaticAuth = error =>
 			{
-				if(error != null)
+				if (error != null)
 				{
 					ProcessError(error);
 				}
@@ -41,7 +41,6 @@ namespace Xsolla.Demo
 
 			Action<string> onSuccessfulAutomaticAuth = token =>
 				DemoController.Instance.LoginDemo.ValidateToken(token, onSuccess: validToken => CompleteSuccessfulAuth(validToken), onError: _ => onFailedAutomaticAuth.Invoke(null));
-
 
 			switch (_autoAuthState)
 			{

@@ -6,22 +6,19 @@ namespace Xsolla.Demo
 {
 	public class LoginActionsCreatePageProxer : MonoBehaviour
 	{
-		[SerializeField] SimpleSocialButton[] SocialLoginButtons = default;
-		[SerializeField] SimpleButton SteamLoginButton = default;
+		[SerializeField] private SimpleSocialButton[] MainSocialLoginButtons = default;
+		[SerializeField] private SimpleButton OtheSocialNetworksButton = default;
+		[SerializeField] private SocialNetworksWidget SocialNetworksWidget = default;
 
 		private void Awake()
 		{
-			if (SocialLoginButtons != null)
+			SocialNetworksWidget.OnSocialButtonClick = RequestSocialAuth;
+			OtheSocialNetworksButton.onClick += () => SocialNetworksWidget.gameObject.SetActive(true);
+			
+			foreach (var button in MainSocialLoginButtons)
 			{
-				foreach (var socialButton in SocialLoginButtons)
-				{
-					if (socialButton != null)
-						socialButton.onClick += () => RequestSocialAuth(socialButton.SocialProvider);
-				}
+				button.onClick += () => RequestSocialAuth(button.SocialProvider);
 			}
-
-			if (SteamLoginButton != null)
-				SteamLoginButton.onClick += RequestSteamAuth;
 		}
 
 		private void RequestSocialAuth(SocialProvider provider)
