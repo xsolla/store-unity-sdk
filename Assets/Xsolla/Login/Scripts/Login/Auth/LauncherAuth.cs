@@ -1,6 +1,4 @@
-﻿using System;
-using UnityEngine;
-using Xsolla.Core;
+﻿using UnityEngine;
 
 namespace Xsolla.Demo
 {

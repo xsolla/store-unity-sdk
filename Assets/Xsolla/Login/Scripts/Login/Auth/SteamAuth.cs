@@ -5,7 +5,7 @@ namespace Xsolla.Demo
 {
 	public class SteamAuth : StoreStringActionResult, ILoginAuthorization
 	{
-		private string steamSessionTicket;
+		private string _steamSessionTicket = default;
 
 		public void TryAuth(params object[] args)
 		{
@@ -19,16 +19,16 @@ namespace Xsolla.Demo
 				Debug.Log("SteamAuth.TryAuth: Steam auth enabled, trying to get token");
 
 	#if UNITY_STANDALONE || UNITY_EDITOR
-				steamSessionTicket = new SteamSessionTicket().ToString();
+				_steamSessionTicket = new SteamSessionTicket().ToString();
 	#endif
-				if (!string.IsNullOrEmpty(steamSessionTicket))
-					RequestTokenBy(steamSessionTicket);
+				if (!string.IsNullOrEmpty(_steamSessionTicket))
+					RequestTokenBy(_steamSessionTicket);
 				else
 					base.OnError?.Invoke(new Error(errorMessage: "Steam auth failed"));
 			}
 		}
 
-		void RequestTokenBy(string ticket)
+		private void RequestTokenBy(string ticket)
 		{
 			if (int.TryParse(XsollaSettings.SteamAppId, out _))
 			{
@@ -41,15 +41,15 @@ namespace Xsolla.Demo
 			}
 		}
 
-		void SuccessHandler(string token)
+		private void SuccessHandler(string token)
 		{
 			Debug.Log("SteamAuth.SuccessHandler: Token loaded");
 			base.OnSuccess?.Invoke(token);
 		}
 
-		void FailHandler(Error error)
+		private void FailHandler(Error error)
 		{
-			Debug.LogError($"Token request by steam session ticket failed. Ticket: {steamSessionTicket} Error: {error.ToString()}");
+			Debug.LogError($"Token request by steam session ticket failed. Ticket: {_steamSessionTicket} Error: {error.ToString()}");
 			base.OnError?.Invoke(error);
 		}
 	}

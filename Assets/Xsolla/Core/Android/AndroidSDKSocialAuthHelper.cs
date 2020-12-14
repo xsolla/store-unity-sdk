@@ -1,9 +1,8 @@
 ﻿using System;
 using UnityEngine;
-using Xsolla.Core;
 using Xsolla.Core.Android;
 
-namespace Xsolla.Demo
+namespace Xsolla.Core
 {
 	public class AndroidSDKSocialAuthHelper : IDisposable
 	{

@@ -26,6 +26,7 @@ namespace Xsolla.Demo
 		public SocialProvider Provider => provider;
 		public SimpleButton Button => GetComponent<SimpleButton>();
 
+#if UNITY_EDITOR || UNITY_STANDALONE
 		private void Awake()
 		{
 			SetState(State.Unlinked);
@@ -35,8 +36,9 @@ namespace Xsolla.Demo
 		{
 			RefreshState();
 		}
+#endif
 
-		void RefreshState()
+		private void RefreshState()
 		{
 			if (provider == SocialProvider.None)
 				return;
@@ -63,7 +65,7 @@ namespace Xsolla.Demo
 			image.color = tmpColor;
 		}
 
-		public void SetState(State state)
+		private void SetState(State state)
 		{
 			switch (state)
 			{
@@ -91,7 +93,7 @@ namespace Xsolla.Demo
 				}
 				default:
 				{
-					Debug.LogWarning($"Try to set unknown state: '{state}'");
+					Debug.LogWarning($"Unexpected state: '{state}'");
 					return;
 				}
 			}

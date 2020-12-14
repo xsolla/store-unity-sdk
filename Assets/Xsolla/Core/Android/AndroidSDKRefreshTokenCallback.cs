@@ -1,10 +1,9 @@
 ﻿using System;
 using UnityEngine;
-using Xsolla.Core;
 
-namespace Xsolla.Demo
+namespace Xsolla.Core
 {
-	public class AndroidSDKRefreshTokenCallback : AndroidJavaProxy, IStoreStringAction
+	public class AndroidSDKRefreshTokenCallback : AndroidJavaProxy
 	{
 		public Action<string> OnSuccess { get; set; }
 		public Action<Error> OnError { get; set; }
