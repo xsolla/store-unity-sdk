@@ -70,9 +70,36 @@ namespace Xsolla.Demo
 
 		private List<FriendModel> FilterUsersByStartWord(List<FriendModel> users, string word)
 		{
-			return string.IsNullOrEmpty(word)
-				? users
-				: users.Where(u => u.Nickname.ToLower().StartsWith(word.ToLower())).ToList();
+			if (string.IsNullOrEmpty(word))
+				return users;
+
+			var words = word.ToLower().Split('#');
+			var nickName = words.First();
+			var userTag = words.Length > 1 ? words.Last() : string.Empty;
+
+			var hasNickname = !string.IsNullOrEmpty(nickName);
+			var hasTag = !string.IsNullOrEmpty(userTag);
+
+			if (hasNickname && hasTag)
+			{
+				return users
+					.Where(u => u.Nickname.ToLower() == nickName)
+					.Where(u => !string.IsNullOrEmpty(u.Tag))
+					.Where(u => u.Tag.ToLower().StartsWith(userTag))
+					.ToList();
+			}
+
+			if (!hasNickname && hasTag)
+			{
+				return users
+					.Where(u => !string.IsNullOrEmpty(u.Tag))
+					.Where(u => u.Tag.ToLower().StartsWith(userTag))
+					.ToList();
+			}
+
+			return users
+				.Where(u => u.Nickname.ToLower().StartsWith(nickName))
+				.ToList();
 		}
 
 		private void DisableEmptyGroupMessages()

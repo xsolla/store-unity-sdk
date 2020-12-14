@@ -9,9 +9,11 @@ namespace Xsolla.Demo
 	{
 		[SerializeField] private Text UserEmailText = default;
 
+		[SerializeField] private Text UserTagText = default;
+
 		private const int USER_INFO_LIMIT = 42;
 
-		IEnumerator Start()
+		private IEnumerator Start()
 		{
 			if (!UserEmailText)
 			{
@@ -30,9 +32,8 @@ namespace Xsolla.Demo
 			}, _ => busy = false);
 
 			yield return new WaitWhile(() => busy);
-			//Destroy(this, 0.1F);
-			this.gameObject.SetActive(false);
-			this.gameObject.SetActive(true);
+			gameObject.SetActive(false);
+			gameObject.SetActive(true);
 		}
 
 		private void DrawInfo(UserInfo info)
@@ -50,6 +51,9 @@ namespace Xsolla.Demo
 				nameToDraw = nameToDraw.Substring(0, USER_INFO_LIMIT);
 
 			UserEmailText.text = nameToDraw;
+
+			UserTagText.text = string.IsNullOrEmpty(info.tag) ? string.Empty : $"#{info.tag}";
+			UserTagText.gameObject.SetActive(!string.IsNullOrEmpty(info.tag));
 		}
 
 		public void Refresh()

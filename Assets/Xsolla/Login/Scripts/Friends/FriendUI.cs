@@ -9,7 +9,8 @@ namespace Xsolla.Demo
 	{
 		[SerializeField] private Image avatarImage = default;
 		[SerializeField] private Image statusImage = default;
-		[SerializeField] private Text nickname = default;
+		[SerializeField] private Text nicknameText = default;
+		[SerializeField] private Text tagText = default;
 		[SerializeField] private FriendActionsButton actionsButton = default;
 		[SerializeField] private FriendButtonsUI userButtons = default;
 		[SerializeField] private FriendStatusLineUI userStatusLine = default;
@@ -73,10 +74,14 @@ namespace Xsolla.Demo
 		private void InitNickname(FriendModel friend)
 		{
 			var text = string.IsNullOrEmpty(friend.Nickname) ? string.Empty : friend.Nickname;
+			
 			if(!string.IsNullOrEmpty(text))
 				gameObject.name = text;
-			if (nickname != null)
-				nickname.text = text;
+			
+			nicknameText.text = text;
+
+			tagText.text = string.IsNullOrEmpty(friend.Tag) ? string.Empty : $"#{friend.Tag}";
+			tagText.gameObject.SetActive(!string.IsNullOrEmpty(friend.Tag));
 		}
 
 		public void SetUserState(UserState state)

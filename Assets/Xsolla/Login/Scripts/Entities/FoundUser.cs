@@ -26,6 +26,10 @@ namespace Xsolla.Login
 		/// </summary>
 		public string nickname;
 		/// <summary>
+		/// User's tag.
+		/// </summary>
+		public string tag;
+		/// <summary>
 		/// Date of user registration in the RFC3339 format.
 		/// </summary>
 		public string registered;

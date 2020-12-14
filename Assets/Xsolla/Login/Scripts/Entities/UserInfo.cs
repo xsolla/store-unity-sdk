@@ -36,6 +36,7 @@ namespace Xsolla.Login
 		public string last_name;
 		public string name;
 		public string nickname;
+		public string tag;
 		public string phone;
 		public string picture;
 		public string registered;
