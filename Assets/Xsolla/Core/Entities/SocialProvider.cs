@@ -9,7 +9,7 @@ namespace Xsolla.Core
 	public enum SocialProvider
 	{
 		None,
-		Facebook, 
+		Facebook,
 		GitHub,
 		Google,
 		Twitch,

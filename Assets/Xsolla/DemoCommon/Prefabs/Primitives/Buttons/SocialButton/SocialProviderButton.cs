@@ -5,17 +5,17 @@ using Xsolla.Core;
 
 namespace Xsolla.Demo
 {
-    public class SocialProviderButton : MonoBehaviour, IPointerClickHandler
-    {
-        [SerializeField] private SocialProvider _socialProvider = default;
+	public class SocialProviderButton : MonoBehaviour, IPointerClickHandler
+	{
+		[SerializeField] private SocialProvider _socialProvider = default;
 
-        public SocialProvider SocialProvider => _socialProvider;
+		public SocialProvider SocialProvider => _socialProvider;
 
-        public Action OnClick { get; set; }
+		public Action OnClick { get; set; }
 
-        void IPointerClickHandler.OnPointerClick(PointerEventData eventData)
-        {
-            OnClick?.Invoke();
-        }
-    }
+		void IPointerClickHandler.OnPointerClick(PointerEventData eventData)
+		{
+			OnClick?.Invoke();
+		}
+	}
 }
