@@ -181,7 +181,10 @@ namespace Xsolla.Demo
 					infoUpdatePack.first_name = newValue;
 					break;
 				case UserProfileEntryType.Gender:
-					if (newValue == UserProfileGender.MALE_SHORT || newValue == UserProfileGender.FEMALE_SHORT)
+					if (newValue == UserProfileGender.MALE_SHORT ||
+						newValue == UserProfileGender.FEMALE_SHORT ||
+						newValue == UserProfileGender.OTHER_LOWERCASE ||
+						newValue == UserProfileGender.PREFER_NOT_LOWERCASE)
 						infoUpdatePack.gender = newValue;
 					else
 						isValueValid = false;
