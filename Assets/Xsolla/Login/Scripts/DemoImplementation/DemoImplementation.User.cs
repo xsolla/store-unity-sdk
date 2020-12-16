@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using UnityEngine;
 using Xsolla.Core;
 using Xsolla.Login;
@@ -100,7 +99,7 @@ namespace Xsolla.Demo
 	
 		public void SearchUsersByNickname(string nickname, Action<List<FriendModel>> onSuccess = null, Action<Error> onError = null)
 		{
-			nickname = HttpUtility.UrlEncode(nickname);
+			nickname = Uri.EscapeDataString(nickname);
 			
 			XsollaLogin.Instance.SearchUsers(XsollaLogin.Instance.Token, nickname, 0, 20, 
 				onSuccess: users =>
