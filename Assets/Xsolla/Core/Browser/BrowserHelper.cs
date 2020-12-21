@@ -76,7 +76,7 @@ namespace Xsolla.Core
 				}
 
 				_inAppBrowserObject = Instantiate(InAppBrowserPrefab, canvas.transform);
-				XsollaBrowser xsollaBrowser = _inAppBrowserObject.GetComponent<XsollaBrowser>();
+				XsollaBrowser xsollaBrowser = _inAppBrowserObject.GetComponentInChildren<XsollaBrowser>();
 				xsollaBrowser.Navigate.To(url);
 			}
 			else
@@ -85,7 +85,7 @@ namespace Xsolla.Core
 
 		public SinglePageBrowser2D GetLastBrowser()
 		{
-			return _inAppBrowserObject == null ? null : _inAppBrowserObject.GetComponent<SinglePageBrowser2D>();
+			return _inAppBrowserObject == null ? null : _inAppBrowserObject.GetComponentInChildren<SinglePageBrowser2D>();
 		}
 #endif
 	}

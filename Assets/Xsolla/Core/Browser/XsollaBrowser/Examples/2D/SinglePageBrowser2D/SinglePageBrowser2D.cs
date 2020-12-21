@@ -117,6 +117,8 @@ namespace Xsolla.Core.Browser
 				Destroy(xsollaBrowser);
 				xsollaBrowser = null;
 			}
+
+			Destroy(this.transform.parent.gameObject);
 		}
 
 		private void XsollaBrowser_LogEvent(string obj)
