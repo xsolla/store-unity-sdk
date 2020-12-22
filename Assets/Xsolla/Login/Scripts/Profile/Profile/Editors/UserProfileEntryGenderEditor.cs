@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Xsolla.Demo
@@ -7,63 +7,100 @@ namespace Xsolla.Demo
 	{
 		[SerializeField] Toggle MaleCheckbox = default;
 		[SerializeField] Toggle FemaleCheckbox = default;
+		[SerializeField] Toggle OtherCheckbox = default;
+		[SerializeField] Toggle PreferNotCheckbox = default;
 
 		private bool _skipNextCheck;
+		private Toggle[] _checkboxes;
+
+		private void Awake()
+		{
+			_checkboxes = new Toggle[]
+			{
+				MaleCheckbox, FemaleCheckbox, OtherCheckbox, PreferNotCheckbox
+			};
+
+			for (int i = 0; i < _checkboxes.Length; i++)
+			{
+				var checkboxType = (CheckboxType)i;
+				_checkboxes[i].onValueChanged.AddListener( newValue => ProcessValueChange(checkboxType, newValue) );
+			}
+		}
 
 		public override void SetInitial(string value)
 		{
 			if (string.IsNullOrEmpty(value))
 				return;
 
-			bool? isMale = null;
+			var checkboxTypeToActivate = default(CheckboxType);
 
-			if (value == UserProfileGender.MALE)
-				isMale = true;
-			else if (value == UserProfileGender.FEMALE)
-				isMale = false;
-
-			if (isMale != null)
+			switch (value)
 			{
-				_skipNextCheck = true;
-
-				if (isMale == true)
-				{
-					MaleCheckbox.isOn = true;
-					FemaleCheckbox.isOn = false;
-				}
-				else
-				{
-					MaleCheckbox.isOn = false;
-					FemaleCheckbox.isOn = true;
-				}
-
-				_skipNextCheck = false;
+				case UserProfileGender.MALE:
+					checkboxTypeToActivate = CheckboxType.Male;
+					break;
+				case UserProfileGender.FEMALE:
+					checkboxTypeToActivate = CheckboxType.Female;
+					break;
+				case UserProfileGender.OTHER:
+					checkboxTypeToActivate = CheckboxType.Other;
+					break;
+				case UserProfileGender.PREFER_NOT:
+					checkboxTypeToActivate = CheckboxType.PreferNot;
+					break;
+				default:
+					Debug.LogWarning($"Could not set initial value: {value}");
+					return;
 			}
-			else
-				Debug.LogWarning($"Could not set initial value: {value}");
+
+			_skipNextCheck = true;
+			_checkboxes[(int)checkboxTypeToActivate].isOn = true;
+			DisableCheckboxesExcept(checkboxTypeToActivate);
+			_skipNextCheck = false;
 		}
 
-		private void Awake()
-		{
-			MaleCheckbox.onValueChanged.AddListener(MaleCheckboxValueChange);
-			FemaleCheckbox.onValueChanged.AddListener(FemaleCheckboxValueChange);
-		}
-
-		private void MaleCheckboxValueChange(bool newValue) => ProcessValueChange(isMaleCheckBox: true, newValue);
-		private void FemaleCheckboxValueChange(bool newValue) => ProcessValueChange(isMaleCheckBox: false, newValue);
-
-		private void ProcessValueChange(bool isMaleCheckBox, bool newValue)
+		private void ProcessValueChange(CheckboxType checkboxType, bool newValue)
 		{
 			if(newValue/*== true*/ && !_skipNextCheck)
 			{
-				if (isMaleCheckBox)
-					FemaleCheckbox.isOn = false;
-				else
-					MaleCheckbox.isOn = false;
+				DisableCheckboxesExcept(checkboxType);
+				var result = default(string);
 
-				var result = isMaleCheckBox ? UserProfileGender.MALE : UserProfileGender.FEMALE;
+				switch (checkboxType)
+				{
+					case CheckboxType.Male:
+						result = UserProfileGender.MALE;
+						break;
+					case CheckboxType.Female:
+						result = UserProfileGender.FEMALE;
+						break;
+					case CheckboxType.Other:
+						result = UserProfileGender.OTHER;
+						break;
+					case CheckboxType.PreferNot:
+						result = UserProfileGender.PREFER_NOT;
+						break;
+					default:
+						Debug.LogError($"Unexpected checkboxType: {checkboxType.ToString()}");
+						break;
+				}
+
 				base.RaiseEntryEdited(result);
 			}
+		}
+
+		private void DisableCheckboxesExcept(CheckboxType activeCheckbox)
+		{
+			var activeCheckboxIndex = (int)activeCheckbox;
+
+			for (int i = 0; i < _checkboxes.Length; i++)
+				if (i != activeCheckboxIndex && _checkboxes[i].isOn)
+					_checkboxes[i].isOn = false;
+		}
+
+		private enum CheckboxType
+		{
+			Male, Female, Other, PreferNot
 		}
 	}
 }
