@@ -19,7 +19,7 @@ MonoBehaviour:
   jwtTokenInvalidationEnabled: 0
   oauthClientId: 57
   requestNicknameOnAuth: 1
-  authServerUrl: https://xsolla-sdk-backend.nl-k8s-stage.srv.local
+  authServerUrl: https://sdk.xsolla.com/
   useSteamAuth: 0
   steamAppId: 480
   useConsoleAuth: 0
