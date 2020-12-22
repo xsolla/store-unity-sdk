@@ -376,19 +376,14 @@ namespace Xsolla.Login
 		/// <summary>
 		/// Gets user access token provided by game backend.
 		/// </summary>
-		/// <param name="userEmail">User email.</param>
+		/// <param name="authParams">Custom authentication parameters.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
-		public void GetUserAccessToken(string userEmail, Action onSuccess, Action<Error> onError = null)
+		public void GetUserAccessToken(AccessTokenAuthParams authParams, Action onSuccess, Action<Error> onError = null)
 		{
 			var url = string.Format(URL_GET_ACCESS_TOKEN, XsollaSettings.AuthServerUrl);
 
-			var requestData = new AccessTokenRequest
-			{
-				email = userEmail
-			};
-
-			WebRequestHelper.Instance.PostRequest<AccessTokenResponse, AccessTokenRequest>(SdkType.Login, url, requestData, response =>
+			WebRequestHelper.Instance.PostRequest<AccessTokenResponse, Dictionary<string, object>>(SdkType.Login, url, authParams.parameters, response =>
 			{
 				Token = new Token(response.access_token, true);
 				onSuccess?.Invoke();

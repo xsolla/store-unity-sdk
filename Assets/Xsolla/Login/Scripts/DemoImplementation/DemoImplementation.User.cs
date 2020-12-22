@@ -79,7 +79,12 @@ namespace Xsolla.Demo
 
 		public void AccessTokenAuth(string email, Action onSuccess, Action<Error> onError = null)
 		{
-			XsollaLogin.Instance.GetUserAccessToken(email, onSuccess, onError);
+			var authParams = new AccessTokenAuthParams()
+			{
+				parameters = new Dictionary<string, object>() { {"email", email} }
+			};
+
+			XsollaLogin.Instance.GetUserAccessToken(authParams, onSuccess, onError);
 		}
 
 		public void ResetPassword(string username, Action onSuccess, Action<Error> onError = null)
