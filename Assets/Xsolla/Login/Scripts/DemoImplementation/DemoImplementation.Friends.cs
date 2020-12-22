@@ -208,6 +208,7 @@ namespace Xsolla.Demo
 			{
 				Id = friend.user.id,
 				Nickname = GetUserNickname(friend),
+				Tag = friend.user.tag,
 				AvatarUrl = friend.user.picture,
 				Status = friend.IsOnline() ? UserOnlineStatus.Online : UserOnlineStatus.Offline,
 				Relationship = relationship

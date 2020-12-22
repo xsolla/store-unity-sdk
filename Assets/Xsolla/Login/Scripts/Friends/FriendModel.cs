@@ -13,6 +13,10 @@ namespace Xsolla.Demo
 		/// </summary>
 		public string Nickname;
 		/// <summary>
+		/// Friend tag.
+		/// </summary>
+		public string Tag;
+		/// <summary>
 		/// Friend avatar url.
 		/// </summary>
 		public string AvatarUrl;

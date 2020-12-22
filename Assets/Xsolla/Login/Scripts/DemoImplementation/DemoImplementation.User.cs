@@ -99,6 +99,8 @@ namespace Xsolla.Demo
 	
 		public void SearchUsersByNickname(string nickname, Action<List<FriendModel>> onSuccess = null, Action<Error> onError = null)
 		{
+			nickname = Uri.EscapeDataString(nickname);
+			
 			XsollaLogin.Instance.SearchUsers(XsollaLogin.Instance.Token, nickname, 0, 20, 
 				onSuccess: users =>
 				{
@@ -109,6 +111,7 @@ namespace Xsolla.Demo
 							Id = u.user_id,
 							AvatarUrl = u.avatar,
 							Nickname = u.nickname,
+							Tag = u.tag
 						};
 						var user = UserFriends.Instance.GetUserById(result.Id);
 						result.Status = user?.Status ?? UserOnlineStatus.Unknown;
