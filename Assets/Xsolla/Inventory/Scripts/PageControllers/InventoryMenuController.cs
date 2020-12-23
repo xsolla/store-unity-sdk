@@ -102,6 +102,7 @@ namespace Xsolla.Demo
 
 		private void CreateAndFillInventoryGroups(List<ItemModel> items)
 		{
+			groupsController.RemoveAll();
 			groupsController.AddGroup(ALL_ITEMS_GROUP);
 
 			var itemGroups = new HashSet<string>();

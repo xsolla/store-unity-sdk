@@ -51,7 +51,6 @@ namespace Xsolla.Core
 					break;
 				default:
 #if UNITY_EDITOR || UNITY_STANDALONE
-
 					if (inAppBrowserEnabled && InAppBrowserPrefab != null)
 					{
 						OpenInAppBrowser(url);
@@ -85,7 +84,7 @@ namespace Xsolla.Core
 
 		public SinglePageBrowser2D GetLastBrowser()
 		{
-			return _inAppBrowserObject == null ? null : _inAppBrowserObject.GetComponentInChildren<SinglePageBrowser2D>();
+			return _inAppBrowserObject?.GetComponentInChildren<SinglePageBrowser2D>();
 		}
 #endif
 	}
