@@ -44,12 +44,16 @@ namespace Xsolla.Demo
 		}
 
 		private void ChangeToButtonHoverCursor() => SetCursorTexture(ButtonHoverCursor);
+		
 		private void ChangeToInputFieldHoverCursor() => SetCursorTexture(InputFieldHoverCursor);
+		
 		public static void ChangeBackToDefault() => SetCursorTexture(null);
 		
 		public static void SetCursorTexture(Texture2D texture)
 		{
+#if !ENABLE_INPUT_SYSTEM
 			Cursor.SetCursor(texture, Vector2.zero, CursorMode.ForceSoftware);
+#endif
 		}
 	}
 }

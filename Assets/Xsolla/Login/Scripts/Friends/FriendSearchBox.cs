@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
+using Xsolla.Core;
 
 namespace Xsolla.Demo
 {
@@ -49,9 +50,9 @@ namespace Xsolla.Demo
 
 		private void ProcessHotkeys(string _)
 		{
-			if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+			if (InputProxy.GetKeyDown(KeyCode.Return) || InputProxy.GetKeyDown(KeyCode.KeypadEnter))
 				RequestSearch();
-			else if (Input.GetKeyDown(KeyCode.Escape))
+			else if (InputProxy.GetKeyDown(KeyCode.Escape))
 				ClearSearch();
 		}
 	}
