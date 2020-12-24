@@ -19,7 +19,7 @@ namespace Xsolla.Core
 		[SerializeField] private bool jwtTokenInvalidationEnabled = default;
 		[SerializeField] private int oauthClientId = default;
 		[SerializeField] private bool requestNicknameOnAuth = default;
-		[SerializeField] private string authServerUrl = "https://xsolla-sdk-backend.nl-k8s-stage.srv.local";
+		[SerializeField] private string authServerUrl = "https://sdk.xsolla.com/";
 
 		[SerializeField] private bool useSteamAuth = true;
 		[SerializeField] private string steamAppId = "480";
