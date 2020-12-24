@@ -39,7 +39,7 @@ namespace Xsolla.Core
 		[SerializeField] private bool useDeepLinking = false;
 		[SerializeField] private string deepLinkRedirectUrl = default;
 
-		[SerializeField] private string webStoreUrl = "https://livedemo.xsolla.com/sdk-account-linking/";
+		[SerializeField] private string webStoreUrl = "https://sitebuilder.xsolla.com/game/sdk-web-store/";
 
 		public static string LoginId
 		{
