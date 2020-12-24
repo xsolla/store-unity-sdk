@@ -8,7 +8,7 @@ using Xsolla.Core;
 
 namespace Xsolla.Demo
 {
-	public class InventoryItemUI : MonoBehaviour
+	public partial class InventoryItemUI : MonoBehaviour
 	{
 		[SerializeField] private Image itemImage = default;
 		[SerializeField] private GameObject loadingCircle = default;
@@ -46,17 +46,7 @@ namespace Xsolla.Demo
 				AttachRenewSubscriptionHandler();
 		}
 
-		private void AttachRenewSubscriptionHandler()
-		{
-			if (DemoController.Instance.StoreDemo == null)
-				return;
-
-			var subscriptionItem = UserCatalog.Instance.AllItems.First(s => s.Sku == _itemInformation.Sku);
-			if (subscriptionItem.VirtualPrice == null)
-				renewSubscriptionButton.onClick = () => DemoController.Instance.StoreDemo.PurchaseForRealMoney(subscriptionItem);
-			else
-				renewSubscriptionButton.onClick = () => DemoController.Instance.StoreDemo.PurchaseForVirtualCurrency(subscriptionItem);
-		}
+		partial void AttachRenewSubscriptionHandler();
 
 		private void LoadImage(string url)
 		{
