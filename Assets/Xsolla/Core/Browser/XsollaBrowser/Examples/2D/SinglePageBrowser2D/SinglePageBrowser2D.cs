@@ -9,11 +9,11 @@ namespace Xsolla.Core.Browser
 	[RequireComponent(typeof(BoxCollider2D))]
 	public class SinglePageBrowser2D : MonoBehaviour
 	{
+#if UNITY_EDITOR || UNITY_STANDALONE
 		[SerializeField] private Vector2 Viewport = new Vector2(1920.0F, 1080.0F);
 		[SerializeField] private GameObject PreloaderPrefab = default;
 
 		public Button CloseButton;
-#if UNITY_EDITOR || UNITY_STANDALONE
 		public event Action<IXsollaBrowser> BrowserInitEvent;
 		public event Action<IXsollaBrowser> BrowserClosedEvent;
 
