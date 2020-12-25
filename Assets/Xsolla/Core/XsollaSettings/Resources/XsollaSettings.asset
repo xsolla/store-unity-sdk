@@ -29,6 +29,7 @@ MonoBehaviour:
   isSandbox: 1
   paystationTheme: 1
   inAppBrowserEnabled: 1
+  packInAppBrowserInBuild: 1
   facebookAppId: 
   googleServerId: 
   useDeepLinking: 0
