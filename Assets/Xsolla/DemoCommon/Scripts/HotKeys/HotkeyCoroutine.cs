@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using Xsolla.Core;
 
 namespace Xsolla.Demo
 {
@@ -73,7 +74,7 @@ namespace Xsolla.Demo
 			while (true)
 			{
 				yield return new WaitForSeconds(_timeout);
-				yield return new WaitUntil(() => Input.GetKeyDown(_keyCode));
+				yield return new WaitUntil(() => InputProxy.GetKeyDown(_keyCode));
 				if (!m_isLocked)
 					KeyPressedEvent?.Invoke();
 			}
