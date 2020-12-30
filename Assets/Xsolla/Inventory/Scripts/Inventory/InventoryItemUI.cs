@@ -22,7 +22,9 @@ namespace Xsolla.Demo
 		[SerializeField] private Text remainingTimeTimeText = default;
 		[SerializeField] private GameObject expiredTimeObject = default;
 		[SerializeField] private Text expiredTimeText = default;
+#pragma warning disable 0414
 		[SerializeField] private SimpleTextButton renewSubscriptionButton = default;
+#pragma warning restore 0414
 
 		private ItemModel _itemInformation;
 		private IInventoryDemoImplementation _demoImplementation;
