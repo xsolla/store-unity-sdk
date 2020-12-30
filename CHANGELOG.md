@@ -1,4 +1,22 @@
 # Changelog
+## [0.6.3.1] - 2020-12-30
+### Added
+- Ability to pass custom parameters via API
+- Access token authentication
+- Ability to renew subscription
+- More social networks support
+- Hashtag for user identification
+- Browser background
+- Two more gender options
+- Custom parameters for access token auth
+- Support for new Unity input system
+
+### Changed
+- Refactoring and rework
+
+### Fixed
+- Various bug fixes and improvements
+
 ## [0.6.2.0] - 2020-10-02 
 
 ### Added 
