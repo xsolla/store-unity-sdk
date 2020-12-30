@@ -1,3 +1,17 @@
+<<<<<<< HEAD
 ﻿fileFormatVersion: 2
 guid: 742dbfc2407a476db4f4ae1506c9cf71
 timeCreated: 1608895479
+=======
+fileFormatVersion: 2
+guid: 5ca3425039d54793805151b70fd43258
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+>>>>>>> develop

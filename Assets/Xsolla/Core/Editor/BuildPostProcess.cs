@@ -23,7 +23,7 @@ namespace Xsolla.Core
 		{
 			if (report.summary.platformGroup != BuildTargetGroup.Standalone)
 				return;
-
+			
 			if (!XsollaSettings.UseSteamAuth)
 				return;
 
@@ -73,8 +73,6 @@ namespace Xsolla.Core
 
 			if (Directory.Exists(projectBrowserDirectory))
 			{
-				Debug.Log("COPY");
-				
 				buildBrowserDirectory = Path.Combine(buildBrowserDirectory, $"{browserPlatform}-{browserRevision}");
 
 				foreach (var dirPath in Directory.GetDirectories(projectBrowserDirectory, "*", SearchOption.AllDirectories))
@@ -85,8 +83,6 @@ namespace Xsolla.Core
 			}
 			else
 			{
-				Debug.Log("DOWNLOAD");
-				
 				if (Application.internetReachability == NetworkReachability.NotReachable)
 				{
 					Debug.LogWarning("Internet connection is unavailable. Packing browser in the build is skipped");

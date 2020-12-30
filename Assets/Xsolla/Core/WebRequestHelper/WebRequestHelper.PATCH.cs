@@ -1,13 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+using Newtonsoft.Json;
+using UnityEngine.Networking;
 
 namespace Xsolla.Core
 {
@@ -34,97 +30,36 @@ namespace Xsolla.Core
 		IEnumerator PatchRequestCor<T, D>(SdkType sdkType, string url, D jsonObject, List<WebRequestHeader> requestHeaders = null, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
 		{
 			url = AppendAnalyticsToUrl(sdkType, url);
-			requestHeaders.Add(WebRequestHeader.ContentTypeHeader());
 
-			var task = PatchAsync(url, jsonObject, requestHeaders);
+			UnityWebRequest webRequest = new UnityWebRequest(url, "PATCH");
+			webRequest.downloadHandler = new DownloadHandlerBuffer();
+			AttachBodyToPatchRequest(webRequest, jsonObject);
+			AttachHeadersToPatchRequest(webRequest, requestHeaders);
 
-			yield return new WaitUntil(() => task.IsCompleted || task.IsCanceled || task.IsFaulted);
-			if (!task.IsCompleted)
-			{
-				Debug.LogError($"PATCH task is {(task.IsCanceled ? "canceled" : "faulted")}");
-				yield break;
-			}
-			string response = task.Result;
-
-			Error error = CheckResponsePayloadForErrors(url, response, errorsToCheck);
-			if (error == null)
-			{
-				T responseData = GetResponsePayload<T>(response);
-				if(responseData != null) {
-					onComplete?.Invoke(responseData);
-				} else {
-					error = Error.UnknownError;
-				}
-			}
-			TriggerOnError(onError, error);
+			yield return StartCoroutine(PerformWebRequest(webRequest, onComplete, onError, errorsToCheck));
 		}
 
-		private async Task<string> PatchAsync<T>(string url, T data, List<WebRequestHeader> headers = null)
+		private void AttachBodyToPatchRequest(UnityWebRequest webRequest, object jsonObject)
 		{
-			var method = new HttpMethod("PATCH");
-			var jsonString = GetJsonDataAsStringForPatch<T>(data);
-			HttpContent content = new StringContent(jsonString, Encoding.UTF8, "application/json");
-
-			var request = new HttpRequestMessage(method, url) {Content = content};
-
-			if (headers != null && headers.Any())
+			if (jsonObject != null)
 			{
-				headers.ForEach(header =>
-				{
-					try
-					{
-						request.Headers.TryAddWithoutValidation(header.Name, header.Value);
-					}
-					catch (Exception ex)
-					{
-						Debug.LogWarning($"Could not assign header name: {header.Name} value: {header.Value}, attempt resulted in error: {ex.Message}");
-					}
-				});
+				string jsonData = JsonConvert.SerializeObject(jsonObject).Replace('\n', ' ');
+				byte[] body = new UTF8Encoding().GetBytes(jsonData);
+				webRequest.uploadHandler = (UploadHandler) new UploadHandlerRaw(body);
 			}
-
-			var client = new HttpClient();
-			client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-			var response = new HttpResponseMessage();
-			try
-			{
-				response = await client.SendAsync(request);
-			}
-			catch(Exception e)
-			{
-				Debug.LogError($"ERROR: {e}");
-			}
-
-			return await response.Content.ReadAsStringAsync();
 		}
 
-
-		//Be aware - this method is suitable only for JSON-classes that have string-only fields
-		private string GetJsonDataAsStringForPatch<T>(T jsonObject)
+		private void AttachHeadersToPatchRequest(UnityWebRequest webRequest, List<WebRequestHeader> requestHeaders, bool withContentType = true)
 		{
-			var type = typeof(T);
-			var fields = type.GetFields(BindingFlags.Public | BindingFlags.Instance);
-			var builder = new StringBuilder();
-			builder.Append("{");
-
-			if (fields != null && fields.Length > 0)
+			if (withContentType)
 			{
-				foreach (var field in fields)
-				{
-					var key = field.Name;
-					var value = field.GetValue(jsonObject) as string;
-
-					if (value != null)
-						builder.Append($"\"{key}\":\"{value}\"").Append(",");
-				}
-
-				builder.Remove(builder.Length - 1, 1);
+				if (requestHeaders != null)
+					requestHeaders.Add(WebRequestHeader.ContentTypeHeader());
+				else
+					requestHeaders = new List<WebRequestHeader>() {WebRequestHeader.ContentTypeHeader()};
 			}
 
-			builder.Append("}");
-
-			return builder.ToString();
+			AttachHeaders(webRequest, requestHeaders);
 		}
 	}
 }
-

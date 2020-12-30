@@ -64,7 +64,7 @@ namespace Xsolla.Core.Browser
 			Vector2 lastPosition = Vector2.zero;
 			while (true) {
 				yield return Display2DInitializationCoroutine();
-				Vector2 mousePosition = GetMousePosition(Input.mousePosition);
+				Vector2 mousePosition = GetMousePosition(InputProxy.MousePosition);
 				yield return MouseMovementCoroutine(lastPosition, mousePosition, (Vector2 pos) => lastPosition = pos);
 			}
 		}
