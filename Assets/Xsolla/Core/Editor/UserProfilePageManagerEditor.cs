@@ -1,49 +1,48 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEditor;
+﻿using UnityEditor;
 using System;
 
-
-[CustomEditor(typeof(UserProfilePageManager))]
-public class UserProfilePageManagerEditor : Editor
+namespace Xsolla.Demo
 {
-	private static bool _unfold = false;
-
-	public override void OnInspectorGUI()
+	[CustomEditor(typeof(UserProfilePageManager))]
+	public class UserProfilePageManagerEditor : Editor
 	{
-		_unfold = EditorGUILayout.Foldout(_unfold, "User-friendly entry assignment");
+		private static bool _unfold = false;
 
-		if (_unfold)
+		public override void OnInspectorGUI()
 		{
-			var userProfielManager = target as UserProfilePageManager;
-			var typeNames = Enum.GetNames(typeof(UserProfileEntryType));
-			userProfielManager.UserProfileEntries = ResizeArrayIfNeeded(typeNames.Length, userProfielManager.UserProfileEntries);
+			_unfold = EditorGUILayout.Foldout(_unfold, "User-friendly entry assignment");
 
-			for (int i = 0; i < typeNames.Length; i++)
+			if (_unfold)
 			{
-				var value = EditorGUILayout.ObjectField(label: typeNames[i], userProfielManager.UserProfileEntries[i], typeof(UserProfileEntryUI), allowSceneObjects: true);
+				var userProfielManager = target as UserProfilePageManager;
+				var typeNames = Enum.GetNames(typeof(UserProfileEntryType));
+				userProfielManager.UserProfileEntries = ResizeArrayIfNeeded(typeNames.Length, userProfielManager.UserProfileEntries);
 
-				if (value != userProfielManager.UserProfileEntries[i])
-					userProfielManager.UserProfileEntries[i] = value as UserProfileEntryUI;
+				for (int i = 0; i < typeNames.Length; i++)
+				{
+					var value = EditorGUILayout.ObjectField(label: typeNames[i], userProfielManager.UserProfileEntries[i], typeof(UserProfileEntryUI), allowSceneObjects: true);
+
+					if (value != userProfielManager.UserProfileEntries[i])
+						userProfielManager.UserProfileEntries[i] = value as UserProfileEntryUI;
+				}
 			}
+
+			base.DrawDefaultInspector();
 		}
 
-		base.DrawDefaultInspector();
-	}
-
-	private UserProfileEntryUI[] ResizeArrayIfNeeded(int targetLength, UserProfileEntryUI[] array)
-	{
-		if (array.Length == targetLength)
-			return array;
-		else
+		private UserProfileEntryUI[] ResizeArrayIfNeeded(int targetLength, UserProfileEntryUI[] array)
 		{
-			UserProfileEntryUI[] newArray = new UserProfileEntryUI[targetLength];
-			var length = targetLength > array.Length ? array.Length : targetLength;
+			if (array.Length == targetLength)
+				return array;
+			else
+			{
+				UserProfileEntryUI[] newArray = new UserProfileEntryUI[targetLength];
+				var length = targetLength > array.Length ? array.Length : targetLength;
 
-			Array.Copy(sourceArray: array, destinationArray: newArray, length);
+				Array.Copy(sourceArray: array, destinationArray: newArray, length);
 
-			return newArray;
+				return newArray;
+			}
 		}
 	}
 }

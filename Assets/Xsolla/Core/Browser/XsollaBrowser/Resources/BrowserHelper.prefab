@@ -43,5 +43,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5cb757ccfc8d43899eb453b0887dd7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InAppBrowserPrefab: {fileID: 2921180944494038115, guid: 5dce3528d1dd7429d94941408d4aa0c4,
+  InAppBrowserPrefab: {fileID: 2235249956668261828, guid: 60630ade61b56e946a1e7c4da7950f3f,
     type: 3}
