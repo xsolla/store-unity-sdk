@@ -1,4 +1,5 @@
 ﻿#if UNITY_EDITOR
+using System;
 using System.IO;
 using System.Threading.Tasks;
 using PuppeteerSharp;
@@ -65,9 +66,17 @@ namespace Xsolla.Core
 			var buildBrowserDirectory = Path.GetDirectoryName(report.summary.outputPath);
 			buildBrowserDirectory = Path.Combine(buildBrowserDirectory, ".local-chromium");
 
-			if (Directory.Exists(buildBrowserDirectory))
-				Directory.Delete(buildBrowserDirectory, true);
-
+			try
+			{
+				if (Directory.Exists(buildBrowserDirectory))
+					Directory.Delete(buildBrowserDirectory, true);
+			}
+			catch (Exception e)
+			{
+				Debug.LogWarning($"Can't delete existing browser directory. Packing browser in the build is skipped. Exception: {e}");
+				return;
+			}
+			
 			var projectBrowserDirectory = Path.Combine(Directory.GetCurrentDirectory(), ".local-chromium");
 			projectBrowserDirectory = Path.Combine(projectBrowserDirectory, $"{browserPlatform}-{browserRevision}");
 
