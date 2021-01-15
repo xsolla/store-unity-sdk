@@ -28,6 +28,7 @@ namespace Xsolla.Core
 		[SerializeField] private string usernameFromConsole = default;
 
 		[SerializeField] private string storeProjectId = Constants.DEFAULT_PROJECT_ID;
+		[SerializeField] private PaymentsFlow paymentsFlow = PaymentsFlow.XsollaPayStation;
 		[SerializeField] private bool isSandbox = true;
 
 		[SerializeField] public PaystationTheme paystationTheme = PaystationTheme.Dark;
@@ -164,6 +165,16 @@ namespace Xsolla.Core
 			set
 			{
 				Instance.storeProjectId = value;
+				MarkAssetDirty();
+			}
+		}
+
+		public static PaymentsFlow PaymentsFlow
+		{
+			get => Instance.paymentsFlow;
+			set
+			{
+				Instance.paymentsFlow = value;
 				MarkAssetDirty();
 			}
 		}
