@@ -14,7 +14,7 @@ namespace Xsolla.Core
 		
 		private const string PLATFORM_USERNAME_TOOLTIP = "Social username from console platform";
 
-		private const string STEAM_APP_ID_TOOLTIP = "You will need to relaunch Unity editor after change steam app id";
+		private const string STEAM_APP_ID_TOOLTIP = "You will need to restart Unity Editor after changing Steam App ID";
 
 		private static bool PublishingPlatformSettings()
 		{
