@@ -14,16 +14,6 @@ namespace Xsolla.Demo
 
 		private static string _selectedGroup = string.Empty;
 	
-		private void Awake()
-		{
-			UserFriends.Instance.StopRefreshUsers();
-		}
-
-		private void OnDestroy()
-		{
-			UserFriends.Instance.StartRefreshUsers();
-		}
-	
 		public static List<FriendModel> GetUsersByGroup(string group)
 		{
 			group = group.Split('(')[0].Trim();
