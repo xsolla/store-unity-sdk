@@ -5,6 +5,9 @@ namespace Xsolla.Core
 {
 	public partial class XsollaSettingsEditor : UnityEditor.Editor
 	{
+		private const string PAYMENTS_FLOW_TOOLTIP = "You need to sign an additional partner agreement to use Steam as a payment system. "
+		                                             + "Contact the Integration or Account Manager";
+
 		private bool XsollaStoreSettings()
 		{
 			var changed = false;
@@ -17,6 +20,16 @@ namespace Xsolla.Core
 				{
 					XsollaSettings.StoreProjectId = projectId;
 					changed = true;
+				}
+
+				if (XsollaSettings.UseSteamAuth)
+				{
+					var paymentsFlow = (PaymentsFlow) EditorGUILayout.EnumPopup(new GUIContent("Payments flow", PAYMENTS_FLOW_TOOLTIP), XsollaSettings.PaymentsFlow);
+					if (paymentsFlow != XsollaSettings.PaymentsFlow)
+					{
+						XsollaSettings.PaymentsFlow = paymentsFlow;
+						changed = true;
+					}
 				}
 				
 				var sandbox = EditorGUILayout.Toggle("Enable sandbox?", XsollaSettings.IsSandbox);
