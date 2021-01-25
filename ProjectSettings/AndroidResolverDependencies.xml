@@ -1,8 +1,8 @@
 <dependencies>
   <packages>
-    <package>com.xsolla.android:login:1.1.1</package>
-    <package>com.xsolla.android:login-facebook:1.1.1</package>
-    <package>com.xsolla.android:login-google:1.1.1</package>
+    <package>com.xsolla.android:login:1.1.2</package>
+    <package>com.xsolla.android:login-facebook:1.1.2</package>
+    <package>com.xsolla.android:login-google:1.1.2</package>
   </packages>
   <files>
     <file>Assets/Plugins/Android/androidx.activity.activity-1.0.0.aar</file>
@@ -63,9 +63,9 @@
     <file>Assets/Plugins/Android/com.squareup.okio.okio-1.17.2.jar</file>
     <file>Assets/Plugins/Android/com.squareup.retrofit2.converter-gson-2.6.4.jar</file>
     <file>Assets/Plugins/Android/com.squareup.retrofit2.retrofit-2.9.0.jar</file>
-    <file>Assets/Plugins/Android/com.xsolla.android.login-1.1.1.aar</file>
-    <file>Assets/Plugins/Android/com.xsolla.android.login-facebook-1.1.1.aar</file>
-    <file>Assets/Plugins/Android/com.xsolla.android.login-google-1.1.1.aar</file>
+    <file>Assets/Plugins/Android/com.xsolla.android.login-1.1.2.aar</file>
+    <file>Assets/Plugins/Android/com.xsolla.android.login-facebook-1.1.2.aar</file>
+    <file>Assets/Plugins/Android/com.xsolla.android.login-google-1.1.2.aar</file>
     <file>Assets/Plugins/Android/org.jetbrains.annotations-13.0.jar</file>
     <file>Assets/Plugins/Android/org.jetbrains.kotlin.kotlin-android-extensions-runtime-1.4.10.jar</file>
     <file>Assets/Plugins/Android/org.jetbrains.kotlin.kotlin-stdlib-1.4.10.jar</file>
@@ -74,7 +74,7 @@
   </files>
   <settings>
     <setting name="androidAbis" value="armeabi-v7a,x86" />
-    <setting name="bundleId" value="com.XsollaInc.XsollaInGameStoreUnityAsset" />
+    <setting name="bundleId" value="com.xsolla.android.storesdkexample" />
     <setting name="explodeAars" value="True" />
     <setting name="gradleBuildEnabled" value="True" />
     <setting name="gradlePropertiesTemplateEnabled" value="False" />

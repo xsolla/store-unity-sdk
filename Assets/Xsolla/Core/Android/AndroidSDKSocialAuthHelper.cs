@@ -28,33 +28,32 @@ namespace Xsolla.Core
 			{
 				var xlogin = new AndroidJavaClass("com.xsolla.android.login.XLogin");
 				var context = _androidHelper.ApplicationContext;
-				var socialConfigBuilder = new AndroidJavaObject("com.xsolla.android.login.XLogin$SocialConfig$Builder");
-            
-				socialConfigBuilder.Call<AndroidJavaObject>("facebookAppId", facebookAppId);
-				socialConfigBuilder.Call<AndroidJavaObject>("googleServerId", googleServerId);
+				var socialConfig = new AndroidJavaObject("com.xsolla.android.login.XLogin$SocialConfig", facebookAppId, googleServerId);
 
-				var socialConfig = socialConfigBuilder.Call<AndroidJavaObject>("build");
+				AndroidJavaObject loginConfig;
+				AndroidJavaObject loginConfigBuilder;
 
-				if (authorizationType == AuthorizationType.JWT)
-				{
-					if (!string.IsNullOrEmpty(callbackURL))
-						xlogin.CallStatic("initJwt", context, loginID, callbackURL, socialConfig);
-					else
-						xlogin.CallStatic("initJwt", context, loginID, socialConfig);
-				}
-				else/*if (authorizationType == AuthorizationType.OAuth2_0)*/
-				{
-					if (!string.IsNullOrEmpty(callbackURL))
-						xlogin.CallStatic("initOauth", context, loginID, OAuthClientId, callbackURL, socialConfig);
-					else
-						xlogin.CallStatic("initOauth", context, loginID, OAuthClientId, socialConfig);
-				}
+				loginConfigBuilder = authorizationType == AuthorizationType.JWT
+					? new AndroidJavaObject("com.xsolla.android.login.LoginConfig$JwtBuilder")
+					: new AndroidJavaObject("com.xsolla.android.login.OauthBuilder");
+
+				loginConfigBuilder.Call<AndroidJavaObject>("setProjectId", loginID);
+				loginConfigBuilder.Call<AndroidJavaObject>("setSocialConfig", socialConfig);
+
+				if (!string.IsNullOrEmpty(callbackURL))
+					loginConfigBuilder.Call<AndroidJavaObject>("setCallbackUrl", callbackURL);
+				if (authorizationType == AuthorizationType.OAuth2_0)
+					loginConfigBuilder.Call<AndroidJavaObject>("setOauthClientId", OAuthClientId);
+
+				loginConfig = loginConfigBuilder.Call<AndroidJavaObject>("build");
+
+				xlogin.CallStatic("init", context, loginConfig);
 
 				_xlogin = xlogin;
 			}
 			catch (Exception ex)
 			{
-				throw new AggregateException($"AndroidSDKSocialAuthHelper.Ctor: {ex.Message}", ex); 
+				throw new AggregateException($"AndroidSDKSocialAuthHelper.Ctor: {ex.Message}", ex);
 			}
 		}
 
@@ -109,7 +108,7 @@ namespace Xsolla.Core
 				try
 				{
 					//Argument type of long is required, but is used only for JWT expiration check, which is not the case
-					isTokenExpired = isTokenExpired = _xlogin.CallStatic<bool>("isTokenExpired", (object)0L);
+					isTokenExpired = isTokenExpired = _xlogin.CallStatic<bool>("isTokenExpired", (object) 0L);
 				}
 				catch (Exception ex)
 				{
@@ -153,7 +152,7 @@ namespace Xsolla.Core
 
 			if (authorizationType == AuthorizationType.JWT)
 				invalidationFlag = XsollaSettings.JwtTokenInvalidationEnabled;
-			else/*if (authorizationType == AuthorizationType.OAuth2_0)*/
+			else /*if (authorizationType == AuthorizationType.OAuth2_0)*/
 				invalidationFlag = true;
 
 			OAuthClientId = XsollaSettings.OAuthClientId;

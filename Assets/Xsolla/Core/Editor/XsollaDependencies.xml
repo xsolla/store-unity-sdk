@@ -24,8 +24,8 @@
 
          Additional repositories can be added using the "repositories" element.
     -->
-    <androidPackage spec="com.xsolla.android:login:1.1.1"/>
-    <androidPackage spec="com.xsolla.android:login-facebook:1.1.1"/>
-    <androidPackage spec="com.xsolla.android:login-google:1.1.1"/>
+    <androidPackage spec="com.xsolla.android:login:1.1.2"/>
+    <androidPackage spec="com.xsolla.android:login-facebook:1.1.2"/>
+    <androidPackage spec="com.xsolla.android:login-google:1.1.2"/>
   </androidPackages>
 </dependencies>
