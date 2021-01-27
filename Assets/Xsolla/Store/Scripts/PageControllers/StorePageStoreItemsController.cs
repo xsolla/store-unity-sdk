@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Xsolla.Demo
 {
-	public class StorePageItemsController : BaseStorePageItemsController
+	public class StorePageStoreItemsController : BaseStorePageStoreItemsController
 	{
 		private IInventoryDemoImplementation _inventoryDemoImplementation;
 

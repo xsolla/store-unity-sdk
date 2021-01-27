@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Xsolla.Demo
 {
-	public abstract class BasePageItemsController : MonoBehaviour
+	public abstract class BasePageStoreItemsController : MonoBehaviour
 	{
 		protected const string GROUP_ALL = "ALL";
 

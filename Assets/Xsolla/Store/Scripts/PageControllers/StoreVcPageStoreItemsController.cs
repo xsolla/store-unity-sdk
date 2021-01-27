@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Xsolla.Demo
 {
-	public class StoreVcPageItemsController : BaseStorePageItemsController
+	public class StoreVcPageStoreItemsController : BaseStorePageStoreItemsController
 	{
 		protected override List<ItemModel> GetItemsByGroup(string groupName)
 		{

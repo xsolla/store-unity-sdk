@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Xsolla.Demo
 {
-	public abstract class BaseStorePageItemsController : BasePageItemsController
+	public abstract class BaseStorePageStoreItemsController : BasePageStoreItemsController
 	{
 		protected IStoreDemoImplementation _storeDemoImplementation;
 

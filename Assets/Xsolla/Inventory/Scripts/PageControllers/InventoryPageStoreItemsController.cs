@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Xsolla.Demo
 {
-	public class InventoryPageItemsController : BasePageItemsController
+	public class InventoryPageStoreItemsController : BasePageStoreItemsController
 	{
 		private IInventoryDemoImplementation _inventoryDemoImplementation;
 		private string _lastGroup;
