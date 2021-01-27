@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Xsolla.Demo
 {
-	public class CommonStoreMenuController : BaseMenuController
+	public class StorePageCommonButtonsController : BaseMenuController
 	{
 		[SerializeField] private SimpleButton publisherAccountButton = default;
 		[SerializeField] private SimpleButton documentationButton = default;
