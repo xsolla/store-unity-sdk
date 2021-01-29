@@ -1,0 +1,31 @@
+<dependencies>
+
+  <!-- Android dependencies are specified under the "androidPackages" element.
+       Each "androidPackage" element contains the attributes of an Android
+       dependency (e.g AAR, JAR reference). -->
+  <androidPackages>
+    <!-- Global set of repositories to search for packages.
+         These repos will be searched for all packages specified by
+         androidPackage. -->
+    <repositories>
+      <repository>https://repo.maven.apache.org/maven2</repository>
+      <repository>https://jcenter.bintray.com</repository>
+    </repositories>
+
+    <!-- The "spec" attribute is *required* and provides the Maven package
+         specification.
+
+         Currently this only supports group:artifact:version_specification where
+         group:artifact:version_specification references a Maven package that
+         can be located in:
+         * Maven central.
+         * Google's Maven repo.
+         * Local Android SDK Maven repo.
+
+         Additional repositories can be added using the "repositories" element.
+    -->
+    <androidPackage spec="com.xsolla.android:login:1.1.2"/>
+    <androidPackage spec="com.xsolla.android:login-facebook:1.1.2"/>
+    <androidPackage spec="com.xsolla.android:login-google:1.1.2"/>
+  </androidPackages>
+</dependencies>
