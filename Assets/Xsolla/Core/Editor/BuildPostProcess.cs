@@ -41,7 +41,7 @@ namespace Xsolla.Core
 			if (!XsollaSettings.InAppBrowserEnabled || !XsollaSettings.PackInAppBrowserInBuild)
 				return;
 
-			const int browserRevision = BrowserFetcher.DefaultRevision;
+			var browserRevision = BrowserFetcher.DefaultRevision;
 
 			var browserPlatform = Platform.Unknown;
 			switch (report.summary.platform)
