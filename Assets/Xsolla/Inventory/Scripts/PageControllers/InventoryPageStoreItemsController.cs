@@ -24,7 +24,6 @@ namespace Xsolla.Demo
 
 		private void OnUserInventoryRefresh()
 		{
-			base.FillGroups();
 			base.ShowGroupItems(_lastGroup);
 		}
 
