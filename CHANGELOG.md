@@ -1,6 +1,7 @@
 # Changelog
 ## [0.6.3.2] - 2021-02-05
 ### Changed
+- Minimum supported version of Unity — 2019.4.19f1
 - Url of documentation page about user attributes
 - Authorization via social networks on android
 
