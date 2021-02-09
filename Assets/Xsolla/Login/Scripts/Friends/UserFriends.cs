@@ -10,8 +10,6 @@ namespace Xsolla.Demo
 {
 	public class UserFriends : MonoSingleton<UserFriends>
 	{
-		private const float REFRESH_USER_FRIENDS_TIMEOUT = 20.0F;
-	
 		public event Action UserFriendsUpdatedEvent;
 		public event Action BlockedUsersUpdatedEvent;
 		public event Action PendingUsersUpdatedEvent;
@@ -37,8 +35,6 @@ namespace Xsolla.Demo
 			Pending = new List<FriendModel>();
 			Requested = new List<FriendModel>();
 			SocialFriends = new List<FriendModel>();
-
-			StartRefreshUsers();
 		}
 
 		public FriendModel GetUserById(string userId)
@@ -50,19 +46,6 @@ namespace Xsolla.Demo
 			if (Requested.Any(predicate)) return Requested.First(predicate);
 			return null;
 		}
-	
-		public void StartRefreshUsers()
-		{
-			StopRefreshUsers();
-			RefreshCoroutine = StartCoroutine(PeriodicallyRefreshUserFriends());
-		}
-
-		public void StopRefreshUsers()
-		{
-			if (RefreshCoroutine == null) return;
-			StopCoroutine(RefreshCoroutine);
-			RefreshCoroutine = null;
-		}
 
 		private void RefreshUsersMethod([CanBeNull] Action onSuccess = null, [CanBeNull] Action<Error> onError = null)
 		{
@@ -72,27 +55,9 @@ namespace Xsolla.Demo
 	
 		public void UpdateFriends([CanBeNull] Action onSuccess = null, [CanBeNull] Action<Error> onError = null)
 		{
-			StopRefreshUsers();
-			RefreshUsersMethod(() =>
-			{
-				onSuccess?.Invoke();
-				StartRefreshUsers();
-			}, err =>
-			{
-				onError?.Invoke(err);
-				StartRefreshUsers();
-			});
-		}
-	
-		private IEnumerator PeriodicallyRefreshUserFriends()
-		{
-			while (true)
-			{
-				yield return new WaitForSeconds(REFRESH_USER_FRIENDS_TIMEOUT);
-				var busy = true;
-				RefreshUsersMethod(() => busy = false, _ => busy = false);
-				yield return new WaitWhile(() => busy);	
-			}
+			RefreshUsersMethod(
+				onSuccess: () => onSuccess?.Invoke(),
+				onError: err => onError?.Invoke(err));
 		}
 	
 		private IEnumerator UpdateFriendsCoroutine(Action onSuccess, Action<Error> onError)
@@ -125,7 +90,6 @@ namespace Xsolla.Demo
 			{
 				StoreDemoPopup.ShowError(new Error(errorMessage: "Your token is not valid"));
 				DemoController.Instance.SetState(MenuState.Authorization);
-				StopRefreshUsers();
 			}
 		}
 

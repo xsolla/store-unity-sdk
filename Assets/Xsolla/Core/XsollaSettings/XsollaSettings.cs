@@ -28,10 +28,12 @@ namespace Xsolla.Core
 		[SerializeField] private string usernameFromConsole = default;
 
 		[SerializeField] private string storeProjectId = Constants.DEFAULT_PROJECT_ID;
+		[SerializeField] private PaymentsFlow paymentsFlow = PaymentsFlow.XsollaPayStation;
 		[SerializeField] private bool isSandbox = true;
 
 		[SerializeField] public PaystationTheme paystationTheme = PaystationTheme.Dark;
 		[SerializeField] private bool inAppBrowserEnabled = true;
+		[SerializeField] private bool packInAppBrowserInBuild = true;
 
 		[SerializeField] private string facebookAppId = default;
 		[SerializeField] private string googleServerId = default;
@@ -167,6 +169,16 @@ namespace Xsolla.Core
 			}
 		}
 
+		public static PaymentsFlow PaymentsFlow
+		{
+			get => Instance.paymentsFlow;
+			set
+			{
+				Instance.paymentsFlow = value;
+				MarkAssetDirty();
+			}
+		}
+
 		public static bool IsSandbox
 		{
 			get => Instance.isSandbox;
@@ -200,6 +212,16 @@ namespace Xsolla.Core
 			set
 			{
 				Instance.inAppBrowserEnabled = value;
+				MarkAssetDirty();
+			}
+		}
+
+		public static bool PackInAppBrowserInBuild
+		{
+			get => Instance.packInAppBrowserInBuild;
+			set
+			{
+				Instance.packInAppBrowserInBuild = value;
 				MarkAssetDirty();
 			}
 		}

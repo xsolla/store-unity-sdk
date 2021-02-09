@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using PuppeteerSharp;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -36,11 +37,32 @@ namespace Xsolla.Core.Browser
 		
 			xsollaBrowser = this.GetOrAddComponent<XsollaBrowser>();
 			xsollaBrowser.LogEvent += XsollaBrowser_LogEvent;
-			xsollaBrowser.Launch(new LaunchBrowserOptions()
-			{
-				Width = (int)Viewport.x,
-				Height = (int)Viewport.y,
-			});
+			xsollaBrowser.Launch
+			(
+				new LaunchBrowserOptions
+				{
+					Width = (int) Viewport.x,
+					Height = (int) Viewport.y,
+				},
+				new BrowserFetcherOptions
+				{
+#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+	#if UNITY_64
+					Platform = Platform.Win64
+	#else
+					Platform = Platform.Win32
+	#endif
+#endif
+					
+#if UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
+					Platform = Platform.MacOS
+#endif
+
+#if UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX
+					Platform = Platform.Linux
+#endif
+				}
+			);
 		
 			display = this.GetOrAddComponent<Display2DBehaviour>();
 		}

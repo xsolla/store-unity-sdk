@@ -35,7 +35,7 @@ namespace Xsolla.Demo
 					InitInventoryDemo();
 					break;
 				default:
-					Debug.LogError($"Unexpected demo tyep: '{demoType}'");
+					Debug.LogError($"Unexpected demo type: '{demoType}'");
 					break;
 			}
 		}
@@ -108,7 +108,11 @@ namespace Xsolla.Demo
 			AttachButtonCallback(characterButton,
 				() => SetMenuState(MenuState.Character, () => UserCatalog.Instance.IsUpdated));
 			AttachButtonCallback(friendsButton,
-				() => SetMenuState(MenuState.Friends, () => UserFriends.Instance.IsUpdated));
+				() =>
+				{
+					UserFriends.Instance.UpdateFriends();
+					SetMenuState(MenuState.Friends, () => UserFriends.Instance.IsUpdated);
+				});
 		}
 
 		private void InitCommonButtons()

@@ -51,10 +51,6 @@ namespace Xsolla.Demo
 			if (lastState.IsAuthState() && newState == MenuState.Main)
 			{
 				UpdateCatalogAndInventory();
-
-				if (!IsAccessTokenAuth)
-					UserFriends.Instance.UpdateFriends();
-
 				AutoStartTutorial();
 			}
 		}

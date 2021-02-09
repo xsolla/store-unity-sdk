@@ -26,13 +26,19 @@ namespace Xsolla.Store
 		/// <returns></returns>
 		private List<WebRequestHeader> GetPaymentHeaders(Token token)
 		{
-			List<WebRequestHeader> headers = null;
+			var headers = new List<WebRequestHeader>
+			{
+				WebRequestHeader.AuthHeader(token)
+			};
 
-			string steamUserId = token.GetSteamUserID();
-			if (!string.IsNullOrEmpty(steamUserId))
-				headers = new List<WebRequestHeader>() { WebRequestHeader.AuthHeader(token), WebRequestHeader.SteamPaymentHeader(steamUserId) };
-			else
-				headers = new List<WebRequestHeader>() { WebRequestHeader.AuthHeader(token) };
+			if (XsollaSettings.UseSteamAuth && XsollaSettings.PaymentsFlow == PaymentsFlow.SteamGateway)
+			{
+				var steamUserId = token.GetSteamUserID();
+				if (!string.IsNullOrEmpty(steamUserId))
+				{
+					headers.Add(WebRequestHeader.SteamPaymentHeader(steamUserId));
+				}
+			}
 
 			return headers;
 		}
