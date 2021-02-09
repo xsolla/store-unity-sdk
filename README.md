@@ -33,8 +33,7 @@ Usefull links:
 * Windows 7 SP1 and higher
 * macOS 10.12 and higher
 * A compatible version of Unity:
-	* 2018.3.0f2
-	* 2019.3.4f1
+	* 2019.4.19f1
 
 **NOTE:** We recommend you use the Mono compiler for creating a game build. You can use either Mono or IL2CPP compiler for creating APK.
 
