@@ -26,6 +26,7 @@ MonoBehaviour:
   platform: 1
   usernameFromConsole: testPSMax3
   storeProjectId: 77640
+  paymentsFlow: 0
   isSandbox: 1
   paystationTheme: 1
   inAppBrowserEnabled: 1
@@ -35,3 +36,4 @@ MonoBehaviour:
   useDeepLinking: 0
   deepLinkRedirectUrl: 
   webStoreUrl: https://sitebuilder.xsolla.com/game/sdk-web-store/
+  logLevel: 0
