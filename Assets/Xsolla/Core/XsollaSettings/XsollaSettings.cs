@@ -43,6 +43,8 @@ namespace Xsolla.Core
 
 		[SerializeField] private string webStoreUrl = "https://sitebuilder.xsolla.com/game/sdk-web-store/";
 
+		[SerializeField] private LogLevel logLevel = LogLevel.InfoWarningsErrors;
+
 		public static string LoginId
 		{
 			get => Instance.loginId;
@@ -264,6 +266,16 @@ namespace Xsolla.Core
 			set
 			{
 				Instance.webStoreUrl = value;
+				MarkAssetDirty();
+			}
+		}
+
+		public static LogLevel LogLevel
+		{
+			get => Instance.logLevel;
+			set
+			{
+				Instance.logLevel = value;
 				MarkAssetDirty();
 			}
 		}
