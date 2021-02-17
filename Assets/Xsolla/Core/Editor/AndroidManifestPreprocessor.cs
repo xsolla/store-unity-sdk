@@ -21,6 +21,7 @@ namespace Xsolla.Core
 #if UNITY_ANDROID
 			Debug.Log("Xsolla SDK is now preprocessing your AndroidManifest.xml");
 			SetupDeepLinking();
+			SetupWeChat();
 #endif
 		}
 
@@ -36,20 +37,12 @@ namespace Xsolla.Core
 					return;
 				}
 
-				var backupManifestPath = Path.Combine(FindAndroidManifestBackup(Application.dataPath).Replace("\\", "/"), "AndroidManifest.xml");
-
-				var manifestDirectoryPath = Path.GetDirectoryName(manifestPath);
-				if (!Directory.Exists(manifestDirectoryPath))
-				{
-					Directory.CreateDirectory(manifestDirectoryPath);
-				}
-
-				File.Copy(backupManifestPath, manifestPath);
+				RestoreAndroidManifest(manifestPath);
 			}
 
 			var manifest = new AndroidManifestWrapper(manifestPath);
 
-			if (string.IsNullOrEmpty(XsollaSettings.DeepLinkRedirectUrl))
+			if (XsollaSettings.UseDeepLinking && string.IsNullOrEmpty(XsollaSettings.DeepLinkRedirectUrl))
 			{
 				Debug.LogError("Redirect URL for Android deep linking is empty. Please check plugin settings.");
 				return;
@@ -91,6 +84,63 @@ namespace Xsolla.Core
 			{
 				manifest.SaveManifest();
 			}
+		}
+
+		void SetupWeChat()
+		{
+			var manifestPath = Path.Combine(Application.dataPath, MainManifestPath);
+			var manifestExists = File.Exists(manifestPath);
+
+			if (!manifestExists)
+			{
+				if (string.IsNullOrEmpty(XsollaSettings.WeChatAppId))
+				{
+					return;
+				}
+
+				RestoreAndroidManifest(manifestPath);
+			}
+
+			var manifest = new AndroidManifestWrapper(manifestPath);
+
+			var androidPackageName = Application.identifier;
+			var wechatActivityName = string.Format("{0}.wxapi.WXEntryActivity", androidPackageName);
+
+			var wechatActivity = new ActivityNode(wechatActivityName);
+			wechatActivity.AddAttribute(AndroidManifestConstants.ExportedAttribute, "true");
+
+			var manifestChanged = false;
+
+			// cleanup manifest in case WeChat activity was added previously
+			if (manifest.ContainsNode(new FindByTag(AndroidManifestConstants.ApplicationTag), new FindByName(wechatActivity)))
+			{
+				manifest.RemoveNode(new FindByTag(AndroidManifestConstants.ApplicationTag), new FindByName(wechatActivity));
+				manifestChanged = true;
+			}
+
+			if (!string.IsNullOrEmpty(XsollaSettings.WeChatAppId))
+			{
+				manifest.AddNode(wechatActivity, new FindByTag(AndroidManifestConstants.ApplicationTag));
+				manifestChanged = true;
+			}
+
+			if (manifestChanged)
+			{
+				manifest.SaveManifest();
+			}
+		}
+
+		static void RestoreAndroidManifest(string manifestPath)
+		{
+			var backupManifestPath = Path.Combine(FindAndroidManifestBackup(Application.dataPath).Replace("\\", "/"), "AndroidManifest.xml");
+
+			var manifestDirectoryPath = Path.GetDirectoryName(manifestPath);
+			if (!Directory.Exists(manifestDirectoryPath))
+			{
+				Directory.CreateDirectory(manifestDirectoryPath);
+			}
+
+			File.Copy(backupManifestPath, manifestPath);
 		}
 
 		static string FindAndroidManifestBackup(string path)
