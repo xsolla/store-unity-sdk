@@ -19,7 +19,8 @@ namespace Xsolla.Core
 				out bool invalidationFlag,
 				out int OAuthClientId,
 				out string facebookAppId,
-				out string googleServerId);
+				out string googleServerId,
+				out string wechatAppId);
 
 			_androidHelper = new AndroidHelper();
 			_invalidationFlag = invalidationFlag;
@@ -28,7 +29,8 @@ namespace Xsolla.Core
 			{
 				var xlogin = new AndroidJavaClass("com.xsolla.android.login.XLogin");
 				var context = _androidHelper.ApplicationContext;
-				var socialConfig = new AndroidJavaObject("com.xsolla.android.login.XLogin$SocialConfig", facebookAppId, googleServerId);
+
+				var socialConfig = new AndroidJavaObject("com.xsolla.android.login.XLogin$SocialConfig", facebookAppId, googleServerId, wechatAppId);
 
 				AndroidJavaObject loginConfig;
 				AndroidJavaObject loginConfigBuilder;
@@ -144,7 +146,7 @@ namespace Xsolla.Core
 			}
 		}
 
-		private void GetXsollaSettings(out string loginID, out string callbackURL, out AuthorizationType authorizationType, out bool invalidationFlag, out int OAuthClientId, out string facebookAppId, out string googleServerId)
+		private void GetXsollaSettings(out string loginID, out string callbackURL, out AuthorizationType authorizationType, out bool invalidationFlag, out int OAuthClientId, out string facebookAppId, out string googleServerId, out string wechatAppId)
 		{
 			loginID = XsollaSettings.LoginId;
 			callbackURL = XsollaSettings.CallbackUrl;
@@ -158,6 +160,7 @@ namespace Xsolla.Core
 			OAuthClientId = XsollaSettings.OAuthClientId;
 			facebookAppId = XsollaSettings.FacebookAppId;
 			googleServerId = XsollaSettings.GoogleServerId;
+			wechatAppId = XsollaSettings.WeChatAppId;
 		}
 
 		public void Dispose()
