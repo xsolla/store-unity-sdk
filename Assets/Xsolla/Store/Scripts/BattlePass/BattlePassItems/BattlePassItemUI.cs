@@ -2,6 +2,8 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 using Xsolla.Core;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace Xsolla.Demo
 {
@@ -48,7 +50,19 @@ namespace Xsolla.Demo
 
 		private bool TryGetImageUrl(string itemSku, out string imageUrl)
 		{
-			var item = UserCatalog.Instance.AllItems.Find(catalogItem => catalogItem.Sku == itemSku);
+			var item = default(ItemModel);
+
+			IEnumerable<ItemModel> allCurrencies = UserCatalog.Instance.VirtualCurrencies;
+			IEnumerable<ItemModel> allItems = UserCatalog.Instance.AllItems;
+
+			foreach (ItemModel catalogItem in allCurrencies.Concat(allItems))
+			{
+				if (catalogItem.Sku == itemSku)
+				{
+					item = catalogItem;
+					break;
+				}
+			}
 
 			if (item != null)
 			{
