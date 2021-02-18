@@ -7,7 +7,7 @@ namespace Xsolla.Store
 {
 	public partial class XsollaStore : MonoSingleton<XsollaStore>
 	{
-		private const string URL_CATALOG_GET_ITEMS = BASE_STORE_API_URL + "/items/virtual_items?offset={1}&limit={2}";
+		private const string URL_CATALOG_GET_ITEMS = BASE_STORE_API_URL + "/items/virtual_items?offset={1}&limit={2}&additional_fields[]=long_description";
 		private const string URL_CATALOG_GET_BUNDLE = BASE_STORE_API_URL + "/items/bundle/sku/{1}";
 		private const string URL_CATALOG_GET_BUNDLES = BASE_STORE_API_URL + "/items/bundle";
 		private const string URL_CATALOG_GET_ITEMS_IN_GROUP = BASE_STORE_API_URL + "/items/virtual_items/group/{1}";

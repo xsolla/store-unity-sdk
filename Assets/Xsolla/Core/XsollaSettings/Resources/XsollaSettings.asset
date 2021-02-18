@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52405bf87e920c34796e9e06cc914ce8, type: 3}
   m_Name: XsollaSettings
   m_EditorClassIdentifier: 
-  loginId: 026201e3-7e40-11ea-a85b-42010aa80004
+  loginId: a68cd543-ed2c-11ea-b068-42010aa80004
   useProxy: 0
   callbackUrl: 
   authorizationType: 0
@@ -25,7 +25,8 @@ MonoBehaviour:
   useConsoleAuth: 0
   platform: 1
   usernameFromConsole: testPSMax3
-  storeProjectId: 77640
+  storeProjectId: 84690
+  paymentsFlow: 0
   isSandbox: 1
   paystationTheme: 1
   inAppBrowserEnabled: 1
