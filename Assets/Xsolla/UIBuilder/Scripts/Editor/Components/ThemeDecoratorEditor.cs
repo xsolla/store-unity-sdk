@@ -4,31 +4,26 @@ namespace Xsolla.UIBuilder
 {
 	public abstract class ThemeDecoratorEditor : Editor
 	{
-		protected SerializedProperty propId;
+		protected SerializedProperty PropertyId { get; private set; }
 
-		private static bool IsDebugMode => false;
+		protected PointerOverriderEditor PointerOverriderEditor { get; private set; }
 
 		protected void OnEnable()
 		{
-			propId = serializedObject.FindProperty("_propertyId");
-			FindProperties();
+			PropertyId = serializedObject.FindProperty("_propertyId");
+			PointerOverriderEditor = new PointerOverriderEditor(serializedObject);
+			Init();
 		}
 
 		public override void OnInspectorGUI()
 		{
 			serializedObject.Update();
-
-			if (IsDebugMode)
-			{
-				EditorGUILayout.PropertyField(propId);
-			}
-
-			DrawProperties();
+			DrawGUI();
 			serializedObject.ApplyModifiedProperties();
 		}
 
-		protected abstract void FindProperties();
+		protected abstract void Init();
 
-		protected abstract void DrawProperties();
+		protected abstract void DrawGUI();
 	}
 }

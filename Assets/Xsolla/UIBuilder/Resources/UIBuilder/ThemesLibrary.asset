@@ -23,9 +23,18 @@ MonoBehaviour:
     - _name: Second Color
       _id: 8d406015-69a9-402e-aa9e-e28e56a8264c
       _color: {r: 0.9339623, g: 0.9339623, b: 0.9339623, a: 1}
-    - _name: New Color (11)
+    - _name: Hover Color
+      _id: 21dc8235-80c2-4dd4-b5c6-40afe994b474
+      _color: {r: 0.7169812, g: 0.46737158, b: 0.1724813, a: 1}
+    - _name: Press Color
+      _id: 8448ca8c-1a44-4019-94a1-3ada7306f71c
+      _color: {r: 0.26655135, g: 0.6132076, b: 0.130162, a: 1}
+    - _name: Background
       _id: 2a5a816b-0b34-4462-a11c-94ae69041b5d
-      _color: {r: 0.14901961, g: 0.25490198, b: 0.5803922, a: 1}
+      _color: {r: 0.1523674, g: 0.22165687, b: 0.3018868, a: 1}
+    - _name: Form
+      _id: 56d30534-ac79-4e61-b765-6e6e02531ecb
+      _color: {r: 0.06603773, g: 0.15988079, b: 0.26415092, a: 1}
     _sprites:
     - _name: Solid Button
       _id: dfb1aea9-ded3-4435-ac2c-9199fbac8a75
@@ -33,6 +42,16 @@ MonoBehaviour:
     - _name: Border Button
       _id: 115ee7e6-d4b0-448e-848f-913a089e3d02
       _sprite: {fileID: 21300000, guid: 50e3bfb469fbff94aa40ba32e77ab286, type: 3}
+    - _name: Hover Sprite
+      _id: 83b2de50-2cf3-40bc-bfba-83c0113979b9
+      _sprite: {fileID: 21300000, guid: 2e5373759a8c3e24b9b83b8daf6de5d3, type: 3}
+    _fonts:
+    - _name: Main Font
+      _id: 7b111555-c639-4655-9948-52030ad69aab
+      _font: {fileID: 12800000, guid: c00fbeb9ffa8d004180196d59e67e5e6, type: 3}
+    - _name: Seconf Font
+      _id: 2ac3a03c-5b7c-42cc-b2f2-fca40003b4ae
+      _font: {fileID: 12800000, guid: ddb41b3465a09714ca12682cf8043ae3, type: 3}
   - _name: Octagon
     _id: d3c446a6-dbc6-4177-9fe8-aa859099e96a
     _colors:
@@ -42,9 +61,18 @@ MonoBehaviour:
     - _name: Second Color
       _id: 8d406015-69a9-402e-aa9e-e28e56a8264c
       _color: {r: 0.14150941, g: 0.14150941, b: 0.14150941, a: 1}
-    - _name: New Color (11)
+    - _name: Hover Color
+      _id: 21dc8235-80c2-4dd4-b5c6-40afe994b474
+      _color: {r: 0.2956123, g: 0.6886792, b: 0.49507913, a: 1}
+    - _name: Press Color
+      _id: 8448ca8c-1a44-4019-94a1-3ada7306f71c
+      _color: {r: 0.13203096, g: 0.21698111, b: 0.17514, a: 1}
+    - _name: Background
       _id: 2a5a816b-0b34-4462-a11c-94ae69041b5d
-      _color: {r: 0.745283, g: 0.26366144, b: 0.26366144, a: 1}
+      _color: {r: 0.17399432, g: 0.4339623, b: 0.3041793, a: 1}
+    - _name: Form
+      _id: 56d30534-ac79-4e61-b765-6e6e02531ecb
+      _color: {r: 0.24741901, g: 0.3773585, b: 0.31335846, a: 1}
     _sprites:
     - _name: Solid Button
       _id: dfb1aea9-ded3-4435-ac2c-9199fbac8a75
@@ -52,3 +80,13 @@ MonoBehaviour:
     - _name: Border Button
       _id: 115ee7e6-d4b0-448e-848f-913a089e3d02
       _sprite: {fileID: 21300000, guid: 339d027675479994ab2c0400c2f6120a, type: 3}
+    - _name: Hover Sprite
+      _id: 83b2de50-2cf3-40bc-bfba-83c0113979b9
+      _sprite: {fileID: 21300000, guid: 72d77adbd025c2647be2f441ce56cfe8, type: 3}
+    _fonts:
+    - _name: Main Font
+      _id: 7b111555-c639-4655-9948-52030ad69aab
+      _font: {fileID: 12800000, guid: 6b4fe3cedd7c53e43b9b24c1e322bf9c, type: 3}
+    - _name: Seconf Font
+      _id: 2ac3a03c-5b7c-42cc-b2f2-fca40003b4ae
+      _font: {fileID: 12800000, guid: 548c8c56e38d508489854a09ac2f9126, type: 3}

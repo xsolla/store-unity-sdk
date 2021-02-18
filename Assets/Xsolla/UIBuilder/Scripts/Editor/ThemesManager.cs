@@ -211,6 +211,68 @@ namespace Xsolla.UIBuilder
 
 		#endregion
 
+		#region Fonts
+
+		public static void CreateFont()
+		{
+			var id = Guid.NewGuid().ToString();
+			var name = "New Font";
+
+			foreach (var theme in ThemesLibrary.Themes)
+			{
+				var prop = new FontProperty()
+				{
+					Id = id,
+					Name = name
+				};
+
+				theme.Fonts.Add(prop);
+			}
+		}
+
+		public static void DeleteFont(string id)
+		{
+			if (string.IsNullOrEmpty(id))
+				throw new ArgumentNullException(nameof(id));
+
+			foreach (var theme in ThemesLibrary.Themes)
+			{
+				var prop = theme.GetFontProperty(id);
+				if (prop != null)
+				{
+					theme.Fonts.Remove(prop);
+				}
+			}
+		}
+
+		public static void ChangeFontName(string id, string name)
+		{
+			if (string.IsNullOrEmpty(name))
+				throw new InvalidOperationException(nameof(id));
+
+			if (string.IsNullOrEmpty(name))
+				throw new InvalidOperationException(nameof(name));
+
+			foreach (var theme in ThemesLibrary.Themes)
+			{
+				var prop = theme.GetFontProperty(id);
+				if (prop != null)
+				{
+					prop.Name = name;
+				}
+			}
+		}
+
+		public static void ChangeFontsOrder(int oldIndex, int newIndex)
+		{
+			foreach (var theme in ThemesLibrary.Themes)
+			{
+				SwapElementsInList(theme.Fonts, oldIndex, newIndex);
+			}
+		}
+
+		#endregion
+
 		#region Utils
 
 		private static void SwapElementsInList<T>(List<T> list, int oldIndex, int newIndex)

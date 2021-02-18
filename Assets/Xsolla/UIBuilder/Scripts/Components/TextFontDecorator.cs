@@ -3,8 +3,8 @@ using UnityEngine.UI;
 
 namespace Xsolla.UIBuilder
 {
-	[AddComponentMenu("Xsolla/UI Builder/Text Color Decorator", 100)]
-	public class TextColorDecorator : ThemeDecorator
+	[AddComponentMenu("Xsolla/UI Builder/Text Font Decorator", 100)]
+	public class TextFontDecorator : ThemeDecorator
 	{
 		[SerializeField] private Text _text;
 
@@ -18,17 +18,17 @@ namespace Xsolla.UIBuilder
 		{
 			if (Text && theme != null)
 			{
-				ValidatePropertyId(theme.Colors);
-				ApplyColor(theme, PropertyId);
+				ValidatePropertyId(theme.Fonts);
+				ApplyFont(theme, PropertyId);
 
-				PointerOverrider.ValidatePropertyId(theme.Colors);
+				PointerOverrider.ValidatePropertyId(theme.Fonts);
 			}
 		}
 
 		protected override void Init()
 		{
-			PointerOverrider.ApplyAction = ApplyColor;
-			PointerOverrider.ResetAction = theme => ApplyColor(theme, PropertyId);
+			PointerOverrider.ApplyAction = ApplyFont;
+			PointerOverrider.ResetAction = theme => ApplyFont(theme, PropertyId);
 		}
 
 		protected override void CheckComponentExists()
@@ -36,16 +36,16 @@ namespace Xsolla.UIBuilder
 			AssignComponentIfNotExists(ref _text);
 		}
 
-		private void ApplyColor(Theme theme, string id)
+		private void ApplyFont(Theme theme, string id)
 		{
 			if (!Text)
 				return;
 
-			var prop = theme?.GetColorProperty(id);
+			var prop = theme?.GetFontProperty(id);
 			if (prop == null)
 				return;
 
-			Text.color = prop.Color;
+			Text.font = prop.Font;
 		}
 	}
 }

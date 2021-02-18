@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 namespace Xsolla.UIBuilder
 {
-	[AddComponentMenu("Xsolla/UI Builder/Image Sprite Decorator")]
+	[AddComponentMenu("Xsolla/UI Builder/Image Sprite Decorator", 100)]
 	public class ImageSpriteDecorator : ThemeDecorator
 	{
 		[SerializeField] private Image _image;
@@ -18,19 +18,42 @@ namespace Xsolla.UIBuilder
 		{
 			if (Image && theme != null)
 			{
-				ValidateSpritePropertyId(theme);
+				ValidatePropertyId(theme.Sprites);
+				ApplySprite(theme, PropertyId);
 
-				var prop = theme.GetSpriteProperty(PropertyId);
-				if (prop != null)
-				{
-					Image.sprite = prop.Sprite;
-				}
+				PointerOverrider.ValidatePropertyId(theme.Sprites);
 			}
+		}
+
+		protected override void Init()
+		{
+			PointerOverrider.ApplyAction = ApplySprite;
+			PointerOverrider.ResetAction = theme => ApplySprite(theme, PropertyId);
 		}
 
 		protected override void CheckComponentExists()
 		{
-			AssignComponentIfNotExists(ref _image);
+			if (!Image)
+			{
+				Image = GetComponent<Image>();
+			}
+
+			if (PointerOverrider == null)
+			{
+				PointerOverrider = new DecoratorPointerOverrider();
+			}
+		}
+
+		private void ApplySprite(Theme theme, string id)
+		{
+			if (!Image)
+				return;
+
+			var prop = theme.GetSpriteProperty(id);
+			if (prop == null)
+				return;
+
+			Image.sprite = prop.Sprite;
 		}
 	}
 }
