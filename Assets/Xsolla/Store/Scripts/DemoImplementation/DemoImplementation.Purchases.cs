@@ -14,7 +14,7 @@ namespace Xsolla.Demo
 			XsollaStore.Instance.ItemPurchase(XsollaSettings.StoreProjectId, item.Sku, data =>
 			{
 				XsollaStore.Instance.OpenPurchaseUi(data);
-				XsollaStore.Instance.ProcessOrder(XsollaSettings.StoreProjectId, data.order_id, () =>
+				XsollaStore.Instance.AddOrderForTracking(XsollaSettings.StoreProjectId, data.order_id, () =>
 				{
 					PurchaseComplete(item);
 					onSuccess?.Invoke(item);
@@ -69,7 +69,7 @@ namespace Xsolla.Demo
 								browser.BrowserClosedEvent += _ => onError?.Invoke(null);
 	#endif
 
-							XsollaStore.Instance.ProcessOrder(XsollaSettings.StoreProjectId, data.order_id, () =>
+							XsollaStore.Instance.AddOrderForTracking(XsollaSettings.StoreProjectId, data.order_id, () =>
 							{
 								PurchaseComplete(null, () => DemoController.Instance.SetPreviousState());
 								onSuccess?.Invoke(items);

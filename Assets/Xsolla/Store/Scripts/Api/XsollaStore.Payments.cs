@@ -161,37 +161,6 @@ namespace Xsolla.Store
 			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.OrderStatusErrors);
 		}
 
-		/// <summary>
-		/// Polls Store every 3 seconds to know when the payment is finished.
-		/// </summary>
-		/// <param name="projectId">Project ID from your Publisher Account.</param>
-		/// <param name="orderId">Unique identifier of the created order.</param>
-		/// <param name="onSuccess">Successful payment callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
-		public void ProcessOrder(string projectId, int orderId, Action onSuccess = null, Action<Error> onError = null)
-		{
-			StartCoroutine(CheckOrderStatus(projectId, orderId, onSuccess, onError));
-		}
-
-		IEnumerator CheckOrderStatus(string projectId, int orderId, Action onSuccess = null, Action<Error> onError = null)
-		{
-			// Wait for 3 seconds.
-			yield return new WaitForSeconds(3.0f);
-		
-			CheckOrderStatus(projectId, orderId, status =>
-			{
-				if ((status.Status != OrderStatusType.Paid) && (status.Status != OrderStatusType.Done))
-				{
-					StartCoroutine(CheckOrderStatus(projectId, orderId, onSuccess, onError));
-				}
-				else
-				{
-					Debug.Log($"Order `{orderId}` was successfully processed!");
-					onSuccess?.Invoke();
-				}
-			}, onError);
-		}
-
 		private TempPurchaseParams GenerateTempPurchaseParams(PurchaseParams purchaseParams)
 		{
 			return new TempPurchaseParams()
