@@ -37,6 +37,7 @@ namespace Xsolla.Core
 
 		[SerializeField] private string facebookAppId = default;
 		[SerializeField] private string googleServerId = default;
+		[SerializeField] private string wechatAppId = default;
 
 		[SerializeField] private bool useDeepLinking = false;
 		[SerializeField] private string deepLinkRedirectUrl = default;
@@ -55,7 +56,8 @@ namespace Xsolla.Core
 			}
 		}
 
-		public static bool UseSteamAuth {
+		public static bool UseSteamAuth
+		{
 			get => Instance.useSteamAuth;
 			set
 			{
@@ -63,8 +65,9 @@ namespace Xsolla.Core
 				MarkAssetDirty();
 			}
 		}
-		
-		public static string SteamAppId {
+
+		public static string SteamAppId
+		{
 			get => Instance.steamAppId;
 			set
 			{
@@ -133,7 +136,8 @@ namespace Xsolla.Core
 			}
 		}
 
-		public static bool UseConsoleAuth {
+		public static bool UseConsoleAuth
+		{
 			get => Instance.useConsoleAuth;
 			set
 			{
@@ -141,8 +145,9 @@ namespace Xsolla.Core
 				MarkAssetDirty();
 			}
 		}
-		
-		public static string UsernameFromConsolePlatform {
+
+		public static string UsernameFromConsolePlatform
+		{
 			get => Instance.usernameFromConsole;
 			set
 			{
@@ -191,7 +196,8 @@ namespace Xsolla.Core
 			}
 		}
 
-		public static PlatformType Platform {
+		public static PlatformType Platform
+		{
 			get => Instance.platform;
 			set
 			{
@@ -200,9 +206,11 @@ namespace Xsolla.Core
 			}
 		}
 
-		public static PaystationTheme PaystationTheme {
+		public static PaystationTheme PaystationTheme
+		{
 			get => Instance.paystationTheme;
-			set {
+			set
+			{
 				Instance.paystationTheme = value;
 				MarkAssetDirty();
 			}
@@ -238,6 +246,12 @@ namespace Xsolla.Core
 		{
 			get => Instance.googleServerId;
 			set => Instance.googleServerId = value;
+		}
+
+		public static string WeChatAppId
+		{
+			get => Instance.wechatAppId;
+			set => Instance.wechatAppId = value;
 		}
 
 		public static bool UseDeepLinking

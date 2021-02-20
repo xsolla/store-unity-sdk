@@ -8,6 +8,7 @@ namespace Xsolla.Core
 	{
 		const string FacebookAppIdTooltip = "Application ID from your Facebook developer page";
 		const string GoogleServerIdTooltip = "Server ID from your Google developer page";
+		const string WechatAppIdTooltip = "Application ID from your WeCHat developer page";
 
 		private bool AndroidSDKSettings()
 		{
@@ -28,6 +29,13 @@ namespace Xsolla.Core
 				if (googleServerId != XsollaSettings.GoogleServerId)
 				{
 					XsollaSettings.GoogleServerId = googleServerId;
+					changed = true;
+				}
+				
+				var wechatAppId = EditorGUILayout.TextField(new GUIContent("WeChat App ID [?]", WechatAppIdTooltip),  XsollaSettings.WeChatAppId);
+				if (wechatAppId != XsollaSettings.WeChatAppId)
+				{
+					XsollaSettings.WeChatAppId = wechatAppId;
 					changed = true;
 				}
 
