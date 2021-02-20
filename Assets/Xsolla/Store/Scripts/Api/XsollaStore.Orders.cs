@@ -61,7 +61,7 @@ namespace Xsolla.Store
 		private void Start()
 		{
 #if UNITY_WEBGL
-			XsollaWebCallbacks.PaymentStatusUpdate += _ =>
+			XsollaWebCallbacks.PaymentStatusUpdate += () => 
 			{
 				if (IsTrackingByPaystationCallbacks)
 				{
