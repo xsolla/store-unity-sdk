@@ -527,7 +527,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5694947723359115768}
   m_Layer: 5
-  m_Name: Collect
+  m_Name: CollectAvailable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -715,7 +715,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4037716624869359061}
   m_Layer: 5
-  m_Name: CollectLocked
+  m_Name: PremiumLocked
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -839,6 +839,11 @@ MonoBehaviour:
   QuantityLabel: {fileID: 7965781065633658278}
   QuantityText: {fileID: 245150338305182210}
   SelectionObject: {fileID: 6543398763885117348}
+  StateObjects:
+  - {fileID: 3412739991581838158}
+  - {fileID: 6272696765994104552}
+  - {fileID: 1619033469850363084}
+  - {fileID: 8798291537279105976}
 --- !u!1 &7803570868091005206
 GameObject:
   m_ObjectHideFlags: 0

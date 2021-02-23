@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Xsolla.Demo
 {
-	public class BattlePassPageContentController : MonoBehaviour
+	public class BattlePassDescriptionDistributor : MonoBehaviour
     {
 		[SerializeField] BattlePassDescriptionProvider DescriptionProvider = default;
 		[SerializeField] BaseBattlePassDescriptionSubscriber[] DescriptionSubscribers = default;
