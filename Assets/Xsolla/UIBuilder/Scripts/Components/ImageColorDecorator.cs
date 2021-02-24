@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 namespace Xsolla.UIBuilder
 {
-	[AddComponentMenu("Xsolla/UI Builder/Image Color Decorator")]
+	[AddComponentMenu("Xsolla/UI Builder/Image Color Decorator", 100)]
 	public class ImageColorDecorator : ThemeDecorator
 	{
 		[SerializeField] private Image _image;
@@ -18,19 +18,34 @@ namespace Xsolla.UIBuilder
 		{
 			if (Image && theme != null)
 			{
-				ValidateColorPropertyId(theme);
+				ValidatePropertyId(theme.Colors);
+				ApplyColor(theme, PropertyId);
 
-				var prop = theme.GetColorProperty(PropertyId);
-				if (prop != null)
-				{
-					Image.color = prop.Color;
-				}
+				PointerOverrider.ValidatePropertyId(theme.Colors);
 			}
+		}
+
+		protected override void Init()
+		{
+			PointerOverrider.ApplyAction = ApplyColor;
+			PointerOverrider.ResetAction = theme => ApplyColor(theme, PropertyId);
 		}
 
 		protected override void CheckComponentExists()
 		{
 			AssignComponentIfNotExists(ref _image);
+		}
+
+		private void ApplyColor(Theme theme, string id)
+		{
+			if (!Image)
+				return;
+
+			var prop = theme?.GetColorProperty(id);
+			if (prop == null)
+				return;
+
+			Image.color = prop.Color;
 		}
 	}
 }

@@ -16,6 +16,8 @@ namespace Xsolla.UIBuilder
 
 		[SerializeField] private List<SpriteProperty> _sprites;
 
+		[SerializeField] private List<FontProperty> _fonts;
+
 		public string Name
 		{
 			get => _name;
@@ -40,6 +42,12 @@ namespace Xsolla.UIBuilder
 			set => _sprites = value;
 		}
 
+		public List<FontProperty> Fonts
+		{
+			get => _fonts;
+			set => _fonts = value;
+		}
+
 		public ColorProperty GetColorProperty(string id)
 		{
 			return Colors.FirstOrDefault(x => x.Id == id);
@@ -50,6 +58,11 @@ namespace Xsolla.UIBuilder
 			return Sprites.FirstOrDefault(x => x.Id == id);
 		}
 
+		public FontProperty GetFontProperty(string id)
+		{
+			return Fonts.FirstOrDefault(x => x.Id == id);
+		}
+
 		public Theme()
 		{
 			_id = Guid.NewGuid().ToString();
@@ -57,6 +70,7 @@ namespace Xsolla.UIBuilder
 
 			_colors = new List<ColorProperty>();
 			_sprites = new List<SpriteProperty>();
+			_fonts = new List<FontProperty>();
 		}
 
 		public Theme(Theme source)
@@ -65,29 +79,42 @@ namespace Xsolla.UIBuilder
 			_name = $"{source._name} (0)";
 
 			_colors = new List<ColorProperty>();
-			foreach (var colorProp in source.Colors)
+			foreach (var sourceProp in source._colors)
 			{
 				var prop = new ColorProperty
 				{
-					Id = colorProp.Id,
-					Name = colorProp.Name,
-					Color = colorProp.Color
+					Id = sourceProp.Id,
+					Name = sourceProp.Name,
+					Color = sourceProp.Color
 				};
 
 				_colors.Add(prop);
 			}
 
 			_sprites = new List<SpriteProperty>();
-			foreach (var spriteProp in source.Sprites)
+			foreach (var sourceProp in source._sprites)
 			{
 				var prop = new SpriteProperty
 				{
-					Id = spriteProp.Id,
-					Name = spriteProp.Name,
-					Sprite = spriteProp.Sprite
+					Id = sourceProp.Id,
+					Name = sourceProp.Name,
+					Sprite = sourceProp.Sprite
 				};
 
 				_sprites.Add(prop);
+			}
+
+			_fonts = new List<FontProperty>();
+			foreach (var sourceProp in source.Fonts)
+			{
+				var prop = new FontProperty
+				{
+					Id = sourceProp.Id,
+					Name = sourceProp.Name,
+					Font = sourceProp.Font
+				};
+
+				_fonts.Add(prop);
 			}
 		}
 	}

@@ -13,6 +13,8 @@ namespace Xsolla.UIBuilder
 
 		private readonly BaseDrawer SpritesDrawer = new SpritesDrawer();
 
+		private readonly BaseDrawer FontsDrawer = new FontsDrawer();
+
 		private Vector2 ScrollPosition { get; set; }
 
 		public float PropLabelsWidth { get; set; }
@@ -25,7 +27,6 @@ namespace Xsolla.UIBuilder
 			PropLabelsWidth = position.width / (themes.Count + 2);
 
 			ScrollPosition = EditorGUILayout.BeginScrollView(ScrollPosition);
-
 			EditorGUIUtility.labelWidth = 1f;
 
 			EditorGUILayout.Space();
@@ -40,8 +41,10 @@ namespace Xsolla.UIBuilder
 			EditorGUILayout.Space();
 			SpritesDrawer.Draw(this);
 
-			EditorGUIUtility.labelWidth = 0;
+			EditorGUILayout.Space();
+			FontsDrawer.Draw(this);
 
+			EditorGUIUtility.labelWidth = 0;
 			EditorGUILayout.EndScrollView();
 
 			if (GUI.changed)

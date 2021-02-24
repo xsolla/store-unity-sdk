@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Xsolla.UIBuilder
@@ -7,20 +8,35 @@ namespace Xsolla.UIBuilder
 	{
 		[SerializeField] private string _propertyId;
 
+		[SerializeField] private DecoratorPointerOverrider _pointerOverrider;
+
 		protected string PropertyId
 		{
 			get => _propertyId;
 			set => _propertyId = value;
 		}
 
+		public DecoratorPointerOverrider PointerOverrider
+		{
+			get => _pointerOverrider;
+			set => _pointerOverrider = value;
+		}
+
+		protected void Awake()
+		{
+			Init();
+		}
+
 		protected void OnEnable()
 		{
+			PointerOverrider.OnEnable();
 			ThemesLibrary.CurrentChanged += OnCurrentThemeChanged;
 			ApplyTheme(ThemesLibrary.Current);
 		}
 
 		protected void OnDisable()
 		{
+			PointerOverrider.OnDisable();
 			ThemesLibrary.CurrentChanged -= OnCurrentThemeChanged;
 		}
 
@@ -32,6 +48,11 @@ namespace Xsolla.UIBuilder
 		protected void Reset()
 		{
 			CheckComponentExists();
+
+			if (PointerOverrider == null)
+			{
+				PointerOverrider = new DecoratorPointerOverrider();
+			}
 		}
 
 		private void OnCurrentThemeChanged(Theme theme)
@@ -40,6 +61,8 @@ namespace Xsolla.UIBuilder
 		}
 
 		public abstract void ApplyTheme(Theme theme);
+
+		protected abstract void Init();
 
 		protected abstract void CheckComponentExists();
 
@@ -51,20 +74,11 @@ namespace Xsolla.UIBuilder
 			}
 		}
 
-		protected void ValidateColorPropertyId(Theme theme)
+		protected void ValidatePropertyId<T>(IEnumerable<T> properties) where T : ThemeProperty
 		{
 			if (string.IsNullOrEmpty(PropertyId))
 			{
-				var prop = theme.Colors.FirstOrDefault();
-				PropertyId = prop != null ? prop.Id : string.Empty;
-			}
-		}
-
-		protected void ValidateSpritePropertyId(Theme theme)
-		{
-			if (string.IsNullOrEmpty(PropertyId))
-			{
-				var prop = theme.Sprites.FirstOrDefault();
+				var prop = properties.FirstOrDefault();
 				PropertyId = prop != null ? prop.Id : string.Empty;
 			}
 		}
