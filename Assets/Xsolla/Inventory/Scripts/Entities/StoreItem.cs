@@ -82,6 +82,7 @@ namespace Xsolla.Store
 		public string type;
 		public string virtual_item_type;
 		public string description;
+		public string long_description;
 		public string image_url;
 		public bool is_free;
 		public Price price;

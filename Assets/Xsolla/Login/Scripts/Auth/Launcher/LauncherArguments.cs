@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using Newtonsoft.Json.Utilities;
 using Xsolla.Core;
@@ -20,7 +20,12 @@ namespace Xsolla.Demo
 				return string.Empty;
 			}
 
-			var tokenParamValueIndex = commandLineArgs.IndexOf(a => a.Contains(LAUNCHER_TOKEN)) + 1;
+			var tokenParamValueIndex = default(int);
+			for (int i = 0; i < commandLineArgs.Length; i++)
+			{
+				if (commandLineArgs[i].Contains(LAUNCHER_TOKEN))
+					tokenParamValueIndex = i + 1;
+			}
 
 			if (tokenParamValueIndex < commandLineArgs.Length)
 			{

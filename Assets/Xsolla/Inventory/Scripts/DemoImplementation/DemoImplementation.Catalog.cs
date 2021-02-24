@@ -206,6 +206,7 @@ namespace Xsolla.Demo
 			model.Sku = item.sku;
 			model.Name = item.name;
 			model.Description = item.description;
+			model.LongDescription = item.long_description;
 			model.ImageUrl = item.image_url;
 		}
 
