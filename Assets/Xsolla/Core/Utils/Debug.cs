@@ -32,18 +32,3 @@ namespace Xsolla.Core
 		}
 	}
 }
-
-namespace Xsolla.Demo
-{
-	public class Debug : Xsolla.Core.Debug { }
-}
-
-namespace Xsolla.Login
-{
-	public class Debug : Xsolla.Core.Debug { }
-}
-
-namespace Xsolla.Store
-{
-	public class Debug : Xsolla.Core.Debug { }
-}

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52405bf87e920c34796e9e06cc914ce8, type: 3}
   m_Name: XsollaSettings
   m_EditorClassIdentifier: 
-  loginId: a68cd543-ed2c-11ea-b068-42010aa80004
+  loginId: 026201e3-7e40-11ea-a85b-42010aa80004
   useProxy: 0
   callbackUrl: 
   authorizationType: 0
@@ -33,6 +33,7 @@ MonoBehaviour:
   packInAppBrowserInBuild: 1
   facebookAppId: 
   googleServerId: 
+  wechatAppId: 
   useDeepLinking: 0
   deepLinkRedirectUrl: 
   webStoreUrl: https://sitebuilder.xsolla.com/game/sdk-web-store/
