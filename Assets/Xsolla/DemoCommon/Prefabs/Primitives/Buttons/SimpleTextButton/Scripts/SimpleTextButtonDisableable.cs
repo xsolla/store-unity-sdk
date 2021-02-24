@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
+using Xsolla.UIBuilder;
 
 namespace Xsolla.Demo
 {
@@ -7,17 +9,37 @@ namespace Xsolla.Demo
 		[SerializeField] Sprite disabledStateSprite = default;
 		[SerializeField] Color disabledTextColor = default;
 
-		public void Disable()
-		{
-			base.Lock();
-			base.SetImageSprite(disabledStateSprite);
-			base.ButtonTextComponent.color = disabledTextColor;
-		}
+		[Space]
+		[SerializeField] private DecoratorPointerEvents DecoratorPointerEvents = default;
+
+		[SerializeField] private Image DisableImage = default;
+		[SerializeField] private SpritePropertyProvider NormalSpriteProp = default;
+		[SerializeField] private SpritePropertyProvider DisabledSpriteProp = default;
+		[SerializeField] private ColorPropertyProvider NormalImageColorProp = default;
+		[SerializeField] private ColorPropertyProvider DisabledImageColorProp = default;
+
+		[SerializeField] private Text DisableText = default;
+		[SerializeField] private ColorPropertyProvider NormalTextColorProp = default;
+		[SerializeField] private ColorPropertyProvider DisabledTextColorProp = default;
 
 		public void Enable()
 		{
-			base.Unlock();
-			base.OnNormal();
+			DisableImage.sprite = NormalSpriteProp.GetSprite();
+			DisableImage.color = NormalImageColorProp.GetColor();
+			DisableText.color = NormalTextColorProp.GetColor();
+
+			DecoratorPointerEvents.IsMute = false;
+			Unlock();
+		}
+
+		public void Disable()
+		{
+			Lock();
+			DecoratorPointerEvents.IsMute = true;
+
+			DisableImage.sprite = DisabledSpriteProp.GetSprite();
+			DisableImage.color = DisabledImageColorProp.GetColor();
+			DisableText.color = DisabledTextColorProp.GetColor();
 		}
 	}
 }
