@@ -1,9 +1,8 @@
 ﻿using System;
-using UnityEngine;
 
 namespace Xsolla.Core
 {
-	public partial class XsollaWebCallbacks : MonoBehaviour
+	public partial class XsollaWebCallbacks : MonoSingleton<XsollaWebCallbacks>
 	{
 		public static event Action<object> MessageReceived;
 
@@ -12,16 +11,10 @@ namespace Xsolla.Core
 			MessageReceived?.Invoke(message);
 		}
 
-		public static XsollaWebCallbacks Instance { get; private set; }
-
-		public static void CreateInstance()
+		public override void Init()
 		{
-			if (!Instance)
-			{
-				var go = new GameObject("XsollaWebCallbacks");
-				Instance = go.AddComponent<XsollaWebCallbacks>();
-				DontDestroyOnLoad(go);
-			}
+			base.Init();
+			gameObject.name = "XsollaWebCallbacks";
 		}
 	}
 }
