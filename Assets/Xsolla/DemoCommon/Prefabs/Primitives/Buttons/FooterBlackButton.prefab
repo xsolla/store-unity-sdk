@@ -64,7 +64,7 @@ MonoBehaviour:
   hoverStateSprite: {fileID: 21300000, guid: 2652c42064f0346d28705e364de95eab, type: 3}
   pressedStateSprite: {fileID: 21300000, guid: 01a96168d65c24e22ad4e87fde3305fa, type: 3}
   buttonText: {fileID: 5070644881754609076}
-  normalTextColor: {r: 1, g: 0, b: 0.35686275, a: 1}
+  normalTextColor: {r: 1, g: 1, b: 1, a: 0.7058824}
   hoverTextColor: {r: 1, g: 1, b: 1, a: 1}
   pressedTextColor: {r: 1, g: 0, b: 0.35686275, a: 1}
 --- !u!1 &1690230106019568674
@@ -121,17 +121,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 1690230106019568674}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Sprite: {fileID: 21300000, guid: 01a96168d65c24e22ad4e87fde3305fa, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
@@ -141,6 +140,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &4411083989550407929
 GameObject:
   m_ObjectHideFlags: 0
@@ -195,17 +195,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 4411083989550407929}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0.35686275, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.7058824}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: f70b0d194d863d14eaa3261671349a4b, type: 3}
     m_FontSize: 19

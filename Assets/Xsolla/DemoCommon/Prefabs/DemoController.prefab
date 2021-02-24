@@ -103,107 +103,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6389733742678192272}
     m_Modifications:
-    - target: {fileID: 6003545067062460712, guid: 4c9de83f6301c4c08b382f0fd508f1f4,
+    - target: {fileID: 6003545067062460713, guid: 4c9de83f6301c4c08b382f0fd508f1f4,
         type: 3}
-      propertyPath: initialState
+      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6003545067062460712, guid: 4c9de83f6301c4c08b382f0fd508f1f4,
-        type: 3}
-      propertyPath: authMenuPrefab
-      value: 
-      objectReference: {fileID: 7907913669611144744, guid: c89eccb3c8399904d977130e0d8afe56,
-        type: 3}
-    - target: {fileID: 6003545067062460712, guid: 4c9de83f6301c4c08b382f0fd508f1f4,
-        type: 3}
-      propertyPath: authFailedMenuPrefab
-      value: 
-      objectReference: {fileID: 860802679669836760, guid: 2168f73684fbbd0478f39b01f8eaab0a,
-        type: 3}
-    - target: {fileID: 6003545067062460712, guid: 4c9de83f6301c4c08b382f0fd508f1f4,
-        type: 3}
-      propertyPath: registrationMenuPrefab
-      value: 
-      objectReference: {fileID: 2444199083377736940, guid: a06f3d8450391f1419578b9f5e0ff526,
-        type: 3}
-    - target: {fileID: 6003545067062460712, guid: 4c9de83f6301c4c08b382f0fd508f1f4,
-        type: 3}
-      propertyPath: registrationFailedMenuPrefab
-      value: 
-      objectReference: {fileID: 860802679669836760, guid: 2168f73684fbbd0478f39b01f8eaab0a,
-        type: 3}
-    - target: {fileID: 6003545067062460712, guid: 4c9de83f6301c4c08b382f0fd508f1f4,
-        type: 3}
-      propertyPath: registrationSuccessMenuPrefab
-      value: 
-      objectReference: {fileID: 8190964347215985164, guid: ae2895290ef37114a83270a9a0f73e1f,
-        type: 3}
-    - target: {fileID: 6003545067062460712, guid: 4c9de83f6301c4c08b382f0fd508f1f4,
-        type: 3}
-      propertyPath: changePasswordMenuPrefab
-      value: 
-      objectReference: {fileID: 7817862460140412975, guid: 63fb8b9e261908045a58310805c06cf4,
-        type: 3}
-    - target: {fileID: 6003545067062460712, guid: 4c9de83f6301c4c08b382f0fd508f1f4,
-        type: 3}
-      propertyPath: changePasswordFailedMenuPrefab
-      value: 
-      objectReference: {fileID: 860802679669836760, guid: 2168f73684fbbd0478f39b01f8eaab0a,
-        type: 3}
-    - target: {fileID: 6003545067062460712, guid: 4c9de83f6301c4c08b382f0fd508f1f4,
-        type: 3}
-      propertyPath: changePasswordSuccessMenuPrefab
-      value: 
-      objectReference: {fileID: 7512206854554231357, guid: c62b071f0afa79b4a803aa754c36e1de,
-        type: 3}
-    - target: {fileID: 6003545067062460712, guid: 4c9de83f6301c4c08b382f0fd508f1f4,
-        type: 3}
-      propertyPath: mainMenuPrefab
-      value: 
-      objectReference: {fileID: 7587026821285697339, guid: 2c6e9cffab0accf4885527094dcd8e45,
-        type: 3}
-    - target: {fileID: 6003545067062460712, guid: 4c9de83f6301c4c08b382f0fd508f1f4,
-        type: 3}
-      propertyPath: buyCurrencyMenuPrefab
-      value: 
-      objectReference: {fileID: 5920836100163376800, guid: 15e31fa00847745c09f431c2fac9e3b3,
-        type: 3}
-    - target: {fileID: 6003545067062460712, guid: 4c9de83f6301c4c08b382f0fd508f1f4,
-        type: 3}
-      propertyPath: profileMenuPrefab
-      value: 
-      objectReference: {fileID: 6843898244374627520, guid: 1048628c3a390c04bab761d00f2ccb0f,
-        type: 3}
-    - target: {fileID: 6003545067062460712, guid: 4c9de83f6301c4c08b382f0fd508f1f4,
-        type: 3}
-      propertyPath: characterMenuPrefab
-      value: 
-      objectReference: {fileID: 6843898244374627520, guid: 154f4dc4039983f45b87cd72621eb453,
-        type: 3}
-    - target: {fileID: 6003545067062460712, guid: 4c9de83f6301c4c08b382f0fd508f1f4,
-        type: 3}
-      propertyPath: friendsMenuPrefab
-      value: 
-      objectReference: {fileID: 7187304734922887917, guid: 4886fcf4b72474ee99c777a007a7e5c1,
-        type: 3}
-    - target: {fileID: 6003545067062460712, guid: 4c9de83f6301c4c08b382f0fd508f1f4,
-        type: 3}
-      propertyPath: socialFriendsMenuPrefab
-      value: 
-      objectReference: {fileID: 7106663182902892708, guid: 1281d98bd7bc8e08f80b46c1624d9509,
-        type: 3}
-    - target: {fileID: 6003545067062460712, guid: 4c9de83f6301c4c08b382f0fd508f1f4,
-        type: 3}
-      propertyPath: loginSettingsErrorPrefab
-      value: 
-      objectReference: {fileID: 860802679669836760, guid: cf24102a48934604f83eb36f1e712329,
-        type: 3}
-    - target: {fileID: 6003545067062460712, guid: 4c9de83f6301c4c08b382f0fd508f1f4,
-        type: 3}
-      propertyPath: characterMenuPrefabLoginSDK
-      value: 
-      objectReference: {fileID: 6843898244374627520, guid: 39d876024bd071247bd5627ea274ccbe,
-        type: 3}
     - target: {fileID: 6003545067062460713, guid: 4c9de83f6301c4c08b382f0fd508f1f4,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -221,6 +125,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6003545067062460713, guid: 4c9de83f6301c4c08b382f0fd508f1f4,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6003545067062460713, guid: 4c9de83f6301c4c08b382f0fd508f1f4,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
@@ -232,16 +141,6 @@ PrefabInstance:
     - target: {fileID: 6003545067062460713, guid: 4c9de83f6301c4c08b382f0fd508f1f4,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6003545067062460713, guid: 4c9de83f6301c4c08b382f0fd508f1f4,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6003545067062460713, guid: 4c9de83f6301c4c08b382f0fd508f1f4,
-        type: 3}
-      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6003545067062460713, guid: 4c9de83f6301c4c08b382f0fd508f1f4,
