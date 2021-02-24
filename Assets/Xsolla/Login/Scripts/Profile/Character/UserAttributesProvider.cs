@@ -7,10 +7,10 @@ namespace Xsolla.Demo
 {
 	public class UserAttributesProvider : UserAttributesRequestBase
 	{
-		[SerializeField] private AttributeItemsManager ItemsManager = default;
+		[SerializeField] private BaseAttributeManager ItemsManager = default;
 		[SerializeField] private UserAttributeType AttributeType = default;
 
-		private void Start()
+		public void ProvideUserAttributes()
 		{
 			if (!base.IsRequestPossible)
 				return;

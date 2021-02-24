@@ -4,7 +4,7 @@ using Xsolla.Login;
 
 namespace Xsolla.Demo
 {
-	[RequireComponent(typeof(AttributeItemsManager))]
+	[RequireComponent(typeof(CharacterAttributeItemsManager))]
 	public class AttributeItemsManagerDebug : MonoBehaviour
 	{
 		private List<UserAttribute> _readonlyAttributes = new List<UserAttribute>
@@ -21,7 +21,7 @@ namespace Xsolla.Demo
 
 		private void Awake()
 		{
-			var manager = GetComponent<AttributeItemsManager>();
+			var manager = GetComponent<CharacterAttributeItemsManager>();
 
 			manager.Initialize(_readonlyAttributes, _customAttributes);
 

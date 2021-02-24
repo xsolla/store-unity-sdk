@@ -6,7 +6,7 @@ using Xsolla.Login;
 
 namespace Xsolla.Demo
 {
-	public class AttributeItemsManager : MonoBehaviour
+	public class CharacterAttributeItemsManager : BaseAttributeManager
 	{
 		[SerializeField] GameObject AttributeItemPrefab = default;
 		[SerializeField] Transform CustomAttributesParentTransform = default;
@@ -22,9 +22,6 @@ namespace Xsolla.Demo
 		private List<string> _removedAttributes;
 		private bool _isInitialized;
 		private bool _isAlive;
-
-		public Action<List<string>> OnRemoveUserAttributes;
-		public Action<List<UserAttribute>> OnUpdateUserAttributes;
 
 		private void Awake()
 		{
@@ -47,7 +44,7 @@ namespace Xsolla.Demo
 			AttributeItem.OnRemoveRequest -= HandleRemoveRequest;
 		}
 
-		public void Initialize(List<UserAttribute> userReadOnlyAttributes = null, List<UserAttribute> userCustomAttributes = null)
+		public override void Initialize(List<UserAttribute> userReadOnlyAttributes = null, List<UserAttribute> userCustomAttributes = null)
 		{
 			if(!_isAlive)//This method may be called after user switched to another page, this is a workaround to this problem
 				return;
@@ -110,17 +107,17 @@ namespace Xsolla.Demo
 		{
 			if (attributeItem.IsReadOnly)
 			{
-				Debug.LogError($"AttributeItemsManager.HandleKeyChanged: Attempt to change key of read-only attribute. OldKey:{oldKey} NewKey:{newKey}");
+				Debug.LogError($"CharacterAttributeItemsManager.HandleKeyChanged: Attempt to change key of read-only attribute. OldKey:{oldKey} NewKey:{newKey}");
 				attributeItem.Key = oldKey;
 			}
 			else if (newKey.Length > 256 || !Regex.IsMatch(newKey, "^[A-Za-z0-9_]+$"))
 			{
-				Debug.Log($"AttributeItemsManager.HandleKeyChanged: New key does not follow rules MaxLength:256 Pattern:[A-Za-z0-9_]+ OldKey:{oldKey} NewKey:{newKey}");
+				Debug.Log($"CharacterAttributeItemsManager.HandleKeyChanged: New key does not follow rules MaxLength:256 Pattern:[A-Za-z0-9_]+ OldKey:{oldKey} NewKey:{newKey}");
 				attributeItem.Key = oldKey;
 			}
 			else if (_customAttributes.ContainsKey(newKey))
 			{
-				Debug.Log($"AttributeItemsManager.HandleKeyChanged: This key already exists. Key:{newKey}");
+				Debug.Log($"CharacterAttributeItemsManager.HandleKeyChanged: This key already exists. Key:{newKey}");
 				attributeItem.Key = oldKey;
 			}
 			else
@@ -142,12 +139,12 @@ namespace Xsolla.Demo
 		{
 			if (attributeItem.IsReadOnly)
 			{
-				Debug.LogError($"AttributeItemsManager.HandleValueChanged: Attempt to change value of read-only attribute. Key:{attributeItem.Key} OldValue:{oldValue} NewValue:{newValue}");
+				Debug.LogError($"CharacterAttributeItemsManager.HandleValueChanged: Attempt to change value of read-only attribute. Key:{attributeItem.Key} OldValue:{oldValue} NewValue:{newValue}");
 				attributeItem.Value = oldValue;
 			}
 			else if (newValue.Length > 256)
 			{
-				Debug.Log($"AttributeItemsManager.HandleValueChanged: New value does not follow rule MaxLength:256 Key:{attributeItem.Key} OldValue:{oldValue} NewValue:{newValue}");
+				Debug.Log($"CharacterAttributeItemsManager.HandleValueChanged: New value does not follow rule MaxLength:256 Key:{attributeItem.Key} OldValue:{oldValue} NewValue:{newValue}");
 				attributeItem.Value = oldValue;
 			}
 			else
@@ -160,7 +157,7 @@ namespace Xsolla.Demo
 		{
 			if (attributeItem.IsReadOnly)
 			{
-				Debug.LogError($"AttributeItemsManager.HandleRemoveRequest: Attempt to remove read-only attribute. Key:{attributeItem.Key} Value:{attributeItem.Value}");
+				Debug.LogError($"CharacterAttributeItemsManager.HandleRemoveRequest: Attempt to remove read-only attribute. Key:{attributeItem.Key} Value:{attributeItem.Value}");
 			}
 			else
 			{
@@ -207,7 +204,7 @@ namespace Xsolla.Demo
 
 			if (_removedAttributes.Count > 0)
 			{
-				OnRemoveUserAttributes?.Invoke(_removedAttributes);
+				base.RaiseOnRemoveUserAttributes(_removedAttributes);
 				_removedAttributes = new List<string>();
 			}
 
@@ -243,7 +240,7 @@ namespace Xsolla.Demo
 			}
 
 			if (modifiedAttributes.Count > 0)
-				OnUpdateUserAttributes?.Invoke(modifiedAttributes);
+				base.RaiseOnUpdateUserAttributes(modifiedAttributes);
 		}
 	}
 }

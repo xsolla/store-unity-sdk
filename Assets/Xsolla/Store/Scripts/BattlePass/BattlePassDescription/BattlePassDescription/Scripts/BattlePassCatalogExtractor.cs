@@ -14,7 +14,7 @@ namespace Xsolla.Demo
 			var items = UserCatalog.Instance.AllItems;
 			var inventoryDemoImplementation = DemoController.Instance.InventoryDemo;
 			var battlepassItems = items.Where(item => inventoryDemoImplementation.GetCatalogGroupsByItem(item).Contains(BATTLEPASS_GROUP));
-			battlepassItems = battlepassItems.Where(item => !item.Name.EndsWith(BATTLEPASS_UTIL_SUFFIX, StringComparison.InvariantCultureIgnoreCase));
+			battlepassItems = battlepassItems.Where(item => !item.Name.Contains(BATTLEPASS_UTIL_SUFFIX));
 
 			if (battlepassItems.Any())
 				base.RaiseBattlePassItemsExtracted(battlepassItems);

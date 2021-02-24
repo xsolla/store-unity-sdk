@@ -6,7 +6,7 @@ namespace Xsolla.Demo
 {
 	public class UserAttributesUpdater : UserAttributesRequestBase
 	{
-		[SerializeField] private AttributeItemsManager ItemsManager = default;
+		[SerializeField] private BaseAttributeManager ItemsManager = default;
 
 		private void Awake()
 		{

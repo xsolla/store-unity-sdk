@@ -178,6 +178,8 @@ MonoBehaviour:
   LevelLabel: {fileID: 2133342793073396075}
   FreeItem: {fileID: 7863663732641077301}
   PremiumItem: {fileID: 341258316397692507}
+  CurrentLevelFontSize: 34
+  CurrentLevelHighlight: {fileID: 7536369863000697235}
 --- !u!1 &7536369863000697235
 GameObject:
   m_ObjectHideFlags: 0
