@@ -1,8 +1,10 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Xsolla.Core;
+using Xsolla.UIBuilder;
 
 namespace Xsolla.Demo
 {
@@ -17,15 +19,14 @@ namespace Xsolla.Demo
 		[SerializeField] Sprite selectedStateSprite = default;
 		[SerializeField] Sprite hoverStateSprite = default;
 		[SerializeField] Sprite pressedStateSprite = default;
-
-		[SerializeField] Color normalStateTextColor = default;
-		[SerializeField] Color selectedStateTextColor = default;
-		[SerializeField] Color hoverStateTextColor = default;
-		[SerializeField] Color pressedStateTextColor = default;
-
+		
 		[SerializeField] bool capitalizeText = true;
 
 		[SerializeField] bool isSelectable = true;
+		[SerializeField] private DecoratorPointerEvents DecoratorPointerEvents = default;
+		[SerializeField] private Text SelectedText = default;
+		[SerializeField] private ColorPropertyProvider NormalTextColor = default;
+		[SerializeField] private ColorPropertyProvider SelectedTextColor = default;
 
 		bool _isClickInProgress;
 		bool _isSelected;
@@ -155,25 +156,32 @@ namespace Xsolla.Demo
 		protected virtual void OnNormal()
 		{
 			SetImageSprite(image, normalStateSprite);
-			text.color = normalStateTextColor;
+			DecoratorPointerEvents.IsMute = false;
+			StartCoroutine(DoChangeColorOnNextFrame(NormalTextColor.GetColor()));
 		}
 
 		protected virtual void OnHover()
 		{
 			SetImageSprite(image, hoverStateSprite);
-			text.color = hoverStateTextColor;
 		}
 
 		protected virtual void OnPressed()
 		{
 			SetImageSprite(image, pressedStateSprite);
-			text.color = pressedStateTextColor;
 		}
 
 		protected virtual void OnSelected()
 		{
 			SetImageSprite(image, selectedStateSprite);
-			text.color = selectedStateTextColor;
+			DecoratorPointerEvents.IsMute = false;
+			StartCoroutine(DoChangeColorOnNextFrame(SelectedTextColor.GetColor()));
+		}
+
+		private IEnumerator DoChangeColorOnNextFrame(Color color)
+		{
+			yield return null;
+			DecoratorPointerEvents.IsMute = false;
+			SelectedText.color = color;
 		}
 	}
 }

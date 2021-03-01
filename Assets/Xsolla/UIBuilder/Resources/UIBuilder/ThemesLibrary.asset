@@ -17,76 +17,472 @@ MonoBehaviour:
   - _name: Xsolla
     _id: 1b679e97-27e4-4f2b-8aac-4dd58f3e8581
     _colors:
-    - _name: Main Color
+    - _name: Base Background Color
+      _id: 2a5a816b-0b34-4462-a11c-94ae69041b5d
+      _color: {r: 1, g: 1, b: 1, a: 1}
+    - _name: Left Background Color
+      _id: 56d30534-ac79-4e61-b765-6e6e02531ecb
+      _color: {r: 1, g: 1, b: 1, a: 1}
+    - _name: Top Background Color
+      _id: 66b9e6ff-d325-476f-9307-af7877402265
+      _color: {r: 1, g: 1, b: 1, a: 1}
+    - _name: Common Text
+      _id: a888e9eb-55a8-4cb6-95f2-87c223ebc893
+      _color: {r: 1, g: 1, b: 1, a: 1}
+    - _name: Description Text
+      _id: f082ce88-2612-4821-9daa-8d421f912d8e
+      _color: {r: 1, g: 1, b: 1, a: 0.5019608}
+    - _name: Logo Color
+      _id: 2bd99ceb-7235-48e9-a8bc-70fdc919a284
+      _color: {r: 0.9716981, g: 0.9716981, b: 0.9716981, a: 1}
+    - _name: Main Button
       _id: e9c672ce-cad6-4ddf-8fe4-20b3b665f12e
       _color: {r: 1, g: 0, b: 0.35686275, a: 1}
-    - _name: Second Color
+    - _name: Main Button Hover
+      _id: 81ac4dd1-5977-48bb-bf5a-922ec5905155
+      _color: {r: 0.83137256, g: 0, b: 0.29803923, a: 1}
+    - _name: Main Button Disabled
+      _id: 111a067e-8ef9-4732-ab9b-3197ae1e3c75
+      _color: {r: 0.8313726, g: 0, b: 0.29803923, a: 0.5019608}
+    - _name: Main Button Text
+      _id: 8d406015-69a9-402e-aa9e-e28e56a8264c
+      _color: {r: 1, g: 1, b: 1, a: 1}
+    - _name: Main Button Text Disabled
+      _id: 05c23a2f-fe24-4e07-935d-9f37d02c67b5
+      _color: {r: 1, g: 1, b: 1, a: 0.7058824}
+    - _name: Input Back
+      _id: 8448ca8c-1a44-4019-94a1-3ada7306f71c
+      _color: {r: 0, g: 0.08627451, b: 0.14901961, a: 0.5019608}
+    - _name: Input Border
+      _id: 1a20bec4-d4b3-4606-bf0b-bf1a728a7f47
+      _color: {r: 0.4716981, g: 0.4716981, b: 0.4716981, a: 0.54509807}
+    - _name: Input Border Hover
+      _id: e8c53602-b203-4d3f-bb64-e06c91fb271c
+      _color: {r: 1, g: 0, b: 0.35686275, a: 1}
+    - _name: Hyperlink
+      _id: 5951064b-e847-4e0a-8996-71df5fc3526d
+      _color: {r: 0.990566, g: 0.990566, b: 0.990566, a: 0.6862745}
+    - _name: Hyperlink Hover
+      _id: ff860625-4654-4245-9659-0daf1362e446
+      _color: {r: 1, g: 1, b: 1, a: 1}
+    - _name: Social Button
+      _id: 21dc8235-80c2-4dd4-b5c6-40afe994b474
+      _color: {r: 1, g: 1, b: 1, a: 1}
+    - _name: Social Button Hover
+      _id: 8a69aa1d-8a69-4fab-89ab-0b979e74df8c
+      _color: {r: 1, g: 1, b: 1, a: 1}
+    - _name: Social Provider Button
+      _id: 9a1dec11-9f99-4de0-9d99-16909d691d1d
+      _color: {r: 0.9716981, g: 0.9716981, b: 0.9716981, a: 1}
+    - _name: Social Provider Button Hover
+      _id: b019858e-c4a8-4ed5-a2b8-d1f392765585
+      _color: {r: 1, g: 0, b: 0.35686275, a: 1}
+    - _name: Input Text
+      _id: c06f9f33-e645-4a35-9fd2-56105da551a8
+      _color: {r: 1, g: 1, b: 1, a: 1}
+    - _name: Input Text Placeholder
+      _id: 9e601469-eb79-4bbc-982c-7fab4d7c0c69
+      _color: {r: 1, g: 1, b: 1, a: 0.5882353}
+    - _name: Second Button Back
+      _id: 73cf623e-4cc8-4e05-8e9b-893fc57ecd35
+      _color: {r: 0, g: 0.08627451, b: 0.14901961, a: 0.5019608}
+    - _name: Second Button Back Hover
+      _id: 722081d3-48ef-4971-b981-c1d8c48401a7
+      _color: {r: 0, g: 0.08627451, b: 0.14901961, a: 0.5019608}
+    - _name: Second Button Border
+      _id: ca37b2e6-bb12-4edc-aedb-be217b377bd6
+      _color: {r: 0.47058824, g: 0.47058824, b: 0.47058824, a: 0.5882353}
+    - _name: Second Button Border Hover
+      _id: 6c5976aa-207f-4fc5-a85d-58db958960cf
+      _color: {r: 0.9339623, g: 0.9339623, b: 0.9339623, a: 1}
+    - _name: Second Button Border Press
+      _id: 304ceece-9d15-460c-a809-b6879784c393
+      _color: {r: 0.47058824, g: 0.47058824, b: 0.47058824, a: 0.5882353}
+    - _name: Second Button Text
+      _id: 71776c52-5995-43bb-b3a8-e180bc42b2aa
+      _color: {r: 1, g: 1, b: 1, a: 0.7058824}
+    - _name: Second Button Text Hover
+      _id: af1ae0ef-aa20-4a22-b474-95c34a11d55b
+      _color: {r: 1, g: 1, b: 1, a: 1}
+    - _name: Second Button Text Press
+      _id: 1030c352-80c9-4e3e-924b-039d623ebc0f
+      _color: {r: 1, g: 0, b: 0.35686275, a: 1}
+    - _name: Menu Button
+      _id: a7ccf3c1-4ea7-4a9e-8fb4-8c5c438fb835
+      _color: {r: 1, g: 1, b: 1, a: 1}
+    - _name: Menu Button Hover
+      _id: d3ad3a1e-4071-40c8-b6f7-11edde7ce496
+      _color: {r: 1, g: 0, b: 0.35686275, a: 1}
+    - _name: Cart Button
+      _id: c79231aa-8f24-4f05-99aa-171f43d39ffc
+      _color: {r: 1, g: 0, b: 0.35686275, a: 1}
+    - _name: Cart Button Hover
+      _id: 7e95a9e5-a239-4ae5-8117-b9b2a8e4cb54
+      _color: {r: 0.8313726, g: 0, b: 0.29803923, a: 1}
+    - _name: Cart Text
+      _id: 0164196e-2d48-43af-868d-9edd3a08f6b6
+      _color: {r: 1, g: 1, b: 1, a: 1}
+    - _name: Item Background
+      _id: 04bfcbbf-48b9-4677-9e9b-1b971001579e
+      _color: {r: 0.10980392, g: 0.10980392, b: 0.27058825, a: 1}
+    - _name: Item Loading Back
+      _id: 368db7c9-cd9f-42c8-a3f4-6736e8b03ed1
+      _color: {r: 0.5176471, g: 0.5568628, b: 0.69411767, a: 1}
+    - _name: Item Loading Progress
+      _id: b7dc4e1d-f03c-4ee7-9f70-acaf930fe73e
+      _color: {r: 1, g: 1, b: 1, a: 1}
+    - _name: Item Selection
+      _id: d321a01e-3c64-4813-b823-669df6156ad7
+      _color: {r: 1, g: 1, b: 1, a: 1}
+    - _name: Item Divivder
+      _id: f86a1760-1c08-415d-af57-cad0aa9bf1a2
+      _color: {r: 1, g: 1, b: 1, a: 0.29411766}
+    - _name: Friend Border
+      _id: 089b9695-c9c0-4c92-98fd-135645808beb
+      _color: {r: 1, g: 1, b: 1, a: 0.09803922}
+    - _name: Popup Lock Back
+      _id: 3a51da75-0356-40c8-923e-dbb473a23bfb
+      _color: {r: 0, g: 0, b: 0, a: 0.29803923}
+    - _name: Popup Back
+      _id: eb14616c-0e29-4dc4-bd30-dc3728cadd7e
+      _color: {r: 0.078431375, g: 0.078431375, b: 0.27450982, a: 1}
+    - _name: Popup Title
+      _id: 178d82b2-9c39-4d53-8119-9accb17c4847
+      _color: {r: 1, g: 0, b: 0.35686275, a: 1}
+    - _name: Spinner Main
+      _id: caa8855f-2d88-42fe-944c-50d1249c7773
+      _color: {r: 0, g: 0, b: 0, a: 1}
+    - _name: Spinner Second
+      _id: da7247b4-fdc3-4b8e-9dc5-2764cc1c5f78
+      _color: {r: 0.83921576, g: 0, b: 0, a: 1}
+    - _name: Main Menu
+      _id: 807566a4-0f4e-45ac-9932-e83b9783641b
+      _color: {r: 1, g: 1, b: 1, a: 1}
+    - _name: Main Menu Hover
+      _id: 068cdb10-341f-4c79-8f73-cf751b289695
+      _color: {r: 1, g: 0, b: 0.35686275, a: 1}
+    - _name: Main Menu Press
+      _id: 4f0d50bd-68f6-4c35-9cfa-6a1ba272257f
+      _color: {r: 0.83137256, g: 0, b: 0.29803923, a: 1}
+    - _name: Main Color
+      _id: cd078878-66a4-4637-8fe6-6f8120557afa
+      _color: {r: 0.8313726, g: 0, b: 0.29803923, a: 1}
+    - _name: Scroll Back
+      _id: d617a826-f6a4-4222-8b6c-eee2bad5f051
+      _color: {r: 1, g: 1, b: 1, a: 0.12156863}
+    - _name: Scroll Handle
+      _id: 6c56ddc5-55d5-43f1-af9b-90f17f922b35
+      _color: {r: 1, g: 1, b: 1, a: 0.69803923}
+    - _name: 'Quad Icon Button '
+      _id: e59ff61f-7047-4473-8b4d-4441b6d901e5
+      _color: {r: 1, g: 1, b: 1, a: 0}
+    - _name: Quad Icon Button Hover
+      _id: 4b755027-0140-42bc-b65d-6532545441c8
+      _color: {r: 0.8313726, g: 0, b: 0.29803923, a: 1}
+    - _name: Quad Icon Button Pressed
+      _id: 1c6a09b6-2e70-455a-8053-ca6d8e5bd90f
+      _color: {r: 0.8313726, g: 0, b: 0.29803923, a: 1}
+    - _name: Add Social Friend
+      _id: fb9fbbab-44db-4577-9a57-57a585679914
+      _color: {r: 0.8313726, g: 0, b: 0.29803923, a: 1}
+    - _name: Link Social Friend
+      _id: 027a7b89-db18-4b36-829d-9acc06eb5f4a
+      _color: {r: 0.043137256, g: 0.69803923, b: 0, a: 1}
+    _sprites:
+    - _name: Base Background
+      _id: f59ef3aa-9cf9-4946-8de2-f203b773a004
+      _sprite: {fileID: 21300000, guid: 6a8a27e3e79a44045b5fe6ad849f4fb6, type: 3}
+    - _name: Left Background
+      _id: 1ccb9175-26d1-48e0-8dfb-d05e03dcf41a
+      _sprite: {fileID: 21300000, guid: d1487d4161c07954da18e06235aa1e4a, type: 3}
+    - _name: Top Background
+      _id: 407489df-550f-4dd4-acf9-678063fc0cbb
+      _sprite: {fileID: 21300000, guid: bda455236a3d54dd1851f4edc71297c8, type: 3}
+    - _name: Main Button
+      _id: dfb1aea9-ded3-4435-ac2c-9199fbac8a75
+      _sprite: {fileID: 21300000, guid: 1e220e873967576489fed85a1d7a15d4, type: 3}
+    - _name: Input Back
+      _id: a900c48b-fbc0-44d3-8062-16263d7b7ff6
+      _sprite: {fileID: 21300000, guid: 691b0d43f07bcb84dae0b17998a994be, type: 3}
+    - _name: Input Border
+      _id: 753dd279-ad27-41b2-bed7-8474faadcf22
+      _sprite: {fileID: 21300000, guid: 93cdeebb0cdbaa346a9f19acb68971e2, type: 3}
+    - _name: Second Button Back
+      _id: df02c64a-ae37-4af1-9ac8-dd9c0fc3b519
+      _sprite: {fileID: 21300000, guid: 691b0d43f07bcb84dae0b17998a994be, type: 3}
+    - _name: Second Button Border
+      _id: dfa9db0d-7ff1-49f9-8659-be5444b602e8
+      _sprite: {fileID: 21300000, guid: 93cdeebb0cdbaa346a9f19acb68971e2, type: 3}
+    - _name: Cart Button
+      _id: 48a0fc41-631b-4248-a5ab-8fd2f5d56155
+      _sprite: {fileID: 21300000, guid: 1e220e873967576489fed85a1d7a15d4, type: 3}
+    - _name: Item Background
+      _id: 83b2de50-2cf3-40bc-bfba-83c0113979b9
+      _sprite: {fileID: 21300000, guid: 1e220e873967576489fed85a1d7a15d4, type: 3}
+    - _name: Item Loading
+      _id: 115ee7e6-d4b0-448e-848f-913a089e3d02
+      _sprite: {fileID: 21300000, guid: cad9b3e79629015499ed35b6b29d2807, type: 3}
+    - _name: Item Selection
+      _id: e4b219ec-309b-48fa-83be-57fd9659a300
+      _sprite: {fileID: 21300000, guid: e9c312b8e56488649ac78036d5ab94d8, type: 3}
+    - _name: Friend Border
+      _id: 95862eb3-a2bf-4f1e-a660-f5d71ac3f948
+      _sprite: {fileID: 21300000, guid: 93cdeebb0cdbaa346a9f19acb68971e2, type: 3}
+    - _name: Popup Back
+      _id: 7482b7ac-d5e5-4b5b-ae5e-d02628a0b6a4
+      _sprite: {fileID: 0}
+    - _name: Spinner
+      _id: 31700e90-bef4-4a9a-b375-9382dccb76c6
+      _sprite: {fileID: 21300000, guid: ca94540ee0ce8954aa2ab80d02a5b6d8, type: 3}
+    - _name: Logo
+      _id: e335fa6a-085f-404b-b1e6-b29da2bb918e
+      _sprite: {fileID: 21300000, guid: 065ddbf4432744185b704c5db1d940a8, type: 3}
+    - _name: Scroll Back
+      _id: 09e9348d-7273-4a81-b1ad-ce3e91489012
+      _sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+    - _name: Scroll Handle
+      _id: 64570eff-417a-47e2-b507-fdbf0cd28695
+      _sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+    - _name: Quad Icon Button
+      _id: eafe0aee-3dab-4935-9dc1-68e1e6bbb6be
+      _sprite: {fileID: 0}
+    _fonts:
+    - _name: Main Font
+      _id: 7b111555-c639-4655-9948-52030ad69aab
+      _font: {fileID: 12800000, guid: f70b0d194d863d14eaa3261671349a4b, type: 3}
+  - _name: Marvie
+    _id: 5aa5a450-a263-4678-a0a7-a1bad8054bba
+    _colors:
+    - _name: Base Background Color
+      _id: 2a5a816b-0b34-4462-a11c-94ae69041b5d
+      _color: {r: 0.12156863, g: 0.18039216, b: 0.20784314, a: 1}
+    - _name: Left Background Color
+      _id: 56d30534-ac79-4e61-b765-6e6e02531ecb
+      _color: {r: 0.1882353, g: 0.26666668, b: 0.30588236, a: 1}
+    - _name: Top Background Color
+      _id: 66b9e6ff-d325-476f-9307-af7877402265
+      _color: {r: 0.18823531, g: 0.26666668, b: 0.30588236, a: 1}
+    - _name: Common Text
+      _id: a888e9eb-55a8-4cb6-95f2-87c223ebc893
+      _color: {r: 1, g: 1, b: 1, a: 1}
+    - _name: Description Text
+      _id: f082ce88-2612-4821-9daa-8d421f912d8e
+      _color: {r: 1, g: 1, b: 1, a: 0.5019608}
+    - _name: Logo Color
+      _id: 2bd99ceb-7235-48e9-a8bc-70fdc919a284
+      _color: {r: 1, g: 1, b: 1, a: 1}
+    - _name: Main Button
+      _id: e9c672ce-cad6-4ddf-8fe4-20b3b665f12e
+      _color: {r: 0.85098046, g: 0.19607845, b: 0.227451, a: 1}
+    - _name: Main Button Hover
+      _id: 81ac4dd1-5977-48bb-bf5a-922ec5905155
+      _color: {r: 0.735849, g: 0.21173012, b: 0.23683752, a: 1}
+    - _name: Main Button Disabled
+      _id: 111a067e-8ef9-4732-ab9b-3197ae1e3c75
+      _color: {r: 0.7372549, g: 0.21176472, b: 0.23529413, a: 0.5019608}
+    - _name: Main Button Text
       _id: 8d406015-69a9-402e-aa9e-e28e56a8264c
       _color: {r: 0.9339623, g: 0.9339623, b: 0.9339623, a: 1}
-    - _name: Hover Color
-      _id: 21dc8235-80c2-4dd4-b5c6-40afe994b474
-      _color: {r: 0.7169812, g: 0.46737158, b: 0.1724813, a: 1}
-    - _name: Press Color
+    - _name: Main Button Text Disabled
+      _id: 05c23a2f-fe24-4e07-935d-9f37d02c67b5
+      _color: {r: 0.9333334, g: 0.9333334, b: 0.9333334, a: 0.7058824}
+    - _name: Input Back
       _id: 8448ca8c-1a44-4019-94a1-3ada7306f71c
-      _color: {r: 0.26655135, g: 0.6132076, b: 0.130162, a: 1}
-    - _name: Background
-      _id: 2a5a816b-0b34-4462-a11c-94ae69041b5d
-      _color: {r: 0.1523674, g: 0.22165687, b: 0.3018868, a: 1}
-    - _name: Form
-      _id: 56d30534-ac79-4e61-b765-6e6e02531ecb
-      _color: {r: 0.06603773, g: 0.15988079, b: 0.26415092, a: 1}
-    _sprites:
-    - _name: Solid Button
-      _id: dfb1aea9-ded3-4435-ac2c-9199fbac8a75
-      _sprite: {fileID: 21300000, guid: 72d77adbd025c2647be2f441ce56cfe8, type: 3}
-    - _name: Border Button
-      _id: 115ee7e6-d4b0-448e-848f-913a089e3d02
-      _sprite: {fileID: 21300000, guid: 50e3bfb469fbff94aa40ba32e77ab286, type: 3}
-    - _name: Hover Sprite
-      _id: 83b2de50-2cf3-40bc-bfba-83c0113979b9
-      _sprite: {fileID: 21300000, guid: 2e5373759a8c3e24b9b83b8daf6de5d3, type: 3}
-    _fonts:
-    - _name: Main Font
-      _id: 7b111555-c639-4655-9948-52030ad69aab
-      _font: {fileID: 12800000, guid: c00fbeb9ffa8d004180196d59e67e5e6, type: 3}
-    - _name: Seconf Font
-      _id: 2ac3a03c-5b7c-42cc-b2f2-fca40003b4ae
-      _font: {fileID: 12800000, guid: ddb41b3465a09714ca12682cf8043ae3, type: 3}
-  - _name: Octagon
-    _id: d3c446a6-dbc6-4177-9fe8-aa859099e96a
-    _colors:
+      _color: {r: 0.16470589, g: 0.23529412, b: 0.26666668, a: 1}
+    - _name: Input Border
+      _id: 1a20bec4-d4b3-4606-bf0b-bf1a728a7f47
+      _color: {r: 0.15018691, g: 0.22255386, b: 0.254717, a: 1}
+    - _name: Input Border Hover
+      _id: e8c53602-b203-4d3f-bb64-e06c91fb271c
+      _color: {r: 1, g: 0.27450982, b: 0.30980393, a: 1}
+    - _name: Hyperlink
+      _id: 5951064b-e847-4e0a-8996-71df5fc3526d
+      _color: {r: 1, g: 1, b: 1, a: 0.6862745}
+    - _name: Hyperlink Hover
+      _id: ff860625-4654-4245-9659-0daf1362e446
+      _color: {r: 0.990566, g: 0.990566, b: 0.990566, a: 1}
+    - _name: Social Button
+      _id: 21dc8235-80c2-4dd4-b5c6-40afe994b474
+      _color: {r: 0.9921569, g: 0.9921569, b: 0.9921569, a: 1}
+    - _name: Social Button Hover
+      _id: 8a69aa1d-8a69-4fab-89ab-0b979e74df8c
+      _color: {r: 1, g: 0.27450982, b: 0.30980393, a: 1}
+    - _name: Social Provider Button
+      _id: 9a1dec11-9f99-4de0-9d99-16909d691d1d
+      _color: {r: 1, g: 1, b: 1, a: 1}
+    - _name: Social Provider Button Hover
+      _id: b019858e-c4a8-4ed5-a2b8-d1f392765585
+      _color: {r: 1, g: 0.27450982, b: 0.30980393, a: 1}
+    - _name: Input Text
+      _id: c06f9f33-e645-4a35-9fd2-56105da551a8
+      _color: {r: 1, g: 1, b: 1, a: 1}
+    - _name: Input Text Placeholder
+      _id: 9e601469-eb79-4bbc-982c-7fab4d7c0c69
+      _color: {r: 1, g: 1, b: 1, a: 0.5882353}
+    - _name: Second Button Back
+      _id: 73cf623e-4cc8-4e05-8e9b-893fc57ecd35
+      _color: {r: 0.15686275, g: 0.3764706, b: 0.3254902, a: 1}
+    - _name: Second Button Back Hover
+      _id: 722081d3-48ef-4971-b981-c1d8c48401a7
+      _color: {r: 0.17817728, g: 0.41509432, b: 0.3600957, a: 1}
+    - _name: Second Button Border
+      _id: ca37b2e6-bb12-4edc-aedb-be217b377bd6
+      _color: {r: 0.15686275, g: 0.37647063, b: 0.3254902, a: 1}
+    - _name: Second Button Border Hover
+      _id: 6c5976aa-207f-4fc5-a85d-58db958960cf
+      _color: {r: 0.1764706, g: 0.4156863, b: 0.36078432, a: 1}
+    - _name: Second Button Border Press
+      _id: 304ceece-9d15-460c-a809-b6879784c393
+      _color: {r: 0.13861695, g: 0.3301887, b: 0.28571665, a: 1}
+    - _name: Second Button Text
+      _id: 71776c52-5995-43bb-b3a8-e180bc42b2aa
+      _color: {r: 1, g: 1, b: 1, a: 0.7058824}
+    - _name: Second Button Text Hover
+      _id: af1ae0ef-aa20-4a22-b474-95c34a11d55b
+      _color: {r: 1, g: 1, b: 1, a: 1}
+    - _name: Second Button Text Press
+      _id: 1030c352-80c9-4e3e-924b-039d623ebc0f
+      _color: {r: 1, g: 0.27450982, b: 0.30980393, a: 1}
+    - _name: Menu Button
+      _id: a7ccf3c1-4ea7-4a9e-8fb4-8c5c438fb835
+      _color: {r: 1, g: 1, b: 1, a: 1}
+    - _name: Menu Button Hover
+      _id: d3ad3a1e-4071-40c8-b6f7-11edde7ce496
+      _color: {r: 1, g: 0.27450982, b: 0.30980393, a: 1}
+    - _name: Cart Button
+      _id: c79231aa-8f24-4f05-99aa-171f43d39ffc
+      _color: {r: 1, g: 0.27450982, b: 0.30980393, a: 1}
+    - _name: Cart Button Hover
+      _id: 7e95a9e5-a239-4ae5-8117-b9b2a8e4cb54
+      _color: {r: 0.85098046, g: 0.19607845, b: 0.227451, a: 1}
+    - _name: Cart Text
+      _id: 0164196e-2d48-43af-868d-9edd3a08f6b6
+      _color: {r: 1, g: 1, b: 1, a: 1}
+    - _name: Item Background
+      _id: 04bfcbbf-48b9-4677-9e9b-1b971001579e
+      _color: {r: 0.1882353, g: 0.26666668, b: 0.30588236, a: 1}
+    - _name: Item Loading Back
+      _id: 368db7c9-cd9f-42c8-a3f4-6736e8b03ed1
+      _color: {r: 1, g: 0.77254903, b: 0.25882354, a: 1}
+    - _name: Item Loading Progress
+      _id: b7dc4e1d-f03c-4ee7-9f70-acaf930fe73e
+      _color: {r: 1, g: 0.34117648, b: 0.37254903, a: 1}
+    - _name: Item Selection
+      _id: d321a01e-3c64-4813-b823-669df6156ad7
+      _color: {r: 1, g: 0.7725491, b: 0.25882354, a: 1}
+    - _name: Item Divivder
+      _id: f86a1760-1c08-415d-af57-cad0aa9bf1a2
+      _color: {r: 0.14901961, g: 0.22352943, b: 0.25490198, a: 1}
+    - _name: Friend Border
+      _id: 089b9695-c9c0-4c92-98fd-135645808beb
+      _color: {r: 0.18823531, g: 0.26666668, b: 0.30588236, a: 0.6156863}
+    - _name: Popup Lock Back
+      _id: 3a51da75-0356-40c8-923e-dbb473a23bfb
+      _color: {r: 0.18823531, g: 0.26666668, b: 0.30588236, a: 0.29803923}
+    - _name: Popup Back
+      _id: eb14616c-0e29-4dc4-bd30-dc3728cadd7e
+      _color: {r: 0.12156863, g: 0.18039216, b: 0.20784314, a: 1}
+    - _name: Popup Title
+      _id: 178d82b2-9c39-4d53-8119-9accb17c4847
+      _color: {r: 0.85098046, g: 0.19607845, b: 0.227451, a: 1}
+    - _name: Spinner Main
+      _id: caa8855f-2d88-42fe-944c-50d1249c7773
+      _color: {r: 0.85098046, g: 0.19607845, b: 0.227451, a: 1}
+    - _name: Spinner Second
+      _id: da7247b4-fdc3-4b8e-9dc5-2764cc1c5f78
+      _color: {r: 1, g: 0.7725491, b: 0.25882354, a: 1}
+    - _name: Main Menu
+      _id: 807566a4-0f4e-45ac-9932-e83b9783641b
+      _color: {r: 1, g: 1, b: 1, a: 1}
+    - _name: Main Menu Hover
+      _id: 068cdb10-341f-4c79-8f73-cf751b289695
+      _color: {r: 0.85098046, g: 0.19607845, b: 0.227451, a: 1}
+    - _name: Main Menu Press
+      _id: 4f0d50bd-68f6-4c35-9cfa-6a1ba272257f
+      _color: {r: 0.85098046, g: 0.19607845, b: 0.227451, a: 1}
     - _name: Main Color
-      _id: e9c672ce-cad6-4ddf-8fe4-20b3b665f12e
-      _color: {r: 1, g: 0.68733156, b: 0.042452812, a: 1}
-    - _name: Second Color
-      _id: 8d406015-69a9-402e-aa9e-e28e56a8264c
-      _color: {r: 0.14150941, g: 0.14150941, b: 0.14150941, a: 1}
-    - _name: Hover Color
-      _id: 21dc8235-80c2-4dd4-b5c6-40afe994b474
-      _color: {r: 0.2956123, g: 0.6886792, b: 0.49507913, a: 1}
-    - _name: Press Color
-      _id: 8448ca8c-1a44-4019-94a1-3ada7306f71c
-      _color: {r: 0.13203096, g: 0.21698111, b: 0.17514, a: 1}
-    - _name: Background
-      _id: 2a5a816b-0b34-4462-a11c-94ae69041b5d
-      _color: {r: 0.17399432, g: 0.4339623, b: 0.3041793, a: 1}
-    - _name: Form
-      _id: 56d30534-ac79-4e61-b765-6e6e02531ecb
-      _color: {r: 0.24741901, g: 0.3773585, b: 0.31335846, a: 1}
+      _id: cd078878-66a4-4637-8fe6-6f8120557afa
+      _color: {r: 0.85098046, g: 0.19607845, b: 0.227451, a: 1}
+    - _name: Scroll Back
+      _id: d617a826-f6a4-4222-8b6c-eee2bad5f051
+      _color: {r: 0.09723212, g: 0.1519076, b: 0.1792453, a: 1}
+    - _name: Scroll Handle
+      _id: 6c56ddc5-55d5-43f1-af9b-90f17f922b35
+      _color: {r: 0.18823531, g: 0.26666668, b: 0.30588236, a: 1}
+    - _name: 'Quad Icon Button '
+      _id: e59ff61f-7047-4473-8b4d-4441b6d901e5
+      _color: {r: 1, g: 1, b: 1, a: 0}
+    - _name: Quad Icon Button Hover
+      _id: 4b755027-0140-42bc-b65d-6532545441c8
+      _color: {r: 0.85098046, g: 0.19607845, b: 0.227451, a: 1}
+    - _name: Quad Icon Button Pressed
+      _id: 1c6a09b6-2e70-455a-8053-ca6d8e5bd90f
+      _color: {r: 1, g: 0.27450982, b: 0.30980393, a: 1}
+    - _name: Add Social Friend
+      _id: fb9fbbab-44db-4577-9a57-57a585679914
+      _color: {r: 1, g: 0.27450982, b: 0.30980393, a: 1}
+    - _name: Link Social Friend
+      _id: 027a7b89-db18-4b36-829d-9acc06eb5f4a
+      _color: {r: 0.043137256, g: 0.69803923, b: 0, a: 1}
     _sprites:
-    - _name: Solid Button
+    - _name: Base Background
+      _id: f59ef3aa-9cf9-4946-8de2-f203b773a004
+      _sprite: {fileID: 0}
+    - _name: Left Background
+      _id: 1ccb9175-26d1-48e0-8dfb-d05e03dcf41a
+      _sprite: {fileID: 0}
+    - _name: Top Background
+      _id: 407489df-550f-4dd4-acf9-678063fc0cbb
+      _sprite: {fileID: 0}
+    - _name: Main Button
       _id: dfb1aea9-ded3-4435-ac2c-9199fbac8a75
-      _sprite: {fileID: 21300000, guid: 2e5373759a8c3e24b9b83b8daf6de5d3, type: 3}
-    - _name: Border Button
-      _id: 115ee7e6-d4b0-448e-848f-913a089e3d02
-      _sprite: {fileID: 21300000, guid: 339d027675479994ab2c0400c2f6120a, type: 3}
-    - _name: Hover Sprite
+      _sprite: {fileID: 21300000, guid: 72d77adbd025c2647be2f441ce56cfe8, type: 3}
+    - _name: Input Back
+      _id: a900c48b-fbc0-44d3-8062-16263d7b7ff6
+      _sprite: {fileID: 21300000, guid: 72d77adbd025c2647be2f441ce56cfe8, type: 3}
+    - _name: Input Border
+      _id: 753dd279-ad27-41b2-bed7-8474faadcf22
+      _sprite: {fileID: 21300000, guid: 709596f877e34644f9da2851fc43cf48, type: 3}
+    - _name: Second Button Back
+      _id: df02c64a-ae37-4af1-9ac8-dd9c0fc3b519
+      _sprite: {fileID: 21300000, guid: 72d77adbd025c2647be2f441ce56cfe8, type: 3}
+    - _name: Second Button Border
+      _id: dfa9db0d-7ff1-49f9-8659-be5444b602e8
+      _sprite: {fileID: 21300000, guid: 709596f877e34644f9da2851fc43cf48, type: 3}
+    - _name: Cart Button
+      _id: 48a0fc41-631b-4248-a5ab-8fd2f5d56155
+      _sprite: {fileID: 21300000, guid: 72d77adbd025c2647be2f441ce56cfe8, type: 3}
+    - _name: Item Background
       _id: 83b2de50-2cf3-40bc-bfba-83c0113979b9
       _sprite: {fileID: 21300000, guid: 72d77adbd025c2647be2f441ce56cfe8, type: 3}
+    - _name: Item Loading
+      _id: 115ee7e6-d4b0-448e-848f-913a089e3d02
+      _sprite: {fileID: 21300000, guid: abac9ee3308ee3d4590ba8faf76e638f, type: 3}
+    - _name: Item Selection
+      _id: e4b219ec-309b-48fa-83be-57fd9659a300
+      _sprite: {fileID: 21300000, guid: dcfa5764c71e1924c9d35d4244c8815a, type: 3}
+    - _name: Friend Border
+      _id: 95862eb3-a2bf-4f1e-a660-f5d71ac3f948
+      _sprite: {fileID: 21300000, guid: 709596f877e34644f9da2851fc43cf48, type: 3}
+    - _name: Popup Back
+      _id: 7482b7ac-d5e5-4b5b-ae5e-d02628a0b6a4
+      _sprite: {fileID: 21300000, guid: 72d77adbd025c2647be2f441ce56cfe8, type: 3}
+    - _name: Spinner
+      _id: 31700e90-bef4-4a9a-b375-9382dccb76c6
+      _sprite: {fileID: 21300000, guid: ca94540ee0ce8954aa2ab80d02a5b6d8, type: 3}
+    - _name: Logo
+      _id: e335fa6a-085f-404b-b1e6-b29da2bb918e
+      _sprite: {fileID: 21300000, guid: 065ddbf4432744185b704c5db1d940a8, type: 3}
+    - _name: Scroll Back
+      _id: 09e9348d-7273-4a81-b1ad-ce3e91489012
+      _sprite: {fileID: 21300000, guid: 72d77adbd025c2647be2f441ce56cfe8, type: 3}
+    - _name: Scroll Handle
+      _id: 64570eff-417a-47e2-b507-fdbf0cd28695
+      _sprite: {fileID: 21300000, guid: 72d77adbd025c2647be2f441ce56cfe8, type: 3}
+    - _name: Quad Icon Button
+      _id: eafe0aee-3dab-4935-9dc1-68e1e6bbb6be
+      _sprite: {fileID: 0}
     _fonts:
     - _name: Main Font
       _id: 7b111555-c639-4655-9948-52030ad69aab
-      _font: {fileID: 12800000, guid: 6b4fe3cedd7c53e43b9b24c1e322bf9c, type: 3}
-    - _name: Seconf Font
-      _id: 2ac3a03c-5b7c-42cc-b2f2-fca40003b4ae
-      _font: {fileID: 12800000, guid: 548c8c56e38d508489854a09ac2f9126, type: 3}
+      _font: {fileID: 12800000, guid: ddb41b3465a09714ca12682cf8043ae3, type: 3}

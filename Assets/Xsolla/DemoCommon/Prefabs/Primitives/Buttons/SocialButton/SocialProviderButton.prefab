@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6956369900684107162}
   - component: {fileID: 311465163532083129}
   - component: {fileID: 3456265713154229555}
+  - component: {fileID: 927117062444781693}
   m_Layer: 5
   m_Name: Icon
   m_TagString: Untagged
@@ -54,17 +55,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 369077425718583094}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 1, b: 0, a: 1}
   m_RaycastTarget: 0
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Sprite: {fileID: 21300000, guid: eda5d4ad073cc974c918ccc588b677b0, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
@@ -74,6 +74,28 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!114 &927117062444781693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 369077425718583094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc7a4b87c37a4cf18dcbc9b73bf98bd4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _propertyId: 9a1dec11-9f99-4de0-9d99-16909d691d1d
+  _pointerOverrider:
+    _pointerEvents: {fileID: 1691918804868656157}
+    _transitionMode: 1
+    _isOverrideHover: 1
+    _hoverPropertyId: b019858e-c4a8-4ed5-a2b8-d1f392765585
+    _isOverridePress: 0
+    _pressPropertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
+  _image: {fileID: 3456265713154229555}
 --- !u!1 &7870130588009525131
 GameObject:
   m_ObjectHideFlags: 0
@@ -128,17 +150,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 7870130588009525131}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
@@ -148,6 +169,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &7995540419193773701
 GameObject:
   m_ObjectHideFlags: 0
@@ -159,6 +181,8 @@ GameObject:
   - component: {fileID: 3672264908425931770}
   - component: {fileID: 830025496990303881}
   - component: {fileID: 3487048836706013820}
+  - component: {fileID: 6653293390302396293}
+  - component: {fileID: 6470366159577680075}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -202,17 +226,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 7995540419193773701}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 1, b: 0, a: 1}
   m_RaycastTarget: 0
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: f70b0d194d863d14eaa3261671349a4b, type: 3}
     m_FontSize: 15
@@ -227,6 +250,48 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Social Network Name
+--- !u!114 &6653293390302396293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7995540419193773701}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dda4ea2a38d64954bb6b954f9d7b6f99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _propertyId: 7b111555-c639-4655-9948-52030ad69aab
+  _pointerOverrider:
+    _pointerEvents: {fileID: 0}
+    _transitionMode: 0
+    _isOverrideHover: 0
+    _hoverPropertyId: 7b111555-c639-4655-9948-52030ad69aab
+    _isOverridePress: 0
+    _pressPropertyId: 7b111555-c639-4655-9948-52030ad69aab
+  _text: {fileID: 3487048836706013820}
+--- !u!114 &6470366159577680075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7995540419193773701}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc2106c456714323a645d26b01862ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _propertyId: 9a1dec11-9f99-4de0-9d99-16909d691d1d
+  _pointerOverrider:
+    _pointerEvents: {fileID: 1691918804868656157}
+    _transitionMode: 1
+    _isOverrideHover: 1
+    _hoverPropertyId: b019858e-c4a8-4ed5-a2b8-d1f392765585
+    _isOverridePress: 0
+    _pressPropertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
+  _text: {fileID: 3487048836706013820}
 --- !u!1 &8761578432214116197
 GameObject:
   m_ObjectHideFlags: 0
@@ -239,9 +304,8 @@ GameObject:
   - component: {fileID: 4121073139945670115}
   - component: {fileID: 3294665918800502555}
   - component: {fileID: 5710191004937703545}
-  - component: {fileID: 3144325989476886493}
-  - component: {fileID: 6531216541583867564}
   - component: {fileID: 7121724359664548527}
+  - component: {fileID: 1691918804868656157}
   m_Layer: 5
   m_Name: SocialProviderButton
   m_TagString: Untagged
@@ -301,7 +365,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8761578432214116197}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1679637790, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: 306cc8c2b49d7114eaa3623786fc2126, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_IgnoreLayout: 0
@@ -312,36 +376,6 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!114 &3144325989476886493
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8761578432214116197}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac24755b08b844c6b38a50ca34323ca8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  image: {fileID: 3456265713154229555}
-  normalStateColor: {r: 1, g: 1, b: 1, a: 1}
-  hoverStateColor: {r: 1, g: 0, b: 0.35686275, a: 1}
---- !u!114 &6531216541583867564
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8761578432214116197}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4e845f86adc41bb831ff8a7fbdec747, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  text: {fileID: 3487048836706013820}
-  normalStateColor: {r: 1, g: 1, b: 1, a: 1}
-  hoverStateColor: {r: 1, g: 0, b: 0.35686275, a: 1}
 --- !u!114 &7121724359664548527
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -355,3 +389,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HoverCursorTexture: {fileID: 2800000, guid: 13dd7538d75a6c14cbc23aa3a7a5e2a5, type: 3}
+--- !u!114 &1691918804868656157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8761578432214116197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73be4c0a4d7b487b9136d648564cd8a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
