@@ -4,7 +4,7 @@ namespace Xsolla.Demo
 {
 	public class DescriptionToUserStatProxy : BaseBattlePassDescriptionSubscriber
 	{
-		[SerializeField] private BaseUserStatManager UserStatManager = default;
+		[SerializeField] private BaseBattlePassUserStatManager UserStatManager = default;
 
 		public override void OnBattlePassDescriptionArrived(BattlePassDescription battlePassDescription)
 		{

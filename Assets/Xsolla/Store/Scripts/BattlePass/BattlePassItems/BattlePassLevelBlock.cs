@@ -5,13 +5,17 @@ namespace Xsolla.Demo
 {
 	public class BattlePassLevelBlock : MonoBehaviour
     {
+		[SerializeField] private BattlePassItem freeItem = default;
+		[SerializeField] private BattlePassItem premiumItem = default;
+
 		[SerializeField] private Text LevelLabel = default;
-		[SerializeField] private BattlePassItemUI FreeItem = default;
-		[SerializeField] private BattlePassItemUI PremiumItem = default;
 		[SerializeField] private int CurrentLevelFontSize = default;
 		[SerializeField] private GameObject CurrentLevelHighlight = default;
 
 		private int _initialLevelLabelFontSize;
+
+		public BattlePassItem FreeItem => freeItem;
+		public BattlePassItem PremiumItem => premiumItem;
 
 		private void Awake()
 		{
@@ -21,8 +25,8 @@ namespace Xsolla.Demo
 		public void Initialize(BattlePassLevelDescription levelDescription)
 		{
 			LevelLabel.text = levelDescription.Tier.ToString();
-			FreeItem.Initialize(levelDescription.FreeItem);
-			PremiumItem.Initialize(levelDescription.PremiumItem);
+			freeItem.Initialize(levelDescription.FreeItem);
+			premiumItem.Initialize(levelDescription.PremiumItem);
 		}
 
 		public void SetCurrent(bool isCurrent)
@@ -34,16 +38,13 @@ namespace Xsolla.Demo
 
 			CurrentLevelHighlight.SetActive(isCurrent);
 
-			FreeItem.SetCurrent(isCurrent);
-			PremiumItem.SetCurrent(isCurrent);
+			freeItem.SetCurrent(isCurrent);
+			premiumItem.SetCurrent(isCurrent);
 		}
 
-		public void SetItemState(bool isPremium, BattlePassItemState itemState)
+		public void ShowLevelLabel(bool show)
 		{
-			if (isPremium)
-				PremiumItem.SetState(itemState);
-			else
-				FreeItem.SetState(itemState);
+			LevelLabel.gameObject.SetActive(show);
 		}
 	}
 }

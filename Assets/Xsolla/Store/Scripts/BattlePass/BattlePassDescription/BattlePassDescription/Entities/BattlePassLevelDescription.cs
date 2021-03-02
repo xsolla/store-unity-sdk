@@ -1,13 +1,18 @@
-using System;
-
 namespace Xsolla.Demo
 {
-	[Serializable]
 	public class BattlePassLevelDescription
     {
-		public int Tier;
-		public int Experience;
-		public BattlePassItemDescription FreeItem;
-		public BattlePassItemDescription PremiumItem;
+		public readonly int Tier;
+		public readonly int Experience;
+		public readonly BattlePassItemDescription FreeItem;
+		public readonly BattlePassItemDescription PremiumItem;
+
+		public BattlePassLevelDescription(int tier, int experience, BattlePassItemDescription freeItem, BattlePassItemDescription premiumItem)
+		{
+			Tier = tier;
+			Experience = experience;
+			FreeItem = freeItem;
+			PremiumItem = premiumItem;
+		}
 	}
 }

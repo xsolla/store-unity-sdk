@@ -1,9 +1,10 @@
+using System.Collections.Generic;
 using UnityEngine;
 using Xsolla.Login;
 
 namespace Xsolla.Demo
 {
-	public partial class AttributesUserStatManager : BaseUserStatManager
+	public partial class AttributesUserStatManager : BaseBattlePassUserStatManager
 	{
 		private BattlePassUserStat GenerateBattlePassUserStat(UserAttribute levelAttribute, UserAttribute expAttribute, UserAttribute obtainedAttribute)
 		{
@@ -82,14 +83,18 @@ namespace Xsolla.Demo
 		private int[] GetNumbersFromPart(string itemsPart)
 		{
 			var subparts = itemsPart.Split(OBTAINED_VALUE_SEPARATOR);
-			var result = new int[subparts.Length-1];
+			var result = new List<int>(subparts.Length-1);
 
 			for (int i = 1; i < subparts.Length; i++)
 			{
-				result[i-1] = int.Parse(subparts[i]);
+				if (!string.IsNullOrEmpty(subparts[i]))
+				{
+					var number = int.Parse(subparts[i]);
+					result.Add(number);
+				}
 			}
 
-			return result;
+			return result.ToArray();
 		}
 	}
 }

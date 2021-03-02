@@ -5,9 +5,9 @@ using Xsolla.Login;
 
 namespace Xsolla.Demo
 {
-	public partial class AttributesUserStatManager : BaseUserStatManager
+	public partial class AttributesUserStatManager : BaseBattlePassUserStatManager
 	{
-		public void AddLevel(int levelsToAdd)
+		public override void AddLevel(int levelsToAdd)
 		{
 			var newUserLevel = _currentUserStat.Level + levelsToAdd;
 			_levelAttribute.value = newUserLevel.ToString();
@@ -15,7 +15,7 @@ namespace Xsolla.Demo
 			IssueNewUserStat();
 		}
 
-		public void AddExp(int expToAdd)
+		public override void AddExp(int expToAdd)
 		{
 			var newUserExp = _currentUserStat.Exp + expToAdd;
 			_expAttribute.value = newUserExp.ToString();
@@ -23,7 +23,7 @@ namespace Xsolla.Demo
 			IssueNewUserStat();
 		}
 
-		public void AddObtainedItems(int[] freeItemsToAdd = null, int[] premiumItemsToAdd = null)
+		public override void AddObtainedItems(int[] freeItemsToAdd = null, int[] premiumItemsToAdd = null)
 		{
 			if (freeItemsToAdd == null && premiumItemsToAdd == null)
 			{
@@ -78,7 +78,7 @@ namespace Xsolla.Demo
 
 		private void UpdateAttribute(UserAttribute userAttribute)
 		{
-			_attributesToUpdate.Add(_levelAttribute);
+			_attributesToUpdate.Add(userAttribute);
 			UpdateAttributesIfAny();
 		}
 	}

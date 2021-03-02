@@ -22,12 +22,15 @@ namespace Xsolla.Demo
 				}
 
 				var isExpired = DefineExpiration(expiryDate);
+				var convertedLevels = ConvertLevels(item.Levels);
 
-				var convertedDescription = new BattlePassDescription(
-					name: item.Name,
+				var convertedDescription = new BattlePassDescription
+				(
+					name = item.Name,
 					expiryDate: expiryDate,
 					isExpired: isExpired,
-					levels: item.Levels);
+					levels: convertedLevels
+				);
 
 				convertedDescriptions.Add(convertedDescription);
 			}
@@ -61,6 +64,45 @@ namespace Xsolla.Demo
 			var differenceInDays = difference.TotalDays;
 
 			return differenceInDays <= 0.0;
+		}
+
+		private BattlePassLevelDescription[] ConvertLevels(BattlePassLevelDescriptionRaw[] originalLevels)
+		{
+			var result = new BattlePassLevelDescription[originalLevels.Length];
+
+			for (int i = 0; i < originalLevels.Length; i++)
+			{
+				var originalLevel = originalLevels[i];
+				var isLastLevel = i == originalLevels.Length - 1;
+
+				var convertedFreeItem = originalLevel.FreeItem != null ? ConvertItem(originalLevel.FreeItem, originalLevel.Tier, isPremium: false, isFinal: false) : null;
+				var convertedPremiumItem = originalLevel.PremiumItem != null ? ConvertItem(originalLevel.PremiumItem, originalLevel.Tier, isPremium: true, isFinal: isLastLevel) : null;
+
+				var convertedLevel = new BattlePassLevelDescription
+					(
+						tier: originalLevel.Tier,
+						experience: originalLevel.Experience,
+						freeItem: convertedFreeItem,
+						premiumItem: convertedPremiumItem
+					);
+
+				result[i] = convertedLevel;
+			}
+
+			return result;
+		}
+
+		private BattlePassItemDescription ConvertItem(BattlePassItemDescriptionRaw originalItem, int tier, bool isPremium, bool isFinal)
+		{
+			return new BattlePassItemDescription
+				(
+					sku: originalItem.Sku,
+					promocode: originalItem.Promocode,
+					quantity: originalItem.Quantity,
+					tier: tier,
+					isPremium: isPremium,
+					isFinal:  isFinal
+				);
 		}
 	}
 }

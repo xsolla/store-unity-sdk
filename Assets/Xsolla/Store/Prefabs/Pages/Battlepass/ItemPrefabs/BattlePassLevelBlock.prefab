@@ -75,7 +75,7 @@ MonoBehaviour:
     m_AlignByGeometry: 0
     m_RichText: 0
     m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
+    m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: 1
 --- !u!1 &7204527867479126820
@@ -175,9 +175,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45af3d4fb34b7104390317a92876ce1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  freeItem: {fileID: 7863663732641077301}
+  premiumItem: {fileID: 341258316397692507}
   LevelLabel: {fileID: 2133342793073396075}
-  FreeItem: {fileID: 7863663732641077301}
-  PremiumItem: {fileID: 341258316397692507}
   CurrentLevelFontSize: 34
   CurrentLevelHighlight: {fileID: 7536369863000697235}
 --- !u!1 &7536369863000697235
