@@ -1,4 +1,8 @@
 # Changelog
+## [0.6.3.3] - 2021-03-05
+### Changed
+- Added WeChat Android auth
+
 ## [0.6.3.2] - 2021-02-05
 ### Changed
 - Minimum supported version of Unity — 2019.4.19f1
