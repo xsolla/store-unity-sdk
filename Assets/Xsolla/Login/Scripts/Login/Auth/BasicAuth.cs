@@ -62,7 +62,7 @@ namespace Xsolla.Demo
 			return true;
 		}
 
-		private void BasicAuthSuccess()
+		private void BasicAuthSuccess(string token)
 		{
 			RestoreJwtInvalidationIfNeeded();
 			base.OnSuccess?.Invoke(DemoController.Instance.LoginDemo.Token);

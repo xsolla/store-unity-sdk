@@ -45,7 +45,7 @@ namespace Xsolla.Demo
 
 		void GetPublicInfo(string token, string user, Action<UserPublicInfo> onSuccess, Action<Error> onError = null);
 
-		void SignIn(string username, string password, bool rememberUser, [NotNull] Action onSuccess,
+		void SignIn(string username, string password, bool rememberUser, [NotNull] Action<string> onSuccess,
 			[CanBeNull] Action<Error> onError = null);
 
 		void SteamAuth(string appId, string sessionTicket, [CanBeNull] Action<string> onSuccess = null,

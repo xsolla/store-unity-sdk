@@ -93,7 +93,7 @@ namespace Xsolla.Login
 		/// <seealso cref="SignInConsoleAccount"/>
 		/// <seealso cref="Registration"/>
 		/// <seealso cref="ResetPassword"/>
-		public void SignIn(string username, string password, bool rememberUser, Action onSuccess, Action<Error> onError = null)
+		public void SignIn(string username, string password, bool rememberUser, Action<string> onSuccess, Action<Error> onError = null)
 		{
 			if (XsollaSettings.AuthorizationType == AuthorizationType.JWT)
 				JwtSignIn(username, password, rememberUser, onSuccess, onError);
@@ -101,7 +101,7 @@ namespace Xsolla.Login
 				OAuthSignIn(username, password, onSuccess, onError);
 		}
 
-		private void JwtSignIn(string username, string password, bool rememberUser, Action onSuccess, Action<Error> onError)
+		private void JwtSignIn(string username, string password, bool rememberUser, Action<string> onSuccess, Action<Error> onError)
 		{
 			var loginData = new LoginJwtJsonRequest(username, password, rememberUser);
 
@@ -112,19 +112,19 @@ namespace Xsolla.Login
 			WebRequestHelper.Instance.PostRequest<LoginJwtJsonResponse, LoginJwtJsonRequest>(SdkType.Login, url, loginData, (response) =>
 			{
 				Token = ParseUtils.ParseToken(response.login_url);
-				onSuccess?.Invoke();
+				onSuccess?.Invoke(Token);
 			}, onError, Error.LoginErrors);
 		}
 
-		private void OAuthSignIn(string username, string password, Action onSuccess, Action<Error> onError)
+		private void OAuthSignIn(string username, string password, Action<string> onSuccess, Action<Error> onError)
 		{
 			var loginData = new LoginOAuthJsonRequest(username, password);
 			var url = string.Format(URL_USER_OAUTH_SIGNIN, XsollaSettings.OAuthClientId);
 
 			Action<LoginOAuthJsonResponse> successCallback = response =>
 			{
-				this.ProcessOAuthResponse(response);
-				onSuccess?.Invoke();
+				ProcessOAuthResponse(response);
+				onSuccess?.Invoke(response.access_token);
 			};
 
 			WebRequestHelper.Instance.PostRequest<LoginOAuthJsonResponse, LoginOAuthJsonRequest>(SdkType.Login, url, loginData, successCallback, onError, Error.LoginErrors);
