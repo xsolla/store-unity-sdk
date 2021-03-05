@@ -16,5 +16,6 @@
 
 		public const string NameAttribute = "android:name";
 		public const string LabelAttribute = "android:label";
+		public const string ExportedAttribute = "android:exported";
 	}
 }
