@@ -13,7 +13,7 @@ namespace Xsolla.Demo
 
 		protected override void InitializeItemUI(GameObject item, ItemModel model)
 		{
-			item.GetComponent<ItemUI>().Initialize((CatalogItemModel)model, _storeDemoImplementation);
+			item.GetComponent<StoreItemUI>().Initialize((CatalogItemModel)model, _storeDemoImplementation);
 		}
 	}
 }

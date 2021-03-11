@@ -16,5 +16,5 @@ namespace Xsolla.Demo
 			IsExpired = isExpired;
 			Levels = levels;
 		}
-    }
+	}
 }

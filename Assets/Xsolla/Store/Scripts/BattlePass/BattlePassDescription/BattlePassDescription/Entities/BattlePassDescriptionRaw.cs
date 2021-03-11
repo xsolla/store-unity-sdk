@@ -7,6 +7,6 @@ namespace Xsolla.Demo
     {
 		public string Name;
 		public string ExpiryDate;
-		public BattlePassLevelDescription[] Levels;
+		public BattlePassLevelDescriptionRaw[] Levels;
     }
 }

@@ -4,7 +4,7 @@ using Xsolla.Login;
 
 namespace Xsolla.Demo
 {
-	public partial class AttributesUserStatManager : BaseUserStatManager
+	public partial class AttributesUserStatManager : BaseBattlePassUserStatManager
 	{
 		[SerializeField] private BattlePassUserAttributesManager AttributesManager = default;
 
