@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fecfc16d7b64e3dad74031de9dc431a, type: 3}
+  m_Name: WidgetsLibrary
+  m_EditorClassIdentifier: 
+  _widgets:
+  - _name: RedButton
+    _id: 1E29D159-20D9-4820-91C7-BD2C9F33653F
+    _prefab: {fileID: 1451502990301009615, guid: 2065d4885ca67d74696235edc8a2641f,
+      type: 3}
+  - _name: GreenButton
+    _id: 591874E1-76A9-4ED2-8A8C-FC4E0D6CC9C1
+    _prefab: {fileID: 1451502990301009615, guid: ca830e4d5ef355c4eb556017fc1831ca,
+      type: 3}
+  - _name: BlueButton
+    _id: 8C831530-A84A-4A18-91B0-1AFB3D14FE2B
+    _prefab: {fileID: 1451502990301009615, guid: fce86640360b6d740b9a07bb8a7eb174,
+      type: 3}
