@@ -4,7 +4,7 @@ using System;
 namespace Xsolla.UIBuilder
 {
 	[Serializable]
-	public class ColorPropertyProvider : ThemePropertyProvider
+	public class ColorProvider : ThemePropertyProvider
 	{
 		public Color GetColor()
 		{

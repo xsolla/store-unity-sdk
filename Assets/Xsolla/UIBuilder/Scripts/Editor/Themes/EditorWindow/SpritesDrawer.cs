@@ -6,11 +6,11 @@ using UnityEngine;
 
 namespace Xsolla.UIBuilder
 {
-	public class SpritesDrawer : BaseDrawer
+	public class SpritesDrawer : PropertiesMetaDrawer
 	{
 		private float SpriteFieldSize => EditorGUIUtility.singleLineHeight * 3f;
 
-		public override void Draw(ThemeEditorWindow window)
+		public void Draw(ThemeEditorWindow window)
 		{
 			if (IsMetaDirty)
 			{
@@ -18,32 +18,19 @@ namespace Xsolla.UIBuilder
 				IsMetaDirty = false;
 			}
 
-			if (MetaItems.Count > 0)
-			{
-				EditorGUILayout.Space();
-				EditorGUILayout.LabelField("Sprites", EditorStyles.centeredGreyMiniLabel);
-			}
-
-			if (window.IsEditMode)
-			{
-				MetaList.DoLayoutList();
-			}
-			else
-			{
-				DrawProps(window);
-			}
+			MetaList.DoLayoutList();
 		}
 
 		private void RefreshMeta()
 		{
-			MetaItems = new List<MetaItem>();
+			MetaItems = new List<PropertyMeta>();
 
 			var props = ThemesLibrary.Current?.Sprites;
 			if (props != null)
 			{
 				foreach (var prop in props)
 				{
-					MetaItems.Add(new MetaItem(prop.Id, prop.Name));
+					MetaItems.Add(new PropertyMeta(prop.Id, prop.Name));
 				}
 			}
 
@@ -56,7 +43,7 @@ namespace Xsolla.UIBuilder
 				MetaList.onRemoveCallback -= OnRemoveElement;
 			}
 
-			MetaList = new ReorderableList(MetaItems, typeof(MetaItem));
+			MetaList = new ReorderableList(MetaItems, typeof(PropertyMeta));
 			MetaList.elementHeight = SpriteFieldSize;
 
 			MetaList.drawElementCallback += OnDrawElement;
@@ -64,30 +51,6 @@ namespace Xsolla.UIBuilder
 			MetaList.onReorderCallbackWithDetails += OnReorderElement;
 			MetaList.onAddCallback += OnAddElement;
 			MetaList.onRemoveCallback += OnRemoveElement;
-		}
-
-		private void DrawProps(ThemeEditorWindow window)
-		{
-			foreach (var item in MetaItems)
-			{
-				EditorGUILayout.BeginHorizontal();
-				EditorGUILayout.LabelField(item.Name, GUILayout.Width(window.PropLabelsWidth));
-
-				var themes = ThemesLibrary.Themes;
-				foreach (var theme in themes)
-				{
-					EditorGUILayout.BeginHorizontal();
-					EditorGUILayout.Space();
-
-					var prop = theme.Sprites.First(x => x.Id == item.Id);
-					prop.Sprite = (Sprite) EditorGUILayout.ObjectField(prop.Sprite, typeof(Sprite), false, GUILayout.Height(SpriteFieldSize), GUILayout.Width(SpriteFieldSize));
-
-					EditorGUILayout.Space();
-					EditorGUILayout.EndHorizontal();
-				}
-
-				EditorGUILayout.EndHorizontal();
-			}
 		}
 
 		private void OnDrawElement(Rect rect, int index, bool isActive, bool isFocused)

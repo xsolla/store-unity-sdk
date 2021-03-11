@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Xsolla.UIBuilder
 {
 	[Serializable]
-	public class SpritePropertyProvider : ThemePropertyProvider
+	public class SpriteProvider : ThemePropertyProvider
 	{
 		public Sprite GetSprite()
 		{

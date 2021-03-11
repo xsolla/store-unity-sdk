@@ -25,8 +25,8 @@ namespace Xsolla.Demo
 		[SerializeField] bool isSelectable = true;
 		[SerializeField] private DecoratorPointerEvents DecoratorPointerEvents = default;
 		[SerializeField] private Text SelectedText = default;
-		[SerializeField] private ColorPropertyProvider NormalTextColor = default;
-		[SerializeField] private ColorPropertyProvider SelectedTextColor = default;
+		[SerializeField] private ColorProvider NormalTextColor = default;
+		[SerializeField] private ColorProvider SelectedTextColor = default;
 
 		bool _isClickInProgress;
 		bool _isSelected;

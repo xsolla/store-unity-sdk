@@ -13,14 +13,14 @@ namespace Xsolla.Demo
 		[SerializeField] private DecoratorPointerEvents DecoratorPointerEvents = default;
 
 		[SerializeField] private Image DisableImage = default;
-		[SerializeField] private SpritePropertyProvider NormalSpriteProp = default;
-		[SerializeField] private SpritePropertyProvider DisabledSpriteProp = default;
-		[SerializeField] private ColorPropertyProvider NormalImageColorProp = default;
-		[SerializeField] private ColorPropertyProvider DisabledImageColorProp = default;
+		[SerializeField] private SpriteProvider NormalSpriteProp = default;
+		[SerializeField] private SpriteProvider DisabledSpriteProp = default;
+		[SerializeField] private ColorProvider NormalImageColorProp = default;
+		[SerializeField] private ColorProvider DisabledImageColorProp = default;
 
 		[SerializeField] private Text DisableText = default;
-		[SerializeField] private ColorPropertyProvider NormalTextColorProp = default;
-		[SerializeField] private ColorPropertyProvider DisabledTextColorProp = default;
+		[SerializeField] private ColorProvider NormalTextColorProp = default;
+		[SerializeField] private ColorProvider DisabledTextColorProp = default;
 
 		public void Enable()
 		{

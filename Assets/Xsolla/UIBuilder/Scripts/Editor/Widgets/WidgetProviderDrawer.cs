@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace Xsolla.UIBuilder
 {
-	[CustomPropertyDrawer(typeof(ColorPropertyProvider))]
-	public class ColorPropertyProviderDrawer : PropertyDrawer
+	[CustomPropertyDrawer(typeof(WidgetProvider))]
+	public class WidgetProviderDrawer : PropertyDrawer
 	{
 		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
 		{
@@ -13,7 +13,7 @@ namespace Xsolla.UIBuilder
 
 			var idProp = property.FindPropertyRelative("_id");
 
-			var props = ThemesLibrary.Current.Colors.ToArray();
+			var props = WidgetsLibrary.Widgets.ToArray();
 			var names = props.Select(x => x.Name).ToArray();
 			var ids = props.Select(x => x.Id).ToList();
 
