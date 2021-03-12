@@ -15,6 +15,8 @@ namespace Xsolla.Login
 		private const string URL_USER_PHONE = "https://login.xsolla.com/api/users/me/phone";
 		private const string URL_USER_PICTURE = "https://login.xsolla.com/api/users/me/picture";
 		private const string URL_PASSWORD_RESET = "https://login.xsolla.com/api/{0}?projectId={1}";
+		private const string URL_RESEND_CONFIRMATION_LINK = "https://login.xsolla.com/api/user/resend_confirmation_link?projectId={0}&login_url={1}";
+		private const string URL_OAUTH_RESEND_CONFIRMATION_LINK = "https://login.xsolla.com/api/oauth2/user/resend_confirmation_link?client_id={0}&state=xsollatest&redirect_uri=https://login.xsolla.com/api/blank";
 		private const string URL_SEARCH_USER = "https://login.xsolla.com/api/users/search/by_nickname?nickname={0}&offset={1}&limit={2}";
 		private const string URL_USER_PUBLIC_INFO = "https://login.xsolla.com/api/users/{0}/public";
 		private const string URL_USER_CHECK_AGE = "https://login.xsolla.com/api/users/age/check";
@@ -146,6 +148,31 @@ namespace Xsolla.Login
 			var url = string.Format(URL_PASSWORD_RESET, proxy, XsollaSettings.LoginId);
 
 			WebRequestHelper.Instance.PostRequest(SdkType.Login, url, new ResetPassword(username), onSuccess, onError, Error.ResetPasswordErrors);
+		}
+
+		/// <summary>
+		/// Resends an account confirmation email to a user.
+		/// </summary>
+		/// <remarks> Swagger method name:<c>Resend confirmation link</c>.</remarks>
+		/// <see cref="https://developers.xsolla.com/login-api/methods/jwt/jwt-resend-account-confirmation-email"/>
+		/// <param name="username">User name.</param>
+		/// <param name="onSuccess">Successful operation callback.</param>
+		/// <param name="onError">Failed operation callback.</param>
+		/// <seealso cref="Registration"/>
+		/// <seealso cref="SignIn"/>
+		public void ResendConfirmationLink(string username, Action onSuccess, Action<Error> onError = null)
+		{
+			string url;
+			if (XsollaSettings.AuthorizationType == AuthorizationType.JWT)
+			{
+				url = string.Format(URL_RESEND_CONFIRMATION_LINK, XsollaSettings.LoginId, XsollaSettings.CallbackUrl);
+			}
+			else
+			{
+				url = string.Format(URL_OAUTH_RESEND_CONFIRMATION_LINK, XsollaSettings.OAuthClientId);
+			}
+			
+			WebRequestHelper.Instance.PostRequest(SdkType.Login, url, new ResendConfirmationLinkRequest(username), onSuccess, onError);
 		}
 
 		/// <summary>
