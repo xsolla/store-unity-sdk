@@ -6,9 +6,6 @@ namespace Xsolla.Demo
 {
 	public class SimpleTextButtonDisableable : SimpleTextButton
 	{
-		[SerializeField] Sprite disabledStateSprite = default;
-		[SerializeField] Color disabledTextColor = default;
-
 		[Space]
 		[SerializeField] private DecoratorPointerEvents DecoratorPointerEvents = default;
 
