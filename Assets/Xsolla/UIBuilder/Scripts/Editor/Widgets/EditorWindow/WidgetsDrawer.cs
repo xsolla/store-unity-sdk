@@ -6,22 +6,27 @@ using UnityEngine;
 
 namespace Xsolla.UIBuilder
 {
-	public class WidgetsListDrawer
+	public class WidgetsDrawer : PropertiesMetaDrawer
 	{
-		private bool IsMetaDirty { get; set; } = true;
+		public void Draw()
+		{
+			if (IsMetaDirty)
+			{
+				RefreshMeta();
+				IsMetaDirty = false;
+			}
 
-		private List<MetaItem> MetaItems { get; set; }
-
-		private ReorderableList MetaList { get; set; }
+			MetaList.DoLayoutList();
+		}
 
 		private void RefreshMeta()
 		{
-			MetaItems = new List<MetaItem>();
+			MetaItems = new List<PropertyMeta>();
 
 			var widgets = WidgetsLibrary.Widgets;
 			foreach (var widget in widgets)
 			{
-				MetaItems.Add(new MetaItem(widget.Id, widget.Name));
+				MetaItems.Add(new PropertyMeta(widget.Id, widget.Name));
 			}
 
 			if (MetaList != null)
@@ -33,7 +38,7 @@ namespace Xsolla.UIBuilder
 				MetaList.onRemoveCallback -= OnRemoveElement;
 			}
 
-			MetaList = new ReorderableList(MetaItems, typeof(MetaItem));
+			MetaList = new ReorderableList(MetaItems, typeof(PropertyMeta));
 			MetaList.drawElementCallback += OnDrawElement;
 			MetaList.drawHeaderCallback += OnDrawHeader;
 			MetaList.onReorderCallbackWithDetails += OnReorderElement;
@@ -92,30 +97,6 @@ namespace Xsolla.UIBuilder
 			var item = MetaItems[list.index];
 			WidgetsManager.DeleteWidget(item.Id);
 			IsMetaDirty = true;
-		}
-
-		public void Draw(WidgetsEditorWindow window)
-		{
-			if (IsMetaDirty)
-			{
-				RefreshMeta();
-				IsMetaDirty = false;
-			}
-
-			MetaList.DoLayoutList();
-		}
-
-		private class MetaItem
-		{
-			public string Id;
-
-			public string Name;
-
-			public MetaItem(string id, string name)
-			{
-				Id = id;
-				Name = name;
-			}
 		}
 	}
 }

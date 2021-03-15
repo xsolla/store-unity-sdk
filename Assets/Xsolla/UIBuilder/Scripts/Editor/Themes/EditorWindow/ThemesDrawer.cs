@@ -5,9 +5,9 @@ using UnityEngine;
 
 namespace Xsolla.UIBuilder
 {
-	public class ThemesDrawer : BaseDrawer
+	public class ThemesDrawer : PropertiesMetaDrawer
 	{
-		public override void Draw(ThemeEditorWindow window)
+		public void Draw(ThemeEditorWindow window)
 		{
 			if (IsMetaDirty)
 			{
@@ -15,32 +15,19 @@ namespace Xsolla.UIBuilder
 				IsMetaDirty = false;
 			}
 
-			if (MetaItems.Count > 0)
-			{
-				EditorGUILayout.Space();
-				EditorGUILayout.LabelField("Themes", EditorStyles.centeredGreyMiniLabel);
-			}
-
-			if (window.IsEditMode)
-			{
-				MetaList.DoLayoutList();
-			}
-			else
-			{
-				DrawProps(window);
-			}
+			MetaList.DoLayoutList();
 		}
 
 		private void RefreshMeta()
 		{
-			MetaItems = new List<MetaItem>();
+			MetaItems = new List<PropertyMeta>();
 
 			var themes = ThemesLibrary.Themes;
 			if (themes != null)
 			{
 				foreach (var theme in themes)
 				{
-					MetaItems.Add(new MetaItem(theme.Id, theme.Name));
+					MetaItems.Add(new PropertyMeta(theme.Id, theme.Name));
 				}
 			}
 
@@ -53,42 +40,12 @@ namespace Xsolla.UIBuilder
 				MetaList.onRemoveCallback -= OnRemoveElement;
 			}
 
-			MetaList = new ReorderableList(MetaItems, typeof(MetaItem));
+			MetaList = new ReorderableList(MetaItems, typeof(PropertyMeta));
 			MetaList.drawElementCallback += OnDrawElement;
 			MetaList.drawHeaderCallback += OnDrawHeader;
 			MetaList.onReorderCallbackWithDetails += OnReorderElement;
 			MetaList.onAddCallback += OnAddElement;
 			MetaList.onRemoveCallback += OnRemoveElement;
-		}
-
-		private void DrawProps(ThemeEditorWindow window)
-		{
-			EditorGUILayout.BeginHorizontal();
-
-			EditorGUILayout.BeginHorizontal(GUILayout.Width(window.PropLabelsWidth));
-			EditorGUILayout.Space();
-			EditorGUILayout.EndHorizontal();
-
-			EditorGUILayout.BeginHorizontal();
-			var guiColor = GUI.color;
-
-			var themes = ThemesLibrary.Themes;
-			var current = ThemesLibrary.Current;
-
-			foreach (var theme in themes)
-			{
-				GUI.color = theme == current ? Color.yellow : guiColor;
-
-				if (GUILayout.Button(theme.Name))
-				{
-					ThemesLibrary.Current = theme;
-				}
-			}
-
-			GUI.color = guiColor;
-			EditorGUILayout.EndHorizontal();
-
-			EditorGUILayout.EndHorizontal();
 		}
 
 		private void OnDrawElement(Rect rect, int index, bool isActive, bool isFocused)

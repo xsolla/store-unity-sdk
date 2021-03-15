@@ -6,12 +6,13 @@ namespace Xsolla.UIBuilder
 {
 	public class WidgetsEditorWindow : EditorWindow
 	{
-		private readonly WidgetsListDrawer WidgetsDrawer = new WidgetsListDrawer();
+		private readonly WidgetsDrawer WidgetsDrawer = new WidgetsDrawer();
+
+		private Vector2 ScrollPosition { get; set; }
 
 		private void OnGUI()
 		{
-			EditorGUILayout.Space();
-			WidgetsDrawer.Draw(this);
+			EditorGUIUtility.labelWidth = 1f;
 
 			if (GUILayout.Button("Refresh"))
 			{
@@ -19,6 +20,14 @@ namespace Xsolla.UIBuilder
 				HandleSceneObjects();
 				HandleAssets();
 			}
+
+			ScrollPosition = EditorGUILayout.BeginScrollView(ScrollPosition);
+
+			EditorGUILayout.Space();
+			WidgetsDrawer.Draw();
+
+			EditorGUILayout.EndScrollView();
+			EditorGUIUtility.labelWidth = 0;
 		}
 
 		private void HandleSceneObjects()

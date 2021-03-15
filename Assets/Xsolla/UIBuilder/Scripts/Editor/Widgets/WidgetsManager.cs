@@ -49,9 +49,9 @@ namespace Xsolla.UIBuilder
 			if (newIndex < 0 || newIndex >= list.Count)
 				throw new ArgumentOutOfRangeException($"{nameof(newIndex)}: {newIndex}");
 
-			var temp = list[oldIndex];
-			list[oldIndex] = list[newIndex];
-			list[newIndex] = temp;
+			var item = list[oldIndex];
+			list.RemoveAt(oldIndex);
+			list.Insert(newIndex, item);
 		}
 	}
 }

@@ -5,32 +5,31 @@ namespace Xsolla.UIBuilder
 {
 	public class ThemeEditorWindow : EditorWindow
 	{
-		private readonly BaseDrawer HeaderDrawer = new HeaderDrawer();
+		private readonly HeaderDrawer HeaderDrawer = new HeaderDrawer();
 
-		private readonly BaseDrawer ThemesDrawer = new ThemesDrawer();
+		private readonly ThemesDrawer ThemesDrawer = new ThemesDrawer();
 
-		private readonly BaseDrawer ColorsDrawer = new ColorsDrawer();
+		private readonly ColorsDrawer ColorsDrawer = new ColorsDrawer();
 
-		private readonly BaseDrawer SpritesDrawer = new SpritesDrawer();
+		private readonly SpritesDrawer SpritesDrawer = new SpritesDrawer();
 
-		private readonly BaseDrawer FontsDrawer = new FontsDrawer();
+		private readonly FontsDrawer FontsDrawer = new FontsDrawer();
 
 		private Vector2 ScrollPosition { get; set; }
 
-		public float PropLabelsWidth { get; set; }
-
-		public bool IsEditMode { get; set; }
+		public float PropLabelsWidth { get; private set; }
 
 		private void OnGUI()
 		{
 			var themes = ThemesLibrary.Themes;
-			PropLabelsWidth = position.width / (themes.Count + 2);
+			PropLabelsWidth = position.width / (themes.Count + 1);
 
-			ScrollPosition = EditorGUILayout.BeginScrollView(ScrollPosition);
 			EditorGUIUtility.labelWidth = 1f;
 
 			EditorGUILayout.Space();
 			HeaderDrawer.Draw(this);
+
+			ScrollPosition = EditorGUILayout.BeginScrollView(ScrollPosition);
 
 			EditorGUILayout.Space();
 			ThemesDrawer.Draw(this);
@@ -44,8 +43,8 @@ namespace Xsolla.UIBuilder
 			EditorGUILayout.Space();
 			FontsDrawer.Draw(this);
 
-			EditorGUIUtility.labelWidth = 0;
 			EditorGUILayout.EndScrollView();
+			EditorGUIUtility.labelWidth = 0;
 
 			if (GUI.changed)
 			{

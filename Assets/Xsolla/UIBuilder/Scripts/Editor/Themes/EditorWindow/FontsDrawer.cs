@@ -1,14 +1,13 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
 
 namespace Xsolla.UIBuilder
 {
-	public class FontsDrawer : BaseDrawer
+	public class FontsDrawer : PropertiesMetaDrawer
 	{
-		public override void Draw(ThemeEditorWindow window)
+		public void Draw(ThemeEditorWindow window)
 		{
 			if (IsMetaDirty)
 			{
@@ -16,32 +15,19 @@ namespace Xsolla.UIBuilder
 				IsMetaDirty = false;
 			}
 
-			if (MetaItems.Count > 0)
-			{
-				EditorGUILayout.Space();
-				EditorGUILayout.LabelField("Fonts", EditorStyles.centeredGreyMiniLabel);
-			}
-
-			if (window.IsEditMode)
-			{
-				MetaList.DoLayoutList();
-			}
-			else
-			{
-				DrawProps(window);
-			}
+			MetaList.DoLayoutList();
 		}
 
 		private void RefreshMeta()
 		{
-			MetaItems = new List<MetaItem>();
+			MetaItems = new List<PropertyMeta>();
 
 			var props = ThemesLibrary.Current?.Fonts;
 			if (props != null)
 			{
 				foreach (var prop in props)
 				{
-					MetaItems.Add(new MetaItem(prop.Id, prop.Name));
+					MetaItems.Add(new PropertyMeta(prop.Id, prop.Name));
 				}
 			}
 
@@ -54,30 +40,12 @@ namespace Xsolla.UIBuilder
 				MetaList.onRemoveCallback -= OnRemoveElement;
 			}
 
-			MetaList = new ReorderableList(MetaItems, typeof(MetaItem));
+			MetaList = new ReorderableList(MetaItems, typeof(PropertyMeta));
 			MetaList.drawElementCallback += OnDrawElement;
 			MetaList.drawHeaderCallback += OnDrawHeader;
 			MetaList.onReorderCallbackWithDetails += OnReorderElement;
 			MetaList.onAddCallback += OnAddElement;
 			MetaList.onRemoveCallback += OnRemoveElement;
-		}
-
-		private void DrawProps(ThemeEditorWindow window)
-		{
-			foreach (var item in MetaItems)
-			{
-				EditorGUILayout.BeginHorizontal();
-				EditorGUILayout.LabelField(item.Name, GUILayout.Width(window.PropLabelsWidth));
-
-				var themes = ThemesLibrary.Themes;
-				foreach (var theme in themes)
-				{
-					var prop = theme.Fonts.First(x => x.Id == item.Id);
-					prop.Font = (Font) EditorGUILayout.ObjectField(prop.Font, typeof(Font), false);
-				}
-
-				EditorGUILayout.EndHorizontal();
-			}
 		}
 
 		private void OnDrawElement(Rect rect, int index, bool isActive, bool isFocused)

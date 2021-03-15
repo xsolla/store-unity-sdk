@@ -5,16 +5,14 @@ using UnityEngine;
 
 namespace Xsolla.UIBuilder
 {
-	public abstract class BaseDrawer
+	public abstract class PropertiesMetaDrawer
 	{
 		public bool IsMetaDirty { get; set; } = true;
 
-		protected List<MetaItem> MetaItems { get; set; }
+		protected List<PropertyMeta> MetaItems { get; set; }
 
 		protected ReorderableList MetaList { get; set; }
 
-		public abstract void Draw(ThemeEditorWindow window);
-		
 		protected Rect CalculateFieldRect(Rect lineRect, int elementsCount)
 		{
 			return new Rect
@@ -29,19 +27,6 @@ namespace Xsolla.UIBuilder
 		protected float CalculateOffsetPerField(Rect rect)
 		{
 			return rect.width + EditorGUIUtility.standardVerticalSpacing * 2;
-		}
-
-		protected class MetaItem
-		{
-			public string Id;
-
-			public string Name;
-
-			public MetaItem(string id, string name)
-			{
-				Id = id;
-				Name = name;
-			}
 		}
 	}
 }

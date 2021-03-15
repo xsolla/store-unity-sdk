@@ -20,24 +20,18 @@ MonoBehaviour:
     - _name: Base Background Color
       _id: 2a5a816b-0b34-4462-a11c-94ae69041b5d
       _color: {r: 1, g: 1, b: 1, a: 1}
-    - _name: Left Background Color
-      _id: 56d30534-ac79-4e61-b765-6e6e02531ecb
-      _color: {r: 1, g: 1, b: 1, a: 1}
     - _name: Top Background Color
       _id: 66b9e6ff-d325-476f-9307-af7877402265
-      _color: {r: 1, g: 1, b: 1, a: 1}
-    - _name: Common Text
-      _id: a888e9eb-55a8-4cb6-95f2-87c223ebc893
       _color: {r: 1, g: 1, b: 1, a: 1}
     - _name: Description Text
       _id: f082ce88-2612-4821-9daa-8d421f912d8e
       _color: {r: 1, g: 1, b: 1, a: 0.5019608}
-    - _name: Logo Color
-      _id: 2bd99ceb-7235-48e9-a8bc-70fdc919a284
-      _color: {r: 0.9716981, g: 0.9716981, b: 0.9716981, a: 1}
+    - _name: Common Text
+      _id: a888e9eb-55a8-4cb6-95f2-87c223ebc893
+      _color: {r: 1, g: 1, b: 1, a: 1}
     - _name: Main Button
       _id: e9c672ce-cad6-4ddf-8fe4-20b3b665f12e
-      _color: {r: 1, g: 0, b: 0.35686275, a: 1}
+      _color: {r: 1, g: 0, b: 0.35686302, a: 1}
     - _name: Main Button Hover
       _id: 81ac4dd1-5977-48bb-bf5a-922ec5905155
       _color: {r: 0.83137256, g: 0, b: 0.29803923, a: 1}
@@ -47,12 +41,21 @@ MonoBehaviour:
     - _name: Main Button Text
       _id: 8d406015-69a9-402e-aa9e-e28e56a8264c
       _color: {r: 1, g: 1, b: 1, a: 1}
-    - _name: Main Button Text Disabled
-      _id: 05c23a2f-fe24-4e07-935d-9f37d02c67b5
-      _color: {r: 1, g: 1, b: 1, a: 0.7058824}
+    - _name: Logo Color
+      _id: 2bd99ceb-7235-48e9-a8bc-70fdc919a284
+      _color: {r: 0.9716981, g: 0.9716981, b: 0.9716981, a: 1}
+    - _name: Left Background Color
+      _id: 56d30534-ac79-4e61-b765-6e6e02531ecb
+      _color: {r: 1, g: 1, b: 1, a: 1}
+    - _name: Hyperlink Hover
+      _id: ff860625-4654-4245-9659-0daf1362e446
+      _color: {r: 1, g: 1, b: 1, a: 1}
     - _name: Input Back
       _id: 8448ca8c-1a44-4019-94a1-3ada7306f71c
       _color: {r: 0, g: 0.08627451, b: 0.14901961, a: 0.5019608}
+    - _name: Main Button Text Disabled
+      _id: 05c23a2f-fe24-4e07-935d-9f37d02c67b5
+      _color: {r: 1, g: 1, b: 1, a: 0.7058824}
     - _name: Input Border
       _id: 1a20bec4-d4b3-4606-bf0b-bf1a728a7f47
       _color: {r: 0.4716981, g: 0.4716981, b: 0.4716981, a: 0.54509807}
@@ -62,9 +65,6 @@ MonoBehaviour:
     - _name: Hyperlink
       _id: 5951064b-e847-4e0a-8996-71df5fc3526d
       _color: {r: 0.990566, g: 0.990566, b: 0.990566, a: 0.6862745}
-    - _name: Hyperlink Hover
-      _id: ff860625-4654-4245-9659-0daf1362e446
-      _color: {r: 1, g: 1, b: 1, a: 1}
     - _name: Social Button
       _id: 21dc8235-80c2-4dd4-b5c6-40afe994b474
       _color: {r: 1, g: 1, b: 1, a: 1}
@@ -234,12 +234,12 @@ MonoBehaviour:
     - _name: Spinner
       _id: 31700e90-bef4-4a9a-b375-9382dccb76c6
       _sprite: {fileID: 21300000, guid: ca94540ee0ce8954aa2ab80d02a5b6d8, type: 3}
-    - _name: Logo
-      _id: e335fa6a-085f-404b-b1e6-b29da2bb918e
-      _sprite: {fileID: 21300000, guid: 065ddbf4432744185b704c5db1d940a8, type: 3}
     - _name: Scroll Back
       _id: 09e9348d-7273-4a81-b1ad-ce3e91489012
       _sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+    - _name: Logo
+      _id: e335fa6a-085f-404b-b1e6-b29da2bb918e
+      _sprite: {fileID: 21300000, guid: 065ddbf4432744185b704c5db1d940a8, type: 3}
     - _name: Scroll Handle
       _id: 64570eff-417a-47e2-b507-fdbf0cd28695
       _sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
@@ -256,20 +256,14 @@ MonoBehaviour:
     - _name: Base Background Color
       _id: 2a5a816b-0b34-4462-a11c-94ae69041b5d
       _color: {r: 0.12156863, g: 0.18039216, b: 0.20784314, a: 1}
-    - _name: Left Background Color
-      _id: 56d30534-ac79-4e61-b765-6e6e02531ecb
-      _color: {r: 0.1882353, g: 0.26666668, b: 0.30588236, a: 1}
     - _name: Top Background Color
       _id: 66b9e6ff-d325-476f-9307-af7877402265
       _color: {r: 0.18823531, g: 0.26666668, b: 0.30588236, a: 1}
-    - _name: Common Text
-      _id: a888e9eb-55a8-4cb6-95f2-87c223ebc893
-      _color: {r: 1, g: 1, b: 1, a: 1}
     - _name: Description Text
       _id: f082ce88-2612-4821-9daa-8d421f912d8e
       _color: {r: 1, g: 1, b: 1, a: 0.5019608}
-    - _name: Logo Color
-      _id: 2bd99ceb-7235-48e9-a8bc-70fdc919a284
+    - _name: Common Text
+      _id: a888e9eb-55a8-4cb6-95f2-87c223ebc893
       _color: {r: 1, g: 1, b: 1, a: 1}
     - _name: Main Button
       _id: e9c672ce-cad6-4ddf-8fe4-20b3b665f12e
@@ -283,12 +277,21 @@ MonoBehaviour:
     - _name: Main Button Text
       _id: 8d406015-69a9-402e-aa9e-e28e56a8264c
       _color: {r: 0.9339623, g: 0.9339623, b: 0.9339623, a: 1}
-    - _name: Main Button Text Disabled
-      _id: 05c23a2f-fe24-4e07-935d-9f37d02c67b5
-      _color: {r: 0.9333334, g: 0.9333334, b: 0.9333334, a: 0.7058824}
+    - _name: Logo Color
+      _id: 2bd99ceb-7235-48e9-a8bc-70fdc919a284
+      _color: {r: 1, g: 1, b: 1, a: 1}
+    - _name: Left Background Color
+      _id: 56d30534-ac79-4e61-b765-6e6e02531ecb
+      _color: {r: 0.1882353, g: 0.26666668, b: 0.30588236, a: 1}
+    - _name: Hyperlink Hover
+      _id: ff860625-4654-4245-9659-0daf1362e446
+      _color: {r: 0.990566, g: 0.990566, b: 0.990566, a: 1}
     - _name: Input Back
       _id: 8448ca8c-1a44-4019-94a1-3ada7306f71c
       _color: {r: 0.16470589, g: 0.23529412, b: 0.26666668, a: 1}
+    - _name: Main Button Text Disabled
+      _id: 05c23a2f-fe24-4e07-935d-9f37d02c67b5
+      _color: {r: 0.9333334, g: 0.9333334, b: 0.9333334, a: 0.7058824}
     - _name: Input Border
       _id: 1a20bec4-d4b3-4606-bf0b-bf1a728a7f47
       _color: {r: 0.15018691, g: 0.22255386, b: 0.254717, a: 1}
@@ -298,9 +301,6 @@ MonoBehaviour:
     - _name: Hyperlink
       _id: 5951064b-e847-4e0a-8996-71df5fc3526d
       _color: {r: 1, g: 1, b: 1, a: 0.6862745}
-    - _name: Hyperlink Hover
-      _id: ff860625-4654-4245-9659-0daf1362e446
-      _color: {r: 0.990566, g: 0.990566, b: 0.990566, a: 1}
     - _name: Social Button
       _id: 21dc8235-80c2-4dd4-b5c6-40afe994b474
       _color: {r: 0.9921569, g: 0.9921569, b: 0.9921569, a: 1}
@@ -470,12 +470,12 @@ MonoBehaviour:
     - _name: Spinner
       _id: 31700e90-bef4-4a9a-b375-9382dccb76c6
       _sprite: {fileID: 21300000, guid: ca94540ee0ce8954aa2ab80d02a5b6d8, type: 3}
-    - _name: Logo
-      _id: e335fa6a-085f-404b-b1e6-b29da2bb918e
-      _sprite: {fileID: 21300000, guid: 065ddbf4432744185b704c5db1d940a8, type: 3}
     - _name: Scroll Back
       _id: 09e9348d-7273-4a81-b1ad-ce3e91489012
       _sprite: {fileID: 21300000, guid: 72d77adbd025c2647be2f441ce56cfe8, type: 3}
+    - _name: Logo
+      _id: e335fa6a-085f-404b-b1e6-b29da2bb918e
+      _sprite: {fileID: 21300000, guid: 065ddbf4432744185b704c5db1d940a8, type: 3}
     - _name: Scroll Handle
       _id: 64570eff-417a-47e2-b507-fdbf0cd28695
       _sprite: {fileID: 21300000, guid: 72d77adbd025c2647be2f441ce56cfe8, type: 3}

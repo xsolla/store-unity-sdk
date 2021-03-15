@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1419055823012606015}
   - component: {fileID: 1419055823012606014}
   m_Layer: 5
-  m_Name: _ThirdWidget
+  m_Name: WidgetC
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28,7 +28,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 2974526635853323276}
+  - {fileID: 4821825699117924190}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -51,8 +51,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _propertyId: 8C831530-A84A-4A18-91B0-1AFB3D14FE2B
   _container: {fileID: 1419055823012606015}
-  _current: {fileID: 2974526635853323276}
---- !u!1001 &4423487493521181378
+  _current: {fileID: 4821825699117924190}
+--- !u!1001 &6255032222278674832
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -167,13 +167,13 @@ PrefabInstance:
     - target: {fileID: 1451502990301009615, guid: fce86640360b6d740b9a07bb8a7eb174,
         type: 3}
       propertyPath: m_Name
-      value: W_Blue_Button
+      value: ButtonBlue
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fce86640360b6d740b9a07bb8a7eb174, type: 3}
---- !u!224 &2974526635853323276 stripped
+--- !u!224 &4821825699117924190 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1451502990301009614, guid: fce86640360b6d740b9a07bb8a7eb174,
     type: 3}
-  m_PrefabInstance: {fileID: 4423487493521181378}
+  m_PrefabInstance: {fileID: 6255032222278674832}
   m_PrefabAsset: {fileID: 0}
