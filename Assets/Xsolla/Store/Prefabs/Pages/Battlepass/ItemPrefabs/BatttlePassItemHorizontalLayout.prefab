@@ -215,7 +215,7 @@ PrefabInstance:
     - target: {fileID: 1009743523206396717, guid: 0e68f058133ec5f4dace4164fdce1f31,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 1920
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 1009743523206396717, guid: 0e68f058133ec5f4dace4164fdce1f31,
         type: 3}
@@ -330,6 +330,11 @@ PrefabInstance:
     - target: {fileID: 3562110281041583811, guid: 0e68f058133ec5f4dace4164fdce1f31,
         type: 3}
       propertyPath: m_ShowMaskGraphic
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4435817594302892199, guid: 0e68f058133ec5f4dace4164fdce1f31,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4914723426673782775, guid: 0e68f058133ec5f4dace4164fdce1f31,

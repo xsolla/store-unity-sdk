@@ -50,10 +50,7 @@ namespace Xsolla.Demo
 		private string ShortenDescription(string input, int limit, string itemSku)
 		{
 			if (string.IsNullOrEmpty(input))
-			{
-				Debug.LogWarning($"Item description was null or empty for item with sku: '{itemSku}'");
 				return string.Empty;
-			}
 
 			if (input.Length <= limit)
 				return input;

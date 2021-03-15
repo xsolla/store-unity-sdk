@@ -22,7 +22,7 @@ namespace Xsolla.Demo
 			[CanBeNull] Action<Error> onError = null);
 
 		void ConsumeInventoryItem(InventoryItemModel item, int? count, [NotNull] Action<InventoryItemModel> onSuccess,
-			[CanBeNull] Action<InventoryItemModel> onFailed = null);
+			[CanBeNull] Action<InventoryItemModel> onFailed = null, bool isConfirmationRequired = true);
 
 		void RedeemCouponCode(string couponCode, [NotNull] Action<List<CouponRedeemedItemModel>> onSuccess, [CanBeNull] Action<Error> onError);
 	}

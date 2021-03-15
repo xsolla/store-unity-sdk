@@ -9,8 +9,13 @@ namespace Xsolla.Demo
 
 		private void Awake()
 		{
+			UserStatProvider.UserStatArrived += OnUserStatArrived;
+		}
+
+		private void OnUserStatArrived(BattlePassUserStat userStat)
+		{
 			foreach (var subscriber in UserStatSubscribers)
-				UserStatProvider.UserStatArrived += subscriber.OnUserStatArrived;
+				subscriber.OnUserStatArrived(userStat);
 		}
 	}
 }

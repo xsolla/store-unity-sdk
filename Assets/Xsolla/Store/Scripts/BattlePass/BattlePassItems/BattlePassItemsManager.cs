@@ -49,6 +49,26 @@ namespace Xsolla.Demo
 				_currentLevelBlock.ShowLevelLabel(show);
 		}
 
+		public BattlePassItemDescription[] GetFutureLockedItems(int levelDeltaLimit)
+		{
+			var result = new List<BattlePassItemDescription>();
+
+			var count = _levelBlocks.Count;
+			var currentIndex = _levelBlocks.IndexOf(_currentLevelBlock);
+			var maxIndex = currentIndex + levelDeltaLimit;
+
+			for (int i = currentIndex + 1; i < _levelBlocks.Count && i <= maxIndex; i++)
+			{
+				//if (_levelBlocks[i].FreeItem.ItemState == BattlePassItemState.FutureLocked) //It will always be true
+				result.Add(_levelBlocks[i].FreeItem.ItemDescription);
+
+				if (_levelBlocks[i].PremiumItem.ItemState == BattlePassItemState.FutureLocked)
+					result.Add(_levelBlocks[i].PremiumItem.ItemDescription);
+			}
+
+			return result.ToArray();
+		}
+
 		private void SetCurrentLevel(int userLevel)
 		{
 			if (_currentLevelBlock != null)

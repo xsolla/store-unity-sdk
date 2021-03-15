@@ -9,8 +9,13 @@ namespace Xsolla.Demo
 
 		private void Awake()
 		{
+			SelectedItemProvider.ItemSelected += OnItemSelected;
+		}
+
+		private void OnItemSelected(ItemSelectedEventArgs selectedItemEventArgs)
+		{
 			foreach (var subscriber in SelectedItemSubscribers)
-				SelectedItemProvider.ItemSelected += subscriber.OnItemSelected;
+				subscriber.OnItemSelected(selectedItemEventArgs);
 		}
 	}
 }

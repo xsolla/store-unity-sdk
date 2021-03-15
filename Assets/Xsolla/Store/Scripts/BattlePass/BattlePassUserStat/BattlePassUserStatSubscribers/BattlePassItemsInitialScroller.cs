@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,10 +10,12 @@ namespace Xsolla.Demo
 		[SerializeField] private RectTransform ItemsContentRoot = default;
 		[SerializeField] private float Padding = default;
 
-		public bool IsInitialStateSet { get; private set; } = false;
+		public bool IsInitialStateSet { get; private set; }
 
 		public override void OnUserStatArrived(BattlePassUserStat userStat)
 		{
+			IsInitialStateSet = false;
+
 			var itemBlockIndex = userStat.Level - 1;
 			
 			if (itemBlockIndex != 0)
