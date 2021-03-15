@@ -1,14 +1,28 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Xsolla.Demo
 {
 	public abstract class BaseBattlePassCatalogExtractor : MonoBehaviour
 	{
-		public event Action<IEnumerable<CatalogItemModel>> BattlePassItemsExtracted;
-		public abstract void ExtractBattlePassItems();
+		protected abstract Func<CatalogItemModel, bool> ItemPredicate { get; }
+		protected abstract string WarningNoItemsFoundIdentifier { get; }
 
-		protected void RaiseBattlePassItemsExtracted(IEnumerable<CatalogItemModel> itemsExtracted) => BattlePassItemsExtracted?.Invoke(itemsExtracted);
+		public event Action<IEnumerable<CatalogItemModel>> BattlePassItemsExtracted;
+
+		public void ExtractBattlePassItems()
+		{
+			var allItems = UserCatalog.Instance.AllItems;
+			var inventoryDemoImplementation = DemoController.Instance.InventoryDemo;
+			var battlepassItems = allItems.Where(item => inventoryDemoImplementation.GetCatalogGroupsByItem(item).Contains(BattlePassConstants.BATTLEPASS_GROUP));
+			var targetItems = battlepassItems.Where(ItemPredicate);
+
+			if (targetItems.Any())
+				BattlePassItemsExtracted?.Invoke(targetItems);
+			else
+				Debug.LogWarning($"No BattlePass items found that match: '{WarningNoItemsFoundIdentifier}'");
+		}
 	}
 }

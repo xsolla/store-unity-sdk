@@ -83,18 +83,22 @@ namespace Xsolla.Demo
 			return dtDateTime;
 		}
 
-		public void ConsumeInventoryItem(InventoryItemModel item, int? count, Action<InventoryItemModel> onSuccess, Action<InventoryItemModel> onFailed = null)
+		public void ConsumeInventoryItem(InventoryItemModel item, int? count, Action<InventoryItemModel> onSuccess, Action<InventoryItemModel> onFailed = null, bool isConfirmationRequired = true)
 		{
 			var countToShow = count != null ? (uint)count : 1;
-
-			StoreDemoPopup.ShowConsumeConfirmation(item.Name, countToShow, () =>
+			var onConfirmation = new Action ( () =>
 			{
 				var isFinished = false;
 				PopupFactory.Instance.CreateWaiting().SetCloseCondition(() => isFinished);
 				SendConsumeItemRequest(item, count,
 					onSuccess: () => { isFinished = true; onSuccess?.Invoke(item); },
 					onError: WrapErrorCallback(_ => { isFinished = true; onFailed?.Invoke(item); }));
-			}, () => onFailed?.Invoke(item));
+			});
+
+			if (isConfirmationRequired)
+				StoreDemoPopup.ShowConsumeConfirmation(item.Name, countToShow, onConfirmation, () => onFailed?.Invoke(item));
+			else
+				onConfirmation?.Invoke();
 		}
 
 		private void SendConsumeItemRequest(InventoryItemModel item, int? count, Action onSuccess, Action<Error> onError)

@@ -9,8 +9,13 @@ namespace Xsolla.Demo
 
 		private void Awake()
 		{
+			DescriptionProvider.BattlePassDescriptionArrived += OnBattlePassDescriptionArrived;
+		}
+
+		private void OnBattlePassDescriptionArrived(BattlePassDescription battlePassDescription)
+		{
 			foreach (var subscriber in DescriptionSubscribers)
-				DescriptionProvider.BattlePassDescriptionArrived += subscriber.OnBattlePassDescriptionArrived;
+				subscriber.OnBattlePassDescriptionArrived(battlePassDescription);
 		}
 
 		private void Start()

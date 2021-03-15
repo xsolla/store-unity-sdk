@@ -5,6 +5,7 @@ namespace Xsolla.Demo
 	public class BattlePassPopupController : MonoBehaviour
     {
 		[SerializeField] private GameObject RewardPopupPrefab = default;
+		[SerializeField] private GameObject LevelUpPopupPrefab = default;
 
 		private Canvas _pageCanvas;
 
@@ -25,6 +26,13 @@ namespace Xsolla.Demo
 			var gameObject = Instantiate(RewardPopupPrefab, PageCanvas.transform);
 			var popupController = gameObject.GetComponent<BattlePassRewardPopup>();
 			popupController.Initialize(battlePassItemDescriptions);
+		}
+
+		public BattlePassLevelUpPopup ShowLevelUp()
+		{
+			var gameObject = Instantiate(LevelUpPopupPrefab, PageCanvas.transform);
+			var popupController = gameObject.GetComponent<BattlePassLevelUpPopup>();
+			return popupController;
 		}
 	}
 }

@@ -14,33 +14,34 @@ namespace Xsolla.Demo
 		[SerializeField] private GameObject LeftCurtain = default;
 		[SerializeField] private ScrollRect ItemsScrollRect = default;
 
-		private bool _isFirstCall = true;
+		private bool _suspend = true;
 
-		public ScrollRect.ScrollRectEvent OnScroll { get; private set; }
+		private void Awake()
+		{
+			ItemsScrollRect.onValueChanged.AddListener(SetWorkingState);
+		}
 
 		public override void OnUserStatArrived(BattlePassUserStat userStat)
 		{
-			_isFirstCall = true;
+			_suspend = true;
 			SetState(isInitial: true);
-			StartCoroutine(AddListenerAfterInitialState());
+			StartCoroutine(UnsuspendOnInitialStateSet());
 		}
 
-		private IEnumerator AddListenerAfterInitialState()
+		private IEnumerator UnsuspendOnInitialStateSet()
 		{
 			yield return new WaitWhile(() => !InitialStateSetter.IsInitialStateSet);
 			yield return new WaitForEndOfFrame();
 
-			ItemsScrollRect.onValueChanged.AddListener(_ => SetWorkingState());
+			_suspend = false;
 		}
 
-		private void SetWorkingState()
+		private void SetWorkingState(Vector2 _)
 		{
-			if (_isFirstCall)
-				_isFirstCall = false;
-			else
+			if (_suspend)
 				return;
-
-			SetState(isInitial: false);
+			else
+				SetState(isInitial: false);
 		}
 
 		private void SetState(bool isInitial)
