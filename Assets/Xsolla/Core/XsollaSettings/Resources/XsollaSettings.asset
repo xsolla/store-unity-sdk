@@ -31,6 +31,30 @@ MonoBehaviour:
   paystationTheme: 1
   inAppBrowserEnabled: 1
   packInAppBrowserInBuild: 1
+  desktopRedirectPolicySettings:
+    IsFoldout: 0
+    IsOverride: 0
+    ReturnUrl: 
+    RedirectConditions: 0
+    Delay: 0
+    StatusForManualRedirection: 0
+    RedirectButtonCaption: 
+  webglRedirectPolicySettings:
+    IsFoldout: 0
+    IsOverride: 0
+    ReturnUrl: 
+    RedirectConditions: 0
+    Delay: 0
+    StatusForManualRedirection: 0
+    RedirectButtonCaption: 
+  androidRedirectPolicySettings:
+    IsFoldout: 0
+    IsOverride: 0
+    ReturnUrl: 
+    RedirectConditions: 0
+    Delay: 0
+    StatusForManualRedirection: 0
+    RedirectButtonCaption: 
   facebookAppId: 
   googleServerId: 
   wechatAppId: 
