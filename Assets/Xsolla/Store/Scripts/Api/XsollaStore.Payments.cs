@@ -1,9 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 using JetBrains.Annotations;
-using UnityEngine;
 using Xsolla.Core;
 
 namespace Xsolla.Store
@@ -163,14 +160,24 @@ namespace Xsolla.Store
 
 		private TempPurchaseParams GenerateTempPurchaseParams(PurchaseParams purchaseParams)
 		{
-			return new TempPurchaseParams()
+			var settings = new TempPurchaseParams.Settings(XsollaSettings.PaystationTheme);
+			
+			settings.redirect_policy = RedirectPolicySettings.GeneratePolicy();
+			if (settings.redirect_policy != null)
+			{
+				settings.return_url = settings.redirect_policy.return_url;
+			}
+
+			var tempPurchaseParams = new TempPurchaseParams()
 			{
 				sandbox = XsollaSettings.IsSandbox,
-				settings = new TempPurchaseParams.Settings(XsollaSettings.PaystationTheme),
+				settings = settings,
 				customParameters = purchaseParams?.customParameters,
 				currency = purchaseParams?.currency,
 				locale = purchaseParams?.locale
 			};
+
+			return tempPurchaseParams;
 		}
 	}
 }

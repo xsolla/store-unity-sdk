@@ -34,7 +34,11 @@ namespace Xsolla.Core
 		[SerializeField] public PaystationTheme paystationTheme = PaystationTheme.Dark;
 		[SerializeField] private bool inAppBrowserEnabled = true;
 		[SerializeField] private bool packInAppBrowserInBuild = true;
-
+		
+		[SerializeField] private RedirectPolicySettings desktopRedirectPolicySettings = new RedirectPolicySettings();
+		[SerializeField] private RedirectPolicySettings webglRedirectPolicySettings = new RedirectPolicySettings();
+		[SerializeField] private RedirectPolicySettings androidRedirectPolicySettings = new RedirectPolicySettings();
+		
 		[SerializeField] private string facebookAppId = default;
 		[SerializeField] private string googleServerId = default;
 		[SerializeField] private string wechatAppId = default;
@@ -234,6 +238,24 @@ namespace Xsolla.Core
 				Instance.packInAppBrowserInBuild = value;
 				MarkAssetDirty();
 			}
+		}
+		
+		public static RedirectPolicySettings DesktopRedirectPolicySettings
+		{
+			get => Instance.desktopRedirectPolicySettings;
+			set => Instance.desktopRedirectPolicySettings = value;
+		}
+
+		public static RedirectPolicySettings WebglRedirectPolicySettings
+		{
+			get => Instance.webglRedirectPolicySettings;
+			set => Instance.webglRedirectPolicySettings = value;
+		}
+
+		public static RedirectPolicySettings AndroidRedirectPolicySettings
+		{
+			get => Instance.androidRedirectPolicySettings;
+			set => Instance.androidRedirectPolicySettings = value;
 		}
 
 		public static string FacebookAppId
