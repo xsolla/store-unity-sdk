@@ -5,7 +5,14 @@ namespace Xsolla.Core
 {
 	public partial class WebRequestHelper : MonoSingleton<WebRequestHelper>
 	{
-		private const string ANALYTICS_URL_TEMPLATE = "engine=unity&engine_v={0}&sdk={1}&sdk_v={2}";
+		private const string ANALYTICS_URL_TEMPLATE = "engine=unity&engine_v={0}&sdk={1}&sdk_v={2}{3}";
+
+		private KeyValuePair<string, string>? _referralAnalytics;
+
+		public void SetReferralAnalytics(string referralPlugin, string referralVersion)
+		{
+			_referralAnalytics = new KeyValuePair<string, string>(referralPlugin, referralVersion);
+		}
 
 		public string AppendAnalyticsToUrl(SdkType analyticsType, string url)
 		{
@@ -20,7 +27,16 @@ namespace Xsolla.Core
 
 			GetSdkSpecificParameters(analyticsType, out string sdkType, out string sdkVersion);
 
-			var analyticsAddition = string.Format(ANALYTICS_URL_TEMPLATE, engineVersion, sdkType, sdkVersion);
+			var referralAnalytics = default(string);
+
+			if (_referralAnalytics.HasValue)//if (_referralAnalytics != null)
+			{
+				string referralPlugin = _referralAnalytics.Value.Key;
+				string referralVersion = _referralAnalytics.Value.Value;
+				referralAnalytics = $"&ref={referralPlugin}&ref_v={referralVersion}";
+			}
+
+			var analyticsAddition = string.Format(ANALYTICS_URL_TEMPLATE, engineVersion, sdkType, sdkVersion, referralAnalytics);
 
 			var result =  $"{url}{dividingSymbol}{analyticsAddition}";
 			return result;
@@ -63,13 +79,23 @@ namespace Xsolla.Core
 
 			GetSdkSpecificParameters(analyticsType, out string sdkType, out string sdkVersion);
 
-			var result = new List<WebRequestHeader>
+			var resultCapacity = _referralAnalytics.HasValue ? 6 : 4;
+			var result = new List<WebRequestHeader>(capacity: resultCapacity)
 			{
 				new WebRequestHeader() { Name = "X-ENGINE", Value = "UNITY" },
 				new WebRequestHeader() { Name = "X-ENGINE-V", Value = Application.unityVersion.ToUpper() },
 				new WebRequestHeader() { Name = "X-SDK", Value = sdkType.ToUpper() },
-				new WebRequestHeader() { Name = "X-SDK-V", Value = sdkVersion.ToUpper() },
+				new WebRequestHeader() { Name = "X-SDK-V", Value = sdkVersion.ToUpper() }
 			};
+
+			if (_referralAnalytics.HasValue)//if (_referralAnalytics != null)
+			{
+				string referralPlugin = _referralAnalytics.Value.Key;
+				string referralVersion = _referralAnalytics.Value.Value;
+
+				result.Add( new WebRequestHeader() { Name = "X-REF", Value = referralPlugin.ToUpper() } );
+				result.Add( new WebRequestHeader() { Name = "X-REF-V", Value = referralVersion.ToUpper() });
+			}
 
 			return result;
 		}
