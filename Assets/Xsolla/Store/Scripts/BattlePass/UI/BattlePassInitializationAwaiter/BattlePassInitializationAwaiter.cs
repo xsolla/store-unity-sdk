@@ -8,6 +8,7 @@ namespace Xsolla.Demo
     {
 		[SerializeField] private BattlePassPopupFactory BattlePassPopupFactory = default;
 		[SerializeField] private GameObject[] ObjectsToDisableOnExpired = default;
+		[SerializeField] private float SecondsToAbortWaiting = 3.0f;
 
 		private bool _isAwaitngRequired = true;
 		private bool _isFirstCall = true;
@@ -16,6 +17,7 @@ namespace Xsolla.Demo
 		private void Start()
 		{
 			PopupFactory.Instance.CreateWaiting().SetCloseCondition(() => !_isAwaitngRequired);
+			StartCoroutine(AbortWaitingAfterSeconds(SecondsToAbortWaiting));
 		}
 
 		public void OnBattlePassDescriptionArrived(BattlePassDescription battlePassDescription)
@@ -46,6 +48,12 @@ namespace Xsolla.Demo
 
 				BattlePassPopupFactory.CreateBattlePassExpiredPopup();
 			}
+		}
+
+		private	IEnumerator AbortWaitingAfterSeconds(float secondsTillAbortion)
+		{
+			yield return new WaitForSeconds(secondsTillAbortion);
+			_isAwaitngRequired = false;
 		}
     }
 }
