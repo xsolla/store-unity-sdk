@@ -40,12 +40,13 @@ namespace Xsolla.Demo
 
 			return UserInventory.Instance.AllItems.Where(i =>
 			{
-				if (i.IsVirtualCurrency()) return false;
-				if (i.IsSubscription())
+				if (i.IsVirtualCurrency())
+					return false;
+				else if (i.IsSubscription())
 				{
 					if (!UserCatalog.Instance.Subscriptions.Any(sub => sub.Sku.Equals(i.Sku)))
 					{
-						Debug.Log($"User subscription with sku = '{i.Sku}' have not equal catalog item!");
+						Debug.Log($"User subscription with sku = '{i.Sku}' have no equal catalog item!");
 						return false;
 					}
 
@@ -59,12 +60,18 @@ namespace Xsolla.Demo
 				{
 					if (!UserCatalog.Instance.VirtualItems.Any(cat => cat.Sku.Equals(i.Sku)))
 					{
-						Debug.Log($"Inventory item with sku = '{i.Sku}' have not equal catalog item!");
+						Debug.Log($"Inventory item with sku = '{i.Sku}' have no equal catalog item!");
 						return false;
 					}
 				}
+				
 				var catalogItem = UserCatalog.Instance.AllItems.First(cat => cat.Sku.Equals(i.Sku));
-				return _inventoryDemoImplementation.GetCatalogGroupsByItem(catalogItem).Any(predicate);
+				var itemGroups = _inventoryDemoImplementation.GetCatalogGroupsByItem(catalogItem);
+
+				if (itemGroups.Count == 1 && itemGroups[0] == BattlePassConstants.BATTLEPASS_GROUP)
+					return false;//This is battlepass util item
+
+				return itemGroups.Any(predicate);
 			}).ToList();
 		}
 

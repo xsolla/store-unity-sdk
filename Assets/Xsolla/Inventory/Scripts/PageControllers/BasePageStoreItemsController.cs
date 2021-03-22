@@ -40,6 +40,9 @@ namespace Xsolla.Demo
 
 			var groups = GetGroups();
 
+			//Hide BattlePass group if any
+			groups.Remove(BattlePassConstants.BATTLEPASS_GROUP);
+
 			groupsController.RemoveAll();
 			groupsController.AddGroup(GROUP_ALL);
 			groups.ForEach(g => groupsController.AddGroup(g));
