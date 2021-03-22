@@ -43,7 +43,7 @@ namespace Xsolla.Demo
 				onConfirmation?.Invoke();
 		}
 
-		public void PurchaseCart(List<UserCartItem> items, Action<List<UserCartItem>> onSuccess, Action<Error> onError = null, bool isSetPreviousDemoState = true)
+		public void PurchaseCart(List<UserCartItem> items, Action<List<UserCartItem>> onSuccess, Action<Error> onError = null, bool isSetPreviousDemoState = true, bool isShowResultToUser = true)
 		{
 			if (!items.Any())
 			{
@@ -81,7 +81,7 @@ namespace Xsolla.Demo
 								{
 									if (isSetPreviousDemoState)
 										DemoController.Instance.SetPreviousState();
-								});
+								}, isShowResultToUser);
 								onSuccess?.Invoke(items);
 								UserCart.Instance.Clear();
 							}, WrapErrorCallback(onError));

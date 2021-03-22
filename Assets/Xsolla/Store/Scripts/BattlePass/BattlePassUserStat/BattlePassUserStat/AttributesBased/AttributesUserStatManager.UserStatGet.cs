@@ -50,21 +50,31 @@ namespace Xsolla.Demo
 			if (levelIndex < 0 || levelIndex >= battlePassLevels.Length)
 			{
 				Debug.LogError($"Something went wrong. Level index based on user level was: '{levelIndex}'. Levels length: '{battlePassLevels.Length}'. User level: '{originalLevel}'");
-				Debug.Log("Setting user level to one.");
-				newLevel = 1;
+
+				if (levelIndex < 0)
+				{
+					Debug.Log("Setting user level to one.");
+					newLevel = 1;
+				}
+				else
+				{
+					Debug.Log("Setting user level to max.");
+					newLevel = battlePassLevels.Length - 1;
+				}
 				return;
 			}
 
 			while (newExp >= battlePassLevels[levelIndex].Experience)
 			{
-				newLevel++;
-				newExp -= battlePassLevels[levelIndex].Experience;
-				
-				if (levelIndex != battlePassLevels.Length - 1)
+				if (levelIndex < battlePassLevels.Length - 1)
+				{
+					newLevel++;
+					newExp -= battlePassLevels[levelIndex].Experience;
 					levelIndex++;
+				}
 				else
 				{
-					newExp = battlePassLevels[levelIndex].Experience;
+					newExp = battlePassLevels[levelIndex-1].Experience;
 					break;
 				}
 			}

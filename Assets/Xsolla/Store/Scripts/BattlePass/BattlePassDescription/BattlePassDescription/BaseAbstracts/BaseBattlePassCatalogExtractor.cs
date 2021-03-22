@@ -16,7 +16,11 @@ namespace Xsolla.Demo
 		{
 			var allItems = UserCatalog.Instance.AllItems;
 			var inventoryDemoImplementation = DemoController.Instance.InventoryDemo;
-			var battlepassItems = allItems.Where(item => inventoryDemoImplementation.GetCatalogGroupsByItem(item).Contains(BattlePassConstants.BATTLEPASS_GROUP));
+			var battlepassItems = allItems.Where(item =>
+			{
+				var itemGroups = inventoryDemoImplementation.GetCatalogGroupsByItem(item);
+				return itemGroups.Count == 1 && itemGroups[0] == BattlePassConstants.BATTLEPASS_GROUP;
+			});
 			var targetItems = battlepassItems.Where(ItemPredicate);
 
 			if (targetItems.Any())
