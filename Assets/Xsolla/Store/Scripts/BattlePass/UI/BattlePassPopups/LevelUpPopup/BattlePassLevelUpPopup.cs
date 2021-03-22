@@ -29,6 +29,18 @@ namespace Xsolla.Demo
 			OnCounterChange(COUNTER_LOWER_LIMIT);
 		}
 
+		public override void ShowPrice(string currencyImageUrl, int price, int userCurrency)
+		{
+			base.ShowPrice(currencyImageUrl, price, userCurrency);
+			Counter.ShowCounter(false);
+		}
+
+		public override void ShowPrice(string formattedPrice)
+		{
+			base.ShowPrice(formattedPrice);
+			Counter.ShowCounter(true);
+		}
+
 		public void ShowItems(BattlePassItemDescription[] items)
 		{
 			ItemsShowcase.ShowItems(items);

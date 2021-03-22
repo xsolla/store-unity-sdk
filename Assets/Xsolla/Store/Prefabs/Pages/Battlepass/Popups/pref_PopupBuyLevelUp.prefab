@@ -344,6 +344,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0560d372567d4a244a5900e35ef2cdf3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CounterHolder: {fileID: 7274933668592919354}
   CounterPlusButton: {fileID: 4365728617750052382}
   CounterMinusButton: {fileID: 6292466395599279679}
   CounterValue: {fileID: 5191115343105680616}
