@@ -12,7 +12,7 @@ namespace Xsolla.Demo
 		[SerializeField] private SimpleButton[] CollectButtons = default;
 		[SerializeField] private SimpleButton[] CollectAllButtons = default;
 		[Space]
-		[SerializeField] private BattlePassPopupController PopupController = default;
+		[SerializeField] private BattlePassPopupFactory PopupFactory = default;
 
 		protected BattlePassItemClickEventArgs _selectedItemEventArgs;
 		protected BattlePassItemDescription[] _itemsToCollect;
@@ -84,7 +84,7 @@ namespace Xsolla.Demo
 
 			UserInventory.Instance.Refresh();
 			UserStatManager.AddObtainedItems(collectedFreeItemsTiers.ToArray(), collectedPremiumItemsTiers.ToArray());
-			PopupController.ShowRewards(collectedItemsDescriptions.ToArray());
+			PopupFactory.CreateRewardsPopup(collectedItemsDescriptions.ToArray());
 		}
 
 		public abstract void CollectReward(BattlePassItemDescription itemDescription, Action onSuccess, Action onError);

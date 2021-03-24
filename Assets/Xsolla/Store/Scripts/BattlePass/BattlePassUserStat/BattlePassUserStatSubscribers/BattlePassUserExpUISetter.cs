@@ -7,6 +7,7 @@ namespace Xsolla.Demo
 	{
 		[SerializeField] private Text UserExpLabel = default;
 		[SerializeField] private Slider UserExpSlider = default;
+		[SerializeField] private GameObject[] ObjectsToDisableOnLevelMax = default;
 
 		private const string EXP_TEMPLATE = "XP {0}<color=#FFFFFFB2>/{1}</color>";
 		private const string EXP_MAX = "XP MAX";
@@ -36,6 +37,9 @@ namespace Xsolla.Demo
 			{
 				userExp = maxExp;
 				UserExpLabel.text = EXP_MAX;
+
+				foreach (var objectToDisable in ObjectsToDisableOnLevelMax)
+					objectToDisable.SetActive(false);
 			}
 
 			UserExpSlider.maxValue = maxExp;

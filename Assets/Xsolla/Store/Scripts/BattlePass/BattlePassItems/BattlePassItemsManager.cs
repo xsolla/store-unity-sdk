@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,15 +11,40 @@ namespace Xsolla.Demo
 		[SerializeField] private Transform ItemsRoot = default;
 		[SerializeField] private int VisibleItems = 6;
 
-		private List<BattlePassLevelBlock> _levelBlocks = new List<BattlePassLevelBlock>();
+		private List<BattlePassLevelBlock> _levelBlocks;
 		private bool _isBattlePassExpired;
 		private BattlePassLevelBlock _currentLevelBlock;
-		private bool _isInitialized = false;
+		private bool _isItemClickAllowed = false;
+		private BattlePassUserStat _currentUserStat;
+		private bool _currentUserPremiumStatus;
+
+		private InitializationStep _initializationStep = InitializationStep.None;
+		private InitializationStep Initialization
+		{
+			get => _initializationStep;
+			set
+			{
+				if (value > _initializationStep)
+					_initializationStep = value;
+			}
+		}
 
 		public event Action<ItemSelectedEventArgs> ItemSelected;
 
+		private void Awake()
+		{
+			BattlePassItem.ItemClick += OnItemClick;
+		}
+
+		private void OnDestroy()
+		{
+			BattlePassItem.ItemClick -= OnItemClick;
+		}
+
 		public void OnBattlePassDescriptionArrived(BattlePassDescription battlePassDescription)
 		{
+			_levelBlocks = new List<BattlePassLevelBlock>();
+
 			foreach (var levelDescription in battlePassDescription.Levels)
 			{
 				var levelGameObject = Instantiate(LevelBlockPrefab, ItemsRoot);
@@ -28,19 +54,100 @@ namespace Xsolla.Demo
 			}
 
 			_isBattlePassExpired = battlePassDescription.IsExpired;
+			Initialization = InitializationStep.Description;
 		}
 
 		public void OnUserStatArrived(BattlePassUserStat userStat)
 		{
-			_isInitialized = false;
+			StartCoroutine(SetItemsStateOnUserStat(userStat));
+		}
+
+		private IEnumerator SetItemsStateOnUserStat(BattlePassUserStat userStat)
+		{
+			yield return new WaitWhile(() => Initialization < InitializationStep.Description);
+
+			_isItemClickAllowed = false;
 			SetCurrentLevel(userStat.Level);
 			SetItemsState(userStat.Level, userStat.ObtainedFreeItems, userStat.ObtainedPremiumItems);
-			_isInitialized = true;
-			ForceItemClickOnInitialize();
+			_currentUserStat = userStat;
+			_isItemClickAllowed = true;
+
+			if (Initialization == InitializationStep.Done)
+				OnUserPremiumDefined(_currentUserPremiumStatus);
+			else
+				Initialization = InitializationStep.UserStat;
+		}
+
+		public void OnUserPremiumDefined(bool isPremiumUser)
+		{
+			StartCoroutine(SetItemsStateOnUserPremium(isPremiumUser));
+		}
+
+		private IEnumerator SetItemsStateOnUserPremium(bool isPremiumUser)
+		{
+			yield return new WaitWhile(() => Initialization < InitializationStep.UserStat);
+			_isItemClickAllowed = false;
+			_currentUserPremiumStatus = isPremiumUser;
+
+			if (isPremiumUser)
+			{
+				foreach (var level in _levelBlocks)
+				{
+					if /*any*/(level.PremiumItem.ItemState == BattlePassItemState.PremiumLocked)
+					{
+						OnUserStatArrived(_currentUserStat);//This will overwrite PremiumLocked state for premium items
+						break;
+					}
+				}
+			}
+			else//if (!isPremiumUser)
+			{
+				foreach (var level in _levelBlocks)
+				{
+					var premiumItem = level.PremiumItem;
+					var premiumItemState = premiumItem.ItemState;
+
+					switch (premiumItemState)
+					{
+						case BattlePassItemState.Collect:
+						case BattlePassItemState.FutureLocked:
+							premiumItem.SetState(BattlePassItemState.PremiumLocked);
+							break;
+						case BattlePassItemState.PremiumLocked:
+						case BattlePassItemState.Collected:
+						case BattlePassItemState.Empty:
+							//Do nothing
+							break;
+						default:
+							Debug.LogWarning($"Unexpected item state: '{premiumItemState}' for premium item " +
+								$"on level: '{premiumItem.ItemDescription.Tier}'. Target state: PremiumLocked");
+							break;
+					}
+				}
+			}
+
+			_isItemClickAllowed = true;
+
+			Initialization = InitializationStep.Done;
+			ForceItemClick();
 		}
 
 		public void ShowCurrentLevelLabel(bool show)
 		{
+			StartCoroutine(ShowCurrentLevelLabelCoroutine(show));
+		}
+
+		private IEnumerator ShowCurrentLevelLabelCoroutine(bool show)
+		{
+			yield return new WaitWhile(() => _levelBlocks == null || _currentLevelBlock == null);
+
+			if (show == false)
+			{
+				//Prevent two or more level labels to be hidden
+				foreach (var levelBlock in _levelBlocks)
+					levelBlock.ShowLevelLabel(true);
+			}
+
 			//Last N items are always visible, so making their LevelLabel disappear breaks UI
 			var count = _levelBlocks.Count;
 			var index = _levelBlocks.IndexOf(_currentLevelBlock);
@@ -113,7 +220,7 @@ namespace Xsolla.Demo
 				_levelBlocks[itemRecord - 1].PremiumItem.SetState(BattlePassItemState.Collected);
 		}
 
-		private void ForceItemClickOnInitialize()
+		private void ForceItemClick()
 		{
 			if (BattlePassItem.SelectedItem != null)
 				BattlePassItem.SelectedItem.ForceItemClick();
@@ -121,19 +228,9 @@ namespace Xsolla.Demo
 				_levelBlocks[_levelBlocks.Count-1].PremiumItem.ForceItemClick();
 		}
 
-		private void Awake()
-		{
-			BattlePassItem.ItemClick += OnItemClick;
-		}
-
-		private void OnDestroy()
-		{
-			BattlePassItem.ItemClick -= OnItemClick;
-		}
-
 		private void OnItemClick(BattlePassItemClickEventArgs itemInfo)
 		{
-			if (!_isInitialized)
+			if (!_isItemClickAllowed)
 			{
 				Debug.LogError($"Item OnClick is called prior to ItemsManager (re)initialization");
 				return;
@@ -158,6 +255,14 @@ namespace Xsolla.Demo
 				);
 
 			ItemSelected?.Invoke(eventArgs);
+		}
+
+		private enum InitializationStep
+		{
+			None = 1,
+			Description = 2,
+			UserStat = 3,
+			Done = 4
 		}
 	}
 }
