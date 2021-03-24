@@ -5407,6 +5407,7 @@ MonoBehaviour:
   - {fileID: 4183313553154780203}
   - {fileID: 5440517195737225227}
   - {fileID: 2813622031622883761}
+  SecondsToAbortWaiting: 3
 --- !u!1 &6590543005557222492
 GameObject:
   m_ObjectHideFlags: 0
@@ -8516,6 +8517,12 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2700773670096275868, guid: 982908fb0a92a4049bef12afc0fee349,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 6adecf6d410754218bd2e757a851de85,
+        type: 3}
     - target: {fileID: 3569176140831404622, guid: 982908fb0a92a4049bef12afc0fee349,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -8666,6 +8673,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7969949094499225588, guid: 982908fb0a92a4049bef12afc0fee349,
+        type: 3}
+      propertyPath: _propertyId
+      value: 12ef0b5e-fa72-43a9-9ca3-aea7659483d4
       objectReference: {fileID: 0}
     - target: {fileID: 8741173583935796536, guid: 982908fb0a92a4049bef12afc0fee349,
         type: 3}
