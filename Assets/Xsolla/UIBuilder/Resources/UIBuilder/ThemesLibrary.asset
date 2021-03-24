@@ -192,6 +192,9 @@ MonoBehaviour:
     - _name: Base Background
       _id: f59ef3aa-9cf9-4946-8de2-f203b773a004
       _sprite: {fileID: 21300000, guid: 6a8a27e3e79a44045b5fe6ad849f4fb6, type: 3}
+    - _name: Blank Background
+      _id: 12ef0b5e-fa72-43a9-9ca3-aea7659483d4
+      _sprite: {fileID: 21300000, guid: 6adecf6d410754218bd2e757a851de85, type: 3}
     - _name: Left Background
       _id: 1ccb9175-26d1-48e0-8dfb-d05e03dcf41a
       _sprite: {fileID: 21300000, guid: d1487d4161c07954da18e06235aa1e4a, type: 3}
@@ -427,6 +430,9 @@ MonoBehaviour:
     _sprites:
     - _name: Base Background
       _id: f59ef3aa-9cf9-4946-8de2-f203b773a004
+      _sprite: {fileID: 0}
+    - _name: Blank Background
+      _id: 12ef0b5e-fa72-43a9-9ca3-aea7659483d4
       _sprite: {fileID: 0}
     - _name: Left Background
       _id: 1ccb9175-26d1-48e0-8dfb-d05e03dcf41a
