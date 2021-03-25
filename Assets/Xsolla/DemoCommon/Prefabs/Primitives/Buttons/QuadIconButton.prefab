@@ -115,7 +115,7 @@ MonoBehaviour:
     _hoverPropertyId: f59ef3aa-9cf9-4946-8de2-f203b773a004
     _isOverridePress: 0
     _pressPropertyId: f59ef3aa-9cf9-4946-8de2-f203b773a004
-  _image: {fileID: 724900622245027519}
+  _comp: {fileID: 724900622245027519}
 --- !u!114 &6341075981915955074
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -136,7 +136,7 @@ MonoBehaviour:
     _hoverPropertyId: 4b755027-0140-42bc-b65d-6532545441c8
     _isOverridePress: 1
     _pressPropertyId: 1c6a09b6-2e70-455a-8053-ca6d8e5bd90f
-  _image: {fileID: 724900622245027519}
+  _comp: {fileID: 724900622245027519}
 --- !u!114 &81407433067588584
 MonoBehaviour:
   m_ObjectHideFlags: 0

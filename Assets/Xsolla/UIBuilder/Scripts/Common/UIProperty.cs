@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Xsolla.UIBuilder
 {
 	[Serializable]
-	public abstract class ThemeProperty
+	public abstract class UIProperty<TValue> : IUIItem
 	{
 		[SerializeField] private string _name;
 
@@ -22,12 +22,14 @@ namespace Xsolla.UIBuilder
 			set => _name = value;
 		}
 
-		protected ThemeProperty()
+		public abstract TValue Value { get; set; }
+
+		protected UIProperty()
 		{
-			_id = Guid.NewGuid().ToString();
+			Id = Guid.NewGuid().ToString();
 		}
 
-		protected bool Equals(ThemeProperty other)
+		protected bool Equals(UIProperty<TValue> other)
 		{
 			return _id == other._id;
 		}
@@ -43,7 +45,7 @@ namespace Xsolla.UIBuilder
 			if (obj.GetType() != GetType())
 				return false;
 
-			return Equals((ThemeProperty) obj);
+			return Equals((UIProperty<TValue>) obj);
 		}
 
 		public override int GetHashCode()

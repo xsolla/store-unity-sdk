@@ -218,7 +218,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: ddb41b3465a09714ca12682cf8043ae3, type: 3}
+    m_Font: {fileID: 12800000, guid: f70b0d194d863d14eaa3261671349a4b, type: 3}
     m_FontSize: 16
     m_FontStyle: 0
     m_BestFit: 0
@@ -251,7 +251,7 @@ MonoBehaviour:
     _hoverPropertyId: 7b111555-c639-4655-9948-52030ad69aab
     _isOverridePress: 0
     _pressPropertyId: 7b111555-c639-4655-9948-52030ad69aab
-  _text: {fileID: 3380471753738665331}
+  _comp: {fileID: 3380471753738665331}
 --- !u!114 &356963140460394826
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -272,4 +272,4 @@ MonoBehaviour:
     _hoverPropertyId: 81ac4dd1-5977-48bb-bf5a-922ec5905155
     _isOverridePress: 0
     _pressPropertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
-  _text: {fileID: 3380471753738665331}
+  _comp: {fileID: 3380471753738665331}

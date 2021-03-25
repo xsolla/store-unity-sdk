@@ -7,7 +7,7 @@ namespace Xsolla.UIBuilder
 	public class WidgetsLibrary : ScriptableObject
 	{
 		[HideInInspector]
-		[SerializeField] private List<WidgetProperty> _widgets;
+		[SerializeField] private List<WidgetProperty> _widgets = new List<WidgetProperty>();
 
 		public static List<WidgetProperty> Widgets
 		{

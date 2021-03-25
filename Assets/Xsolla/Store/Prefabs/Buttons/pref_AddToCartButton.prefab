@@ -60,7 +60,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0.35686275, a: 1}
+  m_Color: {r: 1, g: 0, b: 0.35686302, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -96,7 +96,7 @@ MonoBehaviour:
     _hoverPropertyId: f59ef3aa-9cf9-4946-8de2-f203b773a004
     _isOverridePress: 0
     _pressPropertyId: f59ef3aa-9cf9-4946-8de2-f203b773a004
-  _image: {fileID: 1694794784403097479}
+  _comp: {fileID: 1694794784403097479}
 --- !u!114 &6985388944578216346
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -117,7 +117,7 @@ MonoBehaviour:
     _hoverPropertyId: e9c672ce-cad6-4ddf-8fe4-20b3b665f12e
     _isOverridePress: 1
     _pressPropertyId: 81ac4dd1-5977-48bb-bf5a-922ec5905155
-  _image: {fileID: 1694794784403097479}
+  _comp: {fileID: 1694794784403097479}
 --- !u!1 &2962876207108072720
 GameObject:
   m_ObjectHideFlags: 0
@@ -317,7 +317,7 @@ MonoBehaviour:
     _hoverPropertyId: f59ef3aa-9cf9-4946-8de2-f203b773a004
     _isOverridePress: 0
     _pressPropertyId: f59ef3aa-9cf9-4946-8de2-f203b773a004
-  _image: {fileID: 910324667630229211}
+  _comp: {fileID: 910324667630229211}
 --- !u!114 &3248565309150279000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -338,7 +338,7 @@ MonoBehaviour:
     _hoverPropertyId: e9c672ce-cad6-4ddf-8fe4-20b3b665f12e
     _isOverridePress: 1
     _pressPropertyId: 81ac4dd1-5977-48bb-bf5a-922ec5905155
-  _image: {fileID: 910324667630229211}
+  _comp: {fileID: 910324667630229211}
 --- !u!1 &8106487249676211831
 GameObject:
   m_ObjectHideFlags: 0
@@ -398,7 +398,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0.35686275, a: 1}
+  m_Color: {r: 1, g: 0, b: 0.35686302, a: 1}
   m_RaycastTarget: 0
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -434,4 +434,4 @@ MonoBehaviour:
     _hoverPropertyId: 8d406015-69a9-402e-aa9e-e28e56a8264c
     _isOverridePress: 1
     _pressPropertyId: 8d406015-69a9-402e-aa9e-e28e56a8264c
-  _image: {fileID: 4326224710459830389}
+  _comp: {fileID: 4326224710459830389}

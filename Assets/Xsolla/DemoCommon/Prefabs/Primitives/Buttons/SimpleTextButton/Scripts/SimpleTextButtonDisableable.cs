@@ -21,9 +21,9 @@ namespace Xsolla.Demo
 
 		public void Enable()
 		{
-			DisableImage.sprite = NormalSpriteProp.GetSprite();
-			DisableImage.color = NormalImageColorProp.GetColor();
-			DisableText.color = NormalTextColorProp.GetColor();
+			DisableImage.sprite = NormalSpriteProp.GetValue();
+			DisableImage.color = NormalImageColorProp.GetValue();
+			DisableText.color = NormalTextColorProp.GetValue();
 
 			DecoratorPointerEvents.IsMute = false;
 			Unlock();
@@ -34,9 +34,9 @@ namespace Xsolla.Demo
 			Lock();
 			DecoratorPointerEvents.IsMute = true;
 
-			DisableImage.sprite = DisabledSpriteProp.GetSprite();
-			DisableImage.color = DisabledImageColorProp.GetColor();
-			DisableText.color = DisabledTextColorProp.GetColor();
+			DisableImage.sprite = DisabledSpriteProp.GetValue();
+			DisableImage.color = DisabledImageColorProp.GetValue();
+			DisableText.color = DisabledTextColorProp.GetValue();
 		}
 	}
 }

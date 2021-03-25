@@ -136,7 +136,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.22352943, g: 1, b: 0, a: 0.5019608}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.5019608}
   m_RaycastTarget: 0
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -183,6 +183,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _propertyId: 7b111555-c639-4655-9948-52030ad69aab
+  _comp: {fileID: 642065615535639448}
   _pointerOverrider:
     _pointerEvents: {fileID: 0}
     _transitionMode: 0
@@ -190,7 +191,6 @@ MonoBehaviour:
     _hoverPropertyId: 7b111555-c639-4655-9948-52030ad69aab
     _isOverridePress: 0
     _pressPropertyId: 7b111555-c639-4655-9948-52030ad69aab
-  _text: {fileID: 642065615535639448}
 --- !u!114 &5580029403324591161
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -204,6 +204,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _propertyId: f082ce88-2612-4821-9daa-8d421f912d8e
+  _comp: {fileID: 642065615535639448}
   _pointerOverrider:
     _pointerEvents: {fileID: 0}
     _transitionMode: 0
@@ -211,7 +212,6 @@ MonoBehaviour:
     _hoverPropertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
     _isOverridePress: 0
     _pressPropertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
-  _text: {fileID: 642065615535639448}
 --- !u!1 &380648713680258433
 GameObject:
   m_ObjectHideFlags: 0
@@ -347,7 +347,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.22352943, g: 1, b: 0, a: 0.5019608}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.5019608}
   m_RaycastTarget: 0
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -380,6 +380,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _propertyId: 7b111555-c639-4655-9948-52030ad69aab
+  _comp: {fileID: 8195542018893167201}
   _pointerOverrider:
     _pointerEvents: {fileID: 0}
     _transitionMode: 0
@@ -387,7 +388,6 @@ MonoBehaviour:
     _hoverPropertyId: 7b111555-c639-4655-9948-52030ad69aab
     _isOverridePress: 0
     _pressPropertyId: 7b111555-c639-4655-9948-52030ad69aab
-  _text: {fileID: 8195542018893167201}
 --- !u!114 &7670849412481399898
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -401,6 +401,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _propertyId: f082ce88-2612-4821-9daa-8d421f912d8e
+  _comp: {fileID: 8195542018893167201}
   _pointerOverrider:
     _pointerEvents: {fileID: 0}
     _transitionMode: 0
@@ -408,7 +409,6 @@ MonoBehaviour:
     _hoverPropertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
     _isOverridePress: 0
     _pressPropertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
-  _text: {fileID: 8195542018893167201}
 --- !u!1 &1275315530938624057
 GameObject:
   m_ObjectHideFlags: 0
@@ -673,13 +673,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.10980392, g: 0.10980392, b: 0.27058825, a: 1}
+  m_Color: {r: 0.078431375, g: 0.07058824, b: 0.23921569, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 1e220e873967576489fed85a1d7a15d4, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -702,6 +702,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _propertyId: 83b2de50-2cf3-40bc-bfba-83c0113979b9
+  _comp: {fileID: 4788228551245987061}
   _pointerOverrider:
     _pointerEvents: {fileID: 0}
     _transitionMode: 0
@@ -709,7 +710,6 @@ MonoBehaviour:
     _hoverPropertyId: f59ef3aa-9cf9-4946-8de2-f203b773a004
     _isOverridePress: 0
     _pressPropertyId: f59ef3aa-9cf9-4946-8de2-f203b773a004
-  _image: {fileID: 4788228551245987061}
 --- !u!114 &7631818446313460814
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -723,6 +723,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _propertyId: 04bfcbbf-48b9-4677-9e9b-1b971001579e
+  _comp: {fileID: 4788228551245987061}
   _pointerOverrider:
     _pointerEvents: {fileID: 0}
     _transitionMode: 0
@@ -730,7 +731,6 @@ MonoBehaviour:
     _hoverPropertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
     _isOverridePress: 0
     _pressPropertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
-  _image: {fileID: 4788228551245987061}
 --- !u!1 &2744183096350662471
 GameObject:
   m_ObjectHideFlags: 0
@@ -970,7 +970,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.22352943, g: 1, b: 0, a: 0.5019608}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.5019608}
   m_RaycastTarget: 0
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -999,6 +999,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _propertyId: f082ce88-2612-4821-9daa-8d421f912d8e
+  _comp: {fileID: 536637789602173256}
   _pointerOverrider:
     _pointerEvents: {fileID: 0}
     _transitionMode: 0
@@ -1006,7 +1007,6 @@ MonoBehaviour:
     _hoverPropertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
     _isOverridePress: 0
     _pressPropertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
-  _image: {fileID: 536637789602173256}
 --- !u!1 &4193816557809853569
 GameObject:
   m_ObjectHideFlags: 0
@@ -1067,7 +1067,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.22364914, g: 1, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1100,6 +1100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _propertyId: 7b111555-c639-4655-9948-52030ad69aab
+  _comp: {fileID: 3918949644907826734}
   _pointerOverrider:
     _pointerEvents: {fileID: 0}
     _transitionMode: 0
@@ -1107,7 +1108,6 @@ MonoBehaviour:
     _hoverPropertyId: 7b111555-c639-4655-9948-52030ad69aab
     _isOverridePress: 0
     _pressPropertyId: 7b111555-c639-4655-9948-52030ad69aab
-  _text: {fileID: 3918949644907826734}
 --- !u!114 &7975471002029553247
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1121,6 +1121,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _propertyId: a888e9eb-55a8-4cb6-95f2-87c223ebc893
+  _comp: {fileID: 3918949644907826734}
   _pointerOverrider:
     _pointerEvents: {fileID: 0}
     _transitionMode: 0
@@ -1128,7 +1129,6 @@ MonoBehaviour:
     _hoverPropertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
     _isOverridePress: 0
     _pressPropertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
-  _text: {fileID: 3918949644907826734}
 --- !u!1 &4604701581203137705
 GameObject:
   m_ObjectHideFlags: 0
@@ -1408,6 +1408,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _propertyId: f86a1760-1c08-415d-af57-cad0aa9bf1a2
+  _comp: {fileID: 2121172961601650073}
   _pointerOverrider:
     _pointerEvents: {fileID: 0}
     _transitionMode: 0
@@ -1415,7 +1416,6 @@ MonoBehaviour:
     _hoverPropertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
     _isOverridePress: 0
     _pressPropertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
-  _image: {fileID: 2121172961601650073}
 --- !u!1 &7446015085508255753
 GameObject:
   m_ObjectHideFlags: 0
@@ -1476,8 +1476,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.22364914, g: 1, b: 0, a: 1}
-  m_RaycastTarget: 0
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -1509,6 +1509,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _propertyId: 7b111555-c639-4655-9948-52030ad69aab
+  _comp: {fileID: 7446015085508255755}
   _pointerOverrider:
     _pointerEvents: {fileID: 0}
     _transitionMode: 0
@@ -1516,7 +1517,6 @@ MonoBehaviour:
     _hoverPropertyId: 7b111555-c639-4655-9948-52030ad69aab
     _isOverridePress: 0
     _pressPropertyId: 7b111555-c639-4655-9948-52030ad69aab
-  _text: {fileID: 7446015085508255755}
 --- !u!114 &1873386779206787396
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1530,6 +1530,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _propertyId: a888e9eb-55a8-4cb6-95f2-87c223ebc893
+  _comp: {fileID: 7446015085508255755}
   _pointerOverrider:
     _pointerEvents: {fileID: 0}
     _transitionMode: 0
@@ -1537,7 +1538,6 @@ MonoBehaviour:
     _hoverPropertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
     _isOverridePress: 0
     _pressPropertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
-  _text: {fileID: 7446015085508255755}
 --- !u!1 &7446015085648965445
 GameObject:
   m_ObjectHideFlags: 0
@@ -1641,8 +1641,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.22352943, g: 1, b: 0, a: 0.5019608}
-  m_RaycastTarget: 0
+  m_Color: {r: 1, g: 1, b: 1, a: 0.5019608}
+  m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -1674,6 +1674,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _propertyId: 7b111555-c639-4655-9948-52030ad69aab
+  _comp: {fileID: 7446015085868522461}
   _pointerOverrider:
     _pointerEvents: {fileID: 0}
     _transitionMode: 0
@@ -1681,7 +1682,6 @@ MonoBehaviour:
     _hoverPropertyId: 7b111555-c639-4655-9948-52030ad69aab
     _isOverridePress: 0
     _pressPropertyId: 7b111555-c639-4655-9948-52030ad69aab
-  _text: {fileID: 7446015085868522461}
 --- !u!114 &4207718713036654419
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1695,6 +1695,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _propertyId: f082ce88-2612-4821-9daa-8d421f912d8e
+  _comp: {fileID: 7446015085868522461}
   _pointerOverrider:
     _pointerEvents: {fileID: 0}
     _transitionMode: 0
@@ -1702,7 +1703,6 @@ MonoBehaviour:
     _hoverPropertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
     _isOverridePress: 0
     _pressPropertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
-  _text: {fileID: 7446015085868522461}
 --- !u!1 &7446015086318235816
 GameObject:
   m_ObjectHideFlags: 0
@@ -1913,7 +1913,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: fdd627d9abcbf9d4ab4c1c85ad3b0a33,
+      objectReference: {fileID: 21300000, guid: e9c312b8e56488649ac78036d5ab94d8,
         type: 3}
     - target: {fileID: 1163571277284437383, guid: 99b10f31f64c540e48963281494640b6,
         type: 3}
@@ -2213,7 +2213,7 @@ PrefabInstance:
     - target: {fileID: 3949711085248611181, guid: a9bbeb979980a439fabfde0fc12d93e7,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.35686275
+      value: 0.35686302
       objectReference: {fileID: 0}
     - target: {fileID: 3949711085248611181, guid: a9bbeb979980a439fabfde0fc12d93e7,
         type: 3}
@@ -2238,12 +2238,12 @@ PrefabInstance:
     - target: {fileID: 6541081271408603766, guid: a9bbeb979980a439fabfde0fc12d93e7,
         type: 3}
       propertyPath: m_Color.b
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6541081271408603766, guid: a9bbeb979980a439fabfde0fc12d93e7,
         type: 3}
       propertyPath: m_Color.r
-      value: 0.22364914
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6541081271408603766, guid: a9bbeb979980a439fabfde0fc12d93e7,
         type: 3}
@@ -2616,12 +2616,12 @@ PrefabInstance:
     - target: {fileID: 6177333778087564100, guid: 3ecfcc6f0ea41476ba9b57152b469f30,
         type: 3}
       propertyPath: m_Color.b
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6177333778087564100, guid: 3ecfcc6f0ea41476ba9b57152b469f30,
         type: 3}
       propertyPath: m_Color.r
-      value: 0.22352943
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6177333778087564100, guid: 3ecfcc6f0ea41476ba9b57152b469f30,
         type: 3}

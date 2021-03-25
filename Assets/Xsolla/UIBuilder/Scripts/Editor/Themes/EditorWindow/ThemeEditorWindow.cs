@@ -5,17 +5,33 @@ namespace Xsolla.UIBuilder
 {
 	public class ThemeEditorWindow : EditorWindow
 	{
-		private readonly HeaderDrawer HeaderDrawer = new HeaderDrawer();
+		private readonly ThemesHeaderDrawer HeaderDrawer;
 
-		private readonly ThemesDrawer ThemesDrawer = new ThemesDrawer();
+		private readonly ThemesDrawer ThemesDrawer;
 
-		private readonly ColorsDrawer ColorsDrawer = new ColorsDrawer();
+		private readonly ColorsDrawer ColorsDrawer;
 
-		private readonly SpritesDrawer SpritesDrawer = new SpritesDrawer();
+		private readonly SpritesDrawer SpritesDrawer;
 
-		private readonly FontsDrawer FontsDrawer = new FontsDrawer();
+		private readonly FontsDrawer FontsDrawer;
 
 		private Vector2 ScrollPosition { get; set; }
+
+		private const string _isAutoRefreshKey = "ui_themes_is_auto_refresh";
+
+		public bool IsAutoRefresh
+		{
+			get
+			{
+				if (!EditorPrefs.HasKey(_isAutoRefreshKey))
+				{
+					EditorPrefs.SetBool(_isAutoRefreshKey, true);
+				}
+
+				return EditorPrefs.GetBool(_isAutoRefreshKey);
+			}
+			set => EditorPrefs.SetBool(_isAutoRefreshKey, value);
+		}
 
 		public float PropLabelsWidth { get; private set; }
 
@@ -25,40 +41,56 @@ namespace Xsolla.UIBuilder
 			PropLabelsWidth = position.width / (themes.Count + 1);
 
 			EditorGUIUtility.labelWidth = 1f;
-
+			
 			EditorGUILayout.Space();
-			HeaderDrawer.Draw(this);
+			HeaderDrawer.Draw();
 
 			ScrollPosition = EditorGUILayout.BeginScrollView(ScrollPosition);
+			EditorGUI.BeginChangeCheck();
 
 			EditorGUILayout.Space();
-			ThemesDrawer.Draw(this);
+			ThemesDrawer.Draw();
 
 			EditorGUILayout.Space();
-			ColorsDrawer.Draw(this);
+			ColorsDrawer.Draw();
 
 			EditorGUILayout.Space();
-			SpritesDrawer.Draw(this);
+			SpritesDrawer.Draw();
 
 			EditorGUILayout.Space();
-			FontsDrawer.Draw(this);
-
-			EditorGUILayout.EndScrollView();
-			EditorGUIUtility.labelWidth = 0;
+			FontsDrawer.Draw();
 
 			if (GUI.changed)
 			{
-				EditorUtility.SetDirty(ThemesLibrary.Instance);
+				OnGuiChanged();
+			}
+
+			EditorGUI.EndChangeCheck();
+			EditorGUILayout.EndScrollView();
+			EditorGUIUtility.labelWidth = 0;
+			EditorGUILayout.Space();
+		}
+
+		public void OnGuiChanged()
+		{
+			Refresh(IsAutoRefresh);
+			Repaint();
+		}
+
+		public void Refresh(bool isRefreshAssets)
+		{
+			EditorUtility.SetDirty(ThemesLibrary.Instance);
+
+			if (isRefreshAssets)
+			{
 				AssetDatabase.SaveAssets();
 				AssetDatabase.Refresh();
-				Repaint();
 			}
 		}
 
-		public static void MarkMetaDirty()
+		public void MarkAllMetaDirty()
 		{
 			var window = GetWindow<ThemeEditorWindow>();
-			window.HeaderDrawer.IsMetaDirty = true;
 			window.ThemesDrawer.IsMetaDirty = true;
 			window.ColorsDrawer.IsMetaDirty = true;
 			window.SpritesDrawer.IsMetaDirty = true;
@@ -68,6 +100,15 @@ namespace Xsolla.UIBuilder
 		private static void OpenWindow()
 		{
 			GetWindow<ThemeEditorWindow>("UI Themes Editor");
+		}
+
+		private ThemeEditorWindow()
+		{
+			HeaderDrawer = new ThemesHeaderDrawer(this);
+			ThemesDrawer = new ThemesDrawer(this);
+			ColorsDrawer = new ColorsDrawer(this);
+			SpritesDrawer = new SpritesDrawer(this);
+			FontsDrawer = new FontsDrawer(this);
 		}
 	}
 }

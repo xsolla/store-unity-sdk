@@ -66,7 +66,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: fdd627d9abcbf9d4ab4c1c85ad3b0a33, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e9c312b8e56488649ac78036d5ab94d8, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -96,7 +96,7 @@ MonoBehaviour:
     _hoverPropertyId: f59ef3aa-9cf9-4946-8de2-f203b773a004
     _isOverridePress: 0
     _pressPropertyId: f59ef3aa-9cf9-4946-8de2-f203b773a004
-  _image: {fileID: 1163571277284437383}
+  _comp: {fileID: 1163571277284437383}
 --- !u!114 &4399665688707578024
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -117,7 +117,7 @@ MonoBehaviour:
     _hoverPropertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
     _isOverridePress: 0
     _pressPropertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
-  _image: {fileID: 1163571277284437383}
+  _comp: {fileID: 1163571277284437383}
 --- !u!1 &3013932406790810417
 GameObject:
   m_ObjectHideFlags: 0

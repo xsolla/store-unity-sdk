@@ -1,14 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Xsolla.UIBuilder
 {
 	[Serializable]
-	public class SpriteProvider : ThemePropertyProvider
+	public class SpriteProvider : UIPropertyProvider<SpriteProperty, Sprite>
 	{
-		public Sprite GetSprite()
-		{
-			return ThemesLibrary.Current.GetSpriteProperty(Id).Sprite;
-		}
+		protected override IEnumerable<SpriteProperty> Props => ThemesLibrary.Current.Sprites;
 	}
 }

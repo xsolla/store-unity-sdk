@@ -7,7 +7,7 @@ namespace Xsolla.Demo
 {
 	public abstract class BaseMenuController : MonoBehaviour
 	{
-		protected static void AttachButtonCallback(SimpleButton button, Action callback)
+		public static void AttachButtonCallback(SimpleButton button, Action callback)
 		{
 			if (button != null && callback != null)
 			{
@@ -16,7 +16,7 @@ namespace Xsolla.Demo
 			}
 		}
 
-		protected static void AttachUrlToButton(SimpleButton button, string url)
+		public static void AttachUrlToButton(SimpleButton button, string url)
 		{
 			if (!string.IsNullOrEmpty(url))
 			{
@@ -24,7 +24,7 @@ namespace Xsolla.Demo
 			}
 		}
 	
-		protected static void SetMenuState(MenuState state, Func<bool> condition = null)
+		public static void SetMenuState(MenuState state, Func<bool> condition = null)
 		{
 			if (condition == null || condition.Invoke())
 				DemoController.Instance.SetState(state);

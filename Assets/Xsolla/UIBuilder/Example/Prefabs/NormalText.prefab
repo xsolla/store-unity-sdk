@@ -60,14 +60,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.68733156, b: 0.042452812, a: 1}
+  m_Color: {r: 1, g: 0, b: 0.35686302, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 6b4fe3cedd7c53e43b9b24c1e322bf9c, type: 3}
+    m_Font: {fileID: 12800000, guid: f70b0d194d863d14eaa3261671349a4b, type: 3}
     m_FontSize: 16
     m_FontStyle: 0
     m_BestFit: 0
@@ -93,7 +93,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _propertyId: e9c672ce-cad6-4ddf-8fe4-20b3b665f12e
-  _text: {fileID: 6867693018667805681}
+  _pointerOverrider:
+    _pointerEvents: {fileID: 0}
+    _transitionMode: 0
+    _isOverrideHover: 0
+    _hoverPropertyId: a888e9eb-55a8-4cb6-95f2-87c223ebc893
+    _isOverridePress: 0
+    _pressPropertyId: a888e9eb-55a8-4cb6-95f2-87c223ebc893
+  _comp: {fileID: 6867693018667805681}
 --- !u!114 &6867693018667805695
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -107,4 +114,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _propertyId: 7b111555-c639-4655-9948-52030ad69aab
-  _text: {fileID: 6867693018667805681}
+  _pointerOverrider:
+    _pointerEvents: {fileID: 0}
+    _transitionMode: 0
+    _isOverrideHover: 0
+    _hoverPropertyId: 7b111555-c639-4655-9948-52030ad69aab
+    _isOverridePress: 0
+    _pressPropertyId: 7b111555-c639-4655-9948-52030ad69aab
+  _comp: {fileID: 6867693018667805681}

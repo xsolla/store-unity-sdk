@@ -4,11 +4,11 @@ using UnityEngine;
 namespace Xsolla.UIBuilder
 {
 	[Serializable]
-	public class FontProperty : ThemeProperty
+	public class FontProperty : UIProperty<Font>
 	{
 		[SerializeField] private Font _font;
 
-		public Font Font
+		public override Font Value
 		{
 			get => _font;
 			set => _font = value;

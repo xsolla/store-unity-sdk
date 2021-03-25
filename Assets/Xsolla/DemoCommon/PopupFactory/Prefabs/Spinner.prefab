@@ -113,7 +113,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: e37bc89854b65e14c8b8963f284c55af, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ca94540ee0ce8954aa2ab80d02a5b6d8, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -156,7 +156,7 @@ MonoBehaviour:
     _hoverPropertyId: f59ef3aa-9cf9-4946-8de2-f203b773a004
     _isOverridePress: 0
     _pressPropertyId: f59ef3aa-9cf9-4946-8de2-f203b773a004
-  _image: {fileID: 2643959569520279956}
+  _comp: {fileID: 2643959569520279956}
 --- !u!114 &2240658691072249059
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -177,7 +177,7 @@ MonoBehaviour:
     _hoverPropertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
     _isOverridePress: 0
     _pressPropertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
-  _image: {fileID: 2643959569520279956}
+  _comp: {fileID: 2643959569520279956}
 --- !u!1 &6127526354144100117
 GameObject:
   m_ObjectHideFlags: 0
@@ -245,7 +245,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: e37bc89854b65e14c8b8963f284c55af, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ca94540ee0ce8954aa2ab80d02a5b6d8, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -288,7 +288,7 @@ MonoBehaviour:
     _hoverPropertyId: f59ef3aa-9cf9-4946-8de2-f203b773a004
     _isOverridePress: 0
     _pressPropertyId: f59ef3aa-9cf9-4946-8de2-f203b773a004
-  _image: {fileID: 4173637803486398794}
+  _comp: {fileID: 4173637803486398794}
 --- !u!114 &7938628756746902689
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -309,4 +309,4 @@ MonoBehaviour:
     _hoverPropertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
     _isOverridePress: 0
     _pressPropertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
-  _image: {fileID: 4173637803486398794}
+  _comp: {fileID: 4173637803486398794}

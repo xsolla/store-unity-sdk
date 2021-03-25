@@ -99,7 +99,7 @@ MonoBehaviour:
     _hoverPropertyId: e9c672ce-cad6-4ddf-8fe4-20b3b665f12e
     _isOverridePress: 0
     _pressPropertyId: e9c672ce-cad6-4ddf-8fe4-20b3b665f12e
-  _text: {fileID: 373216386}
+  _comp: {fileID: 373216386}
 --- !u!1 &719144266
 GameObject:
   m_ObjectHideFlags: 0
@@ -165,9 +165,6 @@ MonoBehaviour:
   hoverStateSprite: {fileID: 0}
   pressedStateSprite: {fileID: 0}
   buttonText: {fileID: 0}
-  normalTextColor: {r: 1, g: 1, b: 1, a: 1}
-  hoverTextColor: {r: 1, g: 1, b: 1, a: 1}
-  pressedTextColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!114 &9128108147265747654
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -240,13 +237,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0.35686275, a: 1}
+  m_Color: {r: 1, g: 0, b: 0.35686302, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 23909068a3c96304c92ccbacb3d25ae2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1e220e873967576489fed85a1d7a15d4, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -276,7 +273,7 @@ MonoBehaviour:
     _hoverPropertyId: 81ac4dd1-5977-48bb-bf5a-922ec5905155
     _isOverridePress: 0
     _pressPropertyId: e9c672ce-cad6-4ddf-8fe4-20b3b665f12e
-  _image: {fileID: 3909191083143690794}
+  _comp: {fileID: 3909191083143690794}
 --- !u!114 &365377155347789374
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -297,4 +294,4 @@ MonoBehaviour:
     _hoverPropertyId: dfb1aea9-ded3-4435-ac2c-9199fbac8a75
     _isOverridePress: 0
     _pressPropertyId: dfb1aea9-ded3-4435-ac2c-9199fbac8a75
-  _image: {fileID: 3909191083143690794}
+  _comp: {fileID: 3909191083143690794}

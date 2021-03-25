@@ -60,13 +60,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.1882353, g: 0.26666668, b: 0.3019608, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: d1487d4161c07954da18e06235aa1e4a, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -96,7 +96,7 @@ MonoBehaviour:
     _hoverPropertyId: dfb1aea9-ded3-4435-ac2c-9199fbac8a75
     _isOverridePress: 0
     _pressPropertyId: dfb1aea9-ded3-4435-ac2c-9199fbac8a75
-  _image: {fileID: 7725895353925439657}
+  _comp: {fileID: 7725895353925439657}
 --- !u!114 &1178481286036550132
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -117,4 +117,4 @@ MonoBehaviour:
     _hoverPropertyId: e9c672ce-cad6-4ddf-8fe4-20b3b665f12e
     _isOverridePress: 0
     _pressPropertyId: e9c672ce-cad6-4ddf-8fe4-20b3b665f12e
-  _image: {fileID: 7725895353925439657}
+  _comp: {fileID: 7725895353925439657}

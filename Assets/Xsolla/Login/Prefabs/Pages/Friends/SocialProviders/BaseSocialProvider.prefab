@@ -95,7 +95,7 @@ MonoBehaviour:
     _hoverPropertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
     _isOverridePress: 0
     _pressPropertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
-  _image: {fileID: 6598867264218683080}
+  _comp: {fileID: 6598867264218683080}
 --- !u!1 &278523245611122630
 GameObject:
   m_ObjectHideFlags: 0
@@ -393,7 +393,7 @@ MonoBehaviour:
     _hoverPropertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
     _isOverridePress: 0
     _pressPropertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
-  _image: {fileID: 5843326540762411058}
+  _comp: {fileID: 5843326540762411058}
 --- !u!1 &8989995777818941211
 GameObject:
   m_ObjectHideFlags: 0
@@ -489,4 +489,4 @@ MonoBehaviour:
     _hoverPropertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
     _isOverridePress: 0
     _pressPropertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
-  _image: {fileID: 578774860283724732}
+  _comp: {fileID: 578774860283724732}

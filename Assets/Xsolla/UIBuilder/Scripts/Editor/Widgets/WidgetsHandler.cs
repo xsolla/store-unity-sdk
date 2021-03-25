@@ -7,84 +7,112 @@ namespace Xsolla.UIBuilder
 {
 	public static class WidgetsHandler
 	{
-		public static void Handle(WidgetContainer container)
+		public static void Handle(string assetPath)
 		{
-			var assetPath = GetAssetPath(container);
-			GameObject prefab = null;
-
-			if (!string.IsNullOrEmpty(assetPath))
+			var prefab = PrefabUtility.LoadPrefabContents(assetPath);
+			if (IsPrefabVariant(prefab))
 			{
-				prefab = PrefabUtility.LoadPrefabContents(assetPath);
-				container = prefab.GetComponent<WidgetContainer>();
+				PrefabUtility.UnloadPrefabContents(prefab);
+				return;
 			}
 
-			var widget = WidgetsLibrary.GetWidgetProperty(container.PropertyId).Prefab;
+			var isDirty = false;
 
-			ClearCurrentWidget(container);
-			SetCurrentWidget(container, widget);
-			AlignWidgetByContainer(container.Container, container.Current);
+			var containers = prefab.GetComponentsInChildren<WidgetContainer>();
+			foreach (var container in containers)
+			{
+				if (Handle(container))
+				{
+					isDirty = true;
+				}
+			}
 
-			if (!string.IsNullOrEmpty(assetPath))
+			if (isDirty)
 			{
 				PrefabUtility.SaveAsPrefabAsset(prefab, assetPath);
-				PrefabUtility.UnloadPrefabContents(prefab);
 			}
+
+			PrefabUtility.UnloadPrefabContents(prefab);
 		}
 
-		private static string GetAssetPath(WidgetContainer container)
+		public static bool Handle(WidgetContainer container)
 		{
-			if (Application.isEditor)
+			if (!container)
 			{
-				return PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(container);
+				return false;
 			}
 
-			return null;
+			if (PrefabUtility.IsPartOfAnyPrefab(container))
+			{
+				return false;
+			}
+
+			var widgetPrefab = WidgetsLibrary.GetWidgetProperty(container.PropertyId)?.Value;
+			var widgetPrefabPath = widgetPrefab ? GetAssetPath(widgetPrefab) : string.Empty;
+
+			var currentPrefabPath = container.Current ? GetAssetPath(container.Current) : string.Empty;
+			if (string.IsNullOrEmpty(widgetPrefabPath) || currentPrefabPath == widgetPrefabPath)
+			{
+				return false;
+			}
+
+			var siblingIndex = ClearCurrentWidget(container);
+			SetCurrentWidget(container, widgetPrefab, siblingIndex);
+			AlignWidgetByContainer(container.Container, container.Current);
+
+			return true;
 		}
 
-		private static void ClearCurrentWidget(WidgetContainer container)
+		private static int ClearCurrentWidget(WidgetContainer container)
 		{
+			var siblingIndex = 0;
+
 			if (container.Current)
 			{
-				DestroyObject(container.Current.gameObject);
+				siblingIndex = container.Current.GetSiblingIndex();
+
+				if (PrefabUtility.IsPrefabAssetMissing(container.Current.gameObject))
+				{
+					Object.Destroy(container.Current.gameObject);
+				}
+				else
+				{
+					Object.DestroyImmediate(container.Current.gameObject);
+				}
 			}
 
 			container.Current = null;
+			return siblingIndex;
 		}
 
-		private static void SetCurrentWidget(WidgetContainer container, GameObject target)
+		private static void SetCurrentWidget(WidgetContainer container, GameObject target, int siblingIndex)
 		{
 			if (container && target)
 			{
 				container.Current = CreateAsChild(container.Container, target).transform;
+				container.Current.SetSiblingIndex(siblingIndex);
 			}
 		}
 
-		private static void DestroyObject(GameObject gameObject)
+		#region Utils
+
+		private static bool IsPrefabVariant(Object obj)
 		{
-			if (Application.isEditor)
-			{
-				Object.DestroyImmediate(gameObject);
-			}
-			else
-			{
-				Object.Destroy(gameObject);
-			}
+			return PrefabUtility.GetCorrespondingObjectFromOriginalSource(obj) != null;
+		}
+
+		private static string GetAssetPath(Object obj)
+		{
+			return PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(obj);
 		}
 
 		private static GameObject CreateAsChild(Transform parent, GameObject prefab)
 		{
-			GameObject gameObject;
-			if (Application.isEditor)
-			{
-				gameObject = PrefabUtility.InstantiatePrefab(prefab, parent) as GameObject;
-			}
-			else
-			{
-				gameObject = Object.Instantiate(prefab, parent, false);
-			}
-
+			var gameObject = PrefabUtility.InstantiatePrefab(prefab, parent) as GameObject;
 			if (!gameObject || gameObject == null)
+			{
 				throw new Exception();
+			}
 
 			gameObject.name = prefab.name;
 			gameObject.transform.SetParent(parent, false);
@@ -95,11 +123,15 @@ namespace Xsolla.UIBuilder
 		private static void AlignWidgetByContainer(Transform parent, Transform child)
 		{
 			if (!parent || !child)
+			{
 				return;
+			}
 
 			var rectTransform = child.transform as RectTransform;
 			if (!rectTransform || rectTransform == null)
+			{
 				return;
+			}
 
 			rectTransform.SetParent(parent, false);
 
@@ -111,5 +143,7 @@ namespace Xsolla.UIBuilder
 
 			rectTransform.sizeDelta = Vector2.zero;
 		}
+
+		#endregion
 	}
 }

@@ -4,16 +4,24 @@ using UnityEngine;
 
 namespace Xsolla.UIBuilder
 {
-	public abstract class ThemeDecorator : MonoBehaviour
+	public abstract class ThemeDecorator<TComp> : MonoBehaviour where TComp : Component
 	{
 		[SerializeField] private string _propertyId;
 
+		[SerializeField] private TComp _comp;
+
 		[SerializeField] private DecoratorPointerOverrider _pointerOverrider;
 
-		protected string PropertyId
+		public string PropertyId
 		{
 			get => _propertyId;
 			set => _propertyId = value;
+		}
+
+		public TComp Comp
+		{
+			get => _comp;
+			set => _comp = value;
 		}
 
 		public DecoratorPointerOverrider PointerOverrider
@@ -22,32 +30,34 @@ namespace Xsolla.UIBuilder
 			set => _pointerOverrider = value;
 		}
 
+		protected abstract IEnumerable<IUIItem> Props { get; }
+
 		protected void Awake()
 		{
-			Init();
+			PointerOverrider.ApplyAction = ValidateAndApplyProperty;
+			PointerOverrider.ResetAction = theme => ValidateAndApplyProperty(theme, PropertyId);
 		}
 
 		protected void OnEnable()
 		{
 			PointerOverrider.OnEnable();
-			ThemesLibrary.CurrentChanged += OnCurrentThemeChanged;
+			ThemesLibrary.CurrentChanged += ApplyTheme;
+
 			ApplyTheme(ThemesLibrary.Current);
 		}
 
 		protected void OnDisable()
 		{
 			PointerOverrider.OnDisable();
-			ThemesLibrary.CurrentChanged -= OnCurrentThemeChanged;
-		}
-
-		protected void OnValidate()
-		{
-			ApplyTheme(ThemesLibrary.Current);
+			ThemesLibrary.CurrentChanged -= ApplyTheme;
 		}
 
 		protected void Reset()
 		{
-			CheckComponentExists();
+			if (!_comp)
+			{
+				_comp = GetComponent<TComp>();
+			}
 
 			if (PointerOverrider == null)
 			{
@@ -55,26 +65,41 @@ namespace Xsolla.UIBuilder
 			}
 		}
 
-		private void OnCurrentThemeChanged(Theme theme)
+		protected void OnValidate()
 		{
-			ApplyTheme(theme);
+			ApplyTheme(ThemesLibrary.Current);
 		}
 
-		public abstract void ApplyTheme(Theme theme);
+		protected abstract void ApplyProperty(Theme theme, string id);
 
-		protected abstract void Init();
-
-		protected abstract void CheckComponentExists();
-
-		protected void AssignComponentIfNotExists<T>(ref T value) where T : Component
+		private void ApplyTheme(Theme theme)
 		{
-			if (!value)
+			if (Comp && theme != null)
 			{
-				value = GetComponent<T>();
+				ValidatePropertyId(Props);
+				ApplyProperty(theme, PropertyId);
+				PointerOverrider.ValidatePropertyId(Props);
 			}
 		}
 
-		protected void ValidatePropertyId<T>(IEnumerable<T> properties) where T : ThemeProperty
+		private void ValidateAndApplyProperty(Theme theme, string propertyId)
+		{
+			if (!Comp)
+			{
+				Debug.LogWarning("Decorator comp is missing", this);
+				return;
+			}
+
+			if (theme == null)
+			{
+				Debug.LogWarning("Theme is null", this);
+				return;
+			}
+
+			ApplyProperty(theme, propertyId);
+		}
+
+		private void ValidatePropertyId<T>(IEnumerable<T> properties) where T : IUIItem
 		{
 			if (string.IsNullOrEmpty(PropertyId))
 			{

@@ -1,16 +1,18 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using Xsolla.UIBuilder;
 
 namespace Xsolla.Demo
 {
 	public partial class BattlePassItem : MonoBehaviour
     {
 		[SerializeField] private Image BackgroundImage = default;
-		[SerializeField] private Sprite Background = default;
-		[SerializeField] private Sprite BackgroundEmpty = default;
-		[SerializeField] private Sprite BackgroundCurrentLevel = default;
-		[SerializeField] private Sprite BackgroundSelected = default;
+		[SerializeField] private ColorProvider Background = new ColorProvider();
+		[SerializeField] private ColorProvider BackgroundEmpty = new ColorProvider();
+		[SerializeField] private ColorProvider BackgroundCurrentLevel = new ColorProvider();
+		[SerializeField] private ColorProvider BackgroundSelected = new ColorProvider();
+
 		[Space]
 		[SerializeField] private GameObject HighLight = default;
 		[Space]
@@ -19,7 +21,7 @@ namespace Xsolla.Demo
 		[SerializeField] private SimpleButton ItemButton = default;
 
 		private ItemImageContainer _itemImageContainer = new ItemImageContainer();
-		private Sprite _preSelectedBackground;
+		private Color? _preSelectedBackground;
 
 		public static BattlePassItem SelectedItem { get; private set; }
 
@@ -44,22 +46,23 @@ namespace Xsolla.Demo
 
 		public void SetCurrent(bool isCurrent)
 		{
-			var targetBackground = default(Sprite);
-
+			var targetColor = Color.white;
 			if (isCurrent)
-				targetBackground = BackgroundCurrentLevel;
+			{
+				targetColor = BackgroundCurrentLevel.GetValue();
+			}
 			else
 			{
 				if (ItemDescription != null)
-					targetBackground = Background;
+					targetColor = Background.GetValue();
 				else
-					targetBackground = BackgroundEmpty;
+					targetColor = BackgroundEmpty.GetValue();
 			}
 
 			if (_preSelectedBackground == null)
-				BackgroundImage.sprite = targetBackground;
+				BackgroundImage.color = targetColor;
 			else
-				_preSelectedBackground = targetBackground;
+				_preSelectedBackground = targetColor;
 		}
 
 		public void SetState(BattlePassItemState itemState)
@@ -99,12 +102,12 @@ namespace Xsolla.Demo
 		{
 			if (isSelected)
 			{
-				_preSelectedBackground = BackgroundImage.sprite;
-				BackgroundImage.sprite = BackgroundSelected;
+				_preSelectedBackground = BackgroundImage.color;
+				BackgroundImage.color = BackgroundSelected.GetValue();
 			}
 			else
 			{
-				BackgroundImage.sprite = _preSelectedBackground;
+				BackgroundImage.color = _preSelectedBackground ?? Color.white;
 				_preSelectedBackground = null;
 			}
 		}

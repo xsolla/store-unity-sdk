@@ -1,14 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Xsolla.UIBuilder
 {
 	[Serializable]
-	public class FontProvider : ThemePropertyProvider
+	public class FontProvider : UIPropertyProvider<FontProperty, Font>
 	{
-		public Font GetFont()
-		{
-			return ThemesLibrary.Current.GetFontProperty(Id).Font;
-		}
+		protected override IEnumerable<FontProperty> Props => ThemesLibrary.Current.Fonts;
 	}
 }

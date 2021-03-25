@@ -2,12 +2,13 @@
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using Xsolla.UIBuilder;
 
 namespace Xsolla.Demo
 {
 	public class FriendsMenuController : MonoBehaviour
 	{
-		[SerializeField] private GameObject userPrefab = default;
+		[SerializeField] private WidgetProvider userPrefabProvider = default;
 		[SerializeField] private GroupsController groupsController = default;
 		[SerializeField] private ItemContainer usersContainer = default;
 		[SerializeField] private InputField userSearchBox = default;
@@ -15,7 +16,7 @@ namespace Xsolla.Demo
 		[SerializeField] private Text EmptyGroupMessage = default;
 		[SerializeField] private Text EmptyGroupSubMessage = default;
 		[SerializeField] private SimpleButton AddFriendsButton = default;
-
+		
 		private void Awake()
 		{
 			gameObject.AddComponent<FriendsMenuHelper>();
@@ -57,7 +58,7 @@ namespace Xsolla.Demo
 				DisableEmptyGroupMessages();
 				users.ForEach(u =>
 				{
-					var go = usersContainer.AddItem(userPrefab);
+					var go = usersContainer.AddItem(userPrefabProvider.GetValue());
 					go.GetComponent<FriendUI>().Initialize(u);
 				});
 			}

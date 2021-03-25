@@ -112,7 +112,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: ddb41b3465a09714ca12682cf8043ae3, type: 3}
+    m_Font: {fileID: 12800000, guid: f70b0d194d863d14eaa3261671349a4b, type: 3}
     m_FontSize: 35
     m_FontStyle: 0
     m_BestFit: 0
@@ -145,7 +145,7 @@ MonoBehaviour:
     _hoverPropertyId: 7b111555-c639-4655-9948-52030ad69aab
     _isOverridePress: 0
     _pressPropertyId: 7b111555-c639-4655-9948-52030ad69aab
-  _text: {fileID: 5777158178903229598}
+  _comp: {fileID: 5777158178903229598}
 --- !u!114 &1742478349290338668
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -166,7 +166,7 @@ MonoBehaviour:
     _hoverPropertyId: 068cdb10-341f-4c79-8f73-cf751b289695
     _isOverridePress: 1
     _pressPropertyId: 4f0d50bd-68f6-4c35-9cfa-6a1ba272257f
-  _text: {fileID: 5777158178903229598}
+  _comp: {fileID: 5777158178903229598}
 --- !u!1 &6611645439479073238
 GameObject:
   m_ObjectHideFlags: 0
@@ -250,9 +250,6 @@ MonoBehaviour:
   hoverStateSprite: {fileID: 0}
   pressedStateSprite: {fileID: 0}
   buttonText: {fileID: 0}
-  normalTextColor: {r: 1, g: 1, b: 1, a: 1}
-  hoverTextColor: {r: 1, g: 0, b: 0.35686275, a: 1}
-  pressedTextColor: {r: 0.8235295, g: 0.050980397, b: 0.30588236, a: 1}
 --- !u!114 &3618431929910350136
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -373,4 +370,4 @@ MonoBehaviour:
     _hoverPropertyId: 068cdb10-341f-4c79-8f73-cf751b289695
     _isOverridePress: 1
     _pressPropertyId: 4f0d50bd-68f6-4c35-9cfa-6a1ba272257f
-  _image: {fileID: 3547370729128751038}
+  _comp: {fileID: 3547370729128751038}
