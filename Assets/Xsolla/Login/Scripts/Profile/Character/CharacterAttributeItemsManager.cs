@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using Xsolla.Login;
+using Xsolla.UIBuilder;
 
 namespace Xsolla.Demo
 {
 	public class CharacterAttributeItemsManager : BaseAttributeManager
 	{
-		[SerializeField] GameObject AttributeItemPrefab = default;
+		[SerializeField] WidgetProvider AttributeItemProvider = new WidgetProvider();
 		[SerializeField] Transform CustomAttributesParentTransform = default;
 		[SerializeField] Transform ReadOnlyAttributesParentTransform = default;
 		[SerializeField] SimpleButton NewButton = default;
@@ -92,7 +92,7 @@ namespace Xsolla.Demo
 
 		private AttributeItem InstantiateAttribute(UserAttribute userAttribute, bool isReadOnly, Transform parentTransform)
 		{
-			var attributeItemObject = Instantiate<GameObject>(AttributeItemPrefab, parentTransform);
+			var attributeItemObject = Instantiate<GameObject>(AttributeItemProvider.GetValue(), parentTransform);
 			var attributeItem = attributeItemObject.GetComponent<AttributeItem>();
 
 			attributeItem.IsReadOnly = isReadOnly;
@@ -185,7 +185,7 @@ namespace Xsolla.Demo
 				customKey = $"{CUSTOM_ATTRIBUTE_KEY}_{customCount}";
 			}
 
-			var attributeItemObject = Instantiate<GameObject>(AttributeItemPrefab, CustomAttributesParentTransform);
+			var attributeItemObject = Instantiate<GameObject>(AttributeItemProvider.GetValue(), CustomAttributesParentTransform);
 			var attributeItem = attributeItemObject.GetComponent<AttributeItem>();
 
 			attributeItem.IsReadOnly = false;

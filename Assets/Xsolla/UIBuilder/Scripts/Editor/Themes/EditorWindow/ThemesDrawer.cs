@@ -5,50 +5,11 @@ using UnityEngine;
 
 namespace Xsolla.UIBuilder
 {
-	public class ThemesDrawer : PropertiesMetaDrawer
+	public class ThemesDrawer : PropertiesMetaDrawer<ThemeEditorWindow>
 	{
-		public void Draw(ThemeEditorWindow window)
-		{
-			if (IsMetaDirty)
-			{
-				RefreshMeta();
-				IsMetaDirty = false;
-			}
+		protected override IEnumerable<IUIItem> Props => ThemesLibrary.Themes;
 
-			MetaList.DoLayoutList();
-		}
-
-		private void RefreshMeta()
-		{
-			MetaItems = new List<PropertyMeta>();
-
-			var themes = ThemesLibrary.Themes;
-			if (themes != null)
-			{
-				foreach (var theme in themes)
-				{
-					MetaItems.Add(new PropertyMeta(theme.Id, theme.Name));
-				}
-			}
-
-			if (MetaList != null)
-			{
-				MetaList.drawElementCallback -= OnDrawElement;
-				MetaList.drawHeaderCallback -= OnDrawHeader;
-				MetaList.onReorderCallbackWithDetails -= OnReorderElement;
-				MetaList.onAddCallback -= OnAddElement;
-				MetaList.onRemoveCallback -= OnRemoveElement;
-			}
-
-			MetaList = new ReorderableList(MetaItems, typeof(PropertyMeta));
-			MetaList.drawElementCallback += OnDrawElement;
-			MetaList.drawHeaderCallback += OnDrawHeader;
-			MetaList.onReorderCallbackWithDetails += OnReorderElement;
-			MetaList.onAddCallback += OnAddElement;
-			MetaList.onRemoveCallback += OnRemoveElement;
-		}
-
-		private void OnDrawElement(Rect rect, int index, bool isActive, bool isFocused)
+		protected override void OnDrawElement(Rect rect, int index, bool isActive, bool isFocused)
 		{
 			var fieldRect = CalculateFieldRect(rect, 1);
 			var item = MetaItems[index];
@@ -61,25 +22,22 @@ namespace Xsolla.UIBuilder
 			}
 		}
 
-		private void OnDrawHeader(Rect rect)
-		{
-			EditorGUI.LabelField(rect, "Themes");
-		}
-
-		private void OnReorderElement(ReorderableList list, int oldIndex, int newIndex)
+		protected override void OnReorderElement(ReorderableList list, int oldIndex, int newIndex)
 		{
 			ThemesManager.ChangeThemesOrder(oldIndex, newIndex);
+			Window.OnGuiChanged();
 			IsMetaDirty = true;
 		}
 
-		private void OnAddElement(ReorderableList list)
+		protected override void OnAddElement(ReorderableList list)
 		{
 			ThemesManager.CreateTheme();
+			Window.OnGuiChanged();
+			Window.MarkAllMetaDirty();
 			IsMetaDirty = true;
-			ThemeEditorWindow.MarkMetaDirty();
 		}
 
-		private void OnRemoveElement(ReorderableList list)
+		protected override void OnRemoveElement(ReorderableList list)
 		{
 			var index = list.index;
 			if (index >= 0 && index < MetaItems.Count)
@@ -88,8 +46,14 @@ namespace Xsolla.UIBuilder
 				ThemesManager.DeleteTheme(item.Id);
 			}
 
+			Window.OnGuiChanged();
+			Window.MarkAllMetaDirty();
 			IsMetaDirty = true;
-			ThemeEditorWindow.MarkMetaDirty();
+		}
+
+		public ThemesDrawer(ThemeEditorWindow window) : base(window)
+		{
+			HeaderTitle = "Themes";
 		}
 	}
 }

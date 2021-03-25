@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Xsolla.UIBuilder;
 
 namespace Xsolla.Demo
 {
@@ -8,9 +9,11 @@ namespace Xsolla.Demo
 	{
 		protected const string GROUP_ALL = "ALL";
 
-		[SerializeField] protected GameObject itemPrefab = default;
+		[SerializeField] protected WidgetProvider ItemPrefabProvider = new WidgetProvider();
 		[SerializeField] protected GroupsController groupsController = default;
 		[SerializeField] protected ItemContainer itemsContainer = default;
+		
+		private GameObject ItemPrefab => ItemPrefabProvider.GetValue();
 
 		private void Start()
 		{
@@ -20,7 +23,6 @@ namespace Xsolla.Demo
 			StartCoroutine(FillGroups());
 		}
 
-
 		protected void ShowGroupItems(string groupName)
 		{
 			var items = GetItemsByGroup(groupName);
@@ -28,7 +30,7 @@ namespace Xsolla.Demo
 			itemsContainer.Clear();
 			items.ForEach(item =>
 			{
-				var itemGameObject = itemsContainer.AddItem(itemPrefab);
+				var itemGameObject = itemsContainer.AddItem(ItemPrefab);
 				InitializeItemUI(itemGameObject, item);
 			});
 		}

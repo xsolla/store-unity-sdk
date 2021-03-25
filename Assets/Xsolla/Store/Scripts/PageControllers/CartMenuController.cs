@@ -1,20 +1,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Xsolla.Core.Popup;
+using Xsolla.UIBuilder;
 
 namespace Xsolla.Demo
 {
 	public class CartMenuController : MonoBehaviour
 	{
-		[SerializeField] private GameObject itemPrefab = default;
+		[SerializeField] private WidgetProvider ItemPrefabProvider = new WidgetProvider();
 		[SerializeField] private ItemContainer itemsContainer = default;
 		[SerializeField] private CartControls cartControls = default;
+
+		private GameObject ItemPrefab => ItemPrefabProvider.GetValue();
 
 		private readonly List<GameObject> _items = new List<GameObject>();
 	
 		protected virtual void Start()
 		{
-			if (itemPrefab == null || itemsContainer == null || cartControls == null)
+			if (ItemPrefab == null || itemsContainer == null || cartControls == null)
 			{
 				var message = "Cart prefab is broken. Some fields is null.";
 				Debug.LogError(message);
@@ -79,7 +82,7 @@ namespace Xsolla.Demo
 			itemsContainer.Clear();
 			items.ForEach(i =>
 			{
-				var go = itemsContainer.AddItem(itemPrefab);
+				var go = itemsContainer.AddItem(ItemPrefab);
 				go.GetComponent<CartItemUI>().Initialize(i);
 				_items.Add(go);
 			}); 

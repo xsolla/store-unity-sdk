@@ -95,7 +95,7 @@ MonoBehaviour:
     _hoverPropertyId: 8a69aa1d-8a69-4fab-89ab-0b979e74df8c
     _isOverridePress: 0
     _pressPropertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
-  _image: {fileID: 5709679342319279616}
+  _comp: {fileID: 5709679342319279616}
 --- !u!1 &8761578432214116197
 GameObject:
   m_ObjectHideFlags: 0
@@ -156,7 +156,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 5709679342319279616}
-  IsOverrideSprites: 1
   normalStateSprite: {fileID: 0}
   hoverStateSprite: {fileID: 0}
   pressedStateSprite: {fileID: 0}

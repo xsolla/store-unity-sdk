@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Xsolla.UIBuilder
 {
 	[Serializable]
-	public class Theme
+	public class Theme : IUIItem
 	{
 		[SerializeField] private string _name;
 
@@ -65,56 +65,56 @@ namespace Xsolla.UIBuilder
 
 		public Theme()
 		{
-			_id = Guid.NewGuid().ToString();
-			_name = "New Theme";
+			Id = Guid.NewGuid().ToString();
+			Name = "New Theme";
 
-			_colors = new List<ColorProperty>();
-			_sprites = new List<SpriteProperty>();
-			_fonts = new List<FontProperty>();
+			Colors = new List<ColorProperty>();
+			Sprites = new List<SpriteProperty>();
+			Fonts = new List<FontProperty>();
 		}
 
 		public Theme(Theme source)
 		{
-			_id = Guid.NewGuid().ToString();
-			_name = $"{source._name} (0)";
+			Id = Guid.NewGuid().ToString();
+			Name = $"{source._name} (Clone)";
 
-			_colors = new List<ColorProperty>();
+			Colors = new List<ColorProperty>();
 			foreach (var sourceProp in source._colors)
 			{
 				var prop = new ColorProperty
 				{
 					Id = sourceProp.Id,
 					Name = sourceProp.Name,
-					Color = sourceProp.Color
+					Value = sourceProp.Value
 				};
 
-				_colors.Add(prop);
+				Colors.Add(prop);
 			}
 
-			_sprites = new List<SpriteProperty>();
+			Sprites = new List<SpriteProperty>();
 			foreach (var sourceProp in source._sprites)
 			{
 				var prop = new SpriteProperty
 				{
 					Id = sourceProp.Id,
 					Name = sourceProp.Name,
-					Sprite = sourceProp.Sprite
+					Value = sourceProp.Value
 				};
 
-				_sprites.Add(prop);
+				Sprites.Add(prop);
 			}
 
-			_fonts = new List<FontProperty>();
+			Fonts = new List<FontProperty>();
 			foreach (var sourceProp in source.Fonts)
 			{
 				var prop = new FontProperty
 				{
 					Id = sourceProp.Id,
 					Name = sourceProp.Name,
-					Font = sourceProp.Font
+					Value = sourceProp.Value
 				};
 
-				_fonts.Add(prop);
+				Fonts.Add(prop);
 			}
 		}
 	}

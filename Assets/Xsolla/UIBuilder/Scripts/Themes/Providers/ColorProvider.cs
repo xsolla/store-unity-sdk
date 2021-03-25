@@ -1,14 +1,12 @@
 ﻿using UnityEngine;
 using System;
+using System.Collections.Generic;
 
 namespace Xsolla.UIBuilder
 {
 	[Serializable]
-	public class ColorProvider : ThemePropertyProvider
+	public class ColorProvider : UIPropertyProvider<ColorProperty, Color>
 	{
-		public Color GetColor()
-		{
-			return ThemesLibrary.Current.GetColorProperty(Id).Color;
-		}
+		protected override IEnumerable<ColorProperty> Props => ThemesLibrary.Current.Colors;
 	}
 }

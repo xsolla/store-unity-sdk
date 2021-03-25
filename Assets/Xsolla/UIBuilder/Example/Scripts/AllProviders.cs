@@ -25,16 +25,16 @@ namespace Xsolla.UIBuilder
 		{
 			ThemesLibrary.CurrentChanged += Redraw;
 			Redraw(ThemesLibrary.Current);
-			Instantiate(WidgetProvider.GetPrefab(), WidgetContainer, false);
+			Instantiate(WidgetProvider.GetValue(), WidgetContainer, false);
 		}
 
 		private void Redraw(Theme theme)
 		{
-			Image.color = ColorProvider.GetColor();
-			Image.sprite = SpriteProvider.GetSprite();
+			Image.color = ColorProvider.GetValue();
+			Image.sprite = SpriteProvider.GetValue();
 
-			Text.color = ColorProvider.GetColor();
-			Text.font = FontProvider.GetFont();
+			Text.color = ColorProvider.GetValue();
+			Text.font = FontProvider.GetValue();
 		}
 	}
 }

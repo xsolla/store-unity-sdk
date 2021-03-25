@@ -100,7 +100,7 @@ MonoBehaviour:
     _hoverPropertyId: 7b111555-c639-4655-9948-52030ad69aab
     _isOverridePress: 0
     _pressPropertyId: 7b111555-c639-4655-9948-52030ad69aab
-  _text: {fileID: 5026496508601442809}
+  _comp: {fileID: 5026496508601442809}
 --- !u!114 &5354956060442548050
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -121,7 +121,7 @@ MonoBehaviour:
     _hoverPropertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
     _isOverridePress: 0
     _pressPropertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
-  _text: {fileID: 5026496508601442809}
+  _comp: {fileID: 5026496508601442809}
 --- !u!1 &7281769432087790549
 GameObject:
   m_ObjectHideFlags: 0
@@ -218,4 +218,4 @@ MonoBehaviour:
     _hoverPropertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
     _isOverridePress: 0
     _pressPropertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
-  _image: {fileID: 3293994777596225219}
+  _comp: {fileID: 3293994777596225219}

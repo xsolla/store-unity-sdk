@@ -157,7 +157,7 @@ namespace Xsolla.Demo
 		{
 			SetImageSprite(image, normalStateSprite);
 			DecoratorPointerEvents.IsMute = false;
-			StartCoroutine(DoChangeColorOnNextFrame(NormalTextColor.GetColor()));
+			StartCoroutine(DoChangeColorOnNextFrame(NormalTextColor.GetValue()));
 		}
 
 		protected virtual void OnHover()
@@ -174,7 +174,7 @@ namespace Xsolla.Demo
 		{
 			SetImageSprite(image, selectedStateSprite);
 			DecoratorPointerEvents.IsMute = false;
-			StartCoroutine(DoChangeColorOnNextFrame(SelectedTextColor.GetColor()));
+			StartCoroutine(DoChangeColorOnNextFrame(SelectedTextColor.GetValue()));
 		}
 
 		private IEnumerator DoChangeColorOnNextFrame(Color color)

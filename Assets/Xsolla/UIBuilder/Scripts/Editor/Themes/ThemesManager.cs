@@ -26,13 +26,13 @@ namespace Xsolla.UIBuilder
 				newTheme.Colors.Add(new ColorProperty
 				{
 					Name = "Main Color",
-					Color = Color.white
+					Value = Color.white
 				});
 
 				newTheme.Colors.Add(new ColorProperty
 				{
 					Name = "Second Color",
-					Color = Color.black
+					Value = Color.black
 				});
 			}
 
@@ -102,7 +102,7 @@ namespace Xsolla.UIBuilder
 				{
 					Id = id,
 					Name = name,
-					Color = color
+					Value = color
 				};
 
 				theme.Colors.Add(prop);

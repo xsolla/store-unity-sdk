@@ -1,51 +1,21 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Xsolla.UIBuilder
 {
 	[AddComponentMenu("Xsolla/UI Builder/Text Color Decorator", 100)]
-	public class TextColorDecorator : ThemeDecorator
+	public class TextColorDecorator : ThemeDecorator<Text>
 	{
-		[SerializeField] private Text _text;
+		protected override IEnumerable<IUIItem> Props => ThemesLibrary.Current.Colors;
 
-		public Text Text
+		protected override void ApplyProperty(Theme theme, string id)
 		{
-			get => _text;
-			set => _text = value;
-		}
-
-		public override void ApplyTheme(Theme theme)
-		{
-			if (Text && theme != null)
+			var prop = theme.GetColorProperty(id);
+			if (prop != null)
 			{
-				ValidatePropertyId(theme.Colors);
-				ApplyColor(theme, PropertyId);
-
-				PointerOverrider.ValidatePropertyId(theme.Colors);
+				Comp.color = prop.Value;
 			}
-		}
-
-		protected override void Init()
-		{
-			PointerOverrider.ApplyAction = ApplyColor;
-			PointerOverrider.ResetAction = theme => ApplyColor(theme, PropertyId);
-		}
-
-		protected override void CheckComponentExists()
-		{
-			AssignComponentIfNotExists(ref _text);
-		}
-
-		private void ApplyColor(Theme theme, string id)
-		{
-			if (!Text)
-				return;
-
-			var prop = theme?.GetColorProperty(id);
-			if (prop == null)
-				return;
-
-			Text.color = prop.Color;
 		}
 	}
 }

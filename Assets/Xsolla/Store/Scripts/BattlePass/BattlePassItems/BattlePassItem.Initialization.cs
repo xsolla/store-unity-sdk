@@ -44,7 +44,7 @@ namespace Xsolla.Demo
 
 		private void SetEmpty()
 		{
-			BackgroundImage.sprite = BackgroundEmpty;
+			BackgroundImage.color = BackgroundEmpty.GetValue();
 			SelectionObject.SetActive(false);
 			LoadingCircle.SetActive(false);
 			ItemButton.gameObject.SetActive(false);

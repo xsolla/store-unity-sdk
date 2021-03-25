@@ -5,50 +5,11 @@ using UnityEngine;
 
 namespace Xsolla.UIBuilder
 {
-	public class FontsDrawer : PropertiesMetaDrawer
+	public class FontsDrawer : PropertiesMetaDrawer<ThemeEditorWindow>
 	{
-		public void Draw(ThemeEditorWindow window)
-		{
-			if (IsMetaDirty)
-			{
-				RefreshMeta();
-				IsMetaDirty = false;
-			}
+		protected override IEnumerable<IUIItem> Props => ThemesLibrary.Current?.Fonts;
 
-			MetaList.DoLayoutList();
-		}
-
-		private void RefreshMeta()
-		{
-			MetaItems = new List<PropertyMeta>();
-
-			var props = ThemesLibrary.Current?.Fonts;
-			if (props != null)
-			{
-				foreach (var prop in props)
-				{
-					MetaItems.Add(new PropertyMeta(prop.Id, prop.Name));
-				}
-			}
-
-			if (MetaList != null)
-			{
-				MetaList.drawElementCallback -= OnDrawElement;
-				MetaList.drawHeaderCallback -= OnDrawHeader;
-				MetaList.onReorderCallbackWithDetails -= OnReorderElement;
-				MetaList.onAddCallback -= OnAddElement;
-				MetaList.onRemoveCallback -= OnRemoveElement;
-			}
-
-			MetaList = new ReorderableList(MetaItems, typeof(PropertyMeta));
-			MetaList.drawElementCallback += OnDrawElement;
-			MetaList.drawHeaderCallback += OnDrawHeader;
-			MetaList.onReorderCallbackWithDetails += OnReorderElement;
-			MetaList.onAddCallback += OnAddElement;
-			MetaList.onRemoveCallback += OnRemoveElement;
-		}
-
-		private void OnDrawElement(Rect rect, int index, bool isActive, bool isFocused)
+		protected override void OnDrawElement(Rect rect, int index, bool isActive, bool isFocused)
 		{
 			var themes = ThemesLibrary.Themes;
 			var fieldRect = CalculateFieldRect(rect, themes.Count + 1);
@@ -67,33 +28,36 @@ namespace Xsolla.UIBuilder
 			foreach (var theme in themes)
 			{
 				var prop = theme.GetFontProperty(item.Id);
-				prop.Font = (Font) EditorGUI.ObjectField(fieldRect, prop.Font, typeof(Font), false);
+				prop.Value = (Font) EditorGUI.ObjectField(fieldRect, prop.Value, typeof(Font), false);
 				fieldRect.x += offsetPerField;
 			}
 		}
 
-		private void OnDrawHeader(Rect rect)
-		{
-			EditorGUI.LabelField(rect, "Fonts");
-		}
-
-		private void OnReorderElement(ReorderableList list, int oldIndex, int newIndex)
+		protected override void OnReorderElement(ReorderableList list, int oldIndex, int newIndex)
 		{
 			ThemesManager.ChangeFontsOrder(oldIndex, newIndex);
+			Window.OnGuiChanged();
 			IsMetaDirty = true;
 		}
 
-		private void OnAddElement(ReorderableList list)
+		protected override void OnAddElement(ReorderableList list)
 		{
 			ThemesManager.CreateFont();
+			Window.OnGuiChanged();
 			IsMetaDirty = true;
 		}
 
-		private void OnRemoveElement(ReorderableList list)
+		protected override void OnRemoveElement(ReorderableList list)
 		{
 			var item = MetaItems[list.index];
 			ThemesManager.DeleteFont(item.Id);
+			Window.OnGuiChanged();
 			IsMetaDirty = true;
+		}
+
+		public FontsDrawer(ThemeEditorWindow window) : base(window)
+		{
+			HeaderTitle = "Fonts";
 		}
 	}
 }

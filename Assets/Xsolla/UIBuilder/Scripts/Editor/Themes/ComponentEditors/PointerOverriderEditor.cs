@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -18,7 +20,7 @@ namespace Xsolla.UIBuilder
 
 		private SerializedProperty PressPropertyId { get; }
 
-		public void DrawGUI(List<string> ids, string[] names, int mainIndex)
+		public void DrawGUI<T>(IEnumerable<T> props, string mainName) where T : IUIItem
 		{
 			EditorGUILayout.PropertyField(TransitionMode);
 
@@ -32,8 +34,8 @@ namespace Xsolla.UIBuilder
 				var canEdit = PointerEvents.objectReferenceValue;
 
 				GUI.enabled = canEdit;
-				DrawOverride(IsOverrideHover, HoverPropertyId, "Override on hover", canEdit, ids, names, mainIndex);
-				DrawOverride(IsOverridePress, PressPropertyId, "Override on press", canEdit, ids, names, mainIndex);
+				DrawOverride(IsOverrideHover, HoverPropertyId, "Override on hover", canEdit, props, mainName);
+				DrawOverride(IsOverridePress, PressPropertyId, "Override on press", canEdit, props, mainName);
 				GUI.enabled = true;
 
 				EditorGUILayout.EndVertical();
@@ -41,24 +43,39 @@ namespace Xsolla.UIBuilder
 			}
 		}
 
-		private static void DrawOverride(SerializedProperty isOverride, SerializedProperty propertyId, string label, bool canEdit, List<string> ids, string[] names, int mainIndex)
+		private static void DrawOverride<T>(SerializedProperty isOverride, SerializedProperty propertyId, string label, bool canEdit, IEnumerable<T> props, string mainName) where T : IUIItem
 		{
 			EditorGUILayout.BeginHorizontal();
 			isOverride.boolValue = EditorGUILayout.ToggleLeft(label, isOverride.boolValue, GUILayout.Width(EditorGUIUtility.labelWidth));
 
 			if (canEdit && isOverride.boolValue)
 			{
+				var guiColor = GUI.color;
+
+				var names = props.Select(x => x.Name).ToList();
+				var ids = props.Select(x => x.Id).ToList();
+
 				var index = ids.IndexOf(propertyId.stringValue);
-				var selectedIndex = EditorGUILayout.Popup(index, names);
+				if (index < 0)
+				{
+					names.Insert(0, "UNDEFINED");
+					ids.Insert(0, Guid.Empty.ToString());
+					index = 0;
+					GUI.color = Color.yellow;
+				}
+
+				var selectedIndex = EditorGUILayout.Popup(index, names.ToArray());
 				if (selectedIndex != index)
 				{
 					propertyId.stringValue = ids[selectedIndex];
 				}
+
+				GUI.color = guiColor;
 			}
 			else
 			{
 				GUI.enabled = false;
-				EditorGUILayout.LabelField(names[mainIndex]);
+				EditorGUILayout.LabelField(mainName);
 				GUI.enabled = canEdit;
 			}
 

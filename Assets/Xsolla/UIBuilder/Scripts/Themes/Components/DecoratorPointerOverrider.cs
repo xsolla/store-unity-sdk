@@ -127,13 +127,13 @@ namespace Xsolla.UIBuilder
 			}
 		}
 
-		public void ValidatePropertyId<T>(IEnumerable<T> properties) where T : ThemeProperty
+		public void ValidatePropertyId<T>(IEnumerable<T> properties) where T : IUIItem
 		{
 			ValidatePropertyId(properties, ref _hoverPropertyId);
 			ValidatePropertyId(properties, ref _pressPropertyId);
 		}
 
-		private void ValidatePropertyId<T>(IEnumerable<T> properties, ref string id) where T : ThemeProperty
+		private void ValidatePropertyId<T>(IEnumerable<T> properties, ref string id) where T : IUIItem
 		{
 			if (string.IsNullOrEmpty(id))
 			{

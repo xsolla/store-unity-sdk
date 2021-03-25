@@ -4,11 +4,11 @@ using UnityEngine;
 namespace Xsolla.UIBuilder
 {
 	[Serializable]
-	public class ColorProperty : ThemeProperty
+	public class ColorProperty : UIProperty<Color>
 	{
 		[SerializeField] private Color _color;
 
-		public Color Color
+		public override Color Value
 		{
 			get => _color;
 			set => _color = value;
@@ -17,7 +17,6 @@ namespace Xsolla.UIBuilder
 		public ColorProperty()
 		{
 			Name = "New Color";
-			Color = Color.white;
 		}
 	}
 }

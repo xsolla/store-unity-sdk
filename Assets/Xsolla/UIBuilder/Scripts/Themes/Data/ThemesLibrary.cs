@@ -8,7 +8,7 @@ namespace Xsolla.UIBuilder
 	public class ThemesLibrary : ScriptableObject
 	{
 		[HideInInspector]
-		[SerializeField] private string _currentThemeId = default;
+		[SerializeField] private string _currentId = default;
 
 		[HideInInspector]
 		[SerializeField] private List<Theme> _themes = new List<Theme>();
@@ -17,7 +17,7 @@ namespace Xsolla.UIBuilder
 		{
 			get
 			{
-				var id = Instance._currentThemeId;
+				var id = Instance._currentId;
 				if (string.IsNullOrEmpty(id))
 				{
 					return null;
@@ -27,7 +27,7 @@ namespace Xsolla.UIBuilder
 			}
 			set
 			{
-				Instance._currentThemeId = value != null ? value.Id : string.Empty;
+				Instance._currentId = value != null ? value.Id : string.Empty;
 				CurrentChanged?.Invoke(value);
 			}
 		}

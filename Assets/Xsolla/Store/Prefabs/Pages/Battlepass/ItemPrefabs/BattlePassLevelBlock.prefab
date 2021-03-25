@@ -191,6 +191,8 @@ GameObject:
   - component: {fileID: 4576728197334173965}
   - component: {fileID: 6870025899994990432}
   - component: {fileID: 1710554354627950980}
+  - component: {fileID: 5667483492676929450}
+  - component: {fileID: 825026136534770421}
   m_Layer: 5
   m_Name: Highlight
   m_TagString: Untagged
@@ -238,13 +240,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.14901961, g: 0.14901961, b: 0.46274513, a: 1}
   m_RaycastTarget: 0
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 3f5207c20922b044697760e8e1cd55e1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 800d35353b6df9f4e8ab67db3d96dc85, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -254,6 +256,48 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &5667483492676929450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7536369863000697235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c17206fe0e154cd59df56614791ba46f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _propertyId: db9f2683-a7c2-40f4-88d5-3aa4629d92ab
+  _comp: {fileID: 1710554354627950980}
+  _pointerOverrider:
+    _pointerEvents: {fileID: 0}
+    _transitionMode: 0
+    _isOverrideHover: 0
+    _hoverPropertyId: f59ef3aa-9cf9-4946-8de2-f203b773a004
+    _isOverridePress: 0
+    _pressPropertyId: f59ef3aa-9cf9-4946-8de2-f203b773a004
+--- !u!114 &825026136534770421
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7536369863000697235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc7a4b87c37a4cf18dcbc9b73bf98bd4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _propertyId: 930954be-c9cf-4800-868e-f550ac9131d3
+  _comp: {fileID: 1710554354627950980}
+  _pointerOverrider:
+    _pointerEvents: {fileID: 0}
+    _transitionMode: 0
+    _isOverrideHover: 0
+    _hoverPropertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
+    _isOverridePress: 0
+    _pressPropertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
 --- !u!1 &7777222018198251371
 GameObject:
   m_ObjectHideFlags: 0
@@ -390,7 +434,7 @@ PrefabInstance:
     - target: {fileID: 1009743523206396717, guid: 0e68f058133ec5f4dace4164fdce1f31,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 62
+      value: 64
       objectReference: {fileID: 0}
     - target: {fileID: 1009743523206396717, guid: 0e68f058133ec5f4dace4164fdce1f31,
         type: 3}
@@ -438,6 +482,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PremiumItem
+      objectReference: {fileID: 0}
+    - target: {fileID: 1009743523206396716, guid: 0e68f058133ec5f4dace4164fdce1f31,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1009743523206396717, guid: 0e68f058133ec5f4dace4164fdce1f31,
         type: 3}

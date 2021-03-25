@@ -1,59 +1,15 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
 
 namespace Xsolla.UIBuilder
 {
-	public class SpritesDrawer : PropertiesMetaDrawer
+	public class SpritesDrawer : PropertiesMetaDrawer<ThemeEditorWindow>
 	{
-		private float SpriteFieldSize => EditorGUIUtility.singleLineHeight * 3f;
+		protected override IEnumerable<IUIItem> Props => ThemesLibrary.Current?.Sprites;
 
-		public void Draw(ThemeEditorWindow window)
-		{
-			if (IsMetaDirty)
-			{
-				RefreshMeta();
-				IsMetaDirty = false;
-			}
-
-			MetaList.DoLayoutList();
-		}
-
-		private void RefreshMeta()
-		{
-			MetaItems = new List<PropertyMeta>();
-
-			var props = ThemesLibrary.Current?.Sprites;
-			if (props != null)
-			{
-				foreach (var prop in props)
-				{
-					MetaItems.Add(new PropertyMeta(prop.Id, prop.Name));
-				}
-			}
-
-			if (MetaList != null)
-			{
-				MetaList.drawElementCallback -= OnDrawElement;
-				MetaList.drawHeaderCallback -= OnDrawHeader;
-				MetaList.onReorderCallbackWithDetails -= OnReorderElement;
-				MetaList.onAddCallback -= OnAddElement;
-				MetaList.onRemoveCallback -= OnRemoveElement;
-			}
-
-			MetaList = new ReorderableList(MetaItems, typeof(PropertyMeta));
-			MetaList.elementHeight = SpriteFieldSize;
-
-			MetaList.drawElementCallback += OnDrawElement;
-			MetaList.drawHeaderCallback += OnDrawHeader;
-			MetaList.onReorderCallbackWithDetails += OnReorderElement;
-			MetaList.onAddCallback += OnAddElement;
-			MetaList.onRemoveCallback += OnRemoveElement;
-		}
-
-		private void OnDrawElement(Rect rect, int index, bool isActive, bool isFocused)
+		protected override void OnDrawElement(Rect rect, int index, bool isActive, bool isFocused)
 		{
 			var themes = ThemesLibrary.Themes;
 			var fieldRect = CalculateFieldRect(rect, themes.Count + 1);
@@ -69,40 +25,44 @@ namespace Xsolla.UIBuilder
 			}
 			fieldRect.x += offsetPerField;
 
-			fieldRect.x += (fieldRect.width - SpriteFieldSize) / 2f;
-			fieldRect.height = SpriteFieldSize;
-			fieldRect.width = SpriteFieldSize;
+			fieldRect.x += (fieldRect.width - ElementHeight) / 2f;
+			fieldRect.height = ElementHeight;
+			fieldRect.width = ElementHeight;
 
 			foreach (var theme in themes)
 			{
 				var prop = theme.GetSpriteProperty(item.Id);
-				prop.Sprite = (Sprite) EditorGUI.ObjectField(fieldRect, prop.Sprite, typeof(Sprite), false);
+				prop.Value = (Sprite) EditorGUI.ObjectField(fieldRect, prop.Value, typeof(Sprite), false);
 				fieldRect.x += offsetPerField;
 			}
 		}
 
-		private void OnDrawHeader(Rect rect)
-		{
-			EditorGUI.LabelField(rect, "Sprites");
-		}
-
-		private void OnReorderElement(ReorderableList list, int oldIndex, int newIndex)
+		protected override void OnReorderElement(ReorderableList list, int oldIndex, int newIndex)
 		{
 			ThemesManager.ChangeSpritesOrder(oldIndex, newIndex);
+			Window.OnGuiChanged();
 			IsMetaDirty = true;
 		}
 
-		private void OnAddElement(ReorderableList list)
+		protected override void OnAddElement(ReorderableList list)
 		{
 			ThemesManager.CreateSprite();
+			Window.OnGuiChanged();
 			IsMetaDirty = true;
 		}
 
-		private void OnRemoveElement(ReorderableList list)
+		protected override void OnRemoveElement(ReorderableList list)
 		{
 			var item = MetaItems[list.index];
 			ThemesManager.DeleteSprite(item.Id);
+			Window.OnGuiChanged();
 			IsMetaDirty = true;
+		}
+
+		public SpritesDrawer(ThemeEditorWindow window) : base(window)
+		{
+			HeaderTitle = "Sprites";
+			ElementHeight = EditorGUIUtility.singleLineHeight * 3f;
 		}
 	}
 }
