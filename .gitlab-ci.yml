@@ -22,8 +22,8 @@ build doc:
 deploy doc:
   stage: deploy
   extends:      .deploy doc
-  only:
-    - deploy_doc
+#  only:
+#    - deploy_doc
   dependencies:
     - build doc
   environment:
@@ -34,8 +34,8 @@ deploy doc:
 
 current doc:
   extends:      .current doc
-  only:
-    - deploy_doc
+#  only:
+#    - deploy_doc
   dependencies:
     - deploy doc
   environment:
@@ -47,6 +47,6 @@ stop doc:
   environment:
     name: doc/$CI_COMMIT_REF_SLUG
     action: stop
-  only:
-    - deploy_doc
+#  only:
+#    - deploy_doc
   dependencies: []
