@@ -24,7 +24,7 @@ deploy doc:
   extends:      .deploy doc
   only:
     refs:
-      - deploy_doc
+      - deploy-doc
   dependencies:
     - build doc
   environment:
@@ -37,7 +37,7 @@ current doc:
   extends:      .current doc
   only:
     refs:
-      - deploy_doc
+      - deploy-doc
   dependencies:
     - deploy doc
   environment:
@@ -51,5 +51,5 @@ stop doc:
     action: stop
   only:
     refs:
-      - deploy_doc
+      - deploy-doc
   dependencies: []
