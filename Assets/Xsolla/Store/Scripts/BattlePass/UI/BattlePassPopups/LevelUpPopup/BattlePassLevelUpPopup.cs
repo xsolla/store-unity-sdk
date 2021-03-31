@@ -29,9 +29,9 @@ namespace Xsolla.Demo
 			OnCounterChange(COUNTER_LOWER_LIMIT);
 		}
 
-		public override void ShowPrice(string currencyImageUrl, int price, int userCurrency)
+		public override void ShowPrice(string currencyImageUrl, string currencyName, int price, int userCurrency)
 		{
-			base.ShowPrice(currencyImageUrl, price, userCurrency);
+			base.ShowPrice(currencyImageUrl, currencyName, price, userCurrency);
 			Counter.ShowCounter(false);
 		}
 

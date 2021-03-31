@@ -18,7 +18,8 @@ namespace Xsolla.Demo
 		[SerializeField] private GameObject BuyCurrencyButtonHolder = default;
 		[SerializeField] private Text CurrencyDeltaText = default;
 
-		private const string CURRENCY_DELTA_TEMPLATE = "You need {0} more crystals.";
+		private const string CURRENCY_DELTA_TEMPLATE = "You need {0} more {1}.";
+		private const string CURRENCY_GOLD = "GOLD";
 
 		public event Action BuyButtonClick;
 		public event Action BuyCurrencyButtonClick;
@@ -44,7 +45,7 @@ namespace Xsolla.Demo
 			SetActive(RealCurrencyPriceValue.gameObject, true);
 		}
 
-		public void ShowPrice(string currencyImageUrl, int price, int userCurrency)
+		public void ShowPrice(string currencyImageUrl, string currencyName, int price, int userCurrency)
 		{
 			SetActive(RealCurrencyPriceValue.gameObject, false);
 
@@ -60,7 +61,9 @@ namespace Xsolla.Demo
 			{
 				BuyButton.Disable();
 				var currencyDelta = price - userCurrency;
-				var currencyDeltaMessage = string.Format(CURRENCY_DELTA_TEMPLATE, currencyDelta);
+				var currencyNameToShow = (currencyName.EndsWith("s") || currencyName.ToUpper() == CURRENCY_GOLD) ? currencyName : $"{currencyName}s";
+
+				var currencyDeltaMessage = string.Format(CURRENCY_DELTA_TEMPLATE, currencyDelta, currencyNameToShow);
 				CurrencyDeltaText.text = currencyDeltaMessage;
 			}
 

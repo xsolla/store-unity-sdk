@@ -15,6 +15,7 @@ namespace Xsolla.Demo
 
 		[Space]
 		[SerializeField] private GameObject HighLight = default;
+		[SerializeField] private GameObject ItemFrame = default;
 		[Space]
 		[SerializeField] private GameObject[] StateObjects = default;
 		[Space]
@@ -76,8 +77,9 @@ namespace Xsolla.Demo
 					stateObject.SetActive(false);
 			}
 
-			ItemState = itemState;
 			StateObjects[(int)itemState].SetActive(true);
+			SetItemFrame(itemState);
+			ItemState = itemState;
 		}
 
 		public void ForceItemClick() => RaiseItemClick();
@@ -109,6 +111,25 @@ namespace Xsolla.Demo
 			{
 				BackgroundImage.color = _preSelectedBackground ?? Color.white;
 				_preSelectedBackground = null;
+			}
+		}
+
+		private void SetItemFrame(BattlePassItemState itemState)
+		{
+			switch (itemState)
+			{
+				case BattlePassItemState.Collect:
+				case BattlePassItemState.Collected:
+					ItemFrame.SetActive(true);
+					break;
+				case BattlePassItemState.FutureLocked:
+					ItemFrame.SetActive(false);
+					break;
+				case BattlePassItemState.PremiumLocked:
+				case BattlePassItemState.Empty:
+				default:
+					//Do nothing
+					break;
 			}
 		}
 	}
