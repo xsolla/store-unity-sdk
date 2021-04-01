@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Xsolla.Core;
+using Xsolla.UIBuilder;
 
 namespace Xsolla.Demo
 {
@@ -11,7 +12,7 @@ namespace Xsolla.Demo
 	{
 		private const float SearchUsersTimeout = 2.0F;
 
-		[SerializeField] private GameObject userPrefab = default;
+		[SerializeField] private WidgetProvider userPrefabProvider = default;
 		[SerializeField] private ItemContainer usersContainer = default;
 		[SerializeField] private FriendSearchBox searchBox = default;
 
@@ -80,7 +81,7 @@ namespace Xsolla.Demo
 			usersContainer.Clear();
 			users.ForEach(u =>
 			{
-				var go = usersContainer.AddItem(userPrefab);
+				var go = usersContainer.AddItem(userPrefabProvider.GetValue());
 				go.GetComponent<FriendUI>().Initialize(u);
 			});
 

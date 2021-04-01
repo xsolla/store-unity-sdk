@@ -17,6 +17,11 @@ namespace Xsolla.Demo
 				balancePosition.x = 0;
 				virtualCurrencyBalance.GetComponent<RectTransform>().anchoredPosition = balancePosition;
 			}
+			else
+			{
+				BaseMenuController.AttachButtonCallback(buyCurrencyButton,
+					() => BaseMenuController.SetMenuState(MenuState.BuyCurrency, () => UserCatalog.Instance.IsUpdated));
+			}
 		}
 	}
 }

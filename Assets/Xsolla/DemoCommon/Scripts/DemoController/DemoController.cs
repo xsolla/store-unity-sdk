@@ -26,6 +26,7 @@ namespace Xsolla.Demo
 		public override void Init()
 		{
 			base.Init();
+			XsollaWebCallbacks.Instance.Init();
 
 			LoginDemo = GetComponent<ILoginDemoImplementation>();
 			StoreDemo = GetComponent<IStoreDemoImplementation>();

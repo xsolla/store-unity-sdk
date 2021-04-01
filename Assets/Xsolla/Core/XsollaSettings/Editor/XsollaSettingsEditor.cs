@@ -21,6 +21,7 @@ namespace Xsolla.Core
 							InventorySDKSettings();
 
 			XsollaAndroidSettings();
+			DemoSettings();
 
 			if (changed)
 			{

@@ -9,17 +9,28 @@ namespace Xsolla.Store
 	public class TempPurchaseParams
 	{
 		public bool sandbox;
+		
 		public Settings settings;
 
 		[JsonProperty("custom_parameters", NullValueHandling = NullValueHandling.Ignore)]
 		public Dictionary<string, object> customParameters;
+		
 		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 		public string currency;
+		
 		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 		public string locale;
 
 		public class Settings
 		{
+			public SettingsUI ui;
+
+			[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+			public string return_url;
+			
+			[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+			public RedirectPolicy redirect_policy;
+			
 			public class SettingsUI
 			{
 				public string theme;
@@ -37,12 +48,15 @@ namespace Xsolla.Store
 				}
 			}
 
-			public SettingsUI ui;
-
 			public Settings(PaystationTheme theme = PaystationTheme.Dark)
 			{
 				ui = new SettingsUI(theme);
 			}
+		}
+
+		public TempPurchaseParams()
+		{
+			
 		}
 	}
 }

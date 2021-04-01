@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 373216385}
   - component: {fileID: 373216387}
   - component: {fileID: 373216386}
+  - component: {fileID: 2019097929122817050}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -54,17 +55,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 373216384}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: f70b0d194d863d14eaa3261671349a4b, type: 3}
     m_FontSize: 19
@@ -79,6 +79,27 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: RED BUTTON TEXT
+--- !u!114 &2019097929122817050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 373216384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc2106c456714323a645d26b01862ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _propertyId: 8d406015-69a9-402e-aa9e-e28e56a8264c
+  _pointerOverrider:
+    _pointerEvents: {fileID: 0}
+    _transitionMode: 0
+    _isOverrideHover: 0
+    _hoverPropertyId: e9c672ce-cad6-4ddf-8fe4-20b3b665f12e
+    _isOverridePress: 0
+    _pressPropertyId: e9c672ce-cad6-4ddf-8fe4-20b3b665f12e
+  _comp: {fileID: 373216386}
 --- !u!1 &719144266
 GameObject:
   m_ObjectHideFlags: 0
@@ -90,6 +111,7 @@ GameObject:
   - component: {fileID: 719144267}
   - component: {fileID: 719144270}
   - component: {fileID: 719144268}
+  - component: {fileID: 9128108147265747654}
   m_Layer: 5
   m_Name: RedButton
   m_TagString: Untagged
@@ -138,14 +160,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 324f3b63bb596476ea74d1b010da30f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  image: {fileID: 3909191083143690794}
-  normalStateSprite: {fileID: 21300000, guid: d9f94f6d907f04fca86f6f5086ce97f0, type: 3}
-  hoverStateSprite: {fileID: 21300000, guid: 464a9e4fa7f964a1ab4831ef6da17148, type: 3}
-  pressedStateSprite: {fileID: 21300000, guid: d9f94f6d907f04fca86f6f5086ce97f0, type: 3}
-  buttonText: {fileID: 373216386}
-  normalTextColor: {r: 1, g: 1, b: 1, a: 1}
-  hoverTextColor: {r: 1, g: 1, b: 1, a: 1}
-  pressedTextColor: {r: 1, g: 1, b: 1, a: 1}
+  image: {fileID: 0}
+  normalStateSprite: {fileID: 0}
+  hoverStateSprite: {fileID: 0}
+  pressedStateSprite: {fileID: 0}
+  buttonText: {fileID: 0}
+--- !u!114 &9128108147265747654
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 719144266}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73be4c0a4d7b487b9136d648564cd8a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5898628772083899561
 GameObject:
   m_ObjectHideFlags: 0
@@ -157,6 +188,8 @@ GameObject:
   - component: {fileID: 6593658743760460858}
   - component: {fileID: 7461793416177534239}
   - component: {fileID: 3909191083143690794}
+  - component: {fileID: 2922333269577255334}
+  - component: {fileID: 365377155347789374}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -200,19 +233,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 5898628772083899561}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0, b: 0.35686302, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: d9f94f6d907f04fca86f6f5086ce97f0, type: 3}
-  m_Type: 0
+  m_Sprite: {fileID: 21300000, guid: 1e220e873967576489fed85a1d7a15d4, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -220,3 +252,46 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2922333269577255334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5898628772083899561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc7a4b87c37a4cf18dcbc9b73bf98bd4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _propertyId: e9c672ce-cad6-4ddf-8fe4-20b3b665f12e
+  _pointerOverrider:
+    _pointerEvents: {fileID: 9128108147265747654}
+    _transitionMode: 1
+    _isOverrideHover: 1
+    _hoverPropertyId: 81ac4dd1-5977-48bb-bf5a-922ec5905155
+    _isOverridePress: 0
+    _pressPropertyId: e9c672ce-cad6-4ddf-8fe4-20b3b665f12e
+  _comp: {fileID: 3909191083143690794}
+--- !u!114 &365377155347789374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5898628772083899561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c17206fe0e154cd59df56614791ba46f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _propertyId: dfb1aea9-ded3-4435-ac2c-9199fbac8a75
+  _pointerOverrider:
+    _pointerEvents: {fileID: 0}
+    _transitionMode: 0
+    _isOverrideHover: 0
+    _hoverPropertyId: dfb1aea9-ded3-4435-ac2c-9199fbac8a75
+    _isOverridePress: 0
+    _pressPropertyId: dfb1aea9-ded3-4435-ac2c-9199fbac8a75
+  _comp: {fileID: 3909191083143690794}

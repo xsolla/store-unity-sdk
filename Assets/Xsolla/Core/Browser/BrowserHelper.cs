@@ -15,7 +15,10 @@ namespace Xsolla.Core
 
 #if UNITY_WEBGL
 		[DllImport("__Internal")]
-		private static extern void Purchase(string token, bool sandbox);
+		private static extern void OpenPaystationWidget(string token, bool sandbox);
+		
+		[DllImport("__Internal")]
+		public static extern void ClosePaystationWidget();
 #endif
 
 		protected override void OnDestroy()
@@ -33,7 +36,7 @@ namespace Xsolla.Core
 			if((Application.platform == RuntimePlatform.WebGLPlayer) && inAppBrowserEnabled)
 			{
 				Screen.fullScreen = false;
-				Purchase(token, isSandbox);
+				OpenPaystationWidget(token, isSandbox);
 				return;
 			}
 #endif

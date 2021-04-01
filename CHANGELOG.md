@@ -1,4 +1,18 @@
 # Changelog
+## [0.6.4.0] - 2021-03-31
+### Added
+- Battle Pass
+- UI Builder
+- XboxOne/PS4 support
+- Redirect policy settings
+- Logging level settings
+- API method for resend account confirmation email
+### Fixed
+ - Payment status polling
+ - AppleID authorization
+### Changed
+- PayStation Widget version
+
 ## [0.6.3.4] - 2021-03-18
 ### Changed
 - Minor update
@@ -23,7 +37,6 @@
 ### Added
 - Ability to pass custom parameters via API
 - Access token authentication
-- Ability to renew subscription
 - More social networks support
 - Hashtag for user identification
 - Browser background
@@ -37,159 +50,12 @@
 ### Fixed
 - Various bug fixes and improvements
 
-## [0.6.2.0] - 2020-10-02 
-
-### Added 
-- Social friends system functionality.
-- Coupon functionality.
-- Bundle functionality.
-- Additional API methods.
-- Catalog pagination.
-- Inventory SDK demo.
-- User profile functionality.
-- Virtual currency consumption functionality.
-- Friends search functionality.
-
-### Changed
-- Analitycs implementation.
+## [1.0.0.1] - 2020-10-27 
 
 ### Fixed
-- Demo user button behavior.
-- Unity Editor crash after updating plugin.
+- Minor bugs.
 
-## [0.6.1.0] - 2020-10-02 
+## [1.0.0.0] - 2020-10-08 
 
 ### Added 
 - Friends system functionality.
-- The support for OAuth 2.0 authorization.
-
-## [0.6.0.0] - 2020-09-15 
-
-### Added 
-- The ability to get read-only attributes on the client side.
-
-### Changed
-- Demo maps UI.
-
-
-## [0.5.2.0] - 2020-07-17 
-
-### Added 
-- The ability of native authentication via social networks.
-- The ability of invalidation token. 
-
-
-## [0.5.1.2] - 2020-06-09 
-
-### Added 
-- Support of a build process by the IL2CPP compiler.
-
-### Fixed 
-- Minor bugs.
-
-
-## [0.5.1.1] - 2020-05-27 
-
-### Added 
-- The ability to sell non-recurring subscriptions.
-
-### Fixed 
-- Minor bugs.
-
-
-## [0.5.1.0] - 2020-04-27 
-
-### Added 
-- The ability of cross-platform account linking for combining player’s inventory on different platforms.
-- The ability of signing in via Facebook and Google. 
-
-### Fixed 
-- Minor bugs.
-
-
-## [0.5.0.3] - 2020-04-10 
-
-### Added 
-- The utility method of getting the Steam session_ticket for authorization.
-- The ability to process payments through Steam for games distributed on Steam. 
-- Platform parameter to Store API methods. 
-
-### Fixed 
-- Minor bugs.
-
-
-## [0.5.0.2] - 2020-03-17
-
-### Fixed
-
-- Making build on 2019-x versions.
-- Some small bugs.
-
-
-## [0.5.0.1] - 2020-03-03
-
-### Added
-
-- Paystation theme settings.
-- 'External/InApp browser' settings.
-- Hotkeys for demo-scenes.
-
-### Fixed
-
-- Rate-limits for UI buttons.
-- Consume more than 1 item.
-- Some small bugs.
-
-
-## [0.5.0.0] - 2020-02-14
-
-### Added
-
-- New 'Paystation' demo scene for those partners who use their server to receive a paystation-token.
-- 'User Attributes' feature.
-- 'InAppBrowser' feature.
-- Reference to docs.
-
-### Fixed
-
-- Faster image uploads.
-- Some small bugs.
-
-
-## [0.4.2.5] - 2020-01-28
-
-### Added
-
-- Messages for an empty catalogue.
-
-### Fixed
-
-- WebRequestHelper module cosmetic changes.
-
-
-## [0.4.2.4] - 2019-12-18
-
-### Security
-
-- Hide additional HTTP headers for WebGL build.
-
-
-## [0.4.2.3] - 2019-12-18
-
-### Changed
-
-- Switch StoreAPI to v2.
-
-## [0.4.2.2] - 2019-12-06
-
-### Fixed
-
-- Bug with reset a password.
-- Hide unused virtual currency balance 'plus' icon.
-
-
-## [0.3 - 0.4.2.1] - 2019
-
-- Login demo scene.
-- Store demo scene.
-- Paystation demo scene.

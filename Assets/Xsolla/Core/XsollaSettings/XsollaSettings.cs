@@ -34,7 +34,11 @@ namespace Xsolla.Core
 		[SerializeField] public PaystationTheme paystationTheme = PaystationTheme.Dark;
 		[SerializeField] private bool inAppBrowserEnabled = true;
 		[SerializeField] private bool packInAppBrowserInBuild = true;
-
+		
+		[SerializeField] private RedirectPolicySettings desktopRedirectPolicySettings = new RedirectPolicySettings();
+		[SerializeField] private RedirectPolicySettings webglRedirectPolicySettings = new RedirectPolicySettings();
+		[SerializeField] private RedirectPolicySettings androidRedirectPolicySettings = new RedirectPolicySettings();
+		
 		[SerializeField] private string facebookAppId = default;
 		[SerializeField] private string googleServerId = default;
 		[SerializeField] private string wechatAppId = default;
@@ -43,6 +47,8 @@ namespace Xsolla.Core
 		[SerializeField] private string deepLinkRedirectUrl = default;
 
 		[SerializeField] private string webStoreUrl = "https://sitebuilder.xsolla.com/game/sdk-web-store/";
+
+		[SerializeField] private LogLevel logLevel = LogLevel.InfoWarningsErrors;
 
 		public static string LoginId
 		{
@@ -233,6 +239,24 @@ namespace Xsolla.Core
 				MarkAssetDirty();
 			}
 		}
+		
+		public static RedirectPolicySettings DesktopRedirectPolicySettings
+		{
+			get => Instance.desktopRedirectPolicySettings;
+			set => Instance.desktopRedirectPolicySettings = value;
+		}
+
+		public static RedirectPolicySettings WebglRedirectPolicySettings
+		{
+			get => Instance.webglRedirectPolicySettings;
+			set => Instance.webglRedirectPolicySettings = value;
+		}
+
+		public static RedirectPolicySettings AndroidRedirectPolicySettings
+		{
+			get => Instance.androidRedirectPolicySettings;
+			set => Instance.androidRedirectPolicySettings = value;
+		}
 
 		public static string FacebookAppId
 		{
@@ -278,6 +302,16 @@ namespace Xsolla.Core
 			set
 			{
 				Instance.webStoreUrl = value;
+				MarkAssetDirty();
+			}
+		}
+
+		public static LogLevel LogLevel
+		{
+			get => Instance.logLevel;
+			set
+			{
+				Instance.logLevel = value;
 				MarkAssetDirty();
 			}
 		}

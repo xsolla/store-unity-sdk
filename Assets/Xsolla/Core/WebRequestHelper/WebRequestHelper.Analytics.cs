@@ -7,7 +7,8 @@ namespace Xsolla.Core
 	{
 		private const string ANALYTICS_URL_TEMPLATE = "engine=unity&engine_v={0}&sdk={1}&sdk_v={2}{3}";
 
-		private KeyValuePair<string, string>? _referralAnalytics;
+		//Uncomment and fill the values if you want to hardcode referral info
+		private KeyValuePair<string, string>? _referralAnalytics/* = new KeyValuePair<string, string>("MyReferralPlugin", "0.0.0.1")*/;
 
 		public void SetReferralAnalytics(string referralPlugin, string referralVersion)
 		{

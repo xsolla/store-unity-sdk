@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 706992244782302560}
   - component: {fileID: 627305874044384153}
+  - component: {fileID: 4826700633449042344}
   m_Layer: 5
   m_Name: pref_MenuButton
   m_TagString: Untagged
@@ -56,12 +57,26 @@ MonoBehaviour:
   selectedStateSprite: {fileID: 0}
   hoverStateSprite: {fileID: 0}
   pressedStateSprite: {fileID: 0}
-  normalStateTextColor: {r: 0, g: 0, b: 0, a: 0}
-  selectedStateTextColor: {r: 0, g: 0, b: 0, a: 0}
-  hoverStateTextColor: {r: 0, g: 0, b: 0, a: 0}
-  pressedStateTextColor: {r: 0, g: 0, b: 0, a: 0}
   capitalizeText: 1
   isSelectable: 1
+  DecoratorPointerEvents: {fileID: 4826700633449042344}
+  SelectedText: {fileID: 3380471753738665331}
+  NormalTextColor:
+    _id: a7ccf3c1-4ea7-4a9e-8fb4-8c5c438fb835
+  SelectedTextColor:
+    _id: d3ad3a1e-4071-40c8-b6f7-11edde7ce496
+--- !u!114 &4826700633449042344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 622149985842944864}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73be4c0a4d7b487b9136d648564cd8a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3890803339539481456
 GameObject:
   m_ObjectHideFlags: 0
@@ -116,17 +131,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 3890803339539481456}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Sprite: {fileID: 21300000, guid: cdcf1e7856de9bc4e8d5ed97189b5d61, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
@@ -136,6 +150,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &8415190486198657990
 GameObject:
   m_ObjectHideFlags: 0
@@ -147,6 +162,8 @@ GameObject:
   - component: {fileID: 3811203807736094141}
   - component: {fileID: 1502675916012421766}
   - component: {fileID: 3380471753738665331}
+  - component: {fileID: 5747678098954699555}
+  - component: {fileID: 356963140460394826}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -190,17 +207,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 8415190486198657990}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.972549, g: 0.06666667, b: 0.3647059, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: f70b0d194d863d14eaa3261671349a4b, type: 3}
     m_FontSize: 16
@@ -215,3 +231,45 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: MENU BUTTON
+--- !u!114 &5747678098954699555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8415190486198657990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dda4ea2a38d64954bb6b954f9d7b6f99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _propertyId: 7b111555-c639-4655-9948-52030ad69aab
+  _pointerOverrider:
+    _pointerEvents: {fileID: 0}
+    _transitionMode: 0
+    _isOverrideHover: 0
+    _hoverPropertyId: 7b111555-c639-4655-9948-52030ad69aab
+    _isOverridePress: 0
+    _pressPropertyId: 7b111555-c639-4655-9948-52030ad69aab
+  _comp: {fileID: 3380471753738665331}
+--- !u!114 &356963140460394826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8415190486198657990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc2106c456714323a645d26b01862ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _propertyId: a7ccf3c1-4ea7-4a9e-8fb4-8c5c438fb835
+  _pointerOverrider:
+    _pointerEvents: {fileID: 4826700633449042344}
+    _transitionMode: 1
+    _isOverrideHover: 1
+    _hoverPropertyId: 81ac4dd1-5977-48bb-bf5a-922ec5905155
+    _isOverridePress: 0
+    _pressPropertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
+  _comp: {fileID: 3380471753738665331}

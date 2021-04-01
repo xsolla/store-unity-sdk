@@ -14,7 +14,7 @@ namespace Xsolla.Demo
 			XsollaStore.Instance.ItemPurchase(XsollaSettings.StoreProjectId, item.Sku, data =>
 			{
 				XsollaStore.Instance.OpenPurchaseUi(data);
-				XsollaStore.Instance.ProcessOrder(XsollaSettings.StoreProjectId, data.order_id, () =>
+				XsollaStore.Instance.AddOrderForTracking(XsollaSettings.StoreProjectId, data.order_id, () =>
 				{
 					PurchaseComplete(item);
 					onSuccess?.Invoke(item);
@@ -22,22 +22,28 @@ namespace Xsolla.Demo
 			}, WrapErrorCallback(onError));
 		}
 
-		public void PurchaseForVirtualCurrency(CatalogItemModel item, Action<CatalogItemModel> onSuccess = null, Action<Error> onError = null)
+		public void PurchaseForVirtualCurrency(CatalogItemModel item, Action<CatalogItemModel> onSuccess = null, Action<Error> onError = null,
+			bool isConfirmationRequired = true, bool isShowResultToUser = true)
 		{
-			StoreDemoPopup.ShowConfirm(() =>
+			var onConfirmation = new Action( () =>
 			{
 				XsollaStore.Instance.ItemPurchaseForVirtualCurrency(
 					XsollaSettings.StoreProjectId, 
 					item.Sku, 
 					item.VirtualPrice?.Key, _ =>
 					{
-						PurchaseComplete(item);
+						PurchaseComplete(item, isShowResultToUser: isShowResultToUser);
 						onSuccess?.Invoke(item);
 					}, WrapErrorCallback(onError));
 			});
+
+			if (isConfirmationRequired)
+				StoreDemoPopup.ShowConfirm(onConfirmation);
+			else
+				onConfirmation?.Invoke();
 		}
 
-		public void PurchaseCart(List<UserCartItem> items, Action<List<UserCartItem>> onSuccess, Action<Error> onError = null)
+		public void PurchaseCart(List<UserCartItem> items, Action<List<UserCartItem>> onSuccess, Action<Error> onError = null, bool isSetPreviousDemoState = true, bool isShowResultToUser = true)
 		{
 			if (!items.Any())
 			{
@@ -69,9 +75,13 @@ namespace Xsolla.Demo
 								browser.BrowserClosedEvent += _ => onError?.Invoke(null);
 	#endif
 
-							XsollaStore.Instance.ProcessOrder(XsollaSettings.StoreProjectId, data.order_id, () =>
+							XsollaStore.Instance.AddOrderForTracking(XsollaSettings.StoreProjectId, data.order_id, () =>
 							{
-								PurchaseComplete(null, () => DemoController.Instance.SetPreviousState());
+								PurchaseComplete(null, () =>
+								{
+									if (isSetPreviousDemoState)
+										DemoController.Instance.SetPreviousState();
+								}, isShowResultToUser);
 								onSuccess?.Invoke(items);
 								UserCart.Instance.Clear();
 							}, WrapErrorCallback(onError));
@@ -81,16 +91,19 @@ namespace Xsolla.Demo
 			}, WrapErrorCallback(onError));
 		}
 
-		private static void PurchaseComplete(CatalogItemModel item = null, Action popupButtonCallback = null)
+		private static void PurchaseComplete(CatalogItemModel item = null, Action popupButtonCallback = null, bool isShowResultToUser = true)
 		{
 			UserInventory.Instance.Refresh();
 	#if (UNITY_EDITOR || UNITY_STANDALONE)
 			CloseInGameBrowserIfExist();
 	#endif
-			if(item != null)
-				StoreDemoPopup.ShowSuccess($"You are purchased '{item.Name}'");
-			else
-				StoreDemoPopup.ShowSuccess(null, popupButtonCallback);
+			if (isShowResultToUser)
+			{
+				if(item != null)
+					StoreDemoPopup.ShowSuccess($"You have purchased '{item.Name}'");
+				else
+					StoreDemoPopup.ShowSuccess(null, popupButtonCallback);
+			}
 		}
 	#if (UNITY_EDITOR || UNITY_STANDALONE)	
 		private static void CloseInGameBrowserIfExist()

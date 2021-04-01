@@ -72,7 +72,7 @@ namespace Xsolla.Demo
 			XsollaLogin.Instance.Registration(username, password, email, onSuccess, onError);
 		}
 
-		public void SignIn(string username, string password, bool rememberUser, Action onSuccess, Action<Error> onError = null)
+		public void SignIn(string username, string password, bool rememberUser, Action<string> onSuccess, Action<Error> onError = null)
 		{
 			XsollaLogin.Instance.SignIn(username, password, rememberUser, onSuccess, onError);
 		}

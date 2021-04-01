@@ -32,6 +32,7 @@ namespace Xsolla.Demo
 		[SerializeField] private GameObject storeMenuPrefab = default;
 		[SerializeField] private GameObject buyCurrencyMenuPrefab = default;
 		[SerializeField] private GameObject cartMenuPrefab = default;
+		[SerializeField] private GameObject battlepassMenuPrefab = default;
 		[SerializeField] private GameObject inventoryMenuPrefab = default;
 		[SerializeField] private GameObject profileMenuPrefab = default;
 		[SerializeField] private GameObject characterMenuPrefab = default;
@@ -63,6 +64,7 @@ namespace Xsolla.Demo
 				{MenuState.Store, storeMenuPrefab},
 				{MenuState.BuyCurrency, buyCurrencyMenuPrefab},
 				{MenuState.Cart, cartMenuPrefab},
+				{MenuState.Battlepass, battlepassMenuPrefab},
 				{MenuState.Inventory, inventoryMenuPrefab},
 				{MenuState.Profile, profileMenuPrefab},
 				{MenuState.Character, characterMenuPrefab},
