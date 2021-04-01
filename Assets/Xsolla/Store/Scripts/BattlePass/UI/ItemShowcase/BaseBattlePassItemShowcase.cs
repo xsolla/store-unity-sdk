@@ -48,7 +48,7 @@ namespace Xsolla.Demo
 					stateObject.SetActive(false);
 			}
 
-			if (!IsBattlePassExpired)
+			if (!IsBattlePassExpired || selectedItemState == BattlePassItemState.Collect || selectedItemState == BattlePassItemState.Collected)
 				StateObjects[(int)selectedItemState].SetActive(true);
 		}
 

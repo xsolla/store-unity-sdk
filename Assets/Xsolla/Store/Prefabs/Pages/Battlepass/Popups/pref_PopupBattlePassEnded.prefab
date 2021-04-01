@@ -1,18 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &8539289569586531429
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1493649543303806873}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31a19414c41e5ae4aae2af33fee712f6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShowMaskGraphic: 1
 --- !u!114 &5199671664793860519
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31,6 +18,34 @@ MonoBehaviour:
   ConfirmButtonText: {fileID: 3591440769684303191}
   CancelButton: {fileID: 7582645522844728202}
   CancelButtonText: {fileID: 7304722935554403857}
+--- !u!114 &8784562477619069581
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5852370263131820392}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22f1d823a62270a4ea75c9888798f3f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OriginalButton: {fileID: 157791664756019719}
+  ButtonsToInvoke:
+  - {fileID: 7582645522844728202}
+--- !u!114 &8539289569586531429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1493649543303806873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31a19414c41e5ae4aae2af33fee712f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShowMaskGraphic: 1
 --- !u!1001 &952774518146679431
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -46,12 +61,12 @@ PrefabInstance:
     - target: {fileID: 305978613333083139, guid: ef7df0bb75cf34e90affbcb462f7d0a2,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.35686275
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 305978613333083139, guid: ef7df0bb75cf34e90affbcb462f7d0a2,
         type: 3}
       propertyPath: m_Color.g
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 305978613333083139, guid: ef7df0bb75cf34e90affbcb462f7d0a2,
         type: 3}
@@ -177,6 +192,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 48
+      objectReference: {fileID: 0}
+    - target: {fileID: 3779239059868965667, guid: ef7df0bb75cf34e90affbcb462f7d0a2,
+        type: 3}
+      propertyPath: _propertyId
+      value: a888e9eb-55a8-4cb6-95f2-87c223ebc893
       objectReference: {fileID: 0}
     - target: {fileID: 4390925224972791760, guid: ef7df0bb75cf34e90affbcb462f7d0a2,
         type: 3}
@@ -696,3 +716,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 62c3f4944d30341a9a523a2e5da06fae, type: 3}
+--- !u!114 &157791664756019719 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4198999204825581834, guid: 62c3f4944d30341a9a523a2e5da06fae,
+    type: 3}
+  m_PrefabInstance: {fileID: 4068229484116581133}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ec14662f831947d68cc51968bb5b0b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

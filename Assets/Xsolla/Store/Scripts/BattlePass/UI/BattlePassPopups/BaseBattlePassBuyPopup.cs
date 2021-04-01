@@ -19,8 +19,15 @@ namespace Xsolla.Demo
 			BuyBlock.BuyCurrencyButtonClick += GotoCurrencyBuy;
 		}
 
-		public virtual void ShowPrice(string formattedPrice) => BuyBlock.ShowPrice(formattedPrice);
-		public virtual void ShowPrice(string currencyImageUrl, int price, int userCurrency) => BuyBlock.ShowPrice(currencyImageUrl, price, userCurrency);
+		public virtual void ShowPrice(string formattedPrice)
+		{
+			BuyBlock.ShowPrice(formattedPrice);
+		}
+
+		public virtual void ShowPrice(string currencyImageUrl, string currencyName, int price, int userCurrency)
+		{
+			BuyBlock.ShowPrice(currencyImageUrl, currencyName, price, userCurrency);
+		}
 
 		private void RaiseBuyButtonClick()
 		{

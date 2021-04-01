@@ -139,7 +139,7 @@ namespace Xsolla.Demo
 			{
 				var price = virtualPriceData.price * levelDelta;
 				var userCurrencyValue = base.GetUserCurrencyValue(virtualPriceData.currencySku);
-				levelUpPopup.ShowPrice(virtualPriceData.currencyImageUrl, price, userCurrencyValue);
+				levelUpPopup.ShowPrice(virtualPriceData.currencyImageUrl, virtualPriceData.currencyName, price, userCurrencyValue);
 			}
 		}
 

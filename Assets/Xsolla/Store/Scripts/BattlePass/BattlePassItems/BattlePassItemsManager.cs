@@ -166,8 +166,8 @@ namespace Xsolla.Demo
 
 			for (int i = currentIndex + 1; i < _levelBlocks.Count && i <= maxIndex; i++)
 			{
-				//if (_levelBlocks[i].FreeItem.ItemState == BattlePassItemState.FutureLocked) //It will always be true
-				result.Add(_levelBlocks[i].FreeItem.ItemDescription);
+				if (_levelBlocks[i].FreeItem.ItemState == BattlePassItemState.FutureLocked) //It may also be Empty
+					result.Add(_levelBlocks[i].FreeItem.ItemDescription);
 
 				if (_levelBlocks[i].PremiumItem.ItemState == BattlePassItemState.FutureLocked)
 					result.Add(_levelBlocks[i].PremiumItem.ItemDescription);

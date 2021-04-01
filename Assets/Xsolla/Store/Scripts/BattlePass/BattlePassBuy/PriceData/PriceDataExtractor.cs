@@ -4,7 +4,7 @@ namespace Xsolla.Demo
 {
     public class PriceDataExtractor
     {
-		private KeyValuePair<string, string>? _lastCurrencySkuImage;
+		private KeyValuePair<string, KeyValuePair<string, string>>? _lastCurrencySkuImage;
 
 		public PriceData ExtractPriceData(CatalogItemModel catalogItemModel)
 		{
@@ -24,7 +24,10 @@ namespace Xsolla.Demo
 
 				virtualPriceData.currencySku = currencySku;
 				virtualPriceData.price = (int)catalogItemModel.VirtualPrice.Value.Value;
-				virtualPriceData.currencyImageUrl = GetCurrencyImageUrl(currencySku);
+
+				TryGetCurrencyInfo(currencySku, out string currencyName, out string currencyImageUrl);
+				virtualPriceData.currencyName = currencyName;
+				virtualPriceData.currencyImageUrl = currencyImageUrl;
 
 				result = virtualPriceData;
 			}
@@ -34,30 +37,44 @@ namespace Xsolla.Demo
 			return result;
 		}
 
-		private string GetCurrencyImageUrl(string targetSku)
+		private bool TryGetCurrencyInfo(string targetSku, out string currencyName, out string currencyImageUrl)
 		{
 			if (_lastCurrencySkuImage.HasValue && _lastCurrencySkuImage.Value.Key == targetSku)
-				return _lastCurrencySkuImage.Value.Value;
-
-			var targetCurrency = default(VirtualCurrencyModel);
-			foreach (var item in UserCatalog.Instance.VirtualCurrencies)
 			{
-				if (item.Sku == targetSku)
-				{
-					targetCurrency = item;
-					break;
-				}
-			}
-
-			if (targetCurrency != null)
-			{
-				_lastCurrencySkuImage = new KeyValuePair<string, string>(targetSku, targetCurrency.ImageUrl);
-				return targetCurrency.ImageUrl;
+				var infoPair = _lastCurrencySkuImage.Value.Value;
+				currencyName = infoPair.Key;
+				currencyImageUrl = infoPair.Value;
+				return true;
 			}
 			else
 			{
-				Debug.LogError($"Could not find currency with sku: '{targetSku}'");
-				return null;
+				var targetCurrency = default(VirtualCurrencyModel);
+				foreach (var item in UserCatalog.Instance.VirtualCurrencies)
+				{
+					if (item.Sku == targetSku)
+					{
+						targetCurrency = item;
+						break;
+					}
+				}
+
+				if (targetCurrency != null)
+				{
+					currencyName = targetCurrency.Name;
+					currencyImageUrl = targetCurrency.ImageUrl;
+
+					var infoPair = new KeyValuePair<string,string>(currencyName, currencyImageUrl);
+
+					_lastCurrencySkuImage = new KeyValuePair<string, KeyValuePair<string, string>>(targetSku, infoPair);
+					return true;
+				}
+				else
+				{
+					Debug.LogError($"Could not find currency with sku: '{targetSku}'");
+					currencyName = null;
+					currencyImageUrl = null;
+					return false;
+				}
 			}
 		}
 	}

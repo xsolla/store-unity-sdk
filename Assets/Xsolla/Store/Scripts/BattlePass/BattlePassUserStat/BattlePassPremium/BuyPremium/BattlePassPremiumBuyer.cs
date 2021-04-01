@@ -77,7 +77,7 @@ namespace Xsolla.Demo
 			{
 				var price = virtualPriceData.price;
 				var userCurrencyValue = base.GetUserCurrencyValue(virtualPriceData.currencySku);
-				dialogController.ShowPrice(virtualPriceData.currencyImageUrl, price, userCurrencyValue);
+				dialogController.ShowPrice(virtualPriceData.currencyImageUrl, virtualPriceData.currencyName, price, userCurrencyValue);
 			}
 		}
 

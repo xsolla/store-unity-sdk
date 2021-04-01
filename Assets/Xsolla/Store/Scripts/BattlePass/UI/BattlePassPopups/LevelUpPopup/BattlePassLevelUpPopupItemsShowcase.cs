@@ -20,28 +20,67 @@ namespace Xsolla.Demo
 		[SerializeField] private SimpleButton CollapseListButton = default;
 
 		private const string VIEW_ALL_TEMPLATE = "VIEW ALL (+{0} ITEMS)";
+		private ShowState _currentState = ShowState.Neither;
+		private int _currentItemsCount = 0;
 
 		private void Awake()
 		{
-			ViewAllButton.onClick += () => SwapActive(toActivate: UnfoldedView, toInactivate: FoldedView);
-			CollapseListButton.onClick += () => SwapActive(toActivate: FoldedView, toInactivate: UnfoldedView);
+			ViewAllButton.onClick += () => SetState(ShowState.Unfolded);
+			CollapseListButton.onClick += () => SetState(ShowState.Folded);
 		}
 
 		public void ShowItems(BattlePassItemDescription[] items)
 		{
+			_currentItemsCount = items?.Length ?? 0;
+
 			if (items == null || items.Length == 0)
+				SetState(ShowState.Neither);
+			else
 			{
-				Debug.LogError($"Items were null or empty");
-				return;
+				SetFrontItem(items[0]);
+				ClearPreviousItems();
+				SetItemsList(items);
+
+				if (_currentState == ShowState.Neither)
+					SetState(ShowState.Folded);
+				else
+					SetViewAllButton(_currentState);
+			}
+		}
+
+		private void SetState(ShowState showState)
+		{
+			switch (showState)
+			{
+				case ShowState.Folded:
+					SwapActive(toActivate: FoldedView, toInactivate: UnfoldedView);
+					break;
+				case ShowState.Unfolded:
+					SwapActive(toActivate: UnfoldedView, toInactivate: FoldedView);
+					break;
+				case ShowState.Neither:
+					SetActive(FoldedView, false);
+					SetActive(UnfoldedView, false);
+					break;
 			}
 
-			SwapActive(toActivate: FoldedView, toInactivate: UnfoldedView);
-			ClearPreviousItems();
-			SetFrontItem(items[0]);
-			SetViewAllButton(items.Length);
+			_currentState = showState;
+			SetViewAllButton(showState);
+		}
 
-			if (items.Length > 1)
-				SetItemsList(items);
+		private void SetViewAllButton(ShowState showState)
+		{
+			ViewAllText.text = string.Format(VIEW_ALL_TEMPLATE, _currentItemsCount - 1);
+
+			if (showState == ShowState.Folded && _currentItemsCount > 1)
+				ViewAllButtonHolder.SetActive(true);
+			else
+				ViewAllButtonHolder.SetActive(false);
+		}
+
+		private void SetFrontItem(BattlePassItemDescription item)
+		{
+			FrontItem.Initialize(item.ItemCatalogModel, item.Quantity);
 		}
 
 		private void ClearPreviousItems()
@@ -60,22 +99,6 @@ namespace Xsolla.Demo
 			}
 		}
 
-		private void SetFrontItem(BattlePassItemDescription item)
-		{
-			FrontItem.Initialize(item.ItemCatalogModel, item.Quantity);
-		}
-
-		private void SetViewAllButton(int itemsCount)
-		{
-			if (itemsCount > 1)
-			{
-				ViewAllText.text = string.Format(VIEW_ALL_TEMPLATE, itemsCount - 1);
-				ViewAllButtonHolder.SetActive(true);
-			}
-			else
-				ViewAllButtonHolder.SetActive(false);
-		}
-
 		private void SetItemsList(BattlePassItemDescription[] items)
 		{
 			foreach (var item in items)
@@ -88,11 +111,24 @@ namespace Xsolla.Demo
 
 		private void SwapActive(GameObject[] toActivate, GameObject[] toInactivate)
 		{
-			foreach (var gameObject in toActivate)
-				gameObject.SetActive(true);
+			SetActive(toActivate, true);
+			SetActive(toInactivate, false);
+		}
 
-			foreach (var gameObject in toInactivate)
-				gameObject.SetActive(false);
+		private void SetActive(GameObject[] gameObjects, bool targetState)
+		{
+			foreach (var item in gameObjects)
+			{
+				if (item.activeSelf != targetState)
+					item.SetActive(targetState);
+			}
+		}
+
+		private enum ShowState
+		{
+			Folded,
+			Unfolded,
+			Neither
 		}
 	}
 }
