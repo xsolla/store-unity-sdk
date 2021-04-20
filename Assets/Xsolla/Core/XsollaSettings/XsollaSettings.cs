@@ -42,6 +42,7 @@ namespace Xsolla.Core
 		[SerializeField] private string facebookAppId = default;
 		[SerializeField] private string googleServerId = default;
 		[SerializeField] private string wechatAppId = default;
+		[SerializeField] private string qqAppId = default;
 
 		[SerializeField] private bool useDeepLinking = false;
 		[SerializeField] private string deepLinkRedirectUrl = default;
@@ -274,6 +275,12 @@ namespace Xsolla.Core
 		{
 			get => Instance.wechatAppId;
 			set => Instance.wechatAppId = value;
+		}
+		
+		public static string QQAppId
+		{
+			get => Instance.qqAppId;
+			set => Instance.qqAppId = value;
 		}
 
 		public static bool UseDeepLinking
