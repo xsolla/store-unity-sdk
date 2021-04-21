@@ -9,7 +9,7 @@ namespace Xsolla.Store
 		public string name;
 		public Group[] groups;
 		public string description;
-		public string[] attributes;
+		public StoreItemAttribute[] attributes;
 		public string type;
 		public string bundle_type;
 		public string image_url;
