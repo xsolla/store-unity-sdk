@@ -78,7 +78,7 @@ namespace Xsolla.Store
 		public string sku;
 		public string name;
 		public Group[] groups;
-		public string[] attributes;
+		public StoreItemAttribute[] attributes;
 		public string type;
 		public string virtual_item_type;
 		public string description;
