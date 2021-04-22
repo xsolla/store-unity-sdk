@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Xsolla.Demo
 {
@@ -11,6 +12,7 @@ namespace Xsolla.Demo
 		public string LongDescription;
 		public string ImageUrl;
 		public bool IsConsumable;
+		public KeyValuePair<string, string>[] Attributes;
 
 		public abstract bool IsVirtualCurrency();
 		public abstract bool IsSubscription();

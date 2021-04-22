@@ -28,6 +28,9 @@ namespace Xsolla.Demo
 					if (itemGroups.Contains(BattlePassConstants.BATTLEPASS_GROUP))
 						return false;//This is battlepass exclusive item or battlepass util
 
+					if (base.CheckHideInAttribute(item, HideInFlag.Store))
+						return false;//This item must be hidden by attribute
+
 					return isGroupAll || itemGroups.Contains(groupName);
 				}
 			}).ToList();

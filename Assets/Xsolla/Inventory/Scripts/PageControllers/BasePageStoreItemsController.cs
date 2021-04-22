@@ -52,9 +52,37 @@ namespace Xsolla.Demo
 			groupsController.SelectDefault();
 		}
 
+		protected bool CheckHideInAttribute(ItemModel item, HideInFlag flag)
+		{
+			var attributes = item.Attributes;
+
+			if (attributes == null)
+			{
+				Debug.LogWarning($"Attributes were null for item with sku: '{item.Sku}'");
+				return false;
+			}
+
+			foreach (var attribute in attributes)
+			{
+				var isHideKey = (attribute.Key == "HideIn");
+				var isFlagValue = (attribute.Value == flag.ToString());
+
+				if (isHideKey && isFlagValue)
+					return true;
+			}
+
+			//else
+			return false;
+		}
+
 		protected abstract void Initialize();
 		protected abstract void InitializeItemUI(GameObject item, ItemModel model);
 		protected abstract List<ItemModel> GetItemsByGroup(string groupName);
 		protected abstract List<string> GetGroups();
+
+		protected enum HideInFlag
+		{
+			Store, Inventory
+		}
 	}
 }
