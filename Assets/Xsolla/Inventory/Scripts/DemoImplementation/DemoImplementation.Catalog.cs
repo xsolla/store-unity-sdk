@@ -208,6 +208,25 @@ namespace Xsolla.Demo
 			model.Description = item.description;
 			model.LongDescription = item.long_description;
 			model.ImageUrl = item.image_url;
+			model.Attributes = ConvertAttributes(item.attributes);
+		}
+
+		private static KeyValuePair<string, string>[] ConvertAttributes(StoreItemAttribute[] attributes)
+		{
+			var result = new List<KeyValuePair<string, string>>(capacity:0);//capacity zero because most of the items won't have any attributes at all
+
+			if (attributes != null && attributes.Length > 0)
+			{
+				foreach (var attribute in attributes)
+				{
+					var values = attribute.values;
+
+					foreach (var value in values)
+						result.Add(new KeyValuePair<string, string>(attribute.name, value.value));
+				}
+			}
+
+			return result.ToArray();
 		}
 
 		private static void FillCatalogItem(CatalogItemModel model, StoreItem item)

@@ -28,6 +28,7 @@ namespace Xsolla.Store
 		//Public object attributes; Don't use it yet.
 		public string type;
 		public string virtual_item_type;
+		public StoreItemAttribute[] attributes;
 		public StoreItem.Group[] groups;
 		public string image_url;
 		public uint? quantity;
