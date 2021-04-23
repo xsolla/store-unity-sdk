@@ -145,45 +145,13 @@ namespace Xsolla.Demo
 
 		private void ConsumeLevelUp(CatalogItemModel levelUpItem, int count, Action<int> onSuccess, Action<Error> onError)
 		{
-			var onItemFound = new Action<InventoryItemModel>( item =>
-			{
-				var itemRemainingUses = item.RemainingUses.HasValue ? (int)item.RemainingUses.Value : 0;
-
-				if (itemRemainingUses == count)
-				{
-					_itemGetAttempts = 0;
-					ConsumeInventoryItem(item, count, onSuccess, onError);
-				}
-				else
-				{
-					_itemGetAttempts++;
-					Debug.LogWarning($"Item remaining uses and target consume count supposed to be equal, something went wrong. " +
-						$"Remainig uses: '{itemRemainingUses}'. Consume count: '{count}'");
-
-					if (_itemGetAttempts <= BattlePassConstants.MAX_INVENTORY_REFRESH_ATTEMPTS)
-					{
-						Debug.LogWarning($"Attempt to refresh item data #{_itemGetAttempts}");
-						UserInventory.Instance.Refresh();
-						ConsumeLevelUp(levelUpItem, count, onSuccess, onError);
-					}
-					else
-					{
-						Debug.LogWarning($"Give up and consume what we've got: Remaining uses: {itemRemainingUses}");
-						_itemGetAttempts = 0;
-						ConsumeInventoryItem(item, itemRemainingUses, onSuccess, onError);
-					}
-				}
-			});
-
-			var onItemAbsence = new Action(() =>
-			{
-				var errorMessage = $"Could not find inventory item with sku: '{levelUpItem.Sku}'";
-				Debug.LogError(errorMessage);
-				onError?.Invoke(new Error(errorType: ErrorType.ProductDoesNotExist, errorMessage: errorMessage));
-			});
-
-			InventoryFinder.FindInInventory(levelUpItem.Sku, BattlePassConstants.MAX_INVENTORY_REFRESH_ATTEMPTS,
-				onItemFound, onItemAbsence);
+			//We just need to send consume request to backend
+			//In case of consume fail, item will be consumed on the next BP page open, see OnLevelUpUtilArrived above
+			var itemToConsume = new InventoryItemModel();
+			itemToConsume.RemainingUses = (uint)count;
+			itemToConsume.Sku = levelUpItem.Sku;
+			itemToConsume.IsConsumable = true;
+			ConsumeInventoryItem(itemToConsume, count, onSuccess, onError);
 		}
 
 		private void ConsumeInventoryItem(InventoryItemModel item, int count, Action<int> onSuccess, Action<Error> onError)
