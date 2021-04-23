@@ -38,7 +38,7 @@ namespace Xsolla.Core
 
 				loginConfigBuilder = authorizationType == AuthorizationType.JWT
 					? new AndroidJavaObject("com.xsolla.android.login.LoginConfig$JwtBuilder")
-					: new AndroidJavaObject("com.xsolla.android.login.OauthBuilder");
+					: new AndroidJavaObject("com.xsolla.android.login.LoginConfig$OauthBuilder");
 
 				loginConfigBuilder.Call<AndroidJavaObject>("setProjectId", loginID);
 				loginConfigBuilder.Call<AndroidJavaObject>("setSocialConfig", socialConfig);
