@@ -1,4 +1,11 @@
 # Changelog
+## [0.6.4.2] - 2021-04-23
+### Added
+- Added itmes attributes support
+- Added items store/inventory hiding based on HideIn attribute
+### Fixed
+- Minor fixes
+
 ## [0.6.4.1] - 2021-04-16
 ### Added
 - Added QQ Android auth
