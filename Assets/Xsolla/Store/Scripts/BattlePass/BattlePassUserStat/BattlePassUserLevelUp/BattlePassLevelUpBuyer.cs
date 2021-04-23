@@ -17,7 +17,6 @@ namespace Xsolla.Demo
 		private bool _isUserStatArrived;
 		private int _userLevel;
 		private int _levelDelta;
-		private int _itemGetAttempts = 0;
 
 		protected override Action<CatalogItemModel> OnSuccessPurchase
 			=> (purchasedItem => ConsumeLevelUp(purchasedItem, _levelDelta, UpUserLevel, error => StoreDemoPopup.ShowError(error)));
