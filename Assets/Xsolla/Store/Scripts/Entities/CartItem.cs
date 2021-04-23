@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Xsolla.Store
 {
@@ -27,7 +27,7 @@ namespace Xsolla.Store
 		public string type;
 		public string description;
 		public string image_url;
-		public string[] attributes;
+		public StoreItemAttribute[] attributes;
 		public bool is_free;
 		public Group[] groups;
 		public Price price;

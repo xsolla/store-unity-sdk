@@ -24,7 +24,8 @@ namespace Xsolla.Demo
 						ImageUrl = i.image_url,
 						IsConsumable = i.IsConsumable(),
 						InstanceId = i.instance_id,
-						RemainingUses = (uint?)i.quantity
+						RemainingUses = (uint?)i.quantity,
+						Attributes = ConvertAttributes(i.attributes)
 					}).ToList();
 				onSuccess?.Invoke(inventoryItems);
 			}, WrapErrorCallback(onError));
