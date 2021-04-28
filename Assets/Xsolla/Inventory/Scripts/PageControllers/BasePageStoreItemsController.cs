@@ -58,7 +58,9 @@ namespace Xsolla.Demo
 
 			if (attributes == null)
 			{
-				Debug.LogWarning($"Attributes were null for item with sku: '{item.Sku}'");
+				if (!item.IsBundle())
+					Debug.LogWarning($"Attributes were null for item with sku: '{item.Sku}'");
+
 				return false;
 			}
 
