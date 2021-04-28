@@ -39,7 +39,6 @@ namespace Xsolla.Core
 					changed = true;
 				}
 
-				XsollaSettings.PaystationTheme = (PaystationTheme) EditorGUILayout.EnumPopup("Paystation theme", XsollaSettings.PaystationTheme);
 				XsollaSettings.InAppBrowserEnabled = EditorGUILayout.Toggle("Enable in-app browser?", XsollaSettings.InAppBrowserEnabled);
 
 				if (XsollaSettings.InAppBrowserEnabled)

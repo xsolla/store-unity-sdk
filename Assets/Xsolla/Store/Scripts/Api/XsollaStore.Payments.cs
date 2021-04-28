@@ -83,7 +83,7 @@ namespace Xsolla.Store
 			TempPurchaseParams tempPurchaseParams = new TempPurchaseParams
 			{
 				sandbox = XsollaSettings.IsSandbox,
-				settings = new TempPurchaseParams.Settings(XsollaSettings.PaystationTheme)
+				settings = new TempPurchaseParams.Settings()
 			};
 
 			var url = string.Format(URL_BUY_ITEM_FOR_VC, projectId, itemSku, priceSku);
@@ -160,8 +160,9 @@ namespace Xsolla.Store
 
 		private TempPurchaseParams GenerateTempPurchaseParams(PurchaseParams purchaseParams)
 		{
-			var settings = new TempPurchaseParams.Settings(XsollaSettings.PaystationTheme);
+			var settings = new TempPurchaseParams.Settings();
 			
+			settings.ui = PayStationUISettings.GenerateSettings();
 			settings.redirect_policy = RedirectPolicySettings.GeneratePolicy();
 			if (settings.redirect_policy != null)
 			{

@@ -30,15 +30,17 @@ namespace Xsolla.Core
 		[SerializeField] private string storeProjectId = Constants.DEFAULT_PROJECT_ID;
 		[SerializeField] private PaymentsFlow paymentsFlow = PaymentsFlow.XsollaPayStation;
 		[SerializeField] private bool isSandbox = true;
-
-		[SerializeField] public PaystationTheme paystationTheme = PaystationTheme.Dark;
 		[SerializeField] private bool inAppBrowserEnabled = true;
 		[SerializeField] private bool packInAppBrowserInBuild = true;
 		
 		[SerializeField] private RedirectPolicySettings desktopRedirectPolicySettings = new RedirectPolicySettings();
 		[SerializeField] private RedirectPolicySettings webglRedirectPolicySettings = new RedirectPolicySettings();
 		[SerializeField] private RedirectPolicySettings androidRedirectPolicySettings = new RedirectPolicySettings();
-		
+
+		[SerializeField] private PayStationUISettings desktopPayStationUISettings = new PayStationUISettings();
+		[SerializeField] private PayStationUISettings webglPayStationUISettings = new PayStationUISettings();
+		[SerializeField] private PayStationUISettings androidPayStationUISettings = new PayStationUISettings();
+
 		[SerializeField] private string facebookAppId = default;
 		[SerializeField] private string googleServerId = default;
 		[SerializeField] private string wechatAppId = default;
@@ -211,16 +213,6 @@ namespace Xsolla.Core
 			}
 		}
 
-		public static PaystationTheme PaystationTheme
-		{
-			get => Instance.paystationTheme;
-			set
-			{
-				Instance.paystationTheme = value;
-				MarkAssetDirty();
-			}
-		}
-
 		public static bool InAppBrowserEnabled
 		{
 			get => Instance.inAppBrowserEnabled;
@@ -257,6 +249,24 @@ namespace Xsolla.Core
 		{
 			get => Instance.androidRedirectPolicySettings;
 			set => Instance.androidRedirectPolicySettings = value;
+		}
+
+		public static PayStationUISettings DesktopPayStationUISettings
+		{
+			get => Instance.desktopPayStationUISettings;
+			set => Instance.desktopPayStationUISettings = value;
+		}
+
+		public static PayStationUISettings WebglPayStationUISettings
+		{
+			get => Instance.webglPayStationUISettings;
+			set => Instance.webglPayStationUISettings = value;
+		}
+
+		public static PayStationUISettings AndroidPayStationUISettings
+		{
+			get => Instance.androidPayStationUISettings;
+			set => Instance.androidPayStationUISettings = value;
 		}
 
 		public static string FacebookAppId

@@ -28,7 +28,6 @@ MonoBehaviour:
   storeProjectId: 77640
   paymentsFlow: 0
   isSandbox: 1
-  paystationTheme: 1
   inAppBrowserEnabled: 1
   packInAppBrowserInBuild: 1
   desktopRedirectPolicySettings:
@@ -58,6 +57,7 @@ MonoBehaviour:
   facebookAppId: 
   googleServerId: 
   wechatAppId: 
+  qqAppId: 
   useDeepLinking: 0
   deepLinkRedirectUrl: 
   webStoreUrl: https://sitebuilder.xsolla.com/game/sdk-web-store/
