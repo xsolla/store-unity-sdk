@@ -7,8 +7,8 @@ namespace Xsolla.Core
 	{
 		public bool isFoldout;
 		public bool isOverride;
-		public PaystationTheme paystationTheme = PaystationTheme.Dark;
-		public PaystationSize paystationSize = PaystationSize.Large;
+		public PaystationTheme paystationTheme = PaystationTheme.Default;
+		public PaystationSize paystationSize = PaystationSize.Medium;
 		public PaystationVersion paystationVersion = PaystationVersion.Desktop;
 
 		public static PayStationUI GenerateSettings()
@@ -29,7 +29,9 @@ namespace Xsolla.Core
 				return XsollaSettings.DesktopPayStationUISettings.CreateSettings();
 			}
 #endif
-			return new PayStationUISettings().CreateSettings();
+			//TEXTREVIEW
+			//Settings will be defined by Pay Station itself based on the platform
+			return null;
 		}
 
 		private PayStationUI CreateSettings()

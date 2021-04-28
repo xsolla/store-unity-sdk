@@ -9,7 +9,8 @@ namespace Xsolla.Store
 	public class TempPurchaseParams
 	{
 		public bool sandbox;
-		
+
+		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 		public Settings settings;
 
 		[JsonProperty("custom_parameters", NullValueHandling = NullValueHandling.Ignore)]

@@ -83,7 +83,6 @@ namespace Xsolla.Store
 			TempPurchaseParams tempPurchaseParams = new TempPurchaseParams
 			{
 				sandbox = XsollaSettings.IsSandbox,
-				settings = new TempPurchaseParams.Settings()
 			};
 
 			var url = string.Format(URL_BUY_ITEM_FOR_VC, projectId, itemSku, priceSku);
@@ -168,6 +167,11 @@ namespace Xsolla.Store
 			{
 				settings.return_url = settings.redirect_policy.return_url;
 			}
+
+			//TEXTREVIEW
+			//Fix 'Array value found, but an object is required' in case of empty values
+			if (settings.ui == null && settings.redirect_policy == null && settings.return_url == null)
+				settings = null;
 
 			var tempPurchaseParams = new TempPurchaseParams()
 			{
