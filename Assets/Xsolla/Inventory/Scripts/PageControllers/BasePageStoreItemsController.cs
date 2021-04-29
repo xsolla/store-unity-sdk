@@ -57,12 +57,7 @@ namespace Xsolla.Demo
 			var attributes = item.Attributes;
 
 			if (attributes == null)
-			{
-				if (!item.IsBundle())
-					Debug.LogWarning($"Attributes were null for item with sku: '{item.Sku}'");
-
 				return false;
-			}
 
 			foreach (var attribute in attributes)
 			{

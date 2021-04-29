@@ -17,6 +17,7 @@ namespace Xsolla.Core
 			var changed =	XsollaLoginSettings() ||
 							PublishingPlatformSettings() ||
 							XsollaStoreSettings() ||
+							XsollaPayStationUISettings() ||
 							AndroidSDKSettings() ||
 							InventorySDKSettings();
 
