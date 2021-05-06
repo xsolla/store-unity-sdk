@@ -22,6 +22,10 @@ namespace Xsolla.Demo
 		[SerializeField] InputField EmailAccessTokenAuthInputField = default;
 		[SerializeField] SimpleButton LoginAccessTokenAuthButton = default;
 
+		[Space]
+		[SerializeField] SimpleButton DeviceIDAuthButton = default;
+
+		[Space]
 		[SerializeField] GameObject LoginAuthPage = default;
 		[SerializeField] GameObject AccessTokenAuthPage = default;
 
@@ -37,7 +41,9 @@ namespace Xsolla.Demo
 			{
 				button.onClick += () => RunSocialAuth(button.SocialProvider);
 			}
-			
+
+			DeviceIDAuthButton.onClick += RunDeviceIDAuth;
+
 			if (DemoController.Instance.IsAccessTokenAuth)
 			{
 				LoginAuthPage.SetActive(false);
@@ -133,6 +139,21 @@ namespace Xsolla.Demo
 				Error error = new Error(errorType: ErrorType.RegistrationNotAllowedException, errorMessage: "Invalid email");
 				base.OnError?.Invoke(error);
 			}
+		}
+
+		public void RunDeviceIDAuth()
+		{
+			if (IsAuthInProgress)
+				return;
+
+			IsAuthInProgress = true;
+			PopupFactory.Instance.CreateWaiting().SetCloseCondition(() => IsAuthInProgress == false);
+
+			Action<string> onSuccessfulDeviecIDAuth = token => DemoController.Instance.LoginDemo
+				.ValidateToken(token, t => CompleteSuccessfulAuth(token, isSaveToken: true), ProcessError);
+			Action<Error> onFailedDeviecIDAuth = ProcessError;
+
+			TryAuthBy<DeviceIdAuth>(args: null, onSuccess: onSuccessfulDeviecIDAuth, onFailed: onFailedDeviecIDAuth);
 		}
 
 		private void DisableCommonButtons()

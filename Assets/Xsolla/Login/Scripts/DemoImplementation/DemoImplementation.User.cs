@@ -134,6 +134,11 @@ namespace Xsolla.Demo
 			XsollaLogin.Instance.SteamAuth(appId, sessionTicket, onSuccess, onError);
 		}
 
+		public void AuthViaDeviceID(Core.DeviceType deviceType, string deviceName, string deviceId, string payloadOrState = null, Action<string> onSuccess = null, Action<Error> onError = null)
+		{
+			XsollaLogin.Instance.AuthViaDeviceID(deviceType, deviceName, deviceId, payloadOrState, onSuccess, onError);
+		}
+
 		public string GetSocialNetworkAuthUrl(SocialProvider socialProvider)
 		{
 			return XsollaLogin.Instance.GetSocialNetworkAuthUrl(socialProvider);
