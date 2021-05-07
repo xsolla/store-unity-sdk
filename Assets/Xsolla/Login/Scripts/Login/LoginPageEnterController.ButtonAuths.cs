@@ -42,7 +42,8 @@ namespace Xsolla.Demo
 				button.onClick += () => RunSocialAuth(button.SocialProvider);
 			}
 
-			DeviceIDAuthButton.onClick += RunDeviceIDAuth;
+			if (DeviceIDAuthButton)
+				DeviceIDAuthButton.onClick += RunDeviceIDAuth;
 
 			if (DemoController.Instance.IsAccessTokenAuth)
 			{

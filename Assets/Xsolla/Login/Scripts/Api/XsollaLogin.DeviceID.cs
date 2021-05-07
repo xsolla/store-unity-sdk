@@ -85,7 +85,7 @@ namespace Xsolla.Login
 		/// <param name="promoEmailAgreement">User consent to receive the newsletter.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
-		public void AddUsernameAndEmailToAccount(string email, string password, string username, int? promoEmailAgreement = null, Action<bool> onSuccess = null, Action<Error> onError = null)
+		public void AddUsernameEmailAuthToAccount(string email, string password, string username, int? promoEmailAgreement = null, Action<bool> onSuccess = null, Action<Error> onError = null)
 		{
 			var requestBody = new AddUsernameAndEmailRequest(email, password, promoEmailAgreement, username);
 			var loginUrl = XsollaSettings.CallbackUrl;
@@ -113,12 +113,12 @@ namespace Xsolla.Login
 		{
 			var url = URL_GET_USERS_DEVICES;
 
-			Action<GetUserDevicesResponse> onComplete = response =>
+			Action<UserDeviceInfo[]> onComplete = responseItems =>
 			{
-				onSuccess?.Invoke(response.items);
+				onSuccess?.Invoke(responseItems);
 			};
 
-			WebRequestHelper.Instance.GetRequest<GetUserDevicesResponse>(SdkType.Login, url, WebRequestHeader.AuthHeader(Token),
+			WebRequestHelper.Instance.GetRequest<UserDeviceInfo[]>(SdkType.Login, url, WebRequestHeader.AuthHeader(Token),
 				onComplete: onComplete,
 				onError: onError);
 		}

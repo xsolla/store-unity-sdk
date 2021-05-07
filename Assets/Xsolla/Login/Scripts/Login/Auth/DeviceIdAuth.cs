@@ -6,12 +6,14 @@ namespace Xsolla.Demo
 	{
 		public void TryAuth(params object[] args)
 		{
-#if !(UNITY_ANDROID || UNITY_IOS)
-			var platform = Application.platform.ToString();
-			var message = $"Device ID auth is not supported for {platform} platform";
+			var supported = true;
+#if !(UNITY_ANDROID || UNITY_IOS) || UNITY_EDITOR
+			var message = "Device ID auth is not supported for this platform";
 			base.OnError?.Invoke(new Error(ErrorType.MethodIsNotAllowed, errorMessage: message));
-			return;
+			supported = false;
 #endif
+			if (!supported)
+				return;
 
 #if UNITY_IOS
 			var deviceType = Core.DeviceType.iOS;
