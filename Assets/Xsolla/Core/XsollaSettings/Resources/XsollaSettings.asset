@@ -54,6 +54,24 @@ MonoBehaviour:
     Delay: 0
     StatusForManualRedirection: 0
     RedirectButtonCaption: 
+  desktopPayStationUISettings:
+    isFoldout: 0
+    isOverride: 0
+    paystationTheme: 0
+    paystationSize: 1
+    paystationVersion: 0
+  webglPayStationUISettings:
+    isFoldout: 0
+    isOverride: 0
+    paystationTheme: 0
+    paystationSize: 1
+    paystationVersion: 0
+  androidPayStationUISettings:
+    isFoldout: 0
+    isOverride: 0
+    paystationTheme: 0
+    paystationSize: 1
+    paystationVersion: 0
   facebookAppId: 
   googleServerId: 
   wechatAppId: 

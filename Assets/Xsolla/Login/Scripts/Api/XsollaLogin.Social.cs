@@ -11,19 +11,19 @@ namespace Xsolla.Login
 		/// <summary>
 		/// Temporary Steam auth endpoint. Will be changed later.
 		/// </summary>
-		private const string URL_STEAM_CROSSAUTH =
+		private const string URL_JWT_STEAM_CROSSAUTH =
 			"https://login.xsolla.com/api/social/steam/cross_auth?projectId={0}&app_id={1}&with_logout={2}&session_ticket={3}&is_redirect=false";
 
-		private const string URL_OAUT_STEAM_CROSSAUTH =
+		private const string URL_OAUTH_STEAM_CROSSAUTH =
 			"https://login.xsolla.com/api/oauth2/social/steam/cross_auth?app_id={0}&client_id={1}&session_ticket={2}&is_redirect=false&redirect_uri=https://login.xsolla.com/api/blank&response_type=code&scope=offline&state=xsollatest";
-		
+
 		private const string URL_LINK_SOCIAL_NETWORK = 
 			"https://login.xsolla.com/api/users/me/social_providers/{0}/login_url?login_url={1}";
 
 		private const string URL_GET_LINKED_SOCIAL_NETWORKS =
 			"https://login.xsolla.com/api/users/me/social_providers";
 
-		private const string URL_SOCIAL_AUTH =
+		private const string URL_JWT_SOCIAL_AUTH =
 			"https://login.xsolla.com/api/social/{0}/login_redirect?projectId={1}&with_logout={2}";
 
 		private const string URL_OAUTH_SOCIAL_AUTH =
@@ -56,7 +56,7 @@ namespace Xsolla.Login
 			{
 				var projectId = XsollaSettings.LoginId;
 				var with_logout = XsollaSettings.JwtTokenInvalidationEnabled ? "1" : "0";
-				url = string.Format(URL_STEAM_CROSSAUTH, projectId, appId, with_logout, sessionTicket);
+				url = string.Format(URL_JWT_STEAM_CROSSAUTH, projectId, appId, with_logout, sessionTicket);
 
 				onSuccessResponse = response =>
 				{
@@ -68,7 +68,7 @@ namespace Xsolla.Login
 			}
 			else /*if (XsollaSettings.AuthorizationType == AuthorizationType.OAuth2_0)*/
 			{
-				url = string.Format(URL_OAUT_STEAM_CROSSAUTH, appId, XsollaSettings.OAuthClientId, sessionTicket);
+				url = string.Format(URL_OAUTH_STEAM_CROSSAUTH, appId, XsollaSettings.OAuthClientId, sessionTicket);
 
 				onSuccessResponse = response =>
 				{
@@ -99,7 +99,7 @@ namespace Xsolla.Login
 				case AuthorizationType.JWT:
 					var projectId = XsollaSettings.LoginId;
 					var with_logout = XsollaSettings.JwtTokenInvalidationEnabled ? "1" : "0";
-					result = string.Format(URL_SOCIAL_AUTH, socialProvider.GetParameter(), projectId, with_logout);
+					result = string.Format(URL_JWT_SOCIAL_AUTH, socialProvider.GetParameter(), projectId, with_logout);
 					break;
 				case AuthorizationType.OAuth2_0:
 					var socialNetwork = socialProvider.GetParameter();
