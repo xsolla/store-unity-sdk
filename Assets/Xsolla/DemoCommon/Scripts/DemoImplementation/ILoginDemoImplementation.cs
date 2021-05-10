@@ -51,7 +51,7 @@ namespace Xsolla.Demo
 		void SteamAuth(string appId, string sessionTicket, [CanBeNull] Action<string> onSuccess = null,
 			[CanBeNull] Action<Error> onError = null);
 
-		void AuthViaDeviceID(Core.DeviceType deviceType, string deviceName, string deviceId, string payloadOrState = null, Action<string> onSuccess = null, Action<Error> onError = null);
+		void AuthViaDeviceID(Core.DeviceType deviceType, string deviceName, string deviceId, string payload = null, string state = null, Action<string> onSuccess = null, Action<Error> onError = null);
 
 		void AccessTokenAuth(string email, [NotNull] Action onSuccess,
 			[CanBeNull] Action<Error> onError = null);

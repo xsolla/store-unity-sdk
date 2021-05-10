@@ -53,7 +53,7 @@ namespace Xsolla.Demo
 				Destroy(item);
 
 			//Prepare outcome handlers
-			Action<UserDeviceInfo[]> onSuccess = devices =>
+			Action<List<UserDeviceInfo>> onSuccess = devices =>
 			{
 				foreach (var device in devices)
 				{

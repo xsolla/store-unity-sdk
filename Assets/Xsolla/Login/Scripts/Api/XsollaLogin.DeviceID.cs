@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Xsolla.Core;
 
 namespace Xsolla.Login
@@ -30,38 +31,50 @@ namespace Xsolla.Login
 		/// <param name="deviceType">Type of the device.</param>
 		/// <param name="deviceName">Manufacturer and model name of the device.</param>
 		/// <param name="deviceId">Device ID: For Android it is an ANDROID_ID constant. For iOS it is an identifierForVendor property.</param>
-		/// <param name="payloadOrState">Value used as 'payload' param for JWT or 'state' for OAuth2.0 authentication variant.</param>
+		/// <param name="payload">Your custom data. The value of the parameter will be returned in the 'user JWT' > `payload` claim. Used only for JWT authorization type.</param>
+		/// <param name="state">Value used for additional user verification. Often used to mitigate CSRF Attacks. The value will be returned in the response. Must be longer than 8 symbols. Used only for OAuth2.0 authorization type.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
-		public void AuthViaDeviceID(DeviceType deviceType, string deviceName, string deviceId, string payloadOrState = null, Action<string> onSuccess = null, Action<Error> onError = null)
+		public void AuthViaDeviceID(DeviceType deviceType, string deviceName, string deviceId, string payload = null, string state = null, Action<string> onSuccess = null, Action<Error> onError = null)
 		{
 			var deviceTypeAsString = deviceType.ToString().ToLower();
 			var requestBody = new LoginDeviceIdRequest(deviceName, deviceId);
 
 			if (XsollaSettings.AuthorizationType == AuthorizationType.JWT)
 			{
-				var projectId = XsollaSettings.LoginId;
-				var payload = (payloadOrState != null) ? $"&payload={payloadOrState}" : string.Empty;
-				var with_logout = XsollaSettings.JwtTokenInvalidationEnabled ? "1" : "0";
-
-				var url = string.Format(URL_JWT_DEVICE_ID_AUTH, deviceTypeAsString, projectId, payload, with_logout);
-
-				WebRequestHelper.Instance.PostRequest<TokenEntity, LoginDeviceIdRequest>(SdkType.Login, url, requestBody,
-					onComplete: (response) =>
-					{
-						Token = response.token;
-						onSuccess?.Invoke(Token);
-					},
-					onError, Error.LoginErrors);
+				JwtAuthViaDeviceID(deviceTypeAsString, requestBody, payload, onSuccess, onError);
 			}
 			else /*if (XsollaSettings.AuthorizationType == AuthorizationType.OAuth2_0)*/
 			{
-				var clientId = XsollaSettings.OAuthClientId;
-				var state = payloadOrState ?? DEFAULT_OAUTH_STATE;
+				OAuthAuthViaDeviceID(deviceTypeAsString, requestBody, state, onSuccess, onError);
+			}
+		}
 
-				var url = string.Format(URL_OAUTH_DEVICE_ID_AUTH, deviceTypeAsString, clientId, state);
+		private void JwtAuthViaDeviceID(string deviceType, LoginDeviceIdRequest requestBody, string payload = null, Action<string> onSuccess = null, Action<Error> onError = null)
+		{
+			var projectId = XsollaSettings.LoginId;
+			var payloadUrlParam = (payload != null) ? $"&payload={payload}" : string.Empty;
+			var with_logout = XsollaSettings.JwtTokenInvalidationEnabled ? "1" : "0";
 
-				WebRequestHelper.Instance.PostRequest<LoginJwtJsonResponse, LoginDeviceIdRequest>(SdkType.Login, url, requestBody,
+			var url = string.Format(URL_JWT_DEVICE_ID_AUTH, deviceType, projectId, payloadUrlParam, with_logout);
+
+			WebRequestHelper.Instance.PostRequest<TokenEntity, LoginDeviceIdRequest>(SdkType.Login, url, requestBody,
+				onComplete: (response) =>
+				{
+					Token = response.token;
+					onSuccess?.Invoke(Token);
+				},
+				onError, Error.LoginErrors);
+		}
+
+		private void OAuthAuthViaDeviceID(string deviceType, LoginDeviceIdRequest requestBody, string state = null, Action<string> onSuccess = null, Action<Error> onError = null)
+		{
+			var clientId = XsollaSettings.OAuthClientId;
+			var stateUrlParam = state ?? DEFAULT_OAUTH_STATE;
+
+			var url = string.Format(URL_OAUTH_DEVICE_ID_AUTH, deviceType, clientId, stateUrlParam);
+
+			WebRequestHelper.Instance.PostRequest<LoginJwtJsonResponse, LoginDeviceIdRequest>(SdkType.Login, url, requestBody,
 				onComplete: (response) =>
 				{
 					if (ParseUtils.TryGetValueFromUrl(response.login_url, ParseParameter.code, out string code))
@@ -70,7 +83,6 @@ namespace Xsolla.Login
 						onError?.Invoke(Error.UnknownError);
 				},
 				onError, Error.LoginErrors);
-			}
 		}
 
 		//TEXTREVIEW
@@ -103,22 +115,22 @@ namespace Xsolla.Login
 
 		//TEXTREVIEW
 		/// <summary>
-		/// Gets a list of user’s devices.
+		/// Gets a list of userï¿½s devices.
 		/// </summary>
 		/// <remarks>Swagger method name:<c>Get user's devices</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/login-api/user-account/managed-by-client/devices/get-users-devices/"/>.
 		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
-		public void GetUserDevices(Action<UserDeviceInfo[]> onSuccess = null, Action<Error> onError = null)
+		public void GetUserDevices(Action<List<UserDeviceInfo>> onSuccess = null, Action<Error> onError = null)
 		{
 			var url = URL_GET_USERS_DEVICES;
 
-			Action<UserDeviceInfo[]> onComplete = responseItems =>
+			Action<List<UserDeviceInfo>> onComplete = responseItems =>
 			{
 				onSuccess?.Invoke(responseItems);
 			};
 
-			WebRequestHelper.Instance.GetRequest<UserDeviceInfo[]>(SdkType.Login, url, WebRequestHeader.AuthHeader(Token),
+			WebRequestHelper.Instance.GetRequest<List<UserDeviceInfo>>(SdkType.Login, url, WebRequestHeader.AuthHeader(Token),
 				onComplete: onComplete,
 				onError: onError);
 		}

@@ -13,28 +13,23 @@ namespace Xsolla.Core
 			return exception;
 		}
 
-		public static Exception GetDeviceID(DeviceType deviceType, out string deviceID, bool isMd5HashOkay = false)
+		public static Exception GetDeviceID(DeviceType deviceType, out string deviceID)
 		{
 			deviceID = default(string);
 			Exception exception = null;
 #if UNITY_ANDROID
-			if (isMd5HashOkay)
-				deviceID = SystemInfo.deviceUniqueIdentifier;
-			else
+			try
 			{
-				try
-				{
-					AndroidJavaClass player = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-					AndroidJavaObject currentActivity = player.GetStatic<AndroidJavaObject>("currentActivity");
-					AndroidJavaObject contentResolver = currentActivity.Call<AndroidJavaObject>("getContentResolver");
-					AndroidJavaClass secure = new AndroidJavaClass("android.provider.Settings$Secure");
-					deviceID = secure.CallStatic<string>("getString", contentResolver, "android_id");
-				}
-				catch (Exception ex)
-				{
-					Debug.LogError(ex.Message);
-					exception = ex;
-				}
+				AndroidJavaClass player = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+				AndroidJavaObject currentActivity = player.GetStatic<AndroidJavaObject>("currentActivity");
+				AndroidJavaObject contentResolver = currentActivity.Call<AndroidJavaObject>("getContentResolver");
+				AndroidJavaClass secure = new AndroidJavaClass("android.provider.Settings$Secure");
+				deviceID = secure.CallStatic<string>("getString", contentResolver, "android_id");
+			}
+			catch (Exception ex)
+			{
+				Debug.LogError(ex.Message);
+				exception = ex;
 			}
 #else
 			deviceID = SystemInfo.deviceUniqueIdentifier;
