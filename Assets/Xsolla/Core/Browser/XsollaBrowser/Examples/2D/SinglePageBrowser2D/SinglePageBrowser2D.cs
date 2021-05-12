@@ -15,6 +15,8 @@ namespace Xsolla.Core.Browser
 		[SerializeField] private GameObject PreloaderPrefab = default;
 
 		public Button CloseButton;
+		public Button BackButton;
+		public Button ForwardButton;
 		public event Action<IXsollaBrowser> BrowserInitEvent;
 		public event Action<IXsollaBrowser> BrowserClosedEvent;
 
@@ -22,19 +24,26 @@ namespace Xsolla.Core.Browser
 		Display2DBehaviour display;
 		KeyboardBehaviour2D keyboard;
 		MouseBehaviour2D mouse;
-	
+
+		string _urlBeforePopup;
+
 		private void Awake()
 		{
+			BackButton.onClick.AddListener(BackButtonPressed);
+			ForwardButton.onClick.AddListener(ForwardButtonPressed);
+
 			CloseButton.gameObject.SetActive(false);
-		
+			BackButton.gameObject.SetActive(false);
+			ForwardButton.gameObject.SetActive(false);
+
 			Canvas canvas = FindObjectOfType<Canvas>();
-			Rect canvasRect = (canvas.transform as RectTransform).rect;//canvas.pixelRect;
-		
+			Rect canvasRect = (canvas.transform as RectTransform).rect; //canvas.pixelRect;
+
 			if (Viewport.x > canvasRect.width)
 				Viewport.x = canvasRect.width * 0.9F;
 			if (Viewport.y > canvasRect.height)
 				Viewport.y = canvasRect.height * 0.9F;
-		
+
 			xsollaBrowser = this.GetOrAddComponent<XsollaBrowser>();
 			xsollaBrowser.LogEvent += XsollaBrowser_LogEvent;
 			xsollaBrowser.Launch
@@ -63,8 +72,20 @@ namespace Xsolla.Core.Browser
 #endif
 				}
 			);
-		
+
+			xsollaBrowser.Navigate.SetOnPopupListener((popupUrl =>
+			{
+				xsollaBrowser.Navigate.GetUrl(currentUtl => { _urlBeforePopup = currentUtl; });
+				xsollaBrowser.Navigate.To(popupUrl, newUrl => { SetNavigationButtonsVisibility(true); });
+			}));
+
 			display = this.GetOrAddComponent<Display2DBehaviour>();
+		}
+
+		private void SetNavigationButtonsVisibility(bool showNavigationButtons)
+		{
+			BackButton.gameObject.SetActive(showNavigationButtons);
+			ForwardButton.gameObject.SetActive(showNavigationButtons);
 		}
 
 		private void Start()
@@ -78,17 +99,18 @@ namespace Xsolla.Core.Browser
 		{
 			yield return new WaitForEndOfFrame();
 			yield return StartCoroutine(WaitPreloaderCoroutine());
-		
-			display.StartRedrawWith((int)Viewport.x, (int)Viewport.y);
-			display.RedrawFrameCompleteEvent += EnableCloseButton;
+
+			display.StartRedrawWith((int) Viewport.x, (int) Viewport.y);
+			display.RedrawFrameCompleteEvent += EnableButtons;
 			display.ViewportChangedEvent += (width, height) => Viewport = new Vector2(width, height);
 			InitializeInput();
 			BrowserInitEvent?.Invoke(browser);
 		}
 
-		private void EnableCloseButton()
+		private void EnableButtons()
 		{
-			display.RedrawFrameCompleteEvent -= EnableCloseButton;
+			display.RedrawFrameCompleteEvent -= EnableButtons;
+
 			CloseButton.gameObject.SetActive(true);
 			CloseButton.onClick.AddListener(CloseButtonPressed);
 		}
@@ -112,6 +134,25 @@ namespace Xsolla.Core.Browser
 			Destroy(gameObject, 0.001F);
 		}
 
+		private void BackButtonPressed()
+		{
+			Debug.Log("`Back` button pressed");
+			xsollaBrowser.Navigate.Back((newUrl =>
+			{
+				if (newUrl.Equals(_urlBeforePopup))
+				{
+					SetNavigationButtonsVisibility(false);
+					_urlBeforePopup = string.Empty;
+				}
+			}));
+		}
+
+		private void ForwardButtonPressed()
+		{
+			Debug.Log("`Forward` button pressed");
+			xsollaBrowser.Navigate.Forward();
+		}
+
 		private void Keyboard_EscapePressed()
 		{
 			Debug.Log("`Escape` button pressed");
@@ -122,20 +163,27 @@ namespace Xsolla.Core.Browser
 		{
 			StopAllCoroutines();
 			BrowserClosedEvent?.Invoke(xsollaBrowser);
-			if (mouse != null) {
+			if (mouse != null)
+			{
 				Destroy(mouse);
 				mouse = null;
 			}
-			if (display != null) {
+
+			if (display != null)
+			{
 				Destroy(display);
 				display = null;
 			}
-			if (keyboard != null) {
+
+			if (keyboard != null)
+			{
 				keyboard.EscapePressed -= Keyboard_EscapePressed;
 				Destroy(keyboard);
 				keyboard = null;
 			}
-			if (xsollaBrowser != null) {
+
+			if (xsollaBrowser != null)
+			{
 				Destroy(xsollaBrowser);
 				xsollaBrowser = null;
 			}
