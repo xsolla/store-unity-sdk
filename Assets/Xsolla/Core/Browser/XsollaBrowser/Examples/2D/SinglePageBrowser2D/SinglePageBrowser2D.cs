@@ -16,7 +16,6 @@ namespace Xsolla.Core.Browser
 
 		public Button CloseButton;
 		public Button BackButton;
-		public Button ForwardButton;
 		public event Action<IXsollaBrowser> BrowserInitEvent;
 		public event Action<IXsollaBrowser> BrowserClosedEvent;
 
@@ -30,11 +29,9 @@ namespace Xsolla.Core.Browser
 		private void Awake()
 		{
 			BackButton.onClick.AddListener(BackButtonPressed);
-			ForwardButton.onClick.AddListener(ForwardButtonPressed);
 
 			CloseButton.gameObject.SetActive(false);
 			BackButton.gameObject.SetActive(false);
-			ForwardButton.gameObject.SetActive(false);
 
 			Canvas canvas = FindObjectOfType<Canvas>();
 			Rect canvasRect = (canvas.transform as RectTransform).rect; //canvas.pixelRect;
@@ -76,16 +73,10 @@ namespace Xsolla.Core.Browser
 			xsollaBrowser.Navigate.SetOnPopupListener((popupUrl =>
 			{
 				xsollaBrowser.Navigate.GetUrl(currentUtl => { _urlBeforePopup = currentUtl; });
-				xsollaBrowser.Navigate.To(popupUrl, newUrl => { SetNavigationButtonsVisibility(true); });
+				xsollaBrowser.Navigate.To(popupUrl, newUrl => { BackButton.gameObject.SetActive(true); });
 			}));
 
 			display = this.GetOrAddComponent<Display2DBehaviour>();
-		}
-
-		private void SetNavigationButtonsVisibility(bool showNavigationButtons)
-		{
-			BackButton.gameObject.SetActive(showNavigationButtons);
-			ForwardButton.gameObject.SetActive(showNavigationButtons);
 		}
 
 		private void Start()
@@ -141,16 +132,10 @@ namespace Xsolla.Core.Browser
 			{
 				if (newUrl.Equals(_urlBeforePopup))
 				{
-					SetNavigationButtonsVisibility(false);
+					BackButton.gameObject.SetActive(false);
 					_urlBeforePopup = string.Empty;
 				}
 			}));
-		}
-
-		private void ForwardButtonPressed()
-		{
-			Debug.Log("`Forward` button pressed");
-			xsollaBrowser.Navigate.Forward();
 		}
 
 		private void Keyboard_EscapePressed()
