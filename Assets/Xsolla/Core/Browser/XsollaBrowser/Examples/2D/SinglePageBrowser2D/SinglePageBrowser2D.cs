@@ -92,15 +92,15 @@ namespace Xsolla.Core.Browser
 			yield return StartCoroutine(WaitPreloaderCoroutine());
 
 			display.StartRedrawWith((int) Viewport.x, (int) Viewport.y);
-			display.RedrawFrameCompleteEvent += EnableButtons;
+			display.RedrawFrameCompleteEvent += EnableCloseButton;
 			display.ViewportChangedEvent += (width, height) => Viewport = new Vector2(width, height);
 			InitializeInput();
 			BrowserInitEvent?.Invoke(browser);
 		}
 
-		private void EnableButtons()
+		private void EnableCloseButton()
 		{
-			display.RedrawFrameCompleteEvent -= EnableButtons;
+			display.RedrawFrameCompleteEvent -= EnableCloseButton;
 
 			CloseButton.gameObject.SetActive(true);
 			CloseButton.onClick.AddListener(CloseButtonPressed);
