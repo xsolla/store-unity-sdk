@@ -72,7 +72,7 @@ namespace Xsolla.Core.Browser
 
 			xsollaBrowser.Navigate.SetOnPopupListener((popupUrl =>
 			{
-				xsollaBrowser.Navigate.GetUrl(currentUtl => { _urlBeforePopup = currentUtl; });
+				xsollaBrowser.Navigate.GetUrl(currentUrl => { _urlBeforePopup = currentUrl; });
 				xsollaBrowser.Navigate.To(popupUrl, newUrl => { BackButton.gameObject.SetActive(true); });
 			}));
 
