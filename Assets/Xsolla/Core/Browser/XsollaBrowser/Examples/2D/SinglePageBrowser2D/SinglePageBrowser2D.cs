@@ -52,6 +52,15 @@ namespace Xsolla.Core.Browser
 				},
 				new BrowserFetcherOptions
 				{
+					
+#if UNITY_STANDALONE && !UNITY_EDITOR
+					Path = !XsollaSettings.PackInAppBrowserInBuild ? Application.persistentDataPath : String.Empty,
+#endif
+
+#if UNITY_EDITOR
+					Path = Application.persistentDataPath,
+#endif
+
 #if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
 	#if UNITY_64
 					Platform = Platform.Win64
