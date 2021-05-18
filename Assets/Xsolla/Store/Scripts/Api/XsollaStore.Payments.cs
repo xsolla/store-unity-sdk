@@ -185,7 +185,6 @@ namespace Xsolla.Store
 			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.OrderStatusErrors);
 		}
 
-		//TEXTREVIEW
 		/// <summary>
 		/// Creates a new payment token.
 		/// </summary>
@@ -224,7 +223,6 @@ namespace Xsolla.Store
 			WebRequestHelper.Instance.PostRequest<TokenEntity, CreatePaymentTokenRequest>(SdkType.Store, url, requestBody, GetPaymentHeaders(Token), onSuccess, onError, Error.BuyItemErrors);
 		}
 
-		//TEXTREVIEW
 		/// <summary>
 		/// Creates a new payment token.
 		/// </summary>
@@ -282,7 +280,6 @@ namespace Xsolla.Store
 				settings.return_url = settings.redirect_policy.return_url;
 			}
 
-			//TEXTREVIEW
 			//Fix 'The array value is found, but an object is required' in case of empty values.
 			if (settings.ui == null && settings.redirect_policy == null && settings.return_url == null)
 				settings = null;

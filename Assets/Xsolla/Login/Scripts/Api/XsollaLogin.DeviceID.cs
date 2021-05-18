@@ -21,7 +21,6 @@ namespace Xsolla.Login
 		private const string URL_DEVICES_LINKING =
 			"https://login.xsolla.com/api/users/me/devices/{0}";
 
-		//TEXTREVIEW
 		/// <summary>
 		/// Authenticates a user via a particular device ID.
 		/// </summary>
@@ -85,7 +84,6 @@ namespace Xsolla.Login
 				onError, Error.LoginErrors);
 		}
 
-		//TEXTREVIEW
 		/// <summary>
 		/// Adds the username/email and password authentication to the existing user account. This call is used if the account is created via device ID or phone number.
 		/// </summary>
@@ -113,7 +111,6 @@ namespace Xsolla.Login
 				onError: onError);
 		}
 
-		//TEXTREVIEW
 		/// <summary>
 		/// Gets a list of user's devices.
 		/// </summary>
@@ -135,7 +132,6 @@ namespace Xsolla.Login
 				onError: onError);
 		}
 
-		//TEXTREVIEW
 		/// <summary>
 		/// Links the specified device to the user account. To enable authentication via device ID and linking, contact your Account Manager.
 		/// </summary>
@@ -157,7 +153,6 @@ namespace Xsolla.Login
 				onError);
 		}
 
-		//TEXTREVIEW
 		/// <summary>
 		/// Unlinks the specified device from the user account. To enable authentication via device ID and unlinking, contact your Account Manager.
 		/// </summary>
