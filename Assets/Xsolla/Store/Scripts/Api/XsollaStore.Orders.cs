@@ -49,7 +49,7 @@ namespace Xsolla.Store
 		{
 			get
 			{
-				if (!XsollaSettings.InAppBrowserEnabled)
+				if (!XsollaSettings.InAppBrowserEnabled || Application.platform == RuntimePlatform.Android)
 				{
 					return true;
 				}
