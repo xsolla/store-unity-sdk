@@ -64,8 +64,13 @@ namespace Xsolla.Demo
 		{
 			AttachButtonCallback(storeButton,
 				() => SetMenuState(MenuState.Store, () => UserCatalog.Instance.IsUpdated && UserInventory.Instance.IsUpdated));
-			AttachButtonCallback(battlepassButton,
-				() => SetMenuState(MenuState.Battlepass, () => UserCatalog.Instance.IsUpdated));
+
+			if (!DemoController.Instance.IsAccessTokenAuth)
+			{
+				AttachButtonCallback(battlepassButton,
+					() => SetMenuState(MenuState.Battlepass, () => UserCatalog.Instance.IsUpdated));
+			}
+
 			AttachButtonCallback(inventoryButton,
 				() => SetMenuState(MenuState.Inventory, () => UserInventory.Instance.IsUpdated));
 
