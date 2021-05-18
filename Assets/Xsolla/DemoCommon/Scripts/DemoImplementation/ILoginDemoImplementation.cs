@@ -48,7 +48,7 @@ namespace Xsolla.Demo
 		void SignIn(string username, string password, bool rememberUser, [NotNull] Action<string> onSuccess,
 			[CanBeNull] Action<Error> onError = null);
 
-		void SteamAuth(string appId, string sessionTicket, [CanBeNull] Action<string> onSuccess = null,
+		void SteamAuth(string appId, string sessionTicket, string state = null, [CanBeNull] Action<string> onSuccess = null,
 			[CanBeNull] Action<Error> onError = null);
 
 		void AuthViaDeviceID(Core.DeviceType deviceType, string deviceName, string deviceId, string payload = null, string state = null, Action<string> onSuccess = null, Action<Error> onError = null);
@@ -58,7 +58,7 @@ namespace Xsolla.Demo
 
 		string GetSocialNetworkAuthUrl(SocialProvider socialProvider);
 
-		void Registration(string username, string password, string email, [NotNull] Action onSuccess,
+		void Registration(string username, string password, string email, string state = null, [CanBeNull] Action onSuccess = null,
 			[CanBeNull] Action<Error> onError = null);
 
 		bool IsOAuthTokenRefreshInProgress { get; }
