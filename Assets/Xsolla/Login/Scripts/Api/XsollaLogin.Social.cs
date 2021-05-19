@@ -15,7 +15,7 @@ namespace Xsolla.Login
 			"https://login.xsolla.com/api/social/steam/cross_auth?projectId={0}&app_id={1}&with_logout={2}&session_ticket={3}&is_redirect=false";
 
 		private const string URL_OAUTH_STEAM_CROSSAUTH =
-			"https://login.xsolla.com/api/oauth2/social/steam/cross_auth?app_id={0}&client_id={1}&session_ticket={2}&is_redirect=false&redirect_uri=https://login.xsolla.com/api/blank&response_type=code&scope=offline&state=xsollatest";
+			"https://login.xsolla.com/api/oauth2/social/steam/cross_auth?app_id={0}&client_id={1}&session_ticket={2}&is_redirect=false&redirect_uri=https://login.xsolla.com/api/blank&response_type=code&scope=offline&state={3}";
 
 		private const string URL_LINK_SOCIAL_NETWORK = 
 			"https://login.xsolla.com/api/users/me/social_providers/{0}/login_url?login_url={1}";
@@ -45,9 +45,10 @@ namespace Xsolla.Login
 		/// <see cref="https://developers.xsolla.com/login-api/methods/oauth-20/oauth-20-silent-authentication"/>.
 		/// <param name="appId">Your application Steam AppID.</param>
 		/// <param name="sessionTicket">Requested user's session_ticket by SteamAPI.</param>
+		/// <param name="oauthState">Value used for additional user verification on backend. Must be at least 8 symbols long. Will be "xsollatest" by default.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
-		public void SteamAuth(string appId, string sessionTicket, Action<string> onSuccess = null, Action<Error> onError = null)
+		public void SteamAuth(string appId, string sessionTicket, string oauthState = null, Action<string> onSuccess = null, Action<Error> onError = null)
 		{
 			string url = default(string);
 			Action<CrossAuthResponse> onSuccessResponse = null;
@@ -68,7 +69,8 @@ namespace Xsolla.Login
 			}
 			else /*if (XsollaSettings.AuthorizationType == AuthorizationType.OAuth2_0)*/
 			{
-				url = string.Format(URL_OAUTH_STEAM_CROSSAUTH, appId, XsollaSettings.OAuthClientId, sessionTicket);
+				var state = oauthState ?? DEFAULT_OAUTH_STATE;
+				url = string.Format(URL_OAUTH_STEAM_CROSSAUTH, appId, XsollaSettings.OAuthClientId, sessionTicket, state);
 
 				onSuccessResponse = response =>
 				{
