@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -5,6 +6,12 @@ namespace Xsolla.Demo
 {
 	public class StoreVcPageStoreItemsController : BaseStorePageStoreItemsController
 	{
+		protected override IEnumerator FillGroups()
+		{
+			yield return base.FillGroups();
+			UpdateContentVisibility(UserCatalog.Instance.HasCurrencyPackages);
+		}
+
 		protected override List<ItemModel> GetItemsByGroup(string groupName)
 		{
 			var items = (groupName.Equals(GROUP_ALL))

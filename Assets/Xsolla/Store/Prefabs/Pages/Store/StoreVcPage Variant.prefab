@@ -16,6 +16,7 @@ MonoBehaviour:
     _id: 61369082-43b1-4ecd-8340-d9f60b19e949
   groupsController: {fileID: 6304736581360077273}
   itemsContainer: {fileID: 5299194052215219702}
+  emptyMessage: {fileID: 27814412154148431}
 --- !u!1001 &923625095540413024
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -201,12 +202,12 @@ PrefabInstance:
     - target: {fileID: 3194503678121074332, guid: 1f4503db069d4428db8a4bed9b1d259f,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3194503678121074332, guid: 1f4503db069d4428db8a4bed9b1d259f,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3371932282510697757, guid: 1f4503db069d4428db8a4bed9b1d259f,
         type: 3}
@@ -616,7 +617,7 @@ PrefabInstance:
     - target: {fileID: 7516349684348717958, guid: 1f4503db069d4428db8a4bed9b1d259f,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7621701841875126843, guid: 1f4503db069d4428db8a4bed9b1d259f,
         type: 3}
@@ -744,3 +745,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 377413aad6efc4d209a4463e777c6469, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &27814412154148431 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 915269960434385967, guid: 1f4503db069d4428db8a4bed9b1d259f,
+    type: 3}
+  m_PrefabInstance: {fileID: 923625095540413024}
+  m_PrefabAsset: {fileID: 0}
