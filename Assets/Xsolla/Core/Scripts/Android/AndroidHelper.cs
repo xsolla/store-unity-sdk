@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -59,8 +59,13 @@ public class AndroidHelper : IDisposable
 
     public void Dispose()
     {
-        _context?.Dispose();
-        _activity?.Dispose();
-        _unityPlayer?.Dispose();
+		if (_context != null)
+			_context.Dispose();
+
+		if (_activity != null)
+			_activity.Dispose();
+
+		if (_unityPlayer != null)
+			_unityPlayer.Dispose();
     }
 }

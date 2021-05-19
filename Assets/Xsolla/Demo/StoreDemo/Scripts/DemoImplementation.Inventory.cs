@@ -24,7 +24,8 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 					InstanceId = i.instance_id,
 					RemainingUses = (uint?)i.quantity
 				}).ToList();
-			onSuccess?.Invoke(inventoryItems);
+			if (onSuccess != null)
+				onSuccess.Invoke(inventoryItems);
 		}, WrapErrorCallback(onError));
 	}
 
@@ -41,7 +42,8 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 				IsConsumable = false,
 				Amount = b.amount
 			}).ToList();
-			onSuccess?.Invoke(result);
+			if (onSuccess != null)
+				onSuccess.Invoke(result);
 		}, WrapErrorCallback(onError));
 	}
 
@@ -59,7 +61,8 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 				Status = GetSubscriptionStatus(i.status),
 				Expired = i.expired_at.HasValue ? UnixTimeToDateTime(i.expired_at.Value) : (DateTime?) null
 			}).ToList();
-			onSuccess?.Invoke(subscriptionItems);
+			if (onSuccess != null)
+				onSuccess.Invoke(subscriptionItems);
 		}, WrapErrorCallback(onError));
 	}
 
@@ -90,7 +93,8 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 				var errorMessage = "Count exceeds max possible value";
 				Debug.LogError("Count exceeds MaxValue");
 				StoreDemoPopup.ShowError(new Error(errorMessage: errorMessage));
-				onFailed?.Invoke();
+				if (onFailed != null)
+					onFailed.Invoke();
 				return;
 			}
 
@@ -99,8 +103,18 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 			var isFinished = false;
 			PopupFactory.Instance.CreateWaiting().SetCloseCondition(() => isFinished);
 			SendConsumeItemRequest(currency, convertedCount,
-				onSuccess: () => { isFinished = true; onSuccess?.Invoke(); },
-				onError: WrapErrorCallback( _ => { isFinished = true; onFailed?.Invoke(); }));
+				onSuccess: () =>
+				{
+					isFinished = true;
+					if (onSuccess != null)
+						onSuccess.Invoke();
+				},
+				onError: WrapErrorCallback( _ =>
+				{
+					isFinished = true;
+					if (onFailed != null)
+						onFailed.Invoke();
+				}));
 
 		}, onFailed);
 	}
@@ -110,7 +124,12 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 		StoreDemoPopup.ShowConsumeConfirmation(item.Name, count, () =>
 		{
 			StartCoroutine(ConsumeCoroutine(item, count, onSuccess, onFailed));
-		}, () => onFailed?.Invoke(item));
+		},
+		() =>
+		{
+			if (onFailed != null)
+				onFailed.Invoke(item);
+		});
 	}
 
 	public void RedeemCouponCode(string couponCode, Action<List<CouponRedeemedItemModel>> onSuccess, Action<Error> onError)
@@ -122,11 +141,13 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 		SendRedeemCouponCodeRequest(couponCode, (redeemedItems) =>
 		{
 			isFinished = true;
-			onSuccess?.Invoke(redeemedItems);
+			if (onSuccess != null)
+				onSuccess.Invoke(redeemedItems);
 		}, WrapRedeemCouponErrorCallback(error =>
 		{
 			isFinished = true;
-			onError?.Invoke(error);
+			if (onError != null)
+				onError.Invoke(error);
 		}));
 	}
 
@@ -138,11 +159,16 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 		while (count-- > 0)
 		{
 			var busy = true;
-			SendConsumeItemRequest(item, 1, () => busy = false, WrapErrorCallback(_ => onFailed?.Invoke(item)));
+			SendConsumeItemRequest(item, 1, () => busy = false, WrapErrorCallback(_ =>
+			{
+				if (onFailed != null)
+					onFailed.Invoke(item);
+			}));
 			yield return new WaitWhile(() => busy);
 		}
 		isFinished = true;
-		onSuccess?.Invoke(item);
+		if (onSuccess != null)
+			onSuccess.Invoke(item);
 	}
 
 	private void SendConsumeItemRequest(InventoryItemModel item, int? count, Action onSuccess, Action<Error> onError)
@@ -168,7 +194,8 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 					ImageUrl = i.image_url,
 					Quantity = i.quantity,
 				}).ToList();
-			onSuccess?.Invoke(redeemedItemModels);
+			if (onSuccess != null)
+				onSuccess.Invoke(redeemedItemModels);
 		}, onError);
 	}
 	
@@ -180,7 +207,8 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 			{
 				StoreDemoPopup.ShowError(error);
 			}
-			onError?.Invoke(error);
+			if (onError != null)
+				onError.Invoke(error);
 		};
 	}
 }

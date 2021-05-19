@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
@@ -109,7 +109,7 @@ public class UserProfilePageManager : MonoBehaviour
 	{
 		if (newValue == null)
 		{
-			Debug.LogError($"New value of entryType {entryType} is null. Can not update");
+			Debug.LogError(string.Format("New value of entryType {0} is null. Can not update", entryType));
 			sender.InitializeEntry(entryType, oldValue);
 			return;
 		}
@@ -143,7 +143,7 @@ public class UserProfilePageManager : MonoBehaviour
 					StartCoroutine(DeleteUserPhoneNumber());
 				break;
 			default:
-				Debug.LogWarning($"Update of {entryType} is not supported");
+				Debug.LogWarning(string.Format("Update of {0} is not supported", entryType));
 				_isProfileUpdated = false;
 				return;
 		}
@@ -172,7 +172,8 @@ public class UserProfilePageManager : MonoBehaviour
 		switch (entryType)
 		{
 			case UserProfileEntryType.DateOfBirth:
-				if (DateTime.TryParse(newValue, out DateTime birthday))
+				DateTime birthday;
+				if (DateTime.TryParse(newValue, out birthday))
 					infoUpdatePack.birthday = newValue;
 				else
 					isValueValid = false;
@@ -216,7 +217,9 @@ public class UserProfilePageManager : MonoBehaviour
 	private IEnumerator UpdateUpperRightCornerInfoOnCompletion()
 	{
 		yield return new WaitWhile(_commonWaitCondition);
-		FindObjectOfType<UserInfoDrawer>()?.Refresh();
+		var userInfoDrawer = FindObjectOfType<UserInfoDrawer>();
+		if (userInfoDrawer != null)
+			userInfoDrawer.Refresh();
 	}
 
 	private void UpdateUserPhoneNumber(string newValue)
@@ -273,9 +276,9 @@ public class UserProfilePageManager : MonoBehaviour
 	private void ShowInvalidValue(UserProfileEntryType entryType, string value)
 	{
 		if (value.Length > POPUP_VALUE_LIMIT)
-			value = $"{value.Substring(0, POPUP_VALUE_LIMIT)}...";
+			value = string.Format("{0}...", value.Substring(0, POPUP_VALUE_LIMIT));
 
-		var errorMessage = $"Incorrect new value for {entryType}: '{value}'";
+		var errorMessage = string.Format("Incorrect new value for {0}: '{1}'", entryType, value);
 		var error = new Error(ErrorType.InvalidData, errorMessage: errorMessage);
 		StoreDemoPopup.ShowError(error);
 	}

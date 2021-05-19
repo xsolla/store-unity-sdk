@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using UnityEngine;
 using Xsolla.Core;
@@ -7,13 +7,13 @@ public partial class LoginPageEnterController : LoginPageController
 {
 	public bool IsAuthInProgress
 	{
-		get => base.IsInProgress;
-
+		get { return base.IsInProgress; }
 		set
 		{
 			if (value == true)
 			{
-				base.OnStarted?.Invoke();
+				if (base.OnStarted != null)
+					base.OnStarted.Invoke();
 				Debug.Log("LoginPageEnterController: Authentication process started");
 			}
 			else
@@ -26,9 +26,19 @@ public partial class LoginPageEnterController : LoginPageController
 	private void TryAuthBy<T>(object[] args, Action<string> onSuccess = null, Action<Error> onFailed = null) where T : MonoBehaviour, ILoginAuthorization
 	{
 		T auth = base.gameObject.AddComponent<T>();
-		Debug.Log($"Trying {auth.GetType().Name}");
-		auth.OnSuccess = token => { Destroy(auth); onSuccess?.Invoke(token); };
-		auth.OnError = error => { Destroy(auth); onFailed?.Invoke(error); };
+		Debug.Log(string.Format("Trying {0}", auth.GetType().Name));
+		auth.OnSuccess = token =>
+		{
+			Destroy(auth);
+			if (onSuccess != null)
+				onSuccess.Invoke(token);
+		};
+		auth.OnError = error =>
+		{
+			Destroy(auth);
+			if (onFailed != null)
+				onFailed.Invoke(error);
+		};
 		auth.TryAuth(args);
 	}
 	
@@ -46,10 +56,11 @@ public partial class LoginPageEnterController : LoginPageController
 			DemoController.Instance.GetImplementation().Token = jwtToken;
 		}
 
-		Debug.Log($"Successful auth with token = {token}");
+		Debug.Log(string.Format("Successful auth with token = {0}", token));
 		MainMenuNicknameChecker.ResetFlag();
 		IsAuthInProgress = false;
-		base.OnSuccess?.Invoke();
+		if (base.OnSuccess != null)
+			base.OnSuccess.Invoke();
 	}
 
 	private void ProcessError(Error error)
@@ -62,7 +73,8 @@ public partial class LoginPageEnterController : LoginPageController
 		}
 		else
 		{
-			base.OnError?.Invoke(error);
+			if (base.OnError != null)
+				base.OnError.Invoke(error);
 		}
 	}
 

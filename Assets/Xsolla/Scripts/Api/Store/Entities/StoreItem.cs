@@ -67,7 +67,7 @@ namespace Xsolla.Store
 
 				public override string ToString()
 				{
-					var result = $"{value} {type}";
+					var result = string.Format("{0} {1}", value, type);
 					if (value > 1)
 						result += "s";
 					return result;

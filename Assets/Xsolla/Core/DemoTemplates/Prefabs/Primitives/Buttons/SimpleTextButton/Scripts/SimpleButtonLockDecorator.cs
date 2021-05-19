@@ -1,4 +1,4 @@
-﻿using UnityEngine.EventSystems;
+using UnityEngine.EventSystems;
 
 public class SimpleButtonLockDecorator : SimpleButton
 {
@@ -14,7 +14,10 @@ public class SimpleButtonLockDecorator : SimpleButton
 		isLocked = false;
 	}
 
-	public bool IsLocked() => isLocked;
+	public bool IsLocked()
+	{
+		return isLocked;
+	}
 
 	public override void OnPointerDown(PointerEventData eventData)
 	{

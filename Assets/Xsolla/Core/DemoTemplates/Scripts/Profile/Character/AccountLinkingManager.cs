@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 using Xsolla.Core;
 using Xsolla.Core.Popup;
@@ -27,7 +27,7 @@ public class AccountLinkingManager : MonoBehaviour
 		getAccountLinkButton.onClick += () =>
 		{
 			DemoController.Instance.GetImplementation().RequestLinkingCode(
-				code => StoreDemoPopup.ShowSuccess($"YOUR CODE: {code.code}"),
+				code => StoreDemoPopup.ShowSuccess(string.Format("YOUR CODE: {0}", code.code)),
 				StoreDemoPopup.ShowError);
 		};
 	}

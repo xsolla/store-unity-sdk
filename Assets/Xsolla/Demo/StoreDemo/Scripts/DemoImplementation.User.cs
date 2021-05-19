@@ -14,19 +14,24 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 #region Token
 	public Token Token
 	{
-		get => XsollaLogin.Instance.Token;
+		get { return XsollaLogin.Instance.Token; }
 		set
 		{
 			XsollaLogin.Instance.Token = value;
 			XsollaStore.Instance.Token = value;
 		}
 	}
-	public void SaveToken(string key, string token) => XsollaLogin.Instance.SaveToken(key, token);
-	public bool LoadToken(string key, out string token) => XsollaLogin.Instance.LoadToken(key, out token);
-	public void DeleteToken(string key) => XsollaLogin.Instance.DeleteToken(key);
+	public void SaveToken(string key, string token) { XsollaLogin.Instance.SaveToken(key, token); }
+	public bool LoadToken(string key, out string token) { return XsollaLogin.Instance.LoadToken(key, out token); }
+	public void DeleteToken(string key) { XsollaLogin.Instance.DeleteToken(key); }
 	public void ValidateToken(string token, Action<string> onSuccess = null, Action<Error> onError = null)
 	{
-		GetUserInfo(token, useCache: false, onSuccess:info => onSuccess?.Invoke(token), onError:onError);
+		GetUserInfo(token, useCache: false, onSuccess:info =>
+		{
+			if (onSuccess != null)
+				onSuccess.Invoke(token);
+		},
+		onError:onError);
 	}
 #endregion
 
@@ -34,19 +39,23 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 
 	public void GetUserInfo(string token, Action<UserInfo> onSuccess = null, Action<Error> onError = null)
 	{
-		GetUserInfo(token, useCache: true, onSuccess, onError);
+		GetUserInfo(token, useCache: true, onSuccess: onSuccess, onError: onError);
 	}
 
 	private readonly Dictionary<string, UserInfo> _userCache = new Dictionary<string, UserInfo>();
 	public void GetUserInfo(string token, bool useCache, Action<UserInfo> onSuccess, Action<Error> onError = null)
 	{
 		if (useCache && _userCache.ContainsKey(token))
-			onSuccess?.Invoke(_userCache[token]);
+		{
+			if (onSuccess != null)
+				onSuccess.Invoke(_userCache[token]);
+		}
 		else
 			XsollaLogin.Instance.GetUserInfo(token, info =>
 			{
 				_userCache[token] = info;
-				onSuccess?.Invoke(info);
+				if (onSuccess != null)
+					onSuccess.Invoke(info);
 			}, onError);
 	}
 
@@ -55,7 +64,8 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 		Action<UserInfo> successCallback = newInfo =>
 		{
 			_userCache[token] = newInfo;
-			onSuccess?.Invoke(newInfo);
+			if (onSuccess != null)
+				onSuccess.Invoke(newInfo);
 		};
 
 		XsollaLogin.Instance.UpdateUserInfo(token, info, successCallback, onError);
@@ -97,7 +107,8 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 		XsollaLogin.Instance.SearchUsers(XsollaLogin.Instance.Token, nickname, 0, 20, 
 			onSuccess: users =>
 			{
-				onSuccess?.Invoke(users.users.Where(u => !u.is_me).Select(u =>
+				if (onSuccess != null)
+					onSuccess.Invoke(users.users.Where(u => !u.is_me).Select(u =>
 				{
 					var result = new FriendModel
 					{
@@ -106,8 +117,17 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 						Nickname = u.nickname,
 					};
 					var user = UserFriends.Instance.GetUserById(result.Id);
-					result.Status = user?.Status ?? UserOnlineStatus.Unknown;
-					result.Relationship = user?.Relationship ?? UserRelationship.Unknown;
+					if (user != null)
+					{
+						result.Status = user.Status;
+						result.Relationship = user.Relationship;
+					}
+					else
+					{
+						result.Status = UserOnlineStatus.Unknown;
+						result.Relationship = UserRelationship.Unknown;
+					}
+
 					return result;
 				}).ToList());
 			},
@@ -132,17 +152,24 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 			url =>
 			{
 				BrowserHelper.Instance.Open(url, XsollaSettings.InAppBrowserEnabled);
-				BrowserHelper.Instance.GetLastBrowser().BrowserClosedEvent += _ => onError?.Invoke(null);
+
+				BrowserHelper.Instance.GetLastBrowser().BrowserClosedEvent += _ =>
+				{
+					if (onError != null)
+						onError.Invoke(null);
+				};
+
 				BrowserHelper.Instance.GetLastBrowser().BrowserInitEvent += activeBrowser =>
 				{
 					activeBrowser.Navigate.UrlChangedEvent += (browser, newUrl) =>
 					{
-						Debug.Log($"URL = {newUrl}");
+						Debug.Log(string.Format("URL = {0}", newUrl));
 
 						if (ParseUtils.TryGetValueFromUrl(newUrl, ParseParameter.token, out _))
 						{
 							StartCoroutine(CloseBrowserCoroutine());
-							onSuccess?.Invoke(socialProvider);
+							if (onSuccess != null)
+								onSuccess.Invoke(socialProvider);
 						}
 					};
 				};
@@ -177,26 +204,33 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 			{
 				_networksCache = networks;
 				_networksCacheTime = DateTime.Now;
-				onSuccess?.Invoke(_networksCache);
+				if (onSuccess != null)
+					onSuccess.Invoke(_networksCache);
 				_networksCacheInProgress = false;
 			}, error =>
 			{
 				if (_networksCache == null)
 					_networksCache = new List<LinkedSocialNetwork>();
-				WrapErrorCallback(onError)?.Invoke(error);
+
+				var errorCallback = WrapErrorCallback(onError);
+				if (errorCallback != null)
+					errorCallback.Invoke(error);
+
 				_networksCacheInProgress = false;
 			});
 		}
 		else
 		{
-			onSuccess?.Invoke(_networksCache);
+			if (onSuccess != null)
+				onSuccess.Invoke(_networksCache);
 		}
 	}
 
 	private IEnumerator WaitLinkedSocialProviders(Action<List<LinkedSocialNetwork>> onSuccess)
 	{
 		yield return new WaitWhile(() => _networksCacheInProgress);
-		onSuccess?.Invoke(_networksCache);
+		if (onSuccess != null)
+			onSuccess.Invoke(_networksCache);
 	}
 
 	#endregion
@@ -237,7 +271,7 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 #endregion
 
 #region OAuth2.0
-	public bool IsOAuthTokenRefreshInProgress => XsollaLogin.Instance.IsOAuthTokenRefreshInProgress;
+	public bool IsOAuthTokenRefreshInProgress { get { return XsollaLogin.Instance.IsOAuthTokenRefreshInProgress; } }
 
 	public void ExchangeCodeToToken(string code, Action<string> onSuccessExchange = null, Action<Error> onError = null)
 	{

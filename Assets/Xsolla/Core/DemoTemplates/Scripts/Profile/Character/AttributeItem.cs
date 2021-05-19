@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,7 +23,7 @@ public class AttributeItem : MonoBehaviour
 
 	public bool IsReadOnly
 	{
-		get => _isReadOnly;
+		get { return _isReadOnly; }
 		set
 		{
 			if (value == _isReadOnly)
@@ -36,7 +36,7 @@ public class AttributeItem : MonoBehaviour
 
 	public string Key
 	{
-		get => _key;
+		get { return _key; }
 		set
 		{
 			_key = value;
@@ -47,7 +47,7 @@ public class AttributeItem : MonoBehaviour
 
 	public string Value
 	{
-		get => _value;
+		get { return _value; }
 		set
 		{
 			_value = value;
@@ -66,7 +66,11 @@ public class AttributeItem : MonoBehaviour
 
 		KeyInputField.onEndEdit.AddListener(SetNewKey);
 		ValueInputField.onEndEdit.AddListener(SetNewValue);
-		RemoveButton.onClick += () => OnRemoveRequest?.Invoke(this);
+		RemoveButton.onClick += () =>
+		{
+			if (OnRemoveRequest != null)
+				OnRemoveRequest.Invoke(this);
+		};
 	}
 
 	private void SetAccessibility(bool isReadOnly)
@@ -85,7 +89,8 @@ public class AttributeItem : MonoBehaviour
 
 		var oldKey = Key;
 		Key = newKey;
-		OnKeyChanged?.Invoke(this, oldKey, newKey);
+		if (OnKeyChanged != null)
+			OnKeyChanged.Invoke(this, oldKey, newKey);
 	}
 
 	private void SetNewValue(string newValue)
@@ -95,6 +100,7 @@ public class AttributeItem : MonoBehaviour
 
 		var oldValue = Value;
 		Value = newValue;
-		OnValueChanged?.Invoke(this, oldValue, newValue);
+		if (OnValueChanged != null)
+			OnValueChanged.Invoke(this, oldValue, newValue);
 	}
 }

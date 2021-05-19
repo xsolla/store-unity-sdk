@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using Xsolla.Core;
@@ -85,7 +85,8 @@ public class CartItemUI : MonoBehaviour
 			}
 			else
 			{
-				Debug.LogError($"Cart item with sku = '{_cartItem.Sku}' without image!");
+				var message = string.Format("Cart item with sku = '{0}' without image!", _cartItem.Sku);
+				Debug.LogError(message);
 			}
 		}
 	}

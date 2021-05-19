@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.UI;
@@ -61,12 +61,12 @@ public class UserProfileEntryInputFieldEditor : UserProfileEntryEditor
 		if (_skipNextCheck)
 			return newChar;
 
-		if (_inputRegex != null && !_inputRegex.IsMatch($"{newChar}"))
+		if (_inputRegex != null && !_inputRegex.IsMatch(string.Format("{0}", newChar)))
 			return '\0';
 
 		if (_templateRegex != null)
 		{
-			_charsToTemplate.Add($"{newChar}");
+			_charsToTemplate.Add(string.Format("{0}", newChar));
 			string templatedInput = Template;
 
 			for (int index = 0; index < _charsToTemplate.Count; index++)
@@ -109,7 +109,8 @@ public class UserProfileEntryInputFieldEditor : UserProfileEntryEditor
 
 	private void OnEndEdit(string value)
 	{
-		_charsToTemplate?.Clear();
+		if (_charsToTemplate != null)
+			_charsToTemplate.Clear();
 
 		if (value != Template)
 			base.RaiseEntryEdited(value);

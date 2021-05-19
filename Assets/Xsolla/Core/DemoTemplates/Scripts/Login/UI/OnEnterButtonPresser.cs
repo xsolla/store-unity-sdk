@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 [RequireComponent(typeof(LogInHotkeys))]
 public class OnEnterButtonPresser : MonoBehaviour
@@ -14,14 +14,19 @@ public class OnEnterButtonPresser : MonoBehaviour
 
 	private void TryPressButton()
 	{
-		if (Button is SimpleButtonLockDecorator lockableButton)
+		if (Button is SimpleButtonLockDecorator)
 		{
+			var lockableButton = (SimpleButtonLockDecorator)Button;
 			if (!lockableButton.IsLocked())
-				lockableButton.onClick?.Invoke();
+			{
+				if (lockableButton.onClick != null)
+					lockableButton.onClick.Invoke();
+			}
 		}
 		else
 		{
-			Button.onClick?.Invoke();
+			if (Button.onClick != null)
+				Button.onClick.Invoke();
 		}
 	}
 }

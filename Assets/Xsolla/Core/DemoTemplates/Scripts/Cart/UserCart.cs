@@ -27,8 +27,8 @@ public class UserCart : MonoSingleton<UserCart>
     public void AddItem(CatalogItemModel item)
     {
         UserCartItem cartItem = _cart.AddItem(item);
-        if (cartItem != null)
-            AddItemEvent?.Invoke(cartItem);
+        if (cartItem != null && AddItemEvent != null)
+			AddItemEvent.Invoke(cartItem);
     }
 
     public void RemoveItem(CatalogItemModel item)
@@ -36,8 +36,13 @@ public class UserCart : MonoSingleton<UserCart>
         var cartItem = _cart.GetItem(item);
         if(!_cart.RemoveItem(item)) return;
         if (cartItem.Quantity > 1)
-            UpdateItemEvent?.Invoke(cartItem, (-1) * (cartItem.Quantity - 1));
-        RemoveItemEvent?.Invoke(cartItem);
+		{
+			if (UpdateItemEvent != null)
+				UpdateItemEvent.Invoke(cartItem, (-1) * (cartItem.Quantity - 1));
+		}
+
+		if (RemoveItemEvent != null)
+			RemoveItemEvent.Invoke(cartItem);
     }
 
     public void IncreaseCountOf(CatalogItemModel item)
@@ -45,7 +50,8 @@ public class UserCart : MonoSingleton<UserCart>
         var cartItem = _cart.IncreaseCountOf(item);
         if (cartItem != null)
         {
-            UpdateItemEvent?.Invoke(cartItem, 1);
+			if (UpdateItemEvent != null)
+				UpdateItemEvent.Invoke(cartItem, 1);
         }
     }
     
@@ -54,9 +60,15 @@ public class UserCart : MonoSingleton<UserCart>
         UserCartItem cartItem = _cart.DecreaseCountOf(item);
         if (cartItem == null) return;
         if (cartItem.Quantity == 0)
-            RemoveItemEvent?.Invoke(cartItem);
+		{
+			if (RemoveItemEvent != null)
+				RemoveItemEvent.Invoke(cartItem);
+		}
         else
-            UpdateItemEvent?.Invoke(cartItem, -1);
+		{
+			if (UpdateItemEvent != null)
+				UpdateItemEvent.Invoke(cartItem, -1);
+		}
     }
 
     public List<UserCartItem> GetItems()
@@ -68,8 +80,14 @@ public class UserCart : MonoSingleton<UserCart>
     {
         var items = GetItems();
         _cart.Clear();
-        items.ForEach(i => RemoveItemEvent?.Invoke(i));
-        ClearCartEvent?.Invoke();
+        items.ForEach(i =>
+		{
+			if (RemoveItemEvent != null)
+				RemoveItemEvent.Invoke(i);
+		});
+
+		if (ClearCartEvent != null)
+			ClearCartEvent.Invoke();
     }
 
     public bool IsEmpty()
@@ -100,8 +118,11 @@ public class UserCart : MonoSingleton<UserCart>
     {
         DemoController.Instance.GetImplementation().PurchaseCart(GetItems(), _ =>
         {
-            onSuccess?.Invoke();
-            PurchaseCartEvent?.Invoke();
+			if (onSuccess != null)
+				onSuccess.Invoke();
+
+			if (PurchaseCartEvent != null)
+				PurchaseCartEvent.Invoke();
         }, onError);
     }
 }

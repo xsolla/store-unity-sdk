@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -23,8 +23,8 @@ public class TutorialInfo : ScriptableObject
 		public ActivationScreen screenToActivate;
 		public string associatedDocumentation;
 
-		public string FormattedTitle => title.Replace("\\n", "\n");
-		public string FormattedDescription => description.Replace("\\n", "\n");
+		public string FormattedTitle { get { return title.Replace("\\n", "\n"); } }
+		public string FormattedDescription { get { return description.Replace("\\n", "\n"); } }
 	}
 
 	public List<TutorialStep> tutorialSteps;

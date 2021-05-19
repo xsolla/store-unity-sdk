@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 
 namespace Xsolla.Core.Popup
@@ -23,7 +23,8 @@ namespace Xsolla.Core.Popup
 		{
 			ContinueButton.onClick = () =>
 			{
-				nicknameCallback?.Invoke(UserInput);
+				if (nicknameCallback != null)
+					nicknameCallback.Invoke(UserInput);
 				Destroy(gameObject, 0.001F);
 			};
 			return this;
@@ -33,7 +34,8 @@ namespace Xsolla.Core.Popup
 		{
 			CancelButton.onClick = () =>
 			{
-				cancelCallback?.Invoke();
+				if (cancelCallback != null)
+					cancelCallback.Invoke();
 				Destroy(gameObject, 0.001F);
 			};
 			return this;

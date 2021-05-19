@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -28,21 +28,26 @@ public class OldAttributesItemsContainer : MonoBehaviour
 		_attributesToRemove = new List<string>();
 	}
 
-	private OldUserAttributeModel GetAttribute(string key) => _attributes.First(a => a.key.Equals(key));
+	private OldUserAttributeModel GetAttribute(string key)
+	{
+		return _attributes.First(a => a.key.Equals(key));
+	}
 	
 	private void OnAttributeKeyChanged(OldAttributeItemUI attribute, string oldKey)
 	{
 		var model = GetAttribute(attribute.Key);
 		if (model != null)
 		{
-			Debug.LogError($"Attribute with key = '{attribute.Key}' already exists. Change key back to '{oldKey}'");
+			var message = string.Format("Attribute with key = '{0}' already exists. Change key back to '{1}'", attribute.Key, oldKey);
+			Debug.LogError(message);
 			attribute.Key = oldKey;
 			return;
 		}
 		model = GetAttribute(oldKey);
 		if (model == null)
 		{
-			Debug.LogError($"Attribute with key = '{oldKey}' not found. Change key back to '{oldKey}'");
+			var message = string.Format("Attribute with key = '{0}' not found. Change key back to '{0}'", oldKey);
+			Debug.LogError(message);
 			attribute.Key = oldKey;
 			return;
 		}
@@ -54,7 +59,8 @@ public class OldAttributesItemsContainer : MonoBehaviour
 		var model = GetAttribute(attribute.Key);
 		if (model == null)
 		{
-			Debug.LogError($"Attribute with key = '{attribute.Key}' not found. Change key back to '{attribute.Key}'");
+			var message = string.Format("Attribute with key = '{0}' not found. Change key back to '{0}'", attribute.Key);
+			Debug.LogError(message);
 			attribute.Value = string.Empty;
 			return;
 		}
@@ -65,7 +71,10 @@ public class OldAttributesItemsContainer : MonoBehaviour
 	{
 		var model = _attributes.First(a => a.key.Equals(attributeToRemove.Key));
 		if (model == null)
-			Debug.LogError($"Attribute with key = '{attributeToRemove.Key}' not found.");
+		{
+			var message = string.Format("Attribute with key = '{0}' not found.", attributeToRemove.Key);
+			Debug.LogError(message);
+		}
 		else
 		{
 			_attributes.Remove(model);

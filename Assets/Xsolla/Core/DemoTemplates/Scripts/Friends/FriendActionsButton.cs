@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -9,7 +9,6 @@ public class FriendActionsButton : MonoBehaviour, IPointerExitHandler
     [SerializeField] private Transform actionContainer;
     
     private readonly List<GameObject> _actions = new List<GameObject>();
-	private bool _isActionInProgress = false;
 
     private void OnDestroy()
     {
@@ -43,10 +42,9 @@ public class FriendActionsButton : MonoBehaviour, IPointerExitHandler
             button.Text = actionName;
             button.onClick = () =>
             {
-				_isActionInProgress = true;
 				actionContainer.gameObject.SetActive(false);
-				callback?.Invoke();
-				_isActionInProgress = false;
+				if (callback != null)
+					callback.Invoke();
 			};
             _actions.Add(go);
         }

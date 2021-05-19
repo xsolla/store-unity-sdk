@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,6 +18,7 @@ public class AvatarChoiceButton : MonoBehaviour
 
 	private void RaiseAvatarPicked()
 	{
-		AvatarPicked?.Invoke(AvatarImage.sprite);
+		if (AvatarPicked != null)
+			AvatarPicked.Invoke(AvatarImage.sprite);
 	}
 }

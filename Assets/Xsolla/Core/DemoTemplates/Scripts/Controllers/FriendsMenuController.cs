@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -106,7 +106,8 @@ public class FriendsMenuController : MonoBehaviour
 				emptySubMessage = "All blocked players appear here";
 				break;
 			default:
-				Debug.LogError($"Unknown groupID: {groupID}");
+				var message = string.Format("Unknown groupID: {groupID}", groupID);
+				Debug.LogError(message);
 				return;
 		}
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,8 +10,14 @@ public class CartMenuButtonCounter : MonoBehaviour
 
     private int Counter
     {
-        get => int.Parse(counterText.text);
-        set => counterText.text = value.ToString();
+		get
+		{
+			return int.Parse(counterText.text);
+		}
+		set
+		{
+			counterText.text = value.ToString();
+		}
     }
 
     private void Start()

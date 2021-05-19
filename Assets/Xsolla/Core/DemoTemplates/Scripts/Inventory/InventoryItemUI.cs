@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
@@ -44,7 +44,8 @@ public class InventoryItemUI : MonoBehaviour
 			ImageLoader.Instance.GetImageAsync(url, LoadImageCallback);
 		else
 		{
-			Debug.LogError($"Inventory item with sku = '{_itemInformation.Sku}' have not image!");
+			var message = string.Format("Inventory item with sku = '{0}' have not image!", _itemInformation.Sku);
+			Debug.LogError(message);
 			LoadImageCallback(string.Empty, null);
 		}
 	}
@@ -85,7 +86,7 @@ public class InventoryItemUI : MonoBehaviour
 			EnableExpirationText(
 				(model.Status == UserSubscriptionModel.SubscriptionStatusType.Active && model.Expired > DateTime.Now) 
 				? GetRemainingTime(model.Expired.Value)
-				: $"Expired at {expired}");
+				: string.Format("Expired at {0}", expired));
 		}else
 			EnablePurchasedStatusText(isPurchased: false);
 	}
@@ -94,15 +95,20 @@ public class InventoryItemUI : MonoBehaviour
 	{
 		var timeLeft = expiredDateTime - DateTime.Now;
 		StartCoroutine(RemainingTimeCoroutine(timeLeft.TotalSeconds > 60 ? 60 : 1));
+
 		if (timeLeft.TotalDays >= 30)
-			return $"{(int)(timeLeft.TotalDays / 30)} month{(timeLeft.TotalDays > 60 ? "s" : "")} remaining";
+			return string.Format ("{0} month{1} remaining", (int)(timeLeft.TotalDays / 30), (timeLeft.TotalDays > 60 ? "s" : ""));
+
 		if (timeLeft.TotalDays > 1)
-			return $"{(uint)(timeLeft.TotalDays)} day{(timeLeft.TotalDays > 1 ? "s" : "")} remaining";
+			return string.Format("{0} day{1} remaining", (uint)(timeLeft.TotalDays), (timeLeft.TotalDays > 1 ? "s" : ""));
+
 		if (timeLeft.TotalHours > 1)
-			return $"{(uint)(timeLeft.TotalHours)} hour{(timeLeft.TotalHours > 1 ? "s" : "")} remaining";
+			return string.Format("{0} hour{1} remaining", (uint)(timeLeft.TotalHours), (timeLeft.TotalHours > 1 ? "s" : ""));
+
 		if (timeLeft.TotalMinutes > 1)
-			return $"{(uint)(timeLeft.TotalMinutes)} minute{(timeLeft.TotalMinutes > 1 ? "s" : "")} remaining";
-		return $"{(uint)(timeLeft.TotalSeconds)} second{(timeLeft.TotalSeconds > 1 ? "s" : "")} remaining";
+			return string.Format("{0} minute{1} remaining", (uint)(timeLeft.TotalMinutes), (timeLeft.TotalMinutes > 1 ? "s" : ""));
+
+		return string.Format("{0} second{1} remaining", (uint)(timeLeft.TotalSeconds), (timeLeft.TotalSeconds > 1 ? "s" : ""));
 	}
 
 	private IEnumerator RemainingTimeCoroutine(float waitSeconds)

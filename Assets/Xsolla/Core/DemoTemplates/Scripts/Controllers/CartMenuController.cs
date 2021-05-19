@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Xsolla.Core.Popup;
@@ -38,8 +38,8 @@ public class CartMenuController : MonoBehaviour
 		UserCart.Instance.RemoveItemEvent -= OnRemoveItemEvent;
 	}
 
-	private void OnUpdateItemEvent(UserCartItem item, int deltaCount) => Refresh();
-	private void OnRemoveItemEvent(UserCartItem item) => Refresh();
+	private void OnUpdateItemEvent(UserCartItem item, int deltaCount) { Refresh(); }
+	private void OnRemoveItemEvent(UserCartItem item) { Refresh(); }
 
 	private void Refresh()
 	{

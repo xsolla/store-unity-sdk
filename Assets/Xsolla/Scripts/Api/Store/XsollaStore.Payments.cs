@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -199,8 +199,9 @@ namespace Xsolla.Store
 				}
 				else
 				{
-					Debug.Log($"Order `{orderId}` was successfully processed!");
-					onSuccess?.Invoke();
+					Debug.Log(string.Format("Order `{0}` was successfully processed!", orderId));
+					if (onSuccess != null)
+						onSuccess.Invoke();
 				}
 			}, onError);
 		}

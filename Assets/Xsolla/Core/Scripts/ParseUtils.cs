@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Text.RegularExpressions;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
@@ -19,7 +19,7 @@ namespace Xsolla.Core
 			}
 			catch (Exception e)
 			{
-				Debug.LogWarning($"Deserialization failed for {typeof(T)}");
+				Debug.LogWarning(string.Format("Deserialization failed for {0}", typeof(T)));
 				Debug.LogException(e);
 			}
 	
@@ -46,7 +46,7 @@ namespace Xsolla.Core
 			Error storeError = FromJson<Error>(json);
 			if((storeError == null) || (!storeError.IsValid())) {
 				Error.Login loginError = FromJson<Error.Login>(json);
-				storeError = loginError?.ToStoreError();
+				storeError = (loginError != null) ? loginError.ToStoreError() : null;
 			}
 			return storeError;
 		}
@@ -68,10 +68,20 @@ namespace Xsolla.Core
 		public static bool TryGetValueFromUrl(string url, ParseParameter parameter, out string value)
 		{
 			var parameterName = parameter.ToString();
-			Debug.Log($"Trying to find {parameterName} in URL:{url}");
+			Debug.Log(string.Format("Trying to find {0} in URL:{1}", parameterName, url));
 
-			var regex = new Regex($"[&?]{parameterName}=[a-zA-Z0-9._-]+");
-			value = regex.Match(url)?.Value?.Replace($"{parameterName}=", string.Empty).Replace("&", string.Empty).Replace("?", string.Empty);
+			var regex = new Regex(string.Format("[&?]{0}=[a-zA-Z0-9._-]+", parameterName));
+
+			value = null;
+
+			var match = regex.Match(url);
+			if (match != null && match.Value != null)
+			{
+				var matchValue = match.Value;
+				var header = string.Format("{0}=", parameterName);
+				value = matchValue.Replace(header, string.Empty).Replace("&", string.Empty).Replace("?", string.Empty);
+			}
+
 			return !string.IsNullOrEmpty(value);
 		}
 	}	

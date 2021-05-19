@@ -1,11 +1,11 @@
-﻿using UnityEngine;
+using UnityEngine;
 using Xsolla.Core;
 using Xsolla.Login;
 
 public abstract class UserAttributesRequestBase : StoreActionResult
 {
-	protected string Token => DemoController.Instance.GetImplementation().Token;
-	protected string ProjectID => XsollaSettings.StoreProjectId;
+	protected string Token { get { return DemoController.Instance.GetImplementation().Token; } }
+	protected string ProjectID { get { return XsollaSettings.StoreProjectId; } }
 
 	protected bool IsRequestPossible
 	{

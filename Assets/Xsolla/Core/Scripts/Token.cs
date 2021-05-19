@@ -58,9 +58,11 @@ namespace Xsolla.Core
 
 		public bool FromSocialNetwork()
 		{
-			if (token.TryGetPayloadValue<string>(TOKEN_TYPE_PARAMETER, out var tokenType))
+			string tokenType;
+			if (token.TryGetPayloadValue<string>(TOKEN_TYPE_PARAMETER, out tokenType))
 				return tokenType.Equals(TOKEN_SOCIAL_TYPE);
-			Debug.LogAssertion($"Something went wrong... Token must have 'type' parameter. Your token = {token}");
+
+			Debug.LogAssertion(string.Format("Something went wrong... Token must have 'type' parameter. Your token = {0}", token));
 			return false;
 		}
 
@@ -68,12 +70,15 @@ namespace Xsolla.Core
 		{
 			if (!FromSocialNetwork())
 				return SocialProvider.None;
-			if (token.TryGetPayloadValue<string>(TOKEN_PROVIDER_PARAMETER, out var provider))
+
+			string provider;
+			if (token.TryGetPayloadValue<string>(TOKEN_PROVIDER_PARAMETER, out provider))
 			{
 				return Enum.GetValues(typeof(SocialProvider)).Cast<SocialProvider>().
 					ToList().DefaultIfEmpty(SocialProvider.None).
 					FirstOrDefault(p => p.GetParameter().Equals(provider));
 			}
+
 			return SocialProvider.None;
 		}
 
@@ -116,17 +121,23 @@ namespace Xsolla.Core
 		{
 			if (JWTisNullOrEmpty())
 				return false;
-			if (!token.TryGetPayloadValue<string>(TOKEN_TYPE_PARAMETER, out var tokenType))
+
+			string tokenType;
+			if (!token.TryGetPayloadValue<string>(TOKEN_TYPE_PARAMETER, out tokenType))
 			{
-				Debug.LogAssertion($"Something went wrong... Token must have 'type' parameter. Your token = {token}");
+				Debug.LogAssertion(string.Format("Something went wrong... Token must have 'type' parameter. Your token = {0}", token));
 				return true;
 			}
-			if (!tokenType.Equals(TOKEN_SERVER_TYPE)) return true;
-			return token.TryGetPayloadValue<bool>(IS_MASTER_ACCOUNT_PARAMETER, out var isMaster) && isMaster;
+
+			if (!tokenType.Equals(TOKEN_SERVER_TYPE))
+				return true;
+
+			bool isMaster;
+			return token.TryGetPayloadValue<bool>(IS_MASTER_ACCOUNT_PARAMETER, out isMaster) && isMaster;
 		}
 
-		public static implicit operator string(Token token) => (token != null) ? token.ToString() : string.Empty;
-		public static implicit operator Token(string encodedToken) => new Token(encodedToken);
+		public static implicit operator string(Token token) { return (token != null) ? token.ToString() : string.Empty; }
+		public static implicit operator Token(string encodedToken) { return new Token(encodedToken); }
 
 		public override string ToString()
 		{

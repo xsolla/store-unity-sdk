@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class SimpleTextButton : SimpleButtonLockDecorator
@@ -12,11 +12,23 @@ public class SimpleTextButton : SimpleButtonLockDecorator
 
 	public string Text
 	{
-		get => buttonText.text;
-		set => buttonText.text = value;
+		get
+		{
+			return buttonText.text;
+		}
+		set
+		{
+			buttonText.text = value;
+		}
 	}
 
-	protected Text ButtonTextComponent => buttonText;
+	protected Text ButtonTextComponent
+	{
+		get
+		{
+			return buttonText;
+		}
+	}
 
 	private void SetButtonTextColor(Color color)
 	{

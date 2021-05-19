@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 
 public abstract class UserProfileEntryEditor : MonoBehaviour
@@ -7,7 +7,8 @@ public abstract class UserProfileEntryEditor : MonoBehaviour
 
 	protected void RaiseEntryEdited(string value)
 	{
-		UserProfileEntryEdited?.Invoke(value);
+		if (UserProfileEntryEdited != null)
+			UserProfileEntryEdited.Invoke(value);
 	}
 
 	public abstract void SetInitial(string value);

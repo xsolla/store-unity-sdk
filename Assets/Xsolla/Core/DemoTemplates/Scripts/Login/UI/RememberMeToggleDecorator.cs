@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -20,15 +20,15 @@ public class RememberMeToggleDecorator : MonoBehaviour, IPointerEnterHandler, IP
 		toggle.onValueChanged.AddListener(OnToggleValueChanged);
 
 		var selectedNow = toggle.isOn;
-		
+
 		SetObjectsState(selectedNow);
 		_isSelected = selectedNow;
 	}
 
-	private void OnToggleValueChanged(bool newValue) => _isSelected = newValue;
+	private void OnToggleValueChanged(bool newValue) { _isSelected = newValue; }
 
-	void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData) => SetObjectsState(isPointerEnter: true);
-	void IPointerExitHandler.OnPointerExit(PointerEventData eventData) => SetObjectsState(isPointerEnter: false);
+	void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData) { SetObjectsState(isPointerEnter: true); }
+	void IPointerExitHandler.OnPointerExit(PointerEventData eventData) { SetObjectsState(isPointerEnter: false); }
 
 	private void SetObjectsState(bool isPointerEnter)
 	{

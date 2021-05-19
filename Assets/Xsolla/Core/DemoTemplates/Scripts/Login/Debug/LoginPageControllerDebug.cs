@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 public class LoginPageControllerDebug : MonoBehaviour
 {
@@ -6,7 +6,7 @@ public class LoginPageControllerDebug : MonoBehaviour
 	{
 		var loginPage = GetComponent<LoginPageController>();
 
-		loginPage.OnSuccess += () => Debug.Log($"LoginPageControllerDebug: SUCCESSFUL ACTION");
-		loginPage.OnError += error => Debug.LogError($"LoginPageControllerDebug: ACTION ERROR: {error}");
+		loginPage.OnSuccess += () => Debug.Log("LoginPageControllerDebug: SUCCESSFUL ACTION");
+		loginPage.OnError += error => Debug.LogError(string.Format("LoginPageControllerDebug: ACTION ERROR: {0}", error));
 	}
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 
 public class StoreTabsHotkey : MonoBehaviour
@@ -11,12 +11,24 @@ public class StoreTabsHotkey : MonoBehaviour
 	{
 		gameObject.AddComponent<HotkeyCoroutine>()
 			.StartCoroutine(KeyCode.Tab)
-			.KeyPressedEvent += () => TabKeyPressedEvent?.Invoke();
+			.KeyPressedEvent += () =>
+			{
+				if (TabKeyPressedEvent != null)
+					TabKeyPressedEvent.Invoke();
+			};
 		gameObject.AddComponent<HotkeyCoroutine>()
 			.StartCoroutine(KeyCode.LeftArrow)
-			.KeyPressedEvent += () => LeftArrowKeyPressedEvent?.Invoke();
+			.KeyPressedEvent += () =>
+			{
+				if (LeftArrowKeyPressedEvent != null)
+					LeftArrowKeyPressedEvent.Invoke();
+			};
 		gameObject.AddComponent<HotkeyCoroutine>()
 			.StartCoroutine(KeyCode.RightArrow)
-			.KeyPressedEvent += () => RightArrowKeyPressedEvent?.Invoke();
+			.KeyPressedEvent += () =>
+			{
+				if (RightArrowKeyPressedEvent != null)
+					RightArrowKeyPressedEvent.Invoke();
+			};
 	}
 }

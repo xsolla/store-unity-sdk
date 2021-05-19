@@ -60,10 +60,17 @@ namespace Xsolla.Login
 
 				onSuccessResponse = response =>
 				{
-					if (ParseUtils.TryGetValueFromUrl(response.login_url, ParseParameter.token, out string token))
-						onSuccess?.Invoke(token);
+					string token;
+					if (ParseUtils.TryGetValueFromUrl(response.login_url, ParseParameter.token, out token))
+					{
+						if (onSuccess != null)
+							onSuccess.Invoke(token);
+					}
 					else
-						onError?.Invoke(Error.UnknownError);
+					{
+						if (onError != null)
+							onError.Invoke(Error.UnknownError);
+					}
 				};
 			}
 			else /*if (XsollaSettings.AuthorizationType == AuthorizationType.OAuth2_0)*/
@@ -72,10 +79,19 @@ namespace Xsolla.Login
 
 				onSuccessResponse = response =>
 				{
-					if (ParseUtils.TryGetValueFromUrl(response.login_url, ParseParameter.code, out string code))
-						XsollaLogin.Instance.ExchangeCodeToToken(code, onSuccessExchange: token => onSuccess?.Invoke(token), onError: onError);
+					string code;
+					if (ParseUtils.TryGetValueFromUrl(response.login_url, ParseParameter.code, out code))
+						XsollaLogin.Instance.ExchangeCodeToToken(code, onSuccessExchange: token =>
+						{
+							if (onSuccess != null)
+								onSuccess.Invoke(token);
+						},
+						onError: onError);
 					else
-						onError?.Invoke(Error.UnknownError);
+					{
+						if (onError != null)
+							onError.Invoke(Error.UnknownError);
+					}
 				};
 			}
 
@@ -121,7 +137,11 @@ namespace Xsolla.Login
 			var redirectUrl = !string.IsNullOrEmpty(XsollaSettings.CallbackUrl) ? XsollaSettings.CallbackUrl : DEFAULT_REDIRECT_URI;
 			var url = string.Format(URL_LINK_SOCIAL_NETWORK, socialProvider.GetParameter(), redirectUrl, AnalyticUrlAddition);
 			WebRequestHelper.Instance.GetRequest<LinkSocialProviderResponse>(url, AuthAndAnalyticHeaders,
-				response => urlCallback?.Invoke(response.url));
+				response =>
+				{
+					if (urlCallback != null)
+						urlCallback.Invoke(response.url);
+				});
 		}
 
 		/// <summary>

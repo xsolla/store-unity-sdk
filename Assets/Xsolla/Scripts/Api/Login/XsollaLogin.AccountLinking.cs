@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Xsolla.Core;
 
 namespace Xsolla.Login
@@ -82,8 +82,13 @@ namespace Xsolla.Login
 		public void SignInConsoleAccount(string userId, string platform, Action<string> successCase, Action<Error> failedCase)
 		{
 			var with_logout = XsollaSettings.JwtTokenInvalidationEnabled ? "1" : "0";
-			var url = $"{URL_USER_CONSOLE_AUTH}?user_id={userId}&platform={platform}&with_logout={with_logout}&{AnalyticUrlAddition}";
-			WebRequestHelper.Instance.GetRequest(url, AnalyticHeaders, (TokenEntity result) => { successCase?.Invoke(result.token); }, failedCase);
+			var url = string.Format("{0}?user_id={1}&platform={2}&with_logout={3}&{4}", URL_USER_CONSOLE_AUTH, userId, platform, with_logout, AnalyticUrlAddition);
+			WebRequestHelper.Instance.GetRequest(url, AnalyticHeaders, (TokenEntity result) =>
+			{
+				if (successCase != null)
+					successCase.Invoke(result.token);
+			},
+			failedCase);
 		}
 
 		#region Comment
@@ -99,7 +104,7 @@ namespace Xsolla.Login
 		#endregion
 		public void RequestLinkingCode(Action<LinkingCode> onSuccess, Action<Error> onError)
 		{
-			var url = $"{URL_LINKING_CODE_REQUEST}?{AnalyticUrlAddition}";
+			var url = string.Format("{0}?{1}", URL_LINKING_CODE_REQUEST, AnalyticUrlAddition);
 			WebRequestHelper.Instance.PostRequest<LinkingCode>(url, AuthAndAnalyticHeaders, onSuccess, onError);
 		}
 
@@ -173,7 +178,7 @@ namespace Xsolla.Login
 		#endregion
 		public void LinkConsoleAccount(string userId, string platform, string confirmationCode, Action onSuccess, Action<Error> onError)
 		{
-			var url = $"{URL_LINK_ACCOUNT}?user_id={userId}&platform={platform}&code={confirmationCode}&{AnalyticUrlAddition}";
+			var url = string.Format("{0}?user_id={1}&platform={2}&code={3}&{4}", URL_LINK_ACCOUNT, userId, platform, confirmationCode, AnalyticUrlAddition);
 			WebRequestHelper.Instance.PostRequest(url, AnalyticHeaders, onSuccess, onError);
 		}
 	}

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -36,7 +36,8 @@ namespace Xsolla.Core
 			_requests.Add(webRequest);
 			
 			yield return StartCoroutine(SendWebRequest(webRequest));
-			requestProccesAction?.Invoke();
+			if (requestProccesAction != null)
+				requestProccesAction.Invoke();
 			
 			_requests.Remove(webRequest);
 		}

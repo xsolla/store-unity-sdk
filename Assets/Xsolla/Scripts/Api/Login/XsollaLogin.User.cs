@@ -117,7 +117,8 @@ namespace Xsolla.Login
 			WebRequestHelper.Instance.PostRequest<LoginJwtJsonResponse, LoginJwtJsonRequest>(url, loginData, AnalyticHeaders, (response) =>
 			{
 				Token = ParseUtils.ParseToken(response.login_url);
-				onSuccess?.Invoke();
+				if (onSuccess != null)
+					onSuccess.Invoke();
 			}, onError, Error.LoginErrors);
 		}
 
@@ -129,7 +130,8 @@ namespace Xsolla.Login
 			Action<LoginOAuthJsonResponse> successCallback = response =>
 			{
 				this.ProcessOAuthResponse(response);
-				onSuccess?.Invoke();
+				if (onSuccess != null)
+					onSuccess.Invoke();
 			};
 
 			WebRequestHelper.Instance.PostRequest<LoginOAuthJsonResponse, LoginOAuthJsonRequest>(url, loginData, AnalyticHeaders, successCallback, onError, Error.LoginErrors);
@@ -204,7 +206,11 @@ namespace Xsolla.Login
 			var url = string.Format(URL_USER_PHONE, AnalyticUrlAddition);
 			var headers = AppendAnalyticHeadersTo(WebRequestHeader.AuthHeader(token));
 			WebRequestHelper.Instance.GetRequest(url, headers,
-				onComplete: (UserPhoneNumber number) => onSuccess?.Invoke(number.phone_number),
+				onComplete: (UserPhoneNumber number) =>
+				{
+					if (onSuccess != null)
+						onSuccess.Invoke(number.phone_number);
+				},
 				onError: onError);
 		}
 
@@ -242,7 +248,7 @@ namespace Xsolla.Login
 		/// <seealso cref="ChangeUserPhoneNumber"/>
 		public void DeleteUserPhoneNumber(string token, string phoneNumber, Action onSuccess, Action<Error> onError)
 		{
-			var url = URL_USER_PHONE.Replace("?", $"/{phoneNumber}?");
+			var url = URL_USER_PHONE.Replace("?", string.Format("/{0}?", phoneNumber));
 			url = string.Format(url, AnalyticUrlAddition);
 			var headers = AppendAnalyticHeadersTo(WebRequestHeader.AuthHeader(token));
 			WebRequestHelper.Instance.DeleteRequest(url, headers, onSuccess, onError);
@@ -261,7 +267,7 @@ namespace Xsolla.Login
 		public void UploadUserPicture(string token, byte[] pictureData, string boundary, Action<string> onSuccess, Action<Error> onError)
 		{
 			var url = string.Format(URL_USER_PICTURE, AnalyticUrlAddition);
-			var headers = AppendAnalyticHeadersTo(WebRequestHeader.AuthHeader(token), new WebRequestHeader() {Name = "Content-type", Value = $"multipart/form-data; boundary ={boundary}"});
+			var headers = AppendAnalyticHeadersTo(WebRequestHeader.AuthHeader(token), new WebRequestHeader() {Name = "Content-type", Value = string.Format("multipart/form-data; boundary ={0}", boundary)});
 			WebRequestHelper.Instance.PostUploadRequest(URL_USER_PICTURE, pictureData, headers, onSuccess, onError);
 		}
 
@@ -313,7 +319,11 @@ namespace Xsolla.Login
 		{
 			var url = string.Format(URL_USER_GET_EMAIL, AnalyticUrlAddition);
 			var headers = AppendAnalyticHeadersTo(WebRequestHeader.AuthHeader(token));
-			Action<UserEmail> successCallback = response => { onSuccess?.Invoke(response.current_email); };
+			Action<UserEmail> successCallback = response =>
+			{
+				if (onSuccess != null)
+					onSuccess.Invoke(response.current_email);
+			};
 			WebRequestHelper.Instance.GetRequest(url, headers, successCallback, onError);
 		}
 
@@ -348,7 +358,12 @@ namespace Xsolla.Login
 				access_token_secret = accessTokenSecret
 			};
 
-			WebRequestHelper.Instance.PostRequest(url, requestData, AnalyticHeaders, (TokenEntity result) => { onSuccess?.Invoke(result.token); }, onError, Error.LoginErrors);
+			WebRequestHelper.Instance.PostRequest(url, requestData, AnalyticHeaders, (TokenEntity result) =>
+			{
+				if (onSuccess != null)
+					onSuccess.Invoke(result.token);
+			},
+			onError, Error.LoginErrors);
 		}
 
 		private void OAuthAuthWithSocialNetworkAccessToken(string accessToken, string accessTokenSecret, string providerName, string payload, Action<string> onSuccess, Action<Error> onError)
@@ -380,7 +395,8 @@ namespace Xsolla.Login
 			Action<LoginOAuthJsonResponse> successCallback = response =>
 			{
 				this.ProcessOAuthResponse(response);
-				onSuccess?.Invoke();
+				if (onSuccess != null)
+					onSuccess.Invoke();
 			};
 
 			var requestData = new WWWForm();

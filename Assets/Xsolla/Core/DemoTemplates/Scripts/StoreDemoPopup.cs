@@ -25,21 +25,25 @@ public static class StoreDemoPopup
         Action confirmCase,
         Action cancelCase = null,
         string message = "Are you sure you want to buy this item?"
-    ) => 
+	)
+	{
         PopupFactory.Instance.CreateConfirmation()
             .SetMessage(message)
             .SetConfirmCallback(confirmCase)
             .SetCancelCallback(cancelCase);
+	}
 
     public static void ShowConsumeConfirmation(
         string itemName,
         uint quantity,
         Action confirmCase,
         Action cancelCase = null
-    ) => 
+	)
+	{
         PopupFactory.Instance.CreateConfirmation()
             .SetMessage(
-                $"Item{(quantity > 1 ? "s" : "")} '{itemName}' x {quantity} will be consumed. Are you sure?")
+                string.Format("Item{0} '{1}' x {2} will be consumed. Are you sure?", (quantity > 1 ? "s" : ""), itemName, quantity))
             .SetConfirmCallback(confirmCase)
             .SetCancelCallback(cancelCase);
+	}
 }

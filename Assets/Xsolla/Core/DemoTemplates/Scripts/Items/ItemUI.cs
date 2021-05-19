@@ -104,7 +104,7 @@ public class ItemUI : MonoBehaviour
 	{
 		EnablePrice(true);
 		cartButton.gameObject.SetActive(false);
-		itemPriceVcText.text = virtualItem.VirtualPrice?.Value.ToString();
+		itemPriceVcText.text = virtualItem.VirtualPrice.HasValue ? virtualItem.VirtualPrice.Value.Value.ToString() : string.Empty;
 		InitializeVcImage(virtualItem);
 	}
 
@@ -112,20 +112,24 @@ public class ItemUI : MonoBehaviour
 	{
 		StartCoroutine(WaitCatalogUpdate(() =>
 		{
-			var currencySku = virtualItem.VirtualPrice?.Key;
+			var currencySku = virtualItem.VirtualPrice.HasValue ? virtualItem.VirtualPrice.Value.Key : null;
 			var currency = UserCatalog.Instance.VirtualCurrencies.First(vc => vc.Sku.Equals(currencySku));
 
 			if (!string.IsNullOrEmpty(currency.ImageUrl))
 				ImageLoader.Instance.GetImageAsync(currency.ImageUrl, (_, sprite) => itemPriceVcImage.sprite = sprite);
 			else
-				Debug.LogError($"Virtual currency item with sku = '{virtualItem.Sku}' without image!");
+			{
+				var message = string.Format("Virtual currency item with sku = '{0}' without image!", virtualItem.Sku);
+				Debug.LogError(message);
+			}
 		}));
 	}
 
 	IEnumerator WaitCatalogUpdate(Action callback)
 	{
 		yield return new WaitUntil(() => UserCatalog.Instance.IsUpdated);
-		callback?.Invoke();
+		if (callback != null)
+			callback.Invoke();
 	}
 
 	private void InitializeRealPrice(CatalogItemModel virtualItem)
@@ -146,7 +150,8 @@ public class ItemUI : MonoBehaviour
 		var realPrice = virtualItem.RealPrice;
 		if (realPrice == null)
 		{
-			Debug.LogError($"Catalog item with sku = {virtualItem.Sku} have not any price!");
+			var message = string.Format("Catalog item with sku = {0} have not any price!", virtualItem.Sku);
+			Debug.LogError(message);
 			return;
 		}
 
@@ -175,7 +180,8 @@ public class ItemUI : MonoBehaviour
 	{
 		if (string.IsNullOrEmpty(virtualItem.Name))
 		{
-			Debug.LogError($"Try initialize item with sku = {virtualItem.Sku} without name!");
+			var message = string.Format("Try initialize item with sku = {0} without name!", virtualItem.Sku);
+			Debug.LogError(message);
 			virtualItem.Name = virtualItem.Sku;
 		}
 
@@ -188,7 +194,8 @@ public class ItemUI : MonoBehaviour
 		}
 		else
 		{
-			Debug.LogError($"Virtual item item with sku = '{virtualItem.Sku}' without image!");
+			var message = string.Format("Virtual item item with sku = '{0}' without image!", virtualItem.Sku);
+			Debug.LogError(message);
 		}
 	}
 
@@ -207,7 +214,8 @@ public class ItemUI : MonoBehaviour
 		var subscription = UserCatalog.Instance.Subscriptions.First(s => s.Sku.Equals(virtualItem.Sku));
 		if (subscription == null)
 		{
-			Debug.LogError($"Something went wrong... Can not find subscription item with sku = '{virtualItem.Sku}'!");
+			var message = string.Format("Something went wrong... Can not find subscription item with sku = '{0}'!", virtualItem.Sku);
+			Debug.LogError(message);
 			return;
 		}
 

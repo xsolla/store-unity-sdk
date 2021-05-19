@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -65,10 +65,13 @@ public class VirtualCurrencyContainer : MonoBehaviour
 
 	private void SetCurrencyBalance(VirtualCurrencyBalanceModel balance)
 	{
-		AddCurrency(new VirtualCurrencyModel
+		var curency = AddCurrency(new VirtualCurrencyModel
 		{
 			Sku = balance.Sku,
 			ImageUrl = balance.ImageUrl
-		})?.SetBalance(balance.Amount);
+		});
+
+		if (curency != null)
+			curency.SetBalance(balance.Amount);
 	}
 }

@@ -1,4 +1,4 @@
-﻿#if (UNITY_EDITOR || UNITY_STANDALONE)
+#if (UNITY_EDITOR || UNITY_STANDALONE)
 using UnityEngine;
 using System.Collections;
 using System;
@@ -15,8 +15,20 @@ public class Display2DBehaviour : MonoBehaviour
 	private Image image;
 
 	private Canvas canvas;
-	private int CanvasWidth => (int) ((canvas.transform as RectTransform).rect.width);//(int)canvas.pixelRect.width;
-	private int CanvasHeight => (int) ((canvas.transform as RectTransform).rect.height);//(int)canvas.pixelRect.height;
+	private int CanvasWidth
+	{
+		get
+		{
+			return (int)((canvas.transform as RectTransform).rect.width);//(int)canvas.pixelRect.width;
+		}
+	}
+	private int CanvasHeight
+	{
+		get
+		{
+			return (int)((canvas.transform as RectTransform).rect.height);//(int)canvas.pixelRect.height;
+		}
+	}
 	
 	private Vector2 imageSize;
 
@@ -103,7 +115,8 @@ public class Display2DBehaviour : MonoBehaviour
 		Width = width;
 		Height = height;
 		ResizeCollider();
-		ViewportChangedEvent?.Invoke(width, height);
+		if (ViewportChangedEvent != null)
+			ViewportChangedEvent.Invoke(width, height);
 		StartCoroutine(RedrawCoroutine(image));
 	}
 	
@@ -123,7 +136,8 @@ public class Display2DBehaviour : MonoBehaviour
 			yield return ActionExtensions.WaitMethod<Sprite>(render.To, sprite =>
 			{
 				ApplySpriteToImage(image, sprite);
-				RedrawFrameCompleteEvent?.Invoke();
+				if (RedrawFrameCompleteEvent != null)
+					RedrawFrameCompleteEvent.Invoke();
 			});
 		}
 	}

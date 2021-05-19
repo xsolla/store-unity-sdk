@@ -19,12 +19,16 @@ public class OldUserAttributes : MonoSingleton<OldUserAttributes>
 	
 	public void GetAttributes([CanBeNull] Action<List<OldUserAttributeModel>> onSuccess = null, [CanBeNull] Action<Error> onError = null)
 	{
-		if (!IsDemoImplemented(() => onSuccess?.Invoke(Attributes))) return;
+		if (!IsDemoImplemented(() => { if (onSuccess != null) { onSuccess.Invoke(Attributes); } }))
+			return;
+
 		InvokeDemoMethod(() => _implementation.GetAttributes(attributes =>
 		{
 			Attributes = attributes;
-			AttributesChangedEvent?.Invoke(Attributes);
-			onSuccess?.Invoke(attributes);
+			if (AttributesChangedEvent != null)
+				AttributesChangedEvent.Invoke(Attributes);
+			if (onSuccess != null)
+				onSuccess.Invoke(attributes);
 		}, onError));
 	}
 	
@@ -41,16 +45,20 @@ public class OldUserAttributes : MonoSingleton<OldUserAttributes>
 
 	public void RemoveAttributes(List<string> attributes, [CanBeNull] Action onSuccess = null, [CanBeNull] Action<Error> onError = null)
 	{
-		void Callback()
+		Action callback = () =>
 		{
 			attributes.ForEach(a => Attributes.RemoveAll(r => r.key.Equals(a)));
-			AttributesChangedEvent?.Invoke(Attributes);
-			onSuccess?.Invoke();
-		}
+
+			if (AttributesChangedEvent != null)
+				AttributesChangedEvent.Invoke(Attributes);
+			if (onSuccess != null)
+				onSuccess.Invoke();
+		};
+
 		if (!IsDemoImplemented(onSuccess))
-			Callback();
+			callback();
 		else
-			InvokeDemoMethod(() => _implementation.RemoveAttributes(attributes, Callback, onError));
+			InvokeDemoMethod(() => _implementation.RemoveAttributes(attributes, callback, onError));
 	}
 
 	public void UpdateAttributes(List<OldUserAttributeModel> setAttributes, List<string> removeAttributes,
@@ -63,7 +71,8 @@ public class OldUserAttributes : MonoSingleton<OldUserAttributes>
 	{
 		if (_implementation != null) return true;
 		Debug.LogWarning("UserAttributes: IStoreDemoImplementation is null");
-		notImplementedCallback?.Invoke();
+		if (notImplementedCallback != null)
+			notImplementedCallback.Invoke();
 		return false;
 	}
 
@@ -71,7 +80,8 @@ public class OldUserAttributes : MonoSingleton<OldUserAttributes>
 	{
 		try
 		{
-			method?.Invoke();
+			if (method != null)
+				method.Invoke();
 		}
 		catch (Exception e)
 		{

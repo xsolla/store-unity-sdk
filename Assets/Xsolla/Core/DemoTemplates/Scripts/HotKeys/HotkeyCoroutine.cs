@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -73,7 +73,10 @@ public class HotkeyCoroutine : MonoBehaviour
 			yield return new WaitForSeconds(_timeout);
 			yield return new WaitUntil(() => Input.GetKeyDown(_keyCode));
 			if (!m_isLocked)
-				KeyPressedEvent?.Invoke();
+			{
+				if (KeyPressedEvent != null)
+					KeyPressedEvent.Invoke();
+			}
 		}
 	}
 }

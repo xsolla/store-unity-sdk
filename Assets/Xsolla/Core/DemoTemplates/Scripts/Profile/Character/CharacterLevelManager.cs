@@ -33,7 +33,7 @@ public class CharacterLevelManager : MonoBehaviour
 		Action<UserInfo> successCallback = info =>
 		{
 			var levelEntryHead = info.email ?? info.username ?? info.nickname ?? info.last_name;
-			_characterLevelEntry = $"{levelEntryHead}:character_level";
+			_characterLevelEntry = string.Format("{0}:character_level", levelEntryHead);
 			InitializeUI();
 		};
 
@@ -71,7 +71,8 @@ public class CharacterLevelManager : MonoBehaviour
 
 	private void TryUpTheLevel()
 	{
-		var userCurrency = UserInventory.Instance.Balance?.Find(currency => _targetCurrency.Sku == currency.Sku);
+		var userCurrency = (UserInventory.Instance.Balance != null) ? UserInventory.Instance.Balance.Find(currency => _targetCurrency.Sku == currency.Sku) : null;
+
 		if (userCurrency == null)
 		{
 			Debug.Log("UserInventory does not contain required currency");
@@ -130,7 +131,7 @@ public class CharacterLevelManager : MonoBehaviour
 
 			if (/*still*/targetCurrency == null)
 			{
-				Debug.LogWarning($"Could not find specified virtual currency: {CurrencySkuOrName}");
+				Debug.LogWarning(string.Format("Could not find specified virtual currency: {0}", CurrencySkuOrName));
 
 				if (TryUseDefaultCurrencyOnFailure)
 				{
@@ -177,7 +178,7 @@ public class CharacterLevelManager : MonoBehaviour
 
 	private void ShowLevel(int characterLevel)
 	{
-		LevelText.text = $"{_characterLevel} LVL";
+		LevelText.text = string.Format("{0} LVL", _characterLevel);
 	}
 
 #if UNITY_EDITOR

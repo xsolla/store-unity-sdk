@@ -73,11 +73,15 @@ public class UserFriends : MonoSingleton<UserFriends>
 		StopRefreshUsers();
 		RefreshUsersMethod(() =>
 		{
-			onSuccess?.Invoke();
+			if (onSuccess != null)
+				onSuccess.Invoke();
+
 			StartRefreshUsers();
 		}, err =>
 		{
-			onError?.Invoke(err);
+			if (onError != null)
+				onError.Invoke(err);
+
 			StartRefreshUsers();
 		});
 	}
@@ -116,8 +120,12 @@ public class UserFriends : MonoSingleton<UserFriends>
 
 			UpdateSocialFriends();
 			IsUpdated = true;
-			onSuccess?.Invoke();
-			AllUsersUpdatedEvent?.Invoke();
+
+			if (onSuccess != null)
+				onSuccess.Invoke();
+
+			if (AllUsersUpdatedEvent != null)
+				AllUsersUpdatedEvent.Invoke();
 		}
 		else
 		{
@@ -137,8 +145,12 @@ public class UserFriends : MonoSingleton<UserFriends>
 		DemoController.Instance.GetImplementation().GetUserFriends(friends =>
 		{
 			Friends = friends;
-			UserFriendsUpdatedEvent?.Invoke();
-			onSuccess?.Invoke();
+
+			if (UserFriendsUpdatedEvent != null)
+				UserFriendsUpdatedEvent.Invoke();
+
+			if (onSuccess != null)
+				onSuccess.Invoke();
 		}, onError);
 	}
 	
@@ -147,8 +159,13 @@ public class UserFriends : MonoSingleton<UserFriends>
 		DemoController.Instance.GetImplementation().GetBlockedUsers(users =>
 		{
 			Blocked = users;
-			BlockedUsersUpdatedEvent?.Invoke();
-			onSuccess?.Invoke();
+
+			if (BlockedUsersUpdatedEvent != null)
+				BlockedUsersUpdatedEvent.Invoke();
+
+			if (onSuccess != null)
+				onSuccess.Invoke();
+
 		}, onError);
 	}
 	
@@ -157,8 +174,13 @@ public class UserFriends : MonoSingleton<UserFriends>
 		DemoController.Instance.GetImplementation().GetPendingUsers(users =>
 		{
 			Pending = users;
-			PendingUsersUpdatedEvent?.Invoke();
-			onSuccess?.Invoke();
+
+			if (PendingUsersUpdatedEvent != null)
+				PendingUsersUpdatedEvent.Invoke();
+
+			if (onSuccess != null)
+				onSuccess.Invoke();
+
 		}, onError);
 	}
 	
@@ -167,8 +189,13 @@ public class UserFriends : MonoSingleton<UserFriends>
 		DemoController.Instance.GetImplementation().GetRequestedUsers(users =>
 		{
 			Requested = users;
-			RequestedUsersUpdatedEvent?.Invoke();
-			onSuccess?.Invoke();
+
+			if (RequestedUsersUpdatedEvent != null)
+				RequestedUsersUpdatedEvent.Invoke();
+
+			if (onSuccess != null)
+				onSuccess.Invoke();
+
 		}, onError);
 	}
 	
@@ -177,8 +204,13 @@ public class UserFriends : MonoSingleton<UserFriends>
 		DemoController.Instance.GetImplementation().GetFriendsFromSocialNetworks(users =>
 		{
 			SocialFriends = users;
-			SocialFriendsUpdatedEvent?.Invoke();
-			onSuccess?.Invoke();
+
+			if (SocialFriendsUpdatedEvent != null)
+				SocialFriendsUpdatedEvent.Invoke();
+
+			if (onSuccess != null)
+				onSuccess.Invoke();
+
 		}, onError);
 	}
 	
@@ -187,7 +219,9 @@ public class UserFriends : MonoSingleton<UserFriends>
 		Debug.LogError(message);
 		var err = Error.UnknownError;
 		err.errorMessage = message;
-		onError?.Invoke(err);
+
+		if (onError != null)
+			onError.Invoke(err);
 	}
 
 	private void RemoveUserFromMemory(FriendModel user)
@@ -195,22 +229,30 @@ public class UserFriends : MonoSingleton<UserFriends>
 		if (Friends.Contains(user))
 		{
 			Friends.Remove(user);
-			UserFriendsUpdatedEvent?.Invoke();
+
+			if (UserFriendsUpdatedEvent != null)
+				UserFriendsUpdatedEvent.Invoke();
 		}
 		if (Pending.Contains(user))
 		{
 			Pending.Remove(user);
-			PendingUsersUpdatedEvent?.Invoke();
+
+			if (PendingUsersUpdatedEvent != null)
+				PendingUsersUpdatedEvent.Invoke();
 		}
 		if (Requested.Contains(user))
 		{
 			Requested.Remove(user);
-			RequestedUsersUpdatedEvent?.Invoke();
+
+			if (RequestedUsersUpdatedEvent != null)
+				RequestedUsersUpdatedEvent.Invoke();
 		}
 		if (Blocked.Contains(user))
 		{
 			Blocked.Remove(user);
-			BlockedUsersUpdatedEvent?.Invoke();
+
+			if (BlockedUsersUpdatedEvent != null)
+				BlockedUsersUpdatedEvent.Invoke();
 		}
 	}
 	
@@ -221,81 +263,114 @@ public class UserFriends : MonoSingleton<UserFriends>
 			{
 				RemoveUserFromMemory(user);
 				UpdateBlockedUsers();
-				onSuccess?.Invoke(u);
+
+				if (onSuccess != null)
+					onSuccess.Invoke(u);
+
 			}, onError);
 	}
 	
 	public void UnblockUser(FriendModel user, [CanBeNull] Action<FriendModel> onSuccess = null, [CanBeNull] Action<Error> onError = null)
 	{
 		if (!Blocked.Contains(user))
-			ShowErrorMessage($"Can not unblock user with nickname = {user.Nickname}, because we have not this user in blocked friends!", onError);
+		{
+			var message = string.Format("Can not unblock user with nickname = {0}, because we have not this user in blocked friends!", user.Nickname);
+			ShowErrorMessage(message, onError);
+		}
 		else
 			DemoController.Instance.GetImplementation().UnblockUser(user, u =>
 			{
 				RemoveUserFromMemory(user);
-				onSuccess?.Invoke(u);
+
+				if (onSuccess != null)
+					onSuccess.Invoke(u);
 			}, onError);
 	}
 	
 	public void AddFriend(FriendModel user, [CanBeNull] Action<FriendModel> onSuccess = null, [CanBeNull] Action<Error> onError = null)
 	{
 		if (Friends.Contains(user) || Blocked.Contains(user) || Pending.Contains(user) || Requested.Contains(user))
-			ShowErrorMessage($"Can not add friend with nickname = {user.Nickname}, because this friend is not in 'initial' state!", onError);
+		{
+			var message = string.Format("Can not add friend with nickname = {0}, because this friend is not in 'initial' state!", user.Nickname);
+			ShowErrorMessage(message, onError);
+		}
 		else
 			DemoController.Instance.GetImplementation().SendFriendshipInvite(user, u =>
 			{
 				RemoveUserFromMemory(user);
 				UpdateRequestedUsers();
-				onSuccess?.Invoke(u);
+
+				if (onSuccess != null)
+					onSuccess.Invoke(u);
 			}, onError);
 	}
 	
 	public void RemoveFriend(FriendModel user, [CanBeNull] Action<FriendModel> onSuccess = null, [CanBeNull] Action<Error> onError = null)
 	{
 		if (!Friends.Contains(user))
-			ShowErrorMessage($"Can not remove friend with nickname = {user.Nickname}, because we have not this friend!", onError);
+		{
+			var message = string.Format("Can not remove friend with nickname = {0}, because we have not this friend!", user.Nickname);
+			ShowErrorMessage(message, onError);
+		}
 		else
 			DemoController.Instance.GetImplementation().RemoveFriend(user, u =>
 			{
 				RemoveUserFromMemory(user);
-				onSuccess?.Invoke(u);
+
+				if (onSuccess != null)
+					onSuccess.Invoke(u);
 			}, onError);
 	}
 	
 	public void AcceptFriendship(FriendModel user, [CanBeNull] Action<FriendModel> onSuccess = null, [CanBeNull] Action<Error> onError = null)
 	{
 		if (!Pending.Contains(user))
-			ShowErrorMessage($"Can not accept friendship from nickname = {user.Nickname}, because we have not this pending user!", onError);
+		{
+			var message = string.Format("Can not accept friendship from nickname = {user.Nickname}, because we have not this pending user!", user.Nickname);
+			ShowErrorMessage(message, onError);
+		}
 		else
 			DemoController.Instance.GetImplementation().AcceptFriendship(user, u =>
 			{
 				RemoveUserFromMemory(user);
 				UpdateUserFriends();
-				onSuccess?.Invoke(u);
+
+				if (onSuccess != null)
+					onSuccess.Invoke(u);
 			}, onError);
 	}
 	
 	public void DeclineFriendship(FriendModel user, [CanBeNull] Action<FriendModel> onSuccess = null, [CanBeNull] Action<Error> onError = null)
 	{
 		if (!Pending.Contains(user))
-			ShowErrorMessage($"Can not accept friendship from nickname = {user.Nickname}, because we have not this pending user!", onError);
+		{
+			var message = string.Format("Can not accept friendship from nickname = {0}, because we have not this pending user!", user.Nickname);
+			ShowErrorMessage(message, onError);
+		}
 		else
 			DemoController.Instance.GetImplementation().DeclineFriendship(user, u =>
 			{
 				RemoveUserFromMemory(user);
-				onSuccess?.Invoke(u);
+
+				if (onSuccess != null)
+					onSuccess.Invoke(u);
+
 			}, onError);
 	}
 	
 	public void CancelFriendshipRequest(FriendModel user, [CanBeNull] Action<FriendModel> onSuccess = null, [CanBeNull] Action<Error> onError = null)
 	{
 		if (!Requested.Contains(user))
-			ShowErrorMessage($"Can not cancel friendship request to = {user.Nickname}, because we have not this requested user!", onError);
+		{
+			var message = string.Format("Can not cancel friendship request to = {0}, because we have not this requested user!", user.Nickname);
+			ShowErrorMessage(message, onError);
+		}
 		else
 			DemoController.Instance.GetImplementation().CancelFriendshipRequest(user, u =>
 			{
 				RemoveUserFromMemory(user);
-				onSuccess?.Invoke(u);
+				if (onSuccess != null)
+					onSuccess.Invoke(u);
 			}, onError);
 	}
 

@@ -1,10 +1,8 @@
-using System;
 using UnityEngine;
-using static MenuStateMachine;
 
 public interface IMenuStateMachine
 {
-	event StateChangeDelegate StateChangingEvent;
+	event MenuStateMachine.StateChangeDelegate StateChangingEvent;
 	GameObject SetState(MenuState state);
 	void SetPreviousState();
 }

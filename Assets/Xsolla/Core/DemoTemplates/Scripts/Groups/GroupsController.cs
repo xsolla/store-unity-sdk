@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -77,7 +77,8 @@ public class GroupsController : MonoBehaviour
 	public void SelectGroup(string groupId)
 	{
 		Groups.Where(g => g.Id != groupId).ToList().ForEach(g => g.Deselect());
-		GroupSelectedEvent?.Invoke(groupId);
+		if (GroupSelectedEvent != null)
+			GroupSelectedEvent.Invoke(groupId);
 	}
 
 	public void SelectDefault()

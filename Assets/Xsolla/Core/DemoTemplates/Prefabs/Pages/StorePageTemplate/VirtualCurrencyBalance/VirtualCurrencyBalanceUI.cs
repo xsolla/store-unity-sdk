@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 using Xsolla.Core;
 
@@ -21,12 +21,14 @@ public class VirtualCurrencyBalanceUI : MonoBehaviour
 			}
 			else
 			{
-				Debug.LogError($"Item with sku = '{item.Sku}' without image!");
+				var message = string.Format("Item with sku = '{item.Sku}' without image!", item.Sku);
+				Debug.LogError(message);
 			}
 		}
 		else
 		{
-			Debug.LogWarning($"Your Virtual Currency with sku = `{item.Sku}` created without Image component!");
+			var message = string.Format("Your Virtual Currency with sku = `{item.Sku}` created without Image component!", item.Sku);
+			Debug.LogWarning(message);
 		}
 	}
 

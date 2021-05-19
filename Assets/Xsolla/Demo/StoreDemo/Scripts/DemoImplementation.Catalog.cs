@@ -32,20 +32,25 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 					_refreshItemsInProgress = false;
 					_itemsCacheTime = DateTime.Now;
 					_itemsCache = items.items.ToList();
-					onSuccess?.Invoke(_itemsCache);
+					if (onSuccess != null)
+						onSuccess.Invoke(_itemsCache);
 				}, WrapErrorCallback(onError));
 			}
 			else
 				StartCoroutine(WaitItemsCoroutine(onSuccess));
 		}
 		else
-			onSuccess?.Invoke(_itemsCache);
+		{
+			if (onSuccess != null)
+				onSuccess.Invoke(_itemsCache);
+		}
 	}
 
 	private IEnumerator WaitItemsCoroutine(Action<List<StoreItem>> onSuccess)
 	{
 		yield return new WaitWhile(() => _refreshItemsInProgress);
-		onSuccess?.Invoke(_itemsCache);
+		if (onSuccess != null)
+			onSuccess.Invoke(_itemsCache);
 	}
 
 	public void GetVirtualCurrencies(Action<List<VirtualCurrencyModel>> onSuccess, Action<Error> onError = null)
@@ -61,9 +66,14 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 					FillItemModel(model, c);
 					return model;
 				}).ToList();
-				onSuccess?.Invoke(result);
+				if (onSuccess != null)
+					onSuccess.Invoke(result);
 			}
-			else onSuccess?.Invoke(new List<VirtualCurrencyModel>());
+			else
+			{
+				if (onSuccess != null)
+					onSuccess.Invoke(new List<VirtualCurrencyModel>());
+			}
 		}, WrapErrorCallback(onError));
 	}
 
@@ -81,7 +91,8 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 				FillCatalogItem(virtualItems.Last(), i);
 				AddItemGroups(i);
 			});
-			onSuccess?.Invoke(virtualItems);
+			if (onSuccess != null)
+				onSuccess.Invoke(virtualItems);
 		}, WrapErrorCallback(onError));
 	}
 
@@ -101,7 +112,8 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 				FillCatalogItem(currencies.Last(), p);
 				AddItemGroups(p);
 			});
-			onSuccess?.Invoke(currencies);
+			if (onSuccess != null)
+				onSuccess.Invoke(currencies);
 		}, WrapErrorCallback(onError));
 	}
 
@@ -121,7 +133,8 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 				FillCatalogItem(subscriptionItems.Last(), i);
 				AddItemGroups(i);
 			});
-			onSuccess?.Invoke(subscriptionItems);
+			if (onSuccess != null)
+				onSuccess.Invoke(subscriptionItems);
 		}, WrapErrorCallback(onError));
 	}
 
@@ -174,18 +187,24 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 
 					_bundlesCacheTime = DateTime.Now;
 					_refreshBundlesInProgress = false;
-					onSuccess?.Invoke(bundleItems);
+					if (onSuccess != null)
+						onSuccess.Invoke(bundleItems);
 				}, WrapErrorCallback(onError));
 			}
 			else StartCoroutine(WaitBundlesCoroutine(onSuccess));
 		}
-		else onSuccess?.Invoke(_bundlesCache);
+		else
+		{
+			if (onSuccess != null)
+				onSuccess.Invoke(_bundlesCache);
+		}
 	}
 
 	private IEnumerator WaitBundlesCoroutine(Action<List<CatalogBundleItemModel>> onSuccess)
 	{
 		yield return new WaitWhile(() => _refreshBundlesInProgress);
-		onSuccess?.Invoke(_bundlesCache);
+		if (onSuccess != null)
+			onSuccess.Invoke(_bundlesCache);
 	}
 
 	private void AddItemGroups(StoreItem item)
@@ -211,10 +230,12 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 	{
 		FillItemModel(model, item);
 
-		model.RealPrice = GetRealPrice(item, out var realPriceWithoutDiscount);
+		KeyValuePair<string, float>? realPriceWithoutDiscount;
+		model.RealPrice = GetRealPrice(item, out realPriceWithoutDiscount);
 		model.RealPriceWithoutDiscount = realPriceWithoutDiscount;
 
-		model.VirtualPrice = GetVirtualPrice(item, out var virtualPriceWithoutDiscount);
+		KeyValuePair<string, uint>? virtualPriceWithoutDiscount;
+		model.VirtualPrice = GetVirtualPrice(item, out virtualPriceWithoutDiscount);
 		model.VirtualPriceWithoutDiscount = virtualPriceWithoutDiscount;
 	}
 
@@ -250,16 +271,21 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 
 	private static void FillBundleItem(CatalogBundleItemModel model, BundleItem item)
 	{
-		model.RealPrice = GetBundleRealPrice(item, out var realPriceWithoutDiscount);
+		KeyValuePair<string, float>? realPriceWithoutDiscount;
+		model.RealPrice = GetBundleRealPrice(item, out realPriceWithoutDiscount);
 		model.RealPriceWithoutDiscount = realPriceWithoutDiscount;
 
-		model.VirtualPrice = GetBundleVirtualPrice(item, out var virtualPriceWithoutDiscount);
+		KeyValuePair<string, uint>? virtualPriceWithoutDiscount;
+		model.VirtualPrice = GetBundleVirtualPrice(item, out virtualPriceWithoutDiscount);
 		model.VirtualPriceWithoutDiscount = virtualPriceWithoutDiscount;
 
-		model.ContentRealPrice = GetBundleContentRealPrice(item, out var contentRealPriceWithoutDiscount);
+
+		KeyValuePair<string, float>? contentRealPriceWithoutDiscount;
+		model.ContentRealPrice = GetBundleContentRealPrice(item, out contentRealPriceWithoutDiscount);
 		model.ContentRealPriceWithoutDiscount = contentRealPriceWithoutDiscount;
 
-		model.ContentVirtualPrice = GetBundleContentVirtualPrice(item, out var contentVirtualPriceWithoutDiscount);
+		KeyValuePair<string, uint>? contentVirtualPriceWithoutDiscount;
+		model.ContentVirtualPrice = GetBundleContentVirtualPrice(item, out contentVirtualPriceWithoutDiscount);
 		model.ContentVirtualPriceWithoutDiscount = contentVirtualPriceWithoutDiscount;
 	}
 

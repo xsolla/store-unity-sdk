@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 using Xsolla.Core;
 
@@ -16,7 +16,11 @@ public class CartGroupUI : MonoBehaviour, IGroup
 		UserCart.Instance.UpdateItemEvent += (item, deltaValue) => ChangeCounter(deltaValue);
 		UserCart.Instance.ClearCartEvent += ResetCounter;
 
-		menuButton.onClick = () => OnGroupClick?.Invoke(Constants.CartGroupName);
+		menuButton.onClick = () =>
+		{
+			if (OnGroupClick != null)
+				OnGroupClick.Invoke(Constants.CartGroupName);
+		};
 	}
 
 	public string Id { get; set; }

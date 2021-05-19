@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 using Xsolla.Core;
 using Xsolla.Login;
@@ -11,7 +11,8 @@ public class BasicAuth : StoreStringActionResult, ILoginAuthorization
 
 	public void TryAuth(params object[] args)
 	{
-		if (TryExtractArgs(args, out string username, out string password, out bool rememberMe))
+		string username; string password; bool rememberMe;
+		if (TryExtractArgs(args, out username, out password, out rememberMe))
 		{
 			_isDemoUser = (username.ToUpper() == DEMO_USER_NAME && password.ToUpper() == DEMO_USER_NAME);
 			_isJwtInvalidationEnabled = XsollaSettings.JwtTokenInvalidationEnabled;
@@ -24,7 +25,8 @@ public class BasicAuth : StoreStringActionResult, ILoginAuthorization
 		else
 		{
 			Debug.LogError("BasicAuth.TryAuth: Could not extract arguments for SignIn");
-			base.OnError?.Invoke(new Error(errorMessage: "Basic auth failed"));
+			if (base.OnError != null)
+				base.OnError.Invoke(new Error(errorMessage: "Basic auth failed"));
 		}
 	}
 
@@ -42,7 +44,8 @@ public class BasicAuth : StoreStringActionResult, ILoginAuthorization
 
 		if (args.Length != 3)
 		{
-			Debug.LogError($"BasicAuth.TryExtractArgs: args.Length expected 3, was {args.Length}");
+			var message = string.Format("BasicAuth.TryExtractArgs: args.Length expected 3, was {0}", args.Length);
+			Debug.LogError(message);
 			return false;
 		}
 
@@ -54,7 +57,8 @@ public class BasicAuth : StoreStringActionResult, ILoginAuthorization
 		}
 		catch (Exception ex)
 		{
-			Debug.LogError($"BasicAuth.TryExtractArgs: Error during argument extraction: {ex.Message}");
+			var message = string.Format("BasicAuth.TryExtractArgs: Error during argument extraction: {0}", ex.Message);
+			Debug.LogError(message);
 			return false;
 		}
 
@@ -64,14 +68,17 @@ public class BasicAuth : StoreStringActionResult, ILoginAuthorization
 	private void BasicAuthSuccess()
 	{
 		RestoreJwtInvalidationIfNeeded();
-		base.OnSuccess?.Invoke(DemoController.Instance.GetImplementation().Token);
+		if (base.OnSuccess != null)
+			base.OnSuccess.Invoke(DemoController.Instance.GetImplementation().Token);
 	}
 
 	private void BasicAuthFailed(Error error)
 	{
 		RestoreJwtInvalidationIfNeeded();
-		Debug.LogWarning($"BasicAuth: auth failed. Error: {error.errorMessage}");
-		base.OnError?.Invoke(error);
+		var message = string.Format("BasicAuth: auth failed. Error: {0}", error.errorMessage);
+		Debug.LogWarning(message);
+		if (base.OnError != null)
+			base.OnError.Invoke(error);
 	}
 
 	private void RestoreJwtInvalidationIfNeeded()

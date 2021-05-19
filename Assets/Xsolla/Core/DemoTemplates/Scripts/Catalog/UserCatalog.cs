@@ -48,11 +48,13 @@ public class UserCatalog : MonoSingleton<UserCatalog>
 		Action<Error> errorCallback = error =>
 		{
 			isError = true;
-			onError?.Invoke(error);
+			if (onError != null)
+				onError.Invoke(error);
 		};
 		if (_demoImplementation == null)
 		{
-			onSuccess?.Invoke();
+			if (onSuccess != null)
+				onSuccess.Invoke();
 			yield break;
 		}
 
@@ -64,7 +66,8 @@ public class UserCatalog : MonoSingleton<UserCatalog>
 		
 		if (isError) yield break;
 		IsUpdated = true;
-		onSuccess?.Invoke();
+		if (onSuccess != null)
+			onSuccess.Invoke();
 	}
 
 	private IEnumerator UpdateSomeItemsCoroutine<T>(Action<Action<List<T>>, Action<Error>> method,  Action<List<T>> onSuccess, Action<Error> onError = null)
@@ -76,7 +79,8 @@ public class UserCatalog : MonoSingleton<UserCatalog>
 			{
 				busy = false;
 				AddUniqueItemsFrom(items);
-				onSuccess?.Invoke(items);
+				if (onSuccess != null)
+					onSuccess.Invoke(items);
 			}, onError);
 		else 
 			busy = false;
@@ -96,7 +100,10 @@ public class UserCatalog : MonoSingleton<UserCatalog>
 		_demoImplementation.GetVirtualCurrencies(items =>
 		{
 			VirtualCurrencies = items;
-			UpdateVirtualCurrenciesEvent?.Invoke(items);
+
+			if (UpdateVirtualCurrenciesEvent != null)
+				UpdateVirtualCurrenciesEvent.Invoke(items);
+
 			busy = false;
 		}, onError);
 		yield return new WaitWhile(() => busy);
@@ -108,7 +115,8 @@ public class UserCatalog : MonoSingleton<UserCatalog>
 			_demoImplementation.GetCatalogVirtualItems, items =>
 			{
 				VirtualItems = items;
-				UpdateItemsEvent?.Invoke(items);
+				if (UpdateItemsEvent != null)
+					UpdateItemsEvent.Invoke(items);
 			}, onError));
 	}
 
@@ -118,7 +126,8 @@ public class UserCatalog : MonoSingleton<UserCatalog>
 		_demoImplementation.GetCatalogVirtualCurrencyPackages, items =>
 		{
 			CurrencyPackages = items;
-			UpdateVirtualCurrencyPackagesEvent?.Invoke(items);
+			if (UpdateVirtualCurrencyPackagesEvent != null)
+				UpdateVirtualCurrencyPackagesEvent.Invoke(items);
 		}, onError));
 	}
 	
@@ -128,7 +137,8 @@ public class UserCatalog : MonoSingleton<UserCatalog>
 			_demoImplementation.GetCatalogBundles, items =>
 			{
 				Bundles = items;
-				UpdateBundlesEvent?.Invoke(items);
+				if (UpdateBundlesEvent != null)
+					UpdateBundlesEvent.Invoke(items);
 			}, onError));
 	}
 	
@@ -138,7 +148,8 @@ public class UserCatalog : MonoSingleton<UserCatalog>
 		_demoImplementation.GetCatalogSubscriptions, items =>
 		{
 			Subscriptions = items;
-			UpdateSubscriptionsEvent?.Invoke(items);
+			if (UpdateSubscriptionsEvent != null)
+				UpdateSubscriptionsEvent.Invoke(items);
 		}, onError));
 	}
 }

@@ -1,4 +1,4 @@
-﻿#if (UNITY_EDITOR || UNITY_STANDALONE)
+#if (UNITY_EDITOR || UNITY_STANDALONE)
 using UnityEngine;
 using System.Collections;
 
@@ -42,7 +42,8 @@ public class Preloader2DBehaviour : MonoBehaviour
 	{
 		lock (progressLocker) {
 			if (lastProgress >= progress) return;
-			Debug.Log($"Update[%]: {lastProgress} => {progress}");
+			var message = string.Format("Update[%]: {lastProgress} => {progress}", lastProgress, progress);
+			Debug.Log(message);
 			lastProgress = progress;
 			StartCoroutine(PreloaderCoroutine(progress));
 		}

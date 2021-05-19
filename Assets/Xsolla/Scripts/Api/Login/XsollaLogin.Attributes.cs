@@ -35,10 +35,10 @@ namespace Xsolla.Login
 			switch (attributeType)
 			{
 				case UserAttributeType.CUSTOM:
-					url = $"{URL_USER_GET_ATTRIBUTES}?{AnalyticUrlAddition}";
+					url = string.Format("{0}?{1}", URL_USER_GET_ATTRIBUTES, AnalyticUrlAddition);
 					break;
 				case UserAttributeType.READONLY:
-					url = $"{URL_USER_GET_READONLY_ATTRIBUTES}?{AnalyticUrlAddition}";
+					url = string.Format("{0}?{1}", URL_USER_GET_READONLY_ATTRIBUTES, AnalyticUrlAddition);
 					break;
 			}
 
@@ -62,7 +62,7 @@ namespace Xsolla.Login
 			var modifyAttributesRequestBody = new ModifyAttributesJson(attributes, projectId, null);
 			var headers = AppendAnalyticHeadersTo(WebRequestHeader.AuthHeader(token), WebRequestHeader.ContentTypeHeader());
 
-			WebRequestHelper.Instance.PostRequest($"{URL_USER_UPDATE_ATTRIBUTES}?{AnalyticUrlAddition}", modifyAttributesRequestBody, headers, onSuccess, onError);
+			WebRequestHelper.Instance.PostRequest(string.Format("{0}?{1}", URL_USER_UPDATE_ATTRIBUTES, AnalyticUrlAddition), modifyAttributesRequestBody, headers, onSuccess, onError);
 		}
 
 		/// <summary>
@@ -82,7 +82,7 @@ namespace Xsolla.Login
 			var removeAttributesRequestBody = new ModifyAttributesJson(null, projectId, attributeKeys);
 			var headers = AppendAnalyticHeadersTo(WebRequestHeader.AuthHeader(token), WebRequestHeader.ContentTypeHeader());
 
-			WebRequestHelper.Instance.PostRequest($"{URL_USER_UPDATE_ATTRIBUTES}?{AnalyticUrlAddition}", removeAttributesRequestBody, headers, onSuccess, onError);
+			WebRequestHelper.Instance.PostRequest(string.Format("{0}?{1}", URL_USER_UPDATE_ATTRIBUTES, AnalyticUrlAddition), removeAttributesRequestBody, headers, onSuccess, onError);
 		}
 	}
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -34,7 +34,8 @@ public class FriendSearchBox : MonoBehaviour
 	private void ClearSearch()
 	{
 		SearchInputField.text = string.Empty;
-		ClearSearchRequest?.Invoke();
+		if (ClearSearchRequest != null)
+			ClearSearchRequest.Invoke();
 	}
 
 	private void RequestSearch()
@@ -42,9 +43,15 @@ public class FriendSearchBox : MonoBehaviour
 		var userInput = SearchInputField.text;
 		
 		if (!string.IsNullOrEmpty(userInput))
-			SearchRequest?.Invoke(userInput);
+		{
+			if (SearchRequest != null)
+				SearchRequest.Invoke(userInput);
+		}
 		else
-			ClearSearchRequest?.Invoke();
+		{
+			if (ClearSearchRequest != null)
+				ClearSearchRequest.Invoke();
+		}
 	}
 
 	private void ProcessHotkeys(string _)

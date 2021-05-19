@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -61,7 +61,8 @@ public class SinglePageBrowser2D : MonoBehaviour
 		display.RedrawFrameCompleteEvent += EnableCloseButton;
 		display.ViewportChangedEvent += (width, height) => Viewport = new Vector2(width, height);
 		InitializeInput();
-		BrowserInitEvent?.Invoke(browser);
+		if (BrowserInitEvent != null)
+			BrowserInitEvent.Invoke(browser);
 	}
 
 	private void EnableCloseButton()
@@ -99,7 +100,10 @@ public class SinglePageBrowser2D : MonoBehaviour
 	private void OnDestroy()
 	{
 		StopAllCoroutines();
-		BrowserClosedEvent?.Invoke(xsollaBrowser);
+
+		if (BrowserClosedEvent != null)
+			BrowserClosedEvent.Invoke(xsollaBrowser);
+
 		if (mouse != null) {
 			Destroy(mouse);
 			mouse = null;

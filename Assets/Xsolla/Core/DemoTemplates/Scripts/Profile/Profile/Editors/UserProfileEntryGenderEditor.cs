@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class UserProfileEntryGenderEditor : UserProfileEntryEditor
@@ -40,7 +40,7 @@ public class UserProfileEntryGenderEditor : UserProfileEntryEditor
 			_skipNextCheck = false;
 		}
 		else
-			Debug.LogWarning($"Could not set initial value: {value}");
+			Debug.LogWarning(string.Format("Could not set initial value: {0}", value));
 	}
 
 	private void Awake()
@@ -49,8 +49,8 @@ public class UserProfileEntryGenderEditor : UserProfileEntryEditor
 		FemaleCheckbox.onValueChanged.AddListener(FemaleCheckboxValueChange);
 	}
 
-	private void MaleCheckboxValueChange(bool newValue) => ProcessValueChange(isMaleCheckBox: true, newValue);
-	private void FemaleCheckboxValueChange(bool newValue) => ProcessValueChange(isMaleCheckBox: false, newValue);
+	private void MaleCheckboxValueChange(bool newValue) { ProcessValueChange(isMaleCheckBox: true, newValue: newValue); }
+	private void FemaleCheckboxValueChange(bool newValue) { ProcessValueChange(isMaleCheckBox: false, newValue: newValue); }
 
 	private void ProcessValueChange(bool isMaleCheckBox, bool newValue)
 	{

@@ -1,17 +1,60 @@
-﻿public class BundleContentItem
+public class BundleContentItem
 {
-	public CatalogItemModel Item { get; }
+	private readonly CatalogItemModel _item;
+	private readonly int _quantity;
 
-	public string Sku => Item.Sku;
-	public string Name => Item.Name;
-	public string Description => Item.Description;
-	public string ImageUrl => Item.ImageUrl;
+	public CatalogItemModel Item
+	{
+		get
+		{
+			return _item;
+		}
+	}
 
-	public int Quantity { get; }
+	public int Quantity
+	{
+		get
+		{
+			return _quantity;
+		}
+	}
+
+	public string Sku
+	{
+		get
+		{
+			return Item.Sku;
+		}
+	}
+
+	public string Name
+	{
+		get
+		{
+			return Item.Name;
+		}
+	}
+
+	public string Description
+	{
+		get
+		{
+			return Item.Description;
+		}
+	}
+
+	public string ImageUrl
+	{
+		get
+		{
+			return Item.ImageUrl;
+		}
+	}
+
 
 	public BundleContentItem(CatalogItemModel storeItem, int quantity)
 	{
-		Item = storeItem;
-		Quantity = quantity;
+		_item = storeItem;
+		_quantity = quantity;
 	}
 }

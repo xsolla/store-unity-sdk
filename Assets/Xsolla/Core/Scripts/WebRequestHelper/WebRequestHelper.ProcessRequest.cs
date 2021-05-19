@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +23,10 @@ namespace Xsolla.Core
 		{
 			Error error = CheckResponseForErrors(webRequest, errorsToCheck);
 			if (error == null)
-				onComplete?.Invoke();
+			{
+				if (onComplete != null)
+					onComplete.Invoke();
+			}
 			else
 				TriggerOnError(onError, error);
 		}
@@ -46,9 +49,13 @@ namespace Xsolla.Core
 			}
 			if (error == null) {
 				string data = webRequest.downloadHandler.text;
-				if (data != null) {
-					onComplete?.Invoke(data);
-				} else {
+				if (data != null)
+				{
+					if (onComplete != null)
+						onComplete.Invoke(data);
+				}
+				else
+				{
 					error = Error.UnknownError;
 				}
 			}
@@ -69,9 +76,13 @@ namespace Xsolla.Core
 			if (error == null)
 			{
 				var texture = ((DownloadHandlerTexture)webRequest.downloadHandler).texture;
-				if (texture != null) {
-					onComplete?.Invoke(texture);
-				} else {
+				if (texture != null)
+				{
+					if (onComplete != null)
+						onComplete.Invoke(texture);
+				}
+				else
+				{
 					error = Error.UnknownError;
 				}
 			}
@@ -91,9 +102,13 @@ namespace Xsolla.Core
 			Error error = CheckResponseForErrors(webRequest, errorsToCheck);
 			if (error == null) {
 				T data = GetResponsePayload<T>(webRequest.downloadHandler.text);
-				if(data != null) {
-					onComplete?.Invoke(data);
-				} else {
+				if(data != null)
+				{
+					if (onComplete != null)
+						onComplete.Invoke(data);
+				}
+				else
+				{
 					error = Error.UnknownError;
 				}
 			}
@@ -145,7 +160,10 @@ namespace Xsolla.Core
 		static void TriggerOnError(Action<Error> onError, Error error)
 		{
 			if(error != null)
-				onError?.Invoke(error);
+			{
+				if (onError != null)
+					onError.Invoke(error);
+			}
 		}
 	}
 }

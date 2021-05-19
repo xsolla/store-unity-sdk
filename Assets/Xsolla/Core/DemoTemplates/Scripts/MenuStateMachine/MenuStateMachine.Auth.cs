@@ -3,7 +3,18 @@ using Xsolla.Core;
 
 public partial class MenuStateMachine : MonoBehaviour, IMenuStateMachine
 {
-	private bool IsAuthInProgress => _stateObject.GetComponent<LoginPageEnterController>()?.IsAuthInProgress ?? false;
+	private bool IsAuthInProgress
+	{
+		get
+		{
+			var controller = _stateObject.GetComponent<LoginPageEnterController>();
+
+			if (controller != null)
+				return controller.IsAuthInProgress;
+			else
+				return false;
+		}
+	}
 
 	void CheckAuthorizationState(MenuState state, GameObject go)
 	{
@@ -61,7 +72,11 @@ public partial class MenuStateMachine : MonoBehaviour, IMenuStateMachine
 						{
 							var obj = SetState(MenuState.AuthorizationFailed);
 							if (obj != null)
-								obj.GetComponent<LoginPageErrorShower>()?.ShowError(err);
+							{
+								var errorShower = obj.GetComponent<LoginPageErrorShower>();
+								if (errorShower != null)
+									errorShower.ShowError(err);
+							}
 						};
 					}
 
@@ -88,8 +103,12 @@ public partial class MenuStateMachine : MonoBehaviour, IMenuStateMachine
 					pageController.OnError = err =>
 					{
 						var obj = SetState(MenuState.RegistrationFailed);
-						if(obj != null)
-							obj.GetComponent<LoginPageErrorShower>()?.ShowError(err);
+						if (obj != null)
+						{
+							var errorShower = obj.GetComponent<LoginPageErrorShower>();
+							if (errorShower != null)
+								errorShower.ShowError(err);
+						}
 					};
 				}
 				break;
@@ -115,7 +134,11 @@ public partial class MenuStateMachine : MonoBehaviour, IMenuStateMachine
 					{
 						var obj = SetState(MenuState.ChangePasswordFailed);
 						if (obj != null)
-							obj.GetComponent<LoginPageErrorShower>()?.ShowError(err);
+						{
+							var errorShower = obj.GetComponent<LoginPageErrorShower>();
+							if (errorShower != null)
+								errorShower.ShowError(err);
+						}
 					};
 				}
 				break;

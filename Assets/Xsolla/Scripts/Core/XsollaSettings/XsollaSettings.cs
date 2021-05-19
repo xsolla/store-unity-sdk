@@ -46,7 +46,7 @@ namespace Xsolla.Core
 
 		public static string LoginId
 		{
-			get => Instance.loginId;
+			get { return Instance.loginId; }
 			set
 			{
 				Instance.loginId = value;
@@ -55,16 +55,18 @@ namespace Xsolla.Core
 		}
 
 		public static bool UseSteamAuth {
-			get => Instance.useSteamAuth;
-			set {
+			get { return Instance.useSteamAuth; }
+			set
+			{
 				Instance.useSteamAuth = value;
 				MarkAssetDirty();
 			}
 		}
 		
 		public static string SteamAppId {
-			get => Instance.steamAppId;
-			set {
+			get { return Instance.steamAppId; }
+			set
+			{
 				Instance.steamAppId = value;
 				MarkAssetDirty();
 			}
@@ -72,7 +74,7 @@ namespace Xsolla.Core
 
 		public static bool UseProxy
 		{
-			get => Instance.useProxy;
+			get { return Instance.useProxy; }
 			set
 			{
 				Instance.useProxy = value;
@@ -82,7 +84,7 @@ namespace Xsolla.Core
 
 		public static AuthorizationType AuthorizationType
 		{
-			get => Instance.authorizationType;
+			get { return Instance.authorizationType; }
 			set
 			{
 				Instance.authorizationType = value;
@@ -92,7 +94,7 @@ namespace Xsolla.Core
 
 		public static bool JwtTokenInvalidationEnabled
 		{
-			get => Instance.jwtTokenInvalidationEnabled;
+			get { return Instance.jwtTokenInvalidationEnabled; }
 			set
 			{
 				Instance.jwtTokenInvalidationEnabled = value;
@@ -102,7 +104,7 @@ namespace Xsolla.Core
 
 		public static int OAuthClientId
 		{
-			get => Instance.oauthClientId;
+			get { return Instance.oauthClientId; }
 			set
 			{
 				Instance.oauthClientId = value;
@@ -112,7 +114,7 @@ namespace Xsolla.Core
 
 		public static bool RequestNicknameOnAuth
 		{
-			get => Instance.requestNicknameOnAuth;
+			get { return Instance.requestNicknameOnAuth; }
 			set
 			{
 				Instance.requestNicknameOnAuth = value;
@@ -120,17 +122,20 @@ namespace Xsolla.Core
 			}
 		}
 
-		public static bool UseConsoleAuth {
-			get => Instance.useConsoleAuth;
-			set {
+		public static bool UseConsoleAuth
+		{
+			get { return Instance.useConsoleAuth; }
+			set
+			{
 				Instance.useConsoleAuth = value;
 				MarkAssetDirty();
 			}
 		}
 		
 		public static string UsernameFromConsolePlatform {
-			get => Instance.usernameFromConsole;
-			set {
+			get { return Instance.usernameFromConsole; }
+			set
+			{
 				Instance.usernameFromConsole = value;
 				MarkAssetDirty();
 			}
@@ -138,7 +143,7 @@ namespace Xsolla.Core
 
 		public static string CallbackUrl
 		{
-			get => Instance.callbackUrl;
+			get { return Instance.callbackUrl; }
 			set
 			{
 				Instance.callbackUrl = value;
@@ -148,7 +153,7 @@ namespace Xsolla.Core
 		
 		public static string StoreProjectId
 		{
-			get => Instance.storeProjectId;
+			get { return Instance.storeProjectId; }
 			set
 			{
 				Instance.storeProjectId = value;
@@ -158,7 +163,7 @@ namespace Xsolla.Core
 		
 		public static bool IsSandbox
 		{
-			get => Instance.isSandbox;
+			get { return Instance.isSandbox; }
 			set
 			{
 				Instance.isSandbox = value;
@@ -166,17 +171,20 @@ namespace Xsolla.Core
 			}
 		}
 
-		public static PlatformType Platform {
-			get => Instance.platform;
-			set {
+		public static PlatformType Platform
+		{
+			get { return Instance.platform; }
+			set
+			{
 				Instance.platform = value;
 				MarkAssetDirty();
 			}
 		}
 
 		public static PaystationTheme PaystationTheme {
-			get => Instance.paystationTheme;
-			set {
+			get { return Instance.paystationTheme; }
+			set
+			{
 				Instance.paystationTheme = value;
 				MarkAssetDirty();
 			}
@@ -184,7 +192,7 @@ namespace Xsolla.Core
 
 		public static string PayStationTokenRequestUrl
 		{
-			get => Instance.payStationTokenRequestUrl;
+			get { return Instance.payStationTokenRequestUrl; }
 			set
 			{
 				Instance.payStationTokenRequestUrl = value;
@@ -194,8 +202,9 @@ namespace Xsolla.Core
 
 		public static bool InAppBrowserEnabled
 		{
-			get => Instance.inAppBrowserEnabled;
-			set {
+			get { return Instance.inAppBrowserEnabled; }
+			set
+			{
 				Instance.inAppBrowserEnabled = value;
 				MarkAssetDirty();
 			}
@@ -203,20 +212,20 @@ namespace Xsolla.Core
 
 		public static string FacebookAppId
 		{
-			get => Instance.facebookAppId;
-			set => Instance.facebookAppId = value;
+			get { return Instance.facebookAppId; }
+			set { Instance.facebookAppId = value; }
 		}
 
 		public static string GoogleServerId
 		{
-			get => Instance.googleServerId;
-			set => Instance.googleServerId = value;
+			get { return Instance.googleServerId; }
+			set { Instance.googleServerId = value; }
 		}
 
 
 		public static bool UseDeepLinking
 		{
-			get => Instance.useDeepLinking;
+			get { return Instance.useDeepLinking; }
 			set
 			{
 				Instance.useDeepLinking = value;
@@ -226,7 +235,7 @@ namespace Xsolla.Core
 
 		public static string DeepLinkRedirectUrl
 		{
-			get => Instance.deepLinkRedirectUrl;
+			get { return Instance.deepLinkRedirectUrl; }
 			set
 			{
 				Instance.deepLinkRedirectUrl = value;
@@ -236,7 +245,7 @@ namespace Xsolla.Core
 
 		public static string WebStoreUrl
 		{
-			get => Instance.webStoreUrl;
+			get { return Instance.webStoreUrl; }
 			set
 			{
 				Instance.webStoreUrl = value;

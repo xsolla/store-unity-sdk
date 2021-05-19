@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -48,7 +48,8 @@ public class MenuButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 		if (ts.TotalMilliseconds > rateLimitMs)
 		{
 			lastClick += ts;
-			onClick?.Invoke(_buttonId);
+			if (onClick != null)
+				onClick.Invoke(_buttonId);
 		}
 	}
 
@@ -96,7 +97,8 @@ public class MenuButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 
 	public void OnPointerEnter(PointerEventData eventData)
 	{
-		OnCursorEnter?.Invoke();
+		if (OnCursorEnter != null)
+			OnCursorEnter.Invoke();
 
 		if (!IsSelected)
 		{
@@ -106,7 +108,8 @@ public class MenuButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 
 	public void OnPointerExit(PointerEventData eventData)
 	{
-		OnCursorExit?.Invoke();
+		if (OnCursorExit != null)
+			OnCursorExit.Invoke();
 
 		if (IsSelected)
 		{

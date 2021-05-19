@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 
 public class ValueCounter : MonoBehaviour
@@ -14,7 +14,8 @@ public class ValueCounter : MonoBehaviour
 	public void IncreaseValue(int delta)
 	{
 		value += delta;
-		ValueChanged?.Invoke(value);
+		if (ValueChanged != null)
+			ValueChanged.Invoke(value);
 	}
 
 	public void DecreaseValue(int delta)
@@ -22,7 +23,8 @@ public class ValueCounter : MonoBehaviour
 		if (delta > value)
 			delta = value;
 		value -= delta;
-		ValueChanged?.Invoke(value);
+		if (ValueChanged != null)
+			ValueChanged.Invoke(value);
 	}
 
 	public override string ToString()

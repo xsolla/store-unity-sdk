@@ -1,20 +1,68 @@
-﻿using Xsolla.Core;
+using Xsolla.Core;
 
 public class UserCartItem
 {
-	public CatalogItemModel Item { get; }
+	private readonly CatalogItemModel _item;
+	public CatalogItemModel Item
+	{
+		get
+		{
+			return _item;
+		}
+	}
 	public int Quantity { get; set; }
 
-	public string Sku => Item.Sku;
-	public float  Price => Item.Price.HasValue ? Item.Price.Value.Value : 0F;
-	public float  PriceWithoutDiscount => Item.RealPriceWithoutDiscount.HasValue ? Item.RealPriceWithoutDiscount.Value.Value : 0F;
-	public string Currency => Item.Price?.Key;
-	public string ImageUrl => Item.ImageUrl;
-	public float  TotalPrice => PriceWithoutDiscount * Quantity;
+	public string Sku
+	{
+		get
+		{
+			return Item.Sku;
+		}
+	}
+
+	public float Price
+	{
+		get
+		{
+			return Item.Price.HasValue ? Item.Price.Value.Value : 0F;
+		}
+	}
+
+	public float PriceWithoutDiscount
+	{
+		get
+		{
+			return Item.RealPriceWithoutDiscount.HasValue ? Item.RealPriceWithoutDiscount.Value.Value : 0F;
+		}
+	}
+
+	public string Currency
+	{
+		get
+		{
+			return Item.Price.HasValue ? Item.Price.Value.Key : null;
+		}
+	}
+		
+	public string ImageUrl
+	{
+		get
+		{
+			return Item.ImageUrl;
+		}
+	}
+
+	public float TotalPrice
+	{
+		get
+		{
+			return PriceWithoutDiscount * Quantity;
+		}
+	}
 	
 	public UserCartItem(CatalogItemModel storeItem)
 	{
-		Item = storeItem;
+		_item = storeItem;
 		Quantity = 1;
 	}
 	
@@ -56,7 +104,13 @@ public class UserCartItem
 
 	public override bool Equals(object obj)
 	{
-		return obj is UserCartItem item && Sku.Equals(item.Sku);
+		if (obj is UserCartItem)
+		{
+			var item = (UserCartItem)obj;
+			return Sku.Equals(item.Sku);
+		}
+		else
+			return false;
 	}
 
 	public override int GetHashCode()

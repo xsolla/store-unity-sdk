@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -52,7 +52,9 @@ public class ItemSelection : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         if (itemSelectionImage == null || _counter > 1) return;
         _selectedItem = this;
         itemSelectionImage.SetActive(true);
-        OnPointerEnterEvent?.Invoke();
+
+		if (OnPointerEnterEvent != null)
+			OnPointerEnterEvent.Invoke();
     }
 
     private void DisableSelection()
@@ -61,7 +63,10 @@ public class ItemSelection : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         if (itemSelectionImage != null && _counter <= 0)
         {
             _selectedItem = null;
-            OnPointerExitEvent?.Invoke();
+
+			if (OnPointerExitEvent != null)
+				OnPointerExitEvent.Invoke();
+
             itemSelectionImage.SetActive(false);
         }
     }

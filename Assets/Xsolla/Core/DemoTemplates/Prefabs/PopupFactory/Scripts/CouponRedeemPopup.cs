@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,13 +22,9 @@ namespace Xsolla.Core.Popup
 			CodeInputField.onValueChanged.AddListener(newValue =>
 			{
 				if (string.IsNullOrEmpty(newValue))
-				{
-					RedeemButton?.Disable();
-				}
+					RedeemButton.Disable();
 				else
-				{
-					RedeemButton?.Enable();
-				}
+					RedeemButton.Enable();
 			});
 		}
 
@@ -37,7 +33,10 @@ namespace Xsolla.Core.Popup
 			RedeemButton.onClick = () =>
 			{
 				ErrorMessage.gameObject.SetActive(false);
-				buttonPressed?.Invoke(CodeInputField?.text);
+				var codeInputText = (CodeInputField != null) ? CodeInputField.text : null;
+
+				if (buttonPressed != null)
+					buttonPressed.Invoke(codeInputText);
 			};
 			return this;
 		}
@@ -46,7 +45,8 @@ namespace Xsolla.Core.Popup
 		{
 			CancelButton.onClick = () =>
 			{
-				buttonPressed?.Invoke();
+				if (buttonPressed != null)
+					buttonPressed.Invoke();
 				Destroy(gameObject, 0.001F);
 			};
 			return this;

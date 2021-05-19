@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
 using Xsolla.Core;
 
@@ -14,15 +14,18 @@ public class SavedTokenAuth : StoreStringActionResult, ILoginAuthorization
 		if (XsollaSettings.AuthorizationType == AuthorizationType.OAuth2_0)
 			yield return new WaitWhile(() => DemoController.Instance.GetImplementation().IsOAuthTokenRefreshInProgress);
 
-		if (DemoController.Instance.GetImplementation().LoadToken(Constants.LAST_SUCCESS_AUTH_TOKEN, out var token))
+		string token;
+		if (DemoController.Instance.GetImplementation().LoadToken(Constants.LAST_SUCCESS_AUTH_TOKEN, out token))
 		{
 			Debug.Log("SavedTokenAuth.TryAuth: Token loaded");
-			base.OnSuccess?.Invoke(token);
+			if (base.OnSuccess != null)
+				base.OnSuccess.Invoke(token);
 		}
 		else
 		{
 			Debug.Log("SavedTokenAuth.TryAuth: No token");
-			base.OnError?.Invoke(null);
+			if (base.OnError != null)
+				base.OnError.Invoke(null);
 		}
 	}
 }

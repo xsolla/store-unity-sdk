@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Text;
 using System.Collections.Generic;
@@ -89,7 +89,8 @@ public class UserProfileAvatarManager : MonoBehaviour
 		bool? isImageUploaded = null;
 		ShowWaiting(() => isImageUploaded == null);
 
-		byte[] data = ConvertToData(sprite, out string boundary);
+		string boundary;
+		byte[] data = ConvertToData(sprite, out boundary);
 
 		var token = DemoController.Instance.GetImplementation().Token;
 		DemoController.Instance.GetImplementation().UploadUserPicture(token, data, boundary,
@@ -110,7 +111,7 @@ public class UserProfileAvatarManager : MonoBehaviour
 						onError: () => isImageUploaded = false);
 				}
 				else
-					Debug.LogError($"Could not parse server response: {imageInfo}");
+					Debug.LogError(string.Format("Could not parse server response: {0}", imageInfo));
 			},
 			onError: error =>
 			{
@@ -155,20 +156,22 @@ public class UserProfileAvatarManager : MonoBehaviour
 			onSuccess: info =>
 			{
 				info.picture = pictureUrl;
-				onSuccess?.Invoke();
+				if (onSuccess != null)
+					onSuccess.Invoke();
 			},
 			onError: error =>
 			{
 				StoreDemoPopup.ShowError(error);
-				onError?.Invoke();
+				if (onError != null)
+					onError.Invoke();
 			});
 	}
 
 	private byte[] ConvertToData(Sprite sprite, out string boundary)
 	{
-		boundary = $"{new string('-', 27)}{DateTime.Now.Ticks}";
-		var beginBoundary = $"\r\n--{boundary}\r\n";
-		var endBoundary = $"\r\n--{boundary}--\r\n";
+		boundary = string.Format("{0}{1}", new string('-', 27), DateTime.Now.Ticks);
+		var beginBoundary = string.Format("\r\n--{0}\r\n", boundary);
+		var endBoundary = string.Format("\r\n--{0}--\r\n", boundary);
 
 		var texture = sprite.texture;
 		var binaryData = texture.EncodeToPNG();

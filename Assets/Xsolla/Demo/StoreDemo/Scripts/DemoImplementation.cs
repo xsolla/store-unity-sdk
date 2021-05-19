@@ -39,12 +39,12 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 
 		if (isDefaultLoginID && !isDefaultProjectID)
 		{
-			var errorMessage = $"You changed [XsollaSettings->ProjectID] to '{XsollaSettings.StoreProjectId}', but did not change LoginID. Change LoginID from '{XsollaSettings.LoginId}' to correct value.";
+			var errorMessage = string.Format("You changed [XsollaSettings->ProjectID] to '{0}', but did not change LoginID. Change LoginID from '{1}' to correct value.", XsollaSettings.StoreProjectId, XsollaSettings.LoginId);
 			GenerateLoginSettingsError(errorMessage);
 		}
 		else if (!isDefaultLoginID && isDefaultProjectID)
 		{
-			var errorMessage = $"You changed [XsollaSettings->LoginID] to '{XsollaSettings.LoginId}', but did not change ProjectID. Change ProjectID from '{XsollaSettings.StoreProjectId}' to correct value.";
+			var errorMessage = string.Format("You changed [XsollaSettings->LoginID] to '{0}', but did not change ProjectID. Change ProjectID from '{1}' to correct value.", XsollaSettings.LoginId, XsollaSettings.StoreProjectId);
 			GenerateLoginSettingsError(errorMessage);
 		}
 	}
@@ -70,7 +70,8 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 		return error =>
 		{
 			StoreDemoPopup.ShowError(error);
-			onError?.Invoke(error);
+			if (onError != null)
+				onError.Invoke(error);
 		};
 	}
 }

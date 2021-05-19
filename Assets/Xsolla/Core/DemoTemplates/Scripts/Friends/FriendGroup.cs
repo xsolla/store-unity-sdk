@@ -8,7 +8,7 @@ public class FriendGroup : MonoBehaviour
     public void SetUsersCount(int count)
     {
         if(userCounterText != null)
-            userCounterText.text = count > 0 ?  $" ({count})" : string.Empty;
+            userCounterText.text = count > 0 ? string.Format(" ({0})", count): string.Empty;
     }
 
     private void OnEnable()

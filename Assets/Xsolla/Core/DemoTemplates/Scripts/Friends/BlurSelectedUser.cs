@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class BlurSelectedUser : MonoBehaviour
@@ -17,12 +15,14 @@ public class BlurSelectedUser : MonoBehaviour
         blurTrigger.OnPointerEnterEvent += () =>
         {
             blurMaskObject.SetActive(true);
-            OnActivated?.Invoke();
+			if (OnActivated != null)
+				OnActivated.Invoke();
         };
         blurTrigger.OnPointerExitEvent += () =>
         {
             blurMaskObject.SetActive(false);
-            OnDeactivated?.Invoke();
+			if (OnDeactivated != null)
+				OnDeactivated.Invoke();
         };
     }
 }

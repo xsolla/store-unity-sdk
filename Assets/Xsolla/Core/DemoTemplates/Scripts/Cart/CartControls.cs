@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,10 +19,18 @@ public class CartControls : MonoBehaviour
 
 	public Action OnBuyCart
 	{
-		set => buyButton.onClick = value;
+		set
+		{
+			buyButton.onClick = value;
+		}
 	}
-	public Action OnClearCart {
-		set => clearCartButton.onClick = value;
+
+	public Action OnClearCart
+	{
+		set
+		{
+			clearCartButton.onClick = value;
+		}
 	}
 
 	public bool IsBuyButtonLocked()
@@ -78,7 +86,8 @@ public class CartControls : MonoBehaviour
 		subtotalPriceText.gameObject.SetActive(true);
 		discountLabelText.gameObject.SetActive(true);
 		discountPriceText.gameObject.SetActive(true);
-		discountPriceText.text = $"-{PriceFormatter.FormatPrice(discount)}";
+		var discountPriceValue = string.Format("-{0}", PriceFormatter.FormatPrice(discount));
+		discountPriceText.text = discountPriceValue;
 		subtotalPriceText.text = PriceFormatter.FormatPrice(subtotal);
 	}
 }

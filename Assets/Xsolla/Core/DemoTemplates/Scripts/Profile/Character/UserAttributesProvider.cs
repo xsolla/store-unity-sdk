@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Xsolla.Login;
@@ -30,7 +30,8 @@ public class UserAttributesProvider : UserAttributesRequestBase
 					break;
 			}
 
-			base.OnSuccess?.Invoke();
+			if (base.OnSuccess != null)
+				base.OnSuccess.Invoke();
 		};
 
 		DemoController.Instance.GetImplementation().GetUserAttributes(base.Token, base.ProjectID, this.AttributeType, attributeKeys, userId, onSuccessGet, base.OnError);

@@ -40,55 +40,90 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 	public void BlockUser(FriendModel user, Action<FriendModel> onSuccess = null, Action<Error> onError = null)
 	{
 		PopupFactory.Instance.CreateConfirmation()
-			.SetMessage($"Block {user.Nickname}?")
+			.SetMessage(string.Format("Block {0}?", user.Nickname))
 			.SetConfirmButtonText("BLOCK")
 			.SetConfirmCallback(() =>
 			{
 				XsollaLogin.Instance.UpdateUserFriends(XsollaLogin.Instance.Token, FriendAction.BlockFriend, user.Id,
-					() => onSuccess?.Invoke(user), onError);
+					() =>
+					{
+						if (onSuccess != null)
+							onSuccess.Invoke(user);
+					},
+					onError);
 			});
 	}
 
 	public void UnblockUser(FriendModel user, Action<FriendModel> onSuccess = null, Action<Error> onError = null)
 	{
 		XsollaLogin.Instance.UpdateUserFriends(XsollaLogin.Instance.Token, FriendAction.UnblockFriend, user.Id,
-			() => onSuccess?.Invoke(user), onError);
+			() =>
+			{
+				if (onSuccess != null)
+					onSuccess.Invoke(user);
+			},
+			onError);
 	}
 
 	public void SendFriendshipInvite(FriendModel user, Action<FriendModel> onSuccess = null, Action<Error> onError = null)
 	{
 		XsollaLogin.Instance.UpdateUserFriends(XsollaLogin.Instance.Token, FriendAction.SendInviteRequest, user.Id,
-			() => onSuccess?.Invoke(user), onError);
+			() =>
+			{
+				if (onSuccess != null)
+					onSuccess.Invoke(user);
+			},
+			onError);
 	}
 
 	public void RemoveFriend(FriendModel user, Action<FriendModel> onSuccess = null, Action<Error> onError = null)
 	{
 		PopupFactory.Instance.CreateConfirmation()
-			.SetMessage($"Remove {user.Nickname} from the friend list?")
+			.SetMessage(string.Format("Remove {0} from the friend list?", user.Nickname))
 			.SetConfirmButtonText("REMOVE")
 			.SetConfirmCallback(() =>
 			{
 				XsollaLogin.Instance.UpdateUserFriends(XsollaLogin.Instance.Token, FriendAction.RemoveFriend, user.Id,
-					() => onSuccess?.Invoke(user), onError);
+					() =>
+					{
+						if (onSuccess != null)
+							onSuccess.Invoke(user);
+					},
+					onError);
 			});
 	}
 	
 	public void AcceptFriendship(FriendModel user, Action<FriendModel> onSuccess = null, Action<Error> onError = null)
 	{
 		XsollaLogin.Instance.UpdateUserFriends(XsollaLogin.Instance.Token, FriendAction.AcceptInvite, user.Id,
-			() => onSuccess?.Invoke(user), onError);
+			() =>
+			{
+				if (onSuccess != null)
+					onSuccess.Invoke(user);
+			},
+			onError);
 	}
 	
 	public void DeclineFriendship(FriendModel user, Action<FriendModel> onSuccess = null, Action<Error> onError = null)
 	{
 		XsollaLogin.Instance.UpdateUserFriends(XsollaLogin.Instance.Token, FriendAction.DenyInvite, user.Id,
-			() => onSuccess?.Invoke(user), onError);
+			() =>
+			{
+				if (onSuccess != null)
+					onSuccess.Invoke(user);
+			},
+			onError);
 	}
 	
 	public void CancelFriendshipRequest(FriendModel user, Action<FriendModel> onSuccess = null, Action<Error> onError = null)
 	{
 		XsollaLogin.Instance.UpdateUserFriends(XsollaLogin.Instance.Token, FriendAction.CancelRequest, user.Id,
-			() => onSuccess?.Invoke(user), onError);
+			() =>
+			{
+				if (onSuccess != null)
+					onSuccess.Invoke(user);
+			},
+			onError);
 	}
 
 	public void ForceUpdateFriendsFromSocialNetworks(Action onSuccess = null, Action<Error> onError = null)
@@ -100,7 +135,7 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 	{
 		XsollaLogin.Instance.GetUserSocialFriends(XsollaLogin.Instance.Token, SocialProvider.None, 0, 20, false,
 			onSuccess: friends => StartCoroutine(ConvertSocialFriendsToRecommended(friends.data, onSuccess, onError)),
-			onError);
+			onError: onError);
 	}
 
 	private IEnumerator ConvertSocialFriendsToRecommended(List<UserSocialFriend> socialFriends, Action<List<FriendModel>> onSuccess = null, Action<Error> onError = null)
@@ -133,7 +168,8 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 					},
 					onError: error =>
 					{
-						onError?.Invoke(error);
+						if (onError != null)
+							onError.Invoke(error);
 						isUserinfoObtained = false;
 					});
 
@@ -141,7 +177,7 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 
 				if (isUserinfoObtained == false)
 				{
-					Debug.LogError($"Could not get user information. UserID: {recommendedFriend.Id}");
+					Debug.LogError(string.Format("Could not get user information. UserID: {0}", recommendedFriend.Id));
 					yield break;
 				}
 			}
@@ -153,7 +189,8 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 				ImageLoader.Instance.GetImageAsync(recommendedFriend.AvatarUrl, null);
 		}
 
-		onSuccess?.Invoke(recommendedFriends);
+		if (onSuccess != null)
+			onSuccess.Invoke(recommendedFriends);
 	}
 
 	private void GetUsersByType(FriendsSearchType searchType, UserRelationship relationship,
@@ -162,7 +199,8 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 		XsollaLogin.Instance.GetUserFriends(XsollaLogin.Instance.Token,
 			searchType, FRIENDS_SORT_TYPE, FRIENDS_SORT_ORDER, MAX_FRIENDS_COUNT, friends =>
 			{
-				onSuccess?.Invoke(friends.Select(f =>
+				if (onSuccess != null)
+					onSuccess.Invoke(friends.Select(f =>
 				{
 					var result = ConvertFriendEntity(f, relationship);
 					// this method used at this place for fastest image loading
@@ -185,8 +223,16 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 		if (!string.IsNullOrEmpty(friend.xl_uid))//Xsolla ID not null - this is a registered Xsolla user with linked social account
 		{
 			var existingFriend = UserFriends.Instance.GetUserById(friend.xl_uid);
-			result.Status = existingFriend?.Status ?? UserOnlineStatus.Unknown;
-			result.Relationship = existingFriend?.Relationship ?? UserRelationship.Unknown;
+			if (existingFriend != null)
+			{
+				result.Status = existingFriend.Status;
+				result.Relationship = existingFriend.Relationship;
+			}
+			else
+			{
+				result.Status = UserOnlineStatus.Unknown;
+				result.Relationship = UserRelationship.Unknown;
+			}
 		}
 		else
 		{
@@ -194,7 +240,8 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 			result.Relationship = UserRelationship.SocialNonXsolla;
 		}
 
-		if (Enum.TryParse<SocialProvider>(friend.platform, ignoreCase: true, out SocialProvider provider))
+		SocialProvider provider;
+		if (Enum.TryParse<SocialProvider>(friend.platform, true, out provider))
 			result.SocialProvider = provider;
 
 		return result;

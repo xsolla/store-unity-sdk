@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,7 +31,7 @@ namespace Xsolla.Core
 			yield return new WaitUntil(() => task.IsCompleted || task.IsCanceled || task.IsFaulted);
 			if (!task.IsCompleted)
 			{
-				Debug.LogError($"PATCH task is {(task.IsCanceled ? "canceled" : "faulted")}");
+				Debug.LogError(string.Format("PATCH task is {0}", (task.IsCanceled ? "canceled" : "faulted")));
 				yield break;
 			}
 			string response = task.Result;
@@ -40,9 +40,13 @@ namespace Xsolla.Core
 			if (error == null)
 			{
 				T responseData = GetResponsePayload<T>(response);
-				if(responseData != null) {
-					onComplete?.Invoke(responseData);
-				} else {
+				if(responseData != null)
+				{
+					if (onComplete != null)
+						onComplete.Invoke(responseData);
+				}
+				else
+				{
 					error = Error.UnknownError;
 				}
 			}
@@ -67,7 +71,7 @@ namespace Xsolla.Core
 					}
 					catch (Exception ex)
 					{
-						Debug.LogWarning($"Could not assign header name: {header.Name} value: {header.Value}, attempt resulted in error: {ex.Message}");
+						Debug.LogWarning(string.Format("Could not assign header name: {0} value: {1}, attempt resulted in error: {2}", header.Name, header.Value, ex.Message));
 					}
 				});
 			}
@@ -82,7 +86,7 @@ namespace Xsolla.Core
 			}
 			catch(Exception e)
 			{
-				Debug.LogError($"ERROR: {e}");
+				Debug.LogError(string.Format("ERROR: {0}", e));
 			}
 
 			return await response.Content.ReadAsStringAsync();
@@ -105,7 +109,7 @@ namespace Xsolla.Core
 					var value = field.GetValue(jsonObject) as string;
 
 					if (value != null)
-						builder.Append($"\"{key}\":\"{value}\"").Append(",");
+						builder.Append(string.Format("\"{0}\":\"{1}\"", key, value)).Append(",");
 				}
 
 				builder.Remove(builder.Length - 1, 1);

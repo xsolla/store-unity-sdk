@@ -95,14 +95,16 @@ public partial class MenuStateMachine : MonoBehaviour, IMenuStateMachine
 
 		if (_stateMachine[_state] != null)
 		{
-			StateChangingEvent?.Invoke(oldState, _state);
+			if (StateChangingEvent != null)
+				StateChangingEvent.Invoke(oldState, _state);
+
 			_stateObject = Instantiate(_stateMachine[_state], canvas.transform);
 			CheckAuthorizationState(_state, _stateObject);
 			HandleSomeCases(oldState, _state);
 		}
 		else
 		{
-			Debug.LogError($"Prefab object is null for state = {_state.ToString()}. Changing state to initial.");
+			Debug.LogError(string.Format("Prefab object is null for state = {0}. Changing state to initial.", _state.ToString()));
 			ClearTrace();
 			SetState(initialState);
 		}

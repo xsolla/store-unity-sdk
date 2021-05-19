@@ -15,7 +15,8 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 			XsollaStore.Instance.ProcessOrder(XsollaSettings.StoreProjectId, data.order_id, () =>
 			{
 				PurchaseComplete(item);
-				onSuccess?.Invoke(item);
+				if (onSuccess != null)
+					onSuccess.Invoke(item);
 			}, WrapErrorCallback(onError));
 		}, WrapErrorCallback(onError));
 	}
@@ -27,10 +28,11 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 			XsollaStore.Instance.ItemPurchaseForVirtualCurrency(
 				XsollaSettings.StoreProjectId, 
 				item.Sku, 
-				item.VirtualPrice?.Key, _ =>
+				item.VirtualPrice.Value.Key, _ =>
 				{
 					PurchaseComplete(item);
-					onSuccess?.Invoke(item);
+					if (onSuccess != null)
+						onSuccess.Invoke(item);
 				}, WrapErrorCallback(onError));
 		});
 	}
@@ -41,7 +43,8 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 		{
 			var error = new Error(errorMessage: "Cart is empty");
 			var errorToInvoke = WrapErrorCallback(onError);
-			errorToInvoke?.Invoke(error);
+			if (errorToInvoke != null)
+				errorToInvoke.Invoke(error);
 			return;
 		}
 
@@ -64,13 +67,18 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 #if (UNITY_EDITOR || UNITY_STANDALONE)
 						var browser = BrowserHelper.Instance.GetLastBrowser();
 						if (browser != null)
-							browser.BrowserClosedEvent += _ => onError?.Invoke(null);
+							browser.BrowserClosedEvent += _ =>
+							{
+								if (onError != null)
+									onError.Invoke(null);
+							};
 #endif
 
 						XsollaStore.Instance.ProcessOrder(XsollaSettings.StoreProjectId, data.order_id, () =>
 						{
 							PurchaseComplete(null, () => DemoController.Instance.SetPreviousState());
-							onSuccess?.Invoke(items);
+							if (onSuccess != null)
+								onSuccess.Invoke(items);
 							UserCart.Instance.Clear();
 						}, WrapErrorCallback(onError));
 					}, WrapErrorCallback(onError));
@@ -86,7 +94,7 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 		CloseInGameBrowserIfExist();
 #endif
 		if(item != null)
-			StoreDemoPopup.ShowSuccess($"You are purchased '{item.Name}'");
+			StoreDemoPopup.ShowSuccess(string.Format("You are purchased '{0}'", item.Name));
 		else
 			StoreDemoPopup.ShowSuccess(null, popupButtonCallback);
 	}

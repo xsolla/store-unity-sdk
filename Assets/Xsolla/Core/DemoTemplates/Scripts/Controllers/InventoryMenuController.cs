@@ -60,7 +60,8 @@ public class InventoryMenuController : MonoBehaviour
 				{
 					if (!UserCatalog.Instance.Subscriptions.Any(sub => sub.Sku.Equals(i.Sku)))
 					{
-						Debug.Log($"User subscription with sku = '{i.Sku}' have not equal catalog item!");
+						var message = string.Format("User subscription with sku = '{0}' have not equal catalog item!", i.Sku);
+						Debug.Log(message);
 						return false;
 					}
 
@@ -74,7 +75,8 @@ public class InventoryMenuController : MonoBehaviour
 				{
 					if (!UserCatalog.Instance.VirtualItems.Any(cat => cat.Sku.Equals(i.Sku)))
 					{
-						Debug.Log($"Inventory item with sku = '{i.Sku}' have not equal catalog item!");
+						var message = string.Format("Inventory item with sku = '{0}' have not equal catalog item!", i.Sku);
+						Debug.Log(message);
 						return false;
 					}
 				}
@@ -104,18 +106,21 @@ public class InventoryMenuController : MonoBehaviour
 
 		foreach (var item in items)
 		{
-			if (item.IsSubscription() && item is UserSubscriptionModel subscription && subscription.Status == UserSubscriptionModel.SubscriptionStatusType.None)
+			if (item.IsSubscription() && item is UserSubscriptionModel)
 			{
-				//Do nothing, skip this item
-				continue;
+				var subscription = (UserSubscriptionModel)item; 
+				if (subscription.Status == UserSubscriptionModel.SubscriptionStatusType.None)
+				{
+					//Do nothing, skip this item
+					continue;
+				}
 			}
-			else
-			{
-				var currentItemGroups = _demoImplementation.GetCatalogGroupsByItem(item);
 
-				foreach (var group in currentItemGroups)
-					itemGroups.Add(group);
-			}
+			//else
+			var currentItemGroups = _demoImplementation.GetCatalogGroupsByItem(item);
+
+			foreach (var group in currentItemGroups)
+				itemGroups.Add(group);
 		}
 
 		foreach (var group in itemGroups)

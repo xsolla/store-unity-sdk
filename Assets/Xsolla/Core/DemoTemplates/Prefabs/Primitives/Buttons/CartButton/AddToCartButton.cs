@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -52,7 +52,9 @@ public class AddToCartButton : MonoBehaviour, IPointerDownHandler, IPointerEnter
 	
 	public void OnPointerEnter(PointerEventData eventData)
 	{
-		OnCursorEnter?.Invoke();
+		if (OnCursorEnter != null)
+			OnCursorEnter.Invoke();
+
 		if (!_isSelected)
 		{
 			OnHoverUnselected();
@@ -65,7 +67,9 @@ public class AddToCartButton : MonoBehaviour, IPointerDownHandler, IPointerEnter
 
 	public void OnPointerExit(PointerEventData eventData)
 	{
-		OnCursorExit?.Invoke();
+		if (OnCursorExit != null)
+			OnCursorExit.Invoke();
+
 		if (_isSelected)
 		{
 			OnSelected();
@@ -100,7 +104,8 @@ public class AddToCartButton : MonoBehaviour, IPointerDownHandler, IPointerEnter
 				OnHoverUnselected();
 			}
 
-			onClick?.Invoke(_isSelected);
+			if (onClick != null)
+				onClick.Invoke(_isSelected);
 		}
 		
 		_isClickInProgress = false;

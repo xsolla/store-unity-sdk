@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 using Xsolla.Core;
 
@@ -23,7 +23,8 @@ public class CouponRewardItemUI : MonoBehaviour
 			}
 			else
 			{
-				Debug.LogError($"Coupon reward item item with sku = '{rewardItem.Sku}' without image!");
+				var message = string.Format("Coupon reward item item with sku = '{0}' without image!", rewardItem.Sku);
+				Debug.LogError(message);
 			}
 		}
 	}

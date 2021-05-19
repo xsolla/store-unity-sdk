@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -45,9 +45,9 @@ public class CursorChanger : MonoBehaviour
 		BlurSelectedUser.OnDeactivated -= ChangeBackToDefault;
 	}
 
-	private void ChangeToButtonHoverCursor() => SetCursorTexture(ButtonHoverCursor);
-	private void ChangeToInputFieldHoverCursor() => SetCursorTexture(InputFieldHoverCursor);
-	private void ChangeBackToDefault() => SetCursorTexture(null);
+	private void ChangeToButtonHoverCursor() { SetCursorTexture(ButtonHoverCursor); }
+	private void ChangeToInputFieldHoverCursor() { SetCursorTexture(InputFieldHoverCursor); }
+	private void ChangeBackToDefault() { SetCursorTexture(null); }
 
 	private void SetCursorTexture(Texture2D texture)
 	{

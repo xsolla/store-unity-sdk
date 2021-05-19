@@ -12,8 +12,8 @@ public class OpenUrlOnClick : MonoBehaviour
 
 	public string URL
 	{
-		get => _url;
-		set => _url = value;
+		get { return _url; }
+		set { _url = value; }
 	}
 
 	private void Awake()

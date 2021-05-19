@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 using Xsolla.Core;
 using Xsolla.Login;
@@ -16,7 +16,9 @@ public class ConsolePlatformAuth : StoreStringActionResult, ILoginAuthorization
 		else
 		{
 			Debug.Log("ConsolePlatformAuth.TryAuth: Console auth disabled");
-			base.OnError?.Invoke(null);
+
+			if (base.OnError != null)
+				base.OnError.Invoke(null);
 		}
 	}
 
@@ -25,19 +27,22 @@ public class ConsolePlatformAuth : StoreStringActionResult, ILoginAuthorization
 		DemoController.Instance.GetImplementation().SignInConsoleAccount(
 			userId: XsollaSettings.UsernameFromConsolePlatform,
 			platform: XsollaSettings.Platform.GetString(),
-			SuccessHandler,
-			FailHandler);
+			successCase: SuccessHandler,
+			failedCase: FailHandler);
 	}
 
 	private void SuccessHandler(string token)
 	{
 		Debug.Log("ConsolePlatformAuth.SuccessHandler: Token loaded");
-		base.OnSuccess?.Invoke(token);
+		if (base.OnSuccess != null)
+			base.OnSuccess.Invoke(token);
 	}
 
 	private void FailHandler(Error error)
 	{
-		Debug.LogError($"Failed request token by console account with user = `{XsollaSettings.UsernameFromConsolePlatform}` and platform = `{XsollaSettings.Platform.GetString()}`. Error:{error.ToString()}");
-		base.OnError?.Invoke(error);
+		var message = string.Format("Failed request token by console account with user = `{0}` and platform = `{1}`. Error:{2}", XsollaSettings.UsernameFromConsolePlatform, XsollaSettings.Platform.GetString(), error.ToString());
+		Debug.LogError(message);
+		if (base.OnError != null)
+			base.OnError.Invoke(error);
 	}
 }

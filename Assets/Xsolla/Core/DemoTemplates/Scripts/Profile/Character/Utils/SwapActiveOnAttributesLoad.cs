@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 public class SwapActiveOnAttributesLoad : MonoBehaviour
 {
@@ -9,7 +9,18 @@ public class SwapActiveOnAttributesLoad : MonoBehaviour
 	[SerializeField] private GameObject[] InactiveObjects;
 #pragma warning restore 0649
 
-	private bool IsAttributesLoaded => AttributesParent?.transform?.childCount > 0;
+	private bool IsAttributesLoaded
+	{
+		get
+		{
+			if (AttributesParent != null)
+				if (AttributesParent.transform != null)
+					return AttributesParent.transform.childCount > 0;
+
+			//else
+			return false;
+		}
+	}
 
 	private void Awake()
 	{

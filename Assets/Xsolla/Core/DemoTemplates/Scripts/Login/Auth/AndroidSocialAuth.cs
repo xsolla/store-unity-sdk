@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Text.RegularExpressions;
 using UnityEngine;
@@ -12,7 +12,8 @@ public class AndroidSocialAuth : StoreStringActionResult, ILoginAuthorization
 
 	public void TryAuth(params object[] args)
 	{
-		if (TryExtractProvider(args, out SocialProvider provider))
+		SocialProvider provider;
+		if (TryExtractProvider(args, out provider))
 		{
 			SetListener();
 			_requestedProvider = provider;
@@ -28,15 +29,20 @@ public class AndroidSocialAuth : StoreStringActionResult, ILoginAuthorization
 			}
 			catch (Exception ex)
 			{
-				Debug.LogError($"AndroidSocialAuth.SocialNetworkAuth: {ex.Message}");
+				var message = string.Format("AndroidSocialAuth.SocialNetworkAuth: {0}", ex.Message);
+				Debug.LogError(message);
 				RemoveListener();
-				base.OnError?.Invoke(new Error(errorMessage: "Social auth failed"));
+
+				if (base.OnError != null)
+					base.OnError.Invoke(new Error(errorMessage: "Social auth failed"));
 			}
 		}
 		else
 		{
 			Debug.LogWarning("AndroidSocialAuth.TryAuth: Could not extract argument");
-			base.OnError?.Invoke(new Error(errorMessage: "Social auth failed"));
+
+			if (base.OnError != null)
+				base.OnError.Invoke(new Error(errorMessage: "Social auth failed"));
 		}
 	}
 
@@ -52,7 +58,8 @@ public class AndroidSocialAuth : StoreStringActionResult, ILoginAuthorization
 
 		if (args.Length != 1)
 		{
-			Debug.LogError($"AndroidSocialAuth.TryExtractProvider: args.Length expected 1, was {args.Length}");
+			var message = string.Format("AndroidSocialAuth.TryExtractProvider: args.Length expected 1, was {0}", args.Length);
+			Debug.LogError(message);
 			return false;
 		}
 
@@ -62,7 +69,8 @@ public class AndroidSocialAuth : StoreStringActionResult, ILoginAuthorization
 		}
 		catch (Exception ex)
 		{
-			Debug.LogError($"AndroidSocialAuth.TryExtractProvider: Error during argument extraction: {ex.Message}");
+			var message = string.Format("AndroidSocialAuth.TryExtractProvider: Error during argument extraction: {0}", ex.Message);
+			Debug.LogError(message);
 			return false;
 		}
 
@@ -98,7 +106,8 @@ public class AndroidSocialAuth : StoreStringActionResult, ILoginAuthorization
 
 		if (args.Length != 3)
 		{
-			Debug.LogError($"AndroidSocialAuth.OnSocialAuthResult: args.Length != 3. Result was {authResult}");
+			var argsLengthErrorMessage = string.Format("AndroidSocialAuth.OnSocialAuthResult: args.Length != 3. Result was {0}", authResult);
+			Debug.LogError(argsLengthErrorMessage);
 			return;
 		}
 
@@ -106,33 +115,40 @@ public class AndroidSocialAuth : StoreStringActionResult, ILoginAuthorization
 
 		if (socialProvider.ToUpper() != _requestedProvider.ToString().ToUpper())
 		{
-			Debug.LogError($"AndroidSocialAuth.OnSocialAuthResult: args.Provider was {socialProvider} when expected {_requestedProvider}");
+			var wrongProviderErrorMessage = string.Format("AndroidSocialAuth.OnSocialAuthResult: args.Provider was {0} when expected {1}", socialProvider, _requestedProvider);
+			Debug.LogError(wrongProviderErrorMessage);
 			return;
 		}
 
-		Debug.Log($"AndroidSocialAuth.OnSocialAuthResult: processing auth result for {socialProvider}");
+		var message = string.Format("AndroidSocialAuth.OnSocialAuthResult: processing auth result for {0}", socialProvider);
+		Debug.Log(message);
 
 		var authStatus = args[1].ToUpper();
 		var messageBody = args[2];
-		var logHeader = $"AndroidSocialAuth.OnSocialAuthResult: authResult for {socialProvider} returned";
+
+		var logHeader = string.Format("AndroidSocialAuth.OnSocialAuthResult: authResult for {0} returned", socialProvider);
 
 		switch (authStatus)
 		{
 			case "SUCCESS":
-				Debug.Log($"{logHeader} SUCCESS. Token: {messageBody}");
-				base.OnSuccess?.Invoke(messageBody);
+				Debug.Log(string.Format("{0} SUCCESS. Token: {1}", logHeader, messageBody));
+				if (base.OnSuccess != null)
+					base.OnSuccess.Invoke(messageBody);
 				break;
 			case "ERROR":
-				Debug.LogError($"{logHeader} ERROR. Error message: {messageBody}");
-				base.OnError?.Invoke(new Error(errorMessage: "Social auth failed"));
+				Debug.LogError(string.Format("{0} ERROR. Error message: {1}", logHeader, messageBody));
+				if (base.OnError != null)
+					base.OnError.Invoke(new Error(errorMessage: "Social auth failed"));
 				break;
 			case "CANCELLED":
-				Debug.Log($"{logHeader} CANCELLED. Additional info: {messageBody}");
-				base.OnError?.Invoke(null);
+				Debug.Log(string.Format("{0} CANCELLED. Additional info: {1}", logHeader, messageBody));
+				if (base.OnError != null)
+					base.OnError.Invoke(null);
 				break;
 			default:
-				Debug.LogError($"{logHeader} unexpected authResult: {authStatus}");
-				base.OnError?.Invoke(new Error(errorMessage: "Social auth failed"));
+				Debug.LogError(string.Format("{0} unexpected authResult: {1}", logHeader, authStatus));
+				if (base.OnError != null)
+					base.OnError.Invoke(new Error(errorMessage: "Social auth failed"));
 				break;
 		}
 	}

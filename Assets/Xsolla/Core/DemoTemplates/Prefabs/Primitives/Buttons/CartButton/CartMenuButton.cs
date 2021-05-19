@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class CartMenuButton : SimpleTextButton
@@ -24,8 +24,14 @@ public class CartMenuButton : SimpleTextButton
 	
 	public string CounterText
 	{
-		get => counterText.text;
-		set => counterText.text = value;
+		get
+		{
+			return counterText.text;
+		}
+		set
+		{
+			counterText.text = value;
+		}
 	}
 	
 	protected override void OnNormal()

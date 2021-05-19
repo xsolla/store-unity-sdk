@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(SimpleButton))]
@@ -12,7 +12,11 @@ public class AvatarChoiceButtonTickDecorator : MonoBehaviour
 
 	private void Awake()
 	{
-		GetComponent<SimpleButton>().onClick += () => AvatarChoiceButtonPressed?.Invoke(this);
+		GetComponent<SimpleButton>().onClick += () =>
+		{
+			if (AvatarChoiceButtonPressed != null)
+				AvatarChoiceButtonPressed.Invoke(this);
+		};
 		AvatarChoiceButtonPressed += OnAvatarChoiceButtonPressed;
 	}
 

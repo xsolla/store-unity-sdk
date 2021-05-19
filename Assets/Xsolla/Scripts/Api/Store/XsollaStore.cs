@@ -1,4 +1,4 @@
-﻿using JetBrains.Annotations;
+using JetBrains.Annotations;
 using System.Collections.Generic;
 using UnityEngine;
 using Xsolla.Core;
@@ -12,7 +12,7 @@ namespace Xsolla.Store
 
 		private const string BASE_STORE_API_URL = "https://store.xsolla.com/api/v2/project/{0}";
 
-		string AnalyticUrlAddition => $"?engine=unity&engine_v={Application.unityVersion}&sdk=store&sdk_v={Constants.StoreSdkVersion}";
+		string AnalyticUrlAddition {get { return string.Format("?engine=unity&engine_v={0}&sdk=store&sdk_v={1}", Application.unityVersion, Constants.StoreSdkVersion); } }
 
 		private List<WebRequestHeader> AnalyticHeaders
 		{
@@ -44,7 +44,7 @@ namespace Xsolla.Store
 			return result;
 		}
 
-		private List<WebRequestHeader> AuthAndAnalyticHeaders => AppendAnalyticHeadersTo(WebRequestHeader.AuthHeader(Token));
+		private List<WebRequestHeader> AuthAndAnalyticHeaders { get { return AppendAnalyticHeadersTo(WebRequestHeader.AuthHeader(Token)); } }
 
 		string GetLocaleUrlParam(string locale)
 		{

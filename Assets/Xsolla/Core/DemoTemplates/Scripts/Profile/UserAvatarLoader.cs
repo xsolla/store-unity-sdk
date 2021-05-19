@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 using Xsolla.Core;
 
@@ -11,7 +11,7 @@ public class UserAvatarLoader : MonoBehaviour
 
 	private static string _expectedAvatarUrl;
 
-	public void Refresh() => Start();
+	public void Refresh() { Start(); }
 
 	private void Start()
 	{

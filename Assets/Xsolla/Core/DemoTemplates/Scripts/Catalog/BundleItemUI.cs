@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 using Xsolla.Core;
 
@@ -21,7 +21,8 @@ public class BundleItemUI : MonoBehaviour
 		}
 		else
 		{
-			Debug.LogError($"Bundle content item with sku = '{item.Sku}' without image!");
+			var message = string.Format("Bundle content item with sku = '{0}' without image!", item.Sku);
+			Debug.LogError(message);
 		}
 	}
 

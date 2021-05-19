@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
@@ -110,17 +110,17 @@ public class AttributeItemsManager : MonoBehaviour
 	{
 		if (attributeItem.IsReadOnly)
 		{
-			Debug.LogError($"AttributeItemsManager.HandleKeyChanged: Attempt to change key of read-only attribute. OldKey:{oldKey} NewKey:{newKey}");
+			Debug.LogError(string.Format("AttributeItemsManager.HandleKeyChanged: Attempt to change key of read-only attribute. OldKey:{0} NewKey:{1}", oldKey, newKey));
 			attributeItem.Key = oldKey;
 		}
 		else if (newKey.Length > 256 || !Regex.IsMatch(newKey, "^[A-Za-z0-9_]+$"))
 		{
-			Debug.Log($"AttributeItemsManager.HandleKeyChanged: New key does not follow rules MaxLength:256 Pattern:[A-Za-z0-9_]+ OldKey:{oldKey} NewKey:{newKey}");
+			Debug.Log(string.Format("AttributeItemsManager.HandleKeyChanged: New key does not follow rules MaxLength:256 Pattern:[A-Za-z0-9_]+ OldKey:{0} NewKey:{1}", oldKey, newKey));
 			attributeItem.Key = oldKey;
 		}
 		else if (_customAttributes.ContainsKey(newKey))
 		{
-			Debug.Log($"AttributeItemsManager.HandleKeyChanged: This key already exists. Key:{newKey}");
+			Debug.Log(string.Format("AttributeItemsManager.HandleKeyChanged: This key already exists. Key:{0}", newKey));
 			attributeItem.Key = oldKey;
 		}
 		else
@@ -142,12 +142,12 @@ public class AttributeItemsManager : MonoBehaviour
 	{
 		if (attributeItem.IsReadOnly)
 		{
-			Debug.LogError($"AttributeItemsManager.HandleValueChanged: Attempt to change value of read-only attribute. Key:{attributeItem.Key} OldValue:{oldValue} NewValue:{newValue}");
+			Debug.LogError(string.Format("AttributeItemsManager.HandleValueChanged: Attempt to change value of read-only attribute. Key:{0} OldValue:{1} NewValue:{2}", attributeItem.Key, oldValue, newValue));
 			attributeItem.Value = oldValue;
 		}
 		else if (newValue.Length > 256)
 		{
-			Debug.Log($"AttributeItemsManager.HandleValueChanged: New value does not follow rule MaxLength:256 Key:{attributeItem.Key} OldValue:{oldValue} NewValue:{newValue}");
+			Debug.Log(string.Format("AttributeItemsManager.HandleValueChanged: New value does not follow rule MaxLength:256 Key:{0} OldValue:{1} NewValue:{2}", attributeItem.Key, oldValue, newValue));
 			attributeItem.Value = oldValue;
 		}
 		else
@@ -160,7 +160,7 @@ public class AttributeItemsManager : MonoBehaviour
 	{
 		if (attributeItem.IsReadOnly)
 		{
-			Debug.LogError($"AttributeItemsManager.HandleRemoveRequest: Attempt to remove read-only attribute. Key:{attributeItem.Key} Value:{attributeItem.Value}");
+			Debug.LogError(string.Format("AttributeItemsManager.HandleRemoveRequest: Attempt to remove read-only attribute. Key:{0} Value:{1}", attributeItem.Key, attributeItem.Value));
 		}
 		else
 		{
@@ -185,7 +185,7 @@ public class AttributeItemsManager : MonoBehaviour
 		while (_customAttributes.ContainsKey(customKey))
 		{
 			customCount++;
-			customKey = $"{CUSTOM_ATTRIBUTE_KEY}_{customCount}";
+			customKey = string.Format("{0}_{1}", CUSTOM_ATTRIBUTE_KEY, customCount);
 		}
 
 		var attributeItemObject = Instantiate<GameObject>(AttributeItemPrefab, CustomAttributesParentTransform);
@@ -207,7 +207,8 @@ public class AttributeItemsManager : MonoBehaviour
 
 		if (_removedAttributes.Count > 0)
 		{
-			OnRemoveUserAttributes?.Invoke(_removedAttributes);
+			if (OnRemoveUserAttributes != null)
+				OnRemoveUserAttributes.Invoke(_removedAttributes);
 			_removedAttributes.Clear();
 		}
 
@@ -243,6 +244,9 @@ public class AttributeItemsManager : MonoBehaviour
 		}
 
 		if (modifiedAttributes.Count > 0)
-			OnUpdateUserAttributes?.Invoke(modifiedAttributes);
+		{
+			if (OnUpdateUserAttributes != null)
+				OnUpdateUserAttributes.Invoke(modifiedAttributes);
+		}
 	}
 }

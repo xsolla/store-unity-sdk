@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -32,12 +32,12 @@ public class AttributeItemsManagerDebug : MonoBehaviour
 	private	void OnRemoveAttributes(List<string> attributeKeys)
 	{
 		foreach (var attributeKey in attributeKeys)
-			Debug.Log($"AttributeItemsManagerDebug: Will be removed: '{attributeKey}'");
+			Debug.Log(string.Format("AttributeItemsManagerDebug: Will be removed: '{0}'", attributeKey));
 	}
 
 	private void OnUpdateAttributes(List<UserAttribute> attributes)
 	{
 		foreach (var attribute in attributes)
-			Debug.Log($"AttributeItemsManagerDebug: Will be modified: Key:{attribute.key} Value:{attribute.value}");
+			Debug.Log(string.Format("AttributeItemsManagerDebug: Will be modified: Key:{0} Value:{1}", attribute.key, attribute.value));
 	}
 }

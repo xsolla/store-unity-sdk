@@ -2,9 +2,20 @@ using System.Collections.Generic;
 
 public class CatalogBundleItemModel : CatalogItemModel
 {
-	public override bool IsVirtualCurrency() => false;
-	public override bool IsSubscription() => false;
-	public override bool IsBundle() => true;
+	public override bool IsVirtualCurrency()
+	{
+		return false;
+	}
+
+	public override bool IsSubscription()
+	{
+		return false;
+	}
+
+	public override bool IsBundle()
+	{
+		return true;
+	}
 
 	public KeyValuePair<string, float>? ContentRealPrice { get; set; }
 	public KeyValuePair<string, float>? ContentRealPriceWithoutDiscount { get; set; }

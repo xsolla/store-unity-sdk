@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using Xsolla.Store;
@@ -27,7 +27,8 @@ namespace Xsolla.Core.Popup
 		public IBundlePreviewPopup SetBundleInfo(CatalogBundleItemModel bundle)
 		{
 			bundleName.text = bundle.Name;
-			bundleInfo.text = $"This bundle includes '{bundle.Content.Count}' item{(bundle.Content.Count > 1 ? "s" : "")}:";
+			var textEnding = bundle.Content.Count > 1 ? "s" : "";
+			bundleInfo.text = string.Format("This bundle includes '{0}' item{1}:", bundle.Content.Count, textEnding);
 
 			if (!string.IsNullOrEmpty(bundle.ImageUrl))
 			{
@@ -35,7 +36,8 @@ namespace Xsolla.Core.Popup
 			}
 			else
 			{
-				Debug.LogError($"Bundle with sku = '{bundle.Sku}' has no image!");
+				var message = string.Format("Bundle with sku = '{0}' has no image!", bundle.Sku);
+				Debug.LogError(message);
 			}
 
 			if (bundle.VirtualPrice != null)
@@ -71,8 +73,8 @@ namespace Xsolla.Core.Popup
 			EnableRealPrice(false);
 			EnableVirtualCurrencyPrice(true);
 
-			bundlePriceVc.text = bundle.VirtualPrice?.Value.ToString();
-			bundlePriceVcWithoutDiscount.text = bundle.ContentVirtualPriceWithoutDiscount?.Value.ToString();
+			bundlePriceVc.text = (bundle.VirtualPrice != null) ? bundle.VirtualPrice.Value.ToString() : string.Empty;
+			bundlePriceVcWithoutDiscount.text = (bundle.ContentVirtualPriceWithoutDiscount != null) ? bundle.ContentVirtualPriceWithoutDiscount.Value.ToString() : string.Empty;
 
 			if (!bundle.ContentVirtualPriceWithoutDiscount.HasValue)
 			{
@@ -91,7 +93,8 @@ namespace Xsolla.Core.Popup
 			var realPrice = bundle.RealPrice;
 			if (realPrice == null)
 			{
-				Debug.LogError($"Bundle with sku = {bundle.Sku} has no price!");
+				var message = string.Format("Bundle with sku = {0} has no price!", bundle.Sku);
+				Debug.LogError(message);
 				return;
 			}
 
@@ -104,7 +107,8 @@ namespace Xsolla.Core.Popup
 			var contentRealPrice = bundle.ContentRealPrice;
 			if (contentRealPrice == null)
 			{
-				Debug.LogError($"Bundle with sku = {bundle.Sku} has no content price!");
+				var message = string.Format("Bundle with sku = {0} has no content price!", bundle.Sku);
+				Debug.LogError(message);
 				return;
 			}
 
@@ -124,7 +128,7 @@ namespace Xsolla.Core.Popup
 
 		private void InitializeVcImages(CatalogBundleItemModel bundle)
 		{
-			var currencySku = bundle.VirtualPrice?.Key;
+			var currencySku = (bundle.VirtualPrice != null) ? bundle.VirtualPrice.Value.Key : null;
 			var currency = UserCatalog.Instance.VirtualCurrencies.First(vc => vc.Sku.Equals(currencySku));
 			if (!string.IsNullOrEmpty(currency.ImageUrl))
 			{
@@ -136,7 +140,8 @@ namespace Xsolla.Core.Popup
 			}
 			else
 			{
-				Debug.LogError($"Bundle with sku = '{bundle.Sku}' virtual currency price has no image!");
+				var message = string.Format("Bundle with sku = '{0}' virtual currency price has no image!", bundle.Sku);
+				Debug.LogError(message);
 			}
 		}
 

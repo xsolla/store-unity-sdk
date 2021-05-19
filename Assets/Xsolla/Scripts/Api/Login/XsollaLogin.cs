@@ -12,7 +12,7 @@ namespace Xsolla.Login
 	{
 		public event Action TokenChanged;
 
-		private string AnalyticUrlAddition => $"engine=unity&engine_v={Application.unityVersion}&sdk=login&sdk_v={Constants.LoginSdkVersion}";
+		private string AnalyticUrlAddition { get { return string.Format("engine=unity&engine_v={0}&sdk=login&sdk_v={1}", Application.unityVersion, Constants.LoginSdkVersion); } }
 
 		private List<WebRequestHeader> AnalyticHeaders
 		{
@@ -44,9 +44,9 @@ namespace Xsolla.Login
 			return result;
 		}
 
-		private List<WebRequestHeader> AuthAndAnalyticHeaders => AppendAnalyticHeadersTo(WebRequestHeader.AuthHeader(Token));
+		private List<WebRequestHeader> AuthAndAnalyticHeaders { get { return AppendAnalyticHeadersTo(WebRequestHeader.AuthHeader(Token)); } }
 
-		private byte[] CryptoKey => Encoding.ASCII.GetBytes(XsollaSettings.LoginId.Replace("-", string.Empty).Substring(0, 16));
+		private byte[] CryptoKey { get { return Encoding.ASCII.GetBytes(XsollaSettings.LoginId.Replace("-", string.Empty).Substring(0, 16)); } }
 
 		private void Awake()
 		{
@@ -84,7 +84,7 @@ namespace Xsolla.Login
 			}
 			catch (Exception e)
 			{
-				Debug.LogError($"Can't create {key} token = {token}. Exception:" + e.Message);
+				Debug.LogError(string.Format("Can't create {0} token = {1}. Exception:{2}", key, token, e.Message));
 				PlayerPrefs.DeleteKey(key);
 				token = string.Empty;
 				return false;
@@ -99,11 +99,12 @@ namespace Xsolla.Login
 		private Token _token;
 		public Token Token
 		{
-			get => _token ?? (_token = new Token());
+			get { return _token ?? (_token = new Token()); }
 			set
 			{
 				_token = value;
-				TokenChanged?.Invoke();
+				if (TokenChanged != null)
+					TokenChanged.Invoke();
 			}
 		}
 		

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Text;
 using UnityEngine;
@@ -32,7 +32,8 @@ public class SteamSessionTicket
         byte[] ticket = new byte[1024];
 		try {
 #if UNITY_STANDALONE
-            SteamUser.GetAuthSessionTicket(ticket, 1024, out uint length);
+			uint length;
+			SteamUser.GetAuthSessionTicket(ticket, 1024, out length);
             Array.Resize(ref ticket, (int)length);
 #else
             ticket = new byte[0];

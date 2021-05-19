@@ -8,8 +8,8 @@ public static class PriceFormatter
 
 	private static string LastCurrency
 	{
-		get => _lastCurrency ?? DEFAULT_CURRENCY;
-		set => _lastCurrency = value;
+		get { return _lastCurrency ?? DEFAULT_CURRENCY; }
+		set { _lastCurrency = value; }
 	}
 
 	public static string FormatPrice(float price)
@@ -25,6 +25,6 @@ public static class PriceFormatter
 		
 		var roundDownPrice = Math.Round((decimal)price, 2, MidpointRounding.AwayFromZero);
 
-		return $"{outputCurrency}{roundDownPrice:F2}";
+		return string.Format("{0}{1:F2}", outputCurrency, roundDownPrice);
 	}
 }

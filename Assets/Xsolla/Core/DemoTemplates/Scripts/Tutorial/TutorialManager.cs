@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using Xsolla.Core;
 using Xsolla.Core.Popup;
 
@@ -8,7 +8,7 @@ public class TutorialManager : MonoBehaviour
 
 #if UNITY_EDITOR
 	[ContextMenu("Drop tutorial")]
-	public void DropTutorial() => PlayerPrefs.SetInt(Constants.INVENTORY_TUTORIAL_COMPLETED, 0);
+	public void DropTutorial() { PlayerPrefs.SetInt(Constants.INVENTORY_TUTORIAL_COMPLETED, 0); }
 #endif
 
 	public void ShowTutorial(bool showWelcomeMessage = true)

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -68,36 +68,70 @@ namespace Xsolla.Core.Popup
 			return prefab.CreateObjectFor(parent);
 		}
 
-		public ISuccessPopup CreateSuccess() =>
-			CreateDefaultPopup(SuccessPopupPrefab, canvas)?.GetComponent<SuccessPopup>();
+		public ISuccessPopup CreateSuccess()
+		{
+			var popup = CreateDefaultPopup(SuccessPopupPrefab, canvas);
+			return (popup != null) ? popup.GetComponent<SuccessPopup>() : null;
+		}
 
-		public IErrorPopup CreateError() => CreateDefaultPopup(ErrorPopupPrefab, canvas)?.GetComponent<ErrorPopup>();
+		public IErrorPopup CreateError()
+		{
+			var popup = CreateDefaultPopup(ErrorPopupPrefab, canvas);
+			return (popup != null) ? popup.GetComponent<ErrorPopup>() : null;
+		}
 
-		public IConfirmationPopup CreateConfirmation() =>
-			CreateDefaultPopup(ConfirmPopupPrefab, canvas)?.GetComponent<ConfirmationPopup>();
+		public IConfirmationPopup CreateConfirmation()
+		{
+			var popup = CreateDefaultPopup(ConfirmPopupPrefab, canvas);
+			return (popup != null) ? popup.GetComponent<ConfirmationPopup>() : null;
+		}
 
-		public IConfirmationCodePopup CreateCodeConfirmation() => CreateDefaultPopup(ConfirmCodePopupPrefab, canvas)
-			?.GetComponent<ConfirmationCodePopup>();
+		public IConfirmationCodePopup CreateCodeConfirmation()
+		{
+			var popup = CreateDefaultPopup(ConfirmCodePopupPrefab, canvas);
+			return (popup != null) ? popup.GetComponent<ConfirmationCodePopup>() : null;
+		}
 
-		public IWaitingPopup CreateWaiting() =>
-			CreateDefaultPopup(WaitingPopupPrefab, canvas)?.GetComponent<WaitingPopup>();
+		public IWaitingPopup CreateWaiting()
+		{
+			var popup = CreateDefaultPopup(WaitingPopupPrefab, canvas);
+			return (popup != null) ? popup.GetComponent<WaitingPopup>() : null;
+		}
 
-		public IBundlePreviewPopup CreateBundlePreview() =>
-			CreateDefaultPopup(BundlePreviewPopupPrefab, canvas)?.GetComponent<BundlePreviewPopup>();
+		public IBundlePreviewPopup CreateBundlePreview()
+		{
+			var popup = CreateDefaultPopup(BundlePreviewPopupPrefab, canvas);
+			return (popup != null) ? popup.GetComponent<BundlePreviewPopup>() : null;
+		}
 
-		public ISuccessPopup CreateSuccessPasswordReset() =>
-			CreateDefaultPopup(ResetPasswordPopupPrefab, canvas)?.GetComponent<SuccessPopup>();
+		public ISuccessPopup CreateSuccessPasswordReset()
+		{
+			var popup = CreateDefaultPopup(ResetPasswordPopupPrefab, canvas);
+			return (popup != null) ? popup.GetComponent<SuccessPopup>() : null;
+		}
 
-		public INicknamePopup CreateNickname() =>
-			CreateDefaultPopup(NicknamePopupPrefab, canvas)?.GetComponent<NicknamePopup>();
+		public INicknamePopup CreateNickname()
+		{
+			var popup = CreateDefaultPopup(NicknamePopupPrefab, canvas);
+			return (popup != null) ? popup.GetComponent<NicknamePopup>() : null;
+		}
 
-		public ICouponRedeemPopup CreateRedeemCoupon() =>
-			CreateDefaultPopup(RedeemCouponPopupPrefab, canvas)?.GetComponent<CouponRedeemPopup>();
+		public ICouponRedeemPopup CreateRedeemCoupon()
+		{
+			var popup = CreateDefaultPopup(RedeemCouponPopupPrefab, canvas);
+			return (popup != null) ? popup.GetComponent<CouponRedeemPopup>() : null;
+		}
 		
-		public ICouponRewardsPopup CreateCouponRewards() =>
-			CreateDefaultPopup(CouponRewardsPopupPrefab, canvas)?.GetComponent<CouponRewardsPopup>();
+		public ICouponRewardsPopup CreateCouponRewards()
+		{
+			var popup = CreateDefaultPopup(CouponRewardsPopupPrefab, canvas);
+			return (popup != null) ? popup.GetComponent<CouponRewardsPopup>() : null;
+		}
 
-		public ITutorialPopup CreateTutorial() =>
-			CreateDefaultPopup(TutorialPopupPrefab, canvas)?.GetComponent<TutorialPopup>();
+		public ITutorialPopup CreateTutorial()
+		{
+			var popup = CreateDefaultPopup(TutorialPopupPrefab, canvas);
+			return (popup != null) ? popup.GetComponent<TutorialPopup>() : null;
+		}
 	}
 }

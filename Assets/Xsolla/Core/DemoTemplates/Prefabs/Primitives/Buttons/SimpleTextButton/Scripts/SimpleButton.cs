@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -16,10 +16,21 @@ public class SimpleButton : MonoBehaviour, ISimpleButton
 	public Action onClick;
 	private DateTime lastClick;
 
+	private float _rateLimitMs = 500.0F;
+	public float RateLimitMs
+	{
+		get
+		{
+			return _rateLimitMs;
+		}
+		set
+		{
+			_rateLimitMs = value;
+		}
+	}
+
 	public static event Action OnCursorEnter;
 	public static event Action OnCursorExit;
-
-	public float RateLimitMs { get; set; } = 500.0F;
 
 	void Awake()
 	{
@@ -60,7 +71,8 @@ public class SimpleButton : MonoBehaviour, ISimpleButton
 		if (ts.TotalMilliseconds > RateLimitMs)
 		{
 			lastClick += ts;
-			onClick?.Invoke();
+			if (onClick != null)
+				onClick.Invoke();
 		}
 	}
 
@@ -103,6 +115,15 @@ public class SimpleButton : MonoBehaviour, ISimpleButton
 		SetImageSprite(image, pressedStateSprite);
 	}
 
-	protected void RaiseOnCursorEnter() => OnCursorEnter?.Invoke();
-	protected void RaiseOnCursorExit() => OnCursorExit?.Invoke();
+	protected void RaiseOnCursorEnter()
+	{
+		if (OnCursorEnter != null)
+			OnCursorEnter.Invoke();
+	}
+
+	protected void RaiseOnCursorExit()
+	{
+		if (OnCursorExit != null)
+			OnCursorExit.Invoke();
+	}
 }

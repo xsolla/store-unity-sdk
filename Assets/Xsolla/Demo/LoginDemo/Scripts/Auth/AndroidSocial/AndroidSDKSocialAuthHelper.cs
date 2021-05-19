@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 using Xsolla.Core;
 
@@ -10,15 +10,23 @@ public class AndroidSDKSocialAuthHelper : IDisposable
 	private AndroidJavaClass _xlogin;
 
     public AndroidSDKSocialAuthHelper()
-    {
-        GetXsollaSettings(
-			out string loginID,
-			out string callbackURL,
-			out AuthorizationType authorizationType,
-			out bool invalidationFlag,
-			out int OAuthClientId,
-			out string facebookAppId,
-			out string googleServerId);
+	{
+		string loginID;
+		string callbackURL;
+		AuthorizationType authorizationType;
+		bool invalidationFlag;
+		int OAuthClientId;
+		string facebookAppId;
+		string googleServerId;
+
+		GetXsollaSettings(
+			out loginID,
+			out callbackURL,
+			out authorizationType,
+			out invalidationFlag,
+			out OAuthClientId,
+			out facebookAppId,
+			out googleServerId);
 
         _androidHelper = new AndroidHelper();
 		_invalidationFlag = invalidationFlag;
@@ -53,7 +61,7 @@ public class AndroidSDKSocialAuthHelper : IDisposable
 		}
         catch (Exception ex)
         {
-            throw new AggregateException($"AndroidSDKSocialAuthHelper.Ctor: {ex.Message}", ex); 
+            throw new AggregateException(string.Format("AndroidSDKSocialAuthHelper.Ctor: {0}", ex.Message), ex);
         }
     }
 
@@ -61,7 +69,7 @@ public class AndroidSDKSocialAuthHelper : IDisposable
     {
         var providerName = socialProvider.ToString().ToUpper();
 
-		Debug.Log($"Trying android social auth for '{providerName}'");
+		Debug.Log(string.Format("Trying android social auth for '{0}'", providerName));
 
         try
         {
@@ -75,7 +83,7 @@ public class AndroidSDKSocialAuthHelper : IDisposable
         }
         catch (Exception ex)
         {
-            throw new AggregateException($"AndroidSDKSocialAuthHelper.PerformSocialAuth: {ex.Message}", ex);
+            throw new AggregateException(string.Format("AndroidSDKSocialAuthHelper.PerformSocialAuth: {0}", ex.Message), ex);
         }
     }
 
@@ -91,7 +99,7 @@ public class AndroidSDKSocialAuthHelper : IDisposable
 			}
 			catch (Exception ex)
 			{
-				Debug.LogError($"AndroidSDKSocialAuthHelper.IsRefreshSocialTokenPossible: {ex.Message}");
+				Debug.LogError(string.Format("AndroidSDKSocialAuthHelper.IsRefreshSocialTokenPossible: {0}", ex.Message));
 				canRefresh = false;
 			}
 
@@ -112,7 +120,7 @@ public class AndroidSDKSocialAuthHelper : IDisposable
 			}
 			catch (Exception ex)
 			{
-				Debug.LogError($"AndroidSDKSocialAuthHelper.IsSocialTokenExpired: {ex.Message}");
+				Debug.LogError(string.Format("AndroidSDKSocialAuthHelper.IsSocialTokenExpired: {0}", ex.Message));
 				isTokenExpired = false;
 			}
 
@@ -139,7 +147,7 @@ public class AndroidSDKSocialAuthHelper : IDisposable
 		}
 		catch (Exception ex)
 		{
-			Debug.LogError($"AndroidSDKSocialAuthHelper.TryRefreshSocialToken: {ex.Message}");
+			Debug.LogError(string.Format("AndroidSDKSocialAuthHelper.TryRefreshSocialToken: {0}", ex.Message));
 			return false;
 		}
 	}

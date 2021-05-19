@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using Xsolla.Core;
@@ -114,7 +114,8 @@ public class FriendUI : MonoBehaviour
 			}
             default:
             {
-                Debug.LogWarning($"Set up handle of user state = '{state.ToString()}' in FriendUI.cs");
+				var message = string.Format("Set up handle of user state = '{0}' in FriendUI.cs", state);
+				Debug.LogWarning(message);
                 return;
             }
         }
@@ -157,7 +158,7 @@ public class FriendUI : MonoBehaviour
 			}
             default:
             {
-                Debug.LogException(new ArgumentOutOfRangeException(nameof(relationship), relationship, null));
+                Debug.LogException(new ArgumentOutOfRangeException("relationship", relationship, null));
                 break;
             }
         }

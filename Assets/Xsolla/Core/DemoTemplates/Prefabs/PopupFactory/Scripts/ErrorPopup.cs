@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -30,7 +30,8 @@ namespace Xsolla.Core.Popup
 		{
 			Button.onClick = () =>
 			{
-				buttonPressed?.Invoke();
+				if (buttonPressed != null)
+					buttonPressed.Invoke();
 				Destroy(gameObject, 0.001F);
 			};
 			return this;

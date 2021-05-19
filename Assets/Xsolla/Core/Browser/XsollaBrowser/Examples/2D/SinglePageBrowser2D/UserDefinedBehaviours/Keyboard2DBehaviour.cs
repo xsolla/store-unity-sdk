@@ -1,4 +1,4 @@
-﻿#if (UNITY_EDITOR || UNITY_STANDALONE)
+#if (UNITY_EDITOR || UNITY_STANDALONE)
 using UnityEngine;
 using System.Collections.Generic;
 using System;
@@ -39,8 +39,10 @@ public class KeyboardBehaviour2D : MonoBehaviour
 		ManualHandleOfKeyCode(KeyCode.LeftControl, "Control");
 		ManualHandleOfKeyCode(KeyCode.RightControl, "Control");
 
-	    if (Input.GetKeyUp(KeyCode.Escape)) {
-		    EscapePressed?.Invoke();
+	    if (Input.GetKeyUp(KeyCode.Escape))
+		{
+			if (EscapePressed != null)
+				EscapePressed.Invoke();
 	    }
 
 	    AllKeyCodes.ForEach(code =>

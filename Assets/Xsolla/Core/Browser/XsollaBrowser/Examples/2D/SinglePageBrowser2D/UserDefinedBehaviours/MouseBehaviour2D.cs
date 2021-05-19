@@ -1,4 +1,4 @@
-﻿#if (UNITY_EDITOR || UNITY_STANDALONE)
+#if (UNITY_EDITOR || UNITY_STANDALONE)
 using UnityEngine;
 using System.Collections;
 using UnityEngine.EventSystems;
@@ -75,7 +75,7 @@ public class MouseBehaviour2D : MonoBehaviour,
 	{
         if ((mousePosition - lastPosition).magnitude > 1.0F) {
             yield return ActionExtensions.WaitMethod(
-                browserMouse.MoveTo, mousePosition, (Vector2 pos) => callback?.Invoke(pos)
+				browserMouse.MoveTo, mousePosition, (Vector2 pos) => { if (callback != null) { callback.Invoke(pos); } }
 			);
         } else {
             yield return new WaitForFixedUpdate();
@@ -85,13 +85,17 @@ public class MouseBehaviour2D : MonoBehaviour,
     Vector2 GetMousePosition(Vector3 inputMousePosition)
     {
         RectTransform rect = (RectTransform)(canvas.transform);
-        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(rect, inputMousePosition, canvasCamera, out Vector2 canvasPoint)) {
+		Vector2 canvasPoint;
+		if (RectTransformUtility.ScreenPointToLocalPointInRectangle(rect, inputMousePosition, canvasCamera, out canvasPoint))
+		{
             rect = (RectTransform)transform;
             Vector2 offset = canvasPoint - ((Vector2)rect.localPosition);
             Vector2 leftUpperCorner = rect.sizeDelta / 2;
             Vector2 point = leftUpperCorner + offset;
             return ConvertCoordinatesToPixels(point);
-        } else {
+        }
+		else
+		{
             Debug.LogWarning("You try get mouse position, but mouse not over canvas");
         }
         return Vector2.zero;

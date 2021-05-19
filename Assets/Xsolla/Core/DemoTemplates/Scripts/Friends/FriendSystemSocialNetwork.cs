@@ -20,8 +20,8 @@ public class FriendSystemSocialNetwork : MonoBehaviour
 
     public event Action<SocialProvider, State> StateChanged;
 
-	public SocialProvider Provider => provider;
-    public SimpleButton Button => GetComponent<SimpleButton>();
+	public SocialProvider Provider { get { return provider; } }
+    public SimpleButton Button { get { return GetComponent<SimpleButton>(); } }
 
     private void Awake()
     {
@@ -88,11 +88,14 @@ public class FriendSystemSocialNetwork : MonoBehaviour
             }
             default:
             {
-                Debug.LogWarning($"Try to set unknown state: '{state}'");
+				var message = string.Format("Try to set unknown state: '{0}'", state);
+				Debug.LogWarning(message);
                 return;
             }
         }
-        StateChanged?.Invoke(provider, state);
+
+		if (StateChanged != null)
+			StateChanged.Invoke(provider, state);
     }
 
     private void UnlinkSocialProvider()

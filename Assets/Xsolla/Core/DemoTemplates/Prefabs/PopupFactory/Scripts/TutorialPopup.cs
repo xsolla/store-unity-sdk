@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
@@ -28,10 +28,28 @@ namespace Xsolla.Core.Popup
 		private int _currentStepIndex;
 		private RectTransform _highlightCopy;
 
-		private bool IsTutorialInfoValid => _tutorialInfo != null && _tutorialInfo.tutorialSteps.Count > 0;
-		private int FirstStepIndex => _showWelcomeMessage ? 0 : 1;
+		private bool IsTutorialInfoValid
+		{
+			get
+			{
+				return _tutorialInfo != null && _tutorialInfo.tutorialSteps.Count > 0;
+			}
+		}
+		private int FirstStepIndex
+		{
+			get
+			{
+				return _showWelcomeMessage ? 0 : 1;
+			}
+		}
 
-		private TutorialInfo.TutorialStep CurrentStepInfo => _tutorialInfo.tutorialSteps[_currentStepIndex];
+		private TutorialInfo.TutorialStep CurrentStepInfo
+		{
+			get
+			{
+				return _tutorialInfo.tutorialSteps[_currentStepIndex];
+			}
+		}
 
 		private void Awake()
 		{
@@ -64,7 +82,8 @@ namespace Xsolla.Core.Popup
 		{
 			cancelButton.onClick = () =>
 			{
-				onCancel?.Invoke();
+				if (onCancel != null)
+					onCancel.Invoke();
 				Destroy(gameObject, 0.001F);
 			};
 			return this;
@@ -200,7 +219,8 @@ namespace Xsolla.Core.Popup
 				return;
 			}
 
-			_onTutorialCompleted?.Invoke();
+			if (_onTutorialCompleted != null)
+				_onTutorialCompleted.Invoke();
 			Destroy(gameObject, 0.001F);
 		}
 

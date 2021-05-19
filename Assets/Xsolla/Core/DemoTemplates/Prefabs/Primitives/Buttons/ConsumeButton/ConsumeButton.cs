@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 
 public class ConsumeButton : MonoBehaviour
@@ -13,7 +13,8 @@ public class ConsumeButton : MonoBehaviour
 		{
 			if (counter > 0)
 			{
-				onClick?.Invoke();
+				if (onClick != null)
+					onClick.Invoke();
 			}
 			else
 			{

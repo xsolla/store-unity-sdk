@@ -55,7 +55,8 @@ public abstract class BaseUserStateUI : MonoBehaviour
 		UserFriends.Instance.AddFriend(Friend.FriendModel, _ =>
 		{
 			SetState(UserState.Requested);
-			callback?.Invoke();
+			if (callback != null)
+				callback.Invoke();
 		}, StoreDemoPopup.ShowError);
 	}
 	
@@ -64,7 +65,8 @@ public abstract class BaseUserStateUI : MonoBehaviour
 		UserFriends.Instance.BlockUser(Friend.FriendModel, _ =>
 		{
 			SetState(UserState.Blocked);
-			callback?.Invoke();
+			if (callback != null)
+				callback.Invoke();
 		}, StoreDemoPopup.ShowError);
 	}
 	
@@ -73,7 +75,8 @@ public abstract class BaseUserStateUI : MonoBehaviour
 		UserFriends.Instance.UnblockUser(Friend.FriendModel, _ =>
 		{
 			SetState(UserState.Initial);
-			callback?.Invoke();
+			if (callback != null)
+				callback.Invoke();
 		}, StoreDemoPopup.ShowError);
 	}
 	
@@ -82,7 +85,8 @@ public abstract class BaseUserStateUI : MonoBehaviour
 		UserFriends.Instance.AcceptFriendship(Friend.FriendModel, _ =>
 		{
 			SetState(UserState.MyFriend);
-			callback?.Invoke();
+			if (callback != null)
+				callback.Invoke();
 		}, StoreDemoPopup.ShowError);
 	}
 	
@@ -91,7 +95,8 @@ public abstract class BaseUserStateUI : MonoBehaviour
 		UserFriends.Instance.DeclineFriendship(Friend.FriendModel, _ =>
 		{
 			SetState(UserState.Initial);
-			callback?.Invoke();
+			if (callback != null)
+				callback.Invoke();
 		}, StoreDemoPopup.ShowError);
 	}
 
@@ -100,7 +105,8 @@ public abstract class BaseUserStateUI : MonoBehaviour
 		UserFriends.Instance.CancelFriendshipRequest(Friend.FriendModel, _ =>
 		{
 			SetState(UserState.Initial);
-			callback?.Invoke();
+			if (callback != null)
+				callback.Invoke();
 		}, StoreDemoPopup.ShowError);
 	}
 
@@ -141,7 +147,8 @@ public abstract class BaseUserStateUI : MonoBehaviour
 			UserFriends.Instance.RemoveFriend(Friend.FriendModel, _ =>
 			{
 				SetState(UserState.Initial);
-				callback?.Invoke();
+				if (callback != null)
+					callback.Invoke();
 			}, StoreDemoPopup.ShowError);
 		});
 	}

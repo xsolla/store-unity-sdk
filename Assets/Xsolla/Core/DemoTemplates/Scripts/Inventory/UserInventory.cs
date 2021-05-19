@@ -37,11 +37,20 @@ public class UserInventory : MonoSingleton<UserInventory>
 		if (_demoImplementation == null)
 		{
 			Balance = new List<VirtualCurrencyBalanceModel>();
-			UpdateVirtualCurrencyBalanceEvent?.Invoke(Balance);
+
+			if (UpdateVirtualCurrencyBalanceEvent != null)
+				UpdateVirtualCurrencyBalanceEvent.Invoke(Balance);
+
 			VirtualItems = new List<InventoryItemModel>();
-			UpdateItemsEvent?.Invoke(VirtualItems);
+
+			if (UpdateItemsEvent != null)
+				UpdateItemsEvent.Invoke(VirtualItems);
+
 			Subscriptions = new List<UserSubscriptionModel>();
-			UpdateSubscriptionsEvent?.Invoke(Subscriptions);
+
+			if (UpdateSubscriptionsEvent != null)
+				UpdateSubscriptionsEvent.Invoke(Subscriptions);
+
 			return;
 		}
 		
@@ -83,11 +92,20 @@ public class UserInventory : MonoSingleton<UserInventory>
 		AllItems.Clear();
 		AllItems.AddRange(VirtualItems);
 		AllItems.AddRange(Subscriptions);
-		
-		UpdateVirtualCurrencyBalanceEvent?.Invoke(Balance);
-		UpdateItemsEvent?.Invoke(VirtualItems);
-		UpdateSubscriptionsEvent?.Invoke(Subscriptions);
-		RefreshEvent?.Invoke();
-		callback?.Invoke();
+
+		if (UpdateVirtualCurrencyBalanceEvent != null)
+			UpdateVirtualCurrencyBalanceEvent.Invoke(Balance);
+
+		if (UpdateItemsEvent != null)
+			UpdateItemsEvent.Invoke(VirtualItems);
+
+		if (UpdateSubscriptionsEvent != null)
+			UpdateSubscriptionsEvent.Invoke(Subscriptions);
+
+		if (RefreshEvent != null)
+			RefreshEvent.Invoke();
+
+		if (callback != null)
+			callback.Invoke();
 	}
 }

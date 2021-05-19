@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
@@ -134,7 +134,8 @@ public class PayStationController : MonoBehaviour
 			{
 				print(string.Format("Order {0} was successfully processed!", orderId));
 				PopupFactory.Instance.CreateSuccess();
-				onOrderPaid?.Invoke();
+				if (onOrderPaid != null)
+					onOrderPaid.Invoke();
 			}
 		}, ShowError);
 	}

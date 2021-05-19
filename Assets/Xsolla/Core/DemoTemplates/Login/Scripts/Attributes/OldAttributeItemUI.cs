@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,7 +20,10 @@ public class OldAttributeItemUI : MonoBehaviour
 
 	public string Key
 	{
-		get => _key;
+		get
+		{
+			return _key;
+		}
 		set
 		{
 			_key = value;
@@ -29,7 +32,10 @@ public class OldAttributeItemUI : MonoBehaviour
 	}
 	public string Value
 	{
-		get => _value;
+		get
+		{
+			return _value;
+		}
 		set
 		{
 			_value = value;
@@ -47,7 +53,8 @@ public class OldAttributeItemUI : MonoBehaviour
 
 		removeButton.onClick = () =>
 		{
-			onRemove?.Invoke(this);
+			if (onRemove != null)
+				onRemove.Invoke(this);
 			Destroy(gameObject, 0.01F);
 		};
 	}
@@ -57,13 +64,15 @@ public class OldAttributeItemUI : MonoBehaviour
 		if (Key.Equals(newText)) return;
 		var oldKey = Key;
 		_key = newText;
-		onKeyChanged?.Invoke(this, oldKey);
+		if (onKeyChanged != null)
+			onKeyChanged.Invoke(this, oldKey);
 	}
 
 	private void OnValueEdited(string newText)
 	{
 		if (Value.Equals(newText)) return;
 		_value = newText;
-		onValueChanged?.Invoke(this);
+		if (onValueChanged != null)
+			onValueChanged.Invoke(this);
 	}
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using UnityEngine;
 using Xsolla.Core;
@@ -10,16 +10,18 @@ public class SocialAuth : StoreStringActionResult, ILoginAuthorization
 #if UNITY_EDITOR || UNITY_STANDALONE
 		if (HotkeyCoroutine.IsLocked())
 		{
-			base.OnError?.Invoke(null);
+			if (base.OnError != null)
+				base.OnError.Invoke(null);
 			return;
 		}
 
-		if (TryExtractProvider(args, out SocialProvider provider))
+		SocialProvider provider;
+		if (TryExtractProvider(args, out provider))
 		{
 			HotkeyCoroutine.Lock();
 
 			string url = DemoController.Instance.GetImplementation().GetSocialNetworkAuthUrl(provider);
-			Debug.Log($"Social url: {url}");
+			Debug.Log(string.Format("Social url: {0}", url));
 			BrowserHelper.Instance.Open(url, true);
 
 			var singlePageBrowser = BrowserHelper.Instance.GetLastBrowser();
@@ -27,7 +29,8 @@ public class SocialAuth : StoreStringActionResult, ILoginAuthorization
 			if (singlePageBrowser == null)
 			{
 				Debug.LogError("Browser is null");
-				base.OnError?.Invoke(Error.UnknownError);
+				if (base.OnError != null)
+					base.OnError.Invoke(Error.UnknownError);
 				return;
 			}
 
@@ -37,7 +40,8 @@ public class SocialAuth : StoreStringActionResult, ILoginAuthorization
 		else
 		{
 			Debug.LogError("SocialAuth.TryAuth: Could not extract argument");
-			base.OnError?.Invoke(new Error(errorMessage: "Social auth failed"));
+			if (base.OnError != null)
+				base.OnError.Invoke(new Error(errorMessage: "Social auth failed"));
 		}
 #endif
 	}
@@ -54,7 +58,7 @@ public class SocialAuth : StoreStringActionResult, ILoginAuthorization
 
 		if (args.Length != 1)
 		{
-			Debug.LogError($"SocialAuth.TryExtractProvider: args.Length expected 1, was {args.Length}");
+			Debug.LogError(string.Format("SocialAuth.TryExtractProvider: args.Length expected 1, was {0}", args.Length));
 			return false;
 		}
 
@@ -64,7 +68,7 @@ public class SocialAuth : StoreStringActionResult, ILoginAuthorization
 		}
 		catch (Exception ex)
 		{
-			Debug.LogError($"SocialAuth.TryExtractProvider: Error during argument extraction: {ex.Message}");
+			Debug.LogError(string.Format("SocialAuth.TryExtractProvider: Error during argument extraction: {0}", ex.Message));
 			return false;
 		}
 
@@ -75,24 +79,31 @@ public class SocialAuth : StoreStringActionResult, ILoginAuthorization
 	private void BrowserCloseHandler()
 	{
 		HotkeyCoroutine.Unlock();
-		base.OnError?.Invoke(null);
+		if (base.OnError != null)
+			base.OnError.Invoke(null);
 	}
 
 	private void UrlChangedHandler(IXsollaBrowser browser, string newUrl)
 	{
-		if (XsollaSettings.AuthorizationType == AuthorizationType.JWT && ParseUtils.TryGetValueFromUrl(newUrl, ParseParameter.token, out var token))
+		string token;
+		string code;
+		if (XsollaSettings.AuthorizationType == AuthorizationType.JWT && ParseUtils.TryGetValueFromUrl(newUrl, ParseParameter.token, out token))
 		{
-			Debug.Log($"We take{Environment.NewLine}from URL:{newUrl}{Environment.NewLine}token = {token}");
+			Debug.Log(string.Format("We take{0}from URL:{1}{2}token = {3}", Environment.NewLine, newUrl, Environment.NewLine, token));
 			StartCoroutine(SuccessAuthCoroutine(token));
 		}
-		else if (XsollaSettings.AuthorizationType == AuthorizationType.OAuth2_0 && ParseUtils.TryGetValueFromUrl(newUrl, ParseParameter.code, out var code))
+		else if (XsollaSettings.AuthorizationType == AuthorizationType.OAuth2_0 && ParseUtils.TryGetValueFromUrl(newUrl, ParseParameter.code, out code))
 		{
-			Debug.Log($"We take{Environment.NewLine}from URL:{newUrl}{Environment.NewLine}code = {code}");
+			Debug.Log(string.Format("We take{0}from URL:{1}{2}code = {3}", Environment.NewLine, newUrl, Environment.NewLine, code));
 			DemoController.Instance.GetImplementation().ExchangeCodeToToken(
 				code,
 				onSuccessExchange: socialToken => StartCoroutine(SuccessAuthCoroutine(socialToken)),
-				onError: error => { Debug.LogError(error.errorMessage); base.OnError?.Invoke(error); }
-				);
+				onError: error =>
+				{
+					Debug.LogError(error.errorMessage);
+					if (base.OnError != null)
+						base.OnError.Invoke(error);
+				});
 		}
 	}
 
@@ -103,6 +114,7 @@ public class SocialAuth : StoreStringActionResult, ILoginAuthorization
 		Destroy(BrowserHelper.Instance.gameObject);
 		HotkeyCoroutine.Unlock();
 #endif
-		base.OnSuccess?.Invoke(token);
+		if (base.OnSuccess != null)
+			base.OnSuccess.Invoke(token);
 	}
 }

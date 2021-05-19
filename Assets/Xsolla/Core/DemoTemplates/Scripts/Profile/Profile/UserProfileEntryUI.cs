@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,7 +20,7 @@ public class UserProfileEntryUI : MonoBehaviour
 	
 	private string CurrentValue
 	{
-		get => CurrentValueText.text;
+		get { return CurrentValueText.text; }
 		set
 		{
 			CurrentValueText.text = value;
@@ -97,7 +97,8 @@ public class UserProfileEntryUI : MonoBehaviour
 			var oldValue = CurrentValue;
 			CurrentValue = isConverterUsed ? ValueConverter.Convert(newValue) : newValue;
 
-			UserEntryEdited?.Invoke(this, _entryType, oldValue, newValue);
+			if (UserEntryEdited != null)
+				UserEntryEdited.Invoke(this, _entryType, oldValue, newValue);
 		}
 	}
 

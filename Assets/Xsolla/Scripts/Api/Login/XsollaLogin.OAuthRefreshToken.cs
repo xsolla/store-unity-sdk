@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,7 +19,7 @@ namespace Xsolla.Login
 		/// <summary>
 		/// Returns 'true' during refresh token process, or false otherwise.
 		/// </summary>
-		public bool IsOAuthTokenRefreshInProgress { get; private set; } = false;
+		public bool IsOAuthTokenRefreshInProgress { get; private set; }
 
 		private void InitOAuth2_0()
 		{
@@ -101,7 +101,7 @@ namespace Xsolla.Login
 
 		private IEnumerator RefreshTokenAfter(int seconds)
 		{
-			Debug.Log($"Next OAuth token refresh attempt is in: {seconds} seconds");
+			Debug.Log(string.Format("Next OAuth token refresh attempt is in: {0} seconds", seconds));
 			yield return new WaitForSeconds(seconds);
 			RefreshToken();
 		}
@@ -112,7 +112,8 @@ namespace Xsolla.Login
 			string loadedToken = default(string);
 			if (this.Token.IsNullOrEmpty() && this.LoadToken(Constants.LAST_SUCCESS_AUTH_TOKEN, out loadedToken) == false)
 #else
-			if (this.Token.IsNullOrEmpty() && this.LoadToken(Constants.LAST_SUCCESS_AUTH_TOKEN, out _) == false)
+			string loadedToken = default(string);
+			if (this.Token.IsNullOrEmpty() && this.LoadToken(Constants.LAST_SUCCESS_AUTH_TOKEN, out loadedToken) == false)
 #endif
 			{
 				Debug.Log("Token refresh is not available due to lack of active token");
@@ -198,7 +199,13 @@ namespace Xsolla.Login
 				url: URL_OAUTH_GENERATE_JWT,
 				data: requestData,
 				onComplete: response => ProcessOAuthResponse(response, onSuccessGenerate),
-				onError: error => { IsOAuthTokenRefreshInProgress = false; Debug.Log($"Generate JWT failed: {error.errorMessage}"); onError?.Invoke(error); });
+				onError: error =>
+				{
+					IsOAuthTokenRefreshInProgress = false;
+					Debug.Log(string.Format("Generate JWT failed: {0}", error.errorMessage));
+					if (onError != null)
+						onError.Invoke(error);
+				});
 		}
 
 		private void ProcessOAuthResponse(LoginOAuthJsonResponse response, Action<string> onSuccessToken = null)
@@ -217,7 +224,8 @@ namespace Xsolla.Login
 			SetRefreshAfter(response.expires_in);
 
 			IsOAuthTokenRefreshInProgress = false;
-			onSuccessToken?.Invoke(response.access_token);
+			if (onSuccessToken != null)
+				onSuccessToken.Invoke(response.access_token);
 		}
 
 		/// <summary>

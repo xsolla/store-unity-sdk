@@ -24,12 +24,14 @@ public class LoginPageCreateController : LoginPageController
 
 	private bool IsCreateInProgress
 	{
-		get => base.IsInProgress;
+		get { return base.IsInProgress; }
 		set
 		{
 			if (value == true)
 			{
-				base.OnStarted?.Invoke();
+				if (base.OnStarted != null)
+					base.OnStarted.Invoke();
+
 				Debug.Log("LoginPageCreateController: Create started");
 			}
 			else
@@ -77,28 +79,32 @@ public class LoginPageCreateController : LoginPageController
 			Action onSuccessfulCreate = () =>
 			{
 				Debug.Log("LoginPageCreateController: Create success");
-				base.OnSuccess?.Invoke();
+				if (base.OnSuccess != null)
+					base.OnSuccess.Invoke();
 			};
 
 			Action<Error> onFailedCreate = error =>
 			{
-				Debug.LogError($"LoginPageCreateController: Create error: {error.ToString()}");
-				base.OnError?.Invoke(error);
+				Debug.LogError(string.Format("LoginPageCreateController: Create error: {0}", error.ToString()));
+				if (base.OnError != null)
+					base.OnError.Invoke(error);
 			};
 
 			DemoController.Instance.GetImplementation().Registration(username, password, email, onSuccessfulCreate, onFailedCreate);
 		}
 		else if (!isEmailValid)
 		{
-			Debug.Log($"Invalid email: {email}");
+			Debug.Log(string.Format("Invalid email: {0}", email));
 			Error error = new Error(errorType: ErrorType.RegistrationNotAllowedException, errorMessage: "Invalid email");
-			base.OnError?.Invoke(error);
+			if (base.OnError != null)
+				base.OnError.Invoke(error);
 		}
 		else
 		{
-			Debug.LogError($"Fields are not filled. Username: '{username}' Password: '{password}'");
-			Error error = new Error(errorType: ErrorType.RegistrationNotAllowedException, errorMessage: $"Not all fields are filled");
-			base.OnError?.Invoke(error);
+			Debug.LogError(string.Format("Fields are not filled. Username: '{0}' Password: '{1}'", username, password));
+			Error error = new Error(errorType: ErrorType.RegistrationNotAllowedException, errorMessage: "Not all fields are filled");
+			if (base.OnError != null)
+				base.OnError.Invoke(error);
 		}
 
 		IsCreateInProgress = false;

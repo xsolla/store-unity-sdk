@@ -1,4 +1,4 @@
-﻿using System.Runtime.InteropServices;
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 namespace Xsolla.Core
@@ -37,8 +37,12 @@ namespace Xsolla.Core
 		public void Open(string url, bool inAppBrowserEnabled = false)
 		{
 			switch (Application.platform) {
-				case RuntimePlatform.WebGLPlayer: {
-					Application.ExternalEval($"window.open(\"{url}\",\"_blank\")");
+				case RuntimePlatform.WebGLPlayer:
+					{
+#pragma warning disable 0618
+						var externalEvalValue = string.Format("window.open(\"{0}\",\"_blank\")", url);
+						Application.ExternalEval(externalEvalValue);
+#pragma warning restore 0618
 						break;
 					}
 				default: {

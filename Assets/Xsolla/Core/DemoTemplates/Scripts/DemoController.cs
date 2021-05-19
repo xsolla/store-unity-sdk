@@ -12,15 +12,34 @@ public class DemoController : MonoSingleton<DemoController>, IMenuStateMachine
 	private IDemoImplementation _demoImplementation;
     private TutorialManager _tutorialManager;
 
-	public UrlContainer UrlContainer => _urlContainer;
-    public TutorialManager TutorialManager => _tutorialManager;
+	public UrlContainer UrlContainer
+	{
+		get
+		{
+			return _urlContainer;
+		}
+	}
 
-    public bool IsTutorialAvailable => _tutorialManager != null;
+    public TutorialManager TutorialManager
+	{
+		get
+		{
+			return _tutorialManager;
+		}
+	}
+
+    public bool IsTutorialAvailable
+	{
+		get
+		{
+			return _tutorialManager != null;
+		}
+	}
 
     public event MenuStateMachine.StateChangeDelegate StateChangingEvent
     {
-        add => stateMachine.StateChangingEvent += value;
-        remove => stateMachine.StateChangingEvent -= value;
+		add { stateMachine.StateChangingEvent += value; }
+		remove { stateMachine.StateChangingEvent -= value; }
     }
     
     public override void Init()
@@ -108,7 +127,8 @@ public class DemoController : MonoSingleton<DemoController>, IMenuStateMachine
             }
             else
             {
-                Debug.LogError($"Catalog item with sku = '{i.Sku}' without image!");
+				var message = string.Format("Catalog item with sku = '{0}' without image!", i.Sku);
+				Debug.LogError(message);
             }
         });
     }
@@ -157,6 +177,6 @@ public class DemoController : MonoSingleton<DemoController>, IMenuStateMachine
 
     public string GetWebStoreUrl()
     {
-        return $"{XsollaSettings.WebStoreUrl}?token={_demoImplementation.Token}&remember_me=false";
+		return string.Format("{0}?token={1}&remember_me=false", XsollaSettings.WebStoreUrl, _demoImplementation.Token);
     }
 }
