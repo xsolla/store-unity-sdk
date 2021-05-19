@@ -1,69 +1,93 @@
-﻿using System;
+using System;
 using System.Linq;
-using Microsoft.IdentityModel.JsonWebTokens;
+using System.Text;
 using UnityEngine;
 
 namespace Xsolla.Core
 {
 	public class Token
 	{
-		private const string EXPIRATION_UNIX_TIME_PARAMETER = "exp";
-		private const string USER_ID_URL_PARAMETER = "id";
-		private const string CROSS_AUTH_PARAMETER = "is_cross_auth";
-		private const string IS_MASTER_ACCOUNT_PARAMETER = "is_master";
-		private const string TOKEN_TYPE_PARAMETER = "type";
-		private const string TOKEN_PROVIDER_PARAMETER = "provider";
-		
 		private const string TOKEN_SERVER_TYPE = "server_custom_id";
 		private const string TOKEN_SOCIAL_TYPE = "social";
 		
+		private string encodedToken;
+		private string[] tokenParts;
+		private TokenPayload tokenPayload;
+		private string paystationToken;
+
 		public bool FromSteam { get; set; }
-		/// <summary>
-		/// Login JWT. To see all fields of this token, you can parse it by <see cref="https://jwt.io/"/>
-		/// </summary>
-		private JsonWebToken token;
-		private string PaystationToken;
 
 		public Token(string encodedToken = null, bool isPaystationToken = false)
 		{
-			if (!string.IsNullOrEmpty(encodedToken)) {
-				if (isPaystationToken) {
-					PaystationToken = encodedToken;
-				} else {
-					token = new JsonWebToken(encodedToken);
-				}
+			if (string.IsNullOrEmpty(encodedToken))
+			{
+				Debug.LogError("Token is null or empty");
+				return;
 			}
-			FromSteam = false;
+
+			if (isPaystationToken)
+			{
+				paystationToken = encodedToken;
+				return;
+			}
+
+			var tokenParts = encodedToken.Split('.');
+			if (tokenParts.Length <= 1)
+			{
+				Debug.LogError(string.Format("Token must contain header, payload and signature. Your token parts count was '{0}'. Your token: {1}", tokenParts.Length, encodedToken));
+				return;
+			}
+
+			this.tokenParts = tokenParts;
+
+			var encodedPayload = tokenParts[1];
+			TokenPayload parsedPayload;
+			if (ParseTokenPayload(encodedPayload, out parsedPayload))
+			{
+				this.tokenPayload = parsedPayload;
+			}
+			else
+			{
+				Debug.LogError("Could not parse token payload");
+			}
+		}
+
+		public static implicit operator string(Token token) { return (token != null) ? token.ToString() : string.Empty; }
+		public static implicit operator Token(string encodedToken) { return new Token(encodedToken); }
+
+		public bool IsCrossAuth()
+		{
+			if (JWTisNullOrEmpty())
+				return false;
+
+			return tokenPayload.is_cross_auth;
 		}
 
 		public string GetSteamUserID()
 		{
-			if (JWTisNullOrEmpty()) {
+			if (!IsCrossAuth())
 				return string.Empty;
-			}
-			if (!IsCrossAuth()) {
-				return string.Empty;
-			}
-			string steamUserUrl = token.GetPayloadValue<string>(USER_ID_URL_PARAMETER);
-			if (string.IsNullOrEmpty(steamUserUrl)) {
-				return string.Empty;
-			}
-			return steamUserUrl.Split('/').ToList().Last();
-		}
 
-		private bool IsCrossAuth()
-		{
-			return !JWTisNullOrEmpty() && token.GetPayloadValue<bool>(CROSS_AUTH_PARAMETER);
+			string steamUserUrl = tokenPayload.id;
+			if (!string.IsNullOrEmpty(steamUserUrl))
+				return steamUserUrl.Split('/').ToList().Last();
+			else
+				return string.Empty;
 		}
 
 		public bool FromSocialNetwork()
 		{
-			string tokenType;
-			if (token.TryGetPayloadValue<string>(TOKEN_TYPE_PARAMETER, out tokenType))
-				return tokenType.Equals(TOKEN_SOCIAL_TYPE);
+			if (JWTisNullOrEmpty())
+				return false;
 
-			Debug.LogAssertion(string.Format("Something went wrong... Token must have 'type' parameter. Your token = {0}", token));
-			return false;
+			string tokenType = tokenPayload.type;
+			if (!string.IsNullOrEmpty(tokenType))
+				return tokenType.Equals(TOKEN_SOCIAL_TYPE);
+			else
+			{
+				Debug.LogAssertion(string.Format("Something went wrong... Token must have 'type' parameter. Your token = {0}", encodedToken));
+				return false;
+			}
 		}
 
 		public SocialProvider GetSocialProvider()
@@ -71,15 +95,25 @@ namespace Xsolla.Core
 			if (!FromSocialNetwork())
 				return SocialProvider.None;
 
-			string provider;
-			if (token.TryGetPayloadValue<string>(TOKEN_PROVIDER_PARAMETER, out provider))
+			string provider = tokenPayload.provider;
+			if (!string.IsNullOrEmpty(provider))
 			{
 				return Enum.GetValues(typeof(SocialProvider)).Cast<SocialProvider>().
 					ToList().DefaultIfEmpty(SocialProvider.None).
 					FirstOrDefault(p => p.GetParameter().Equals(provider));
 			}
+			else
+				return SocialProvider.None;
+		}
 
-			return SocialProvider.None;
+		public int SecondsLeft()
+		{
+			if (JWTisNullOrEmpty())
+				return 0;
+
+			var expired = tokenPayload.exp;
+			var now = (int)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+			return Mathf.Max((expired - now), 0);
 		}
 
 		public bool IsExpired()
@@ -87,29 +121,22 @@ namespace Xsolla.Core
 			return SecondsLeft() > 0;
 		}
 
-		public int SecondsLeft()
+		public bool IsMasterAccount()
 		{
-			if (JWTisNullOrEmpty()) {
-				return 0;
+			if (JWTisNullOrEmpty())
+				return false;
+
+			string tokenType = tokenPayload.type;
+			if (string.IsNullOrEmpty(tokenType))
+			{
+				Debug.LogAssertion(string.Format("Something went wrong... Token must have 'type' parameter. Your token = {0}", encodedToken));
+				return true;
 			}
-			var expired = token.GetPayloadValue<int>(EXPIRATION_UNIX_TIME_PARAMETER);
-			var now = (int)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
-			return Mathf.Max((expired - now), 0);
-		}
 
-		private bool JWTisNullOrEmpty()
-		{
-			return
-				(token == null) ||
-				string.IsNullOrEmpty(token.EncodedToken) ||
-				string.IsNullOrEmpty(token.EncodedHeader) ||
-				string.IsNullOrEmpty(token.EncodedPayload) ||
-				string.IsNullOrEmpty(token.EncodedSignature);
-		}
+			if (!tokenType.Equals(TOKEN_SERVER_TYPE))
+				return true;
 
-		private bool PaystationIsNullOrEmpty()
-		{
-			return string.IsNullOrEmpty(PaystationToken);
+			return tokenPayload.is_master;
 		}
 
 		public bool IsNullOrEmpty()
@@ -117,34 +144,71 @@ namespace Xsolla.Core
 			return JWTisNullOrEmpty() && PaystationIsNullOrEmpty();
 		}
 
-		public bool IsMasterAccount()
-		{
-			if (JWTisNullOrEmpty())
-				return false;
-
-			string tokenType;
-			if (!token.TryGetPayloadValue<string>(TOKEN_TYPE_PARAMETER, out tokenType))
-			{
-				Debug.LogAssertion(string.Format("Something went wrong... Token must have 'type' parameter. Your token = {0}", token));
-				return true;
-			}
-
-			if (!tokenType.Equals(TOKEN_SERVER_TYPE))
-				return true;
-
-			bool isMaster;
-			return token.TryGetPayloadValue<bool>(IS_MASTER_ACCOUNT_PARAMETER, out isMaster) && isMaster;
-		}
-
-		public static implicit operator string(Token token) { return (token != null) ? token.ToString() : string.Empty; }
-		public static implicit operator Token(string encodedToken) { return new Token(encodedToken); }
-
 		public override string ToString()
 		{
-			if (!JWTisNullOrEmpty()) {
-				return token.EncodedToken;
+			if (!JWTisNullOrEmpty())
+				return encodedToken;
+			else if (!PaystationIsNullOrEmpty())
+				return paystationToken;
+			else
+				return string.Empty;
+		}
+
+		private bool JWTisNullOrEmpty()
+		{
+			if (encodedToken == null)
+				return true;
+
+			if (tokenParts == null || tokenParts.Length != 3)
+				return true;
+
+			if (tokenPayload == null)
+				return true;
+
+			//In all other cases
+			return false;
+		}
+
+		private bool PaystationIsNullOrEmpty()
+		{
+			return string.IsNullOrEmpty(paystationToken);
+		}
+
+		private bool ParseTokenPayload(string encodedPayload, out TokenPayload payloadJsonObject)
+		{
+			payloadJsonObject = null;
+
+			var padding = encodedPayload.Length % 4;
+			if (padding != 0)
+			{
+				var paddingToAdd = 4 - padding;
+				encodedPayload = encodedPayload + new string('=', paddingToAdd);
 			}
-			return !PaystationIsNullOrEmpty() ? PaystationToken : string.Empty;
+
+			try
+			{
+				var bytes = Convert.FromBase64String(encodedPayload);
+				var decodedPayload = Encoding.UTF8.GetString(bytes);
+				payloadJsonObject = ParseUtils.FromJson<TokenPayload>(decodedPayload);
+			}
+			catch (Exception ex)
+			{
+				Debug.LogError(string.Format("Error decoding token payload: {0}", ex.Message));
+				return false;
+			}
+
+			return true;
+		}
+
+		[Serializable]
+		public class TokenPayload
+		{
+			public int exp;
+			public string id;
+			public bool is_cross_auth;
+			public bool is_master;
+			public string type;
+			public string provider;
 		}
 	}
 }
