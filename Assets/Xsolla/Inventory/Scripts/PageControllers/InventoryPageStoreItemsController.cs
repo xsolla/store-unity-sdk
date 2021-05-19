@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System;
+using System.Collections;
 using System.Linq;
 using UnityEngine;
 
@@ -18,18 +19,25 @@ namespace Xsolla.Demo
 
 		private void OnDestroy()
 		{
-			if (UserInventory.Instance)//If UserInventory is not in destroying state (on app exit)
+			if (UserInventory.Instance) //If UserInventory is not in destroying state (on app exit)
 				UserInventory.Instance.RefreshEvent -= OnUserInventoryRefresh;
 		}
 
 		private void OnUserInventoryRefresh()
 		{
 			base.ShowGroupItems(_lastGroup);
+			UpdateContentVisibility(UserInventory.Instance.HasVirtualItems || UserInventory.Instance.HasPurchasedSubscriptions);
 		}
 
 		protected override void InitializeItemUI(GameObject item, ItemModel model)
 		{
 			item.GetComponent<InventoryItemUI>().Initialize(model, _inventoryDemoImplementation);
+		}
+
+		protected override IEnumerator FillGroups()
+		{
+			yield return base.FillGroups();
+			UpdateContentVisibility(UserInventory.Instance.HasVirtualItems || UserInventory.Instance.HasPurchasedSubscriptions);
 		}
 
 		protected override List<ItemModel> GetItemsByGroup(string groupName)
@@ -53,7 +61,7 @@ namespace Xsolla.Demo
 					var model = UserInventory.Instance.Subscriptions.First(x => x.Sku.Equals(i.Sku));
 					if (!(model.Status != UserSubscriptionModel.SubscriptionStatusType.None && model.Expired.HasValue))
 					{
-						return false;//This is a non-purchased subscription
+						return false; //This is a non-purchased subscription
 					}
 				}
 				else
@@ -64,15 +72,15 @@ namespace Xsolla.Demo
 						return false;
 					}
 				}
-				
+
 				var catalogItem = UserCatalog.Instance.AllItems.First(cat => cat.Sku.Equals(i.Sku));
 				var itemGroups = _inventoryDemoImplementation.GetCatalogGroupsByItem(catalogItem);
 
 				if (itemGroups.Count == 1 && itemGroups[0] == BattlePassConstants.BATTLEPASS_GROUP)
-					return false;//This is battlepass util item
+					return false; //This is battlepass util item
 
 				if (base.CheckHideInAttribute(i, HideInFlag.Inventory))
-					return false;//This item must be hidden by attribute
+					return false; //This item must be hidden by attribute
 
 				return itemGroups.Any(predicate);
 			}).ToList();

@@ -24,6 +24,10 @@ namespace Xsolla.Demo
 		public List<CatalogVirtualCurrencyModel> CurrencyPackages { get; private set; }
 		public List<CatalogBundleItemModel> Bundles { get; private set; }
 		public List<CatalogSubscriptionItemModel> Subscriptions { get; private set; }
+		
+		public bool HasVirtualItems => VirtualItems.Any();
+		public bool HasBundles => Bundles.Any();
+		public bool HasCurrencyPackages => CurrencyPackages.Any();
 
 		public void Init(IInventoryDemoImplementation inventoryDemo)
 		{
