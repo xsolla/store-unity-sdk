@@ -34,7 +34,7 @@ namespace Xsolla.Core
 		[SerializeField]
 		public PaystationTheme paystationTheme = PaystationTheme.Dark;
 		[SerializeField] private string payStationTokenRequestUrl = "https://livedemo.xsolla.com/sdk/token/paystation_demo/";
-		[SerializeField] private bool inAppBrowserEnabled = true;
+		[SerializeField] private bool inAppBrowserEnabled = false;
 
 		[SerializeField] private string facebookAppId;
 		[SerializeField] private string googleServerId;
@@ -202,10 +202,11 @@ namespace Xsolla.Core
 
 		public static bool InAppBrowserEnabled
 		{
-			get { return Instance.inAppBrowserEnabled; }
+			//get { return Instance.inAppBrowserEnabled; }
+			get { return false; }
 			set
 			{
-				Instance.inAppBrowserEnabled = value;
+				//Instance.inAppBrowserEnabled = value;
 				MarkAssetDirty();
 			}
 		}
