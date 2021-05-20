@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Xsolla.Core;
+using Xsolla.Core.Popup;
 using Xsolla.Store;
 
 namespace Xsolla.Demo
@@ -53,6 +54,8 @@ namespace Xsolla.Demo
 				return;
 			}
 
+			var isCartUnlocked = false;
+			PopupFactory.Instance.CreateWaiting().SetCloseCondition(() => isCartUnlocked);
 
 			XsollaStore.Instance.CreateNewCart(XsollaSettings.StoreProjectId, newCart =>
 			{
@@ -65,6 +68,8 @@ namespace Xsolla.Demo
 					}).ToList();
 					XsollaStore.Instance.FillCart(XsollaSettings.StoreProjectId, cartItems, () =>
 					{
+						isCartUnlocked = true;
+
 						XsollaStore.Instance.CartPurchase(XsollaSettings.StoreProjectId, newCart.cart_id, data =>
 						{
 							XsollaStore.Instance.OpenPurchaseUi(data);
@@ -86,9 +91,9 @@ namespace Xsolla.Demo
 								UserCart.Instance.Clear();
 							}, WrapErrorCallback(onError));
 						}, WrapErrorCallback(onError));
-					}, WrapErrorCallback(onError));
-				}, WrapErrorCallback(onError));
-			}, WrapErrorCallback(onError));
+					}, WrapErrorCallback(error => { isCartUnlocked = true; onError?.Invoke(error); }));
+				}, WrapErrorCallback(error => { isCartUnlocked = true; onError?.Invoke(error); }));
+			}, WrapErrorCallback(error => { isCartUnlocked = true; onError?.Invoke(error); }));
 		}
 
 		private static void PurchaseComplete(CatalogItemModel item = null, Action popupButtonCallback = null, bool isShowResultToUser = true)

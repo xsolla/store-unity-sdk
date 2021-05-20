@@ -15,7 +15,6 @@ namespace Xsolla.Demo
 		[SerializeField] private Text totalLabelText = default;
 		[SerializeField] private Text subtotalLabelText = default;
 		[SerializeField] private Text discountLabelText = default;
-		[SerializeField] private GameObject loaderPrefab = default;
 
 		private GameObject _loaderObject;
 
@@ -35,18 +34,11 @@ namespace Xsolla.Demo
 		public void LockBuyButton()
 		{
 			buyButton.Lock();
-			if (loaderPrefab != null) {
-				_loaderObject = Instantiate(loaderPrefab, buyButton.transform);
-			}
 		}
 
 		public void UnlockBuyButton()
 		{
 			buyButton.Unlock();
-		
-			if (_loaderObject == null) return;
-			Destroy(_loaderObject);
-			_loaderObject = null;
 		}
 
 		public void Initialize(float totalPrice = 0f, float discount = 0f)
