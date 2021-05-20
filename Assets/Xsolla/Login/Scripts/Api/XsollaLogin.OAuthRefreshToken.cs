@@ -144,6 +144,7 @@ namespace Xsolla.Login
 				requestData.AddField("client_id", clientId);
 				requestData.AddField("grant_type", "refresh_token");
 				requestData.AddField("refresh_token", refreshToken);
+				requestData.AddField("redirect_uri", DEFAULT_REDIRECT_URI);
 
 				SendOAuthGenerateJwtRequest(requestData);
 			}
