@@ -148,6 +148,7 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 	
 	public void LinkSocialProvider(SocialProvider socialProvider, Action<SocialProvider> onSuccess, Action<Error> onError = null)
 	{
+#if (UNITY_EDITOR || UNITY_STANDALONE) && BROWSER_AVAILABLE
 		XsollaLogin.Instance.LinkSocialProvider(socialProvider, 
 			url =>
 			{
@@ -175,6 +176,7 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 				};
 			},
 			WrapErrorCallback(onError));
+#endif
 	}
 
 	private IEnumerator CloseBrowserCoroutine()
@@ -233,7 +235,7 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 			onSuccess.Invoke(_networksCache);
 	}
 
-	#endregion
+#endregion
 
 #region AccountLinking
 	public void SignInConsoleAccount(string userId, string platform, Action<string> successCase, Action<Error> failedCase)
@@ -277,7 +279,7 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 	{
 		XsollaLogin.Instance.ExchangeCodeToToken(code, onSuccessExchange, onError);
 	}
-	#endregion
+#endregion
 
 #region Picture
 	public void UploadUserPicture(string token, byte[] pictureData, string boundary, Action<string> onSuccess, Action<Error> onError)

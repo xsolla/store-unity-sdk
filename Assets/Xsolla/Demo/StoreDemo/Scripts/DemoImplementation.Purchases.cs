@@ -1,3 +1,4 @@
+//#define BROWSER_AVAILABLE
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -64,7 +65,7 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 					{
 						XsollaStore.Instance.OpenPurchaseUi(data);
 
-#if (UNITY_EDITOR || UNITY_STANDALONE)
+#if (UNITY_EDITOR || UNITY_STANDALONE) && BROWSER_AVAILABLE
 						var browser = BrowserHelper.Instance.GetLastBrowser();
 						if (browser != null)
 							browser.BrowserClosedEvent += _ =>
@@ -90,15 +91,16 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 	private static void PurchaseComplete(CatalogItemModel item = null, Action popupButtonCallback = null)
 	{
 		UserInventory.Instance.Refresh();
-#if (UNITY_EDITOR || UNITY_STANDALONE)
+#if (UNITY_EDITOR || UNITY_STANDALONE) && BROWSER_AVAILABLE
 		CloseInGameBrowserIfExist();
 #endif
-		if(item != null)
+		if (item != null)
 			StoreDemoPopup.ShowSuccess(string.Format("You are purchased '{0}'", item.Name));
 		else
 			StoreDemoPopup.ShowSuccess(null, popupButtonCallback);
 	}
-#if (UNITY_EDITOR || UNITY_STANDALONE)	
+
+#if (UNITY_EDITOR || UNITY_STANDALONE) && BROWSER_AVAILABLE
 	private static void CloseInGameBrowserIfExist()
 	{
 		if(BrowserHelper.Instance.GetLastBrowser() != null)

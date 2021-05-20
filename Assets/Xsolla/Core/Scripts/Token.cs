@@ -30,6 +30,10 @@ namespace Xsolla.Core
 				paystationToken = encodedToken;
 				return;
 			}
+			else
+			{
+				this.encodedToken = encodedToken;
+			}
 
 			var tokenParts = encodedToken.Split('.');
 			if (tokenParts.Length <= 1)

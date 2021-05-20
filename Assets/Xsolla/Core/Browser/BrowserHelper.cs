@@ -1,3 +1,4 @@
+//#define BROWSER_AVAILABLE
 using System.Runtime.InteropServices;
 using UnityEngine;
 
@@ -46,18 +47,18 @@ namespace Xsolla.Core
 						break;
 					}
 				default: {
-#if (UNITY_EDITOR || UNITY_STANDALONE)
+#if (UNITY_EDITOR || UNITY_STANDALONE) && BROWSER_AVAILABLE
 						if (inAppBrowserEnabled && (InAppBrowserPrefab != null)) {
 							OpenInAppBrowser(url);
 						} else
 #endif
-							Application.OpenURL(url);
+						Application.OpenURL(url);
 						break;
 					}
 			}
 		}
 
-#if (UNITY_EDITOR || UNITY_STANDALONE)
+#if (UNITY_EDITOR || UNITY_STANDALONE) && BROWSER_AVAILABLE
 		private void OpenInAppBrowser(string url)
 		{
 			if (_inAppBrowserObject == null) {

@@ -1,4 +1,4 @@
-﻿using System.Xml;
+using System.Xml;
 using UnityEngine;
 
 namespace Xsolla.Core
@@ -20,7 +20,7 @@ namespace Xsolla.Core
 
 			if (applicationNode == null)
 			{
-				Debug.LogError($"Failed to parse AndroidManifest.xml with path {path}");
+				Debug.LogError(string.Format("Failed to parse AndroidManifest.xml with path {0}", path));
 			}
 		}
 

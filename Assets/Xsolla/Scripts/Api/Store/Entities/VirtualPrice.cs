@@ -9,8 +9,8 @@ namespace Xsolla.Store
 		[Serializable]
 		private class CalculatedPrice
 		{
-			public string amount;
-			public string amount_without_discount;
+			public string amount = default(string);
+			public string amount_without_discount = default(string);
 		}
 		public string sku;
 		public string name;

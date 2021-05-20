@@ -1,4 +1,5 @@
-#if (UNITY_EDITOR || UNITY_STANDALONE)
+//#define BROWSER_AVAILABLE
+#if (UNITY_EDITOR || UNITY_STANDALONE) && BROWSER_AVAILABLE
 using UnityEngine;
 using System.Collections;
 

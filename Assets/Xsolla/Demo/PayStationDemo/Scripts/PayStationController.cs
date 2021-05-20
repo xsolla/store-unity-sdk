@@ -56,10 +56,10 @@ public class PayStationController : MonoBehaviour
 			currencies =>
 			{
 				// filter virtual currencies to display only crystals
-				var filteredCurrencies = new VirtualCurrencyItems
-				{
-					items = new[] {currencies.items.ToList().SingleOrDefault(item => item.sku == VirtualCurrencyCrystal)}
-				};
+				//var filteredCurrencies = new VirtualCurrencyItems
+				//{
+				//	items = new[] {currencies.items.ToList().SingleOrDefault(item => item.sku == VirtualCurrencyCrystal)}
+				//};
 
 				//virtualCurrencyBalanceWidget.SetCurrencies(filteredCurrencies.items.ToList());
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,11 +13,11 @@ public class OldCartItemContainer : MonoBehaviour, IContainer
 	[SerializeField]
 	Transform itemParent;
 
-	private IDemoImplementation _demoImplementation;
+	//private IDemoImplementation _demoImplementation;
 
 	private readonly List<GameObject> _cartItems = new List<GameObject>();
-	private GameObject _discountPanel;
-	private GameObject _cartControls;
+	private GameObject _discountPanel = default(GameObject);
+	private GameObject _cartControls = default(GameObject);
 	
 	private void Start()
 	{
@@ -38,7 +38,7 @@ public class OldCartItemContainer : MonoBehaviour, IContainer
 
 	public void SetStoreImplementation(IDemoImplementation demoImplementation)
 	{
-		_demoImplementation = demoImplementation;
+		//_demoImplementation = demoImplementation;
 	}
 
 	public void Refresh()

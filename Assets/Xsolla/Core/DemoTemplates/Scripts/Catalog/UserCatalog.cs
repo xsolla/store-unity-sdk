@@ -91,7 +91,7 @@ public class UserCatalog : MonoSingleton<UserCatalog>
 	{
 		var uniqueItems = items.Where(i => !AllItems.Any(a => a.Sku.Equals(i.Sku))).ToList();
 		if(uniqueItems.Any())
-			AllItems.AddRange(uniqueItems);
+			AllItems.AddRange(uniqueItems.Cast<CatalogItemModel>());
 	}
 
 	private IEnumerator UpdateVirtualCurrenciesCoroutine(Action<Error> onError = null)

@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 
 /// <summary>
 /// Social providers list for Login Social Auth.
@@ -40,6 +41,25 @@ public static class SocialProviderConverter
             default: return string.Empty;
         }
     }
+
+	public static bool TryParseSocialProvider(this string providerAsString, out SocialProvider result)
+	{
+		providerAsString = providerAsString.ToLowerInvariant();
+		var socialProviderValues = Enum.GetValues(typeof(SocialProvider)).OfType<SocialProvider>();
+
+		foreach (var value in socialProviderValues)
+		{
+			if (value.GetParameter() == providerAsString)
+			{
+				result = value;
+				return true;
+			}
+		}
+
+		//else
+		result = SocialProvider.None;
+		return false;
+	}
 }
 
 [Serializable]

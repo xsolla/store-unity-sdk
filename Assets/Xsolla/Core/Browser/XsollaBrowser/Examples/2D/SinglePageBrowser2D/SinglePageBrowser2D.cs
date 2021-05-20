@@ -1,3 +1,5 @@
+//#define BROWSER_AVAILABLE
+#if (UNITY_EDITOR || UNITY_STANDALONE) && BROWSER_AVAILABLE
 using System;
 using System.Collections;
 using UnityEngine;
@@ -129,3 +131,4 @@ public class SinglePageBrowser2D : MonoBehaviour
 	}
 #endif
 }
+#endif

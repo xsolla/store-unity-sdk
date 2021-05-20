@@ -10,7 +10,7 @@ public class SubscriptionItemContainer : MonoBehaviour, IContainer
 	[SerializeField]
 	Transform itemParent;
 
-	private IDemoImplementation _demoImplementation;
+	//private IDemoImplementation _demoImplementation;
 	private List<GameObject> _items;
 
 	private void Awake()
@@ -33,7 +33,7 @@ public class SubscriptionItemContainer : MonoBehaviour, IContainer
 
 	public void SetStoreImplementation(IDemoImplementation demoImplementation)
 	{
-		_demoImplementation = demoImplementation;
+		//_demoImplementation = demoImplementation;
 	}
 
 	public void Refresh()

@@ -61,7 +61,7 @@ public class AndroidSDKSocialAuthHelper : IDisposable
 		}
         catch (Exception ex)
         {
-            throw new AggregateException(string.Format("AndroidSDKSocialAuthHelper.Ctor: {0}", ex.Message), ex);
+            throw new Exception(string.Format("AndroidSDKSocialAuthHelper.Ctor: {0}", ex.Message), ex);
         }
     }
 
@@ -83,7 +83,7 @@ public class AndroidSDKSocialAuthHelper : IDisposable
         }
         catch (Exception ex)
         {
-            throw new AggregateException(string.Format("AndroidSDKSocialAuthHelper.PerformSocialAuth: {0}", ex.Message), ex);
+            throw new Exception(string.Format("AndroidSDKSocialAuthHelper.PerformSocialAuth: {0}", ex.Message), ex);
         }
     }
 
@@ -116,7 +116,7 @@ public class AndroidSDKSocialAuthHelper : IDisposable
 			try
 			{
 				//Argument type of long is required, but is used only for JWT expiration check, which is not the case
-				isTokenExpired = isTokenExpired = _xlogin.CallStatic<bool>("isTokenExpired", (object)0L);
+				isTokenExpired = _xlogin.CallStatic<bool>("isTokenExpired", (object)0L);
 			}
 			catch (Exception ex)
 			{

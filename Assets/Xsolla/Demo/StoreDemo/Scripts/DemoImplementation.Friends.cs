@@ -241,7 +241,7 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 		}
 
 		SocialProvider provider;
-		if (Enum.TryParse<SocialProvider>(friend.platform, true, out provider))
+		if (friend.platform.TryParseSocialProvider(out provider))
 			result.SocialProvider = provider;
 
 		return result;

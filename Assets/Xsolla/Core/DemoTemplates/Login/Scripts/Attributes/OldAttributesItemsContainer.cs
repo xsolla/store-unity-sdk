@@ -16,7 +16,7 @@ public class OldAttributesItemsContainer : MonoBehaviour
 	Transform AttributesParentTransform;
 
 	private List<GameObject> _attributeItems;
-	private GameObject _attributesControls;
+	private GameObject _attributesControls = default(GameObject);
 
 	private List<OldUserAttributeModel> _attributes;
 	private List<string> _attributesToRemove;

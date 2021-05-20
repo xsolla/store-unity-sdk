@@ -17,7 +17,7 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 	private bool _refreshItemsInProgress;
 
 	private List<CatalogBundleItemModel> _bundlesCache;
-	private DateTime _bundlesCacheTime = DateTime.Now;
+	//private DateTime _bundlesCacheTime = DateTime.Now;
 	private bool _refreshBundlesInProgress;
 
 	private void RequestStoreItems(Action<List<StoreItem>> onSuccess, Action<Error> onError = null)
@@ -185,7 +185,7 @@ public partial class DemoImplementation : MonoBehaviour, IDemoImplementation
 						});
 					});
 
-					_bundlesCacheTime = DateTime.Now;
+					//_bundlesCacheTime = DateTime.Now;
 					_refreshBundlesInProgress = false;
 					if (onSuccess != null)
 						onSuccess.Invoke(bundleItems);

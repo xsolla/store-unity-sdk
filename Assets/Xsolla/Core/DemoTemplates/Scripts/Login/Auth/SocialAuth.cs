@@ -1,3 +1,4 @@
+//#define BROWSER_AVAILABLE
 using System;
 using System.Collections;
 using UnityEngine;
@@ -7,7 +8,7 @@ public class SocialAuth : StoreStringActionResult, ILoginAuthorization
 {
 	public void TryAuth(params object[] args)
 	{
-#if UNITY_EDITOR || UNITY_STANDALONE
+#if (UNITY_EDITOR || UNITY_STANDALONE) && BROWSER_AVAILABLE
 		if (HotkeyCoroutine.IsLocked())
 		{
 			if (base.OnError != null)
@@ -43,7 +44,6 @@ public class SocialAuth : StoreStringActionResult, ILoginAuthorization
 			if (base.OnError != null)
 				base.OnError.Invoke(new Error(errorMessage: "Social auth failed"));
 		}
-#endif
 	}
 
 	private bool TryExtractProvider(object[] args, out SocialProvider provider)
@@ -116,5 +116,6 @@ public class SocialAuth : StoreStringActionResult, ILoginAuthorization
 #endif
 		if (base.OnSuccess != null)
 			base.OnSuccess.Invoke(token);
+#endif
 	}
 }

@@ -43,7 +43,7 @@ public class UrlContainerEditor : Editor
 			string[] newArray = new string[targetLength];
 			var length = targetLength > array.Length ? array.Length : targetLength;
 
-			Array.Copy(sourceArray: array, destinationArray: newArray, length);
+			Array.Copy(sourceArray: array, destinationArray: newArray, length: length);
 
 			return newArray;
 		}

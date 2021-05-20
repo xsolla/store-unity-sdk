@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
@@ -22,7 +22,7 @@ public class UserProfilePageManagerEditor : Editor
 
 			for (int i = 0; i < typeNames.Length; i++)
 			{
-				var value = EditorGUILayout.ObjectField(label: typeNames[i], userProfielManager.UserProfileEntries[i], typeof(UserProfileEntryUI), allowSceneObjects: true);
+				var value = EditorGUILayout.ObjectField(typeNames[i], userProfielManager.UserProfileEntries[i], typeof(UserProfileEntryUI), allowSceneObjects: true);
 
 				if (value != userProfielManager.UserProfileEntries[i])
 					userProfielManager.UserProfileEntries[i] = value as UserProfileEntryUI;
@@ -41,7 +41,7 @@ public class UserProfilePageManagerEditor : Editor
 			UserProfileEntryUI[] newArray = new UserProfileEntryUI[targetLength];
 			var length = targetLength > array.Length ? array.Length : targetLength;
 
-			Array.Copy(sourceArray: array, destinationArray: newArray, length);
+			Array.Copy(sourceArray: array, destinationArray: newArray, length: length);
 
 			return newArray;
 		}

@@ -90,8 +90,8 @@ public class UserInventory : MonoSingleton<UserInventory>
 	private void HandleInventoryUpdate(Action callback)
 	{
 		AllItems.Clear();
-		AllItems.AddRange(VirtualItems);
-		AllItems.AddRange(Subscriptions);
+		AllItems.AddRange(VirtualItems.Cast<ItemModel>());
+		AllItems.AddRange(Subscriptions.Cast<ItemModel>());
 
 		if (UpdateVirtualCurrencyBalanceEvent != null)
 			UpdateVirtualCurrencyBalanceEvent.Invoke(Balance);

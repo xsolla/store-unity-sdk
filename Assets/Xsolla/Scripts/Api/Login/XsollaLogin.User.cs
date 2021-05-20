@@ -267,7 +267,7 @@ namespace Xsolla.Login
 		{
 			var url = string.Format(URL_USER_PICTURE, AnalyticUrlAddition);
 			var headers = AppendAnalyticHeadersTo(WebRequestHeader.AuthHeader(token), new WebRequestHeader() {Name = "Content-type", Value = string.Format("multipart/form-data; boundary ={0}", boundary)});
-			WebRequestHelper.Instance.PostUploadRequest(URL_USER_PICTURE, pictureData, headers, onSuccess, onError);
+			WebRequestHelper.Instance.PostUploadRequest(url, pictureData, headers, onSuccess, onError);
 		}
 
 		/// <summary>
