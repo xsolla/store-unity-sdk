@@ -119,8 +119,11 @@ namespace Xsolla.Demo
 
 		private void PurchaseForRealMoney(CatalogItemModel itemModel, int quantity, Action<CatalogItemModel> onSuccess, Action<Error> onError)
 		{
-			var cartItem = new UserCartItem(itemModel);
-			cartItem.Quantity = quantity;
+			var cartItem = new UserCartItem()
+			{
+				Sku = itemModel.Sku,
+				Quantity = quantity
+			};
 
 			var onCartSuccess = new Action<List<UserCartItem>>(_ =>
 			{

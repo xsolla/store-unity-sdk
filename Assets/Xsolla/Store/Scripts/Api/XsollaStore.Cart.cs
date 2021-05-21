@@ -35,7 +35,7 @@ namespace Xsolla.Store
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
-		public void CreateNewCart(string projectId, [NotNull] Action<Cart> onSuccess, [CanBeNull] Action<Error> onError)
+		public void GetCartItems(string projectId, [NotNull] Action<Cart> onSuccess, [CanBeNull] Action<Error> onError)
 		{
 			var url = string.Format(URL_CART_CREATE_NEW, projectId);
 			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.CreateCartErrors);
@@ -86,7 +86,7 @@ namespace Xsolla.Store
 		/// <param name="quantity">Quantity of purchased item.</param>
 		/// <param name="onSuccess">Success operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
-		/// <seealso cref="CreateNewCart"/>
+		/// <seealso cref="GetCartItems(string,System.Action{Xsolla.Store.Cart},System.Action{Xsolla.Core.Error})"/>
 		public void UpdateItemInCart(string projectId, string itemSku, int quantity, [CanBeNull] Action onSuccess, [CanBeNull] Action<Error> onError)
 		{
 			var url = string.Format(URL_CART_CURRENT_ITEM_UPDATE, projectId, itemSku);
@@ -105,7 +105,7 @@ namespace Xsolla.Store
 		/// <param name="quantity">Quantity of purchased items.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
-		/// <seealso cref="CreateNewCart"/>
+		/// <seealso cref="GetCartItems(string,System.Action{Xsolla.Store.Cart},System.Action{Xsolla.Core.Error})"/>
 		public void UpdateItemInCart(string projectId, string cartId, string itemSku, int quantity, [CanBeNull] Action onSuccess, [CanBeNull] Action<Error> onError)
 		{
 			var url = string.Format(URL_CART_SPECIFIC_ITEM_UPDATE, projectId, cartId, itemSku);

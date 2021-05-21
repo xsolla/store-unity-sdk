@@ -31,9 +31,9 @@ namespace Xsolla.Demo
 
 		private void Start()
 		{
-			addButton.onClick = () => UserCart.Instance.IncreaseCountOf(_cartItem.Item);
-			removeButton.onClick = () => UserCart.Instance.DecreaseCountOf(_cartItem.Item);
-			deleteButton.onClick = () => UserCart.Instance.RemoveItem(_cartItem.Item);
+			addButton.onClick = () => UserCart.Instance.IncreaseCountOf(_cartItem.Sku);
+			removeButton.onClick = () => UserCart.Instance.DecreaseCountOf(_cartItem.Sku);
+			deleteButton.onClick = () => UserCart.Instance.RemoveItem(_cartItem.Sku);
 
 			UserCart.Instance.RemoveItemEvent += RemoveItemHandler;
 			UserCart.Instance.UpdateItemEvent += UpdateItemHandler;
@@ -62,7 +62,7 @@ namespace Xsolla.Demo
 			_cartItem = cartItem;
 
 			itemPrice.text = PriceFormatter.FormatPrice(_cartItem.Currency, _cartItem.Price);
-			itemName.text = _cartItem.Item.Name;
+			itemName.text = _cartItem.Name;
 			itemQuantity.text = _cartItem.Quantity.ToString();
 
 			var priceWithoutDiscount = _cartItem.PriceWithoutDiscount;

@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using Xsolla.Core.Popup;
 
 namespace Xsolla.Demo
 {
@@ -22,7 +23,12 @@ namespace Xsolla.Demo
 			UserCart.Instance.RemoveItemEvent += DecreaseCounter;
 			UserCart.Instance.UpdateItemEvent += UpdateCounter;
 			UserCart.Instance.ClearCartEvent += ResetCounter;
-			button.onClick = () => DemoController.Instance.SetState(MenuState.Cart);
+			button.onClick = () =>
+			{
+				PopupFactory.Instance.CreateWaiting()
+					.SetCloseCondition(() => UserCart.Instance.IsUpdated)
+					.SetCloseHandler(() => DemoController.Instance.SetState(MenuState.Cart));
+			};
 		}
 
 		private void OnDestroy()

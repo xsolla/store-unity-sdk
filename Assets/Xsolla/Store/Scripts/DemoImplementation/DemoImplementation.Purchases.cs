@@ -57,7 +57,7 @@ namespace Xsolla.Demo
 			var isCartUnlocked = false;
 			PopupFactory.Instance.CreateWaiting().SetCloseCondition(() => isCartUnlocked);
 
-			XsollaStore.Instance.CreateNewCart(XsollaSettings.StoreProjectId, newCart =>
+			XsollaStore.Instance.GetCartItems(XsollaSettings.StoreProjectId, newCart =>
 			{
 				XsollaStore.Instance.ClearCart(XsollaSettings.StoreProjectId, newCart.cart_id, () =>
 				{

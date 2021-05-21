@@ -72,7 +72,12 @@ namespace Xsolla.Demo
 			if (UserCart.Instance.Contains(virtualItem.Sku))
 				EnableCheckout(true);
 
-			checkoutButtonButton.onClick = () => DemoController.Instance.SetState(MenuState.Cart);
+			checkoutButtonButton.onClick = () =>
+			{
+				PopupFactory.Instance.CreateWaiting()
+					.SetCloseCondition(() => UserCart.Instance.IsUpdated)
+					.SetCloseHandler(() => DemoController.Instance.SetState(MenuState.Cart));
+			};
 		}
 
 		private void DisablePrice()
@@ -140,14 +145,18 @@ namespace Xsolla.Demo
 			EnablePrice(false);
 			cartButton.gameObject.SetActive(true);
 			if (UserCart.Instance.Contains(virtualItem.Sku))
+			{
 				cartButton.Select(true);
+				EnableCheckout(true);
+			}
 			cartButton.onClick = isSelected =>
 			{
 				if (isSelected)
-					UserCart.Instance.AddItem(_itemInformation);
+					UserCart.Instance.AddItem(_itemInformation.Sku);
 				else
-					UserCart.Instance.RemoveItem(_itemInformation);
+					UserCart.Instance.RemoveItem(_itemInformation.Sku);
 
+				cartButton.Select(isSelected);
 				EnableCheckout(isSelected);
 			};
 			var realPrice = virtualItem.RealPrice;

@@ -63,7 +63,8 @@ namespace Xsolla.Demo
 		private void InitStoreDemo()
 		{
 			AttachButtonCallback(storeButton,
-				() => SetMenuState(MenuState.Store, () => UserCatalog.Instance.IsUpdated && UserInventory.Instance.IsUpdated));
+				() => SetMenuState(MenuState.Store, 
+					() => UserCatalog.Instance.IsUpdated && UserInventory.Instance.IsUpdated && UserCart.Instance.IsUpdated));
 
 			if (!DemoController.Instance.IsAccessTokenAuth)
 			{

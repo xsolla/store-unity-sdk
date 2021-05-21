@@ -12,54 +12,57 @@ namespace Xsolla.Demo
 			_items = new List<UserCartItem>();
 		}
 
-		private Predicate<UserCartItem> SearchPredicate(CatalogItemModel item) => cartItem => cartItem.Sku.Equals(item.Sku);
+		private Predicate<UserCartItem> SearchPredicate(string sku) => cartItem => cartItem.Sku.Equals(sku);
 
-		private UserCartItem FindCartItemBy(CatalogItemModel catalogItemModel) => GetCartItems().Find(SearchPredicate(catalogItemModel));
+		private UserCartItem FindCartItemBy(string sku) => GetCartItems().Find(SearchPredicate(sku));
 
-		public UserCartItem GetItem(CatalogItemModel item)
+		public UserCartItem GetItem(string sku)
 		{
-			return FindCartItemBy(item);
+			return FindCartItemBy(sku);
 		}
 
-		private bool Exist(CatalogItemModel item)
+		private bool Exist(string sku)
 		{
-			return _items.Exists(SearchPredicate(item));
+			return _items.Exists(SearchPredicate(sku));
 		}
 
-		public UserCartItem AddItem(CatalogItemModel item)
+		public UserCartItem AddItem(string sku)
 		{
-			if (!Exist(item))
+			if (!Exist(sku))
 			{
-				_items.Add(new UserCartItem(item));
+				_items.Add(new UserCartItem()
+				{
+					Sku = sku
+				});
 			}
-			return GetItem(item);
+			return GetItem(sku);
 		}
 
-		public bool RemoveItem(CatalogItemModel item)
+		public bool RemoveItem(string sku)
 		{
-			if(!Exist(item)) return false;
-			UserCartItem cartItem = GetItem(item);
+			if(!Exist(sku)) return false;
+			UserCartItem cartItem = GetItem(sku);
 			_items.Remove(cartItem);
 			return true;
 		}
 
-		public UserCartItem IncreaseCountOf(CatalogItemModel item)
+		public UserCartItem IncreaseCountOf(string sku)
 		{
-			if (!Exist(item)) return null;
-			UserCartItem cartItem = GetItem(item);
+			if (!Exist(sku)) return null;
+			UserCartItem cartItem = GetItem(sku);
 			cartItem.Quantity++;
 			return cartItem;
 		}
 
-		public UserCartItem DecreaseCountOf(CatalogItemModel item)
+		public UserCartItem DecreaseCountOf(string sku)
 		{
-			if (!Exist(item)) return null;
+			if (!Exist(sku)) return null;
 
-			UserCartItem cartItem = GetItem(item);
+			UserCartItem cartItem = GetItem(sku);
 			cartItem.Quantity--;
 			if (cartItem.Quantity == 0)
 			{
-				RemoveItem(cartItem.Item);
+				RemoveItem(sku);
 			}
 			return cartItem;
 		}

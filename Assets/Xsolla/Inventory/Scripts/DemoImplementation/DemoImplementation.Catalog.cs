@@ -233,23 +233,23 @@ namespace Xsolla.Demo
 		{
 			FillItemModel(model, item);
 
-			model.RealPrice = GetRealPrice(item, out var realPriceWithoutDiscount);
+			model.RealPrice = GetRealPrice(item.price, out var realPriceWithoutDiscount);
 			model.RealPriceWithoutDiscount = realPriceWithoutDiscount;
 
 			model.VirtualPrice = GetVirtualPrice(item, out var virtualPriceWithoutDiscount);
 			model.VirtualPriceWithoutDiscount = virtualPriceWithoutDiscount;
 		}
 
-		private static KeyValuePair<string, float>? GetRealPrice(StoreItem item, out KeyValuePair<string, float>? priceWithoutDiscount)
+		private static KeyValuePair<string, float>? GetRealPrice(Price price, out KeyValuePair<string, float>? priceWithoutDiscount)
 		{
-			if (item.price == null)
+			if (price == null)
 			{
 				priceWithoutDiscount = null;
 				return null;
 			}
 
-			priceWithoutDiscount = new KeyValuePair<string, float>(item.price.currency, item.price.GetAmountWithoutDiscount());
-			return new KeyValuePair<string, float>(item.price.currency, item.price.GetAmount());
+			priceWithoutDiscount = new KeyValuePair<string, float>(price.currency, price.GetAmountWithoutDiscount());
+			return new KeyValuePair<string, float>(price.currency, price.GetAmount());
 		}
 
 		private static KeyValuePair<string, uint>? GetVirtualPrice(StoreItem item, out KeyValuePair<string, uint>? priceWithoutDiscount)
