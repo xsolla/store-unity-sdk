@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using Xsolla.Core;
@@ -26,7 +27,6 @@ namespace Xsolla.Demo
 		public SocialProvider Provider => provider;
 		public SimpleButton Button => GetComponent<SimpleButton>();
 
-#if UNITY_EDITOR || UNITY_STANDALONE
 		private void Awake()
 		{
 			SetState(State.Unlinked);
@@ -36,7 +36,6 @@ namespace Xsolla.Demo
 		{
 			RefreshState();
 		}
-#endif
 
 		private void RefreshState()
 		{
@@ -107,8 +106,35 @@ namespace Xsolla.Demo
 
 		private void LinkSocialProvider()
 		{
-			Action<SocialProvider> onSuccessLink = _ => RefreshState();
-			DemoController.Instance.LoginDemo.LinkSocialProvider(provider, onSuccessLink);
+			var supported = true;
+
+#if UNITY_EDITOR
+			switch (EditorUserBuildSettings.activeBuildTarget)
+			{
+				case BuildTarget.StandaloneOSX:
+				case BuildTarget.StandaloneWindows:
+				case BuildTarget.StandaloneWindows64:
+				case BuildTarget.StandaloneLinux64:
+					//Do nothing
+					break;
+				default:
+					supported = false;
+					break;
+			}
+
+#elif (!UNITY_STANDALONE)
+			supported = false;
+#else
+#endif
+			if (supported)
+			{
+				Action<SocialProvider> onSuccessLink = _ => RefreshState();
+				DemoController.Instance.LoginDemo.LinkSocialProvider(provider, onSuccessLink);
+			}
+			else
+			{
+				StoreDemoPopup.ShowError(new Error(errorMessage:"Social account linking is not supported for this platform"));
+			}
 		}
 	}
 }
