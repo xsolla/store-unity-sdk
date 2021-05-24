@@ -1,116 +1,72 @@
 # Changelog
-
-## [0.5.1.2] - 2020-06-09 
-
-### Added 
-- Support of a build process by the IL2CPP compiler.
-
-### Fixed 
-- Minor bugs.
-
-
-## [0.5.1.1] - 2020-05-27 
-
-### Added 
-- The ability to sell non-recurring subscriptions.
-
-### Fixed 
-- Minor bugs.
-
-
-## [0.5.1.0] - 2020-04-27 
-
-### Added 
-- The ability of cross-platform account linking for combining player’s inventory on different platforms.
-- The ability of signing in via Facebook and Google. 
-
-### Fixed 
-- Minor bugs.
-
-
-## [0.5.0.3] - 2020-04-10 
-
-### Added 
-- The utility method of getting the Steam session_ticket for authorization.
-- The ability to process payments through Steam for games distributed on Steam. 
-- Platform parameter to Store API methods. 
-
-### Fixed 
-- Minor bugs.
-
-
-## [0.5.0.2] - 2020-03-17
-
-### Fixed
-
-- Making build on 2019-x versions.
-- Some small bugs.
-
-
-## [0.5.0.1] - 2020-03-03
-
+## [0.6.4.2] - 2021-04-23
 ### Added
-
-- Paystation theme settings.
-- 'External/InApp browser' settings.
-- Hotkeys for demo-scenes.
-
+- Added itmes attributes support
+- Added items store/inventory hiding based on HideIn attribute
 ### Fixed
+- Minor fixes
 
-- Rate-limits for UI buttons.
-- Consume more than 1 item.
-- Some small bugs.
-
-
-## [0.5.0.0] - 2020-02-14
-
+## [0.6.4.1] - 2021-04-16
 ### Added
+- Added QQ Android auth
 
-- New 'Paystation' demo scene for those partners who use their server to receive a paystation-token.
-- 'User Attributes' feature.
-- 'InAppBrowser' feature.
-- Reference to docs.
-
-### Fixed
-
-- Faster image uploads.
-- Some small bugs.
-
-
-## [0.4.2.5] - 2020-01-28
-
+## [0.6.4.0] - 2021-03-31
 ### Added
+- Battle Pass
+- UI Builder
+- XboxOne/PS4 support
+- Redirect policy settings
+- Logging level settings
+- API method for resend account confirmation email
+### Fixed
+ - Payment status polling
+ - AppleID authorization
+### Changed
+- PayStation Widget version
 
-- Messages for an empty catalogue.
+## [0.6.3.4] - 2021-03-18
+### Changed
+- Minor update
+
+## [0.6.3.3] - 2021-03-05
+### Changed
+- Added WeChat Android auth
+
+## [0.6.3.2] - 2021-02-05
+### Changed
+- Minimum supported version of Unity — 2019.4.19f1
+- Url of documentation page about user attributes
+- Authorization via social networks on android
 
 ### Fixed
+- Built-in browser for MacOS Big Sur
+- Native authorization via Steam
+- Automatic change of steam AppId in steam_appid.txt files when changing it in SDK settings
+- Various bug fixes and improvements
 
-- WebRequestHelper module cosmetic changes.
-
-
-## [0.4.2.4] - 2019-12-18
-
-### Security
-
-- Hide additional HTTP headers for WebGL build.
-
-
-## [0.4.2.3] - 2019-12-18
+## [0.6.3.1] - 2020-12-30
+### Added
+- Ability to pass custom parameters via API
+- Access token authentication
+- More social networks support
+- Hashtag for user identification
+- Browser background
+- Two more gender options
+- Custom parameters for access token auth
+- Support for new Unity input system
 
 ### Changed
-
-- Switch StoreAPI to v2.
-
-## [0.4.2.2] - 2019-12-06
+- Refactoring and rework
 
 ### Fixed
+- Various bug fixes and improvements
 
-- Bug with reset a password.
-- Hide unused virtual currency balance 'plus' icon.
+## [1.0.0.1] - 2020-10-27 
 
+### Fixed
+- Minor bugs.
 
-## [0.3 - 0.4.2.1] - 2019
+## [1.0.0.0] - 2020-10-08 
 
-- Login demo scene.
-- Store demo scene.
-- Paystation demo scene.
+### Added 
+- Friends system functionality.
