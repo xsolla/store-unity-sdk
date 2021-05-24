@@ -60,6 +60,16 @@ namespace Xsolla.Demo
 				AttachPreviewButtonHandler(virtualItem);
 			}
 
+			CheckIfItemPurchased(virtualItem);
+
+			if (UserCart.Instance.Contains(virtualItem.Sku))
+				EnableCheckout(true);
+
+			checkoutButtonButton.onClick = () => DemoController.Instance.SetState(MenuState.Cart);
+		}
+
+		private void CheckIfItemPurchased(CatalogItemModel virtualItem)
+		{
 			if (!virtualItem.IsConsumable)
 			{
 				var sameItemFromInventory = UserInventory.Instance.VirtualItems.FirstOrDefault(i => i.Sku.Equals(_itemInformation.Sku));
@@ -68,11 +78,6 @@ namespace Xsolla.Demo
 				if (isAlreadyPurchased)
 					DisablePrice();
 			}
-
-			if (UserCart.Instance.Contains(virtualItem.Sku))
-				EnableCheckout(true);
-
-			checkoutButtonButton.onClick = () => DemoController.Instance.SetState(MenuState.Cart);
 		}
 
 		private void DisablePrice()
@@ -132,6 +137,12 @@ namespace Xsolla.Demo
 		IEnumerator WaitCatalogUpdate(Action callback)
 		{
 			yield return new WaitUntil(() => UserCatalog.Instance.IsUpdated);
+			callback?.Invoke();
+		}
+
+		IEnumerator WaitInventoryUpdate(Action callback)
+		{
+			yield return new WaitUntil(() => UserInventory.Instance.IsUpdated);
 			callback?.Invoke();
 		}
 
@@ -224,13 +235,15 @@ namespace Xsolla.Demo
 
 		private void AttachBuyButtonHandler(CatalogItemModel virtualItem)
 		{
+			Action<CatalogItemModel> onPurchased = item => { StartCoroutine(WaitInventoryUpdate(() => CheckIfItemPurchased(item))); };
+
 			if (virtualItem.VirtualPrice == null)
 			{
-				buyButton.onClick = () => _demoImplementation.PurchaseForRealMoney(virtualItem);
+				buyButton.onClick = () => _demoImplementation.PurchaseForRealMoney(virtualItem, onPurchased);
 			}
 			else
 			{
-				buyButton.onClick = () => _demoImplementation.PurchaseForVirtualCurrency(virtualItem);
+				buyButton.onClick = () => _demoImplementation.PurchaseForVirtualCurrency(virtualItem, onPurchased);
 			}
 		}
 
