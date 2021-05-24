@@ -13,8 +13,8 @@ namespace Xsolla.Store
 		private const string URL_BUY_SPECIFIC_CART = BASE_STORE_API_URL + "/payment/cart/{1}";
 
 		private const string URL_ORDER_GET_STATUS = BASE_STORE_API_URL + "/order/{1}";
-		private const string URL_PAYSTATION_UI = "https://secure.xsolla.com/paystation2/?access_token=";
-		private const string URL_PAYSTATION_UI_IN_SANDBOX_MODE = "https://sandbox-secure.xsolla.com/paystation2/?access_token=";
+		private const string URL_PAYSTATION_UI = "https://secure.xsolla.com/paystation3/?access_token=";
+		private const string URL_PAYSTATION_UI_IN_SANDBOX_MODE = "https://sandbox-secure.xsolla.com/paystation3/?access_token=";
 
 		private const string URL_CREATE_PAYMENT_TOKEN = BASE_STORE_API_URL + "/payment";
 
