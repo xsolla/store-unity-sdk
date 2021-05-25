@@ -99,9 +99,23 @@ namespace Xsolla.Demo
 		private static void PurchaseComplete(CatalogItemModel item = null, Action popupButtonCallback = null, bool isShowResultToUser = true)
 		{
 			UserInventory.Instance.Refresh();
-	#if (UNITY_EDITOR || UNITY_STANDALONE)
-			CloseInGameBrowserIfExist();
-	#endif
+			if (BrowserHelper.Instance.GetLastBrowser() != null)
+			{
+#if (UNITY_EDITOR || UNITY_STANDALONE)
+				BrowserHelper.Instance.GetLastBrowser().BrowserClosedEvent += browser =>
+				{
+					ShowPurchaseCompleteMessage(item, popupButtonCallback, isShowResultToUser);
+				};
+#endif
+			}
+			else
+			{
+				ShowPurchaseCompleteMessage(item, popupButtonCallback, isShowResultToUser);
+			}
+		}
+
+		private static void ShowPurchaseCompleteMessage(CatalogItemModel item = null, Action popupButtonCallback = null, bool isShowResultToUser = true)
+		{
 			if (isShowResultToUser)
 			{
 				if(item != null)
@@ -110,12 +124,5 @@ namespace Xsolla.Demo
 					StoreDemoPopup.ShowSuccess(null, popupButtonCallback);
 			}
 		}
-	#if (UNITY_EDITOR || UNITY_STANDALONE)	
-		private static void CloseInGameBrowserIfExist()
-		{
-			if(BrowserHelper.Instance.GetLastBrowser() != null)
-				Destroy(BrowserHelper.Instance, 0.1F);
-		}
-	#endif
 	}
 }

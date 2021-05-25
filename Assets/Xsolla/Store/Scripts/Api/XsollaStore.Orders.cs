@@ -111,11 +111,25 @@ namespace Xsolla.Store
 				var browser = BrowserHelper.Instance.GetLastBrowser();
 				browser.GetComponent<XsollaBrowser>().Navigate.UrlChangedEvent += (xsollaBrowser, url) =>
 				{
+					UnityEngine.Debug.LogWarning(url);
 					var regex = new Regex(@"(?<=secure.xsolla.com/paystation)(.+?)(?=status)");
 					var matches = regex.Matches(url);
 					if (matches.Count > 0)
 					{
 						CheckOrderDone(orderId);
+					}
+
+					// handle case when manual/automatic redirect was triggered
+					if (ParseUtils.TryGetValueFromUrl(url, ParseParameter.status, out var status))
+					{
+						if (status != "done")
+						{
+							// occurs when redirect triggered automatically with any status without delay
+							var coroutine = StartCoroutine(CheckOrderWithRepeatCount(orderId));
+							OrderTrackingCoroutines.Add(orderId, coroutine);
+						}
+
+						Destroy(BrowserHelper.Instance, 0.1F);
 					}
 				};
 #endif
@@ -172,6 +186,20 @@ namespace Xsolla.Store
 			{
 				yield return new WaitForSeconds(3f);
 				CheckOrderDone(orderId, () => isDone = true);
+			}
+		}
+		
+		private IEnumerator CheckOrderWithRepeatCount(int orderId, int repeatCount = 10)
+		{
+			var isDone = false;
+			while (repeatCount > 0 && !isDone)
+			{
+				yield return new WaitForSeconds(3f);
+				CheckOrderDone(orderId, () =>
+				{
+					isDone = true;
+					repeatCount--;
+				});
 			}
 		}
 	}

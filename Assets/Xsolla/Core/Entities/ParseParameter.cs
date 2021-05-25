@@ -2,6 +2,6 @@
 {
 	public enum ParseParameter
 	{
-		token, code
+		token, code, status
 	}
 }
