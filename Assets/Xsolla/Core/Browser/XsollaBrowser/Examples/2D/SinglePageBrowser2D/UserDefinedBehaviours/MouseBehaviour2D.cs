@@ -11,7 +11,8 @@ namespace Xsolla.Core.Browser
 	public class MouseBehaviour2D : MonoBehaviour,
 		IPointerEnterHandler,
 		IPointerExitHandler,
-		IPointerClickHandler
+		IPointerClickHandler,
+		IScrollHandler
 	{
 		private BoxCollider2D browserCollider;
 		private IXsollaBrowserMouseInput browserMouse;
@@ -20,6 +21,8 @@ namespace Xsolla.Core.Browser
 		Coroutine mouseMovementCoroutine;
 		Canvas canvas;
 		Camera canvasCamera;
+		
+		public int ScrollSpeed { get; set; } = -75;
 
 		private void Awake()
 		{
@@ -57,6 +60,12 @@ namespace Xsolla.Core.Browser
 		{
 			Vector2 mousePosition = GetMousePosition(eventData.position);
 			browserMouse.Click(mousePosition, (Vector2 pos) => Debug.Log("Click handled by: " + pos.ToString()));
+		}
+		
+		void IScrollHandler.OnScroll(PointerEventData eventData)
+		{
+			var scrollDelta = eventData.scrollDelta * ScrollSpeed;
+			browserMouse.Scroll(scrollDelta);
 		}
 
 		IEnumerator MouseCoroutine()
