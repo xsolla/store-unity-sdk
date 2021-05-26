@@ -3,6 +3,7 @@ using System.Collections;
 using PuppeteerSharp;
 using UnityEngine;
 using UnityEngine.UI;
+using Xsolla.Core.Popup;
 
 namespace Xsolla.Core.Browser
 {
@@ -52,7 +53,6 @@ namespace Xsolla.Core.Browser
 				},
 				new BrowserFetcherOptions
 				{
-					
 #if UNITY_STANDALONE && !UNITY_EDITOR
 					Path = !XsollaSettings.PackInAppBrowserInBuild ? Application.persistentDataPath : String.Empty,
 #endif
@@ -84,6 +84,8 @@ namespace Xsolla.Core.Browser
 				xsollaBrowser.Navigate.GetUrl(currentUrl => { _urlBeforePopup = currentUrl; });
 				xsollaBrowser.Navigate.To(popupUrl, newUrl => { BackButton.gameObject.SetActive(true); });
 			}));
+
+			xsollaBrowser.Navigate.SetOnAlertListener(HandleBrowserAlert);
 
 			display = this.GetOrAddComponent<Display2DBehaviour>();
 		}
@@ -183,6 +185,50 @@ namespace Xsolla.Core.Browser
 			}
 
 			Destroy(this.transform.parent.gameObject);
+		}
+
+		private static void HandleBrowserAlert(Dialog alert)
+		{
+			switch (alert.DialogType)
+			{
+				case DialogType.Alert:
+					ShowSimpleAlertPopup(alert);
+					break;
+				case DialogType.Prompt:
+					CloseAlert(alert);
+					break;
+				case DialogType.Confirm:
+					ShowConfirtmAlertPopup(alert);
+					break;
+				case DialogType.BeforeUnload:
+					CloseAlert(alert);
+					break;
+				default:
+					CloseAlert(alert);
+					break;
+			}
+		}
+
+		private static void ShowSimpleAlertPopup(Dialog alert)
+		{
+			PopupFactory.Instance.CreateSuccess()
+				.SetTitle("Attention")
+				.SetMessage(alert.Message)
+				.SetCallback(() => alert.Accept());
+		}
+
+		private static void ShowConfirtmAlertPopup(Dialog alert)
+		{
+			PopupFactory.Instance.CreateConfirmation()
+				.SetMessage(alert.Message)
+				.SetConfirmCallback(() => alert.Accept())
+				.SetCancelCallback(() => alert.Dismiss());
+		}
+
+		private static void CloseAlert(Dialog alert)
+		{
+			Debug.Log("Browser alert was closed automatically");
+			alert.Accept();
 		}
 
 		private void XsollaBrowser_LogEvent(string obj)

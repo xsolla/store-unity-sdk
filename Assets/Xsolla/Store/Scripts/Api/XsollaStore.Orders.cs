@@ -111,7 +111,6 @@ namespace Xsolla.Store
 				var browser = BrowserHelper.Instance.GetLastBrowser();
 				browser.GetComponent<XsollaBrowser>().Navigate.UrlChangedEvent += (xsollaBrowser, url) =>
 				{
-					UnityEngine.Debug.LogWarning(url);
 					var regex = new Regex(@"(?<=secure.xsolla.com/paystation)(.+?)(?=status)");
 					var matches = regex.Matches(url);
 					if (matches.Count > 0)
