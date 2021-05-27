@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -17,7 +18,7 @@ namespace Xsolla.Demo
 		/// Invoked before state is changing.
 		/// </summary>
 		public event StateChangeDelegate StateChangingEvent;
-	
+
 		[SerializeField] private Canvas canvas = default;
 		[SerializeField] private MenuState initialState = default;
 		[SerializeField] private GameObject authMenuPrefab = default;
@@ -45,6 +46,12 @@ namespace Xsolla.Demo
 		private readonly List<MenuState> _stateTrace = new List<MenuState>();
 		private MenuState _state;
 		private GameObject _stateObject;
+
+		public GameObject StateObject => _stateObject;
+
+		public event Action<MenuState, GameObject> CheckAuthorizationState;
+		public event Action RunLoginProxy;
+		public event Action ShowLoginError;
 
 		private void Awake()
 		{
@@ -105,7 +112,7 @@ namespace Xsolla.Demo
 			{
 				StateChangingEvent?.Invoke(oldState, _state);
 				_stateObject = Instantiate(_stateMachine[_state], canvas.transform);
-				CheckAuthorizationState(_state, _stateObject);
+				CheckAuthorizationState?.Invoke(_state, _stateObject);
 				HandleSomeCases(oldState, _state);
 			}
 			else
@@ -136,6 +143,11 @@ namespace Xsolla.Demo
 			return _stateMachine[state] != null;
 		}
 
+		public void ClearTrace()
+		{
+			_stateTrace.Clear();
+		}
+
 		private bool CheckHardcodedBackCases()
 		{
 			if (_state.IsPostAuthState() && _state != MenuState.Main && _state != MenuState.BuyCurrency && _state != MenuState.Cart)
@@ -145,41 +157,22 @@ namespace Xsolla.Demo
 			}
 			return false;
 		}
-	
+
 		private void HandleSomeCases(MenuState lastState, MenuState newState)
 		{
-			if(lastState == newState) return;
-			if(lastState == MenuState.Cart && newState == MenuState.Inventory)
+			if (lastState == newState) return;
+			if (lastState == MenuState.Cart && newState == MenuState.Inventory)
 				ClearTrace();
-			if(newState == MenuState.Main || newState == MenuState.Authorization || newState == MenuState.Friends || newState == MenuState.SocialFriends)
+			if (newState == MenuState.Main || newState == MenuState.Authorization || newState == MenuState.Friends || newState == MenuState.SocialFriends)
 				ClearTrace();
-			if(newState == MenuState.Authorization)
+			if (newState == MenuState.Authorization)
 			{
-				var proxyScript = FindObjectOfType<LoginProxyActionHolder>();
-				var loginEnterScript = _stateObject.GetComponent<LoginPageEnterController>();
-
-				if(proxyScript != null && loginEnterScript != null)
-					loginEnterScript.RunLoginProxyAction(proxyScript.ProxyAction, proxyScript.ProxyActionArgument);
-
-				if(proxyScript != null)
-					Destroy(proxyScript.gameObject);
+				RunLoginProxy?.Invoke();
 			}
 			if (newState == MenuState.LoginSettingsError)
 			{
-				var proxyScript = FindObjectOfType<LoginSettingsErrorHolder>();
-				var errorShower = _stateObject.GetComponent<LoginPageErrorShower>();
-
-				if (proxyScript != null && errorShower != null)
-					errorShower.ShowError(proxyScript.LoginSettingsError);
-
-				if (proxyScript != null)
-					Destroy(proxyScript.gameObject);
+				ShowLoginError?.Invoke();
 			}
-		}
-
-		private void ClearTrace()
-		{
-			_stateTrace.Clear();
 		}
 	}
 }

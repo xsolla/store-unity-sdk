@@ -8,7 +8,6 @@ namespace Xsolla.Demo
 	public class UserInfoDrawer : MonoBehaviour
 	{
 		[SerializeField] private Text UserEmailText = default;
-
 		[SerializeField] private Text UserTagText = default;
 
 		private const int USER_INFO_LIMIT = 42;
