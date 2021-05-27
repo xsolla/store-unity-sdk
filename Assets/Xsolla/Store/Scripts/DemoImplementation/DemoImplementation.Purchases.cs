@@ -135,19 +135,19 @@ namespace Xsolla.Demo
 		private static void PurchaseComplete(CatalogItemModel item = null, Action popupButtonCallback = null, bool isShowResultToUser = true)
 		{
 			UserInventory.Instance.Refresh();
+#if (UNITY_EDITOR || UNITY_STANDALONE)
 			if (BrowserHelper.Instance.GetLastBrowser() != null)
 			{
-#if (UNITY_EDITOR || UNITY_STANDALONE)
+
 				BrowserHelper.Instance.GetLastBrowser().BrowserClosedEvent += browser =>
 				{
 					ShowPurchaseCompleteMessage(item, popupButtonCallback, isShowResultToUser);
 				};
+				return;
+			}
 #endif
-			}
-			else
-			{
-				ShowPurchaseCompleteMessage(item, popupButtonCallback, isShowResultToUser);
-			}
+			ShowPurchaseCompleteMessage(item, popupButtonCallback, isShowResultToUser);
+			
 		}
 
 		private static void ShowPurchaseCompleteMessage(CatalogItemModel item = null, Action popupButtonCallback = null, bool isShowResultToUser = true)

@@ -150,8 +150,10 @@ namespace Xsolla.Store
 				XsollaSettings.IsSandbox,
 				XsollaSettings.InAppBrowserEnabled && !forcePlatformBrowser);
 
+#if (UNITY_EDITOR || UNITY_STANDALONE)
 			if (BrowserHelper.Instance.GetLastBrowser() != null)
 				TrackRestrictedPaymentMethod(onRestrictedPaymentMethod);
+#endif
 		}
 
 		/// <summary>
@@ -306,6 +308,7 @@ namespace Xsolla.Store
 			return settings;
 		}
 		
+#if (UNITY_EDITOR || UNITY_STANDALONE)
 		private void TrackRestrictedPaymentMethod(Action<int> onRestrictedPaymentMethod)
 		{
 			BrowserHelper.Instance.GetLastBrowser().BrowserInitEvent += activeBrowser =>
@@ -319,5 +322,6 @@ namespace Xsolla.Store
 				};
 			};
 		}
+#endif
 	}
 }
