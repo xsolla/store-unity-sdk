@@ -81,7 +81,13 @@ namespace Xsolla.Core.Browser
 
 			xsollaBrowser.Navigate.SetOnPopupListener((popupUrl =>
 			{
-				xsollaBrowser.Navigate.GetUrl(currentUrl => { _urlBeforePopup = currentUrl; });
+				xsollaBrowser.Navigate.GetUrl(currentUrl =>
+				{
+					if (string.IsNullOrEmpty(_urlBeforePopup))
+					{
+						_urlBeforePopup = currentUrl;
+					}
+				});
 				xsollaBrowser.Navigate.To(popupUrl, newUrl => { BackButton.gameObject.SetActive(true); });
 			}));
 
@@ -198,7 +204,7 @@ namespace Xsolla.Core.Browser
 					CloseAlert(alert);
 					break;
 				case DialogType.Confirm:
-					ShowConfirtmAlertPopup(alert);
+					ShowConfirmAlertPopup(alert);
 					break;
 				case DialogType.BeforeUnload:
 					CloseAlert(alert);
@@ -217,7 +223,7 @@ namespace Xsolla.Core.Browser
 				.SetCallback(() => alert.Accept());
 		}
 
-		private static void ShowConfirtmAlertPopup(Dialog alert)
+		private static void ShowConfirmAlertPopup(Dialog alert)
 		{
 			PopupFactory.Instance.CreateConfirmation()
 				.SetMessage(alert.Message)
