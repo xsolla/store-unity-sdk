@@ -42,8 +42,8 @@ public class RedistInstall {
 
 		if (!File.Exists(strSource))
 		{
-			if (Xsolla.Core.XsollaSettings.UseSteamAuth)
-				Debug.LogWarning(string.Format("[Steamworks.NET] Could not copy {0} into the project root. {0} could not be found in '{1}'. Place {0} from the Steamworks SDK in the project root manually.", filename, Path.Combine(strCWD, path)));
+			//if (Xsolla.Core.XsollaSettings.UseSteamAuth)
+			Debug.LogWarning(string.Format("[Steamworks.NET] Could not copy {0} into the project root. {0} could not be found in '{1}'. Place {0} from the Steamworks SDK in the project root manually.", filename, Path.Combine(strCWD, path)));
 
 			return;
 		}
