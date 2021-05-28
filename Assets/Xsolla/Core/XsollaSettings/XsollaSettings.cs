@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
@@ -69,6 +70,31 @@ namespace Xsolla.Core
 			set
 			{
 				Instance.useSteamAuth = value;
+
+				string useSteamMark = default(string);
+#if UNITY_EDITOR_WIN
+				useSteamMark = "Assets\\Xsolla\\ThirdParty\\use_steam";
+#else
+				useSteamMark = "Assets/Xsolla/ThirdParty/use_steam";
+#endif
+				try
+				{
+					if (value)
+						File.Create(useSteamMark);
+					else
+					{
+						File.Delete(useSteamMark);
+
+						var meta = $"{useSteamMark}.meta";
+						if (File.Exists(meta))
+							File.Delete(meta);
+					}
+				}
+				catch (Exception ex)
+				{
+					Debug.LogError($"Could not create or delete {useSteamMark}. {ex.Message}");
+				}
+
 				MarkAssetDirty();
 			}
 		}
