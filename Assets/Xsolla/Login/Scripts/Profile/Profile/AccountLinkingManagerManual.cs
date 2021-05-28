@@ -5,12 +5,12 @@ using Xsolla.Core.Popup;
 
 namespace Xsolla.Demo
 {
-	public class AccountLinkingManagerManual : MonoBehaviour
+	public partial class AccountLinkingManagerManual : MonoBehaviour
 	{
 		[SerializeField] private SimpleButton accountLinkingButton = default;
 		[SerializeField] private SimpleButton getAccountLinkButton = default;
 
-		public void Init()
+		partial void InitInternal()
 		{
 			if (DemoController.Instance.LoginDemo.Token.IsMasterAccount())
 				GetAccountLinkButtonEnable();

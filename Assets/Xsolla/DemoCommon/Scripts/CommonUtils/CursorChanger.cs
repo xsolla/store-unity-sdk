@@ -1,8 +1,8 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 namespace Xsolla.Demo
 {
-	public class CursorChanger : MonoBehaviour
+	public partial class CursorChanger : MonoBehaviour
 	{
 		[SerializeField] private Texture2D ButtonHoverCursor = default;
 		[SerializeField] private Texture2D InputFieldHoverCursor = default;
@@ -20,9 +20,8 @@ namespace Xsolla.Demo
 
 			InputFieldCursorEventProvider.OnCursorEnter += ChangeToInputFieldHoverCursor;
 			InputFieldCursorEventProvider.OnCursorExit += ChangeBackToDefault;
-		
-			BlurSelectedUser.OnActivated += ChangeToButtonHoverCursor;
-			BlurSelectedUser.OnDeactivated += ChangeBackToDefault;
+
+			AdditionalAwakeActionsLogin();
 		}
 
 		private void OnDestroy()
@@ -38,22 +37,23 @@ namespace Xsolla.Demo
 
 			InputFieldCursorEventProvider.OnCursorEnter -= ChangeToInputFieldHoverCursor;
 			InputFieldCursorEventProvider.OnCursorExit -= ChangeBackToDefault;
-		
-			BlurSelectedUser.OnActivated -= ChangeToButtonHoverCursor;
-			BlurSelectedUser.OnDeactivated -= ChangeBackToDefault;
+
+			AdditionalDestroyActionsLogin();
 		}
 
-		private void ChangeToButtonHoverCursor() => SetCursorTexture(ButtonHoverCursor);
-		
-		private void ChangeToInputFieldHoverCursor() => SetCursorTexture(InputFieldHoverCursor);
-		
 		public static void ChangeBackToDefault() => SetCursorTexture(null);
-		
+
 		public static void SetCursorTexture(Texture2D texture)
 		{
 #if !ENABLE_INPUT_SYSTEM
 			Cursor.SetCursor(texture, Vector2.zero, CursorMode.ForceSoftware);
 #endif
 		}
+
+		private void ChangeToButtonHoverCursor() => SetCursorTexture(ButtonHoverCursor);
+		private void ChangeToInputFieldHoverCursor() => SetCursorTexture(InputFieldHoverCursor);
+
+		partial void AdditionalAwakeActionsLogin();
+		partial void AdditionalDestroyActionsLogin();
 	}
 }

@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6003545067062460713}
   - component: {fileID: 6003545067062460712}
+  - component: {fileID: 2504998761382923964}
   m_Layer: 0
   m_Name: StateMachine
   m_TagString: Untagged
@@ -85,3 +86,15 @@ MonoBehaviour:
     type: 3}
   loginSettingsErrorPrefab: {fileID: 860802679669836760, guid: cf24102a48934604f83eb36f1e712329,
     type: 3}
+--- !u!114 &2504998761382923964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6003545067062460714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a57e2657a094be4b14abcb1b759cf3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
