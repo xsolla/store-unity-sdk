@@ -135,6 +135,26 @@ namespace Xsolla.Store
 			}
 		}
 
+		public void AddOrderForTrackingUntilDone(string projectId, int orderId, Action onSuccess = null, Action<Error> onError = null)
+		{
+			var order = TrackingOrders.FirstOrDefault(x => x.OrderId == orderId);
+			if (order != null)
+				return;
+
+			order = new OrderTrackingData
+			{
+				ProjectId = projectId,
+				OrderId = orderId,
+				SuccessCallback = onSuccess,
+				ErrorCallback = onError
+			};
+
+			TrackingOrders.Add(order);
+
+			var coroutine = StartCoroutine(CheckOrderForeverUntilDone(orderId));
+			OrderTrackingCoroutines.Add(orderId, coroutine);
+		}
+
 		public void RemoveOrderFromTracking(int orderId)
 		{
 			var order = TrackingOrders.FirstOrDefault(x => x.OrderId == orderId);
