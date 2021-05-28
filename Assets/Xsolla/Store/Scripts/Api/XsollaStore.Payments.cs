@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
+using UnityEngine;
 using Xsolla.Core;
+using Xsolla.Core.Browser;
 
 namespace Xsolla.Store
 {
@@ -22,6 +24,13 @@ namespace Xsolla.Store
 		{
 			{"https://secure.xsolla.com/pages/paywithgoogle", 3431},
 			{"https://secure.xsolla.com/pages/vkpay", 3496}
+		};
+
+		private readonly Dictionary<PayStationUISettings.PaystationSize, Vector2> _payStationSizes = new Dictionary<PayStationUISettings.PaystationSize, Vector2>
+		{
+			{PayStationUISettings.PaystationSize.Small, new Vector2(620, 630)},
+			{PayStationUISettings.PaystationSize.Medium, new Vector2(740, 760)},
+			{PayStationUISettings.PaystationSize.Large, new Vector2(820, 840)}
 		};
 
 		/// <summary>
@@ -152,7 +161,10 @@ namespace Xsolla.Store
 
 #if (UNITY_EDITOR || UNITY_STANDALONE)
 			if (BrowserHelper.Instance.GetLastBrowser() != null)
+			{
 				TrackRestrictedPaymentMethod(onRestrictedPaymentMethod);
+				UpdateBrowserSize();
+			}
 #endif
 		}
 
@@ -320,6 +332,21 @@ namespace Xsolla.Store
 						onRestrictedPaymentMethod?.Invoke(_restrictedPaymentMethods[newUrl]);
 					}
 				};
+			};
+		}
+
+		private void UpdateBrowserSize()
+		{
+			BrowserHelper.Instance.GetLastBrowser().BrowserInitEvent += activeBrowser =>
+			{
+				var browserRender = BrowserHelper.Instance.GetLastBrowser().GetComponent<Display2DBehaviour>();
+				if (browserRender == null)
+					return;
+
+				var payStationSize = _payStationSizes[XsollaSettings.DesktopPayStationUISettings.isOverride
+					? XsollaSettings.DesktopPayStationUISettings.paystationSize
+					: PayStationUISettings.PaystationSize.Medium];
+				browserRender.StartRedrawWith((int) payStationSize.x, (int) payStationSize.y);
 			};
 		}
 #endif
