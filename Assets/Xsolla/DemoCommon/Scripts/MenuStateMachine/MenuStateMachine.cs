@@ -47,12 +47,6 @@ namespace Xsolla.Demo
 		private MenuState _state;
 		private GameObject _stateObject;
 
-		public GameObject StateObject => _stateObject;
-
-		public event Action<MenuState, GameObject> CheckAuthorizationState;
-		public event Action RunLoginProxy;
-		public event Action ShowLoginError;
-
 		private void Awake()
 		{
 			_stateObject = null;
@@ -112,7 +106,7 @@ namespace Xsolla.Demo
 			{
 				StateChangingEvent?.Invoke(oldState, _state);
 				_stateObject = Instantiate(_stateMachine[_state], canvas.transform);
-				CheckAuthorizationState?.Invoke(_state, _stateObject);
+				CheckAuthorizationState(_state, _stateObject);
 				HandleSomeCases(oldState, _state);
 			}
 			else
@@ -167,11 +161,25 @@ namespace Xsolla.Demo
 				ClearTrace();
 			if (newState == MenuState.Authorization)
 			{
-				RunLoginProxy?.Invoke();
+				var proxyScript = FindObjectOfType<LoginProxyActionHolder>();
+				var loginEnterScript = _stateObject.GetComponent<LoginPageEnterController>();
+
+				if (proxyScript != null && loginEnterScript != null)
+					loginEnterScript.RunLoginProxyAction(proxyScript.ProxyAction, proxyScript.ProxyActionArgument);
+
+				if (proxyScript != null)
+					Destroy(proxyScript.gameObject);
 			}
 			if (newState == MenuState.LoginSettingsError)
 			{
-				ShowLoginError?.Invoke();
+				var proxyScript = FindObjectOfType<LoginSettingsErrorHolder>();
+				var errorShower = _stateObject.GetComponent<LoginPageErrorShower>();
+
+				if (proxyScript != null && errorShower != null)
+					errorShower.ShowError(proxyScript.LoginSettingsError);
+
+				if (proxyScript != null)
+					Destroy(proxyScript.gameObject);
 			}
 		}
 	}
