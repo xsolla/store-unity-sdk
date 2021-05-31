@@ -1,5 +1,5 @@
+using System;
 using System.Collections.Generic;
-using UnityEngine;
 using Xsolla.Login;
 
 namespace Xsolla.Demo
@@ -82,12 +82,22 @@ namespace Xsolla.Demo
 
 		private void GetObtainedItems(UserAttribute obtainedAttribute, out int[] obtainedFreeItems, out int[] obtainedPremiumItems)
 		{
-			var valueParts = obtainedAttribute.value.Split(' ');
-			var freeItemsPart = valueParts[0];
-			var premiumItemsPart = valueParts[1];
+			try
+			{
+				var valueParts = obtainedAttribute.value.Split(' ');
+				var freeItemsPart = valueParts[0];
+				var premiumItemsPart = valueParts[1];
 
-			obtainedFreeItems = GetNumbersFromPart(freeItemsPart);
-			obtainedPremiumItems = GetNumbersFromPart(premiumItemsPart);
+				obtainedFreeItems = GetNumbersFromPart(freeItemsPart);
+				obtainedPremiumItems = GetNumbersFromPart(premiumItemsPart);
+			}
+			catch (Exception ex)
+			{
+				obtainedFreeItems = new int[0];
+				obtainedPremiumItems = new int[0];
+
+				Debug.LogError($"Error parsing obtained items record. Record:'{obtainedAttribute.value}'{Environment.NewLine}Error:'{ex.Message}'");
+			}
 		}
 
 		private int[] GetNumbersFromPart(string itemsPart)
