@@ -7,7 +7,7 @@ namespace Xsolla.Core
 	{
 		public bool isFoldout;
 		public bool isOverride;
-		public PaystationTheme paystationTheme = PaystationTheme.Default;
+		public PaystationTheme paystationTheme = PaystationTheme.PS4_DefaultDark;
 		public PaystationSize paystationSize = PaystationSize.Medium;
 		public PaystationVersion paystationVersion = PaystationVersion.Desktop;
 
@@ -51,6 +51,8 @@ namespace Xsolla.Core
 				case PaystationTheme.Default:		return "default";
 				case PaystationTheme.Dark:			return "dark";
 				case PaystationTheme.DefaultDark:	return "default_dark";
+				case PaystationTheme.PS4_DefaultLight:	return "ps4-default-light";
+				case PaystationTheme.PS4_DefaultDark:	return "ps4-default-dark";
 				default: goto case PaystationTheme.Dark;
 			}
 		}
@@ -80,7 +82,9 @@ namespace Xsolla.Core
 		{
 			Default,
 			Dark,
-			DefaultDark
+			DefaultDark,
+			PS4_DefaultLight,
+			PS4_DefaultDark
 		}
 
 		public enum PaystationSize

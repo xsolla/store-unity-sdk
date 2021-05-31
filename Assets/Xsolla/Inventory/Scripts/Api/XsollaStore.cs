@@ -13,6 +13,22 @@ namespace Xsolla.Store
 
 		private const string BASE_STORE_API_URL = "https://store.xsolla.com/api/v2/project/{0}";
 
+		string GetLimitUrlParam(int? limit)
+		{
+			if (limit == null)
+				return string.Empty;
+			else
+				return $"&limit={limit}";
+		}
+
+		string GetOffsetUrlParam(int? offset)
+		{
+			if (offset == null)
+				return string.Empty;
+			else
+				return $"&offset={offset}";
+		}
+
 		string GetLocaleUrlParam(string locale)
 		{
 			if (string.IsNullOrEmpty(locale))
@@ -35,6 +51,22 @@ namespace Xsolla.Store
 				return string.Empty;
 			else
 				return $"&platform={XsollaSettings.Platform.GetString()}";
+		}
+
+		string GetAdditionalFieldsParam(string additionalFields)
+		{
+			if (string.IsNullOrEmpty(additionalFields))
+				return string.Empty;
+			else
+				return $"&additional_fields[]={additionalFields}";
+		}
+
+		string GetCountryUrlParam(string country)
+		{
+			if (string.IsNullOrEmpty(country))
+				return string.Empty;
+			else
+				return $"&country={country}";
 		}
 
 		private string ConcatUrlAndParams(string url, params string[] parameters)
