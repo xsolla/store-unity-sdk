@@ -1,4 +1,26 @@
 # Changelog
+## [0.6.4.3] - 2021-06-XX
+### Added
+- Device ID authorization
+- OAuth2.0 state parameter for more API methods
+- Added: Paystation UI settings for different build targets
+- Added: Additional Paystation UI color themes
+- Added: 'Create payment token' method
+- Added: Xsolla assembly definitions
+### Fixed
+- Fixed: In-game browser scroll
+- Fixed: In-game browser numpad
+- Fixed: In-game browser redirection links
+- Fixed: In-game browser post purchase behaviour
+- Fixed: In-game browser window size now corresponds with Paystation UI size
+- Fixed: Handling of few purchase systems that become incompletable with in-game browser
+- Fixed: Various other fixes and improvements
+### Changed
+- Changed: Paystation opening version 2 -> 3
+- Changed: Updated purchase API methods
+### Removed
+- Removed: Several surplus libraries (reworked corresponding functionality to use custom logic)
+
 ## [0.6.4.2] - 2021-04-23
 ### Added
 - Added itmes attributes support
