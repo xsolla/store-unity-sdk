@@ -30,7 +30,6 @@ namespace Xsolla.Store
 			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.ItemsListErrors);
 		}
 
-		//TEXTREVIEW
 		/// <summary>
 		/// Returns info for all virtual currencies.
 		/// </summary>
@@ -42,8 +41,8 @@ namespace Xsolla.Store
 		/// <param name="limit">Limit for the number of elements on the page.</param>
 		/// <param name="offset">Number of the element from which the list is generated (the count starts from 0).</param>
 		/// <param name="locale">Response language. Two-letter lowercase language code per ISO 639-1.</param>
-		/// <param name="additionalFields">The list of additional fields. This fields will be in a response if you send its in a request. Available fields 'media_list', 'order', 'long_description'.</param>
-		/// <param name="country">Country to calculate regional prices and restrictions for catalog. Two-letter uppercase country code per ISO 3166-1 alpha-2. If you do not specify the country explicitly, it will be calculated based on the user's IP address.</param>
+		/// <param name="additionalFields">The list of additional fields. These fields will be in a response if you send them in a request. Available fields 'media_list', 'order', and 'long_description'.</param>
+		/// <param name="country">Country used to calculate regional prices and restrictions for the catalog. Two-letter uppercase country code per ISO 3166-1 alpha-2. If you do not specify the country explicitly, it will be defined by the user IP address.</param>
 		public void GetVirtualCurrencyList(string projectId, [NotNull] Action<VirtualCurrencyItems> onSuccess, [CanBeNull] Action<Error> onError, int limit = 50, int offset = 0, [CanBeNull] string locale = null, string additionalFields = null, string country = null)
 		{
 			var url = string.Format(URL_VIRTUAL_CURRENCY_LIST, projectId, limit, offset);
@@ -55,9 +54,8 @@ namespace Xsolla.Store
 			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.ItemsListErrors);
 		}
 
-		//TEXTREVIEW
 		/// <summary>
-		/// Returns virtual currency packages list.
+		/// Returns the list of virtual currency packages.
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Get virtual currency package list</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/store-api/items/get-virtual-currency-package"/>
@@ -67,8 +65,8 @@ namespace Xsolla.Store
 		/// <param name="limit">Limit for the number of elements on the page.</param>
 		/// <param name="offset">Number of the element from which the list is generated (the count starts from 0).</param>
 		/// <param name="locale">Response language. Two-letter lowercase language code per ISO 639-1.</param>
-		/// <param name="additionalFields">The list of additional fields. This fields will be in a response if you send its in a request. Available fields 'media_list', 'order', 'long_description'.</param>
-		/// <param name="country">Country to calculate regional prices and restrictions for catalog. Two-letter uppercase country code per ISO 3166-1 alpha-2. If you do not specify the country explicitly, it will be calculated based on the user's IP address.</param>
+		/// <param name="additionalFields">The list of additional fields. These fields will be in a response if you send them in a request. Available fields 'media_list', 'order', and 'long_description'.</param>
+		/// <param name="country">Country used to calculate regional prices and restrictions for the catalog. Two-letter uppercase country code per ISO 3166-1 alpha-2. If you do not specify the country explicitly, it will be defined by the user IP address.</param>
 		public void GetVirtualCurrencyPackagesList(string projectId, [NotNull] Action<VirtualCurrencyPackages> onSuccess, [CanBeNull] Action<Error> onError, int limit = 50, int offset = 0, [CanBeNull] string locale = null, string additionalFields = null, string country = null)
 		{
 			var url = string.Format(URL_VIRTUAL_CURRENCY_PACKAGES_IN_PROJECT, projectId, limit, offset);
