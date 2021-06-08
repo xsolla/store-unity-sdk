@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Blur
+  m_Name: BlurStrong
   m_Shader: {fileID: 4800000, guid: d07d69415cc8b45569e1ebeb9e4b1ea5, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
