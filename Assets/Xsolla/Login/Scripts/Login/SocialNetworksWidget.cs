@@ -35,6 +35,7 @@ namespace Xsolla.Demo
 		{
 			FilterInput.onValueChanged.RemoveListener(OnFilterChanged);
 			FilterInput.text = string.Empty;
+			OnFilterChanged(FilterInput.text);
 		}
 
 		private void OnFilterChanged(string filterText)
