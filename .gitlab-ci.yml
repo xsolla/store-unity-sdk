@@ -7,6 +7,7 @@ stages:
   - build
   - deploy
   - linking
+  - webgl-demo
 
 build doc:
   stage: build
@@ -53,3 +54,18 @@ stop doc:
   only:
     - /^v.*/
   dependencies: []
+
+build-webgl-demo:
+  stage: webgl-demo
+  image: unityci/editor:2019.4.27f1-webgl-0.13.0
+  script:
+    - chmod +x ./cicd/build-webgl-demo.sh && ./cicd/build-webgl-demo.sh
+    - mkdir -p webgl/build
+    - mv Builds/WebGL/* webgl/build/
+  after_script:
+    - mkdir -p webgl/logs/
+    - mv Logs/* webgl/logs/
+  artifacts:
+    when: always
+    paths:
+      - webgl
