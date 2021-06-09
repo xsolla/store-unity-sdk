@@ -480,6 +480,12 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 6389733742317925048, guid: 4af1ad141a08941d8bc07459eb260991,
         type: 3}
+      propertyPath: loginSettingsErrorPrefab
+      value: 
+      objectReference: {fileID: 533852959735884297, guid: 0bc84c9f57b7c104496342ec7abc94de,
+        type: 3}
+    - target: {fileID: 6389733742317925048, guid: 4af1ad141a08941d8bc07459eb260991,
+        type: 3}
       propertyPath: characterMenuPrefabLoginSDK
       value: 
       objectReference: {fileID: 0}
