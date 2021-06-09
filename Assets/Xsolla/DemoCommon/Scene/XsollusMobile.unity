@@ -491,9 +491,21 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 6389733742317925048, guid: 4af1ad141a08941d8bc07459eb260991,
         type: 3}
+      propertyPath: registrationSuccessMenuPrefab
+      value: 
+      objectReference: {fileID: 533852959735884297, guid: b9ed99cbb09473b40a88b321826fac26,
+        type: 3}
+    - target: {fileID: 6389733742317925048, guid: 4af1ad141a08941d8bc07459eb260991,
+        type: 3}
       propertyPath: changePasswordFailedMenuPrefab
       value: 
       objectReference: {fileID: 533852959735884297, guid: 276c80ef2c130ee41b2b2a59db0d2764,
+        type: 3}
+    - target: {fileID: 6389733742317925048, guid: 4af1ad141a08941d8bc07459eb260991,
+        type: 3}
+      propertyPath: changePasswordSuccessMenuPrefab
+      value: 
+      objectReference: {fileID: 533852959735884297, guid: 8b3f2aaff724c1c41af8ada2555bb609,
         type: 3}
     - target: {fileID: 6389733742678192272, guid: 4af1ad141a08941d8bc07459eb260991,
         type: 3}

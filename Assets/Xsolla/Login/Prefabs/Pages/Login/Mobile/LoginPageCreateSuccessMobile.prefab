@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3663969600025699959}
   - component: {fileID: 1965023786330002255}
   m_Layer: 5
-  m_Name: LoginPageChangePasswordSuccessMobile
+  m_Name: LoginPageCreateSuccessMobile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -271,7 +271,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Follow the instructions we sent to {email@domen.com}.\r"
+  m_Text: "Follow the instructions we sent to {email@domen.com} to\nconfirm your
+    email address.\r"
 --- !u!114 &8693358918776384618
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -393,7 +394,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "Successful password reset\r"
+  m_Text: Account successfully created
 --- !u!114 &895016036341202022
 MonoBehaviour:
   m_ObjectHideFlags: 0
