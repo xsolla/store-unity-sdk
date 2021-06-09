@@ -81,6 +81,14 @@ namespace Xsolla.Demo
 			return null;
 		}
 
+		public MenuState GetState()
+		{
+			if (stateMachine != null)
+				return stateMachine.MenuState;
+
+			return MenuState.None;
+		}
+
 		public void SetPreviousState()
 		{
 			if (stateMachine != null)

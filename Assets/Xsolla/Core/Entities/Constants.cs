@@ -26,5 +26,7 @@ namespace Xsolla.Core
 
 		public const string INVENTORY_TUTORIAL_COMPLETED = "xsolla_inventory_tutorial_completion_flag";
 		public const string INVENTORY_TUTORIAL_HIGHLIGHT_TAG = "Highlight";
+		
+		public const string EMAIL_TEXT_TEMPLATE = "{email@domen.com}";
 	}
 }

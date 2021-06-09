@@ -19,8 +19,6 @@ public class LoginPageEnterControllerMobile : MonoBehaviour
 	{
 		openDefaultLoginButton.onClick += OnOpenDefaultLoginWidget;
 		closeDefaultLoginButton.onClick += OnCloseDefaultLoginWidget;
-		
-		print("AWAKE");
 	}
 
 	public void ShowDefaultLoginWidget(bool bShow)

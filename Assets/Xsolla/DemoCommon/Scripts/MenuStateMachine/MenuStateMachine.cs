@@ -46,6 +46,7 @@ namespace Xsolla.Demo
 		private readonly List<MenuState> _stateTrace = new List<MenuState>();
 		private MenuState _state;
 		private GameObject _stateObject;
+		private GameObject _stateObjectOld;
 
 		private void Awake()
 		{
@@ -86,6 +87,8 @@ namespace Xsolla.Demo
 				SetState(initialState);
 		}
 
+		public MenuState MenuState => _state;
+
 		public GameObject SetState(MenuState state)
 		{
 			MenuState oldState = _state;
@@ -98,8 +101,7 @@ namespace Xsolla.Demo
 		
 			if (_stateObject != null)
 			{
-				Destroy(_stateObject);
-				_stateObject = null;
+				_stateObjectOld = _stateObject;
 			}
 
 			if (_stateMachine[_state] != null)
@@ -115,6 +117,13 @@ namespace Xsolla.Demo
 				ClearTrace();
 				SetState(initialState);
 			}
+			
+			if (_stateObjectOld != null)
+			{
+				Destroy(_stateObjectOld);
+				_stateObjectOld = null;
+			}
+			
 			return _stateObject;
 		}
 	
@@ -180,6 +189,25 @@ namespace Xsolla.Demo
 
 				if (proxyScript != null)
 					Destroy(proxyScript.gameObject);
+			}
+
+			HandleSomeCasesMobile(lastState, newState);
+		}
+
+		private void HandleSomeCasesMobile(MenuState lastState, MenuState newState)
+		{
+			if (lastState == MenuState.ChangePassword && newState == MenuState.Authorization)
+			{
+				var loginEnterScript = _stateObject.GetComponent<LoginPageEnterControllerMobile>();
+				if (loginEnterScript != null && LoginPageChangePasswordControllerMobile.IsBackNavigationTriggered)
+					loginEnterScript.ShowDefaultLoginWidget(true);
+			}
+
+			if (lastState == MenuState.Registration && newState == MenuState.Authorization)
+			{
+				var loginEnterScript = _stateObject.GetComponent<LoginPageEnterControllerMobile>();
+				if (loginEnterScript != null && LoginPageCreateControllerMobile.IsLoginNavigationTriggered)
+					loginEnterScript.ShowDefaultLoginWidget(true);
 			}
 		}
 	}
