@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Xsolla.UIBuilder;
 
@@ -12,7 +13,8 @@ namespace Xsolla.Demo
 		[SerializeField] protected WidgetProvider ItemPrefabProvider = new WidgetProvider();
 		[SerializeField] protected GroupsController groupsController = default;
 		[SerializeField] protected ItemContainer itemsContainer = default;
-		
+		[SerializeField] protected GameObject emptyMessage = default;
+
 		private GameObject ItemPrefab => ItemPrefabProvider.GetValue();
 
 		private void Start()
@@ -35,7 +37,7 @@ namespace Xsolla.Demo
 			});
 		}
 
-		protected IEnumerator FillGroups()
+		protected virtual IEnumerator FillGroups()
 		{
 			yield return new WaitUntil(() => UserCatalog.Instance.IsUpdated);
 			yield return new WaitUntil(() => UserInventory.Instance.IsUpdated);
@@ -57,10 +59,7 @@ namespace Xsolla.Demo
 			var attributes = item.Attributes;
 
 			if (attributes == null)
-			{
-				Debug.LogWarning($"Attributes were null for item with sku: '{item.Sku}'");
 				return false;
-			}
 
 			foreach (var attribute in attributes)
 			{
@@ -82,7 +81,25 @@ namespace Xsolla.Demo
 
 		protected enum HideInFlag
 		{
-			Store, Inventory
+			Store,
+			Inventory
+		}
+
+		protected void ShowEmptyMessage(bool showEmptyMessage)
+		{
+			emptyMessage.SetActive(showEmptyMessage);
+		}
+
+		protected void ShowContent(bool showContent)
+		{
+			groupsController.gameObject.SetActive(showContent);
+			itemsContainer.gameObject.SetActive(showContent);
+		}
+
+		protected void UpdateContentVisibility(bool showContent)
+		{
+			ShowEmptyMessage(!showContent);
+			ShowContent(showContent);
 		}
 	}
 }

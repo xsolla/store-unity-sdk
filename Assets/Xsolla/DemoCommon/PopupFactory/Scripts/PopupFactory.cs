@@ -84,8 +84,5 @@ namespace Xsolla.Core.Popup
 
 		public ISuccessPopup CreateSuccessPasswordReset() =>
 			CreateDefaultPopup(ResetPasswordPopupPrefab, canvas)?.GetComponent<SuccessPopup>();
-
-		public INicknamePopup CreateNickname() =>
-			CreateDefaultPopup(NicknamePopupPrefab, canvas)?.GetComponent<NicknamePopup>();
 	}
 }

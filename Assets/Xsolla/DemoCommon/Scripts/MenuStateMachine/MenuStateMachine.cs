@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -17,7 +18,7 @@ namespace Xsolla.Demo
 		/// Invoked before state is changing.
 		/// </summary>
 		public event StateChangeDelegate StateChangingEvent;
-	
+
 		[SerializeField] private Canvas canvas = default;
 		[SerializeField] private MenuState initialState = default;
 		[SerializeField] private GameObject authMenuPrefab = default;
@@ -136,6 +137,11 @@ namespace Xsolla.Demo
 			return _stateMachine[state] != null;
 		}
 
+		public void ClearTrace()
+		{
+			_stateTrace.Clear();
+		}
+
 		private bool CheckHardcodedBackCases()
 		{
 			if (_state.IsPostAuthState() && _state != MenuState.Main && _state != MenuState.BuyCurrency && _state != MenuState.Cart)
@@ -145,23 +151,23 @@ namespace Xsolla.Demo
 			}
 			return false;
 		}
-	
+
 		private void HandleSomeCases(MenuState lastState, MenuState newState)
 		{
-			if(lastState == newState) return;
-			if(lastState == MenuState.Cart && newState == MenuState.Inventory)
+			if (lastState == newState) return;
+			if (lastState == MenuState.Cart && newState == MenuState.Inventory)
 				ClearTrace();
-			if(newState == MenuState.Main || newState == MenuState.Authorization || newState == MenuState.Friends || newState == MenuState.SocialFriends)
+			if (newState == MenuState.Main || newState == MenuState.Authorization || newState == MenuState.Friends || newState == MenuState.SocialFriends)
 				ClearTrace();
-			if(newState == MenuState.Authorization)
+			if (newState == MenuState.Authorization)
 			{
 				var proxyScript = FindObjectOfType<LoginProxyActionHolder>();
 				var loginEnterScript = _stateObject.GetComponent<LoginPageEnterController>();
 
-				if(proxyScript != null && loginEnterScript != null)
+				if (proxyScript != null && loginEnterScript != null)
 					loginEnterScript.RunLoginProxyAction(proxyScript.ProxyAction, proxyScript.ProxyActionArgument);
 
-				if(proxyScript != null)
+				if (proxyScript != null)
 					Destroy(proxyScript.gameObject);
 			}
 			if (newState == MenuState.LoginSettingsError)
@@ -175,11 +181,6 @@ namespace Xsolla.Demo
 				if (proxyScript != null)
 					Destroy(proxyScript.gameObject);
 			}
-		}
-
-		private void ClearTrace()
-		{
-			_stateTrace.Clear();
 		}
 	}
 }

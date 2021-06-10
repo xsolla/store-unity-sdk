@@ -22,6 +22,9 @@ namespace Xsolla.Demo
 
 		private IInventoryDemoImplementation _demoImplementation;
 
+		public bool HasVirtualItems => VirtualItems.Any();
+		public bool HasPurchasedSubscriptions => Subscriptions.FindAll(s => s.Status != UserSubscriptionModel.SubscriptionStatusType.None).Any();
+
 		public void Init(IInventoryDemoImplementation demoImplementation)
 		{
 			IsUpdated = false;
@@ -44,7 +47,7 @@ namespace Xsolla.Demo
 				UpdateSubscriptionsEvent?.Invoke(Subscriptions);
 				return;
 			}
-		
+
 			IsUpdated = false;
 			StartCoroutine(WaitItemUpdatingCoroutine(onSuccess, onError));
 		}
@@ -66,14 +69,14 @@ namespace Xsolla.Demo
 				VirtualItems = items.Where(i => !i.IsVirtualCurrency() && !i.IsSubscription()).ToList();
 				itemsUpdated = true;
 			}, onError);
-		
+
 			_demoImplementation.GetUserSubscriptions(items =>
 			{
 				Subscriptions = items;
 				subscriptionsUpdated = true;
 			}, onError);
 			yield return new WaitUntil(() => balanceUpdated && itemsUpdated && subscriptionsUpdated);
-		
+
 			IsUpdated = true;
 			HandleInventoryUpdate(onSuccess);
 		}
@@ -83,7 +86,7 @@ namespace Xsolla.Demo
 			AllItems.Clear();
 			AllItems.AddRange(VirtualItems);
 			AllItems.AddRange(Subscriptions);
-		
+
 			UpdateVirtualCurrencyBalanceEvent?.Invoke(Balance);
 			UpdateItemsEvent?.Invoke(VirtualItems);
 			UpdateSubscriptionsEvent?.Invoke(Subscriptions);

@@ -67,9 +67,9 @@ namespace Xsolla.Demo
 			XsollaLogin.Instance.GetPublicInfo(token, user, onSuccess, onError = null);
 		}
 
-		public void Registration(string username, string password, string email, Action onSuccess, Action<Error> onError = null)
+		public void Registration(string username, string password, string email, string state = null, Action onSuccess = null, Action<Error> onError = null)
 		{
-			XsollaLogin.Instance.Registration(username, password, email, onSuccess, onError);
+			XsollaLogin.Instance.Registration(username, password, email, state, onSuccess, onError);
 		}
 
 		public void SignIn(string username, string password, bool rememberUser, Action<string> onSuccess, Action<Error> onError = null)
@@ -129,9 +129,14 @@ namespace Xsolla.Demo
 	#endregion
 
 	#region Social
-		public void SteamAuth(string appId, string sessionTicket, Action<string> onSuccess = null, Action<Error> onError = null)
+		public void SteamAuth(string appId, string sessionTicket, string state, Action<string> onSuccess = null, Action<Error> onError = null)
 		{
-			XsollaLogin.Instance.SteamAuth(appId, sessionTicket, onSuccess, onError);
+			XsollaLogin.Instance.SteamAuth(appId, sessionTicket, state, onSuccess, onError);
+		}
+
+		public void AuthViaDeviceID(Core.DeviceType deviceType, string deviceName, string deviceId, string payload = null, string state = null, Action<string> onSuccess = null, Action<Error> onError = null)
+		{
+			XsollaLogin.Instance.AuthViaDeviceID(deviceType, deviceName, deviceId, payload, state, onSuccess, onError);
 		}
 
 		public string GetSocialNetworkAuthUrl(SocialProvider socialProvider)

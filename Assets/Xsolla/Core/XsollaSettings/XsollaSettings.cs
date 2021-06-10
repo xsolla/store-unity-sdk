@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
@@ -18,10 +19,10 @@ namespace Xsolla.Core
 		[SerializeField] private AuthorizationType authorizationType = default;
 		[SerializeField] private bool jwtTokenInvalidationEnabled = default;
 		[SerializeField] private int oauthClientId = default;
-		[SerializeField] private bool requestNicknameOnAuth = default;
+		[SerializeField] private bool requestNicknameOnAuth = true;
 		[SerializeField] private string authServerUrl = "https://sdk.xsolla.com/";
 
-		[SerializeField] private bool useSteamAuth = true;
+		[SerializeField] private bool useSteamAuth = default;
 		[SerializeField] private string steamAppId = "480";
 		[SerializeField] private bool useConsoleAuth = default;
 		[SerializeField] private PlatformType platform = PlatformType.Xsolla;
@@ -30,15 +31,17 @@ namespace Xsolla.Core
 		[SerializeField] private string storeProjectId = Constants.DEFAULT_PROJECT_ID;
 		[SerializeField] private PaymentsFlow paymentsFlow = PaymentsFlow.XsollaPayStation;
 		[SerializeField] private bool isSandbox = true;
-
-		[SerializeField] public PaystationTheme paystationTheme = PaystationTheme.Dark;
 		[SerializeField] private bool inAppBrowserEnabled = true;
 		[SerializeField] private bool packInAppBrowserInBuild = true;
 		
 		[SerializeField] private RedirectPolicySettings desktopRedirectPolicySettings = new RedirectPolicySettings();
 		[SerializeField] private RedirectPolicySettings webglRedirectPolicySettings = new RedirectPolicySettings();
 		[SerializeField] private RedirectPolicySettings androidRedirectPolicySettings = new RedirectPolicySettings();
-		
+
+		[SerializeField] private PayStationUISettings desktopPayStationUISettings = new PayStationUISettings();
+		[SerializeField] private PayStationUISettings webglPayStationUISettings = new PayStationUISettings();
+		[SerializeField] private PayStationUISettings androidPayStationUISettings = new PayStationUISettings();
+
 		[SerializeField] private string facebookAppId = default;
 		[SerializeField] private string googleServerId = default;
 		[SerializeField] private string wechatAppId = default;
@@ -67,6 +70,31 @@ namespace Xsolla.Core
 			set
 			{
 				Instance.useSteamAuth = value;
+
+				string useSteamMark = default(string);
+#if UNITY_EDITOR_WIN
+				useSteamMark = "Assets\\Xsolla\\ThirdParty\\use_steam";
+#else
+				useSteamMark = "Assets/Xsolla/ThirdParty/use_steam";
+#endif
+				try
+				{
+					if (value)
+						File.Create(useSteamMark);
+					else
+					{
+						File.Delete(useSteamMark);
+
+						var meta = $"{useSteamMark}.meta";
+						if (File.Exists(meta))
+							File.Delete(meta);
+					}
+				}
+				catch (Exception ex)
+				{
+					Debug.LogError($"Could not create or delete {useSteamMark}. {ex.Message}");
+				}
+
 				MarkAssetDirty();
 			}
 		}
@@ -211,16 +239,6 @@ namespace Xsolla.Core
 			}
 		}
 
-		public static PaystationTheme PaystationTheme
-		{
-			get => Instance.paystationTheme;
-			set
-			{
-				Instance.paystationTheme = value;
-				MarkAssetDirty();
-			}
-		}
-
 		public static bool InAppBrowserEnabled
 		{
 			get => Instance.inAppBrowserEnabled;
@@ -257,6 +275,24 @@ namespace Xsolla.Core
 		{
 			get => Instance.androidRedirectPolicySettings;
 			set => Instance.androidRedirectPolicySettings = value;
+		}
+
+		public static PayStationUISettings DesktopPayStationUISettings
+		{
+			get => Instance.desktopPayStationUISettings;
+			set => Instance.desktopPayStationUISettings = value;
+		}
+
+		public static PayStationUISettings WebglPayStationUISettings
+		{
+			get => Instance.webglPayStationUISettings;
+			set => Instance.webglPayStationUISettings = value;
+		}
+
+		public static PayStationUISettings AndroidPayStationUISettings
+		{
+			get => Instance.androidPayStationUISettings;
+			set => Instance.androidPayStationUISettings = value;
 		}
 
 		public static string FacebookAppId

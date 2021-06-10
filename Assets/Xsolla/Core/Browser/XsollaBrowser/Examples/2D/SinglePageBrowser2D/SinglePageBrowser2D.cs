@@ -3,6 +3,7 @@ using System.Collections;
 using PuppeteerSharp;
 using UnityEngine;
 using UnityEngine.UI;
+using Xsolla.Core.Popup;
 
 namespace Xsolla.Core.Browser
 {
@@ -15,6 +16,7 @@ namespace Xsolla.Core.Browser
 		[SerializeField] private GameObject PreloaderPrefab = default;
 
 		public Button CloseButton;
+		public Button BackButton;
 		public event Action<IXsollaBrowser> BrowserInitEvent;
 		public event Action<IXsollaBrowser> BrowserClosedEvent;
 
@@ -22,19 +24,24 @@ namespace Xsolla.Core.Browser
 		Display2DBehaviour display;
 		KeyboardBehaviour2D keyboard;
 		MouseBehaviour2D mouse;
-	
+
+		string _urlBeforePopup;
+
 		private void Awake()
 		{
+			BackButton.onClick.AddListener(BackButtonPressed);
+
 			CloseButton.gameObject.SetActive(false);
-		
+			BackButton.gameObject.SetActive(false);
+
 			Canvas canvas = FindObjectOfType<Canvas>();
-			Rect canvasRect = (canvas.transform as RectTransform).rect;//canvas.pixelRect;
-		
+			Rect canvasRect = (canvas.transform as RectTransform).rect; //canvas.pixelRect;
+
 			if (Viewport.x > canvasRect.width)
 				Viewport.x = canvasRect.width * 0.9F;
 			if (Viewport.y > canvasRect.height)
 				Viewport.y = canvasRect.height * 0.9F;
-		
+
 			xsollaBrowser = this.GetOrAddComponent<XsollaBrowser>();
 			xsollaBrowser.LogEvent += XsollaBrowser_LogEvent;
 			xsollaBrowser.Launch
@@ -46,6 +53,14 @@ namespace Xsolla.Core.Browser
 				},
 				new BrowserFetcherOptions
 				{
+#if UNITY_STANDALONE && !UNITY_EDITOR
+					Path = !XsollaSettings.PackInAppBrowserInBuild ? Application.persistentDataPath : String.Empty,
+#endif
+
+#if UNITY_EDITOR
+					Path = Application.persistentDataPath,
+#endif
+
 #if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
 	#if UNITY_64
 					Platform = Platform.Win64
@@ -63,7 +78,21 @@ namespace Xsolla.Core.Browser
 #endif
 				}
 			);
-		
+
+			xsollaBrowser.Navigate.SetOnPopupListener((popupUrl =>
+			{
+				xsollaBrowser.Navigate.GetUrl(currentUrl =>
+				{
+					if (string.IsNullOrEmpty(_urlBeforePopup))
+					{
+						_urlBeforePopup = currentUrl;
+					}
+				});
+				xsollaBrowser.Navigate.To(popupUrl, newUrl => { BackButton.gameObject.SetActive(true); });
+			}));
+
+			xsollaBrowser.Navigate.SetOnAlertListener(HandleBrowserAlert);
+
 			display = this.GetOrAddComponent<Display2DBehaviour>();
 		}
 
@@ -78,8 +107,8 @@ namespace Xsolla.Core.Browser
 		{
 			yield return new WaitForEndOfFrame();
 			yield return StartCoroutine(WaitPreloaderCoroutine());
-		
-			display.StartRedrawWith((int)Viewport.x, (int)Viewport.y);
+
+			display.StartRedrawWith((int) Viewport.x, (int) Viewport.y);
 			display.RedrawFrameCompleteEvent += EnableCloseButton;
 			display.ViewportChangedEvent += (width, height) => Viewport = new Vector2(width, height);
 			InitializeInput();
@@ -89,6 +118,7 @@ namespace Xsolla.Core.Browser
 		private void EnableCloseButton()
 		{
 			display.RedrawFrameCompleteEvent -= EnableCloseButton;
+
 			CloseButton.gameObject.SetActive(true);
 			CloseButton.onClick.AddListener(CloseButtonPressed);
 		}
@@ -112,6 +142,19 @@ namespace Xsolla.Core.Browser
 			Destroy(gameObject, 0.001F);
 		}
 
+		private void BackButtonPressed()
+		{
+			Debug.Log("`Back` button pressed");
+			xsollaBrowser.Navigate.Back((newUrl =>
+			{
+				if (newUrl.Equals(_urlBeforePopup))
+				{
+					BackButton.gameObject.SetActive(false);
+					_urlBeforePopup = string.Empty;
+				}
+			}));
+		}
+
 		private void Keyboard_EscapePressed()
 		{
 			Debug.Log("`Escape` button pressed");
@@ -122,25 +165,76 @@ namespace Xsolla.Core.Browser
 		{
 			StopAllCoroutines();
 			BrowserClosedEvent?.Invoke(xsollaBrowser);
-			if (mouse != null) {
+			if (mouse != null)
+			{
 				Destroy(mouse);
 				mouse = null;
 			}
-			if (display != null) {
+
+			if (display != null)
+			{
 				Destroy(display);
 				display = null;
 			}
-			if (keyboard != null) {
+
+			if (keyboard != null)
+			{
 				keyboard.EscapePressed -= Keyboard_EscapePressed;
 				Destroy(keyboard);
 				keyboard = null;
 			}
-			if (xsollaBrowser != null) {
+
+			if (xsollaBrowser != null)
+			{
 				Destroy(xsollaBrowser);
 				xsollaBrowser = null;
 			}
 
 			Destroy(this.transform.parent.gameObject);
+		}
+
+		private static void HandleBrowserAlert(Dialog alert)
+		{
+			switch (alert.DialogType)
+			{
+				case DialogType.Alert:
+					ShowSimpleAlertPopup(alert);
+					break;
+				case DialogType.Prompt:
+					CloseAlert(alert);
+					break;
+				case DialogType.Confirm:
+					ShowConfirmAlertPopup(alert);
+					break;
+				case DialogType.BeforeUnload:
+					CloseAlert(alert);
+					break;
+				default:
+					CloseAlert(alert);
+					break;
+			}
+		}
+
+		private static void ShowSimpleAlertPopup(Dialog alert)
+		{
+			PopupFactory.Instance.CreateSuccess()
+				.SetTitle("Attention")
+				.SetMessage(alert.Message)
+				.SetCallback(() => alert.Accept());
+		}
+
+		private static void ShowConfirmAlertPopup(Dialog alert)
+		{
+			PopupFactory.Instance.CreateConfirmation()
+				.SetMessage(alert.Message)
+				.SetConfirmCallback(() => alert.Accept())
+				.SetCancelCallback(() => alert.Dismiss());
+		}
+
+		private static void CloseAlert(Dialog alert)
+		{
+			Debug.Log("Browser alert was closed automatically");
+			alert.Accept();
 		}
 
 		private void XsollaBrowser_LogEvent(string obj)

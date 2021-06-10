@@ -49,7 +49,7 @@ namespace Xsolla.Store
 		{
 			get
 			{
-				if (!XsollaSettings.InAppBrowserEnabled)
+				if (!XsollaSettings.InAppBrowserEnabled || Application.platform == RuntimePlatform.Android)
 				{
 					return true;
 				}
@@ -117,9 +117,42 @@ namespace Xsolla.Store
 					{
 						CheckOrderDone(orderId);
 					}
+
+					// handle case when manual/automatic redirect was triggered
+					if (ParseUtils.TryGetValueFromUrl(url, ParseParameter.status, out var status))
+					{
+						if (status != "done")
+						{
+							// occurs when redirect triggered automatically with any status without delay
+							var coroutine = StartCoroutine(CheckOrderWithRepeatCount(orderId));
+							OrderTrackingCoroutines.Add(orderId, coroutine);
+						}
+
+						Destroy(BrowserHelper.Instance, 0.1F);
+					}
 				};
 #endif
 			}
+		}
+
+		public void AddOrderForTrackingUntilDone(string projectId, int orderId, Action onSuccess = null, Action<Error> onError = null)
+		{
+			var order = TrackingOrders.FirstOrDefault(x => x.OrderId == orderId);
+			if (order != null)
+				return;
+
+			order = new OrderTrackingData
+			{
+				ProjectId = projectId,
+				OrderId = orderId,
+				SuccessCallback = onSuccess,
+				ErrorCallback = onError
+			};
+
+			TrackingOrders.Add(order);
+
+			var coroutine = StartCoroutine(CheckOrderForeverUntilDone(orderId));
+			OrderTrackingCoroutines.Add(orderId, coroutine);
 		}
 
 		public void RemoveOrderFromTracking(int orderId)
@@ -172,6 +205,20 @@ namespace Xsolla.Store
 			{
 				yield return new WaitForSeconds(3f);
 				CheckOrderDone(orderId, () => isDone = true);
+			}
+		}
+		
+		private IEnumerator CheckOrderWithRepeatCount(int orderId, int repeatCount = 10)
+		{
+			var isDone = false;
+			while (repeatCount > 0 && !isDone)
+			{
+				yield return new WaitForSeconds(3f);
+				CheckOrderDone(orderId, () =>
+				{
+					isDone = true;
+					repeatCount--;
+				});
 			}
 		}
 	}

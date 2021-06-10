@@ -40,8 +40,18 @@ public class RedistInstall {
 		string strSource = Path.Combine(Path.Combine(strCWD, path), filename);
 		string strDest = Path.Combine(strCWD, filename);
 
-		if (!File.Exists(strSource)) {
-			Debug.LogWarning(string.Format("[Steamworks.NET] Could not copy {0} into the project root. {0} could not be found in '{1}'. Place {0} from the Steamworks SDK in the project root manually.", filename, Path.Combine(strCWD, path)));
+		string useSteamMark = default(string);
+#if UNITY_EDITOR_WIN
+		useSteamMark = "Assets\\Xsolla\\ThirdParty\\use_steam";
+#else
+		useSteamMark = "Assets/Xsolla/ThirdParty/use_steam";
+#endif
+
+		if (!File.Exists(strSource))
+		{
+			if (File.Exists(useSteamMark))
+				Debug.LogWarning(string.Format("[Steamworks.NET] Could not copy {0} into the project root. {0} could not be found in '{1}'. Place {0} from the Steamworks SDK in the project root manually.", filename, Path.Combine(strCWD, path)));
+
 			return;
 		}
 
