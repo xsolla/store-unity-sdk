@@ -108,7 +108,7 @@ namespace Xsolla.Store
 
 			WebRequestHelper.Instance.PostRequest<PurchaseData, TempPurchaseParams>(SdkType.Store, url, tempPurchaseParams, GetPaymentHeaders(Token), onSuccess, onError, Error.BuyItemErrors);
 		}
-		
+
 		/// <summary>
 		/// Returns the Paystation Token for the purchase of the items in the current cart.
 		/// </summary>
@@ -185,7 +185,6 @@ namespace Xsolla.Store
 			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.OrderStatusErrors);
 		}
 
-		//TEXTREVIEW
 		/// <summary>
 		/// Creates a new payment token.
 		/// </summary>
@@ -196,9 +195,9 @@ namespace Xsolla.Store
 		/// <param name="currency">Default purchase currency. Three-letter code per ISO 4217.</param>
 		/// <param name="description">Purchase description. Used to describe the purchase if there are no specific items.</param>
 		/// <param name="locale">:Interface language. Two-letter lowercase language code.</param>
-		/// <param name="externalID">Transaction�s external ID.</param>
+		/// <param name="externalID">Transaction's external ID.</param>
 		/// <param name="paymentMethod">Payment method ID.</param>
-		/// <param name="customParameters">Your custom parameters, represented as a valid JSON set of key-value pairs.</param>
+		/// <param name="customParameters">Your custom parameters represented as a valid JSON set of key-value pairs.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		public void CreatePaymentToken(
@@ -224,7 +223,6 @@ namespace Xsolla.Store
 			WebRequestHelper.Instance.PostRequest<TokenEntity, CreatePaymentTokenRequest>(SdkType.Store, url, requestBody, GetPaymentHeaders(Token), onSuccess, onError, Error.BuyItemErrors);
 		}
 
-		//TEXTREVIEW
 		/// <summary>
 		/// Creates a new payment token.
 		/// </summary>
@@ -235,9 +233,9 @@ namespace Xsolla.Store
 		/// <param name="currency">Default purchase currency. Three-letter code per ISO 4217.</param>
 		/// <param name="items">Used to describe a purchase if it includes a list of specific items.</param>
 		/// <param name="locale">:Interface language. Two-letter lowercase language code.</param>
-		/// <param name="externalID">Transaction�s external ID.</param>
+		/// <param name="externalID">Transaction's external ID.</param>
 		/// <param name="paymentMethod">Payment method ID.</param>
-		/// <param name="customParameters">Your custom parameters, represented as a valid JSON set of key-value pairs.</param>
+		/// <param name="customParameters">Your custom parameters represented as a valid JSON set of key-value pairs.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		public void CreatePaymentToken(
@@ -255,7 +253,7 @@ namespace Xsolla.Store
 			var url = string.Format(URL_CREATE_PAYMENT_TOKEN, projectId);
 
 			var checkout = new CreatePaymentTokenRequest.Purchase.Checkout(amount, currency);
-			
+
 			var purchaseItems = new List<CreatePaymentTokenRequest.Purchase.Item>(items.Length);
 			foreach (var item in items)
 			{
@@ -274,7 +272,7 @@ namespace Xsolla.Store
 		private TempPurchaseParams GenerateTempPurchaseParams(PurchaseParams purchaseParams)
 		{
 			var settings = new TempPurchaseParams.Settings();
-			
+
 			settings.ui = PayStationUISettings.GenerateSettings();
 			settings.redirect_policy = RedirectPolicySettings.GeneratePolicy();
 			if (settings.redirect_policy != null)
@@ -282,8 +280,7 @@ namespace Xsolla.Store
 				settings.return_url = settings.redirect_policy.return_url;
 			}
 
-			//TEXTREVIEW
-			//Fix 'Array value found, but an object is required' in case of empty values
+			//Fix 'The array value is found, but an object is required' in case of empty values.
 			if (settings.ui == null && settings.redirect_policy == null && settings.return_url == null)
 				settings = null;
 

@@ -29,8 +29,7 @@ namespace Xsolla.Core
 				return XsollaSettings.DesktopPayStationUISettings.CreateSettings();
 			}
 #endif
-			//TEXTREVIEW
-			//Settings will be defined by Pay Station itself based on the platform
+			//Pay Station will define the settings depending on the platform.
 			return null;
 		}
 
