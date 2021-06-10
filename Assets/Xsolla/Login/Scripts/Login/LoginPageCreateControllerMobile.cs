@@ -31,26 +31,32 @@ public class LoginPageCreateControllerMobile : MonoBehaviour
 
 		foreach (var step in createAccountSteps)
 		{
-			step.onBackButtonClick += () =>
-			{
-				if (currentStep > 0)
-				{
-					createAccountSteps[currentStep].gameObject.SetActive(false);
-					currentStep--;
-					createAccountSteps[currentStep].gameObject.SetActive(true);
-				}
-				stepsCounter.SetCurrentStep(currentStep);
-			};
-			step.onNextButtonClick += () =>
-			{
-				if (currentStep < createAccountSteps.Count - 1)
-				{
-					createAccountSteps[currentStep].gameObject.SetActive(false);
-					currentStep++;
-					createAccountSteps[currentStep].gameObject.SetActive(true);
-				}
-				stepsCounter.SetCurrentStep(currentStep);
-			};
+			step.onBackButtonClick += ShowPreviousStep;
+			step.onNextButtonClick += () => { ShowNextStep(); };
 		}
+	}
+
+	private void ShowNextStep()
+	{
+		if (currentStep < createAccountSteps.Count - 1)
+		{
+			createAccountSteps[currentStep].gameObject.SetActive(false);
+			currentStep++;
+			createAccountSteps[currentStep].gameObject.SetActive(true);
+		}
+
+		stepsCounter.SetCurrentStep(currentStep);
+	}
+
+	private void ShowPreviousStep()
+	{
+		if (currentStep > 0)
+		{
+			createAccountSteps[currentStep].gameObject.SetActive(false);
+			currentStep--;
+			createAccountSteps[currentStep].gameObject.SetActive(true);
+		}
+
+		stepsCounter.SetCurrentStep(currentStep);
 	}
 }

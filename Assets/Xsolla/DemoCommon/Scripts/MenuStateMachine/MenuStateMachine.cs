@@ -46,7 +46,6 @@ namespace Xsolla.Demo
 		private readonly List<MenuState> _stateTrace = new List<MenuState>();
 		private MenuState _state;
 		private GameObject _stateObject;
-		private GameObject _stateObjectOld;
 
 		private void Awake()
 		{
@@ -101,7 +100,8 @@ namespace Xsolla.Demo
 		
 			if (_stateObject != null)
 			{
-				_stateObjectOld = _stateObject;
+				Destroy(_stateObject);
+				_stateObject = null;
 			}
 
 			if (_stateMachine[_state] != null)
@@ -117,13 +117,7 @@ namespace Xsolla.Demo
 				ClearTrace();
 				SetState(initialState);
 			}
-			
-			if (_stateObjectOld != null)
-			{
-				Destroy(_stateObjectOld);
-				_stateObjectOld = null;
-			}
-			
+
 			return _stateObject;
 		}
 	
