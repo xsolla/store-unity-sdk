@@ -1,5 +1,5 @@
 # Changelog
-## [0.6.4.3] - 2021-06-XX
+## [0.6.4.3] - 2021-06-10
 ### Added
 - Device ID authorization
 - OAuth2.0 state parameter for more API methods
