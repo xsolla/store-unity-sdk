@@ -10,6 +10,7 @@ namespace Xsolla.Core
 		public PaystationTheme paystationTheme = PaystationTheme.PS4_DefaultDark;
 		public PaystationSize paystationSize = PaystationSize.Medium;
 		public PaystationVersion paystationVersion = PaystationVersion.Desktop;
+		public bool isIndependentWindows;
 
 		public static PayStationUI GenerateSettings()
 		{
@@ -39,7 +40,8 @@ namespace Xsolla.Core
 			{
 				theme = ConvertToString(paystationTheme),
 				size = ConvertToString(paystationSize),
-				version = ConvertToString(paystationVersion)
+				version = ConvertToString(paystationVersion),
+				is_independent_windows = isIndependentWindows
 			};
 		}
 
