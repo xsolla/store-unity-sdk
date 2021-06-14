@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using PuppeteerSharp;
 using UnityEngine;
 using Xsolla.Core;
 
@@ -7,15 +8,15 @@ namespace Xsolla.Login
 {
 	public partial class XsollaLogin : MonoSingleton<XsollaLogin>
 	{
-		private const string URL_USER_REGISTRATION = "https://login.xsolla.com/api/{0}?projectId={1}&login_url={2}";
+		private const string URL_USER_REGISTRATION = "https://login.xsolla.com/api/{0}?projectId={1}&login_url={2}&payload={3}";
 		private const string URL_USER_OAUTH_REGISTRATION = "https://login.xsolla.com/api/oauth2/user?response_type=code&client_id={0}&state={1}&redirect_uri=https://login.xsolla.com/api/blank";
-		private const string URL_USER_SIGNIN = "https://login.xsolla.com/api/{0}login?projectId={1}&login_url={2}&{3}";
+		private const string URL_USER_SIGNIN = "https://login.xsolla.com/api/{0}login?projectId={1}&login_url={2}&{3}&payload={4}";
 		private const string URL_USER_OAUTH_SIGNIN = "https://login.xsolla.com/api/oauth2/login/token?client_id={0}&scope=offline";
 		private const string URL_USER_INFO = "https://login.xsolla.com/api/users/me";
 		private const string URL_USER_PHONE = "https://login.xsolla.com/api/users/me/phone";
 		private const string URL_USER_PICTURE = "https://login.xsolla.com/api/users/me/picture";
-		private const string URL_PASSWORD_RESET = "https://login.xsolla.com/api/{0}?projectId={1}";
-		private const string URL_RESEND_CONFIRMATION_LINK = "https://login.xsolla.com/api/user/resend_confirmation_link?projectId={0}&login_url={1}";
+		private const string URL_PASSWORD_RESET = "https://login.xsolla.com/api/{0}?projectId={1}&login_url={2}";
+		private const string URL_RESEND_CONFIRMATION_LINK = "https://login.xsolla.com/api/user/resend_confirmation_link?projectId={0}&login_url={1}&payload={2}";
 		private const string URL_OAUTH_RESEND_CONFIRMATION_LINK = "https://login.xsolla.com/api/oauth2/user/resend_confirmation_link?client_id={0}&state={1}&redirect_uri=https://login.xsolla.com/api/blank";
 		private const string URL_SEARCH_USER = "https://login.xsolla.com/api/users/search/by_nickname?nickname={0}&offset={1}&limit={2}";
 		private const string URL_USER_PUBLIC_INFO = "https://login.xsolla.com/api/users/{0}/public";
@@ -60,19 +61,23 @@ namespace Xsolla.Login
 		/// <param name="password">User password.</param>
 		/// <param name="email">User email for verification.</param>
 		/// <param name="oauthState">Value used for additional user verification on backend. Must be at least 8 symbols long. Will be "xsollatest" by default.</param>
+		/// <param name="payload">Custom data. The value of the parameter will be returned in the user JWT payload claim.</param>
+		/// <param name="acceptConsent">Whether the user gave consent to processing of their personal data.</param>
+		/// <param name="promoEmailAgreement">Whether the user gave consent to receive the newsletters.</param>
+		/// <param name="fields">Parameters used for extended registration forms.</param>
 		/// <param name="onSuccess">Success operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		/// <seealso cref="SignIn"/>
 		/// <seealso cref="ResetPassword"/>
-		public void Registration(string username, string password, string email, string oauthState = null, Action onSuccess = null, Action<Error> onError = null)
+		public void Registration(string username, string password, string email, string oauthState = null, string payload = null, bool acceptConsent = true, bool promoEmailAgreement = true, List<string> fields = null, Action onSuccess = null, Action<Error> onError = null)
 		{
-			var registrationData = new RegistrationJson(username, password, email);
+			var registrationData = new RegistrationJson(username, password, email, acceptConsent, promoEmailAgreement, fields);
 			string url = default(string);
 
 			if (XsollaSettings.AuthorizationType == AuthorizationType.JWT)
 			{
 				var proxy = XsollaSettings.UseProxy ? "proxy/registration" : "user";
-				url = string.Format(URL_USER_REGISTRATION, proxy, XsollaSettings.LoginId, XsollaSettings.CallbackUrl);
+				url = string.Format(URL_USER_REGISTRATION, proxy, XsollaSettings.LoginId, XsollaSettings.CallbackUrl, payload);
 			}
 			else /*if (XsollaSettings.AuthorizationType == AuthorizationType.OAuth2_0)*/
 			{
@@ -92,26 +97,27 @@ namespace Xsolla.Login
 		/// <param name="username">User name.</param>
 		/// <param name="password">User password.</param>
 		/// <param name="rememberUser">Save user credentionals?</param>
+		/// <param name="payload">Custom data. The value of the parameter will be returned in the user JWT payload claim.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		/// <seealso cref="SignInConsoleAccount"/>
 		/// <seealso cref="Registration"/>
 		/// <seealso cref="ResetPassword"/>
-		public void SignIn(string username, string password, bool rememberUser, Action<string> onSuccess, Action<Error> onError = null)
+		public void SignIn(string username, string password, bool rememberUser, string payload, Action<string> onSuccess, Action<Error> onError = null)
 		{
 			if (XsollaSettings.AuthorizationType == AuthorizationType.JWT)
-				JwtSignIn(username, password, rememberUser, onSuccess, onError);
+				JwtSignIn(username, password, rememberUser, payload, onSuccess, onError);
 			else /*if (XsollaSettings.AuthorizationType == AuthorizationType.OAuth2_0)*/
 				OAuthSignIn(username, password, onSuccess, onError);
 		}
 
-		private void JwtSignIn(string username, string password, bool rememberUser, Action<string> onSuccess, Action<Error> onError)
+		private void JwtSignIn(string username, string password, bool rememberUser, string payload, Action<string> onSuccess, Action<Error> onError)
 		{
 			var loginData = new LoginJwtJsonRequest(username, password, rememberUser);
 
 			var proxy = XsollaSettings.UseProxy ? "proxy/" : string.Empty;
 			var tokenInvalidationFlag = XsollaSettings.JwtTokenInvalidationEnabled ? "with_logout=1" : "with_logout=0";
-			var url = string.Format(URL_USER_SIGNIN, proxy, XsollaSettings.LoginId, XsollaSettings.CallbackUrl, tokenInvalidationFlag);
+			var url = string.Format(URL_USER_SIGNIN, proxy, XsollaSettings.LoginId, XsollaSettings.CallbackUrl, tokenInvalidationFlag, payload);
 
 			WebRequestHelper.Instance.PostRequest<LoginJwtJsonResponse, LoginJwtJsonRequest>(SdkType.Login, url, loginData, (response) =>
 			{
@@ -147,7 +153,7 @@ namespace Xsolla.Login
 		public void ResetPassword(string username, Action onSuccess, Action<Error> onError = null)
 		{
 			var proxy = XsollaSettings.UseProxy ? "proxy/registration/password/reset" : "password/reset/request";
-			var url = string.Format(URL_PASSWORD_RESET, proxy, XsollaSettings.LoginId);
+			var url = string.Format(URL_PASSWORD_RESET, proxy, XsollaSettings.LoginId, XsollaSettings.CallbackUrl);
 
 			WebRequestHelper.Instance.PostRequest(SdkType.Login, url, new ResetPassword(username), onSuccess, onError, Error.ResetPasswordErrors);
 		}
@@ -159,16 +165,17 @@ namespace Xsolla.Login
 		/// <see cref="https://developers.xsolla.com/login-api/methods/jwt/jwt-resend-account-confirmation-email"/>
 		/// <param name="username">User name.</param>
 		/// <param name="oauthState">Value used for additional user verification on backend. Must be at least 8 symbols long. Will be "xsollatest" by default.</param> 
+		/// <param name="payload">Custom data. The value of the parameter will be returned in the user JWT payload claim.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		/// <seealso cref="Registration"/>
 		/// <seealso cref="SignIn"/>
-		public void ResendConfirmationLink(string username, string oauthState = null, Action onSuccess = null, Action<Error> onError = null)
+		public void ResendConfirmationLink(string username, string oauthState = null, string payload = null, Action onSuccess = null, Action<Error> onError = null)
 		{
 			string url;
 			if (XsollaSettings.AuthorizationType == AuthorizationType.JWT)
 			{
-				url = string.Format(URL_RESEND_CONFIRMATION_LINK, XsollaSettings.LoginId, XsollaSettings.CallbackUrl);
+				url = string.Format(URL_RESEND_CONFIRMATION_LINK, XsollaSettings.LoginId, XsollaSettings.CallbackUrl, payload);
 			}
 			else
 			{
@@ -338,20 +345,21 @@ namespace Xsolla.Login
 		/// <see cref="https://developers.xsolla.com/login-api/methods/oauth-20/oauth-20-auth-via-access-token-of-social-network/"/>
 		/// <param name="accessToken">Access token received from a social network.</param>
 		/// <param name="accessTokenSecret">Parameter oauth_token_secret received from the authorization request. Required for Twitter only.</param>
+		/// <param name="openId">Parameter 'openid' received from the social network. Required for WeChat only.</param>
 		/// <param name="providerName">Name of the social network connected to the Login in Publisher Account.</param>
 		/// <param name="payload">Custom data. The value of the parameter will be returned in the user JWT payload claim.</param>
 		/// <param name="oauthState">Value used for additional user verification on backend. Must be at least 8 symbols long. Will be "xsollatest" by default.</param>
 		/// <param name="onSuccess">Success operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
-		public void AuthWithSocialNetworkAccessToken(string accessToken, string accessTokenSecret, string providerName, string payload, string oauthState = null, Action<string> onSuccess = null, Action<Error> onError = null)
+		public void AuthWithSocialNetworkAccessToken(string accessToken, string accessTokenSecret, string openId, string providerName, string payload, string oauthState = null, Action<string> onSuccess = null, Action<Error> onError = null)
 		{
 			if (XsollaSettings.AuthorizationType == AuthorizationType.JWT)
-				JwtAuthWithSocialNetworkAccessToken(accessToken, accessTokenSecret, providerName, payload, onSuccess, onError);
+				JwtAuthWithSocialNetworkAccessToken(accessToken, accessTokenSecret, openId, providerName, payload, onSuccess, onError);
 			else /*if (XsollaSettings.AuthorizationType == AuthorizationType.OAuth2_0)*/
-				OAuthAuthWithSocialNetworkAccessToken(accessToken, accessTokenSecret, providerName, oauthState, onSuccess, onError);
+				OAuthAuthWithSocialNetworkAccessToken(accessToken, accessTokenSecret, openId, providerName, oauthState, onSuccess, onError);
 		}
 
-		private void JwtAuthWithSocialNetworkAccessToken(string accessToken, string accessTokenSecret, string providerName, string payload, Action<string> onSuccess, Action<Error> onError)
+		private void JwtAuthWithSocialNetworkAccessToken(string accessToken, string accessTokenSecret, string openId, string providerName, string payload, Action<string> onSuccess, Action<Error> onError)
 		{
 			var tokenInvalidationFlag = XsollaSettings.JwtTokenInvalidationEnabled ? "with_logout=1" : "with_logout=0";
 			var url = string.Format(URL_USER_SOCIAL_NETWORK_TOKEN_AUTH, providerName, XsollaSettings.LoginId, payload, tokenInvalidationFlag);
@@ -359,13 +367,14 @@ namespace Xsolla.Login
 			var requestData = new SocialNetworkAccessTokenRequest
 			{
 				access_token = accessToken,
-				access_token_secret = accessTokenSecret
+				access_token_secret = accessTokenSecret,
+				openId = openId
 			};
 
 			WebRequestHelper.Instance.PostRequest(SdkType.Login, url, requestData, (TokenEntity result) => { onSuccess?.Invoke(result.token); }, onError, Error.LoginErrors);
 		}
 
-		private void OAuthAuthWithSocialNetworkAccessToken(string accessToken, string accessTokenSecret, string providerName, string oauthState, Action<string> onSuccess, Action<Error> onError)
+		private void OAuthAuthWithSocialNetworkAccessToken(string accessToken, string accessTokenSecret, string openId, string providerName, string oauthState, Action<string> onSuccess, Action<Error> onError)
 		{
 			var state = oauthState ?? DEFAULT_OAUTH_STATE;
 			var url = string.Format(URL_USER_OAUTH_SOCIAL_NETWORK_TOKEN_AUTH, providerName, XsollaSettings.OAuthClientId, state);
@@ -373,37 +382,11 @@ namespace Xsolla.Login
 			var requestData = new SocialNetworkAccessTokenRequest
 			{
 				access_token = accessToken,
-				access_token_secret = accessTokenSecret
+				access_token_secret = accessTokenSecret,
+				openId = openId
 			};
 
 			WebRequestHelper.Instance.PostRequest(SdkType.Login, url, requestData, onSuccess, onError, Error.LoginErrors);
-		}
-
-		/// <summary>
-		/// Authenticates via provider project. Calls to exchange the provider JWT by the client JWT.
-		/// </summary>
-		/// <remarks> Swagger method name:<c>Authentication via Provider Project</c>.</remarks>
-		/// <see cref="https://developers.xsolla.com/login-api/methods/oauth-20/authentication-via-provider-project/"/>
-		/// <param name="accessToken">JWT received after authentication in the provider project.</param>
-		/// <param name="platformProviderName">Name of the provider project.</param>
-		/// <param name="onSuccess">Success operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
-		public void AuthViaProviderProject(string accessToken, string platformProviderName, Action onSuccess, Action<Error> onError)
-		{
-			var url = string.Format(URL_USER_OAUTH_PLATFORM_PROVIDER, platformProviderName, XsollaSettings.OAuthClientId);
-
-			Action<LoginOAuthJsonResponse> successCallback = response =>
-			{
-				this.ProcessOAuthResponse(response);
-				onSuccess?.Invoke();
-			};
-
-			var requestData = new WWWForm();
-			requestData.AddField("access_token", accessToken);
-
-			var header = new WebRequestHeader() {Name = "Content-type", Value = "application/x-www-form-urlencoded"};
-
-			WebRequestHelper.Instance.PostRequest(SdkType.Login, url, requestData, header, successCallback, onError, Error.LoginErrors);
 		}
 
 		/// <summary>

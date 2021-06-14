@@ -8,15 +8,14 @@ namespace Xsolla.Store
 {
 	public partial class XsollaStore : MonoSingleton<XsollaStore>
 	{
-		private const string URL_CART_CREATE_NEW = BASE_STORE_API_URL + "/cart";
+		private const string URL_CART_CURRENT_GET_ITEMS = BASE_STORE_API_URL + "/cart";
+		private const string URL_CART_GET_ITEMS = BASE_STORE_API_URL + "/cart/{1}";
 
 		private const string URL_CART_CURRENT_ITEM_UPDATE = BASE_STORE_API_URL + "/cart/item/{1}";
 		private const string URL_CART_SPECIFIC_ITEM_UPDATE = BASE_STORE_API_URL + "/cart/{1}/item/{2}";
 
 		private const string URL_CART_CURRENT_ITEM_REMOVE = BASE_STORE_API_URL + "/cart/item/{1}";
 		private const string URL_CART_SPECIFIC_ITEM_REMOVE = BASE_STORE_API_URL + "/cart/{1}/item/{2}";
-
-		private const string URL_CART_GET_ITEMS = BASE_STORE_API_URL + "/cart/{1}";
 
 		private const string URL_CART_CURRENT_CLEAR = BASE_STORE_API_URL + "/cart/clear";
 		private const string URL_CART_SPECIFIC_CLEAR = BASE_STORE_API_URL + "/cart/{1}/clear";
@@ -28,17 +27,44 @@ namespace Xsolla.Store
 		private const string URL_GET_PROMOCODE_REWARD = BASE_STORE_API_URL + "/promocode/code/{1}/rewards";
 
 		/// <summary>
-		/// Creates a new cart on the Xsolla side.
+		/// Returns a current user's cart.
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Get current user's cart</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/store-api/cart-payment/cart/get-user-cart/"/>
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
-		public void CreateNewCart(string projectId, [NotNull] Action<Cart> onSuccess, [CanBeNull] Action<Error> onError)
+		/// <param name="locale">Defines localization of item's text fields.</param>
+		/// <param name="currency">Defines currency of item's price.</param>
+		public void GetCartItems(string projectId, [NotNull] Action<Cart> onSuccess, [CanBeNull] Action<Error> onError, [CanBeNull] string locale = null, [CanBeNull] string currency = null)
 		{
-			var url = string.Format(URL_CART_CREATE_NEW, projectId);
+			var url = string.Format(URL_CART_CURRENT_GET_ITEMS, projectId);
+			var localeParam = GetLocaleUrlParam(locale);
+			var currencyParam = GetCurrencyUrlParam(currency);
+			url = ConcatUrlAndParams(url, localeParam, currencyParam);
+
 			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.CreateCartErrors);
+		}
+
+		/// <summary>
+		/// Returns a user’s cart by ID.
+		/// </summary>
+		/// <remarks> Swagger method name:<c>Get cart by ID</c>.</remarks>
+		/// <see cref="https://developers.xsolla.com/store-api/cart-payment/cart/get-cart-by-id/"/>
+		/// <param name="projectId">Project ID from your Publisher Account.</param>
+		/// <param name="cartId">Unique cart identifier.</param>
+		/// <param name="onSuccess">Successful operation callback.</param>
+		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="locale">Defines localization of item's text fields.</param>
+		/// <param name="currency">Defines currency of item's price.</param>
+		public void GetCartItems(string projectId, string cartId, [NotNull] Action<CartItems> onSuccess, [CanBeNull] Action<Error> onError, [CanBeNull] string locale = null, [CanBeNull] string currency = null)
+		{
+			var url = string.Format(URL_CART_GET_ITEMS, projectId, cartId);
+			var localeParam = GetLocaleUrlParam(locale);
+			var currencyParam = GetCurrencyUrlParam(currency);
+			url = ConcatUrlAndParams(url, localeParam, currencyParam);
+
+			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.GetCartItemsErrors);
 		}
 
 		/// <summary>
@@ -86,7 +112,7 @@ namespace Xsolla.Store
 		/// <param name="quantity">Quantity of purchased item.</param>
 		/// <param name="onSuccess">Success operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
-		/// <seealso cref="CreateNewCart"/>
+		/// <seealso cref="GetCartItems(string,System.Action{Xsolla.Store.Cart},System.Action{Xsolla.Core.Error},string,string)"/>
 		public void UpdateItemInCart(string projectId, string itemSku, int quantity, [CanBeNull] Action onSuccess, [CanBeNull] Action<Error> onError)
 		{
 			var url = string.Format(URL_CART_CURRENT_ITEM_UPDATE, projectId, itemSku);
@@ -105,7 +131,7 @@ namespace Xsolla.Store
 		/// <param name="quantity">Quantity of purchased items.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
-		/// <seealso cref="CreateNewCart"/>
+		/// <seealso cref="GetCartItems(string,System.Action{Xsolla.Store.Cart},System.Action{Xsolla.Core.Error},string,string)"/>
 		public void UpdateItemInCart(string projectId, string cartId, string itemSku, int quantity, [CanBeNull] Action onSuccess, [CanBeNull] Action<Error> onError)
 		{
 			var url = string.Format(URL_CART_SPECIFIC_ITEM_UPDATE, projectId, cartId, itemSku);
@@ -140,27 +166,6 @@ namespace Xsolla.Store
 		{
 			var url = string.Format(URL_CART_SPECIFIC_CLEAR, projectId, cartId);
 			WebRequestHelper.Instance.PutRequest<Quantity>(SdkType.Store, url, null, WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.AddToCartCartErrors);
-		}
-
-		/// <summary>
-		/// Returns a user’s cart by ID.
-		/// </summary>
-		/// <remarks> Swagger method name:<c>Get cart by ID</c>.</remarks>
-		/// <see cref="https://developers.xsolla.com/store-api/cart-payment/cart/get-cart-by-id/"/>
-		/// <param name="projectId">Project ID from your Publisher Account.</param>
-		/// <param name="cartId">Unique cart identifier.</param>
-		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
-		/// <param name="locale">Defines localization of item's text fields.</param>
-		/// <param name="currency">Defines currency of item's price.</param>
-		public void GetCartItems(string projectId, string cartId, [NotNull] Action<CartItems> onSuccess, [CanBeNull] Action<Error> onError, [CanBeNull] string locale = null, [CanBeNull] string currency = null)
-		{
-			var url = string.Format(URL_CART_GET_ITEMS, projectId, cartId);
-			var localeParam = GetLocaleUrlParam(locale);
-			var currencyParam = GetCurrencyUrlParam(currency);
-			url = ConcatUrlAndParams(url, localeParam, currencyParam);
-
-			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.GetCartItemsErrors);
 		}
 
 		/// <summary>

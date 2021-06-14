@@ -8,7 +8,7 @@ namespace Xsolla.Store
 	{
 		private const string URL_CATALOG_GET_ITEMS = BASE_STORE_API_URL + "/items/virtual_items?limit={1}&offset={2}";
 		private const string URL_CATALOG_GET_BUNDLE = BASE_STORE_API_URL + "/items/bundle/sku/{1}";
-		private const string URL_CATALOG_GET_BUNDLES = BASE_STORE_API_URL + "/items/bundle";
+		private const string URL_CATALOG_GET_BUNDLES = BASE_STORE_API_URL + "/items/bundle?limit={1}&offset={2}";
 		private const string URL_CATALOG_GET_ITEMS_IN_GROUP = BASE_STORE_API_URL + "/items/virtual_items/group/{1}";
 		private const string URL_CATALOG_GET_GROUPS = BASE_STORE_API_URL + "/items/groups?offset={1}&limit={2}";
 
@@ -46,13 +46,13 @@ namespace Xsolla.Store
 		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		/// <param name="locale">Defines localization of the item text fields.</param>
-		/// <param name="currency">Defines currency of the item price.</param>
-		public void GetBundle(string projectId, string sku, [NotNull] Action<BundleItem> onSuccess, [CanBeNull] Action<Error> onError, [CanBeNull] string locale = null, [CanBeNull] string currency = null)
+		/// <param name="country">Country used to calculate regional prices and restrictions for the catalog. Two-letter uppercase country code per ISO 3166-1 alpha-2. If you do not specify the country explicitly, it will be defined by the user IP address.</param>
+		public void GetBundle(string projectId, string sku, [NotNull] Action<BundleItem> onSuccess, [CanBeNull] Action<Error> onError, [CanBeNull] string locale = null, [CanBeNull] string country = null)
 		{
 			var url = string.Format(URL_CATALOG_GET_BUNDLE, projectId, sku);
 			var localeParam = GetLocaleUrlParam(locale);
-			var currencyParam = GetCurrencyUrlParam(currency);
-			url = ConcatUrlAndParams(url, localeParam, currencyParam);
+			var countryParam = GetCountryUrlParam(country);
+			url = ConcatUrlAndParams(url, localeParam, countryParam);
 
 			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, onSuccess, onError, Error.ItemsListErrors);
 		}
@@ -66,13 +66,17 @@ namespace Xsolla.Store
 		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		/// <param name="locale">Defines localization of the item text fields.</param>
-		/// <param name="currency">Defines currency of the item price.</param>
-		public void GetBundles(string projectId, [NotNull] Action<BundleItems> onSuccess, [CanBeNull] Action<Error> onError, [CanBeNull] string locale = null, [CanBeNull] string currency = null)
+		/// <param name="limit">Limit for the number of elements on the page.</param>
+		/// <param name="offset">Number of the element from which the list is generated (the count starts from 0).</param>
+		/// <param name="additionalFields">The list of additional fields. This fields will be in a response if you send its in a request. Available fields 'media_list', 'order', 'long_description'.</param>
+		/// <param name="country">Country used to calculate regional prices and restrictions for the catalog. Two-letter uppercase country code per ISO 3166-1 alpha-2. If you do not specify the country explicitly, it will be defined by the user IP address.</param>
+		public void GetBundles(string projectId, [NotNull] Action<BundleItems> onSuccess, [CanBeNull] Action<Error> onError, [CanBeNull] string locale = null, int limit = 50, int offset = 0, string additionalFields = null, [CanBeNull] string country = null)
 		{
-			var url = string.Format(URL_CATALOG_GET_BUNDLES, projectId);
+			var url = string.Format(URL_CATALOG_GET_BUNDLES, projectId, limit, offset);
 			var localeParam = GetLocaleUrlParam(locale);
-			var currencyParam = GetCurrencyUrlParam(currency);
-			url = ConcatUrlAndParams(url, localeParam, currencyParam);
+			var countryParam = GetCountryUrlParam(country);
+			var additionalFieldsParam = GetAdditionalFieldsParam(additionalFields);
+			url = ConcatUrlAndParams(url, localeParam, countryParam, additionalFieldsParam);
 
 			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, onSuccess, onError, Error.ItemsListErrors);
 		}

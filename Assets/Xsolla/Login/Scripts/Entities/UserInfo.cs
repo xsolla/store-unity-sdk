@@ -32,6 +32,7 @@ namespace Xsolla.Login
 		public string gender;
 		public List<UserGroup> groups;
 		public string id;
+		public bool is_anonymous;
 		public string last_login;
 		public string last_name;
 		public string name;

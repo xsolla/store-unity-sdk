@@ -69,12 +69,12 @@ namespace Xsolla.Demo
 
 		public void Registration(string username, string password, string email, string state = null, Action onSuccess = null, Action<Error> onError = null)
 		{
-			XsollaLogin.Instance.Registration(username, password, email, state, onSuccess, onError);
+			XsollaLogin.Instance.Registration(username, password, email, state, null, true, true, null, onSuccess, onError);
 		}
 
 		public void SignIn(string username, string password, bool rememberUser, Action<string> onSuccess, Action<Error> onError = null)
 		{
-			XsollaLogin.Instance.SignIn(username, password, rememberUser, onSuccess, onError);
+			XsollaLogin.Instance.SignIn(username, password, rememberUser, null, onSuccess, onError);
 		}
 
 		public void AccessTokenAuth(string email, Action onSuccess, Action<Error> onError = null)
@@ -131,7 +131,7 @@ namespace Xsolla.Demo
 	#region Social
 		public void SteamAuth(string appId, string sessionTicket, string state, Action<string> onSuccess = null, Action<Error> onError = null)
 		{
-			XsollaLogin.Instance.SteamAuth(appId, sessionTicket, state, onSuccess, onError);
+			XsollaLogin.Instance.SteamAuth(appId, sessionTicket, state, null, onSuccess, onError);
 		}
 
 		public void AuthViaDeviceID(Core.DeviceType deviceType, string deviceName, string deviceId, string payload = null, string state = null, Action<string> onSuccess = null, Action<Error> onError = null)
