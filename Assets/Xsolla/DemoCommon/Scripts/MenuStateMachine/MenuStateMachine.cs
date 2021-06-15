@@ -86,6 +86,8 @@ namespace Xsolla.Demo
 				SetState(initialState);
 		}
 
+		public MenuState MenuState => _state;
+
 		public GameObject SetState(MenuState state)
 		{
 			MenuState oldState = _state;
@@ -115,6 +117,7 @@ namespace Xsolla.Demo
 				ClearTrace();
 				SetState(initialState);
 			}
+
 			return _stateObject;
 		}
 	
@@ -180,6 +183,25 @@ namespace Xsolla.Demo
 
 				if (proxyScript != null)
 					Destroy(proxyScript.gameObject);
+			}
+
+			HandleSomeCasesMobile(lastState, newState);
+		}
+
+		private void HandleSomeCasesMobile(MenuState lastState, MenuState newState)
+		{
+			if (lastState == MenuState.ChangePassword && newState == MenuState.Authorization)
+			{
+				var loginEnterScript = _stateObject.GetComponent<LoginPageEnterControllerMobile>();
+				if (loginEnterScript != null && LoginPageChangePasswordControllerMobile.IsBackNavigationTriggered)
+					loginEnterScript.ShowDefaultLoginWidget(true);
+			}
+
+			if (lastState == MenuState.Registration && newState == MenuState.Authorization)
+			{
+				var loginEnterScript = _stateObject.GetComponent<LoginPageEnterControllerMobile>();
+				if (loginEnterScript != null && LoginPageCreateControllerMobile.IsLoginNavigationTriggered)
+					loginEnterScript.ShowDefaultLoginWidget(true);
 			}
 		}
 	}

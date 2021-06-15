@@ -10,6 +10,8 @@ namespace Xsolla.Demo
 		[SerializeField] InputField EmailInputField = default;
 		[SerializeField] SimpleButton ChangePasswordButton = default;
 
+		public static string LastEmail { get; private set; }
+
 		private bool IsPasswordChangeInProgress
 		{
 			get => base.IsInProgress;
@@ -42,6 +44,8 @@ namespace Xsolla.Demo
 		{
 			if (IsPasswordChangeInProgress)
 				return;
+
+			LastEmail = email;
 
 			IsPasswordChangeInProgress = true;
 
