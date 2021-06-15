@@ -35,6 +35,8 @@ namespace Xsolla.Core
 				settings.paystationSize = (PayStationUISettings.PaystationSize)EditorGUILayout.EnumPopup("Pay Station size", settings.paystationSize);
 				settings.paystationVersion = (PayStationUISettings.PaystationVersion)EditorGUILayout.EnumPopup("Pay Station version", settings.paystationVersion);
 
+				settings.isIndependentWindows = EditorGUILayout.Toggle("Is independent window", settings.isIndependentWindows);
+				
 				GUI.enabled = true;
 			}
 
