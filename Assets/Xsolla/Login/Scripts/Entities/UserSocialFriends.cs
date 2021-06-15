@@ -30,5 +30,9 @@ namespace Xsolla.Login
 		/// Name of social provider.
 		/// </summary>
 		public string platform;
+		/// <summary>
+		/// Shows whether the social friends are from your game.
+		/// </summary>
+		public bool with_xl_uid;
 	}
 }

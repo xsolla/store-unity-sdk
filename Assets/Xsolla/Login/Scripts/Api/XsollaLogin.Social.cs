@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using UnityEngine;
 using Xsolla.Core;
@@ -12,7 +13,7 @@ namespace Xsolla.Login
 		/// Temporary Steam auth endpoint. Will be changed later.
 		/// </summary>
 		private const string URL_JWT_STEAM_CROSSAUTH =
-			"https://login.xsolla.com/api/social/steam/cross_auth?projectId={0}&app_id={1}&with_logout={2}&session_ticket={3}&is_redirect=false";
+			"https://login.xsolla.com/api/social/steam/cross_auth?projectId={0}&app_id={1}&with_logout={2}&session_ticket={3}&is_redirect=false&payload={4}";
 
 		private const string URL_OAUTH_STEAM_CROSSAUTH =
 			"https://login.xsolla.com/api/oauth2/social/steam/cross_auth?app_id={0}&client_id={1}&session_ticket={2}&is_redirect=false&redirect_uri=https://login.xsolla.com/api/blank&response_type=code&scope=offline&state={3}";
@@ -24,7 +25,7 @@ namespace Xsolla.Login
 			"https://login.xsolla.com/api/users/me/social_providers";
 
 		private const string URL_JWT_SOCIAL_AUTH =
-			"https://login.xsolla.com/api/social/{0}/login_redirect?projectId={1}&with_logout={2}";
+			"https://login.xsolla.com/api/social/{0}/login_redirect?projectId={1}&with_logout={2}&payload={3}&fields={4}";
 
 		private const string URL_OAUTH_SOCIAL_AUTH =
 			"https://login.xsolla.com/api/oauth2/social/{0}/login_redirect?client_id={1}&redirect_uri=https://login.xsolla.com/api/blank&response_type=code&state={2}&scope=offline";
@@ -46,9 +47,10 @@ namespace Xsolla.Login
 		/// <param name="appId">Your application Steam AppID.</param>
 		/// <param name="sessionTicket">Requested user's session_ticket by SteamAPI.</param>
 		/// <param name="oauthState">Value used for additional user verification on backend. Must be at least 8 symbols long. Will be "xsollatest" by default.</param>
+		/// <param name="payload">Custom data. The value of the parameter will be returned in the user JWT payload claim.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
-		public void SteamAuth(string appId, string sessionTicket, string oauthState = null, Action<string> onSuccess = null, Action<Error> onError = null)
+		public void SteamAuth(string appId, string sessionTicket, string oauthState = null, string payload = null, Action<string> onSuccess = null, Action<Error> onError = null)
 		{
 			string url = default(string);
 			Action<CrossAuthResponse> onSuccessResponse = null;
@@ -57,7 +59,7 @@ namespace Xsolla.Login
 			{
 				var projectId = XsollaSettings.LoginId;
 				var with_logout = XsollaSettings.JwtTokenInvalidationEnabled ? "1" : "0";
-				url = string.Format(URL_JWT_STEAM_CROSSAUTH, projectId, appId, with_logout, sessionTicket);
+				url = string.Format(URL_JWT_STEAM_CROSSAUTH, projectId, appId, with_logout, sessionTicket, payload);
 
 				onSuccessResponse = response =>
 				{
@@ -91,8 +93,10 @@ namespace Xsolla.Login
 		/// <see cref="https://developers.xsolla.com/login-api/jwt/jwt-auth-via-social-network/"/>.
 		/// <param name="socialProvider">Name of social provider.</param>
 		/// <param name="oauthState">Value used for additional user verification on backend. Must be at least 8 symbols long. Will be "xsollatest" by default.</param>
+		/// <param name="payload">Custom data. The value of the parameter will be returned in the user JWT > payload claim (JWT only).</param>
+		/// <param name="fields">List of parameters which should be requested from the user or social network additionally and written to the token (JWT only).</param>
 		/// <see cref="https://developers.xsolla.com/login-api/methods/oauth-20/oauth-20-auth-via-social-network"/>.
-		public string GetSocialNetworkAuthUrl(SocialProvider socialProvider, string oauthState = null)
+		public string GetSocialNetworkAuthUrl(SocialProvider socialProvider, string oauthState = null, string payload = null, List<string> fields = null)
 		{
 			string result = default(string);
 
@@ -101,7 +105,8 @@ namespace Xsolla.Login
 				case AuthorizationType.JWT:
 					var projectId = XsollaSettings.LoginId;
 					var with_logout = XsollaSettings.JwtTokenInvalidationEnabled ? "1" : "0";
-					result = string.Format(URL_JWT_SOCIAL_AUTH, socialProvider.GetParameter(), projectId, with_logout);
+					var extra_fields = fields != null && fields.Any() ? string.Join(",", fields) : string.Empty;
+					result = string.Format(URL_JWT_SOCIAL_AUTH, socialProvider.GetParameter(), projectId, with_logout, payload, extra_fields);
 					break;
 				case AuthorizationType.OAuth2_0:
 					var socialNetwork = socialProvider.GetParameter();
