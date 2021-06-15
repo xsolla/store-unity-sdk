@@ -1,10 +1,9 @@
 using System;
-using Xsolla.Core;
 
 public static class PriceFormatter
 {
 	private static string _lastCurrency;
-	private const string DEFAULT_CURRENCY = "$";
+	private const string DEFAULT_CURRENCY = "USD";
 
 	private static string LastCurrency
 	{
@@ -19,12 +18,20 @@ public static class PriceFormatter
 
 	public static string FormatPrice(string currency, float price)
 	{
-		var currencySymbol = RegionalCurrency.GetCurrencySymbol(currency);
-		var outputCurrency = string.IsNullOrEmpty(currencySymbol) ? currency : currencySymbol;
-		LastCurrency = outputCurrency;
-		
-		var roundDownPrice = Math.Round((decimal)price, 2, MidpointRounding.AwayFromZero);
+		var currencyFormat = CurrencyFormatUtil.GetCurrencyFormat(currency);
+		if (currencyFormat == null)
+			return string.Empty;
 
-		return string.Format("{0}{1:F2}", outputCurrency, roundDownPrice);
+		var roundDownPrice = Math.Round((decimal) price, currencyFormat.fractionSize, MidpointRounding.AwayFromZero);
+		var priceTemplate = currencyFormat.symbol.template;
+		var currencySymbol = currencyFormat.symbol.grapheme;
+
+		var formattedPrice = priceTemplate
+			.Replace("$", currencySymbol)
+			.Replace("1", roundDownPrice.ToString(string.Format("F{0}", currencyFormat.fractionSize)));
+
+		LastCurrency = currency;
+
+		return formattedPrice;
 	}
 }
