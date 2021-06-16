@@ -7,7 +7,6 @@ namespace Xsolla.Demo
 	public class AttributeItem : MonoBehaviour
 	{
 		[SerializeField] bool _isReadOnly = default;
-		//[SerializeField] bool _isPublic = default;
 		[SerializeField] InputField KeyInputField = default;
 		[SerializeField] InputField ValueInputField = default;
 		[SerializeField] Text KeyText = default;
@@ -41,7 +40,9 @@ namespace Xsolla.Demo
 			{
 				_key = value;
 				KeyText.text = value;
-				KeyInputField.text = value;
+
+				if (KeyInputField)
+					KeyInputField.text = value;
 			}
 		}
 
@@ -52,7 +53,9 @@ namespace Xsolla.Demo
 			{
 				_value = value;
 				ValueText.text = value;
-				ValueInputField.text = value;
+
+				if (ValueInputField)
+					ValueInputField.text = value;
 			}
 		}
 
@@ -64,18 +67,22 @@ namespace Xsolla.Demo
 		{
 			SetAccessibility(_isReadOnly);
 
-			KeyInputField.onEndEdit.AddListener(SetNewKey);
-			ValueInputField.onEndEdit.AddListener(SetNewValue);
-			RemoveButton.onClick += () => OnRemoveRequest?.Invoke(this);
+			KeyInputField?.onEndEdit.AddListener(SetNewKey);
+			ValueInputField?.onEndEdit.AddListener(SetNewValue);
+
+			if (RemoveButton)
+				RemoveButton.onClick += () => OnRemoveRequest?.Invoke(this);
 		}
 
 		private void SetAccessibility(bool isReadOnly)
 		{
-			KeyInputField.gameObject.SetActive(!isReadOnly);
-			ValueInputField.gameObject.SetActive(!isReadOnly);
+			KeyInputField?.gameObject.SetActive(!isReadOnly);
+			ValueInputField?.gameObject.SetActive(!isReadOnly);
+
 			KeyText.gameObject.SetActive(isReadOnly);
 			ValueText.gameObject.SetActive(isReadOnly);
-			RemoveButton.gameObject.SetActive(!isReadOnly);
+
+			RemoveButton?.gameObject.SetActive(!isReadOnly);
 		}
 
 		private void SetNewKey(string newKey)

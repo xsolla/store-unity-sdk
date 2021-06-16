@@ -31,6 +31,10 @@ namespace Xsolla.Demo
 		private IStoreDemoImplementation _demoImplementation;
 		private CatalogItemModel _itemInformation;
 
+		public event Action<CatalogItemModel> OnInitialized;
+
+		public bool IsAlreadyPurchased { get; private set; }
+
 		private void Awake()
 		{
 			itemPrice.gameObject.SetActive(false);
@@ -52,44 +56,47 @@ namespace Xsolla.Demo
 
 			InitializeVirtualItem(virtualItem);
 
-			if (!virtualItem.IsBundle())
+			var isBundle = virtualItem.IsBundle();
+			DisableBuy(isBundle);
+			if (!isBundle)
 				AttachBuyButtonHandler(virtualItem);
 			else
-			{
-				DisableBuy();
 				AttachPreviewButtonHandler(virtualItem);
-			}
 
-			CheckIfItemPurchased(virtualItem);
+			var isPurchased = CheckIfItemPurchased(virtualItem);
+			DisablePrice(isPurchased);
 
 			if (UserCart.Instance.Contains(virtualItem.Sku))
 				EnableCheckout(true);
 
 			checkoutButtonButton.onClick = () => DemoController.Instance.SetState(MenuState.Cart);
+
+			OnInitialized?.Invoke(virtualItem);
 		}
 
-		private void CheckIfItemPurchased(CatalogItemModel virtualItem)
+		private bool CheckIfItemPurchased(CatalogItemModel virtualItem)
 		{
 			if (!virtualItem.IsConsumable)
 			{
 				var sameItemFromInventory = UserInventory.Instance.VirtualItems.FirstOrDefault(i => i.Sku.Equals(_itemInformation.Sku));
-				var isAlreadyPurchased = sameItemFromInventory != null;
-
-				if (isAlreadyPurchased)
-					DisablePrice();
+				IsAlreadyPurchased = sameItemFromInventory != null;
+				return IsAlreadyPurchased;
 			}
+
+			//else
+			return false;
 		}
 
-		private void DisablePrice()
+		private void DisablePrice(bool disable)
 		{
-			prices.SetActive(false);
-			purchasedText.SetActive(true);
+			prices.SetActive(!disable);
+			purchasedText.SetActive(disable);
 		}
 
-		private void DisableBuy()
+		private void DisableBuy(bool disable)
 		{
-			buyButton.gameObject.SetActive(false);
-			previewButton.gameObject.SetActive(true);
+			buyButton.gameObject.SetActive(!disable);
+			previewButton.gameObject.SetActive(disable);
 		}
 
 		private void EnablePrice(bool isVirtualPrice)
