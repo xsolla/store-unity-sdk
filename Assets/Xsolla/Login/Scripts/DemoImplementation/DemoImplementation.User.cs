@@ -94,7 +94,7 @@ namespace Xsolla.Demo
 
 		public void ResendConfirmationLink(string username, Action onSuccess = null, Action<Error> onError = null)
 		{
-			XsollaLogin.Instance.ResendConfirmationLink(username, null, onSuccess, onError);
+			XsollaLogin.Instance.ResendConfirmationLink(username, null, null, onSuccess, onError);
 		}
 
 		public void ChangeUserPhoneNumber(string token, string phoneNumber, Action onSuccess, Action<Error> onError)
