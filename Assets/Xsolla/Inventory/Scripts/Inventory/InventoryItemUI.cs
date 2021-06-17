@@ -22,12 +22,15 @@ namespace Xsolla.Demo
 		[SerializeField] private Text remainingTimeTimeText = default;
 		[SerializeField] private GameObject expiredTimeObject = default;
 		[SerializeField] private Text expiredTimeText = default;
+		[SerializeField] private bool shortSubsctiptionTimeFormat = false;
 #pragma warning disable 0414
 		[SerializeField] private SimpleTextButton renewSubscriptionButton = default;
 #pragma warning restore 0414
 
 		private ItemModel _itemInformation;
 		private IInventoryDemoImplementation _demoImplementation;
+
+		public event Action<ItemModel> OnInitialized;
 
 		private void Awake()
 		{
@@ -39,13 +42,17 @@ namespace Xsolla.Demo
 			_demoImplementation = demoImplementation;
 			_itemInformation = itemInformation;
 
-			itemName.text = _itemInformation.Name;
-			itemDescription.text = _itemInformation.Description;
+			if (itemName != null)
+				itemName.text = _itemInformation.Name;
+			if (itemDescription != null)
+				itemDescription.text = _itemInformation.Description;
 
 			LoadImage(_itemInformation.ImageUrl);
 
 			if (_itemInformation.IsSubscription())
 				AttachRenewSubscriptionHandler();
+
+			OnInitialized?.Invoke(itemInformation);
 		}
 
 		partial void AttachRenewSubscriptionHandler();
@@ -105,48 +112,56 @@ namespace Xsolla.Demo
 
 		private void EnableRemainingTimeText(string text)
 		{
-			remainingTimeObject.SetActive(true);
-			expiredTimeObject.SetActive(false);
+			if (remainingTimeObject != null)
+				remainingTimeObject.SetActive(true);
+			if (expiredTimeObject != null)
+				expiredTimeObject.SetActive(false);
 
-			remainingTimeTimeText.text = text;
+			if (remainingTimeTimeText != null)
+				remainingTimeTimeText.text = text;
 		}
 
 		private void EnableExpiredTimeText(string text)
 		{
-			remainingTimeObject.SetActive(false);
-			expiredTimeObject.SetActive(true);
+			if (remainingTimeObject != null)
+				remainingTimeObject.SetActive(false);
+			if (expiredTimeObject != null)
+				expiredTimeObject.SetActive(true);
 
-			expiredTimeText.text = $"Expired {text}";
+			if (expiredTimeText != null)
+				expiredTimeText.text = $"Expired {text}";
 		}
 
 		private string GetRemainingTime(DateTime expiredDateTime)
 		{
 			var timeLeft = expiredDateTime - DateTime.Now;
 			StartCoroutine(RemainingTimeCoroutine(timeLeft.TotalSeconds > 60 ? 60 : 1));
+			var suffix = shortSubsctiptionTimeFormat ? string.Empty : "remaining";
 			if (timeLeft.TotalDays >= 30)
-				return $"{(int) (timeLeft.TotalDays / 30)} month{(timeLeft.TotalDays > 60 ? "s" : "")} remaining";
+				return $"{(int) (timeLeft.TotalDays / 30)} month{(timeLeft.TotalDays > 60 ? "s" : "")} {suffix}";
 			if (timeLeft.TotalDays > 1)
-				return $"{(uint) (timeLeft.TotalDays)} day{(timeLeft.TotalDays > 1 ? "s" : "")} remaining";
+				return $"{(uint) (timeLeft.TotalDays)} day{(timeLeft.TotalDays > 1 ? "s" : "")} {suffix}";
 			if (timeLeft.TotalHours > 1)
-				return $"{(uint) (timeLeft.TotalHours)} hour{(timeLeft.TotalHours > 1 ? "s" : "")} remaining";
+				return $"{(uint) (timeLeft.TotalHours)} hour{(timeLeft.TotalHours > 1 ? "s" : "")} {suffix}";
 			if (timeLeft.TotalMinutes > 1)
-				return $"{(uint) (timeLeft.TotalMinutes)} minute{(timeLeft.TotalMinutes > 1 ? "s" : "")} remaining";
-			return $"{(uint) (timeLeft.TotalSeconds)} second{(timeLeft.TotalSeconds > 1 ? "s" : "")} remaining";
+				return $"{(uint) (timeLeft.TotalMinutes)} minute{(timeLeft.TotalMinutes > 1 ? "s" : "")} {suffix}";
+			return $"{(uint) (timeLeft.TotalSeconds)} second{(timeLeft.TotalSeconds > 1 ? "s" : "")} {suffix}";
 		}
 
 		private string GetPassedTime(DateTime expiredDateTime)
 		{
 			var timePassed = DateTime.Now - expiredDateTime;
 			StartCoroutine(RemainingTimeCoroutine(timePassed.TotalSeconds > 60 ? 60 : 1));
+			var suffix = shortSubsctiptionTimeFormat ? string.Empty : "ago";
 			if (timePassed.TotalDays >= 30)
-				return $"{(int) (timePassed.TotalDays / 30)} month{(timePassed.TotalDays > 60 ? "s" : "")} ago";
+				return $"{(int) (timePassed.TotalDays / 30)} month{(timePassed.TotalDays > 60 ? "s" : "")} {suffix}";
 			if (timePassed.TotalDays > 1)
-				return $"{(uint) (timePassed.TotalDays)} day{(timePassed.TotalDays > 1 ? "s" : "")} ago";
+				return $"{(uint) (timePassed.TotalDays)} day{(timePassed.TotalDays > 1 ? "s" : "")} {suffix}";
 			if (timePassed.TotalHours > 1)
-				return $"{(uint) (timePassed.TotalHours)} hour{(timePassed.TotalHours > 1 ? "s" : "")} ago";
+				return $"{(uint) (timePassed.TotalHours)} hour{(timePassed.TotalHours > 1 ? "s" : "")} {suffix}";
 			if (timePassed.TotalMinutes > 1)
-				return $"{(uint) (timePassed.TotalMinutes)} minute{(timePassed.TotalMinutes > 1 ? "s" : "")} ago";
-			return $"{(uint) (timePassed.TotalSeconds)} second{(timePassed.TotalSeconds > 1 ? "s" : "")} ago";
+				return $"{(uint) (timePassed.TotalMinutes)} minute{(timePassed.TotalMinutes > 1 ? "s" : "")} {suffix}";
+			return $"{(uint) (timePassed.TotalSeconds)} second{(timePassed.TotalSeconds > 1 ? "s" : "")} {suffix}";
 		}
 
 		private IEnumerator RemainingTimeCoroutine(float waitSeconds)
@@ -203,22 +218,29 @@ namespace Xsolla.Demo
 
 		private void DisableExpirationText()
 		{
-			remainingTimeObject.SetActive(false);
+			if (remainingTimeObject != null)
+				remainingTimeObject.SetActive(false);
 		}
 
 		private void EnableConsumeButton()
 		{
-			consumeButton.gameObject.SetActive(true);
-			consumeButton.onClick = ConsumeHandler;
-			if (consumeButton.counter < 1)
-				consumeButton.counter.IncreaseValue(1 - consumeButton.counter.GetValue());
-			consumeButton.counter.ValueChanged += Counter_ValueChanged;
+			if (consumeButton != null)
+			{
+				consumeButton.gameObject.SetActive(true);
+				consumeButton.onClick = ConsumeHandler;
+				if (consumeButton.counter < 1)
+					consumeButton.counter.IncreaseValue(1 - consumeButton.counter.GetValue());
+				consumeButton.counter.ValueChanged += Counter_ValueChanged;
+			}
 		}
 
 		private void DisableConsumeButton()
 		{
-			consumeButton.counter.ValueChanged -= Counter_ValueChanged;
-			consumeButton.gameObject.SetActive(false);
+			if (consumeButton != null)
+			{
+				consumeButton.counter.ValueChanged -= Counter_ValueChanged;
+				consumeButton.gameObject.SetActive(false);
+			}
 		}
 
 		private void ConsumeHandler()
