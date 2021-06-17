@@ -430,7 +430,7 @@ PrefabInstance:
         type: 3}
       propertyPath: storeMenuPrefab
       value: 
-      objectReference: {fileID: 7587026821285697339, guid: 59b40fd4f3faa67429a2e164d06429a3,
+      objectReference: {fileID: 6843898244374627520, guid: b39409acb59973241b80b16bfa6a7d40,
         type: 3}
     - target: {fileID: 6389733742317925048, guid: 4af1ad141a08941d8bc07459eb260991,
         type: 3}
@@ -468,7 +468,8 @@ PrefabInstance:
         type: 3}
       propertyPath: buyCurrencyMenuPrefab
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 6843898244374627520, guid: c1603d6918477cf41a473ca62dc2adc1,
+        type: 3}
     - target: {fileID: 6389733742317925048, guid: 4af1ad141a08941d8bc07459eb260991,
         type: 3}
       propertyPath: registrationMenuPrefab
