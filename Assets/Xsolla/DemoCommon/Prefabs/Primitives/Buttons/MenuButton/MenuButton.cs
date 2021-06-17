@@ -27,6 +27,7 @@ namespace Xsolla.Demo
 		[SerializeField] private Text SelectedText = default;
 		[SerializeField] private ColorProvider NormalTextColor = default;
 		[SerializeField] private ColorProvider SelectedTextColor = default;
+		[SerializeField] private GameObject OnSelectedObject = default;
 
 		bool _isClickInProgress;
 		bool _isSelected;
@@ -158,6 +159,9 @@ namespace Xsolla.Demo
 			SetImageSprite(image, normalStateSprite);
 			DecoratorPointerEvents.IsMute = false;
 			StartCoroutine(DoChangeColorOnNextFrame(NormalTextColor.GetValue()));
+
+			if (OnSelectedObject)
+				OnSelectedObject.SetActive(false);
 		}
 
 		protected virtual void OnHover()
@@ -175,6 +179,9 @@ namespace Xsolla.Demo
 			SetImageSprite(image, selectedStateSprite);
 			DecoratorPointerEvents.IsMute = false;
 			StartCoroutine(DoChangeColorOnNextFrame(SelectedTextColor.GetValue()));
+
+			if (OnSelectedObject)
+				OnSelectedObject.SetActive(true);
 		}
 
 		private IEnumerator DoChangeColorOnNextFrame(Color color)

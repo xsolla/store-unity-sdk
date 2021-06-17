@@ -25,6 +25,10 @@ MonoBehaviour:
     _id: 61369082-43b1-4ecd-8340-d9f60b19e949
     _prefab: {fileID: 8953394544000082325, guid: b90f74ca7a091e6479cf56bac1b14ccf,
       type: 3}
+  - _name: Store Item Mobile
+    _id: 0550ed38-fcc8-4bee-9c2e-e4e73263a2dd
+    _prefab: {fileID: 1021045078487320294, guid: 8342bd9f29d686649bc3836ee3f6997b,
+      type: 3}
   - _name: Cart Item
     _id: 06e222fc-994f-4071-be2f-4b7851676ed5
     _prefab: {fileID: 7446015085648965445, guid: 25ebb53aeb5e6a04fae7c51446b805a1,
@@ -44,6 +48,14 @@ MonoBehaviour:
   - _name: Virtual Currency Balance
     _id: d6265335-3c74-466b-929b-25b0b8438639
     _prefab: {fileID: 8396083916771944554, guid: 81009cdd06f88488e9c0de2d0c3f5a5c,
+      type: 3}
+  - _name: Virtual Currency Balance Mobile
+    _id: 56011445-20e1-4296-ae15-a56c2ac7b5a1
+    _prefab: {fileID: 8396083916771944554, guid: 9b4a2d36c6888e34aacec340e3c0a14a,
+      type: 3}
+  - _name: Virtual Currency Balance Mobile Inactive
+    _id: fec3e8f9-de99-4b15-bfb7-07409ad8d3f1
+    _prefab: {fileID: 5219045013859259692, guid: 9e90d358d8cd1f446bc63aa42c5b5fc7,
       type: 3}
   - _name: Large Logo
     _id: a7ebd42f-eee5-4775-b36f-460b42e78a21
