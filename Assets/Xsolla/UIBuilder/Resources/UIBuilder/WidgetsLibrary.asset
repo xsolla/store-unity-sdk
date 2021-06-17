@@ -45,6 +45,10 @@ MonoBehaviour:
     _id: 0f2a8680-1799-47a5-be41-f5f35eefd4d8
     _prefab: {fileID: 1009743523206396716, guid: 2d8969daee8b5a845b27bd268881d01b,
       type: 3}
+  - _name: Inventory Item Mobile
+    _id: 87743b40-279d-4a18-81e6-0089e5ee87dd
+    _prefab: {fileID: 1009743523206396716, guid: 95bcc1ce8f57745499e306a37e90e735,
+      type: 3}
   - _name: Virtual Currency Balance
     _id: d6265335-3c74-466b-929b-25b0b8438639
     _prefab: {fileID: 8396083916771944554, guid: 81009cdd06f88488e9c0de2d0c3f5a5c,

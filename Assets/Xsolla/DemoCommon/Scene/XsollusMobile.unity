@@ -451,7 +451,7 @@ PrefabInstance:
         type: 3}
       propertyPath: inventoryMenuPrefab
       value: 
-      objectReference: {fileID: 7587026821285697339, guid: 59b40fd4f3faa67429a2e164d06429a3,
+      objectReference: {fileID: 3189242411452436585, guid: ddb3e1c46b2ecd74bbbdf59d49b7f402,
         type: 3}
     - target: {fileID: 6389733742317925048, guid: 4af1ad141a08941d8bc07459eb260991,
         type: 3}
