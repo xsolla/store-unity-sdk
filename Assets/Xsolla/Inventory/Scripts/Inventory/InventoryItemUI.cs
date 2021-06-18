@@ -116,6 +116,8 @@ namespace Xsolla.Demo
 				remainingTimeObject.SetActive(true);
 			if (expiredTimeObject != null)
 				expiredTimeObject.SetActive(false);
+			if (renewSubscriptionButton != null)
+				renewSubscriptionButton.gameObject.SetActive(false);
 
 			if (remainingTimeTimeText != null)
 				remainingTimeTimeText.text = text;
@@ -127,6 +129,8 @@ namespace Xsolla.Demo
 				remainingTimeObject.SetActive(false);
 			if (expiredTimeObject != null)
 				expiredTimeObject.SetActive(true);
+			if (renewSubscriptionButton != null)
+				renewSubscriptionButton.gameObject.SetActive(true);
 
 			if (expiredTimeText != null)
 				expiredTimeText.text = $"Expired {text}";
@@ -186,19 +190,21 @@ namespace Xsolla.Demo
 
 		private void DrawItemsCount(InventoryItemModel model)
 		{
-			if (model.RemainingUses == null || itemQuantityImage == null) return;
+			if (model.RemainingUses == null || itemQuantityImage == null || itemQuantityText == null) return;
 			EnableQuantityImage();
-			itemQuantityText.text = model.RemainingUses.Value.ToString();
+			itemQuantityText.text = model.RemainingUses.Value.ToString(); 
 		}
 
 		private void EnableQuantityImage()
 		{
-			itemQuantityImage.SetActive(true);
+			if (itemQuantityImage != null)
+				itemQuantityImage.SetActive(true);
 		}
 
 		private void DisableQuantityImage()
 		{
-			itemQuantityImage.SetActive(false);
+			if (itemQuantityImage != null)
+				itemQuantityImage.SetActive(false);
 		}
 
 		private void EnablePurchasedStatusText(bool isPurchased)
@@ -220,6 +226,10 @@ namespace Xsolla.Demo
 		{
 			if (remainingTimeObject != null)
 				remainingTimeObject.SetActive(false);
+			if (expiredTimeObject != null)
+				expiredTimeObject.SetActive(false);
+			if (renewSubscriptionButton != null)
+				renewSubscriptionButton.gameObject.SetActive(false);
 		}
 
 		private void EnableConsumeButton()

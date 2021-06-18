@@ -6,7 +6,6 @@ namespace Xsolla.Demo
 {
 	public class InventoryItemInfoMobile : MonoBehaviour
 	{
-		[SerializeField] private GameObject[] RegularUI = default;
 		[SerializeField] private GameObject FullscreenUI = default;
 
 		private static InventoryItemInfoMobile _instance;
@@ -40,9 +39,6 @@ namespace Xsolla.Demo
 
 		private void ShowUI(bool fullscreen)
 		{
-			foreach (var item in RegularUI)
-				item.SetActive(!fullscreen);
-
 			FullscreenUI.SetActive(fullscreen);
 		}
 	}
