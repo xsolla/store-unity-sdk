@@ -10,6 +10,8 @@ namespace Xsolla.Demo
 
 		private static InventoryItemInfoMobile _instance;
 
+		string lastShownItemSku = default;
+
 		public static void ShowItem(ItemModel itemModel)
 		{
 			if (_instance == null)
@@ -19,6 +21,7 @@ namespace Xsolla.Demo
 			}
 
 			_instance.ShowUI(true);
+			_instance.lastShownItemSku = itemModel.Sku;
 			_instance.FullscreenUI.GetComponent<InventoryItemUI>().Initialize(itemModel, DemoController.Instance.InventoryDemo);
 		}
 
@@ -29,6 +32,22 @@ namespace Xsolla.Demo
 			var closeFullscreenButton = FullscreenUI.GetComponent<ButtonProvider>()?.Button;
 			if (closeFullscreenButton != null)
 				closeFullscreenButton.onClick += () => ShowUI(false);
+
+			UserInventory.Instance.RefreshEvent += () =>
+			{
+				if (_instance.FullscreenUI.activeSelf && !string.IsNullOrEmpty(_instance.lastShownItemSku))
+				{
+					var inventoryItem = UserInventory.Instance.AllItems.Find(item => item.Sku == lastShownItemSku);
+					if (inventoryItem != null)
+					{
+						ShowItem(inventoryItem);
+					}
+					else
+					{
+						ShowUI(false);
+					}
+				}
+			};
 		}
 
 		private void OnDestroy()
