@@ -7,6 +7,7 @@ namespace Xsolla.Demo
 	public class InventoryItemInfoMobile : MonoBehaviour
 	{
 		[SerializeField] private GameObject FullscreenUI = default;
+		[SerializeField] private ConsumeButton consumeButton = default;
 
 		private static InventoryItemInfoMobile _instance;
 
@@ -31,7 +32,11 @@ namespace Xsolla.Demo
 
 			var closeFullscreenButton = FullscreenUI.GetComponent<ButtonProvider>()?.Button;
 			if (closeFullscreenButton != null)
-				closeFullscreenButton.onClick += () => ShowUI(false);
+				closeFullscreenButton.onClick += () =>
+				{
+					ShowUI(false);
+					_instance.consumeButton.counter.ResetValue();
+				};
 
 			UserInventory.Instance.RefreshEvent += () =>
 			{
