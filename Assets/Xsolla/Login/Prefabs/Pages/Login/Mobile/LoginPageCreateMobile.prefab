@@ -1593,7 +1593,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Minimum length: 6 symbols'
+  m_Text: Minimum length is 6 characters.
 --- !u!114 &7111964913983004203
 MonoBehaviour:
   m_ObjectHideFlags: 0

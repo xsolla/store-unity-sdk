@@ -143,8 +143,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -125, y: -174}
-  m_SizeDelta: {x: -280, y: 48}
+  m_AnchoredPosition: {x: -92.5, y: -174}
+  m_SizeDelta: {x: -215, y: 48}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8845640890451790850
 CanvasRenderer:
@@ -186,8 +186,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Follow the instructions we sent to {email@domen.com} to\nconfirm your
-    email address.\r"
+  m_Text: "To confirm your email address, follow the instructions\nwe sent to\r {email@domen.com}."
 --- !u!114 &8693358918776384618
 MonoBehaviour:
   m_ObjectHideFlags: 0
