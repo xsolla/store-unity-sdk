@@ -23,5 +23,10 @@ namespace Xsolla.Demo
 				}
 			};
 		}
+
+		public void ShowCounter(bool show)
+		{
+			counter.gameObject.SetActive(show);
+		}
 	}
 }
