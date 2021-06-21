@@ -23,7 +23,8 @@ namespace Xsolla.Demo
 
 			_instance.ShowUI(true);
 			_instance.lastShownItemSku = itemModel.Sku;
-			_instance.FullscreenUI.GetComponent<InventoryItemUI>().Initialize(itemModel, DemoController.Instance.InventoryDemo);
+			_instance.FullscreenUI.GetComponent<InventoryItemUI>()
+				.Initialize(itemModel, DemoController.Instance.InventoryDemo);
 		}
 
 		private void Awake()
@@ -38,27 +39,31 @@ namespace Xsolla.Demo
 					_instance.consumeButton.counter.ResetValue();
 				};
 
-			UserInventory.Instance.RefreshEvent += () =>
-			{
-				if (_instance.FullscreenUI.activeSelf && !string.IsNullOrEmpty(_instance.lastShownItemSku))
-				{
-					var inventoryItem = UserInventory.Instance.AllItems.Find(item => item.Sku == lastShownItemSku);
-					if (inventoryItem != null)
-					{
-						ShowItem(inventoryItem);
-					}
-					else
-					{
-						ShowUI(false);
-					}
-				}
-			};
+			UserInventory.Instance.RefreshEvent += OnInventoryRefresh;
 		}
 
 		private void OnDestroy()
 		{
 			if (_instance == this)
 				_instance = null;
+
+			UserInventory.Instance.RefreshEvent -= OnInventoryRefresh;
+		}
+
+		void OnInventoryRefresh()
+		{
+			if (_instance.FullscreenUI.activeSelf && !string.IsNullOrEmpty(_instance.lastShownItemSku))
+			{
+				var inventoryItem = UserInventory.Instance.AllItems.Find(item => item.Sku == lastShownItemSku);
+				if (inventoryItem != null)
+				{
+					ShowItem(inventoryItem);
+				}
+				else
+				{
+					ShowUI(false);
+				}
+			}
 		}
 
 		private void ShowUI(bool fullscreen)
