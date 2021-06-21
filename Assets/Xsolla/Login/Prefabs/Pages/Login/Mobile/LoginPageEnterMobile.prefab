@@ -437,7 +437,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 192268666d6ed43b7a7bd67627f012b8, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4f251c26294f7dd48b93e0882a0c010e, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2229,8 +2229,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowPasswordToggle: {fileID: 5100102413047133169}
   Eye: {fileID: 7712220770294363438}
-  OpenedEye: {fileID: 21300000, guid: 2c35e975fb02f7b4cb57b6c507cafc2c, type: 3}
-  ClosedEye: {fileID: 21300000, guid: 192268666d6ed43b7a7bd67627f012b8, type: 3}
+  OpenedEye: {fileID: 21300000, guid: 16030f349a54fdc42b0d7aeb3d04d3af, type: 3}
+  ClosedEye: {fileID: 21300000, guid: 4f251c26294f7dd48b93e0882a0c010e, type: 3}
 --- !u!114 &3428100119528226411
 MonoBehaviour:
   m_ObjectHideFlags: 0
