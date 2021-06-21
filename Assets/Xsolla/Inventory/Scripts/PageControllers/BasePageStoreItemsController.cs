@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 using Xsolla.UIBuilder;
 
 namespace Xsolla.Demo
@@ -52,6 +53,8 @@ namespace Xsolla.Demo
 			groups.ForEach(g => groupsController.AddGroup(g));
 
 			groupsController.SelectDefault();
+			
+			LayoutRebuilder.ForceRebuildLayoutImmediate(groupsController.transform as RectTransform);
 		}
 
 		protected bool CheckHideInAttribute(ItemModel item, HideInFlag flag)
