@@ -95,12 +95,6 @@ namespace Xsolla.Demo
 
 			var args = authResult.Split('#');
 
-			if (args.Length != 3)
-			{
-				Debug.LogError($"AndroidSocialAuth.OnSocialAuthResult: args.Length != 3. Result was {authResult}");
-				return;
-			}
-
 			var socialProvider = args[0];
 
 			if (socialProvider.ToUpper() != _requestedProvider.ToString().ToUpper())
@@ -112,7 +106,7 @@ namespace Xsolla.Demo
 			Debug.Log($"AndroidSocialAuth.OnSocialAuthResult: processing auth result for {socialProvider}");
 
 			var authStatus = args[1].ToUpper();
-			var messageBody = args[2];
+			var messageBody = args.Length == 3 ? args[2] : string.Empty;
 			var logHeader = $"AndroidSocialAuth.OnSocialAuthResult: authResult for {socialProvider} returned";
 
 			switch (authStatus)
