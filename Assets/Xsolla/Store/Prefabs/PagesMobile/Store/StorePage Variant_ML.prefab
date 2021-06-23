@@ -1575,7 +1575,7 @@ PrefabInstance:
     - target: {fileID: 255406765121149289, guid: 4a35708fbed4dca489bba57fe7302c24,
         type: 3}
       propertyPath: m_Pivot.y
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 255406765121149289, guid: 4a35708fbed4dca489bba57fe7302c24,
         type: 3}
@@ -1600,7 +1600,7 @@ PrefabInstance:
     - target: {fileID: 255406765121149289, guid: 4a35708fbed4dca489bba57fe7302c24,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 255406765121149289, guid: 4a35708fbed4dca489bba57fe7302c24,
         type: 3}
@@ -1610,7 +1610,7 @@ PrefabInstance:
     - target: {fileID: 255406765121149289, guid: 4a35708fbed4dca489bba57fe7302c24,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: -272
+      value: 28
       objectReference: {fileID: 0}
     - target: {fileID: 255406765121149289, guid: 4a35708fbed4dca489bba57fe7302c24,
         type: 3}
@@ -1670,7 +1670,7 @@ PrefabInstance:
     - target: {fileID: 255406765121149289, guid: 4a35708fbed4dca489bba57fe7302c24,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 136
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 255406765121149289, guid: 4a35708fbed4dca489bba57fe7302c24,
         type: 3}
@@ -1700,7 +1700,7 @@ PrefabInstance:
     - target: {fileID: 836600855906524624, guid: 4a35708fbed4dca489bba57fe7302c24,
         type: 3}
       propertyPath: m_Color.a
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1001882898899045302, guid: 4a35708fbed4dca489bba57fe7302c24,
         type: 3}
@@ -1720,7 +1720,7 @@ PrefabInstance:
     - target: {fileID: 2471744768055806697, guid: 4a35708fbed4dca489bba57fe7302c24,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2471744768055806697, guid: 4a35708fbed4dca489bba57fe7302c24,
         type: 3}
