@@ -16,6 +16,22 @@ MonoBehaviour:
   ErrorMessage: {fileID: 9190212270106097812}
   RedeemButton: {fileID: 8909157100471839762}
   CancelButton: {fileID: 2726842111168432423}
+--- !u!114 &7343151749377595135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2151185845519967173}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7040a5cee73e5984b85ea56a82c3f4fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  InputFields:
+  - {fileID: 1064582646893965085}
+  MinSymbolsRules: 01000000
+  Button: {fileID: 8909157100471839762}
 --- !u!1 &5688825781255002460
 GameObject:
   m_ObjectHideFlags: 0
@@ -101,6 +117,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7542889820504356160}
     m_Modifications:
+    - target: {fileID: 366786210378148676, guid: 5bd9ec22caee7ba4b878814a69af2baf,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3699472388235449380, guid: 5bd9ec22caee7ba4b878814a69af2baf,
         type: 3}
       propertyPath: m_Name

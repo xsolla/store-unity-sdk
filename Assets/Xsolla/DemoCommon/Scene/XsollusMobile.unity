@@ -310,6 +310,12 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 2722802300511024534, guid: 43580f2c185134eec943fca82e4315bf,
         type: 3}
+      propertyPath: BundlePreviewPopupPrefab
+      value: 
+      objectReference: {fileID: 8129972910254772181, guid: ac68d5767bbe3644d86f5c19c540c203,
+        type: 3}
+    - target: {fileID: 2722802300511024534, guid: 43580f2c185134eec943fca82e4315bf,
+        type: 3}
       propertyPath: CouponRewardsPopupPrefab
       value: 
       objectReference: {fileID: 8129972910254772181, guid: 1f46da431fa0c01419a5f2a0ce9b825f,
