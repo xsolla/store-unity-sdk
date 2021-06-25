@@ -2697,6 +2697,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1009743523206396717}
     m_Modifications:
+    - target: {fileID: 1293027532010473957, guid: 152bec8f0073348f998b57e8d0d2d56c,
+        type: 3}
+      propertyPath: _pointerOverrider._pressPropertyId
+      value: af1ae0ef-aa20-4a22-b474-95c34a11d55b
+      objectReference: {fileID: 0}
     - target: {fileID: 4688991624373441373, guid: 152bec8f0073348f998b57e8d0d2d56c,
         type: 3}
       propertyPath: m_Name
@@ -2828,6 +2833,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_FontData.m_FontSize
       value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 6770193813372936403, guid: 152bec8f0073348f998b57e8d0d2d56c,
+        type: 3}
+      propertyPath: _pointerOverrider._pressPropertyId
+      value: 6c5976aa-207f-4fc5-a85d-58db958960cf
       objectReference: {fileID: 0}
     - target: {fileID: 8839050435016578066, guid: 152bec8f0073348f998b57e8d0d2d56c,
         type: 3}
@@ -2965,6 +2975,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 12800000, guid: f70b0d194d863d14eaa3261671349a4b,
         type: 3}
+    - target: {fileID: 2952497313855207653, guid: 3d2b7c0c681104a219d962ec78812d29,
+        type: 3}
+      propertyPath: _pointerOverrider._pressPropertyId
+      value: af1ae0ef-aa20-4a22-b474-95c34a11d55b
+      objectReference: {fileID: 0}
     - target: {fileID: 3883889219284057257, guid: 3d2b7c0c681104a219d962ec78812d29,
         type: 3}
       propertyPath: m_IsActive
@@ -3170,6 +3185,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7276742217837744595, guid: 3d2b7c0c681104a219d962ec78812d29,
+        type: 3}
+      propertyPath: _pointerOverrider._pressPropertyId
+      value: 6c5976aa-207f-4fc5-a85d-58db958960cf
       objectReference: {fileID: 0}
     - target: {fileID: 7890424803094286224, guid: 3d2b7c0c681104a219d962ec78812d29,
         type: 3}

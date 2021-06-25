@@ -2443,6 +2443,10 @@ PrefabInstance:
       propertyPath: m_CellSize.y
       value: 108
       objectReference: {fileID: 0}
+    - target: {fileID: 33905747, guid: 118dba02aaf064ec98b2d377484116bc, type: 3}
+      propertyPath: m_ChildAlignment
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 614797357798512114, guid: 118dba02aaf064ec98b2d377484116bc,
         type: 3}
       propertyPath: m_Pivot.x
@@ -2571,7 +2575,7 @@ PrefabInstance:
     - target: {fileID: 4484789144411684940, guid: 118dba02aaf064ec98b2d377484116bc,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4652688023469111354, guid: 118dba02aaf064ec98b2d377484116bc,
         type: 3}
@@ -2596,12 +2600,12 @@ PrefabInstance:
     - target: {fileID: 8802131446685996374, guid: 118dba02aaf064ec98b2d377484116bc,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8802131446685996374, guid: 118dba02aaf064ec98b2d377484116bc,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 118dba02aaf064ec98b2d377484116bc, type: 3}
@@ -2664,7 +2668,7 @@ PrefabInstance:
     - target: {fileID: 2077888523502910022, guid: eed01b92a0f084580826154856b9f9cc,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2241878766948224396, guid: eed01b92a0f084580826154856b9f9cc,
         type: 3}
@@ -2750,12 +2754,12 @@ PrefabInstance:
     - target: {fileID: 5786191309309072386, guid: eed01b92a0f084580826154856b9f9cc,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5786191309309072386, guid: eed01b92a0f084580826154856b9f9cc,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6601542415203577918, guid: eed01b92a0f084580826154856b9f9cc,
         type: 3}
