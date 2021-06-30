@@ -7,6 +7,7 @@ stages:
   - build
   - deploy
   - linking
+  - code-analysis
   - webgl-demo
 
 build doc:
@@ -54,6 +55,20 @@ stop doc:
   only:
     - /^v.*/
   dependencies: []
+
+analyze-code:
+  stage: code-analysis
+  image: unityci/editor:2019.4.27f1-webgl-0.13.0
+  allow_failure: true
+  script:
+    - chmod +x ./cicd/code-analysis.sh && ./cicd/code-analysis.sh
+  after_script:
+    - mkdir -p code-analysis/logs/
+    - mv Logs/* code-analysis/logs/
+  artifacts:
+    when: on_failure
+    paths:
+      - code-analysis
 
 build-webgl-demo:
   stage: webgl-demo
