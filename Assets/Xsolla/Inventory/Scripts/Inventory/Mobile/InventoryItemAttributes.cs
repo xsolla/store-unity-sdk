@@ -27,12 +27,12 @@ namespace Xsolla.Demo
 
 			if ((itemModel is InventoryItemModel item) && item.RemainingUses != null)
 			{
-				AddAttributeItem("Quantity", item.RemainingUses.Value.ToString());
+				AddAttributeItem("Quantity:", item.RemainingUses.Value.ToString());
 			}
 
 			foreach (var attribute in attributes)
 			{
-				AddAttributeItem(attribute.Key, attribute.Value);
+				AddAttributeItem(attribute.Key + ":", attribute.Value);
 			}
 		}
 

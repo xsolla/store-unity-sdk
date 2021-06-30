@@ -1,4 +1,5 @@
 using UnityEngine;
+using Xsolla.Core.Popup;
 
 namespace Xsolla.Demo
 {
@@ -16,7 +17,14 @@ namespace Xsolla.Demo
 		{
 			FullscreenButton.onClick += () =>
 			{
-				StoreItemFullscreenView.ShowItem(itemModel);
+				if (itemModel.IsBundle())
+				{
+					PopupFactory.Instance.CreateBundlePreview().SetBundleInfo((CatalogBundleItemModel) itemModel);
+				}
+				else
+				{
+					StoreItemFullscreenView.ShowItem(itemModel);
+				}
 			};
 		}
 	}

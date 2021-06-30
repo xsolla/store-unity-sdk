@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Xsolla.Demo
@@ -25,6 +26,12 @@ namespace Xsolla.Demo
 			_instance.lastShownItemSku = itemModel.Sku;
 			_instance.FullscreenUI.GetComponent<InventoryItemUI>()
 				.Initialize(itemModel, DemoController.Instance.InventoryDemo);
+
+			var inventoryItemModel = UserInventory.Instance.VirtualItems.Find(i => i.Sku.Equals(itemModel.Sku));
+			if (inventoryItemModel != null && inventoryItemModel.IsConsumable && inventoryItemModel.RemainingUses != null)
+			{
+				_instance.consumeButton.ShowCounter(inventoryItemModel.RemainingUses.Value != 1);
+			}
 		}
 
 		private void Awake()

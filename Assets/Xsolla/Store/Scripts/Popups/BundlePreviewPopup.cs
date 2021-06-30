@@ -10,6 +10,7 @@ namespace Xsolla.Core.Popup
 		[SerializeField] Image bundleImage = default;
 		[SerializeField] GameObject loadingCircle = default;
 		[SerializeField] Text bundleName = default;
+		[SerializeField] Text bundleDescription = default;
 		[SerializeField] Text bundleInfo = default;
 		[SerializeField] Text bundlePrice = default;
 		[SerializeField] Text bundlePriceWithoutDiscount = default;
@@ -27,6 +28,10 @@ namespace Xsolla.Core.Popup
 		public IBundlePreviewPopup SetBundleInfo(CatalogBundleItemModel bundle)
 		{
 			bundleName.text = bundle.Name;
+
+			if(bundleDescription != null)
+				bundleDescription.text = bundle.Description;
+
 			bundleInfo.text = $"This bundle includes '{bundle.Content.Count}' item{(bundle.Content.Count > 1 ? "s" : "")}:";
 
 			if (!string.IsNullOrEmpty(bundle.ImageUrl))

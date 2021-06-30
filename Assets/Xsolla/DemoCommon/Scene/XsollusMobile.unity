@@ -204,6 +204,135 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &852442670
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1665081245825186022, guid: 43580f2c185134eec943fca82e4315bf,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1665081245825186022, guid: 43580f2c185134eec943fca82e4315bf,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1665081245825186022, guid: 43580f2c185134eec943fca82e4315bf,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1665081245825186022, guid: 43580f2c185134eec943fca82e4315bf,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1665081245825186022, guid: 43580f2c185134eec943fca82e4315bf,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1665081245825186022, guid: 43580f2c185134eec943fca82e4315bf,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1665081245825186022, guid: 43580f2c185134eec943fca82e4315bf,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1665081245825186022, guid: 43580f2c185134eec943fca82e4315bf,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1665081245825186022, guid: 43580f2c185134eec943fca82e4315bf,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1665081245825186022, guid: 43580f2c185134eec943fca82e4315bf,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1665081245825186022, guid: 43580f2c185134eec943fca82e4315bf,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2722802300511024534, guid: 43580f2c185134eec943fca82e4315bf,
+        type: 3}
+      propertyPath: ErrorPopupPrefab
+      value: 
+      objectReference: {fileID: 3340558264923615202, guid: 66ddc1fb252daab4fa1dec7b29fa330e,
+        type: 3}
+    - target: {fileID: 2722802300511024534, guid: 43580f2c185134eec943fca82e4315bf,
+        type: 3}
+      propertyPath: ConfirmPopupPrefab
+      value: 
+      objectReference: {fileID: 5852370263131820392, guid: f7b99b071a9d837418197b6d38d3fec3,
+        type: 3}
+    - target: {fileID: 2722802300511024534, guid: 43580f2c185134eec943fca82e4315bf,
+        type: 3}
+      propertyPath: SuccessPopupPrefab
+      value: 
+      objectReference: {fileID: 8129972910254772181, guid: 6e75033ef16bf7a48a3ab633502d02de,
+        type: 3}
+    - target: {fileID: 2722802300511024534, guid: 43580f2c185134eec943fca82e4315bf,
+        type: 3}
+      propertyPath: WaitingPopupPrefab
+      value: 
+      objectReference: {fileID: 556361876373794609, guid: 1a811e290896cbe4191851fc35687d2e,
+        type: 3}
+    - target: {fileID: 2722802300511024534, guid: 43580f2c185134eec943fca82e4315bf,
+        type: 3}
+      propertyPath: NicknamePopupPrefab
+      value: 
+      objectReference: {fileID: 2151185845519967173, guid: 18248b22cb868c74eb18bfd4d3c1581c,
+        type: 3}
+    - target: {fileID: 2722802300511024534, guid: 43580f2c185134eec943fca82e4315bf,
+        type: 3}
+      propertyPath: ConfirmCodePopupPrefab
+      value: 
+      objectReference: {fileID: 2151185845519967173, guid: c53b7a0454f41b84f8ce3d0d89c85d0a,
+        type: 3}
+    - target: {fileID: 2722802300511024534, guid: 43580f2c185134eec943fca82e4315bf,
+        type: 3}
+      propertyPath: RedeemCouponPopupPrefab
+      value: 
+      objectReference: {fileID: 2151185845519967173, guid: a71464640c760a24cb729c66afa4f978,
+        type: 3}
+    - target: {fileID: 2722802300511024534, guid: 43580f2c185134eec943fca82e4315bf,
+        type: 3}
+      propertyPath: BundlePreviewPopupPrefab
+      value: 
+      objectReference: {fileID: 8129972910254772181, guid: ac68d5767bbe3644d86f5c19c540c203,
+        type: 3}
+    - target: {fileID: 2722802300511024534, guid: 43580f2c185134eec943fca82e4315bf,
+        type: 3}
+      propertyPath: CouponRewardsPopupPrefab
+      value: 
+      objectReference: {fileID: 8129972910254772181, guid: 1f46da431fa0c01419a5f2a0ce9b825f,
+        type: 3}
+    - target: {fileID: 2722802300511024534, guid: 43580f2c185134eec943fca82e4315bf,
+        type: 3}
+      propertyPath: ResetPasswordPopupPrefab
+      value: 
+      objectReference: {fileID: 8129972910254772181, guid: 0c58bfdf2283cce47a754ff1d8e834b0,
+        type: 3}
+    - target: {fileID: 6073036858017053798, guid: 43580f2c185134eec943fca82e4315bf,
+        type: 3}
+      propertyPath: m_Name
+      value: PopupFactory
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 43580f2c185134eec943fca82e4315bf, type: 3}
 --- !u!1 &1743381006
 GameObject:
   m_ObjectHideFlags: 0

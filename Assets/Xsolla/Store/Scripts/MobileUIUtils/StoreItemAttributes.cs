@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 namespace Xsolla.Demo
 {
@@ -15,6 +16,11 @@ namespace Xsolla.Demo
 
 		private void ShowAttributesIfAny(CatalogItemModel itemModel)
 		{
+			foreach (Transform child in AttributesRoot)
+			{
+				Destroy(child.gameObject);
+			}
+			
 			var attributes = itemModel.Attributes;
 
 			if (attributes == null)
@@ -26,6 +32,7 @@ namespace Xsolla.Demo
 				var uiScript = newObject.GetComponent<AttributeItem>();
 				uiScript.Key = attribute.Key;
 				uiScript.Value = attribute.Value;
+				LayoutRebuilder.ForceRebuildLayoutImmediate(newObject.transform as RectTransform);
 			}
 		}
 	}
