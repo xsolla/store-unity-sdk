@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Text.RegularExpressions;
+using UnityEditor;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
 using UnityEngine;
@@ -30,6 +30,14 @@ namespace Xsolla.Core
 			{
 				Debug.LogError("WeChat Android activity script is missing.");
 				return;
+			}
+
+			var wechatActivityAssetPath = "Assets" + wechatActivityScriptPath.Substring(Application.dataPath.Length);
+			var wechatActivityAsset = AssetImporter.GetAtPath(wechatActivityAssetPath) as PluginImporter;
+			if (wechatActivityAsset != null)
+			{
+				wechatActivityAsset.SetCompatibleWithPlatform(BuildTarget.Android, !string.IsNullOrEmpty(XsollaSettings.WeChatAppId));
+				wechatActivityAsset.SaveAndReimport();
 			}
 
 			var scriptContent = File.ReadAllText(wechatActivityScriptPath);
