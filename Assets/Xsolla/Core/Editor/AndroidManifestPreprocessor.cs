@@ -48,9 +48,9 @@ namespace Xsolla.Core
 				return;
 			}
 
-			var redirectUrl = new Uri(XsollaSettings.DeepLinkRedirectUrl);
+			var redirectUrl = !string.IsNullOrEmpty(XsollaSettings.DeepLinkRedirectUrl) ? new Uri(XsollaSettings.DeepLinkRedirectUrl) : null;
 
-			var data = new DataNode(redirectUrl.Scheme, redirectUrl.Host, redirectUrl.PathAndQuery);
+			var data = new DataNode(redirectUrl?.Scheme, redirectUrl?.Host, redirectUrl?.PathAndQuery);
 			var action = new ActionNode("android.intent.action.VIEW");
 			var categoryDefault = new CategoryNode("android.intent.category.DEFAULT");
 			var categoryBrowsable = new CategoryNode("android.intent.category.BROWSABLE");
