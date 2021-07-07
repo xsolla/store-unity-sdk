@@ -17,6 +17,11 @@ namespace Xsolla.UIBuilder
 		{
 			get
 			{
+				if (!Instance)
+				{
+					return null;
+				}
+				
 				var id = Instance._currentId;
 				if (string.IsNullOrEmpty(id))
 				{
@@ -71,7 +76,6 @@ namespace Xsolla.UIBuilder
 				if (!_instance)
 				{
 					_instance = Resources.Load<ThemesLibrary>(AssetPath);
-					Debug.Assert(_instance, $"Can't load instance of ThemesLibrary by path: {AssetPath}");
 				}
 
 				return _instance;
