@@ -21,15 +21,15 @@ mergeInto(LibraryManager.library, {
 
 		s.addEventListener('load', function (e) {
 			XPayStationWidget.on(XPayStationWidget.eventTypes.STATUS, function (event, data) {
-				unityInstance.SendMessage('XsollaWebCallbacks', 'PublishPaymentStatusUpdate');
+				Module.SendMessage('XsollaWebCallbacks', 'PublishPaymentStatusUpdate');
 			});
 
 				XPayStationWidget.on(XPayStationWidget.eventTypes.CLOSE, function (event, data) {
 				if (data === undefined) {
-					unityInstance.SendMessage('XsollaWebCallbacks', 'PublishPaymentCancel');
+					Module.SendMessage('XsollaWebCallbacks', 'PublishPaymentCancel');
 				}
 				else {
-					unityInstance.SendMessage('XsollaWebCallbacks', 'PublishPaymentStatusUpdate');
+					Module.SendMessage('XsollaWebCallbacks', 'PublishPaymentStatusUpdate');
 				}
 			});
 
