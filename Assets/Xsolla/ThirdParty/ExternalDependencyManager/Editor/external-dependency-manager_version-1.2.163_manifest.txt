@@ -1,6 +1,4 @@
 Assets/ExternalDependencyManager/Editor/CHANGELOG.md
-Assets/ExternalDependencyManager/Editor/Google.IOSResolver_v1.2.163.dll
-Assets/ExternalDependencyManager/Editor/Google.IOSResolver_v1.2.163.dll.mdb
 Assets/ExternalDependencyManager/Editor/Google.JarResolver_v1.2.163.dll
 Assets/ExternalDependencyManager/Editor/Google.JarResolver_v1.2.163.dll.mdb
 Assets/ExternalDependencyManager/Editor/Google.PackageManagerResolver_v1.2.163.dll
