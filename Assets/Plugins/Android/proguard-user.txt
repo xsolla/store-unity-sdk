@@ -1,8 +1,0 @@
-#GameService Rules
--keep class com.google.android.gms.** { *; }
--keep class com.google.games.bridge.** { *; }
--keep class com.google.unity.** { *; }
--keep class com.xsolla.android.login.** { *; }
-
-#Don't obfuscate. We only need dead code striping.
--dontobfuscate

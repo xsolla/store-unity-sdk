@@ -1,0 +1,11 @@
+Assets/Xsolla/ThirdParty/ExternalDependencyManager/Editor/CHANGELOG.md
+Assets/Xsolla/ThirdParty/ExternalDependencyManager/Editor/Google.JarResolver_v1.2.163.dll
+Assets/Xsolla/ThirdParty/ExternalDependencyManager/Editor/Google.JarResolver_v1.2.163.dll.mdb
+Assets/Xsolla/ThirdParty/ExternalDependencyManager/Editor/Google.PackageManagerResolver_v1.2.163.dll
+Assets/Xsolla/ThirdParty/ExternalDependencyManager/Editor/Google.PackageManagerResolver_v1.2.163.dll.mdb
+Assets/Xsolla/ThirdParty/ExternalDependencyManager/Editor/Google.VersionHandler.dll
+Assets/Xsolla/ThirdParty/ExternalDependencyManager/Editor/Google.VersionHandler.dll.mdb
+Assets/Xsolla/ThirdParty/ExternalDependencyManager/Editor/Google.VersionHandlerImpl_v1.2.163.dll
+Assets/Xsolla/ThirdParty/ExternalDependencyManager/Editor/Google.VersionHandlerImpl_v1.2.163.dll.mdb
+Assets/Xsolla/ThirdParty/ExternalDependencyManager/Editor/LICENSE
+Assets/Xsolla/ThirdParty/ExternalDependencyManager/Editor/README.md
