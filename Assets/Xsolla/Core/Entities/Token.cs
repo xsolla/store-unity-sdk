@@ -180,6 +180,10 @@ namespace Xsolla.Core
 
 		private bool ParseTokenPayload(string encodedPayload, out TokenPayload payloadJsonObject)
 		{
+			//TEXTREVIEW
+			//Fix FromBase64String convertion
+			encodedPayload = encodedPayload.Replace('-','+');
+
 			var padding = encodedPayload.Length % 4;
 			if (padding != 0)
 			{
