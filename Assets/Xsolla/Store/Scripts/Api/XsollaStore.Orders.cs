@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -174,6 +174,13 @@ namespace Xsolla.Store
 
 		private void CheckOrderDone(int orderId, Action onDone = null)
 		{
+			if (Token == null || Token.IsNullOrEmpty())
+			{
+				Debug.LogWarning("Invalid token in order status polling. Polling stopped.");
+				RemoveOrderFromTracking(orderId);
+				return;
+			}
+
 			var order = TrackingOrders.FirstOrDefault(x => x.OrderId == orderId);
 			if (order == null)
 				return;
