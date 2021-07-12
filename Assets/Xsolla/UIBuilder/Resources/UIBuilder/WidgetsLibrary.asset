@@ -69,6 +69,10 @@ MonoBehaviour:
     _id: 7b8a17f5-4c1c-412c-bd1f-24e7da1129d4
     _prefab: {fileID: 4268998960249171906, guid: 88178502fc98a4728bbd03e2e4e098bc,
       type: 3}
+  - _name: Logo Mobile
+    _id: 0fc0e864-b8b3-44fc-82fb-f1b102fb9a49
+    _prefab: {fileID: 5708570786088160619, guid: 65877487a700ab745b36d2689fcf7971,
+      type: 3}
   - _name: User Info
     _id: 2b6e1b06-2652-4168-8730-033123d0b467
     _prefab: {fileID: 6125230841616121184, guid: 7f003be1b0f79475ba939890e91ac884,
