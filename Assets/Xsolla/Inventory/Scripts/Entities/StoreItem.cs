@@ -88,6 +88,8 @@ namespace Xsolla.Store
 		public Price price;
 		public VirtualPrice[] virtual_prices;
 		public InventoryOptions inventory_options;
+		public int order;
+		public MediaListItem[] media_list;
 		
 		public StoreItem DeepClone()
 		{

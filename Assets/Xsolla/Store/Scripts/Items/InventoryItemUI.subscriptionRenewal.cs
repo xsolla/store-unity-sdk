@@ -7,6 +7,9 @@ namespace Xsolla.Demo
 	{
 		partial void AttachRenewSubscriptionHandler()
 		{
+			if (renewSubscriptionButton == null)
+				return;
+
 			var subscriptionItem = UserCatalog.Instance.AllItems.First(s => s.Sku == _itemInformation.Sku);
 			if (subscriptionItem.VirtualPrice == null)
 				renewSubscriptionButton.onClick = () => DemoController.Instance.StoreDemo.PurchaseForRealMoney(subscriptionItem);

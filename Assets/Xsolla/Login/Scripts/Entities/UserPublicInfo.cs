@@ -29,5 +29,9 @@ namespace Xsolla.Login
 		/// The Xsolla Login user ID.
 		/// </summary>
 		public string user_id;
+		/// <summary>
+		/// User tag without "#" at the beginning. Can have no unique value and can be used in the Search users by nickname call.
+		/// </summary>
+		public string tag;
 	}
 }

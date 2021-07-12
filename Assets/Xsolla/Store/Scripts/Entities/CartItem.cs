@@ -25,6 +25,7 @@ namespace Xsolla.Store
 		public string sku;
 		public string name;
 		public string type;
+		public string virtual_item_type;
 		public string description;
 		public string image_url;
 		public StoreItemAttribute[] attributes;

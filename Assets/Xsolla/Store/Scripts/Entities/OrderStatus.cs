@@ -9,6 +9,6 @@ namespace Xsolla.Store
 		
 		public string status;
 		
-		public CartItems content;
+		public OrderContent content;
 	}
 }

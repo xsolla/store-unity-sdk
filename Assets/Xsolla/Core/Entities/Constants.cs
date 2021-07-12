@@ -2,8 +2,8 @@ namespace Xsolla.Core
 {
 	public static partial class Constants
 	{
-		public const string LoginSdkVersion = "0.6.4.3";
-		public const string StoreSdkVersion = "0.6.4.3";
+		public const string LoginSdkVersion = "0.6.4.4";
+		public const string StoreSdkVersion = "0.6.4.4";
 
 		public const string DEFAULT_PROJECT_ID = "77640";
 		public const string DEFAULT_LOGIN_ID = "026201e3-7e40-11ea-a85b-42010aa80004";
@@ -26,5 +26,7 @@ namespace Xsolla.Core
 
 		public const string INVENTORY_TUTORIAL_COMPLETED = "xsolla_inventory_tutorial_completion_flag";
 		public const string INVENTORY_TUTORIAL_HIGHLIGHT_TAG = "Highlight";
+		
+		public const string EMAIL_TEXT_TEMPLATE = "{email@domen.com}";
 	}
 }

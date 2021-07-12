@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Xsolla.Demo
 {
@@ -71,6 +73,8 @@ namespace Xsolla.Demo
 			newGroup.Id = groupName;
 			newGroup.Name = groupName;
 			newGroup.OnGroupClick += SelectGroup;
+			
+			LayoutRebuilder.ForceRebuildLayoutImmediate(scrollView.transform as RectTransform);
 
 			Groups.Add(newGroup);
 			return newGroupGameObject;

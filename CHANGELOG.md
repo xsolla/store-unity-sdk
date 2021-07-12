@@ -1,4 +1,21 @@
 # Changelog
+## [0.6.4.4] - 2021-07-12
+### Added
+- Horizontal mobile demo scene
+### Fixed
+- Several payment systems flow for WebGL build
+- Pay Station auto-close after purchase for Unity 2020+
+- Demo behaviour after social auth cancel
+- WeChat errors for android build
+- Errors raising once after import for Unity 2020+
+- In-built browser render quality
+- Included copy of Newtonsoft lib now can be safely removed in case of conflict
+- Various other fixes and improvements
+### Changed
+- API methods update
+- Third-party dependency manager is now included into Xsolla package
+- Updated third-party Puppeteer Sharp library to match Unity's own Newtonsoft lib
+
 ## [0.6.4.3] - 2021-06-10
 ### Added
 - Device ID authorization

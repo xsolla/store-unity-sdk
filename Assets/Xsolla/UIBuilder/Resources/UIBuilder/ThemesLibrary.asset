@@ -43,7 +43,7 @@ MonoBehaviour:
       _color: {r: 1, g: 1, b: 1, a: 1}
     - _name: Logo Color
       _id: 2bd99ceb-7235-48e9-a8bc-70fdc919a284
-      _color: {r: 0.9716981, g: 0.9716981, b: 0.9716981, a: 1}
+      _color: {r: 1, g: 1, b: 1, a: 1}
     - _name: Left Background Color
       _id: 56d30534-ac79-4e61-b765-6e6e02531ecb
       _color: {r: 1, g: 1, b: 1, a: 1}

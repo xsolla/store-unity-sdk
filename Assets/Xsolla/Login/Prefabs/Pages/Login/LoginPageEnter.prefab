@@ -1749,7 +1749,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Button: {fileID: 7944258609853875292}
-  UrlType: 0
+  UrlType: 9
 --- !u!114 &673196429412301255
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3398,6 +3398,46 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Color.r
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2067280762495482228, guid: 9cf5d905c0d2b7b4db56e86899d45bc6,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2067280762495482228, guid: 9cf5d905c0d2b7b4db56e86899d45bc6,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2067280762495482228, guid: 9cf5d905c0d2b7b4db56e86899d45bc6,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2067280762495482228, guid: 9cf5d905c0d2b7b4db56e86899d45bc6,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2067280762767550283, guid: 9cf5d905c0d2b7b4db56e86899d45bc6,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2067280762767550283, guid: 9cf5d905c0d2b7b4db56e86899d45bc6,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2067280762767550283, guid: 9cf5d905c0d2b7b4db56e86899d45bc6,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2067280762767550283, guid: 9cf5d905c0d2b7b4db56e86899d45bc6,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3412875550082063693, guid: 9cf5d905c0d2b7b4db56e86899d45bc6,
         type: 3}

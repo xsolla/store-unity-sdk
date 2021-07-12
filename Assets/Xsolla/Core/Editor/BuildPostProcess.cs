@@ -1,4 +1,4 @@
-﻿#if UNITY_EDITOR
+#if UNITY_EDITOR
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -12,6 +12,8 @@ namespace Xsolla.Core
 {
 	public class BuildPostProcess : IPostprocessBuildWithReport
 	{
+		private const string BROWSER_REVISION = "706915";
+
 		public int callbackOrder { get; }
 
 		public void OnPostprocessBuild(BuildReport report)
@@ -40,8 +42,6 @@ namespace Xsolla.Core
 
 			if (!XsollaSettings.InAppBrowserEnabled || !XsollaSettings.PackInAppBrowserInBuild)
 				return;
-
-			var browserRevision = BrowserFetcher.DefaultRevision;
 
 			var browserPlatform = Platform.Unknown;
 			switch (report.summary.platform)
@@ -78,11 +78,11 @@ namespace Xsolla.Core
 			}
 			
 			var projectBrowserDirectory = Path.Combine(Directory.GetCurrentDirectory(), ".local-chromium");
-			projectBrowserDirectory = Path.Combine(projectBrowserDirectory, $"{browserPlatform}-{browserRevision}");
+			projectBrowserDirectory = Path.Combine(projectBrowserDirectory, $"{browserPlatform}-{BROWSER_REVISION}");
 
 			if (Directory.Exists(projectBrowserDirectory))
 			{
-				buildBrowserDirectory = Path.Combine(buildBrowserDirectory, $"{browserPlatform}-{browserRevision}");
+				buildBrowserDirectory = Path.Combine(buildBrowserDirectory, $"{browserPlatform}-{BROWSER_REVISION}");
 
 				foreach (var dirPath in Directory.GetDirectories(projectBrowserDirectory, "*", SearchOption.AllDirectories))
 					Directory.CreateDirectory(dirPath.Replace(projectBrowserDirectory, buildBrowserDirectory));
@@ -105,7 +105,7 @@ namespace Xsolla.Core
 				};
 
 				var browserFetcher = new BrowserFetcher(fetcherOptions);
-				Task.Run(async () => await browserFetcher.DownloadAsync(browserRevision)).Wait();
+				Task.Run(async () => await browserFetcher.DownloadAsync(BROWSER_REVISION)).Wait();
 			}
 		}
 	}

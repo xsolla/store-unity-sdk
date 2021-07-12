@@ -65,8 +65,10 @@ namespace Xsolla.Demo
 
 		void ExchangeCodeToToken(string code, Action<string> onSuccessExchange = null, Action<Error> onError = null);
 
-		void ResetPassword(string username, [NotNull] Action onSuccess,
+		void ResetPassword(string username, [CanBeNull] Action onSuccess = null,
 			[CanBeNull] Action<Error> onError = null);
+
+		void ResendConfirmationLink(string username, [CanBeNull] Action onSuccess = null, [CanBeNull] Action<Error> onError = null);
 
 		void GetUserInfo(string token, [NotNull] Action<UserInfo> onSuccess, [CanBeNull] Action<Error> onError = null);
 

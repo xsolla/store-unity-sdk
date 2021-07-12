@@ -13,6 +13,12 @@ namespace Xsolla.Demo
 			return _value;
 		}
 
+		public void ResetValue()
+		{
+			_value = 1;
+			ValueChanged?.Invoke(_value);
+		}
+
 		public void IncreaseValue(int delta)
 		{
 			_value += delta;

@@ -22,6 +22,10 @@ namespace Xsolla.Login
 		/// </summary>
 		public string platform;
 		/// <summary>
+		/// User tag without "#" at the beginning. Can have no unique value and can be used in the Search users by nickname call.
+		/// </summary>
+		public string tag;
+		/// <summary>
 		/// User ID from a social provider
 		/// </summary>
 		public string user_id;

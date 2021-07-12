@@ -66,13 +66,16 @@ namespace Xsolla.Demo
 							};
 						}
 
-					buttonsProvider.OKButton.onClick += () =>
-					{ 
+					if (buttonsProvider != null)
+					{
+						buttonsProvider.OKButton.onClick += () =>
+						{ 
 						if (IsAuthInProgress)
 							return;
 						else
 							SetState(MenuState.ChangePassword);
-					};
+						};
+					}
 					break;
 				}
 				case MenuState.AuthorizationFailed:
