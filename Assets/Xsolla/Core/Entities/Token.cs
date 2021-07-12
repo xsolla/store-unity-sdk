@@ -182,7 +182,7 @@ namespace Xsolla.Core
 		{
 			//TEXTREVIEW
 			//Fix FromBase64String convertion
-			encodedPayload = encodedPayload.Replace('-','+');
+			encodedPayload = encodedPayload.Replace('-','+').Replace('_', '/');
 
 			var padding = encodedPayload.Length % 4;
 			if (padding != 0)
