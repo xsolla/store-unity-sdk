@@ -270,61 +270,61 @@ PrefabInstance:
         type: 3}
       propertyPath: ErrorPopupPrefab
       value: 
-      objectReference: {fileID: 3340558264923615202, guid: 66ddc1fb252daab4fa1dec7b29fa330e,
+      objectReference: {fileID: 3340558264923615202, guid: 30cb9c20b085987418377cb815c99a11,
         type: 3}
     - target: {fileID: 2722802300511024534, guid: 43580f2c185134eec943fca82e4315bf,
         type: 3}
       propertyPath: ConfirmPopupPrefab
       value: 
-      objectReference: {fileID: 5852370263131820392, guid: f7b99b071a9d837418197b6d38d3fec3,
+      objectReference: {fileID: 5852370263131820392, guid: 6ddc0d61423943c4f8a4a260df51534a,
         type: 3}
     - target: {fileID: 2722802300511024534, guid: 43580f2c185134eec943fca82e4315bf,
         type: 3}
       propertyPath: SuccessPopupPrefab
       value: 
-      objectReference: {fileID: 8129972910254772181, guid: 6e75033ef16bf7a48a3ab633502d02de,
+      objectReference: {fileID: 8129972910254772181, guid: 40ed0712e96de2b4eb00d206b2ca4c19,
         type: 3}
     - target: {fileID: 2722802300511024534, guid: 43580f2c185134eec943fca82e4315bf,
         type: 3}
       propertyPath: WaitingPopupPrefab
       value: 
-      objectReference: {fileID: 556361876373794609, guid: 1a811e290896cbe4191851fc35687d2e,
+      objectReference: {fileID: 556361876373794609, guid: 01bbe0b19691db94bb81e79d399c9ec8,
         type: 3}
     - target: {fileID: 2722802300511024534, guid: 43580f2c185134eec943fca82e4315bf,
         type: 3}
       propertyPath: NicknamePopupPrefab
       value: 
-      objectReference: {fileID: 2151185845519967173, guid: 18248b22cb868c74eb18bfd4d3c1581c,
+      objectReference: {fileID: 2151185845519967173, guid: 5c30f035a7bdc9a4ea9c049f1dde7c03,
         type: 3}
     - target: {fileID: 2722802300511024534, guid: 43580f2c185134eec943fca82e4315bf,
         type: 3}
       propertyPath: ConfirmCodePopupPrefab
       value: 
-      objectReference: {fileID: 2151185845519967173, guid: c53b7a0454f41b84f8ce3d0d89c85d0a,
+      objectReference: {fileID: 2151185845519967173, guid: 8b847caeaad5df344a40b0c51a9a103e,
         type: 3}
     - target: {fileID: 2722802300511024534, guid: 43580f2c185134eec943fca82e4315bf,
         type: 3}
       propertyPath: RedeemCouponPopupPrefab
       value: 
-      objectReference: {fileID: 2151185845519967173, guid: a71464640c760a24cb729c66afa4f978,
+      objectReference: {fileID: 2151185845519967173, guid: 1572987d6420325468b0498f4b43dfe8,
         type: 3}
     - target: {fileID: 2722802300511024534, guid: 43580f2c185134eec943fca82e4315bf,
         type: 3}
       propertyPath: BundlePreviewPopupPrefab
       value: 
-      objectReference: {fileID: 8129972910254772181, guid: ac68d5767bbe3644d86f5c19c540c203,
+      objectReference: {fileID: 8129972910254772181, guid: 2b698e56976022245954b2fa0c584d64,
         type: 3}
     - target: {fileID: 2722802300511024534, guid: 43580f2c185134eec943fca82e4315bf,
         type: 3}
       propertyPath: CouponRewardsPopupPrefab
       value: 
-      objectReference: {fileID: 8129972910254772181, guid: 1f46da431fa0c01419a5f2a0ce9b825f,
+      objectReference: {fileID: 8129972910254772181, guid: 60ad2f8d461e19c46acb9a77a62a7cde,
         type: 3}
     - target: {fileID: 2722802300511024534, guid: 43580f2c185134eec943fca82e4315bf,
         type: 3}
       propertyPath: ResetPasswordPopupPrefab
       value: 
-      objectReference: {fileID: 8129972910254772181, guid: 0c58bfdf2283cce47a754ff1d8e834b0,
+      objectReference: {fileID: 8129972910254772181, guid: 7d870c65854845a46a0eac3a58eb3aec,
         type: 3}
     - target: {fileID: 6073036858017053798, guid: 43580f2c185134eec943fca82e4315bf,
         type: 3}
@@ -571,7 +571,7 @@ PrefabInstance:
         type: 3}
       propertyPath: storeMenuPrefab
       value: 
-      objectReference: {fileID: 7587026821285697339, guid: 59b40fd4f3faa67429a2e164d06429a3,
+      objectReference: {fileID: 6843898244374627520, guid: 11a703ea5f7139546bf1126ae06a90ec,
         type: 3}
     - target: {fileID: 6389733742317925048, guid: 4af1ad141a08941d8bc07459eb260991,
         type: 3}
@@ -592,7 +592,7 @@ PrefabInstance:
         type: 3}
       propertyPath: inventoryMenuPrefab
       value: 
-      objectReference: {fileID: 7587026821285697339, guid: 59b40fd4f3faa67429a2e164d06429a3,
+      objectReference: {fileID: 3189242411452436585, guid: d0331e6b3c231cd4f88b14c7412eaa30,
         type: 3}
     - target: {fileID: 6389733742317925048, guid: 4af1ad141a08941d8bc07459eb260991,
         type: 3}
@@ -609,7 +609,7 @@ PrefabInstance:
         type: 3}
       propertyPath: buyCurrencyMenuPrefab
       value: 
-      objectReference: {fileID: 7587026821285697339, guid: 59b40fd4f3faa67429a2e164d06429a3,
+      objectReference: {fileID: 6843898244374627520, guid: 286fda03f2a1f64488e76a18f0cc46b0,
         type: 3}
     - target: {fileID: 6389733742317925048, guid: 4af1ad141a08941d8bc07459eb260991,
         type: 3}
