@@ -21,6 +21,10 @@ MonoBehaviour:
     _id: 132c91b4-c821-48af-b389-4fc9be1b5193
     _prefab: {fileID: 2950440794660234406, guid: db73299c9851ad34aa6f30eaf41f1f78,
       type: 3}
+  - _name: Blur Background
+    _id: 09c740e3-ccde-4cca-b906-8ac7e95c3773
+    _prefab: {fileID: 7372969442764771299, guid: d187803ec944ab846a4b09367e8e3307,
+      type: 3}
   - _name: Store Item
     _id: 61369082-43b1-4ecd-8340-d9f60b19e949
     _prefab: {fileID: 8953394544000082325, guid: b90f74ca7a091e6479cf56bac1b14ccf,
