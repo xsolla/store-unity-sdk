@@ -58,10 +58,10 @@ MonoBehaviour:
       _color: {r: 1, g: 1, b: 1, a: 0.7058824}
     - _name: Input Border
       _id: 1a20bec4-d4b3-4606-bf0b-bf1a728a7f47
-      _color: {r: 0.4716981, g: 0.4716981, b: 0.4716981, a: 0.54509807}
+      _color: {r: 1, g: 1, b: 1, a: 0.2}
     - _name: Input Border Hover
       _id: e8c53602-b203-4d3f-bb64-e06c91fb271c
-      _color: {r: 1, g: 0, b: 0.35686275, a: 1}
+      _color: {r: 1, g: 1, b: 1, a: 1}
     - _name: Hyperlink
       _id: 5951064b-e847-4e0a-8996-71df5fc3526d
       _color: {r: 0.990566, g: 0.990566, b: 0.990566, a: 0.6862745}
@@ -306,6 +306,9 @@ MonoBehaviour:
     - _name: Logo
       _id: e335fa6a-085f-404b-b1e6-b29da2bb918e
       _sprite: {fileID: 21300000, guid: 065ddbf4432744185b704c5db1d940a8, type: 3}
+    - _name: GameLogo
+      _id: 1707d0e1-ef56-4549-ac03-679326d10851
+      _sprite: {fileID: 21300000, guid: 691d013d73324984eb9cd2d4d5742dff, type: 3}
     - _name: Scroll Handle
       _id: 64570eff-417a-47e2-b507-fdbf0cd28695
       _sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
@@ -653,6 +656,9 @@ MonoBehaviour:
     - _name: Logo
       _id: e335fa6a-085f-404b-b1e6-b29da2bb918e
       _sprite: {fileID: 21300000, guid: 065ddbf4432744185b704c5db1d940a8, type: 3}
+    - _name: GameLogo
+      _id: 1707d0e1-ef56-4549-ac03-679326d10851
+      _sprite: {fileID: 21300000, guid: 691d013d73324984eb9cd2d4d5742dff, type: 3}
     - _name: Scroll Handle
       _id: 64570eff-417a-47e2-b507-fdbf0cd28695
       _sprite: {fileID: 21300000, guid: 72d77adbd025c2647be2f441ce56cfe8, type: 3}

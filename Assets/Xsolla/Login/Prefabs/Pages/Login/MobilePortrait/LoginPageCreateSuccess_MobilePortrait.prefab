@@ -1770,6 +1770,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1861574611853000907}
     m_Modifications:
+    - target: {fileID: 1293027532010473957, guid: 152bec8f0073348f998b57e8d0d2d56c,
+        type: 3}
+      propertyPath: _pointerOverrider._pressPropertyId
+      value: af1ae0ef-aa20-4a22-b474-95c34a11d55b
+      objectReference: {fileID: 0}
     - target: {fileID: 4688991624373441373, guid: 152bec8f0073348f998b57e8d0d2d56c,
         type: 3}
       propertyPath: m_Name
