@@ -25,14 +25,17 @@ public class LoginPageCreateControllerMobile : MonoBehaviour
 			IsLoginNavigationTriggered = true;
 			DemoController.Instance.SetPreviousState();
 		};
-		
-		stepsCounter.SetCurrentStep(currentStep);
-		stepsCounter.SetTotalSteps(createAccountSteps.Count);
 
-		foreach (var step in createAccountSteps)
+		if (stepsCounter != null)
 		{
-			step.onBackButtonClick += ShowPreviousStep;
-			step.onNextButtonClick += () => { ShowNextStep(); };
+			stepsCounter.SetCurrentStep(currentStep);
+			stepsCounter.SetTotalSteps(createAccountSteps.Count);
+
+			foreach (var step in createAccountSteps)
+			{
+				step.onBackButtonClick += ShowPreviousStep;
+				step.onNextButtonClick += () => { ShowNextStep(); };
+			}
 		}
 	}
 

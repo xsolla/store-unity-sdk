@@ -1,4 +1,10 @@
 # Changelog
+## [0.6.4.5] - 2021-07-16
+### Added
+- Vertical mobile demo scene
+### Fixed
+- WebGL build
+
 ## [0.6.4.4] - 2021-07-12
 ### Added
 - Horizontal mobile demo scene

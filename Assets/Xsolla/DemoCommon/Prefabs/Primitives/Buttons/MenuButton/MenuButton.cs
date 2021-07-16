@@ -9,7 +9,7 @@ using Xsolla.UIBuilder;
 namespace Xsolla.Demo
 {
 	public class MenuButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler,
-		IPointerUpHandler, IDragHandler
+		IPointerUpHandler
 	{
 		[SerializeField] Image image = default;
 
@@ -92,10 +92,6 @@ namespace Xsolla.Demo
 		public bool IsSelected
 		{
 			get { return _isSelected && isSelectable; }
-		}
-
-		public void OnDrag(PointerEventData eventData)
-		{
 		}
 
 		public void OnPointerEnter(PointerEventData eventData)

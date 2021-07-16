@@ -162,8 +162,10 @@ namespace Xsolla.Demo
 			var buttonsProvider = GetComponent<LoginPageCommonButtonsProvider>();
 			if (buttonsProvider != null)
 			{
-				buttonsProvider.DemoUserButton.gameObject.SetActive(false);
-				buttonsProvider.LogInButton.gameObject.SetActive(false);
+				if(buttonsProvider.DemoUserButton != null)
+					buttonsProvider.DemoUserButton.gameObject.SetActive(false);
+				if(buttonsProvider.LogInButton != null)
+					buttonsProvider.LogInButton.gameObject.SetActive(false);
 			}
 		}
 	}
