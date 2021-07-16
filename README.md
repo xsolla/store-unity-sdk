@@ -230,29 +230,44 @@ Xsolla provides APIs to work with it’s products. The Game Commerce asset provi
 
 ## Known issues
 
-### Multiple precompiled assemblies with Newtonsoft.json.dll
+### Conflict of multiple precompiled assemblies with Newtonsoft.json.dll
 
 #### Issue description
 
-The issue appears when using the asset on Unity version 2020.3.10f1 and later.
-
-When importing the asset, an error message is displayed:
+The issue appears when importing the asset on Unity version 2020.3.10f1 and later. The following error message is displayed:
 
 >Multiple precompiled assemblies with the same name Newtonsoft.json.dll included on the current platform. Only one assembly with the same name is allowed per platform.
 
-The conflict arises due to the fact that the `Newtonsoft.json.dll` library is shipped as part of the Unity Editor version 2020.3.10f1 and later, and the asset also includes the `Newtonsoft.json.dll` library to support older editors.
+The conflict arises because the `Newtonsoft.json.dll` library is included in both the Unity Editor and the asset. The library is included in the versions 2020.3.10f1 and later of the editor. And the asset includes the library to support the earlier versions of Unity Editor.
 
-**Issue status:** Investigating.
+**Issue status:** Fixed in 0.6.4.4.
 
 
 #### Workaround
 
 1. Remove the `Newtonsoft.json.dll` library from the asset:
     1. Create a new Unity project.
-    2. Install [Game Commerce asset](https://assetstore.unity.com/packages/slug/145141?_xm=3001.151246642924748818) from Unity Asset Store.
+    2. Install [Game Commerce asset](https://assetstore.unity.com/packages/slug/145141) from Unity Asset Store.
     3. Go to  `Assets\Xsolla\Core\Browser\XsollaBrowser\Plugins` directory.
     4. Remove `Newtonsoft.Json.dll` and `Newtonsoft.Json.dll.mdb` files.
 2. Restart Unity Editor.
+
+### Newtonsoft.json.dll could not be found
+
+#### Issue description
+
+The problem appears if you upgraded a pre-existing project to Unity version 2020.3.10f1 and later. Importing an asset from the [Unity Asset Store](https://assetstore.unity.com/publishers/12995) into such a project is accompanied by many error messages like this:
+
+>The type or namespace name ‘Newtonsoft’ could not be found (are you missing a using directive or an assembly reference?)
+
+
+The problem occurs because the `Newtonsoft.json.dll` library is not included in the asset for Unity version 2020.3.10f1 and later. As part of the editor, the library is supplied for versions 2020.3.10f1 and later, but when updating the project for these versions, the library requires manual installation.
+
+**Issue status:** Fixed in 0.6.4.4.
+
+#### Workaround
+
+Install the `Newtonsoft.json.dll` library manually using the <a href="https://docs.unity3d.com/Packages/com.unity.package-manager-ui@1.8/manual/index.html">Unity Package Manager</a>.
 
 
 ### Unable to resolve reference UnityEditor.iOS.Extensions.Xcode
@@ -268,11 +283,34 @@ When building the application, an error message is displayed:
 Unable to resolve reference 'UnityEditor.iOS.Extensions.Xcode'. Is the assembly missing or incompatible with the current platform?
 Reference validation can be disabled in the Plugin Inspector.
 
-**Issue status:** Investigating.
+**Issue status:** Fixed in 0.6.4.5.
 
 #### Workaround
 
 Install iOS Build Support module from Unity Hub.
+
+### Error occurred running Unity content on page of WebGL build
+
+#### Issue description
+ The issue may appear when logging in WebGL build. The following error message is displayed:
+
+![WebGL error message](https://i.imgur.com/me3ADT4.png "WebGL error message")
+
+See details on cause of the issue on [Unity Issue Tracker](https://issuetracker.unity3d.com/issues/il2cpp-notsupportedexceptions-exception-is-thrown-in-build-with-newtonsoft-dot-json-plugin).
+
+**Issue status:** Won’t fix.
+
+#### Workaround
+
+1. Open Unity project.
+2. Click **Edit > Project Settings** in the main menu.
+3. In the **Player** section, go to the WebGL build settings tab.
+4. Go to the **Other Settings** section.
+5. Uncheck **Strip engine code** box.
+6. Go to the **Publishing Settings** section.
+7. Check the **Decompression Fallback** box.
+8. Create a new WebGL build.
+
 
 ## Legal info
 
@@ -281,7 +319,6 @@ Install iOS Build Support module from Unity Hub.
 Xsolla offers the necessary tools to help you build and grow your gaming business, including personalized support at every stage. The terms of payment are determined by the contract that you can sign in Xsolla Publisher Account.
 
 ---
-
 
 ### License
 
