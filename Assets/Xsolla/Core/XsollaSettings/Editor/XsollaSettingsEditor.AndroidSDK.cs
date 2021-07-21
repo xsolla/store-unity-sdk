@@ -1,6 +1,6 @@
 ﻿using UnityEditor;
 using UnityEngine;
-using Facebook.Unity.Editor;
+//using Facebook.Unity.Editor;
 
 namespace Xsolla.Core
 {
@@ -47,13 +47,13 @@ namespace Xsolla.Core
 					changed = true;
 				}
 
-				var hashkeyLabelText = FacebookAndroidUtil.SetupProperly ? FacebookAndroidUtil.DebugKeyHash : FacebookAndroidUtil.SetupError;
-				EditorGUILayout.BeginHorizontal();
-				{
-					EditorGUILayout.LabelField("Android debug hash key");
-					EditorGUILayout.TextField(hashkeyLabelText);
-				}
-				EditorGUILayout.EndHorizontal();
+				//var hashkeyLabelText = FacebookAndroidUtil.SetupProperly ? FacebookAndroidUtil.DebugKeyHash : FacebookAndroidUtil.SetupError;
+				//EditorGUILayout.BeginHorizontal();
+				//{
+				//	EditorGUILayout.LabelField("Android debug hash key");
+				//	EditorGUILayout.TextField(hashkeyLabelText);
+				//}
+				//EditorGUILayout.EndHorizontal();
 
 
 				EditorGUILayout.BeginHorizontal();

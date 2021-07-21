@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using JetBrains.Annotations;
 using UnityEngine;
 using Xsolla.Core;
-using Xsolla.Core.Browser;
+//using Xsolla.Core.Browser;
 
 namespace Xsolla.Store
 {
@@ -159,13 +159,13 @@ namespace Xsolla.Store
 				XsollaSettings.IsSandbox,
 				XsollaSettings.InAppBrowserEnabled && !forcePlatformBrowser);
 
-#if (UNITY_EDITOR || UNITY_STANDALONE)
-			if (BrowserHelper.Instance.GetLastBrowser() != null)
-			{
-				TrackRestrictedPaymentMethod(onRestrictedPaymentMethod);
-				UpdateBrowserSize();
-			}
-#endif
+//#if (UNITY_EDITOR || UNITY_STANDALONE)
+//			if (BrowserHelper.Instance.GetLastBrowser() != null)
+//			{
+//				TrackRestrictedPaymentMethod(onRestrictedPaymentMethod);
+//				UpdateBrowserSize();
+//			}
+//#endif
 		}
 
 		/// <summary>
@@ -317,35 +317,35 @@ namespace Xsolla.Store
 			return settings;
 		}
 		
-#if (UNITY_EDITOR || UNITY_STANDALONE)
-		private void TrackRestrictedPaymentMethod(Action<int> onRestrictedPaymentMethod)
-		{
-			BrowserHelper.Instance.GetLastBrowser().BrowserInitEvent += activeBrowser =>
-			{
-				activeBrowser.Navigate.UrlChangedEvent += (browser, newUrl) =>
-				{
-					if (_restrictedPaymentMethods.ContainsKey(newUrl))
-					{
-						onRestrictedPaymentMethod?.Invoke(_restrictedPaymentMethods[newUrl]);
-					}
-				};
-			};
-		}
+//#if (UNITY_EDITOR || UNITY_STANDALONE)
+//		private void TrackRestrictedPaymentMethod(Action<int> onRestrictedPaymentMethod)
+//		{
+//			BrowserHelper.Instance.GetLastBrowser().BrowserInitEvent += activeBrowser =>
+//			{
+//				activeBrowser.Navigate.UrlChangedEvent += (browser, newUrl) =>
+//				{
+//					if (_restrictedPaymentMethods.ContainsKey(newUrl))
+//					{
+//						onRestrictedPaymentMethod?.Invoke(_restrictedPaymentMethods[newUrl]);
+//					}
+//				};
+//			};
+//		}
 
-		private void UpdateBrowserSize()
-		{
-			BrowserHelper.Instance.GetLastBrowser().BrowserInitEvent += activeBrowser =>
-			{
-				var browserRender = BrowserHelper.Instance.GetLastBrowser().GetComponent<Display2DBehaviour>();
-				if (browserRender == null)
-					return;
+//		private void UpdateBrowserSize()
+//		{
+//			BrowserHelper.Instance.GetLastBrowser().BrowserInitEvent += activeBrowser =>
+//			{
+//				var browserRender = BrowserHelper.Instance.GetLastBrowser().GetComponent<Display2DBehaviour>();
+//				if (browserRender == null)
+//					return;
 
-				var payStationSize = _payStationSizes[XsollaSettings.DesktopPayStationUISettings.isOverride
-					? XsollaSettings.DesktopPayStationUISettings.paystationSize
-					: PayStationUISettings.PaystationSize.Medium];
-				browserRender.StartRedrawWith((int) payStationSize.x, (int) payStationSize.y);
-			};
-		}
-#endif
+//				var payStationSize = _payStationSizes[XsollaSettings.DesktopPayStationUISettings.isOverride
+//					? XsollaSettings.DesktopPayStationUISettings.paystationSize
+//					: PayStationUISettings.PaystationSize.Medium];
+//				browserRender.StartRedrawWith((int) payStationSize.x, (int) payStationSize.y);
+//			};
+//		}
+//#endif
 	}
 }

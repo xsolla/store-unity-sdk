@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
+//using System.Text.RegularExpressions;
 using Xsolla.Core;
 using UnityEngine;
 
@@ -35,12 +35,12 @@ namespace Xsolla.Store
 		{
 			get
 			{
-#if UNITY_EDITOR || UNITY_STANDALONE
-				if (XsollaSettings.InAppBrowserEnabled)
-				{
-					return true;
-				}
-#endif
+//#if UNITY_EDITOR || UNITY_STANDALONE
+//				if (XsollaSettings.InAppBrowserEnabled)
+//				{
+//					return true;
+//				}
+//#endif
 				return false;
 			}
 		}
@@ -49,12 +49,18 @@ namespace Xsolla.Store
 		{
 			get
 			{
-				if (!XsollaSettings.InAppBrowserEnabled || Application.platform == RuntimePlatform.Android)
-				{
-					return true;
-				}
-				
-				return false;
+#if UNITY_EDITOR
+				return true;
+#elif UNITY_WEBGL
+				return !XsollaSettings.InAppBrowserEnabled;
+#else
+				//if (!XsollaSettings.InAppBrowserEnabled || Application.platform == RuntimePlatform.Android)
+				//{
+				//	return true;
+				//}
+
+				//return false;
+#endif
 			}
 		}
 
@@ -105,34 +111,34 @@ namespace Xsolla.Store
 				OrderTrackingCoroutines.Add(orderId, coroutine);
 			}
 
-			if (IsTrackingByBrowserUrlChange)
-			{
-#if UNITY_EDITOR || UNITY_STANDALONE
-				var browser = BrowserHelper.Instance.GetLastBrowser();
-				browser.GetComponent<XsollaBrowser>().Navigate.UrlChangedEvent += (xsollaBrowser, url) =>
-				{
-					var regex = new Regex(@"(?<=secure.xsolla.com/paystation)(.+?)(?=status)");
-					var matches = regex.Matches(url);
-					if (matches.Count > 0)
-					{
-						CheckOrderDone(orderId);
-					}
+//			if (IsTrackingByBrowserUrlChange)
+//			{
+//#if UNITY_EDITOR || UNITY_STANDALONE
+//				var browser = BrowserHelper.Instance.GetLastBrowser();
+//				browser.GetComponent<XsollaBrowser>().Navigate.UrlChangedEvent += (xsollaBrowser, url) =>
+//				{
+//					var regex = new Regex(@"(?<=secure.xsolla.com/paystation)(.+?)(?=status)");
+//					var matches = regex.Matches(url);
+//					if (matches.Count > 0)
+//					{
+//						CheckOrderDone(orderId);
+//					}
 
-					// handle case when manual/automatic redirect was triggered
-					if (ParseUtils.TryGetValueFromUrl(url, ParseParameter.status, out var status))
-					{
-						if (status != "done")
-						{
-							// occurs when redirect triggered automatically with any status without delay
-							var coroutine = StartCoroutine(CheckOrderWithRepeatCount(orderId));
-							OrderTrackingCoroutines.Add(orderId, coroutine);
-						}
+//					// handle case when manual/automatic redirect was triggered
+//					if (ParseUtils.TryGetValueFromUrl(url, ParseParameter.status, out var status))
+//					{
+//						if (status != "done")
+//						{
+//							// occurs when redirect triggered automatically with any status without delay
+//							var coroutine = StartCoroutine(CheckOrderWithRepeatCount(orderId));
+//							OrderTrackingCoroutines.Add(orderId, coroutine);
+//						}
 
-						Destroy(BrowserHelper.Instance, 0.1F);
-					}
-				};
-#endif
-			}
+//						Destroy(BrowserHelper.Instance, 0.1F);
+//					}
+//				};
+//#endif
+//			}
 		}
 
 		public void AddOrderForTrackingUntilDone(string projectId, int orderId, Action onSuccess = null, Action<Error> onError = null)

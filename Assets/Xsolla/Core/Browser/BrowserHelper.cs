@@ -1,17 +1,17 @@
 using System.Runtime.InteropServices;
 using UnityEngine;
-using Xsolla.Core.Browser;
+//using Xsolla.Core.Browser;
 
 namespace Xsolla.Core
 {
 	[AddComponentMenu("Scripts/Xsolla.Core/Browser/BrowserHelper")]
 	public class BrowserHelper : MonoSingleton<BrowserHelper>
 	{
-#if UNITY_EDITOR || UNITY_STANDALONE
-		[SerializeField] private GameObject InAppBrowserPrefab = default;
-#endif
+//#if UNITY_EDITOR || UNITY_STANDALONE
+//		[SerializeField] private GameObject InAppBrowserPrefab = default;
+//#endif
 
-		private GameObject _inAppBrowserObject = default;
+		//private GameObject _inAppBrowserObject = default;
 
 #if UNITY_WEBGL
 		[DllImport("__Internal")]
@@ -21,14 +21,14 @@ namespace Xsolla.Core
 		public static extern void ClosePaystationWidget();
 #endif
 
-		protected override void OnDestroy()
-		{
-			if (_inAppBrowserObject == null)
-				return;
+		//protected override void OnDestroy()
+		//{
+		//	if (_inAppBrowserObject == null)
+		//		return;
 
-			Destroy(_inAppBrowserObject);
-			_inAppBrowserObject = null;
-		}
+		//	Destroy(_inAppBrowserObject);
+		//	_inAppBrowserObject = null;
+		//}
 
 		public void OpenPurchase(string url, string token, bool isSandbox, bool inAppBrowserEnabled = false)
 		{
@@ -53,42 +53,42 @@ namespace Xsolla.Core
 #pragma warning restore 0618
 					break;
 				default:
-#if UNITY_EDITOR || UNITY_STANDALONE
-					if (inAppBrowserEnabled && InAppBrowserPrefab != null)
-					{
-						OpenInAppBrowser(url);
-						break;
-					}
-#endif
+//#if UNITY_EDITOR || UNITY_STANDALONE
+//					if (inAppBrowserEnabled && InAppBrowserPrefab != null)
+//					{
+//						OpenInAppBrowser(url);
+//						break;
+//					}
+//#endif
 					Application.OpenURL(url);
 					break;
 			}
 		}
 
-#if UNITY_EDITOR || UNITY_STANDALONE
-		private void OpenInAppBrowser(string url)
-		{
-			if (_inAppBrowserObject == null)
-			{
-				Canvas canvas = FindObjectOfType<Canvas>();
-				if(canvas == null)
-				{
-					Debug.LogError("Can not find canvas! So can not draw 2D browser!");
-					return;
-				}
+//#if UNITY_EDITOR || UNITY_STANDALONE
+//		private void OpenInAppBrowser(string url)
+//		{
+//			if (_inAppBrowserObject == null)
+//			{
+//				Canvas canvas = FindObjectOfType<Canvas>();
+//				if(canvas == null)
+//				{
+//					Debug.LogError("Can not find canvas! So can not draw 2D browser!");
+//					return;
+//				}
 
-				_inAppBrowserObject = Instantiate(InAppBrowserPrefab, canvas.transform);
-				XsollaBrowser xsollaBrowser = _inAppBrowserObject.GetComponentInChildren<XsollaBrowser>();
-				xsollaBrowser.Navigate.To(url);
-			}
-			else
-				Debug.LogError("Attempt to create secondary browser instance");
-		}
+//				_inAppBrowserObject = Instantiate(InAppBrowserPrefab, canvas.transform);
+//				XsollaBrowser xsollaBrowser = _inAppBrowserObject.GetComponentInChildren<XsollaBrowser>();
+//				xsollaBrowser.Navigate.To(url);
+//			}
+//			else
+//				Debug.LogError("Attempt to create secondary browser instance");
+//		}
 
-		public SinglePageBrowser2D GetLastBrowser()
-		{
-			return _inAppBrowserObject?.GetComponentInChildren<SinglePageBrowser2D>();
-		}
-#endif
+//		public SinglePageBrowser2D GetLastBrowser()
+//		{
+//			return _inAppBrowserObject?.GetComponentInChildren<SinglePageBrowser2D>();
+//		}
+//#endif
 	}
 }

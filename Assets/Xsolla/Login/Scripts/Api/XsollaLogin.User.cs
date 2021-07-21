@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using PuppeteerSharp;
+//using PuppeteerSharp;
 using UnityEngine;
 using Xsolla.Core;
 

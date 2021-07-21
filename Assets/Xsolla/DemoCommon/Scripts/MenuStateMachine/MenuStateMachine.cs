@@ -185,24 +185,24 @@ namespace Xsolla.Demo
 					Destroy(proxyScript.gameObject);
 			}
 
-			HandleSomeCasesMobile(lastState, newState);
+			//HandleSomeCasesMobile(lastState, newState);
 		}
 
-		private void HandleSomeCasesMobile(MenuState lastState, MenuState newState)
-		{
-			if (lastState == MenuState.ChangePassword && newState == MenuState.Authorization)
-			{
-				var loginEnterScript = _stateObject.GetComponent<LoginPageEnterControllerMobile>();
-				if (loginEnterScript != null && LoginPageChangePasswordControllerMobile.IsBackNavigationTriggered)
-					loginEnterScript.ShowDefaultLoginWidget(true);
-			}
+		//private void HandleSomeCasesMobile(MenuState lastState, MenuState newState)
+		//{
+		//	if (lastState == MenuState.ChangePassword && newState == MenuState.Authorization)
+		//	{
+		//		var loginEnterScript = _stateObject.GetComponent<LoginPageEnterControllerMobile>();
+		//		if (loginEnterScript != null && LoginPageChangePasswordControllerMobile.IsBackNavigationTriggered)
+		//			loginEnterScript.ShowDefaultLoginWidget(true);
+		//	}
 
-			if (lastState == MenuState.Registration && newState == MenuState.Authorization)
-			{
-				var loginEnterScript = _stateObject.GetComponent<LoginPageEnterControllerMobile>();
-				if (loginEnterScript != null && LoginPageCreateControllerMobile.IsLoginNavigationTriggered)
-					loginEnterScript.ShowDefaultLoginWidget(true);
-			}
-		}
+		//	if (lastState == MenuState.Registration && newState == MenuState.Authorization)
+		//	{
+		//		var loginEnterScript = _stateObject.GetComponent<LoginPageEnterControllerMobile>();
+		//		if (loginEnterScript != null && LoginPageCreateControllerMobile.IsLoginNavigationTriggered)
+		//			loginEnterScript.ShowDefaultLoginWidget(true);
+		//	}
+		//}
 	}
 }

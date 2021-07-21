@@ -93,11 +93,11 @@ namespace Xsolla.Demo
 								}, WrapErrorCallback(onError)); 
 							});
 
-	#if (UNITY_EDITOR || UNITY_STANDALONE)
-							var browser = BrowserHelper.Instance.GetLastBrowser();
-							if (browser != null)
-								browser.BrowserClosedEvent += _ => onError?.Invoke(null);
-	#endif
+	//#if (UNITY_EDITOR || UNITY_STANDALONE)
+	//						var browser = BrowserHelper.Instance.GetLastBrowser();
+	//						if (browser != null)
+	//							browser.BrowserClosedEvent += _ => onError?.Invoke(null);
+	//#endif
 
 							XsollaStore.Instance.AddOrderForTracking(XsollaSettings.StoreProjectId, data.order_id, () =>
 							{
@@ -135,17 +135,17 @@ namespace Xsolla.Demo
 		private static void PurchaseComplete(CatalogItemModel item = null, Action popupButtonCallback = null, bool isShowResultToUser = true)
 		{
 			UserInventory.Instance.Refresh();
-#if (UNITY_EDITOR || UNITY_STANDALONE)
-			if (BrowserHelper.Instance.GetLastBrowser() != null)
-			{
+//#if (UNITY_EDITOR || UNITY_STANDALONE)
+//			if (BrowserHelper.Instance.GetLastBrowser() != null)
+//			{
 
-				BrowserHelper.Instance.GetLastBrowser().BrowserClosedEvent += browser =>
-				{
-					ShowPurchaseCompleteMessage(item, popupButtonCallback, isShowResultToUser);
-				};
-				return;
-			}
-#endif
+//				BrowserHelper.Instance.GetLastBrowser().BrowserClosedEvent += browser =>
+//				{
+//					ShowPurchaseCompleteMessage(item, popupButtonCallback, isShowResultToUser);
+//				};
+//				return;
+//			}
+//#endif
 			ShowPurchaseCompleteMessage(item, popupButtonCallback, isShowResultToUser);
 			
 		}
@@ -163,10 +163,10 @@ namespace Xsolla.Demo
 
 		private static void CloseInGameBrowserIfExist()
 		{
-#if (UNITY_EDITOR || UNITY_STANDALONE)
-			if (BrowserHelper.Instance.GetLastBrowser() != null)
-				Destroy(BrowserHelper.Instance, 0.1F);
-#endif
+//#if (UNITY_EDITOR || UNITY_STANDALONE)
+//			if (BrowserHelper.Instance.GetLastBrowser() != null)
+//				Destroy(BrowserHelper.Instance, 0.1F);
+//#endif
 		}
 	}
 }

@@ -151,32 +151,32 @@ namespace Xsolla.Demo
 	
 		public void LinkSocialProvider(SocialProvider socialProvider, Action<SocialProvider> onSuccess, Action<Error> onError = null)
 		{
-#if UNITY_EDITOR || UNITY_STANDALONE
-			XsollaLogin.Instance.LinkSocialProvider(socialProvider, 
-				url =>
-				{
-					BrowserHelper.Instance.Open(url, XsollaSettings.InAppBrowserEnabled);
-					BrowserHelper.Instance.GetLastBrowser().BrowserClosedEvent += _ => onError?.Invoke(null);
-					BrowserHelper.Instance.GetLastBrowser().BrowserInitEvent += activeBrowser =>
-					{
-						activeBrowser.Navigate.UrlChangedEvent += (browser, newUrl) =>
-						{
-							Debug.Log($"URL = {newUrl}");
+//#if UNITY_EDITOR || UNITY_STANDALONE
+//			XsollaLogin.Instance.LinkSocialProvider(socialProvider, 
+//				url =>
+//				{
+//					BrowserHelper.Instance.Open(url, XsollaSettings.InAppBrowserEnabled);
+//					BrowserHelper.Instance.GetLastBrowser().BrowserClosedEvent += _ => onError?.Invoke(null);
+//					BrowserHelper.Instance.GetLastBrowser().BrowserInitEvent += activeBrowser =>
+//					{
+//						activeBrowser.Navigate.UrlChangedEvent += (browser, newUrl) =>
+//						{
+//							Debug.Log($"URL = {newUrl}");
 
-							if (ParseUtils.TryGetValueFromUrl(newUrl, ParseParameter.token, out _))
-							{
-								StartCoroutine(CloseBrowserCoroutine());
-								onSuccess?.Invoke(socialProvider);
-							}
-						};
-					};
-				},
-				WrapErrorCallback(onError));
-#else
+//							if (ParseUtils.TryGetValueFromUrl(newUrl, ParseParameter.token, out _))
+//							{
+//								StartCoroutine(CloseBrowserCoroutine());
+//								onSuccess?.Invoke(socialProvider);
+//							}
+//						};
+//					};
+//				},
+//				WrapErrorCallback(onError));
+//#else
 			var errorMessage = "DemoImplementation.LinkSocialProvider: This functionality is not supported elswere except Editor and Standalone build";
 			Debug.LogError(errorMessage);
 			onError?.Invoke(new Error(ErrorType.MethodIsNotAllowed, errorMessage: errorMessage));
-#endif
+//#endif
 		}
 
 		private IEnumerator CloseBrowserCoroutine()

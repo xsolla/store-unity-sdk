@@ -78,21 +78,21 @@ namespace Xsolla.Demo
 
 		public void RunSocialAuth(SocialProvider socialProvider)
 		{
-			if (IsAuthInProgress)
-				return;
+	//		if (IsAuthInProgress)
+	//			return;
 
-			IsAuthInProgress = true;
-			object[] args = { socialProvider };
+	//		IsAuthInProgress = true;
+	//		object[] args = { socialProvider };
 
-			Action<string> onSuccessfulSocialAuth = token => DemoController.Instance.LoginDemo
-				.ValidateToken(token, t => CompleteSuccessfulAuth(token, isSaveToken: true), ProcessError);
-			Action<Error> onFailedSocialAuth = ProcessError;
+	//		Action<string> onSuccessfulSocialAuth = token => DemoController.Instance.LoginDemo
+	//			.ValidateToken(token, t => CompleteSuccessfulAuth(token, isSaveToken: true), ProcessError);
+	//		Action<Error> onFailedSocialAuth = ProcessError;
 
-	#if UNITY_EDITOR || UNITY_STANDALONE
-			TryAuthBy<SocialAuth>(args, onSuccessfulSocialAuth, onFailedSocialAuth);
-	#elif UNITY_ANDROID
-			TryAuthBy<AndroidSocialAuth>(args, onSuccessfulSocialAuth, onFailedSocialAuth);
-	#endif
+	//#if UNITY_EDITOR || UNITY_STANDALONE
+	//		TryAuthBy<SocialAuth>(args, onSuccessfulSocialAuth, onFailedSocialAuth);
+	//#elif UNITY_ANDROID
+	//		TryAuthBy<AndroidSocialAuth>(args, onSuccessfulSocialAuth, onFailedSocialAuth);
+	//#endif
 		}
 
 		public void RunManualSteamAuth()

@@ -421,6 +421,11 @@ PrefabInstance:
       propertyPath: canvas
       value: 
       objectReference: {fileID: 1895898360}
+    - target: {fileID: 6389733742317925048, guid: 4af1ad141a08941d8bc07459eb260991,
+        type: 3}
+      propertyPath: battlepassMenuPrefab
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 6389733742678192272, guid: 4af1ad141a08941d8bc07459eb260991,
         type: 3}
       propertyPath: m_RootOrder
