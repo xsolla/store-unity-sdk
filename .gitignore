@@ -1,6 +1,7 @@
 [Ll]ibrary/
 [Tt]emp/
 [Oo]bj/
+[Ll]ogs/
 .vs/
 .idea/
 Assets/Plugins/Editor/JetBrains*

@@ -8,7 +8,25 @@ stages:
   - deploy
   - linking
   - code-analysis
-  - webgl-demo
+  - build-demo-2019
+  - build-demo-2020
+  - build-demo-2021
+
+variables:
+  BUILD_SCRIPT_PATH: "./cicd/build-universal.sh"
+  PROJECT_PATH: "."
+  BUILD_ROOT_PATH: "Builds"
+  BUILD_TARGET_WINDOWS: "StandaloneWindows64"
+  BUILD_TARGET_WEBGL: "WebGL"
+  BUILD_TARGET_ANDROID: "Android"
+  UNITY_2019_VERSION: "2019.4.27f1"
+  UNITY_2020_VERSION: "2020.3.14f1"
+  UNITY_2021_VERSION: "2021.1.13f1"
+  BUILD_PLATFORM: "docker"
+  BUILD_IMAGE: "unityci/editor"
+  WINDOWS_IMAGE_VERSION: "windows-mono-0.14.0"
+  WEBGL_IMAGE_VERSION: "webgl-0.14.0"
+  ANDROID_IMAGE_VERSION: "android-0.14.0"
 
 build doc:
   stage: build
@@ -70,17 +88,128 @@ analyze-code:
     paths:
       - code-analysis
 
-build-webgl-demo:
-  stage: webgl-demo
-  image: unityci/editor:2019.4.27f1-webgl-0.13.0
+# =================================================================================================================
+# UNITY 2019
+
+build-windows-2019:
+  stage: build-demo-2019
+  image: $BUILD_IMAGE:$UNITY_2019_VERSION-$WINDOWS_IMAGE_VERSION
   script:
-    - chmod +x ./cicd/build-webgl-demo.sh && ./cicd/build-webgl-demo.sh
-    - mkdir -p webgl/build
-    - mv Builds/WebGL/* webgl/build/
+    - chmod +x "$BUILD_SCRIPT_PATH" && "$BUILD_SCRIPT_PATH" "$PROJECT_PATH" "$UNITY_2019_VERSION" "$BUILD_ROOT_PATH" "$BUILD_TARGET_WINDOWS" "$BUILD_PLATFORM"
   after_script:
-    - mkdir -p webgl/logs/
-    - mv Logs/* webgl/logs/
+    - mkdir -p public
+    - mv Builds/* public/
   artifacts:
     when: always
     paths:
-      - webgl
+      - public
+
+build-webgl-2019:
+  stage: build-demo-2019
+  image: $BUILD_IMAGE:$UNITY_2019_VERSION-$WEBGL_IMAGE_VERSION
+  script:
+    - chmod +x "$BUILD_SCRIPT_PATH" && "$BUILD_SCRIPT_PATH" "$PROJECT_PATH" "$UNITY_2019_VERSION" "$BUILD_ROOT_PATH" "$BUILD_TARGET_WEBGL" "$BUILD_PLATFORM"
+  after_script:
+    - mkdir -p public
+    - mv Builds/* public/
+  artifacts:
+    when: always
+    paths:
+      - public
+
+build-android-2019:
+  stage: build-demo-2019
+  image: $BUILD_IMAGE:$UNITY_2019_VERSION-$ANDROID_IMAGE_VERSION
+  script:
+    - chmod +x "$BUILD_SCRIPT_PATH" && "$BUILD_SCRIPT_PATH" "$PROJECT_PATH" "$UNITY_2019_VERSION" "$BUILD_ROOT_PATH" "$BUILD_TARGET_ANDROID" "$BUILD_PLATFORM"
+  after_script:
+    - mkdir -p public
+    - mv Builds/* public/
+  artifacts:
+    when: always
+    paths:
+      - public
+
+# =================================================================================================================
+# UNITY 2020
+
+build-windows-2020:
+  stage: build-demo-2020
+  image: $BUILD_IMAGE:$UNITY_2020_VERSION-$WINDOWS_IMAGE_VERSION
+  script:
+    - chmod +x "$BUILD_SCRIPT_PATH" && "$BUILD_SCRIPT_PATH" "$PROJECT_PATH" "$UNITY_2020_VERSION" "$BUILD_ROOT_PATH" "$BUILD_TARGET_WINDOWS" "$BUILD_PLATFORM"
+  after_script:
+    - mkdir -p public
+    - mv Builds/* public/
+  artifacts:
+    when: always
+    paths:
+      - public
+
+build-webgl-2020:
+  stage: build-demo-2020
+  image: $BUILD_IMAGE:$UNITY_2020_VERSION-$WEBGL_IMAGE_VERSION
+  script:
+    - chmod +x "$BUILD_SCRIPT_PATH" && "$BUILD_SCRIPT_PATH" "$PROJECT_PATH" "$UNITY_2020_VERSION" "$BUILD_ROOT_PATH" "$BUILD_TARGET_WEBGL" "$BUILD_PLATFORM"
+  after_script:
+    - mkdir -p public
+    - mv Builds/* public/
+  artifacts:
+    when: always
+    paths:
+      - public
+
+build-android-2020:
+  stage: build-demo-2020
+  image: $BUILD_IMAGE:$UNITY_2020_VERSION-$ANDROID_IMAGE_VERSION
+  script:
+    - chmod +x "$BUILD_SCRIPT_PATH" && "$BUILD_SCRIPT_PATH" "$PROJECT_PATH" "$UNITY_2020_VERSION" "$BUILD_ROOT_PATH" "$BUILD_TARGET_ANDROID" "$BUILD_PLATFORM"
+  after_script:
+    - mkdir -p public
+    - mv Builds/* public/
+  artifacts:
+    when: always
+    paths:
+      - public
+
+# =================================================================================================================
+# UNITY 2021
+
+build-windows-2021:
+  stage: build-demo-2021
+  image: $BUILD_IMAGE:$UNITY_2021_VERSION-$WINDOWS_IMAGE_VERSION
+  script:
+    - chmod +x "$BUILD_SCRIPT_PATH" && "$BUILD_SCRIPT_PATH" "$PROJECT_PATH" "$UNITY_2021_VERSION" "$BUILD_ROOT_PATH" "$BUILD_TARGET_WINDOWS" "$BUILD_PLATFORM"
+  after_script:
+    - mkdir -p public
+    - mv Builds/* public/
+  artifacts:
+    when: always
+    paths:
+      - public
+
+build-webgl-2021:
+  stage: build-demo-2021
+  image: $BUILD_IMAGE:$UNITY_2021_VERSION-$WEBGL_IMAGE_VERSION
+  script:
+    - chmod +x "$BUILD_SCRIPT_PATH" && "$BUILD_SCRIPT_PATH" "$PROJECT_PATH" "$UNITY_2021_VERSION" "$BUILD_ROOT_PATH" "$BUILD_TARGET_WEBGL" "$BUILD_PLATFORM"
+  after_script:
+    - mkdir -p public
+    - mv Builds/* public/
+  artifacts:
+    when: always
+    paths:
+      - public
+
+build-android-2021:
+  stage: build-demo-2021
+  image: $BUILD_IMAGE:$UNITY_2021_VERSION-$ANDROID_IMAGE_VERSION
+  script:
+    - chmod +x "$BUILD_SCRIPT_PATH" && "$BUILD_SCRIPT_PATH" "$PROJECT_PATH" "$UNITY_2021_VERSION" "$BUILD_ROOT_PATH" "$BUILD_TARGET_ANDROID" "$BUILD_PLATFORM"
+  after_script:
+    - mkdir -p public
+    - mv Builds/* public/
+  artifacts:
+    when: always
+    paths:
+      - public
