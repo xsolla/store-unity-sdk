@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEditor.Build.Reporting;
@@ -8,13 +9,18 @@ namespace Xsolla
 {
 	public static class BuildsManager
 	{
-		public static void PerformBuild()
+		public static void Build()
 		{
-			var buildPlayerOptions = new BuildPlayerOptions
-			{
-				scenes = GetBuildScenes(),
-				locationPathName = GetEnvironmentArgument("buildPath"),
-				target = GetBuildTargetByArgument(),
+			var buildTarget = GetBuildTarget();
+			var buildPath = GetBuildPath(buildTarget);
+			var buildScenes = GetBuildScenes();
+
+			Debug.Log($"[BuildsManager] Begin. Target: {buildTarget} Path:{buildPath}");
+
+			var buildPlayerOptions = new BuildPlayerOptions{
+				scenes = buildScenes,
+				locationPathName = buildPath,
+				target = buildTarget,
 				options = BuildOptions.None
 			};
 
@@ -36,18 +42,46 @@ namespace Xsolla
 				default:
 					throw new ArgumentOutOfRangeException(buildResult.ToString());
 			}
+
+			var exitCode = buildResult == BuildResult.Succeeded ? 0 : 1;
+			EditorApplication.Exit(exitCode);
 		}
 
-		private static BuildTarget GetBuildTargetByArgument()
+		private static BuildTarget GetBuildTarget()
 		{
-			var arg = GetEnvironmentArgument("buildTarget");
-			if (string.IsNullOrEmpty(arg))
-				throw new Exception("Build target argument not found");
+			var envArg = GetEnvironmentArgument("customBuildTarget");
+			if (Enum.TryParse(envArg, out BuildTarget target))
+			{
+				return target;
+			}
 
-			if (arg == "WebGL")
-				return BuildTarget.WebGL;
+			throw new Exception($"Can't parse build target from environment argument: {envArg}");
+		}
 
-			throw new Exception($"Unexpected build target argument: {arg}");
+		private static string GetBuildPath(BuildTarget target)
+		{
+			var path = GetEnvironmentArgument("customBuildPath");
+			var productName = Application.productName;
+
+			switch (target)
+			{
+				case BuildTarget.Android:
+					return Path.Combine(path, $"{productName}.apk");
+				case BuildTarget.StandaloneWindows:
+				case BuildTarget.StandaloneWindows64:
+					return Path.Combine(path, $"{productName}.exe");
+				default:
+					return path;
+			}
+		}
+
+		private static string[] GetBuildScenes()
+		{
+			return EditorBuildSettings.scenes
+				.Where(scene => scene.enabled)
+				.Where(scene => !string.IsNullOrEmpty(scene.path))
+				.Select(sce => sce.path)
+				.ToArray();
 		}
 
 		private static string GetEnvironmentArgument(string name)
@@ -61,16 +95,7 @@ namespace Xsolla
 				}
 			}
 
-			return null;
-		}
-
-		private static string[] GetBuildScenes()
-		{
-			return EditorBuildSettings.scenes
-				.Where(scene => scene.enabled)
-				.Where(scene => !string.IsNullOrEmpty(scene.path))
-				.Select(sce => sce.path)
-				.ToArray();
+			throw new Exception($"Can't parse environment argument: {name}");
 		}
 	}
 }
