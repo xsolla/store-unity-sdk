@@ -340,10 +340,13 @@ namespace Xsolla.Store
 				if (browserRender == null)
 					return;
 
-				var payStationSize = _payStationSizes[XsollaSettings.DesktopPayStationUISettings.isOverride
-					? XsollaSettings.DesktopPayStationUISettings.paystationSize
-					: PayStationUISettings.PaystationSize.Medium];
-				browserRender.StartRedrawWith((int) payStationSize.x, (int) payStationSize.y);
+				var payStationSettings = XsollaSettings.DesktopPayStationUISettings;
+				var payStationSize = payStationSettings.paystationSize != PayStationUISettings.PaystationSize.Auto
+					? payStationSettings.paystationSize
+					: PayStationUISettings.PaystationSize.Medium;
+
+				var viewportSize = _payStationSizes[payStationSize];
+				browserRender.StartRedrawWith((int) viewportSize.x, (int) viewportSize.y);
 			};
 		}
 #endif

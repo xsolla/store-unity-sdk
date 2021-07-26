@@ -56,22 +56,22 @@ MonoBehaviour:
     RedirectButtonCaption: 
   desktopPayStationUISettings:
     isFoldout: 0
-    isOverride: 0
-    paystationTheme: 0
-    paystationSize: 1
+    paystationTheme: 4
+    paystationSize: 0
     paystationVersion: 0
+    isIndependentWindows: 0
   webglPayStationUISettings:
     isFoldout: 0
-    isOverride: 0
-    paystationTheme: 0
-    paystationSize: 1
+    paystationTheme: 4
+    paystationSize: 0
     paystationVersion: 0
+    isIndependentWindows: 0
   androidPayStationUISettings:
     isFoldout: 0
-    isOverride: 0
-    paystationTheme: 0
-    paystationSize: 1
+    paystationTheme: 4
+    paystationSize: 0
     paystationVersion: 0
+    isIndependentWindows: 0
   facebookAppId: 
   googleServerId: 
   wechatAppId: 

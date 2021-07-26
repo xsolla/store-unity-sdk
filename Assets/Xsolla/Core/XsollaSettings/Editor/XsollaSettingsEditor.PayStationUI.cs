@@ -28,16 +28,10 @@ namespace Xsolla.Core
 			settings.isFoldout = EditorGUILayout.Foldout(settings.isFoldout, title);
 			if (settings.isFoldout)
 			{
-				settings.isOverride = EditorGUILayout.Toggle("Is override default", settings.isOverride);
-				GUI.enabled = settings.isOverride;
-
 				settings.paystationTheme = (PayStationUISettings.PaystationTheme)EditorGUILayout.EnumPopup("Pay Station theme", settings.paystationTheme);
 				settings.paystationSize = (PayStationUISettings.PaystationSize)EditorGUILayout.EnumPopup("Pay Station size", settings.paystationSize);
 				settings.paystationVersion = (PayStationUISettings.PaystationVersion)EditorGUILayout.EnumPopup("Pay Station version", settings.paystationVersion);
-
 				settings.isIndependentWindows = EditorGUILayout.Toggle("Is independent window", settings.isIndependentWindows);
-				
-				GUI.enabled = true;
 			}
 
 			EditorGUI.indentLevel--;
