@@ -21,6 +21,11 @@ namespace Xsolla.Core
 		public static extern void ClosePaystationWidget();
 #endif
 
+#if UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
+		[DllImport("XsollaSdkNative")]
+		static extern void OpenUrlInSafari(string url);
+#endif
+
 		protected override void OnDestroy()
 		{
 			if (_inAppBrowserObject == null)
@@ -61,9 +66,12 @@ namespace Xsolla.Core
 					}
 #endif
 					Application.OpenURL(url);
+
 					break;
 			}
 		}
+
+
 
 #if UNITY_EDITOR || UNITY_STANDALONE
 		private void OpenInAppBrowser(string url)
@@ -88,6 +96,13 @@ namespace Xsolla.Core
 		public SinglePageBrowser2D GetLastBrowser()
 		{
 			return _inAppBrowserObject?.GetComponentInChildren<SinglePageBrowser2D>();
+		}
+#endif
+
+#if UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
+		void OpenSafari(string url)
+		{
+			OpenUrlInSafari(url);
 		}
 #endif
 	}
