@@ -6,29 +6,19 @@ namespace Xsolla.Core
 	public class PayStationUISettings
 	{
 		public bool isFoldout;
-		public bool isOverride;
 		public PaystationTheme paystationTheme = PaystationTheme.PS4_DefaultDark;
-		public PaystationSize paystationSize = PaystationSize.Medium;
-		public PaystationVersion paystationVersion = PaystationVersion.Desktop;
+		public PaystationSize paystationSize = PaystationSize.Auto;
+		public PaystationVersion paystationVersion = PaystationVersion.Auto;
 		public bool isIndependentWindows;
-
+		
 		public static PayStationUI GenerateSettings()
 		{
 #if UNITY_ANDROID
-			if (XsollaSettings.AndroidPayStationUISettings.isOverride)
-			{
-				return XsollaSettings.AndroidPayStationUISettings.CreateSettings();
-			}
+			return XsollaSettings.AndroidPayStationUISettings.CreateSettings();
 #elif UNITY_WEBGL
-			if (XsollaSettings.WebglPayStationUISettings.isOverride)
-			{
-				return XsollaSettings.WebglPayStationUISettings.CreateSettings();
-			}
+			return XsollaSettings.WebglPayStationUISettings.CreateSettings();
 #else
-			if (XsollaSettings.DesktopPayStationUISettings.isOverride)
-			{
-				return XsollaSettings.DesktopPayStationUISettings.CreateSettings();
-			}
+			return XsollaSettings.DesktopPayStationUISettings.CreateSettings();
 #endif
 			//Pay Station will define the settings depending on the platform.
 			return null;
@@ -36,13 +26,18 @@ namespace Xsolla.Core
 
 		private PayStationUI CreateSettings()
 		{
-			return new PayStationUI
-			{
+			var ui = new PayStationUI{
 				theme = ConvertToString(paystationTheme),
-				size = ConvertToString(paystationSize),
-				version = ConvertToString(paystationVersion),
 				is_independent_windows = isIndependentWindows
 			};
+
+			if (paystationSize != PaystationSize.Auto)
+				ui.size = ConvertToString(paystationSize);
+
+			if (paystationVersion != PaystationVersion.Auto)
+				ui.version = ConvertToString(paystationVersion);
+
+			return ui;
 		}
 
 		private string ConvertToString(PaystationTheme theme)
@@ -54,7 +49,7 @@ namespace Xsolla.Core
 				case PaystationTheme.DefaultDark:	return "default_dark";
 				case PaystationTheme.PS4_DefaultLight:	return "ps4-default-light";
 				case PaystationTheme.PS4_DefaultDark:	return "ps4-default-dark";
-				default: goto case PaystationTheme.Dark;
+				default: goto case PaystationTheme.PS4_DefaultDark;
 			}
 		}
 
@@ -90,6 +85,7 @@ namespace Xsolla.Core
 
 		public enum PaystationSize
 		{
+			Auto,
 			Small,
 			Medium,
 			Large
@@ -97,6 +93,7 @@ namespace Xsolla.Core
 
 		public enum PaystationVersion
 		{
+			Auto,
 			Desktop,
 			Mobile
 		}
