@@ -28,7 +28,7 @@ namespace Xsolla.Demo
 
 		private void Start()
 		{
-			var token = DemoController.Instance.LoginDemo.Token;
+			var token = Token.Instance;
 
 			Action<UserInfo> successCallback = info =>
 			{

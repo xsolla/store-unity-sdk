@@ -43,7 +43,7 @@ namespace Xsolla.Store
 			var currencyParam = GetCurrencyUrlParam(currency);
 			url = ConcatUrlAndParams(url, localeParam, currencyParam);
 
-			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.CreateCartErrors);
+			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, WebRequestHeader.AuthHeader(Token.Instance), onSuccess, onError, Error.CreateCartErrors);
 		}
 
 		/// <summary>
@@ -64,7 +64,7 @@ namespace Xsolla.Store
 			var currencyParam = GetCurrencyUrlParam(currency);
 			url = ConcatUrlAndParams(url, localeParam, currencyParam);
 
-			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.GetCartItemsErrors);
+			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, WebRequestHeader.AuthHeader(Token.Instance), onSuccess, onError, Error.GetCartItemsErrors);
 		}
 
 		/// <summary>
@@ -81,7 +81,7 @@ namespace Xsolla.Store
 		{
 			var url = string.Format(URL_CART_CURRENT_FILL, projectId);
 			var entity = new CartFillEntity {items = items};
-			WebRequestHelper.Instance.PutRequest(SdkType.Store, url, entity, WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.CreateCartErrors);
+			WebRequestHelper.Instance.PutRequest(SdkType.Store, url, entity, WebRequestHeader.AuthHeader(Token.Instance), onSuccess, onError, Error.CreateCartErrors);
 		}
 
 		/// <summary>
@@ -99,7 +99,7 @@ namespace Xsolla.Store
 		{
 			var url = string.Format(URL_CART_SPECIFIC_FILL, projectId, cartId);
 			var entity = new CartFillEntity {items = items};
-			WebRequestHelper.Instance.PutRequest(SdkType.Store, url, entity, WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.CreateCartErrors);
+			WebRequestHelper.Instance.PutRequest(SdkType.Store, url, entity, WebRequestHeader.AuthHeader(Token.Instance), onSuccess, onError, Error.CreateCartErrors);
 		}
 
 		/// <summary>
@@ -117,7 +117,7 @@ namespace Xsolla.Store
 		{
 			var url = string.Format(URL_CART_CURRENT_ITEM_UPDATE, projectId, itemSku);
 			var jsonObject = new Quantity {quantity = quantity};
-			WebRequestHelper.Instance.PutRequest<Quantity>(SdkType.Store, url, jsonObject, WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.AddToCartCartErrors);
+			WebRequestHelper.Instance.PutRequest<Quantity>(SdkType.Store, url, jsonObject, WebRequestHeader.AuthHeader(Token.Instance), onSuccess, onError, Error.AddToCartCartErrors);
 		}
 
 		/// <summary>
@@ -136,7 +136,7 @@ namespace Xsolla.Store
 		{
 			var url = string.Format(URL_CART_SPECIFIC_ITEM_UPDATE, projectId, cartId, itemSku);
 			var jsonObject = new Quantity {quantity = quantity};
-			WebRequestHelper.Instance.PutRequest<Quantity>(SdkType.Store, url, jsonObject, WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.AddToCartCartErrors);
+			WebRequestHelper.Instance.PutRequest<Quantity>(SdkType.Store, url, jsonObject, WebRequestHeader.AuthHeader(Token.Instance), onSuccess, onError, Error.AddToCartCartErrors);
 		}
 
 		/// <summary>
@@ -150,7 +150,7 @@ namespace Xsolla.Store
 		public void ClearCart(string projectId, [CanBeNull] Action onSuccess, [CanBeNull] Action<Error> onError)
 		{
 			var url = string.Format(URL_CART_CURRENT_CLEAR, projectId);
-			WebRequestHelper.Instance.PutRequest<Quantity>(SdkType.Store, url, null, WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.AddToCartCartErrors);
+			WebRequestHelper.Instance.PutRequest<Quantity>(SdkType.Store, url, null, WebRequestHeader.AuthHeader(Token.Instance), onSuccess, onError, Error.AddToCartCartErrors);
 		}
 
 		/// <summary>
@@ -165,7 +165,7 @@ namespace Xsolla.Store
 		public void ClearCart(string projectId, string cartId, [CanBeNull] Action onSuccess, [CanBeNull] Action<Error> onError)
 		{
 			var url = string.Format(URL_CART_SPECIFIC_CLEAR, projectId, cartId);
-			WebRequestHelper.Instance.PutRequest<Quantity>(SdkType.Store, url, null, WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.AddToCartCartErrors);
+			WebRequestHelper.Instance.PutRequest<Quantity>(SdkType.Store, url, null, WebRequestHeader.AuthHeader(Token.Instance), onSuccess, onError, Error.AddToCartCartErrors);
 		}
 
 		/// <summary>
@@ -180,7 +180,7 @@ namespace Xsolla.Store
 		public void RemoveItemFromCart(string projectId, string itemSku, [CanBeNull] Action onSuccess, [CanBeNull] Action<Error> onError)
 		{
 			var url = string.Format(URL_CART_CURRENT_ITEM_REMOVE, projectId, itemSku);
-			WebRequestHelper.Instance.DeleteRequest(SdkType.Store, url, WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.DeleteFromCartErrors);
+			WebRequestHelper.Instance.DeleteRequest(SdkType.Store, url, WebRequestHeader.AuthHeader(Token.Instance), onSuccess, onError, Error.DeleteFromCartErrors);
 		}
 
 		/// <summary>
@@ -196,7 +196,7 @@ namespace Xsolla.Store
 		public void RemoveItemFromCart(string projectId, string cartId, string itemSku, [CanBeNull] Action onSuccess, [CanBeNull] Action<Error> onError)
 		{
 			var url = string.Format(URL_CART_SPECIFIC_ITEM_REMOVE, projectId, cartId, itemSku);
-			WebRequestHelper.Instance.DeleteRequest(SdkType.Store, url, WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.DeleteFromCartErrors);
+			WebRequestHelper.Instance.DeleteRequest(SdkType.Store, url, WebRequestHeader.AuthHeader(Token.Instance), onSuccess, onError, Error.DeleteFromCartErrors);
 		}
 
 		/// <summary>
@@ -217,7 +217,7 @@ namespace Xsolla.Store
 				coupon_code = promocode,
 				cart = string.IsNullOrEmpty(cartId) ? null : new RedeemPromocodeRequest.Cart {id = cartId}
 			};
-			WebRequestHelper.Instance.PostRequest(SdkType.Store, url, request, WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.DeleteFromCartErrors);
+			WebRequestHelper.Instance.PostRequest(SdkType.Store, url, request, WebRequestHeader.AuthHeader(Token.Instance), onSuccess, onError, Error.DeleteFromCartErrors);
 		}
 		
 		/// <summary>
@@ -234,7 +234,7 @@ namespace Xsolla.Store
 		{
 			var url = string.Format(URL_GET_PROMOCODE_REWARD, projectId, promocode);
 
-			WebRequestHelper.Instance.PostRequest(SdkType.Store, url, WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.DeleteFromCartErrors);
+			WebRequestHelper.Instance.PostRequest(SdkType.Store, url, WebRequestHeader.AuthHeader(Token.Instance), onSuccess, onError, Error.DeleteFromCartErrors);
 		}
 	}
 }

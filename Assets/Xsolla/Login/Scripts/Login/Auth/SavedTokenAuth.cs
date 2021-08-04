@@ -16,10 +16,10 @@ namespace Xsolla.Demo
 			if (XsollaSettings.AuthorizationType == AuthorizationType.OAuth2_0)
 				yield return new WaitWhile(() => DemoController.Instance.LoginDemo.IsOAuthTokenRefreshInProgress);
 
-			if (DemoController.Instance.LoginDemo.LoadToken(Constants.LAST_SUCCESS_AUTH_TOKEN, out var token))
+			if (Token.Load())
 			{
 				Debug.Log("SavedTokenAuth.TryAuth: Token loaded");
-				base.OnSuccess?.Invoke(token);
+				base.OnSuccess?.Invoke(Token.Instance);
 			}
 			else
 			{

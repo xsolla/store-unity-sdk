@@ -20,7 +20,7 @@ namespace Xsolla.Demo
 			}
 			else
 			{
-				DemoController.Instance.LoginDemo.DeleteToken(Constants.LAST_SUCCESS_AUTH_TOKEN);
+				Token.DeleteSave();
 			}
 		}
 

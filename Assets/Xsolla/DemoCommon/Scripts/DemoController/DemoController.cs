@@ -46,7 +46,7 @@ namespace Xsolla.Demo
 				DestroyInventory();
 				DestroyStore();
 
-				LoginDemo.Token = null;
+				Token.Instance = null;
 			}
 
 			if (lastState.IsAuthState() && newState == MenuState.Main)
@@ -102,7 +102,7 @@ namespace Xsolla.Demo
 
 		public string GetWebStoreUrl()
 		{
-			return $"{XsollaSettings.WebStoreUrl}?token={LoginDemo.Token}&remember_me=false";
+			return $"{XsollaSettings.WebStoreUrl}?token={Token.Instance}&remember_me=false";
 		}
 
 		public void ShowTutorial(bool showWelcomeMessage) => ManualStartTutorial(showWelcomeMessage);

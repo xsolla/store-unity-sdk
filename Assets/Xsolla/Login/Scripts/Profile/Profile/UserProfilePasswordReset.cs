@@ -23,7 +23,7 @@ namespace Xsolla.Demo
 
 			string email = null;
 
-			var token = DemoController.Instance.LoginDemo.Token;
+			var token = Token.Instance;
 			DemoController.Instance.LoginDemo.GetUserInfo(token,
 				onSuccess: info =>
 				{

@@ -69,7 +69,12 @@ namespace Xsolla.Demo
 			bool pendingBusy = true;
 			bool requestedBusy = true;
 
-			DemoController.Instance.LoginDemo.ValidateToken(DemoController.Instance.LoginDemo.Token, onSuccess: _ => isTokenValid = true, onError: _ => isTokenValid = false);
+			DemoController.Instance.LoginDemo.ValidateToken(
+				Token.Instance, 
+				onSuccess: _ => isTokenValid = true, 
+				onError: _ => isTokenValid = false
+			);
+			
 			yield return new WaitWhile(() => isTokenValid == null);
 
 			if (isTokenValid == true)

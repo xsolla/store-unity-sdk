@@ -11,23 +11,14 @@ namespace Xsolla.Demo
 	public partial class DemoImplementation : MonoBehaviour, ILoginDemoImplementation
 	{
 		private const int NETWORKS_CACHE_TIMEOUT = 5;
+	
 	#region Token
-		public Token Token
-		{
-			get => XsollaLogin.Instance.Token;
-			set
-			{
-				XsollaLogin.Instance.Token = value;
-				UpdateStoreToken(value);
-			}
-		}
-		public void SaveToken(string key, string token) => XsollaLogin.Instance.SaveToken(key, token);
-		public bool LoadToken(string key, out string token) => XsollaLogin.Instance.LoadToken(key, out token);
-		public void DeleteToken(string key) => XsollaLogin.Instance.DeleteToken(key);
+		
 		public void ValidateToken(string token, Action<string> onSuccess = null, Action<Error> onError = null)
 		{
 			GetUserInfo(token, useCache: false, onSuccess:info => onSuccess?.Invoke(token), onError:onError);
 		}
+		
 	#endregion
 
 	#region User
@@ -111,7 +102,7 @@ namespace Xsolla.Demo
 		{
 			nickname = Uri.EscapeDataString(nickname);
 			
-			XsollaLogin.Instance.SearchUsers(XsollaLogin.Instance.Token, nickname, 0, 20, 
+			XsollaLogin.Instance.SearchUsers(Token.Instance, nickname, 0, 20, 
 				onSuccess: users =>
 				{
 					onSuccess?.Invoke(users.users.Where(u => !u.is_me).Select(u =>

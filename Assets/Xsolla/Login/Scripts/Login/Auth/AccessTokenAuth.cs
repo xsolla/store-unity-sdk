@@ -50,7 +50,7 @@ namespace Xsolla.Demo
 
 		private void AccessTokenAuthSuccess()
 		{
-			base.OnSuccess?.Invoke(DemoController.Instance.LoginDemo.Token);
+			base.OnSuccess?.Invoke(Token.Instance);
 		}
 
 		private void AccessTokenAuthFailed(Error error)

@@ -8,16 +8,6 @@ namespace Xsolla.Demo
 {
 	public partial interface ILoginDemoImplementation
 	{
-		Token Token { get; set; }
-
-		Token GetUserToken();
-
-		void SaveToken(string key, string token);
-
-		bool LoadToken(string key, out string token);
-
-		void DeleteToken(string key);
-
 		void ValidateToken(string token, [CanBeNull] Action<string> onSuccess = null,
 			[CanBeNull] Action<Error> onError = null);
 

@@ -73,7 +73,7 @@ namespace Xsolla.Store
 		{
 			var tempPurchaseParams = GenerateTempPurchaseParams(purchaseParams);
 			var url = string.Format(URL_BUY_ITEM, projectId, itemSku);
-			WebRequestHelper.Instance.PostRequest<PurchaseData, TempPurchaseParams>(SdkType.Store, url, tempPurchaseParams, GetPaymentHeaders(Token), onSuccess, onError, Error.BuyItemErrors);
+			WebRequestHelper.Instance.PostRequest<PurchaseData, TempPurchaseParams>(SdkType.Store, url, tempPurchaseParams, GetPaymentHeaders(Token.Instance), onSuccess, onError, Error.BuyItemErrors);
 		}
 
 		/// <summary>
@@ -106,7 +106,7 @@ namespace Xsolla.Store
 			var platformParam = GetPlatformUrlParam();
 			url = ConcatUrlAndParams(url, platformParam);
 
-			WebRequestHelper.Instance.PostRequest<PurchaseData, TempPurchaseParams>(SdkType.Store, url, tempPurchaseParams, GetPaymentHeaders(Token), onSuccess, onError, Error.BuyItemErrors);
+			WebRequestHelper.Instance.PostRequest<PurchaseData, TempPurchaseParams>(SdkType.Store, url, tempPurchaseParams, GetPaymentHeaders(Token.Instance), onSuccess, onError, Error.BuyItemErrors);
 		}
 
 		/// <summary>
@@ -122,7 +122,7 @@ namespace Xsolla.Store
 		{
 			var tempPurchaseParams = GenerateTempPurchaseParams(purchaseParams);
 			var url = string.Format(URL_BUY_CURRENT_CART, projectId);
-			WebRequestHelper.Instance.PostRequest<PurchaseData, TempPurchaseParams>(SdkType.Store, url, tempPurchaseParams, GetPaymentHeaders(Token), onSuccess, onError, Error.BuyCartErrors);
+			WebRequestHelper.Instance.PostRequest<PurchaseData, TempPurchaseParams>(SdkType.Store, url, tempPurchaseParams, GetPaymentHeaders(Token.Instance), onSuccess, onError, Error.BuyCartErrors);
 		}
 
 		/// <summary>
@@ -139,7 +139,7 @@ namespace Xsolla.Store
 		{
 			var tempPurchaseParams = GenerateTempPurchaseParams(purchaseParams);
 			var url = string.Format(URL_BUY_SPECIFIC_CART, projectId, cartId);
-			WebRequestHelper.Instance.PostRequest<PurchaseData, TempPurchaseParams>(SdkType.Store, url, tempPurchaseParams, GetPaymentHeaders(Token), onSuccess, onError, Error.BuyCartErrors);
+			WebRequestHelper.Instance.PostRequest<PurchaseData, TempPurchaseParams>(SdkType.Store, url, tempPurchaseParams, GetPaymentHeaders(Token.Instance), onSuccess, onError, Error.BuyCartErrors);
 		}
 
 		// TEXTREVIEW
@@ -182,7 +182,7 @@ namespace Xsolla.Store
 		public void CheckOrderStatus(string projectId, int orderId, [NotNull] Action<OrderStatus> onSuccess, [CanBeNull] Action<Error> onError)
 		{
 			var url = string.Format(URL_ORDER_GET_STATUS, projectId, orderId);
-			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.OrderStatusErrors);
+			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, WebRequestHeader.AuthHeader(Token.Instance), onSuccess, onError, Error.OrderStatusErrors);
 		}
 
 		/// <summary>
@@ -220,7 +220,7 @@ namespace Xsolla.Store
 			var settings = GeneratePaymentTokenSettings(currency, locale, externalID, paymentMethod);
 			var requestBody = new CreatePaymentTokenRequest(purchase, settings, customParameters);
 
-			WebRequestHelper.Instance.PostRequest<TokenEntity, CreatePaymentTokenRequest>(SdkType.Store, url, requestBody, GetPaymentHeaders(Token), onSuccess, onError, Error.BuyItemErrors);
+			WebRequestHelper.Instance.PostRequest<TokenEntity, CreatePaymentTokenRequest>(SdkType.Store, url, requestBody, GetPaymentHeaders(Token.Instance), onSuccess, onError, Error.BuyItemErrors);
 		}
 
 		/// <summary>
@@ -266,7 +266,7 @@ namespace Xsolla.Store
 			var settings = GeneratePaymentTokenSettings(currency, locale, externalID, paymentMethod);
 			var requestBody = new CreatePaymentTokenRequest(purchase, settings, customParameters);
 
-			WebRequestHelper.Instance.PostRequest<TokenEntity, CreatePaymentTokenRequest>(SdkType.Store, url, requestBody, GetPaymentHeaders(Token), onSuccess, onError, Error.BuyItemErrors);
+			WebRequestHelper.Instance.PostRequest<TokenEntity, CreatePaymentTokenRequest>(SdkType.Store, url, requestBody, GetPaymentHeaders(Token.Instance), onSuccess, onError, Error.BuyItemErrors);
 		}
 
 		private TempPurchaseParams GenerateTempPurchaseParams(PurchaseParams purchaseParams)

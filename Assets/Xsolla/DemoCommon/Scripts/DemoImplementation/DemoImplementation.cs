@@ -9,15 +9,6 @@ namespace Xsolla.Demo
 	{
 		private void Start()
 		{
-			DemoController.Instance.StateChangingEvent += (state, newState) =>
-			{
-				if (newState == MenuState.Main)
-				{
-					var token = GetUserToken();
-					XsollaLogin.Instance.Token = token;
-					UpdateStoreToken(token);
-				}
-			};
 			ValidateXsollaSettings();
 		}
 
@@ -60,14 +51,6 @@ namespace Xsolla.Demo
 			DemoController.Instance.SetState(MenuState.LoginSettingsError);
 		}
 
-		public Token GetUserToken()
-		{
-			if (Token == null || Token.IsNullOrEmpty())
-				Debug.LogError("Token was not obtained before use");
-
-			return Token;
-		}
-
 		private Action<Error> WrapErrorCallback(Action<Error> onError)
 		{
 			return error =>
@@ -76,7 +59,5 @@ namespace Xsolla.Demo
 				onError?.Invoke(error);
 			};
 		}
-
-		partial void UpdateStoreToken(Token token);
 	}
 }

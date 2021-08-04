@@ -174,7 +174,7 @@ namespace Xsolla.Store
 
 		private void CheckOrderDone(int orderId, Action onDone = null)
 		{
-			if (Token == null || Token.IsNullOrEmpty())
+			if (Token.Instance == null)
 			{
 				Debug.LogWarning("Invalid token in order status polling. Polling stopped.");
 				RemoveOrderFromTracking(orderId);

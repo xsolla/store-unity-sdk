@@ -10,11 +10,11 @@ namespace Xsolla.Login
 		private const string URL_OAUTH_GENERATE_JWT = "https://login.xsolla.com/api/oauth2/token";
 		private const string DEFAULT_REDIRECT_URI = "https://login.xsolla.com/api/blank";
 		private Coroutine _refreshTokenCoroutine = null;
+
 #if UNITY_ANDROID
 		private const int ANDROID_TOKEN_REFRESH_RATE = 3600;
 #endif
-
-
+		
 		/// <summary>
 		/// Returns 'true' during refresh token process, or false otherwise.
 		/// </summary>
@@ -22,12 +22,12 @@ namespace Xsolla.Login
 
 		private void InitOAuth2_0()
 		{
-			this.TokenChanged += () =>
+			Token.TokenChanged += () =>
 			{
 				if (IsOAuthTokenRefreshInProgress)
 					return;
 
-				if (this.Token.IsNullOrEmpty())
+				if (Token.Instance == null)
 					StopTokenRefreshAndClearData();
 				else
 					SetNextTokenRefresh();
@@ -107,12 +107,7 @@ namespace Xsolla.Login
 
 		private void RefreshToken()
 		{
-#if UNITY_ANDROID
-			string loadedToken = default(string);
-			if (this.Token.IsNullOrEmpty() && this.LoadToken(Constants.LAST_SUCCESS_AUTH_TOKEN, out loadedToken) == false)
-#else
-			if (this.Token.IsNullOrEmpty() && this.LoadToken(Constants.LAST_SUCCESS_AUTH_TOKEN, out _) == false)
-#endif
+			if (Token.Instance == null && Token.Load() == false)
 			{
 				Debug.Log("Token refresh is not available due to lack of active token");
 				ClearTokenRefreshData();
@@ -124,10 +119,7 @@ namespace Xsolla.Login
 			Debug.Log("OAuth token refresh is in progress");
 
 #if UNITY_ANDROID
-			var currentToken = this.Token.IsNullOrEmpty() ? new Token(loadedToken) : this.Token;
-			var isSocial = currentToken.FromSocialNetwork();
-
-			if (isSocial)
+			if (Token.Instance.FromSocialNetwork())
 			{
 				TryRefreshAndroidSocial();
 				return;
@@ -206,7 +198,7 @@ namespace Xsolla.Login
 		{
 			Debug.Log("OAuth response received");
 
-			Token = response.access_token;
+			Token.Instance = Token.Create(response.access_token);
 			SaveToken(Constants.LAST_SUCCESS_AUTH_TOKEN, response.access_token);
 			PlayerPrefs.SetString(Constants.LAST_SUCCESS_OAUTH_REFRESH_TOKEN, response.refresh_token);
 
