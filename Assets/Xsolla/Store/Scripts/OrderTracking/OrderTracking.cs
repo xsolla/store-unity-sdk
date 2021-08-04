@@ -3,59 +3,47 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Xsolla.Core;
 using UnityEngine;
+using Xsolla.Core;
 
 namespace Xsolla.Store
 {
-	public partial class XsollaStore : MonoSingleton<XsollaStore>
+    public class OrderTracking : MonoSingleton<OrderTracking>
 	{
-		private readonly Dictionary<int, Coroutine> OrderTrackingCoroutines = new Dictionary<int, Coroutine>();
+		private readonly List<OrderTrackingData> _trackingOrders = new List<OrderTrackingData>();
+		private readonly Dictionary<int, Coroutine> _orderTrackingCoroutines = new Dictionary<int, Coroutine>();
 
-		public readonly List<OrderTrackingData> TrackingOrders = new List<OrderTrackingData>();
+		private Token Token => XsollaStore.Instance.Token;
 
-		private bool IsTrackingByPaystationCallbacks
+		private bool IsTrackByPaystationCallback
 		{
 			get
 			{
 #if UNITY_WEBGL
-				if (Application.platform == RuntimePlatform.WebGLPlayer)
-				{
-					if (XsollaSettings.InAppBrowserEnabled)
-					{
-						return true;
-					}
-				}
+				if ((Application.platform == RuntimePlatform.WebGLPlayer) && (XsollaSettings.InAppBrowserEnabled))
+					return true;
 #endif
+				//else
 				return false;
 			}
 		}
 
-		private bool IsTrackingByBrowserUrlChange
+		private bool IsTrackByBrowserUrlChange
 		{
 			get
 			{
 #if UNITY_EDITOR || UNITY_STANDALONE
 				if (XsollaSettings.InAppBrowserEnabled)
-				{
 					return true;
-				}
 #endif
+				//else
 				return false;
 			}
 		}
 
-		private bool IsTrackingForeverUntilDone
+		private bool IsTrackByPolling
 		{
-			get
-			{
-				if (!XsollaSettings.InAppBrowserEnabled || Application.platform == RuntimePlatform.Android)
-				{
-					return true;
-				}
-				
-				return false;
-			}
+			get => (!XsollaSettings.InAppBrowserEnabled || Application.platform == RuntimePlatform.Android);
 		}
 
 		private void Start()
@@ -63,9 +51,9 @@ namespace Xsolla.Store
 #if UNITY_WEBGL
 			XsollaWebCallbacks.PaymentStatusUpdate += () => 
 			{
-				if (IsTrackingByPaystationCallbacks)
+				if (IsTrackByPaystationCallback)
 				{
-					foreach (var order in TrackingOrders)
+					foreach (var order in _trackingOrders)
 					{
 						CheckOrderDone(order.OrderId, BrowserHelper.ClosePaystationWidget);
 					}
@@ -75,9 +63,9 @@ namespace Xsolla.Store
 
 			XsollaWebCallbacks.PaymentCancel += () =>
 			{
-				while (TrackingOrders.Count > 0)
+				while (_trackingOrders.Count > 0)
 				{
-					RemoveOrderFromTracking(TrackingOrders[0].OrderId);
+					RemoveOrderFromTracking(_trackingOrders[0].OrderId);
 				}
 			};
 #endif
@@ -85,7 +73,7 @@ namespace Xsolla.Store
 
 		public void AddOrderForTracking(string projectId, int orderId, Action onSuccess = null, Action<Error> onError = null)
 		{
-			var order = TrackingOrders.FirstOrDefault(x => x.OrderId == orderId);
+			var order = _trackingOrders.FirstOrDefault(x => x.OrderId == orderId);
 			if (order != null)
 				return;
 
@@ -97,15 +85,15 @@ namespace Xsolla.Store
 				ErrorCallback = onError
 			};
 
-			TrackingOrders.Add(order);
+			_trackingOrders.Add(order);
 
-			if (IsTrackingForeverUntilDone)
+			if (IsTrackByPolling)
 			{
 				var coroutine = StartCoroutine(CheckOrderForeverUntilDone(orderId));
-				OrderTrackingCoroutines.Add(orderId, coroutine);
+				_orderTrackingCoroutines.Add(orderId, coroutine);
 			}
 
-			if (IsTrackingByBrowserUrlChange)
+			if (IsTrackByBrowserUrlChange)
 			{
 #if UNITY_EDITOR || UNITY_STANDALONE
 				var browser = BrowserHelper.Instance.GetLastBrowser();
@@ -125,7 +113,7 @@ namespace Xsolla.Store
 						{
 							// occurs when redirect triggered automatically with any status without delay
 							var coroutine = StartCoroutine(CheckOrderWithRepeatCount(orderId));
-							OrderTrackingCoroutines.Add(orderId, coroutine);
+							_orderTrackingCoroutines.Add(orderId, coroutine);
 						}
 
 						Destroy(BrowserHelper.Instance, 0.1F);
@@ -137,7 +125,7 @@ namespace Xsolla.Store
 
 		public void AddOrderForTrackingUntilDone(string projectId, int orderId, Action onSuccess = null, Action<Error> onError = null)
 		{
-			var order = TrackingOrders.FirstOrDefault(x => x.OrderId == orderId);
+			var order = _trackingOrders.FirstOrDefault(x => x.OrderId == orderId);
 			if (order != null)
 				return;
 
@@ -149,24 +137,24 @@ namespace Xsolla.Store
 				ErrorCallback = onError
 			};
 
-			TrackingOrders.Add(order);
+			_trackingOrders.Add(order);
 
 			var coroutine = StartCoroutine(CheckOrderForeverUntilDone(orderId));
-			OrderTrackingCoroutines.Add(orderId, coroutine);
+			_orderTrackingCoroutines.Add(orderId, coroutine);
 		}
 
 		public void RemoveOrderFromTracking(int orderId)
 		{
-			var order = TrackingOrders.FirstOrDefault(x => x.OrderId == orderId);
+			var order = _trackingOrders.FirstOrDefault(x => x.OrderId == orderId);
 			if (order != null)
 			{
-				TrackingOrders.Remove(order);
+				_trackingOrders.Remove(order);
 
-				if (IsTrackingForeverUntilDone)
+				if (IsTrackByPolling)
 				{
-					if (OrderTrackingCoroutines.ContainsKey(orderId))
+					if (_orderTrackingCoroutines.ContainsKey(orderId))
 					{
-						StopCoroutine(OrderTrackingCoroutines[orderId]);
+						StopCoroutine(_orderTrackingCoroutines[orderId]);
 					}
 				}
 			}
@@ -181,17 +169,17 @@ namespace Xsolla.Store
 				return;
 			}
 
-			var order = TrackingOrders.FirstOrDefault(x => x.OrderId == orderId);
+			var order = _trackingOrders.FirstOrDefault(x => x.OrderId == orderId);
 			if (order == null)
 				return;
 
-			CheckOrderStatus(
+			XsollaStore.Instance.CheckOrderStatus(
 				order.ProjectId,
 				order.OrderId,
 				status =>
 				{
 					// Prevent double check
-					if (TrackingOrders.Any(x => x.OrderId == order.OrderId))
+					if (_trackingOrders.Any(x => x.OrderId == order.OrderId))
 					{
 						if (status.status == "paid" || status.status == "done")
 						{
@@ -214,7 +202,7 @@ namespace Xsolla.Store
 				CheckOrderDone(orderId, () => isDone = true);
 			}
 		}
-		
+
 		private IEnumerator CheckOrderWithRepeatCount(int orderId, int repeatCount = 10)
 		{
 			var isDone = false;
