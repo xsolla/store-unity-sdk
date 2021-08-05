@@ -22,7 +22,7 @@ namespace Xsolla.Demo
 						onSuccess?.Invoke(item);
 					}, WrapErrorCallback(onError)); 
 				});
-				XsollaStore.Instance.AddOrderForTracking(XsollaSettings.StoreProjectId, data.order_id, () =>
+				OrderTracking.Instance.AddOrderForTracking(XsollaSettings.StoreProjectId, data.order_id, () =>
 				{
 					PurchaseComplete(item);
 					onSuccess?.Invoke(item);
@@ -97,9 +97,9 @@ namespace Xsolla.Demo
 							var browser = BrowserHelper.Instance.GetLastBrowser();
 							if (browser != null)
 								browser.BrowserClosedEvent += _ => onError?.Invoke(null);
-	#endif
+#endif
 
-							XsollaStore.Instance.AddOrderForTracking(XsollaSettings.StoreProjectId, data.order_id, () =>
+							OrderTracking.Instance.AddOrderForTracking(XsollaSettings.StoreProjectId, data.order_id, () =>
 							{
 								PurchaseComplete(null, () =>
 								{
@@ -122,8 +122,8 @@ namespace Xsolla.Demo
 				.SetConfirmCallback(() =>
 				{
 					XsollaStore.Instance.OpenPurchaseUi(data, true);
-					XsollaStore.Instance.RemoveOrderFromTracking(data.order_id);
-					XsollaStore.Instance.AddOrderForTrackingUntilDone(XsollaSettings.StoreProjectId, data.order_id, () =>
+					OrderTracking.Instance.RemoveOrderFromTracking(data.order_id);
+					OrderTracking.Instance.AddOrderForTrackingUntilDone(XsollaSettings.StoreProjectId, data.order_id, () =>
 					{
 						onSuccess?.Invoke();
 					}, WrapErrorCallback(onError));
