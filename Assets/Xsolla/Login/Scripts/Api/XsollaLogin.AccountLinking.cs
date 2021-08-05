@@ -99,7 +99,7 @@ namespace Xsolla.Login
 		#endregion
 		public void RequestLinkingCode(Action<LinkingCode> onSuccess, Action<Error> onError)
 		{
-			WebRequestHelper.Instance.PostRequest<LinkingCode>(SdkType.Login, URL_LINKING_CODE_REQUEST, WebRequestHeader.AuthHeader(Token), onSuccess, onError);
+			WebRequestHelper.Instance.PostRequest<LinkingCode>(SdkType.Login, URL_LINKING_CODE_REQUEST, WebRequestHeader.AuthHeader(Token.Instance), onSuccess, onError);
 		}
 
 		#region Comment

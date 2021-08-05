@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Xsolla.Core;
 
 namespace Xsolla.Demo
 {
@@ -8,9 +9,7 @@ namespace Xsolla.Demo
 	#if UNITY_ANDROID
 		private void Start()
 		{
-			var token = DemoController.Instance.LoginDemo.Token;
-
-			DemoController.Instance.LoginDemo.GetUserInfo(token,
+			DemoController.Instance.LoginDemo.GetUserInfo(Token.Instance,
 				onSuccess: info =>
 				{
 					if (string.IsNullOrEmpty(info.email))

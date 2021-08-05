@@ -46,20 +46,20 @@ namespace Xsolla.Demo
 				.SetConfirmButtonText("BLOCK")
 				.SetConfirmCallback(() =>
 				{
-					XsollaLogin.Instance.UpdateUserFriends(XsollaLogin.Instance.Token, FriendAction.BlockFriend, user.Id,
+					XsollaLogin.Instance.UpdateUserFriends(Token.Instance, FriendAction.BlockFriend, user.Id,
 						() => onSuccess?.Invoke(user), onError);
 				});
 		}
 
 		public void UnblockUser(FriendModel user, Action<FriendModel> onSuccess = null, Action<Error> onError = null)
 		{
-			XsollaLogin.Instance.UpdateUserFriends(XsollaLogin.Instance.Token, FriendAction.UnblockFriend, user.Id,
+			XsollaLogin.Instance.UpdateUserFriends(Token.Instance, FriendAction.UnblockFriend, user.Id,
 				() => onSuccess?.Invoke(user), onError);
 		}
 
 		public void SendFriendshipInvite(FriendModel user, Action<FriendModel> onSuccess = null, Action<Error> onError = null)
 		{
-			XsollaLogin.Instance.UpdateUserFriends(XsollaLogin.Instance.Token, FriendAction.SendInviteRequest, user.Id,
+			XsollaLogin.Instance.UpdateUserFriends(Token.Instance, FriendAction.SendInviteRequest, user.Id,
 				() => onSuccess?.Invoke(user), onError);
 		}
 
@@ -70,37 +70,37 @@ namespace Xsolla.Demo
 				.SetConfirmButtonText("REMOVE")
 				.SetConfirmCallback(() =>
 				{
-					XsollaLogin.Instance.UpdateUserFriends(XsollaLogin.Instance.Token, FriendAction.RemoveFriend, user.Id,
+					XsollaLogin.Instance.UpdateUserFriends(Token.Instance, FriendAction.RemoveFriend, user.Id,
 						() => onSuccess?.Invoke(user), onError);
 				});
 		}
 	
 		public void AcceptFriendship(FriendModel user, Action<FriendModel> onSuccess = null, Action<Error> onError = null)
 		{
-			XsollaLogin.Instance.UpdateUserFriends(XsollaLogin.Instance.Token, FriendAction.AcceptInvite, user.Id,
+			XsollaLogin.Instance.UpdateUserFriends(Token.Instance, FriendAction.AcceptInvite, user.Id,
 				() => onSuccess?.Invoke(user), onError);
 		}
 	
 		public void DeclineFriendship(FriendModel user, Action<FriendModel> onSuccess = null, Action<Error> onError = null)
 		{
-			XsollaLogin.Instance.UpdateUserFriends(XsollaLogin.Instance.Token, FriendAction.DenyInvite, user.Id,
+			XsollaLogin.Instance.UpdateUserFriends(Token.Instance, FriendAction.DenyInvite, user.Id,
 				() => onSuccess?.Invoke(user), onError);
 		}
 	
 		public void CancelFriendshipRequest(FriendModel user, Action<FriendModel> onSuccess = null, Action<Error> onError = null)
 		{
-			XsollaLogin.Instance.UpdateUserFriends(XsollaLogin.Instance.Token, FriendAction.CancelRequest, user.Id,
+			XsollaLogin.Instance.UpdateUserFriends(Token.Instance, FriendAction.CancelRequest, user.Id,
 				() => onSuccess?.Invoke(user), onError);
 		}
 
 		public void ForceUpdateFriendsFromSocialNetworks(Action onSuccess = null, Action<Error> onError = null)
 		{
-			XsollaLogin.Instance.UpdateUserSocialFriends(XsollaLogin.Instance.Token, SocialProvider.None, onSuccess, onError);
+			XsollaLogin.Instance.UpdateUserSocialFriends(Token.Instance, SocialProvider.None, onSuccess, onError);
 		}
 
 		public void GetFriendsFromSocialNetworks(Action<List<FriendModel>> onSuccess = null, Action<Error> onError = null)
 		{
-			XsollaLogin.Instance.GetUserSocialFriends(XsollaLogin.Instance.Token, SocialProvider.None, 0, 20, false,
+			XsollaLogin.Instance.GetUserSocialFriends(Token.Instance, SocialProvider.None, 0, 20, false,
 				onSuccess: friends => StartCoroutine(ConvertSocialFriendsToRecommended(friends.data, onSuccess, onError)),
 				onError);
 		}
@@ -123,7 +123,7 @@ namespace Xsolla.Demo
 				}
 				else//Social friend with linked Xsolla account, replace nickname and avatar with ones from Xsolla
 				{
-					var token = DemoController.Instance.LoginDemo.Token;
+					var token = Token.Instance;
 					bool? isUserinfoObtained = null;
 
 					DemoController.Instance.LoginDemo.GetPublicInfo(token, recommendedFriend.Id,
@@ -161,7 +161,7 @@ namespace Xsolla.Demo
 		private void GetUsersByType(FriendsSearchType searchType, UserRelationship relationship,
 			Action<List<FriendModel>> onSuccess = null, Action<Error> onError = null)
 		{
-			XsollaLogin.Instance.GetUserFriends(XsollaLogin.Instance.Token,
+			XsollaLogin.Instance.GetUserFriends(Token.Instance,
 				searchType, FRIENDS_SORT_TYPE, FRIENDS_SORT_ORDER, MAX_FRIENDS_COUNT, friends =>
 				{
 					onSuccess?.Invoke(friends.Select(f =>

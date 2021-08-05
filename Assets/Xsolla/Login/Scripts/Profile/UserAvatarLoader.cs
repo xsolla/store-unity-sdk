@@ -15,7 +15,7 @@ namespace Xsolla.Demo
 
 		private void Start()
 		{
-			var token = DemoController.Instance.LoginDemo.Token;
+			var token = Token.Instance;
 			DemoController.Instance.LoginDemo.GetUserInfo(token, info =>
 			{
 				DrawAvatar(info.picture);

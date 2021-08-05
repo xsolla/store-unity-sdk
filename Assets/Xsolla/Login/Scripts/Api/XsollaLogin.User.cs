@@ -121,8 +121,9 @@ namespace Xsolla.Login
 
 			WebRequestHelper.Instance.PostRequest<LoginJwtJsonResponse, LoginJwtJsonRequest>(SdkType.Login, url, loginData, (response) =>
 			{
-				Token = ParseUtils.ParseToken(response.login_url);
-				onSuccess?.Invoke(Token);
+				var parsedToken = ParseUtils.ParseToken(response.login_url);
+				Token.Instance = Token.Create(parsedToken);
+				onSuccess?.Invoke(Token.Instance);
 			}, onError, Error.LoginErrors);
 		}
 
@@ -401,7 +402,7 @@ namespace Xsolla.Login
 
 			WebRequestHelper.Instance.PostRequest<AccessTokenResponse, Dictionary<string, object>>(SdkType.Login, url, authParams.parameters, response =>
 			{
-				Token = new Token(response.access_token, true);
+				Token.Instance = Token.Create(response.access_token);
 				onSuccess?.Invoke();
 			}, onError, Error.LoginErrors);
 		}

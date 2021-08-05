@@ -12,7 +12,7 @@ namespace Xsolla.Demo
 
 		private void Start()
 		{
-			if (DemoController.Instance.LoginDemo.Token.IsMasterAccount())
+			if (Token.Instance.IsMasterAccount())
 				GetAccountLinkButtonEnable();
 			else
 				LinkingButtonEnable();
@@ -73,7 +73,7 @@ namespace Xsolla.Demo
 
 		private void ApplyNewToken(string newToken, LinkingResultContainer linkingResult)
 		{
-			DemoController.Instance.LoginDemo.Token = newToken;
+			Token.Instance = Token.Create(newToken);
 
 			if (DemoController.Instance.InventoryDemo == null)
 				FindObjectOfType<UserInfoDrawer>()?.Refresh();

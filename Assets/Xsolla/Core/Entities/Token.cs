@@ -1,97 +1,44 @@
 using System;
 using System.Linq;
 using System.Text;
+using UnityEditor;
 using UnityEngine;
 
 namespace Xsolla.Core
 {
 	public class Token
 	{
-		private const string TOKEN_SERVER_TYPE = "server_custom_id";
-		private const string TOKEN_SOCIAL_TYPE = "social";
+		private string EncodedToken { get; set; }
 
-		private string encodedToken;
-		private string[] tokenParts;
-		private TokenPayload tokenPayload;
-		private string paystationToken;
+		private TokenPayload Payload { get; set; }
 
-		public bool FromSteam { get; set; }
+		private bool IsPaystationToken => Payload == null;
 
-		public Token(string encodedToken = null, bool isPaystationToken = false)
+		private const string PlayerPrefsKey = "xsolla_login_last_success_auth_token";
+
+		public bool IsMasterAccount()
 		{
-			if (string.IsNullOrEmpty(encodedToken))
-			{
-				Debug.LogError("Token is null or empty");
-				return;
-			}
-
-			if (isPaystationToken)
-			{
-				paystationToken = encodedToken;
-				return;
-			}
-			else
-			{
-				this.encodedToken = encodedToken;
-			}
-
-			var tokenParts = encodedToken.Split('.');
-			if (tokenParts.Length <= 1)
-			{
-				Debug.LogError($"Token must contain header, payload and signature. Your token parts count was '{tokenParts.Length}'. Your token: {encodedToken}");
-				return;
-			}
-
-			this.tokenParts = tokenParts;
-
-			var encodedPayload = tokenParts[1];
-			TokenPayload parsedPayload;
-			if (ParseTokenPayload(encodedPayload, out parsedPayload))
-			{
-				this.tokenPayload = parsedPayload;
-			}
-			else
-			{
-				Debug.LogError("Could not parse token payload");
-			}
-		}
-
-		public static implicit operator string(Token token) { return (token != null) ? token.ToString() : string.Empty; }
-		public static implicit operator Token(string encodedToken) { return new Token(encodedToken); }
-
-		public bool IsCrossAuth()
-		{
-			if (JWTisNullOrEmpty())
+			if (IsPaystationToken)
 				return false;
 
-			return tokenPayload.is_cross_auth;
+			return Payload.is_master;
 		}
 
-		public string GetSteamUserID()
+		public int SecondsLeft()
 		{
-			if (!IsCrossAuth())
-				return string.Empty;
+			if (IsPaystationToken)
+				return 0;
 
-			string steamUserUrl = tokenPayload.id;
-			if (!string.IsNullOrEmpty(steamUserUrl))
-				return steamUserUrl.Split('/').ToList().Last();
-			else
-				return string.Empty;
+			var now = (int) DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
+			return Mathf.Max(Payload.exp - now, 0);
 		}
 
 		public bool FromSocialNetwork()
 		{
-			if (JWTisNullOrEmpty())
+			if (IsPaystationToken)
 				return false;
 
-			string tokenType = tokenPayload.type;
-			if (!string.IsNullOrEmpty(tokenType))
-				return tokenType.Equals(TOKEN_SOCIAL_TYPE);
-			else
-			{
-				Debug.LogAssertion($"Something went wrong... Token must have 'type' parameter. Your token = {encodedToken}");
-				return false;
-			}
+			return Payload.type == "social";
 		}
 
 		public SocialProvider GetSocialProvider()
@@ -99,90 +46,129 @@ namespace Xsolla.Core
 			if (!FromSocialNetwork())
 				return SocialProvider.None;
 
-			string provider = tokenPayload.provider;
-			if (!string.IsNullOrEmpty(provider))
-			{
-				return Enum.GetValues(typeof(SocialProvider)).Cast<SocialProvider>().
-					ToList().DefaultIfEmpty(SocialProvider.None).
-					FirstOrDefault(p => p.GetParameter().Equals(provider));
-			}
-			else
+			var provider = Payload.provider;
+			if (string.IsNullOrEmpty(provider))
 				return SocialProvider.None;
+
+			return (SocialProvider)Enum.Parse(typeof(SocialProvider), provider);
 		}
 
-		public int SecondsLeft()
+		public string GetSteamUserID()
 		{
-			if (JWTisNullOrEmpty())
-				return 0;
+			if (IsPaystationToken)
+				return string.Empty;
 
-			var expired = tokenPayload.exp;
-			var now = (int)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
-			return Mathf.Max((expired - now), 0);
+			if (!Payload.is_cross_auth)
+				return string.Empty;
+
+			var steamUserUrl = Payload.id;
+			if (string.IsNullOrEmpty(steamUserUrl))
+				return string.Empty;
+
+			return steamUserUrl.Split('/').Last();
 		}
 
-		public bool IsExpired()
+		private static Token _instance;
+
+		public static Token Instance
 		{
-			return SecondsLeft() <= 0;
+			get => _instance;
+			set
+			{
+				_instance = value;
+				TokenChanged?.Invoke();
+			}
 		}
 
-		public bool IsMasterAccount()
+		public static event Action TokenChanged;
+
+		public static Token Create(string encodedToken)
 		{
-			if (JWTisNullOrEmpty())
+			if (string.IsNullOrEmpty(encodedToken))
+				throw new Exception("Encoded token argument is null or empty");
+
+			var tokenPartsCount = encodedToken.Split('.').Length;
+			return tokenPartsCount == 3
+				? CreateJwtToken(encodedToken)
+				: CreatePaystationToken(encodedToken);
+		}
+
+		public static void Save()
+		{
+			if (Instance == null)
+				return;
+
+			PlayerPrefs.SetString(PlayerPrefsKey, Instance.EncodedToken);
+		}
+
+		public static bool Load()
+		{
+			if (!PlayerPrefs.HasKey(PlayerPrefsKey))
 				return false;
 
-			string tokenType = tokenPayload.type;
-			if (string.IsNullOrEmpty(tokenType))
-			{
-				Debug.LogAssertion(string.Format("Something went wrong... Token must have 'type' parameter. Your token = {0}", encodedToken));
-				return true;
-			}
+			var encodedToken = PlayerPrefs.GetString(PlayerPrefsKey);
+			if (string.IsNullOrEmpty(encodedToken))
+				return false;
 
-			if (!tokenType.Equals(TOKEN_SERVER_TYPE))
-				return true;
-
-			return tokenPayload.is_master;
+			Instance = Create(encodedToken);
+			return true;
 		}
 
-		public bool IsNullOrEmpty()
+		public static void DeleteSave()
 		{
-			return JWTisNullOrEmpty() && PaystationIsNullOrEmpty();
+			PlayerPrefs.DeleteKey(PlayerPrefsKey);
 		}
 
-		public override string ToString()
+		private static Token CreateJwtToken(string encodedToken)
 		{
-			if (!JWTisNullOrEmpty())
-				return encodedToken;
-			else if (!PaystationIsNullOrEmpty())
-				return paystationToken;
-			else
-				return string.Empty;
+			if (string.IsNullOrEmpty(encodedToken))
+				throw new Exception("Encoded token argument is null or empty");
+
+			var tokenParts = encodedToken.Split('.');
+			if (tokenParts.Length < 3)
+				throw new Exception($"Token must contain header, payload and signature. Your token parts count was '{tokenParts.Length}'. Your token: {encodedToken}");
+
+			if (!TryParsePayload(tokenParts[1], out var payload))
+				throw new Exception($"Could not parse token payload. Your token = {encodedToken}");
+
+			if (string.IsNullOrEmpty(payload.type))
+				throw new Exception($"Token must have 'type' parameter. Your token = {encodedToken}");
+
+			return new Token{
+				EncodedToken = encodedToken,
+				Payload = payload
+			};
 		}
 
-		private bool JWTisNullOrEmpty()
+		private static Token CreatePaystationToken(string encodedToken)
 		{
-			if (encodedToken == null)
-				return true;
-
-			if (tokenParts == null || tokenParts.Length != 3)
-				return true;
-
-			if (tokenPayload == null)
-				return true;
-
-			//else
-			return false;
+			return new Token{
+				EncodedToken = encodedToken
+			};
 		}
 
-		private bool PaystationIsNullOrEmpty()
+		private Token()
 		{
-			return string.IsNullOrEmpty(paystationToken);
 		}
 
-		private bool ParseTokenPayload(string encodedPayload, out TokenPayload payloadJsonObject)
+		[Obsolete()]
+		private Token(string encodedToken = null, bool isPaystationToken = false)
+		{
+			Instance = Create(encodedToken);
+			EncodedToken = Instance.EncodedToken;
+			Payload = Instance.Payload;
+		}
+
+		public static implicit operator string(Token token)
+		{
+			return token != null ? token.EncodedToken : string.Empty;
+		}
+
+		private static bool TryParsePayload(string encodedPayload, out TokenPayload payloadObject)
 		{
 			//TEXTREVIEW
 			//Fix FromBase64String convertion
-			encodedPayload = encodedPayload.Replace('-','+').Replace('_', '/');
+			encodedPayload = encodedPayload.Replace('-', '+').Replace('_', '/');
 
 			var padding = encodedPayload.Length % 4;
 			if (padding != 0)
@@ -195,12 +181,12 @@ namespace Xsolla.Core
 			{
 				var bytes = Convert.FromBase64String(encodedPayload);
 				var decodedPayload = Encoding.UTF8.GetString(bytes);
-				payloadJsonObject = ParseUtils.FromJson<TokenPayload>(decodedPayload);
+				payloadObject = ParseUtils.FromJson<TokenPayload>(decodedPayload);
 			}
 			catch (Exception ex)
 			{
 				Debug.LogError($"Error decoding token payload: {ex.Message}");
-				payloadJsonObject = null;
+				payloadObject = null;
 				return false;
 			}
 

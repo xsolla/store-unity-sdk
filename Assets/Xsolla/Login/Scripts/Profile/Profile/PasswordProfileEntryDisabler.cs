@@ -6,7 +6,7 @@ namespace Xsolla.Demo
 	{
 		private void Start()
 		{
-			var token = DemoController.Instance.LoginDemo.Token;
+			var token = Core.Token.Instance;
 
 			DemoController.Instance.LoginDemo.GetUserInfo(token,
 				onSuccess: info =>

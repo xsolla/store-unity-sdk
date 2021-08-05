@@ -5,7 +5,7 @@ namespace Xsolla.Demo
 {
 	public abstract class UserAttributesRequestBase : StoreActionResult
 	{
-		protected string Token => DemoController.Instance.LoginDemo.Token;
+		protected string Token => Xsolla.Core.Token.Instance;
 		protected string ProjectID => XsollaSettings.StoreProjectId;
 
 		protected bool IsRequestPossible

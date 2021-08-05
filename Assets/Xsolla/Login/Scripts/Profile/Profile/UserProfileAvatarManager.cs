@@ -38,7 +38,7 @@ namespace Xsolla.Demo
 			string pictureUrl = null;
 			bool? isUserPictureUrlObtained = null;
 
-			var token = DemoController.Instance.LoginDemo.Token;
+			var token = Token.Instance;
 			DemoController.Instance.LoginDemo.GetUserInfo(token,
 				onSuccess: info =>
 				{
@@ -90,7 +90,7 @@ namespace Xsolla.Demo
 
 			byte[] data = ConvertToData(sprite, out string boundary);
 
-			var token = DemoController.Instance.LoginDemo.Token;
+			var token = Token.Instance;
 			DemoController.Instance.LoginDemo.UploadUserPicture(token, data, boundary,
 				onSuccess: imageInfo =>
 				{
@@ -123,7 +123,7 @@ namespace Xsolla.Demo
 			bool? isPictureDeleted = null;
 			ShowWaiting(() => isPictureDeleted == null);
 
-			var token = DemoController.Instance.LoginDemo.Token;
+			var token = Token.Instance;
 			DemoController.Instance.LoginDemo.DeleteUserPicture(token,
 				onSuccess: () =>
 				{
@@ -149,7 +149,7 @@ namespace Xsolla.Demo
 
 		private void SetPictureUrlToInfo(string pictureUrl, Action onSuccess = null, Action onError = null)
 		{
-			var token = DemoController.Instance.LoginDemo.Token;
+			var token = Token.Instance;
 			DemoController.Instance.LoginDemo.GetUserInfo(token,
 				onSuccess: info =>
 				{

@@ -60,8 +60,8 @@ namespace Xsolla.Login
 			WebRequestHelper.Instance.PostRequest<TokenEntity, LoginDeviceIdRequest>(SdkType.Login, url, requestBody,
 				onComplete: (response) =>
 				{
-					Token = response.token;
-					onSuccess?.Invoke(Token);
+					Token.Instance = Token.Create(response.token);
+					onSuccess?.Invoke(Token.Instance);
 				},
 				onError, Error.LoginErrors);
 		}
@@ -106,7 +106,7 @@ namespace Xsolla.Login
 				onSuccess?.Invoke(response.email_confirmation_required);
 			};
 
-			WebRequestHelper.Instance.PostRequest<AddUsernameAndEmailResponse, AddUsernameAndEmailRequest>(SdkType.Login, url, requestBody, WebRequestHeader.AuthHeader(Token),
+			WebRequestHelper.Instance.PostRequest<AddUsernameAndEmailResponse, AddUsernameAndEmailRequest>(SdkType.Login, url, requestBody, WebRequestHeader.AuthHeader(Token.Instance),
 				onComplete: onComplete,
 				onError: onError);
 		}
@@ -127,7 +127,7 @@ namespace Xsolla.Login
 				onSuccess?.Invoke(responseItems);
 			};
 
-			WebRequestHelper.Instance.GetRequest<List<UserDeviceInfo>>(SdkType.Login, url, WebRequestHeader.AuthHeader(Token),
+			WebRequestHelper.Instance.GetRequest<List<UserDeviceInfo>>(SdkType.Login, url, WebRequestHeader.AuthHeader(Token.Instance),
 				onComplete: onComplete,
 				onError: onError);
 		}
@@ -148,7 +148,7 @@ namespace Xsolla.Login
 			var requestBody = new LoginDeviceIdRequest(deviceName, deviceId);
 			var url = string.Format(URL_DEVICES_LINKING, deviceTypeAsString);
 
-			WebRequestHelper.Instance.PostRequest<LoginDeviceIdRequest>(SdkType.Login, url, requestBody, WebRequestHeader.AuthHeader(Token),
+			WebRequestHelper.Instance.PostRequest<LoginDeviceIdRequest>(SdkType.Login, url, requestBody, WebRequestHeader.AuthHeader(Token.Instance),
 				onSuccess,
 				onError);
 		}
@@ -165,7 +165,7 @@ namespace Xsolla.Login
 		{
 			var url = string.Format(URL_DEVICES_LINKING, id);
 
-			WebRequestHelper.Instance.DeleteRequest(SdkType.Login, url, WebRequestHeader.AuthHeader(Token),
+			WebRequestHelper.Instance.DeleteRequest(SdkType.Login, url, WebRequestHeader.AuthHeader(Token.Instance),
 				onSuccess,
 				onError);
 		}
