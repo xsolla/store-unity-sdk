@@ -12,9 +12,7 @@ namespace Xsolla.Store
 	{
 		private readonly List<OrderTrackingData> _trackingOrders = new List<OrderTrackingData>();
 		private readonly Dictionary<int, Coroutine> _orderTrackingCoroutines = new Dictionary<int, Coroutine>();
-
-		private Token Token => XsollaStore.Instance.Token;
-
+		
 		private bool IsTrackByPaystationCallback
 		{
 			get
