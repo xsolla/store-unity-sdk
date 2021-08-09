@@ -42,13 +42,15 @@ namespace Xsolla.Demo
 			if (provider == SocialProvider.None)
 				return;
 
-			DemoController.Instance.LoginDemo.GetLinkedSocialProviders(networks =>
+			DemoController.Instance.LoginDemo.GetLinkedSocialProviders(
+			onSuccess: networks =>
 			{
 				if (networks.Any(n => n.provider.Equals(provider.GetParameter())))
 					SetState(State.Linked);
 				else
 					SetState(State.Unlinked);
-			});
+			},
+			onError: StoreDemoPopup.ShowError);
 		}
 
 		private void SetVisibility(MonoBehaviour component, bool visibility)
@@ -129,7 +131,7 @@ namespace Xsolla.Demo
 			if (supported)
 			{
 				Action<SocialProvider> onSuccessLink = _ => RefreshState();
-				DemoController.Instance.LoginDemo.LinkSocialProvider(provider, onSuccessLink);
+				DemoController.Instance.LoginDemo.LinkSocialProvider(provider, onSuccess: onSuccessLink, onError: StoreDemoPopup.ShowError);
 			}
 			else
 			{

@@ -24,12 +24,6 @@ namespace Xsolla.Demo
 
 		void LinkConsoleAccount(string userId, string platform, string confirmationCode, Action onSuccess, Action<Error> onError);
 
-		void GetFriendsFromSocialNetworks([CanBeNull] Action<List<FriendModel>> onSuccess = null,
-			[CanBeNull] Action<Error> onError = null);
-
-		void ForceUpdateFriendsFromSocialNetworks([CanBeNull] Action onSuccess = null,
-			[CanBeNull] Action<Error> onError = null);
-
 		void SearchUsersByNickname(string nickname, [CanBeNull] Action<List<FriendModel>> onSuccess = null,
 			[CanBeNull] Action<Error> onError = null);
 
@@ -71,39 +65,6 @@ namespace Xsolla.Demo
 		void ChangeUserPhoneNumber(string token, string phoneNumber, Action onSuccess, Action<Error> onError);
 
 		void DeleteUserPhoneNumber(string token, string phoneNumber, Action onSuccess, Action<Error> onError);
-
-		void GetUserFriends([CanBeNull] Action<List<FriendModel>> onSuccess = null,
-			[CanBeNull] Action<Error> onError = null);
-
-		void BlockUser(FriendModel user, [CanBeNull] Action<FriendModel> onSuccess = null,
-			[CanBeNull] Action<Error> onError = null);
-
-		void UnblockUser(FriendModel user, [CanBeNull] Action<FriendModel> onSuccess = null,
-			[CanBeNull] Action<Error> onError = null);
-
-		void SendFriendshipInvite(FriendModel user, Action<FriendModel> onSuccess = null,
-			Action<Error> onError = null);
-
-		void RemoveFriend(FriendModel user, [CanBeNull] Action<FriendModel> onSuccess = null,
-			[CanBeNull] Action<Error> onError = null);
-
-		void AcceptFriendship(FriendModel user, [CanBeNull] Action<FriendModel> onSuccess = null,
-			[CanBeNull] Action<Error> onError = null);
-
-		void DeclineFriendship(FriendModel user, [CanBeNull] Action<FriendModel> onSuccess = null,
-			[CanBeNull] Action<Error> onError = null);
-
-		void CancelFriendshipRequest(FriendModel user, [CanBeNull] Action<FriendModel> onSuccess = null,
-			[CanBeNull] Action<Error> onError = null);
-
-		void GetBlockedUsers([CanBeNull] Action<List<FriendModel>> onSuccess = null,
-			[CanBeNull] Action<Error> onError = null);
-
-		void GetPendingUsers([CanBeNull] Action<List<FriendModel>> onSuccess = null,
-			[CanBeNull] Action<Error> onError = null);
-
-		void GetRequestedUsers([CanBeNull] Action<List<FriendModel>> onSuccess = null,
-			[CanBeNull] Action<Error> onError = null);
 
 		void GetLinkedSocialProviders(Action<List<LinkedSocialNetwork>> onSuccess, Action<Error> onError = null);
 
