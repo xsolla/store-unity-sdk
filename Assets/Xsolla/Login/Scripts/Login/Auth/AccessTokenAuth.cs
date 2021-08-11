@@ -10,7 +10,7 @@ namespace Xsolla.Demo
 		{
 			if (TryExtractArgs(args, out string email))
 			{
-				DemoController.Instance.LoginDemo.AccessTokenAuth(email, AccessTokenAuthSuccess, AccessTokenAuthFailed);
+				SdkLoginLogic.Instance.AccessTokenAuth(email, AccessTokenAuthSuccess, AccessTokenAuthFailed);
 			}
 			else
 			{

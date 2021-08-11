@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using System.Runtime.InteropServices;
 using UnityEngine;
 using Xsolla.Core.Browser;
@@ -71,7 +73,31 @@ namespace Xsolla.Core
 			}
 		}
 
+		public void OpenInAppBrowser(string url, Action onClosed, Action<string> onParameter, ParseParameter parameterToLook)
+		{
+#if UNITY_EDITOR || UNITY_STANDALONE
+			Open(url, XsollaSettings.InAppBrowserEnabled);
+			var _browser = GetLastBrowser();
+			_browser.BrowserClosedEvent += _ => onClosed?.Invoke();
+			_browser.BrowserInitEvent += activeBrowser =>
+			{
+				activeBrowser.Navigate.UrlChangedEvent += (browser, newUrl) =>
+				{
+					Debug.Log($"URL = {newUrl}");
 
+					if (ParseUtils.TryGetValueFromUrl(newUrl, parameterToLook, out string parameter))
+					{
+						StartCoroutine(CloseBrowserCoroutine());
+						onParameter?.Invoke(parameter);
+					}
+				};
+			};
+#else
+			var errorMessage = "OpenInAppBrowser: This functionality is not supported elswere except Editor and Standalone build";
+			Debug.LogError(errorMessage);
+			onClosed?.Invoke();
+#endif
+		}
 
 #if UNITY_EDITOR || UNITY_STANDALONE
 		private void OpenInAppBrowser(string url)
@@ -105,5 +131,13 @@ namespace Xsolla.Core
 			OpenUrlInSafari(url);
 		}
 #endif
+
+		private IEnumerator CloseBrowserCoroutine()
+		{
+			yield return new WaitForEndOfFrame();
+#if UNITY_EDITOR || UNITY_STANDALONE
+			Destroy(gameObject);
+#endif
+		}
 	}
 }

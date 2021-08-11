@@ -14,7 +14,7 @@ namespace Xsolla.Demo
 		private IEnumerator LoadToken()
 		{
 			if (XsollaSettings.AuthorizationType == AuthorizationType.OAuth2_0)
-				yield return new WaitWhile(() => DemoController.Instance.LoginDemo.IsOAuthTokenRefreshInProgress);
+				yield return new WaitWhile(() => SdkLoginLogic.Instance.IsOAuthTokenRefreshInProgress);
 
 			if (Token.Load())
 			{

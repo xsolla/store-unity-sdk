@@ -14,6 +14,11 @@ namespace Xsolla.Demo
 		/// Maximum friends count to display.
 		/// </summary>
 		private const int MAX_FRIENDS_COUNT = 100;
+		//TEXTREVIEW
+		/// <summary>
+		/// Default friend name value in case of absence
+		/// </summary>
+		private const string DEFAULT_NAME_VALUE = "User without name";
 
 		private const FriendsSearchResultsSortOrder FRIENDS_SORT_ORDER = FriendsSearchResultsSortOrder.Asc;
 		private const FriendsSearchResultsSort FRIENDS_SORT_TYPE = FriendsSearchResultsSort.ByNickname;
@@ -113,7 +118,7 @@ namespace Xsolla.Demo
 					var token = Token.Instance;
 					bool? isUserinfoObtained = null;
 
-					DemoController.Instance.LoginDemo.GetPublicInfo(token, recommendedFriend.Id,
+					SdkLoginLogic.Instance.GetPublicInfo(token, recommendedFriend.Id,
 						onSuccess: info =>
 						{
 							recommendedFriend.Nickname = info.nickname;
@@ -204,17 +209,20 @@ namespace Xsolla.Demo
 
 		private string GetUserNickname(UserFriendEntity friend)
 		{
-			return !string.IsNullOrEmpty(friend.user.nickname)
-				? friend.user.nickname
-				: (!string.IsNullOrEmpty(friend.user.name)
-					? friend.user.name
-					: (!string.IsNullOrEmpty(friend.user.first_name)
-						? friend.user.first_name
-						: (!string.IsNullOrEmpty(friend.user.last_name)
-							? friend.user.last_name
-							: (!string.IsNullOrEmpty(friend.user.email)
-								? friend.user.email
-								: "User without name"))));
+			var userInfo = friend.user;
+
+			if (!string.IsNullOrEmpty(userInfo.nickname))
+				return userInfo.nickname;
+			if (!string.IsNullOrEmpty(userInfo.name))
+				return userInfo.name;
+			if (!string.IsNullOrEmpty(userInfo.first_name))
+				return userInfo.first_name;
+			if (!string.IsNullOrEmpty(userInfo.last_name))
+				return userInfo.last_name;
+			if (!string.IsNullOrEmpty(userInfo.email))
+				return userInfo.email;
+			else
+				return DEFAULT_NAME_VALUE;
 		}
 	}
 }

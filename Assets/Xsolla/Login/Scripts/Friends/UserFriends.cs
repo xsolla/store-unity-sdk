@@ -63,7 +63,7 @@ namespace Xsolla.Demo
 			bool pendingBusy = true;
 			bool requestedBusy = true;
 
-			DemoController.Instance.LoginDemo.ValidateToken(
+			SdkLoginLogic.Instance.ValidateToken(
 				Token.Instance, 
 				onSuccess: _ => isTokenValid = true, 
 				onError: _ => isTokenValid = false
@@ -283,7 +283,7 @@ namespace Xsolla.Demo
 		public void SearchUsersByNickname(string nickname, [CanBeNull] Action<List<FriendModel>> onSuccess = null,
 			[CanBeNull] Action<Error> onError = null)
 		{
-			DemoController.Instance.LoginDemo.SearchUsersByNickname(nickname, onSuccess, onError);
+			SdkLoginLogic.Instance.SearchUsersByNickname(nickname, onSuccess, onError);
 		}
 	}
 }

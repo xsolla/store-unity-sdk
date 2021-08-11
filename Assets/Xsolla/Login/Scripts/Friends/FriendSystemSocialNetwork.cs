@@ -42,7 +42,7 @@ namespace Xsolla.Demo
 			if (provider == SocialProvider.None)
 				return;
 
-			DemoController.Instance.LoginDemo.GetLinkedSocialProviders(
+			SdkLoginLogic.Instance.GetLinkedSocialProviders(
 			onSuccess: networks =>
 			{
 				if (networks.Any(n => n.provider.Equals(provider.GetParameter())))
@@ -131,7 +131,7 @@ namespace Xsolla.Demo
 			if (supported)
 			{
 				Action<SocialProvider> onSuccessLink = _ => RefreshState();
-				DemoController.Instance.LoginDemo.LinkSocialProvider(provider, onSuccess: onSuccessLink, onError: StoreDemoPopup.ShowError);
+				SdkLoginLogic.Instance.LinkSocialProvider(provider, onSuccess: onSuccessLink, onError: StoreDemoPopup.ShowError);
 			}
 			else
 			{
