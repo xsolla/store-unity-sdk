@@ -27,7 +27,7 @@ namespace Xsolla.Demo
 		private void CheckNicknamePresence()
 		{
 			var token = Token.Instance;
-			DemoController.Instance.LoginDemo.GetUserInfo(token, info =>
+			SdkLoginLogic.Instance.GetUserInfo(token, info =>
 			{
 				if (string.IsNullOrEmpty(info.nickname))
 				{
@@ -54,7 +54,7 @@ namespace Xsolla.Demo
 			var token = Token.Instance;
 			var updatePack = new UserInfoUpdate() { nickname = newNickname };
 
-			DemoController.Instance.LoginDemo.UpdateUserInfo(token, updatePack,
+			SdkLoginLogic.Instance.UpdateUserInfo(token, updatePack,
 				onSuccess: _ => isNicknameUpdateInProgress = false,
 				onError: error =>
 				{

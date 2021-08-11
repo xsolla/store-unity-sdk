@@ -32,7 +32,7 @@ namespace Xsolla.Demo
 		{
 			if (int.TryParse(XsollaSettings.SteamAppId, out _))
 			{
-				DemoController.Instance.LoginDemo.SteamAuth(XsollaSettings.SteamAppId, ticket, onSuccess:SuccessHandler, onError:FailHandler);
+				SdkLoginLogic.Instance.SteamAuth(XsollaSettings.SteamAppId, ticket, onSuccess:SuccessHandler, onError:FailHandler);
 			}
 			else
 			{

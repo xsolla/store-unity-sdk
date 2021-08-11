@@ -19,7 +19,7 @@ namespace Xsolla.Demo
 			if (!base.IsRequestPossible)
 				return;
 
-			DemoController.Instance.LoginDemo.RemoveUserAttributes(base.Token, base.ProjectID, attributeKeys, base.OnSuccess, base.OnError);
+			SdkLoginLogic.Instance.RemoveUserAttributes(base.Token, base.ProjectID, attributeKeys, base.OnSuccess, base.OnError);
 		}
 
 		private void UpdateAttributes(List<UserAttribute> updatedAttributes)
@@ -27,7 +27,7 @@ namespace Xsolla.Demo
 			if (!base.IsRequestPossible)
 				return;
 
-			DemoController.Instance.LoginDemo.UpdateUserAttributes(base.Token, base.ProjectID, updatedAttributes, base.OnSuccess, base.OnError);
+			SdkLoginLogic.Instance.UpdateUserAttributes(base.Token, base.ProjectID, updatedAttributes, base.OnSuccess, base.OnError);
 		}
 	}
 }

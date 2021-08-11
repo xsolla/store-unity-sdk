@@ -43,7 +43,7 @@ namespace Xsolla.Demo
 			UserInfo userInfo = null;
 			var token = Token.Instance;
 
-			DemoController.Instance.LoginDemo.GetUserInfo(token,
+			SdkLoginLogic.Instance.GetUserInfo(token,
 				onSuccess: info =>
 				{
 					userInfo = info;
@@ -207,7 +207,7 @@ namespace Xsolla.Demo
 
 		
 			var token = Token.Instance;
-			DemoController.Instance.LoginDemo.UpdateUserInfo(token, infoUpdatePack,
+			SdkLoginLogic.Instance.UpdateUserInfo(token, infoUpdatePack,
 				onSuccess: newInfo =>
 				{
 					InitializeEntries(newInfo);
@@ -235,10 +235,10 @@ namespace Xsolla.Demo
 
 			var token = Token.Instance;
 
-			DemoController.Instance.LoginDemo.GetUserInfo(token,
+			SdkLoginLogic.Instance.GetUserInfo(token,
 				onSuccess: info => info.phone = newValue);
 
-			DemoController.Instance.LoginDemo.ChangeUserPhoneNumber(token, newValue,
+			SdkLoginLogic.Instance.ChangeUserPhoneNumber(token, newValue,
 				onSuccess: () => _isProfileUpdated = true,
 				onError: _commonErrorCallback);
 		}
@@ -248,7 +248,7 @@ namespace Xsolla.Demo
 			var token = Token.Instance;
 			UserInfo userInfo = null;
 
-			DemoController.Instance.LoginDemo.GetUserInfo(token,
+			SdkLoginLogic.Instance.GetUserInfo(token,
 				onSuccess: info =>
 				{
 					userInfo = info;
@@ -262,7 +262,7 @@ namespace Xsolla.Demo
 				var oldPhoneNumber = userInfo.phone;
 				userInfo.phone = null;
 
-				DemoController.Instance.LoginDemo.DeleteUserPhoneNumber(token, oldPhoneNumber,
+				SdkLoginLogic.Instance.DeleteUserPhoneNumber(token, oldPhoneNumber,
 					onSuccess: () => _isProfileUpdated = true,
 					onError: _commonErrorCallback);
 			}

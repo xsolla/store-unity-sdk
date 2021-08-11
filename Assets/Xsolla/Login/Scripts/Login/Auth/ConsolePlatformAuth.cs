@@ -21,7 +21,7 @@ namespace Xsolla.Demo
 
 		private void RequestToken()
 		{
-			DemoController.Instance.LoginDemo.SignInConsoleAccount(
+			SdkLoginLogic.Instance.SignInConsoleAccount(
 				userId: XsollaSettings.UsernameFromConsolePlatform,
 				platform: XsollaSettings.Platform.GetString(),
 				SuccessHandler,

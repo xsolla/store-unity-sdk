@@ -4,17 +4,21 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Xsolla.Core;
-using Xsolla.Core.Popup;
 using Xsolla.Login;
 
 namespace Xsolla.Demo
 {
-	public partial class DemoImplementation : MonoBehaviour, ILoginDemoImplementation
+    public class SdkFriendsLogic : MonoSingleton<SdkFriendsLogic>
 	{
 		/// <summary>
 		/// Maximum friends count to display.
 		/// </summary>
 		private const int MAX_FRIENDS_COUNT = 100;
+		//TEXTREVIEW
+		/// <summary>
+		/// Default friend name value in case of absence
+		/// </summary>
+		private const string DEFAULT_NAME_VALUE = "User without name";
 
 		private const FriendsSearchResultsSortOrder FRIENDS_SORT_ORDER = FriendsSearchResultsSortOrder.Asc;
 		private const FriendsSearchResultsSort FRIENDS_SORT_TYPE = FriendsSearchResultsSort.ByNickname;
@@ -41,14 +45,8 @@ namespace Xsolla.Demo
 
 		public void BlockUser(FriendModel user, Action<FriendModel> onSuccess = null, Action<Error> onError = null)
 		{
-			PopupFactory.Instance.CreateConfirmation()
-				.SetMessage($"Block {user.Nickname}?")
-				.SetConfirmButtonText("BLOCK")
-				.SetConfirmCallback(() =>
-				{
-					XsollaLogin.Instance.UpdateUserFriends(Token.Instance, FriendAction.BlockFriend, user.Id,
-						() => onSuccess?.Invoke(user), onError);
-				});
+			XsollaLogin.Instance.UpdateUserFriends(Token.Instance, FriendAction.BlockFriend, user.Id,
+				() => onSuccess?.Invoke(user), onError);
 		}
 
 		public void UnblockUser(FriendModel user, Action<FriendModel> onSuccess = null, Action<Error> onError = null)
@@ -65,28 +63,22 @@ namespace Xsolla.Demo
 
 		public void RemoveFriend(FriendModel user, Action<FriendModel> onSuccess = null, Action<Error> onError = null)
 		{
-			PopupFactory.Instance.CreateConfirmation()
-				.SetMessage($"Remove {user.Nickname} from the friend list?")
-				.SetConfirmButtonText("REMOVE")
-				.SetConfirmCallback(() =>
-				{
-					XsollaLogin.Instance.UpdateUserFriends(Token.Instance, FriendAction.RemoveFriend, user.Id,
-						() => onSuccess?.Invoke(user), onError);
-				});
+			XsollaLogin.Instance.UpdateUserFriends(Token.Instance, FriendAction.RemoveFriend, user.Id,
+				() => onSuccess?.Invoke(user), onError);
 		}
-	
+
 		public void AcceptFriendship(FriendModel user, Action<FriendModel> onSuccess = null, Action<Error> onError = null)
 		{
 			XsollaLogin.Instance.UpdateUserFriends(Token.Instance, FriendAction.AcceptInvite, user.Id,
 				() => onSuccess?.Invoke(user), onError);
 		}
-	
+
 		public void DeclineFriendship(FriendModel user, Action<FriendModel> onSuccess = null, Action<Error> onError = null)
 		{
 			XsollaLogin.Instance.UpdateUserFriends(Token.Instance, FriendAction.DenyInvite, user.Id,
 				() => onSuccess?.Invoke(user), onError);
 		}
-	
+
 		public void CancelFriendshipRequest(FriendModel user, Action<FriendModel> onSuccess = null, Action<Error> onError = null)
 		{
 			XsollaLogin.Instance.UpdateUserFriends(Token.Instance, FriendAction.CancelRequest, user.Id,
@@ -126,7 +118,7 @@ namespace Xsolla.Demo
 					var token = Token.Instance;
 					bool? isUserinfoObtained = null;
 
-					DemoController.Instance.LoginDemo.GetPublicInfo(token, recommendedFriend.Id,
+					SdkLoginLogic.Instance.GetPublicInfo(token, recommendedFriend.Id,
 						onSuccess: info =>
 						{
 							recommendedFriend.Nickname = info.nickname;
@@ -168,11 +160,11 @@ namespace Xsolla.Demo
 					{
 						var result = ConvertFriendEntity(f, relationship);
 						// this method used at this place for fastest image loading
-						if(!string.IsNullOrEmpty(result.AvatarUrl))
+						if (!string.IsNullOrEmpty(result.AvatarUrl))
 							ImageLoader.Instance.GetImageAsync(result.AvatarUrl, null);
 						return result;
 					}).ToList());
-				}, WrapErrorCallback(onError));
+				}, onError);
 		}
 
 		private FriendModel ConvertFriendEntity(UserSocialFriend friend)
@@ -217,17 +209,20 @@ namespace Xsolla.Demo
 
 		private string GetUserNickname(UserFriendEntity friend)
 		{
-			return !string.IsNullOrEmpty(friend.user.nickname) 
-				? friend.user.nickname 
-				: (!string.IsNullOrEmpty(friend.user.name) 
-					? friend.user.name 
-					: (!string.IsNullOrEmpty(friend.user.first_name) 
-						? friend.user.first_name 
-						: (!string.IsNullOrEmpty(friend.user.last_name) 
-							? friend.user.last_name 
-							: (!string.IsNullOrEmpty(friend.user.email) 
-								? friend.user.email 
-								: "User without name"))));
+			var userInfo = friend.user;
+
+			if (!string.IsNullOrEmpty(userInfo.nickname))
+				return userInfo.nickname;
+			if (!string.IsNullOrEmpty(userInfo.name))
+				return userInfo.name;
+			if (!string.IsNullOrEmpty(userInfo.first_name))
+				return userInfo.first_name;
+			if (!string.IsNullOrEmpty(userInfo.last_name))
+				return userInfo.last_name;
+			if (!string.IsNullOrEmpty(userInfo.email))
+				return userInfo.email;
+			else
+				return DEFAULT_NAME_VALUE;
 		}
 	}
 }

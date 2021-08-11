@@ -43,7 +43,7 @@ namespace Xsolla.Demo
 				InitializeUI();
 			};
 
-			DemoController.Instance.LoginDemo.GetUserInfo(token, successCallback, errorCallback);
+			SdkLoginLogic.Instance.GetUserInfo(token, successCallback, errorCallback);
 		}
 
 		private void InitializeUI()

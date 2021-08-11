@@ -20,7 +20,7 @@ namespace Xsolla.Demo
 				if(_isDemoUser && _isJwtInvalidationEnabled)
 					XsollaSettings.JwtTokenInvalidationEnabled = false;
 
-				DemoController.Instance.LoginDemo.SignIn(username, password, rememberMe, BasicAuthSuccess, BasicAuthFailed);
+				SdkLoginLogic.Instance.SignIn(username, password, rememberMe, BasicAuthSuccess, BasicAuthFailed);
 			}
 			else
 			{
