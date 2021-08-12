@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using JetBrains.Annotations;
@@ -47,7 +47,7 @@ namespace Xsolla.Store
 		}
 
 		/// <summary>
-		/// Returns a user’s cart by ID.
+		/// Returns user’s cart by cart ID.
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Get cart by ID</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/store-api/cart-payment/cart/get-cart-by-id/"/>
@@ -68,8 +68,8 @@ namespace Xsolla.Store
 		}
 
 		/// <summary>
-		/// Fills the current cart with items. If the cart already has an item,
-		/// the existing item will be replaced by the given value.
+		/// Fills the cart with items. If the cart already has an item with the same SKU,
+		/// the existing item will be replaced by the passed value.
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Fill cart with items</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/store-api/cart-payment/cart/cart-fill/"/>
@@ -85,8 +85,8 @@ namespace Xsolla.Store
 		}
 
 		/// <summary>
-		/// Fills the specific cart with items. If the cart already has an item,
-		/// the existing item will be replaced by the given value.
+		/// Fills the specific cart with items. If the cart already has an item with the same SKU,
+		/// the existing item position will be replaced by the passed value.
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Fill specific cart with items</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/store-api/cart-payment/cart/cart-fill-by-id/"/>
@@ -154,7 +154,7 @@ namespace Xsolla.Store
 		}
 
 		/// <summary>
-		/// Deletes all specific cart items.
+		/// Deletes all cart items.
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Delete all cart line items by cart ID</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/store-api/cart-payment/cart/cart-clear-by-id/"/>
@@ -200,7 +200,7 @@ namespace Xsolla.Store
 		}
 
 		/// <summary>
-		/// Redeems a code of promo code. After redeeming a promo code, the user will get free items and/or the price of cart will be decreased.
+		/// Redeems a code of promo code promotion. After redeeming a promo code, the user will get free items and/or the price of the cart and/or particular items will be decreased.
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Redeem promo code</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/store-api/promotions/promo-codes/redeem-promo-code/"/>
