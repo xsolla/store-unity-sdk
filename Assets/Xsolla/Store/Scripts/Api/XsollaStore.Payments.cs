@@ -58,8 +58,7 @@ namespace Xsolla.Store
 		}
 
 		/// <summary>
-		/// Returns unique identifier of the created order and
-		/// the Pay Station token for the purchase of the specified product.
+		/// Creates an order with a specified item. The created order will get a 'new' order status.
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Create order with specified item</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/store-api/payment/create-order-with-item"/>
@@ -110,7 +109,7 @@ namespace Xsolla.Store
 		}
 
 		/// <summary>
-		/// Returns the Paystation Token for the purchase of the items in the current cart.
+		/// Creates an order with all items from the cart. The created order will get a 'new' order status.
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Creates an order with all items from the current cart</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/store-api/cart-payment/payment/create-order/"/>
@@ -126,7 +125,7 @@ namespace Xsolla.Store
 		}
 
 		/// <summary>
-		/// Returns the Pay Station token for the purchase of the items in the specified cart.
+		/// Creates an order with all items from the particular cart. The created order will get a 'new' order status.
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Creates an order with all items from the particular cart</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/store-api/cart-payment/payment/create-order-by-cart-id/"/>
