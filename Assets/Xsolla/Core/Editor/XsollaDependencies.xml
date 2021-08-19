@@ -25,10 +25,10 @@
 
          Additional repositories can be added using the "repositories" element.
     -->
-    <androidPackage spec="com.xsolla.android:login:1.1.6"/>
-    <androidPackage spec="com.xsolla.android:login-facebook:1.1.6"/>
-    <androidPackage spec="com.xsolla.android:login-google:1.1.6"/>
-    <androidPackage spec="com.xsolla.android:login-wechat:1.1.6"/>
-    <androidPackage spec="com.xsolla.android:login-qq:1.1.6"/>
+    <androidPackage spec="com.xsolla.android:login:1.2.1"/>
+    <androidPackage spec="com.xsolla.android:login-facebook:1.2.1"/>
+    <androidPackage spec="com.xsolla.android:login-google:1.2.1"/>
+    <androidPackage spec="com.xsolla.android:login-wechat:1.2.1"/>
+    <androidPackage spec="com.xsolla.android:login-qq:1.2.1"/>
   </androidPackages>
 </dependencies>
