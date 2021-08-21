@@ -82,7 +82,10 @@ namespace Xsolla.Demo
 		{
 			if (cartControls.IsBuyButtonLocked()) return;
 			cartControls.LockBuyButton();
-			UserCart.Instance.Purchase(onSuccess: null, onError: _ => cartControls.UnlockBuyButton());
+
+			UserCart.Instance.Purchase(
+				onSuccess: DemoController.Instance.SetPreviousState,
+				onError: _ => cartControls.UnlockBuyButton());
 		}
 
 		private void PutItemsToContainer(List<UserCartItem> items)

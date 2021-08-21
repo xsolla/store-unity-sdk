@@ -20,15 +20,6 @@ namespace Xsolla.Demo
 			PopupFactory.Instance.CreateError().SetMessage(error.ToString());
 		}
 
-		public static Action<Error> WrapError(Action<Error> onError)
-		{
-			return error =>
-			{
-				ShowError(error);
-				onError?.Invoke(error);
-			};
-		}
-
 		public static void ShowWarning(Error error)
 		{
 			Debug.LogWarning(error);

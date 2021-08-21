@@ -36,6 +36,20 @@ namespace Xsolla.Core
 			}
 		}
 
+		public static bool IsWebGL
+		{
+			get
+			{
+				switch (Application.platform)
+				{
+					case RuntimePlatform.WebGLPlayer:
+						return true;
+					default:
+						return false;
+				}
+			}
+		}
+
 		public static bool IsStandaloneOrEditor => (IsStandalone || IsEditor);
 	}
 }

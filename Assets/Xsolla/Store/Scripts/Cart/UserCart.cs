@@ -100,11 +100,15 @@ namespace Xsolla.Demo
 
 		public void Purchase(Action onSuccess = null, Action<Error> onError = null)
 		{
-			DemoController.Instance.StoreDemo.PurchaseCart(GetItems(), _ =>
+			var items = GetItems();
+			DemoShop.Instance.PurchaseCart(items,
+			onSuccess: _ =>
 			{
+				Clear();
 				onSuccess?.Invoke();
 				PurchaseCartEvent?.Invoke();
-			}, onError);
+			},
+			onError);
 		}
 	}
 }

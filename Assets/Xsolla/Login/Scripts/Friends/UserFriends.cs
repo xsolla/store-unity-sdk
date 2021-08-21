@@ -114,7 +114,7 @@ namespace Xsolla.Demo
 				Blocked = users;
 				BlockedUsersUpdatedEvent?.Invoke();
 				onSuccess?.Invoke();
-			}, StoreDemoPopup.WrapError(onError));
+			}, StoreDemoPopup.ShowError);
 		}
 	
 		private void UpdatePendingUsers(Action onSuccess = null, Action<Error> onError = null)
@@ -124,7 +124,7 @@ namespace Xsolla.Demo
 				Pending = users;
 				PendingUsersUpdatedEvent?.Invoke();
 				onSuccess?.Invoke();
-			}, StoreDemoPopup.WrapError(onError));
+			}, StoreDemoPopup.ShowError);
 		}
 	
 		private void UpdateRequestedUsers(Action onSuccess = null, Action<Error> onError = null)
@@ -134,7 +134,7 @@ namespace Xsolla.Demo
 				Requested = users;
 				RequestedUsersUpdatedEvent?.Invoke();
 				onSuccess?.Invoke();
-			}, StoreDemoPopup.WrapError(onError));
+			}, StoreDemoPopup.ShowError);
 		}
 	
 		private void UpdateSocialFriends(Action onSuccess = null, Action<Error> onError = null)
@@ -144,7 +144,7 @@ namespace Xsolla.Demo
 				SocialFriends = users;
 				SocialFriendsUpdatedEvent?.Invoke();
 				onSuccess?.Invoke();
-			}, StoreDemoPopup.WrapError(onError));
+			}, StoreDemoPopup.ShowError);
 		}
 	
 		private void ShowErrorMessage(string message, Action<Error> onError = null)

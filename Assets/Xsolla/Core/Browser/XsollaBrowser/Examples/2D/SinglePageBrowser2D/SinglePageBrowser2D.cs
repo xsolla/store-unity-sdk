@@ -18,7 +18,7 @@ namespace Xsolla.Core.Browser
 		public Button CloseButton;
 		public Button BackButton;
 		public event Action<IXsollaBrowser> BrowserInitEvent;
-		public event Action<IXsollaBrowser> BrowserClosedEvent;
+		public event Action BrowserClosedEvent;
 
 		XsollaBrowser xsollaBrowser;
 		Display2DBehaviour display;
@@ -164,7 +164,7 @@ namespace Xsolla.Core.Browser
 		private void OnDestroy()
 		{
 			StopAllCoroutines();
-			BrowserClosedEvent?.Invoke(xsollaBrowser);
+			BrowserClosedEvent?.Invoke();
 			if (mouse != null)
 			{
 				Destroy(mouse);

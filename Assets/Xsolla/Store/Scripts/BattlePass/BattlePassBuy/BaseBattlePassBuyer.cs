@@ -128,7 +128,7 @@ namespace Xsolla.Demo
 			});
 
 			_waitingPopupNeeded = false;
-			DemoController.Instance.StoreDemo.PurchaseCart(new List<UserCartItem> { cartItem }, onCartSuccess, onError, isSetPreviousDemoState: false, isShowResultToUser: false);
+			DemoShop.Instance.PurchaseCart(new List<UserCartItem> { cartItem }, onCartSuccess, onError, isShowResultToUser: false);
 		}
 
 		private IEnumerator PurchaseForVirtualCurrency(CatalogItemModel itemModel, int quantity, Action<CatalogItemModel> onSuccess, Action<Error> onError)
@@ -149,7 +149,7 @@ namespace Xsolla.Demo
 			});
 
 			for (int i = 0; i < quantity; i++)
-				DemoController.Instance.StoreDemo.PurchaseForVirtualCurrency(itemModel, onPurchaseSuccess, onPurchaseError, isConfirmationRequired: false, isShowResultToUser: false);
+				DemoShop.Instance.PurchaseForVirtualCurrency(itemModel, onPurchaseSuccess, onPurchaseError, false, false);
 
 			yield return new WaitWhile(() => backwardCounter > 0);
 

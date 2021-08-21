@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
-using UnityEngine;
 using Xsolla.Core;
-using Xsolla.Core.Browser;
 
 namespace Xsolla.Store
 {
@@ -19,19 +17,6 @@ namespace Xsolla.Store
 		private const string URL_PAYSTATION_UI_IN_SANDBOX_MODE = "https://sandbox-secure.xsolla.com/paystation3/?access_token=";
 
 		private const string URL_CREATE_PAYMENT_TOKEN = BASE_STORE_API_URL + "/payment";
-
-		private readonly Dictionary<string, int> _restrictedPaymentMethods = new Dictionary<string, int>
-		{
-			{"https://secure.xsolla.com/pages/paywithgoogle", 3431},
-			{"https://secure.xsolla.com/pages/vkpay", 3496}
-		};
-
-		private readonly Dictionary<PayStationUISettings.PaystationSize, Vector2> _payStationSizes = new Dictionary<PayStationUISettings.PaystationSize, Vector2>
-		{
-			{PayStationUISettings.PaystationSize.Small, new Vector2(620, 630)},
-			{PayStationUISettings.PaystationSize.Medium, new Vector2(740, 760)},
-			{PayStationUISettings.PaystationSize.Large, new Vector2(820, 840)}
-		};
 
 		/// <summary>
 		/// Returns headers list such as <c>AuthHeader</c> and <c>SteamPaymentHeader</c>.
@@ -156,15 +141,8 @@ namespace Xsolla.Store
 			BrowserHelper.Instance.OpenPurchase(
 				url, purchaseData.token,
 				XsollaSettings.IsSandbox,
-				XsollaSettings.InAppBrowserEnabled && !forcePlatformBrowser);
-
-#if (UNITY_EDITOR || UNITY_STANDALONE)
-			if (BrowserHelper.Instance.GetLastBrowser() != null)
-			{
-				TrackRestrictedPaymentMethod(onRestrictedPaymentMethod);
-				UpdateBrowserSize();
-			}
-#endif
+				XsollaSettings.InAppBrowserEnabled && !forcePlatformBrowser,
+				onRestrictedPaymentMethod);
 		}
 
 		/// <summary>
@@ -315,39 +293,5 @@ namespace Xsolla.Store
 
 			return settings;
 		}
-		
-#if (UNITY_EDITOR || UNITY_STANDALONE)
-		private void TrackRestrictedPaymentMethod(Action<int> onRestrictedPaymentMethod)
-		{
-			BrowserHelper.Instance.GetLastBrowser().BrowserInitEvent += activeBrowser =>
-			{
-				activeBrowser.Navigate.UrlChangedEvent += (browser, newUrl) =>
-				{
-					if (_restrictedPaymentMethods.ContainsKey(newUrl))
-					{
-						onRestrictedPaymentMethod?.Invoke(_restrictedPaymentMethods[newUrl]);
-					}
-				};
-			};
-		}
-
-		private void UpdateBrowserSize()
-		{
-			BrowserHelper.Instance.GetLastBrowser().BrowserInitEvent += activeBrowser =>
-			{
-				var browserRender = BrowserHelper.Instance.GetLastBrowser().GetComponent<Display2DBehaviour>();
-				if (browserRender == null)
-					return;
-
-				var payStationSettings = XsollaSettings.DesktopPayStationUISettings;
-				var payStationSize = payStationSettings.paystationSize != PayStationUISettings.PaystationSize.Auto
-					? payStationSettings.paystationSize
-					: PayStationUISettings.PaystationSize.Medium;
-
-				var viewportSize = _payStationSizes[payStationSize];
-				browserRender.StartRedrawWith((int) viewportSize.x, (int) viewportSize.y);
-			};
-		}
-#endif
 	}
 }

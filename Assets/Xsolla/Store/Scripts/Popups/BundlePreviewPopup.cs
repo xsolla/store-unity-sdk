@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -157,7 +158,7 @@ namespace Xsolla.Core.Popup
 				buyButton.onClick = () =>
 				{
 					Destroy(gameObject, 0.001F);
-					DemoController.Instance.StoreDemo.PurchaseForRealMoney(virtualItem);
+					DemoShop.Instance.PurchaseForRealMoney(virtualItem);
 				};
 			}
 			else
@@ -165,7 +166,7 @@ namespace Xsolla.Core.Popup
 				buyButton.onClick = () =>
 				{
 					Destroy(gameObject, 0.001F);
-					DemoController.Instance.StoreDemo.PurchaseForVirtualCurrency(virtualItem);
+					DemoShop.Instance.PurchaseForVirtualCurrency(virtualItem);
 				};
 			}
 		}
