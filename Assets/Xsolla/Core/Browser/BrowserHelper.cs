@@ -171,6 +171,7 @@ namespace Xsolla.Core
 
 		private void UpdateBrowserSize()
 		{
+#if UNITY_STANDALONE || UNITY_EDITOR
 			BrowserHelper.Instance.GetLastBrowser().BrowserInitEvent += activeBrowser =>
 			{
 				var browserRender = BrowserHelper.Instance.GetLastBrowser().GetComponent<Display2DBehaviour>();
@@ -185,6 +186,7 @@ namespace Xsolla.Core
 				var viewportSize = _payStationSizes[payStationSize];
 				browserRender.StartRedrawWith((int)viewportSize.x, (int)viewportSize.y);
 			};
+#endif
 		}
 
 		private void TrackRestrictedPaymentMethod(Action<int> onRestrictedPaymentMethod)
