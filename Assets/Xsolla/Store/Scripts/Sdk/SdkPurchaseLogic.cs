@@ -6,7 +6,7 @@ using Xsolla.Store;
 
 namespace Xsolla.Demo
 {
-	public class SdkStoreLogic : MonoSingleton<SdkStoreLogic>
+	public class SdkPurchaseLogic : MonoSingleton<SdkPurchaseLogic>
 	{
 		public void PurchaseForRealMoney(CatalogItemModel item, RestrictedPaymentAllower restrictedPaymentAllower = null, Action<CatalogItemModel> onSuccess = null, Action<Error> onError = null)
 		{

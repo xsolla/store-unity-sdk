@@ -10,7 +10,7 @@ namespace Xsolla.Demo
 		public void PurchaseForRealMoney(CatalogItemModel item, Action<CatalogItemModel> onSuccess = null, Action<Error> onError = null)
 		{
 			var restrictedPaymentAllower = GenerateAllower();
-			SdkStoreLogic.Instance.PurchaseForRealMoney(item,
+			SdkPurchaseLogic.Instance.PurchaseForRealMoney(item,
 				restrictedPaymentAllower,
 				OnSuccessPurchase(onSuccess),
 				OnPurchaseError(onError));
@@ -21,7 +21,7 @@ namespace Xsolla.Demo
 		{
 			var onConfirmation = new Action(() =>
 			{
-				SdkStoreLogic.Instance.PurchaseForVirtualCurrency(item,
+				SdkPurchaseLogic.Instance.PurchaseForVirtualCurrency(item,
 					OnSuccessPurchase(onSuccess, isShowResultToUser),
 					OnPurchaseError(onError));
 			});
@@ -47,7 +47,7 @@ namespace Xsolla.Demo
 				}
 			};
 
-			SdkStoreLogic.Instance.PurchaseCart(items,
+			SdkPurchaseLogic.Instance.PurchaseCart(items,
 				restrictedPaymentAllower,
 				onSuccessPurchase,
 				OnPurchaseError(onError));
