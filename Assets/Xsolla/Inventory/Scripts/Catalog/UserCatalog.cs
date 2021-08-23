@@ -98,7 +98,7 @@ namespace Xsolla.Demo
 		private IEnumerator UpdateVirtualCurrenciesCoroutine(Action<Error> onError = null)
 		{
 			var busy = true;
-			_inventoryDemoImplementation.GetVirtualCurrencies(items =>
+			SdkCatalogLogic.Instance.GetVirtualCurrencies(items =>
 			{
 				VirtualCurrencies = items;
 				UpdateVirtualCurrenciesEvent?.Invoke(items);
@@ -110,7 +110,7 @@ namespace Xsolla.Demo
 		private IEnumerator UpdateVirtualItemsCoroutine(Action<Error> onError = null)
 		{
 			yield return StartCoroutine(UpdateSomeItemsCoroutine<CatalogVirtualItemModel>(
-				_inventoryDemoImplementation.GetCatalogVirtualItems, items =>
+				SdkCatalogLogic.Instance.GetCatalogVirtualItems, items =>
 				{
 					VirtualItems = items;
 					UpdateItemsEvent?.Invoke(items);
@@ -120,7 +120,7 @@ namespace Xsolla.Demo
 		private IEnumerator UpdateVirtualCurrencyPackagesCoroutine(Action<Error> onError = null)
 		{
 			yield return StartCoroutine(UpdateSomeItemsCoroutine<CatalogVirtualCurrencyModel>(
-			_inventoryDemoImplementation.GetCatalogVirtualCurrencyPackages, items =>
+			SdkCatalogLogic.Instance.GetCatalogVirtualCurrencyPackages, items =>
 			{
 				CurrencyPackages = items;
 				UpdateVirtualCurrencyPackagesEvent?.Invoke(items);
@@ -130,7 +130,7 @@ namespace Xsolla.Demo
 		private IEnumerator UpdateBundlesCoroutine(Action<Error> onError = null)
 		{
 			yield return StartCoroutine(UpdateSomeItemsCoroutine<CatalogBundleItemModel>(
-				_inventoryDemoImplementation.GetCatalogBundles, items =>
+				SdkCatalogLogic.Instance.GetCatalogBundles, items =>
 				{
 					Bundles = items;
 					UpdateBundlesEvent?.Invoke(items);
@@ -140,7 +140,7 @@ namespace Xsolla.Demo
 		private IEnumerator UpdateSubscriptionsCoroutine(Action<Error> onError = null)
 		{
 			yield return StartCoroutine(UpdateSomeItemsCoroutine<CatalogSubscriptionItemModel>(
-			_inventoryDemoImplementation.GetCatalogSubscriptions, items =>
+			SdkCatalogLogic.Instance.GetCatalogSubscriptions, items =>
 			{
 				Subscriptions = items;
 				UpdateSubscriptionsEvent?.Invoke(items);

@@ -74,7 +74,7 @@ namespace Xsolla.Demo
 				}
 
 				var catalogItem = UserCatalog.Instance.AllItems.First(cat => cat.Sku.Equals(i.Sku));
-				var itemGroups = _inventoryDemoImplementation.GetCatalogGroupsByItem(catalogItem);
+				var itemGroups = SdkCatalogLogic.Instance.GetCatalogGroupsByItem(catalogItem);
 
 				if (itemGroups.Count == 1 && itemGroups[0] == BattlePassConstants.BATTLEPASS_GROUP)
 					return false; //This is battlepass util item
@@ -101,7 +101,7 @@ namespace Xsolla.Demo
 				}
 				else
 				{
-					var currentItemGroups = _inventoryDemoImplementation.GetCatalogGroupsByItem(item);
+					var currentItemGroups = SdkCatalogLogic.Instance.GetCatalogGroupsByItem(item);
 
 					foreach (var group in currentItemGroups)
 						itemGroups.Add(group);

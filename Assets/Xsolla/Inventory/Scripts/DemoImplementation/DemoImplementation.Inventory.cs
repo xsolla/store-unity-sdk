@@ -25,7 +25,7 @@ namespace Xsolla.Demo
 						IsConsumable = i.IsConsumable(),
 						InstanceId = i.instance_id,
 						RemainingUses = (uint?)i.quantity,
-						Attributes = ConvertAttributes(i.attributes)
+						Attributes = ItemAttributesConverter.ConvertAttributes(i.attributes)
 					}).ToList();
 				onSuccess?.Invoke(inventoryItems);
 			}, WrapErrorCallback(onError));

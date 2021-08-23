@@ -9,7 +9,9 @@ namespace Xsolla.Demo
 		{
 			if (!UserCatalog.IsExist)
 				UserCatalog.Instance.Init(InventoryDemo);
-			UserCatalog.Instance.UpdateItems(() =>
+
+			UserCatalog.Instance.UpdateItems(
+			onSuccess: () =>
 			{
 				if (UserInventory.IsExist)
 				{
@@ -17,7 +19,8 @@ namespace Xsolla.Demo
 					// This method used for fastest async image loading
 					StartLoadItemImages(UserCatalog.Instance.AllItems);
 				}
-			});
+			},
+			onError: StoreDemoPopup.ShowError);
 		}
 
 		partial void DestroyStore()
