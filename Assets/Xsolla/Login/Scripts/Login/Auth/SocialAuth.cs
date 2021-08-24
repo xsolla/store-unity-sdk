@@ -33,7 +33,7 @@ namespace Xsolla.Demo
 					return;
 				}
 
-				singlePageBrowser.BrowserClosedEvent += _ => BrowserCloseHandler();
+				singlePageBrowser.BrowserClosedEvent += () => BrowserCloseHandler();
 				singlePageBrowser.GetComponent<XsollaBrowser>().Navigate.UrlChangedEvent += UrlChangedHandler;
 			}
 			else

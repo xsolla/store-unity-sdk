@@ -246,11 +246,11 @@ namespace Xsolla.Demo
 
 			if (virtualItem.VirtualPrice == null)
 			{
-				buyButton.onClick = () => _demoImplementation.PurchaseForRealMoney(virtualItem, onPurchased);
+				buyButton.onClick = () => DemoShop.Instance.PurchaseForRealMoney(virtualItem, onPurchased);
 			}
 			else
 			{
-				buyButton.onClick = () => _demoImplementation.PurchaseForVirtualCurrency(virtualItem, onPurchased);
+				buyButton.onClick = () => DemoShop.Instance.PurchaseForVirtualCurrency(virtualItem, onPurchased);
 			}
 		}
 

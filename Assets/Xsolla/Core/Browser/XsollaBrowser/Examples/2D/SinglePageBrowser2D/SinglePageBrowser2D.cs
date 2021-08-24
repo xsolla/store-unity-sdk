@@ -11,15 +11,17 @@ namespace Xsolla.Core.Browser
 	[RequireComponent(typeof(BoxCollider2D))]
 	public class SinglePageBrowser2D : MonoBehaviour
 	{
-#if UNITY_EDITOR || UNITY_STANDALONE
+#pragma warning disable
+		[SerializeField] private Button CloseButton = default;
+		[SerializeField] private Button BackButton = default;
 		[SerializeField] private Vector2 Viewport = new Vector2(1920.0F, 1080.0F);
 		[SerializeField] private GameObject PreloaderPrefab = default;
 
-		public Button CloseButton;
-		public Button BackButton;
 		public event Action<IXsollaBrowser> BrowserInitEvent;
-		public event Action<IXsollaBrowser> BrowserClosedEvent;
+		public event Action BrowserClosedEvent;
+#pragma warning restore
 
+#if UNITY_EDITOR || UNITY_STANDALONE
 		XsollaBrowser xsollaBrowser;
 		Display2DBehaviour display;
 		KeyboardBehaviour2D keyboard;
@@ -164,7 +166,7 @@ namespace Xsolla.Core.Browser
 		private void OnDestroy()
 		{
 			StopAllCoroutines();
-			BrowserClosedEvent?.Invoke(xsollaBrowser);
+			BrowserClosedEvent?.Invoke();
 			if (mouse != null)
 			{
 				Destroy(mouse);
