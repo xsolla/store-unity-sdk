@@ -19,7 +19,7 @@ namespace Xsolla.Demo
 		private int _levelDelta;
 
 		protected override Action<CatalogItemModel> OnSuccessPurchase
-			=> (purchasedItem => ConsumeLevelUp(purchasedItem, _levelDelta, UpUserLevel, error => StoreDemoPopup.ShowError(error)));
+			=> (purchasedItem => ConsumeLevelUp(purchasedItem, _levelDelta, UpUserLevel, StoreDemoPopup.ShowError));
 
 		public void OnBattlePassDescriptionArrived(BattlePassDescription battlePassDescription)
 		{
@@ -110,7 +110,7 @@ namespace Xsolla.Demo
 					var useCount = unusedItem.RemainingUses.HasValue ? unusedItem.RemainingUses.Value : 0;
 
 					if (useCount != 0)
-						ConsumeInventoryItem(unusedItem, (int)useCount, UpUserLevel, error => StoreDemoPopup.ShowError(error));
+						ConsumeInventoryItem(unusedItem, (int)useCount, UpUserLevel, StoreDemoPopup.ShowError);
 					else
 						Debug.LogWarning($"Unused item with zero remaining uses");
 				});
@@ -157,17 +157,17 @@ namespace Xsolla.Demo
 		{
 			var onConsumeSuccess = new Action<InventoryItemModel>( _ =>
 			{
-				UserInventory.Instance.Refresh();
+				UserInventory.Instance.Refresh(onError: StoreDemoPopup.ShowError);
 				onSuccess?.Invoke(count);
 			});
 
-			var onConsumeError = new Action<InventoryItemModel>( _ =>
+			var onConsumeError = new Action<Error>( error =>
 			{
-				UserInventory.Instance.Refresh();
+				UserInventory.Instance.Refresh(onError: StoreDemoPopup.ShowError);
 				onError?.Invoke(new Error(errorMessage: "Could not consume level up"));
 			});
 
-			DemoController.Instance.InventoryDemo.ConsumeInventoryItem(item, count, onConsumeSuccess, onConsumeError, isConfirmationRequired: false);
+			DemoInventory.Instance.ConsumeInventoryItem(item, count, onConsumeSuccess, onConsumeError, isConfirmationRequired: false);
 		}
 
 		private void UpUserLevel(int levels)

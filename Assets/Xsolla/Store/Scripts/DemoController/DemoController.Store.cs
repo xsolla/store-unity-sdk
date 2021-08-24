@@ -15,7 +15,7 @@ namespace Xsolla.Demo
 			{
 				if (UserInventory.IsExist)
 				{
-					UserInventory.Instance.Refresh();
+					UserInventory.Instance.Refresh(onError: StoreDemoPopup.ShowError);
 					// This method used for fastest async image loading
 					StartLoadItemImages(UserCatalog.Instance.AllItems);
 				}

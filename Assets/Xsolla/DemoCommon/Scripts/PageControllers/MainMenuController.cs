@@ -84,7 +84,7 @@ namespace Xsolla.Demo
 			{
 				if (UserInventory.Instance.IsUpdated)
 				{
-					UserInventory.Instance.Refresh(() => SetMenuState(MenuState.Inventory));
+					UserInventory.Instance.Refresh(() => SetMenuState(MenuState.Inventory), StoreDemoPopup.ShowError);
 					PopupFactory.Instance.CreateWaiting().SetCloseCondition(() => UserInventory.Instance.IsUpdated);
 				}
 				else

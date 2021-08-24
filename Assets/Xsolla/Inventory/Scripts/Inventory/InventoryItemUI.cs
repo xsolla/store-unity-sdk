@@ -257,10 +257,10 @@ namespace Xsolla.Demo
 		{
 			var model = UserInventory.Instance.VirtualItems.First(i => i.Sku.Equals(_itemInformation.Sku));
 			DisableConsumeButton();
-			_demoImplementation.ConsumeInventoryItem(model, consumeButton.counter.GetValue(),
+			DemoInventory.Instance.ConsumeInventoryItem(model, consumeButton.counter.GetValue(),
 				_ =>
 				{
-					UserInventory.Instance.Refresh();
+					UserInventory.Instance.Refresh(onError: StoreDemoPopup.ShowError);
 					consumeButton.counter.ResetValue();
 				}, _ => EnableConsumeButton());
 		}

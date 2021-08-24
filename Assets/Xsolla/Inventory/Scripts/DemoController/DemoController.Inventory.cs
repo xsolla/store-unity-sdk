@@ -27,7 +27,7 @@ namespace Xsolla.Demo
 			{
 				UserCatalog.Instance.Init(InventoryDemo);
 				UserCatalog.Instance.UpdateItems(
-					onSuccess: () => UserInventory.Instance.Refresh(),
+					onSuccess: () => UserInventory.Instance.Refresh(onError: StoreDemoPopup.ShowError),
 					onError: error =>
 					{
 						Debug.LogError($"InventorySDK init failure: {error}");
