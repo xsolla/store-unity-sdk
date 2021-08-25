@@ -30,7 +30,7 @@ namespace Xsolla.Demo
 					return false;
 				else
 				{
-					var itemGroups = _inventoryDemoImplementation.GetCatalogGroupsByItem(item);
+					var itemGroups = SdkCatalogLogic.Instance.GetCatalogGroupsByItem(item);
 
 					if (itemGroups.Contains(BattlePassConstants.BATTLEPASS_GROUP))
 						return false; //This is battlepass exclusive item or battlepass util
@@ -50,7 +50,7 @@ namespace Xsolla.Demo
 			var items = UserCatalog.Instance.AllItems;
 			var groups = new List<string>();
 
-			items.ForEach(i => groups.AddRange(_inventoryDemoImplementation.GetCatalogGroupsByItem(i)));
+			items.ForEach(i => groups.AddRange(SdkCatalogLogic.Instance.GetCatalogGroupsByItem(i)));
 			groups = groups.Distinct().ToList();
 			groups.Remove(GROUP_ALL);
 

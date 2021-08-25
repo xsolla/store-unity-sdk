@@ -23,7 +23,7 @@ namespace Xsolla.Demo
 				inventoryItem = GetInventoryItem(skuOrName);
 
 				if (inventoryItem == null)
-					UserInventory.Instance.Refresh();
+					UserInventory.Instance.Refresh(onError: StoreDemoPopup.ShowError);
 
 			}while (inventoryItem == null && counter <= maxAttempts);
 

@@ -94,18 +94,18 @@ namespace Xsolla.Demo
 					ShowLevel(_characterLevel);
 
 					if (UserInventory.IsExist)
-						UserInventory.Instance.Refresh();
+						UserInventory.Instance.Refresh(onError: StoreDemoPopup.ShowError);
 				};
 
 				var inventoryDemo = DemoController.Instance.InventoryDemo;
 
 				if (inventoryDemo != null)
 				{
-					DemoController.Instance.InventoryDemo.ConsumeInventoryItem(
+					DemoInventory.Instance.ConsumeInventoryItem(
 						levelUpPayment,
-						(int?)LevelUpPrice,
+						(int)LevelUpPrice,
 						onSuccess: _ => onSuccessConsume.Invoke(),
-						onFailed: _ => Debug.Log("Could not consume virtual currency"));
+						onError: _ => Debug.Log("Could not consume virtual currency"));
 				}
 				else
 				{

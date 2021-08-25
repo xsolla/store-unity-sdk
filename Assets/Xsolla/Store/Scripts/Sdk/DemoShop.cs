@@ -42,7 +42,7 @@ namespace Xsolla.Demo
 					CompletePurchase(popupCallback: () => onSuccess?.Invoke(purchasedItems));
 				else
 				{
-					UserInventory.Instance.Refresh();
+					UserInventory.Instance.Refresh(onError: StoreDemoPopup.ShowError);
 					onSuccess?.Invoke(purchasedItems);
 				}
 			};
@@ -87,7 +87,7 @@ namespace Xsolla.Demo
 
 		private static void CompletePurchase(CatalogItemModel item = null, bool isShowResultToUser = true, Action popupCallback = null)
 		{
-			UserInventory.Instance.Refresh();
+			UserInventory.Instance.Refresh(onError: StoreDemoPopup.ShowError);
 
 			if (!isShowResultToUser)
 				return;

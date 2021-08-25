@@ -58,19 +58,19 @@ namespace Xsolla.Demo
 			var itemsUpdated = false;
 			var subscriptionsUpdated = false;
 
-			_demoImplementation.GetVirtualCurrencyBalance(balance =>
+			SdkInventoryLogic.Instance.GetVirtualCurrencyBalance(balance =>
 			{
 				Balance = balance;
 				balanceUpdated = true;
 			}, onError);
 
-			_demoImplementation.GetInventoryItems(items =>
+			SdkInventoryLogic.Instance.GetInventoryItems(items =>
 			{
 				VirtualItems = items.Where(i => !i.IsVirtualCurrency() && !i.IsSubscription()).ToList();
 				itemsUpdated = true;
 			}, onError);
 
-			_demoImplementation.GetUserSubscriptions(items =>
+			SdkInventoryLogic.Instance.GetUserSubscriptions(items =>
 			{
 				Subscriptions = items;
 				subscriptionsUpdated = true;
