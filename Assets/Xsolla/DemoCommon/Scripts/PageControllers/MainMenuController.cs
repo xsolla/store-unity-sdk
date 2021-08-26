@@ -118,8 +118,10 @@ namespace Xsolla.Demo
 			AttachButtonCallback(friendsButton,
 				() =>
 				{
-					UserFriends.Instance.UpdateFriends();
-					SetMenuState(MenuState.Friends, () => UserFriends.Instance.IsUpdated);
+					UserFriends.Instance.UpdateFriends(() =>
+					{
+						SetMenuState(MenuState.Friends, () => UserFriends.Instance.IsUpdated);
+					});
 				});
 		}
 
