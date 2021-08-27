@@ -6,14 +6,6 @@ namespace Xsolla.Demo
 {
 	public class StorePageStoreItemsController : BaseStorePageStoreItemsController
 	{
-		private IInventoryDemoImplementation _inventoryDemoImplementation;
-
-		protected override void Initialize()
-		{
-			base.Initialize();
-			_inventoryDemoImplementation = DemoController.Instance.InventoryDemo;
-		}
-
 		protected override IEnumerator FillGroups()
 		{
 			yield return base.FillGroups();

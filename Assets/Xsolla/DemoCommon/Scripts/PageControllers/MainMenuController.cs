@@ -22,36 +22,12 @@ namespace Xsolla.Demo
 
 		private void Start()
 		{
-			var demoType = GetDemoType();
-
-			switch (demoType)
-			{
-				case DemoType.Login:
-					InitLoginDemo();
-					break;
-				case DemoType.Store:
-					InitStoreDemo();
-					break;
-				case DemoType.Inventory:
-					InitInventoryDemo();
-					break;
-				default:
-					Debug.LogError($"Unexpected demo type: '{demoType}'");
-					break;
-			}
-		}
-
-		private DemoType GetDemoType()
-		{
-			var isInventoryDemoAvailable = DemoController.Instance.InventoryDemo != null;
-			var isStoreDemoAvailable = DemoController.Instance.StoreDemo != null;
-
-			if (isInventoryDemoAvailable && isStoreDemoAvailable)
-				return DemoType.Store;
-			else if (isInventoryDemoAvailable && !isStoreDemoAvailable)
-				return DemoType.Inventory;
-			else/*if (!isInventoryDemoAvailable && !isStoreDemoAvailable)*/
-				return DemoType.Login;
+			if (DemoMarker.IsStoreDemo)
+				InitStoreDemo();
+			else if (DemoMarker.IsInventoryDemo)
+				InitInventoryDemo();
+			else/*if (DemoMarker.IsLoginDemo)*/
+				InitLoginDemo();
 		}
 
 		private void InitLoginDemo()
@@ -131,11 +107,6 @@ namespace Xsolla.Demo
 
 			AttachButtonCallback(logoutButton,
 				() => SetMenuState(MenuState.Authorization, () => !WebRequestHelper.Instance.IsBusy()));
-		}
-
-		private enum DemoType
-		{
-			Login, Store, Inventory
 		}
 	}
 }

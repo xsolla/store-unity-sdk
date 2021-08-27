@@ -8,12 +8,10 @@ namespace Xsolla.Demo
 {
 	public class InventoryPageStoreItemsController : BasePageStoreItemsController
 	{
-		private IInventoryDemoImplementation _inventoryDemoImplementation;
 		private string _lastGroup;
 
 		protected override void Initialize()
 		{
-			_inventoryDemoImplementation = DemoController.Instance.InventoryDemo;
 			UserInventory.Instance.RefreshEvent += OnUserInventoryRefresh;
 		}
 
@@ -31,7 +29,7 @@ namespace Xsolla.Demo
 
 		protected override void InitializeItemUI(GameObject item, ItemModel model)
 		{
-			item.GetComponent<InventoryItemUI>().Initialize(model, _inventoryDemoImplementation);
+			item.GetComponent<InventoryItemUI>().Initialize(model);
 		}
 
 		protected override IEnumerator FillGroups()

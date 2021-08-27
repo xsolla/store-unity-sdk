@@ -77,7 +77,8 @@ namespace Xsolla.Demo
 			return false;
 		}
 
-		protected abstract void Initialize();
+		protected virtual void Initialize() { }
+
 		protected abstract void InitializeItemUI(GameObject item, ItemModel model);
 		protected abstract List<ItemModel> GetItemsByGroup(string groupName);
 		protected abstract List<string> GetGroups();

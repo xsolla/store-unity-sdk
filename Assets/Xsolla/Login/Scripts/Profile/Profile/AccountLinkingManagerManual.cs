@@ -75,7 +75,7 @@ namespace Xsolla.Demo
 		{
 			Token.Instance = Token.Create(newToken);
 
-			if (DemoController.Instance.InventoryDemo == null)
+			if (!DemoMarker.IsInventoryPartAvailable)
 				FindObjectOfType<UserInfoDrawer>()?.Refresh();
 			else
 				UserInventory.Instance.Refresh(onSuccess: () => GoToInventory(linkingResult), onError: error => { linkingResult.IsLinked = false; StoreDemoPopup.ShowError(error); });

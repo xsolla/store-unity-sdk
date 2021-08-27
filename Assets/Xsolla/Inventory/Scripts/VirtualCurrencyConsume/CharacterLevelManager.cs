@@ -97,9 +97,7 @@ namespace Xsolla.Demo
 						UserInventory.Instance.Refresh(onError: StoreDemoPopup.ShowError);
 				};
 
-				var inventoryDemo = DemoController.Instance.InventoryDemo;
-
-				if (inventoryDemo != null)
+				if (DemoMarker.IsInventoryPartAvailable)
 				{
 					DemoInventory.Instance.ConsumeInventoryItem(
 						levelUpPayment,

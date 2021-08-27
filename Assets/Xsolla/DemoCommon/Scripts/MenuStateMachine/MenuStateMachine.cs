@@ -74,7 +74,7 @@ namespace Xsolla.Demo
 				{MenuState.LoginSettingsError, loginSettingsErrorPrefab},
 			};
 
-			if (DemoController.Instance.StoreDemo == null && DemoController.Instance.InventoryDemo == null)
+			if (DemoMarker.IsLoginDemo)
 				_stateMachine[MenuState.Character] = characterMenuPrefabLoginSDK;
 
 			if (_stateMachine[initialState] == null)

@@ -9,10 +9,6 @@ namespace Xsolla.Demo
 		[SerializeField]private MenuStateMachine stateMachine = default;
 		[SerializeField]private UrlContainer _urlContainer = default;
 
-		public ILoginDemoImplementation LoginDemo { get; private set; }
-		public IStoreDemoImplementation StoreDemo { get; private set; }
-		public IInventoryDemoImplementation InventoryDemo { get; private set; }
-
 		public UrlContainer UrlContainer => _urlContainer;
 		public bool IsTutorialAvailable { get; private set; } = false;
 		public bool IsAccessTokenAuth => XsollaSettings.AuthorizationType == AuthorizationType.AccessToken;
@@ -28,12 +24,8 @@ namespace Xsolla.Demo
 			base.Init();
 			XsollaWebCallbacks.Instance.Init();
 
-			LoginDemo = GetComponent<ILoginDemoImplementation>();
-			StoreDemo = GetComponent<IStoreDemoImplementation>();
-			InventoryDemo = GetComponent<IInventoryDemoImplementation>();
-
 			StateChangingEvent += OnStateChangingEvent;
-			InitInventory();
+			InitTutorial();
 		}
 
 		private void OnStateChangingEvent(MenuState lastState, MenuState newState)
@@ -71,6 +63,7 @@ namespace Xsolla.Demo
 				Destroy(UserFriends.Instance.gameObject);
 			if(PopupFactory.IsExist)
 				Destroy(PopupFactory.Instance.gameObject);
+
 			base.OnDestroy();
 		}
 
@@ -78,6 +71,7 @@ namespace Xsolla.Demo
 		{
 			if (stateMachine != null)
 				stateMachine.SetState(state);
+
 			return null;
 		}
 
@@ -107,7 +101,7 @@ namespace Xsolla.Demo
 
 		public void ShowTutorial(bool showWelcomeMessage) => ManualStartTutorial(showWelcomeMessage);
 
-		partial void InitInventory();
+		partial void InitTutorial();
 		partial void AutoStartTutorial();
 		partial void ManualStartTutorial(bool showWelcomeMessage);
 

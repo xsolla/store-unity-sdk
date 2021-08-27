@@ -28,7 +28,6 @@ namespace Xsolla.Demo
 #pragma warning restore 0414
 
 		private ItemModel _itemInformation;
-		private IInventoryDemoImplementation _demoImplementation;
 
 		public event Action<ItemModel> OnInitialized;
 
@@ -37,9 +36,8 @@ namespace Xsolla.Demo
 			DisableConsumeButton();
 		}
 
-		public void Initialize(ItemModel itemInformation, IInventoryDemoImplementation demoImplementation)
+		public void Initialize(ItemModel itemInformation)
 		{
-			_demoImplementation = demoImplementation;
 			_itemInformation = itemInformation;
 
 			if (itemName != null)
