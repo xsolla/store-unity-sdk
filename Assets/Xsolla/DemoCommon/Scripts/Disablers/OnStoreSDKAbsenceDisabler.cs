@@ -6,7 +6,7 @@ namespace Xsolla.Demo
 	{
 		private void Awake()
 		{
-			if (DemoController.Instance.StoreDemo == null)
+			if (!DemoMarker.IsStorePartAvailable)
 				this.gameObject.SetActive(false);
 		}
 	}

@@ -1,11 +1,9 @@
-using System;
 using UnityEngine;
 using Xsolla.Core;
-using Xsolla.Login;
 
 namespace Xsolla.Demo
 {
-	public partial class DemoImplementation : MonoBehaviour
+	public class XsollaSettingsValidator : MonoBehaviour
 	{
 		private void Start()
 		{
@@ -49,15 +47,6 @@ namespace Xsolla.Demo
 			var proxyScript = proxyObject.AddComponent<LoginSettingsErrorHolder>();
 			proxyScript.LoginSettingsError = errorMessage;
 			DemoController.Instance.SetState(MenuState.LoginSettingsError);
-		}
-
-		private Action<Error> WrapErrorCallback(Action<Error> onError)
-		{
-			return error =>
-			{
-				StoreDemoPopup.ShowError(error);
-				onError?.Invoke(error);
-			};
 		}
 	}
 }

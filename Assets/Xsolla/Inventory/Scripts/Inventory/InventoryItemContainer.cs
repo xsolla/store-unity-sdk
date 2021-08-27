@@ -9,17 +9,11 @@ namespace Xsolla.Demo
 		[SerializeField] private Transform itemParent = default;
 
 		private List<GameObject> _items;
-		private IInventoryDemoImplementation _demoImplementation;
 
 		private void Awake()
 		{
 			_items = new List<GameObject>();
 			UserInventory.Instance.UpdateItemsEvent += RefreshInternal;
-		}
-
-		public void SetStoreImplementation(IInventoryDemoImplementation demoImplementation)
-		{
-			_demoImplementation = demoImplementation;
 		}
 
 		public void Refresh()
@@ -42,7 +36,7 @@ namespace Xsolla.Demo
 		private void AddItem(InventoryItemModel itemInformation)
 		{
 			var newItem = Instantiate(itemPrefab, itemParent);
-			newItem.GetComponent<InventoryItemUI>().Initialize(itemInformation, _demoImplementation);
+			newItem.GetComponent<InventoryItemUI>().Initialize(itemInformation);
 			_items.Add(newItem);
 		}
 	}

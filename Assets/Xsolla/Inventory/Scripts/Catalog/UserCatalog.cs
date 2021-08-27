@@ -16,8 +16,6 @@ namespace Xsolla.Demo
 		public event Action<List<CatalogBundleItemModel>> UpdateBundlesEvent;
 		public event Action<List<CatalogSubscriptionItemModel>> UpdateSubscriptionsEvent;
 
-		private IInventoryDemoImplementation _inventoryDemoImplementation;
-
 		public List<VirtualCurrencyModel> VirtualCurrencies { get; private set; }
 		public List<CatalogItemModel> AllItems { get; private set; }
 		public List<CatalogVirtualItemModel> VirtualItems { get; private set; }
@@ -29,9 +27,9 @@ namespace Xsolla.Demo
 		public bool HasBundles => Bundles.Any();
 		public bool HasCurrencyPackages => CurrencyPackages.Any();
 
-		public void Init(IInventoryDemoImplementation inventoryDemo)
+		public override void Init()
 		{
-			_inventoryDemoImplementation = inventoryDemo;
+			base.Init();
 			VirtualCurrencies = new List<VirtualCurrencyModel>();
 			AllItems = new List<CatalogItemModel>();
 			VirtualItems = new List<CatalogVirtualItemModel>();
@@ -54,12 +52,6 @@ namespace Xsolla.Demo
 				isError = true;
 				onError?.Invoke(error);
 			};
-			if (_inventoryDemoImplementation == null)
-			{
-				Debug.LogError("Can not update catalog without demo implementation");
-				onSuccess?.Invoke();
-				yield break;
-			}
 
 			yield return StartCoroutine(UpdateVirtualCurrenciesCoroutine(errorCallback));
 			yield return StartCoroutine(UpdateVirtualItemsCoroutine(errorCallback));

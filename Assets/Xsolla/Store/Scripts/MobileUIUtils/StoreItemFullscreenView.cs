@@ -18,7 +18,7 @@ namespace Xsolla.Demo
 			}
 
 			_instance.ShowUI(true);
-			_instance.FullscreenUI.GetComponent<StoreItemUI>().Initialize(itemModel, DemoController.Instance.StoreDemo);
+			_instance.FullscreenUI.GetComponent<StoreItemUI>().Initialize(itemModel);
 		}
 
 		private void Awake()
