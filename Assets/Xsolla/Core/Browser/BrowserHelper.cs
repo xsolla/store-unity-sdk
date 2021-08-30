@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using UnityEngine;
 using Xsolla.Core.Browser;
 
@@ -64,14 +63,20 @@ namespace Xsolla.Core
 			}
 #endif
 			Open(url + token, inAppBrowserEnabled);
-			TrackRestrictedPaymentMethod(onRestrictedPaymentMethod);
-			UpdateBrowserSize();
+
+			if (inAppBrowserEnabled)
+			{
+				TrackRestrictedPaymentMethod(onRestrictedPaymentMethod);
+				UpdateBrowserSize();
+			}
 		}
 
 		public void Open(string url, bool inAppBrowserEnabled = false)
 		{
 			if (EnvironmentDefiner.IsStandaloneOrEditor && inAppBrowserEnabled)
+			{
 				OpenInAppBrowser(url);
+			}
 			else if (EnvironmentDefiner.IsWebGL)
 			{
 #pragma warning disable 0618
@@ -79,7 +84,9 @@ namespace Xsolla.Core
 #pragma warning restore 0618
 			}
 			else
+			{
 				Application.OpenURL(url);
+			}
 		}
 
 		public void OpenInAppBrowser(string url, Action onClosed, Action<string> onParameter, ParseParameter parameterToLook)
@@ -191,7 +198,7 @@ namespace Xsolla.Core
 
 		private void TrackRestrictedPaymentMethod(Action<int> onRestrictedPaymentMethod)
 		{
-			BrowserHelper.Instance.GetLastBrowser().BrowserInitEvent += activeBrowser =>
+			Instance.GetLastBrowser().BrowserInitEvent += activeBrowser =>
 			{
 				activeBrowser.Navigate.UrlChangedEvent += (browser, newUrl) =>
 				{
