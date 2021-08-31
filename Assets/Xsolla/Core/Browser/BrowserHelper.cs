@@ -64,11 +64,13 @@ namespace Xsolla.Core
 #endif
 			Open(url + token, inAppBrowserEnabled);
 
+#if UNITY_STANDALONE || UNITY_EDITOR
 			if (inAppBrowserEnabled)
 			{
 				TrackRestrictedPaymentMethod(onRestrictedPaymentMethod);
 				UpdateBrowserSize();
 			}
+#endif
 		}
 
 		public void Open(string url, bool inAppBrowserEnabled = false)
