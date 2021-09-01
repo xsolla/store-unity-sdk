@@ -21,9 +21,20 @@ namespace Xsolla.Demo
 		{
 			var onConfirmation = new Action(() =>
 			{
+				var isPurchaseComplete = false;
+				PopupFactory.Instance.CreateWaiting().SetCloseCondition(() => isPurchaseComplete);
+
 				SdkPurchaseLogic.Instance.PurchaseForVirtualCurrency(item,
-					OnSuccessPurchase(onSuccess, isShowResultToUser),
-					OnPurchaseError(onError));
+					itemModel =>
+					{
+						isPurchaseComplete = true;
+						OnSuccessPurchase(onSuccess, isShowResultToUser)?.Invoke(itemModel);
+					},
+					error =>
+					{
+						isPurchaseComplete = true;
+						OnPurchaseError(onError)?.Invoke(error);
+					});
 			});
 
 			if (isConfirmationRequired)

@@ -40,9 +40,14 @@ namespace Xsolla.Demo
 				XsollaSettings.StoreProjectId,
 				item.Sku,
 				item.VirtualPrice?.Key,
-				onSuccess: _ =>
+				data =>
 				{
-					onSuccess?.Invoke(item);
+					OrderTracking.Instance.AddOrderForTrackingUntilDone(
+						XsollaSettings.StoreProjectId,
+						data.order_id,
+						() => onSuccess?.Invoke(item),
+						onError
+					);
 				},
 				onError);
 		}
