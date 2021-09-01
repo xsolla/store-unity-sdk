@@ -4,6 +4,8 @@ namespace Xsolla.Core
 {
 	public interface IInAppBrowser
 	{
+		bool IsOpened { get; }
+		
 		void Open(string url);
 
 		void Close(float delay = 0f);
