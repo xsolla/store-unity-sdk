@@ -101,6 +101,7 @@ namespace Xsolla.Demo
 
 		private void HandleRestrictedPaymentMethod(PurchaseData data, int methodId, RestrictedPaymentAllower restrictedPaymentAllower, Action onSuccess, Action<Error> onError)
 		{
+#if UNITY_STANDALONE || UNITY_EDITOR
 			OrderTracking.Instance.RemoveOrderFromTracking(data.order_id);
 
 			Action<bool> onAllowed = allowed =>
@@ -123,6 +124,7 @@ namespace Xsolla.Demo
 			{
 				onAllowed.Invoke(true);
 			}
+#endif
 		}
 	}
 }
