@@ -137,11 +137,11 @@ namespace Xsolla.Store
 		/// <seealso cref="BrowserHelper"/>
 		public void OpenPurchaseUi(PurchaseData purchaseData, bool forcePlatformBrowser = false, Action<int> onRestrictedPaymentMethod = null)
 		{
-			string url = (XsollaSettings.IsSandbox) ? URL_PAYSTATION_UI_IN_SANDBOX_MODE : URL_PAYSTATION_UI;
+			string url = XsollaSettings.IsSandbox ? URL_PAYSTATION_UI_IN_SANDBOX_MODE : URL_PAYSTATION_UI;
 			BrowserHelper.Instance.OpenPurchase(
-				url, purchaseData.token,
-				XsollaSettings.IsSandbox,
-				XsollaSettings.InAppBrowserEnabled && !forcePlatformBrowser,
+				url, 
+				purchaseData.token,
+				forcePlatformBrowser,
 				onRestrictedPaymentMethod);
 		}
 

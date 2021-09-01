@@ -111,8 +111,9 @@ namespace Xsolla.Demo
 					StoreDemoPopup.ShowSuccess(null, popupCallback);
 			};
 
-			if (EnvironmentDefiner.IsStandaloneOrEditor && BrowserHelper.Instance.IsOpened)
-				BrowserHelper.Instance.AddOnBrowserClose(callback);
+			var inAppBrowser = BrowserHelper.Instance.InAppBrowser;
+			if (inAppBrowser != null)
+				inAppBrowser.AddCloseHandler(callback);
 			else
 				callback.Invoke();
 		}
