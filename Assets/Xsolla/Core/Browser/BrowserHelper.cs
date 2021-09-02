@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-#if UNITY_WEBGL
+#if UNITY_WEBGL || UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
 using System.Runtime.InteropServices;
 #endif
 
@@ -15,10 +15,10 @@ namespace Xsolla.Core
 		{
 			get
 			{
+#if UNITY_EDITOR || UNITY_STANDALONE
 				if (_inAppBrowser != null)
 					return _inAppBrowser;
 
-#if UNITY_EDITOR || UNITY_STANDALONE
 				if (XsollaSettings.InAppBrowserEnabled)
 					_inAppBrowser = GetComponent<IInAppBrowser>();
 #endif
