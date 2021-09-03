@@ -121,11 +121,14 @@ namespace Xsolla.Core.Popup
 			bundlePriceWithoutDiscount.text = PriceFormatter.FormatPrice(contentCurrency, contentPrice);
 		}
 
-		private void LoadImageCallback(string url, Sprite image)
+		private void LoadImageCallback(string url, Sprite sprite)
 		{
+			if (!bundleImage)
+				return;
+			
 			loadingCircle.SetActive(false);
 			bundleImage.gameObject.SetActive(true);
-			bundleImage.sprite = image;
+			bundleImage.sprite = sprite;
 		}
 
 		private void InitializeVcImages(CatalogBundleItemModel bundle)
@@ -136,8 +139,11 @@ namespace Xsolla.Core.Popup
 			{
 				ImageLoader.Instance.GetImageAsync(currency.ImageUrl, (_, sprite) =>
 				{
-					bundlePriceVcImage.sprite = sprite;
-					bundlePriceVcWithoutDiscountImage.sprite = sprite;
+					if (bundlePriceVcImage)
+					{
+						bundlePriceVcImage.sprite = sprite;
+						bundlePriceVcWithoutDiscountImage.sprite = sprite;
+					}
 				});
 			}
 			else

@@ -68,6 +68,9 @@ namespace Xsolla.Demo
 
 		private void LoadImageCallback(string url, Sprite image)
 		{
+			if (!itemImage)
+				return;
+			
 			loadingCircle.SetActive(false);
 			itemImage.gameObject.SetActive(true);
 			itemImage.sprite = image;

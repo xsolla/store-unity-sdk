@@ -32,7 +32,8 @@ namespace Xsolla.Demo
 
 		void LoadImageCallback(string url, Sprite image)
 		{
-			itemImage.sprite = image;
+			if (itemImage)
+				itemImage.sprite = image;
 		}
 	}
 }
