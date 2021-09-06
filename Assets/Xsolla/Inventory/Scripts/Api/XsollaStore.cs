@@ -1,7 +1,5 @@
 using JetBrains.Annotations;
-using System.Collections.Generic;
 using System.Text;
-using UnityEngine;
 using Xsolla.Core;
 
 namespace Xsolla.Store
