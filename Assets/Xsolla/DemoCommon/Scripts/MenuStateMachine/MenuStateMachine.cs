@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -6,7 +5,7 @@ using Xsolla.Core.Popup;
 
 namespace Xsolla.Demo
 {
-	public partial class MenuStateMachine : MonoBehaviour, IMenuStateMachine
+	public partial class MenuStateMachine : MonoBehaviour
 	{
 		/// <summary>
 		/// Changing state delegate.
@@ -14,10 +13,11 @@ namespace Xsolla.Demo
 		/// <param name="lastState">Previous state of state machine</param>
 		/// <param name="newState">New/Current state of state machine</param>
 		public delegate void StateChangeDelegate(MenuState lastState, MenuState newState);
+		//TEXTREVIEW
 		/// <summary>
-		/// Invoked before state is changing.
+		/// Invoked after state changed.
 		/// </summary>
-		public event StateChangeDelegate StateChangingEvent;
+		public event StateChangeDelegate StateChangedEvent;
 
 		[SerializeField] private Canvas canvas = default;
 		[SerializeField] private MenuState initialState = default;
@@ -44,8 +44,11 @@ namespace Xsolla.Demo
 
 		private Dictionary<MenuState, GameObject> _stateMachine;
 		private readonly List<MenuState> _stateTrace = new List<MenuState>();
-		private MenuState _state;
+		private MenuState _currentState;
 		private GameObject _stateObject;
+
+		public MenuState MenuState => _currentState;
+		public GameObject StateObject => _stateObject;
 
 		private void Awake()
 		{
@@ -80,56 +83,68 @@ namespace Xsolla.Demo
 			if (_stateMachine[initialState] == null)
 			{
 				PopupFactory.Instance.CreateError().
-					SetMessage("Prefab object is null for initial state. Select other initial state or assign prefab object").
+					SetMessage("Prefab object is null for MenuStateMachine's initial state. Select other initial state or assign prefab object").
 					SetCallback(() => Destroy(gameObject, 0.1F));
-			} else
-				SetState(initialState);
+			}
 		}
 
-		public MenuState MenuState => _state;
+		public GameObject SetInitialState()
+		{
+			ClearTrace();
+			return SetState(initialState, addToTrace: false);
+		}
 
 		public GameObject SetState(MenuState state)
 		{
-			MenuState oldState = _state;
+			return SetState(state, addToTrace: true);
+		}
 		
-			if (_state != state)
+		private GameObject SetState(MenuState state, bool addToTrace)
+		{
+			MenuState previousState = _currentState;
+
+			if (addToTrace && _currentState != state)
 			{
-				_stateTrace.Add(_state);
-				_state = state;
+				_stateTrace.Add(_currentState);
 			}
-		
+
+			_currentState = state;
+
 			if (_stateObject != null)
 			{
 				Destroy(_stateObject);
 				_stateObject = null;
 			}
 
-			if (_stateMachine[_state] != null)
+			if (_stateMachine[state] != null)
 			{
-				StateChangingEvent?.Invoke(oldState, _state);
-				_stateObject = Instantiate(_stateMachine[_state], canvas.transform);
-				CheckAuthorizationState(_state, _stateObject);
-				HandleSomeCases(oldState, _state);
+				_stateObject = Instantiate(_stateMachine[state], canvas.transform);
+				ClearTraceIfNeeded(previousState, state);
+				StateChangedEvent?.Invoke(previousState, state);
 			}
 			else
 			{
-				Debug.LogError($"Prefab object is null for state = {_state.ToString()}. Changing state to initial.");
-				ClearTrace();
-				SetState(initialState);
+				Debug.LogError($"Prefab object is null for state = {state.ToString()}. Changing state to initial.");
+				SetInitialState();
 			}
 
 			return _stateObject;
 		}
-	
+
 		public void SetPreviousState()
 		{
-			if(CheckHardcodedBackCases()) return;
-			if (_stateTrace.Any())
+			if (_currentState.IsPostAuthState() &&
+				_currentState != MenuState.Main &&
+				_currentState != MenuState.BuyCurrency &&
+				_currentState != MenuState.Cart)
+			{
+				SetState(MenuState.Main);
+			}
+			else if (_stateTrace.Any())
 			{
 				var state = _stateTrace.Last();
 				_stateTrace.RemoveAt(_stateTrace.Count - 1);
-				_state = state;
-				SetState(state);
+				SetState(state, addToTrace: false);
 			}
 			else
 				SetState(initialState);
@@ -145,64 +160,16 @@ namespace Xsolla.Demo
 			_stateTrace.Clear();
 		}
 
-		private bool CheckHardcodedBackCases()
-		{
-			if (_state.IsPostAuthState() && _state != MenuState.Main && _state != MenuState.BuyCurrency && _state != MenuState.Cart)
-			{
-				SetState(MenuState.Main);
-				return true;
-			}
-			return false;
-		}
-
-		private void HandleSomeCases(MenuState lastState, MenuState newState)
+		private void ClearTraceIfNeeded(MenuState lastState, MenuState newState)
 		{
 			if (lastState == newState) return;
 			if (lastState == MenuState.Cart && newState == MenuState.Inventory)
 				ClearTrace();
-			if (newState == MenuState.Main || newState == MenuState.Authorization || newState == MenuState.Friends || newState == MenuState.SocialFriends)
+			if (newState.IsAuthState() ||
+				newState == MenuState.Main ||
+				newState == MenuState.Friends ||
+				newState == MenuState.SocialFriends)
 				ClearTrace();
-			if (newState == MenuState.Authorization)
-			{
-				var proxyScript = FindObjectOfType<LoginProxyActionHolder>();
-				var loginEnterScript = _stateObject.GetComponent<LoginPageEnterController>();
-
-				if (proxyScript != null && loginEnterScript != null)
-					loginEnterScript.RunLoginProxyAction(proxyScript.ProxyAction, proxyScript.ProxyActionArgument);
-
-				if (proxyScript != null)
-					Destroy(proxyScript.gameObject);
-			}
-			if (newState == MenuState.LoginSettingsError)
-			{
-				var proxyScript = FindObjectOfType<LoginSettingsErrorHolder>();
-				var errorShower = _stateObject.GetComponent<LoginPageErrorShower>();
-
-				if (proxyScript != null && errorShower != null)
-					errorShower.ShowError(proxyScript.LoginSettingsError);
-
-				if (proxyScript != null)
-					Destroy(proxyScript.gameObject);
-			}
-
-			HandleSomeCasesMobile(lastState, newState);
-		}
-
-		private void HandleSomeCasesMobile(MenuState lastState, MenuState newState)
-		{
-			if (lastState == MenuState.ChangePassword && newState == MenuState.Authorization)
-			{
-				var loginEnterScript = _stateObject.GetComponent<LoginPageEnterControllerMobile>();
-				if (loginEnterScript != null && LoginPageChangePasswordControllerMobile.IsBackNavigationTriggered)
-					loginEnterScript.ShowDefaultLoginWidget(true);
-			}
-
-			if (lastState == MenuState.Registration && newState == MenuState.Authorization)
-			{
-				var loginEnterScript = _stateObject.GetComponent<LoginPageEnterControllerMobile>();
-				if (loginEnterScript != null && LoginPageCreateControllerMobile.IsLoginNavigationTriggered)
-					loginEnterScript.ShowDefaultLoginWidget(true);
-			}
 		}
 	}
 }

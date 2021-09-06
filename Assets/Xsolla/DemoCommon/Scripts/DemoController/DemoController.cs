@@ -4,63 +4,33 @@ using Xsolla.Core.Popup;
 
 namespace Xsolla.Demo
 {
-	public partial class DemoController : MonoSingleton<DemoController>, IMenuStateMachine
+	public partial class DemoController : MonoSingleton<DemoController>
 	{
 		[SerializeField]private MenuStateMachine stateMachine = default;
-		[SerializeField]private UrlContainer _urlContainer = default;
+		[SerializeField]private UrlContainer urlContainer = default;
 
-		public UrlContainer UrlContainer => _urlContainer;
+		public UrlContainer UrlContainer => urlContainer;
 		public bool IsTutorialAvailable { get; private set; } = false;
 		public bool IsAccessTokenAuth => XsollaSettings.AuthorizationType == AuthorizationType.AccessToken;
-
-		public event MenuStateMachine.StateChangeDelegate StateChangingEvent
-		{
-			add => stateMachine.StateChangingEvent += value;
-			remove => stateMachine.StateChangingEvent -= value;
-		}
 
 		public override void Init()
 		{
 			base.Init();
 			XsollaWebCallbacks.Instance.Init();
 
-			StateChangingEvent += OnStateChangingEvent;
+			stateMachine.StateChangedEvent += OnStateChanged;
 			InitTutorial();
 		}
 
-		private void OnStateChangingEvent(MenuState lastState, MenuState newState)
+		private void Start()
 		{
-			if (lastState.IsPostAuthState() && newState.IsAuthState())
-			{
-				if(UserFriends.IsExist)
-					Destroy(UserFriends.Instance.gameObject);
-
-				DestroyInventory();
-				DestroyStore();
-
-				Token.Instance = null;
-			}
-
-			if (lastState.IsAuthState() && newState == MenuState.Main)
-			{
-				UpdateCatalogAndInventory();
-				AutoStartTutorial();
-			}
-		}
-
-		private void UpdateCatalogAndInventory()
-		{
-			UpdateStore();
-			UpdateInventory();
+			stateMachine.SetInitialState();
 		}
 
 		protected override void OnDestroy()
 		{
-			DestroyStore();
-			DestroyInventory();
+			DestroyInstances();
 
-			if(UserFriends.IsExist)
-				Destroy(UserFriends.Instance.gameObject);
 			if(PopupFactory.IsExist)
 				Destroy(PopupFactory.Instance.gameObject);
 
@@ -100,6 +70,31 @@ namespace Xsolla.Demo
 		}
 
 		public void ShowTutorial(bool showWelcomeMessage) => ManualStartTutorial(showWelcomeMessage);
+
+		private void OnStateChanged(MenuState lastState, MenuState newState)
+		{
+			if (lastState.IsPostAuthState() && newState.IsAuthState())
+			{
+				DestroyInstances();
+				Token.Instance = null;
+			}
+
+			if (lastState.IsAuthState() && newState == MenuState.Main)
+			{
+				UpdateStore();
+				UpdateInventory();
+				AutoStartTutorial();
+			}
+		}
+
+		private void DestroyInstances()
+		{
+			if (UserFriends.IsExist)
+				Destroy(UserFriends.Instance.gameObject);
+
+			DestroyInventory();
+			DestroyStore();
+		}
 
 		partial void InitTutorial();
 		partial void AutoStartTutorial();
