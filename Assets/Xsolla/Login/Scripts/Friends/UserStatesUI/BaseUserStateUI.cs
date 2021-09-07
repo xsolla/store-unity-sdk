@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Xsolla.Core.Popup;
 
 namespace Xsolla.Demo
 {
@@ -62,11 +63,17 @@ namespace Xsolla.Demo
 	
 		private void BlockUserMethod(Action callback = null)
 		{
-			UserFriends.Instance.BlockUser(Friend.FriendModel, _ =>
+			PopupFactory.Instance.CreateConfirmation()
+			.SetMessage($"Block {Friend.FriendModel.Nickname}?")
+			.SetConfirmButtonText("BLOCK")
+			.SetConfirmCallback(() =>
 			{
-				SetState(UserState.Blocked);
-				callback?.Invoke();
-			}, StoreDemoPopup.ShowError);
+				UserFriends.Instance.BlockUser(Friend.FriendModel, _ =>
+				{
+					SetState(UserState.Blocked);
+					callback?.Invoke();
+				}, StoreDemoPopup.ShowError);
+			});
 		}
 	
 		private void UnblockUserMethod(Action callback = null)
@@ -139,11 +146,17 @@ namespace Xsolla.Demo
 		{
 			ActionsButton.AddAction(DELETE_USER_OPTION, () =>
 			{
-				UserFriends.Instance.RemoveFriend(Friend.FriendModel, _ =>
+				PopupFactory.Instance.CreateConfirmation()
+				.SetMessage($"Remove {Friend.FriendModel.Nickname} from the friend list?")
+				.SetConfirmButtonText("REMOVE")
+				.SetConfirmCallback(() =>
 				{
-					SetState(UserState.Initial);
-					callback?.Invoke();
-				}, StoreDemoPopup.ShowError);
+					UserFriends.Instance.RemoveFriend(Friend.FriendModel, _ =>
+					{
+						SetState(UserState.Initial);
+						callback?.Invoke();
+					}, StoreDemoPopup.ShowError);
+				});
 			});
 		}
 	}
