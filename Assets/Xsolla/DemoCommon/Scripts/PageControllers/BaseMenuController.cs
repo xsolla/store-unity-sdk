@@ -20,7 +20,7 @@ namespace Xsolla.Demo
 		{
 			if (!string.IsNullOrEmpty(url))
 			{
-				AttachButtonCallback(button, () => BrowserHelper.Instance.Open(url));
+				AttachButtonCallback(button, () => BrowserHelper.Instance.Open(url, true));
 			}
 		}
 	

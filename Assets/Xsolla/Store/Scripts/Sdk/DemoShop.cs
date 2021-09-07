@@ -70,9 +70,9 @@ namespace Xsolla.Demo
 			restrictedPaymentAllower.OnRestrictedPayment = _ =>
 			{
 				PopupFactory.Instance.CreateConfirmation()
-				.SetMessage("This payment method is not available for in-game browser. Open browser app to continue purchase?")
-				.SetConfirmCallback(() => restrictedPaymentAllower.OnAllowed?.Invoke(true))
-				.SetCancelCallback(() => restrictedPaymentAllower.OnAllowed?.Invoke(false));
+					.SetMessage("This payment method is not available for in-game browser. Open browser app to continue purchase?")
+					.SetConfirmCallback(() => restrictedPaymentAllower.OnAllowed?.Invoke(true))
+					.SetCancelCallback(() => restrictedPaymentAllower.OnAllowed?.Invoke(false));
 			};
 
 			return restrictedPaymentAllower;
@@ -111,8 +111,9 @@ namespace Xsolla.Demo
 					StoreDemoPopup.ShowSuccess(null, popupCallback);
 			};
 
-			if (EnvironmentDefiner.IsStandaloneOrEditor && BrowserHelper.Instance.IsOpened)
-				BrowserHelper.Instance.AddOnBrowserClose(callback);
+			var inAppBrowser = BrowserHelper.Instance.InAppBrowser;
+			if (inAppBrowser != null && inAppBrowser.IsOpened)
+				inAppBrowser.AddCloseHandler(callback);
 			else
 				callback.Invoke();
 		}

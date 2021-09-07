@@ -106,7 +106,7 @@ namespace Xsolla.Demo
 
 			Action<bool> onAllowed = allowed =>
 			{
-				BrowserHelper.Instance.CloseIfExists();
+				BrowserHelper.Instance.InAppBrowser?.Close();
 
 				if (allowed)
 				{

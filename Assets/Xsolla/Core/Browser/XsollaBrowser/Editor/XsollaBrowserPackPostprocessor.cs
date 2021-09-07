@@ -1,5 +1,4 @@
-#if UNITY_EDITOR
-using System;
+﻿using System;
 using System.IO;
 using System.Threading.Tasks;
 using PuppeteerSharp;
@@ -10,32 +9,13 @@ using UnityEngine;
 
 namespace Xsolla.Core
 {
-	public class BuildPostProcess : IPostprocessBuildWithReport
+	public class XsollaBrowserPackPostprocessor : IPostprocessBuildWithReport
 	{
 		private const string BROWSER_REVISION = "706915";
 
 		public int callbackOrder { get; }
 
 		public void OnPostprocessBuild(BuildReport report)
-		{
-			AddSteamAppIdFile(report);
-			PackInAppBrowser(report);
-		}
-
-		private void AddSteamAppIdFile(BuildReport report)
-		{
-			if (report.summary.platformGroup != BuildTargetGroup.Standalone)
-				return;
-			
-			if (!XsollaSettings.UseSteamAuth)
-				return;
-
-			var filePath = Path.GetDirectoryName(report.summary.outputPath);
-			filePath = Path.Combine(filePath, "steam_appid.txt");
-			File.WriteAllText(filePath, XsollaSettings.SteamAppId);
-		}
-
-		private void PackInAppBrowser(BuildReport report)
 		{
 			if (report.summary.platformGroup != BuildTargetGroup.Standalone)
 				return;
@@ -64,6 +44,9 @@ namespace Xsolla.Core
 			}
 
 			var buildBrowserDirectory = Path.GetDirectoryName(report.summary.outputPath);
+			if (string.IsNullOrEmpty(buildBrowserDirectory))
+				throw new Exception(nameof(buildBrowserDirectory));
+			
 			buildBrowserDirectory = Path.Combine(buildBrowserDirectory, ".local-chromium");
 
 			try
@@ -76,7 +59,7 @@ namespace Xsolla.Core
 				Debug.LogWarning($"Can't delete existing browser directory. Packing browser in the build is skipped. Exception: {e}");
 				return;
 			}
-			
+
 			var projectBrowserDirectory = Path.Combine(Directory.GetCurrentDirectory(), ".local-chromium");
 			projectBrowserDirectory = Path.Combine(projectBrowserDirectory, $"{browserPlatform}-{BROWSER_REVISION}");
 
@@ -98,8 +81,7 @@ namespace Xsolla.Core
 					return;
 				}
 
-				var fetcherOptions = new BrowserFetcherOptions
-				{
+				var fetcherOptions = new BrowserFetcherOptions{
 					Platform = browserPlatform,
 					Path = buildBrowserDirectory
 				};
@@ -110,5 +92,3 @@ namespace Xsolla.Core
 		}
 	}
 }
-
-#endif

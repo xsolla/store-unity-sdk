@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1352578427899376055}
   - component: {fileID: 370317734354925448}
+  - component: {fileID: 495463363682918236}
   m_Layer: 0
   m_Name: BrowserHelper
   m_TagString: Untagged
@@ -43,5 +44,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5cb757ccfc8d43899eb453b0887dd7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InAppBrowserPrefab: {fileID: 2235249956668261828, guid: 60630ade61b56e946a1e7c4da7950f3f,
+--- !u!114 &495463363682918236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7418581232187676700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5ebba676ee141c1bf2d8b06842fb7d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BrowserPrefab: {fileID: 2235249956668261828, guid: 60630ade61b56e946a1e7c4da7950f3f,
     type: 3}

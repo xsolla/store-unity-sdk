@@ -30,18 +30,13 @@ namespace Xsolla.Store
 		{
 			get
 			{
-#if UNITY_EDITOR || UNITY_STANDALONE
-				if (XsollaSettings.InAppBrowserEnabled)
-					return true;
-#endif
-				//else
-				return false;
+				return BrowserHelper.Instance.InAppBrowser != null;
 			}
 		}
 
 		private bool IsTrackByPolling
 		{
-			get => (!XsollaSettings.InAppBrowserEnabled || Application.platform == RuntimePlatform.Android);
+			get => Application.platform == RuntimePlatform.Android || BrowserHelper.Instance.InAppBrowser == null;
 		}
 
 		private void Start()
@@ -94,8 +89,7 @@ namespace Xsolla.Store
 			if (IsTrackByBrowserUrlChange)
 			{
 #if UNITY_EDITOR || UNITY_STANDALONE
-				var browser = BrowserHelper.Instance.GetLastBrowser();
-				browser.GetComponent<XsollaBrowser>().Navigate.UrlChangedEvent += (xsollaBrowser, url) =>
+				BrowserHelper.Instance.InAppBrowser.AddUrlChangeHandler(url =>
 				{
 					var regex = new Regex(@"(?<=secure.xsolla.com/paystation)(.+?)(?=status)");
 					var matches = regex.Matches(url);
@@ -114,9 +108,9 @@ namespace Xsolla.Store
 							_orderTrackingCoroutines.Add(orderId, coroutine);
 						}
 
-						Destroy(BrowserHelper.Instance, 0.1F);
+						BrowserHelper.Instance.Close(0.1f);
 					}
-				};
+				});
 #endif
 			}
 		}

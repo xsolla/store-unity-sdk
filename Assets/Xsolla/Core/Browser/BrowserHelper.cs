@@ -1,33 +1,44 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using UnityEngine;
-using Xsolla.Core.Browser;
+#if UNITY_WEBGL || UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
+using System.Runtime.InteropServices;
+#endif
 
 namespace Xsolla.Core
 {
-	[AddComponentMenu("Scripts/Xsolla.Core/Browser/BrowserHelper")]
 	public class BrowserHelper : MonoSingleton<BrowserHelper>
 	{
-		[SerializeField] private GameObject InAppBrowserPrefab = default;
+		private IInAppBrowser _inAppBrowser;
 
-		private readonly Dictionary<PayStationUISettings.PaystationSize, Vector2> _payStationSizes = new Dictionary<PayStationUISettings.PaystationSize, Vector2>
+		public IInAppBrowser InAppBrowser
 		{
+			get
+			{
+#if UNITY_EDITOR || UNITY_STANDALONE
+				if (_inAppBrowser != null)
+					return _inAppBrowser;
+
+				if (XsollaSettings.InAppBrowserEnabled)
+					_inAppBrowser = GetComponent<IInAppBrowser>();
+#endif
+
+				return _inAppBrowser;
+			}
+		}
+
+		private readonly Dictionary<PayStationUISettings.PaystationSize, Vector2> _payStationSizes = new Dictionary<PayStationUISettings.PaystationSize, Vector2>{
 			{PayStationUISettings.PaystationSize.Small, new Vector2(620, 630)},
 			{PayStationUISettings.PaystationSize.Medium, new Vector2(740, 760)},
 			{PayStationUISettings.PaystationSize.Large, new Vector2(820, 840)}
 		};
 
-		private readonly Dictionary<string, int> _restrictedPaymentMethods = new Dictionary<string, int>
-		{
+		private readonly Dictionary<string, int> _restrictedPaymentMethods = new Dictionary<string, int>{
 			{"https://secure.xsolla.com/pages/paywithgoogle", 3431},
 			{"https://sandbox-secure.xsolla.com/pages/paywithgoogle", 3431},
 			{"https://secure.xsolla.com/pages/vkpay", 3496},
 			{"https://sandbox-secure.xsolla.com/pages/vkpay", 3496}
 		};
-
-		private GameObject _inAppBrowserObject = default;
 
 #if UNITY_WEBGL
 		[DllImport("__Internal")]
@@ -42,31 +53,21 @@ namespace Xsolla.Core
 		private static extern void OpenUrlInSafari(string url);
 #endif
 
-		protected override void OnDestroy()
-		{
-			if (_inAppBrowserObject != null)
-			{
-				Destroy(_inAppBrowserObject);
-				_inAppBrowserObject = null;
-			}
-		}
-
-		public bool IsOpened => (GetLastBrowser() != null);
-
-		public void OpenPurchase(string url, string token, bool isSandbox, bool inAppBrowserEnabled = false, Action<int> onRestrictedPaymentMethod = null)
+		public void OpenPurchase(string url, string token, bool forcePlatformBrowser = false, Action<int> onRestrictedPaymentMethod = null)
 		{
 #if UNITY_WEBGL
-			if((Application.platform == RuntimePlatform.WebGLPlayer) && inAppBrowserEnabled)
+			if((Application.platform == RuntimePlatform.WebGLPlayer) && XsollaSettings.InAppBrowserEnabled)
 			{
 				Screen.fullScreen = false;
-				OpenPaystationWidget(token, isSandbox);
+				OpenPaystationWidget(token, XsollaSettings.IsSandbox);
 				return;
 			}
 #endif
-			Open(url + token, inAppBrowserEnabled);
+
+			Open(url + token, forcePlatformBrowser);
 
 #if UNITY_STANDALONE || UNITY_EDITOR
-			if (inAppBrowserEnabled)
+			if (InAppBrowser != null && !forcePlatformBrowser)
 			{
 				TrackRestrictedPaymentMethod(onRestrictedPaymentMethod);
 				UpdateBrowserSize();
@@ -74,143 +75,79 @@ namespace Xsolla.Core
 #endif
 		}
 
-		public void Open(string url, bool inAppBrowserEnabled = false)
+		public void Open(string url, bool forcePlatformBrowser = false)
 		{
-			if (EnvironmentDefiner.IsStandaloneOrEditor && inAppBrowserEnabled)
+			if (EnvironmentDefiner.IsStandaloneOrEditor && InAppBrowser != null && !forcePlatformBrowser)
 			{
 				OpenInAppBrowser(url);
 			}
 			else if (EnvironmentDefiner.IsWebGL)
 			{
-#pragma warning disable 0618
-				Application.ExternalEval($"window.open(\"{url}\",\"_blank\")");
-#pragma warning restore 0618
+				OpenWebGlBrowser(url);
 			}
 			else
 			{
-				Application.OpenURL(url);
+				OpenPlatformBrowser(url);
 			}
 		}
 
-		public void OpenInAppBrowser(string url, Action onClosed, Action<string> onParameter, ParseParameter parameterToLook)
+		public void Close(float delay = 0)
 		{
-			if (!EnvironmentDefiner.IsStandaloneOrEditor)
-			{
-				var errorMessage = "OpenInAppBrowser: This functionality is not supported elswere except Editor and Standalone build";
-				Debug.LogError(errorMessage);
-				onClosed?.Invoke();
-				return;
-			}
-
-			Open(url, XsollaSettings.InAppBrowserEnabled);
-			var _browser = GetLastBrowser();
-			_browser.BrowserClosedEvent += () => onClosed?.Invoke();
-			_browser.BrowserInitEvent += activeBrowser =>
-			{
-				activeBrowser.Navigate.UrlChangedEvent += (browser, newUrl) =>
-				{
-					Debug.Log($"URL = {newUrl}");
-
-					if (ParseUtils.TryGetValueFromUrl(newUrl, parameterToLook, out string parameter))
-					{
-						StartCoroutine(CloseBrowserCoroutine());
-						onParameter?.Invoke(parameter);
-					}
-				};
-			};
+			InAppBrowser?.Close(delay);
 		}
 
 		private void OpenInAppBrowser(string url)
 		{
-			if (_inAppBrowserObject == null)
-			{
-				Canvas canvas = FindObjectOfType<Canvas>();
-				if(canvas == null)
-				{
-					Debug.LogError("Can not find canvas! So can not draw 2D browser!");
-					return;
-				}
-
-				_inAppBrowserObject = Instantiate(InAppBrowserPrefab, canvas.transform);
-				XsollaBrowser xsollaBrowser = _inAppBrowserObject.GetComponentInChildren<XsollaBrowser>();
-				xsollaBrowser.Navigate.To(url);
-			}
-			else
-				Debug.LogError("Attempt to create secondary browser instance");
+			InAppBrowser.Open(url);
 		}
 
-		public SinglePageBrowser2D GetLastBrowser()
+		private void OpenWebGlBrowser(string url)
 		{
-			return _inAppBrowserObject?.GetComponentInChildren<SinglePageBrowser2D>();
+#pragma warning disable 0618
+			Application.ExternalEval($"window.open(\"{url}\",\"_blank\")");
+#pragma warning restore 0618
+		}
+
+		private void OpenPlatformBrowser(string url)
+		{
+			Application.OpenURL(url);
 		}
 
 #if UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
-		void OpenSafari(string url)
+		private void OpenSafari(string url)
 		{
 			OpenUrlInSafari(url);
 		}
 #endif
-		public void CloseIfExists()
-		{
-			if (BrowserHelper.Instance.GetLastBrowser() != null)
-				if (EnvironmentDefiner.IsStandaloneOrEditor)
-					StartCoroutine(CloseBrowserCoroutine());
-		}
 
-		public bool AddOnBrowserClose(Action callback)
-		{
-			var browser = GetLastBrowser();
-			if (browser != null)
-			{
-				browser.BrowserClosedEvent += callback;
-				return true;
-			}
-			else
-			{
-				//TEXTREVIEW
-				Debug.LogWarning("Attempt to add OnClose callback while no browser present");
-				return false;
-			}
-		}
-
-		private IEnumerator CloseBrowserCoroutine()
-		{
-			yield return new WaitForEndOfFrame();
-			Destroy(gameObject);
-		}
-
+#if UNITY_STANDALONE || UNITY_EDITOR
 		private void UpdateBrowserSize()
 		{
-#if UNITY_STANDALONE || UNITY_EDITOR
-			BrowserHelper.Instance.GetLastBrowser().BrowserInitEvent += activeBrowser =>
+			InAppBrowser.AddInitHandler(() =>
 			{
-				var browserRender = BrowserHelper.Instance.GetLastBrowser().GetComponent<Display2DBehaviour>();
-				if (browserRender == null)
-					return;
-
 				var payStationSettings = XsollaSettings.DesktopPayStationUISettings;
 				var payStationSize = payStationSettings.paystationSize != PayStationUISettings.PaystationSize.Auto
 					? payStationSettings.paystationSize
 					: PayStationUISettings.PaystationSize.Medium;
 
 				var viewportSize = _payStationSizes[payStationSize];
-				browserRender.StartRedrawWith((int)viewportSize.x, (int)viewportSize.y);
-			};
-#endif
+				InAppBrowser.UpdateSize((int) viewportSize.x, (int) viewportSize.y);
+			});
 		}
 
 		private void TrackRestrictedPaymentMethod(Action<int> onRestrictedPaymentMethod)
 		{
-			Instance.GetLastBrowser().BrowserInitEvent += activeBrowser =>
+			InAppBrowser.AddInitHandler(() =>
 			{
-				activeBrowser.Navigate.UrlChangedEvent += (browser, newUrl) =>
+				InAppBrowser.AddUrlChangeHandler(url =>
 				{
-					if (_restrictedPaymentMethods.ContainsKey(newUrl))
+					if (_restrictedPaymentMethods.ContainsKey(url))
 					{
-						onRestrictedPaymentMethod?.Invoke(_restrictedPaymentMethods[newUrl]);
+						onRestrictedPaymentMethod?.Invoke(_restrictedPaymentMethods[url]);
 					}
-				};
-			};
+				});
+			});
 		}
+#endif
 	}
 }

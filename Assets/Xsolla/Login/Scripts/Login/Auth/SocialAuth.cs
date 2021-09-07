@@ -22,19 +22,11 @@ namespace Xsolla.Demo
 
 				string url = SdkLoginLogic.Instance.GetSocialNetworkAuthUrl(provider);
 				Debug.Log($"Social url: {url}");
-				BrowserHelper.Instance.Open(url, true);
 
-				var singlePageBrowser = BrowserHelper.Instance.GetLastBrowser();
-
-				if (singlePageBrowser == null)
-				{
-					Debug.LogError("Browser is null");
-					base.OnError?.Invoke(Error.UnknownError);
-					return;
-				}
-
-				singlePageBrowser.BrowserClosedEvent += () => BrowserCloseHandler();
-				singlePageBrowser.GetComponent<XsollaBrowser>().Navigate.UrlChangedEvent += UrlChangedHandler;
+				var browser = BrowserHelper.Instance.InAppBrowser;
+				browser.Open(url);
+				browser.AddCloseHandler(BrowserCloseHandler);
+				browser.AddUrlChangeHandler(UrlChangedHandler);
 			}
 			else
 			{
@@ -80,7 +72,7 @@ namespace Xsolla.Demo
 			base.OnError?.Invoke(null);
 		}
 
-		private void UrlChangedHandler(IXsollaBrowser browser, string newUrl)
+		private void UrlChangedHandler(string newUrl)
 		{
 			if (XsollaSettings.AuthorizationType == AuthorizationType.JWT && ParseUtils.TryGetValueFromUrl(newUrl, ParseParameter.token, out var token))
 			{
@@ -101,10 +93,13 @@ namespace Xsolla.Demo
 		private IEnumerator SuccessAuthCoroutine(string token)
 		{
 			yield return new WaitForEndOfFrame();
-	#if UNITY_EDITOR || UNITY_STANDALONE
-			Destroy(BrowserHelper.Instance.gameObject);
-			HotkeyCoroutine.Unlock();
-	#endif
+
+			if (EnvironmentDefiner.IsStandaloneOrEditor)
+			{
+				BrowserHelper.Instance.Close();
+				HotkeyCoroutine.Unlock();
+			}
+
 			base.OnSuccess?.Invoke(token);
 		}
 	}

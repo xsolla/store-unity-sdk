@@ -141,13 +141,41 @@ namespace Xsolla.Demo
 		{
 			if (EnvironmentDefiner.IsStandaloneOrEditor)
 			{
-				XsollaLogin.Instance.LinkSocialProvider(socialProvider,
+				XsollaLogin.Instance.LinkSocialProvider(
+					socialProvider,
 					url =>
 					{
-						var onParam = new Action<string>(_ => { HotkeyCoroutine.Unlock(); onSuccess?.Invoke(socialProvider); });
-						var onClosed = new Action(() => onError?.Invoke(null));
-						BrowserHelper.Instance.OpenInAppBrowser(url, onClosed, onParam, ParseParameter.token);
-					}, onError);
+						var browser = BrowserHelper.Instance.InAppBrowser;
+						if (browser != null)
+						{
+							browser.Open(url);
+							
+							browser.AddInitHandler(() =>
+							{
+								browser.AddUrlChangeHandler(newUrl =>
+								{
+									Debug.Log($"URL = {newUrl}");
+									if (ParseUtils.TryGetValueFromUrl(newUrl, ParseParameter.token, out _))
+									{
+										browser.Close();
+										HotkeyCoroutine.Unlock(); 
+										onSuccess?.Invoke(socialProvider);
+									}
+								});
+							});
+							
+							browser.AddCloseHandler(() =>
+							{
+								onError?.Invoke(null);
+							});
+						}
+						else
+						{
+							Debug.LogError("This functionality is not supported elsewhere except Editor and Standalone build");
+							onError?.Invoke(null);
+						}
+					}, 
+					onError);
 			}
 			else
 			{
