@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEditor.Build.Reporting;
 using UnityEngine;
 
-namespace Xsolla.DevTools
+namespace Xsolla
 {
 	public static class BuildsManager
 	{

@@ -5,7 +5,7 @@ using ICSharpCode.SharpZipLib.Tar;
 using UnityEditor;
 using UnityEngine;
 
-namespace Xsolla.DevTools
+namespace Xsolla
 {
 	public static class PackagesManager
 	{
