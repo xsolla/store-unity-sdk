@@ -1,7 +1,8 @@
-﻿using System.IO;
-using System.Linq;
-using ICSharpCode.SharpZipLib.GZip;
-using ICSharpCode.SharpZipLib.Tar;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
@@ -12,97 +13,101 @@ namespace Xsolla
 		[MenuItem("Dev Tools/Export package")]
 		public static void ExportPackageDev()
 		{
-			var tempDir = Application.dataPath.Replace("Assets", "Temp");
-			tempDir = Path.Combine(tempDir, "xsolla-commerce-sdk");
-			if (!Directory.Exists(tempDir))
-				Directory.CreateDirectory(tempDir);
+			var packagePath = Application.dataPath.Replace("Assets", string.Empty);
+			packagePath = Path.Combine(packagePath, "xsolla-commerce-sdk.unitypackage");
 
-			var originPackagePath = Path.Combine(tempDir, "origin-package.unitypackage");
-			ExportOriginPackage(originPackagePath);
-
-			var contentDir = Path.Combine(tempDir, "package-content");
-			Directory.CreateDirectory(contentDir);
-			ExtractTGZ(originPackagePath, contentDir);
-
-			var dependenciesSourcePath = Path.Combine(Application.dataPath, "DevTools", "package-dependencies.json");
-			var dependenciesDestPath = Path.Combine(contentDir, "packagemanagermanifest");
-			Directory.CreateDirectory(dependenciesDestPath);
-			dependenciesDestPath = Path.Combine(dependenciesDestPath, "asset");
-			File.Copy(dependenciesSourcePath, dependenciesDestPath);
-
-			var exportPackagePath = Application.dataPath.Replace("Assets", string.Empty);
-			exportPackagePath = Path.Combine(exportPackagePath, "xsolla-commerce-sdk.unitypackage");
-			CreateTarGZ(exportPackagePath, contentDir);
-
-			Directory.Delete(tempDir, true);
-			Debug.Log($"[PackagesManager] Package exported successful. Path: {exportPackagePath}");
-		}
-
-		private static void ExportOriginPackage(string packagePath)
-		{
-			var filter = string.Empty;
-			var paths = new[]{
-				"Assets/Xsolla"
+			var parameters = new object[]{
+				GetGuids("Assets/Xsolla"),
+				packagePath
 			};
 
-			var assets = AssetDatabase.FindAssets(filter, paths)
-				.Select(AssetDatabase.GUIDToAssetPath)
-				.ToArray();
+			var methods = new List<string>{
+				"UnityEditor.PackageUtility.ExportPackageAndPackageManagerManifest",
+			};
 
-			AssetDatabase.ExportPackage(assets, packagePath);
+			TryStaticInvoke(methods, parameters);
 		}
 
-		private static void ExtractTGZ(string gzArchiveName, string destFolder)
+		#region from the unity asset store tools package
+
+		private static string[] GetGuids(string rootPath)
 		{
-			var inStream = File.OpenRead(gzArchiveName);
-			var gzipStream = new GZipInputStream(inStream);
-
-			var tarArchive = TarArchive.CreateInputTarArchive(gzipStream);
-			tarArchive.ExtractContents(destFolder);
-			tarArchive.Close();
-
-			gzipStream.Close();
-			inStream.Close();
+			var rootGuid = AssetDatabase.AssetPathToGUID(rootPath);
+			var guids = CollectAllChildren(rootGuid, Array.Empty<string>());
+			return BuildExportPackageAssetListGuids(guids, true);
 		}
 
-		private static void CreateTarGZ(string tgzFilename, string sourceDirectory)
+		private static string[] BuildExportPackageAssetListGuids(string[] guids, bool dependencies)
 		{
-			var outStream = File.Create(tgzFilename);
-			var gzoStream = new GZipOutputStream(outStream);
-			var tarArchive = TarArchive.CreateOutputTarArchive(gzoStream);
+			var methodInfo = GetMethodInfo(new List<string>{
+				"UnityEditor.PackageUtility.BuildExportPackageItemsList",
+				"UnityEditor.AssetServer.BuildExportPackageAssetListAssetsItems"
+			}, new[]{
+				typeof(string[]),
+				typeof(bool)
+			});
 
-			// Note that the RootPath is currently case sensitive and must be forward slashes e.g. "c:/temp"
-			// and must not end with a slash, otherwise cuts off first char of filename
-			// This is scheduled for fix in next release
-			tarArchive.RootPath = sourceDirectory.Replace('\\', '/');
-			if (tarArchive.RootPath.EndsWith("/"))
-				tarArchive.RootPath = tarArchive.RootPath.Remove(tarArchive.RootPath.Length - 1);
+			var parameters = new object[]{
+				guids,
+				dependencies
+			};
 
-			AddDirectoryFilesToTar(tarArchive, sourceDirectory, true);
-			tarArchive.Close();
-		}
+			var objArray = (object[]) methodInfo.Invoke(null, parameters);
+			var strArray = new string[objArray.Length];
 
-		private static void AddDirectoryFilesToTar(TarArchive tarArchive, string sourceDirectory, bool recurse)
-		{
-			// Optionally, write an entry for the directory itself.
-			// Specify false for recursion here if we will add the directory's files individually.
-			var tarEntry = TarEntry.CreateEntryFromFile(sourceDirectory);
-			tarArchive.WriteEntry(tarEntry, false);
+			var field = methodInfo.ReturnType.GetElementType()?.GetField("guid");
+			if (field == null)
+				throw new Exception();
 
-			// Write each file to the tar.
-			var filenames = Directory.GetFiles(sourceDirectory);
-			foreach (var filename in filenames)
+			for (var index = 0; index < objArray.Length; ++index)
 			{
-				tarEntry = TarEntry.CreateEntryFromFile(filename);
-				tarArchive.WriteEntry(tarEntry, true);
+				var str = (string) field.GetValue(objArray[index]);
+				strArray[index] = str;
 			}
 
-			if (recurse)
-			{
-				var directories = Directory.GetDirectories(sourceDirectory);
-				foreach (var directory in directories)
-					AddDirectoryFilesToTar(tarArchive, directory, recurse);
-			}
+			return strArray;
 		}
+
+		private static string[] CollectAllChildren(string guid, IEnumerable collection)
+		{
+			return (string[]) TryStaticInvoke(new List<string>{
+					"UnityEditor.AssetDatabase.CollectAllChildren",
+					"UnityEditor.AssetServer.CollectAllChildren"
+				},
+				new object[]{
+					guid,
+					collection
+				}
+			);
+		}
+
+		private static object TryStaticInvoke(List<string> methods, object[] parameters)
+		{
+			return GetMethodInfo(methods).Invoke(null, parameters);
+		}
+
+		private static MethodInfo GetMethodInfo(List<string> methods, Type[] parametersType = null)
+		{
+			var methodInfo = (MethodInfo) null;
+			foreach (var method in methods)
+			{
+				var chArray = new[]{
+					'.'
+				};
+				var strArray = method.Split(chArray);
+				var assembly = Assembly.Load(strArray[0]);
+				var name1 = $"{strArray[0]}.{strArray[1]}";
+				var name2 = strArray[2];
+				var type = assembly.GetType(name1);
+				if (type != null)
+					methodInfo = parametersType != null ? type.GetMethod(name2, BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic, null, parametersType, null) : type.GetMethod(name2, BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+				if (methodInfo != null)
+					break;
+			}
+
+			return methodInfo != null ? methodInfo : throw new MissingMethodException(methods[0]);
+		}
+
+		#endregion
 	}
 }
