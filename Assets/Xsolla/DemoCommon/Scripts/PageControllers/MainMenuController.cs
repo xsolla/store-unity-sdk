@@ -91,14 +91,22 @@ namespace Xsolla.Demo
 				() => SetMenuState(MenuState.Profile, () => UserCatalog.Instance.IsUpdated));
 			AttachButtonCallback(characterButton,
 				() => SetMenuState(MenuState.Character, () => UserCatalog.Instance.IsUpdated));
-			AttachButtonCallback(friendsButton,
-				() =>
-				{
-					UserFriends.Instance.UpdateFriends(() =>
-					{
-						SetMenuState(MenuState.Friends, () => UserFriends.Instance.IsUpdated);
-					});
-				});
+
+			AttachButtonCallback(friendsButton, HandleFriendsButton);
+		}
+
+		private void HandleFriendsButton()
+		{
+			UserFriends.Instance.UpdateFriends(
+			onSuccess: () =>
+			{
+				SetMenuState(MenuState.Friends, () => UserFriends.Instance.IsUpdated);
+			},
+			onError: error =>
+			{
+				StoreDemoPopup.ShowError(error);
+				DemoController.Instance.SetState(MenuState.Authorization);
+			});
 		}
 
 		private void InitCommonButtons()

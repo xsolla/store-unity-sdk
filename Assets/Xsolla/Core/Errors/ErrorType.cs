@@ -1,4 +1,4 @@
-﻿namespace Xsolla.Core
+namespace Xsolla.Core
 {
 	public enum ErrorType
 	{
@@ -25,6 +25,8 @@
 		InvalidProjectSettings,
 		InvalidLoginOrPassword,
 		MultipleLoginUrlsException,
-		SubmittedLoginUrlNotFoundException
+		SubmittedLoginUrlNotFoundException,
+
+		IncorrectFriendState
 	}
 }
