@@ -58,6 +58,7 @@ GameObject:
   - component: {fileID: 4773948679277427445}
   - component: {fileID: 694003122456312989}
   - component: {fileID: 8337976668737904259}
+  - component: {fileID: 8999762141692952305}
   m_Layer: 5
   m_Name: MainImage
   m_TagString: Untagged
@@ -80,7 +81,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -134,6 +135,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _propertyId: f59ef3aa-9cf9-4946-8de2-f203b773a004
+  _comp: {fileID: 4773948679277427445}
   _pointerOverrider:
     _pointerEvents: {fileID: 0}
     _transitionMode: 0
@@ -141,7 +143,6 @@ MonoBehaviour:
     _hoverPropertyId: dfb1aea9-ded3-4435-ac2c-9199fbac8a75
     _isOverridePress: 0
     _pressPropertyId: dfb1aea9-ded3-4435-ac2c-9199fbac8a75
-  _comp: {fileID: 4773948679277427445}
 --- !u!114 &8337976668737904259
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -155,6 +156,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _propertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
+  _comp: {fileID: 4773948679277427445}
   _pointerOverrider:
     _pointerEvents: {fileID: 0}
     _transitionMode: 0
@@ -162,4 +164,17 @@ MonoBehaviour:
     _hoverPropertyId: e9c672ce-cad6-4ddf-8fe4-20b3b665f12e
     _isOverridePress: 0
     _pressPropertyId: e9c672ce-cad6-4ddf-8fe4-20b3b665f12e
-  _comp: {fileID: 4773948679277427445}
+--- !u!114 &8999762141692952305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7375473677853393319}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86710e43de46f6f4bac7c8e50813a599, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AspectMode: 4
+  m_AspectRatio: 1.7777778
