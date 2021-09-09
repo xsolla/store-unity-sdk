@@ -1,12 +1,12 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
 using Xsolla.Core;
 
 namespace Xsolla.Demo
 {
-	public class SavedTokenAuth : StoreStringActionResult, ILoginAuthorization
+	public class SavedTokenAuth : LoginAuthorization
 	{
-		public void TryAuth(params object[] args)
+		public override void TryAuth(params object[] args)
 		{
 			StartCoroutine(LoadToken());
 		}

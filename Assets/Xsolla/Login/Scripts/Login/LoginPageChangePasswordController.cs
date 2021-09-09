@@ -17,11 +17,8 @@ namespace Xsolla.Demo
 			get => base.IsInProgress;
 			set
 			{
-				if (value == true)
-				{
-					base.OnStarted?.Invoke();
+				if (value)
 					Debug.Log("LoginPageChangePasswordController: Password reset started");
-				}
 				else
 					Debug.Log("LoginPageChangePasswordController: Password reset ended");
 

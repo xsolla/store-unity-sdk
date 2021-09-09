@@ -4,12 +4,12 @@ using Xsolla.Core;
 
 namespace Xsolla.Demo
 {
-	public class AndroidSocialAuth : StoreStringActionResult, ILoginAuthorization
+	public class AndroidSocialAuth : LoginAuthorization
 	{
 		private AndroidSDKSocialAuthListener _listener;
 		private SocialProvider _requestedProvider;
 
-		public void TryAuth(params object[] args)
+		public override void TryAuth(params object[] args)
 		{
 			if (TryExtractProvider(args, out SocialProvider provider))
 			{

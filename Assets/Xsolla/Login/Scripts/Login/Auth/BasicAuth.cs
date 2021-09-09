@@ -1,16 +1,15 @@
 ﻿using System;
-using UnityEngine;
 using Xsolla.Core;
 
 namespace Xsolla.Demo
 {
-	public class BasicAuth : StoreStringActionResult, ILoginAuthorization
+	public class BasicAuth : LoginAuthorization
 	{
 		private const string DEMO_USER_NAME = "XSOLLA";
 		private bool _isDemoUser;
 		private bool _isJwtInvalidationEnabled;
 
-		public void TryAuth(params object[] args)
+		public override void TryAuth(params object[] args)
 		{
 			if (TryExtractArgs(args, out string username, out string password, out bool rememberMe))
 			{

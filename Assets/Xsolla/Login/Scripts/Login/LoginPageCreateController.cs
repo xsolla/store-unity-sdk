@@ -26,11 +26,8 @@ namespace Xsolla.Demo
 			get => base.IsInProgress;
 			set
 			{
-				if (value == true)
-				{
-					base.OnStarted?.Invoke();
+				if (value)
 					Debug.Log("LoginPageCreateController: Create started");
-				}
 				else
 					Debug.Log("LoginPageCreateController: Create ended");
 
