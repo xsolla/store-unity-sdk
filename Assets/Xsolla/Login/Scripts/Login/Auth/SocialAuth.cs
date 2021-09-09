@@ -5,9 +5,9 @@ using Xsolla.Core;
 
 namespace Xsolla.Demo
 {
-	public class SocialAuth : StoreStringActionResult, ILoginAuthorization
+	public class SocialAuth : LoginAuthorization
 	{
-		public void TryAuth(params object[] args)
+		public override void TryAuth(params object[] args)
 		{
 	#if UNITY_EDITOR || UNITY_STANDALONE
 			if (HotkeyCoroutine.IsLocked())

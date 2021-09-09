@@ -765,7 +765,7 @@ MonoBehaviour:
   - {fileID: 4247394545365782639}
   - {fileID: 9016169960688148711}
   - {fileID: 4004212909630027108}
-  OtheSocialNetworksButton: {fileID: 2175523247649579061}
+  OtherSocialNetworksButton: {fileID: 2175523247649579061}
   SocialNetworksWidget: {fileID: 7221808909804798812}
 --- !u!114 &8057595620785327480
 MonoBehaviour:

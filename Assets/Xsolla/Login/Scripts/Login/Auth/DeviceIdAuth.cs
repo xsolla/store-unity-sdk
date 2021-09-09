@@ -2,9 +2,9 @@ using Xsolla.Core;
 
 namespace Xsolla.Demo
 {
-	public class DeviceIdAuth : StoreStringActionResult, ILoginAuthorization
+	public class DeviceIdAuth : LoginAuthorization
 	{
-		public void TryAuth(params object[] args)
+		public override void TryAuth(params object[] args)
 		{
 			var supported = true;
 #if !(UNITY_ANDROID || UNITY_IOS) || UNITY_EDITOR

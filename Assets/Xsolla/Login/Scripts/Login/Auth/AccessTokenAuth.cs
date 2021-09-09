@@ -1,12 +1,11 @@
 using System;
-using UnityEngine;
 using Xsolla.Core;
 
 namespace Xsolla.Demo
 {
-	public class AccessTokenAuth : StoreStringActionResult, ILoginAuthorization
+	public class AccessTokenAuth : LoginAuthorization
 	{
-		public void TryAuth(params object[] args)
+		public override void TryAuth(params object[] args)
 		{
 			if (TryExtractArgs(args, out string email))
 			{

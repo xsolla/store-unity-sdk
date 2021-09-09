@@ -7,13 +7,13 @@ namespace Xsolla.Demo
 	public class LoginActionsCreatePageProxer : MonoBehaviour
 	{
 		[SerializeField] private SimpleSocialButton[] MainSocialLoginButtons = default;
-		[SerializeField] private SimpleButton OtheSocialNetworksButton = default;
+		[SerializeField] private SimpleButton OtherSocialNetworksButton = default;
 		[SerializeField] private SocialNetworksWidget SocialNetworksWidget = default;
 
 		private void Awake()
 		{
 			SocialNetworksWidget.OnSocialButtonClick = RequestSocialAuth;
-			OtheSocialNetworksButton.onClick += () => SocialNetworksWidget.gameObject.SetActive(true);
+			OtherSocialNetworksButton.onClick += () => SocialNetworksWidget.gameObject.SetActive(true);
 			
 			foreach (var button in MainSocialLoginButtons)
 			{

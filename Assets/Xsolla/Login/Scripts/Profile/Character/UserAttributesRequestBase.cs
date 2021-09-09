@@ -1,10 +1,14 @@
-﻿using UnityEngine;
+using System;
+using UnityEngine;
 using Xsolla.Core;
 
 namespace Xsolla.Demo
 {
-	public abstract class UserAttributesRequestBase : StoreActionResult
+	public abstract class UserAttributesRequestBase : MonoBehaviour
 	{
+		public Action OnSuccess { get; set; }
+		public Action<Error> OnError { get; set; }
+
 		protected string Token => Xsolla.Core.Token.Instance;
 		protected string ProjectID => XsollaSettings.StoreProjectId;
 
