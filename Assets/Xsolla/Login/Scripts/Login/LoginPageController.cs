@@ -5,7 +5,7 @@ using Xsolla.Core;
 
 namespace Xsolla.Demo
 {
-	public abstract class LoginPageController : MonoBehaviour, IDemoAction
+	public abstract class LoginPageController : MonoBehaviour
 	{
 		public Action OnSuccess { get; set; }
 		public Action<Error> OnError { get; set; }

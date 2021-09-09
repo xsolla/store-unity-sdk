@@ -4,7 +4,7 @@ using Xsolla.Core;
 
 namespace Xsolla.Demo
 {
-	public abstract class UserAttributesRequestBase : MonoBehaviour, IDemoAction
+	public abstract class UserAttributesRequestBase : MonoBehaviour
 	{
 		public Action OnSuccess { get; set; }
 		public Action<Error> OnError { get; set; }
