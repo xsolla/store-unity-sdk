@@ -126,20 +126,19 @@ namespace Xsolla.Store
 			WebRequestHelper.Instance.PostRequest<PurchaseData, TempPurchaseParams>(SdkType.Store, url, tempPurchaseParams, GetPaymentHeaders(Token.Instance), onSuccess, onError, Error.BuyCartErrors);
 		}
 
-		// TEXTREVIEW
 		/// <summary>
-		/// Opens Pay Station in the browser with retrieved Pay Station token.
+		/// Opens Pay Station in the browser with a retrieved Pay Station token.
 		/// </summary>
 		/// <see cref="https://developers.xsolla.com/doc/pay-station"/>
 		/// <param name="purchaseData">Contains Pay Station token for the purchase.</param>
-		/// <param name="forcePlatformBrowser">Flag indicating whether to force platform browser usage ignoring plugin settings.</param>
-		/// <param name="onRestrictedPaymentMethod">Restricted payment method was triggered in in-app browser.</param>
+		/// <param name="forcePlatformBrowser">Flag indicating whether to force platform browser usage ignoring plug-in settings.</param>
+		/// <param name="onRestrictedPaymentMethod">Restricted payment method was triggered in an in-app browser.</param>
 		/// <seealso cref="BrowserHelper"/>
 		public void OpenPurchaseUi(PurchaseData purchaseData, bool forcePlatformBrowser = false, Action<int> onRestrictedPaymentMethod = null)
 		{
 			string url = XsollaSettings.IsSandbox ? URL_PAYSTATION_UI_IN_SANDBOX_MODE : URL_PAYSTATION_UI;
 			BrowserHelper.Instance.OpenPurchase(
-				url, 
+				url,
 				purchaseData.token,
 				forcePlatformBrowser,
 				onRestrictedPaymentMethod);

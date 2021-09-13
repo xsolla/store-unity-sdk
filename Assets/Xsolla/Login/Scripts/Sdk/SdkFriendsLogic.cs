@@ -14,9 +14,8 @@ namespace Xsolla.Demo
 		/// Maximum friends count to display.
 		/// </summary>
 		private const int MAX_FRIENDS_COUNT = 100;
-		//TEXTREVIEW
 		/// <summary>
-		/// Default friend name value in case of absence
+		/// Default friend name value if the name isn't provided.
 		/// </summary>
 		private const string DEFAULT_NAME_VALUE = "User without name";
 

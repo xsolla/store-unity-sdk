@@ -13,7 +13,6 @@ namespace Xsolla.Demo
 		/// <param name="lastState">Previous state of state machine</param>
 		/// <param name="newState">New/Current state of state machine</param>
 		public delegate void StateChangeDelegate(MenuState lastState, MenuState newState);
-		//TEXTREVIEW
 		/// <summary>
 		/// Invoked after state changed.
 		/// </summary>
@@ -98,7 +97,7 @@ namespace Xsolla.Demo
 		{
 			return SetState(state, addToTrace: true);
 		}
-		
+
 		private GameObject SetState(MenuState state, bool addToTrace)
 		{
 			MenuState previousState = _currentState;
