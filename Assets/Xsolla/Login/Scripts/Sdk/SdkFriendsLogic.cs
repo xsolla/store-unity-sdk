@@ -92,7 +92,7 @@ namespace Xsolla.Demo
 
 		public void GetFriendsFromSocialNetworks(Action<List<FriendModel>> onSuccess = null, Action<Error> onError = null)
 		{
-			XsollaLogin.Instance.GetUserSocialFriends(Token.Instance, SocialProvider.None, 0, 20, false,
+			XsollaLogin.Instance.GetUserSocialFriends(Token.Instance, SocialProvider.None, 0, 500, false,
 				onSuccess: friends => StartCoroutine(ConvertSocialFriendsToRecommended(friends.data, onSuccess, onError)),
 				onError);
 		}
