@@ -183,7 +183,6 @@ namespace Xsolla.Demo
 
 		public void BlockUser(FriendModel user, [CanBeNull] Action<FriendModel> onSuccess = null, [CanBeNull] Action<Error> onError = null)
 		{
-			//TEXTREVIEW
 			if (Blocked.Contains(user))
 				RaiseOnError($"Can not block user with this nickname = {user.Nickname}. They are already blocked.", onError);
 			else
