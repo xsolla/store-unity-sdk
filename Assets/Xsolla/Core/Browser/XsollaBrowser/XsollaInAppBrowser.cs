@@ -1,14 +1,17 @@
-﻿#if (UNITY_EDITOR || UNITY_STANDALONE)
-using System;
+﻿using System;
 using UnityEngine;
 using Xsolla.Core.Browser;
 
 namespace Xsolla.Core
 {
+#if (UNITY_EDITOR || UNITY_STANDALONE)
 	public class XsollaInAppBrowser : MonoBehaviour, IInAppBrowser
+#else
+	public class XsollaInAppBrowser : MonoBehaviour
+#endif
 	{
 		[SerializeField] private GameObject BrowserPrefab;
-
+#if (UNITY_EDITOR || UNITY_STANDALONE)
 		private GameObject BrowserObject;
 
 		private SinglePageBrowser2D SinglePageBrowser;
@@ -32,7 +35,7 @@ namespace Xsolla.Core
 		{
 			if (!IsOpened)
 				CreateBrowser();
-			
+
 			XsollaBrowser.Navigate.To(url);
 		}
 
@@ -73,6 +76,6 @@ namespace Xsolla.Core
 			SinglePageBrowser = BrowserObject.GetComponentInChildren<SinglePageBrowser2D>();
 			XsollaBrowser = BrowserObject.GetComponentInChildren<XsollaBrowser>();
 		}
+#endif
 	}
 }
-#endif
