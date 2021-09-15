@@ -124,7 +124,11 @@ namespace Xsolla.Demo
 
 			var onCartSuccess = new Action<List<UserCartItem>>(_ =>
 			{
-				onSuccess?.Invoke(itemModel);
+				var inAppBrowser = BrowserHelper.Instance.InAppBrowser;
+				if (inAppBrowser != null && inAppBrowser.IsOpened)
+					inAppBrowser.AddCloseHandler(()=> onSuccess?.Invoke(itemModel));
+				else
+					onSuccess?.Invoke(itemModel);
 			});
 
 			_waitingPopupNeeded = false;
