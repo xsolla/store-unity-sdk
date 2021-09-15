@@ -163,11 +163,6 @@ namespace Xsolla.Demo
 									}
 								});
 							});
-							
-							browser.AddCloseHandler(() =>
-							{
-								onError?.Invoke(null);
-							});
 						}
 						else
 						{
