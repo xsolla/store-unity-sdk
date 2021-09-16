@@ -12,7 +12,7 @@ namespace Xsolla.Store
 	{
 		private readonly List<OrderTrackingData> _trackingOrders = new List<OrderTrackingData>();
 		private readonly Dictionary<int, Coroutine> _orderTrackingCoroutines = new Dictionary<int, Coroutine>();
-		
+
 		private bool IsTrackByPaystationCallback
 		{
 			get
@@ -82,7 +82,7 @@ namespace Xsolla.Store
 
 			if (IsTrackByPolling)
 			{
-				var coroutine = StartCoroutine(CheckOrderForeverUntilDone(orderId));
+				var coroutine = StartCoroutine(CheckOrder(orderId));
 				_orderTrackingCoroutines.Add(orderId, coroutine);
 			}
 
@@ -104,7 +104,7 @@ namespace Xsolla.Store
 						if (status != "done")
 						{
 							// occurs when redirect triggered automatically with any status without delay
-							var coroutine = StartCoroutine(CheckOrderWithRepeatCount(orderId));
+							var coroutine = StartCoroutine(CheckOrder(orderId, 10, false));
 							_orderTrackingCoroutines.Add(orderId, coroutine);
 						}
 
@@ -131,7 +131,7 @@ namespace Xsolla.Store
 
 			_trackingOrders.Add(order);
 
-			var coroutine = StartCoroutine(CheckOrderForeverUntilDone(orderId));
+			var coroutine = StartCoroutine(CheckOrder(orderId));
 			_orderTrackingCoroutines.Add(orderId, coroutine);
 		}
 
@@ -181,31 +181,35 @@ namespace Xsolla.Store
 						}
 					}
 				},
-				order.ErrorCallback
+				error =>
+				{
+					order.ErrorCallback?.Invoke(error);
+					RemoveOrderFromTracking(order.OrderId);
+					onDone?.Invoke();
+				}
 			);
 		}
 
-		private IEnumerator CheckOrderForeverUntilDone(int orderId)
+		private IEnumerator CheckOrder(int orderId, int maxAttemptsCount = 100, bool errorOnMaxAttemptsReached = true)
 		{
 			var isDone = false;
-			while (!isDone)
-			{
-				yield return new WaitForSeconds(3f);
-				CheckOrderDone(orderId, () => isDone = true);
-			}
-		}
+			var attemptsCount = 0;
 
-		private IEnumerator CheckOrderWithRepeatCount(int orderId, int repeatCount = 10)
-		{
-			var isDone = false;
-			while (repeatCount > 0 && !isDone)
+			while (!isDone && attemptsCount < maxAttemptsCount)
 			{
 				yield return new WaitForSeconds(3f);
-				CheckOrderDone(orderId, () =>
+				CheckOrderDone(orderId, () => { isDone = true; });
+				attemptsCount++;
+			}
+			
+			if (!isDone && errorOnMaxAttemptsReached)
+			{
+				var order = _trackingOrders.FirstOrDefault(x => x.OrderId == orderId);
+				if (order != null)
 				{
-					isDone = true;
-					repeatCount--;
-				});
+					order.ErrorCallback?.Invoke(new Error(errorMessage: "Check order status max attempts reached"));
+					RemoveOrderFromTracking(orderId);
+				}
 			}
 		}
 	}
