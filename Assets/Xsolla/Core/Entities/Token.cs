@@ -158,6 +158,11 @@ namespace Xsolla.Core
 			Payload = Instance.Payload;
 		}
 
+		public override string ToString()
+		{
+			return EncodedToken;
+		}
+
 		public static implicit operator string(Token token)
 		{
 			return token != null ? token.EncodedToken : string.Empty;
