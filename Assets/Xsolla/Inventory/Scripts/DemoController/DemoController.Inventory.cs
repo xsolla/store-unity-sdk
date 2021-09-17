@@ -1,34 +1,53 @@
-using System.Collections.Generic;
-using UnityEngine;
 using Xsolla.Core;
 
 namespace Xsolla.Demo
 {
 	public partial class DemoController : MonoSingleton<DemoController>
 	{
-		private TutorialManager _tutorialManager;
-		public TutorialManager TutorialManager => _tutorialManager;
+		private TutorialManager _tutorialManager = default;
 
-		partial void InitInventory()
+		partial void InitTutorial()
 		{
-			if (InventoryDemo != null && StoreDemo == null)
+			if (DemoMarker.IsInventoryDemo)
 				_tutorialManager = GetComponent<TutorialManager>();
 
 			if (_tutorialManager != null)
 				IsTutorialAvailable = true;
 		}
 
+		partial void AutoStartTutorial()
+		{
+			if (IsTutorialAvailable && !IsAccessTokenAuth)
+			{
+				if (!_tutorialManager.IsTutorialCompleted())
+					_tutorialManager.ShowTutorial();
+				else
+					Debug.Log("Skipping tutorial since it was already completed.");
+			}
+			else
+				Debug.Log("Tutorial is not available for this demo.");
+		}
+
+		partial void ManualStartTutorial(bool showWelcomeMessage)
+		{
+			_tutorialManager.ShowTutorial(showWelcomeMessage);
+		}
+
 		partial void UpdateInventory()
 		{
 			if (!UserInventory.IsExist)
-				UserInventory.Instance.Init(InventoryDemo);
+				UserInventory.Instance.Init();
 
-			if (StoreDemo == null)
+			if (!DemoMarker.IsStorePartAvailable)
 			{
-				UserCatalog.Instance.Init(InventoryDemo);
+				UserCatalog.Instance.Init();
 				UserCatalog.Instance.UpdateItems(
-					onSuccess: () => UserInventory.Instance.Refresh(),
-					onError: error => Debug.LogError($"InventorySDK init failure: {error}"));
+					onSuccess: () => UserInventory.Instance.Refresh(onError: StoreDemoPopup.ShowError),
+					onError: error =>
+					{
+						Debug.LogError($"InventorySDK init failure: {error}");
+						StoreDemoPopup.ShowError(error);
+					});
 			}
 		}
 
@@ -36,45 +55,6 @@ namespace Xsolla.Demo
 		{
 			if (UserInventory.IsExist)
 				Destroy(UserInventory.Instance.gameObject);
-		}
-
-		partial void AutoStartTutorial()
-		{
-			if (_tutorialManager != null && !IsAccessTokenAuth)
-			{
-				if (!_tutorialManager.IsTutorialCompleted())
-				{
-					_tutorialManager.ShowTutorial();
-				}
-				else
-				{
-					Debug.Log("Skipping tutorial since it was already completed.");
-				}
-			}
-			else
-			{
-				Debug.Log("Tutorial is not available for this demo.");
-			}
-		}
-
-		partial void ManualStartTutorial(bool showWelcomeMessage)
-		{
-			TutorialManager.ShowTutorial(showWelcomeMessage);
-		}
-
-		private static void StartLoadItemImages(List<CatalogItemModel> items)
-		{
-			items.ForEach(i =>
-			{
-				if (!string.IsNullOrEmpty(i.ImageUrl))
-				{
-					ImageLoader.Instance.GetImageAsync(i.ImageUrl, null);
-				}
-				else
-				{
-					Debug.LogError($"Catalog item with sku = '{i.Sku}' without image!");
-				}
-			});
 		}
 	}
 }

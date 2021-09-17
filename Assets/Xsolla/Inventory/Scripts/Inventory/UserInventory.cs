@@ -20,15 +20,13 @@ namespace Xsolla.Demo
 		public List<VirtualCurrencyBalanceModel> Balance { get; private set; }
 		public List<UserSubscriptionModel> Subscriptions { get; private set; }
 
-		private IInventoryDemoImplementation _demoImplementation;
-
 		public bool HasVirtualItems => VirtualItems.Any();
 		public bool HasPurchasedSubscriptions => Subscriptions.FindAll(s => s.Status != UserSubscriptionModel.SubscriptionStatusType.None).Any();
 
-		public void Init(IInventoryDemoImplementation demoImplementation)
+		public override void Init()
 		{
+			base.Init();
 			IsUpdated = false;
-			_demoImplementation = demoImplementation;
 			AllItems = new List<ItemModel>();
 			VirtualItems = new List<InventoryItemModel>();
 			Balance = new List<VirtualCurrencyBalanceModel>();
@@ -37,17 +35,6 @@ namespace Xsolla.Demo
 
 		partial void RefreshInventory(Action onSuccess, [CanBeNull] Action<Error> onError)
 		{
-			if (_demoImplementation == null)
-			{
-				Balance = new List<VirtualCurrencyBalanceModel>();
-				UpdateVirtualCurrencyBalanceEvent?.Invoke(Balance);
-				VirtualItems = new List<InventoryItemModel>();
-				UpdateItemsEvent?.Invoke(VirtualItems);
-				Subscriptions = new List<UserSubscriptionModel>();
-				UpdateSubscriptionsEvent?.Invoke(Subscriptions);
-				return;
-			}
-
 			IsUpdated = false;
 			StartCoroutine(WaitItemUpdatingCoroutine(onSuccess, onError));
 		}
@@ -58,19 +45,19 @@ namespace Xsolla.Demo
 			var itemsUpdated = false;
 			var subscriptionsUpdated = false;
 
-			_demoImplementation.GetVirtualCurrencyBalance(balance =>
+			SdkInventoryLogic.Instance.GetVirtualCurrencyBalance(balance =>
 			{
 				Balance = balance;
 				balanceUpdated = true;
 			}, onError);
 
-			_demoImplementation.GetInventoryItems(items =>
+			SdkInventoryLogic.Instance.GetInventoryItems(items =>
 			{
 				VirtualItems = items.Where(i => !i.IsVirtualCurrency() && !i.IsSubscription()).ToList();
 				itemsUpdated = true;
 			}, onError);
 
-			_demoImplementation.GetUserSubscriptions(items =>
+			SdkInventoryLogic.Instance.GetUserSubscriptions(items =>
 			{
 				Subscriptions = items;
 				subscriptionsUpdated = true;

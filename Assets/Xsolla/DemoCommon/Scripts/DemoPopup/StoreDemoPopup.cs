@@ -1,5 +1,4 @@
 using System;
-using UnityEngine;
 using Xsolla.Core;
 using Xsolla.Core.Popup;
 

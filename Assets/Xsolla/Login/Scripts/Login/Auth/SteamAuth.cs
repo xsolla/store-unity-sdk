@@ -1,13 +1,12 @@
-﻿using UnityEngine;
-using Xsolla.Core;
+﻿using Xsolla.Core;
 
 namespace Xsolla.Demo
 {
-	public class SteamAuth : StoreStringActionResult, ILoginAuthorization
+	public class SteamAuth : LoginAuthorization
 	{
 		private string _steamSessionTicket = default;
 
-		public void TryAuth(params object[] args)
+		public override void TryAuth(params object[] args)
 		{
 			if (!XsollaSettings.UseSteamAuth)
 			{
@@ -32,7 +31,7 @@ namespace Xsolla.Demo
 		{
 			if (int.TryParse(XsollaSettings.SteamAppId, out _))
 			{
-				DemoController.Instance.LoginDemo.SteamAuth(XsollaSettings.SteamAppId, ticket, onSuccess:SuccessHandler, onError:FailHandler);
+				SdkLoginLogic.Instance.SteamAuth(XsollaSettings.SteamAppId, ticket, onSuccess:SuccessHandler, onError:FailHandler);
 			}
 			else
 			{

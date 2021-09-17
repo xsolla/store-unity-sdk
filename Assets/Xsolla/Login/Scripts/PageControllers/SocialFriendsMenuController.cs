@@ -19,7 +19,7 @@ namespace Xsolla.Demo
 
 		private void NetworkOnStateChanged(SocialProvider socialProvider, FriendSystemSocialNetwork.State state)
 		{
-			DemoController.Instance.LoginDemo.GetFriendsFromSocialNetworks(RefreshUsersContainer);
+			SdkFriendsLogic.Instance.GetFriendsFromSocialNetworks(RefreshUsersContainer);
 		}
 
 		private void RefreshUsersContainer(List<FriendModel> users)

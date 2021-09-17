@@ -411,11 +411,6 @@ PrefabInstance:
       propertyPath: Urls.Array.data[9]
       value: https://developers.xsolla.com/sdk/unity/how-tos/#unity_sdk_how_to_use_partners_login_system
       objectReference: {fileID: 0}
-    - target: {fileID: 1502699471, guid: 4af1ad141a08941d8bc07459eb260991, type: 3}
-      propertyPath: _tutorialInfo
-      value: 
-      objectReference: {fileID: 11400000, guid: 8ae21f99598854d4c98515a4221a59d6,
-        type: 2}
     - target: {fileID: 6389733742317925048, guid: 4af1ad141a08941d8bc07459eb260991,
         type: 3}
       propertyPath: canvas
@@ -429,17 +424,17 @@ PrefabInstance:
     - target: {fileID: 6389733742678192272, guid: 4af1ad141a08941d8bc07459eb260991,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 421.28876
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6389733742678192272, guid: 4af1ad141a08941d8bc07459eb260991,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 278.56848
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6389733742678192272, guid: 4af1ad141a08941d8bc07459eb260991,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -9.549953
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6389733742678192272, guid: 4af1ad141a08941d8bc07459eb260991,
         type: 3}

@@ -31,7 +31,7 @@ namespace Xsolla.Demo
 
 		public Action<string> OnGroupClick { get; set; }
 
-		public void Select()
+		public void Select(bool _)
 		{
 			//menuButton.Select();
 		}

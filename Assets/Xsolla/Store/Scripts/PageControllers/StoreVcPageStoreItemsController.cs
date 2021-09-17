@@ -6,11 +6,7 @@ namespace Xsolla.Demo
 {
 	public class StoreVcPageStoreItemsController : BaseStorePageStoreItemsController
 	{
-		protected override IEnumerator FillGroups()
-		{
-			yield return base.FillGroups();
-			UpdateContentVisibility(UserCatalog.Instance.HasCurrencyPackages);
-		}
+		protected override bool IsShowContent => UserCatalog.Instance.HasCurrencyPackages;
 
 		protected override List<ItemModel> GetItemsByGroup(string groupName)
 		{

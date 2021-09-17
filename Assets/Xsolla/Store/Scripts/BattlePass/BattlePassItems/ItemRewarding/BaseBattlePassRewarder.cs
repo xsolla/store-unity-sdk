@@ -82,7 +82,7 @@ namespace Xsolla.Demo
 				yield return new WaitWhile(() => itemBusy);
 			}
 
-			UserInventory.Instance.Refresh();
+			UserInventory.Instance.Refresh(onError: StoreDemoPopup.ShowError);
 			UserStatManager.AddObtainedItems(collectedFreeItemsTiers.ToArray(), collectedPremiumItemsTiers.ToArray());
 			PopupFactory.CreateRewardsPopup(collectedItemsDescriptions.ToArray());
 		}

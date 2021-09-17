@@ -16,8 +16,6 @@ namespace Xsolla.Demo
 		public event Action<List<CatalogBundleItemModel>> UpdateBundlesEvent;
 		public event Action<List<CatalogSubscriptionItemModel>> UpdateSubscriptionsEvent;
 
-		private IInventoryDemoImplementation _inventoryDemoImplementation;
-
 		public List<VirtualCurrencyModel> VirtualCurrencies { get; private set; }
 		public List<CatalogItemModel> AllItems { get; private set; }
 		public List<CatalogVirtualItemModel> VirtualItems { get; private set; }
@@ -29,9 +27,9 @@ namespace Xsolla.Demo
 		public bool HasBundles => Bundles.Any();
 		public bool HasCurrencyPackages => CurrencyPackages.Any();
 
-		public void Init(IInventoryDemoImplementation inventoryDemo)
+		public override void Init()
 		{
-			_inventoryDemoImplementation = inventoryDemo;
+			base.Init();
 			VirtualCurrencies = new List<VirtualCurrencyModel>();
 			AllItems = new List<CatalogItemModel>();
 			VirtualItems = new List<CatalogVirtualItemModel>();
@@ -54,12 +52,6 @@ namespace Xsolla.Demo
 				isError = true;
 				onError?.Invoke(error);
 			};
-			if (_inventoryDemoImplementation == null)
-			{
-				Debug.LogError("Can not update catalog without demo implementation");
-				onSuccess?.Invoke();
-				yield break;
-			}
 
 			yield return StartCoroutine(UpdateVirtualCurrenciesCoroutine(errorCallback));
 			yield return StartCoroutine(UpdateVirtualItemsCoroutine(errorCallback));
@@ -98,7 +90,7 @@ namespace Xsolla.Demo
 		private IEnumerator UpdateVirtualCurrenciesCoroutine(Action<Error> onError = null)
 		{
 			var busy = true;
-			_inventoryDemoImplementation.GetVirtualCurrencies(items =>
+			SdkCatalogLogic.Instance.GetVirtualCurrencies(items =>
 			{
 				VirtualCurrencies = items;
 				UpdateVirtualCurrenciesEvent?.Invoke(items);
@@ -110,7 +102,7 @@ namespace Xsolla.Demo
 		private IEnumerator UpdateVirtualItemsCoroutine(Action<Error> onError = null)
 		{
 			yield return StartCoroutine(UpdateSomeItemsCoroutine<CatalogVirtualItemModel>(
-				_inventoryDemoImplementation.GetCatalogVirtualItems, items =>
+				SdkCatalogLogic.Instance.GetCatalogVirtualItems, items =>
 				{
 					VirtualItems = items;
 					UpdateItemsEvent?.Invoke(items);
@@ -120,7 +112,7 @@ namespace Xsolla.Demo
 		private IEnumerator UpdateVirtualCurrencyPackagesCoroutine(Action<Error> onError = null)
 		{
 			yield return StartCoroutine(UpdateSomeItemsCoroutine<CatalogVirtualCurrencyModel>(
-			_inventoryDemoImplementation.GetCatalogVirtualCurrencyPackages, items =>
+			SdkCatalogLogic.Instance.GetCatalogVirtualCurrencyPackages, items =>
 			{
 				CurrencyPackages = items;
 				UpdateVirtualCurrencyPackagesEvent?.Invoke(items);
@@ -130,7 +122,7 @@ namespace Xsolla.Demo
 		private IEnumerator UpdateBundlesCoroutine(Action<Error> onError = null)
 		{
 			yield return StartCoroutine(UpdateSomeItemsCoroutine<CatalogBundleItemModel>(
-				_inventoryDemoImplementation.GetCatalogBundles, items =>
+				SdkCatalogLogic.Instance.GetCatalogBundles, items =>
 				{
 					Bundles = items;
 					UpdateBundlesEvent?.Invoke(items);
@@ -140,7 +132,7 @@ namespace Xsolla.Demo
 		private IEnumerator UpdateSubscriptionsCoroutine(Action<Error> onError = null)
 		{
 			yield return StartCoroutine(UpdateSomeItemsCoroutine<CatalogSubscriptionItemModel>(
-			_inventoryDemoImplementation.GetCatalogSubscriptions, items =>
+			SdkCatalogLogic.Instance.GetCatalogSubscriptions, items =>
 			{
 				Subscriptions = items;
 				UpdateSubscriptionsEvent?.Invoke(items);

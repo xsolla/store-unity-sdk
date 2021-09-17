@@ -163,7 +163,7 @@ namespace Xsolla.Core.Popup
 			if (!string.IsNullOrEmpty(CurrentStepInfo.associatedDocumentation))
 			{
 				documentationButton.gameObject.SetActive(true);
-				documentationButton.onClick = () => { BrowserHelper.Instance.Open(CurrentStepInfo.associatedDocumentation); };
+				documentationButton.onClick = () => { BrowserHelper.Instance.Open(CurrentStepInfo.associatedDocumentation, true); };
 			}
 			else
 			{

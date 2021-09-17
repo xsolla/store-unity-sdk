@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using JetBrains.Annotations;
 using Xsolla.Core;
 
@@ -31,7 +30,7 @@ namespace Xsolla.Store
 			var platformParam = GetPlatformUrlParam();
 			url = ConcatUrlAndParams(url, localeParam, platformParam);
 
-			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.ItemsListErrors);
+			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, WebRequestHeader.AuthHeader(Token.Instance), onSuccess, onError, Error.ItemsListErrors);
 		}
 
 		/// <summary>
@@ -49,7 +48,7 @@ namespace Xsolla.Store
 			var platformParam = GetPlatformUrlParam();
 			url = ConcatUrlAndParams(url, platformParam);
 
-			var headers = new List<WebRequestHeader>() { WebRequestHeader.AuthHeader(Token), WebRequestHeader.ContentTypeHeader() };
+			var headers = new List<WebRequestHeader>() { WebRequestHeader.AuthHeader(Token.Instance), WebRequestHeader.ContentTypeHeader() };
 
 			WebRequestHelper.Instance.PostRequest(SdkType.Store, url, item, headers, onSuccess, onError, Error.ConsumeItemErrors);
 		}
@@ -69,7 +68,7 @@ namespace Xsolla.Store
 			var platformParam = GetPlatformUrlParam();
 			url = ConcatUrlAndParams(url, platformParam);
 
-			var headers = new List<WebRequestHeader>() { WebRequestHeader.AuthHeader(Token), WebRequestHeader.ContentTypeHeader() };
+			var headers = new List<WebRequestHeader>() { WebRequestHeader.AuthHeader(Token.Instance), WebRequestHeader.ContentTypeHeader() };
 			WebRequestHelper.Instance.PostRequest(SdkType.Store, url, couponCode, headers, onSuccess, onError, Error.CouponErrors);
 		}
 
@@ -90,7 +89,7 @@ namespace Xsolla.Store
 			var platformParam = GetPlatformUrlParam();
 			url = ConcatUrlAndParams(url, localeParam, platformParam);
 			
-			var headers = new List<WebRequestHeader>() { WebRequestHeader.AuthHeader(Token), WebRequestHeader.ContentTypeHeader() };
+			var headers = new List<WebRequestHeader>() { WebRequestHeader.AuthHeader(Token.Instance), WebRequestHeader.ContentTypeHeader() };
 			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, headers, onSuccess, onError, Error.CouponErrors);
 		}
 	}

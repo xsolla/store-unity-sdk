@@ -17,10 +17,10 @@ namespace Xsolla.Demo
 			var redeemCouponPopup = PopupFactory.Instance.CreateRedeemCoupon();
 			redeemCouponPopup.SetRedeemCallback(code =>
 			{
-				DemoController.Instance.InventoryDemo.RedeemCouponCode(code, redeemedItems =>
+				DemoInventory.Instance.RedeemCouponCode(code, redeemedItems =>
 				{
 					redeemCouponPopup.Close();
-					UserInventory.Instance.Refresh();
+					UserInventory.Instance.Refresh(onError: StoreDemoPopup.ShowError);
 					PopupFactory.Instance.CreateCouponRewards().SetItems(redeemedItems);
 				}, error => redeemCouponPopup.ShowError());
 			});

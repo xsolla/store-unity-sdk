@@ -69,7 +69,7 @@ namespace Xsolla.Demo
 
 			object[] args = { username, password, rememberMe };
 
-			Action<string> onSuccessfulBasicAuth = token => DemoController.Instance.LoginDemo
+			Action<string> onSuccessfulBasicAuth = token => SdkLoginLogic.Instance
 				.ValidateToken(token, t => CompleteSuccessfulAuth(token, true, isSaveToken: rememberMe), ProcessError);
 			Action<Error> onFailedBasicAuth = ProcessError;
 
@@ -84,7 +84,7 @@ namespace Xsolla.Demo
 			IsAuthInProgress = true;
 			object[] args = { socialProvider };
 
-			Action<string> onSuccessfulSocialAuth = token => DemoController.Instance.LoginDemo
+			Action<string> onSuccessfulSocialAuth = token => SdkLoginLogic.Instance
 				.ValidateToken(token, t => CompleteSuccessfulAuth(token, isSaveToken: true), ProcessError);
 			Action<Error> onFailedSocialAuth = ProcessError;
 
@@ -103,7 +103,7 @@ namespace Xsolla.Demo
 			IsAuthInProgress = true;
 			PopupFactory.Instance.CreateWaiting().SetCloseCondition(() => IsAuthInProgress == false);
 
-			Action<string> onSuccessfulSteamAuth = token => DemoController.Instance.LoginDemo
+			Action<string> onSuccessfulSteamAuth = token => SdkLoginLogic.Instance
 				.ValidateToken(token, t => CompleteSuccessfulAuth(token, isSaveToken: true), ProcessError);
 			Action<Error> onFailedSteamAuth = ProcessError;
 
@@ -150,7 +150,7 @@ namespace Xsolla.Demo
 			IsAuthInProgress = true;
 			PopupFactory.Instance.CreateWaiting().SetCloseCondition(() => IsAuthInProgress == false);
 
-			Action<string> onSuccessfulDeviecIDAuth = token => DemoController.Instance.LoginDemo
+			Action<string> onSuccessfulDeviecIDAuth = token => SdkLoginLogic.Instance
 				.ValidateToken(token, t => CompleteSuccessfulAuth(token, isSaveToken: true), ProcessError);
 			Action<Error> onFailedDeviecIDAuth = ProcessError;
 

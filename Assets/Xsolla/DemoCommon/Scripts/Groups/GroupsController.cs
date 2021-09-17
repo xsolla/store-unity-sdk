@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -82,16 +81,20 @@ namespace Xsolla.Demo
 
 		public void SelectGroup(string groupId)
 		{
-			Groups.Where(g => g.Id != groupId).ToList().ForEach(g => g.Deselect());
+			foreach (var group in Groups)
+			{
+				if (group.Id == groupId)
+					group.Select(trigger: false);//Fix loopback
+				else
+					group.Deselect();
+			}
+
 			GroupSelectedEvent?.Invoke(groupId);
 		}
 
 		public void SelectDefault()
 		{
-			if (Groups.Any())
-			{
-				Groups.First().Select();
-			}
+			Groups.FirstOrDefault()?.Select();
 		}
 
 		public IGroup GetSelectedGroup()

@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using UnityEngine;
 using Xsolla.Core;
 
 namespace Xsolla.Demo
@@ -13,11 +12,8 @@ namespace Xsolla.Demo
 
 			set
 			{
-				if (value == true)
-				{
-					base.OnStarted?.Invoke();
+				if (value)
 					Debug.Log("LoginPageEnterController: Authentication process started");
-				}
 				else
 					Debug.Log("LoginPageEnterController: Authentication process ended");
 
@@ -25,7 +21,7 @@ namespace Xsolla.Demo
 			}
 		}
 
-		private void TryAuthBy<T>(object[] args, Action<string> onSuccess = null, Action<Error> onFailed = null) where T : MonoBehaviour, ILoginAuthorization
+		private void TryAuthBy<T>(object[] args, Action<string> onSuccess = null, Action<Error> onFailed = null) where T : LoginAuthorization
 		{
 			T auth = base.gameObject.AddComponent<T>();
 			Debug.Log($"Trying {auth.GetType().Name}");
@@ -34,20 +30,18 @@ namespace Xsolla.Demo
 			auth.TryAuth(args);
 		}
 	
-		private void CompleteSuccessfulAuth(string token, bool isBasicAuth = false, bool isPaystation = false, bool isSaveToken = false)
+		private void CompleteSuccessfulAuth(string encodedToken, bool isBasicAuth = false, bool isPaystation = false, bool isSaveToken = false)
 		{
 			if(isSaveToken)
-				DemoController.Instance.LoginDemo.SaveToken(Constants.LAST_SUCCESS_AUTH_TOKEN, token);
+				Token.Save();
 
 			if (!isBasicAuth)
 			{
-				token = token.Split('&').First();
-
-				var jwtToken = new Token(token, isPaystation);
-				DemoController.Instance.LoginDemo.Token = jwtToken;
+				encodedToken = encodedToken.Split('&').First();
+				Token.Instance = Token.Create(encodedToken);
 			}
 
-			Debug.Log($"Successful auth with token = {token}");
+			Debug.Log($"Successful auth with token = {encodedToken}");
 			MainMenuNicknameChecker.ResetFlag();
 			IsAuthInProgress = false;
 			base.OnSuccess?.Invoke();

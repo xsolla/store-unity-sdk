@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System;
-using System.Collections;
 using System.Linq;
 using UnityEngine;
 
@@ -8,12 +7,12 @@ namespace Xsolla.Demo
 {
 	public class InventoryPageStoreItemsController : BasePageStoreItemsController
 	{
-		private IInventoryDemoImplementation _inventoryDemoImplementation;
 		private string _lastGroup;
+
+		protected override bool IsShowContent => UserInventory.Instance.HasVirtualItems || UserInventory.Instance.HasPurchasedSubscriptions;
 
 		protected override void Initialize()
 		{
-			_inventoryDemoImplementation = DemoController.Instance.InventoryDemo;
 			UserInventory.Instance.RefreshEvent += OnUserInventoryRefresh;
 		}
 
@@ -25,19 +24,12 @@ namespace Xsolla.Demo
 
 		private void OnUserInventoryRefresh()
 		{
-			base.ShowGroupItems(_lastGroup);
-			UpdateContentVisibility(UserInventory.Instance.HasVirtualItems || UserInventory.Instance.HasPurchasedSubscriptions);
+			base.UpdatePage(_lastGroup);
 		}
 
 		protected override void InitializeItemUI(GameObject item, ItemModel model)
 		{
-			item.GetComponent<InventoryItemUI>().Initialize(model, _inventoryDemoImplementation);
-		}
-
-		protected override IEnumerator FillGroups()
-		{
-			yield return base.FillGroups();
-			UpdateContentVisibility(UserInventory.Instance.HasVirtualItems || UserInventory.Instance.HasPurchasedSubscriptions);
+			item.GetComponent<InventoryItemUI>().Initialize(model);
 		}
 
 		protected override List<ItemModel> GetItemsByGroup(string groupName)
@@ -74,7 +66,7 @@ namespace Xsolla.Demo
 				}
 
 				var catalogItem = UserCatalog.Instance.AllItems.First(cat => cat.Sku.Equals(i.Sku));
-				var itemGroups = _inventoryDemoImplementation.GetCatalogGroupsByItem(catalogItem);
+				var itemGroups = SdkCatalogLogic.Instance.GetCatalogGroupsByItem(catalogItem);
 
 				if (itemGroups.Count == 1 && itemGroups[0] == BattlePassConstants.BATTLEPASS_GROUP)
 					return false; //This is battlepass util item
@@ -101,7 +93,7 @@ namespace Xsolla.Demo
 				}
 				else
 				{
-					var currentItemGroups = _inventoryDemoImplementation.GetCatalogGroupsByItem(item);
+					var currentItemGroups = SdkCatalogLogic.Instance.GetCatalogGroupsByItem(item);
 
 					foreach (var group in currentItemGroups)
 						itemGroups.Add(group);

@@ -29,12 +29,12 @@ public class ConfirmationLinkResender : MonoBehaviour
 
 	public void ResendRegistrationConfirmationEmail()
 	{
-		DemoController.Instance.LoginDemo.ResendConfirmationLink(LoginPageCreateController.LastEmail);
+		SdkLoginLogic.Instance.ResendConfirmationLink(LoginPageCreateController.LastEmail);
 	}
 
 	public void ResendPasswordResetEmail()
 	{
-		DemoController.Instance.LoginDemo.ResetPassword(LoginPageChangePasswordController.LastEmail);
+		SdkLoginLogic.Instance.ResetPassword(LoginPageChangePasswordController.LastEmail);
 	}
 
 	private void ReplaceEmailText(string email)

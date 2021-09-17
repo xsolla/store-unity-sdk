@@ -20,11 +20,11 @@ namespace Xsolla.Demo
 				yield break;
 			}
 
-			yield return new WaitWhile(() => DemoController.Instance.LoginDemo.Token.IsNullOrEmpty());
+			yield return new WaitWhile(() => Core.Token.Instance == null);
 
 			var busy = true;
-			var token = DemoController.Instance.LoginDemo.Token;
-			DemoController.Instance.LoginDemo.GetUserInfo(token, info =>
+			var token = Core.Token.Instance;
+			SdkLoginLogic.Instance.GetUserInfo(token, info =>
 			{
 				DrawInfo(info);
 				busy = false;

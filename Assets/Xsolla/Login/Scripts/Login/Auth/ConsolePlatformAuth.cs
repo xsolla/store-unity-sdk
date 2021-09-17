@@ -1,11 +1,10 @@
-﻿using UnityEngine;
-using Xsolla.Core;
+﻿using Xsolla.Core;
 
 namespace Xsolla.Demo
 {
-	public class ConsolePlatformAuth : StoreStringActionResult, ILoginAuthorization
+	public class ConsolePlatformAuth : LoginAuthorization
 	{
-		public void TryAuth(params object[] args)
+		public override void TryAuth(params object[] args)
 		{
 			if (XsollaSettings.UseConsoleAuth)
 			{
@@ -21,7 +20,7 @@ namespace Xsolla.Demo
 
 		private void RequestToken()
 		{
-			DemoController.Instance.LoginDemo.SignInConsoleAccount(
+			SdkLoginLogic.Instance.SignInConsoleAccount(
 				userId: XsollaSettings.UsernameFromConsolePlatform,
 				platform: XsollaSettings.Platform.GetString(),
 				SuccessHandler,

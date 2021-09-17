@@ -26,11 +26,8 @@ namespace Xsolla.Demo
 			get => base.IsInProgress;
 			set
 			{
-				if (value == true)
-				{
-					base.OnStarted?.Invoke();
+				if (value)
 					Debug.Log("LoginPageCreateController: Create started");
-				}
 				else
 					Debug.Log("LoginPageCreateController: Create ended");
 
@@ -85,7 +82,7 @@ namespace Xsolla.Demo
 					base.OnError?.Invoke(error);
 				};
 
-				DemoController.Instance.LoginDemo.Registration(username, password, email, onSuccess:onSuccessfulCreate, onError:onFailedCreate);
+				SdkLoginLogic.Instance.Registration(username, password, email, onSuccess:onSuccessfulCreate, onError:onFailedCreate);
 			}
 			else if (!isEmailValid)
 			{

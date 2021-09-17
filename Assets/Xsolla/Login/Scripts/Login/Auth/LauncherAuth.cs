@@ -1,10 +1,8 @@
-﻿using UnityEngine;
-
 namespace Xsolla.Demo
 {
-	public class LauncherAuth : StoreStringActionResult, ILoginAuthorization
+	public class LauncherAuth : LoginAuthorization
 	{
-		public void TryAuth(params object[] args)
+		public override void TryAuth(params object[] args)
 		{
 			string launcherToken = LauncherArguments.Instance.GetToken();
 

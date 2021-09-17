@@ -17,11 +17,8 @@ namespace Xsolla.Demo
 			get => base.IsInProgress;
 			set
 			{
-				if (value == true)
-				{
-					base.OnStarted?.Invoke();
+				if (value)
 					Debug.Log("LoginPageChangePasswordController: Password reset started");
-				}
 				else
 					Debug.Log("LoginPageChangePasswordController: Password reset ended");
 
@@ -61,7 +58,7 @@ namespace Xsolla.Demo
 				base.OnError?.Invoke(error);
 			};
 
-			DemoController.Instance.LoginDemo.ResetPassword(email, onSuccessfulPasswordChange, onFailedPasswordChange);
+			SdkLoginLogic.Instance.ResetPassword(email, onSuccessfulPasswordChange, onFailedPasswordChange);
 			IsPasswordChangeInProgress = false;
 		}
 	}

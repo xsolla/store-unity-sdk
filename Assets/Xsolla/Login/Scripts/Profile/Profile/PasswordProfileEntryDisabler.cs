@@ -6,9 +6,9 @@ namespace Xsolla.Demo
 	{
 		private void Start()
 		{
-			var token = DemoController.Instance.LoginDemo.Token;
+			var token = Core.Token.Instance;
 
-			DemoController.Instance.LoginDemo.GetUserInfo(token,
+			SdkLoginLogic.Instance.GetUserInfo(token,
 				onSuccess: info =>
 				{
 					var isEmailPresented = !string.IsNullOrEmpty(info.email);

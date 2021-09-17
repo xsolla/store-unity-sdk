@@ -1,16 +1,15 @@
 using System;
-using UnityEngine;
 using Xsolla.Core;
 
 namespace Xsolla.Demo
 {
-	public class AccessTokenAuth : StoreStringActionResult, ILoginAuthorization
+	public class AccessTokenAuth : LoginAuthorization
 	{
-		public void TryAuth(params object[] args)
+		public override void TryAuth(params object[] args)
 		{
 			if (TryExtractArgs(args, out string email))
 			{
-				DemoController.Instance.LoginDemo.AccessTokenAuth(email, AccessTokenAuthSuccess, AccessTokenAuthFailed);
+				SdkLoginLogic.Instance.AccessTokenAuth(email, AccessTokenAuthSuccess, AccessTokenAuthFailed);
 			}
 			else
 			{
@@ -50,7 +49,7 @@ namespace Xsolla.Demo
 
 		private void AccessTokenAuthSuccess()
 		{
-			base.OnSuccess?.Invoke(DemoController.Instance.LoginDemo.Token);
+			base.OnSuccess?.Invoke(Token.Instance);
 		}
 
 		private void AccessTokenAuthFailed(Error error)

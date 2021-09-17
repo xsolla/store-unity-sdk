@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -25,7 +25,7 @@ namespace Xsolla.Demo
 			_instance.ShowUI(true);
 			_instance.lastShownItemSku = itemModel.Sku;
 			_instance.FullscreenUI.GetComponent<InventoryItemUI>()
-				.Initialize(itemModel, DemoController.Instance.InventoryDemo);
+				.Initialize(itemModel);
 
 			var inventoryItemModel = UserInventory.Instance.VirtualItems.Find(i => i.Sku.Equals(itemModel.Sku));
 			if (inventoryItemModel != null && inventoryItemModel.IsConsumable && inventoryItemModel.RemainingUses != null)

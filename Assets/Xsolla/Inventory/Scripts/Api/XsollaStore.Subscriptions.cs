@@ -1,5 +1,4 @@
 using System;
-using System.Text;
 using JetBrains.Annotations;
 using Xsolla.Core;
 
@@ -23,7 +22,7 @@ namespace Xsolla.Store
 			var platformParam = GetPlatformUrlParam();
 			url = ConcatUrlAndParams(url, platformParam);
 
-			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.ItemsListErrors);
+			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, WebRequestHeader.AuthHeader(Token.Instance), onSuccess, onError, Error.ItemsListErrors);
 		}
 	}
 }

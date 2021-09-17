@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Xsolla.Core;
 using Xsolla.Store;
 
@@ -8,16 +9,19 @@ namespace Xsolla.Demo
 		partial void UpdateStore()
 		{
 			if (!UserCatalog.IsExist)
-				UserCatalog.Instance.Init(InventoryDemo);
-			UserCatalog.Instance.UpdateItems(() =>
+				UserCatalog.Instance.Init();
+
+			UserCatalog.Instance.UpdateItems(
+			onSuccess: () =>
 			{
 				if (UserInventory.IsExist)
 				{
-					UserInventory.Instance.Refresh();
+					UserInventory.Instance.Refresh(onError: StoreDemoPopup.ShowError);
 					// This method used for fastest async image loading
 					StartLoadItemImages(UserCatalog.Instance.AllItems);
 				}
-			});
+			},
+			onError: StoreDemoPopup.ShowError);
 		}
 
 		partial void DestroyStore()
@@ -28,6 +32,21 @@ namespace Xsolla.Demo
 				Destroy(UserSubscriptions.Instance.gameObject);
 			if (UserCart.IsExist)
 				Destroy(UserCart.Instance.gameObject);
+		}
+
+		private void StartLoadItemImages(List<CatalogItemModel> items)
+		{
+			items.ForEach(i =>
+			{
+				if (!string.IsNullOrEmpty(i.ImageUrl))
+				{
+					ImageLoader.Instance.GetImageAsync(i.ImageUrl, null);
+				}
+				else
+				{
+					Debug.LogError($"Catalog item with sku = '{i.Sku}' without image!");
+				}
+			});
 		}
 	}
 }

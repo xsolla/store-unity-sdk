@@ -28,12 +28,11 @@ namespace Xsolla.Demo
 		[SerializeField] GameObject prices = default;
 		[SerializeField] GameObject purchasedText = default;
 
-		private IStoreDemoImplementation _demoImplementation;
 		private CatalogItemModel _itemInformation;
 
-		public event Action<CatalogItemModel> OnInitialized;
-
 		public bool IsAlreadyPurchased { get; private set; }
+
+		public event Action<CatalogItemModel> OnInitialized;
 
 		private void Awake()
 		{
@@ -44,9 +43,8 @@ namespace Xsolla.Demo
 			expirationTimeObject.SetActive(false);
 		}
 
-		public void Initialize(CatalogItemModel virtualItem, IStoreDemoImplementation demoImplementation)
+		public void Initialize(CatalogItemModel virtualItem)
 		{
-			_demoImplementation = demoImplementation;
 			_itemInformation = virtualItem;
 
 			if (virtualItem.VirtualPrice != null)
@@ -219,6 +217,9 @@ namespace Xsolla.Demo
 
 		private void LoadImageCallback(string url, Sprite image)
 		{
+			if (!itemImage)
+				return;
+			
 			loadingCircle.SetActive(false);
 			itemImage.gameObject.SetActive(true);
 			itemImage.sprite = image;
@@ -246,11 +247,11 @@ namespace Xsolla.Demo
 
 			if (virtualItem.VirtualPrice == null)
 			{
-				buyButton.onClick = () => _demoImplementation.PurchaseForRealMoney(virtualItem, onPurchased);
+				buyButton.onClick = () => DemoShop.Instance.PurchaseForRealMoney(virtualItem, onPurchased);
 			}
 			else
 			{
-				buyButton.onClick = () => _demoImplementation.PurchaseForVirtualCurrency(virtualItem, onPurchased);
+				buyButton.onClick = () => DemoShop.Instance.PurchaseForVirtualCurrency(virtualItem, onPurchased);
 			}
 		}
 

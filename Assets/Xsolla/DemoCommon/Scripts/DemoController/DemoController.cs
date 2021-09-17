@@ -4,73 +4,36 @@ using Xsolla.Core.Popup;
 
 namespace Xsolla.Demo
 {
-	public partial class DemoController : MonoSingleton<DemoController>, IMenuStateMachine
+	public partial class DemoController : MonoSingleton<DemoController>
 	{
 		[SerializeField]private MenuStateMachine stateMachine = default;
-		[SerializeField]private UrlContainer _urlContainer = default;
+		[SerializeField]private UrlContainer urlContainer = default;
 
-		public ILoginDemoImplementation LoginDemo { get; private set; }
-		public IStoreDemoImplementation StoreDemo { get; private set; }
-		public IInventoryDemoImplementation InventoryDemo { get; private set; }
-
-		public UrlContainer UrlContainer => _urlContainer;
+		public UrlContainer UrlContainer => urlContainer;
 		public bool IsTutorialAvailable { get; private set; } = false;
 		public bool IsAccessTokenAuth => XsollaSettings.AuthorizationType == AuthorizationType.AccessToken;
-
-		public event MenuStateMachine.StateChangeDelegate StateChangingEvent
-		{
-			add => stateMachine.StateChangingEvent += value;
-			remove => stateMachine.StateChangingEvent -= value;
-		}
 
 		public override void Init()
 		{
 			base.Init();
 			XsollaWebCallbacks.Instance.Init();
 
-			LoginDemo = GetComponent<ILoginDemoImplementation>();
-			StoreDemo = GetComponent<IStoreDemoImplementation>();
-			InventoryDemo = GetComponent<IInventoryDemoImplementation>();
-
-			StateChangingEvent += OnStateChangingEvent;
-			InitInventory();
+			stateMachine.StateChangedEvent += OnStateChanged;
+			InitTutorial();
 		}
 
-		private void OnStateChangingEvent(MenuState lastState, MenuState newState)
+		private void Start()
 		{
-			if (lastState.IsPostAuthState() && newState.IsAuthState())
-			{
-				if(UserFriends.IsExist)
-					Destroy(UserFriends.Instance.gameObject);
-
-				DestroyInventory();
-				DestroyStore();
-
-				LoginDemo.Token = null;
-			}
-
-			if (lastState.IsAuthState() && newState == MenuState.Main)
-			{
-				UpdateCatalogAndInventory();
-				AutoStartTutorial();
-			}
-		}
-
-		private void UpdateCatalogAndInventory()
-		{
-			UpdateStore();
-			UpdateInventory();
+			stateMachine.SetInitialState();
 		}
 
 		protected override void OnDestroy()
 		{
-			DestroyStore();
-			DestroyInventory();
+			DestroyInstances();
 
-			if(UserFriends.IsExist)
-				Destroy(UserFriends.Instance.gameObject);
 			if(PopupFactory.IsExist)
 				Destroy(PopupFactory.Instance.gameObject);
+
 			base.OnDestroy();
 		}
 
@@ -78,6 +41,7 @@ namespace Xsolla.Demo
 		{
 			if (stateMachine != null)
 				stateMachine.SetState(state);
+
 			return null;
 		}
 
@@ -102,12 +66,37 @@ namespace Xsolla.Demo
 
 		public string GetWebStoreUrl()
 		{
-			return $"{XsollaSettings.WebStoreUrl}?token={LoginDemo.Token}&remember_me=false";
+			return $"{XsollaSettings.WebStoreUrl}?token={Token.Instance}&remember_me=false";
 		}
 
 		public void ShowTutorial(bool showWelcomeMessage) => ManualStartTutorial(showWelcomeMessage);
 
-		partial void InitInventory();
+		private void OnStateChanged(MenuState lastState, MenuState newState)
+		{
+			if (lastState.IsPostAuthState() && newState.IsAuthState())
+			{
+				DestroyInstances();
+				Token.Instance = null;
+			}
+
+			if (lastState.IsAuthState() && newState == MenuState.Main)
+			{
+				UpdateStore();
+				UpdateInventory();
+				AutoStartTutorial();
+			}
+		}
+
+		private void DestroyInstances()
+		{
+			if (UserFriends.IsExist)
+				Destroy(UserFriends.Instance.gameObject);
+
+			DestroyInventory();
+			DestroyStore();
+		}
+
+		partial void InitTutorial();
 		partial void AutoStartTutorial();
 		partial void ManualStartTutorial(bool showWelcomeMessage);
 

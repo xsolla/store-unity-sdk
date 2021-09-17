@@ -12,9 +12,9 @@ namespace Xsolla.Demo
 
 			var subscriptionItem = UserCatalog.Instance.AllItems.First(s => s.Sku == _itemInformation.Sku);
 			if (subscriptionItem.VirtualPrice == null)
-				renewSubscriptionButton.onClick = () => DemoController.Instance.StoreDemo.PurchaseForRealMoney(subscriptionItem);
+				renewSubscriptionButton.onClick = () => DemoShop.Instance.PurchaseForRealMoney(subscriptionItem);
 			else
-				renewSubscriptionButton.onClick = () => DemoController.Instance.StoreDemo.PurchaseForVirtualCurrency(subscriptionItem);
+				renewSubscriptionButton.onClick = () => DemoShop.Instance.PurchaseForVirtualCurrency(subscriptionItem);
 		}
 	}
 }

@@ -5,9 +5,9 @@ using Xsolla.Core;
 
 namespace Xsolla.Demo
 {
-	public class SocialAuth : StoreStringActionResult, ILoginAuthorization
+	public class SocialAuth : LoginAuthorization
 	{
-		public void TryAuth(params object[] args)
+		public override void TryAuth(params object[] args)
 		{
 	#if UNITY_EDITOR || UNITY_STANDALONE
 			if (HotkeyCoroutine.IsLocked())
@@ -20,21 +20,13 @@ namespace Xsolla.Demo
 			{
 				HotkeyCoroutine.Lock();
 
-				string url = DemoController.Instance.LoginDemo.GetSocialNetworkAuthUrl(provider);
+				string url = SdkLoginLogic.Instance.GetSocialNetworkAuthUrl(provider);
 				Debug.Log($"Social url: {url}");
-				BrowserHelper.Instance.Open(url, true);
 
-				var singlePageBrowser = BrowserHelper.Instance.GetLastBrowser();
-
-				if (singlePageBrowser == null)
-				{
-					Debug.LogError("Browser is null");
-					base.OnError?.Invoke(Error.UnknownError);
-					return;
-				}
-
-				singlePageBrowser.BrowserClosedEvent += _ => BrowserCloseHandler();
-				singlePageBrowser.GetComponent<XsollaBrowser>().Navigate.UrlChangedEvent += UrlChangedHandler;
+				var browser = BrowserHelper.Instance.InAppBrowser;
+				browser.Open(url);
+				browser.AddCloseHandler(BrowserCloseHandler);
+				browser.AddUrlChangeHandler(UrlChangedHandler);
 			}
 			else
 			{
@@ -80,7 +72,7 @@ namespace Xsolla.Demo
 			base.OnError?.Invoke(null);
 		}
 
-		private void UrlChangedHandler(IXsollaBrowser browser, string newUrl)
+		private void UrlChangedHandler(string newUrl)
 		{
 			if (XsollaSettings.AuthorizationType == AuthorizationType.JWT && ParseUtils.TryGetValueFromUrl(newUrl, ParseParameter.token, out var token))
 			{
@@ -90,7 +82,7 @@ namespace Xsolla.Demo
 			else if (XsollaSettings.AuthorizationType == AuthorizationType.OAuth2_0 && ParseUtils.TryGetValueFromUrl(newUrl, ParseParameter.code, out var code))
 			{
 				Debug.Log($"We take{Environment.NewLine}from URL:{newUrl}{Environment.NewLine}code = {code}");
-				DemoController.Instance.LoginDemo.ExchangeCodeToToken(
+				SdkLoginLogic.Instance.ExchangeCodeToToken(
 					code,
 					onSuccessExchange: socialToken => StartCoroutine(SuccessAuthCoroutine(socialToken)),
 					onError: error => { Debug.LogError(error.errorMessage); base.OnError?.Invoke(error); }
@@ -101,10 +93,13 @@ namespace Xsolla.Demo
 		private IEnumerator SuccessAuthCoroutine(string token)
 		{
 			yield return new WaitForEndOfFrame();
-	#if UNITY_EDITOR || UNITY_STANDALONE
-			Destroy(BrowserHelper.Instance.gameObject);
-			HotkeyCoroutine.Unlock();
-	#endif
+
+			if (EnvironmentDefiner.IsStandaloneOrEditor)
+			{
+				BrowserHelper.Instance.Close();
+				HotkeyCoroutine.Unlock();
+			}
+
 			base.OnSuccess?.Invoke(token);
 		}
 	}

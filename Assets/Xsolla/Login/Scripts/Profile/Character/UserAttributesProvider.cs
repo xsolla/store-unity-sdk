@@ -33,7 +33,7 @@ namespace Xsolla.Demo
 				base.OnSuccess?.Invoke();
 			};
 
-			DemoController.Instance.LoginDemo.GetUserAttributes(base.Token, base.ProjectID, this.AttributeType, attributeKeys, userId, onSuccessGet, base.OnError);
+			SdkLoginLogic.Instance.GetUserAttributes(base.Token, base.ProjectID, this.AttributeType, attributeKeys, userId, onSuccessGet, base.OnError);
 		}
 	}
 }

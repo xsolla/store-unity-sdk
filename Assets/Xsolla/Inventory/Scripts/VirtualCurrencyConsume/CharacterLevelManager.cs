@@ -28,7 +28,7 @@ namespace Xsolla.Demo
 
 		private void Start()
 		{
-			var token = DemoController.Instance.LoginDemo.Token;
+			var token = Token.Instance;
 
 			Action<UserInfo> successCallback = info =>
 			{
@@ -43,7 +43,7 @@ namespace Xsolla.Demo
 				InitializeUI();
 			};
 
-			DemoController.Instance.LoginDemo.GetUserInfo(token, successCallback, errorCallback);
+			SdkLoginLogic.Instance.GetUserInfo(token, successCallback, errorCallback);
 		}
 
 		private void InitializeUI()
@@ -94,18 +94,16 @@ namespace Xsolla.Demo
 					ShowLevel(_characterLevel);
 
 					if (UserInventory.IsExist)
-						UserInventory.Instance.Refresh();
+						UserInventory.Instance.Refresh(onError: StoreDemoPopup.ShowError);
 				};
 
-				var inventoryDemo = DemoController.Instance.InventoryDemo;
-
-				if (inventoryDemo != null)
+				if (DemoMarker.IsInventoryPartAvailable)
 				{
-					DemoController.Instance.InventoryDemo.ConsumeInventoryItem(
+					DemoInventory.Instance.ConsumeInventoryItem(
 						levelUpPayment,
-						(int?)LevelUpPrice,
+						(int)LevelUpPrice,
 						onSuccess: _ => onSuccessConsume.Invoke(),
-						onFailed: _ => Debug.Log("Could not consume virtual currency"));
+						onError: _ => Debug.Log("Could not consume virtual currency"));
 				}
 				else
 				{

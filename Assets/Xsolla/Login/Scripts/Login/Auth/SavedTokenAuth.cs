@@ -1,12 +1,12 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
 using Xsolla.Core;
 
 namespace Xsolla.Demo
 {
-	public class SavedTokenAuth : StoreStringActionResult, ILoginAuthorization
+	public class SavedTokenAuth : LoginAuthorization
 	{
-		public void TryAuth(params object[] args)
+		public override void TryAuth(params object[] args)
 		{
 			StartCoroutine(LoadToken());
 		}
@@ -14,12 +14,12 @@ namespace Xsolla.Demo
 		private IEnumerator LoadToken()
 		{
 			if (XsollaSettings.AuthorizationType == AuthorizationType.OAuth2_0)
-				yield return new WaitWhile(() => DemoController.Instance.LoginDemo.IsOAuthTokenRefreshInProgress);
+				yield return new WaitWhile(() => SdkLoginLogic.Instance.IsOAuthTokenRefreshInProgress);
 
-			if (DemoController.Instance.LoginDemo.LoadToken(Constants.LAST_SUCCESS_AUTH_TOKEN, out var token))
+			if (Token.Load())
 			{
 				Debug.Log("SavedTokenAuth.TryAuth: Token loaded");
-				base.OnSuccess?.Invoke(token);
+				base.OnSuccess?.Invoke(Token.Instance);
 			}
 			else
 			{

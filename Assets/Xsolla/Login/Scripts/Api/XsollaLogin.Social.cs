@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using UnityEngine;
 using Xsolla.Core;
 
 namespace Xsolla.Login
@@ -135,7 +133,7 @@ namespace Xsolla.Login
 		{
 			var redirectUrl = !string.IsNullOrEmpty(XsollaSettings.CallbackUrl) ? XsollaSettings.CallbackUrl : DEFAULT_REDIRECT_URI;
 			var url = string.Format(URL_LINK_SOCIAL_NETWORK, socialProvider.GetParameter(), redirectUrl);
-			WebRequestHelper.Instance.GetRequest<LinkSocialProviderResponse>(SdkType.Login, url, WebRequestHeader.AuthHeader(Token),
+			WebRequestHelper.Instance.GetRequest<LinkSocialProviderResponse>(SdkType.Login, url, WebRequestHeader.AuthHeader(Token.Instance),
 				response => urlCallback?.Invoke(response.url));
 		}
 
@@ -148,7 +146,7 @@ namespace Xsolla.Login
 		/// <param name="onError">Failed operation callback.</param>
 		public void GetLinkedSocialProviders(Action<List<LinkedSocialNetwork>> onSuccess, Action<Error> onError = null)
 		{
-			WebRequestHelper.Instance.GetRequest(SdkType.Login, URL_GET_LINKED_SOCIAL_NETWORKS, WebRequestHeader.AuthHeader(Token), onSuccess, onError);
+			WebRequestHelper.Instance.GetRequest(SdkType.Login, URL_GET_LINKED_SOCIAL_NETWORKS, WebRequestHeader.AuthHeader(Token.Instance), onSuccess, onError);
 		}
 
 		/// <summary>
@@ -165,7 +163,7 @@ namespace Xsolla.Login
 			var localeParam = GetLocaleUrlParam(locale).Replace("&", string.Empty);
 			var url = string.Format(URL_GET_AVAILABLE_SOCIAL_NETWORKS, localeParam);
 
-			WebRequestHelper.Instance.GetRequest(SdkType.Login, url, WebRequestHeader.AuthHeader(Token), onSuccess, onError);
+			WebRequestHelper.Instance.GetRequest(SdkType.Login, url, WebRequestHeader.AuthHeader(Token.Instance), onSuccess, onError);
 		}
 	}
 }

@@ -17,14 +17,14 @@ namespace Xsolla.Demo
 		public event Action SocialFriendsUpdatedEvent;
 		public event Action AllUsersUpdatedEvent;
 		public bool IsUpdated { get; private set; }
-	
+
 		public List<FriendModel> Friends { get; private set; }
 		public List<FriendModel> Blocked { get; private set; }
 		public List<FriendModel> Pending { get; private set; }
 		public List<FriendModel> Requested { get; private set; }
 		public List<FriendModel> SocialFriends { get; private set; }
 
-		private Coroutine RefreshCoroutine;
+		private Coroutine _refreshCoroutine;
 
 		public override void Init()
 		{
@@ -39,27 +39,25 @@ namespace Xsolla.Demo
 
 		public FriendModel GetUserById(string userId)
 		{
-			Func<FriendModel, bool> predicate = u => u.Id.Equals(userId);
-			if (Friends.Any(predicate)) return Friends.First(predicate);
-			if (Pending.Any(predicate)) return Pending.First(predicate);
-			if (Blocked.Any(predicate)) return Blocked.First(predicate);
-			if (Requested.Any(predicate)) return Requested.First(predicate);
-			return null;
+			Func<FriendModel, bool> predicate = user => user.Id.Equals(userId);
+			var result = Friends.FirstOrDefault(predicate);
+
+			if (result == null)
+				result = Pending.FirstOrDefault(predicate);
+			if (result == null)
+				result = Blocked.FirstOrDefault(predicate);
+			if (result == null)
+				result = Requested.FirstOrDefault(predicate);
+
+			return result;
 		}
 
-		private void RefreshUsersMethod([CanBeNull] Action onSuccess = null, [CanBeNull] Action<Error> onError = null)
+		public void UpdateFriends([CanBeNull] Action onSuccess = null, [CanBeNull] Action<Error> onError = null)
 		{
 			IsUpdated = false;
 			StartCoroutine(UpdateFriendsCoroutine(onSuccess, onError));
 		}
-	
-		public void UpdateFriends([CanBeNull] Action onSuccess = null, [CanBeNull] Action<Error> onError = null)
-		{
-			RefreshUsersMethod(
-				onSuccess: () => onSuccess?.Invoke(),
-				onError: err => onError?.Invoke(err));
-		}
-	
+
 		private IEnumerator UpdateFriendsCoroutine(Action onSuccess, Action<Error> onError)
 		{
 			bool? isTokenValid = null;
@@ -69,7 +67,12 @@ namespace Xsolla.Demo
 			bool pendingBusy = true;
 			bool requestedBusy = true;
 
-			DemoController.Instance.LoginDemo.ValidateToken(DemoController.Instance.LoginDemo.Token, onSuccess: _ => isTokenValid = true, onError: _ => isTokenValid = false);
+			SdkLoginLogic.Instance.ValidateToken(
+				Token.Instance,
+				onSuccess: _ => isTokenValid = true,
+				onError: _ => isTokenValid = false
+			);
+
 			yield return new WaitWhile(() => isTokenValid == null);
 
 			if (isTokenValid == true)
@@ -81,79 +84,77 @@ namespace Xsolla.Demo
 				UpdateRequestedUsers(() => requestedBusy = false, onError);
 				yield return new WaitWhile(() => friendsBusy || blockedBusy || pendingBusy || requestedBusy || socialBusy);
 
-				UpdateSocialFriends();
+				UpdateSocialFriends(onError: onError);
 				IsUpdated = true;
 				onSuccess?.Invoke();
 				AllUsersUpdatedEvent?.Invoke();
 			}
 			else
 			{
-				StoreDemoPopup.ShowError(new Error(errorMessage: "Your token is not valid"));
-				DemoController.Instance.SetState(MenuState.Authorization);
+				onError?.Invoke(new Error(ErrorType.InvalidToken, errorMessage:"Your token is not valid"));
 			}
 		}
 
 		private void UpdateUserSocialFriends(Action onSuccess = null, Action<Error> onError = null)
 		{
-			DemoController.Instance.LoginDemo.ForceUpdateFriendsFromSocialNetworks(onSuccess, onError);
+			SdkFriendsLogic.Instance.ForceUpdateFriendsFromSocialNetworks(onSuccess, onError);
 		}
-	
+
 		private void UpdateUserFriends(Action onSuccess = null, Action<Error> onError = null)
 		{
-			DemoController.Instance.LoginDemo.GetUserFriends(friends =>
+			SdkFriendsLogic.Instance.GetUserFriends(friends =>
 			{
 				Friends = friends;
 				UserFriendsUpdatedEvent?.Invoke();
 				onSuccess?.Invoke();
 			}, onError);
 		}
-	
+
 		private void UpdateBlockedUsers(Action onSuccess = null, Action<Error> onError = null)
 		{
-			DemoController.Instance.LoginDemo.GetBlockedUsers(users =>
+			SdkFriendsLogic.Instance.GetBlockedUsers(users =>
 			{
 				Blocked = users;
 				BlockedUsersUpdatedEvent?.Invoke();
 				onSuccess?.Invoke();
 			}, onError);
 		}
-	
+
 		private void UpdatePendingUsers(Action onSuccess = null, Action<Error> onError = null)
 		{
-			DemoController.Instance.LoginDemo.GetPendingUsers(users =>
+			SdkFriendsLogic.Instance.GetPendingUsers(users =>
 			{
 				Pending = users;
 				PendingUsersUpdatedEvent?.Invoke();
 				onSuccess?.Invoke();
 			}, onError);
 		}
-	
+
 		private void UpdateRequestedUsers(Action onSuccess = null, Action<Error> onError = null)
 		{
-			DemoController.Instance.LoginDemo.GetRequestedUsers(users =>
+			SdkFriendsLogic.Instance.GetRequestedUsers(users =>
 			{
 				Requested = users;
 				RequestedUsersUpdatedEvent?.Invoke();
 				onSuccess?.Invoke();
 			}, onError);
 		}
-	
+
 		private void UpdateSocialFriends(Action onSuccess = null, Action<Error> onError = null)
 		{
-			DemoController.Instance.LoginDemo.GetFriendsFromSocialNetworks(users =>
+			SdkFriendsLogic.Instance.GetFriendsFromSocialNetworks(users =>
 			{
 				SocialFriends = users;
 				SocialFriendsUpdatedEvent?.Invoke();
 				onSuccess?.Invoke();
 			}, onError);
 		}
-	
-		private void ShowErrorMessage(string message, Action<Error> onError = null)
+
+		private void RaiseOnError(string message, Action<Error> onError = null)
 		{
 			Debug.LogError(message);
-			var err = Error.UnknownError;
-			err.errorMessage = message;
-			onError?.Invoke(err);
+			var error = new Error(ErrorType.IncorrectFriendState, errorMessage: message);
+			onError?.Invoke(error);
 		}
 
 		private void RemoveUserFromMemory(FriendModel user)
@@ -179,86 +180,92 @@ namespace Xsolla.Demo
 				BlockedUsersUpdatedEvent?.Invoke();
 			}
 		}
-	
+
 		public void BlockUser(FriendModel user, [CanBeNull] Action<FriendModel> onSuccess = null, [CanBeNull] Action<Error> onError = null)
 		{
-			if (!Blocked.Contains(user))
-				DemoController.Instance.LoginDemo.BlockUser(user, u =>
+			if (Blocked.Contains(user))
+				RaiseOnError($"Can not block user with this nickname = {user.Nickname}. They are already blocked.", onError);
+			else
+			{
+				SdkFriendsLogic.Instance.BlockUser(user, blockedUser =>
 				{
 					RemoveUserFromMemory(user);
-					UpdateBlockedUsers();
-					onSuccess?.Invoke(u);
+					UpdateBlockedUsers(onError: onError);
+					onSuccess?.Invoke(blockedUser);
 				}, onError);
+			}
 		}
-	
+
 		public void UnblockUser(FriendModel user, [CanBeNull] Action<FriendModel> onSuccess = null, [CanBeNull] Action<Error> onError = null)
 		{
 			if (!Blocked.Contains(user))
-				ShowErrorMessage($"Can not unblock user with nickname = {user.Nickname}, because we have not this user in blocked friends!", onError);
+				RaiseOnError($"Can not unblock user with this nickname = {user.Nickname}. This user is not in the list of blocked friends.", onError);
 			else
-				DemoController.Instance.LoginDemo.UnblockUser(user, u =>
+				SdkFriendsLogic.Instance.UnblockUser(user, u =>
 				{
 					RemoveUserFromMemory(user);
 					onSuccess?.Invoke(u);
 				}, onError);
 		}
-	
+
 		public void AddFriend(FriendModel user, [CanBeNull] Action<FriendModel> onSuccess = null, [CanBeNull] Action<Error> onError = null)
 		{
 			if (Friends.Contains(user) || Blocked.Contains(user) || Pending.Contains(user) || Requested.Contains(user))
-				ShowErrorMessage($"Can not add friend with nickname = {user.Nickname}, because this friend is not in 'initial' state!", onError);
+				RaiseOnError($"Can not add friend with this nickname = {user.Nickname}. This friend is not in the 'initial' state.", onError);
 			else
-				DemoController.Instance.LoginDemo.SendFriendshipInvite(user, u =>
+				SdkFriendsLogic.Instance.SendFriendshipInvite(user, u =>
 				{
 					RemoveUserFromMemory(user);
-					UpdateRequestedUsers();
+					UpdateRequestedUsers(onError: onError);
 					onSuccess?.Invoke(u);
 				}, onError);
 		}
-	
+
 		public void RemoveFriend(FriendModel user, [CanBeNull] Action<FriendModel> onSuccess = null, [CanBeNull] Action<Error> onError = null)
 		{
 			if (!Friends.Contains(user))
-				ShowErrorMessage($"Can not remove friend with nickname = {user.Nickname}, because we have not this friend!", onError);
+				RaiseOnError($"Can not remove friend with this nickname = {user.Nickname}. This user is not in the friend list.", onError);
 			else
-				DemoController.Instance.LoginDemo.RemoveFriend(user, u =>
+			{
+				SdkFriendsLogic.Instance.RemoveFriend(user, u =>
 				{
 					RemoveUserFromMemory(user);
 					onSuccess?.Invoke(u);
 				}, onError);
+			}
 		}
-	
+
 		public void AcceptFriendship(FriendModel user, [CanBeNull] Action<FriendModel> onSuccess = null, [CanBeNull] Action<Error> onError = null)
 		{
 			if (!Pending.Contains(user))
-				ShowErrorMessage($"Can not accept friendship from nickname = {user.Nickname}, because we have not this pending user!", onError);
+				RaiseOnError($"Can not accept friendship from the user = {user.Nickname}. They are not a pending user.", onError);
 			else
-				DemoController.Instance.LoginDemo.AcceptFriendship(user, u =>
+				SdkFriendsLogic.Instance.AcceptFriendship(user, u =>
 				{
 					RemoveUserFromMemory(user);
 					UpdateUserFriends();
 					onSuccess?.Invoke(u);
 				}, onError);
 		}
-	
+
 		public void DeclineFriendship(FriendModel user, [CanBeNull] Action<FriendModel> onSuccess = null, [CanBeNull] Action<Error> onError = null)
 		{
 			if (!Pending.Contains(user))
-				ShowErrorMessage($"Can not accept friendship from nickname = {user.Nickname}, because we have not this pending user!", onError);
+				RaiseOnError($"Can not accept friendship from the user = {user.Nickname}. They are not a pending user.", onError);
 			else
-				DemoController.Instance.LoginDemo.DeclineFriendship(user, u =>
+				SdkFriendsLogic.Instance.DeclineFriendship(user, u =>
 				{
 					RemoveUserFromMemory(user);
 					onSuccess?.Invoke(u);
 				}, onError);
 		}
-	
+
 		public void CancelFriendshipRequest(FriendModel user, [CanBeNull] Action<FriendModel> onSuccess = null, [CanBeNull] Action<Error> onError = null)
 		{
 			if (!Requested.Contains(user))
-				ShowErrorMessage($"Can not cancel friendship request to = {user.Nickname}, because we have not this requested user!", onError);
+				RaiseOnError($"Can not cancel friendship request to = {user.Nickname}. This user doesn't have a friend request.", onError);
 			else
-				DemoController.Instance.LoginDemo.CancelFriendshipRequest(user, u =>
+				SdkFriendsLogic.Instance.CancelFriendshipRequest(user, u =>
 				{
 					RemoveUserFromMemory(user);
 					onSuccess?.Invoke(u);
@@ -268,7 +275,7 @@ namespace Xsolla.Demo
 		public void SearchUsersByNickname(string nickname, [CanBeNull] Action<List<FriendModel>> onSuccess = null,
 			[CanBeNull] Action<Error> onError = null)
 		{
-			DemoController.Instance.LoginDemo.SearchUsersByNickname(nickname, onSuccess, onError);
+			SdkLoginLogic.Instance.SearchUsersByNickname(nickname, onSuccess, onError);
 		}
 	}
 }

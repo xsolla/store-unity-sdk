@@ -2,9 +2,9 @@ using Xsolla.Core;
 
 namespace Xsolla.Demo
 {
-	public class DeviceIdAuth : StoreStringActionResult, ILoginAuthorization
+	public class DeviceIdAuth : LoginAuthorization
 	{
-		public void TryAuth(params object[] args)
+		public override void TryAuth(params object[] args)
 		{
 			var supported = true;
 #if !(UNITY_ANDROID || UNITY_IOS) || UNITY_EDITOR
@@ -30,7 +30,7 @@ namespace Xsolla.Demo
 			var deviceInfo = $"{deviceName}:{deviceModel}";
 			Debug.Log($"Trying device_type:'{deviceType}', device_id:'{deviceId}', device:'{deviceInfo}'");
 
-			DemoController.Instance.LoginDemo.AuthViaDeviceID(deviceType, deviceInfo, deviceId,
+			SdkLoginLogic.Instance.AuthViaDeviceID(deviceType, deviceInfo, deviceId,
 				onSuccess: SuccessHandler,
 				onError: FailHandler);
 		}

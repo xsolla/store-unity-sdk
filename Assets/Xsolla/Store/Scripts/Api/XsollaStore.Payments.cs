@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
-using UnityEngine;
 using Xsolla.Core;
-using Xsolla.Core.Browser;
 
 namespace Xsolla.Store
 {
@@ -19,19 +17,6 @@ namespace Xsolla.Store
 		private const string URL_PAYSTATION_UI_IN_SANDBOX_MODE = "https://sandbox-secure.xsolla.com/paystation3/?access_token=";
 
 		private const string URL_CREATE_PAYMENT_TOKEN = BASE_STORE_API_URL + "/payment";
-
-		private readonly Dictionary<string, int> _restrictedPaymentMethods = new Dictionary<string, int>
-		{
-			{"https://secure.xsolla.com/pages/paywithgoogle", 3431},
-			{"https://secure.xsolla.com/pages/vkpay", 3496}
-		};
-
-		private readonly Dictionary<PayStationUISettings.PaystationSize, Vector2> _payStationSizes = new Dictionary<PayStationUISettings.PaystationSize, Vector2>
-		{
-			{PayStationUISettings.PaystationSize.Small, new Vector2(620, 630)},
-			{PayStationUISettings.PaystationSize.Medium, new Vector2(740, 760)},
-			{PayStationUISettings.PaystationSize.Large, new Vector2(820, 840)}
-		};
 
 		/// <summary>
 		/// Returns headers list such as <c>AuthHeader</c> and <c>SteamPaymentHeader</c>.
@@ -58,8 +43,7 @@ namespace Xsolla.Store
 		}
 
 		/// <summary>
-		/// Returns unique identifier of the created order and
-		/// the Pay Station token for the purchase of the specified product.
+		/// Creates an order with a specified item. The created order will get a 'new' order status.
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Create order with specified item</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/store-api/payment/create-order-with-item"/>
@@ -73,7 +57,7 @@ namespace Xsolla.Store
 		{
 			var tempPurchaseParams = GenerateTempPurchaseParams(purchaseParams);
 			var url = string.Format(URL_BUY_ITEM, projectId, itemSku);
-			WebRequestHelper.Instance.PostRequest<PurchaseData, TempPurchaseParams>(SdkType.Store, url, tempPurchaseParams, GetPaymentHeaders(Token), onSuccess, onError, Error.BuyItemErrors);
+			WebRequestHelper.Instance.PostRequest<PurchaseData, TempPurchaseParams>(SdkType.Store, url, tempPurchaseParams, GetPaymentHeaders(Token.Instance), onSuccess, onError, Error.BuyItemErrors);
 		}
 
 		/// <summary>
@@ -106,11 +90,11 @@ namespace Xsolla.Store
 			var platformParam = GetPlatformUrlParam();
 			url = ConcatUrlAndParams(url, platformParam);
 
-			WebRequestHelper.Instance.PostRequest<PurchaseData, TempPurchaseParams>(SdkType.Store, url, tempPurchaseParams, GetPaymentHeaders(Token), onSuccess, onError, Error.BuyItemErrors);
+			WebRequestHelper.Instance.PostRequest<PurchaseData, TempPurchaseParams>(SdkType.Store, url, tempPurchaseParams, GetPaymentHeaders(Token.Instance), onSuccess, onError, Error.BuyItemErrors);
 		}
 
 		/// <summary>
-		/// Returns the Paystation Token for the purchase of the items in the current cart.
+		/// Creates an order with all items from the cart. The created order will get a 'new' order status.
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Creates an order with all items from the current cart</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/store-api/cart-payment/payment/create-order/"/>
@@ -122,11 +106,11 @@ namespace Xsolla.Store
 		{
 			var tempPurchaseParams = GenerateTempPurchaseParams(purchaseParams);
 			var url = string.Format(URL_BUY_CURRENT_CART, projectId);
-			WebRequestHelper.Instance.PostRequest<PurchaseData, TempPurchaseParams>(SdkType.Store, url, tempPurchaseParams, GetPaymentHeaders(Token), onSuccess, onError, Error.BuyCartErrors);
+			WebRequestHelper.Instance.PostRequest<PurchaseData, TempPurchaseParams>(SdkType.Store, url, tempPurchaseParams, GetPaymentHeaders(Token.Instance), onSuccess, onError, Error.BuyCartErrors);
 		}
 
 		/// <summary>
-		/// Returns the Pay Station token for the purchase of the items in the specified cart.
+		/// Creates an order with all items from the particular cart. The created order will get a 'new' order status.
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Creates an order with all items from the particular cart</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/store-api/cart-payment/payment/create-order-by-cart-id/"/>
@@ -139,33 +123,25 @@ namespace Xsolla.Store
 		{
 			var tempPurchaseParams = GenerateTempPurchaseParams(purchaseParams);
 			var url = string.Format(URL_BUY_SPECIFIC_CART, projectId, cartId);
-			WebRequestHelper.Instance.PostRequest<PurchaseData, TempPurchaseParams>(SdkType.Store, url, tempPurchaseParams, GetPaymentHeaders(Token), onSuccess, onError, Error.BuyCartErrors);
+			WebRequestHelper.Instance.PostRequest<PurchaseData, TempPurchaseParams>(SdkType.Store, url, tempPurchaseParams, GetPaymentHeaders(Token.Instance), onSuccess, onError, Error.BuyCartErrors);
 		}
 
-		// TEXTREVIEW
 		/// <summary>
-		/// Opens Pay Station in the browser with retrieved Pay Station token.
+		/// Opens Pay Station in the browser with a retrieved Pay Station token.
 		/// </summary>
 		/// <see cref="https://developers.xsolla.com/doc/pay-station"/>
 		/// <param name="purchaseData">Contains Pay Station token for the purchase.</param>
-		/// <param name="forcePlatformBrowser">Flag indicating whether to force platform browser usage ignoring plugin settings.</param>
-		/// <param name="onRestrictedPaymentMethod">Restricted payment method was triggered in in-app browser.</param>
+		/// <param name="forcePlatformBrowser">Flag indicating whether to force platform browser usage ignoring plug-in settings.</param>
+		/// <param name="onRestrictedPaymentMethod">Restricted payment method was triggered in an in-app browser.</param>
 		/// <seealso cref="BrowserHelper"/>
 		public void OpenPurchaseUi(PurchaseData purchaseData, bool forcePlatformBrowser = false, Action<int> onRestrictedPaymentMethod = null)
 		{
-			string url = (XsollaSettings.IsSandbox) ? URL_PAYSTATION_UI_IN_SANDBOX_MODE : URL_PAYSTATION_UI;
+			string url = XsollaSettings.IsSandbox ? URL_PAYSTATION_UI_IN_SANDBOX_MODE : URL_PAYSTATION_UI;
 			BrowserHelper.Instance.OpenPurchase(
-				url, purchaseData.token,
-				XsollaSettings.IsSandbox,
-				XsollaSettings.InAppBrowserEnabled && !forcePlatformBrowser);
-
-#if (UNITY_EDITOR || UNITY_STANDALONE)
-			if (BrowserHelper.Instance.GetLastBrowser() != null)
-			{
-				TrackRestrictedPaymentMethod(onRestrictedPaymentMethod);
-				UpdateBrowserSize();
-			}
-#endif
+				url,
+				purchaseData.token,
+				forcePlatformBrowser,
+				onRestrictedPaymentMethod);
 		}
 
 		/// <summary>
@@ -182,7 +158,7 @@ namespace Xsolla.Store
 		public void CheckOrderStatus(string projectId, int orderId, [NotNull] Action<OrderStatus> onSuccess, [CanBeNull] Action<Error> onError)
 		{
 			var url = string.Format(URL_ORDER_GET_STATUS, projectId, orderId);
-			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, WebRequestHeader.AuthHeader(Token), onSuccess, onError, Error.OrderStatusErrors);
+			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, WebRequestHeader.AuthHeader(Token.Instance), onSuccess, onError, Error.OrderStatusErrors);
 		}
 
 		/// <summary>
@@ -220,7 +196,7 @@ namespace Xsolla.Store
 			var settings = GeneratePaymentTokenSettings(currency, locale, externalID, paymentMethod);
 			var requestBody = new CreatePaymentTokenRequest(purchase, settings, customParameters);
 
-			WebRequestHelper.Instance.PostRequest<TokenEntity, CreatePaymentTokenRequest>(SdkType.Store, url, requestBody, GetPaymentHeaders(Token), onSuccess, onError, Error.BuyItemErrors);
+			WebRequestHelper.Instance.PostRequest<TokenEntity, CreatePaymentTokenRequest>(SdkType.Store, url, requestBody, GetPaymentHeaders(Token.Instance), onSuccess, onError, Error.BuyItemErrors);
 		}
 
 		/// <summary>
@@ -266,7 +242,7 @@ namespace Xsolla.Store
 			var settings = GeneratePaymentTokenSettings(currency, locale, externalID, paymentMethod);
 			var requestBody = new CreatePaymentTokenRequest(purchase, settings, customParameters);
 
-			WebRequestHelper.Instance.PostRequest<TokenEntity, CreatePaymentTokenRequest>(SdkType.Store, url, requestBody, GetPaymentHeaders(Token), onSuccess, onError, Error.BuyItemErrors);
+			WebRequestHelper.Instance.PostRequest<TokenEntity, CreatePaymentTokenRequest>(SdkType.Store, url, requestBody, GetPaymentHeaders(Token.Instance), onSuccess, onError, Error.BuyItemErrors);
 		}
 
 		private TempPurchaseParams GenerateTempPurchaseParams(PurchaseParams purchaseParams)
@@ -316,36 +292,5 @@ namespace Xsolla.Store
 
 			return settings;
 		}
-		
-#if (UNITY_EDITOR || UNITY_STANDALONE)
-		private void TrackRestrictedPaymentMethod(Action<int> onRestrictedPaymentMethod)
-		{
-			BrowserHelper.Instance.GetLastBrowser().BrowserInitEvent += activeBrowser =>
-			{
-				activeBrowser.Navigate.UrlChangedEvent += (browser, newUrl) =>
-				{
-					if (_restrictedPaymentMethods.ContainsKey(newUrl))
-					{
-						onRestrictedPaymentMethod?.Invoke(_restrictedPaymentMethods[newUrl]);
-					}
-				};
-			};
-		}
-
-		private void UpdateBrowserSize()
-		{
-			BrowserHelper.Instance.GetLastBrowser().BrowserInitEvent += activeBrowser =>
-			{
-				var browserRender = BrowserHelper.Instance.GetLastBrowser().GetComponent<Display2DBehaviour>();
-				if (browserRender == null)
-					return;
-
-				var payStationSize = _payStationSizes[XsollaSettings.DesktopPayStationUISettings.isOverride
-					? XsollaSettings.DesktopPayStationUISettings.paystationSize
-					: PayStationUISettings.PaystationSize.Medium];
-				browserRender.StartRedrawWith((int) payStationSize.x, (int) payStationSize.y);
-			};
-		}
-#endif
 	}
 }

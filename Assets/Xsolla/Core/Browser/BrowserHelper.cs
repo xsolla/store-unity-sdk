@@ -1,93 +1,152 @@
-using System.Runtime.InteropServices;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
-using Xsolla.Core.Browser;
+#if UNITY_WEBGL || UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
+using System.Runtime.InteropServices;
+#endif
 
 namespace Xsolla.Core
 {
-	[AddComponentMenu("Scripts/Xsolla.Core/Browser/BrowserHelper")]
 	public class BrowserHelper : MonoSingleton<BrowserHelper>
 	{
+		private IInAppBrowser _inAppBrowser;
+
+		public IInAppBrowser InAppBrowser
+		{
+			get
+			{
 #if UNITY_EDITOR || UNITY_STANDALONE
-		[SerializeField] private GameObject InAppBrowserPrefab = default;
+				if (_inAppBrowser != null)
+					return _inAppBrowser;
+
+				if (XsollaSettings.InAppBrowserEnabled)
+					_inAppBrowser = GetComponent<IInAppBrowser>();
 #endif
 
-		private GameObject _inAppBrowserObject = default;
+				return _inAppBrowser;
+			}
+		}
+
+		private readonly Dictionary<PayStationUISettings.PaystationSize, Vector2> _payStationSizes = new Dictionary<PayStationUISettings.PaystationSize, Vector2>{
+			{PayStationUISettings.PaystationSize.Small, new Vector2(620, 630)},
+			{PayStationUISettings.PaystationSize.Medium, new Vector2(740, 760)},
+			{PayStationUISettings.PaystationSize.Large, new Vector2(820, 840)}
+		};
+
+		private readonly Dictionary<string, int> _restrictedPaymentMethods = new Dictionary<string, int>{
+			{"https://secure.xsolla.com/pages/paywithgoogle", 3431},
+			{"https://sandbox-secure.xsolla.com/pages/paywithgoogle", 3431},
+			{"https://secure.xsolla.com/pages/vkpay", 3496},
+			{"https://sandbox-secure.xsolla.com/pages/vkpay", 3496}
+		};
 
 #if UNITY_WEBGL
-		[DllImport("__Internal")]
-		private static extern void OpenPaystationWidget(string token, bool sandbox);
-		
 		[DllImport("__Internal")]
 		public static extern void ClosePaystationWidget();
+		
+		[DllImport("__Internal")]
+		private static extern void OpenPaystationWidget(string token, bool sandbox);
 #endif
 
-		protected override void OnDestroy()
-		{
-			if (_inAppBrowserObject == null)
-				return;
+#if UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
+		[DllImport("XsollaSdkNative")]
+		private static extern void OpenUrlInSafari(string url);
+#endif
 
-			Destroy(_inAppBrowserObject);
-			_inAppBrowserObject = null;
-		}
-
-		public void OpenPurchase(string url, string token, bool isSandbox, bool inAppBrowserEnabled = false)
+		public void OpenPurchase(string url, string token, bool forcePlatformBrowser = false, Action<int> onRestrictedPaymentMethod = null)
 		{
 #if UNITY_WEBGL
-			if((Application.platform == RuntimePlatform.WebGLPlayer) && inAppBrowserEnabled)
+			if((Application.platform == RuntimePlatform.WebGLPlayer) && XsollaSettings.InAppBrowserEnabled)
 			{
 				Screen.fullScreen = false;
-				OpenPaystationWidget(token, isSandbox);
+				OpenPaystationWidget(token, XsollaSettings.IsSandbox);
 				return;
 			}
 #endif
-			Open(url + token, inAppBrowserEnabled);
-		}
 
-		public void Open(string url, bool inAppBrowserEnabled = false)
-		{
-			switch (Application.platform)
+			Open(url + token, forcePlatformBrowser);
+
+#if UNITY_STANDALONE || UNITY_EDITOR
+			if (InAppBrowser != null && !forcePlatformBrowser)
 			{
-				case RuntimePlatform.WebGLPlayer:
-#pragma warning disable 0618
-					Application.ExternalEval($"window.open(\"{url}\",\"_blank\")");
-#pragma warning restore 0618
-					break;
-				default:
-#if UNITY_EDITOR || UNITY_STANDALONE
-					if (inAppBrowserEnabled && InAppBrowserPrefab != null)
-					{
-						OpenInAppBrowser(url);
-						break;
-					}
-#endif
-					Application.OpenURL(url);
-					break;
+				TrackRestrictedPaymentMethod(onRestrictedPaymentMethod);
+				UpdateBrowserSize();
 			}
+#endif
 		}
 
-#if UNITY_EDITOR || UNITY_STANDALONE
-		private void OpenInAppBrowser(string url)
+		public void Open(string url, bool forcePlatformBrowser = false)
 		{
-			if (_inAppBrowserObject == null)
+			if (EnvironmentDefiner.IsStandaloneOrEditor && InAppBrowser != null && !forcePlatformBrowser)
 			{
-				Canvas canvas = FindObjectOfType<Canvas>();
-				if(canvas == null)
-				{
-					Debug.LogError("Can not find canvas! So can not draw 2D browser!");
-					return;
-				}
-
-				_inAppBrowserObject = Instantiate(InAppBrowserPrefab, canvas.transform);
-				XsollaBrowser xsollaBrowser = _inAppBrowserObject.GetComponentInChildren<XsollaBrowser>();
-				xsollaBrowser.Navigate.To(url);
+				OpenInAppBrowser(url);
+			}
+			else if (EnvironmentDefiner.IsWebGL)
+			{
+				OpenWebGlBrowser(url);
 			}
 			else
-				Debug.LogError("Attempt to create secondary browser instance");
+			{
+				OpenPlatformBrowser(url);
+			}
 		}
 
-		public SinglePageBrowser2D GetLastBrowser()
+		public void Close(float delay = 0)
 		{
-			return _inAppBrowserObject?.GetComponentInChildren<SinglePageBrowser2D>();
+			InAppBrowser?.Close(delay);
+		}
+
+		private void OpenInAppBrowser(string url)
+		{
+			InAppBrowser.Open(url);
+		}
+
+		private void OpenWebGlBrowser(string url)
+		{
+#pragma warning disable 0618
+			Application.ExternalEval($"window.open(\"{url}\",\"_blank\")");
+#pragma warning restore 0618
+		}
+
+		private void OpenPlatformBrowser(string url)
+		{
+			Application.OpenURL(url);
+		}
+
+#if UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
+		private void OpenSafari(string url)
+		{
+			OpenUrlInSafari(url);
+		}
+#endif
+
+#if UNITY_STANDALONE || UNITY_EDITOR
+		private void UpdateBrowserSize()
+		{
+			InAppBrowser.AddInitHandler(() =>
+			{
+				var payStationSettings = XsollaSettings.DesktopPayStationUISettings;
+				var payStationSize = payStationSettings.paystationSize != PayStationUISettings.PaystationSize.Auto
+					? payStationSettings.paystationSize
+					: PayStationUISettings.PaystationSize.Medium;
+
+				var viewportSize = _payStationSizes[payStationSize];
+				InAppBrowser.UpdateSize((int) viewportSize.x, (int) viewportSize.y);
+			});
+		}
+
+		private void TrackRestrictedPaymentMethod(Action<int> onRestrictedPaymentMethod)
+		{
+			InAppBrowser.AddInitHandler(() =>
+			{
+				InAppBrowser.AddUrlChangeHandler(url =>
+				{
+					if (_restrictedPaymentMethods.ContainsKey(url))
+					{
+						onRestrictedPaymentMethod?.Invoke(_restrictedPaymentMethods[url]);
+					}
+				});
+			});
 		}
 #endif
 	}

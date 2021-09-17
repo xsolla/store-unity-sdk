@@ -22,36 +22,12 @@ namespace Xsolla.Demo
 
 		private void Start()
 		{
-			var demoType = GetDemoType();
-
-			switch (demoType)
-			{
-				case DemoType.Login:
-					InitLoginDemo();
-					break;
-				case DemoType.Store:
-					InitStoreDemo();
-					break;
-				case DemoType.Inventory:
-					InitInventoryDemo();
-					break;
-				default:
-					Debug.LogError($"Unexpected demo type: '{demoType}'");
-					break;
-			}
-		}
-
-		private DemoType GetDemoType()
-		{
-			var isInventoryDemoAvailable = DemoController.Instance.InventoryDemo != null;
-			var isStoreDemoAvailable = DemoController.Instance.StoreDemo != null;
-
-			if (isInventoryDemoAvailable && isStoreDemoAvailable)
-				return DemoType.Store;
-			else if (isInventoryDemoAvailable && !isStoreDemoAvailable)
-				return DemoType.Inventory;
-			else/*if (!isInventoryDemoAvailable && !isStoreDemoAvailable)*/
-				return DemoType.Login;
+			if (DemoMarker.IsStoreDemo)
+				InitStoreDemo();
+			else if (DemoMarker.IsInventoryDemo)
+				InitInventoryDemo();
+			else/*if (DemoMarker.IsLoginDemo)*/
+				InitLoginDemo();
 		}
 
 		private void InitLoginDemo()
@@ -71,8 +47,16 @@ namespace Xsolla.Demo
 					() => SetMenuState(MenuState.Battlepass, () => UserCatalog.Instance.IsUpdated));
 			}
 
-			AttachButtonCallback(inventoryButton,
-				() => SetMenuState(MenuState.Inventory, () => UserInventory.Instance.IsUpdated));
+			AttachButtonCallback(inventoryButton, () =>
+			{
+				if (UserInventory.Instance.IsUpdated)
+				{
+					UserInventory.Instance.Refresh(() => SetMenuState(MenuState.Inventory), StoreDemoPopup.ShowError);
+					PopupFactory.Instance.CreateWaiting().SetCloseCondition(() => UserInventory.Instance.IsUpdated);
+				}
+				else
+					SetMenuState(MenuState.Inventory, () => UserInventory.Instance.IsUpdated);
+			});
 
 			InitLoginButtons();
 			InitCommonButtons();
@@ -84,7 +68,7 @@ namespace Xsolla.Demo
 			{
 				if (UserInventory.Instance.IsUpdated)
 				{
-					UserInventory.Instance.Refresh(() => SetMenuState(MenuState.Inventory));
+					UserInventory.Instance.Refresh(() => SetMenuState(MenuState.Inventory), StoreDemoPopup.ShowError);
 					PopupFactory.Instance.CreateWaiting().SetCloseCondition(() => UserInventory.Instance.IsUpdated);
 				}
 				else
@@ -115,12 +99,22 @@ namespace Xsolla.Demo
 				() => SetMenuState(MenuState.Profile, () => UserCatalog.Instance.IsUpdated));
 			AttachButtonCallback(characterButton,
 				() => SetMenuState(MenuState.Character, () => UserCatalog.Instance.IsUpdated));
-			AttachButtonCallback(friendsButton,
-				() =>
-				{
-					UserFriends.Instance.UpdateFriends();
-					SetMenuState(MenuState.Friends, () => UserFriends.Instance.IsUpdated);
-				});
+
+			AttachButtonCallback(friendsButton, HandleFriendsButton);
+		}
+
+		private void HandleFriendsButton()
+		{
+			UserFriends.Instance.UpdateFriends(
+			onSuccess: () =>
+			{
+				SetMenuState(MenuState.Friends, () => UserFriends.Instance.IsUpdated);
+			},
+			onError: error =>
+			{
+				StoreDemoPopup.ShowError(error);
+				DemoController.Instance.SetState(MenuState.Authorization);
+			});
 		}
 
 		private void InitCommonButtons()
@@ -131,11 +125,6 @@ namespace Xsolla.Demo
 
 			AttachButtonCallback(logoutButton,
 				() => SetMenuState(MenuState.Authorization, () => !WebRequestHelper.Instance.IsBusy()));
-		}
-
-		private enum DemoType
-		{
-			Login, Store, Inventory
 		}
 	}
 }

@@ -23,8 +23,8 @@ namespace Xsolla.Demo
 
 			string email = null;
 
-			var token = DemoController.Instance.LoginDemo.Token;
-			DemoController.Instance.LoginDemo.GetUserInfo(token,
+			var token = Token.Instance;
+			SdkLoginLogic.Instance.GetUserInfo(token,
 				onSuccess: info =>
 				{
 					email = info.email;
@@ -53,7 +53,7 @@ namespace Xsolla.Demo
 				StoreDemoPopup.ShowError(error);
 			};
 
-			DemoController.Instance.LoginDemo.ResetPassword(email, onSuccessfulPasswordChange, onFailedPasswordChange);
+			SdkLoginLogic.Instance.ResetPassword(email, onSuccessfulPasswordChange, onFailedPasswordChange);
 		}
 	}
 }
