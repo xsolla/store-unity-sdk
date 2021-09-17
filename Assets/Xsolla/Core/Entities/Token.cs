@@ -170,8 +170,7 @@ namespace Xsolla.Core
 
 		private static bool TryParsePayload(string encodedPayload, out TokenPayload payloadObject)
 		{
-			//TEXTREVIEW
-			//Fix FromBase64String convertion
+			//Fixed FromBase64String convertion.
 			encodedPayload = encodedPayload.Replace('-', '+').Replace('_', '/');
 
 			var padding = encodedPayload.Length % 4;

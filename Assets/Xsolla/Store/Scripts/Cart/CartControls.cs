@@ -22,23 +22,10 @@ namespace Xsolla.Demo
 		{
 			set => buyButton.onClick = value;
 		}
-		public Action OnClearCart {
+
+		public Action OnClearCart
+		{
 			set => clearCartButton.onClick = value;
-		}
-
-		public bool IsBuyButtonLocked()
-		{
-			return buyButton.IsLocked();
-		}
-	
-		public void LockBuyButton()
-		{
-			buyButton.Lock();
-		}
-
-		public void UnlockBuyButton()
-		{
-			buyButton.Unlock();
 		}
 
 		public void Initialize(float totalPrice = 0f, float discount = 0f)

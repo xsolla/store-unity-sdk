@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Xsolla.Demo
 {
@@ -10,7 +10,7 @@ namespace Xsolla.Demo
 
 		Action<string> OnGroupClick { get; set; }
 
-		void Select();
+		void Select(bool trigger = true);
 		void Deselect();
 		bool IsSelected();
 	}

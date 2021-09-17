@@ -47,8 +47,16 @@ namespace Xsolla.Demo
 					() => SetMenuState(MenuState.Battlepass, () => UserCatalog.Instance.IsUpdated));
 			}
 
-			AttachButtonCallback(inventoryButton,
-				() => SetMenuState(MenuState.Inventory, () => UserInventory.Instance.IsUpdated));
+			AttachButtonCallback(inventoryButton, () =>
+			{
+				if (UserInventory.Instance.IsUpdated)
+				{
+					UserInventory.Instance.Refresh(() => SetMenuState(MenuState.Inventory), StoreDemoPopup.ShowError);
+					PopupFactory.Instance.CreateWaiting().SetCloseCondition(() => UserInventory.Instance.IsUpdated);
+				}
+				else
+					SetMenuState(MenuState.Inventory, () => UserInventory.Instance.IsUpdated);
+			});
 
 			InitLoginButtons();
 			InitCommonButtons();
