@@ -1,4 +1,17 @@
 # Changelog
+## [0.7.0] - 2021-09-17
+### Added
+- Independent PayStation UI parameters
+- PayStation for Safari browser (ApplePay support)
+- Virtual currency purchase order status tracking
+### Fixed
+- Various fixes and improvements
+### Changed
+- Refactoring and SDK Architecture improvements
+- Social friends recommendations list increased
+- Update API methods comments
+- Move newtonsoft to packages
+
 ## [0.6.4.5] - 2021-07-16
 ### Added
 - Vertical mobile demo scene
