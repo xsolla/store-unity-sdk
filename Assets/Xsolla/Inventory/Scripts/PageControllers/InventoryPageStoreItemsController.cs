@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System;
-using System.Collections;
 using System.Linq;
 using UnityEngine;
 
@@ -9,6 +8,8 @@ namespace Xsolla.Demo
 	public class InventoryPageStoreItemsController : BasePageStoreItemsController
 	{
 		private string _lastGroup;
+
+		protected override bool IsShowContent => UserInventory.Instance.HasVirtualItems || UserInventory.Instance.HasPurchasedSubscriptions;
 
 		protected override void Initialize()
 		{
@@ -23,19 +24,12 @@ namespace Xsolla.Demo
 
 		private void OnUserInventoryRefresh()
 		{
-			base.ShowGroupItems(_lastGroup);
-			UpdateContentVisibility(UserInventory.Instance.HasVirtualItems || UserInventory.Instance.HasPurchasedSubscriptions);
+			base.UpdatePage(_lastGroup);
 		}
 
 		protected override void InitializeItemUI(GameObject item, ItemModel model)
 		{
 			item.GetComponent<InventoryItemUI>().Initialize(model);
-		}
-
-		protected override IEnumerator FillGroups()
-		{
-			yield return base.FillGroups();
-			UpdateContentVisibility(UserInventory.Instance.HasVirtualItems || UserInventory.Instance.HasPurchasedSubscriptions);
 		}
 
 		protected override List<ItemModel> GetItemsByGroup(string groupName)

@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using Xsolla.UIBuilder;
@@ -18,12 +17,13 @@ namespace Xsolla.Demo
 
 		private GameObject ItemPrefab => ItemPrefabProvider.GetValue();
 
+		protected abstract bool IsShowContent {get;}
+
 		private void Start()
 		{
 			Initialize();
-
 			groupsController.GroupSelectedEvent += ShowGroupItems;
-			StartCoroutine(FillGroups());
+			UpdatePage();
 		}
 
 		protected void ShowGroupItems(string groupName)
@@ -38,7 +38,24 @@ namespace Xsolla.Demo
 			});
 		}
 
-		protected virtual IEnumerator FillGroups()
+		protected void UpdatePage(string groupToSelect = null)
+		{
+			StartCoroutine(UpdatePageCoroutine(IsShowContent, groupToSelect));
+		}
+
+		private IEnumerator UpdatePageCoroutine(bool showContent, string groupToSelect)
+		{
+			yield return StartCoroutine(FillGroups());
+
+			UpdateContentVisibility(showContent);
+
+			if (!string.IsNullOrEmpty(groupToSelect))
+				groupsController.SelectGroup(groupToSelect);
+			else
+				groupsController.SelectDefault();
+		}
+
+		private IEnumerator FillGroups()
 		{
 			yield return new WaitUntil(() => UserCatalog.Instance.IsUpdated);
 			yield return new WaitUntil(() => UserInventory.Instance.IsUpdated);
@@ -51,8 +68,6 @@ namespace Xsolla.Demo
 			groupsController.RemoveAll();
 			groupsController.AddGroup(GROUP_ALL);
 			groups.ForEach(g => groupsController.AddGroup(g));
-
-			groupsController.SelectDefault();
 			
 			LayoutRebuilder.ForceRebuildLayoutImmediate(groupsController.transform as RectTransform);
 		}
@@ -89,18 +104,18 @@ namespace Xsolla.Demo
 			Inventory
 		}
 
-		protected void ShowEmptyMessage(bool showEmptyMessage)
+		private void ShowEmptyMessage(bool showEmptyMessage)
 		{
 			emptyMessage.SetActive(showEmptyMessage);
 		}
 
-		protected void ShowContent(bool showContent)
+		private void ShowContent(bool showContent)
 		{
 			groupsController.gameObject.SetActive(showContent);
 			itemsContainer.gameObject.SetActive(showContent);
 		}
 
-		protected void UpdateContentVisibility(bool showContent)
+		private void UpdateContentVisibility(bool showContent)
 		{
 			ShowEmptyMessage(!showContent);
 			ShowContent(showContent);

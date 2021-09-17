@@ -1,8 +1,6 @@
 using System;
 using System.Collections;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Xsolla.Core;
 
@@ -98,17 +96,19 @@ namespace Xsolla.Demo
 
 		private void DrawSubscriptionItem()
 		{
-			var model = UserInventory.Instance.Subscriptions.First(i => i.Sku.Equals(_itemInformation.Sku));
-			if (model.Status != UserSubscriptionModel.SubscriptionStatusType.None && model.Expired.HasValue)
+			if (TryDowncastTo<UserSubscriptionModel>(_itemInformation, out var model))
 			{
-				var isExpired = model.Status == UserSubscriptionModel.SubscriptionStatusType.Expired || model.Expired <= DateTime.Now;
-				if (isExpired)
-					EnableExpiredTimeText(GetPassedTime(model.Expired.Value));
+				if (model.Status != UserSubscriptionModel.SubscriptionStatusType.None && model.Expired.HasValue)
+				{
+					var isExpired = model.Status == UserSubscriptionModel.SubscriptionStatusType.Expired || model.Expired <= DateTime.Now;
+					if (isExpired)
+						EnableExpiredTimeText(GetPassedTime(model.Expired.Value));
+					else
+						EnableRemainingTimeText(GetRemainingTime(model.Expired.Value));
+				}
 				else
-					EnableRemainingTimeText(GetRemainingTime(model.Expired.Value));
+					EnablePurchasedStatusText(isPurchased: false);
 			}
-			else
-				EnablePurchasedStatusText(isPurchased: false);
 		}
 
 		private void EnableRemainingTimeText(string text)
@@ -177,16 +177,20 @@ namespace Xsolla.Demo
 
 		private void DrawConsumableVirtualItem()
 		{
-			var model = UserInventory.Instance.VirtualItems.First(i => i.Sku.Equals(_itemInformation.Sku));
-			DrawItemsCount(model);
-			EnableConsumeButton();
+			if (TryDowncastTo<InventoryItemModel>(_itemInformation, out var model))
+			{
+				DrawItemsCount(model);
+				EnableConsumeButton();
+			}
 		}
 
 		private void DrawNonConsumableVirtualItem()
 		{
-			var model = UserInventory.Instance.VirtualItems.First(i => i.Sku.Equals(_itemInformation.Sku));
-			DrawItemsCount(model);
-			EnablePurchasedStatusText(isPurchased: true);
+			if (TryDowncastTo<InventoryItemModel>(_itemInformation, out var model))
+			{
+				DrawItemsCount(model);
+				EnablePurchasedStatusText(isPurchased: true);
+			}
 		}
 
 		private void DrawItemsCount(InventoryItemModel model)
@@ -256,28 +260,32 @@ namespace Xsolla.Demo
 
 		private void ConsumeHandler()
 		{
-			var model = UserInventory.Instance.VirtualItems.First(i => i.Sku.Equals(_itemInformation.Sku));
-			DisableConsumeButton();
-			DemoInventory.Instance.ConsumeInventoryItem(model, consumeButton.counter.GetValue(),
+			if (TryDowncastTo<InventoryItemModel>(_itemInformation, out var model))
+			{
+				DisableConsumeButton();
+				DemoInventory.Instance.ConsumeInventoryItem(model, consumeButton.counter.GetValue(),
 				_ =>
 				{
 					UserInventory.Instance.Refresh(onError: StoreDemoPopup.ShowError);
 					consumeButton.counter.ResetValue();
 				}, _ => EnableConsumeButton());
+			}
 		}
 
 		private void Counter_ValueChanged(int newValue)
 		{
-			var model = UserInventory.Instance.VirtualItems.First(i => i.Sku.Equals(_itemInformation.Sku));
-			if (newValue > model.RemainingUses)
+			if (TryDowncastTo<InventoryItemModel>(_itemInformation, out var model))
 			{
-				var delta = (int) model.RemainingUses - newValue;
-				StartCoroutine(ChangeConsumeQuantityCoroutine(delta));
-			}
-			else
-			{
-				if (newValue == 0)
-					StartCoroutine(ChangeConsumeQuantityCoroutine(1));
+				if (newValue > model.RemainingUses)
+				{
+					var delta = (int) model.RemainingUses - newValue;
+					StartCoroutine(ChangeConsumeQuantityCoroutine(delta));
+				}
+				else
+				{
+					if (newValue == 0)
+						StartCoroutine(ChangeConsumeQuantityCoroutine(1));
+				}
 			}
 		}
 
@@ -288,6 +296,22 @@ namespace Xsolla.Demo
 				consumeButton.counter.DecreaseValue(-deltaValue);
 			else
 				consumeButton.counter.IncreaseValue(deltaValue);
+		}
+
+		private bool TryDowncastTo<T>(ItemModel itemModel, out T result) where T : ItemModel
+		{
+			if (itemModel is T)
+			{
+				result = (T)itemModel;
+				return true;
+			}
+			else
+			{
+				//TEXTREVIEW
+				Debug.LogError($"Item model was incorrect for item with sku '{itemModel.Sku}', expected type '{typeof (T)}'");
+				result = null;
+				return false;
+			}
 		}
 	}
 }

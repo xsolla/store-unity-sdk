@@ -30,9 +30,9 @@ namespace Xsolla.Demo
 
 		public Action<string> OnGroupClick { get; set; }
 
-		public void Select()
+		public void Select(bool trigger = true)
 		{
-			menuButton.Select();
+			menuButton.Select(trigger);
 		}
 
 		public void Deselect()
