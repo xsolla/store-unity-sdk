@@ -89,22 +89,16 @@ namespace Xsolla.Core
 		private void OnJwtToggleChanged(bool isOn)
 		{
 			if (isOn)
-				ToggleAuthorizationType(AuthorizationType.JWT);
-			else
-				JwtToggle.SetIsOnWithoutNotify(false);
+				XsollaSettings.AuthorizationType = AuthorizationType.JWT;
+
+			RedrawFields();
 		}
 
 		private void OnOAuthToggleChanged(bool isOn)
 		{
 			if (isOn)
-				ToggleAuthorizationType(AuthorizationType.OAuth2_0);
-			else
-				OAuthToggle.SetIsOnWithoutNotify(false);
-		}
+				XsollaSettings.AuthorizationType = AuthorizationType.OAuth2_0;
 
-		private void ToggleAuthorizationType(AuthorizationType authorizationType)
-		{
-			XsollaSettings.AuthorizationType = authorizationType;
 			RedrawFields();
 		}
 
