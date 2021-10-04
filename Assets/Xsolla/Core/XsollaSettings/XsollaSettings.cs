@@ -13,12 +13,12 @@ namespace Xsolla.Core
 
 		private static XsollaSettings _instance;
 
-		[SerializeField] private string loginId = Constants.DEFAULT_LOGIN_ID;
+		[SerializeField] public string loginId = Constants.DEFAULT_LOGIN_ID;
 		[SerializeField] private bool useProxy = default;
 		[SerializeField] private string callbackUrl = default;
-		[SerializeField] private AuthorizationType authorizationType = default;
+		[SerializeField] public AuthorizationType authorizationType = default;
 		[SerializeField] private bool jwtTokenInvalidationEnabled = default;
-		[SerializeField] private int oauthClientId = default;
+		[SerializeField] public int oauthClientId = default;
 		[SerializeField] private bool requestNicknameOnAuth = true;
 		[SerializeField] private string authServerUrl = "https://sdk.xsolla.com/";
 
@@ -28,12 +28,12 @@ namespace Xsolla.Core
 		[SerializeField] private PlatformType platform = PlatformType.Xsolla;
 		[SerializeField] private string usernameFromConsole = default;
 
-		[SerializeField] private string storeProjectId = Constants.DEFAULT_PROJECT_ID;
+		[SerializeField] public string storeProjectId = Constants.DEFAULT_PROJECT_ID;
 		[SerializeField] private PaymentsFlow paymentsFlow = PaymentsFlow.XsollaPayStation;
 		[SerializeField] private bool isSandbox = true;
 		[SerializeField] private bool inAppBrowserEnabled = true;
 		[SerializeField] private bool packInAppBrowserInBuild = true;
-		
+
 		[SerializeField] private RedirectPolicySettings desktopRedirectPolicySettings = new RedirectPolicySettings();
 		[SerializeField] private RedirectPolicySettings webglRedirectPolicySettings = new RedirectPolicySettings();
 		[SerializeField] private RedirectPolicySettings androidRedirectPolicySettings = new RedirectPolicySettings();
@@ -53,14 +53,31 @@ namespace Xsolla.Core
 		[SerializeField] private string webStoreUrl = "https://sitebuilder.xsolla.com/game/sdk-web-store/";
 
 		[SerializeField] private LogLevel logLevel = LogLevel.InfoWarningsErrors;
+		
+		private const string LoginIdKey = nameof(loginId);
+
+		public static event Action Changed;
 
 		public static string LoginId
 		{
-			get => Instance.loginId;
+			get
+			{
+				if (PlayerPrefs.HasKey(LoginIdKey))
+					return PlayerPrefs.GetString(LoginIdKey);
+
+				return Instance.loginId;
+			}
 			set
 			{
-				Instance.loginId = value;
-				MarkAssetDirty();
+				PlayerPrefs.SetString(LoginIdKey, value);
+
+				if (!Application.isPlaying)
+				{
+					Instance.loginId = value;
+					MarkAssetDirty();
+				}
+				
+				Changed?.Invoke();
 			}
 		}
 
@@ -119,13 +136,34 @@ namespace Xsolla.Core
 			}
 		}
 
+		private const string AuthorizationTypeKey = nameof(authorizationType);
+
 		public static AuthorizationType AuthorizationType
 		{
-			get => Instance.authorizationType;
+			get
+			{
+				if (PlayerPrefs.HasKey(AuthorizationTypeKey))
+				{
+					var stringResult = PlayerPrefs.GetString(AuthorizationTypeKey);
+					if (Enum.TryParse(stringResult, out AuthorizationType result))
+					{
+						return result;
+					}
+				}
+
+				return Instance.authorizationType;
+			}
 			set
 			{
-				Instance.authorizationType = value;
-				MarkAssetDirty();
+				PlayerPrefs.SetString(AuthorizationTypeKey, value.ToString());
+				
+				if (!Application.isPlaying)
+				{
+					Instance.authorizationType = value;
+					MarkAssetDirty();
+				}
+				
+				Changed?.Invoke();
 			}
 		}
 
@@ -139,13 +177,28 @@ namespace Xsolla.Core
 			}
 		}
 
+		private const string OAuthClientIdKey = nameof(oauthClientId);
+
 		public static int OAuthClientId
 		{
-			get => Instance.oauthClientId;
+			get
+			{
+				if (PlayerPrefs.HasKey(OAuthClientIdKey))
+					return PlayerPrefs.GetInt(OAuthClientIdKey);
+
+				return Instance.oauthClientId;
+			}
 			set
 			{
-				Instance.oauthClientId = value;
-				MarkAssetDirty();
+				PlayerPrefs.SetInt(OAuthClientIdKey, value);
+
+				if (!Application.isPlaying)
+				{
+					Instance.oauthClientId = value;
+					MarkAssetDirty();
+				}
+				
+				Changed?.Invoke();
 			}
 		}
 
@@ -199,13 +252,28 @@ namespace Xsolla.Core
 			}
 		}
 
+		private const string StoreProjectIdKey = nameof(storeProjectId);
+
 		public static string StoreProjectId
 		{
-			get => Instance.storeProjectId;
+			get
+			{
+				if (PlayerPrefs.HasKey(StoreProjectIdKey))
+					return PlayerPrefs.GetString(StoreProjectIdKey);
+
+				return Instance.storeProjectId;
+			}
 			set
 			{
-				Instance.storeProjectId = value;
-				MarkAssetDirty();
+				PlayerPrefs.SetString(StoreProjectIdKey, value);
+
+				if (!Application.isPlaying)
+				{
+					Instance.storeProjectId = value;
+					MarkAssetDirty();
+				}
+				
+				Changed?.Invoke();
 			}
 		}
 
@@ -258,7 +326,7 @@ namespace Xsolla.Core
 				MarkAssetDirty();
 			}
 		}
-		
+
 		public static RedirectPolicySettings DesktopRedirectPolicySettings
 		{
 			get => Instance.desktopRedirectPolicySettings;
@@ -312,7 +380,7 @@ namespace Xsolla.Core
 			get => Instance.wechatAppId;
 			set => Instance.wechatAppId = value;
 		}
-		
+
 		public static string QQAppId
 		{
 			get => Instance.qqAppId;
