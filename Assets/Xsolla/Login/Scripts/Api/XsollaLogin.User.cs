@@ -24,6 +24,16 @@ namespace Xsolla.Login
 		private const string URL_USER_OAUTH_SOCIAL_NETWORK_TOKEN_AUTH = "https://login.xsolla.com/api/oauth2/social/{0}/login_with_token?client_id={1}&response_type=code&redirect_uri=https://login.xsolla.com/api/blank&state={2}&scope=offline";
 		private const string URL_USER_OAUTH_PLATFORM_PROVIDER = "https://login.xsolla.com/api/oauth2/cross/{0}/login?client_id={1}&scope=offline";
 		private const string URL_GET_ACCESS_TOKEN = "{0}/login";
+		private const string URL_OAUTH_LOGOUT = "https://login.xsolla.com/api/oauth2/logout?sessions={0}";
+
+		private const string URL_JWT_START_AUTH_BY_EMAIL = "https://login.xsolla.com/api/login/email/request?projectId={0}&login_url={1}&{2}&payload={3}";
+		private const string URL_OAUTH_START_AUTH_BY_EMAIL = "https://login.xsolla.com/api/oauth2/login/email/request?response_type=code&client_id={0}&scope=offline&state={1}&redirect_uri=https://login.xsolla.com/api/blank";
+		private const string URL_JWT_COMPLETE_AUTH_BY_EMAIL = "https://login.xsolla.com/api/login/email/confirm?projectId={0}";
+		private const string URL_OAUTH_COMPLETE_AUTH_BY_EMAIL = "https://login.xsolla.com/api/oauth2/login/email/confirm?client_id={0}";
+		private const string URL_JWT_START_AUTH_BY_PHONE_NUMBER = "https://login.xsolla.com/api/login/email/request?projectId={0}&login_url={1}&{2}&payload={3}";
+		private const string URL_OAUTH_START_AUTH_BY_PHONE_NUMBER = "https://login.xsolla.com/api/oauth2/login/phone/request?response_type=code&client_id={0}&scope=offline&state={1}&redirect_uri=https://login.xsolla.com/api/blank";
+		private const string URL_JWT_COMPLETE_AUTH_BY_PHONE_NUMBER = "https://login.xsolla.com/api/login/phone/confirm?projectId={0}";
+		private const string URL_OAUTH_COMPLETE_AUTH_BY_PHONE_NUMBER = "https://login.xsolla.com/api//oauth2/login/phone/confirm?client_id={0}";
 
 		/// <summary>
 		/// Returns saved user info by JWT.
@@ -140,6 +150,300 @@ namespace Xsolla.Login
 		}
 
 		/// <summary>
+		/// Starts authentication by the user email address and sends a confirmation code to their email address.
+		/// </summary>
+		/// <see cref="https://developers.xsolla.com/login-api/auth/jwt/jwt-start-auth-by-email/"/>
+		/// <param name="email">User email address.</param>
+		/// <param name="linkUrl">URL to redirect the user to the status authentication page.</param>
+		/// <param name="sendLink">Shows whether a link is sent with the confirmation code in the email or not.</param>
+		/// <param name="onSuccess">Successful operation callback.</param>
+		/// <param name="onError">Failed operation callback.</param>
+		public void StartAuthByEmail(string email, string linkUrl, bool sendLink, Action<string> onSuccess, Action<Error> onError = null)
+		{
+			if (XsollaSettings.AuthorizationType == AuthorizationType.JWT)
+				JwtStartAuthByEmail(email, linkUrl, sendLink, onSuccess, onError);
+			else /*if (XsollaSettings.AuthorizationType == AuthorizationType.OAuth2_0)*/
+				OAuthStartAuthByEmail(email, linkUrl, sendLink, onSuccess, onError);
+		}
+
+		/// <summary>
+		/// Starts authentication by the user email address and sends a confirmation code to their email address.
+		/// </summary>
+		/// <see cref="https://developers.xsolla.com/login-api/auth/jwt/jwt-start-auth-by-email/"/>
+		/// <param name="email">User email address.</param>
+		/// <param name="linkUrl">URL to redirect the user to the status authentication page.</param>
+		/// <param name="sendLink">Shows whether a link is sent with the confirmation code in the email or not.</param>
+		/// <param name="payload">Custom data. The value of the parameter will be returned in the user JWT payload claim.</param>
+		/// <param name="onSuccess">Successful operation callback.</param>
+		/// <param name="onError">Failed operation callback.</param>
+		public void JwtStartAuthByEmail(string email, string linkUrl, bool sendLink, Action<string> onSuccess, Action<Error> onError = null, string payload = null)
+		{
+			var data = new StartAuthByEmailRequest(email, linkUrl, sendLink);
+			var tokenInvalidationFlag = XsollaSettings.JwtTokenInvalidationEnabled ? "with_logout=1" : "with_logout=0";
+			var url = string.Format(URL_JWT_START_AUTH_BY_EMAIL, XsollaSettings.LoginId, XsollaSettings.CallbackUrl, tokenInvalidationFlag, payload);
+
+			WebRequestHelper.Instance.PostRequest<StartAuthByEmailResponse, StartAuthByEmailRequest>(
+				SdkType.Login,
+				url,
+				data,
+				response => onSuccess?.Invoke(response.operation_id),
+				onError,
+				Error.LoginErrors);
+		}
+
+		/// <summary>
+		/// Starts authentication by the user email address and sends a confirmation code to their email address.
+		/// </summary>
+		/// <see cref="https://developers.xsolla.com/login-api/auth/oauth-20/oauth-20-start-auth-by-email/"/>
+		/// <param name="email">User email address.</param>
+		/// <param name="linkUrl">URL to redirect the user to the status authentication page.</param>
+		/// <param name="sendLink">Shows whether a link is sent with the confirmation code in the email or not.</param>
+		/// <param name="oauthState">Value used for additional user verification on backend. Must be at least 8 symbols long. Will be "xsollatest" by default.</param>
+		/// <param name="onSuccess">Successful operation callback.</param>
+		/// <param name="onError">Failed operation callback.</param>
+		public void OAuthStartAuthByEmail(string email, string linkUrl, bool sendLink, Action<string> onSuccess, Action<Error> onError = null, string oauthState = null)
+		{
+			var data = new StartAuthByEmailRequest(email, linkUrl, sendLink);
+			var state = oauthState ?? DEFAULT_OAUTH_STATE;
+			var url = string.Format(URL_OAUTH_START_AUTH_BY_EMAIL, XsollaSettings.OAuthClientId, state);
+
+			WebRequestHelper.Instance.PostRequest<StartAuthByEmailResponse, StartAuthByEmailRequest>(
+				SdkType.Login,
+				url,
+				data,
+				response => onSuccess?.Invoke(response.operation_id),
+				onError,
+				Error.LoginErrors);
+		}
+
+		/// <summary>
+		/// Completes authentication by the user email address and a confirmation code.
+		/// </summary>
+		/// <see cref="https://developers.xsolla.com/login-api/auth/jwt/jwt-complete-auth-by-email/"/>
+		/// <param name="email">User email address.</param>
+		/// <param name="confirmationCode">Confirmation code.</param>
+		/// <param name="operationId">ID of the confirmation code.</param>
+		/// <param name="onSuccess">Successful operation callback.</param>
+		/// <param name="onError">Failed operation callback.</param>
+		public void CompleteAuthByEmail(string email, string confirmationCode, string operationId, Action<string> onSuccess, Action<Error> onError = null)
+		{
+			if (XsollaSettings.AuthorizationType == AuthorizationType.JWT)
+				JwtCompleteAuthByEmail(email, confirmationCode, operationId, onSuccess, onError);
+			else /*if (XsollaSettings.AuthorizationType == AuthorizationType.OAuth2_0)*/
+				OAuthCompleteAuthByEmail(email, confirmationCode, operationId, onSuccess, onError);
+		}
+
+		/// <summary>
+		/// Completes authentication by the user email address and a confirmation code.
+		/// </summary>
+		/// <see cref="https://developers.xsolla.com/login-api/auth/jwt/jwt-complete-auth-by-email/"/>
+		/// <param name="email">User email address.</param>
+		/// <param name="confirmationCode">Confirmation code.</param>
+		/// <param name="operationId">ID of the confirmation code.</param>
+		/// <param name="onSuccess">Successful operation callback.</param>
+		/// <param name="onError">Failed operation callback.</param>
+		public void JwtCompleteAuthByEmail(string email, string confirmationCode, string operationId, Action<string> onSuccess, Action<Error> onError = null)
+		{
+			var data = new CompleteAuthByEmailRequest(email, confirmationCode, operationId);
+			var url = string.Format(URL_JWT_COMPLETE_AUTH_BY_EMAIL, XsollaSettings.LoginId);
+
+			WebRequestHelper.Instance.PostRequest<CompleteAuthByEmailResponse, CompleteAuthByEmailRequest>(
+				SdkType.Login,
+				url,
+				data,
+				response =>
+				{
+					if (ParseUtils.TryGetValueFromUrl(response.login_url, ParseParameter.token, out var parsedToken))
+					{
+						Token.Instance = Token.Create(parsedToken);
+						onSuccess?.Invoke(Token.Instance);
+					}
+					else
+					{
+						onError?.Invoke(Error.UnknownError);
+					}
+				},
+				onError,
+				Error.LoginErrors);
+		}
+
+		/// <summary>
+		/// Completes authentication by the user email address and a confirmation code.
+		/// </summary>
+		/// <see cref="https://developers.xsolla.com/login-api/auth/oauth-20/oauth-20-complete-auth-by-email/"/>
+		/// <param name="email">User email address.</param>
+		/// <param name="confirmationCode">Confirmation code.</param>
+		/// <param name="operationId">ID of the confirmation code.</param>
+		/// <param name="onSuccess">Successful operation callback.</param>
+		/// <param name="onError">Failed operation callback.</param>
+		public void OAuthCompleteAuthByEmail(string email, string confirmationCode, string operationId, Action<string> onSuccess, Action<Error> onError = null)
+		{
+			var data = new CompleteAuthByEmailRequest(email, confirmationCode, operationId);
+			var url = string.Format(URL_OAUTH_COMPLETE_AUTH_BY_EMAIL, XsollaSettings.OAuthClientId);
+
+			WebRequestHelper.Instance.PostRequest<CompleteAuthByEmailResponse, CompleteAuthByEmailRequest>(
+				SdkType.Login,
+				url,
+				data,
+				response =>
+				{
+					if (ParseUtils.TryGetValueFromUrl(response.login_url, ParseParameter.code, out var parsedCode))
+						ExchangeCodeToToken(parsedCode, token => onSuccess?.Invoke(token), onError);
+					else
+						onError?.Invoke(Error.UnknownError);
+				},
+				onError,
+				Error.LoginErrors);
+		}
+
+		/// <summary>
+		/// Starts authentication by the user phone number and sends a confirmation code to their phone number
+		/// </summary>
+		/// <see cref="https://developers.xsolla.com/login-api/auth/jwt/jwt-start-auth-by-phone-number/"/>
+		/// <param name="phoneNumber">User phone number.</param>
+		/// <param name="linkUrl">URL to redirect the user to the status authentication page.</param>
+		/// <param name="sendLink">Shows whether a link is sent with the confirmation code in the email or not.</param>
+		/// <param name="onSuccess">Successful operation callback.</param>
+		/// <param name="onError">Failed operation callback.</param>
+		public void StartAuthByPhoneNumber(string phoneNumber, string linkUrl, bool sendLink, Action<string> onSuccess, Action<Error> onError = null)
+		{
+			if (XsollaSettings.AuthorizationType == AuthorizationType.JWT)
+				JwtStartAuthByPhoneNumber(phoneNumber, linkUrl, sendLink, onSuccess, onError);
+			else /*if (XsollaSettings.AuthorizationType == AuthorizationType.OAuth2_0)*/
+				OAuthStartAuthByPhoneNumber(phoneNumber, linkUrl, sendLink, onSuccess, onError);
+		}
+
+		/// <summary>
+		/// Starts authentication by the user phone number and sends a confirmation code to their phone number
+		/// </summary>
+		/// <see cref="https://developers.xsolla.com/login-api/auth/jwt/jwt-start-auth-by-phone-number/"/>
+		/// <param name="phoneNumber">User phone number.</param>
+		/// <param name="linkUrl">URL to redirect the user to the status authentication page.</param>
+		/// <param name="sendLink">Shows whether a link is sent with the confirmation code in the email or not.</param>
+		/// <param name="payload">Custom data. The value of the parameter will be returned in the user JWT payload claim.</param>
+		/// <param name="onSuccess">Successful operation callback.</param>
+		/// <param name="onError">Failed operation callback.</param>
+		public void JwtStartAuthByPhoneNumber(string phoneNumber, string linkUrl, bool sendLink, Action<string> onSuccess, Action<Error> onError = null, string payload = null)
+		{
+			var data = new StartAuthByPhoneNumberRequest(phoneNumber, linkUrl, sendLink);
+			var tokenInvalidationFlag = XsollaSettings.JwtTokenInvalidationEnabled ? "with_logout=1" : "with_logout=0";
+			var url = string.Format(URL_JWT_START_AUTH_BY_PHONE_NUMBER, XsollaSettings.LoginId, XsollaSettings.CallbackUrl, tokenInvalidationFlag, payload);
+
+			WebRequestHelper.Instance.PostRequest<StartAuthByPhoneNumberResponse, StartAuthByPhoneNumberRequest>(
+				SdkType.Login,
+				url,
+				data,
+				response => onSuccess?.Invoke(response.operation_id),
+				onError,
+				Error.LoginErrors);
+		}
+
+		/// <summary>
+		/// Starts authentication by the user phone number and sends a confirmation code to their phone number
+		/// </summary>
+		/// <see cref="https://developers.xsolla.com/login-api/auth/oauth-20/oauth-20-start-auth-by-phone-number/"/>
+		/// <param name="phoneNumber">User phone number.</param>
+		/// <param name="linkUrl">URL to redirect the user to the status authentication page.</param>
+		/// <param name="sendLink">Shows whether a link is sent with the confirmation code in the email or not.</param>
+		/// <param name="oauthState">Value used for additional user verification on backend. Must be at least 8 symbols long. Will be "xsollatest" by default.</param>
+		/// <param name="onSuccess">Successful operation callback.</param>
+		/// <param name="onError">Failed operation callback.</param>
+		public void OAuthStartAuthByPhoneNumber(string phoneNumber, string linkUrl, bool sendLink, Action<string> onSuccess, Action<Error> onError = null, string oauthState = null)
+		{
+			var data = new StartAuthByPhoneNumberRequest(phoneNumber, linkUrl, sendLink);
+			var state = oauthState ?? DEFAULT_OAUTH_STATE;
+			var url = string.Format(URL_OAUTH_START_AUTH_BY_PHONE_NUMBER, XsollaSettings.OAuthClientId, state);
+
+			WebRequestHelper.Instance.PostRequest<StartAuthByPhoneNumberResponse, StartAuthByPhoneNumberRequest>(
+				SdkType.Login,
+				url,
+				data,
+				response => onSuccess?.Invoke(response.operation_id),
+				onError,
+				Error.LoginErrors);
+		}
+
+		/// <summary>
+		/// Completes authentication by the user phone number and a confirmation code.
+		/// </summary>
+		/// <see cref="https://developers.xsolla.com/login-api/auth/jwt/jwt-complete-auth-by-phone-number/"/>
+		/// <param name="phoneNumber">User phone number.</param>
+		/// <param name="confirmationCode">Confirmation code.</param>
+		/// <param name="operationId">ID of the confirmation code.</param>
+		/// <param name="onSuccess">Successful operation callback.</param>
+		/// <param name="onError">Failed operation callback.</param>
+		public void CompleteAuthByPhoneNumber(string phoneNumber, string confirmationCode, string operationId, Action<string> onSuccess, Action<Error> onError = null)
+		{
+			if (XsollaSettings.AuthorizationType == AuthorizationType.JWT)
+				JwtCompleteAuthByPhoneNumber(phoneNumber, confirmationCode, operationId, onSuccess, onError);
+			else /*if (XsollaSettings.AuthorizationType == AuthorizationType.OAuth2_0)*/
+				OAuthCompleteAuthByPhoneNumber(phoneNumber, confirmationCode, operationId, onSuccess, onError);
+		}
+
+		/// <summary>
+		/// Completes authentication by the user phone number and a confirmation code.
+		/// </summary>
+		/// <see cref="https://developers.xsolla.com/login-api/auth/jwt/jwt-complete-auth-by-phone-number/"/>
+		/// <param name="phoneNumber">User phone number.</param>
+		/// <param name="confirmationCode">Confirmation code.</param>
+		/// <param name="operationId">ID of the confirmation code.</param>
+		/// <param name="onSuccess">Successful operation callback.</param>
+		/// <param name="onError">Failed operation callback.</param>
+		public void JwtCompleteAuthByPhoneNumber(string phoneNumber, string confirmationCode, string operationId, Action<string> onSuccess, Action<Error> onError = null)
+		{
+			var data = new CompleteAuthByPhoneNumberRequest(phoneNumber, confirmationCode, operationId);
+			var url = string.Format(URL_JWT_COMPLETE_AUTH_BY_PHONE_NUMBER, XsollaSettings.LoginId);
+
+			WebRequestHelper.Instance.PostRequest<CompleteAuthByPhoneNumberResponse, CompleteAuthByPhoneNumberRequest>(
+				SdkType.Login,
+				url,
+				data,
+				response =>
+				{
+					if (ParseUtils.TryGetValueFromUrl(response.login_url, ParseParameter.token, out var parsedToken))
+					{
+						Token.Instance = Token.Create(parsedToken);
+						onSuccess?.Invoke(Token.Instance);
+					}
+					else
+					{
+						onError?.Invoke(Error.UnknownError);
+					}
+				},
+				onError,
+				Error.LoginErrors);
+		}
+
+		/// <summary>
+		/// Completes authentication by the user phone number and a confirmation code.
+		/// </summary>
+		/// <see cref="https://developers.xsolla.com/login-api/auth/oauth-20/oauth-20-complete-auth-by-phone-number/"/>
+		/// <param name="phoneNumber">User phone number.</param>
+		/// <param name="confirmationCode">Confirmation code.</param>
+		/// <param name="operationId">ID of the confirmation code.</param>
+		/// <param name="onSuccess">Successful operation callback.</param>
+		/// <param name="onError">Failed operation callback.</param>
+		public void OAuthCompleteAuthByPhoneNumber(string phoneNumber, string confirmationCode, string operationId, Action<string> onSuccess, Action<Error> onError = null)
+		{
+			var data = new CompleteAuthByPhoneNumberRequest(phoneNumber, confirmationCode, operationId);
+			var url = string.Format(URL_OAUTH_COMPLETE_AUTH_BY_PHONE_NUMBER, XsollaSettings.OAuthClientId);
+
+			WebRequestHelper.Instance.PostRequest<CompleteAuthByPhoneNumberResponse, CompleteAuthByPhoneNumberRequest>(
+				SdkType.Login,
+				url,
+				data,
+				response =>
+				{
+					if (ParseUtils.TryGetValueFromUrl(response.login_url, ParseParameter.code, out var parsedCode))
+						ExchangeCodeToToken(parsedCode, token => onSuccess?.Invoke(token), onError);
+					else
+						onError?.Invoke(Error.UnknownError);
+				},
+				onError,
+				Error.LoginErrors);
+		}
+
+		/// <summary>
 		/// Allows user to reset password.
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Reset password</c>.</remarks>
@@ -181,7 +485,7 @@ namespace Xsolla.Login
 				var state = oauthState ?? DEFAULT_OAUTH_STATE;
 				url = string.Format(URL_OAUTH_RESEND_CONFIRMATION_LINK, XsollaSettings.OAuthClientId, state);
 			}
-			
+
 			WebRequestHelper.Instance.PostRequest(SdkType.Login, url, new ResendConfirmationLinkRequest(username), onSuccess, onError);
 		}
 
@@ -250,7 +554,9 @@ namespace Xsolla.Login
 		/// <seealso cref="DeleteUserPhoneNumber"/>
 		public void ChangeUserPhoneNumber(string token, string phoneNumber, Action onSuccess, Action<Error> onError)
 		{
-			var request = new UserPhoneNumber {phone_number = phoneNumber};
+			var request = new UserPhoneNumber{
+				phone_number = phoneNumber
+			};
 			WebRequestHelper.Instance.PostRequest(SdkType.Login, URL_USER_PHONE, request, WebRequestHeader.AuthHeader(token), onSuccess, onError);
 		}
 
@@ -284,7 +590,13 @@ namespace Xsolla.Login
 		/// <seealso cref="DeleteUserPicture"/>
 		public void UploadUserPicture(string token, byte[] pictureData, string boundary, Action<string> onSuccess, Action<Error> onError)
 		{
-			var headers = new List<WebRequestHeader>() { WebRequestHeader.AuthHeader(token), new WebRequestHeader() { Name = "Content-type", Value = $"multipart/form-data; boundary ={boundary}" } };
+			var headers = new List<WebRequestHeader>(){
+				WebRequestHeader.AuthHeader(token),
+				new WebRequestHeader(){
+					Name = "Content-type",
+					Value = $"multipart/form-data; boundary ={boundary}"
+				}
+			};
 			WebRequestHelper.Instance.PostUploadRequest(SdkType.Login, URL_USER_PICTURE, pictureData, headers, onSuccess, onError);
 		}
 
@@ -314,8 +626,7 @@ namespace Xsolla.Login
 		/// <param name="onError">Failed operation callback.</param>
 		public void CheckUserAge(string dateOfBirth, Action<UserCheckAgeResult> onSuccess, Action<Error> onError)
 		{
-			var request = new UserCheckAgeRequest
-			{
+			var request = new UserCheckAgeRequest{
 				dob = dateOfBirth,
 				project_id = XsollaSettings.LoginId
 			};
@@ -363,8 +674,7 @@ namespace Xsolla.Login
 			var tokenInvalidationFlag = XsollaSettings.JwtTokenInvalidationEnabled ? "with_logout=1" : "with_logout=0";
 			var url = string.Format(URL_USER_SOCIAL_NETWORK_TOKEN_AUTH, providerName, XsollaSettings.LoginId, payload, tokenInvalidationFlag);
 
-			var requestData = new SocialNetworkAccessTokenRequest
-			{
+			var requestData = new SocialNetworkAccessTokenRequest{
 				access_token = accessToken,
 				access_token_secret = accessTokenSecret,
 				openId = openId
@@ -378,8 +688,7 @@ namespace Xsolla.Login
 			var state = oauthState ?? DEFAULT_OAUTH_STATE;
 			var url = string.Format(URL_USER_OAUTH_SOCIAL_NETWORK_TOKEN_AUTH, providerName, XsollaSettings.OAuthClientId, state);
 
-			var requestData = new SocialNetworkAccessTokenRequest
-			{
+			var requestData = new SocialNetworkAccessTokenRequest{
 				access_token = accessToken,
 				access_token_secret = accessTokenSecret,
 				openId = openId
@@ -403,6 +712,22 @@ namespace Xsolla.Login
 				Token.Instance = Token.Create(response.access_token);
 				onSuccess?.Invoke();
 			}, onError, Error.LoginErrors);
+		}
+
+		/// <summary>
+		/// Logs the user out and deletes the user session.
+		/// </summary>
+		/// <see cref="https://developers.xsolla.com/login-api/auth/oauth-20/log-user-out/"/>
+		/// <param name="token">JWT from Xsolla Login.</param>
+		/// <param name="logoutType">Shows how the user is logged out and how the user session is deleted.</param>
+		/// <param name="onSuccess">Successful operation callback.</param>
+		/// <param name="onError">Failed operation callback.</param>
+		public void OAuthLogout(string token, OAuthLogoutType logoutType, Action onSuccess, Action<Error> onError = null)
+		{
+			var logoutTypeFlag = logoutType.ToString().ToLowerInvariant();
+			var url = string.Format(URL_OAUTH_LOGOUT, logoutTypeFlag);
+
+			WebRequestHelper.Instance.GetRequest(SdkType.Login, url, WebRequestHeader.AuthHeader(token), onSuccess, onError);
 		}
 	}
 }

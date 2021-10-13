@@ -24,6 +24,7 @@ namespace Xsolla.Store
 
 		private const string URL_REDEEM_PROMOCODE = BASE_STORE_API_URL + "/promocode/redeem";
 		private const string URL_GET_PROMOCODE_REWARD = BASE_STORE_API_URL + "/promocode/code/{1}/rewards";
+		private const string URL_REMOVE_PROMOCODE_FROM_CART = BASE_STORE_API_URL + "/promocode/remove";
 
 		/// <summary>
 		/// Returns a current user's cart.
@@ -234,6 +235,23 @@ namespace Xsolla.Store
 			var url = string.Format(URL_GET_PROMOCODE_REWARD, projectId, promocode);
 
 			WebRequestHelper.Instance.PostRequest(SdkType.Store, url, WebRequestHeader.AuthHeader(Token.Instance), onSuccess, onError, Error.DeleteFromCartErrors);
+		}
+
+		/// <summary>
+		/// Removes a promo code from a cart. 
+		/// After the promo code is removed, the total price of all items in the cart will be recalculated without bonuses and discounts provided by a promo code.
+		/// </summary>
+		/// <see cref="https://developers.xsolla.com/in-game-store-buy-button-api/promotions/promo-codes/remove-cart-promo-code/"/>
+		/// <param name="projectId">Project ID from your Publisher Account.</param>
+		/// <param name="cartId">Cart ID.</param>
+		/// <param name="onSuccess">Success operation callback.</param>
+		/// <param name="onError">Failed operation callback.</param>
+		public void RemovePromocodeFromCart(string projectId, string cartId, Action<RemovePromocodeFromCardResponse> onSuccess, Action<Error> onError = null)
+		{
+			var data = new RemovePromocodeFromCardRequest(cartId);
+			var url = string.Format(URL_REMOVE_PROMOCODE_FROM_CART, projectId);
+			
+			WebRequestHelper.Instance.PutRequest(SdkType.Store, url, data, WebRequestHeader.AuthHeader(Token.Instance), onSuccess, onError, Error.DeleteFromCartErrors);
 		}
 	}
 }

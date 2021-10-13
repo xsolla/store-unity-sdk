@@ -25,7 +25,23 @@ namespace Xsolla.Core
 			StartCoroutine(GetRequestCor<T>(sdkType, url, headers, onComplete, onError, errorsToCheck));
 		}
 
-		IEnumerator GetRequestCor<T>(SdkType sdkType, string url, List<WebRequestHeader> requestHeaders = null, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
+		public void GetRequest(SdkType sdkType, string url, WebRequestHeader requestHeader, Action onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
+		{
+			var headers = AppendAnalyticHeaders(sdkType, requestHeader);
+			StartCoroutine(GetRequestCor(sdkType, url, headers, onComplete, onError, errorsToCheck));
+		}
+
+		private IEnumerator GetRequestCor<T>(SdkType sdkType, string url, List<WebRequestHeader> requestHeaders = null, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
+		{
+			url = AppendAnalyticsToUrl(sdkType, url);
+
+			var webRequest = UnityWebRequest.Get(url);
+			AttachHeaders(webRequest, requestHeaders);
+
+			yield return StartCoroutine(PerformWebRequest(webRequest, onComplete, onError, errorsToCheck));
+		}
+
+		private IEnumerator GetRequestCor(SdkType sdkType, string url, List<WebRequestHeader> requestHeaders = null, Action onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
 		{
 			url = AppendAnalyticsToUrl(sdkType, url);
 
@@ -36,4 +52,3 @@ namespace Xsolla.Core
 		}
 	}
 }
-
