@@ -11,7 +11,7 @@ namespace Xsolla.Core
 {
 	public class XsollaBrowserPackPostprocessor : IPostprocessBuildWithReport
 	{
-		private const string BROWSER_REVISION = "706915";
+		private const string BROWSER_REVISION = "884014";
 
 		public int callbackOrder { get; }
 
