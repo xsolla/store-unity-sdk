@@ -8,7 +8,7 @@ namespace Xsolla.Login
 	{
 		private const string URL_USER_REGISTRATION = "https://login.xsolla.com/api/{0}?projectId={1}&login_url={2}&payload={3}";
 		private const string URL_USER_OAUTH_REGISTRATION = "https://login.xsolla.com/api/oauth2/user?response_type=code&client_id={0}&state={1}&redirect_uri=https://login.xsolla.com/api/blank";
-		private const string URL_USER_SIGNIN = "https://login.xsolla.com/api/{0}login?projectId={1}&login_url={2}&{3}&payload={4}";
+		private const string URL_USER_SIGNIN = "https://login.xsolla.com/api/{0}login?projectId={1}&login_url={2}&with_logout={3}&payload={4}";
 		private const string URL_USER_OAUTH_SIGNIN = "https://login.xsolla.com/api/oauth2/login/token?client_id={0}&scope=offline";
 		private const string URL_USER_INFO = "https://login.xsolla.com/api/users/me";
 		private const string URL_USER_PHONE = "https://login.xsolla.com/api/users/me/phone";
@@ -20,17 +20,17 @@ namespace Xsolla.Login
 		private const string URL_USER_PUBLIC_INFO = "https://login.xsolla.com/api/users/{0}/public";
 		private const string URL_USER_CHECK_AGE = "https://login.xsolla.com/api/users/age/check";
 		private const string URL_USER_GET_EMAIL = "https://login.xsolla.com/api/users/me/email";
-		private const string URL_USER_SOCIAL_NETWORK_TOKEN_AUTH = "https://login.xsolla.com/api/social/{0}/login_with_token?projectId={1}&payload={2}&{3}";
+		private const string URL_USER_SOCIAL_NETWORK_TOKEN_AUTH = "https://login.xsolla.com/api/social/{0}/login_with_token?projectId={1}&payload={2}&with_logout={3}";
 		private const string URL_USER_OAUTH_SOCIAL_NETWORK_TOKEN_AUTH = "https://login.xsolla.com/api/oauth2/social/{0}/login_with_token?client_id={1}&response_type=code&redirect_uri=https://login.xsolla.com/api/blank&state={2}&scope=offline";
 		private const string URL_USER_OAUTH_PLATFORM_PROVIDER = "https://login.xsolla.com/api/oauth2/cross/{0}/login?client_id={1}&scope=offline";
 		private const string URL_GET_ACCESS_TOKEN = "{0}/login";
 		private const string URL_OAUTH_LOGOUT = "https://login.xsolla.com/api/oauth2/logout?sessions={0}";
 
-		private const string URL_JWT_START_AUTH_BY_EMAIL = "https://login.xsolla.com/api/login/email/request?projectId={0}&login_url={1}&{2}&payload={3}";
+		private const string URL_JWT_START_AUTH_BY_EMAIL = "https://login.xsolla.com/api/login/email/request?projectId={0}&login_url={1}&with_logout={2}&payload={3}";
 		private const string URL_OAUTH_START_AUTH_BY_EMAIL = "https://login.xsolla.com/api/oauth2/login/email/request?response_type=code&client_id={0}&scope=offline&state={1}&redirect_uri=https://login.xsolla.com/api/blank";
 		private const string URL_JWT_COMPLETE_AUTH_BY_EMAIL = "https://login.xsolla.com/api/login/email/confirm?projectId={0}";
 		private const string URL_OAUTH_COMPLETE_AUTH_BY_EMAIL = "https://login.xsolla.com/api/oauth2/login/email/confirm?client_id={0}";
-		private const string URL_JWT_START_AUTH_BY_PHONE_NUMBER = "https://login.xsolla.com/api/login/email/request?projectId={0}&login_url={1}&{2}&payload={3}";
+		private const string URL_JWT_START_AUTH_BY_PHONE_NUMBER = "https://login.xsolla.com/api/login/email/request?projectId={0}&login_url={1}&with_logout={2}&payload={3}";
 		private const string URL_OAUTH_START_AUTH_BY_PHONE_NUMBER = "https://login.xsolla.com/api/oauth2/login/phone/request?response_type=code&client_id={0}&scope=offline&state={1}&redirect_uri=https://login.xsolla.com/api/blank";
 		private const string URL_JWT_COMPLETE_AUTH_BY_PHONE_NUMBER = "https://login.xsolla.com/api/login/phone/confirm?projectId={0}";
 		private const string URL_OAUTH_COMPLETE_AUTH_BY_PHONE_NUMBER = "https://login.xsolla.com/api//oauth2/login/phone/confirm?client_id={0}";
@@ -124,7 +124,7 @@ namespace Xsolla.Login
 			var loginData = new LoginJwtJsonRequest(username, password, rememberUser);
 
 			var proxy = XsollaSettings.UseProxy ? "proxy/" : string.Empty;
-			var tokenInvalidationFlag = XsollaSettings.JwtTokenInvalidationEnabled ? "with_logout=1" : "with_logout=0";
+			var tokenInvalidationFlag = XsollaSettings.JwtTokenInvalidationEnabled ? "1" : "0";
 			var url = string.Format(URL_USER_SIGNIN, proxy, XsollaSettings.LoginId, XsollaSettings.CallbackUrl, tokenInvalidationFlag, payload);
 
 			WebRequestHelper.Instance.PostRequest<LoginJwtJsonResponse, LoginJwtJsonRequest>(SdkType.Login, url, loginData, (response) =>
@@ -179,7 +179,7 @@ namespace Xsolla.Login
 		public void JwtStartAuthByEmail(string email, string linkUrl, bool sendLink, Action<string> onSuccess, Action<Error> onError = null, string payload = null)
 		{
 			var data = new StartAuthByEmailRequest(email, linkUrl, sendLink);
-			var tokenInvalidationFlag = XsollaSettings.JwtTokenInvalidationEnabled ? "with_logout=1" : "with_logout=0";
+			var tokenInvalidationFlag = XsollaSettings.JwtTokenInvalidationEnabled ? "1" : "0";
 			var url = string.Format(URL_JWT_START_AUTH_BY_EMAIL, XsollaSettings.LoginId, XsollaSettings.CallbackUrl, tokenInvalidationFlag, payload);
 
 			WebRequestHelper.Instance.PostRequest<StartAuthByEmailResponse, StartAuthByEmailRequest>(
@@ -326,7 +326,7 @@ namespace Xsolla.Login
 		public void JwtStartAuthByPhoneNumber(string phoneNumber, string linkUrl, bool sendLink, Action<string> onSuccess, Action<Error> onError = null, string payload = null)
 		{
 			var data = new StartAuthByPhoneNumberRequest(phoneNumber, linkUrl, sendLink);
-			var tokenInvalidationFlag = XsollaSettings.JwtTokenInvalidationEnabled ? "with_logout=1" : "with_logout=0";
+			var tokenInvalidationFlag = XsollaSettings.JwtTokenInvalidationEnabled ? "1" : "0";
 			var url = string.Format(URL_JWT_START_AUTH_BY_PHONE_NUMBER, XsollaSettings.LoginId, XsollaSettings.CallbackUrl, tokenInvalidationFlag, payload);
 
 			WebRequestHelper.Instance.PostRequest<StartAuthByPhoneNumberResponse, StartAuthByPhoneNumberRequest>(
@@ -671,7 +671,7 @@ namespace Xsolla.Login
 
 		private void JwtAuthWithSocialNetworkAccessToken(string accessToken, string accessTokenSecret, string openId, string providerName, string payload, Action<string> onSuccess, Action<Error> onError)
 		{
-			var tokenInvalidationFlag = XsollaSettings.JwtTokenInvalidationEnabled ? "with_logout=1" : "with_logout=0";
+			var tokenInvalidationFlag = XsollaSettings.JwtTokenInvalidationEnabled ? "1" : "0";
 			var url = string.Format(URL_USER_SOCIAL_NETWORK_TOKEN_AUTH, providerName, XsollaSettings.LoginId, payload, tokenInvalidationFlag);
 
 			var requestData = new SocialNetworkAccessTokenRequest{

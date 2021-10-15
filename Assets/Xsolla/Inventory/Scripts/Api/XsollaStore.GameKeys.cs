@@ -10,7 +10,7 @@ namespace Xsolla.Store
 		private const string URL_GET_GAME_FOR_CATALOG = BASE_STORE_API_URL + "/items/game/sku/{1}";
 		private const string URL_GET_GAME_KEY_CATALOG = BASE_STORE_API_URL + "/items/game/key/sku/{1}";
 		private const string URL_GET_GAME_KEYS_BY_GROUP = BASE_STORE_API_URL + "/items/game/key/group/{1}?limit={2}&offset={3}";
-		private const string URL_GET_USER_OWNED_GAMES = BASE_STORE_API_URL + "/entitlement?{1}&limit={2}&offset={3}";
+		private const string URL_GET_USER_OWNED_GAMES = BASE_STORE_API_URL + "/entitlement?sandbox={1}&limit={2}&offset={3}";
 		private const string URL_GET_DRM_LIST = BASE_STORE_API_URL + "/items/game/drm";
 		private const string URL_REDEEM_GAME_CODE = BASE_STORE_API_URL + "/entitlement/redeem";
 
@@ -142,7 +142,7 @@ namespace Xsolla.Store
 		/// <param name="additionalFields">The list of additional fields. These fields will be in a response if you send them in a request. Available fields 'media_list', 'order', and 'long_description'.</param>
 		public void GetOwnedGames(string projectId, bool sandbox, Action<GameOwnership> onSuccess, Action<Error> onError = null, int limit = 50, int offset = 0, string additionalFields = "long_description")
 		{
-			var sandboxFlag = sandbox ? "sandbox=1" : "sandbox=0";
+			var sandboxFlag = sandbox ? "1" : "0";
 			var url = string.Format(URL_GET_USER_OWNED_GAMES, projectId, sandboxFlag, limit, offset);
 			var additionalFieldsParam = GetAdditionalFieldsParam(additionalFields);
 			url = ConcatUrlAndParams(url, additionalFieldsParam);
