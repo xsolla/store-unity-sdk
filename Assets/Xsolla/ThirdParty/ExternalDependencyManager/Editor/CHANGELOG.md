@@ -1,3 +1,40 @@
+# Version 1.2.167 - Oct 6, 2021
+* All - Moved versioned `.dll` in EDM4U to a versioned folder and remove their
+  version postfix in their filename. For instance, `IOSResolver.dll` will be
+  placed at `ExternalDependencyManager/Editor/1.2.167/Google.IOSResolver.dll`.
+* Android Resolver - Fixed #243 by only using the highest version in
+  `mainTemplate.gradle` when duplicated dependencies are presented.
+* Android Resolver - Added supports to x86_64 to ABI list for Android apps on
+  Chrome OS.
+
+# Version 1.2.166 - Jun 30, 2021
+* All - Fixed #440 and fixed #447 by specifying the parameter type while calling
+  `GetApplicationIdentifier()` Unity API using reflection, due to a new
+  overloaded method introduced in Unity 2021.2.
+* Android Resolver - Fixed #442 by patching `Dependency.IsGreater()` when the
+  version strings end '+'.
+
+# Version 1.2.165 - Apr 28, 2021
+## Bug Fixes
+* Version Handler - Fixed #431 by replacing the use of `HttpUtility.UrlEncode()`
+  which causes NullReferenceException in certain version of Unity.
+* Android Resolver - Check that androidSdkRootPath directory exists before using
+  as sdkPath.
+* Android Resolver - Fixed Android Resolver integration tests with Unity
+  2019.3+.
+
+# Version 1.2.164 - Feb 4, 2021
+## New Features
+* Android Resolver - Added support for Android packages with classifier in their
+  namespaces.
+* iOS Resolver - Added new settings in iOS Resolver to configure generated
+  Podfile.
+* iOS Resolver - Added a new attribute `addToAllTargets` in Dependencies.xml.
+
+## Bug Fixes
+* iOS Resolver - Fixed XML parsing for `bitcodeEnabled` attribute in
+  Dependencies.xml.
+
 # Version 1.2.163 - Dec 15, 2020
 ## Bug Fixes
 * Version Handler - Fixed measurement reporting
