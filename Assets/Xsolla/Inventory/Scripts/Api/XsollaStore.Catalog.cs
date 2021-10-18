@@ -6,11 +6,29 @@ namespace Xsolla.Store
 {
 	public partial class XsollaStore : MonoSingleton<XsollaStore>
 	{
+		private const string URL_CATALOG_GET_ALL_VIRTUAL_ITEMS = BASE_STORE_API_URL + "/items/virtual_items/all";
 		private const string URL_CATALOG_GET_ITEMS = BASE_STORE_API_URL + "/items/virtual_items?limit={1}&offset={2}";
 		private const string URL_CATALOG_GET_BUNDLE = BASE_STORE_API_URL + "/items/bundle/sku/{1}";
 		private const string URL_CATALOG_GET_BUNDLES = BASE_STORE_API_URL + "/items/bundle?limit={1}&offset={2}";
 		private const string URL_CATALOG_GET_ITEMS_IN_GROUP = BASE_STORE_API_URL + "/items/virtual_items/group/{1}";
 		private const string URL_CATALOG_GET_GROUPS = BASE_STORE_API_URL + "/items/groups?offset={1}&limit={2}";
+
+		/// <summary>
+		/// Gets a list of all virtual items for searching on client-side.
+		/// </summary>
+		/// <see cref="https://developers.xsolla.com/in-game-store-buy-button-api/virtual-items-currency/catalog/get-all-virtual-items/"/>
+		/// <param name="projectId">Project ID from your Publisher Account.</param>
+		/// <param name="locale">Response language. Two-letter lowercase language code per ISO 639-1.</param>
+		/// <param name="onSuccess">Successful operation callback.</param>
+		/// <param name="onError">Failed operation callback.</param>
+		public void GetCatalogShort(string projectId, Action<StoreItemShortCollection> onSuccess, Action<Error> onError = null, string locale = null)
+		{
+			var url = string.Format(URL_CATALOG_GET_ALL_VIRTUAL_ITEMS, projectId);
+			var localeParam = GetLocaleUrlParam(locale);
+			url = ConcatUrlAndParams(url, localeParam);
+
+			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, onSuccess, onError, Error.ItemsListErrors);
+		}
 
 		/// <summary>
 		/// Returns all items in catalog.
