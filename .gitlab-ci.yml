@@ -8,6 +8,7 @@ stages:
   - deploy
   - linking
   - code-analysis
+  - autotests
   - build-demo-2019
   - build-demo-2020
   - build-demo-2021
@@ -15,6 +16,7 @@ stages:
 variables:
   BUILD_SCRIPT_PATH: "./cicd/build-universal.sh"
   BUILD_BAT_SCRIPT_PATH: "cicd/build-universal.bat"
+  AUTOTESTS_SCRIPT_PATH: "cicd/autotests.bat"
   PROJECT_PATH: "%cd%"
   BUILD_ROOT_PATH: "Builds"
   BUILD_TARGET_WINDOWS: "StandaloneWindows64"
@@ -90,6 +92,24 @@ analyze-code:
     when: on_failure
     paths:
       - Logs
+    expire_in: 3 days
+  dependencies: []
+  tags:
+    - sdk_ci
+    - windows
+
+# =================================================================================================================
+# AUTOTESTS
+
+run_autotests:
+  stage: autotests
+  script:
+    - call %AUTOTESTS_SCRIPT_PATH% %PROJECT_PATH% %UNITY_2019_VERSION%
+  artifacts:
+    name: "AUTOTESTS_%CI_COMMIT_REF_NAME%"
+    when: always
+    paths:
+      - Logs/autotest_results.txt
     expire_in: 3 days
   dependencies: []
   tags:

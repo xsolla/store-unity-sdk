@@ -17,16 +17,10 @@ echo "PLATFORM: %PLATFORM%"
 
 mkdir %BUILD_ROOT%
 
-echo "copy project to ProjectTemp"
-mkdir ProjectTemp
+echo "Сopy project to ProjectTemp"
 xcopy Assets\ %WORK_DIR%\Assets\ /e >nul 2>&1
 xcopy Packages\ %WORK_DIR%\Packages\ /e >nul 2>&1
 xcopy ProjectSettings\ %WORK_DIR%\ProjectSettings\ /e >nul 2>&1
-
-rem If "%UNITY_VERSION%" == "2021.1.13f1" (
-rem 	echo "copy library to ProjectTemp"
-rem 	xcopy C:\Library\%UNITY_VERSION%_%BUILD_TARGET%\ ProjectTemp\Library\ /e >nul 2>&1
-rem 	)
 
 set BUILD_LOG_PATH=%BUILD_ROOT%\build.log
 
@@ -37,5 +31,8 @@ set LOGS_PATH=%PROJECT_PATH%\Logs
 
 echo "%UNITY_PATH% -batchmode -quit -projectPath %WORK_DIR% -customBuildPath "%BUILD_ROOT%" -customBuildTarget "%BUILD_TARGET%" -executeMethod Xsolla.BuildsManager.Build -logFile "%BUILD_LOG_PATH%""
 call %UNITY_PATH% -batchmode -quit -projectPath %WORK_DIR% -customBuildPath "%BUILD_ROOT%" -customBuildTarget "%BUILD_TARGET%" -executeMethod Xsolla.BuildsManager.Build -logFile "%BUILD_LOG_PATH%"
+
+echo "Remove WORK_DIR"
+rmdir /s /q %WORK_DIR%
 
 exit /b %errorlevel%
