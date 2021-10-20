@@ -101,7 +101,7 @@ namespace Xsolla.Demo
 
 		public void GetCatalogBundles(Action<List<CatalogBundleItemModel>> onSuccess, Action<Error> onError = null)
 		{
-			if (_bundlesCache == null || (DateTime.Now - _itemsCacheTime).TotalMilliseconds > CATALOG_CACHE_TIMEOUT)
+			if (_bundlesCache == null || (DateTime.Now - _bundlesCacheTime).TotalMilliseconds > CATALOG_CACHE_TIMEOUT)
 			{
 				if (!_refreshBundlesInProgress)
 				{

@@ -20,10 +20,10 @@ MonoBehaviour:
   oauthClientId: 57
   requestNicknameOnAuth: 1
   authServerUrl: https://sdk.xsolla.com/
-  useSteamAuth: 1
+  useSteamAuth: 0
   steamAppId: 480
   useConsoleAuth: 0
-  platform: 12
+  platform: 1
   usernameFromConsole: testPSMax3
   storeProjectId: 77640
   paymentsFlow: 0
