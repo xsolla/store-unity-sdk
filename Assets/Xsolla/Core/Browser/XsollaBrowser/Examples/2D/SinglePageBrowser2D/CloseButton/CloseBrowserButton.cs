@@ -5,13 +5,13 @@ namespace Xsolla.Core.Browser
 {
 	public class CloseBrowserButton : MonoBehaviour
 	{
-		public Button CloseButton;
+		[SerializeField] private Button CloseButton;
 
-		void Start()
+		private void Start()
 		{
 			if (CloseButton != null)
 			{
-				CloseButton.onClick.AddListener(() => Destroy(gameObject, 0.01F));
+				CloseButton.onClick.AddListener(() => Destroy(gameObject, 0.01f));
 			}
 		}
 	}

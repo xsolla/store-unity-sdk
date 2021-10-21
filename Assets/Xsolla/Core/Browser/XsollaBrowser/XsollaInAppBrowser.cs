@@ -60,7 +60,7 @@ namespace Xsolla.Core
 		public void UpdateSize(int width, int height)
 		{
 			if (IsOpened)
-				SinglePageBrowser.GetComponent<Display2DBehaviour>().StartRedrawWith(width, height);
+				SinglePageBrowser.GetComponent<Display2DBehaviour>().StartRedraw(width, height);
 		}
 
 		private void CreateBrowser()
