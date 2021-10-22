@@ -43,6 +43,7 @@ namespace Xsolla.Demo
 
 			if (!DemoController.Instance.IsAccessTokenAuth)
 			{
+				AttachUrlToButton(webStoreButton, DemoController.Instance.GetWebStoreUrl());
 				AttachButtonCallback(battlepassButton,
 					() => SetMenuState(MenuState.Battlepass, () => UserCatalog.Instance.IsUpdated));
 			}
