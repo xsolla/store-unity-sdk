@@ -50,7 +50,7 @@ namespace Xsolla.Core
 		[SerializeField] private bool useDeepLinking = false;
 		[SerializeField] private string deepLinkRedirectUrl = default;
 
-		[SerializeField] private string webStoreUrl = "https://sitebuilder.xsolla.com/game/sdk-web-store/";
+		[SerializeField] public string webStoreUrl = "https://sitebuilder.xsolla.com/game/sdk-web-store/";
 
 		[SerializeField] private LogLevel logLevel = LogLevel.InfoWarningsErrors;
 		
