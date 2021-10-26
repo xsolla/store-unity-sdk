@@ -10,68 +10,66 @@ namespace Xsolla.Core.Browser
 	[RequireComponent(typeof(Image))]
 	public class Display2DBehaviour : MonoBehaviour
 	{
+		private IXsollaBrowserRender render;
+		private Canvas canvas;
+		private RectTransform canvasTransform;
+		private Image image;
+		
+		public Vector2Int CurrentRenderSize { get; private set; }
+
 		public event Action<int, int> ViewportChangedEvent;
 		public event Action RedrawFrameCompleteEvent;
 
-		private IXsollaBrowserRender render;
-		private Image image;
-
-		private Canvas canvas;
-		private int CanvasWidth => (int) ((canvas.transform as RectTransform).rect.width);//(int)canvas.pixelRect.width;
-		private int CanvasHeight => (int) ((canvas.transform as RectTransform).rect.height);//(int)canvas.pixelRect.height;
-	
-		private Vector2 imageSize;
-
-		public int Width = 0;
-		public int Height = 0;
-
 		private void Awake()
 		{
-			image = gameObject.GetComponent<Image>();
-			SetOpacity(image, 0.0F);
-			imageSize = Vector2.zero;
-		
-			canvas = FindObjectOfType<Canvas>();
+			canvas = GetComponentInParent<Canvas>();
 			if (canvas == null)
 			{
 				Debug.LogAssertion("Canvas not found. This browser for 2D project.");
 				Destroy(gameObject);
 				return;
 			}
-		
+
+			canvasTransform = canvas.transform as RectTransform;
+
+			image = gameObject.GetComponent<Image>();
+			SetOpacity(0.0f);
+
 			StartCoroutine(InitializeCoroutine());
 		}
-	
+
 		private void OnDestroy()
 		{
 			StopRedraw();
 		}
-	
-		public static void SetOpacity(Image image, float opacity)
-		{
-			if (image != null) {
-				Color color = image.color;
-				color.a = opacity;
-				image.color = color;
-			}
-		}
-	
-		public bool StartRedrawWith(int width, int height)
-		{
-			if (render == null) return false;
-		
-			StopRedraw();
-		
-			width = GetActualWidth(width);
-			height = GetActualHeight(height);
-		
-			if (Width != width || Height != height) {
-				render.SetResolution(width, height, ViewportCallback);
-			} else {
-				StartCoroutine(RedrawCoroutine(image));
-			}
 
-			return true;
+		private void SetOpacity(float opacity)
+		{
+			if (image == null)
+				return;
+
+			var color = image.color;
+			color.a = opacity;
+			image.color = color;
+		}
+
+		public void StartRedraw(int width, int height)
+		{
+			if (render == null)
+				return;
+
+			StopRedraw();
+
+			var canvasSize = canvasTransform.rect.size;
+			var clampedSize = new Vector2Int(
+				Mathf.Min(width, (int) canvasSize.x),
+				Mathf.Min(height, (int) canvasSize.y)
+			);
+
+			if (CurrentRenderSize != clampedSize)
+				render.SetResolution(width, height, ViewportCallback);
+			else
+				StartCoroutine(RedrawCoroutine());
 		}
 
 		private IEnumerator InitializeCoroutine()
@@ -84,60 +82,39 @@ namespace Xsolla.Core.Browser
 
 		private void StopRedraw()
 		{
-			SetOpacity(image, 0.0F);
-		
-			if (render == null) return;
-			StopAllCoroutines();
-		}
-	
-		private int GetActualWidth(int width)
-		{
-			return Mathf.Min(width, (int)(CanvasWidth * 0.9F));
-		}
-	
-		private int GetActualHeight(int height)
-		{
-			return Mathf.Min(height, (int)(CanvasHeight * 0.9F));
+			SetOpacity(0.0f);
+
+			if (render != null)
+				StopAllCoroutines();
 		}
 
 		private void ViewportCallback(int width, int height)
 		{
-			Width = width;
-			Height = height;
-			ResizeCollider();
+			CurrentRenderSize = new Vector2Int(width, height);
 			ViewportChangedEvent?.Invoke(width, height);
-			StartCoroutine(RedrawCoroutine(image));
-		}
-	
-		void ResizeCollider()
-		{
-			BoxCollider2D collider = gameObject.GetComponent<BoxCollider2D>();
-			if (collider) {
-				RectTransform rectTransform = (RectTransform)(collider.transform);
-				collider.size = rectTransform.sizeDelta;
-				collider.offset = Vector2.zero;
-			}
+			StartCoroutine(RedrawCoroutine());
 		}
 
-		private IEnumerator RedrawCoroutine(Image image)
+		private IEnumerator RedrawCoroutine()
 		{
-			while (true) {
+			while (enabled)
+			{
 				yield return ActionExtensions.WaitMethod<Sprite>(render.To, sprite =>
 				{
-					ApplySpriteToImage(image, sprite);
+					ApplySpriteToImage(sprite);
 					RedrawFrameCompleteEvent?.Invoke();
 				});
 			}
 		}
 
-		void ApplySpriteToImage(Image image, Sprite sprite)
+		private void ApplySpriteToImage(Sprite sprite)
 		{
-			if((image != null) && (sprite != null)) {
-				SetOpacity(image, 1.0F);
-				image.sprite = sprite;
-				image.SetNativeSize();
-				ResizeCollider();
-			}
+			if (image == null || sprite == null)
+				return;
+
+			SetOpacity(1.0f);
+			image.sprite = sprite;
+			image.SetNativeSize();
 		}
 	}
 }

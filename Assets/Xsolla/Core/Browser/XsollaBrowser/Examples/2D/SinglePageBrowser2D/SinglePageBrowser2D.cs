@@ -8,7 +8,6 @@ using Xsolla.Core.Popup;
 namespace Xsolla.Core.Browser
 {
 	[RequireComponent(typeof(Image))]
-	[RequireComponent(typeof(BoxCollider2D))]
 	public class SinglePageBrowser2D : MonoBehaviour
 	{
 #pragma warning disable
@@ -22,39 +21,36 @@ namespace Xsolla.Core.Browser
 #pragma warning restore
 
 #if UNITY_EDITOR || UNITY_STANDALONE
-		XsollaBrowser xsollaBrowser;
-		Display2DBehaviour display;
-		KeyboardBehaviour2D keyboard;
-		MouseBehaviour2D mouse;
-
-		string _urlBeforePopup;
+		private XsollaBrowser xsollaBrowser;
+		private Display2DBehaviour display;
+		private Keyboard2DBehaviour keyboard;
+		private Mouse2DBehaviour mouse;
+		private string _urlBeforePopup;
 
 		private void Awake()
 		{
-			BackButton.onClick.AddListener(BackButtonPressed);
+			BackButton.onClick.AddListener(OnBackButtonPressed);
 
 			CloseButton.gameObject.SetActive(false);
 			BackButton.gameObject.SetActive(false);
 
-			Canvas canvas = FindObjectOfType<Canvas>();
-			Rect canvasRect = (canvas.transform as RectTransform).rect; //canvas.pixelRect;
+			var canvasTrn = GetComponentInParent<Canvas>().transform;
+			var canvasRect = ((RectTransform) canvasTrn).rect;
 
 			if (Viewport.x > canvasRect.width)
-				Viewport.x = canvasRect.width * 0.9F;
+				Viewport.x = canvasRect.width;
 			if (Viewport.y > canvasRect.height)
-				Viewport.y = canvasRect.height * 0.9F;
+				Viewport.y = canvasRect.height;
 
 			xsollaBrowser = this.GetOrAddComponent<XsollaBrowser>();
-			xsollaBrowser.LogEvent += XsollaBrowser_LogEvent;
+			xsollaBrowser.LogEvent += Debug.Log;
 			xsollaBrowser.Launch
 			(
-				new LaunchBrowserOptions
-				{
+				new LaunchBrowserOptions{
 					Width = (int) Viewport.x,
 					Height = (int) Viewport.y,
 				},
-				new BrowserFetcherOptions
-				{
+				new BrowserFetcherOptions{
 #if UNITY_STANDALONE && !UNITY_EDITOR
 					Path = !XsollaSettings.PackInAppBrowserInBuild ? Application.persistentDataPath : String.Empty,
 #endif
@@ -64,13 +60,13 @@ namespace Xsolla.Core.Browser
 #endif
 
 #if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-	#if UNITY_64
+#if UNITY_64
 					Platform = Platform.Win64
-	#else
+#else
 					Platform = Platform.Win32
-	#endif
 #endif
-					
+#endif
+
 #if UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
 					Platform = Platform.MacOS
 #endif
@@ -98,23 +94,17 @@ namespace Xsolla.Core.Browser
 			display = this.GetOrAddComponent<Display2DBehaviour>();
 		}
 
-		private void Start()
-		{
-			if (Camera.main != null)
-				Camera.main.transform.Translate(transform.position - Camera.main.transform.position, Space.World);
-			StartCoroutine(InitializationCoroutine(xsollaBrowser));
-		}
-
-		IEnumerator InitializationCoroutine(IXsollaBrowser browser)
+		private IEnumerator Start()
 		{
 			yield return new WaitForEndOfFrame();
 			yield return StartCoroutine(WaitPreloaderCoroutine());
 
-			display.StartRedrawWith((int) Viewport.x, (int) Viewport.y);
+			display.StartRedraw((int) Viewport.x, (int) Viewport.y);
 			display.RedrawFrameCompleteEvent += EnableCloseButton;
 			display.ViewportChangedEvent += (width, height) => Viewport = new Vector2(width, height);
+
 			InitializeInput();
-			BrowserInitEvent?.Invoke(browser);
+			BrowserInitEvent?.Invoke(xsollaBrowser);
 		}
 
 		private void EnableCloseButton()
@@ -122,29 +112,29 @@ namespace Xsolla.Core.Browser
 			display.RedrawFrameCompleteEvent -= EnableCloseButton;
 
 			CloseButton.gameObject.SetActive(true);
-			CloseButton.onClick.AddListener(CloseButtonPressed);
+			CloseButton.onClick.AddListener(OnCloseButtonPressed);
 		}
 
 		private IEnumerator WaitPreloaderCoroutine()
 		{
-			gameObject.AddComponent<Preloader2DBehaviour>().SetPreloaderPrefab(PreloaderPrefab);
+			gameObject.AddComponent<Preloader2DBehaviour>().Prefab = PreloaderPrefab;
 			yield return new WaitWhile(() => gameObject.GetComponent<Preloader2DBehaviour>() != null);
 		}
 
 		private void InitializeInput()
 		{
-			mouse = this.GetOrAddComponent<MouseBehaviour2D>();
-			keyboard = this.GetOrAddComponent<KeyboardBehaviour2D>();
-			keyboard.EscapePressed += Keyboard_EscapePressed;
+			mouse = this.GetOrAddComponent<Mouse2DBehaviour>();
+			keyboard = this.GetOrAddComponent<Keyboard2DBehaviour>();
+			keyboard.EscapePressed += OnKeyboardEscapePressed;
 		}
 
-		private void CloseButtonPressed()
+		private void OnCloseButtonPressed()
 		{
 			Debug.Log("`Close` button pressed");
-			Destroy(gameObject, 0.001F);
+			Destroy(gameObject, 0.001f);
 		}
 
-		private void BackButtonPressed()
+		private void OnBackButtonPressed()
 		{
 			Debug.Log("`Back` button pressed");
 			xsollaBrowser.Navigate.Back((newUrl =>
@@ -157,16 +147,17 @@ namespace Xsolla.Core.Browser
 			}));
 		}
 
-		private void Keyboard_EscapePressed()
+		private void OnKeyboardEscapePressed()
 		{
 			Debug.Log("`Escape` button pressed");
-			Destroy(gameObject, 0.001F);
+			Destroy(gameObject, 0.001f);
 		}
 
 		private void OnDestroy()
 		{
 			StopAllCoroutines();
 			BrowserClosedEvent?.Invoke();
+
 			if (mouse != null)
 			{
 				Destroy(mouse);
@@ -181,7 +172,7 @@ namespace Xsolla.Core.Browser
 
 			if (keyboard != null)
 			{
-				keyboard.EscapePressed -= Keyboard_EscapePressed;
+				keyboard.EscapePressed -= OnKeyboardEscapePressed;
 				Destroy(keyboard);
 				keyboard = null;
 			}
@@ -192,7 +183,7 @@ namespace Xsolla.Core.Browser
 				xsollaBrowser = null;
 			}
 
-			Destroy(this.transform.parent.gameObject);
+			Destroy(transform.parent.gameObject);
 		}
 
 		private static void HandleBrowserAlert(Dialog alert)
@@ -217,31 +208,26 @@ namespace Xsolla.Core.Browser
 			}
 		}
 
-		private static void ShowSimpleAlertPopup(Dialog alert)
+		private static void ShowSimpleAlertPopup(Dialog dialog)
 		{
 			PopupFactory.Instance.CreateSuccess()
 				.SetTitle("Attention")
-				.SetMessage(alert.Message)
-				.SetCallback(() => alert.Accept());
+				.SetMessage(dialog.Message)
+				.SetCallback(() => dialog.Accept());
 		}
 
-		private static void ShowConfirmAlertPopup(Dialog alert)
+		private static void ShowConfirmAlertPopup(Dialog dialog)
 		{
 			PopupFactory.Instance.CreateConfirmation()
-				.SetMessage(alert.Message)
-				.SetConfirmCallback(() => alert.Accept())
-				.SetCancelCallback(() => alert.Dismiss());
+				.SetMessage(dialog.Message)
+				.SetConfirmCallback(() => dialog.Accept())
+				.SetCancelCallback(() => dialog.Dismiss());
 		}
 
-		private static void CloseAlert(Dialog alert)
+		private static void CloseAlert(Dialog dialog)
 		{
 			Debug.Log("Browser alert was closed automatically");
-			alert.Accept();
-		}
-
-		private void XsollaBrowser_LogEvent(string obj)
-		{
-			Debug.Log(obj);
+			dialog.Accept();
 		}
 #endif
 	}

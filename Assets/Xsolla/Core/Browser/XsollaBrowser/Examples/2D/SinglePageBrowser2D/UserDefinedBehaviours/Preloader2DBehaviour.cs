@@ -9,66 +9,74 @@ namespace Xsolla.Core.Browser
 	{
 		private int lastProgress;
 		private object progressLocker;
-
-		private GameObject prefab;
-		private GameObject PreloaderObject;
+		private GameObject preloaderObject;
 		private XsollaBrowser xsollaBrowser;
+
+		public GameObject Prefab { get; set; }
 
 		private void Awake()
 		{
 			progressLocker = new object();
 			lastProgress = 0;
+
 			xsollaBrowser = GetComponent<XsollaBrowser>();
-			xsollaBrowser.FetchingBrowserEvent += XsollaBrowser_FetchingBrowserEvent;
+			xsollaBrowser.FetchingBrowserEvent += OnBrowserFetchingEvent;
+
 			StartCoroutine(PreloaderInstantiateCoroutine());
 			StartCoroutine(PreloaderDestroyCoroutine());
 		}
 
 		private void OnDestroy()
 		{
-			xsollaBrowser.FetchingBrowserEvent -= XsollaBrowser_FetchingBrowserEvent;
+			xsollaBrowser.FetchingBrowserEvent -= OnBrowserFetchingEvent;
 			StopAllCoroutines();
-			if (PreloaderObject != null) {
-				Destroy(PreloaderObject);
-				PreloaderObject = null;
+
+			if (preloaderObject)
+			{
+				Destroy(preloaderObject);
+				preloaderObject = null;
 			}
+
 			progressLocker = null;
 		}
 
-		public void SetPreloaderPrefab(GameObject go)
+		private void OnBrowserFetchingEvent(int progress)
 		{
-			prefab = go;
-		}
+			lock (progressLocker)
+			{
+				if (lastProgress >= progress)
+					return;
 
-		private void XsollaBrowser_FetchingBrowserEvent(int progress)
-		{
-			lock (progressLocker) {
-				if (lastProgress >= progress) return;
 				Debug.Log($"Update[%]: {lastProgress} => {progress}");
 				lastProgress = progress;
+
 				StartCoroutine(PreloaderCoroutine(progress));
 			}
 		}
 
-		IEnumerator PreloaderCoroutine(int progress)
+		private IEnumerator PreloaderCoroutine(int progress)
 		{
 			yield return new WaitForEndOfFrame();
-			if (PreloaderObject == null) yield break;
+
+			if (preloaderObject == null)
+				yield break;
+
 			if (progress > 99)
 				progress = 100;
-			PreloaderObject.GetComponent<PreloaderScript>().SetPercent((uint)progress);
+
+			preloaderObject.GetComponent<PreloaderScript>().SetPercent((uint) progress);
 		}
 
-		IEnumerator PreloaderInstantiateCoroutine()
+		private IEnumerator PreloaderInstantiateCoroutine()
 		{
-			yield return new WaitWhile(() => prefab == null);
-			PreloaderObject = Instantiate(prefab, transform);
+			yield return new WaitWhile(() => Prefab == null);
+			preloaderObject = Instantiate(Prefab, transform);
 		}
 
-		IEnumerator PreloaderDestroyCoroutine()
+		private IEnumerator PreloaderDestroyCoroutine()
 		{
 			yield return new WaitWhile(() => xsollaBrowser.FetchingProgress < 100);
-			Destroy(this, 0.001F);
+			Destroy(this, 0.001f);
 		}
 	}
 }
