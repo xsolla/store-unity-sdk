@@ -3648,6 +3648,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -2155
       objectReference: {fileID: 0}
+    - target: {fileID: 226089698653795649, guid: 3c1f771cfe0a48a4e8c197f066f59f9e,
+        type: 3}
+      propertyPath: m_Name
+      value: VK
+      objectReference: {fileID: 0}
     - target: {fileID: 374105851757139116, guid: 3c1f771cfe0a48a4e8c197f066f59f9e,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -3808,6 +3813,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -505
       objectReference: {fileID: 0}
+    - target: {fileID: 1269884897773257287, guid: 3c1f771cfe0a48a4e8c197f066f59f9e,
+        type: 3}
+      propertyPath: m_Text
+      value: Xbox Live
+      objectReference: {fileID: 0}
     - target: {fileID: 1509973009738653305, guid: 3c1f771cfe0a48a4e8c197f066f59f9e,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -3872,6 +3882,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -2320
+      objectReference: {fileID: 0}
+    - target: {fileID: 1980634526119560881, guid: 3c1f771cfe0a48a4e8c197f066f59f9e,
+        type: 3}
+      propertyPath: m_Name
+      value: Mail.ru
       objectReference: {fileID: 0}
     - target: {fileID: 2069043387870816550, guid: 3c1f771cfe0a48a4e8c197f066f59f9e,
         type: 3}
@@ -4023,6 +4038,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -1000
       objectReference: {fileID: 0}
+    - target: {fileID: 3600055047713846667, guid: 3c1f771cfe0a48a4e8c197f066f59f9e,
+        type: 3}
+      propertyPath: m_Name
+      value: Twitch.tv
+      objectReference: {fileID: 0}
     - target: {fileID: 3898742951141982595, guid: 3c1f771cfe0a48a4e8c197f066f59f9e,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -4173,6 +4193,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -1165
       objectReference: {fileID: 0}
+    - target: {fileID: 4293085731218651700, guid: 3c1f771cfe0a48a4e8c197f066f59f9e,
+        type: 3}
+      propertyPath: m_Name
+      value: Battle.net
+      objectReference: {fileID: 0}
     - target: {fileID: 4327870790489747750, guid: 3c1f771cfe0a48a4e8c197f066f59f9e,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -4203,6 +4228,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -2650
       objectReference: {fileID: 0}
+    - target: {fileID: 5390850788240638040, guid: 3c1f771cfe0a48a4e8c197f066f59f9e,
+        type: 3}
+      propertyPath: m_Text
+      value: VK
+      objectReference: {fileID: 0}
     - target: {fileID: 5578104239416918454, guid: 3c1f771cfe0a48a4e8c197f066f59f9e,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -4232,6 +4262,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -4300
+      objectReference: {fileID: 0}
+    - target: {fileID: 5949182279584494504, guid: 3c1f771cfe0a48a4e8c197f066f59f9e,
+        type: 3}
+      propertyPath: m_Text
+      value: Mail.ru
       objectReference: {fileID: 0}
     - target: {fileID: 6154560842700442606, guid: 3c1f771cfe0a48a4e8c197f066f59f9e,
         type: 3}
@@ -4272,6 +4307,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -1825
+      objectReference: {fileID: 0}
+    - target: {fileID: 6371631188745729886, guid: 3c1f771cfe0a48a4e8c197f066f59f9e,
+        type: 3}
+      propertyPath: m_Name
+      value: Xbox Live
       objectReference: {fileID: 0}
     - target: {fileID: 6376237560508065299, guid: 3c1f771cfe0a48a4e8c197f066f59f9e,
         type: 3}
@@ -4578,6 +4618,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -2815
       objectReference: {fileID: 0}
+    - target: {fileID: 8243566313893547821, guid: 3c1f771cfe0a48a4e8c197f066f59f9e,
+        type: 3}
+      propertyPath: m_Text
+      value: Battle.net
+      objectReference: {fileID: 0}
     - target: {fileID: 8373793010880650299, guid: 3c1f771cfe0a48a4e8c197f066f59f9e,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -4607,6 +4652,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -175
+      objectReference: {fileID: 0}
+    - target: {fileID: 8648859228905160850, guid: 3c1f771cfe0a48a4e8c197f066f59f9e,
+        type: 3}
+      propertyPath: m_Text
+      value: Twitch.tv
       objectReference: {fileID: 0}
     - target: {fileID: 8923946876923916309, guid: 3c1f771cfe0a48a4e8c197f066f59f9e,
         type: 3}
