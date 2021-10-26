@@ -3430,25 +3430,25 @@ PrefabInstance:
     - target: {fileID: 4195053241921295760, guid: f74bbedcf4dd55749b557b04585c0da9,
         type: 3}
       propertyPath: SocialProvider
-      value: 1
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4195053241921295760, guid: f74bbedcf4dd55749b557b04585c0da9,
         type: 3}
       propertyPath: hoverStateSprite
       value: 
-      objectReference: {fileID: 21300000, guid: cc6e1169c18cd77418db06a83c9216a8,
+      objectReference: {fileID: 21300000, guid: 4495f815b23b01546824fbf7ca95345e,
         type: 3}
     - target: {fileID: 4195053241921295760, guid: f74bbedcf4dd55749b557b04585c0da9,
         type: 3}
       propertyPath: normalStateSprite
       value: 
-      objectReference: {fileID: 21300000, guid: 47437d629d39f6c4ea2ec6d007d6e76b,
+      objectReference: {fileID: 21300000, guid: 7a05d5f2727d17f41aea5a62ccaa1033,
         type: 3}
     - target: {fileID: 4195053241921295760, guid: f74bbedcf4dd55749b557b04585c0da9,
         type: 3}
       propertyPath: pressedStateSprite
       value: 
-      objectReference: {fileID: 21300000, guid: bc95337c3ed2a2649a9a28baad875361,
+      objectReference: {fileID: 21300000, guid: 5defc23d4962b4541a3271d547d0052a,
         type: 3}
     - target: {fileID: 5571938582151317058, guid: f74bbedcf4dd55749b557b04585c0da9,
         type: 3}
@@ -3559,7 +3559,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 47437d629d39f6c4ea2ec6d007d6e76b,
+      objectReference: {fileID: 21300000, guid: 7a05d5f2727d17f41aea5a62ccaa1033,
         type: 3}
     - target: {fileID: 5709679342319279616, guid: f74bbedcf4dd55749b557b04585c0da9,
         type: 3}
@@ -3589,7 +3589,7 @@ PrefabInstance:
     - target: {fileID: 8761578432214116197, guid: f74bbedcf4dd55749b557b04585c0da9,
         type: 3}
       propertyPath: m_Name
-      value: FacebookAuthButton
+      value: DiscordAuthButton
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f74bbedcf4dd55749b557b04585c0da9, type: 3}
