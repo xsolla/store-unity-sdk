@@ -6,6 +6,7 @@ namespace Xsolla.Store
 	{
 		public string currency;
 		public string locale;
-		public Dictionary<string, object> customParameters;
+		public int? quantity;
+		public Dictionary<string, object> custom_parameters;
 	}
 }

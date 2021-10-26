@@ -264,9 +264,10 @@ namespace Xsolla.Store
 			{
 				sandbox = XsollaSettings.IsSandbox,
 				settings = settings,
-				customParameters = purchaseParams?.customParameters,
+				custom_parameters = purchaseParams?.custom_parameters,
 				currency = purchaseParams?.currency,
-				locale = purchaseParams?.locale
+				locale = purchaseParams?.locale,
+				quantity = purchaseParams?.quantity
 			};
 
 			return tempPurchaseParams;
