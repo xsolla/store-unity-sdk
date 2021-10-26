@@ -3124,25 +3124,25 @@ PrefabInstance:
     - target: {fileID: 4195053241921295760, guid: f74bbedcf4dd55749b557b04585c0da9,
         type: 3}
       propertyPath: SocialProvider
-      value: 1
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4195053241921295760, guid: f74bbedcf4dd55749b557b04585c0da9,
         type: 3}
       propertyPath: hoverStateSprite
       value: 
-      objectReference: {fileID: 21300000, guid: cc6e1169c18cd77418db06a83c9216a8,
+      objectReference: {fileID: 21300000, guid: 7a05d5f2727d17f41aea5a62ccaa1033,
         type: 3}
     - target: {fileID: 4195053241921295760, guid: f74bbedcf4dd55749b557b04585c0da9,
         type: 3}
       propertyPath: normalStateSprite
       value: 
-      objectReference: {fileID: 21300000, guid: 47437d629d39f6c4ea2ec6d007d6e76b,
+      objectReference: {fileID: 21300000, guid: 4495f815b23b01546824fbf7ca95345e,
         type: 3}
     - target: {fileID: 4195053241921295760, guid: f74bbedcf4dd55749b557b04585c0da9,
         type: 3}
       propertyPath: pressedStateSprite
       value: 
-      objectReference: {fileID: 21300000, guid: bc95337c3ed2a2649a9a28baad875361,
+      objectReference: {fileID: 21300000, guid: 5defc23d4962b4541a3271d547d0052a,
         type: 3}
     - target: {fileID: 5571938582151317058, guid: f74bbedcf4dd55749b557b04585c0da9,
         type: 3}
@@ -3253,7 +3253,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 47437d629d39f6c4ea2ec6d007d6e76b,
+      objectReference: {fileID: 21300000, guid: 7a05d5f2727d17f41aea5a62ccaa1033,
         type: 3}
     - target: {fileID: 5709679342319279616, guid: f74bbedcf4dd55749b557b04585c0da9,
         type: 3}
@@ -3273,7 +3273,7 @@ PrefabInstance:
     - target: {fileID: 8761578432214116197, guid: f74bbedcf4dd55749b557b04585c0da9,
         type: 3}
       propertyPath: m_Name
-      value: FacebookAuthButton
+      value: DiscordAuthButton
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f74bbedcf4dd55749b557b04585c0da9, type: 3}
@@ -5948,6 +5948,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -505
       objectReference: {fileID: 0}
+    - target: {fileID: 226089698653795649, guid: 6c3248d100870494fad8bf1de5118ed7,
+        type: 3}
+      propertyPath: m_Name
+      value: VK
+      objectReference: {fileID: 0}
     - target: {fileID: 374105851757139116, guid: 6c3248d100870494fad8bf1de5118ed7,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -6108,6 +6113,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -505
       objectReference: {fileID: 0}
+    - target: {fileID: 1269884897773257287, guid: 6c3248d100870494fad8bf1de5118ed7,
+        type: 3}
+      propertyPath: m_Text
+      value: Xbox Live
+      objectReference: {fileID: 0}
     - target: {fileID: 1509973009738653305, guid: 6c3248d100870494fad8bf1de5118ed7,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -6172,6 +6182,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -670
+      objectReference: {fileID: 0}
+    - target: {fileID: 1980634526119560881, guid: 6c3248d100870494fad8bf1de5118ed7,
+        type: 3}
+      propertyPath: m_Name
+      value: Mail.ru
       objectReference: {fileID: 0}
     - target: {fileID: 2069043387870816550, guid: 6c3248d100870494fad8bf1de5118ed7,
         type: 3}
@@ -6323,6 +6338,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -1000
       objectReference: {fileID: 0}
+    - target: {fileID: 3600055047713846667, guid: 6c3248d100870494fad8bf1de5118ed7,
+        type: 3}
+      propertyPath: m_Name
+      value: Twitch.tv
+      objectReference: {fileID: 0}
     - target: {fileID: 3898742951141982595, guid: 6c3248d100870494fad8bf1de5118ed7,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -6473,6 +6493,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -1165
       objectReference: {fileID: 0}
+    - target: {fileID: 4293085731218651700, guid: 6c3248d100870494fad8bf1de5118ed7,
+        type: 3}
+      propertyPath: m_Name
+      value: Battle.net
+      objectReference: {fileID: 0}
     - target: {fileID: 4327870790489747750, guid: 6c3248d100870494fad8bf1de5118ed7,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -6519,6 +6544,11 @@ PrefabInstance:
       propertyPath: m_Material
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 5390850788240638040, guid: 6c3248d100870494fad8bf1de5118ed7,
+        type: 3}
+      propertyPath: m_Text
+      value: VK
+      objectReference: {fileID: 0}
     - target: {fileID: 5578104239416918454, guid: 6c3248d100870494fad8bf1de5118ed7,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -6548,6 +6578,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 5949182279584494504, guid: 6c3248d100870494fad8bf1de5118ed7,
+        type: 3}
+      propertyPath: m_Text
+      value: Mail.ru
       objectReference: {fileID: 0}
     - target: {fileID: 6154560842700442606, guid: 6c3248d100870494fad8bf1de5118ed7,
         type: 3}
@@ -6588,6 +6623,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -175
+      objectReference: {fileID: 0}
+    - target: {fileID: 6371631188745729886, guid: 6c3248d100870494fad8bf1de5118ed7,
+        type: 3}
+      propertyPath: m_Name
+      value: Xbox Live
       objectReference: {fileID: 0}
     - target: {fileID: 6650683811805778266, guid: 6c3248d100870494fad8bf1de5118ed7,
         type: 3}
@@ -6874,6 +6914,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -1165
       objectReference: {fileID: 0}
+    - target: {fileID: 8243566313893547821, guid: 6c3248d100870494fad8bf1de5118ed7,
+        type: 3}
+      propertyPath: m_Text
+      value: Battle.net
+      objectReference: {fileID: 0}
     - target: {fileID: 8373793010880650299, guid: 6c3248d100870494fad8bf1de5118ed7,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -6903,6 +6948,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -175
+      objectReference: {fileID: 0}
+    - target: {fileID: 8648859228905160850, guid: 6c3248d100870494fad8bf1de5118ed7,
+        type: 3}
+      propertyPath: m_Text
+      value: Twitch.tv
       objectReference: {fileID: 0}
     - target: {fileID: 8923946876923916309, guid: 6c3248d100870494fad8bf1de5118ed7,
         type: 3}
