@@ -23,7 +23,7 @@ namespace Xsolla.Core
 			LoginIdInput.onEndEdit.AddListener(OnLoginIdInputEndEdit);
 			StoreProjectIdInput.onEndEdit.AddListener(OnStoreProjectIdInputEndEdit);
 			OAuthClientIdInput.onEndEdit.AddListener(OnOAuthClientIdInputInputEndEdit);
-			WebShopUrlInput.onEndEdit.AddListener(OnOAuthClientIdInputInputEndEdit);
+			WebShopUrlInput.onEndEdit.AddListener(OnWebShopUrlEdit);
 
 			JwtToggle.onValueChanged.AddListener(OnJwtToggleChanged);
 			OAuthToggle.onValueChanged.AddListener(OnOAuthToggleChanged);
@@ -37,7 +37,7 @@ namespace Xsolla.Core
 			LoginIdInput.onEndEdit.RemoveListener(OnLoginIdInputEndEdit);
 			StoreProjectIdInput.onEndEdit.RemoveListener(OnStoreProjectIdInputEndEdit);
 			OAuthClientIdInput.onEndEdit.RemoveListener(OnOAuthClientIdInputInputEndEdit);
-			WebShopUrlInput.onEndEdit.RemoveListener(OnOAuthClientIdInputInputEndEdit);
+			WebShopUrlInput.onEndEdit.RemoveListener(OnWebShopUrlEdit);
 
 			JwtToggle.onValueChanged.RemoveListener(OnJwtToggleChanged);
 			OAuthToggle.onValueChanged.RemoveListener(OnOAuthToggleChanged);

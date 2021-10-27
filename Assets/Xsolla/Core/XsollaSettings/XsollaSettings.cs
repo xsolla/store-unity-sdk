@@ -407,13 +407,27 @@ namespace Xsolla.Core
 			}
 		}
 
+		private const string WebStoreUrlKey = nameof(webStoreUrl);
 		public static string WebStoreUrl
 		{
-			get => Instance.webStoreUrl;
+			get
+			{
+				if (PlayerPrefs.HasKey(WebStoreUrlKey))
+					return PlayerPrefs.GetString(WebStoreUrlKey);
+				else
+					return Instance.webStoreUrl;
+			}
 			set
 			{
-				Instance.webStoreUrl = value;
-				MarkAssetDirty();
+				PlayerPrefs.SetString(WebStoreUrlKey, value);
+
+				if (!Application.isPlaying)
+				{
+					Instance.webStoreUrl = value;
+					MarkAssetDirty();
+				}
+
+				Changed?.Invoke();
 			}
 		}
 
