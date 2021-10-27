@@ -3130,13 +3130,13 @@ PrefabInstance:
         type: 3}
       propertyPath: hoverStateSprite
       value: 
-      objectReference: {fileID: 21300000, guid: 7a05d5f2727d17f41aea5a62ccaa1033,
+      objectReference: {fileID: 21300000, guid: 4495f815b23b01546824fbf7ca95345e,
         type: 3}
     - target: {fileID: 4195053241921295760, guid: f74bbedcf4dd55749b557b04585c0da9,
         type: 3}
       propertyPath: normalStateSprite
       value: 
-      objectReference: {fileID: 21300000, guid: 4495f815b23b01546824fbf7ca95345e,
+      objectReference: {fileID: 21300000, guid: 7a05d5f2727d17f41aea5a62ccaa1033,
         type: 3}
     - target: {fileID: 4195053241921295760, guid: f74bbedcf4dd55749b557b04585c0da9,
         type: 3}
@@ -4780,6 +4780,11 @@ PrefabInstance:
     - target: {fileID: 653889249528763233, guid: 61ae11edd4240420ab192b4cb485cf22,
         type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 653889249528763233, guid: 61ae11edd4240420ab192b4cb485cf22,
+        type: 3}
+      propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7372969442764771299, guid: 61ae11edd4240420ab192b4cb485cf22,
