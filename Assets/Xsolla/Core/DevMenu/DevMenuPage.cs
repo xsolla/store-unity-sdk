@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 using Xsolla.Demo;
 
@@ -7,18 +7,13 @@ namespace Xsolla.Core
 	public class DevMenuPage : MonoBehaviour
 	{
 		[SerializeField] private SimpleButton BackButton = default;
-
 		[SerializeField] private SimpleButton ResetButton = default;
-
 		[SerializeField] private InputField LoginIdInput = default;
-
 		[SerializeField] private InputField StoreProjectIdInput = default;
-
 		[SerializeField] private InputField OAuthClientIdInput = default;
-
 		[SerializeField] private Toggle JwtToggle = default;
-
 		[SerializeField] private Toggle OAuthToggle = default;
+		[SerializeField] private InputField WebShopUrlInput = default;
 
 		private void OnEnable()
 		{
@@ -28,6 +23,7 @@ namespace Xsolla.Core
 			LoginIdInput.onEndEdit.AddListener(OnLoginIdInputEndEdit);
 			StoreProjectIdInput.onEndEdit.AddListener(OnStoreProjectIdInputEndEdit);
 			OAuthClientIdInput.onEndEdit.AddListener(OnOAuthClientIdInputInputEndEdit);
+			WebShopUrlInput.onEndEdit.AddListener(OnWebShopUrlEdit);
 
 			JwtToggle.onValueChanged.AddListener(OnJwtToggleChanged);
 			OAuthToggle.onValueChanged.AddListener(OnOAuthToggleChanged);
@@ -41,6 +37,7 @@ namespace Xsolla.Core
 			LoginIdInput.onEndEdit.RemoveListener(OnLoginIdInputEndEdit);
 			StoreProjectIdInput.onEndEdit.RemoveListener(OnStoreProjectIdInputEndEdit);
 			OAuthClientIdInput.onEndEdit.RemoveListener(OnOAuthClientIdInputInputEndEdit);
+			WebShopUrlInput.onEndEdit.RemoveListener(OnWebShopUrlEdit);
 
 			JwtToggle.onValueChanged.RemoveListener(OnJwtToggleChanged);
 			OAuthToggle.onValueChanged.RemoveListener(OnOAuthToggleChanged);
@@ -62,6 +59,7 @@ namespace Xsolla.Core
 			XsollaSettings.StoreProjectId = XsollaSettings.Instance.storeProjectId;
 			XsollaSettings.AuthorizationType = XsollaSettings.Instance.authorizationType;
 			XsollaSettings.OAuthClientId = XsollaSettings.Instance.oauthClientId;
+			XsollaSettings.WebStoreUrl = XsollaSettings.Instance.webStoreUrl;
 
 			RedrawFields();
 		}
@@ -102,11 +100,18 @@ namespace Xsolla.Core
 			RedrawFields();
 		}
 
+		private void OnWebShopUrlEdit(string value)
+		{
+			XsollaSettings.WebStoreUrl = value;
+			RedrawFields();
+		}
+
 		private void RedrawFields()
 		{
 			LoginIdInput.text = XsollaSettings.LoginId;
 			StoreProjectIdInput.text = XsollaSettings.StoreProjectId;
 			OAuthClientIdInput.text = XsollaSettings.OAuthClientId.ToString();
+			WebShopUrlInput.text = XsollaSettings.WebStoreUrl;
 
 			var authorizationType = XsollaSettings.AuthorizationType;
 			JwtToggle.SetIsOnWithoutNotify(authorizationType == AuthorizationType.JWT);

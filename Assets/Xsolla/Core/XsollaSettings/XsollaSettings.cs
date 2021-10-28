@@ -50,7 +50,7 @@ namespace Xsolla.Core
 		[SerializeField] private bool useDeepLinking = false;
 		[SerializeField] private string deepLinkRedirectUrl = default;
 
-		[SerializeField] private string webStoreUrl = "https://sitebuilder.xsolla.com/game/sdk-web-store/";
+		[SerializeField] public string webStoreUrl = "https://sitebuilder.xsolla.com/game/sdk-web-store/";
 
 		[SerializeField] private LogLevel logLevel = LogLevel.InfoWarningsErrors;
 		
@@ -407,13 +407,27 @@ namespace Xsolla.Core
 			}
 		}
 
+		private const string WebStoreUrlKey = nameof(webStoreUrl);
 		public static string WebStoreUrl
 		{
-			get => Instance.webStoreUrl;
+			get
+			{
+				if (PlayerPrefs.HasKey(WebStoreUrlKey))
+					return PlayerPrefs.GetString(WebStoreUrlKey);
+				else
+					return Instance.webStoreUrl;
+			}
 			set
 			{
-				Instance.webStoreUrl = value;
-				MarkAssetDirty();
+				PlayerPrefs.SetString(WebStoreUrlKey, value);
+
+				if (!Application.isPlaying)
+				{
+					Instance.webStoreUrl = value;
+					MarkAssetDirty();
+				}
+
+				Changed?.Invoke();
 			}
 		}
 
