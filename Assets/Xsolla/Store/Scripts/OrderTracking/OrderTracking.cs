@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 using Xsolla.Core;
 
 namespace Xsolla.Store
@@ -10,21 +11,21 @@ namespace Xsolla.Store
 
 		public void AddOrderForTracking(string projectId, int orderId, Action onSuccess = null, Action<Error> onError = null)
 		{
-			var data = CreateOrderTrackingData(projectId, orderId, onSuccess, onError);
-			if (data == null)
+			if (trackers.ContainsKey(orderId))
 				return;
 
-			var tracker = CreateTracker(data);
+			var orderTrackingData = CreateOrderTrackingData(projectId, orderId, onSuccess, onError);
+			var tracker = CreateTracker(orderTrackingData);
 			StartTracker(tracker);
 		}
 
 		public void AddOrderForTrackingUntilDone(string projectId, int orderId, Action onSuccess = null, Action<Error> onError = null)
 		{
-			var data = CreateOrderTrackingData(projectId, orderId, onSuccess, onError);
-			if (data == null)
+			if (trackers.ContainsKey(orderId))
 				return;
 
-			var tracker = new OrderTrackerByShortPolling(data, this);
+			var orderTrackingData = CreateOrderTrackingData(projectId, orderId, onSuccess, onError);
+			var tracker = new OrderTrackerByShortPolling(orderTrackingData, this);
 			StartTracker(tracker);
 		}
 
@@ -51,9 +52,6 @@ namespace Xsolla.Store
 
 		private OrderTrackingData CreateOrderTrackingData(string projectId, int orderId, Action onSuccess = null, Action<Error> onError = null)
 		{
-			if (trackers.ContainsKey(orderId))
-				return null;
-
 			return new OrderTrackingData{
 				ProjectId = projectId,
 				OrderId = orderId,
@@ -65,7 +63,7 @@ namespace Xsolla.Store
 		private OrderTracker CreateTracker(OrderTrackingData trackingData)
 		{
 #if UNITY_WEBGL
-			if (XsollaSettings.InAppBrowserEnabled)
+			if (!Application.isEditor && XsollaSettings.InAppBrowserEnabled)
 				return new OrderTrackerByPaystationCallbacks(trackingData, this);
 #endif
 

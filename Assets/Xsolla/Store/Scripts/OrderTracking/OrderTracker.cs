@@ -32,7 +32,7 @@ namespace Xsolla.Store
 			}
 
 			var orderId = trackingData.OrderId;
-			if (currentRequests.Contains(orderId))
+			if (currentRequests.Contains(orderId)) // Prevent double check
 				return;
 
 			currentRequests.Add(orderId);

@@ -1,18 +1,19 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using UnityEngine;
 
 namespace Xsolla.Core
 {
-	public class OnMainThreadExecutor : MonoSingleton<OnMainThreadExecutor>
+	public class OnMainThreadExecutor : MonoBehaviour
 	{
-		private readonly ConcurrentQueue<Action> RunOnMainThread = new ConcurrentQueue<Action>();
+		private readonly ConcurrentQueue<Action> actions = new ConcurrentQueue<Action>();
 
 		private void Update()
 		{
-			if (RunOnMainThread.IsEmpty)
+			if (actions.IsEmpty)
 				return;
 
-			while (RunOnMainThread.TryDequeue(out var action))
+			while (actions.TryDequeue(out var action))
 			{
 				action?.Invoke();
 			}
@@ -20,7 +21,7 @@ namespace Xsolla.Core
 
 		public void Enqueue(Action action)
 		{
-			Instance.RunOnMainThread.Enqueue(action);
+			actions.Enqueue(action);
 		}
 	}
 }
