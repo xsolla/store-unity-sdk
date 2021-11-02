@@ -15,7 +15,7 @@ namespace Xsolla.Core
 	[PostProcessBuild(2000)]
 			public static void OnPostProcessBuild(BuildTarget target, string path)
 			{
-				Debug.Log("InBrainPostProcessor is now postprocessing iOS Project");
+				Debug.Log("Xsolla iOSBuildPostProcess is now postprocessing iOS Project");
 
 				var projectPath = PBXProject.GetPBXProjectPath(path);
 

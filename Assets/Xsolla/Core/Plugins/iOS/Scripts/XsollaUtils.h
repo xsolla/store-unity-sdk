@@ -1,5 +1,6 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIImage.h>
+#import <AuthenticationServices/AuthenticationServices.h>
 
 #import "XsollaSDKLoginKitUnity/XsollaSDKLoginKitUnity-Swift.h"
 

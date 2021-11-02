@@ -92,6 +92,8 @@ namespace Xsolla.Demo
 			TryAuthBy<SocialAuth>(args, onSuccessfulSocialAuth, onFailedSocialAuth);
 	#elif UNITY_ANDROID
 			TryAuthBy<AndroidSocialAuth>(args, onSuccessfulSocialAuth, onFailedSocialAuth);
+	#elif UNITY_IOS
+			TryAuthBy<IosSocialAuth>(args, onSuccessfulSocialAuth, onFailedSocialAuth);
 	#endif
 		}
 
