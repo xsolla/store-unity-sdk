@@ -50,7 +50,7 @@ namespace Xsolla.Store
 			var countryParam = GetCountryUrlParam(country);
 			url = ConcatUrlAndParams(url, localeParam, additionalFieldsParam, countryParam);
 
-			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, WebRequestHeader.AuthHeader(Token.Instance), onSuccess, onError, Error.ItemsListErrors);
+			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, onSuccess, onError, Error.ItemsListErrors);
 		}
 
 		/// <summary>
@@ -74,7 +74,7 @@ namespace Xsolla.Store
 			var countryParam = GetCountryUrlParam(country);
 			url = ConcatUrlAndParams(url, localeParam, additionalFieldsParam, countryParam);
 
-			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, WebRequestHeader.AuthHeader(Token.Instance), onSuccess, onError, Error.ItemsListErrors);
+			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, onSuccess, onError, Error.ItemsListErrors);
 		}
 	}
 }
