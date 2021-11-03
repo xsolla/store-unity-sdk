@@ -21,7 +21,7 @@
 
 + (NSString *)serializeDictionary:(NSDictionary *)dictionary {
     NSError *error;
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary options:nil error:&error];
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:&error];
     return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
 }
 
