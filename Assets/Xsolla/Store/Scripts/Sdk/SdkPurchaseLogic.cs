@@ -42,7 +42,7 @@ namespace Xsolla.Demo
 				item.VirtualPrice?.Key,
 				data =>
 				{
-					OrderTracking.Instance.AddOrderForTrackingUntilDone(
+					OrderTracking.Instance.AddOrderForTracking(
 						XsollaSettings.StoreProjectId,
 						data.order_id,
 						() => onSuccess?.Invoke(item),
