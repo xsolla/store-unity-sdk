@@ -39,7 +39,7 @@ extern "C" {
 					NSLog(@"Error code: %ld", error.code);
 
 					// check if user cancelled social authentication (error code loginKitErrorCodeASCanceledLogin)
-					if(error.code == 51) {
+					if(error.code == NSError.loginKitErrorCodeASCanceledLogin) {
 						cancelCallback(cancelActionPtr);
 						return;
 					}

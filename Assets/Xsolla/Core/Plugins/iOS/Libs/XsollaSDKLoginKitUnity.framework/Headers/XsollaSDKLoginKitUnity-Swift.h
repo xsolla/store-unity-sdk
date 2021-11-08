@@ -189,6 +189,7 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 #pragma clang diagnostic ignored "-Watimport-in-framework-header"
 #endif
 @import AuthenticationServices;
+@import Foundation;
 @import ObjectiveC;
 #endif
 
@@ -321,6 +322,30 @@ SWIFT_AVAILABILITY(ios,introduced=13.4)
 @end
 
 
+
+SWIFT_AVAILABILITY(ios,introduced=13.4)
+@interface NSError (SWIFT_EXTENSION(XsollaSDKLoginKitUnity))
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) NSInteger loginKitErrorCodeUnknown;)
++ (NSInteger)loginKitErrorCodeUnknown SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) NSInteger loginKitErrorCodeASCanceledLogin;)
++ (NSInteger)loginKitErrorCodeASCanceledLogin SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) NSInteger loginKitErrorCodeASpresentationContextNotProvided;)
++ (NSInteger)loginKitErrorCodeASpresentationContextNotProvided SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) NSInteger loginKitErrorCodeASpresentationContextInvalid;)
++ (NSInteger)loginKitErrorCodeASpresentationContextInvalid SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) NSInteger loginKitErrorCodeUnknownError;)
++ (NSInteger)loginKitErrorCodeUnknownError SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) NSInteger loginKitErrorCodeFailedURLExtraction;)
++ (NSInteger)loginKitErrorCodeFailedURLExtraction SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) NSInteger loginKitErrorCodeAuthCodeExtractionError;)
++ (NSInteger)loginKitErrorCodeAuthCodeExtractionError SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) NSInteger loginKitErrorCodeNetworkLinkingError;)
++ (NSInteger)loginKitErrorCodeNetworkLinkingError SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) NSInteger loginKitErrorCodeInvalidToken;)
++ (NSInteger)loginKitErrorCodeInvalidToken SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) NSInteger loginKitErrorCodeInvalidRedirectUrl;)
++ (NSInteger)loginKitErrorCodeInvalidRedirectUrl SWIFT_WARN_UNUSED_RESULT;
+@end
 
 
 /// Set of parameters to perform authentication with the OAuth2 protocol.

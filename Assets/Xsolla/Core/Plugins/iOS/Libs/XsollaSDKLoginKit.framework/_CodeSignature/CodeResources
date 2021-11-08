@@ -6,7 +6,7 @@
 	<dict>
 		<key>.DS_Store</key>
 		<data>
-		JblRvzXXTBDCzBcdXwWIHhkerBE=
+		PMtbAWNHB1ijfu5QkAgsDXjkmmQ=
 		</data>
 		<key>.swiftlint.yml</key>
 		<data>
@@ -22,7 +22,7 @@
 		</data>
 		<key>Frameworks/XsollaSDKUtilities.framework/XsollaSDKUtilities</key>
 		<data>
-		KlmpH4+0H+CClKtru2XrF3tEab0=
+		q9LJRKHGApKthtAwf48jHFZjkpQ=
 		</data>
 		<key>Frameworks/XsollaSDKUtilities.framework/_CodeSignature/CodeResources</key>
 		<data>
@@ -43,6 +43,10 @@
 		<key>Info.plist</key>
 		<data>
 		JRUpfy80fdBjNEGoaD0ecmjiXG0=
+		</data>
+		<key>Modules/.DS_Store</key>
+		<data>
+		muzenqexjfpHKT6WWpheQC9faXY=
 		</data>
 		<key>Modules/XsollaSDKLoginKit.swiftmodule/Project/arm64-apple-ios.swiftsourceinfo</key>
 		<data>
@@ -100,7 +104,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			GZjNAkykP0fsFgbeJR8/qYtiwD95GIEILqL1v9/cBpc=
+			ObwyhcXWhIUSm/b95Ws/6NuzllUBpAmZlTSqQ8dUZ9E=
 			</data>
 		</dict>
 		<key>Frameworks/XsollaSDKUtilities.framework/_CodeSignature/CodeResources</key>
