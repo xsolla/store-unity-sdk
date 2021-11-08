@@ -35,8 +35,12 @@ namespace Xsolla.Demo
 					_authBySocialNetwork(providerName, XsollaSettings.OAuthClientId, DEMO_AUTH_STATE, XsollaSettings.CallbackUrl,
 						IosCallbacks.ActionStringCallback, onSuccessNative.GetPointer(),
 						IosCallbacks.ActionVoidCallback, onErrorNative.GetPointer());
-#endif
+
 					Debug.Log("IosSocialAuth.SocialNetworkAuth: auth request was sent");
+#else
+					Debug.LogError("IosSocialAuth.TryAuth: Platform not supported");
+					base.OnError?.Invoke(new Error(errorMessage: "Social auth failed"));
+#endif
 				}
 				catch (Exception ex)
 				{
@@ -46,7 +50,7 @@ namespace Xsolla.Demo
 			}
 			else
 			{
-				Debug.LogWarning("IosSocialAuth.TryAuth: Could not extract argument");
+				Debug.LogError("IosSocialAuth.TryAuth: Could not extract argument");
 				base.OnError?.Invoke(new Error(errorMessage: "Social auth failed"));
 			}
 		}
