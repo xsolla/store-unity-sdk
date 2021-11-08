@@ -322,6 +322,7 @@ SWIFT_AVAILABILITY(ios,introduced=13.4)
 
 
 
+
 /// Set of parameters to perform authentication with the OAuth2 protocol.
 SWIFT_CLASS("_TtC22XsollaSDKLoginKitUnity12OAuth2Params")
 @interface OAuth2Params : NSObject

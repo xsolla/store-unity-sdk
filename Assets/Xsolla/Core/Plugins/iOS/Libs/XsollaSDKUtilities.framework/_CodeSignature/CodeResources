@@ -4,6 +4,10 @@
 <dict>
 	<key>files</key>
 	<dict>
+		<key>.DS_Store</key>
+		<data>
+		OhktXa7quzbXX/ZM48lSWwZPwew=
+		</data>
 		<key>.swiftlint.yml</key>
 		<data>
 		4+dUhykytExmluBzLzqo6JttnIc=
@@ -22,11 +26,11 @@
 		</data>
 		<key>Modules/XsollaSDKUtilities.swiftmodule/Project/arm64-apple-ios.swiftsourceinfo</key>
 		<data>
-		ynqvJ/RcgClAWGUGk9nzjaPGO+U=
+		7ARCUtx14K1E9/sesnI4f//8IUs=
 		</data>
 		<key>Modules/XsollaSDKUtilities.swiftmodule/Project/arm64.swiftsourceinfo</key>
 		<data>
-		ynqvJ/RcgClAWGUGk9nzjaPGO+U=
+		7ARCUtx14K1E9/sesnI4f//8IUs=
 		</data>
 		<key>Modules/XsollaSDKUtilities.swiftmodule/arm64-apple-ios.swiftdoc</key>
 		<data>
@@ -80,14 +84,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			CijstbACCuto+7vAOZna6s3NwrbH8/T7ghQgNHwaUuo=
+			N5lIEbpMVzoGITjuWCGe3PPqRcWJWMpBKeBgq582zuI=
 			</data>
 		</dict>
 		<key>Modules/XsollaSDKUtilities.swiftmodule/Project/arm64.swiftsourceinfo</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			CijstbACCuto+7vAOZna6s3NwrbH8/T7ghQgNHwaUuo=
+			N5lIEbpMVzoGITjuWCGe3PPqRcWJWMpBKeBgq582zuI=
 			</data>
 		</dict>
 		<key>Modules/XsollaSDKUtilities.swiftmodule/arm64-apple-ios.swiftdoc</key>
