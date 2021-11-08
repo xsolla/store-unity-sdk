@@ -14,7 +14,7 @@ namespace Xsolla.Demo
 		[DllImport("__Internal")]
 		public static extern void _authBySocialNetwork(string platform, int clientID, string state, string redirectUri,
 			IosCallbacks.ActionStringCallbackDelegate onSuccessCallback, IntPtr onSuccessActionPtr,
-			IosCallbacks.ActionVoidCallbackDelegate onErrorCallback, IntPtr onErrorActionPtr,
+			IosCallbacks.ActionStringCallbackDelegate onErrorCallback, IntPtr onErrorActionPtr,
 			IosCallbacks.ActionVoidCallbackDelegate onCancelCallback, IntPtr onCancelActionPtr);
 #endif
 
@@ -31,12 +31,12 @@ namespace Xsolla.Demo
 					var providerName = _requestedProvider.ToString().ToLower();
 
 					Action<string> onSuccessNative = SuccessHandler;
-					Action onErrorNative = FailHandler;
+					Action<string> onErrorNative = FailHandler;
 					Action onCancelNative = CancelHandler;
 #if UNITY_IOS
 					_authBySocialNetwork(providerName, XsollaSettings.OAuthClientId, DEMO_AUTH_STATE, XsollaSettings.CallbackUrl,
 						IosCallbacks.ActionStringCallback, onSuccessNative.GetPointer(),
-						IosCallbacks.ActionVoidCallback, onErrorNative.GetPointer(),
+						IosCallbacks.ActionStringCallback, onErrorNative.GetPointer(),
 						IosCallbacks.ActionVoidCallback, onCancelNative.GetPointer());
 
 					Debug.Log("IosSocialAuth.SocialNetworkAuth: auth request was sent");
@@ -105,10 +105,10 @@ namespace Xsolla.Demo
 			base.OnSuccess?.Invoke(response.access_token);
 		}
 
-		private void FailHandler()
+		private void FailHandler(string error)
 		{
 			Debug.LogError($"Social auth failed.");
-			base.OnError?.Invoke(new Error(errorMessage: "Social auth failed"));
+			base.OnError?.Invoke(new Error(errorMessage: $"Social auth failed: {error}"));
 		}
 		
 		private void CancelHandler()

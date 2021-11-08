@@ -12,7 +12,7 @@ extern "C" {
 
 	void _authBySocialNetwork(char* platform, int clientId, char* state, char* redirectUri,
 		ActionStringCallbackDelegate authSuccessCallback, void *authSuccessActionPtr,
-		ActionVoidCallbackDelegate errorCallback, void *errorActionPtr,
+		ActionStringCallbackDelegate errorCallback, void *errorActionPtr,
 		ActionVoidCallbackDelegate cancelCallback, void *cancelActionPtr) {
 
 		NSString* platformString = [XsollaUtils createNSStringFrom:platform];
@@ -38,13 +38,12 @@ extern "C" {
 				if(error != nil) {
 					NSLog(@"Error code: %ld", error.code);
 
-					// check if user cancelled social authentication (error code loginKitErrorCodeASCanceledLogin)
 					if(error.code == NSError.loginKitErrorCodeASCanceledLogin) {
 						cancelCallback(cancelActionPtr);
 						return;
 					}
 
-					errorCallback(errorActionPtr);
+					errorCallback(errorActionPtr, [XsollaUtils createCStringFrom:error.localizedDescription]);
 					return;
 				}
 
