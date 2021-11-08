@@ -11,7 +11,9 @@ typedef void(ActionStringCallbackDelegate)(void *actionPtr, const char *data);
 extern "C" {
 
 	void _authBySocialNetwork(char* platform, int clientId, char* state, char* redirectUri,
-		ActionStringCallbackDelegate authSuccessCallback, void *authSuccessActionPtr, ActionVoidCallbackDelegate errorCallback, void *errorActionPtr) {
+		ActionStringCallbackDelegate authSuccessCallback, void *authSuccessActionPtr,
+		ActionVoidCallbackDelegate errorCallback, void *errorActionPtr,
+		ActionVoidCallbackDelegate cancelCallback, void *cancelActionPtr) {
 
 		NSString* platformString = [XsollaUtils createNSStringFrom:platform];
 		NSString* stateString = [XsollaUtils createNSStringFrom:state];
@@ -34,6 +36,14 @@ extern "C" {
 			[[LoginKitUnity shared] authBySocialNetwork:platformString oAuth2Params:oauthParams jwtParams:jwtGenerationParams presentationContextProvider:context completion:^(AccessTokenInfo * _Nullable accesTokenInfo, NSError * _Nullable error){
 
 				if(error != nil) {
+					NSLog(@"Error code: %ld", error.code);
+
+					// check if user cancelled social authentication (error code loginKitErrorCodeASCanceledLogin)
+					if(error.code == 51) {
+						cancelCallback(cancelActionPtr);
+						return;
+					}
+
 					errorCallback(errorActionPtr);
 					return;
 				}
