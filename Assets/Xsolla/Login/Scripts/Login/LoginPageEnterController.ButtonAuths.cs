@@ -15,8 +15,12 @@ namespace Xsolla.Demo
 
 		[Space]
 		[SerializeField] private SimpleSocialButton[] MainSocialLoginButtons = default;
-		[SerializeField] private SimpleButton OtheSocialNetworksButton = default; 
+		[SerializeField] private SimpleButton OtherSocialNetworksButton = default;
 		[SerializeField] private SocialNetworksWidget SocialNetworksWidget = default;
+
+		[Space]
+		[SerializeField] private SimpleButton PasswordlessButton = default;
+		[SerializeField] private PasswordlessWidget PasswordlessWidget = default;
 
 		[Space]
 		[SerializeField] InputField EmailAccessTokenAuthInputField = default;
@@ -35,8 +39,13 @@ namespace Xsolla.Demo
 			LoginAccessTokenAuthButton.onClick += PrepareAndRunAccessTokenAuth;
 
 			SocialNetworksWidget.OnSocialButtonClick = RunSocialAuth;
-			OtheSocialNetworksButton.onClick += () => SocialNetworksWidget.gameObject.SetActive(true);
-			
+			OtherSocialNetworksButton.onClick += () => SocialNetworksWidget.gameObject.SetActive(true);
+
+			if (PasswordlessButton != null)
+			{
+				PasswordlessButton.onClick += () => PasswordlessWidget.gameObject.SetActive(true);
+			}
+
 			foreach (var button in MainSocialLoginButtons)
 			{
 				button.onClick += () => RunSocialAuth(button.SocialProvider);
