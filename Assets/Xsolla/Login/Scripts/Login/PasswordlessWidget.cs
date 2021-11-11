@@ -1,39 +1,149 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
+using System.Text.RegularExpressions;
 using UnityEngine;
+using UnityEngine.UI;
+using Xsolla.Core;
 
 namespace Xsolla.Demo
 {
-    public class PasswordlessWidget : MonoBehaviour
-    {
+    public class PasswordlessWidget : MonoBehaviour, ICodeRequester
+	{
 		[SerializeField] private GameObject ChoiceState = default;
 		[SerializeField] private GameObject PhoneState = default;
 		[SerializeField] private GameObject EmailState = default;
-		[SerializeField] private GameObject ConfirmationState = default;
+		[SerializeField] private GameObject CodeState = default;
 		[SerializeField] private SimpleButton BackButton = default;
 		[Space]
 		[SerializeField] private SimpleButton PhoneChoiceButton = default;
 		[SerializeField] private SimpleButton EmailChoiceButton = default;
 		[Space]
-		[SerializeField] private SimpleButton PhoneSendButton = default;
+		[SerializeField] private InputField PhoneInputField = default;
+		[SerializeField] private UserProfileEntryPhoneValueConverter PhoneConverter = default;
+		[SerializeField] private SimpleTextButtonDisableable PhoneSendButton = default;
 		[Space]
-		[SerializeField] private SimpleButton EmailSendButton = default;
+		[SerializeField] private SimpleTextButtonDisableable EmailSendButton = default;
+		[Space]
+		[SerializeField] private InputField CodeInputField = default;
+		[SerializeField] private SimpleTextButtonDisableable CodeSendButton = default;
+		[SerializeField] private SimpleButton ResendButton = default;
+		[SerializeField] private CountdownTimer Timer = default;
+
+		private AuthType _currentAuthType = AuthType.None;
+
+		public event Action<string> OnPhoneAccessRequest;
+		//public event Action<string> OnEmailAccessRequest;
 
 		private void Awake()
 		{
 			SetState(ChoiceState);
-
 			BackButton.onClick += () => SetState(ChoiceState);
 
-			PhoneChoiceButton.onClick += () => SetState(PhoneState);
+			PhoneChoiceButton.onClick += OnPhoneChoice;
+			PhoneInputField.onValueChanged.AddListener(OnPhoneInput);
+			PhoneSendButton.onClick += OnPhoneRequest;
+
 			EmailChoiceButton.onClick += () => SetState(EmailState);
-			PhoneSendButton.onClick += () => SetState(ConfirmationState);
-			EmailSendButton.onClick += () => SetState(ConfirmationState);
+			EmailSendButton.onClick += () => SetState(CodeState);
+
+			CodeInputField.onValueChanged.AddListener(OnCodeInput);
+			ResendButton.onClick += OnResendButton;
+			Timer.TimeIsUp += OnTimerEnd;
+		}
+
+		public void RequestCode(Action<string> onCode)
+		{
+			SetState(CodeState);
+			CodeInputField.text = string.Empty;
+			CodeSendButton.Disable();
+			CodeSendButton.onClick = () => onCode?.Invoke(CodeInputField.text);
+			Timer.ResetTimer();
+		}
+
+		public void RaiseOnError(Error error)
+		{
+			if (error.ErrorType == ErrorType.InvalidAuthorizationCode)
+				StoreDemoPopup.ShowError(error);
+			else
+				StoreDemoPopup.ShowError(error, CloseWidget);
+		}
+
+		private void OnPhoneChoice()
+		{
+			SetState(PhoneState);
+			OnPhoneInput(PhoneInputField.text);
+		}
+
+		private void OnPhoneInput(string text)
+		{
+			var phone = PhoneConverter.ConvertBack(text);
+
+			if (IsPhoneValid(phone))
+				PhoneSendButton.Enable();
+			else
+				PhoneSendButton.Disable();
+		}
+
+		private bool IsPhoneValid(string phone)
+		{
+			if (string.IsNullOrEmpty(phone))
+				return false;
+
+			var regex = new Regex("^\\+(\\d){5,25}$");
+			return regex.IsMatch(phone);
+		}
+
+		private void OnPhoneRequest()
+		{
+			var phone = PhoneConverter.ConvertBack(PhoneInputField.text);
+			Debug.Log($"PasswordlessWidget: phone is '{phone}'");
+			_currentAuthType = AuthType.Phone;
+			OnPhoneAccessRequest?.Invoke(phone);
+		}
+
+		private void OnCodeInput(string code)
+		{
+			if (code.Length >= 1)
+				CodeSendButton.Enable();
+			else
+				CodeSendButton.Disable();
+		}
+
+		private void OnResendButton()
+		{
+			switch (_currentAuthType)
+			{
+				case AuthType.Phone:
+					OnPhoneRequest();
+					break;
+				case AuthType.Email:
+					//TODO
+					break;
+				default:
+					Debug.LogError($"PasswordlessWidget.OnResendButton: Unexpected auth type '{_currentAuthType}'");
+					break;
+			}
+
+			Timer.ResetTimer();
+		}
+
+		private void OnTimerEnd()
+		{
+			StoreDemoPopup.ShowWarning(
+				error: new Error(errorMessage: "Code expired"),
+				buttonCallback: CloseWidget);
+		}
+
+		private void CloseWidget()
+		{
+			if (BackButton)
+				BackButton.onClick?.Invoke();
 		}
 
 		private void SetState(GameObject targetState)
 		{
-			var allStates = new GameObject[] { ChoiceState, PhoneState, EmailState, ConfirmationState };
+			Timer.StopTimer();
+
+			var allStates = new GameObject[] { ChoiceState, PhoneState, EmailState, CodeState };
 			foreach (var state in allStates)
 				SetActive(state, state.Equals(targetState));
 		}
@@ -42,6 +152,11 @@ namespace Xsolla.Demo
 		{
 			if (stateObject.activeSelf != targetState)
 				stateObject.SetActive(targetState);
+		}
+
+		private enum AuthType : byte
+		{
+			None, Phone, Email
 		}
 	}
 }

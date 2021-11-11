@@ -41,7 +41,11 @@ namespace Xsolla.Demo
 			SocialNetworksWidget.OnSocialButtonClick = RunSocialAuth;
 			OtherSocialNetworksButton.onClick += () => SocialNetworksWidget.gameObject.SetActive(true);
 
-			PasswordlessButton.onClick += () => PasswordlessWidget.gameObject.SetActive(true);
+			if (PasswordlessWidget)
+			{
+				PasswordlessButton.onClick += () => PasswordlessWidget.gameObject.SetActive(true);
+				PasswordlessWidget.OnPhoneAccessRequest += phone => RunPasswordlessPhoneAuth(phone);
+			}
 
 			foreach (var button in MainSocialLoginButtons)
 			{
@@ -161,6 +165,22 @@ namespace Xsolla.Demo
 			Action<Error> onFailedDeviecIDAuth = ProcessError;
 
 			TryAuthBy<DeviceIdAuth>(args: null, onSuccess: onSuccessfulDeviecIDAuth, onFailed: onFailedDeviecIDAuth);
+		}
+
+		public void RunPasswordlessPhoneAuth(string phone)
+		{
+			var passwordlessAuth = GetComponent<PasswordlessPhoneAuth>();
+			if (passwordlessAuth != null)
+			{
+				passwordlessAuth.TryAuth(PasswordlessWidget, phone);
+				return;
+			}
+
+			Action<string> onSuccessfulPasswordlessAuth = token => SdkLoginLogic.Instance
+				.ValidateToken(token, t => CompleteSuccessfulAuth(token, isSaveToken: true), ProcessError);
+			Action<Error> onFailedPasswordlessAuth = ProcessError;
+
+			TryAuthBy<PasswordlessPhoneAuth>(args: new object[] { PasswordlessWidget, phone }, onSuccess: onSuccessfulPasswordlessAuth, onFailed: onFailedPasswordlessAuth);
 		}
 
 		private void DisableCommonButtons()

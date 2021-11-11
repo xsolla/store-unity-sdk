@@ -276,6 +276,18 @@ namespace Xsolla.Demo
 		{
 			XsollaLogin.Instance.DeleteUserPicture(token, onSuccess, onError);
 		}
-	#endregion
+		#endregion
+
+		#region Passwordless
+		public void StartAuthByPhoneNumber(string phoneNumber, string linkUrl, bool sendLink, Action<string> onSuccess, Action<Error> onError = null)
+		{
+			XsollaLogin.Instance.StartAuthByPhoneNumber(phoneNumber, linkUrl, sendLink, onSuccess, onError);
+		}
+
+		public void CompleteAuthByPhoneNumber(string phoneNumber, string confirmationCode, string operationId, Action<string> onSuccess, Action<Error> onError = null)
+		{
+			XsollaLogin.Instance.CompleteAuthByPhoneNumber(phoneNumber, confirmationCode, operationId, onSuccess, onError);
+		}
+		#endregion
 	}
 }

@@ -1,18 +1,20 @@
-﻿using System;
+using System;
+using Newtonsoft.Json;
 
 namespace Xsolla.Login
 {
 	[Serializable]
 	public class StartAuthByPhoneNumberRequest
 	{
-		public string phone_number;
+		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 		public string link_url;
+		public string phone_number;
 		public bool send_link;
 
 		public StartAuthByPhoneNumberRequest(string phoneNumber, string linkUrl, bool sendLink)
 		{
-			phone_number = phoneNumber;
 			link_url = linkUrl;
+			phone_number = phoneNumber;
 			send_link = sendLink;
 		}
 	}

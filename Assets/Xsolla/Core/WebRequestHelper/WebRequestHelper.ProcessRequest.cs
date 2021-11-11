@@ -148,18 +148,11 @@ namespace Xsolla.Core
 			if (error != null && !string.IsNullOrEmpty(error.statusCode))
 			{
 				if (errorsToCheck != null && errorsToCheck.ContainsKey(error.statusCode))
-				{
 					error.ErrorType = errorsToCheck[error.statusCode];
-					return error;
-				}
-
-				if (Error.GeneralErrors.ContainsKey(error.statusCode))
-				{
+				else if (Error.GeneralErrors.ContainsKey(error.statusCode))
 					error.ErrorType = Error.GeneralErrors[error.statusCode];
-					return error;
-				}
 
-				return Error.UnknownError;
+				return error;
 			}
 
 			return null;
