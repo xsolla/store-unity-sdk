@@ -44,7 +44,8 @@ namespace Xsolla.Demo
 			if (PasswordlessWidget)
 			{
 				PasswordlessButton.onClick += () => PasswordlessWidget.gameObject.SetActive(true);
-				PasswordlessWidget.OnPhoneAccessRequest += phone => RunPasswordlessPhoneAuth(phone);
+				PasswordlessWidget.OnPhoneAccessRequest += phone => RunPasswordlessAuth<PasswordlessPhoneAuth>(phone);
+				PasswordlessWidget.OnEmailAccessRequest += email => RunPasswordlessAuth<PasswordlessEmailAuth>(email);
 			}
 
 			foreach (var button in MainSocialLoginButtons)
@@ -167,12 +168,12 @@ namespace Xsolla.Demo
 			TryAuthBy<DeviceIdAuth>(args: null, onSuccess: onSuccessfulDeviecIDAuth, onFailed: onFailedDeviecIDAuth);
 		}
 
-		public void RunPasswordlessPhoneAuth(string phone)
+		public void RunPasswordlessAuth<T>(string value) where T : LoginAuthorization
 		{
-			var passwordlessAuth = GetComponent<PasswordlessPhoneAuth>();
+			var passwordlessAuth = GetComponent<T>();
 			if (passwordlessAuth != null)
 			{
-				passwordlessAuth.TryAuth(PasswordlessWidget, phone);
+				passwordlessAuth.TryAuth(PasswordlessWidget, value);
 				return;
 			}
 
@@ -180,7 +181,7 @@ namespace Xsolla.Demo
 				.ValidateToken(token, t => CompleteSuccessfulAuth(token, isSaveToken: true), ProcessError);
 			Action<Error> onFailedPasswordlessAuth = ProcessError;
 
-			TryAuthBy<PasswordlessPhoneAuth>(args: new object[] { PasswordlessWidget, phone }, onSuccess: onSuccessfulPasswordlessAuth, onFailed: onFailedPasswordlessAuth);
+			TryAuthBy<T>(args: new object[] { PasswordlessWidget, value }, onSuccess: onSuccessfulPasswordlessAuth, onFailed: onFailedPasswordlessAuth);
 		}
 
 		private void DisableCommonButtons()

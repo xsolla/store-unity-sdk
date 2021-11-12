@@ -288,6 +288,16 @@ namespace Xsolla.Demo
 		{
 			XsollaLogin.Instance.CompleteAuthByPhoneNumber(phoneNumber, confirmationCode, operationId, onSuccess, onError);
 		}
+
+		public void StartAuthByEmail(string email, string linkUrl, bool sendLink, Action<string> onSuccess, Action<Error> onError = null)
+		{
+			XsollaLogin.Instance.StartAuthByEmail(email, linkUrl, sendLink, onSuccess, onError);
+		}
+
+		public void CompleteAuthByEmail(string email, string confirmationCode, string operationId, Action<string> onSuccess, Action<Error> onError = null)
+		{
+			XsollaLogin.Instance.CompleteAuthByEmail(email, confirmationCode, operationId, onSuccess, onError);
+		}
 		#endregion
 	}
 }
