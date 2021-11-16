@@ -1,0 +1,4 @@
+framework module XsollaSDKLoginKitUnity {
+  header "XsollaSDKLoginKitUnity-Swift.h"
+  requires objc
+}

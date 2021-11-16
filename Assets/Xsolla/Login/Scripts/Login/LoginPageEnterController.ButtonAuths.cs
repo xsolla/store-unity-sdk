@@ -41,7 +41,10 @@ namespace Xsolla.Demo
 			SocialNetworksWidget.OnSocialButtonClick = RunSocialAuth;
 			OtherSocialNetworksButton.onClick += () => SocialNetworksWidget.gameObject.SetActive(true);
 
-			PasswordlessButton.onClick += () => PasswordlessWidget.gameObject.SetActive(true);
+			if (PasswordlessButton != null)
+			{
+				PasswordlessButton.onClick += () => PasswordlessWidget.gameObject.SetActive(true);
+			}
 
 			foreach (var button in MainSocialLoginButtons)
 			{
@@ -98,6 +101,8 @@ namespace Xsolla.Demo
 			TryAuthBy<SocialAuth>(args, onSuccessfulSocialAuth, onFailedSocialAuth);
 	#elif UNITY_ANDROID
 			TryAuthBy<AndroidSocialAuth>(args, onSuccessfulSocialAuth, onFailedSocialAuth);
+	#elif UNITY_IOS
+			TryAuthBy<IosSocialAuth>(args, onSuccessfulSocialAuth, onFailedSocialAuth);
 	#endif
 		}
 
