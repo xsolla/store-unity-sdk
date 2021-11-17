@@ -65,6 +65,7 @@ MonoBehaviour:
     _id: a7ccf3c1-4ea7-4a9e-8fb4-8c5c438fb835
   SelectedTextColor:
     _id: d3ad3a1e-4071-40c8-b6f7-11edde7ce496
+  OnSelectedObject: {fileID: 0}
 --- !u!114 &4826700633449042344
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -88,6 +89,7 @@ GameObject:
   - component: {fileID: 3852761651733688421}
   - component: {fileID: 8440028669870682252}
   - component: {fileID: 2463462681477509177}
+  - component: {fileID: 2352217193631231475}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -151,6 +153,27 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2352217193631231475
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3890803339539481456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc7a4b87c37a4cf18dcbc9b73bf98bd4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _propertyId: a7ccf3c1-4ea7-4a9e-8fb4-8c5c438fb835
+  _comp: {fileID: 2463462681477509177}
+  _pointerOverrider:
+    _pointerEvents: {fileID: 4826700633449042344}
+    _transitionMode: 1
+    _isOverrideHover: 1
+    _hoverPropertyId: d3ad3a1e-4071-40c8-b6f7-11edde7ce496
+    _isOverridePress: 0
+    _pressPropertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
 --- !u!1 &8415190486198657990
 GameObject:
   m_ObjectHideFlags: 0
@@ -218,7 +241,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: f70b0d194d863d14eaa3261671349a4b, type: 3}
+    m_Font: {fileID: 12800000, guid: 6bd82bc6b4cdf6b429528a7fb8cc0b3a, type: 3}
     m_FontSize: 16
     m_FontStyle: 0
     m_BestFit: 0
@@ -244,6 +267,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _propertyId: 7b111555-c639-4655-9948-52030ad69aab
+  _comp: {fileID: 3380471753738665331}
   _pointerOverrider:
     _pointerEvents: {fileID: 0}
     _transitionMode: 0
@@ -251,7 +275,6 @@ MonoBehaviour:
     _hoverPropertyId: 7b111555-c639-4655-9948-52030ad69aab
     _isOverridePress: 0
     _pressPropertyId: 7b111555-c639-4655-9948-52030ad69aab
-  _comp: {fileID: 3380471753738665331}
 --- !u!114 &356963140460394826
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -265,11 +288,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _propertyId: a7ccf3c1-4ea7-4a9e-8fb4-8c5c438fb835
+  _comp: {fileID: 3380471753738665331}
   _pointerOverrider:
     _pointerEvents: {fileID: 4826700633449042344}
     _transitionMode: 1
     _isOverrideHover: 1
-    _hoverPropertyId: 81ac4dd1-5977-48bb-bf5a-922ec5905155
+    _hoverPropertyId: d3ad3a1e-4071-40c8-b6f7-11edde7ce496
     _isOverridePress: 0
     _pressPropertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
-  _comp: {fileID: 3380471753738665331}
