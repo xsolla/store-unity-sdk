@@ -24,6 +24,8 @@ namespace Xsolla.Core
 		CaptchaRequiredException,
 		InvalidProjectSettings,
 		InvalidLoginOrPassword,
+		InvalidAuthorizationCode,
+		ExceededAuthorizationCodeAttempts,
 		MultipleLoginUrlsException,
 		SubmittedLoginUrlNotFoundException,
 

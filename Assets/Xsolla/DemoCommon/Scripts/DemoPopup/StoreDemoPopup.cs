@@ -16,13 +16,26 @@ namespace Xsolla.Demo
 		public static void ShowError(Error error)
 		{
 			Debug.LogError(error);
-			PopupFactory.Instance.CreateError().SetMessage(error.ToString());
+			var popup = PopupFactory.Instance.CreateError();
+			popup.SetMessage(error.ToString());
 		}
 
-		public static void ShowWarning(Error error)
+		public static void ShowError(Error error, Action buttonCallback)
+		{
+			Debug.LogError(error);
+			var popup = PopupFactory.Instance.CreateError();
+			popup.SetMessage(error.ToString());
+			popup.SetCallback(buttonCallback);
+		}
+
+		public static void ShowWarning(Error error, Action buttonCallback = null)
 		{
 			Debug.LogWarning(error);
-			PopupFactory.Instance.CreateError().SetMessage(error.ToString());
+			var popup = PopupFactory.Instance.CreateError();
+			popup.SetMessage(error.ToString());
+
+			if (buttonCallback != null)
+				popup.SetCallback(buttonCallback);
 		}
 
 		public static void ShowConfirm(

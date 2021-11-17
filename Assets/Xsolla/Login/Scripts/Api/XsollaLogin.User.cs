@@ -30,10 +30,10 @@ namespace Xsolla.Login
 		private const string URL_OAUTH_START_AUTH_BY_EMAIL = "https://login.xsolla.com/api/oauth2/login/email/request?response_type=code&client_id={0}&scope=offline&state={1}&redirect_uri=https://login.xsolla.com/api/blank";
 		private const string URL_JWT_COMPLETE_AUTH_BY_EMAIL = "https://login.xsolla.com/api/login/email/confirm?projectId={0}";
 		private const string URL_OAUTH_COMPLETE_AUTH_BY_EMAIL = "https://login.xsolla.com/api/oauth2/login/email/confirm?client_id={0}";
-		private const string URL_JWT_START_AUTH_BY_PHONE_NUMBER = "https://login.xsolla.com/api/login/email/request?projectId={0}&login_url={1}&with_logout={2}&payload={3}";
+		private const string URL_JWT_START_AUTH_BY_PHONE_NUMBER = "https://login.xsolla.com/api/login/phone/request?projectId={0}&login_url={1}&with_logout={2}&payload={3}";
 		private const string URL_OAUTH_START_AUTH_BY_PHONE_NUMBER = "https://login.xsolla.com/api/oauth2/login/phone/request?response_type=code&client_id={0}&scope=offline&state={1}&redirect_uri=https://login.xsolla.com/api/blank";
 		private const string URL_JWT_COMPLETE_AUTH_BY_PHONE_NUMBER = "https://login.xsolla.com/api/login/phone/confirm?projectId={0}";
-		private const string URL_OAUTH_COMPLETE_AUTH_BY_PHONE_NUMBER = "https://login.xsolla.com/api//oauth2/login/phone/confirm?client_id={0}";
+		private const string URL_OAUTH_COMPLETE_AUTH_BY_PHONE_NUMBER = "https://login.xsolla.com/api/oauth2/login/phone/confirm?client_id={0}";
 
 		/// <summary>
 		/// Returns saved user info by JWT.
@@ -302,7 +302,7 @@ namespace Xsolla.Login
 		/// <see cref="https://developers.xsolla.com/login-api/auth/jwt/jwt-start-auth-by-phone-number/"/>
 		/// <param name="phoneNumber">User phone number.</param>
 		/// <param name="linkUrl">URL to redirect the user to the status authentication page.</param>
-		/// <param name="sendLink">Shows whether a link is sent with the confirmation code in the email or not.</param>
+		/// <param name="sendLink">Shows whether a link is sent with the confirmation code in the SMS or not.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		public void StartAuthByPhoneNumber(string phoneNumber, string linkUrl, bool sendLink, Action<string> onSuccess, Action<Error> onError = null)
@@ -344,7 +344,7 @@ namespace Xsolla.Login
 		/// <see cref="https://developers.xsolla.com/login-api/auth/oauth-20/oauth-20-start-auth-by-phone-number/"/>
 		/// <param name="phoneNumber">User phone number.</param>
 		/// <param name="linkUrl">URL to redirect the user to the status authentication page.</param>
-		/// <param name="sendLink">Shows whether a link is sent with the confirmation code in the email or not.</param>
+		/// <param name="sendLink">Shows whether a link is sent with the confirmation code in the SMS or not.</param>
 		/// <param name="oauthState">Value used for additional user verification on backend. Must be at least 8 symbols long. Will be "xsollatest" by default.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
