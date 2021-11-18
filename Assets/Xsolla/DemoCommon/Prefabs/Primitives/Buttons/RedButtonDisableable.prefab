@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _propertyId: 7b111555-c639-4655-9948-52030ad69aab
+  _comp: {fileID: 3699472388581246444}
   _pointerOverrider:
     _pointerEvents: {fileID: 0}
     _transitionMode: 0
@@ -52,7 +53,6 @@ MonoBehaviour:
     _hoverPropertyId: 7b111555-c639-4655-9948-52030ad69aab
     _isOverridePress: 0
     _pressPropertyId: 7b111555-c639-4655-9948-52030ad69aab
-  _comp: {fileID: 3699472388581246444}
 --- !u!1001 &3699472388954427758
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -79,7 +79,7 @@ PrefabInstance:
     - target: {fileID: 373216386, guid: b49b6c9b3f527404bb299bfa9fea0870, type: 3}
       propertyPath: m_FontData.m_Font
       value: 
-      objectReference: {fileID: 12800000, guid: f70b0d194d863d14eaa3261671349a4b,
+      objectReference: {fileID: 12800000, guid: 6bd82bc6b4cdf6b429528a7fb8cc0b3a,
         type: 3}
     - target: {fileID: 719144266, guid: b49b6c9b3f527404bb299bfa9fea0870, type: 3}
       propertyPath: m_Name
@@ -169,6 +169,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2019097929122817050, guid: b49b6c9b3f527404bb299bfa9fea0870,
+        type: 3}
+      propertyPath: _pointerOverrider._pointerEvents
+      value: 
+      objectReference: {fileID: 5618987611333929896}
+    - target: {fileID: 2019097929122817050, guid: b49b6c9b3f527404bb299bfa9fea0870,
+        type: 3}
+      propertyPath: _pointerOverrider._transitionMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2019097929122817050, guid: b49b6c9b3f527404bb299bfa9fea0870,
+        type: 3}
+      propertyPath: _pointerOverrider._hoverPropertyId
+      value: 18c39e73-c09c-424e-9023-67499764c8f4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2019097929122817050, guid: b49b6c9b3f527404bb299bfa9fea0870,
+        type: 3}
+      propertyPath: _pointerOverrider._isOverrideHover
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3909191083143690794, guid: b49b6c9b3f527404bb299bfa9fea0870,
         type: 3}
       propertyPath: m_Sprite
@@ -178,17 +198,17 @@ PrefabInstance:
     - target: {fileID: 3909191083143690794, guid: b49b6c9b3f527404bb299bfa9fea0870,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.35686302
+      value: 0.10196078
       objectReference: {fileID: 0}
     - target: {fileID: 3909191083143690794, guid: b49b6c9b3f527404bb299bfa9fea0870,
         type: 3}
       propertyPath: m_Color.g
-      value: 0
+      value: 0.6926565
       objectReference: {fileID: 0}
     - target: {fileID: 3909191083143690794, guid: b49b6c9b3f527404bb299bfa9fea0870,
         type: 3}
       propertyPath: m_Color.r
-      value: 1
+      value: 0.83137256
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 719144268, guid: b49b6c9b3f527404bb299bfa9fea0870, type: 3}

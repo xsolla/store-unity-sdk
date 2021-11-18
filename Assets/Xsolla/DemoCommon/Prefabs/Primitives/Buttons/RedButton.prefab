@@ -59,7 +59,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 0
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -92,14 +92,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _propertyId: 8d406015-69a9-402e-aa9e-e28e56a8264c
+  _comp: {fileID: 373216386}
   _pointerOverrider:
-    _pointerEvents: {fileID: 0}
-    _transitionMode: 0
-    _isOverrideHover: 0
-    _hoverPropertyId: e9c672ce-cad6-4ddf-8fe4-20b3b665f12e
+    _pointerEvents: {fileID: 9128108147265747654}
+    _transitionMode: 1
+    _isOverrideHover: 1
+    _hoverPropertyId: 18c39e73-c09c-424e-9023-67499764c8f4
     _isOverridePress: 0
     _pressPropertyId: e9c672ce-cad6-4ddf-8fe4-20b3b665f12e
-  _comp: {fileID: 373216386}
 --- !u!1 &719144266
 GameObject:
   m_ObjectHideFlags: 0
@@ -237,7 +237,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0.35686302, a: 1}
+  m_Color: {r: 0.9098039, g: 0.75686276, b: 0.11764706, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -266,6 +266,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _propertyId: e9c672ce-cad6-4ddf-8fe4-20b3b665f12e
+  _comp: {fileID: 3909191083143690794}
   _pointerOverrider:
     _pointerEvents: {fileID: 9128108147265747654}
     _transitionMode: 1
@@ -273,7 +274,6 @@ MonoBehaviour:
     _hoverPropertyId: 81ac4dd1-5977-48bb-bf5a-922ec5905155
     _isOverridePress: 0
     _pressPropertyId: e9c672ce-cad6-4ddf-8fe4-20b3b665f12e
-  _comp: {fileID: 3909191083143690794}
 --- !u!114 &365377155347789374
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -287,6 +287,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _propertyId: dfb1aea9-ded3-4435-ac2c-9199fbac8a75
+  _comp: {fileID: 3909191083143690794}
   _pointerOverrider:
     _pointerEvents: {fileID: 0}
     _transitionMode: 0
@@ -294,4 +295,3 @@ MonoBehaviour:
     _hoverPropertyId: dfb1aea9-ded3-4435-ac2c-9199fbac8a75
     _isOverridePress: 0
     _pressPropertyId: dfb1aea9-ded3-4435-ac2c-9199fbac8a75
-  _comp: {fileID: 3909191083143690794}
