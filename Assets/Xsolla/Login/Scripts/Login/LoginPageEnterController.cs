@@ -6,6 +6,8 @@ namespace Xsolla.Demo
 {
 	public partial class LoginPageEnterController : LoginPageController
 	{
+		public static string LastUsername { get; set; }
+		
 		public bool IsAuthInProgress
 		{
 			get => base.IsInProgress;

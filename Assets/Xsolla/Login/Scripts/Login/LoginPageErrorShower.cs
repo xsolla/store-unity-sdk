@@ -8,10 +8,15 @@ namespace Xsolla.Demo
 	{
 		[SerializeField] Text ErrorText = default;
 
+		[SerializeField] private SimpleTextButton ResendEmailButton;
+
 		private void Awake()
 		{
 			if (DemoController.Instance.IsAccessTokenAuth)
 				DisableCommonButtons();
+
+			ResendEmailButton.onClick += () => SdkLoginLogic.Instance.ResendConfirmationLink(LoginPageEnterController.LastUsername);
+			ResendEmailButton.gameObject.SetActive(false);
 		}
 
 		private void DisableCommonButtons()
@@ -19,9 +24,9 @@ namespace Xsolla.Demo
 			var buttonsProvider = GetComponent<LoginPageCommonButtonsProvider>();
 			if (buttonsProvider != null)
 			{
-				if(buttonsProvider.DemoUserButton != null)
+				if (buttonsProvider.DemoUserButton != null)
 					buttonsProvider.DemoUserButton.gameObject.SetActive(false);
-				if(buttonsProvider.LogInButton != null)
+				if (buttonsProvider.LogInButton != null)
 					buttonsProvider.LogInButton.gameObject.SetActive(false);
 			}
 		}
@@ -33,6 +38,8 @@ namespace Xsolla.Demo
 
 		public void ShowError(Error error)
 		{
+			ResendEmailButton.gameObject.SetActive(error != null && error.ErrorType == ErrorType.UserIsNotActivated);
+
 			if (error == null)
 				ShowError("Unknown error");
 			else if (!string.IsNullOrEmpty(error.errorMessage))

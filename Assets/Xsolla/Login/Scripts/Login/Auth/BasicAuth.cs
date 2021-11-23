@@ -51,6 +51,8 @@ namespace Xsolla.Demo
 				username = (string)args[0];
 				password = (string)args[1];
 				rememberMe = (bool)args[2];
+
+				LoginPageEnterController.LastUsername = username;
 			}
 			catch (Exception ex)
 			{
