@@ -13,11 +13,12 @@ namespace Xsolla.Demo
 
 			foreach (var item in battlePassJsonItems)
 			{
-				var expiryDateObtained = ConvertDateTime(item.ExpiryDate, out DateTime expiryDate);
+				DateTime expiryDate;
+				var expiryDateObtained = ConvertDateTime(item.ExpiryDate, out expiryDate);
 
 				if (!expiryDateObtained)
 				{
-					Debug.LogError($"Could not convert expiry date: '{item.ExpiryDate}'");
+					Debug.LogError(string.Format("Could not convert expiry date: '{0}'", item.ExpiryDate));
 					continue;
 				}
 
@@ -47,7 +48,7 @@ namespace Xsolla.Demo
 				return true;
 			else
 			{
-				Debug.LogError($"Could not parse DateTime: '{dateTime}'");
+				Debug.LogError(string.Format("Could not parse DateTime: '{0}'", dateTime));
 				return false;
 			}
 		}

@@ -23,9 +23,14 @@ namespace Xsolla.Demo
 			var targetItems = battlepassItems.Where(ItemPredicate);
 
 			if (targetItems.Any())
-				BattlePassItemsExtracted?.Invoke(targetItems);
+			{
+				if (BattlePassItemsExtracted != null)
+					BattlePassItemsExtracted.Invoke(targetItems);
+			}
 			else
-				Debug.LogWarning($"No BattlePass items found that match: '{WarningNoItemsFoundIdentifier}'");
+			{
+				Debug.LogWarning(string.Format("No BattlePass items found that match: '{0}'", WarningNoItemsFoundIdentifier));
+			}
 		}
 	}
 }

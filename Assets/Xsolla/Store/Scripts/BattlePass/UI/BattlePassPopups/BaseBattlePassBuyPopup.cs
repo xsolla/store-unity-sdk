@@ -5,8 +5,8 @@ namespace Xsolla.Demo
 {
     public abstract class BaseBattlePassBuyPopup : MonoBehaviour
     {
-		[SerializeField] private SimpleButton[] CloseButtons = default;
-		[SerializeField] private BattlePassBuyBlock BuyBlock = default;
+		[SerializeField] private SimpleButton[] CloseButtons;
+		[SerializeField] private BattlePassBuyBlock BuyBlock;
 
 		public event Action BuyButtonClick;
 
@@ -32,7 +32,8 @@ namespace Xsolla.Demo
 		private void RaiseBuyButtonClick()
 		{
 			ClosePopup();
-			BuyButtonClick?.Invoke();
+			if (BuyButtonClick != null)
+				BuyButtonClick.Invoke();
 		}
 
 		private void GotoCurrencyBuy()

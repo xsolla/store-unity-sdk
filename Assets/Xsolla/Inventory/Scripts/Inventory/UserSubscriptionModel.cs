@@ -12,9 +12,9 @@ namespace Xsolla.Demo
 			Expired
 		}
 	
-		public override bool IsVirtualCurrency() => false;
-		public override bool IsSubscription() => true;
-		public override bool IsBundle() => false;
+		public override bool IsVirtualCurrency() { return false; }
+		public override bool IsSubscription() { return true; }
+		public override bool IsBundle() { return false; }
 
 		public SubscriptionStatusType Status { get; set; }
 		public DateTime? Expired { get; set; }

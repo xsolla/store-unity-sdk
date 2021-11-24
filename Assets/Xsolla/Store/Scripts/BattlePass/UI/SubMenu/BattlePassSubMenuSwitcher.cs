@@ -5,10 +5,10 @@ namespace Xsolla.Demo
 {
 	public class BattlePassSubMenuSwitcher : MonoBehaviour
     {
-		[SerializeField] private GameObject PremiumAvailable = default;
-		[SerializeField] private GameObject PremiumPurchased = default;
-		[SerializeField] private GameObject BattlePassEnded = default;
-		[SerializeField] private GameObject BattlePassEndedNoItems = default;
+		[SerializeField] private GameObject PremiumAvailable;
+		[SerializeField] private GameObject PremiumPurchased;
+		[SerializeField] private GameObject BattlePassEnded;
+		[SerializeField] private GameObject BattlePassEndedNoItems;
 
 		private GameObject[] _allStateObjects;
 		private InitializationStep _initializationStep = InitializationStep.None;
@@ -18,7 +18,10 @@ namespace Xsolla.Demo
 
 		private InitializationStep Initialization
 		{
-			get => _initializationStep;
+			get
+			{
+				return _initializationStep;
+			}
 			set
 			{
 				if (value > _initializationStep)

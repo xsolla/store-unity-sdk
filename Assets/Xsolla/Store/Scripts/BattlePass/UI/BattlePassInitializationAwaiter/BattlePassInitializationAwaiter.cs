@@ -6,8 +6,8 @@ namespace Xsolla.Demo
 {
 	public class BattlePassInitializationAwaiter : MonoBehaviour
     {
-		[SerializeField] private BattlePassPopupFactory BattlePassPopupFactory = default;
-		[SerializeField] private GameObject[] ObjectsToDisableOnExpired = default;
+		[SerializeField] private BattlePassPopupFactory BattlePassPopupFactory;
+		[SerializeField] private GameObject[] ObjectsToDisableOnExpired;
 		[SerializeField] private float SecondsToAbortWaiting = 3.0f;
 
 		private bool _isAwaitngRequired = true;

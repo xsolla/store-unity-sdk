@@ -4,7 +4,7 @@ namespace Xsolla.Demo
 {
 	public class ItemSelectedToSubMenuSwitcherProxy : BaseBattlePassSelectedItemSubscriber
     {
-		[SerializeField] private BattlePassSubMenuSwitcher SubMenuSwitcher = default;
+		[SerializeField] private BattlePassSubMenuSwitcher SubMenuSwitcher;
 
 		public override void OnItemSelected(ItemSelectedEventArgs eventArgs)
 		{

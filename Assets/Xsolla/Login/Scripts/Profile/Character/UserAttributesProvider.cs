@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Xsolla.Login;
@@ -7,8 +7,8 @@ namespace Xsolla.Demo
 {
 	public class UserAttributesProvider : UserAttributesRequestBase
 	{
-		[SerializeField] private BaseAttributeManager ItemsManager = default;
-		[SerializeField] private UserAttributeType AttributeType = default;
+		[SerializeField] private BaseAttributeManager ItemsManager;
+		[SerializeField] private UserAttributeType AttributeType;
 
 		public void ProvideUserAttributes()
 		{
@@ -30,7 +30,8 @@ namespace Xsolla.Demo
 						break;
 				}
 
-				base.OnSuccess?.Invoke();
+				if (base.OnSuccess != null)
+					base.OnSuccess.Invoke();
 			};
 
 			SdkLoginLogic.Instance.GetUserAttributes(base.Token, base.ProjectID, this.AttributeType, attributeKeys, userId, onSuccessGet, base.OnError);

@@ -28,12 +28,16 @@ namespace Xsolla.Demo
 					itemModel =>
 					{
 						isPurchaseComplete = true;
-						OnSuccessPurchase(onSuccess, isShowResultToUser)?.Invoke(itemModel);
+						var callback = OnSuccessPurchase(onSuccess, isShowResultToUser);
+						if (callback != null)
+							callback.Invoke(itemModel);
 					},
 					error =>
 					{
 						isPurchaseComplete = true;
-						OnPurchaseError(onError)?.Invoke(error);
+						var callback = OnPurchaseError(onError);
+						if (callback != null)
+							callback.Invoke(error);
 					});
 			});
 
@@ -50,11 +54,18 @@ namespace Xsolla.Demo
 			Action<List<UserCartItem>> onSuccessPurchase = purchasedItems =>
 			{
 				if (isShowResultToUser)
-					CompletePurchase(popupCallback: () => onSuccess?.Invoke(purchasedItems));
+				{
+					CompletePurchase(popupCallback: () =>
+					{
+						if (onSuccess != null)
+							onSuccess.Invoke(purchasedItems);
+					});
+				}
 				else
 				{
 					UserInventory.Instance.Refresh(onError: StoreDemoPopup.ShowError);
-					onSuccess?.Invoke(purchasedItems);
+					if (onSuccess != null)
+						onSuccess.Invoke(purchasedItems);
 				}
 			};
 
@@ -71,8 +82,16 @@ namespace Xsolla.Demo
 			{
 				PopupFactory.Instance.CreateConfirmation()
 					.SetMessage("This payment method is not available for in-game browser. Open browser app to continue purchase?")
-					.SetConfirmCallback(() => restrictedPaymentAllower.OnAllowed?.Invoke(true))
-					.SetCancelCallback(() => restrictedPaymentAllower.OnAllowed?.Invoke(false));
+					.SetConfirmCallback(() =>
+					{
+						if (restrictedPaymentAllower.OnAllowed != null)
+							restrictedPaymentAllower.OnAllowed.Invoke(true);
+					})
+					.SetCancelCallback(() =>
+					{
+						if (restrictedPaymentAllower.OnAllowed != null)
+							restrictedPaymentAllower.OnAllowed.Invoke(false);
+					});
 			};
 
 			return restrictedPaymentAllower;
@@ -83,7 +102,8 @@ namespace Xsolla.Demo
 			return purchasedItem =>
 			{
 				CompletePurchase(purchasedItem, isShowResultToUser: isShowResult);
-				onSuccess?.Invoke(purchasedItem);
+				if (onSuccess != null)
+					onSuccess.Invoke(purchasedItem);
 			};
 		}
 
@@ -92,7 +112,8 @@ namespace Xsolla.Demo
 			return error =>
 			{
 				StoreDemoPopup.ShowError(error);
-				onError?.Invoke(error);
+				if (onError != null)
+					onError.Invoke(error);
 			};
 		}
 
@@ -106,7 +127,7 @@ namespace Xsolla.Demo
 			Action callback = () =>
 			{
 				if (item != null)
-					StoreDemoPopup.ShowSuccess($"You have purchased '{item.Name}'", popupCallback);
+					StoreDemoPopup.ShowSuccess(string.Format("You have purchased '{0}'", item.Name), popupCallback);
 				else
 					StoreDemoPopup.ShowSuccess(null, popupCallback);
 			};

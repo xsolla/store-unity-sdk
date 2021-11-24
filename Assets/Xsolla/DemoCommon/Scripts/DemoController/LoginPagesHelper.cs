@@ -1,12 +1,25 @@
-﻿using UnityEngine;
+using UnityEngine;
 using Xsolla.Core;
 
 namespace Xsolla.Demo
 {
     public class LoginPagesHelper : OnStateChangedHandler
 	{
-		private GameObject StateObject => base.StateMachine.StateObject;
-		private bool IsAuthInProgress => StateObject.GetComponent<LoginPageEnterController>()?.IsAuthInProgress ?? false;
+		private GameObject StateObject
+		{
+			get
+			{
+				return base.StateMachine.StateObject;
+			}
+		}
+		private bool IsAuthInProgress
+		{
+			get
+			{
+				var controller = StateObject.GetComponent<LoginPageEnterController>();
+				return controller.IsAuthInProgress;
+			}
+		}
 
 		protected sealed override void OnStateChanged(MenuState _, MenuState newState)
 		{
@@ -146,7 +159,11 @@ namespace Xsolla.Demo
 		{
 			var newStateObject = SetState(stateToSet);
 			if (newStateObject != null)
-				newStateObject.GetComponent<LoginPageErrorShower>()?.ShowError(error);
+			{
+				var shower = newStateObject.GetComponent<LoginPageErrorShower>();
+				if (shower != null)
+					shower.ShowError(error);
+			}
 		}
 	}
 }

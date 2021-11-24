@@ -7,8 +7,8 @@ namespace Xsolla.Demo
 {
 	public class BattlePassItemsManager : MonoBehaviour
 	{
-		[SerializeField] private GameObject LevelBlockPrefab = default;
-		[SerializeField] private Transform ItemsRoot = default;
+		[SerializeField] private GameObject LevelBlockPrefab;
+		[SerializeField] private Transform ItemsRoot;
 		[SerializeField] private int VisibleItems = 6;
 
 		private List<BattlePassLevelBlock> _levelBlocks;
@@ -21,7 +21,10 @@ namespace Xsolla.Demo
 		private InitializationStep _initializationStep = InitializationStep.None;
 		private InitializationStep Initialization
 		{
-			get => _initializationStep;
+			get
+			{
+				return _initializationStep;
+			}
 			set
 			{
 				if (value > _initializationStep)
@@ -119,8 +122,8 @@ namespace Xsolla.Demo
 							//Do nothing
 							break;
 						default:
-							Debug.LogWarning($"Unexpected item state: '{premiumItemState}' for premium item " +
-								$"on level: '{premiumItem.ItemDescription.Tier}'. Target state: PremiumLocked");
+							Debug.LogWarning(
+								string.Format("Unexpected item state: '{0}' for premium item on level: '{1}'. Target state: PremiumLocked", premiumItemState, premiumItem.ItemDescription.Tier));
 							break;
 					}
 				}
@@ -199,7 +202,7 @@ namespace Xsolla.Demo
 
 			for (int i = 0; i < _levelBlocks.Count; i++)
 			{
-				BattlePassItemState itemState = default;
+				BattlePassItemState itemState;
 
 				if (i <= currentLevelIndex)
 					itemState = BattlePassItemState.Collect;
@@ -232,7 +235,7 @@ namespace Xsolla.Demo
 		{
 			if (!_isItemClickAllowed)
 			{
-				Debug.LogError($"Item OnClick is called prior to ItemsManager (re)initialization");
+				Debug.LogError("Item OnClick is called prior to ItemsManager (re)initialization");
 				return;
 			}
 
@@ -254,7 +257,8 @@ namespace Xsolla.Demo
 					isBattlePassExpired: _isBattlePassExpired
 				);
 
-			ItemSelected?.Invoke(eventArgs);
+			if (ItemSelected != null)
+				ItemSelected.Invoke(eventArgs);
 		}
 
 		private enum InitializationStep

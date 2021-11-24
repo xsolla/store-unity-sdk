@@ -1,20 +1,19 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using Xsolla.UIBuilder;
 
 namespace Xsolla.Demo
 {
 	public class VirtualCurrencyContainer : MonoBehaviour
 	{
-		[SerializeField] private WidgetProvider virtualCurrencyBalanceProvider;
+		[SerializeField] private GameObject virtualCurrencyBalance;
 
 		private readonly Dictionary<string, VirtualCurrencyBalanceUI> _currencies =
 			new Dictionary<string, VirtualCurrencyBalanceUI>();
 
 		private void Awake()
 		{
-			if (virtualCurrencyBalanceProvider.GetValue() != null) return;
+			if (virtualCurrencyBalance) return;
 			Debug.LogAssertion("VirtualCurrencyBalancePrefab is missing!");
 			Destroy(gameObject);
 		}
@@ -54,7 +53,7 @@ namespace Xsolla.Demo
 			if (item == null) return null;
 			if (_currencies.ContainsKey(item.Sku)) return _currencies[item.Sku];
 			if (string.IsNullOrEmpty(item.ImageUrl)) return null;
-			var currencyBalance = Instantiate(virtualCurrencyBalanceProvider.GetValue(), transform);
+			var currencyBalance = Instantiate(virtualCurrencyBalance, transform);
 			var balanceUi = currencyBalance.GetComponent<VirtualCurrencyBalanceUI>();
 			balanceUi.Initialize(item);
 			_currencies.Add(item.Sku, balanceUi);
@@ -68,11 +67,14 @@ namespace Xsolla.Demo
 
 		private void SetCurrencyBalance(VirtualCurrencyBalanceModel balance)
 		{
-			AddCurrency(new VirtualCurrencyModel
+			var currencyUI = AddCurrency(new VirtualCurrencyModel
 			{
 				Sku = balance.Sku,
 				ImageUrl = balance.ImageUrl
-			})?.SetBalance(balance.Amount);
+			});
+
+			if (currencyUI != null)
+				currencyUI.SetBalance(balance.Amount);
 		}
 	}
 }

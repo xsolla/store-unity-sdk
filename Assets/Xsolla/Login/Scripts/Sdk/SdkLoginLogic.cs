@@ -15,27 +15,37 @@ namespace Xsolla.Demo
 	#region Token
 		public void ValidateToken(string token, Action<string> onSuccess = null, Action<Error> onError = null)
 		{
-			GetUserInfo(token, useCache: false, onSuccess: info => onSuccess?.Invoke(token), onError: onError);
+			GetUserInfo(token, useCache: false, onSuccess: info =>
+			{
+				if (onSuccess != null)
+					onSuccess.Invoke(token);
+			}, onError: onError);
 		}
 	#endregion
 
 	#region User
 		public void GetUserInfo(string token, Action<UserInfo> onSuccess = null, Action<Error> onError = null)
 		{
-			GetUserInfo(token, useCache: true, onSuccess, onError);
+			GetUserInfo(token, true, onSuccess, onError);
 		}
 
 		private readonly Dictionary<string, UserInfo> _userCache = new Dictionary<string, UserInfo>();
 		public void GetUserInfo(string token, bool useCache, Action<UserInfo> onSuccess, Action<Error> onError = null)
 		{
 			if (useCache && _userCache.ContainsKey(token))
-				onSuccess?.Invoke(_userCache[token]);
+			{
+				if (onSuccess != null)
+					onSuccess.Invoke(_userCache[token]);
+			}
 			else
+			{
 				XsollaLogin.Instance.GetUserInfo(token, info =>
 				{
 					_userCache[token] = info;
-					onSuccess?.Invoke(info);
+					if (onSuccess != null)
+						onSuccess.Invoke(info);
 				}, onError);
+			}
 		}
 
 		public void UpdateUserInfo(string token, UserInfoUpdate info, Action<UserInfo> onSuccess, Action<Error> onError = null)
@@ -43,7 +53,8 @@ namespace Xsolla.Demo
 			Action<UserInfo> successCallback = newInfo =>
 			{
 				_userCache[token] = newInfo;
-				onSuccess?.Invoke(newInfo);
+				if (onSuccess != null)
+					onSuccess.Invoke(newInfo);
 			};
 
 			XsollaLogin.Instance.UpdateUserInfo(token, info, successCallback, onError);
@@ -102,20 +113,32 @@ namespace Xsolla.Demo
 			XsollaLogin.Instance.SearchUsers(Token.Instance, nickname, 0, 20,
 				onSuccess: users =>
 				{
-					onSuccess?.Invoke(users.users.Where(u => !u.is_me).Select(u =>
-					{
-						var result = new FriendModel
+					if (onSuccess != null)
+						onSuccess.Invoke(users.users.Where(u => !u.is_me).Select(u =>
 						{
-							Id = u.user_id,
-							AvatarUrl = u.avatar,
-							Nickname = u.nickname,
-							Tag = u.tag
-						};
-						var user = UserFriends.Instance.GetUserById(result.Id);
-						result.Status = user?.Status ?? UserOnlineStatus.Unknown;
-						result.Relationship = user?.Relationship ?? UserRelationship.Unknown;
-						return result;
-					}).ToList());
+							var result = new FriendModel
+							{
+								Id = u.user_id,
+								AvatarUrl = u.avatar,
+								Nickname = u.nickname,
+								Tag = u.tag
+							};
+							var user = UserFriends.Instance.GetUserById(result.Id);
+
+							if (user != null)
+							{
+								result.Status = user.Status;
+								result.Relationship = user.Relationship;
+							}
+							else
+							{
+								result.Status = UserOnlineStatus.Unknown;
+								result.Relationship = UserRelationship.Unknown;
+							};
+							return result;
+
+
+						}).ToList());
 				},
 				onError: onError);
 		}
@@ -154,12 +177,14 @@ namespace Xsolla.Demo
 							{
 								browser.AddUrlChangeHandler(newUrl =>
 								{
-									Debug.Log($"URL = {newUrl}");
-									if (ParseUtils.TryGetValueFromUrl(newUrl, ParseParameter.token, out _))
+									Debug.Log(string.Format("URL = {0}", newUrl));
+									string token;
+									if (ParseUtils.TryGetValueFromUrl(newUrl, ParseParameter.token, out token))
 									{
 										browser.Close();
-										HotkeyCoroutine.Unlock(); 
-										onSuccess?.Invoke(socialProvider);
+										HotkeyCoroutine.Unlock();
+										if (onSuccess != null)
+											onSuccess.Invoke(socialProvider);
 									}
 								});
 							});
@@ -167,7 +192,8 @@ namespace Xsolla.Demo
 						else
 						{
 							Debug.LogError("This functionality is not supported elsewhere except Editor and Standalone build");
-							onError?.Invoke(null);
+							if (onError != null)
+								onError.Invoke(null);
 						}
 					}, 
 					onError);
@@ -176,7 +202,8 @@ namespace Xsolla.Demo
 			{
 				var errorMessage = "LinkSocialProvider: This functionality is not supported elswere except Editor and Standalone build";
 				Debug.LogError(errorMessage);
-				onError?.Invoke(new Error(ErrorType.MethodIsNotAllowed, errorMessage: errorMessage));
+				if (onError != null)
+					onError.Invoke(new Error(ErrorType.MethodIsNotAllowed, errorMessage: errorMessage));
 			}
 		}
 
@@ -198,26 +225,30 @@ namespace Xsolla.Demo
 				{
 					_networksCache = networks;
 					_networksCacheTime = DateTime.Now;
-					onSuccess?.Invoke(_networksCache);
+					if (onSuccess != null)
+						onSuccess.Invoke(_networksCache);
 					_networksCacheInProgress = false;
 				}, error =>
 				{
 					if (_networksCache == null)
 						_networksCache = new List<LinkedSocialNetwork>();
-					onError?.Invoke(error);
+					if (onError != null)
+						onError.Invoke(error);
 					_networksCacheInProgress = false;
 				});
 			}
 			else
 			{
-				onSuccess?.Invoke(_networksCache);
+				if (onSuccess != null)
+					onSuccess.Invoke(_networksCache);
 			}
 		}
 
 		private IEnumerator WaitLinkedSocialProviders(Action<List<LinkedSocialNetwork>> onSuccess)
 		{
 			yield return new WaitWhile(() => _networksCacheInProgress);
-			onSuccess?.Invoke(_networksCache);
+			if (onSuccess != null)
+				onSuccess.Invoke(_networksCache);
 		}
 
 	#endregion
@@ -258,7 +289,13 @@ namespace Xsolla.Demo
 	#endregion
 
 	#region OAuth2.0
-		public bool IsOAuthTokenRefreshInProgress => XsollaLogin.Instance.IsOAuthTokenRefreshInProgress;
+		public bool IsOAuthTokenRefreshInProgress
+		{
+			get
+			{
+				return XsollaLogin.Instance.IsOAuthTokenRefreshInProgress;
+			}
+		}
 
 		public void ExchangeCodeToToken(string code, Action<string> onSuccessExchange = null, Action<Error> onError = null)
 		{
@@ -276,9 +313,9 @@ namespace Xsolla.Demo
 		{
 			XsollaLogin.Instance.DeleteUserPicture(token, onSuccess, onError);
 		}
-		#endregion
+	#endregion
 
-		#region Passwordless
+	#region Passwordless
 		public void StartAuthByPhoneNumber(string phoneNumber, string linkUrl, bool sendLink, Action<string> onSuccess, Action<Error> onError = null)
 		{
 			XsollaLogin.Instance.StartAuthByPhoneNumber(phoneNumber, linkUrl, sendLink, onSuccess, onError);
@@ -298,6 +335,6 @@ namespace Xsolla.Demo
 		{
 			XsollaLogin.Instance.CompleteAuthByEmail(email, confirmationCode, operationId, onSuccess, onError);
 		}
-		#endregion
+	#endregion
 	}
 }

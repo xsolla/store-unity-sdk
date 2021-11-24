@@ -6,10 +6,10 @@ namespace Xsolla.Demo
 {
 	public class BundleItemUI : MonoBehaviour
 	{
-		[SerializeField] private Image itemImage = default;
-		[SerializeField] private Text itemName = default;
-		[SerializeField] private Text itemDescription = default;
-		[SerializeField] private Text itemQuantity = default;
+		[SerializeField] private Image itemImage;
+		[SerializeField] private Text itemName;
+		[SerializeField] private Text itemDescription;
+		[SerializeField] private Text itemQuantity;
 
 		public void Initialize(BundleContentItem item)
 		{
@@ -23,7 +23,7 @@ namespace Xsolla.Demo
 			}
 			else
 			{
-				Debug.LogError($"Bundle content item with sku = '{item.Sku}' without image!");
+				Debug.LogError(string.Format("Bundle content item with sku = '{0}' without image!", item.Sku));
 			}
 		}
 

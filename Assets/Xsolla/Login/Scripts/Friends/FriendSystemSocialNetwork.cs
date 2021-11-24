@@ -10,10 +10,10 @@ namespace Xsolla.Demo
 	[RequireComponent(typeof(SimpleTextButton))]
 	public class FriendSystemSocialNetwork : MonoBehaviour
 	{
-		[SerializeField] private Image background = default;
-		[SerializeField] private Image logo = default;
-		[SerializeField] private Image linkIcon = default;
-		[SerializeField] private Image addIcon = default;
+		[SerializeField] private Image background;
+		[SerializeField] private Image logo;
+		[SerializeField] private Image linkIcon;
+		[SerializeField] private Image addIcon;
 		[SerializeField] private SocialProvider provider = SocialProvider.None;
 
 		public enum State
@@ -24,8 +24,20 @@ namespace Xsolla.Demo
 
 		public event Action<SocialProvider, State> StateChanged;
 
-		public SocialProvider Provider => provider;
-		public SimpleButton Button => GetComponent<SimpleButton>();
+		public SocialProvider Provider
+		{
+			get
+			{
+				return provider;
+			}
+		}
+		public SimpleButton Button
+		{
+			get
+			{
+				return GetComponent<SimpleButton>();
+			}
+		}
 
 		private void Awake()
 		{
@@ -94,11 +106,12 @@ namespace Xsolla.Demo
 				}
 				default:
 				{
-					Debug.LogWarning($"Unexpected state: '{state}'");
+					Debug.LogWarning(string.Format("Unexpected state: '{0}'", state));
 					return;
 				}
 			}
-			StateChanged?.Invoke(provider, state);
+			if (StateChanged != null)
+				StateChanged.Invoke(provider, state);
 		}
 
 		private void UnlinkSocialProvider()

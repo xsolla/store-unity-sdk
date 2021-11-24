@@ -23,12 +23,14 @@ namespace Xsolla.Demo
 	
 		public void OnPointerEnter(PointerEventData eventData)
 		{
-			OnCursorEnter?.Invoke();
+			if (OnCursorEnter != null)
+				OnCursorEnter.Invoke();
 		}
 
 		public void OnPointerExit(PointerEventData eventData)
 		{
-			OnCursorExit?.Invoke();
+			if (OnCursorExit != null)
+				OnCursorExit.Invoke();
 			_isClickInProgress = false;
 		}
 
@@ -42,8 +44,9 @@ namespace Xsolla.Demo
 			if (_isClickInProgress)
 			{
 				_isSelected = !_isSelected;
-				
-				onClick?.Invoke(_isSelected);
+
+				if (onClick != null)
+					onClick.Invoke(_isSelected);
 			}
 		
 			_isClickInProgress = false;

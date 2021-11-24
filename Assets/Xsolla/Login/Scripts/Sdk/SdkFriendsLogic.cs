@@ -45,43 +45,78 @@ namespace Xsolla.Demo
 		public void BlockUser(FriendModel user, Action<FriendModel> onSuccess = null, Action<Error> onError = null)
 		{
 			XsollaLogin.Instance.UpdateUserFriends(Token.Instance, FriendAction.BlockFriend, user.Id,
-				() => onSuccess?.Invoke(user), onError);
+				() =>
+				{
+					if (onSuccess != null)
+						onSuccess.Invoke(user);
+				},
+				onError);
 		}
 
 		public void UnblockUser(FriendModel user, Action<FriendModel> onSuccess = null, Action<Error> onError = null)
 		{
 			XsollaLogin.Instance.UpdateUserFriends(Token.Instance, FriendAction.UnblockFriend, user.Id,
-				() => onSuccess?.Invoke(user), onError);
+				() =>
+				{
+					if (onSuccess != null)
+						onSuccess.Invoke(user);
+				},
+				onError);
 		}
 
 		public void SendFriendshipInvite(FriendModel user, Action<FriendModel> onSuccess = null, Action<Error> onError = null)
 		{
 			XsollaLogin.Instance.UpdateUserFriends(Token.Instance, FriendAction.SendInviteRequest, user.Id,
-				() => onSuccess?.Invoke(user), onError);
+				() =>
+				{
+					if (onSuccess != null)
+						onSuccess.Invoke(user);
+				},
+				onError);
 		}
 
 		public void RemoveFriend(FriendModel user, Action<FriendModel> onSuccess = null, Action<Error> onError = null)
 		{
 			XsollaLogin.Instance.UpdateUserFriends(Token.Instance, FriendAction.RemoveFriend, user.Id,
-				() => onSuccess?.Invoke(user), onError);
+				() =>
+				{
+					if (onSuccess != null)
+						onSuccess.Invoke(user);
+				},
+				onError);
 		}
 
 		public void AcceptFriendship(FriendModel user, Action<FriendModel> onSuccess = null, Action<Error> onError = null)
 		{
 			XsollaLogin.Instance.UpdateUserFriends(Token.Instance, FriendAction.AcceptInvite, user.Id,
-				() => onSuccess?.Invoke(user), onError);
+				() =>
+				{
+					if (onSuccess != null)
+						onSuccess.Invoke(user);
+				},
+				onError);
 		}
 
 		public void DeclineFriendship(FriendModel user, Action<FriendModel> onSuccess = null, Action<Error> onError = null)
 		{
 			XsollaLogin.Instance.UpdateUserFriends(Token.Instance, FriendAction.DenyInvite, user.Id,
-				() => onSuccess?.Invoke(user), onError);
+				() =>
+				{
+					if (onSuccess != null)
+						onSuccess.Invoke(user);
+				},
+				onError);
 		}
 
 		public void CancelFriendshipRequest(FriendModel user, Action<FriendModel> onSuccess = null, Action<Error> onError = null)
 		{
 			XsollaLogin.Instance.UpdateUserFriends(Token.Instance, FriendAction.CancelRequest, user.Id,
-				() => onSuccess?.Invoke(user), onError);
+				() =>
+				{
+					if (onSuccess != null)
+						onSuccess.Invoke(user);
+				},
+				onError);
 		}
 
 		public void ForceUpdateFriendsFromSocialNetworks(Action onSuccess = null, Action<Error> onError = null)
@@ -92,7 +127,7 @@ namespace Xsolla.Demo
 		public void GetFriendsFromSocialNetworks(Action<List<FriendModel>> onSuccess = null, Action<Error> onError = null)
 		{
 			XsollaLogin.Instance.GetUserSocialFriends(Token.Instance, SocialProvider.None, 0, 500, false,
-				onSuccess: friends => StartCoroutine(ConvertSocialFriendsToRecommended(friends.data, onSuccess, onError)),
+				friends => StartCoroutine(ConvertSocialFriendsToRecommended(friends.data, onSuccess, onError)),
 				onError);
 		}
 
@@ -126,7 +161,8 @@ namespace Xsolla.Demo
 						},
 						onError: error =>
 						{
-							onError?.Invoke(error);
+							if (onError != null)
+								onError.Invoke(error);
 							isUserinfoObtained = false;
 						});
 
@@ -134,7 +170,7 @@ namespace Xsolla.Demo
 
 					if (isUserinfoObtained == false)
 					{
-						Debug.LogError($"Could not get user information. UserID: {recommendedFriend.Id}");
+						Debug.LogError(string.Format("Could not get user information. UserID: {0}", recommendedFriend.Id));
 						yield break;
 					}
 				}
@@ -146,7 +182,8 @@ namespace Xsolla.Demo
 					ImageLoader.Instance.GetImageAsync(recommendedFriend.AvatarUrl, null);
 			}
 
-			onSuccess?.Invoke(recommendedFriends);
+			if (onSuccess != null)
+				onSuccess.Invoke(recommendedFriends);
 		}
 
 		private void GetUsersByType(FriendsSearchType searchType, UserRelationship relationship,
@@ -155,14 +192,15 @@ namespace Xsolla.Demo
 			XsollaLogin.Instance.GetUserFriends(Token.Instance,
 				searchType, FRIENDS_SORT_TYPE, FRIENDS_SORT_ORDER, MAX_FRIENDS_COUNT, friends =>
 				{
-					onSuccess?.Invoke(friends.Select(f =>
-					{
-						var result = ConvertFriendEntity(f, relationship);
-						// this method used at this place for fastest image loading
-						if (!string.IsNullOrEmpty(result.AvatarUrl))
-							ImageLoader.Instance.GetImageAsync(result.AvatarUrl, null);
-						return result;
-					}).ToList());
+					if (onSuccess != null)
+						onSuccess.Invoke(friends.Select(f =>
+						{
+							var result = ConvertFriendEntity(f, relationship);
+							// this method used at this place for fastest image loading
+							if (!string.IsNullOrEmpty(result.AvatarUrl))
+								ImageLoader.Instance.GetImageAsync(result.AvatarUrl, null);
+							return result;
+						}).ToList());
 				}, onError);
 		}
 
@@ -178,8 +216,17 @@ namespace Xsolla.Demo
 			if (!string.IsNullOrEmpty(friend.xl_uid))//Xsolla ID not null - this is a registered Xsolla user with linked social account
 			{
 				var existingFriend = UserFriends.Instance.GetUserById(friend.xl_uid);
-				result.Status = existingFriend?.Status ?? UserOnlineStatus.Unknown;
-				result.Relationship = existingFriend?.Relationship ?? UserRelationship.Unknown;
+
+				if (existingFriend != null)
+				{
+					result.Status = existingFriend.Status;
+					result.Relationship = existingFriend.Relationship;
+				}
+				else
+				{
+					result.Status = UserOnlineStatus.Unknown;
+					result.Relationship = UserRelationship.Unknown;
+				}
 			}
 			else
 			{
@@ -187,8 +234,14 @@ namespace Xsolla.Demo
 				result.Relationship = UserRelationship.SocialNonXsolla;
 			}
 
-			if (Enum.TryParse<SocialProvider>(friend.platform, ignoreCase: true, out SocialProvider provider))
-				result.SocialProvider = provider;
+			try
+			{
+				result.SocialProvider = (SocialProvider)Enum.Parse(typeof(SocialProvider), friend.platform);
+			}
+			catch (Exception)
+			{
+				result.SocialProvider = SocialProvider.None;
+			}
 
 			return result;
 		}

@@ -6,26 +6,32 @@ namespace Xsolla.Demo
 {
 	public class CartControls : MonoBehaviour
 	{
-		[SerializeField] private SimpleTextButton buyButton = default;
-		[SerializeField] private SimpleButton clearCartButton = default;
+		[SerializeField] private SimpleTextButton buyButton;
+		[SerializeField] private SimpleButton clearCartButton;
 
-		[SerializeField] private Text totalPriceText = default;
-		[SerializeField] private Text subtotalPriceText = default;
-		[SerializeField] private Text discountPriceText = default;
-		[SerializeField] private Text totalLabelText = default;
-		[SerializeField] private Text subtotalLabelText = default;
-		[SerializeField] private Text discountLabelText = default;
+		[SerializeField] private Text totalPriceText;
+		[SerializeField] private Text subtotalPriceText;
+		[SerializeField] private Text discountPriceText;
+		[SerializeField] private Text totalLabelText;
+		[SerializeField] private Text subtotalLabelText;
+		[SerializeField] private Text discountLabelText;
 
 		private GameObject _loaderObject;
 
 		public Action OnBuyCart
 		{
-			set => buyButton.onClick = value;
+			set
+			{
+				buyButton.onClick = value;
+			}
 		}
 
 		public Action OnClearCart
 		{
-			set => clearCartButton.onClick = value;
+			set
+			{
+				clearCartButton.onClick = value;
+			}
 		}
 
 		public void Initialize(float totalPrice = 0f, float discount = 0f)
@@ -59,7 +65,7 @@ namespace Xsolla.Demo
 			subtotalPriceText.gameObject.SetActive(true);
 			discountLabelText.gameObject.SetActive(true);
 			discountPriceText.gameObject.SetActive(true);
-			discountPriceText.text = $"-{PriceFormatter.FormatPrice(discount)}";
+			discountPriceText.text = string.Format("-{0}", PriceFormatter.FormatPrice(discount));
 			subtotalPriceText.text = PriceFormatter.FormatPrice(subtotal);
 		}
 	}

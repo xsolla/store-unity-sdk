@@ -9,7 +9,7 @@ namespace Xsolla.Store
 	{
 		private List<SubscriptionItem> _items = new List<SubscriptionItem>();
 
-		public List<SubscriptionItem> GetItems() => _items;
+		public List<SubscriptionItem> GetItems() { return _items; }
 
 		public bool IsEmpty()
 		{
@@ -26,7 +26,8 @@ namespace Xsolla.Store
 			XsollaStore.Instance.GetSubscriptions(XsollaSettings.StoreProjectId, items =>
 				{
 					_items = items.items.ToList();
-					onSuccess?.Invoke(GetItems());
+					if (onSuccess != null)
+						onSuccess.Invoke(GetItems());
 				},
 				onError);
 		}

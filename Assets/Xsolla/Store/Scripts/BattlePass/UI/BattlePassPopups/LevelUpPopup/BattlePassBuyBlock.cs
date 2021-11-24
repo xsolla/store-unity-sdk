@@ -7,16 +7,16 @@ namespace Xsolla.Demo
 {
 	public class BattlePassBuyBlock : MonoBehaviour
     {
-		[SerializeField] private SimpleTextButtonDisableable BuyButton = default;
-		[SerializeField] private SimpleButton BuyCurrencyButton = default;
+		[SerializeField] private SimpleTextButtonDisableable BuyButton;
+		[SerializeField] private SimpleButton BuyCurrencyButton;
 		[Space]
-		[SerializeField] private Text RealCurrencyPriceValue = default;
+		[SerializeField] private Text RealCurrencyPriceValue;
 		[Space]
-		[SerializeField] private Image VirtualCurrencyIcon = default;
-		[SerializeField] private Text VirtualCurrencyPriceValue = default;
+		[SerializeField] private Image VirtualCurrencyIcon;
+		[SerializeField] private Text VirtualCurrencyPriceValue;
 		[Space]
-		[SerializeField] private GameObject BuyCurrencyButtonHolder = default;
-		[SerializeField] private Text CurrencyDeltaText = default;
+		[SerializeField] private GameObject BuyCurrencyButtonHolder;
+		[SerializeField] private Text CurrencyDeltaText;
 
 		private const string CURRENCY_DELTA_TEMPLATE = "You need {0} more {1}.";
 		private const string CURRENCY_GOLD = "GOLD";
@@ -26,8 +26,16 @@ namespace Xsolla.Demo
 
 		private void Awake()
 		{
-			BuyButton.onClick += () => BuyButtonClick?.Invoke();
-			BuyCurrencyButton.onClick += () => BuyCurrencyButtonClick?.Invoke();
+			BuyButton.onClick += () =>
+			{
+				if (BuyButtonClick != null)
+					BuyButtonClick.Invoke();
+			};
+			BuyCurrencyButton.onClick += () =>
+			{
+				if (BuyCurrencyButtonClick != null)
+					BuyCurrencyButtonClick.Invoke();
+			};
 		}
 
 		public void ShowPrice(string formattedPrice)
@@ -61,7 +69,7 @@ namespace Xsolla.Demo
 			{
 				BuyButton.Disable();
 				var currencyDelta = price - userCurrency;
-				var currencyNameToShow = (currencyName.EndsWith("s") || currencyName.ToUpper() == CURRENCY_GOLD) ? currencyName : $"{currencyName}s";
+				var currencyNameToShow = (currencyName.EndsWith("s") || currencyName.ToUpper() == CURRENCY_GOLD) ? currencyName : string.Format("{0}s", currencyName);
 
 				var currencyDeltaMessage = string.Format(CURRENCY_DELTA_TEMPLATE, currencyDelta, currencyNameToShow);
 				CurrencyDeltaText.text = currencyDeltaMessage;

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 using Xsolla.Core;
 using Xsolla.Demo;
@@ -6,8 +6,8 @@ using Debug = UnityEngine.Debug;
 
 public class ConfirmationLinkResender : MonoBehaviour
 {
-	[SerializeField] SimpleButton resendButton = default;
-	[SerializeField] Text emailText = default;
+	[SerializeField] SimpleButton resendButton;
+	[SerializeField] Text emailText;
 
 	void Awake()
 	{
@@ -22,7 +22,7 @@ public class ConfirmationLinkResender : MonoBehaviour
 				ReplaceEmailText(LoginPageChangePasswordController.LastEmail);
 				break;
 			default:
-				Debug.LogWarning($"Unexpected state");
+				Debug.LogWarning("Unexpected state");
 				break;
 		}
 	}

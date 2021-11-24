@@ -6,7 +6,7 @@ namespace Xsolla.Demo
 {
 	public class LoginCreateEmailReplacer : MonoBehaviour
 	{
-		[SerializeField] Text EmailText = default;
+		[SerializeField] Text EmailText;
 
 		// Start is called before the first frame update
 		void Start()

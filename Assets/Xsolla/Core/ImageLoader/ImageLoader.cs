@@ -18,7 +18,8 @@ namespace Xsolla.Core
 		protected override void OnDestroy()
 		{
 			StopAllCoroutines();
-			images?.Clear();
+			if (images != null)
+				images.Clear();
 		}
 
 		public void AddImage(string url, Sprite image)
@@ -30,7 +31,8 @@ namespace Xsolla.Core
 		{
 			if (images.ContainsKey(url) && images[url] != null)
 			{
-				callback?.Invoke(url, images[url]);
+				if (callback != null)
+					callback.Invoke(url, images[url]);
 			}
 			else if (images.ContainsKey(url)/*&& images[url] == null*/)
 			{
@@ -54,7 +56,8 @@ namespace Xsolla.Core
 		IEnumerator WaitImage(string url, Action<string, Sprite> callback)
 		{
 			yield return new WaitWhile(() => images[url] == null);
-			callback?.Invoke(url, images[url]);
+			if (callback != null)
+				callback.Invoke(url, images[url]);
 		}
 	}
 }

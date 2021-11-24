@@ -11,7 +11,9 @@ namespace Xsolla.Core
 	{
 		public void PutRequest<T>(SdkType sdkType, string url, T jsonObject, List<WebRequestHeader> requestHeaders, Action onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null) where T : class
 		{
-			var headers = AppendAnalyticHeaders(sdkType, requestHeaders?.ToArray());
+			List<WebRequestHeader> headers = null;
+			if (requestHeaders != null)
+				headers = AppendAnalyticHeaders(sdkType, requestHeaders.ToArray());
 			StartCoroutine(PutRequestCor(sdkType, url, jsonObject, headers, onComplete, onError, errorsToCheck));
 		}
 

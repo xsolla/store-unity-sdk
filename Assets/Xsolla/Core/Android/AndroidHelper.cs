@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 
 namespace Xsolla.Core.Android
@@ -59,9 +59,12 @@ namespace Xsolla.Core.Android
 
 		public void Dispose()
 		{
-			_context?.Dispose();
-			_activity?.Dispose();
-			_unityPlayer?.Dispose();
+			if (_context != null)
+				_context.Dispose();
+			if (_activity != null)
+				_activity.Dispose();
+			if (_unityPlayer != null)
+				_unityPlayer.Dispose();
 		}
 	}
 }

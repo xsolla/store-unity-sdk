@@ -5,7 +5,7 @@ namespace Xsolla.Demo
 {
 	public class GroupUI : MonoBehaviour, IGroup
 	{
-		[SerializeField] MenuButton menuButton = default;
+		[SerializeField] MenuButton menuButton;
 
 		void Awake()
 		{

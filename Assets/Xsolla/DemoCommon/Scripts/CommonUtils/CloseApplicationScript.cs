@@ -5,7 +5,7 @@ namespace Xsolla.Demo
 {
 	public class CloseApplicationScript : MonoBehaviour
 	{
-		[SerializeField] private SimpleButton exitButton = default;
+		[SerializeField] private SimpleButton exitButton;
 
 		void Start()
 		{

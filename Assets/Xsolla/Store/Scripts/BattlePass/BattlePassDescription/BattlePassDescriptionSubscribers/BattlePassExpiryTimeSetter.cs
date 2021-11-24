@@ -30,8 +30,10 @@ namespace Xsolla.Demo
 
 		private void SwapActive(GameObject setActive = null, GameObject setInactive = null)
 		{
-			setActive?.SetActive(true);
-			setInactive?.SetActive(false);
+			if (setActive != null)
+				setActive.SetActive(true);
+			if (setInactive != null)
+				setInactive.SetActive(false);
 		}
 
 		private int GetExpirationHours(DateTime expirationDateTime)
@@ -59,8 +61,8 @@ namespace Xsolla.Demo
 			var days = hoursUntilExpiration / 24;
 			var hours = hoursUntilExpiration - (days * 24);
 
-			var daysAsString = days > 0 ? $"{days}d " : string.Empty;
-			var hoursAsString = $"{hours}h";
+			var daysAsString = days > 0 ? string.Format("{0}d ", days) : string.Empty;
+			var hoursAsString = string.Format("{0}h", hours);
 			
 			return string.Format(EXPIRY_TEXT_FORMAT, daysAsString, hoursAsString);
 		}

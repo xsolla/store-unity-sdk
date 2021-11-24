@@ -4,7 +4,7 @@ namespace Xsolla.Demo
 {
     public class OnButtonDisabler : MonoBehaviour
     {
-		[SerializeField] private SimpleButton Button = default;
+		[SerializeField] private SimpleButton Button;
 
 		private void Awake()
 		{

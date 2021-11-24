@@ -1,25 +1,24 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
-using Xsolla.UIBuilder;
 
 namespace Xsolla.Demo
 {
 	public partial class BattlePassItem : MonoBehaviour
     {
-		[SerializeField] private Image BackgroundImage = default;
-		[SerializeField] private ColorProvider Background = new ColorProvider();
-		[SerializeField] private ColorProvider BackgroundEmpty = new ColorProvider();
-		[SerializeField] private ColorProvider BackgroundCurrentLevel = new ColorProvider();
-		[SerializeField] private ColorProvider BackgroundSelected = new ColorProvider();
+		[SerializeField] private Image BackgroundImage;
+		[SerializeField] private Color Background;
+		[SerializeField] private Color BackgroundEmpty;
+		[SerializeField] private Color BackgroundCurrentLevel;
+		[SerializeField] private Color BackgroundSelected;
 
 		[Space]
-		[SerializeField] private GameObject HighLight = default;
-		[SerializeField] private GameObject ItemFrame = default;
+		[SerializeField] private GameObject HighLight;
+		[SerializeField] private GameObject ItemFrame;
 		[Space]
-		[SerializeField] private GameObject[] StateObjects = default;
+		[SerializeField] private GameObject[] StateObjects;
 		[Space]
-		[SerializeField] private SimpleButton ItemButton = default;
+		[SerializeField] private SimpleButton ItemButton;
 
 		private ItemImageContainer _itemImageContainer = new ItemImageContainer();
 		private Color? _preSelectedBackground;
@@ -27,12 +26,13 @@ namespace Xsolla.Demo
 		public static BattlePassItem SelectedItem { get; private set; }
 
 		public BattlePassItemDescription ItemDescription { get; private set; }
-		public BattlePassItemState ItemState { get; private set; } = BattlePassItemState.Empty;
+		public BattlePassItemState ItemState { get; private set; }
 
 		public static event Action<BattlePassItemClickEventArgs> ItemClick;
 
 		private void Awake()
 		{
+			ItemState = BattlePassItemState.Empty;
 			ItemButton.onClick = OnButtonClick;
 		}
 
@@ -50,14 +50,14 @@ namespace Xsolla.Demo
 			var targetColor = Color.white;
 			if (isCurrent)
 			{
-				targetColor = BackgroundCurrentLevel.GetValue();
+				targetColor = BackgroundCurrentLevel;
 			}
 			else
 			{
 				if (ItemDescription != null)
-					targetColor = Background.GetValue();
+					targetColor = Background;
 				else
-					targetColor = BackgroundEmpty.GetValue();
+					targetColor = BackgroundEmpty;
 			}
 
 			if (_preSelectedBackground == null)
@@ -82,7 +82,10 @@ namespace Xsolla.Demo
 			ItemState = itemState;
 		}
 
-		public void ForceItemClick() => RaiseItemClick();
+		public void ForceItemClick()
+		{
+			RaiseItemClick();
+		}
 
 		private void OnButtonClick()
 		{
@@ -97,7 +100,8 @@ namespace Xsolla.Demo
 		private void RaiseItemClick()
 		{
 			var clickEventArgs = new BattlePassItemClickEventArgs(ItemDescription, ItemState, _itemImageContainer);
-			ItemClick?.Invoke(clickEventArgs);
+			if (ItemClick != null)
+				ItemClick.Invoke(clickEventArgs);
 		}
 
 		private void SetSelected(bool isSelected)
@@ -105,7 +109,7 @@ namespace Xsolla.Demo
 			if (isSelected)
 			{
 				_preSelectedBackground = BackgroundImage.color;
-				BackgroundImage.color = BackgroundSelected.GetValue();
+				BackgroundImage.color = BackgroundSelected;
 			}
 			else
 			{

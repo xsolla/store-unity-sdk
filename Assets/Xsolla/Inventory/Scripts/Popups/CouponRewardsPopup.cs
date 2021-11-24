@@ -7,8 +7,8 @@ namespace Xsolla.Core.Popup
 	[AddComponentMenu("Scripts/Xsolla.Core/Popup/CouponRewardsPopup")]
 	public class CouponRewardsPopup : MonoBehaviour, ICouponRewardsPopup
 	{
-		[SerializeField] private GameObject itemPrefab = default;
-		[SerializeField] private ItemContainer itemsContainer = default;
+		[SerializeField] private GameObject itemPrefab;
+		[SerializeField] private ItemContainer itemsContainer;
 
 		public ICouponRewardsPopup SetItems(List<CouponRedeemedItemModel> items)
 		{

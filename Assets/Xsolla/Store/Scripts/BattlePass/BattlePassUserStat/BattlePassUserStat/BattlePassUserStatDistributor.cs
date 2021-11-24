@@ -4,8 +4,8 @@ namespace Xsolla.Demo
 {
 	public class BattlePassUserStatDistributor : MonoBehaviour
     {
-		[SerializeField] private BaseBattlePassUserStatManager UserStatProvider = default;
-		[SerializeField] private BaseBattlePassUserStatSubscriber[] UserStatSubscribers = default;
+		[SerializeField] private BaseBattlePassUserStatManager UserStatProvider;
+		[SerializeField] private BaseBattlePassUserStatSubscriber[] UserStatSubscribers;
 
 		private void Awake()
 		{

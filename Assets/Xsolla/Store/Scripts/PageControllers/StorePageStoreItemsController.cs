@@ -5,7 +5,13 @@ namespace Xsolla.Demo
 {
 	public class StorePageStoreItemsController : BaseStorePageStoreItemsController
 	{
-		protected override bool IsShowContent => UserCatalog.Instance.HasVirtualItems || UserCatalog.Instance.HasBundles;
+		protected override bool IsShowContent
+		{
+			get
+			{
+				return UserCatalog.Instance.HasVirtualItems || UserCatalog.Instance.HasBundles;
+			}
+		}
 
 		protected override List<ItemModel> GetItemsByGroup(string groupName)
 		{

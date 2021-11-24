@@ -11,7 +11,13 @@ namespace Xsolla.Core
 
 		private TokenPayload Payload { get; set; }
 
-		private bool IsPaystationToken => Payload == null;
+		private bool IsPaystationToken
+		{
+			get
+			{
+				return (Payload == null);
+			}
+		}
 
 		private const string PlayerPrefsKey = "xsolla_login_last_success_auth_token";
 
@@ -71,11 +77,15 @@ namespace Xsolla.Core
 
 		public static Token Instance
 		{
-			get => _instance;
+			get
+			{
+				return _instance;
+			}
 			set
 			{
 				_instance = value;
-				TokenChanged?.Invoke();
+				if (TokenChanged != null)
+					TokenChanged.Invoke();
 			}
 		}
 
@@ -125,13 +135,14 @@ namespace Xsolla.Core
 
 			var tokenParts = encodedToken.Split('.');
 			if (tokenParts.Length < 3)
-				throw new Exception($"Token must contain header, payload and signature. Your token parts count was '{tokenParts.Length}'. Your token: {encodedToken}");
+				throw new Exception(string.Format("Token must contain header, payload and signature. Your token parts count was '{0}'. Your token: {1}", tokenParts.Length, encodedToken));
 
-			if (!TryParsePayload(tokenParts[1], out var payload))
-				throw new Exception($"Could not parse token payload. Your token = {encodedToken}");
+			TokenPayload payload;
+			if (!TryParsePayload(tokenParts[1], out payload))
+				throw new Exception(string.Format("Could not parse token payload. Your token = {0}", encodedToken));
 
 			if (string.IsNullOrEmpty(payload.type))
-				throw new Exception($"Token must have 'type' parameter. Your token = {encodedToken}");
+				throw new Exception(string.Format("Token must have 'type' parameter. Your token = {0}", encodedToken));
 
 			return new Token{
 				EncodedToken = encodedToken,
@@ -188,7 +199,7 @@ namespace Xsolla.Core
 			}
 			catch (Exception ex)
 			{
-				Debug.LogError($"Error decoding token payload: {ex.Message}");
+				Debug.LogError(string.Format("Error decoding token payload: {0}", ex.Message));
 				payloadObject = null;
 				return false;
 			}

@@ -6,12 +6,12 @@ namespace Xsolla.Demo
 {
 	public class AttributeItem : MonoBehaviour
 	{
-		[SerializeField] bool _isReadOnly = default;
-		[SerializeField] InputField KeyInputField = default;
-		[SerializeField] InputField ValueInputField = default;
-		[SerializeField] Text KeyText = default;
-		[SerializeField] Text ValueText = default;
-		[SerializeField] SimpleButton RemoveButton = default;
+		[SerializeField] bool _isReadOnly;
+		[SerializeField] InputField KeyInputField;
+		[SerializeField] InputField ValueInputField;
+		[SerializeField] Text KeyText;
+		[SerializeField] Text ValueText;
+		[SerializeField] SimpleButton RemoveButton;
 
 		private string _key;
 		private string _value;
@@ -22,7 +22,10 @@ namespace Xsolla.Demo
 
 		public bool IsReadOnly
 		{
-			get => _isReadOnly;
+			get
+			{
+				return _isReadOnly;
+			}
 			set
 			{
 				if (value == _isReadOnly)
@@ -35,7 +38,10 @@ namespace Xsolla.Demo
 
 		public string Key
 		{
-			get => _key;
+			get
+			{
+				return _key;
+			}
 			set
 			{
 				_key = value;
@@ -48,7 +54,10 @@ namespace Xsolla.Demo
 
 		public string Value
 		{
-			get => _value;
+			get
+			{
+				return _value;
+			}
 			set
 			{
 				_value = value;
@@ -67,22 +76,36 @@ namespace Xsolla.Demo
 		{
 			SetAccessibility(_isReadOnly);
 
-			KeyInputField?.onEndEdit.AddListener(SetNewKey);
-			ValueInputField?.onEndEdit.AddListener(SetNewValue);
+			if (KeyInputField)
+				KeyInputField.onEndEdit.AddListener(SetNewKey);
+
+			if (ValueInputField)
+				ValueInputField.onEndEdit.AddListener(SetNewValue);
 
 			if (RemoveButton)
-				RemoveButton.onClick += () => OnRemoveRequest?.Invoke(this);
+				RemoveButton.onClick += () =>
+				{
+					if (OnRemoveRequest != null)
+						OnRemoveRequest.Invoke(this);
+				};
 		}
 
 		private void SetAccessibility(bool isReadOnly)
 		{
-			KeyInputField?.gameObject.SetActive(!isReadOnly);
-			ValueInputField?.gameObject.SetActive(!isReadOnly);
+			if (KeyInputField)
+				KeyInputField.gameObject.SetActive(!isReadOnly);
 
-			KeyText.gameObject.SetActive(isReadOnly);
-			ValueText.gameObject.SetActive(isReadOnly);
+			if (ValueInputField)
+				ValueInputField.gameObject.SetActive(!isReadOnly);
 
-			RemoveButton?.gameObject.SetActive(!isReadOnly);
+			if (KeyText)
+				KeyText.gameObject.SetActive(isReadOnly);
+
+			if (ValueText)
+				ValueText.gameObject.SetActive(isReadOnly);
+
+			if (RemoveButton)
+				RemoveButton.gameObject.SetActive(!isReadOnly);
 		}
 
 		private void SetNewKey(string newKey)
@@ -92,7 +115,9 @@ namespace Xsolla.Demo
 
 			var oldKey = Key;
 			Key = newKey;
-			OnKeyChanged?.Invoke(this, oldKey, newKey);
+
+			if (OnKeyChanged != null)
+				OnKeyChanged.Invoke(this, oldKey, newKey);
 		}
 
 		private void SetNewValue(string newValue)
@@ -102,7 +127,9 @@ namespace Xsolla.Demo
 
 			var oldValue = Value;
 			Value = newValue;
-			OnValueChanged?.Invoke(this, oldValue, newValue);
+
+			if (OnValueChanged != null)
+				OnValueChanged.Invoke(this, oldValue, newValue);
 		}
 	}
 }

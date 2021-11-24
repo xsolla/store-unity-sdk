@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 
 namespace Xsolla.Demo
@@ -8,8 +8,8 @@ namespace Xsolla.Demo
 		public static event Action OnActivated;
 		public static event Action OnDeactivated;
 
-		[SerializeField] private GameObject blurMaskObject = default;
-		[SerializeField] private ItemSelection blurTrigger = default;
+		[SerializeField] private GameObject blurMaskObject;
+		[SerializeField] private ItemSelection blurTrigger;
 
 		private void Start()
 		{
@@ -17,12 +17,14 @@ namespace Xsolla.Demo
 			blurTrigger.OnPointerEnterEvent += () =>
 			{
 				blurMaskObject.SetActive(true);
-				OnActivated?.Invoke();
+				if (OnActivated != null)
+					OnActivated.Invoke();
 			};
 			blurTrigger.OnPointerExitEvent += () =>
 			{
 				blurMaskObject.SetActive(false);
-				OnDeactivated?.Invoke();
+				if (OnDeactivated != null)
+					OnDeactivated.Invoke();
 			};
 		}
 	}

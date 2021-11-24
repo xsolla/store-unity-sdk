@@ -2,17 +2,16 @@
 using System.Text.RegularExpressions;
 using UnityEngine;
 using Xsolla.Login;
-using Xsolla.UIBuilder;
 
 namespace Xsolla.Demo
 {
 	public class CharacterAttributeItemsManager : BaseAttributeManager
 	{
-		[SerializeField] WidgetProvider AttributeItemProvider = new WidgetProvider();
-		[SerializeField] Transform CustomAttributesParentTransform = default;
-		[SerializeField] Transform ReadOnlyAttributesParentTransform = default;
-		[SerializeField] SimpleButton NewButton = default;
-		[SerializeField] SimpleButton SaveButton = default;
+		[SerializeField] GameObject AttributeItemPrefab;
+		[SerializeField] Transform CustomAttributesParentTransform;
+		[SerializeField] Transform ReadOnlyAttributesParentTransform;
+		[SerializeField] SimpleButton NewButton;
+		[SerializeField] SimpleButton SaveButton;
 
 		private const string CUSTOM_ATTRIBUTE_KEY = "CustomAttribute";
 		private const string CUSTOM_ATTRIBUTE_VALUE = "Custom value";
@@ -92,7 +91,7 @@ namespace Xsolla.Demo
 
 		private AttributeItem InstantiateAttribute(UserAttribute userAttribute, bool isReadOnly, Transform parentTransform)
 		{
-			var attributeItemObject = Instantiate<GameObject>(AttributeItemProvider.GetValue(), parentTransform);
+			var attributeItemObject = Instantiate<GameObject>(AttributeItemPrefab, parentTransform);
 			var attributeItem = attributeItemObject.GetComponent<AttributeItem>();
 
 			attributeItem.IsReadOnly = isReadOnly;
@@ -107,17 +106,17 @@ namespace Xsolla.Demo
 		{
 			if (attributeItem.IsReadOnly)
 			{
-				Debug.LogError($"CharacterAttributeItemsManager.HandleKeyChanged: Attempt to change key of read-only attribute. OldKey:{oldKey} NewKey:{newKey}");
+				Debug.LogError(string.Format("CharacterAttributeItemsManager.HandleKeyChanged: Attempt to change key of read-only attribute. OldKey:{0} NewKey:{1}", oldKey, newKey));
 				attributeItem.Key = oldKey;
 			}
-			else if (newKey.Length > 256 || !Regex.IsMatch(newKey, "^[A-Za-z0-9_]+$"))
+			else if (newKey.Length > 256 || !Regex.IsMatch(newKey, "^[A-Za-z0-9_]+string.Format("))
 			{
-				Debug.Log($"CharacterAttributeItemsManager.HandleKeyChanged: New key does not follow rules MaxLength:256 Pattern:[A-Za-z0-9_]+ OldKey:{oldKey} NewKey:{newKey}");
+				Debug.Log(string.Format("CharacterAttributeItemsManager.HandleKeyChanged: New key does not follow rules MaxLength:256 Pattern:[A-Za-z0-9_]+ OldKey:{0} NewKey:{1}", oldKey, newKey));
 				attributeItem.Key = oldKey;
 			}
 			else if (_customAttributes.ContainsKey(newKey))
 			{
-				Debug.Log($"CharacterAttributeItemsManager.HandleKeyChanged: This key already exists. Key:{newKey}");
+				Debug.Log(string.Format("CharacterAttributeItemsManager.HandleKeyChanged: This key already exists. Key:{0}", newKey));
 				attributeItem.Key = oldKey;
 			}
 			else
@@ -139,12 +138,14 @@ namespace Xsolla.Demo
 		{
 			if (attributeItem.IsReadOnly)
 			{
-				Debug.LogError($"CharacterAttributeItemsManager.HandleValueChanged: Attempt to change value of read-only attribute. Key:{attributeItem.Key} OldValue:{oldValue} NewValue:{newValue}");
+				Debug.LogError(string.Format("CharacterAttributeItemsManager.HandleValueChanged: Attempt to change value of read-only attribute. Key:{0} OldValue:{1} NewValue:{2}",
+					attributeItem.Key, oldValue, newValue));
 				attributeItem.Value = oldValue;
 			}
 			else if (newValue.Length > 256)
 			{
-				Debug.Log($"CharacterAttributeItemsManager.HandleValueChanged: New value does not follow rule MaxLength:256 Key:{attributeItem.Key} OldValue:{oldValue} NewValue:{newValue}");
+				Debug.Log(string.Format("CharacterAttributeItemsManager.HandleValueChanged: New value does not follow rule MaxLength:256 Key:{0} OldValue:{1} NewValue:{2}",
+					attributeItem.Key, oldValue, newValue));
 				attributeItem.Value = oldValue;
 			}
 			else
@@ -157,7 +158,8 @@ namespace Xsolla.Demo
 		{
 			if (attributeItem.IsReadOnly)
 			{
-				Debug.LogError($"CharacterAttributeItemsManager.HandleRemoveRequest: Attempt to remove read-only attribute. Key:{attributeItem.Key} Value:{attributeItem.Value}");
+				Debug.LogError(string.Format("CharacterAttributeItemsManager.HandleRemoveRequest: Attempt to remove read-only attribute. Key:{0} Value:{1}",
+					attributeItem.Key, attributeItem.Value));
 			}
 			else
 			{
@@ -182,10 +184,10 @@ namespace Xsolla.Demo
 			while (_customAttributes.ContainsKey(customKey))
 			{
 				customCount++;
-				customKey = $"{CUSTOM_ATTRIBUTE_KEY}_{customCount}";
+				customKey = string.Format("{0}_{1}", CUSTOM_ATTRIBUTE_KEY, customCount);
 			}
 
-			var attributeItemObject = Instantiate<GameObject>(AttributeItemProvider.GetValue(), CustomAttributesParentTransform);
+			var attributeItemObject = Instantiate<GameObject>(AttributeItemPrefab, CustomAttributesParentTransform);
 			var attributeItem = attributeItemObject.GetComponent<AttributeItem>();
 
 			attributeItem.IsReadOnly = false;

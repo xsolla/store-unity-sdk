@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +30,7 @@ namespace Xsolla.Login
 		public void GetUserSocialFriends(string token, SocialProvider provider = SocialProvider.None, uint offset = 0, uint limit = 500, bool withUid = false, Action<UserSocialFriends> onSuccess = null, Action<Error> onError = null)
 		{
 			var withUidFlag = withUid ? "true" : "false";
-			var providerUrlAddition = provider != SocialProvider.None ? $"&platform={provider.GetParameter()}" : string.Empty;
+			var providerUrlAddition = provider != SocialProvider.None ? string.Format("&platform={0}", provider.GetParameter()) : string.Empty;
 			var url = string.Format(URL_USER_SOCIAL_FRIENDS, offset, limit, withUidFlag, providerUrlAddition);
 
 			WebRequestHelper.Instance.GetRequest(SdkType.Login, url, WebRequestHeader.AuthHeader(token), onSuccess, onError);
@@ -47,7 +47,7 @@ namespace Xsolla.Login
 		/// <param name="onError">Failed operation callback.</param>
 		public void UpdateUserSocialFriends(string token, SocialProvider provider = SocialProvider.None, Action onSuccess = null, Action<Error> onError = null)
 		{
-			var providerUrlAddition = provider != SocialProvider.None ? $"?platform={provider.GetParameter()}" : string.Empty;
+			var providerUrlAddition = provider != SocialProvider.None ? string.Format("?platform={0}", provider.GetParameter()) : string.Empty;
 			var url = string.Format(URL_USER_UPDATE_SOCIAL_FRIENDS, providerUrlAddition);
 
 			WebRequestHelper.Instance.PostRequest(SdkType.Login, url, WebRequestHeader.AuthHeader(token), onSuccess, onError);
@@ -75,7 +75,7 @@ namespace Xsolla.Login
 		{
 			if (count <= 0)
 			{
-				Debug.LogError($"Can not requests friends with count {count}");
+				Debug.LogError(string.Format("Can not requests friends with count {0}", count));
 				return;
 			}
 			var url = string.Format(URL_USER_GET_FRIENDS, type.GetParameter(), sortType.GetParameter(), order.GetParameter(), USER_FRIENDS_DEFAULT_PAGINATION_LIMIT);
@@ -99,13 +99,15 @@ namespace Xsolla.Login
 					busy = false;
 				}, error =>
 				{
-					onError?.Invoke(error);
+					if (onError != null)
+						onError.Invoke(error);
 					url = string.Empty;
 					busy = false;
 				});
 				yield return new WaitWhile(() => busy);
 			}
-			onSuccess?.Invoke(result);
+			if (onSuccess != null)
+				onSuccess.Invoke(result);
 		}
 
 		private void GetUserFriendsInternal(string token, string url, Action<UserFriendsEntity> onSuccess = null, Action<Error> onError = null)

@@ -4,7 +4,7 @@ namespace Xsolla.Demo
 {
 	public abstract class OnStateChangedHandler : MonoBehaviour
 	{
-		[SerializeField] protected MenuStateMachine StateMachine = default;
+		[SerializeField] protected MenuStateMachine StateMachine;
 
 		private void Awake()
 		{

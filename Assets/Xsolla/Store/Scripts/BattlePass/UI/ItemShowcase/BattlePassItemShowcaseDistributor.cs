@@ -4,10 +4,10 @@ namespace Xsolla.Demo
 {
 	public class BattlePassItemShowcaseDistributor : BaseBattlePassSelectedItemSubscriber
     {
-		[SerializeField] private BaseBattlePassItemShowcase RegularItemShowcase = default;
-		[SerializeField] private BaseBattlePassItemShowcase FinalItemShowcase = default;
-		[SerializeField] private GameObject RegularItemShowcasePanel = default;
-		[SerializeField] private GameObject FinalItemShowcasePanel = default;
+		[SerializeField] private BaseBattlePassItemShowcase RegularItemShowcase;
+		[SerializeField] private BaseBattlePassItemShowcase FinalItemShowcase;
+		[SerializeField] private GameObject RegularItemShowcasePanel;
+		[SerializeField] private GameObject FinalItemShowcasePanel;
 
 		public override void OnItemSelected(ItemSelectedEventArgs eventArgs)
 		{

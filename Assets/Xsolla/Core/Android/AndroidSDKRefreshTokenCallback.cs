@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 
 namespace Xsolla.Core
@@ -16,19 +16,22 @@ namespace Xsolla.Core
 			{
 				var xlogin = new AndroidJavaClass("com.xsolla.android.login.XLogin");
 				var token = xlogin.CallStatic<string>("getToken");
-				OnSuccess?.Invoke(token);
+				if (OnSuccess != null)
+					OnSuccess.Invoke(token);
 			}
 			catch (Exception ex)
 			{
-				Debug.LogError($"AndroidSDKRefreshTokenCallback.onSuccess: {ex.Message}");
-				OnError?.Invoke(new Error(errorMessage: ex.Message));
+				Debug.LogError(string.Format("AndroidSDKRefreshTokenCallback.onSuccess: {0}", ex.Message));
+				if (OnError != null)
+					OnError.Invoke(new Error(errorMessage: ex.Message));
 			}
 		}
 
 		public void onError(AndroidJavaException throwable, string errorMessage)
 		{
 			var error = new Error(errorMessage: errorMessage);
-			OnError?.Invoke(error);
+			if (OnError != null)
+				OnError.Invoke(error);
 		}
 	}
 }

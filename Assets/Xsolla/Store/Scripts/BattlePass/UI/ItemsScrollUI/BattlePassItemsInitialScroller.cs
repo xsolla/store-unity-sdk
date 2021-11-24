@@ -5,8 +5,8 @@ namespace Xsolla.Demo
 {
 	public class BattlePassItemsInitialScroller : MonoBehaviour
     {
-		[SerializeField] private ScrollRect ItemsScrollRect = default;
-		[SerializeField] private BattlePassScrollPositionProvider PositionProvider = default;
+		[SerializeField] private ScrollRect ItemsScrollRect;
+		[SerializeField] private BattlePassScrollPositionProvider PositionProvider;
 
 		private bool _firstCall = true;
 

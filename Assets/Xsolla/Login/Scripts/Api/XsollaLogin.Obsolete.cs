@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Xsolla.Core;
 
 namespace Xsolla.Login
@@ -10,8 +10,14 @@ namespace Xsolla.Login
 		[Obsolete]
 		public Token Token
 		{
-			get => Core.Token.Instance;
-			set => Core.Token.Instance = value;
+			get
+			{
+				return Core.Token.Instance;
+			}
+			set
+			{
+				Core.Token.Instance = value;
+			}
 		}
 	}
 }

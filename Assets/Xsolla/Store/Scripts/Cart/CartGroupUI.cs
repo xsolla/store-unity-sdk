@@ -7,7 +7,7 @@ namespace Xsolla.Demo
 	public class CartGroupUI : MonoBehaviour, IGroup
 	{
 		[SerializeField]
-		CartMenuButton menuButton = default;
+		CartMenuButton menuButton;
 
 		int _counter;
 	
@@ -18,7 +18,11 @@ namespace Xsolla.Demo
 			UserCart.Instance.UpdateItemEvent += (item, deltaValue) => ChangeCounter(deltaValue);
 			UserCart.Instance.ClearCartEvent += ResetCounter;
 
-			menuButton.onClick = () => OnGroupClick?.Invoke(Constants.CartGroupName);
+			menuButton.onClick = () =>
+			{
+				if (OnGroupClick != null)
+					OnGroupClick.Invoke(Constants.CartGroupName);
+			};
 		}
 
 		public string Id { get; set; }

@@ -6,7 +6,8 @@ namespace Xsolla.Demo
 	{
 		public override string Convert(string value)
 		{
-			if (DateTime.TryParse(value, out DateTime birthday))
+			DateTime birthday;
+			if (DateTime.TryParse(value, out birthday))
 				return birthday.ToString("dd/MM/yyyy").Replace(".","/");
 			else
 				return value;
@@ -14,7 +15,8 @@ namespace Xsolla.Demo
 
 		public override string ConvertBack(string value)
 		{
-			if (DateTime.TryParse(value, out DateTime birthday))
+			DateTime birthday;
+			if (DateTime.TryParse(value, out birthday))
 				return birthday.ToString("yyyy-MM-dd");
 			else
 				return value;

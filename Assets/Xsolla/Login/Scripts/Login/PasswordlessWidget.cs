@@ -8,26 +8,26 @@ namespace Xsolla.Demo
 {
     public class PasswordlessWidget : MonoBehaviour, ICodeRequester
 	{
-		[SerializeField] private GameObject ChoiceState = default;
-		[SerializeField] private GameObject PhoneState = default;
-		[SerializeField] private GameObject EmailState = default;
-		[SerializeField] private GameObject CodeState = default;
-		[SerializeField] private SimpleButton BackButton = default;
+		[SerializeField] private GameObject ChoiceState;
+		[SerializeField] private GameObject PhoneState;
+		[SerializeField] private GameObject EmailState;
+		[SerializeField] private GameObject CodeState;
+		[SerializeField] private SimpleButton BackButton;
 		[Space]
-		[SerializeField] private SimpleButton PhoneChoiceButton = default;
-		[SerializeField] private SimpleButton EmailChoiceButton = default;
+		[SerializeField] private SimpleButton PhoneChoiceButton;
+		[SerializeField] private SimpleButton EmailChoiceButton;
 		[Space]
-		[SerializeField] private InputField PhoneInputField = default;
-		[SerializeField] private UserProfileEntryPhoneValueConverter PhoneConverter = default;
-		[SerializeField] private SimpleTextButtonDisableable PhoneSendButton = default;
+		[SerializeField] private InputField PhoneInputField;
+		[SerializeField] private UserProfileEntryPhoneValueConverter PhoneConverter;
+		[SerializeField] private SimpleTextButtonDisableable PhoneSendButton;
 		[Space]
-		[SerializeField] private InputField EmailInputField = default;
-		[SerializeField] private SimpleTextButtonDisableable EmailSendButton = default;
+		[SerializeField] private InputField EmailInputField;
+		[SerializeField] private SimpleTextButtonDisableable EmailSendButton;
 		[Space]
-		[SerializeField] private InputField CodeInputField = default;
-		[SerializeField] private SimpleTextButtonDisableable CodeSendButton = default;
-		[SerializeField] private SimpleButton ResendButton = default;
-		[SerializeField] private CountdownTimer Timer = default;
+		[SerializeField] private InputField CodeInputField;
+		[SerializeField] private SimpleTextButtonDisableable CodeSendButton;
+		[SerializeField] private SimpleButton ResendButton;
+		[SerializeField] private CountdownTimer Timer;
 
 		private AuthType _currentAuthType = AuthType.None;
 
@@ -57,7 +57,11 @@ namespace Xsolla.Demo
 			SetState(CodeState);
 			CodeInputField.text = string.Empty;
 			CodeSendButton.Disable();
-			CodeSendButton.onClick = () => onCode?.Invoke(CodeInputField.text);
+			CodeSendButton.onClick = () =>
+			{
+				if (onCode != null)
+					onCode.Invoke(CodeInputField.text);
+			};
 			Timer.ResetTimer();
 		}
 
@@ -90,16 +94,17 @@ namespace Xsolla.Demo
 			if (string.IsNullOrEmpty(phone))
 				return false;
 
-			var regex = new Regex("^\\+(\\d){5,25}$");
+			var regex = new Regex("^\\+(\\d){5,25}string.Format(");
 			return regex.IsMatch(phone);
 		}
 
 		private void OnPhoneRequest()
 		{
 			var phone = PhoneConverter.ConvertBack(PhoneInputField.text);
-			Debug.Log($"PasswordlessWidget: phone is '{phone}'");
+			Debug.Log(string.Format("PasswordlessWidget: phone is '{0}'", phone));
 			_currentAuthType = AuthType.Phone;
-			OnPhoneAccessRequest?.Invoke(phone);
+			if (OnPhoneAccessRequest != null)
+				OnPhoneAccessRequest.Invoke(phone);
 		}
 
 		private void OnEmailChoice()
@@ -119,9 +124,10 @@ namespace Xsolla.Demo
 		private void OnEmailRequest()
 		{
 			var email = EmailInputField.text;
-			Debug.Log($"PasswordlessWidget: email is '{email}'");
+			Debug.Log(string.Format("PasswordlessWidget: email is '{0}'", email));
 			_currentAuthType = AuthType.Email;
-			OnEmailAccessRequest?.Invoke(email);
+			if (OnEmailAccessRequest != null)
+				OnEmailAccessRequest.Invoke(email);
 		}
 
 		private void OnCodeInput(string code)
@@ -143,7 +149,7 @@ namespace Xsolla.Demo
 					//TODO
 					break;
 				default:
-					Debug.LogError($"PasswordlessWidget.OnResendButton: Unexpected auth type '{_currentAuthType}'");
+					Debug.LogError(string.Format("PasswordlessWidget.OnResendButton: Unexpected auth type '{0}'", _currentAuthType));
 					break;
 			}
 
@@ -159,8 +165,8 @@ namespace Xsolla.Demo
 
 		private void CloseWidget()
 		{
-			if (BackButton)
-				BackButton.onClick?.Invoke();
+			if (BackButton && BackButton.onClick != null)
+				BackButton.onClick.Invoke();
 		}
 
 		private void SetState(GameObject targetState)

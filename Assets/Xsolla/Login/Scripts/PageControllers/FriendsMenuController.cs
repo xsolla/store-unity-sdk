@@ -2,20 +2,19 @@
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-using Xsolla.UIBuilder;
 
 namespace Xsolla.Demo
 {
 	public class FriendsMenuController : MonoBehaviour
 	{
-		[SerializeField] private WidgetProvider userPrefabProvider = default;
-		[SerializeField] private GroupsController groupsController = default;
-		[SerializeField] private ItemContainer usersContainer = default;
-		[SerializeField] private InputField userSearchBox = default;
+		[SerializeField] private GameObject userPrefab;
+		[SerializeField] private GroupsController groupsController;
+		[SerializeField] private ItemContainer usersContainer;
+		[SerializeField] private InputField userSearchBox;
 
-		[SerializeField] private Text EmptyGroupMessage = default;
-		[SerializeField] private Text EmptyGroupSubMessage = default;
-		[SerializeField] private SimpleButton AddFriendsButton = default;
+		[SerializeField] private Text EmptyGroupMessage;
+		[SerializeField] private Text EmptyGroupSubMessage;
+		[SerializeField] private SimpleButton AddFriendsButton;
 		
 		private void Awake()
 		{
@@ -58,7 +57,7 @@ namespace Xsolla.Demo
 				DisableEmptyGroupMessages();
 				users.ForEach(u =>
 				{
-					var go = usersContainer.AddItem(userPrefabProvider.GetValue());
+					var go = usersContainer.AddItem(userPrefab);
 					go.GetComponent<FriendUI>().Initialize(u);
 				});
 			}
@@ -136,7 +135,7 @@ namespace Xsolla.Demo
 					emptySubMessage = "All blocked players appear here";
 					break;
 				default:
-					Debug.LogError($"Unknown groupID: {groupID}");
+					Debug.LogError(string.Format("Unknown groupID: {0}", groupID));
 					return;
 			}
 

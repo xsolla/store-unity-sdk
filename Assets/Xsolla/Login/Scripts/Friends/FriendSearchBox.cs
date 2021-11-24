@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using Xsolla.Core;
@@ -7,10 +7,10 @@ namespace Xsolla.Demo
 {
 	public class FriendSearchBox : MonoBehaviour
 	{
-		[SerializeField] private InputField SearchInputField = default;
-		[SerializeField] private SimpleButton ClearButton = default;
-		[SerializeField] private SimpleButton AdditionalClearButton = default;
-		[SerializeField] private SimpleButton SearchButton = default;
+		[SerializeField] private InputField SearchInputField;
+		[SerializeField] private SimpleButton ClearButton;
+		[SerializeField] private SimpleButton AdditionalClearButton;
+		[SerializeField] private SimpleButton SearchButton;
 
 		public event Action ClearSearchRequest;
 		public event Action<string> SearchRequest;
@@ -35,7 +35,8 @@ namespace Xsolla.Demo
 		private void ClearSearch()
 		{
 			SearchInputField.text = string.Empty;
-			ClearSearchRequest?.Invoke();
+			if (ClearSearchRequest != null)
+				ClearSearchRequest.Invoke();
 		}
 
 		private void RequestSearch()
@@ -43,9 +44,15 @@ namespace Xsolla.Demo
 			var userInput = SearchInputField.text;
 		
 			if (!string.IsNullOrEmpty(userInput))
-				SearchRequest?.Invoke(userInput);
+			{
+				if (SearchRequest != null)
+					SearchRequest.Invoke(userInput);
+			}
 			else
-				ClearSearchRequest?.Invoke();
+			{
+				if (ClearSearchRequest != null)
+					ClearSearchRequest.Invoke();
+			}
 		}
 
 		private void ProcessHotkeys(string _)

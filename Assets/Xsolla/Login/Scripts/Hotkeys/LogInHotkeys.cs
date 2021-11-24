@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,11 +15,19 @@ namespace Xsolla.Demo
 		{
 			gameObject.AddComponent<HotkeyCoroutine>()
 				.StartCoroutine(KeyCode.Return, 0.2F)
-				.KeyPressedEvent += () => EnterKeyPressedEvent?.Invoke();
+				.KeyPressedEvent += () =>
+				{
+					if (EnterKeyPressedEvent != null)
+						EnterKeyPressedEvent.Invoke();
+				};
 
 			gameObject.AddComponent<HotkeyCoroutine>()
 				.StartCoroutine(KeyCode.Tab, 0.2F)
-				.KeyPressedEvent += () => TabKeyPressedEvent?.Invoke();
+				.KeyPressedEvent += () =>
+				{
+					if (TabKeyPressedEvent != null)
+						TabKeyPressedEvent.Invoke();
+				};
 		}
 
 		private void OnDestroy()

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -11,8 +11,8 @@ namespace Xsolla.Demo
 		public event Action OnPointerEnterEvent;
 		public event Action OnPointerExitEvent;
 
-		[SerializeField] private GameObject itemSelectionImage = default;
-		[SerializeField] private List<SelectableArea> someArea = default;
+		[SerializeField] private GameObject itemSelectionImage;
+		[SerializeField] private List<SelectableArea> someArea;
 		private int _counter;
 		private static ItemSelection _selectedItem;
 
@@ -53,7 +53,8 @@ namespace Xsolla.Demo
 			if (itemSelectionImage == null || _counter > 1) return;
 			_selectedItem = this;
 			itemSelectionImage.SetActive(true);
-			OnPointerEnterEvent?.Invoke();
+			if (OnPointerEnterEvent != null)
+				OnPointerEnterEvent.Invoke();
 		}
 
 		private void DisableSelection()
@@ -62,7 +63,8 @@ namespace Xsolla.Demo
 			if (itemSelectionImage != null && _counter <= 0)
 			{
 				_selectedItem = null;
-				OnPointerExitEvent?.Invoke();
+				if (OnPointerExitEvent != null)
+					OnPointerExitEvent.Invoke();
 				itemSelectionImage.SetActive(false);
 			}
 		}

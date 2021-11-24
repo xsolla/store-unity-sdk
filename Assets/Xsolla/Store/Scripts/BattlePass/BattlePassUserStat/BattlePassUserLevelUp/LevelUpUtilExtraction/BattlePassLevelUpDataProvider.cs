@@ -5,8 +5,8 @@ namespace Xsolla.Demo
 {
 	public class BattlePassLevelUpDataProvider : MonoBehaviour
     {
-		[SerializeField] private BaseBattlePassCatalogExtractor LevelUpExtractor = default;
-		[SerializeField] private BattlePassLevelUpCurrentDefiner CurrentDefiner = default;
+		[SerializeField] private BaseBattlePassCatalogExtractor LevelUpExtractor;
+		[SerializeField] private BattlePassLevelUpCurrentDefiner CurrentDefiner;
 
 		private string _battlePassName;
 
@@ -15,7 +15,11 @@ namespace Xsolla.Demo
 		private void Awake()
 		{
 			LevelUpExtractor.BattlePassItemsExtracted += levelUpUtils => CurrentDefiner.DefineCurrent(levelUpUtils, _battlePassName);
-			CurrentDefiner.CurrentLevelUpDefined += item => LevelUpUtilArrived?.Invoke(item);
+			CurrentDefiner.CurrentLevelUpDefined += item =>
+			{
+				if (LevelUpUtilArrived != null)
+					LevelUpUtilArrived.Invoke(item);
+			};
 		}
 
 		public void OnBattlePassDescriptionArrived(string battlePassName)

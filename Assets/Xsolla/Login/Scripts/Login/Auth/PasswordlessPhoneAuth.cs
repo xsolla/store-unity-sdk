@@ -1,4 +1,4 @@
-﻿using System.Text.RegularExpressions;
+using System.Text.RegularExpressions;
 using Xsolla.Core;
 
 namespace Xsolla.Demo
@@ -11,7 +11,8 @@ namespace Xsolla.Demo
 
 		public override void TryAuth(params object[] args)
 		{
-			if (TryExtractArgs(args, out var requester, out var phone))
+			ICodeRequester requester; string phone;
+			if (TryExtractArgs(args, out requester, out phone))
 			{
 				if (IsPhoneValid(phone))
 				{
@@ -23,12 +24,13 @@ namespace Xsolla.Demo
 						onError: error => OnPasswordlessError(error,requester));
 				}
 				else
-					OnPasswordlessError(new Error(ErrorType.InvalidData, errorMessage:$"Phone not valid '{phone}'"), requester);
+					OnPasswordlessError(new Error(ErrorType.InvalidData, errorMessage:string.Format("Phone not valid '{0}'", phone)), requester);
 			}
 			else
 			{
 				Debug.LogError("PasswordlessPhoneAuth.TryAuth: Could not extract arguments");
-				base.OnError?.Invoke(new Error(errorMessage: "Passwordless auth failed"));
+				if (base.OnError != null)
+					base.OnError.Invoke(new Error(errorMessage: "Passwordless auth failed"));
 			}
 		}
 
@@ -53,11 +55,11 @@ namespace Xsolla.Demo
 
 		private bool IsPhoneValid(string phone)
 		{
-			var regex = new Regex("^\\+(\\d){5,25}$");
+			var regex = new Regex("^\\+(\\d){5,25}string.Format(");
 			var valid = regex.IsMatch(phone);
 
 			if (!valid)
-				Debug.LogError($"Phone is not valid: '{phone}'");//TEXTREVIEW
+				Debug.LogError(string.Format("Phone is not valid: '{0}'", phone));//TEXTREVIEW
 
 			return valid;
 		}
@@ -76,14 +78,19 @@ namespace Xsolla.Demo
 				phoneNumber: _currentPhone,
 				confirmationCode: code,
 				operationId: _currentOperationID,
-				onSuccess: token => base.OnSuccess?.Invoke(token),
+				onSuccess: token =>
+				{
+					if (base.OnSuccess != null)
+						base.OnSuccess.Invoke(token);
+				},
 				onError: OnCodeError);
 		}
 
 		private void OnPasswordlessError(Error error, ICodeRequester requester)
 		{
 			requester.RaiseOnError(error);
-			base.OnError?.Invoke(error);
+			if (base.OnError != null)
+				base.OnError.Invoke(error);
 		}
 
 		private void OnCodeError(Error error)

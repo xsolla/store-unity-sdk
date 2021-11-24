@@ -6,8 +6,8 @@ namespace Xsolla.Demo
 {
 	public partial class ItemsTabControl : MonoBehaviour
 	{
-		[SerializeField] private MenuButton storeButton = default;
-		[SerializeField] private MenuButton inventoryButton = default;
+		[SerializeField] private MenuButton storeButton;
+		[SerializeField] private MenuButton inventoryButton;
 
 		private ItemsController _itemsController;
 		private GroupsController _groupsController;

@@ -14,7 +14,7 @@ namespace Xsolla.Store
 			if (limit == null)
 				return string.Empty;
 			else
-				return $"&limit={limit}";
+				return string.Format("&limit={0}", limit);
 		}
 
 		string GetOffsetUrlParam(int? offset)
@@ -22,7 +22,7 @@ namespace Xsolla.Store
 			if (offset == null)
 				return string.Empty;
 			else
-				return $"&offset={offset}";
+				return string.Format("&offset={0}", offset);
 		}
 
 		string GetLocaleUrlParam(string locale)
@@ -30,7 +30,7 @@ namespace Xsolla.Store
 			if (string.IsNullOrEmpty(locale))
 				return string.Empty;
 			else
-				return $"&locale={locale}";
+				return string.Format("&locale={0}", locale);
 		}
 		
 		string GetCurrencyUrlParam(string currency)
@@ -38,7 +38,7 @@ namespace Xsolla.Store
 			if (string.IsNullOrEmpty(currency))
 				return string.Empty;
 			else
-				return $"&currency={currency}";
+				return string.Format("&currency={0}", currency);
 		}
 
 		string GetPlatformUrlParam()
@@ -46,7 +46,7 @@ namespace Xsolla.Store
 			if(XsollaSettings.Platform == PlatformType.None)
 				return string.Empty;
 			else
-				return $"&platform={XsollaSettings.Platform.GetString()}";
+				return string.Format("&platform={0}", XsollaSettings.Platform.GetString());
 		}
 
 		string GetAdditionalFieldsParam(string additionalFields)
@@ -54,7 +54,7 @@ namespace Xsolla.Store
 			if (string.IsNullOrEmpty(additionalFields))
 				return string.Empty;
 			else
-				return $"&additional_fields[]={additionalFields}";
+				return string.Format("&additional_fields[]={0}", additionalFields);
 		}
 
 		string GetCountryUrlParam(string country)
@@ -62,7 +62,7 @@ namespace Xsolla.Store
 			if (string.IsNullOrEmpty(country))
 				return string.Empty;
 			else
-				return $"&country={country}";
+				return string.Format("&country={0}", country);
 		}
 
 		private string ConcatUrlAndParams(string url, params string[] parameters)

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 namespace Xsolla.Core
 {
@@ -14,7 +14,8 @@ namespace Xsolla.Core
 				if (_instance == null)
 				{
 					_instance = InstantiateThis();
-					_instance?.Init();
+					if (_instance != null)
+						_instance.Init();
 				}
 
 				return _instance;

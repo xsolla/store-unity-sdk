@@ -4,7 +4,7 @@ namespace Xsolla.Demo
 {
 	public class DescriptionToSubMenuSwitcherProxy : BaseBattlePassDescriptionSubscriber
 	{
-		[SerializeField] private BattlePassSubMenuSwitcher SubMenuSwitcher = default;
+		[SerializeField] private BattlePassSubMenuSwitcher SubMenuSwitcher;
 
 		public override void OnBattlePassDescriptionArrived(BattlePassDescription battlePassDescription)
 		{

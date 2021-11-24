@@ -7,10 +7,10 @@ namespace Xsolla.Demo
 	public class SubscriptionItemContainer : MonoBehaviour, IContainer
 	{
 		[SerializeField]
-		GameObject itemPrefab = default;
+		GameObject itemPrefab;
 
 		[SerializeField]
-		Transform itemParent = default;
+		Transform itemParent;
 
 		private List<GameObject> _items;
 

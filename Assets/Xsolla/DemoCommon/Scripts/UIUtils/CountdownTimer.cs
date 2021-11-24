@@ -7,16 +7,16 @@ namespace Xsolla.Demo
 {
     public class CountdownTimer : MonoBehaviour
     {
-		[SerializeField] private Text OutputText = default;
+		[SerializeField] private Text OutputText;
 		//TEXTREVIEW
 		[Tooltip("Must contain %TIMER% marker. Example: 'Expires in %TIMER%'")]
-		[SerializeField] private string OutputTemplate = default;
+		[SerializeField] private string OutputTemplate;
 		//TEXTREVIEW
 		[Tooltip("Supported values are d(ays),h(ours),m(inutes),s(econds). Example: 'hhh:mm:ss'")]
-		[SerializeField] private string TimerTemplate = default;
-		[SerializeField] private int DefaultSeconds = default;
-		[SerializeField] private TimerAction OnEnableAction = default;
-		[SerializeField] private TimerAction OnDisableAction = default;
+		[SerializeField] private string TimerTemplate;
+		[SerializeField] private int DefaultSeconds;
+		[SerializeField] private TimerAction OnEnableAction;
+		[SerializeField] private TimerAction OnDisableAction;
 
 		private const string TIMER_MARK = "%TIMER%";
 
@@ -92,7 +92,7 @@ namespace Xsolla.Demo
 				if (substring != null)
 				{
 					format[i, 0] = substring;
-					format[i, 1] = $"D{substring.Length}";
+					format[i, 1] = string.Format("D{0}", substring.Length);
 				}
 			}
 
@@ -165,8 +165,8 @@ namespace Xsolla.Demo
 				OutputTimerValue(_currentSecondsLeft);
 			}
 
-			if (_currentSecondsLeft.HasValue)
-				TimeIsUp?.Invoke();
+			if (_currentSecondsLeft.HasValue && TimeIsUp != null)
+				TimeIsUp.Invoke();
 		}
 
 		private void OutputTimerValue(int? secondsToOutput)

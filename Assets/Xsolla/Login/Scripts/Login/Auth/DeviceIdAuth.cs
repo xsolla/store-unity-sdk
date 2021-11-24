@@ -9,7 +9,8 @@ namespace Xsolla.Demo
 			var supported = true;
 #if !(UNITY_ANDROID || UNITY_IOS) || UNITY_EDITOR
 			var message = "Device ID auth is not supported for this platform";
-			base.OnError?.Invoke(new Error(ErrorType.MethodIsNotAllowed, errorMessage: message));
+			if (base.OnError != null)
+				base.OnError.Invoke(new Error(ErrorType.MethodIsNotAllowed, errorMessage: message));
 			supported = false;
 #endif
 			if (!supported)
@@ -20,15 +21,16 @@ namespace Xsolla.Demo
 #else
 			var deviceType = Core.DeviceType.Android;
 #endif
-			var possibleException = DeviceIdUtil.GetDeviceInfo(deviceType, out string deviceId, out string deviceName, out string deviceModel);
+			string deviceId; string deviceName; string deviceModel;
+			var possibleException = DeviceIdUtil.GetDeviceInfo(deviceType, out deviceId, out deviceName, out deviceModel);
 			if (possibleException != null)
 			{
 				FailHandler(new Error(errorMessage: possibleException.Message));
 				return;
 			}
 
-			var deviceInfo = $"{deviceName}:{deviceModel}";
-			Debug.Log($"Trying device_type:'{deviceType}', device_id:'{deviceId}', device:'{deviceInfo}'");
+			var deviceInfo = string.Format("{0}:{1}", deviceName, deviceModel);
+			Debug.Log(string.Format("Trying device_type:'{0}', device_id:'{1}', device:'{2}'", deviceType, deviceId, deviceInfo));
 
 			SdkLoginLogic.Instance.AuthViaDeviceID(deviceType, deviceInfo, deviceId,
 				onSuccess: SuccessHandler,
@@ -37,14 +39,16 @@ namespace Xsolla.Demo
 
 		private void SuccessHandler(string token)
 		{
-			Debug.Log($"DeviceID Auth: Token obtained '{token}'");
-			base.OnSuccess?.Invoke(token);
+			Debug.Log(string.Format("DeviceID Auth: Token obtained '{0}'", token));
+			if (base.OnSuccess != null)
+				base.OnSuccess.Invoke(token);
 		}
 
 		private void FailHandler(Error error)
 		{
-			Debug.LogError($"DeviceID Auth: Failed with error '{error.ToString()}'");
-			base.OnError?.Invoke(error);
+			Debug.LogError(string.Format("DeviceID Auth: Failed with error '{0}'", error.ToString()));
+			if (base.OnError != null)
+				base.OnError.Invoke(error);
 		}
 	}
 }

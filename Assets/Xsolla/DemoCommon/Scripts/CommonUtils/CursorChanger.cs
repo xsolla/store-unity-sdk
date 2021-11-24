@@ -4,8 +4,8 @@ namespace Xsolla.Demo
 {
 	public partial class CursorChanger : MonoBehaviour
 	{
-		[SerializeField] private Texture2D ButtonHoverCursor = default;
-		[SerializeField] private Texture2D InputFieldHoverCursor = default;
+		[SerializeField] private Texture2D ButtonHoverCursor;
+		[SerializeField] private Texture2D InputFieldHoverCursor;
 
 		private void Awake()
 		{
@@ -41,7 +41,10 @@ namespace Xsolla.Demo
 			AdditionalDestroyActionsLogin();
 		}
 
-		public static void ChangeBackToDefault() => SetCursorTexture(null);
+		public static void ChangeBackToDefault()
+		{
+			SetCursorTexture(null);
+		}
 
 		public static void SetCursorTexture(Texture2D texture)
 		{
@@ -50,8 +53,15 @@ namespace Xsolla.Demo
 #endif
 		}
 
-		private void ChangeToButtonHoverCursor() => SetCursorTexture(ButtonHoverCursor);
-		private void ChangeToInputFieldHoverCursor() => SetCursorTexture(InputFieldHoverCursor);
+		private void ChangeToButtonHoverCursor()
+		{
+			SetCursorTexture(ButtonHoverCursor);
+		}
+
+		private void ChangeToInputFieldHoverCursor()
+		{
+			SetCursorTexture(InputFieldHoverCursor);
+		}
 
 		partial void AdditionalAwakeActionsLogin();
 		partial void AdditionalDestroyActionsLogin();

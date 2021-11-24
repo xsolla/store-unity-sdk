@@ -7,8 +7,8 @@ namespace Xsolla.Demo
 {
 	public class SocialNetworksWidget : MonoBehaviour
 	{
-		[SerializeField] private InputField FilterInput = default;
-		[SerializeField] private SocialProviderButton[] SocialNetworkButtons = default;
+		[SerializeField] private InputField FilterInput;
+		[SerializeField] private SocialProviderButton[] SocialNetworkButtons;
 
 		public Action<SocialProvider> OnSocialButtonClick { get; set; }
 
@@ -23,7 +23,11 @@ namespace Xsolla.Demo
 
 			foreach (var button in SocialNetworkButtons)
 			{
-				button.OnClick = () => { OnSocialButtonClick?.Invoke(button.SocialProvider); };
+				button.OnClick = () =>
+				{
+					if (OnSocialButtonClick != null)
+						OnSocialButtonClick.Invoke(button.SocialProvider);
+				};
 			}
 		}
 

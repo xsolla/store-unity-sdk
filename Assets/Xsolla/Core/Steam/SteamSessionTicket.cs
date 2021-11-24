@@ -39,7 +39,8 @@ namespace Xsolla.Core
 			try
 			{
 #if UNITY_STANDALONE
-				SteamUser.GetAuthSessionTicket(ticket, 1024, out uint length);
+				uint length;
+				SteamUser.GetAuthSessionTicket(ticket, 1024, out length);
 				Array.Resize(ref ticket, (int) length);
 #else
             ticket = new byte[0];

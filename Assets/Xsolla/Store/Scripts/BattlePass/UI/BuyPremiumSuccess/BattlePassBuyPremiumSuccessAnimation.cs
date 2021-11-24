@@ -6,9 +6,9 @@ namespace Xsolla.Demo
 {
 	public class BattlePassBuyPremiumSuccessAnimation : MonoBehaviour
     {
-		[SerializeField] private Image Highlight = default;
-		[SerializeField] private Image CrystalBig = default;
-		[SerializeField] private float ScaleIncreaseStep = default;
+		[SerializeField] private Image Highlight;
+		[SerializeField] private Image CrystalBig;
+		[SerializeField] private float ScaleIncreaseStep;
 
 		private WaitForSeconds _waitTime = new WaitForSeconds(0.0166f);//roughly 60fps
 

@@ -8,23 +8,23 @@ namespace Xsolla.Core.Popup
 {
 	public class BundlePreviewPopup : MonoBehaviour, IBundlePreviewPopup
 	{
-		[SerializeField] Image bundleImage = default;
-		[SerializeField] GameObject loadingCircle = default;
-		[SerializeField] Text bundleName = default;
-		[SerializeField] Text bundleDescription = default;
-		[SerializeField] Text bundleInfo = default;
-		[SerializeField] Text bundlePrice = default;
-		[SerializeField] Text bundlePriceWithoutDiscount = default;
-		[SerializeField] Image bundlePriceVcImage = default;
-		[SerializeField] Text bundlePriceVc = default;
-		[SerializeField] Image bundlePriceVcWithoutDiscountImage = default;
-		[SerializeField] Text bundlePriceVcWithoutDiscount = default;
+		[SerializeField] Image bundleImage;
+		[SerializeField] GameObject loadingCircle;
+		[SerializeField] Text bundleName;
+		[SerializeField] Text bundleDescription;
+		[SerializeField] Text bundleInfo;
+		[SerializeField] Text bundlePrice;
+		[SerializeField] Text bundlePriceWithoutDiscount;
+		[SerializeField] Image bundlePriceVcImage;
+		[SerializeField] Text bundlePriceVc;
+		[SerializeField] Image bundlePriceVcWithoutDiscountImage;
+		[SerializeField] Text bundlePriceVcWithoutDiscount;
 
-		[SerializeField] SimpleButton closeButton = default;
-		[SerializeField] SimpleTextButton buyButton = default;
+		[SerializeField] SimpleButton closeButton;
+		[SerializeField] SimpleTextButton buyButton;
 
-		[SerializeField] GameObject itemPrefab = default;
-		[SerializeField] ItemContainer itemsContainer = default;
+		[SerializeField] GameObject itemPrefab;
+		[SerializeField] ItemContainer itemsContainer;
 
 		public IBundlePreviewPopup SetBundleInfo(CatalogBundleItemModel bundle)
 		{
@@ -33,7 +33,7 @@ namespace Xsolla.Core.Popup
 			if(bundleDescription != null)
 				bundleDescription.text = bundle.Description;
 
-			bundleInfo.text = $"This bundle includes '{bundle.Content.Count}' item{(bundle.Content.Count > 1 ? "s" : "")}:";
+			bundleInfo.text = string.Format("This bundle includes '{0}' item{1}:", bundle.Content.Count, (bundle.Content.Count > 1 ? "s" : ""));
 
 			if (!string.IsNullOrEmpty(bundle.ImageUrl))
 			{
@@ -41,7 +41,7 @@ namespace Xsolla.Core.Popup
 			}
 			else
 			{
-				Debug.LogError($"Bundle with sku = '{bundle.Sku}' has no image!");
+				Debug.LogError(string.Format("Bundle with sku = '{0}' has no image!", bundle.Sku));
 			}
 
 			if (bundle.VirtualPrice != null)
@@ -77,8 +77,8 @@ namespace Xsolla.Core.Popup
 			EnableRealPrice(false);
 			EnableVirtualCurrencyPrice(true);
 
-			bundlePriceVc.text = bundle.VirtualPrice?.Value.ToString();
-			bundlePriceVcWithoutDiscount.text = bundle.ContentVirtualPriceWithoutDiscount?.Value.ToString();
+			bundlePriceVc.text = bundle.VirtualPrice.HasValue ? bundle.VirtualPrice.Value.ToString() : "";
+			bundlePriceVcWithoutDiscount.text = bundle.ContentVirtualPriceWithoutDiscount.HasValue ? bundle.ContentVirtualPriceWithoutDiscount.Value.ToString() : "";
 
 			if (!bundle.ContentVirtualPriceWithoutDiscount.HasValue)
 			{
@@ -97,7 +97,7 @@ namespace Xsolla.Core.Popup
 			var realPrice = bundle.RealPrice;
 			if (realPrice == null)
 			{
-				Debug.LogError($"Bundle with sku = {bundle.Sku} has no price!");
+				Debug.LogError(string.Format("Bundle with sku = {0} has no price!", bundle.Sku));
 				return;
 			}
 
@@ -110,7 +110,7 @@ namespace Xsolla.Core.Popup
 			var contentRealPrice = bundle.ContentRealPrice;
 			if (contentRealPrice == null)
 			{
-				Debug.LogError($"Bundle with sku = {bundle.Sku} has no content price!");
+				Debug.LogError(string.Format("Bundle with sku = {0} has no content price!", bundle.Sku));
 				return;
 			}
 
@@ -133,7 +133,10 @@ namespace Xsolla.Core.Popup
 
 		private void InitializeVcImages(CatalogBundleItemModel bundle)
 		{
-			var currencySku = bundle.VirtualPrice?.Key;
+			var currencySku = default(string);
+			if (bundle.VirtualPrice.HasValue)
+				currencySku = bundle.VirtualPrice.Value.Key;
+
 			var currency = UserCatalog.Instance.VirtualCurrencies.First(vc => vc.Sku.Equals(currencySku));
 			if (!string.IsNullOrEmpty(currency.ImageUrl))
 			{
@@ -148,7 +151,7 @@ namespace Xsolla.Core.Popup
 			}
 			else
 			{
-				Debug.LogError($"Bundle with sku = '{bundle.Sku}' virtual currency price has no image!");
+				Debug.LogError(string.Format("Bundle with sku = '{0}' virtual currency price has no image!", bundle.Sku));
 			}
 		}
 

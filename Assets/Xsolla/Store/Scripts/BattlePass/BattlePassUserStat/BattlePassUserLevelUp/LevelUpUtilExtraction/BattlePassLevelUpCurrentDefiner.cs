@@ -19,12 +19,13 @@ namespace Xsolla.Demo
 			if (result.Count > 0)
 			{
 				if (result.Count > 1)
-					Debug.LogWarning($"More than one level up util matches current battle pass name: '{battlePassName}'. Taking first.");
+					Debug.LogWarning(string.Format("More than one level up util matches current battle pass name: '{0}'. Taking first.", battlePassName));
 
-				CurrentLevelUpDefined?.Invoke(result[0]);
+				if (CurrentLevelUpDefined != null)
+					CurrentLevelUpDefined.Invoke(result[0]);
 			}
 			else
-				Debug.LogWarning($"No level up util matches current battle pass name: '{battlePassName}'.");
+				Debug.LogWarning(string.Format("No level up util matches current battle pass name: '{0}'.", battlePassName));
 		}
 	}
 }

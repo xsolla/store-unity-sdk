@@ -9,6 +9,10 @@ namespace Xsolla.Demo
 		public event Action<BattlePassDescription> CurrentBattlePassDefined;
 		public abstract void OnBattlePassDescriptionsConverted(IEnumerable<BattlePassDescription> battlePassDescriptions);
 
-		protected void RaiseCurrentBattlePassDefined(BattlePassDescription currentBattlePass) => CurrentBattlePassDefined?.Invoke(currentBattlePass);
+		protected void RaiseCurrentBattlePassDefined(BattlePassDescription currentBattlePass)
+		{
+			if (CurrentBattlePassDefined != null)
+				CurrentBattlePassDefined.Invoke(currentBattlePass);
+		}
 	}
 }

@@ -5,7 +5,7 @@ namespace Xsolla.Demo
 {
 	public class UrlContainer : MonoBehaviour
 	{
-		[SerializeField] public string[] Urls = default;
+		[SerializeField] public string[] Urls = default(string[]);
 
 		public string GetUrl(UrlType urlType)
 		{
@@ -25,12 +25,12 @@ namespace Xsolla.Demo
 			var urlsArrayLength = Urls.Length;
 
 			if (urlsArrayLength != numberOfElementsInEnum)
-				Debug.LogError($"URLs length is {urlsArrayLength} while there are {numberOfElementsInEnum} UrlTypes defined. Expect the IndexOutOfRangeException.");
+				Debug.LogError(string.Format("URLs length is {0} while there are {1} UrlTypes defined. Expect the IndexOutOfRangeException.", urlsArrayLength, numberOfElementsInEnum));
 
 			for (int i = 0; i < urlsArrayLength; i++)
 			{
 				if (string.IsNullOrEmpty(Urls[i]))
-					Debug.Log($"URL value for '{typeNames[i]}' is null or empty.");
+					Debug.Log(string.Format("URL value for '{0}' is null or empty.", typeNames[i]));
 			}
 		}
 	}

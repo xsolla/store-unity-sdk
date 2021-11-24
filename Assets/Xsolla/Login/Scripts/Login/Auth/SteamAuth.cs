@@ -1,17 +1,18 @@
-﻿using Xsolla.Core;
+using Xsolla.Core;
 
 namespace Xsolla.Demo
 {
 	public class SteamAuth : LoginAuthorization
 	{
-		private string _steamSessionTicket = default;
+		private string _steamSessionTicket;
 
 		public override void TryAuth(params object[] args)
 		{
 			if (!XsollaSettings.UseSteamAuth)
 			{
 				Debug.Log("SteamAuth.TryAuth: Steam auth disabled");
-				base.OnError?.Invoke(null);
+				if (base.OnError != null)
+					base.OnError.Invoke(null);
 			}
 			else
 			{
@@ -23,33 +24,40 @@ namespace Xsolla.Demo
 				if (!string.IsNullOrEmpty(_steamSessionTicket))
 					RequestTokenBy(_steamSessionTicket);
 				else
-					base.OnError?.Invoke(new Error(errorMessage: "Steam auth failed"));
+				{
+					if (base.OnError != null)
+						base.OnError.Invoke(new Error(errorMessage: "Steam auth failed"));
+				}
 			}
 		}
 
 		private void RequestTokenBy(string ticket)
 		{
-			if (int.TryParse(XsollaSettings.SteamAppId, out _))
+			int parsed;
+			if (int.TryParse(XsollaSettings.SteamAppId, out parsed))
 			{
 				SdkLoginLogic.Instance.SteamAuth(XsollaSettings.SteamAppId, ticket, onSuccess:SuccessHandler, onError:FailHandler);
 			}
 			else
 			{
-				Debug.LogError($"Can't parse SteamAppId = {XsollaSettings.SteamAppId}");
-				base.OnError?.Invoke(new Error(errorMessage: "Steam auth failed"));
+				Debug.LogError(string.Format("Can't parse SteamAppId = {0}", XsollaSettings.SteamAppId));
+				if (base.OnError != null)
+					base.OnError.Invoke(new Error(errorMessage: "Steam auth failed"));
 			}
 		}
 
 		private void SuccessHandler(string token)
 		{
 			Debug.Log("SteamAuth.SuccessHandler: Token loaded");
-			base.OnSuccess?.Invoke(token);
+			if (base.OnSuccess != null)
+				base.OnSuccess.Invoke(token);
 		}
 
 		private void FailHandler(Error error)
 		{
-			Debug.LogError($"Token request by steam session ticket failed. Ticket: {_steamSessionTicket} Error: {error.ToString()}");
-			base.OnError?.Invoke(error);
+			Debug.LogError(string.Format("Token request by steam session ticket failed. Ticket: {0} Error: {1}", _steamSessionTicket, error.ToString()));
+			if (base.OnError != null)
+				base.OnError.Invoke(error);
 		}
 	}
 }

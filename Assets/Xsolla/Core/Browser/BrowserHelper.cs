@@ -93,7 +93,8 @@ namespace Xsolla.Core
 
 		public void Close(float delay = 0)
 		{
-			InAppBrowser?.Close(delay);
+			if (InAppBrowser != null)
+				InAppBrowser.Close(delay);
 		}
 
 		private void OpenInAppBrowser(string url)
@@ -104,7 +105,7 @@ namespace Xsolla.Core
 		private void OpenWebGlBrowser(string url)
 		{
 #pragma warning disable 0618
-			Application.ExternalEval($"window.open(\"{url}\",\"_blank\")");
+			Application.ExternalEval(string.Format("window.open(\"{0}\",\"_blank\")", url));
 #pragma warning restore 0618
 		}
 
@@ -143,7 +144,8 @@ namespace Xsolla.Core
 				{
 					if (_restrictedPaymentMethods.ContainsKey(url))
 					{
-						onRestrictedPaymentMethod?.Invoke(_restrictedPaymentMethods[url]);
+						if (onRestrictedPaymentMethod != null)
+							onRestrictedPaymentMethod.Invoke(_restrictedPaymentMethods[url]);
 					}
 				});
 			});

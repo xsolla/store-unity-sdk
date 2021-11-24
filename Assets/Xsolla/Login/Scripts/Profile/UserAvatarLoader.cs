@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 using Xsolla.Core;
 
@@ -6,12 +6,15 @@ namespace Xsolla.Demo
 {
 	public class UserAvatarLoader : MonoBehaviour
 	{
-		[SerializeField] private Image UserAvatarHolder = default;
-		[SerializeField] private Sprite AvatarPlaceholder = default;
+		[SerializeField] private Image UserAvatarHolder;
+		[SerializeField] private Sprite AvatarPlaceholder;
 
 		private static string _expectedAvatarUrl;
 
-		public void Refresh() => Start();
+		public void Refresh()
+		{
+			Start();
+		}
 
 		private void Start()
 		{

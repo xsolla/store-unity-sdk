@@ -6,7 +6,7 @@ namespace Xsolla.Demo
 {
 	public class BattlePassImageRatioFitter : MonoBehaviour
     {
-		[SerializeField] private AspectRatioFitter ItemImageRatioFitter = default;
+		[SerializeField] private AspectRatioFitter ItemImageRatioFitter;
 
 		public void SetAspectRatio(ItemImageContainer itemImageContainer)
 		{

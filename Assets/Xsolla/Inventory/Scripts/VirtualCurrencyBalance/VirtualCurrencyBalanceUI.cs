@@ -6,8 +6,8 @@ namespace Xsolla.Demo
 {
 	public class VirtualCurrencyBalanceUI : MonoBehaviour
 	{
-		[SerializeField] public Image Image = default;
-		[SerializeField] public Text Text = default;
+		[SerializeField] public Image Image;
+		[SerializeField] public Text Text;
 
 		public void Initialize(ItemModel item)
 		{
@@ -23,12 +23,12 @@ namespace Xsolla.Demo
 				}
 				else
 				{
-					Debug.LogError($"Item with sku = '{item.Sku}' without image!");
+					Debug.LogError(string.Format("Item with sku = '{0}' without image!", item.Sku));
 				}
 			}
 			else
 			{
-				Debug.LogWarning($"Your Virtual Currency with sku = `{item.Sku}` created without Image component!");
+				Debug.LogWarning(string.Format("Your Virtual Currency with sku = `{0}` created without Image component!", item.Sku));
 			}
 		}
 

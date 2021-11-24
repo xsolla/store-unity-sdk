@@ -8,10 +8,10 @@ namespace Xsolla.Core.Popup
 	[AddComponentMenu("Scripts/Xsolla.Core/Popup/RedeemCouponPopup")]
 	public class CouponRedeemPopup : MonoBehaviour, ICouponRedeemPopup
 	{
-		[SerializeField] private InputField CodeInputField = default;
-		[SerializeField] private Text ErrorMessage = default;
-		[SerializeField] private SimpleTextButtonDisableable RedeemButton = default;
-		[SerializeField] private SimpleTextButton CancelButton = default;
+		[SerializeField] private InputField CodeInputField;
+		[SerializeField] private Text ErrorMessage;
+		[SerializeField] private SimpleTextButtonDisableable RedeemButton;
+		[SerializeField] private SimpleTextButton CancelButton;
 
 		private void Awake()
 		{
@@ -24,7 +24,8 @@ namespace Xsolla.Core.Popup
 			RedeemButton.onClick = () =>
 			{
 				ErrorMessage.gameObject.SetActive(false);
-				buttonPressed?.Invoke(CodeInputField?.text);
+				if (buttonPressed != null && CodeInputField != null)
+					buttonPressed.Invoke(CodeInputField.text);
 			};
 			return this;
 		}
@@ -33,7 +34,8 @@ namespace Xsolla.Core.Popup
 		{
 			CancelButton.onClick = () =>
 			{
-				buttonPressed?.Invoke();
+				if (buttonPressed != null)
+					buttonPressed.Invoke();
 				Destroy(gameObject, 0.001F);
 			};
 			return this;

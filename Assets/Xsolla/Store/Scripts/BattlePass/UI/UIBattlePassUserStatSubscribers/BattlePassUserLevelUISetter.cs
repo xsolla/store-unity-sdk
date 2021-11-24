@@ -5,7 +5,7 @@ namespace Xsolla.Demo
 {
 	public class BattlePassUserLevelUISetter : BaseBattlePassUserStatSubscriber
 	{
-		[SerializeField] private Text[] UserLevelLabels = default;
+		[SerializeField] private Text[] UserLevelLabels;
 
 		public override void OnUserStatArrived(BattlePassUserStat userStat)
 		{

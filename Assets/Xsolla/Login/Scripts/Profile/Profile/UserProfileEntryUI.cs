@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,21 +6,24 @@ namespace Xsolla.Demo
 {
 	public class UserProfileEntryUI : MonoBehaviour
 	{
-		[SerializeField] GameObject SetStateObjects = default;
-		[SerializeField] GameObject UnsetStateObjects = default;
-		[SerializeField] GameObject EditStateObjects = default;
+		[SerializeField] GameObject SetStateObjects;
+		[SerializeField] GameObject UnsetStateObjects;
+		[SerializeField] GameObject EditStateObjects;
 
-		[SerializeField] Text CurrentValueText = default;
+		[SerializeField] Text CurrentValueText;
 
-		[SerializeField] SimpleButton[] EditButtons = default;
-		[SerializeField] UserProfileEntryEditor EntryEditor = default;
-		[SerializeField] BaseUserProfileValueConverter ValueConverter = default;
+		[SerializeField] SimpleButton[] EditButtons;
+		[SerializeField] UserProfileEntryEditor EntryEditor;
+		[SerializeField] BaseUserProfileValueConverter ValueConverter;
 
 		private UserProfileEntryType _entryType;
 	
 		private string CurrentValue
 		{
-			get => CurrentValueText.text;
+			get
+			{
+				return CurrentValueText.text;
+			}
 			set
 			{
 				CurrentValueText.text = value;
@@ -97,7 +100,8 @@ namespace Xsolla.Demo
 				var oldValue = CurrentValue;
 				CurrentValue = isConverterUsed ? ValueConverter.Convert(newValue) : newValue;
 
-				UserEntryEdited?.Invoke(this, _entryType, oldValue, newValue);
+				if (UserEntryEdited != null)
+					UserEntryEdited.Invoke(this, _entryType, oldValue, newValue);
 			}
 		}
 

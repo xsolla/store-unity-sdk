@@ -4,7 +4,7 @@ namespace Xsolla.Demo
 {
 	public class DescriptionToPremiumBuyerProxy : BaseBattlePassDescriptionSubscriber
 	{
-		[SerializeField] private BattlePassPremiumBuyer PremiumBuyer = default;
+		[SerializeField] private BattlePassPremiumBuyer PremiumBuyer;
 
 		public override void OnBattlePassDescriptionArrived(BattlePassDescription battlePassDescription)
 		{

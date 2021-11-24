@@ -7,10 +7,10 @@ namespace Xsolla.Demo
 {
 	public class BattlePassLevelUpBuyer : BaseBattlePassBuyer
 	{
-		[SerializeField] private BattlePassLevelUpDataProvider LevelUpDataProvider = default;
-		[SerializeField] private BattlePassItemsManager ItemsManager = default;
-		[SerializeField] private BaseBattlePassUserStatManager UserStatManager = default;
-		[SerializeField] private InventoryFinder InventoryFinder = default;
+		[SerializeField] private BattlePassLevelUpDataProvider LevelUpDataProvider;
+		[SerializeField] private BattlePassItemsManager ItemsManager;
+		[SerializeField] private BaseBattlePassUserStatManager UserStatManager;
+		[SerializeField] private InventoryFinder InventoryFinder;
 
 		private bool _isBatttlePassExpired;
 		private int _battlePassLevels;
@@ -19,7 +19,12 @@ namespace Xsolla.Demo
 		private int _levelDelta;
 
 		protected override Action<CatalogItemModel> OnSuccessPurchase
-			=> (purchasedItem => ConsumeLevelUp(purchasedItem, _levelDelta, UpUserLevel, StoreDemoPopup.ShowError));
+		{
+			get
+			{
+				return (purchasedItem => ConsumeLevelUp(purchasedItem, _levelDelta, UpUserLevel, StoreDemoPopup.ShowError));
+			}
+		}
 
 		public void OnBattlePassDescriptionArrived(BattlePassDescription battlePassDescription)
 		{
@@ -78,7 +83,7 @@ namespace Xsolla.Demo
 
 			if (_levelDelta <= 0)
 			{
-				Debug.LogWarning($"Attempt to buy zero or negative levels, quantity was: '{_levelDelta}'");
+				Debug.LogWarning(string.Format("Attempt to buy zero or negative levels, quantity was: '{0}'", _levelDelta));
 				return false;
 			}
 			//else
@@ -112,7 +117,7 @@ namespace Xsolla.Demo
 					if (useCount != 0)
 						ConsumeInventoryItem(unusedItem, (int)useCount, UpUserLevel, StoreDemoPopup.ShowError);
 					else
-						Debug.LogWarning($"Unused item with zero remaining uses");
+						Debug.LogWarning("Unused item with zero remaining uses");
 				});
 		}
 
@@ -128,14 +133,16 @@ namespace Xsolla.Demo
 				return;
 			}
 
-			if (base.PriceData is RealPriceData realPriceData)
+			if (base.PriceData is RealPriceData)
 			{
+				var realPriceData = (RealPriceData)base.PriceData;
 				var price = realPriceData.price * (float)levelDelta;
 				var formattedPrice = PriceFormatter.FormatPrice(realPriceData.currency, price);
 				levelUpPopup.ShowPrice(formattedPrice);
 			}
-			else if (base.PriceData is VirtualPriceData virtualPriceData)
+			else if (base.PriceData is VirtualPriceData)
 			{
+				var virtualPriceData = (VirtualPriceData)base.PriceData;
 				var price = virtualPriceData.price * levelDelta;
 				var userCurrencyValue = base.GetUserCurrencyValue(virtualPriceData.currencySku);
 				levelUpPopup.ShowPrice(virtualPriceData.currencyImageUrl, virtualPriceData.currencyName, price, userCurrencyValue);
@@ -158,13 +165,15 @@ namespace Xsolla.Demo
 			var onConsumeSuccess = new Action<InventoryItemModel>( _ =>
 			{
 				UserInventory.Instance.Refresh(onError: StoreDemoPopup.ShowError);
-				onSuccess?.Invoke(count);
+				if (onSuccess != null)
+					onSuccess.Invoke(count);
 			});
 
 			var onConsumeError = new Action<Error>( error =>
 			{
 				UserInventory.Instance.Refresh(onError: StoreDemoPopup.ShowError);
-				onError?.Invoke(new Error(errorMessage: "Could not consume level up"));
+				if (onError != null)
+					onError.Invoke(new Error(errorMessage: "Could not consume level up"));
 			});
 
 			DemoInventory.Instance.ConsumeInventoryItem(item, count, onConsumeSuccess, onConsumeError, isConfirmationRequired: false);
@@ -174,7 +183,7 @@ namespace Xsolla.Demo
 		{
 			if (levels <= 0)
 			{
-				Debug.LogWarning($"Attmept to up user level with levels value: '{levels}'");
+				Debug.LogWarning(string.Format("Attmept to up user level with levels value: '{0}'", levels));
 				return;
 			}
 

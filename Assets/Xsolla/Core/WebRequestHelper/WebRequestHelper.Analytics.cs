@@ -26,7 +26,9 @@ namespace Xsolla.Core
 			var dividingSymbol = url.Contains("?") ? "&" : "?";
 			var engineVersion = Application.unityVersion;
 
-			GetSdkSpecificParameters(analyticsType, out string sdkType, out string sdkVersion);
+			string sdkType;
+			string sdkVersion;
+			GetSdkSpecificParameters(analyticsType, out sdkType, out sdkVersion);
 
 			var referralAnalytics = default(string);
 
@@ -34,12 +36,12 @@ namespace Xsolla.Core
 			{
 				string referralPlugin = _referralAnalytics.Value.Key;
 				string referralVersion = _referralAnalytics.Value.Value;
-				referralAnalytics = $"&ref={referralPlugin}&ref_v={referralVersion}";
+				referralAnalytics = string.Format("&ref={0}&ref_v={1}", referralPlugin, referralVersion);
 			}
 
 			var analyticsAddition = string.Format(ANALYTICS_URL_TEMPLATE, engineVersion, sdkType, sdkVersion, referralAnalytics);
 
-			var result =  $"{url}{dividingSymbol}{analyticsAddition}";
+			var result =  string.Format("{0}{1}{2}", url, dividingSymbol, analyticsAddition);
 			return result;
 		}
 
@@ -78,7 +80,9 @@ namespace Xsolla.Core
 			if (Application.platform == RuntimePlatform.WebGLPlayer)
 				return new List<WebRequestHeader>();
 
-			GetSdkSpecificParameters(analyticsType, out string sdkType, out string sdkVersion);
+			string sdkType;
+			string sdkVersion;
+			GetSdkSpecificParameters(analyticsType, out sdkType, out sdkVersion);
 
 			var resultCapacity = _referralAnalytics.HasValue ? 6 : 4;
 			var result = new List<WebRequestHeader>(capacity: resultCapacity)
@@ -117,7 +121,7 @@ namespace Xsolla.Core
 					sdkVersion = Constants.StoreSdkVersion;
 					break;
 				default:
-					Debug.LogError($"Unexpected analyticsType: '{analyticsType.ToString()}'");
+					Debug.LogError(string.Format("Unexpected analyticsType: '{0}'", analyticsType.ToString()));
 					break;
 			}
 		}

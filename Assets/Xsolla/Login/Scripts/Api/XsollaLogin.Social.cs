@@ -61,10 +61,17 @@ namespace Xsolla.Login
 
 				onSuccessResponse = response =>
 				{
-					if (ParseUtils.TryGetValueFromUrl(response.login_url, ParseParameter.token, out string token))
-						onSuccess?.Invoke(token);
+					string token;
+					if (ParseUtils.TryGetValueFromUrl(response.login_url, ParseParameter.token, out token))
+					{
+						if (onSuccess != null)
+							onSuccess.Invoke(token);
+					}
 					else
-						onError?.Invoke(Error.UnknownError);
+					{
+						if (onError != null)
+							onError.Invoke(Error.UnknownError);
+					}
 				};
 			}
 			else /*if (XsollaSettings.AuthorizationType == AuthorizationType.OAuth2_0)*/
@@ -74,10 +81,21 @@ namespace Xsolla.Login
 
 				onSuccessResponse = response =>
 				{
-					if (ParseUtils.TryGetValueFromUrl(response.login_url, ParseParameter.code, out string code))
-						XsollaLogin.Instance.ExchangeCodeToToken(code, onSuccessExchange: token => onSuccess?.Invoke(token), onError: onError);
+					string code;
+					if (ParseUtils.TryGetValueFromUrl(response.login_url, ParseParameter.code, out code))
+					{
+						XsollaLogin.Instance.ExchangeCodeToToken(code, onSuccessExchange: token =>
+						{
+							if (onSuccess != null)
+								onSuccess.Invoke(token);
+						}, onError: onError);
+
+					}
 					else
-						onError?.Invoke(Error.UnknownError);
+					{
+						if (onError != null)
+							onError.Invoke(Error.UnknownError);
+					}
 				};
 			}
 
@@ -103,7 +121,7 @@ namespace Xsolla.Login
 				case AuthorizationType.JWT:
 					var projectId = XsollaSettings.LoginId;
 					var with_logout = XsollaSettings.JwtTokenInvalidationEnabled ? "1" : "0";
-					var extra_fields = fields != null && fields.Any() ? string.Join(",", fields) : string.Empty;
+					var extra_fields = fields != null && fields.Any() ? string.Join(",", fields.ToArray()) : string.Empty;
 					result = string.Format(URL_JWT_SOCIAL_AUTH, socialProvider.GetParameter(), projectId, with_logout, payload, extra_fields);
 					break;
 				case AuthorizationType.OAuth2_0:
@@ -113,7 +131,7 @@ namespace Xsolla.Login
 					result = string.Format(URL_OAUTH_SOCIAL_AUTH, socialNetwork, clientId, state);
 					break;
 				default:
-					Debug.LogError($"Unexpected authorization type: '{XsollaSettings.AuthorizationType}'");
+					Debug.LogError(string.Format("Unexpected authorization type: '{0}'", XsollaSettings.AuthorizationType));
 					return null;
 			}
 
@@ -134,7 +152,11 @@ namespace Xsolla.Login
 			var redirectUrl = !string.IsNullOrEmpty(XsollaSettings.CallbackUrl) ? XsollaSettings.CallbackUrl : DEFAULT_REDIRECT_URI;
 			var url = string.Format(URL_LINK_SOCIAL_NETWORK, socialProvider.GetParameter(), redirectUrl);
 			WebRequestHelper.Instance.GetRequest<LinkSocialProviderResponse>(SdkType.Login, url, WebRequestHeader.AuthHeader(Token.Instance),
-				response => urlCallback?.Invoke(response.url));
+				response =>
+				{
+					if (urlCallback != null)
+						urlCallback.Invoke(response.url);
+				});
 		}
 
 		/// <summary>

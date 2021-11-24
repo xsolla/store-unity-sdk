@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,13 +6,19 @@ namespace Xsolla.Demo
 {
 	public class CartMenuButtonCounter : MonoBehaviour
 	{
-		[SerializeField] private CartMenuButton button = default;
-		[SerializeField] private Text counterText = default;
+		[SerializeField] private CartMenuButton button;
+		[SerializeField] private Text counterText;
 
 		private int Counter
 		{
-			get => int.Parse(counterText.text);
-			set => counterText.text = value.ToString();
+			get
+			{
+				return int.Parse(counterText.text);
+			}
+			set
+			{
+				counterText.text = value.ToString();
+			}
 		}
 
 		private void Start()

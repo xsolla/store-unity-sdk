@@ -6,7 +6,13 @@ namespace Xsolla.Demo
 {
 	public class StoreVcPageStoreItemsController : BaseStorePageStoreItemsController
 	{
-		protected override bool IsShowContent => UserCatalog.Instance.HasCurrencyPackages;
+		protected override bool IsShowContent
+		{
+			get
+			{
+				return UserCatalog.Instance.HasCurrencyPackages;
+			}
+		}
 
 		protected override List<ItemModel> GetItemsByGroup(string groupName)
 		{

@@ -8,7 +8,7 @@ namespace Xsolla.Demo
 {
 	public class UserProfilePasswordReset : MonoBehaviour
 	{
-		[SerializeField] SimpleButton PasswordEditButton = default;
+		[SerializeField] SimpleButton PasswordEditButton;
 
 		private const string MESSAGE_TEMPLATE = "Change your password using the instructions we sent to <color=#F8115D>{email@domain.com}</color>.";
 

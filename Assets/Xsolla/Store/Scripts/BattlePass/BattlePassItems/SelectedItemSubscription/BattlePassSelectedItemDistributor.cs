@@ -4,8 +4,8 @@ namespace Xsolla.Demo
 {
 	public class BattlePassSelectedItemDistributor : MonoBehaviour
     {
-		[SerializeField] private BattlePassItemsManager SelectedItemProvider = default;
-		[SerializeField] private BaseBattlePassSelectedItemSubscriber[] SelectedItemSubscribers = default;
+		[SerializeField] private BattlePassItemsManager SelectedItemProvider;
+		[SerializeField] private BaseBattlePassSelectedItemSubscriber[] SelectedItemSubscribers;
 
 		private void Awake()
 		{

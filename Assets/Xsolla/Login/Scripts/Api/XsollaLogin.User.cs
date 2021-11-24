@@ -131,7 +131,8 @@ namespace Xsolla.Login
 			{
 				var parsedToken = ParseUtils.ParseToken(response.login_url);
 				Token.Instance = Token.Create(parsedToken);
-				onSuccess?.Invoke(Token.Instance);
+				if (onSuccess != null)
+					onSuccess.Invoke(Token.Instance);
 			}, onError, Error.LoginErrors);
 		}
 
@@ -143,7 +144,8 @@ namespace Xsolla.Login
 			Action<LoginOAuthJsonResponse> successCallback = response =>
 			{
 				ProcessOAuthResponse(response);
-				onSuccess?.Invoke(response.access_token);
+				if (onSuccess != null)
+					onSuccess.Invoke(response.access_token);
 			};
 
 			WebRequestHelper.Instance.PostRequest<LoginOAuthJsonResponse, LoginOAuthJsonRequest>(SdkType.Login, url, loginData, successCallback, onError, Error.LoginErrors);
@@ -186,7 +188,11 @@ namespace Xsolla.Login
 				SdkType.Login,
 				url,
 				data,
-				response => onSuccess?.Invoke(response.operation_id),
+				response =>
+				{
+					if (onSuccess != null)
+						onSuccess.Invoke(response.operation_id);
+				},
 				onError,
 				Error.LoginErrors);
 		}
@@ -211,7 +217,11 @@ namespace Xsolla.Login
 				SdkType.Login,
 				url,
 				data,
-				response => onSuccess?.Invoke(response.operation_id),
+				response =>
+				{
+					if (onSuccess != null)
+						onSuccess.Invoke(response.operation_id);
+				},
 				onError,
 				Error.LoginErrors);
 		}
@@ -253,14 +263,17 @@ namespace Xsolla.Login
 				data,
 				response =>
 				{
-					if (ParseUtils.TryGetValueFromUrl(response.login_url, ParseParameter.token, out var parsedToken))
+					string parsedToken;
+					if (ParseUtils.TryGetValueFromUrl(response.login_url, ParseParameter.token, out parsedToken))
 					{
 						Token.Instance = Token.Create(parsedToken);
-						onSuccess?.Invoke(Token.Instance);
+						if (onSuccess != null)
+							onSuccess.Invoke(Token.Instance);
 					}
 					else
 					{
-						onError?.Invoke(Error.UnknownError);
+						if (onError != null)
+							onError.Invoke(Error.UnknownError);
 					}
 				},
 				onError,
@@ -287,10 +300,21 @@ namespace Xsolla.Login
 				data,
 				response =>
 				{
-					if (ParseUtils.TryGetValueFromUrl(response.login_url, ParseParameter.code, out var parsedCode))
-						ExchangeCodeToToken(parsedCode, token => onSuccess?.Invoke(token), onError);
+					string parsedCode;
+					if (ParseUtils.TryGetValueFromUrl(response.login_url, ParseParameter.code, out parsedCode))
+					{
+
+						ExchangeCodeToToken(parsedCode, token =>
+						{
+							if (onSuccess != null)
+								onSuccess.Invoke(token);
+						}, onError);
+					}
 					else
-						onError?.Invoke(Error.UnknownError);
+					{
+						if (onError != null)
+							onError.Invoke(Error.UnknownError);
+					}
 				},
 				onError,
 				Error.LoginErrors);
@@ -333,7 +357,11 @@ namespace Xsolla.Login
 				SdkType.Login,
 				url,
 				data,
-				response => onSuccess?.Invoke(response.operation_id),
+				response =>
+				{
+					if (onSuccess != null)
+						onSuccess.Invoke(response.operation_id);
+				},
 				onError,
 				Error.LoginErrors);
 		}
@@ -358,7 +386,11 @@ namespace Xsolla.Login
 				SdkType.Login,
 				url,
 				data,
-				response => onSuccess?.Invoke(response.operation_id),
+				response =>
+				{
+					if (onSuccess != null)
+						onSuccess.Invoke(response.operation_id);
+				},
 				onError,
 				Error.LoginErrors);
 		}
@@ -400,14 +432,17 @@ namespace Xsolla.Login
 				data,
 				response =>
 				{
-					if (ParseUtils.TryGetValueFromUrl(response.login_url, ParseParameter.token, out var parsedToken))
+					string parsedToken;
+					if (ParseUtils.TryGetValueFromUrl(response.login_url, ParseParameter.token, out parsedToken))
 					{
 						Token.Instance = Token.Create(parsedToken);
-						onSuccess?.Invoke(Token.Instance);
+						if (onSuccess != null)
+							onSuccess.Invoke(Token.Instance);
 					}
 					else
 					{
-						onError?.Invoke(Error.UnknownError);
+						if (onError != null)
+							onError.Invoke(Error.UnknownError);
 					}
 				},
 				onError,
@@ -434,10 +469,20 @@ namespace Xsolla.Login
 				data,
 				response =>
 				{
-					if (ParseUtils.TryGetValueFromUrl(response.login_url, ParseParameter.code, out var parsedCode))
-						ExchangeCodeToToken(parsedCode, token => onSuccess?.Invoke(token), onError);
+					string parsedCode;
+					if (ParseUtils.TryGetValueFromUrl(response.login_url, ParseParameter.code, out parsedCode))
+					{
+						ExchangeCodeToToken(parsedCode, token =>
+						{
+							if (onSuccess != null)
+								onSuccess.Invoke(token);
+						}, onError);
+					}
 					else
-						onError?.Invoke(Error.UnknownError);
+					{
+						if (onError != null)
+							onError.Invoke(Error.UnknownError);
+					}
 				},
 				onError,
 				Error.LoginErrors);
@@ -536,7 +581,11 @@ namespace Xsolla.Login
 		public void GetUserPhoneNumber(string token, Action<string> onSuccess, Action<Error> onError)
 		{
 			WebRequestHelper.Instance.GetRequest(SdkType.Login, URL_USER_PHONE, WebRequestHeader.AuthHeader(token),
-				onComplete: (UserPhoneNumber number) => onSuccess?.Invoke(number.phone_number),
+				onComplete: (UserPhoneNumber number) =>
+				{
+					if (onSuccess != null)
+						onSuccess.Invoke(number.phone_number);
+				},
 				onError: onError);
 		}
 
@@ -574,7 +623,7 @@ namespace Xsolla.Login
 		/// <seealso cref="ChangeUserPhoneNumber"/>
 		public void DeleteUserPhoneNumber(string token, string phoneNumber, Action onSuccess, Action<Error> onError)
 		{
-			var url = $"{URL_USER_PHONE}/{phoneNumber}";
+			var url = string.Format("{0}/{1}", URL_USER_PHONE, phoneNumber);
 			WebRequestHelper.Instance.DeleteRequest(SdkType.Login, url, WebRequestHeader.AuthHeader(token), onSuccess, onError);
 		}
 
@@ -594,7 +643,7 @@ namespace Xsolla.Login
 				WebRequestHeader.AuthHeader(token),
 				new WebRequestHeader(){
 					Name = "Content-type",
-					Value = $"multipart/form-data; boundary ={boundary}"
+					Value = string.Format("multipart/form-data; boundary ={0}",boundary)
 				}
 			};
 			WebRequestHelper.Instance.PostUploadRequest(SdkType.Login, URL_USER_PICTURE, pictureData, headers, onSuccess, onError);
@@ -643,7 +692,11 @@ namespace Xsolla.Login
 		/// <param name="onError">Failed operation callback.</param>
 		public void GetUserEmail(string token, Action<string> onSuccess, Action<Error> onError)
 		{
-			Action<UserEmail> successCallback = response => { onSuccess?.Invoke(response.current_email); };
+			Action<UserEmail> successCallback = response =>
+			{
+				if (onSuccess != null)
+					onSuccess.Invoke(response.current_email);
+			};
 			WebRequestHelper.Instance.GetRequest(SdkType.Login, URL_USER_GET_EMAIL, WebRequestHeader.AuthHeader(token), successCallback, onError);
 		}
 
@@ -680,7 +733,11 @@ namespace Xsolla.Login
 				openId = openId
 			};
 
-			WebRequestHelper.Instance.PostRequest(SdkType.Login, url, requestData, (TokenEntity result) => { onSuccess?.Invoke(result.token); }, onError, Error.LoginErrors);
+			WebRequestHelper.Instance.PostRequest(SdkType.Login, url, requestData, (TokenEntity result) =>
+			{
+				if (onSuccess != null)
+					onSuccess.Invoke(result.token);
+			}, onError, Error.LoginErrors);
 		}
 
 		private void OAuthAuthWithSocialNetworkAccessToken(string accessToken, string accessTokenSecret, string openId, string providerName, string oauthState, Action<string> onSuccess, Action<Error> onError)
@@ -710,7 +767,8 @@ namespace Xsolla.Login
 			WebRequestHelper.Instance.PostRequest<AccessTokenResponse, Dictionary<string, object>>(SdkType.Login, url, authParams.parameters, response =>
 			{
 				Token.Instance = Token.Create(response.access_token);
-				onSuccess?.Invoke();
+				if (onSuccess != null)
+					onSuccess.Invoke();
 			}, onError, Error.LoginErrors);
 		}
 

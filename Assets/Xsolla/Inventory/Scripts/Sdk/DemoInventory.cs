@@ -34,20 +34,31 @@ namespace Xsolla.Demo
 					onSuccess: consumedItem =>
 					{
 						isFinished = true;
-						onSuccess?.Invoke(consumedItem);
+						if (onSuccess != null)
+							onSuccess.Invoke(consumedItem);
 					},
 					onError: error =>
 					{
 						isFinished = true;
 						StoreDemoPopup.ShowError(error);
-						onError?.Invoke(error);
+						if (onError != null)
+							onError.Invoke(error);
 					});
 			});
 
 			if (isConfirmationRequired)
-				StoreDemoPopup.ShowConsumeConfirmation(item.Name, (uint)count, onConfirmation, () => onError?.Invoke(null));
+			{
+				StoreDemoPopup.ShowConsumeConfirmation(item.Name, (uint)count, onConfirmation, () =>
+				{
+					if (onError != null)
+						onError.Invoke(null);
+				});
+			}
 			else
-				onConfirmation?.Invoke();
+			{
+				if (onConfirmation != null)
+					onConfirmation.Invoke();
+			}
 		}
 
 		public void RedeemCouponCode(string couponCode, Action<List<CouponRedeemedItemModel>> onSuccess, Action<Error> onError)
@@ -59,7 +70,8 @@ namespace Xsolla.Demo
 			onSuccess: redeemedItems =>
 			{
 				isFinished = true;
-				onSuccess?.Invoke(redeemedItems);
+				if (onSuccess != null)
+					onSuccess.Invoke(redeemedItems);
 			},
 			onError: error =>
 			{
@@ -68,7 +80,8 @@ namespace Xsolla.Demo
 				if (error.ErrorType != ErrorType.InvalidCoupon)
 					StoreDemoPopup.ShowError(error);
 
-				onError?.Invoke(error);
+				if (onError != null)
+					onError.Invoke(error);
 			});
 		}
 
@@ -77,7 +90,8 @@ namespace Xsolla.Demo
 			return error =>
 			{
 				StoreDemoPopup.ShowError(error);
-				onError?.Invoke(error);
+				if (onError != null)
+					onError.Invoke(error);
 			};
 		}
 	}

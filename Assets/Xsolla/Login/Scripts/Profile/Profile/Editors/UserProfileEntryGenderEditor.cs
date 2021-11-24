@@ -5,10 +5,10 @@ namespace Xsolla.Demo
 {
 	public class UserProfileEntryGenderEditor : UserProfileEntryEditor
 	{
-		[SerializeField] Toggle MaleCheckbox = default;
-		[SerializeField] Toggle FemaleCheckbox = default;
-		[SerializeField] Toggle OtherCheckbox = default;
-		[SerializeField] Toggle PreferNotCheckbox = default;
+		[SerializeField] Toggle MaleCheckbox;
+		[SerializeField] Toggle FemaleCheckbox;
+		[SerializeField] Toggle OtherCheckbox;
+		[SerializeField] Toggle PreferNotCheckbox;
 
 		private bool _skipNextCheck;
 		private Toggle[] _checkboxes;
@@ -49,7 +49,7 @@ namespace Xsolla.Demo
 					checkboxTypeToActivate = CheckboxType.PreferNot;
 					break;
 				default:
-					Debug.LogWarning($"Could not set initial value: {value}");
+					Debug.LogWarning(string.Format("Could not set initial value: {0}", value));
 					return;
 			}
 
@@ -81,7 +81,7 @@ namespace Xsolla.Demo
 						result = UserProfileGender.PREFER_NOT;
 						break;
 					default:
-						Debug.LogError($"Unexpected checkboxType: {checkboxType.ToString()}");
+						Debug.LogError(string.Format("Unexpected checkboxType: {0}", checkboxType.ToString()));
 						break;
 				}
 

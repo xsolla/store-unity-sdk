@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xsolla.Core;
@@ -24,7 +24,8 @@ namespace Xsolla.Demo
 						RemainingUses = (uint?)i.quantity,
 						Attributes = ItemAttributesConverter.ConvertAttributes(i.attributes)
 					}).ToList();
-				onSuccess?.Invoke(inventoryItems);
+				if (onSuccess != null)
+					onSuccess.Invoke(inventoryItems);
 			}, onError);
 		}
 
@@ -41,7 +42,8 @@ namespace Xsolla.Demo
 					IsConsumable = false,
 					Amount = b.amount
 				}).ToList();
-				onSuccess?.Invoke(result);
+				if (onSuccess != null)
+					onSuccess.Invoke(result);
 			}, onError);
 		}
 
@@ -59,7 +61,8 @@ namespace Xsolla.Demo
 					Status = GetSubscriptionStatus(i.status),
 					Expired = i.expired_at.HasValue ? UnixTimeToDateTime(i.expired_at.Value) : (DateTime?)null
 				}).ToList();
-				onSuccess?.Invoke(subscriptionItems);
+				if (onSuccess != null)
+					onSuccess.Invoke(subscriptionItems);
 			}, onError);
 		}
 
@@ -73,8 +76,12 @@ namespace Xsolla.Demo
 			};
 
 			XsollaStore.Instance.ConsumeInventoryItem(XsollaSettings.StoreProjectId, consumeItem,
-				onSuccess: () => onSuccess?.Invoke(item),
-				onError);
+				onSuccess: () =>
+				{
+					if (onSuccess != null)
+						onSuccess.Invoke(item);
+				},
+				onError: onError);
 		}
 
 		public void RedeemCouponCode(string couponCode, Action<List<CouponRedeemedItemModel>> onSuccess, Action<Error> onError)
@@ -91,9 +98,10 @@ namespace Xsolla.Demo
 							ImageUrl = i.image_url,
 							Quantity = i.quantity,
 						}).ToList();
-					onSuccess?.Invoke(redeemedItemModels);
+					if (onSuccess != null)
+						onSuccess.Invoke(redeemedItemModels);
 				},
-				onError);
+				onError: onError);
 		}
 
 		private UserSubscriptionModel.SubscriptionStatusType GetSubscriptionStatus(string status)

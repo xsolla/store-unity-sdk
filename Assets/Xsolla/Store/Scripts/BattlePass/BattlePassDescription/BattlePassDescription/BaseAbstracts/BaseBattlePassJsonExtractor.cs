@@ -9,6 +9,10 @@ namespace Xsolla.Demo
 		public event Action<IEnumerable<BattlePassDescriptionRaw>> BattlePassJsonExtracted;
 		public abstract void OnBattlePassItemsExtracted(IEnumerable<CatalogItemModel> battlePassItems);
 
-		protected void RaiseBattlePassJsonExtracted(IEnumerable<BattlePassDescriptionRaw> itemsExtracted) => BattlePassJsonExtracted?.Invoke(itemsExtracted);
+		protected void RaiseBattlePassJsonExtracted(IEnumerable<BattlePassDescriptionRaw> itemsExtracted)
+		{
+			if (BattlePassJsonExtracted != null)
+				BattlePassJsonExtracted.Invoke(itemsExtracted);
+		}
 	}
 }

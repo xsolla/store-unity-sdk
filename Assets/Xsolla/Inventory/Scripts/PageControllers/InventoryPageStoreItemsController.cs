@@ -12,7 +12,13 @@ namespace Xsolla.Demo
 	
 		private string _lastGroup;
 
-		protected override bool IsShowContent => UserInventory.Instance.HasVirtualItems || UserInventory.Instance.HasPurchasedSubscriptions;
+		protected override bool IsShowContent
+		{
+			get
+			{
+				return UserInventory.Instance.HasVirtualItems || UserInventory.Instance.HasPurchasedSubscriptions;
+			}
+		}
 
 		protected override void Initialize()
 		{
@@ -73,7 +79,7 @@ namespace Xsolla.Demo
 				{
 					if (!UserCatalog.Instance.Subscriptions.Any(sub => sub.Sku.Equals(i.Sku)))
 					{
-						Debug.Log($"User subscription with sku = '{i.Sku}' have no equal catalog item!");
+						Debug.Log(string.Format("User subscription with sku = '{0}' have no equal catalog item!", i.Sku));
 						return false;
 					}
 
@@ -87,7 +93,7 @@ namespace Xsolla.Demo
 				{
 					if (!UserCatalog.Instance.VirtualItems.Any(cat => cat.Sku.Equals(i.Sku)))
 					{
-						Debug.Log($"Inventory item with sku = '{i.Sku}' have no equal catalog item!");
+						Debug.Log(string.Format("Inventory item with sku = '{}' have no equal catalog item!", i.Sku));
 						return false;
 					}
 				}
@@ -113,10 +119,11 @@ namespace Xsolla.Demo
 
 			foreach (var item in items)
 			{
-				if (item.IsSubscription() && item is UserSubscriptionModel subscription && subscription.Status == UserSubscriptionModel.SubscriptionStatusType.None)
+				if (item.IsSubscription())
 				{
-					//Do nothing, skip this item
-					continue;
+					var subscription = (UserSubscriptionModel)item;
+					if (subscription.Status == UserSubscriptionModel.SubscriptionStatusType.None)
+						continue;//Do nothing, skip this item
 				}
 				else
 				{

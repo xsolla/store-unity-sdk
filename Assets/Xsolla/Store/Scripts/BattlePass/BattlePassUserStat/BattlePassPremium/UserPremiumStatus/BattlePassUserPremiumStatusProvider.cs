@@ -5,7 +5,7 @@ namespace Xsolla.Demo
 {
 	public class BattlePassUserPremiumStatusProvider : BaseBattlePassDescriptionSubscriber
     {
-		[SerializeField] private InventoryFinder InventoryFinder = default;
+		[SerializeField] private InventoryFinder InventoryFinder;
 
 		public event Action<bool> UserPremiumDefined;
 
@@ -19,8 +19,16 @@ namespace Xsolla.Demo
 
 		public void CheckUserPremium(bool onPurchase)
 		{
-			var onItemFound = new Action<InventoryItemModel>(_ => UserPremiumDefined?.Invoke(true));
-			var onItemAbsence = new Action(() => UserPremiumDefined?.Invoke(false));
+			var onItemFound = new Action<InventoryItemModel>(_ =>
+			{
+				if (UserPremiumDefined != null)
+					UserPremiumDefined.Invoke(true);
+			});
+			var onItemAbsence = new Action(() =>
+			{
+				if (UserPremiumDefined != null)
+					UserPremiumDefined.Invoke(false);
+			});
 
 			var maxAttempts = onPurchase ? BattlePassConstants.MAX_INVENTORY_REFRESH_ATTEMPTS : 1;
 

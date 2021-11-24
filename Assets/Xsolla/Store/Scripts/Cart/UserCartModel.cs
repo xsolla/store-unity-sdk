@@ -12,9 +12,15 @@ namespace Xsolla.Demo
 			_items = new List<UserCartItem>();
 		}
 
-		private Predicate<UserCartItem> SearchPredicate(CatalogItemModel item) => cartItem => cartItem.Sku.Equals(item.Sku);
+		private Predicate<UserCartItem> SearchPredicate(CatalogItemModel item)
+		{
+			return cartItem => cartItem.Sku.Equals(item.Sku);
+		}
 
-		private UserCartItem FindCartItemBy(CatalogItemModel catalogItemModel) => GetCartItems().Find(SearchPredicate(catalogItemModel));
+		private UserCartItem FindCartItemBy(CatalogItemModel catalogItemModel)
+		{
+			return GetCartItems().Find(SearchPredicate(catalogItemModel));
+		}
 
 		public UserCartItem GetItem(CatalogItemModel item)
 		{

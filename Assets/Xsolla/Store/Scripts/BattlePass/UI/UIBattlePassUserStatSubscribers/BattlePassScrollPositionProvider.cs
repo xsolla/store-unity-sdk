@@ -6,9 +6,9 @@ namespace Xsolla.Demo
 {
 	public class BattlePassScrollPositionProvider : BaseBattlePassUserStatSubscriber
 	{
-		[SerializeField] private ScrollRect ItemsScrollRect = default;
-		[SerializeField] private RectTransform ItemsContentRoot = default;
-		[SerializeField] private float Padding = default;
+		[SerializeField] private ScrollRect ItemsScrollRect;
+		[SerializeField] private RectTransform ItemsContentRoot;
+		[SerializeField] private float Padding;
 
 		public event Action<int, Vector2> ScrollPositionDefined;
 
@@ -17,7 +17,8 @@ namespace Xsolla.Demo
 			var itemBlockIndex = userStat.Level - 1;
 			var itemBlockToShow = (RectTransform)ItemsContentRoot.GetChild(itemBlockIndex);
 			var targetScrollPositon = GetTargetScrollPosition(itemBlockToShow, Padding);
-			ScrollPositionDefined?.Invoke(itemBlockIndex, targetScrollPositon);
+			if (ScrollPositionDefined != null)
+				ScrollPositionDefined.Invoke(itemBlockIndex, targetScrollPositon);
 		}
 
 		private Vector2 GetTargetScrollPosition(RectTransform item, float padding = 0)

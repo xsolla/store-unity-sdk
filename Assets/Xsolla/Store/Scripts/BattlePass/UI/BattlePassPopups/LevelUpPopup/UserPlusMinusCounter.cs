@@ -6,10 +6,10 @@ namespace Xsolla.Demo
 {
 	public class UserPlusMinusCounter : MonoBehaviour
     {
-		[SerializeField] private GameObject CounterHolder = default;
-		[SerializeField] private SimpleButton CounterPlusButton = default;
-		[SerializeField] private SimpleButton CounterMinusButton = default;
-		[SerializeField] private Text CounterValue = default;
+		[SerializeField] private GameObject CounterHolder;
+		[SerializeField] private SimpleButton CounterPlusButton;
+		[SerializeField] private SimpleButton CounterMinusButton;
+		[SerializeField] private Text CounterValue;
 
 		private int _currentCounterValue = 0;
 		private int _lowerLimit;
@@ -45,7 +45,8 @@ namespace Xsolla.Demo
 			{
 				_currentCounterValue = newCounterValue;
 				CounterValue.text = newCounterValue.ToString();
-				CounterChanged?.Invoke(newCounterValue);
+				if (CounterChanged != null)
+					CounterChanged.Invoke(newCounterValue);
 			}
 		}
 	}

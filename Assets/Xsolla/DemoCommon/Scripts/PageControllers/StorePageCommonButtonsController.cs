@@ -4,11 +4,11 @@ namespace Xsolla.Demo
 {
 	public class StorePageCommonButtonsController : BaseMenuController
 	{
-		[SerializeField] private SimpleButton publisherAccountButton = default;
-		[SerializeField] private SimpleButton documentationButton = default;
-		[SerializeField] private SimpleButton testCardsButton = default;
-		[SerializeField] private SimpleButton backButton = default;
-		[SerializeField] private SimpleButton tutorialButton = default;
+		[SerializeField] private SimpleButton publisherAccountButton;
+		[SerializeField] private SimpleButton documentationButton;
+		[SerializeField] private SimpleButton testCardsButton;
+		[SerializeField] private SimpleButton backButton;
+		[SerializeField] private SimpleButton tutorialButton;
 
 		private void Start()
 		{

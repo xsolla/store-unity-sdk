@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,8 +8,8 @@ namespace Xsolla.Demo
 	[RequireComponent(typeof(InputField))]
 	public class UserProfileEntryInputFieldEditor : UserProfileEntryEditor
 	{
-		[SerializeField] string Template = default;
-		[SerializeField] string AcceptedSymbolsRegex = default;
+		[SerializeField] string Template;
+		[SerializeField] string AcceptedSymbolsRegex;
 
 		private InputField _inputField;
 		private Regex _inputRegex;
@@ -61,12 +61,12 @@ namespace Xsolla.Demo
 			if (_skipNextCheck)
 				return newChar;
 
-			if (_inputRegex != null && !_inputRegex.IsMatch($"{newChar}"))
+			if (_inputRegex != null && !_inputRegex.IsMatch(string.Format("{0}", newChar)))
 				return '\0';
 
 			if (_templateRegex != null)
 			{
-				_charsToTemplate.Add($"{newChar}");
+				_charsToTemplate.Add(string.Format("{0}", newChar));
 				string templatedInput = Template;
 
 				for (int index = 0; index < _charsToTemplate.Count; index++)
@@ -109,7 +109,8 @@ namespace Xsolla.Demo
 
 		private void OnEndEdit(string value)
 		{
-			_charsToTemplate?.Clear();
+			if (_charsToTemplate != null)
+				_charsToTemplate.Clear();
 
 			if (value != Template)
 				base.RaiseEntryEdited(value);

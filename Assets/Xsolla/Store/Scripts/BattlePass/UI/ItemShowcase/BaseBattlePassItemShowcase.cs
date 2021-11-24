@@ -6,12 +6,12 @@ namespace Xsolla.Demo
 {
 	public abstract class BaseBattlePassItemShowcase : MonoBehaviour, IBattlePassSelectedItemSubscriber
 	{
-		[SerializeField] protected Image ItemImage = default;
-		[SerializeField] protected Text ItemName = default;
-		[SerializeField] protected Text ItemDescription = default;
-		[SerializeField] protected Text ItemInfo = default;
+		[SerializeField] protected Image ItemImage;
+		[SerializeField] protected Text ItemName;
+		[SerializeField] protected Text ItemDescription;
+		[SerializeField] protected Text ItemInfo;
 		[Space]
-		[SerializeField] private GameObject[] StateObjects = default;
+		[SerializeField] private GameObject[] StateObjects;
 
 		protected bool IsBattlePassExpired { get; private set; }
 

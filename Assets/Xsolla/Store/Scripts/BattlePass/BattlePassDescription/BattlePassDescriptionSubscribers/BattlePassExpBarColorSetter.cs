@@ -5,8 +5,8 @@ namespace Xsolla.Demo
 {
 	public class BattlePassExpBarColorSetter : BaseBattlePassDescriptionSubscriber
 	{
-		[SerializeField] private Image ExpBar = default;
-		[SerializeField] private Color ExpiredColor = default;
+		[SerializeField] private Image ExpBar;
+		[SerializeField] private Color ExpiredColor;
 
 		public override void OnBattlePassDescriptionArrived(BattlePassDescription battlePassDescription)
 		{

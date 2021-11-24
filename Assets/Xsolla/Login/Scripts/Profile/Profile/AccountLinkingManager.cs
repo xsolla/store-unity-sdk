@@ -7,8 +7,8 @@ namespace Xsolla.Demo
 {
 	public class AccountLinkingManager : MonoBehaviour
 	{
-		[SerializeField] private SimpleButton accountLinkingButton = default;
-		[SerializeField] private SimpleButton getAccountLinkButton = default;
+		[SerializeField] private SimpleButton accountLinkingButton;
+		[SerializeField] private SimpleButton getAccountLinkButton;
 
 		private void Start()
 		{
@@ -26,7 +26,7 @@ namespace Xsolla.Demo
 			getAccountLinkButton.onClick += () =>
 			{
 				SdkLoginLogic.Instance.RequestLinkingCode(
-					code => StoreDemoPopup.ShowSuccess($"YOUR CODE: {code.code}"),
+					code => StoreDemoPopup.ShowSuccess(string.Format("YOUR CODE: {0}", code.code)),
 					StoreDemoPopup.ShowError);
 			};
 		}
@@ -76,7 +76,11 @@ namespace Xsolla.Demo
 			Token.Instance = Token.Create(newToken);
 
 			if (!DemoMarker.IsInventoryPartAvailable)
-				FindObjectOfType<UserInfoDrawer>()?.Refresh();
+			{
+				var infoDrawer = FindObjectOfType<UserInfoDrawer>();
+				if (infoDrawer != null)
+					infoDrawer.Refresh();
+			}
 			else
 				UserInventory.Instance.Refresh(onSuccess: () => GoToInventory(linkingResult), onError: error => { linkingResult.IsLinked = false; StoreDemoPopup.ShowError(error); });
 		}

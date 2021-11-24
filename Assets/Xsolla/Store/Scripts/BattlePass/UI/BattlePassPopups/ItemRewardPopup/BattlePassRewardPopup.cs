@@ -4,9 +4,9 @@ namespace Xsolla.Demo
 {
 	public class BattlePassRewardPopup : MonoBehaviour
     {
-		[SerializeField] private SimpleButton[] CloseButtons = default;
-		[SerializeField] private GameObject RewardItemPrefab = default;
-		[SerializeField] private Transform RewardItemsRoot = default;
+		[SerializeField] private SimpleButton[] CloseButtons;
+		[SerializeField] private GameObject RewardItemPrefab;
+		[SerializeField] private Transform RewardItemsRoot;
 
 		private void Awake()
 		{

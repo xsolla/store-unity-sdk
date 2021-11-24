@@ -4,9 +4,9 @@ namespace Xsolla.Demo
 {
 	public class SwapActiveOnClick : MonoBehaviour
 	{
-		[SerializeField] private SimpleButton Button = default;
-		[SerializeField] private GameObject ActiveObject = default;
-		[SerializeField] private GameObject InactiveObject = default;
+		[SerializeField] private SimpleButton Button;
+		[SerializeField] private GameObject ActiveObject;
+		[SerializeField] private GameObject InactiveObject;
 
 		private void Awake()
 		{

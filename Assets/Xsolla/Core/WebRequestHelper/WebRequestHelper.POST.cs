@@ -16,7 +16,9 @@ namespace Xsolla.Core
 			where T : class
 			where D : class
 		{
-			var headers = AppendAnalyticHeaders(sdkType, requestHeaders?.ToArray());
+			List<WebRequestHeader> headers = null;
+			if (requestHeaders != null)
+				headers = AppendAnalyticHeaders(sdkType, requestHeaders.ToArray());
 			StartCoroutine(PostRequestCor<T>(sdkType, url, jsonObject, headers, onComplete, onError, errorsToCheck));
 		}
 
@@ -41,22 +43,24 @@ namespace Xsolla.Core
 		public void PostRequest<T>(SdkType sdkType, string url, List<WebRequestHeader> requestHeaders, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
 			where T : class
 		{
-			var headers = AppendAnalyticHeaders(sdkType, requestHeaders?.ToArray());
-			StartCoroutine(PostRequestCor<T>(sdkType, url, jsonObject: null, headers, onComplete, onError, errorsToCheck));
+			List<WebRequestHeader> headers = null;
+			if (requestHeaders != null)
+				headers = AppendAnalyticHeaders(sdkType, requestHeaders.ToArray());
+			StartCoroutine(PostRequestCor<T>(sdkType, url, null, headers, onComplete, onError, errorsToCheck));
 		}
 
 		public void PostRequest<T>(SdkType sdkType, string url, WebRequestHeader requestHeader, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
 			where T : class
 		{
 			var headers = AppendAnalyticHeaders(sdkType, requestHeader);
-			StartCoroutine(PostRequestCor<T>(sdkType, url, jsonObject: null, headers, onComplete, onError, errorsToCheck));
+			StartCoroutine(PostRequestCor<T>(sdkType, url, null, headers, onComplete, onError, errorsToCheck));
 		}
 
 		public void PostRequest<T>(SdkType sdkType, string url, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
 			where T : class
 		{
 			var headers = GetAnalyticHeaders(sdkType);
-			StartCoroutine(PostRequestCor<T>(sdkType, url, jsonObject: null, headers, onComplete, onError, errorsToCheck));
+			StartCoroutine(PostRequestCor<T>(sdkType, url, null, headers, onComplete, onError, errorsToCheck));
 		}
 		#endregion
 
@@ -64,7 +68,9 @@ namespace Xsolla.Core
 		public void PostRequest<D>(SdkType sdkType, string url, D jsonObject, List<WebRequestHeader> requestHeaders, Action onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
 			where D : class
 		{
-			var headers = AppendAnalyticHeaders(sdkType, requestHeaders?.ToArray());
+			List<WebRequestHeader> headers = null;
+			if (requestHeaders != null)
+				headers = AppendAnalyticHeaders(sdkType, requestHeaders.ToArray());
 			StartCoroutine(PostRequestCor(sdkType, url, jsonObject, headers, onComplete, onError, errorsToCheck));
 		}
 
@@ -86,20 +92,22 @@ namespace Xsolla.Core
 		#region PostRequest
 		public void PostRequest(SdkType sdkType, string url, List<WebRequestHeader> requestHeaders, Action onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
 		{
-			var headers = AppendAnalyticHeaders(sdkType, requestHeaders?.ToArray());
-			StartCoroutine(PostRequestCor(sdkType, url, jsonObject: null, headers, onComplete, onError, errorsToCheck));
+			List<WebRequestHeader> headers = null;
+			if (requestHeaders != null)
+				headers = AppendAnalyticHeaders(sdkType, requestHeaders.ToArray());
+			StartCoroutine(PostRequestCor(sdkType, url, null, headers, onComplete, onError, errorsToCheck));
 		}
 
 		public void PostRequest(SdkType sdkType, string url, WebRequestHeader requestHeader, Action onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
 		{
 			var headers = AppendAnalyticHeaders(sdkType, requestHeader);
-			StartCoroutine(PostRequestCor(sdkType, url, jsonObject: null, headers, onComplete, onError, errorsToCheck));
+			StartCoroutine(PostRequestCor(sdkType, url, null, headers, onComplete, onError, errorsToCheck));
 		}
 
 		public void PostRequest(SdkType sdkType, string url, Action onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
 		{
 			var headers = GetAnalyticHeaders(sdkType);
-			StartCoroutine(PostRequestCor(sdkType, url, jsonObject: null, headers, onComplete, onError, errorsToCheck));
+			StartCoroutine(PostRequestCor(sdkType, url, null, headers, onComplete, onError, errorsToCheck));
 		}
 		#endregion
 
@@ -107,7 +115,9 @@ namespace Xsolla.Core
 		public void PostRequest<T>(SdkType sdkType, string url, WWWForm data, List<WebRequestHeader> requestHeaders, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
 			where T : class
 		{
-			var headers = AppendAnalyticHeaders(sdkType, requestHeaders?.ToArray());
+			List<WebRequestHeader> headers = null;
+			if (requestHeaders != null)
+				headers = AppendAnalyticHeaders(sdkType, requestHeaders.ToArray());
 			StartCoroutine(PostRequestCor<T>(sdkType, url, data, headers, onComplete, onError, errorsToCheck));
 		}
 
@@ -130,13 +140,17 @@ namespace Xsolla.Core
 		public void PostUploadRequest<T>(SdkType sdkType, string url, string pathToFile, List<WebRequestHeader> requestHeaders, Action<T> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
 			where T: class
 		{
-			var headers = AppendAnalyticHeaders(sdkType, requestHeaders?.ToArray());
+			List<WebRequestHeader> headers = null;
+			if (requestHeaders != null)
+				headers = AppendAnalyticHeaders(sdkType, requestHeaders.ToArray());
 			StartCoroutine(PostUploadRequestCor(sdkType, url, pathToFile, headers, onComplete, onError, errorsToCheck));
 		}
 
 		public void PostUploadRequest(SdkType sdkType, string url, byte[] fileData, List<WebRequestHeader> requestHeaders, Action<string> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
 		{
-			var headers = AppendAnalyticHeaders(sdkType, requestHeaders?.ToArray());
+			List<WebRequestHeader> headers = null;
+			if (requestHeaders != null)
+				headers = AppendAnalyticHeaders(sdkType, requestHeaders.ToArray());
 			StartCoroutine(PostUploadRequestCor(sdkType, url, fileData, headers, onComplete, onError, errorsToCheck));
 		}
 		#endregion

@@ -6,7 +6,7 @@ namespace Xsolla.Demo
 {
 	public partial class AttributesUserStatManager : BaseBattlePassUserStatManager
 	{
-		[SerializeField] private BattlePassUserAttributesManager AttributesManager = default;
+		[SerializeField] private BattlePassUserAttributesManager AttributesManager;
 
 		private const string ATTRIBUTE_KEY_TEMPLATE = "BattlePass{0}{1}";
 
@@ -53,7 +53,7 @@ namespace Xsolla.Demo
 
 			if (result == null)
 			{
-				Debug.Log($"Could not find BattlePass attribute of type: '{attributeType.ToString()}'. Creating a new one.");
+				Debug.Log(string.Format("Could not find BattlePass attribute of type: '{0}'. Creating a new one.", attributeType.ToString()));
 				result = CreateNew(_battlePassDescription.Name, attributeType);
 				_attributesToUpdate.Add(result);
 			}
@@ -90,7 +90,7 @@ namespace Xsolla.Demo
 					value = string.Format(OBTAINED_VALUE_TEMPLATE, string.Empty, string.Empty);
 					break;
 				default:
-					Debug.LogError($"Unexpected attribute type: '{attributeType.ToString()}'");
+					Debug.LogError(string.Format("Unexpected attribute type: '{0}'", attributeType.ToString()));
 					break;
 			}
 

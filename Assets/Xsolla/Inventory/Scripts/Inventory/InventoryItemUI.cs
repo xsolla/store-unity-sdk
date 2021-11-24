@@ -8,21 +8,21 @@ namespace Xsolla.Demo
 {
 	public partial class InventoryItemUI : MonoBehaviour
 	{
-		[SerializeField] private Image itemImage = default;
-		[SerializeField] private GameObject loadingCircle = default;
-		[SerializeField] private Text itemName = default;
-		[SerializeField] private Text itemDescription = default;
-		[SerializeField] private GameObject itemQuantityImage = default;
-		[SerializeField] private Text itemQuantityText = default;
-		[SerializeField] private ConsumeButton consumeButton = default;
-		[SerializeField] private Text purchasedStatusText = default;
-		[SerializeField] private GameObject remainingTimeObject = default;
-		[SerializeField] private Text remainingTimeTimeText = default;
-		[SerializeField] private GameObject expiredTimeObject = default;
-		[SerializeField] private Text expiredTimeText = default;
+		[SerializeField] private Image itemImage;
+		[SerializeField] private GameObject loadingCircle;
+		[SerializeField] private Text itemName;
+		[SerializeField] private Text itemDescription;
+		[SerializeField] private GameObject itemQuantityImage;
+		[SerializeField] private Text itemQuantityText;
+		[SerializeField] private ConsumeButton consumeButton;
+		[SerializeField] private Text purchasedStatusText;
+		[SerializeField] private GameObject remainingTimeObject;
+		[SerializeField] private Text remainingTimeTimeText;
+		[SerializeField] private GameObject expiredTimeObject;
+		[SerializeField] private Text expiredTimeText;
 		[SerializeField] private bool shortSubsctiptionTimeFormat = false;
 #pragma warning disable 0414
-		[SerializeField] private SimpleTextButton renewSubscriptionButton = default;
+		[SerializeField] private SimpleTextButton renewSubscriptionButton;
 #pragma warning restore 0414
 
 		private ItemModel _itemInformation;
@@ -48,7 +48,8 @@ namespace Xsolla.Demo
 			if (_itemInformation.IsSubscription())
 				AttachRenewSubscriptionHandler();
 
-			OnInitialized?.Invoke(itemInformation);
+			if (OnInitialized != null)
+				OnInitialized.Invoke(itemInformation);
 		}
 
 		partial void AttachRenewSubscriptionHandler();
@@ -59,7 +60,7 @@ namespace Xsolla.Demo
 				ImageLoader.Instance.GetImageAsync(url, LoadImageCallback);
 			else
 			{
-				Debug.LogError($"Inventory item with sku = '{_itemInformation.Sku}' have not image!");
+				Debug.LogError(string.Format("Inventory item with sku = '{0}' have not image!", _itemInformation.Sku));
 				LoadImageCallback(string.Empty, null);
 			}
 		}
@@ -96,7 +97,8 @@ namespace Xsolla.Demo
 
 		private void DrawSubscriptionItem()
 		{
-			if (TryDowncastTo<UserSubscriptionModel>(_itemInformation, out var model))
+			UserSubscriptionModel model;
+			if (TryDowncastTo<UserSubscriptionModel>(_itemInformation, out model))
 			{
 				if (model.Status != UserSubscriptionModel.SubscriptionStatusType.None && model.Expired.HasValue)
 				{
@@ -134,7 +136,7 @@ namespace Xsolla.Demo
 				renewSubscriptionButton.gameObject.SetActive(true);
 
 			if (expiredTimeText != null)
-				expiredTimeText.text = $"Expired {text}";
+				expiredTimeText.text = string.Format("Expired {0}", text);
 		}
 
 		private string GetRemainingTime(DateTime expiredDateTime)
@@ -143,14 +145,14 @@ namespace Xsolla.Demo
 			StartCoroutine(RemainingTimeCoroutine(timeLeft.TotalSeconds > 60 ? 60 : 1));
 			var suffix = shortSubsctiptionTimeFormat ? string.Empty : "remaining";
 			if (timeLeft.TotalDays >= 30)
-				return $"{(int) (timeLeft.TotalDays / 30)} month{(timeLeft.TotalDays > 60 ? "s" : "")} {suffix}";
+				return string.Format("{0} month{1} {2}", (int)(timeLeft.TotalDays / 30), (timeLeft.TotalDays > 60 ? "s" : ""),suffix);
 			if (timeLeft.TotalDays > 1)
-				return $"{(uint) (timeLeft.TotalDays)} day{(timeLeft.TotalDays > 1 ? "s" : "")} {suffix}";
+				return string.Format("{0} day{1} {2}", (uint)(timeLeft.TotalDays), (timeLeft.TotalDays > 1 ? "s" : ""), suffix);
 			if (timeLeft.TotalHours > 1)
-				return $"{(uint) (timeLeft.TotalHours)} hour{(timeLeft.TotalHours > 1 ? "s" : "")} {suffix}";
+				return string.Format("{0} hour{1} {2}", (uint)(timeLeft.TotalHours), (timeLeft.TotalHours > 1 ? "s" : ""), suffix);
 			if (timeLeft.TotalMinutes > 1)
-				return $"{(uint) (timeLeft.TotalMinutes)} minute{(timeLeft.TotalMinutes > 1 ? "s" : "")} {suffix}";
-			return $"{(uint) (timeLeft.TotalSeconds)} second{(timeLeft.TotalSeconds > 1 ? "s" : "")} {suffix}";
+				return string.Format("{0} minute{1} {2}", (uint)(timeLeft.TotalMinutes), (timeLeft.TotalMinutes > 1 ? "s" : ""), suffix);
+			return string.Format("{0} second{1} {2}", (uint)(timeLeft.TotalSeconds), (timeLeft.TotalSeconds > 1 ? "s" : ""), suffix);
 		}
 
 		private string GetPassedTime(DateTime expiredDateTime)
@@ -159,14 +161,14 @@ namespace Xsolla.Demo
 			StartCoroutine(RemainingTimeCoroutine(timePassed.TotalSeconds > 60 ? 60 : 1));
 			var suffix = shortSubsctiptionTimeFormat ? string.Empty : "ago";
 			if (timePassed.TotalDays >= 30)
-				return $"{(int) (timePassed.TotalDays / 30)} month{(timePassed.TotalDays > 60 ? "s" : "")} {suffix}";
+				return string.Format("{0} month{1} {2}", (int)(timePassed.TotalDays / 30), (timePassed.TotalDays > 60 ? "s" : ""), suffix);
 			if (timePassed.TotalDays > 1)
-				return $"{(uint) (timePassed.TotalDays)} day{(timePassed.TotalDays > 1 ? "s" : "")} {suffix}";
+				return string.Format("{0} day{1} {2}", (uint)(timePassed.TotalDays), (timePassed.TotalDays > 1 ? "s" : ""), suffix);
 			if (timePassed.TotalHours > 1)
-				return $"{(uint) (timePassed.TotalHours)} hour{(timePassed.TotalHours > 1 ? "s" : "")} {suffix}";
+				return string.Format("{0} hour{1} {2}", (uint)(timePassed.TotalHours), (timePassed.TotalHours > 1 ? "s" : ""), suffix);
 			if (timePassed.TotalMinutes > 1)
-				return $"{(uint) (timePassed.TotalMinutes)} minute{(timePassed.TotalMinutes > 1 ? "s" : "")} {suffix}";
-			return $"{(uint) (timePassed.TotalSeconds)} second{(timePassed.TotalSeconds > 1 ? "s" : "")} {suffix}";
+				return string.Format("{0} minute{1} {2}", (uint)(timePassed.TotalMinutes), (timePassed.TotalMinutes > 1 ? "s" : ""), suffix);
+			return string.Format("{0} second{1} {2}", (uint)(timePassed.TotalSeconds), (timePassed.TotalSeconds > 1 ? "s" : ""), suffix);
 		}
 
 		private IEnumerator RemainingTimeCoroutine(float waitSeconds)
@@ -177,7 +179,8 @@ namespace Xsolla.Demo
 
 		private void DrawConsumableVirtualItem()
 		{
-			if (TryDowncastTo<InventoryItemModel>(_itemInformation, out var model))
+			InventoryItemModel model;
+			if (TryDowncastTo<InventoryItemModel>(_itemInformation, out model))
 			{
 				DrawItemsCount(model);
 				EnableConsumeButton();
@@ -186,7 +189,8 @@ namespace Xsolla.Demo
 
 		private void DrawNonConsumableVirtualItem()
 		{
-			if (TryDowncastTo<InventoryItemModel>(_itemInformation, out var model))
+			InventoryItemModel model;
+			if (TryDowncastTo<InventoryItemModel>(_itemInformation, out model))
 			{
 				DrawItemsCount(model);
 				EnablePurchasedStatusText(isPurchased: true);
@@ -260,7 +264,8 @@ namespace Xsolla.Demo
 
 		private void ConsumeHandler()
 		{
-			if (TryDowncastTo<InventoryItemModel>(_itemInformation, out var model))
+			InventoryItemModel model;
+			if (TryDowncastTo<InventoryItemModel>(_itemInformation, out model))
 			{
 				DisableConsumeButton();
 				DemoInventory.Instance.ConsumeInventoryItem(model, consumeButton.counter.GetValue(),
@@ -274,7 +279,8 @@ namespace Xsolla.Demo
 
 		private void Counter_ValueChanged(int newValue)
 		{
-			if (TryDowncastTo<InventoryItemModel>(_itemInformation, out var model))
+			InventoryItemModel model;
+			if (TryDowncastTo<InventoryItemModel>(_itemInformation, out model))
 			{
 				if (newValue > model.RemainingUses)
 				{
@@ -308,7 +314,7 @@ namespace Xsolla.Demo
 			else
 			{
 				//TEXTREVIEW
-				Debug.LogError($"Item model was incorrect for item with sku '{itemModel.Sku}', expected type '{typeof (T)}'");
+				Debug.LogError(string.Format("Item model was incorrect for item with sku '{0}', expected type '{1}'", itemModel.Sku, typeof(T)));
 				result = null;
 				return false;
 			}

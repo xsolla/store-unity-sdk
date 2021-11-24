@@ -26,7 +26,13 @@ namespace Xsolla.Demo
 
 	public static class MenuStateExtension
 	{
-		public static bool IsAuthState(this MenuState menuState) => (int)menuState < 10;
-		public static bool IsPostAuthState(this MenuState menuState) => !menuState.IsAuthState() && menuState != MenuState.None;
+		public static bool IsAuthState(this MenuState menuState)
+		{
+			return (int)menuState < 10;
+		}
+		public static bool IsPostAuthState(this MenuState menuState)
+		{
+			return !menuState.IsAuthState() && menuState != MenuState.None;
+		}
 	}
 }

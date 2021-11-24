@@ -11,12 +11,12 @@ namespace Xsolla.Demo
 {
 	public class UserProfileAvatarManager : MonoBehaviour
 	{
-		[SerializeField] GameObject SetBlock = default;
-		[SerializeField] GameObject UnsetBlock = default;
-		[SerializeField] GameObject EditBlock = default;
+		[SerializeField] GameObject SetBlock;
+		[SerializeField] GameObject UnsetBlock;
+		[SerializeField] GameObject EditBlock;
 
-		[SerializeField] SimpleButton[] EditButtons = default;
-		[SerializeField] SimpleButton DeleteButton = default;
+		[SerializeField] SimpleButton[] EditButtons;
+		[SerializeField] SimpleButton DeleteButton;
 
 		private void Awake()
 		{
@@ -88,7 +88,8 @@ namespace Xsolla.Demo
 			bool? isImageUploaded = null;
 			ShowWaiting(() => isImageUploaded == null);
 
-			byte[] data = ConvertToData(sprite, out string boundary);
+			string boundary;
+			byte[] data = ConvertToData(sprite, out boundary);
 
 			var token = Token.Instance;
 			SdkLoginLogic.Instance.UploadUserPicture(token, data, boundary,
@@ -109,7 +110,7 @@ namespace Xsolla.Demo
 							onError: () => isImageUploaded = false);
 					}
 					else
-						Debug.LogError($"Could not parse server response: {imageInfo}");
+						Debug.LogError(string.Format("Could not parse server response: {0}", imageInfo));
 				},
 				onError: error =>
 				{
@@ -154,20 +155,22 @@ namespace Xsolla.Demo
 				onSuccess: info =>
 				{
 					info.picture = pictureUrl;
-					onSuccess?.Invoke();
+					if (onSuccess != null)
+						onSuccess.Invoke();
 				},
 				onError: error =>
 				{
 					StoreDemoPopup.ShowError(error);
-					onError?.Invoke();
+					if (onError != null)
+						onError.Invoke();
 				});
 		}
 
 		private byte[] ConvertToData(Sprite sprite, out string boundary)
 		{
-			boundary = $"{new string('-', 27)}{DateTime.Now.Ticks}";
-			var beginBoundary = $"\r\n--{boundary}\r\n";
-			var endBoundary = $"\r\n--{boundary}--\r\n";
+			boundary = string.Format("{0}{1}", new string('-', 27), DateTime.Now.Ticks);
+			var beginBoundary = string.Format("\r\n--{0}\r\n", boundary);
+			var endBoundary = string.Format("\r\n--{0}--\r\n", boundary);
 
 			var texture = sprite.texture;
 			var binaryData = texture.EncodeToPNG();

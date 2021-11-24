@@ -6,12 +6,24 @@ namespace Xsolla.Demo
 {
 	public partial class DemoController : MonoSingleton<DemoController>
 	{
-		[SerializeField]private MenuStateMachine stateMachine = default;
-		[SerializeField]private UrlContainer urlContainer = default;
+		[SerializeField]private MenuStateMachine stateMachine;
+		[SerializeField]private UrlContainer urlContainer;
 
-		public UrlContainer UrlContainer => urlContainer;
-		public bool IsTutorialAvailable { get; private set; } = false;
-		public bool IsAccessTokenAuth => XsollaSettings.AuthorizationType == AuthorizationType.AccessToken;
+		public UrlContainer UrlContainer
+		{
+			get
+			{
+				return urlContainer;
+			}
+		}
+		public bool IsTutorialAvailable { get; private set; }
+		public bool IsAccessTokenAuth
+		{
+			get
+			{
+				return XsollaSettings.AuthorizationType == AuthorizationType.AccessToken;
+			}
+		}
 
 		public override void Init()
 		{
@@ -66,10 +78,13 @@ namespace Xsolla.Demo
 
 		public string GetWebStoreUrl()
 		{
-			return $"{XsollaSettings.WebStoreUrl}?token={Token.Instance}&remember_me=false";
+			return string.Format("{0}?token={1}&remember_me=false", XsollaSettings.WebStoreUrl, Token.Instance);
 		}
 
-		public void ShowTutorial(bool showWelcomeMessage) => ManualStartTutorial(showWelcomeMessage);
+		public void ShowTutorial(bool showWelcomeMessage)
+		{
+			ManualStartTutorial(showWelcomeMessage);
+		}
 
 		private void OnStateChanged(MenuState lastState, MenuState newState)
 		{

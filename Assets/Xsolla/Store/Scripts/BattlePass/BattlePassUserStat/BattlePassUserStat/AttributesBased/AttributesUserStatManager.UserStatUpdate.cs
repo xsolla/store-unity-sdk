@@ -27,7 +27,7 @@ namespace Xsolla.Demo
 		{
 			if (freeItemsToAdd == null && premiumItemsToAdd == null)
 			{
-				Debug.LogWarning($"AddObtainedItems: Both arguments were null. At least one must be provided.");
+				Debug.LogWarning("AddObtainedItems: Both arguments were null. At least one must be provided.");
 				return;
 			}
 

@@ -4,8 +4,8 @@ namespace Xsolla.Demo
 {
 	public class VirtualCurrencySubMenu : MonoBehaviour
 	{
-		[SerializeField] private SimpleButton buyCurrencyButton = default;
-		[SerializeField] private GameObject virtualCurrencyBalance = default;
+		[SerializeField] private SimpleButton buyCurrencyButton;
+		[SerializeField] private GameObject virtualCurrencyBalance;
 
 		private void Start()
 		{

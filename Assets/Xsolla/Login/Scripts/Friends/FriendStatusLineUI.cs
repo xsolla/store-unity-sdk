@@ -4,8 +4,8 @@ namespace Xsolla.Demo
 {
 	public class FriendStatusLineUI : MonoBehaviour
 	{
-		[SerializeField] private GameObject RequestAcceptedObject = default;
-		[SerializeField] private GameObject RequestDeclinedObject = default;
+		[SerializeField] private GameObject RequestAcceptedObject;
+		[SerializeField] private GameObject RequestDeclinedObject;
 
 		private void Start()
 		{

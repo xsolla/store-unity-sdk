@@ -4,9 +4,9 @@ namespace Xsolla.Demo
 {
 	public class BattlePassItemShowcaseFinal : BaseBattlePassItemShowcase
 	{
-		[SerializeField] private Color ActiveColor = default;
-		[SerializeField] private Color TintedColor = default;
-		[SerializeField] private BattlePassImageRatioFitter ItemImageRatioFitter = default;
+		[SerializeField] private Color ActiveColor;
+		[SerializeField] private Color TintedColor;
+		[SerializeField] private BattlePassImageRatioFitter ItemImageRatioFitter;
 
 		private const string ITEM_DESCRIPTION_TEMPLATE = "Reach level <color=#FF005B>{0}</color> to get this {1}";
 		private const string COLLECT_INFO = "Available now!";
@@ -78,7 +78,7 @@ namespace Xsolla.Demo
 			var firstChar = char.ToLowerInvariant(itemDescription[0]);
 			var restChars = itemDescription.Substring(1);
 
-			return $"{firstChar}{restChars}";
+			return string.Format("{0}{1}", firstChar, restChars);
 		}
 
 		private void PostSetItemInfo(BattlePassItemState itemState)

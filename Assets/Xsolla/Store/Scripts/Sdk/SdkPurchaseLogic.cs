@@ -18,20 +18,22 @@ namespace Xsolla.Demo
 				onRestrictedPaymentMethod: methodId =>
 				{
 					HandleRestrictedPaymentMethod(data, methodId, restrictedPaymentAllower,
-					onSuccess: () =>
+					() =>
 					{
-						onSuccess?.Invoke(item);
+						if (onSuccess != null)
+							onSuccess.Invoke(item);
 					},
 					onError);
 				});
 
 				OrderTracking.Instance.AddOrderForTracking(XsollaSettings.StoreProjectId, data.order_id, () =>
 				{
-					onSuccess?.Invoke(item);
+					if (onSuccess != null)
+						onSuccess.Invoke(item);
 				},
 				onError);
 			},
-			onError);
+			onError: onError);
 		}
 
 		public void PurchaseForVirtualCurrency(CatalogItemModel item, Action<CatalogItemModel> onSuccess = null, Action<Error> onError = null)
@@ -39,13 +41,17 @@ namespace Xsolla.Demo
 			XsollaStore.Instance.ItemPurchaseForVirtualCurrency(
 				XsollaSettings.StoreProjectId,
 				item.Sku,
-				item.VirtualPrice?.Key,
+				item.VirtualPrice.Value.Key,
 				data =>
 				{
 					OrderTracking.Instance.AddOrderForTracking(
 						XsollaSettings.StoreProjectId,
 						data.order_id,
-						() => onSuccess?.Invoke(item),
+						() =>
+						{
+							if (onSuccess != null)
+								onSuccess.Invoke(item);
+						},
 						onError
 					);
 				},
@@ -57,7 +63,8 @@ namespace Xsolla.Demo
 			if (!items.Any())
 			{
 				var error = new Error(errorMessage: "Cart is empty");
-				onError?.Invoke(error);
+				if (onError != null)
+					onError.Invoke(error);
 				return;
 			}
 
@@ -80,18 +87,20 @@ namespace Xsolla.Demo
 								HandleRestrictedPaymentMethod(data, methodId, restrictedPaymentAllower,
 								onSuccess: () =>
 								{
-									onSuccess?.Invoke(items);
+									if (onSuccess != null)
+										onSuccess.Invoke(items);
 								},
-								onError);
+								onError: onError);
 
 							});
 
 							OrderTracking.Instance.AddOrderForTracking(XsollaSettings.StoreProjectId, data.order_id,
 							onSuccess: () =>
 							{
-								onSuccess?.Invoke(items);
+								if (onSuccess != null)
+									onSuccess.Invoke(items);
 							},
-							onError);
+							onError: onError);
 
 						}, onError);
 					}, onError);
@@ -106,7 +115,8 @@ namespace Xsolla.Demo
 
 			Action<bool> onAllowed = allowed =>
 			{
-				BrowserHelper.Instance.InAppBrowser?.Close();
+				if (BrowserHelper.Instance.InAppBrowser != null)
+					BrowserHelper.Instance.InAppBrowser.Close();
 
 				if (allowed)
 				{

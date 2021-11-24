@@ -2,20 +2,17 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Xsolla.Core.Popup;
-using Xsolla.UIBuilder;
 
 namespace Xsolla.Demo
 {
 	public class CartMenuController : MonoBehaviour
 	{
-		[SerializeField] private WidgetProvider ItemPrefabProvider = new WidgetProvider();
-		[SerializeField] private GameObject itemsHeader = default;
-		[SerializeField] private ItemContainer itemsContainer = default;
-		[SerializeField] private CartControls cartControls = default;
-		[SerializeField] private GameObject emptyCartMessage = default;
-		[SerializeField] private SimpleButton goToStoreButton = default;
-
-		private GameObject ItemPrefab => ItemPrefabProvider.GetValue();
+		[SerializeField] private GameObject ItemPrefab;
+		[SerializeField] private GameObject itemsHeader;
+		[SerializeField] private ItemContainer itemsContainer;
+		[SerializeField] private CartControls cartControls;
+		[SerializeField] private GameObject emptyCartMessage;
+		[SerializeField] private SimpleButton goToStoreButton;
 
 		private readonly List<GameObject> _items = new List<GameObject>();
 
@@ -49,8 +46,14 @@ namespace Xsolla.Demo
 			UserCart.Instance.RemoveItemEvent -= OnRemoveItemEvent;
 		}
 
-		private void OnUpdateItemEvent(UserCartItem item, int deltaCount) => Refresh();
-		private void OnRemoveItemEvent(UserCartItem item) => Refresh();
+		private void OnUpdateItemEvent(UserCartItem item, int deltaCount)
+		{
+			Refresh();
+		}
+		private void OnRemoveItemEvent(UserCartItem item)
+		{
+			Refresh();
+		}
 
 		private void Refresh()
 		{

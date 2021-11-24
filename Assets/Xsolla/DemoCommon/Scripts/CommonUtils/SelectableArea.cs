@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -14,12 +14,14 @@ namespace Xsolla.Demo
 
 		public void OnPointerEnter(PointerEventData eventData)
 		{
-			OnPointerEnterEvent?.Invoke();
+			if (OnPointerEnterEvent != null)
+				OnPointerEnterEvent.Invoke();
 		}
 
 		public void OnPointerExit(PointerEventData eventData)
 		{
-			OnPointerExitEvent?.Invoke();
+			if (OnPointerExitEvent != null)
+				OnPointerExitEvent.Invoke();
 		}
 	}
 }

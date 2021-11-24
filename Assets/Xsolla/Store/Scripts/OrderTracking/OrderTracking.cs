@@ -31,7 +31,8 @@ namespace Xsolla.Store
 
 		public void RemoveOrderFromTracking(int orderId)
 		{
-			if (!trackers.TryGetValue(orderId, out var tracker))
+			OrderTracker tracker;
+			if (!trackers.TryGetValue(orderId, out tracker))
 				return;
 
 			tracker.Stop();

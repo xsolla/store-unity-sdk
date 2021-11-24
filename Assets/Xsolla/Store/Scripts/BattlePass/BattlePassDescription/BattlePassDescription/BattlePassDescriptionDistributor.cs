@@ -4,8 +4,8 @@ namespace Xsolla.Demo
 {
 	public class BattlePassDescriptionDistributor : MonoBehaviour
     {
-		[SerializeField] BattlePassDescriptionProvider DescriptionProvider = default;
-		[SerializeField] BaseBattlePassDescriptionSubscriber[] DescriptionSubscribers = default;
+		[SerializeField] BattlePassDescriptionProvider DescriptionProvider;
+		[SerializeField] BaseBattlePassDescriptionSubscriber[] DescriptionSubscribers;
 
 		private void Awake()
 		{

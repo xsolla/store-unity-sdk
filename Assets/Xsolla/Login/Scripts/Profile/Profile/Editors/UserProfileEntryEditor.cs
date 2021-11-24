@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 
 namespace Xsolla.Demo
@@ -9,7 +9,8 @@ namespace Xsolla.Demo
 
 		protected void RaiseEntryEdited(string value)
 		{
-			UserProfileEntryEdited?.Invoke(value);
+			if (UserProfileEntryEdited != null)
+				UserProfileEntryEdited.Invoke(value);
 		}
 
 		public abstract void SetInitial(string value);

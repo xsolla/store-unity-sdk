@@ -9,12 +9,12 @@ namespace Xsolla.Demo
 {
 	public partial class BattlePassItem : MonoBehaviour
     {
-		[SerializeField] private Image ItemImage = default;
-		[SerializeField] private GameObject LoadingCircle = default;
-		[SerializeField] private GameObject QuantityLabel = default;
-		[SerializeField] private Text QuantityText = default;
-		[SerializeField] private GameObject SelectionObject = default;
-		[SerializeField] private BattlePassImageRatioFitter ImageRatioFitter = default;
+		[SerializeField] private Image ItemImage;
+		[SerializeField] private GameObject LoadingCircle;
+		[SerializeField] private GameObject QuantityLabel;
+		[SerializeField] private Text QuantityText;
+		[SerializeField] private GameObject SelectionObject;
+		[SerializeField] private BattlePassImageRatioFitter ImageRatioFitter;
 
 		private static IEnumerable<ItemModel> _allCatalogItems;
 		private static IEnumerable<ItemModel> AllCatalogItems
@@ -23,8 +23,8 @@ namespace Xsolla.Demo
 			{
 				if (_allCatalogItems == null)
 				{
-					IEnumerable<ItemModel> allCurrencies = UserCatalog.Instance.VirtualCurrencies;
-					IEnumerable<ItemModel> allItems = UserCatalog.Instance.AllItems;
+					IEnumerable<ItemModel> allCurrencies = UserCatalog.Instance.VirtualCurrencies.Cast<ItemModel>();
+					IEnumerable<ItemModel> allItems = UserCatalog.Instance.AllItems.Cast<ItemModel>();
 					_allCatalogItems = allCurrencies.Concat(allItems);
 				}
 
@@ -44,7 +44,7 @@ namespace Xsolla.Demo
 
 		private void SetEmpty()
 		{
-			BackgroundImage.color = BackgroundEmpty.GetValue();
+			BackgroundImage.color = BackgroundEmpty;
 			SelectionObject.SetActive(false);
 			LoadingCircle.SetActive(false);
 			ItemButton.gameObject.SetActive(false);
@@ -55,7 +55,7 @@ namespace Xsolla.Demo
 			if (TryCompleteItemDescription(itemDescription))
 				LoadImage(itemDescription.ItemCatalogModel.ImageUrl, SetItemImage);
 			else
-				Debug.LogError($"Could not find corresponding ItemModel for item with sku: '{itemDescription.Sku}'");
+				Debug.LogError(string.Format("Could not find corresponding ItemModel for item with sku: '{0}'", itemDescription.Sku));
 
 			if (itemDescription.Quantity > 1)
 				SetQuantity(itemDescription.Quantity);
@@ -84,7 +84,7 @@ namespace Xsolla.Demo
 			if (!string.IsNullOrEmpty(url))
 				ImageLoader.Instance.GetImageAsync(url, (_, image) => loadCallback(image));
 			else
-				Debug.LogError($"Inventory item with sku = have not image!");
+				Debug.LogError("Inventory item have no image!");
 		}
 
 		private void SetItemImage(Sprite image)

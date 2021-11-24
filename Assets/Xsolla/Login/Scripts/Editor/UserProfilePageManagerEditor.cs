@@ -20,7 +20,7 @@ namespace Xsolla.Demo
 
 				for (int i = 0; i < typeNames.Length; i++)
 				{
-					var value = EditorGUILayout.ObjectField(label: typeNames[i], userProfielManager.UserProfileEntries[i], typeof(UserProfileEntryUI), allowSceneObjects: true);
+					var value = EditorGUILayout.ObjectField(label: typeNames[i], obj: userProfielManager.UserProfileEntries[i], objType: typeof(UserProfileEntryUI), allowSceneObjects: true);
 
 					if (value != userProfielManager.UserProfileEntries[i])
 						userProfielManager.UserProfileEntries[i] = value as UserProfileEntryUI;
@@ -39,7 +39,7 @@ namespace Xsolla.Demo
 				UserProfileEntryUI[] newArray = new UserProfileEntryUI[targetLength];
 				var length = targetLength > array.Length ? array.Length : targetLength;
 
-				Array.Copy(sourceArray: array, destinationArray: newArray, length);
+				Array.Copy(sourceArray: array, destinationArray: newArray, length: length);
 
 				return newArray;
 			}

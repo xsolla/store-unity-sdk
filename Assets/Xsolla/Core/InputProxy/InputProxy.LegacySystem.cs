@@ -1,4 +1,4 @@
-﻿#if !ENABLE_INPUT_SYSTEM
+#if !ENABLE_INPUT_SYSTEM
 using UnityEngine;
 
 namespace Xsolla.Core
@@ -17,7 +17,10 @@ namespace Xsolla.Core
 
 		public static Vector3 MousePosition
 		{
-			get => Input.mousePosition;
+			get
+			{
+				return Input.mousePosition;
+			}
 		}
 	}
 }

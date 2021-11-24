@@ -10,7 +10,8 @@ namespace Xsolla.Demo
 
 		public override void TryAuth(params object[] args)
 		{
-			if (TryExtractArgs(args, out var requester, out var email))
+			ICodeRequester requester; string email;
+			if (TryExtractArgs(args, out requester, out email))
 			{
 				if (IsEmailValid(email))
 				{
@@ -22,12 +23,13 @@ namespace Xsolla.Demo
 						onError: error => OnPasswordlessError(error,requester));
 				}
 				else
-					OnPasswordlessError(new Error(ErrorType.InvalidData, errorMessage:$"Email not valid '{email}'"), requester);
+					OnPasswordlessError(new Error(ErrorType.InvalidData, errorMessage:string.Format("Email not valid '{0}'", email)), requester);
 			}
 			else
 			{
 				Debug.LogError("PasswordlessEmailAuth.TryAuth: Could not extract arguments");
-				base.OnError?.Invoke(new Error(errorMessage: "Passwordless auth failed"));
+				if (base.OnError != null)
+					base.OnError.Invoke(new Error(errorMessage: "Passwordless auth failed"));
 			}
 		}
 
@@ -69,14 +71,19 @@ namespace Xsolla.Demo
 				email: _currentEmail,
 				confirmationCode: code,
 				operationId: _currentOperationID,
-				onSuccess: token => base.OnSuccess?.Invoke(token),
+				onSuccess: token =>
+				{
+					if (base.OnSuccess != null)
+						base.OnSuccess.Invoke(token);
+				},
 				onError: OnCodeError);
 		}
 
 		private void OnPasswordlessError(Error error, ICodeRequester requester)
 		{
 			requester.RaiseOnError(error);
-			base.OnError?.Invoke(error);
+			if (base.OnError != null)
+				base.OnError.Invoke(error);
 		}
 
 		private void OnCodeError(Error error)

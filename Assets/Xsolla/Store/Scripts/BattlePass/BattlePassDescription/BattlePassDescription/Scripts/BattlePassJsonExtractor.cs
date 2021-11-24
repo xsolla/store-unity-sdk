@@ -21,7 +21,7 @@ namespace Xsolla.Demo
 					battlePassDescriptions.Add(deserializedDescription);
 				}
 				else
-					Debug.LogError($"BattlePass description is null or empty for item name: '{item.Name}'");
+					Debug.LogError(string.Format("BattlePass description is null or empty for item name: '{0}'", item.Name));
 			}
 
 			if (battlePassDescriptions.Count > 0)

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.InteropServices;
 using UnityEngine;
 using Xsolla.Core;
@@ -22,18 +22,19 @@ namespace Xsolla.Demo
 
 		public override void TryAuth(params object[] args)
 		{
-			if (TryExtractProvider(args, out SocialProvider provider))
+			SocialProvider provider;
+			if (TryExtractProvider(args, out provider))
 			{
 				_requestedProvider = provider;
 
 				try
 				{
-					var providerName = _requestedProvider.ToString().ToLower();
 
+#if UNITY_IOS
+					var providerName = _requestedProvider.ToString().ToLower();
 					Action<string> onSuccessNative = SuccessHandler;
 					Action<string> onErrorNative = FailHandler;
 					Action onCancelNative = CancelHandler;
-#if UNITY_IOS
 					_authBySocialNetwork(providerName, XsollaSettings.OAuthClientId, DEMO_AUTH_STATE, XsollaSettings.CallbackUrl,
 						IosCallbacks.ActionStringCallback, onSuccessNative.GetPointer(),
 						IosCallbacks.ActionStringCallback, onErrorNative.GetPointer(),
@@ -42,19 +43,22 @@ namespace Xsolla.Demo
 					Debug.Log("IosSocialAuth.SocialNetworkAuth: auth request was sent");
 #else
 					Debug.LogError("IosSocialAuth.TryAuth: Platform not supported");
-					base.OnError?.Invoke(new Error(errorMessage: "Social auth failed"));
+					if (base.OnError != null)
+						base.OnError.Invoke(new Error(errorMessage: "Social auth failed"));
 #endif
 				}
 				catch (Exception ex)
 				{
-					Debug.LogError($"IosSocialAuth.SocialNetworkAuth: {ex.Message}");
-					base.OnError?.Invoke(new Error(errorMessage: "Social auth failed"));
+					Debug.LogError(string.Format("IosSocialAuth.SocialNetworkAuth: {0}", ex.Message));
+					if (base.OnError != null)
+						base.OnError.Invoke(new Error(errorMessage: "Social auth failed"));
 				}
 			}
 			else
 			{
 				Debug.LogError("IosSocialAuth.TryAuth: Could not extract argument");
-				base.OnError?.Invoke(new Error(errorMessage: "Social auth failed"));
+				if (base.OnError != null)
+					base.OnError.Invoke(new Error(errorMessage: "Social auth failed"));
 			}
 		}
 
@@ -70,7 +74,7 @@ namespace Xsolla.Demo
 
 			if (args.Length != 1)
 			{
-				Debug.LogError($"IosSocialAuth.TryExtractProvider: args.Length expected 1, was {args.Length}");
+				Debug.LogError(string.Format("IosSocialAuth.TryExtractProvider: args.Length expected 1, was {0}", args.Length));
 				return false;
 			}
 
@@ -80,7 +84,7 @@ namespace Xsolla.Demo
 			}
 			catch (Exception ex)
 			{
-				Debug.LogError($"IosSocialAuth.TryExtractProvider: Error during argument extraction: {ex.Message}");
+				Debug.LogError(string.Format("IosSocialAuth.TryExtractProvider: Error during argument extraction: {0}", ex.Message));
 				return false;
 			}
 
@@ -102,19 +106,22 @@ namespace Xsolla.Demo
 
 			Token.Instance = Token.Create(response.access_token);
 
-			base.OnSuccess?.Invoke(response.access_token);
+			if (base.OnSuccess != null)
+				base.OnSuccess.Invoke(response.access_token);
 		}
 
 		private void FailHandler(string error)
 		{
-			Debug.LogError($"Social auth failed.");
-			base.OnError?.Invoke(new Error(errorMessage: $"Social auth failed: {error}"));
+			Debug.LogError("Social auth failed.");
+			if (base.OnError != null)
+				base.OnError.Invoke(new Error(errorMessage: string.Format("Social auth failed: {0}", error)));
 		}
 		
 		private void CancelHandler()
 		{
-			Debug.LogError($"Social auth cancelled.");
-			base.OnError?.Invoke(null);
+			Debug.LogError("Social auth cancelled.");
+			if (base.OnError != null)
+				base.OnError.Invoke(null);
 		}
 	}
 }

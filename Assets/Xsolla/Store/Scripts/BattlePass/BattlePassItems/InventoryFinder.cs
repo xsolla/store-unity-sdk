@@ -28,9 +28,15 @@ namespace Xsolla.Demo
 			}while (inventoryItem == null && counter <= maxAttempts);
 
 			if/*now*/(inventoryItem != null)
-				onFind?.Invoke(inventoryItem);
+			{
+				if (onFind != null)
+					onFind.Invoke(inventoryItem);
+			}
 			else
-				onAbsence?.Invoke();
+			{
+				if (onAbsence != null)
+					onAbsence.Invoke();
+			}
 		}
 
 		private InventoryItemModel GetInventoryItem(string skuOrName)

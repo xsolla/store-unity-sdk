@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
@@ -53,10 +53,15 @@ namespace Xsolla.Core
 				XsollaSettings.SteamAppId = appId;
 				changed = true;
 				
+				var path = Path.Combine(Application.dataPath, "Plugins");
+				path = Path.Combine(path, "Steamworks.NET");
+				path = Path.Combine(path, "redist");
+				path = Path.Combine(path, "steam_appid.txt");
+
 				var steamAppIdFiles = new []
 				{
 					Application.dataPath.Replace("Assets", "steam_appid.txt"),
-					Path.Combine(Application.dataPath, "Plugins", "Steamworks.NET", "redist", "steam_appid.txt")
+					path
 				};
 				
 				try
@@ -71,7 +76,7 @@ namespace Xsolla.Core
 				catch (Exception)
 				{
 					var filePathsArray = string.Join("\n", steamAppIdFiles);
-					Debug.LogWarning($"[Steamworks.NET] Could not write SteamAppId in the files \"steam_appid.txt\". Please edit them manually and relaunch Unity. Files:\n{filePathsArray}\n");
+					Debug.LogWarning(string.Format("[Steamworks.NET] Could not write SteamAppId in the files \"steam_appid.txt\". Please edit them manually and relaunch Unity. Files:\n{0}\n", filePathsArray));
 				}
 			}
 

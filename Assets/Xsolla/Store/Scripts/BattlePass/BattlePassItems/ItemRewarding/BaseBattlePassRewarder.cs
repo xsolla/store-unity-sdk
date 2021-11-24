@@ -7,12 +7,12 @@ namespace Xsolla.Demo
 {
 	public abstract class BaseBattlePassRewarder : BaseBattlePassSelectedItemSubscriber
 	{
-		[SerializeField] protected BaseBattlePassUserStatManager UserStatManager = default;
+		[SerializeField] protected BaseBattlePassUserStatManager UserStatManager;
 		[Space]
-		[SerializeField] private SimpleButton[] CollectButtons = default;
-		[SerializeField] private SimpleButton[] CollectAllButtons = default;
+		[SerializeField] private SimpleButton[] CollectButtons;
+		[SerializeField] private SimpleButton[] CollectAllButtons;
 		[Space]
-		[SerializeField] private BattlePassPopupFactory PopupFactory = default;
+		[SerializeField] private BattlePassPopupFactory PopupFactory;
 
 		protected BattlePassItemClickEventArgs _selectedItemEventArgs;
 		protected BattlePassItemDescription[] _itemsToCollect;
@@ -36,7 +36,7 @@ namespace Xsolla.Demo
 		{
 			if (_selectedItemEventArgs.ItemState != BattlePassItemState.Collect)
 			{
-				Debug.LogWarning($"Selected item is in '{_selectedItemEventArgs.ItemState.ToString()}' state. Can not collect it.");
+				Debug.LogWarning(string.Format("Selected item is in '{0}' state. Can not collect it.", _selectedItemEventArgs.ItemState.ToString()));
 				return;
 			}
 
@@ -75,7 +75,7 @@ namespace Xsolla.Demo
 				{
 					itemBusy = false;
 					var isPremiumFlag = item.IsPremium ? "premium" : "regular";
-					Debug.LogError($"Could not collect {isPremiumFlag} item; Tier: '{item.Tier}'; SKU: '{item.Sku}'");
+					Debug.LogError(string.Format("Could not collect {0} item; Tier: '{1}'; SKU: '{2}'", isPremiumFlag, item.Tier, item.Sku));
 				});
 
 				CollectReward(item, onSuccess, onError);

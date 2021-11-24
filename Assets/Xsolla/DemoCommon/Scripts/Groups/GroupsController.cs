@@ -10,8 +10,8 @@ namespace Xsolla.Demo
 	{
 		public event Action<string> GroupSelectedEvent;
 
-		[SerializeField] private GameObject groupPrefab = default;
-		[SerializeField] private RectTransform scrollView = default;
+		[SerializeField] private GameObject groupPrefab;
+		[SerializeField] private RectTransform scrollView;
 
 		public List<IGroup> Groups { get; private set; }
 		private readonly List<GameObject> _groupObjects = new List<GameObject>(); 
@@ -89,12 +89,15 @@ namespace Xsolla.Demo
 					group.Deselect();
 			}
 
-			GroupSelectedEvent?.Invoke(groupId);
+			if (GroupSelectedEvent != null)
+				GroupSelectedEvent.Invoke(groupId);
 		}
 
 		public void SelectDefault()
 		{
-			Groups.FirstOrDefault()?.Select();
+			IGroup defaultGroup = Groups.FirstOrDefault();
+			if (defaultGroup != null)
+				defaultGroup.Select();
 		}
 
 		public IGroup GetSelectedGroup()

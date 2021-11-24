@@ -51,13 +51,13 @@ namespace Xsolla.Core
 		{
 			var message = string.Empty;
 			if (ErrorType != ErrorType.UnknownError)
-				message += $"Type: {ErrorType}. ";
+				message += string.Format("Type: {0}. ", ErrorType);
 			if (!string.IsNullOrEmpty(statusCode))
-				message += $"Status code: {statusCode}. ";
+				message += string.Format("Status code: {0}. ", statusCode);
 			if (!string.IsNullOrEmpty(errorCode))
-				message += $"Error code: {errorCode}. ";
+				message += string.Format("Error code: {0}. ", errorCode);
 			if (!string.IsNullOrEmpty(errorMessage))
-				message += $"{errorMessage}. ";
+				message += string.Format("{0}. ", errorMessage);
 			return message;
 		}
 	}

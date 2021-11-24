@@ -50,6 +50,12 @@ namespace Xsolla.Core
 			}
 		}
 
-		public static bool IsStandaloneOrEditor => (IsStandalone || IsEditor);
+		public static bool IsStandaloneOrEditor
+		{
+			get
+			{
+				return (IsStandalone || IsEditor);
+			}
+		}
 	}
 }

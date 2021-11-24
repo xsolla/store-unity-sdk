@@ -18,7 +18,10 @@ namespace Xsolla.Core
 		{
 			Error error = CheckResponseForErrors(webRequest, errorsToCheck);
 			if (error == null)
-				onComplete?.Invoke();
+			{
+				if (onComplete != null)
+					onComplete.Invoke();
+			}
 			else
 				TriggerOnError(onError, error);
 		}
@@ -47,7 +50,8 @@ namespace Xsolla.Core
 				string data = webRequest.downloadHandler.text;
 				if (data != null)
 				{
-					onComplete?.Invoke(data);
+					if (onComplete != null)
+						onComplete.Invoke(data);
 				}
 				else
 				{
@@ -79,7 +83,8 @@ namespace Xsolla.Core
 				var texture = ((DownloadHandlerTexture)webRequest.downloadHandler).texture;
 				if (texture != null)
 				{
-					onComplete?.Invoke(texture);
+					if (onComplete != null)
+						onComplete.Invoke(texture);
 				}
 				else
 				{
@@ -105,7 +110,8 @@ namespace Xsolla.Core
 				T data = GetResponsePayload<T>(webRequest.downloadHandler.text);
 				if (data != null)
 				{
-					onComplete?.Invoke(data);
+					if (onComplete != null)
+						onComplete.Invoke(data);
 				}
 				else
 				{
@@ -160,8 +166,8 @@ namespace Xsolla.Core
 
 		static void TriggerOnError(Action<Error> onError, Error error)
 		{
-			if (error != null)
-				onError?.Invoke(error);
+			if (error != null && onError != null)
+				onError.Invoke(error);
 		}
 	}
 }

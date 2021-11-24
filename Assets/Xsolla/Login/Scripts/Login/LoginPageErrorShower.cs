@@ -6,7 +6,7 @@ namespace Xsolla.Demo
 {
 	public class LoginPageErrorShower : MonoBehaviour
 	{
-		[SerializeField] Text ErrorText = default;
+		[SerializeField] Text ErrorText;
 
 		private void Awake()
 		{

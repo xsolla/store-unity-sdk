@@ -5,8 +5,8 @@ namespace Xsolla.Demo
 {
 	public class InventoryItemContainer : MonoBehaviour, IContainer
 	{
-		[SerializeField] private GameObject itemPrefab = default;
-		[SerializeField] private Transform itemParent = default;
+		[SerializeField] private GameObject itemPrefab;
+		[SerializeField] private Transform itemParent;
 
 		private List<GameObject> _items;
 

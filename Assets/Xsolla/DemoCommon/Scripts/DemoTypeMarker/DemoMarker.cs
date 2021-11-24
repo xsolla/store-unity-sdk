@@ -7,19 +7,55 @@ namespace Xsolla.Demo
 		{
 			get
 			{
-				if (_marker is null)
+				if (_marker == null)
 					_marker = new DemoMarker();
 
 				return _marker;
 			}
 		}
 
-		public static bool IsStorePartAvailable => (Marker is IStoreDemoMarker);
-		public static bool IsInventoryPartAvailable => (Marker is IInventoryDemoMarker);
-		public static bool IsLoginPartAvailable => (Marker is ILoginDemoMarker);
+		public static bool IsStorePartAvailable
+		{
+			get
+			{
+				return (Marker is IStoreDemoMarker);
+			}
+		}
+		public static bool IsInventoryPartAvailable
+		{
+			get
+			{
+				return (Marker is IInventoryDemoMarker);
+			}
+		}
+		public static bool IsLoginPartAvailable
+		{
+			get
+			{
+				return (Marker is ILoginDemoMarker);
+			}
+		}
 
-		public static bool IsStoreDemo		=> IsStorePartAvailable && IsInventoryPartAvailable && IsLoginPartAvailable;
-		public static bool IsInventoryDemo	=> !IsStorePartAvailable && IsInventoryPartAvailable && IsLoginPartAvailable;
-		public static bool IsLoginDemo		=> !IsStorePartAvailable && !IsInventoryPartAvailable && IsLoginPartAvailable;
+		public static bool IsStoreDemo
+		{
+			get
+			{
+				return IsStorePartAvailable && IsInventoryPartAvailable && IsLoginPartAvailable;
+			}
+		}
+		public static bool IsInventoryDemo
+		{
+			get
+			{
+				return !IsStorePartAvailable && IsInventoryPartAvailable && IsLoginPartAvailable;
+			}
+		}
+		public static bool IsLoginDemo
+		{
+			get
+			{
+				return !IsStorePartAvailable && !IsInventoryPartAvailable && IsLoginPartAvailable;
+			}
+		}
 	}
 }

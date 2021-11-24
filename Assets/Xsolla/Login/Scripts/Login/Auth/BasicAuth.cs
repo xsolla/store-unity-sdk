@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Xsolla.Core;
 
 namespace Xsolla.Demo
@@ -11,7 +11,8 @@ namespace Xsolla.Demo
 
 		public override void TryAuth(params object[] args)
 		{
-			if (TryExtractArgs(args, out string username, out string password, out bool rememberMe))
+			string username; string password; bool rememberMe;
+			if (TryExtractArgs(args, out username, out password, out rememberMe))
 			{
 				_isDemoUser = (username.ToUpper() == DEMO_USER_NAME && password.ToUpper() == DEMO_USER_NAME);
 				_isJwtInvalidationEnabled = XsollaSettings.JwtTokenInvalidationEnabled;
@@ -24,7 +25,8 @@ namespace Xsolla.Demo
 			else
 			{
 				Debug.LogError("BasicAuth.TryAuth: Could not extract arguments for SignIn");
-				base.OnError?.Invoke(new Error(errorMessage: "Basic auth failed"));
+				if (base.OnError != null)
+					base.OnError.Invoke(new Error(errorMessage: "Basic auth failed"));
 			}
 		}
 
@@ -42,7 +44,7 @@ namespace Xsolla.Demo
 
 			if (args.Length != 3)
 			{
-				Debug.LogError($"BasicAuth.TryExtractArgs: args.Length expected 3, was {args.Length}");
+				Debug.LogError(string.Format("BasicAuth.TryExtractArgs: args.Length expected 3, was {}", args.Length));
 				return false;
 			}
 
@@ -54,7 +56,7 @@ namespace Xsolla.Demo
 			}
 			catch (Exception ex)
 			{
-				Debug.LogError($"BasicAuth.TryExtractArgs: Error during argument extraction: {ex.Message}");
+				Debug.LogError(string.Format("BasicAuth.TryExtractArgs: Error during argument extraction: {}", ex.Message));
 				return false;
 			}
 
@@ -64,14 +66,16 @@ namespace Xsolla.Demo
 		private void BasicAuthSuccess(string token)
 		{
 			RestoreJwtInvalidationIfNeeded();
-			base.OnSuccess?.Invoke(Token.Instance);
+			if (base.OnSuccess != null)
+				base.OnSuccess.Invoke(Token.Instance);
 		}
 
 		private void BasicAuthFailed(Error error)
 		{
 			RestoreJwtInvalidationIfNeeded();
-			Debug.LogWarning($"BasicAuth: auth failed. Error: {error.errorMessage}");
-			base.OnError?.Invoke(error);
+			Debug.LogWarning(string.Format("BasicAuth: auth failed. Error: {0}", error.errorMessage));
+			if (base.OnError != null)
+				base.OnError.Invoke(error);
 		}
 
 		private void RestoreJwtInvalidationIfNeeded()

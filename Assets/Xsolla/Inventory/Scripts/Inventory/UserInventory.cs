@@ -20,8 +20,20 @@ namespace Xsolla.Demo
 		public List<VirtualCurrencyBalanceModel> Balance { get; private set; }
 		public List<UserSubscriptionModel> Subscriptions { get; private set; }
 
-		public bool HasVirtualItems => VirtualItems.Any();
-		public bool HasPurchasedSubscriptions => Subscriptions.FindAll(s => s.Status != UserSubscriptionModel.SubscriptionStatusType.None).Any();
+		public bool HasVirtualItems
+		{
+			get
+			{
+				return VirtualItems.Any();
+			}
+		}
+		public bool HasPurchasedSubscriptions
+		{
+			get
+			{
+				return Subscriptions.FindAll(s => s.Status != UserSubscriptionModel.SubscriptionStatusType.None).Any();
+			}
+		}
 
 		public override void Init()
 		{
@@ -71,14 +83,23 @@ namespace Xsolla.Demo
 		private void HandleInventoryUpdate(Action callback)
 		{
 			AllItems.Clear();
-			AllItems.AddRange(VirtualItems);
-			AllItems.AddRange(Subscriptions);
+			AllItems.AddRange(VirtualItems.Cast<ItemModel>());
+			AllItems.AddRange(Subscriptions.Cast<ItemModel>());
 
-			UpdateVirtualCurrencyBalanceEvent?.Invoke(Balance);
-			UpdateItemsEvent?.Invoke(VirtualItems);
-			UpdateSubscriptionsEvent?.Invoke(Subscriptions);
-			RefreshEvent?.Invoke();
-			callback?.Invoke();
+			if (UpdateVirtualCurrencyBalanceEvent != null)
+				UpdateVirtualCurrencyBalanceEvent.Invoke(Balance);
+
+			if (UpdateItemsEvent != null)
+				UpdateItemsEvent.Invoke(VirtualItems);
+
+			if (UpdateSubscriptionsEvent != null)
+				UpdateSubscriptionsEvent.Invoke(Subscriptions);
+
+			if (RefreshEvent != null)
+				RefreshEvent.Invoke();
+
+			if (callback != null)
+				callback.Invoke();
 		}
 	}
 }

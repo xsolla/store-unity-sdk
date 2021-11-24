@@ -5,7 +5,7 @@ namespace Xsolla.Demo
 {
 	public class BattlePassNameSetter : BaseBattlePassDescriptionSubscriber
     {
-		[SerializeField] private Text BattlePassName = default;
+		[SerializeField] private Text BattlePassName;
 
 		public override void OnBattlePassDescriptionArrived(BattlePassDescription battlePassDescription)
 		{

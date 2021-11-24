@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
@@ -50,7 +50,18 @@ namespace Xsolla.Core
 
 			var redirectUrl = !string.IsNullOrEmpty(XsollaSettings.DeepLinkRedirectUrl) ? new Uri(XsollaSettings.DeepLinkRedirectUrl) : null;
 
-			var data = new DataNode(redirectUrl?.Scheme, redirectUrl?.Host, redirectUrl?.PathAndQuery);
+			var scheme	= default(string);
+			var host	= default(string);
+			var pathAndQuery = default(string);
+
+			if (redirectUrl != null)
+			{
+				scheme = redirectUrl.Scheme;
+				host = redirectUrl.Host;
+				pathAndQuery = redirectUrl.PathAndQuery;
+			}
+
+			var data = new DataNode(scheme, host, pathAndQuery);
 			var action = new ActionNode("android.intent.action.VIEW");
 			var categoryDefault = new CategoryNode("android.intent.category.DEFAULT");
 			var categoryBrowsable = new CategoryNode("android.intent.category.BROWSABLE");

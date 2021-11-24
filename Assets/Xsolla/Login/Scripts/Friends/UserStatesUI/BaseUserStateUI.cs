@@ -57,21 +57,23 @@ namespace Xsolla.Demo
 			UserFriends.Instance.AddFriend(Friend.FriendModel, _ =>
 			{
 				SetState(UserState.Requested);
-				callback?.Invoke();
+				if (callback != null)
+					callback.Invoke();
 			}, StoreDemoPopup.ShowError);
 		}
 	
 		private void BlockUserMethod(Action callback = null)
 		{
 			PopupFactory.Instance.CreateConfirmation()
-			.SetMessage($"Block {Friend.FriendModel.Nickname}?")
+			.SetMessage(string.Format("Block {0}?", Friend.FriendModel.Nickname))
 			.SetConfirmButtonText("BLOCK")
 			.SetConfirmCallback(() =>
 			{
 				UserFriends.Instance.BlockUser(Friend.FriendModel, _ =>
 				{
 					SetState(UserState.Blocked);
-					callback?.Invoke();
+					if (callback != null)
+						callback.Invoke();
 				}, StoreDemoPopup.ShowError);
 			});
 		}
@@ -81,7 +83,8 @@ namespace Xsolla.Demo
 			UserFriends.Instance.UnblockUser(Friend.FriendModel, _ =>
 			{
 				SetState(UserState.Initial);
-				callback?.Invoke();
+				if (callback != null)
+					callback.Invoke();
 			}, StoreDemoPopup.ShowError);
 		}
 	
@@ -90,7 +93,8 @@ namespace Xsolla.Demo
 			UserFriends.Instance.AcceptFriendship(Friend.FriendModel, _ =>
 			{
 				SetState(UserState.MyFriend);
-				callback?.Invoke();
+				if (callback != null)
+					callback.Invoke();
 			}, StoreDemoPopup.ShowError);
 		}
 	
@@ -99,7 +103,8 @@ namespace Xsolla.Demo
 			UserFriends.Instance.DeclineFriendship(Friend.FriendModel, _ =>
 			{
 				SetState(UserState.Initial);
-				callback?.Invoke();
+				if (callback != null)
+					callback.Invoke();
 			}, StoreDemoPopup.ShowError);
 		}
 
@@ -108,7 +113,8 @@ namespace Xsolla.Demo
 			UserFriends.Instance.CancelFriendshipRequest(Friend.FriendModel, _ =>
 			{
 				SetState(UserState.Initial);
-				callback?.Invoke();
+				if (callback != null)
+					callback.Invoke();
 			}, StoreDemoPopup.ShowError);
 		}
 
@@ -147,14 +153,15 @@ namespace Xsolla.Demo
 			ActionsButton.AddAction(DELETE_USER_OPTION, () =>
 			{
 				PopupFactory.Instance.CreateConfirmation()
-				.SetMessage($"Remove {Friend.FriendModel.Nickname} from the friend list?")
+				.SetMessage(string.Format("Remove {0} from the friend list?", Friend.FriendModel.Nickname))
 				.SetConfirmButtonText("REMOVE")
 				.SetConfirmCallback(() =>
 				{
 					UserFriends.Instance.RemoveFriend(Friend.FriendModel, _ =>
 					{
 						SetState(UserState.Initial);
-						callback?.Invoke();
+						if (callback != null)
+							callback.Invoke();
 					}, StoreDemoPopup.ShowError);
 				});
 			});

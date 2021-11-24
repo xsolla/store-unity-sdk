@@ -1,4 +1,4 @@
-﻿using Xsolla.Core;
+using Xsolla.Core;
 
 namespace Xsolla.Demo
 {
@@ -14,15 +14,16 @@ namespace Xsolla.Demo
 			else
 			{
 				Debug.Log("ConsolePlatformAuth.TryAuth: Console auth disabled");
-				base.OnError?.Invoke(null);
+				if (base.OnError != null)
+					base.OnError.Invoke(null);
 			}
 		}
 
 		private void RequestToken()
 		{
 			SdkLoginLogic.Instance.SignInConsoleAccount(
-				userId: XsollaSettings.UsernameFromConsolePlatform,
-				platform: XsollaSettings.Platform.GetString(),
+				XsollaSettings.UsernameFromConsolePlatform,
+				XsollaSettings.Platform.GetString(),
 				SuccessHandler,
 				FailHandler);
 		}
@@ -30,13 +31,18 @@ namespace Xsolla.Demo
 		private void SuccessHandler(string token)
 		{
 			Debug.Log("ConsolePlatformAuth.SuccessHandler: Token loaded");
-			base.OnSuccess?.Invoke(token);
+			if (base.OnSuccess != null)
+				base.OnSuccess.Invoke(token);
 		}
 
 		private void FailHandler(Error error)
 		{
-			Debug.LogError($"Failed request token by console account with user = `{XsollaSettings.UsernameFromConsolePlatform}` and platform = `{XsollaSettings.Platform.GetString()}`. Error:{error.ToString()}");
-			base.OnError?.Invoke(error);
+			Debug.LogError(string.Format("Failed request token by console account with user = `{0}` and platform = `{1}`. Error:{2}",
+				XsollaSettings.UsernameFromConsolePlatform,
+				XsollaSettings.Platform.GetString(),
+				error.ToString()));
+			if (base.OnError != null)
+				base.OnError.Invoke(error);
 		}
 	}
 }

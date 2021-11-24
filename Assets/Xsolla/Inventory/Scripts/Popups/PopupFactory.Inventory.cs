@@ -2,13 +2,24 @@ namespace Xsolla.Core.Popup
 {
 	public partial class PopupFactory : MonoSingleton<PopupFactory>
 	{
-		public ICouponRedeemPopup CreateRedeemCoupon() =>
-			CreateDefaultPopup(RedeemCouponPopupPrefab, canvas)?.GetComponent<CouponRedeemPopup>();
+		public ICouponRedeemPopup CreateRedeemCoupon()
+		{
+			var popup = CreateDefaultPopup(RedeemCouponPopupPrefab, canvas);
 
-		public ICouponRewardsPopup CreateCouponRewards() =>
-			CreateDefaultPopup(CouponRewardsPopupPrefab, canvas)?.GetComponent<CouponRewardsPopup>();
+			if (popup != null)
+				return popup.GetComponent<CouponRedeemPopup>();
+			else
+				return null;
+		}
 
-		public ITutorialPopup CreateTutorial() =>
-			CreateDefaultPopup(TutorialPopupPrefab, canvas)?.GetComponent<TutorialPopup>();
+		public ICouponRewardsPopup CreateCouponRewards()
+		{
+			var popup = CreateDefaultPopup(CouponRewardsPopupPrefab, canvas);
+
+			if (popup != null)
+				return popup.GetComponent<CouponRewardsPopup>();
+			else
+				return null;
+		}
 	}
 }

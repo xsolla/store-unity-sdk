@@ -5,17 +5,29 @@ namespace Xsolla.Demo
 {
 	public class BattlePassLevelBlock : MonoBehaviour
     {
-		[SerializeField] private BattlePassItem freeItem = default;
-		[SerializeField] private BattlePassItem premiumItem = default;
+		[SerializeField] private BattlePassItem freeItem;
+		[SerializeField] private BattlePassItem premiumItem;
 
-		[SerializeField] private Text LevelLabel = default;
-		[SerializeField] private int CurrentLevelFontSize = default;
-		[SerializeField] private GameObject CurrentLevelHighlight = default;
+		[SerializeField] private Text LevelLabel;
+		[SerializeField] private int CurrentLevelFontSize;
+		[SerializeField] private GameObject CurrentLevelHighlight;
 
 		private int _initialLevelLabelFontSize;
 
-		public BattlePassItem FreeItem => freeItem;
-		public BattlePassItem PremiumItem => premiumItem;
+		public BattlePassItem FreeItem
+		{
+			get
+			{
+				return freeItem;
+			}
+		}
+		public BattlePassItem PremiumItem
+		{
+			get
+			{
+				return premiumItem;
+			}
+		}
 
 		private void Awake()
 		{

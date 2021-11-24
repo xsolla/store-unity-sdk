@@ -68,21 +68,58 @@ namespace Xsolla.Core.Popup
 			return prefab.CreateObjectFor(parent);
 		}
 
-		public ISuccessPopup CreateSuccess() =>
-			CreateDefaultPopup(SuccessPopupPrefab, canvas)?.GetComponent<SuccessPopup>();
+		public ISuccessPopup CreateSuccess()
+		{
+			var popup = CreateDefaultPopup(SuccessPopupPrefab, canvas);
+			if (popup != null)
+				return popup.GetComponent<SuccessPopup>();
 
-		public IErrorPopup CreateError() => CreateDefaultPopup(ErrorPopupPrefab, canvas)?.GetComponent<ErrorPopup>();
+			return null;
+		}
 
-		public IConfirmationPopup CreateConfirmation() =>
-			CreateDefaultPopup(ConfirmPopupPrefab, canvas)?.GetComponent<ConfirmationPopup>();
+		public IErrorPopup CreateError()
+		{
+			var popup = CreateDefaultPopup(ErrorPopupPrefab, canvas);
+			if (popup != null)
+				return popup.GetComponent<ErrorPopup>();
 
-		public IConfirmationCodePopup CreateCodeConfirmation() => CreateDefaultPopup(ConfirmCodePopupPrefab, canvas)
-			?.GetComponent<ConfirmationCodePopup>();
+			return null;
+		}
 
-		public IWaitingPopup CreateWaiting() =>
-			CreateDefaultPopup(WaitingPopupPrefab, canvas)?.GetComponent<WaitingPopup>();
+		public IConfirmationPopup CreateConfirmation()
+		{
+			var popup = CreateDefaultPopup(ConfirmPopupPrefab, canvas);
+			if (popup != null)
+				return popup.GetComponent<ConfirmationPopup>();
 
-		public ISuccessPopup CreateSuccessPasswordReset() =>
-			CreateDefaultPopup(ResetPasswordPopupPrefab, canvas)?.GetComponent<SuccessPopup>();
+			return null;
+		}
+
+		public IConfirmationCodePopup CreateCodeConfirmation()
+		{
+			var popup = CreateDefaultPopup(ConfirmCodePopupPrefab, canvas);
+			if (popup != null)
+				return popup.GetComponent<ConfirmationCodePopup>();
+
+			return null;
+		}
+
+		public IWaitingPopup CreateWaiting()
+		{
+			var popup = CreateDefaultPopup(WaitingPopupPrefab, canvas);
+			if (popup != null)
+				return popup.GetComponent<WaitingPopup>();
+
+			return null;
+		}
+
+		public ISuccessPopup CreateSuccessPasswordReset()
+		{
+			var popup = CreateDefaultPopup(ResetPasswordPopupPrefab, canvas);
+			if (popup != null)
+				return popup.GetComponent<SuccessPopup>();
+
+			return null;
+		}
 	}
 }

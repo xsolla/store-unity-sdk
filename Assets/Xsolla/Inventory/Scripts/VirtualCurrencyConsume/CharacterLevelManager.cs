@@ -9,13 +9,13 @@ namespace Xsolla.Demo
 {
 	public class CharacterLevelManager : MonoBehaviour
 	{
-		[SerializeField] private string CurrencySkuOrName = default;
-		[SerializeField] private bool TryUseDefaultCurrencyOnFailure = default;
-		[SerializeField] private uint LevelUpPrice = default;
-		[SerializeField] private VirtualCurrencyBalanceUI VirtualCurrencyPrefab = default;
-		[SerializeField] private Transform PriceTagPlacement = default;
-		[SerializeField] private SimpleButton LevelUpButton = default;
-		[SerializeField] private Text LevelText = default;
+		[SerializeField] private string CurrencySkuOrName;
+		[SerializeField] private bool TryUseDefaultCurrencyOnFailure;
+		[SerializeField] private uint LevelUpPrice;
+		[SerializeField] private VirtualCurrencyBalanceUI VirtualCurrencyPrefab;
+		[SerializeField] private Transform PriceTagPlacement;
+		[SerializeField] private SimpleButton LevelUpButton;
+		[SerializeField] private Text LevelText;
 
 		private VirtualCurrencyModel _targetCurrency;
 		private string _characterLevelEntry;
@@ -33,7 +33,7 @@ namespace Xsolla.Demo
 			Action<UserInfo> successCallback = info =>
 			{
 				var levelEntryHead = info.email ?? info.username ?? info.nickname ?? info.last_name;
-				_characterLevelEntry = $"{levelEntryHead}:character_level";
+				_characterLevelEntry = string.Format("{0}:character_level", levelEntryHead);
 				InitializeUI();
 			};
 
@@ -72,7 +72,11 @@ namespace Xsolla.Demo
 
 		private void TryUpTheLevel()
 		{
-			var userCurrency = UserInventory.Instance.Balance?.Find(currency => _targetCurrency.Sku == currency.Sku);
+			var userCurrency = default(VirtualCurrencyBalanceModel);
+			var balance = UserInventory.Instance.Balance;
+			if (balance != null)
+				userCurrency = balance.Find(currency => _targetCurrency.Sku == currency.Sku);
+
 			if (userCurrency == null)
 			{
 				Debug.Log("UserInventory does not contain required currency");
@@ -135,7 +139,7 @@ namespace Xsolla.Demo
 
 				if (/*still*/targetCurrency == null)
 				{
-					Debug.LogWarning($"Could not find specified virtual currency: {CurrencySkuOrName}");
+					Debug.LogWarning(string.Format("Could not find specified virtual currency: {0}", CurrencySkuOrName));
 
 					if (TryUseDefaultCurrencyOnFailure)
 					{
@@ -182,7 +186,7 @@ namespace Xsolla.Demo
 
 		private void ShowLevel(int characterLevel)
 		{
-			LevelText.text = $"{_characterLevel} LVL";
+			LevelText.text = string.Format("{0} LVL", _characterLevel);
 		}
 
 	#if UNITY_EDITOR

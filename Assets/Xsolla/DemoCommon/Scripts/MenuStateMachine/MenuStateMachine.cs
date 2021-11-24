@@ -18,37 +18,48 @@ namespace Xsolla.Demo
 		/// </summary>
 		public event StateChangeDelegate StateChangedEvent;
 
-		[SerializeField] private Canvas canvas = default;
-		[SerializeField] private MenuState initialState = default;
-		[SerializeField] private GameObject authMenuPrefab = default;
-		[SerializeField] private GameObject authFailedMenuPrefab = default;
-		[SerializeField] private GameObject registrationMenuPrefab = default;
-		[SerializeField] private GameObject registrationFailedMenuPrefab = default;
-		[SerializeField] private GameObject registrationSuccessMenuPrefab = default;
-		[SerializeField] private GameObject changePasswordMenuPrefab = default;
-		[SerializeField] private GameObject changePasswordFailedMenuPrefab = default;
-		[SerializeField] private GameObject changePasswordSuccessMenuPrefab = default;
-		[SerializeField] private GameObject mainMenuPrefab = default;
-		[SerializeField] private GameObject storeMenuPrefab = default;
-		[SerializeField] private GameObject buyCurrencyMenuPrefab = default;
-		[SerializeField] private GameObject cartMenuPrefab = default;
-		[SerializeField] private GameObject battlepassMenuPrefab = default;
-		[SerializeField] private GameObject inventoryMenuPrefab = default;
-		[SerializeField] private GameObject profileMenuPrefab = default;
-		[SerializeField] private GameObject characterMenuPrefab = default;
-		[SerializeField] private GameObject characterMenuPrefabLoginSDK = default;
-		[SerializeField] private GameObject friendsMenuPrefab = default;
-		[SerializeField] private GameObject socialFriendsMenuPrefab = default;
-		[SerializeField] private GameObject loginSettingsErrorPrefab = default;
+		[SerializeField] private Canvas canvas;
+		[SerializeField] private MenuState initialState;
+		[SerializeField] private GameObject authMenuPrefab;
+		[SerializeField] private GameObject authFailedMenuPrefab;
+		[SerializeField] private GameObject registrationMenuPrefab;
+		[SerializeField] private GameObject registrationFailedMenuPrefab;
+		[SerializeField] private GameObject registrationSuccessMenuPrefab;
+		[SerializeField] private GameObject changePasswordMenuPrefab;
+		[SerializeField] private GameObject changePasswordFailedMenuPrefab;
+		[SerializeField] private GameObject changePasswordSuccessMenuPrefab;
+		[SerializeField] private GameObject mainMenuPrefab;
+		[SerializeField] private GameObject storeMenuPrefab;
+		[SerializeField] private GameObject buyCurrencyMenuPrefab;
+		[SerializeField] private GameObject cartMenuPrefab;
+		[SerializeField] private GameObject battlepassMenuPrefab;
+		[SerializeField] private GameObject inventoryMenuPrefab;
+		[SerializeField] private GameObject profileMenuPrefab;
+		[SerializeField] private GameObject characterMenuPrefab;
+		[SerializeField] private GameObject characterMenuPrefabLoginSDK;
+		[SerializeField] private GameObject friendsMenuPrefab;
+		[SerializeField] private GameObject socialFriendsMenuPrefab;
+		[SerializeField] private GameObject loginSettingsErrorPrefab;
 
 		private Dictionary<MenuState, GameObject> _stateMachine;
 		private readonly List<MenuState> _stateTrace = new List<MenuState>();
 		private MenuState _currentState;
 		private GameObject _stateObject;
 
-		public MenuState MenuState => _currentState;
-		public GameObject StateObject => _stateObject;
-
+		public MenuState MenuState
+		{
+			get
+			{
+				return _currentState;
+			}
+		}
+		public GameObject StateObject
+		{
+			get
+			{
+				return _stateObject;
+			}
+		}
 		private void Awake()
 		{
 			_stateObject = null;
@@ -119,11 +130,12 @@ namespace Xsolla.Demo
 			{
 				_stateObject = Instantiate(_stateMachine[state], canvas.transform);
 				ClearTraceIfNeeded(previousState, state);
-				StateChangedEvent?.Invoke(previousState, state);
+				if (StateChangedEvent != null)
+					StateChangedEvent.Invoke(previousState, state);
 			}
 			else
 			{
-				Debug.LogError($"Prefab object is null for state = {state.ToString()}. Changing state to initial.");
+				Debug.LogError(string.Format("Prefab object is null for state = {0}. Changing state to initial.", state.ToString()));
 				SetInitialState();
 			}
 

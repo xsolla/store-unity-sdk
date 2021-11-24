@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -27,7 +27,8 @@ namespace Xsolla.Store
 		{
 			if (Token.Instance == null)
 			{
-				onError?.Invoke(new Error(ErrorType.InvalidToken, "Invalid token in order status polling. Polling stopped"));
+				if (onError != null)
+					onError.Invoke(new Error(ErrorType.InvalidToken, "Invalid token in order status polling. Polling stopped"));
 				return;
 			}
 
@@ -48,7 +49,8 @@ namespace Xsolla.Store
 				error =>
 				{
 					currentRequests.Remove(orderId);
-					onError?.Invoke(error);
+					if (onError != null)
+						onError.Invoke(error);
 				}
 			);
 		}
@@ -58,10 +60,12 @@ namespace Xsolla.Store
 			switch (status)
 			{
 				case "done":
-					onDone?.Invoke();
+					if (onDone != null)
+						onDone.Invoke();
 					break;
 				case "canceled":
-					onCancel?.Invoke();
+					if (onCancel != null)
+						onCancel.Invoke();
 					break;
 			}
 		}

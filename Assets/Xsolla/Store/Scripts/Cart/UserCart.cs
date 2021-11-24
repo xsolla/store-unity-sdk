@@ -29,26 +29,26 @@ namespace Xsolla.Demo
 		public void AddItem(CatalogItemModel item)
 		{
 			UserCartItem cartItem = _cart.AddItem(item);
-			if (cartItem != null)
-				AddItemEvent?.Invoke(cartItem);
+			if (cartItem != null && AddItemEvent != null)
+				AddItemEvent.Invoke(cartItem);
 		}
 
 		public void RemoveItem(CatalogItemModel item)
 		{
 			var cartItem = _cart.GetItem(item);
 			if(!_cart.RemoveItem(item)) return;
-			if (cartItem.Quantity > 1)
-				UpdateItemEvent?.Invoke(cartItem, (-1) * (cartItem.Quantity - 1));
-			RemoveItemEvent?.Invoke(cartItem);
+			if (cartItem.Quantity > 1 && UpdateItemEvent != null)
+				UpdateItemEvent.Invoke(cartItem, (-1) * (cartItem.Quantity - 1));
+
+			if (RemoveItemEvent != null)
+				RemoveItemEvent.Invoke(cartItem);
 		}
 
 		public void IncreaseCountOf(CatalogItemModel item)
 		{
 			var cartItem = _cart.IncreaseCountOf(item);
-			if (cartItem != null)
-			{
-				UpdateItemEvent?.Invoke(cartItem, 1);
-			}
+			if (cartItem != null && UpdateItemEvent != null)
+				UpdateItemEvent.Invoke(cartItem, 1);
 		}
 
 		public void DecreaseCountOf(CatalogItemModel item)
@@ -56,9 +56,15 @@ namespace Xsolla.Demo
 			UserCartItem cartItem = _cart.DecreaseCountOf(item);
 			if (cartItem == null) return;
 			if (cartItem.Quantity == 0)
-				RemoveItemEvent?.Invoke(cartItem);
+			{
+				if (RemoveItemEvent != null)
+					RemoveItemEvent.Invoke(cartItem);
+			}
 			else
-				UpdateItemEvent?.Invoke(cartItem, -1);
+			{
+				if (UpdateItemEvent != null)
+					UpdateItemEvent.Invoke(cartItem, -1);
+			}
 		}
 
 		public List<UserCartItem> GetItems()
@@ -70,8 +76,14 @@ namespace Xsolla.Demo
 		{
 			var items = GetItems();
 			_cart.Clear();
-			items.ForEach(i => RemoveItemEvent?.Invoke(i));
-			ClearCartEvent?.Invoke();
+			items.ForEach(i =>
+			{
+				if (RemoveItemEvent != null)
+					RemoveItemEvent.Invoke(i);
+			});
+
+			if (ClearCartEvent != null)
+				ClearCartEvent.Invoke();
 		}
 
 		public bool IsEmpty()
@@ -102,11 +114,13 @@ namespace Xsolla.Demo
 		{
 			var items = GetItems();
 			DemoShop.Instance.PurchaseCart(items,
-			onSuccess: _ =>
+			_ =>
 			{
 				Clear();
-				onSuccess?.Invoke();
-				PurchaseCartEvent?.Invoke();
+				if (onSuccess != null)
+					onSuccess.Invoke();
+				if (PurchaseCartEvent != null)
+					PurchaseCartEvent.Invoke();
 			},
 			onError);
 		}

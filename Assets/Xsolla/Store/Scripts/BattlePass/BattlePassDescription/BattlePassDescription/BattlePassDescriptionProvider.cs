@@ -5,10 +5,10 @@ namespace Xsolla.Demo
 {
 	public class BattlePassDescriptionProvider : MonoBehaviour
     {
-		[SerializeField] private BaseBattlePassCatalogExtractor CatalogExtractor = default;
-		[SerializeField] private BaseBattlePassJsonExtractor JsonExtractor = default;
-		[SerializeField] private BaseBattlePassDescriptionConverter DescriptionConverter = default;
-		[SerializeField] private BaseBattlePassCurrentDefiner CurrentDefiner = default;
+		[SerializeField] private BaseBattlePassCatalogExtractor CatalogExtractor;
+		[SerializeField] private BaseBattlePassJsonExtractor JsonExtractor;
+		[SerializeField] private BaseBattlePassDescriptionConverter DescriptionConverter;
+		[SerializeField] private BaseBattlePassCurrentDefiner CurrentDefiner;
 
 		public event Action<BattlePassDescription> BattlePassDescriptionArrived;
 
@@ -27,7 +27,8 @@ namespace Xsolla.Demo
 
 		private void OnCurrentBattlePassDefined(BattlePassDescription battlePassDescription)
 		{
-			BattlePassDescriptionArrived?.Invoke(battlePassDescription);
+			if (BattlePassDescriptionArrived != null)
+				BattlePassDescriptionArrived.Invoke(battlePassDescription);
 		}
 	}
 }

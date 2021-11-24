@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Xsolla.Core;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,14 +7,17 @@ namespace Xsolla.Demo
 {
 	public class LoginPageChangePasswordController : LoginPageController
 	{
-		[SerializeField] InputField EmailInputField = default;
-		[SerializeField] SimpleButton ChangePasswordButton = default;
+		[SerializeField] InputField EmailInputField;
+		[SerializeField] SimpleButton ChangePasswordButton;
 
 		public static string LastEmail { get; private set; }
 
 		private bool IsPasswordChangeInProgress
 		{
-			get => base.IsInProgress;
+			get
+			{
+				return base.IsInProgress;
+			}
 			set
 			{
 				if (value)
@@ -49,13 +52,15 @@ namespace Xsolla.Demo
 			Action onSuccessfulPasswordChange = () =>
 			{
 				Debug.Log("LoginPageChangePasswordController: Password change success");
-				base.OnSuccess?.Invoke();
+				if (base.OnSuccess != null)
+					base.OnSuccess.Invoke();
 			};
 
 			Action<Error> onFailedPasswordChange = error =>
 			{
-				Debug.LogError($"LoginPageChangePasswordController: Password change error: {error.ToString()}");
-				base.OnError?.Invoke(error);
+				Debug.LogError(string.Format("LoginPageChangePasswordController: Password change error: {0}", error.ToString()));
+				if (base.OnError != null)
+					base.OnError.Invoke(error);
 			};
 
 			SdkLoginLogic.Instance.ResetPassword(email, onSuccessfulPasswordChange, onFailedPasswordChange);

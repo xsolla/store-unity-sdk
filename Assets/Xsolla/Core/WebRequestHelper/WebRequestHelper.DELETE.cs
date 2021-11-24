@@ -15,7 +15,8 @@ namespace Xsolla.Core
 
 		public void DeleteRequest(SdkType sdkType, string url, List<WebRequestHeader> requestHeaders, Action onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
 		{
-			requestHeaders = AppendAnalyticHeaders(sdkType, requestHeaders?.ToArray());
+			if (requestHeaders != null)
+				requestHeaders = AppendAnalyticHeaders(sdkType, requestHeaders.ToArray());
 			StartCoroutine(DeleteRequestCor(sdkType, url, requestHeaders, onComplete, onError, errorsToCheck));
 		}
 

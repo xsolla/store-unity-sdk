@@ -5,12 +5,18 @@ namespace Xsolla.Demo
 {
 	public class CartMenuButton : SimpleTextButton
 	{
-		[SerializeField] Text counterText = default;
+		[SerializeField] Text counterText;
 
 		public string CounterText
 		{
-			get => counterText.text;
-			set => counterText.text = value;
+			get
+			{
+				return counterText.text;
+			}
+			set
+			{
+				counterText.text = value;
+			}
 		}
 	}
 }

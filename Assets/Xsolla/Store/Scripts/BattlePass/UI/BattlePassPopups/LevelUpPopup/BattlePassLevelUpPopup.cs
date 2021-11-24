@@ -6,9 +6,9 @@ namespace Xsolla.Demo
 {
 	public class BattlePassLevelUpPopup : BaseBattlePassBuyPopup
 	{
-		[SerializeField] private BattlePassLevelUpPopupItemsShowcase ItemsShowcase = default;
-		[SerializeField] private UserPlusMinusCounter Counter = default;
-		[SerializeField] private Text Message = default;
+		[SerializeField] private BattlePassLevelUpPopupItemsShowcase ItemsShowcase;
+		[SerializeField] private UserPlusMinusCounter Counter;
+		[SerializeField] private Text Message;
 
 		private const int COUNTER_LOWER_LIMIT = 1;
 		private const string MESSAGE_TEMPLATE = "Upgrading to level {0} will unlock the following rewards:";
@@ -49,7 +49,8 @@ namespace Xsolla.Demo
 		private void OnCounterChange(int newCounterValue)
 		{
 			Message.text = string.Format(MESSAGE_TEMPLATE, _userCurrentLevel + newCounterValue);
-			UserInput?.Invoke(newCounterValue);
+			if (UserInput != null)
+				UserInput.Invoke(newCounterValue);
 		}
 	}
 }

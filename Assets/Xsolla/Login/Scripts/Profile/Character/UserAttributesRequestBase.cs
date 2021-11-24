@@ -9,8 +9,20 @@ namespace Xsolla.Demo
 		public Action OnSuccess { get; set; }
 		public Action<Error> OnError { get; set; }
 
-		protected string Token => Xsolla.Core.Token.Instance;
-		protected string ProjectID => XsollaSettings.StoreProjectId;
+		protected string Token
+		{
+			get
+			{
+				return Xsolla.Core.Token.Instance;
+			}
+		}
+		protected string ProjectID
+		{
+			get
+			{
+				return XsollaSettings.StoreProjectId;
+			}
+		}
 
 		protected bool IsRequestPossible
 		{

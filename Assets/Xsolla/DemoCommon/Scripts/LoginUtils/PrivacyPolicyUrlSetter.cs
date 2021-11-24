@@ -4,7 +4,7 @@ namespace Xsolla.Demo
 {
 	public class PrivacyPolicyUrlSetter : MonoBehaviour
 	{
-		[SerializeField] private OpenUrlOnClick PrivacyPolicyOpenScript = default;
+		[SerializeField] private OpenUrlOnClick PrivacyPolicyOpenScript;
 
 		private void Start()
 		{

@@ -4,11 +4,11 @@ namespace Xsolla.Demo
 {
 	public class BattlePassPopupFactory : MonoBehaviour
     {
-		[SerializeField] private GameObject RewardPopupPrefab = default;
-		[SerializeField] private GameObject LevelUpPopupPrefab = default;
-		[SerializeField] private GameObject BuyPremiumPopupPrefab = default;
-		[SerializeField] private GameObject BuyPremiumSuccessPopupPrefab = default;
-		[SerializeField] private GameObject BattlePassExpiredPopupPrefab = default;
+		[SerializeField] private GameObject RewardPopupPrefab;
+		[SerializeField] private GameObject LevelUpPopupPrefab;
+		[SerializeField] private GameObject BuyPremiumPopupPrefab;
+		[SerializeField] private GameObject BuyPremiumSuccessPopupPrefab;
+		[SerializeField] private GameObject BattlePassExpiredPopupPrefab;
 
 		private Canvas _pageCanvas;
 

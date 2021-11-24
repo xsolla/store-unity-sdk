@@ -11,17 +11,17 @@ namespace Xsolla.Demo
 	public class SubscriptionItemUI : MonoBehaviour
 	{
 		[SerializeField]
-		Image itemImage = default;
+		Image itemImage;
 		[SerializeField]
-		GameObject loadingCircle = default;
+		GameObject loadingCircle;
 		[SerializeField]
-		Text itemName = default;
+		Text itemName;
 		[SerializeField]
-		Text itemDescription = default;
+		Text itemDescription;
 		[SerializeField]
-		Text itemStatus = default;
+		Text itemStatus;
 		[SerializeField]
-		Text itemExpiration = default;
+		Text itemExpiration;
 
 		SubscriptionItem _itemInformation;
 
@@ -62,7 +62,7 @@ namespace Xsolla.Demo
 				ImageLoader.Instance.GetImageAsync(_itemInformation.image_url, LoadImageCallback);
 			else
 			{
-				Debug.LogError($"Subscription item with sku = '{itemInformation.sku}' without image!");
+				Debug.LogError(string.Format("Subscription item with sku = '{0}' without image!", itemInformation.sku));
 				loadingCircle.SetActive(false);
 				itemImage.sprite = null;
 			}

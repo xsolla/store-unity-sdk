@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Xsolla.Login;
@@ -12,7 +12,15 @@ namespace Xsolla.Demo
 
 		public abstract void Initialize(List<UserAttribute> userReadOnlyAttributes = null, List<UserAttribute> userCustomAttributes = null);
 
-		protected void RaiseOnRemoveUserAttributes(List<string> attributesToRemove) => OnRemoveUserAttributes?.Invoke(attributesToRemove);
-		protected void RaiseOnUpdateUserAttributes(List<UserAttribute> attributesToUpdate) => OnUpdateUserAttributes?.Invoke(attributesToUpdate);
+		protected void RaiseOnRemoveUserAttributes(List<string> attributesToRemove)
+		{
+			if (OnRemoveUserAttributes != null)
+				OnRemoveUserAttributes.Invoke(attributesToRemove);
+		}
+		protected void RaiseOnUpdateUserAttributes(List<UserAttribute> attributesToUpdate)
+		{
+			if (OnUpdateUserAttributes != null)
+				OnUpdateUserAttributes.Invoke(attributesToUpdate);
+		}
 	}
 }

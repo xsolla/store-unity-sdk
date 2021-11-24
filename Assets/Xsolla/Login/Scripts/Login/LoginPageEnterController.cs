@@ -8,8 +8,10 @@ namespace Xsolla.Demo
 	{
 		public bool IsAuthInProgress
 		{
-			get => base.IsInProgress;
-
+			get
+			{
+				return base.IsInProgress;
+			}
 			set
 			{
 				if (value)
@@ -24,9 +26,19 @@ namespace Xsolla.Demo
 		private void TryAuthBy<T>(object[] args, Action<string> onSuccess = null, Action<Error> onFailed = null) where T : LoginAuthorization
 		{
 			T auth = base.gameObject.AddComponent<T>();
-			Debug.Log($"Trying {auth.GetType().Name}");
-			auth.OnSuccess = token => { Destroy(auth); onSuccess?.Invoke(token); };
-			auth.OnError = error => { Destroy(auth); onFailed?.Invoke(error); };
+			Debug.Log(string.Format("Trying {0}", auth.GetType().Name));
+			auth.OnSuccess = token =>
+			{
+				Destroy(auth);
+				if (onSuccess != null)
+					onSuccess.Invoke(token);
+			};
+			auth.OnError = error =>
+			{
+				Destroy(auth);
+				if (onFailed != null)
+					onFailed.Invoke(error);
+			};
 			auth.TryAuth(args);
 		}
 	
@@ -41,10 +53,11 @@ namespace Xsolla.Demo
 				Token.Instance = Token.Create(encodedToken);
 			}
 
-			Debug.Log($"Successful auth with token = {encodedToken}");
+			Debug.Log(string.Format("Successful auth with token = {0}", encodedToken));
 			MainMenuNicknameChecker.ResetFlag();
 			IsAuthInProgress = false;
-			base.OnSuccess?.Invoke();
+			if (base.OnSuccess != null)
+				base.OnSuccess.Invoke();
 		}
 
 		private void ProcessError(Error error)
@@ -57,7 +70,8 @@ namespace Xsolla.Demo
 			}
 			else
 			{
-				base.OnError?.Invoke(error);
+				if (base.OnError != null)
+					base.OnError.Invoke(error);
 			}
 		}
 

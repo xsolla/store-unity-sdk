@@ -5,7 +5,7 @@ namespace Xsolla.Demo
 {
 	public class AddFriendsToFriendsSwitcher : MonoBehaviour
 	{
-		[SerializeField] private GroupsController groupsController = default;
+		[SerializeField] private GroupsController groupsController;
 
 		private void Awake()
 		{

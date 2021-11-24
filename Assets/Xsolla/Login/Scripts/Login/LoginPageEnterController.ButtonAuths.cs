@@ -8,30 +8,30 @@ namespace Xsolla.Demo
 {
 	public partial class LoginPageEnterController : LoginPageController
 	{
-		[SerializeField] InputField EmailInputField = default;
-		[SerializeField] InputField PasswordInputField = default;
-		[SerializeField] Toggle RememberMeCheckbox = default;
-		[SerializeField] SimpleButton LoginButton = default;
+		[SerializeField] InputField EmailInputField;
+		[SerializeField] InputField PasswordInputField;
+		[SerializeField] Toggle RememberMeCheckbox;
+		[SerializeField] SimpleButton LoginButton;
 
 		[Space]
-		[SerializeField] private SimpleSocialButton[] MainSocialLoginButtons = default;
-		[SerializeField] private SimpleButton OtherSocialNetworksButton = default;
-		[SerializeField] private SocialNetworksWidget SocialNetworksWidget = default;
+		[SerializeField] private SimpleSocialButton[] MainSocialLoginButtons;
+		[SerializeField] private SimpleButton OtherSocialNetworksButton;
+		[SerializeField] private SocialNetworksWidget SocialNetworksWidget;
 
 		[Space]
-		[SerializeField] private SimpleButton PasswordlessButton = default;
-		[SerializeField] private PasswordlessWidget PasswordlessWidget = default;
+		[SerializeField] private SimpleButton PasswordlessButton;
+		[SerializeField] private PasswordlessWidget PasswordlessWidget;
 
 		[Space]
-		[SerializeField] InputField EmailAccessTokenAuthInputField = default;
-		[SerializeField] SimpleButton LoginAccessTokenAuthButton = default;
+		[SerializeField] InputField EmailAccessTokenAuthInputField;
+		[SerializeField] SimpleButton LoginAccessTokenAuthButton;
 
 		[Space]
-		[SerializeField] SimpleButton DeviceIDAuthButton = default;
+		[SerializeField] SimpleButton DeviceIDAuthButton;
 
 		[Space]
-		[SerializeField] GameObject LoginAuthPage = default;
-		[SerializeField] GameObject AccessTokenAuthPage = default;
+		[SerializeField] GameObject LoginAuthPage;
+		[SerializeField] GameObject AccessTokenAuthPage;
 
 		private void Awake()
 		{
@@ -149,9 +149,10 @@ namespace Xsolla.Demo
 			}
 			else
 			{
-				Debug.Log($"Invalid email: {email}");
+				Debug.Log(string.Format("Invalid email: {0}", email));
 				Error error = new Error(errorType: ErrorType.RegistrationNotAllowedException, errorMessage: "Invalid email");
-				base.OnError?.Invoke(error);
+				if (base.OnError != null)
+					base.OnError.Invoke(error);
 			}
 		}
 

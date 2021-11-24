@@ -6,12 +6,12 @@ namespace Xsolla.Demo
 	public class CartDiscountUI : MonoBehaviour
 	{
 		[SerializeField]
-		Text discountAmount = default;
+		Text discountAmount;
 
 		public void Initialize(float discount)
 		{
 			Debug.Log("Discount = " + discount);
-			discountAmount.text = $"- {PriceFormatter.FormatPrice(discount)}";
+			discountAmount.text = string.Format("- {0}", PriceFormatter.FormatPrice(discount));
 		}
 	}
 }

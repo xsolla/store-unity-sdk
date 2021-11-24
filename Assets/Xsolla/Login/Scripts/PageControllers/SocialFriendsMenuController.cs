@@ -1,15 +1,14 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using Xsolla.Core;
-using Xsolla.UIBuilder;
 
 namespace Xsolla.Demo
 {
 	public class SocialFriendsMenuController : MonoBehaviour
 	{
-		[SerializeField] private WidgetProvider userPrefabProvider = default;
-		[SerializeField] private ItemContainer usersContainer = default;
-		[SerializeField] private FriendSystemSocialNetwork[] SocialNetworks = default;
+		[SerializeField] private GameObject userPrefab;
+		[SerializeField] private ItemContainer usersContainer;
+		[SerializeField] private FriendSystemSocialNetwork[] SocialNetworks;
 
 		private void Awake()
 		{
@@ -37,7 +36,7 @@ namespace Xsolla.Demo
 				}
 				else
 				{
-					var friendUiGameObject = usersContainer.AddItem(userPrefabProvider.GetValue());
+					var friendUiGameObject = usersContainer.AddItem(userPrefab);
 					var friendUiScript = friendUiGameObject.GetComponent<FriendUI>();
 					friendUiScript.Initialize(newUser);
 

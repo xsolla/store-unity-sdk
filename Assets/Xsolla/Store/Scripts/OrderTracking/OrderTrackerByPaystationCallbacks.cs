@@ -1,4 +1,4 @@
-﻿using Xsolla.Core;
+using Xsolla.Core;
 
 namespace Xsolla.Store
 {
@@ -26,13 +26,15 @@ namespace Xsolla.Store
 			CheckOrderStatus(
 				onDone: () =>
 				{
-					trackingData.SuccessCallback?.Invoke();
+					if (trackingData != null && trackingData.SuccessCallback != null)
+						trackingData.SuccessCallback.Invoke();
 					RemoveSelfFromTracking();
 				},
 				onCancel: RemoveSelfFromTracking,
 				onError: error =>
 				{
-					trackingData.ErrorCallback?.Invoke(error);
+					if (trackingData != null && trackingData.ErrorCallback != null)
+						trackingData.ErrorCallback.Invoke(error);
 					RemoveSelfFromTracking();
 				}
 			);

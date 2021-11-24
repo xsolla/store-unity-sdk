@@ -6,9 +6,9 @@ namespace Xsolla.Demo
 {
 	public class LoginActionsCreatePageProxer : MonoBehaviour
 	{
-		[SerializeField] private SimpleSocialButton[] MainSocialLoginButtons = default;
-		[SerializeField] private SimpleButton OtherSocialNetworksButton = default;
-		[SerializeField] private SocialNetworksWidget SocialNetworksWidget = default;
+		[SerializeField] private SimpleSocialButton[] MainSocialLoginButtons;
+		[SerializeField] private SimpleButton OtherSocialNetworksButton;
+		[SerializeField] private SocialNetworksWidget SocialNetworksWidget;
 
 		private void Awake()
 		{

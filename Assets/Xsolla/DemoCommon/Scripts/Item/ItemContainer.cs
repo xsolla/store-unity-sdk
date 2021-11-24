@@ -6,8 +6,8 @@ namespace Xsolla.Demo
 {
 	public class ItemContainer : MonoBehaviour
 	{
-		[SerializeField] Transform itemParent = default;
-		[SerializeField] Text emptyMessageText = default;
+		[SerializeField] Transform itemParent;
+		[SerializeField] Text emptyMessageText;
 
 		private readonly List<GameObject> _items = new List<GameObject>();
 

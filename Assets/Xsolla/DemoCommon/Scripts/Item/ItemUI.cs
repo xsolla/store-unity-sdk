@@ -6,14 +6,14 @@ namespace Xsolla.Demo
 {
 	public class ItemUI : MonoBehaviour
     {
-		[SerializeField] private Image ItemImage = default;
-		[SerializeField] private GameObject ImageLoadingCircle = default;
-		[SerializeField] private Text ItemName = default;
-		[SerializeField] private Text ItemDescription = default;
-		[SerializeField] private Text ItemQuantityText = default;
-		[SerializeField] private int DescriptionLengthLimit = default;
-		[SerializeField] private GameObject QuantityLabel = default;
-		[SerializeField] private bool ShowQuantityOne = default;
+		[SerializeField] private Image ItemImage;
+		[SerializeField] private GameObject ImageLoadingCircle;
+		[SerializeField] private Text ItemName;
+		[SerializeField] private Text ItemDescription;
+		[SerializeField] private Text ItemQuantityText;
+		[SerializeField] private int DescriptionLengthLimit;
+		[SerializeField] private GameObject QuantityLabel;
+		[SerializeField] private bool ShowQuantityOne;
 
 		public void Initialize(ItemModel itemModel, int quantity = 1)
 		{
@@ -27,7 +27,7 @@ namespace Xsolla.Demo
 			if (!string.IsNullOrEmpty(imageUrl))
 				ImageLoader.Instance.GetImageAsync(imageUrl, LoadImageCallback);
 			else
-				Debug.LogError($"Item with sku: '{itemSku}' has no image url");
+				Debug.LogError(string.Format("Item with sku: '{}' has no image url", itemSku));
 		}
 
 		private void LoadImageCallback(string url, Sprite image)

@@ -6,19 +6,19 @@ namespace Xsolla.Demo
 {
 	public class MainMenuController : BaseMenuController
 	{
-		[SerializeField] private SimpleButton storeButton = default;
-		[SerializeField] private SimpleButton battlepassButton = default;
-		[SerializeField] private SimpleButton inventoryButton = default;
-		[SerializeField] private SimpleButton webStoreButton = default;
-		[SerializeField] private AccountLinkingManagerManual accountLinkingManager = default;
-		[SerializeField] private SimpleButton profileButton = default;
-		[SerializeField] private SimpleButton characterButton = default;
-		[SerializeField] private SimpleButton friendsButton = default;
-		[SerializeField] private SimpleButton publisherAccountButton = default;
-		[SerializeField] private SimpleButton documentationButton = default;
-		[SerializeField] private SimpleButton feedbackButton = default;
-		[SerializeField] private SimpleButton logoutButton = default;
-		[SerializeField] private SimpleButton tutorialButton = default;
+		[SerializeField] private SimpleButton storeButton;
+		[SerializeField] private SimpleButton battlepassButton;
+		[SerializeField] private SimpleButton inventoryButton;
+		[SerializeField] private SimpleButton webStoreButton;
+		[SerializeField] private AccountLinkingManagerManual accountLinkingManager;
+		[SerializeField] private SimpleButton profileButton;
+		[SerializeField] private SimpleButton characterButton;
+		[SerializeField] private SimpleButton friendsButton;
+		[SerializeField] private SimpleButton publisherAccountButton;
+		[SerializeField] private SimpleButton documentationButton;
+		[SerializeField] private SimpleButton feedbackButton;
+		[SerializeField] private SimpleButton logoutButton;
+		[SerializeField] private SimpleButton tutorialButton;
 
 		private void Start()
 		{

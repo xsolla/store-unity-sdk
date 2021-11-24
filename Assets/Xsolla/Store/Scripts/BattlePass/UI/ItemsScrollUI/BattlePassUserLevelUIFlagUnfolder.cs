@@ -5,15 +5,15 @@ namespace Xsolla.Demo
 {
 	public class BattlePassUserLevelUIFlagUnfolder : MonoBehaviour
     {
-		[SerializeField] private ScrollRect ItemsScrollRect = default;
-		[SerializeField] private BattlePassScrollPositionProvider TargetPositionProvider = default;
-		[SerializeField] private float MaxDelta = default;
+		[SerializeField] private ScrollRect ItemsScrollRect;
+		[SerializeField] private BattlePassScrollPositionProvider TargetPositionProvider;
+		[SerializeField] private float MaxDelta;
 		[Space]
-		[SerializeField] private BattlePassItemsManager ItemsManager = default;
+		[SerializeField] private BattlePassItemsManager ItemsManager;
 		[Space]
-		[SerializeField] private GameObject LevelLabelUnfolded = default;
-		[SerializeField] private GameObject LevelLabelFolded = default;
-		[SerializeField] private GameObject LeftCurtain = default;
+		[SerializeField] private GameObject LevelLabelUnfolded;
+		[SerializeField] private GameObject LevelLabelFolded;
+		[SerializeField] private GameObject LeftCurtain;
 
 		private float _minTargetX;
 		private float _maxTargetX;

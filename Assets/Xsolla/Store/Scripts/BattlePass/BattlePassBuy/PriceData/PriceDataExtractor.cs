@@ -25,14 +25,15 @@ namespace Xsolla.Demo
 				virtualPriceData.currencySku = currencySku;
 				virtualPriceData.price = (int)catalogItemModel.VirtualPrice.Value.Value;
 
-				TryGetCurrencyInfo(currencySku, out string currencyName, out string currencyImageUrl);
+				string currencyName; string currencyImageUrl;
+				TryGetCurrencyInfo(currencySku, out currencyName, out currencyImageUrl);
 				virtualPriceData.currencyName = currencyName;
 				virtualPriceData.currencyImageUrl = currencyImageUrl;
 
 				result = virtualPriceData;
 			}
 			else
-				Debug.LogError($"Catalog item with sku: '{catalogItemModel.Sku}' has neither real or virtual price on it.");
+				Debug.LogError(string.Format("Catalog item with sku: '{0}' has neither real or virtual price on it.", catalogItemModel.Sku));
 
 			return result;
 		}
@@ -70,7 +71,7 @@ namespace Xsolla.Demo
 				}
 				else
 				{
-					Debug.LogError($"Could not find currency with sku: '{targetSku}'");
+					Debug.LogError(string.Format("Could not find currency with sku: '{0}'", targetSku));
 					currencyName = null;
 					currencyImageUrl = null;
 					return false;

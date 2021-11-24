@@ -4,11 +4,11 @@ namespace Xsolla.Demo
 {
 	public class FriendButtonsUI : MonoBehaviour
 	{
-		[SerializeField] private SimpleTextButton addFriendButton = default;
-		[SerializeField] private SimpleTextButton acceptButton = default;
-		[SerializeField] private SimpleTextButton declineButton = default;
-		[SerializeField] private SimpleTextButton cancelRequestButton = default;
-		[SerializeField] private SimpleTextButton unblockButton = default;
+		[SerializeField] private SimpleTextButton addFriendButton;
+		[SerializeField] private SimpleTextButton acceptButton;
+		[SerializeField] private SimpleTextButton declineButton;
+		[SerializeField] private SimpleTextButton cancelRequestButton;
+		[SerializeField] private SimpleTextButton unblockButton;
 
 		private SimpleTextButton SetButtonVisibility(SimpleTextButton button, bool isVisible)
 		{

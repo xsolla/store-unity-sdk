@@ -7,7 +7,7 @@ namespace Xsolla.Demo
 {
 	public class BattlePassUserAttributesManager : BaseAttributeManager
 	{
-		[SerializeField] private UserAttributesProvider AttributesProvider = default;
+		[SerializeField] private UserAttributesProvider AttributesProvider;
 
 		private const string BATTLEPASS_PREFIX = "BattlePass";
 
@@ -19,7 +19,7 @@ namespace Xsolla.Demo
 		{
 			_battlePassName = battlePassName;
 
-			AttributesProvider.OnError += error => Debug.LogError($"Attributes load failed with error: '{error}'");
+			AttributesProvider.OnError += error => Debug.LogError(string.Format("Attributes load failed with error: '{0}'", error));
 			AttributesProvider.ProvideUserAttributes();
 		}
 
@@ -50,12 +50,13 @@ namespace Xsolla.Demo
 
 			if (previousBattlePassesAttributes.Count > 0)
 			{
-				Debug.Log($"There are {previousBattlePassesAttributes.Count} attributes of non-current BattlePass. They will be deleted.");
+				Debug.Log(string.Format("There are {0} attributes of non-current BattlePass. They will be deleted.", previousBattlePassesAttributes.Count));
 				DeleteAttributes(previousBattlePassesAttributes);
 			}
 
-			Debug.Log($"There were {currentBattlePassAttributes.Count} BatlePass attributes loaded.");
-			UserAttributesArrived?.Invoke(currentBattlePassAttributes);
+			Debug.Log(string.Format("There were {0} BatlePass attributes loaded.", currentBattlePassAttributes.Count));
+			if (UserAttributesArrived != null)
+				UserAttributesArrived.Invoke(currentBattlePassAttributes);
 		}
 
 		public void UpdateUserAttributes(List<UserAttribute> attributesToUpdate)

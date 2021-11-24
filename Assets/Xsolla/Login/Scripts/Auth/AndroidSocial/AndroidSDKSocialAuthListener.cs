@@ -17,7 +17,8 @@ namespace Xsolla.Demo
 		public void ReceiveSocialAuthResult(string authResult)
 		{
 			Debug.Log("AndroidSDKListener.ReceiveSocialAuthResult: auth result arrived");
-			OnSocialAuthResult?.Invoke(authResult);
+			if (OnSocialAuthResult != null)
+				OnSocialAuthResult.Invoke(authResult);
 		}
 	}
 }

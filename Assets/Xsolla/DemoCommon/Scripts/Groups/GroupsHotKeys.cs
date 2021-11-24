@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 
 namespace Xsolla.Demo
@@ -12,10 +12,18 @@ namespace Xsolla.Demo
 		{
 			gameObject.AddComponent<HotkeyCoroutine>()
 				.StartCoroutine(KeyCode.DownArrow, 0.1F)
-				.KeyPressedEvent += () => ArrowDownKeyPressedEvent?.Invoke();
+				.KeyPressedEvent += () =>
+				{
+					if (ArrowDownKeyPressedEvent != null)
+						ArrowDownKeyPressedEvent.Invoke();
+				};
 			gameObject.AddComponent<HotkeyCoroutine>()
 				.StartCoroutine(KeyCode.UpArrow, 0.1F)
-				.KeyPressedEvent += () => ArrowUpKeyPressedEvent?.Invoke();
+				.KeyPressedEvent += () =>
+				{
+					if (ArrowUpKeyPressedEvent != null)
+						ArrowUpKeyPressedEvent.Invoke();
+				};
 		}
 	}
 }

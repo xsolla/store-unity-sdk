@@ -4,6 +4,11 @@ namespace Xsolla.Demo
 {
 	public partial class UserCatalog : MonoSingleton<UserCatalog>
 	{
-		public bool IsUpdated { get; private set; } = true;
+		public bool IsUpdated { get; private set; }
+
+		public UserCatalog()
+		{
+			IsUpdated = true;
+		}
 	}
 }

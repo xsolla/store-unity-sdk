@@ -5,7 +5,7 @@ namespace Xsolla.Demo
 {
 	public class LevelUpPriceTagDecorator : MonoBehaviour
 	{
-		[SerializeField] private Text SourceText = default;
+		[SerializeField] private Text SourceText;
 
 		private Text _targetText;
 

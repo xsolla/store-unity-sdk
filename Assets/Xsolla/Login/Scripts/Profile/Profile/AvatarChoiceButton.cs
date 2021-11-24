@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,7 +7,7 @@ namespace Xsolla.Demo
 	[RequireComponent(typeof(SimpleButton))]
 	public class AvatarChoiceButton : MonoBehaviour
 	{
-		[SerializeField] Image AvatarImage = default;
+		[SerializeField] Image AvatarImage;
 
 		public static event Action<Sprite> AvatarPicked;
 
@@ -18,7 +18,8 @@ namespace Xsolla.Demo
 
 		private void RaiseAvatarPicked()
 		{
-			AvatarPicked?.Invoke(AvatarImage.sprite);
+			if (AvatarPicked != null)
+				AvatarPicked.Invoke(AvatarImage.sprite);
 		}
 	}
 }

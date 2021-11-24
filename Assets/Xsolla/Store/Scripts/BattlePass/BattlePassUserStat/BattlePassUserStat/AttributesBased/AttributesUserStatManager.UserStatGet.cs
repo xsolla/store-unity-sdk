@@ -8,8 +8,11 @@ namespace Xsolla.Demo
 	{
 		private BattlePassUserStat GenerateBattlePassUserStat(UserAttribute levelAttribute, UserAttribute expAttribute, UserAttribute obtainedAttribute)
 		{
-			GetLevelAndExp(levelAttribute, expAttribute, out int level, out int exp);
-			GetObtainedItems(obtainedAttribute, out int[] obtainedFreeItems, out int[] obtainedPremiumItems);
+			int level; int exp;
+			GetLevelAndExp(levelAttribute, expAttribute, out level, out exp);
+
+			int[] obtainedFreeItems; int[] obtainedPremiumItems;
+			GetObtainedItems(obtainedAttribute, out obtainedFreeItems, out obtainedPremiumItems);
 
 			return new BattlePassUserStat(level, exp, obtainedFreeItems, obtainedPremiumItems);
 		}
@@ -19,7 +22,8 @@ namespace Xsolla.Demo
 			var originalLevel = int.Parse(levelAttribute.value);
 			var originalExp = int.Parse(expAttribute.value);
 
-			RecalculateLevelAndExp(_battlePassDescription.Levels, originalLevel, originalExp, out var recalculatedLevel, out var recalculatedExp);
+			int recalculatedLevel; int recalculatedExp;
+			RecalculateLevelAndExp(_battlePassDescription.Levels, originalLevel, originalExp, out recalculatedLevel, out recalculatedExp);
 
 			if (originalLevel == recalculatedLevel)
 				level = originalLevel;
@@ -49,7 +53,8 @@ namespace Xsolla.Demo
 
 			if (levelIndex < 0 || levelIndex >= battlePassLevels.Length)
 			{
-				Debug.LogError($"Something went wrong. Level index based on user level was: '{levelIndex}'. Levels length: '{battlePassLevels.Length}'. User level: '{originalLevel}'");
+				Debug.LogError(
+					string.Format("Something went wrong. Level index based on user level was: '{0}'. Levels length: '{1}'. User level: '{2}'", levelIndex, battlePassLevels.Length, originalLevel));
 
 				if (levelIndex < 0)
 				{
@@ -96,7 +101,7 @@ namespace Xsolla.Demo
 				obtainedFreeItems = new int[0];
 				obtainedPremiumItems = new int[0];
 
-				Debug.LogError($"Error parsing obtained items record. Record:'{obtainedAttribute.value}'{Environment.NewLine}Error:'{ex.Message}'");
+				Debug.LogError(string.Format("Error parsing obtained items record. Record:'{0}'{1}Error:'{2}'", obtainedAttribute.value, Environment.NewLine, ex.Message));
 			}
 		}
 

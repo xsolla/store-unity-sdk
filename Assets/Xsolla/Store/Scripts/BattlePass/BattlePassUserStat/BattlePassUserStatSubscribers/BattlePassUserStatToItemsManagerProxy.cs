@@ -4,7 +4,7 @@ namespace Xsolla.Demo
 {
 	public class BattlePassUserStatToItemsManagerProxy : BaseBattlePassUserStatSubscriber
 	{
-		[SerializeField] private BattlePassItemsManager ItemsManager = default;
+		[SerializeField] private BattlePassItemsManager ItemsManager;
 
 		public override void OnUserStatArrived(BattlePassUserStat userStat)
 		{

@@ -5,9 +5,9 @@ namespace Xsolla.Demo
 {
 	public class BattlePassItemShowcaseRegular : BaseBattlePassItemShowcase
     {
-		[SerializeField] private Image Background = default;
-		[SerializeField] private GameObject CollectOne = default;
-		[SerializeField] private GameObject CollectAll = default;
+		[SerializeField] private Image Background;
+		[SerializeField] private GameObject CollectOne;
+		[SerializeField] private GameObject CollectAll;
 
 		private const string ITEM_QUANTITY_TEMPLATE = "Quantity: {0} piece{1}";
 		private const string ITEM_FUTURE_LOCKED_TEMPLATE = "Reach level <color=#FF005B>{0}</color> to get this reward";

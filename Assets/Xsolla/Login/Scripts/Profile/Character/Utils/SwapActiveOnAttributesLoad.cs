@@ -1,15 +1,24 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 namespace Xsolla.Demo
 {
 	public class SwapActiveOnAttributesLoad : MonoBehaviour
 	{
-		[SerializeField] private UserAttributesProvider AttributesProvider = default;
-		[SerializeField] private Transform AttributesParent = default;
-		[SerializeField] private GameObject[] ActiveObjects = default;
-		[SerializeField] private GameObject[] InactiveObjects = default;
+		[SerializeField] private UserAttributesProvider AttributesProvider;
+		[SerializeField] private Transform AttributesParent;
+		[SerializeField] private GameObject[] ActiveObjects;
+		[SerializeField] private GameObject[] InactiveObjects;
 
-		private bool IsAttributesLoaded => AttributesParent?.transform?.childCount > 0;
+		private bool IsAttributesLoaded
+		{
+			get
+			{
+				if (!AttributesParent ||
+					!AttributesParent.transform) return false;
+
+				return AttributesParent.transform.childCount > 0;
+			}
+		}
 
 		private void Awake()
 		{

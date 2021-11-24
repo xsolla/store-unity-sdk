@@ -8,10 +8,10 @@ namespace Xsolla.Core.Popup
 	[AddComponentMenu("Scripts/Xsolla.Core/Popup/ErrorPopup")]
 	public class ErrorPopup : MonoBehaviour, IErrorPopup
 	{
-		[SerializeField] private Text Title = default;
-		[SerializeField] private Text Message = default;
-		[SerializeField] private SimpleTextButton Button = default;
-		[SerializeField] private Text ButtonText = default;
+		[SerializeField] private Text Title;
+		[SerializeField] private Text Message;
+		[SerializeField] private SimpleTextButton Button;
+		[SerializeField] private Text ButtonText;
 
 		protected void Awake()
 		{
@@ -31,7 +31,8 @@ namespace Xsolla.Core.Popup
 		{
 			Button.onClick = () =>
 			{
-				buttonPressed?.Invoke();
+				if (buttonPressed != null)
+					buttonPressed.Invoke();
 				Destroy(gameObject, 0.001F);
 			};
 			return this;

@@ -4,7 +4,7 @@ namespace Xsolla.Demo
 {
 	public class UserPremiumStatusToItemsManagerProxy : BaseBattlePassUserPremiumStatusSubscriber
     {
-		[SerializeField] private BattlePassItemsManager ItemsManager = default;
+		[SerializeField] private BattlePassItemsManager ItemsManager;
 
 		public override void OnUserPremiumDefined(bool isPremiumUser)
 		{

@@ -8,9 +8,9 @@ namespace Xsolla.Demo
 {
 	public class ItemsController : MonoBehaviour
 	{
-		[SerializeField] GameObject itemsContainerPrefab = default;
-		[SerializeField] GameObject inventoryContainerPrefab = default;
-		[SerializeField] Transform content = default;
+		[SerializeField] GameObject itemsContainerPrefab;
+		[SerializeField] GameObject inventoryContainerPrefab;
+		[SerializeField] Transform content;
 
 		private readonly Dictionary<string, GameObject> _containers = new Dictionary<string, GameObject>();
 		private bool _isEmptyCatalog;

@@ -260,15 +260,28 @@ namespace Xsolla.Store
 			if (settings.ui == null && settings.redirect_policy == null && settings.return_url == null)
 				settings = null;
 
-			var tempPurchaseParams = new TempPurchaseParams()
+			var tempPurchaseParams = default(TempPurchaseParams);
+
+			if (purchaseParams != null)
 			{
-				sandbox = XsollaSettings.IsSandbox,
-				settings = settings,
-				custom_parameters = purchaseParams?.custom_parameters,
-				currency = purchaseParams?.currency,
-				locale = purchaseParams?.locale,
-				quantity = purchaseParams?.quantity
-			};
+				tempPurchaseParams = new TempPurchaseParams()
+				{
+					sandbox = XsollaSettings.IsSandbox,
+					settings = settings,
+					custom_parameters = purchaseParams.custom_parameters,
+					currency = purchaseParams.currency,
+					locale = purchaseParams.locale,
+					quantity = purchaseParams.quantity
+				};
+			}
+			else
+			{
+				tempPurchaseParams = new TempPurchaseParams()
+				{
+					sandbox = XsollaSettings.IsSandbox,
+					settings = settings
+				};
+			}
 
 			return tempPurchaseParams;
 		}
@@ -278,7 +291,9 @@ namespace Xsolla.Store
 			var baseSettings = new TempPurchaseParams.Settings();
 			baseSettings.ui = PayStationUISettings.GenerateSettings();
 			baseSettings.redirect_policy = RedirectPolicySettings.GeneratePolicy();
-			baseSettings.return_url = baseSettings.redirect_policy?.return_url;
+
+			if (baseSettings.redirect_policy != null)
+				baseSettings.return_url = baseSettings.redirect_policy.return_url;
 
 			var settings = new CreatePaymentTokenRequest.Settings();
 			settings.return_url = baseSettings.return_url;

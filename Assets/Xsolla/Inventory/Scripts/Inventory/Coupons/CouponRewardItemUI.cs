@@ -6,10 +6,10 @@ namespace Xsolla.Demo
 {
 	public class CouponRewardItemUI : MonoBehaviour
 	{
-		[SerializeField] Image itemImage = default;
-		[SerializeField] Text itemName = default;
-		[SerializeField] Text itemDescription = default;
-		[SerializeField] Text itemQuantity = default;
+		[SerializeField] Image itemImage;
+		[SerializeField] Text itemName;
+		[SerializeField] Text itemDescription;
+		[SerializeField] Text itemQuantity;
 
 		public void Initialize(CouponRedeemedItemModel rewardItem)
 		{
@@ -25,7 +25,7 @@ namespace Xsolla.Demo
 				}
 				else
 				{
-					Debug.LogError($"Coupon reward item item with sku = '{rewardItem.Sku}' without image!");
+					Debug.LogError(string.Format("Coupon reward item item with sku = '{0}' without image!", rewardItem.Sku));
 				}
 			}
 		}

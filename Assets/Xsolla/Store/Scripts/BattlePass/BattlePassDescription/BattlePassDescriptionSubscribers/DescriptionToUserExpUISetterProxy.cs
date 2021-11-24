@@ -4,7 +4,7 @@ namespace Xsolla.Demo
 {
 	public class DescriptionToUserExpUISetterProxy : BaseBattlePassDescriptionSubscriber
 	{
-		[SerializeField] private BattlePassUserExpUISetter UserExpUISetter = default;
+		[SerializeField] private BattlePassUserExpUISetter UserExpUISetter;
 
 		public override void OnBattlePassDescriptionArrived(BattlePassDescription battlePassDescription)
 		{

@@ -4,7 +4,7 @@ namespace Xsolla.Demo
 {
 	public class DescriptionToLevelUpBuyerProxy : BaseBattlePassDescriptionSubscriber
 	{
-		[SerializeField] private BattlePassLevelUpBuyer LevelUpBuyer = default;
+		[SerializeField] private BattlePassLevelUpBuyer LevelUpBuyer;
 
 		public override void OnBattlePassDescriptionArrived(BattlePassDescription battlePassDescription)
 		{

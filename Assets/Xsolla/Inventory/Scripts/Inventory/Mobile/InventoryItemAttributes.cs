@@ -1,12 +1,12 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Xsolla.Demo
 {
 	public class InventoryItemAttributes : MonoBehaviour
 	{
-		[SerializeField] private AttributeItem AttributeItemPrefab = default;
-		[SerializeField] private Transform AttributesRoot = default;
+		[SerializeField] private AttributeItem AttributeItemPrefab;
+		[SerializeField] private Transform AttributesRoot;
 
 		private void Awake()
 		{
@@ -25,9 +25,11 @@ namespace Xsolla.Demo
 			if (attributes == null)
 				return;
 
-			if ((itemModel is InventoryItemModel item) && item.RemainingUses != null)
+			if (itemModel is InventoryItemModel)
 			{
-				AddAttributeItem("Quantity:", item.RemainingUses.Value.ToString());
+				var item = (InventoryItemModel)itemModel;
+				if (item.RemainingUses != null)
+					AddAttributeItem("Quantity:", item.RemainingUses.Value.ToString());
 			}
 
 			foreach (var attribute in attributes)

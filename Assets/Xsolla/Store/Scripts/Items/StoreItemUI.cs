@@ -10,23 +10,23 @@ namespace Xsolla.Demo
 {
 	public class StoreItemUI : MonoBehaviour
 	{
-		[SerializeField] Image itemImage = default;
-		[SerializeField] GameObject loadingCircle = default;
-		[SerializeField] Text itemName = default;
-		[SerializeField] Text itemDescription = default;
-		[SerializeField] int itemDescriptionLength = default;
-		[SerializeField] Text itemPrice = default;
-		[SerializeField] Text itemPriceWithoutDiscount = default;
-		[SerializeField] Image itemPriceVcImage = default;
-		[SerializeField] Text itemPriceVcText = default;
-		[SerializeField] GameObject expirationTimeObject = default;
-		[SerializeField] Text expirationTimeText = default;
-		[SerializeField] SimpleTextButton buyButton = default;
-		[SerializeField] SimpleTextButton previewButton = default;
-		[SerializeField] AddToCartButton cartButton = default;
-		[SerializeField] SimpleTextButton checkoutButtonButton = default;
-		[SerializeField] GameObject prices = default;
-		[SerializeField] GameObject purchasedText = default;
+		[SerializeField] Image itemImage;
+		[SerializeField] GameObject loadingCircle;
+		[SerializeField] Text itemName;
+		[SerializeField] Text itemDescription;
+		[SerializeField] int itemDescriptionLength;
+		[SerializeField] Text itemPrice;
+		[SerializeField] Text itemPriceWithoutDiscount;
+		[SerializeField] Image itemPriceVcImage;
+		[SerializeField] Text itemPriceVcText;
+		[SerializeField] GameObject expirationTimeObject;
+		[SerializeField] Text expirationTimeText;
+		[SerializeField] SimpleTextButton buyButton;
+		[SerializeField] SimpleTextButton previewButton;
+		[SerializeField] AddToCartButton cartButton;
+		[SerializeField] SimpleTextButton checkoutButtonButton;
+		[SerializeField] GameObject prices;
+		[SerializeField] GameObject purchasedText;
 
 		private CatalogItemModel _itemInformation;
 
@@ -69,7 +69,8 @@ namespace Xsolla.Demo
 
 			checkoutButtonButton.onClick = () => DemoController.Instance.SetState(MenuState.Cart);
 
-			OnInitialized?.Invoke(virtualItem);
+			if (OnInitialized != null)
+				OnInitialized.Invoke(virtualItem);
 		}
 
 		private bool CheckIfItemPurchased(CatalogItemModel virtualItem)
@@ -117,7 +118,10 @@ namespace Xsolla.Demo
 		{
 			EnablePrice(true);
 			cartButton.gameObject.SetActive(false);
-			itemPriceVcText.text = virtualItem.VirtualPrice?.Value.ToString();
+
+			if (virtualItem.VirtualPrice.HasValue)
+				itemPriceVcText.text = virtualItem.VirtualPrice.Value.ToString();
+
 			InitializeVcImage(virtualItem);
 		}
 
@@ -125,7 +129,10 @@ namespace Xsolla.Demo
 		{
 			StartCoroutine(WaitCatalogUpdate(() =>
 			{
-				var currencySku = virtualItem.VirtualPrice?.Key;
+				var currencySku = default(string);
+				if (virtualItem.VirtualPrice.HasValue)
+					currencySku = virtualItem.VirtualPrice.Value.Key;
+
 				var currency = UserCatalog.Instance.VirtualCurrencies.First(vc => vc.Sku.Equals(currencySku));
 
 				if (!string.IsNullOrEmpty(currency.ImageUrl))
@@ -135,20 +142,22 @@ namespace Xsolla.Demo
 							itemPriceVcImage.sprite = sprite;
 					});
 				else
-					Debug.LogError($"Virtual currency item with sku = '{virtualItem.Sku}' without image!");
+					Debug.LogError(string.Format("Virtual currency item with sku = '{0}' without image!", virtualItem.Sku));
 			}));
 		}
 
 		IEnumerator WaitCatalogUpdate(Action callback)
 		{
 			yield return new WaitUntil(() => UserCatalog.Instance.IsUpdated);
-			callback?.Invoke();
+			if (callback != null)
+				callback.Invoke();
 		}
 
 		IEnumerator WaitInventoryUpdate(Action callback)
 		{
 			yield return new WaitUntil(() => UserInventory.Instance.IsUpdated);
-			callback?.Invoke();
+			if (callback != null)
+				callback.Invoke();
 		}
 
 		private void InitializeRealPrice(CatalogItemModel virtualItem)
@@ -169,7 +178,7 @@ namespace Xsolla.Demo
 			var realPrice = virtualItem.RealPrice;
 			if (realPrice == null)
 			{
-				Debug.LogError($"Catalog item with sku = {virtualItem.Sku} have not any price!");
+				Debug.LogError(string.Format("Catalog item with sku = {0} have not any price!", virtualItem.Sku));
 				return;
 			}
 
@@ -198,7 +207,7 @@ namespace Xsolla.Demo
 		{
 			if (string.IsNullOrEmpty(virtualItem.Name))
 			{
-				Debug.LogError($"Try initialize item with sku = {virtualItem.Sku} without name!");
+				Debug.LogError(string.Format("Try initialize item with sku = {0} without name!", virtualItem.Sku));
 				virtualItem.Name = virtualItem.Sku;
 			}
 
@@ -211,7 +220,7 @@ namespace Xsolla.Demo
 			}
 			else
 			{
-				Debug.LogError($"Virtual item item with sku = '{virtualItem.Sku}' without image!");
+				Debug.LogError(string.Format("Virtual item item with sku = '{0}' without image!", virtualItem.Sku));
 			}
 		}
 
@@ -233,7 +242,7 @@ namespace Xsolla.Demo
 			var subscription = UserCatalog.Instance.Subscriptions.First(s => s.Sku.Equals(virtualItem.Sku));
 			if (subscription == null)
 			{
-				Debug.LogError($"Something went wrong... Can not find subscription item with sku = '{virtualItem.Sku}'!");
+				Debug.LogError(string.Format("Something went wrong... Can not find subscription item with sku = '{0}'!", virtualItem.Sku));
 				return;
 			}
 

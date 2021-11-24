@@ -6,7 +6,12 @@ namespace Xsolla.Demo
 {
 	public partial class UserInventory : MonoSingleton<UserInventory>
 	{
-		public bool IsUpdated { get; private set; } = true;
+		public bool IsUpdated { get; private set; }
+
+		public UserInventory()
+		{
+			IsUpdated = true;
+		}
 
 		public void Refresh(Action onSuccess = null, [CanBeNull] Action<Error> onError = null)
 		{

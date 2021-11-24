@@ -19,12 +19,14 @@ namespace Xsolla.Demo
 			if (Token.Load())
 			{
 				Debug.Log("SavedTokenAuth.TryAuth: Token loaded");
-				base.OnSuccess?.Invoke(Token.Instance);
+				if (base.OnSuccess != null)
+					base.OnSuccess.Invoke(Token.Instance);
 			}
 			else
 			{
 				Debug.Log("SavedTokenAuth.TryAuth: No token");
-				base.OnError?.Invoke(null);
+				if (base.OnError != null)
+					base.OnError.Invoke(null);
 			}
 		}
 	}

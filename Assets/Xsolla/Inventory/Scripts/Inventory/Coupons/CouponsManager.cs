@@ -5,7 +5,7 @@ namespace Xsolla.Demo
 {
 	public class CouponsManager : MonoBehaviour
 	{
-		[SerializeField] private SimpleTextButton redeemCouponButton = default;
+		[SerializeField] private SimpleTextButton redeemCouponButton;
 
 		void Start()
 		{

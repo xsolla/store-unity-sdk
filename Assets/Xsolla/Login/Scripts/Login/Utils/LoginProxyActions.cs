@@ -5,9 +5,27 @@ namespace Xsolla.Demo
 {
 	public static class LoginProxyActions
 	{
-		public static Action<LoginPageEnterController, object> RunDemoUserAuthDelegate => RunDemoUserAuthMethod;
-		public static Action<LoginPageEnterController, object> RunSocialAuthDelegate => RunSocialAuthMethod;
-		public static Action<LoginPageEnterController, object> RunSteamAuthDelegate => RunSteamAuth;
+		public static Action<LoginPageEnterController, object> RunDemoUserAuthDelegate
+		{
+			get
+			{
+				return RunDemoUserAuthMethod;
+			}
+		}
+		public static Action<LoginPageEnterController, object> RunSocialAuthDelegate
+		{
+			get
+			{
+				return RunSocialAuthMethod;
+			}
+		}
+		public static Action<LoginPageEnterController, object> RunSteamAuthDelegate
+		{
+			get
+			{
+				return RunSteamAuth;
+			}
+		}
 
 		private static void RunDemoUserAuthMethod(LoginPageEnterController loginController, object arg)
 		{

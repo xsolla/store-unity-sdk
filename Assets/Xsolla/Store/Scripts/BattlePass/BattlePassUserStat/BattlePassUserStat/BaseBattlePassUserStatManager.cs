@@ -9,7 +9,8 @@ namespace Xsolla.Demo
 
 		protected void RaiseUserStatArrived(BattlePassUserStat userStat)
 		{
-			UserStatArrived?.Invoke(userStat);
+			if (UserStatArrived != null)
+				UserStatArrived.Invoke(userStat);
 		}
 
 		public abstract void GetUserStat(BattlePassDescription battlePassDescription);

@@ -7,15 +7,15 @@ namespace Xsolla.Demo
 {
 	public class FriendUI : MonoBehaviour
 	{
-		[SerializeField] private Image avatarImage = default;
-		[SerializeField] private Image statusImage = default;
-		[SerializeField] private Text nicknameText = default;
-		[SerializeField] private Text tagText = default;
-		[SerializeField] private FriendActionsButton actionsButton = default;
-		[SerializeField] private FriendButtonsUI userButtons = default;
-		[SerializeField] private FriendStatusLineUI userStatusLine = default;
-		[SerializeField] private GameObject SocialFriendship = default;
-		[SerializeField] private SocialProviderContainer[] SocialFriendshipMarkers = default;
+		[SerializeField] private Image avatarImage;
+		[SerializeField] private Image statusImage;
+		[SerializeField] private Text nicknameText;
+		[SerializeField] private Text tagText;
+		[SerializeField] private FriendActionsButton actionsButton;
+		[SerializeField] private FriendButtonsUI userButtons;
+		[SerializeField] private FriendStatusLineUI userStatusLine;
+		[SerializeField] private GameObject SocialFriendship;
+		[SerializeField] private SocialProviderContainer[] SocialFriendshipMarkers;
 
 		public FriendModel FriendModel { get; private set; }
     
@@ -80,7 +80,7 @@ namespace Xsolla.Demo
 			
 			nicknameText.text = text;
 
-			tagText.text = string.IsNullOrEmpty(friend.Tag) ? string.Empty : $"#{friend.Tag}";
+			tagText.text = string.IsNullOrEmpty(friend.Tag) ? string.Empty : string.Format("#{0}", friend.Tag);
 			tagText.gameObject.SetActive(!string.IsNullOrEmpty(friend.Tag));
 		}
 
@@ -121,7 +121,7 @@ namespace Xsolla.Demo
 				}
 				default:
 				{
-					Debug.LogWarning($"Set up handle of user state = '{state.ToString()}' in FriendUI.cs");
+					Debug.LogWarning(string.Format("Set up handle of user state = '{0}' in FriendUI.cs", state.ToString()));
 					return;
 				}
 			}
@@ -164,7 +164,7 @@ namespace Xsolla.Demo
 				}
 				default:
 				{
-					Debug.LogException(new ArgumentOutOfRangeException(nameof(relationship), relationship, null));
+					Debug.LogException(new ArgumentOutOfRangeException("relationship", relationship, null));
 					break;
 				}
 			}

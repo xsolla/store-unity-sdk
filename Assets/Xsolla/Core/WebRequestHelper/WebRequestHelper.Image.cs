@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -30,7 +30,8 @@ namespace Xsolla.Core
 				Rect spriteRect = new Rect(0, 0, texture2D.width, texture2D.height);
 				Vector2 pivot = new Vector2(0.5f, 0.5f);
 				Sprite sprite = Sprite.Create(texture2D, spriteRect, pivot);
-				onComplete?.Invoke(sprite);
+				if (onComplete != null)
+					onComplete.Invoke(sprite);
 			}, onError);
 		}
 	}

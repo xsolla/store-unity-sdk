@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using UnityEngine;
 using Xsolla.Core;
@@ -12,16 +12,18 @@ namespace Xsolla.Demo
 	#if UNITY_EDITOR || UNITY_STANDALONE
 			if (HotkeyCoroutine.IsLocked())
 			{
-				base.OnError?.Invoke(null);
+				if (base.OnError != null)
+					base.OnError.Invoke(null);
 				return;
 			}
 
-			if (TryExtractProvider(args, out SocialProvider provider))
+			SocialProvider provider;
+			if (TryExtractProvider(args, out provider))
 			{
 				HotkeyCoroutine.Lock();
 
 				string url = SdkLoginLogic.Instance.GetSocialNetworkAuthUrl(provider);
-				Debug.Log($"Social url: {url}");
+				Debug.Log(string.Format("Social url: {0}", url));
 
 				var browser = BrowserHelper.Instance.InAppBrowser;
 				browser.Open(url);
@@ -31,7 +33,8 @@ namespace Xsolla.Demo
 			else
 			{
 				Debug.LogError("SocialAuth.TryAuth: Could not extract argument");
-				base.OnError?.Invoke(new Error(errorMessage: "Social auth failed"));
+				if (base.OnError != null)
+					base.OnError.Invoke(new Error(errorMessage: "Social auth failed"));
 			}
 	#endif
 		}
@@ -48,7 +51,7 @@ namespace Xsolla.Demo
 
 			if (args.Length != 1)
 			{
-				Debug.LogError($"SocialAuth.TryExtractProvider: args.Length expected 1, was {args.Length}");
+				Debug.LogError(string.Format("SocialAuth.TryExtractProvider: args.Length expected 1, was {0}", args.Length));
 				return false;
 			}
 
@@ -58,7 +61,7 @@ namespace Xsolla.Demo
 			}
 			catch (Exception ex)
 			{
-				Debug.LogError($"SocialAuth.TryExtractProvider: Error during argument extraction: {ex.Message}");
+				Debug.LogError(string.Format("SocialAuth.TryExtractProvider: Error during argument extraction: {0}", ex.Message));
 				return false;
 			}
 
@@ -69,24 +72,31 @@ namespace Xsolla.Demo
 		private void BrowserCloseHandler()
 		{
 			HotkeyCoroutine.Unlock();
-			base.OnError?.Invoke(null);
+			if (base.OnError != null)
+				base.OnError.Invoke(null);
 		}
 
 		private void UrlChangedHandler(string newUrl)
 		{
-			if (XsollaSettings.AuthorizationType == AuthorizationType.JWT && ParseUtils.TryGetValueFromUrl(newUrl, ParseParameter.token, out var token))
+			string token;
+			string code;
+			if (XsollaSettings.AuthorizationType == AuthorizationType.JWT && ParseUtils.TryGetValueFromUrl(newUrl, ParseParameter.token, out token))
 			{
-				Debug.Log($"We take{Environment.NewLine}from URL:{newUrl}{Environment.NewLine}token = {token}");
+				Debug.Log(string.Format("We take{0}from URL:{1}{0}token = {2}", Environment.NewLine, newUrl, token));
 				StartCoroutine(SuccessAuthCoroutine(token));
 			}
-			else if (XsollaSettings.AuthorizationType == AuthorizationType.OAuth2_0 && ParseUtils.TryGetValueFromUrl(newUrl, ParseParameter.code, out var code))
+			else if (XsollaSettings.AuthorizationType == AuthorizationType.OAuth2_0 && ParseUtils.TryGetValueFromUrl(newUrl, ParseParameter.code, out code))
 			{
-				Debug.Log($"We take{Environment.NewLine}from URL:{newUrl}{Environment.NewLine}code = {code}");
+				Debug.Log(string.Format("We take{0}from URL:{1}{0}code = {2}", Environment.NewLine, newUrl, code));
 				SdkLoginLogic.Instance.ExchangeCodeToToken(
 					code,
 					onSuccessExchange: socialToken => StartCoroutine(SuccessAuthCoroutine(socialToken)),
-					onError: error => { Debug.LogError(error.errorMessage); base.OnError?.Invoke(error); }
-					);
+					onError: error =>
+					{
+						Debug.LogError(error.errorMessage);
+						if (base.OnError != null)
+							base.OnError.Invoke(error);
+					});
 			}
 		}
 
@@ -100,7 +110,8 @@ namespace Xsolla.Demo
 				HotkeyCoroutine.Unlock();
 			}
 
-			base.OnSuccess?.Invoke(token);
+			if (base.OnSuccess != null)
+				base.OnSuccess.Invoke(token);
 		}
 	}
 }

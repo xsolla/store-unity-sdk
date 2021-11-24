@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using Newtonsoft.Json;
 using UnityEngine;
 using WebSocketSharp;
@@ -26,7 +26,7 @@ namespace Xsolla.Store
 
 			var url = string.Format(URL_PATTERN, trackingData.OrderId, trackingData.ProjectId);
 			webSocket = new WebSocket(url);
-			webSocket.SslConfiguration.EnabledSslProtocols = System.Security.Authentication.SslProtocols.Tls12;
+			webSocket.SslConfiguration.EnabledSslProtocols = System.Security.Authentication.SslProtocols.Tls;
 
 			webSocket.OnMessage += OnWebSocketMessage;
 			webSocket.OnClose += OnWebSocketClose;
@@ -72,7 +72,8 @@ namespace Xsolla.Store
 					status.status,
 					onDone: () =>
 					{
-						trackingData.SuccessCallback?.Invoke();
+						if (trackingData != null && trackingData.SuccessCallback != null)
+							trackingData.SuccessCallback.Invoke();
 						RemoveSelfFromTracking();
 					},
 					onCancel: RemoveSelfFromTracking

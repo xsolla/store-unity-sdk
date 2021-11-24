@@ -7,14 +7,16 @@ namespace Xsolla.Demo
 	{
 		public override void TryAuth(params object[] args)
 		{
-			if (TryExtractArgs(args, out string email))
+			string email;
+			if (TryExtractArgs(args, out email))
 			{
 				SdkLoginLogic.Instance.AccessTokenAuth(email, AccessTokenAuthSuccess, AccessTokenAuthFailed);
 			}
 			else
 			{
 				Debug.LogError("AccessTokenAuth.TryAuth: Could not extract arguments for AccessTokenAuth");
-				base.OnError?.Invoke(new Error(errorMessage: "Basic auth failed"));
+				if (base.OnError != null)
+					base.OnError.Invoke(new Error(errorMessage: "Basic auth failed"));
 			}
 		}
 
@@ -30,7 +32,7 @@ namespace Xsolla.Demo
 
 			if (args.Length != 1)
 			{
-				Debug.LogError($"AccessTokenAuth.TryExtractArgs: args.Length expected 1, was {args.Length}");
+				Debug.LogError(string.Format("AccessTokenAuth.TryExtractArgs: args.Length expected 1, was {0}", args.Length));
 				return false;
 			}
 
@@ -40,7 +42,7 @@ namespace Xsolla.Demo
 			}
 			catch (Exception ex)
 			{
-				Debug.LogError($"AccessTokenAuth.TryExtractArgs: Error during argument extraction: {ex.Message}");
+				Debug.LogError(string.Format("AccessTokenAuth.TryExtractArgs: Error during argument extraction: {0}", ex.Message));
 				return false;
 			}
 
@@ -49,13 +51,15 @@ namespace Xsolla.Demo
 
 		private void AccessTokenAuthSuccess()
 		{
-			base.OnSuccess?.Invoke(Token.Instance);
+			if (base.OnSuccess != null)
+				base.OnSuccess.Invoke(Token.Instance);
 		}
 
 		private void AccessTokenAuthFailed(Error error)
 		{
-			Debug.LogWarning($"AccessTokenAuth: auth failed. Error: {error.errorMessage}");
-			base.OnError?.Invoke(error);
+			Debug.LogWarning(string.Format("AccessTokenAuth: auth failed. Error: {0}", error.errorMessage));
+			if (base.OnError != null)
+				base.OnError.Invoke(error);
 		}
 	}
 }

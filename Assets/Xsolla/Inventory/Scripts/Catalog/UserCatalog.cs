@@ -23,9 +23,27 @@ namespace Xsolla.Demo
 		public List<CatalogBundleItemModel> Bundles { get; private set; }
 		public List<CatalogSubscriptionItemModel> Subscriptions { get; private set; }
 		
-		public bool HasVirtualItems => VirtualItems.Any();
-		public bool HasBundles => Bundles.Any();
-		public bool HasCurrencyPackages => CurrencyPackages.Any();
+		public bool HasVirtualItems
+		{
+			get
+			{
+				return VirtualItems.Any();
+			}
+		}
+		public bool HasBundles
+		{
+			get
+			{
+				return Bundles.Any();
+			}
+		}
+		public bool HasCurrencyPackages
+		{
+			get
+			{
+				return CurrencyPackages.Any();
+			}
+		}
 
 		public override void Init()
 		{
@@ -50,7 +68,8 @@ namespace Xsolla.Demo
 			Action<Error> errorCallback = error =>
 			{
 				isError = true;
-				onError?.Invoke(error);
+				if (onError != null)
+					onError.Invoke(error);
 			};
 
 			yield return StartCoroutine(UpdateVirtualCurrenciesCoroutine(errorCallback));
@@ -61,7 +80,8 @@ namespace Xsolla.Demo
 		
 			if (isError) yield break;
 			IsUpdated = true;
-			onSuccess?.Invoke();
+			if (onSuccess != null)
+				onSuccess.Invoke();
 		}
 
 		private IEnumerator UpdateSomeItemsCoroutine<T>(Action<Action<List<T>>, Action<Error>> method,  Action<List<T>> onSuccess, Action<Error> onError = null)
@@ -73,7 +93,8 @@ namespace Xsolla.Demo
 				{
 					busy = false;
 					AddUniqueItemsFrom(items);
-					onSuccess?.Invoke(items);
+					if (onSuccess != null)
+						onSuccess.Invoke(items);
 				}, onError);
 			else 
 				busy = false;
@@ -84,7 +105,7 @@ namespace Xsolla.Demo
 		{
 			var uniqueItems = items.Where(i => !AllItems.Any(a => a.Sku.Equals(i.Sku))).ToList();
 			if(uniqueItems.Any())
-				AllItems.AddRange(uniqueItems);
+				AllItems.AddRange(uniqueItems.Cast<CatalogItemModel>());
 		}
 
 		private IEnumerator UpdateVirtualCurrenciesCoroutine(Action<Error> onError = null)
@@ -93,7 +114,8 @@ namespace Xsolla.Demo
 			SdkCatalogLogic.Instance.GetVirtualCurrencies(items =>
 			{
 				VirtualCurrencies = items;
-				UpdateVirtualCurrenciesEvent?.Invoke(items);
+				if (UpdateVirtualCurrenciesEvent != null)
+					UpdateVirtualCurrenciesEvent.Invoke(items);
 				busy = false;
 			}, onError);
 			yield return new WaitWhile(() => busy);
@@ -105,7 +127,8 @@ namespace Xsolla.Demo
 				SdkCatalogLogic.Instance.GetCatalogVirtualItems, items =>
 				{
 					VirtualItems = items;
-					UpdateItemsEvent?.Invoke(items);
+					if (UpdateItemsEvent != null)
+						UpdateItemsEvent.Invoke(items);
 				}, onError));
 		}
 
@@ -115,7 +138,8 @@ namespace Xsolla.Demo
 			SdkCatalogLogic.Instance.GetCatalogVirtualCurrencyPackages, items =>
 			{
 				CurrencyPackages = items;
-				UpdateVirtualCurrencyPackagesEvent?.Invoke(items);
+				if (UpdateVirtualCurrencyPackagesEvent != null)
+					UpdateVirtualCurrencyPackagesEvent.Invoke(items);
 			}, onError));
 		}
 	
@@ -125,7 +149,8 @@ namespace Xsolla.Demo
 				SdkCatalogLogic.Instance.GetCatalogBundles, items =>
 				{
 					Bundles = items;
-					UpdateBundlesEvent?.Invoke(items);
+					if (UpdateBundlesEvent != null)
+						UpdateBundlesEvent.Invoke(items);
 				}, onError));
 		}
 	
@@ -135,7 +160,8 @@ namespace Xsolla.Demo
 			SdkCatalogLogic.Instance.GetCatalogSubscriptions, items =>
 			{
 				Subscriptions = items;
-				UpdateSubscriptionsEvent?.Invoke(items);
+				if (UpdateSubscriptionsEvent != null)
+					UpdateSubscriptionsEvent.Invoke(items);
 			}, onError));
 		}
 	}

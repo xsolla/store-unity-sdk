@@ -39,12 +39,12 @@ namespace Xsolla.Core
 					changed = true;
 				}
 
-				XsollaSettings.InAppBrowserEnabled = EditorGUILayout.Toggle("Enable in-app browser?", XsollaSettings.InAppBrowserEnabled);
+				//XsollaSettings.InAppBrowserEnabled = EditorGUILayout.Toggle("Enable in-app browser?", XsollaSettings.InAppBrowserEnabled);
 
-				if (XsollaSettings.InAppBrowserEnabled)
-				{
-					XsollaSettings.PackInAppBrowserInBuild = EditorGUILayout.Toggle("Pack in-app browser in the build?", XsollaSettings.PackInAppBrowserInBuild);
-				}
+				//if (XsollaSettings.InAppBrowserEnabled)
+				//{
+				//	XsollaSettings.PackInAppBrowserInBuild = EditorGUILayout.Toggle("Pack in-app browser in the build?", XsollaSettings.PackInAppBrowserInBuild);
+				//}
 
 				DrawRedirectPolicySettings(XsollaSettings.DesktopRedirectPolicySettings, "Desktop redirect policy");
 				DrawRedirectPolicySettings(XsollaSettings.WebglRedirectPolicySettings, "WebGL redirect policy");

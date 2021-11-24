@@ -8,8 +8,8 @@ namespace Xsolla.Demo
 {
     public abstract class BaseBattlePassBuyer : MonoBehaviour
     {
-		[SerializeField] private SimpleButton[] BuyButtons = default;
-		[SerializeField] private BattlePassPopupFactory PopupFactory = default;
+		[SerializeField] private SimpleButton[] BuyButtons;
+		[SerializeField] private BattlePassPopupFactory PopupFactory;
 
 		private bool _waitingPopupNeeded = false;
 
@@ -67,7 +67,7 @@ namespace Xsolla.Demo
 				dialog = PopupFactory.CreateBuyPremiumPopup();
 			else
 			{
-				Debug.LogError($"Unexpected buyer type: '{this.GetType()}'");
+				Debug.LogError(string.Format("Unexpected buyer type: '{0}'", this.GetType()));
 				return;
 			}
 
@@ -99,7 +99,8 @@ namespace Xsolla.Demo
 
 			var onSuccessPurchase = new Action<CatalogItemModel>(returnedItemModel =>
 			{
-				OnSuccessPurchase?.Invoke(returnedItemModel);
+				if (OnSuccessPurchase != null)
+					OnSuccessPurchase.Invoke(returnedItemModel);
 				_waitingPopupNeeded = false;
 			});
 
@@ -126,9 +127,18 @@ namespace Xsolla.Demo
 			{
 				var inAppBrowser = BrowserHelper.Instance.InAppBrowser;
 				if (inAppBrowser != null && inAppBrowser.IsOpened)
-					inAppBrowser.AddCloseHandler(()=> onSuccess?.Invoke(itemModel));
+				{
+					inAppBrowser.AddCloseHandler(()=>
+					{
+						if (onSuccess != null)
+							onSuccess.Invoke(itemModel);
+					});
+				}
 				else
-					onSuccess?.Invoke(itemModel);
+				{
+					if (onSuccess != null)
+						onSuccess.Invoke(itemModel);
+				}
 			});
 
 			_waitingPopupNeeded = false;
@@ -148,7 +158,8 @@ namespace Xsolla.Demo
 
 			var onPurchaseError = new Action<Error>(error =>
 			{
-				onError?.Invoke(error);
+				if (onError != null)
+					onError.Invoke(error);
 				backwardCounter--;
 			});
 
@@ -157,8 +168,8 @@ namespace Xsolla.Demo
 
 			yield return new WaitWhile(() => backwardCounter > 0);
 
-			if (successCounter > 0)
-				onSuccess?.Invoke(itemModel);
+			if (successCounter > 0 && onSuccess != null)
+				onSuccess.Invoke(itemModel);
 		}
 	}
 }

@@ -5,7 +5,7 @@ namespace Xsolla.Demo
 {
 	public class OnEnableButtonDisabler : MonoBehaviour
     {
-		[SerializeField] private SimpleTextButtonDisableable Button = default;
+		[SerializeField] private SimpleTextButtonDisableable Button;
 
 		private void OnEnable()
 		{

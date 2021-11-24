@@ -6,18 +6,18 @@ namespace Xsolla.Demo
 {
 	public class BattlePassLevelUpPopupItemsShowcase : MonoBehaviour
 	{
-		[SerializeField] private ItemUI FrontItem = default;
-		[SerializeField] private GameObject ItemPrefab = default;
-		[SerializeField] private Transform ItemsRoot = default;
+		[SerializeField] private ItemUI FrontItem;
+		[SerializeField] private GameObject ItemPrefab;
+		[SerializeField] private Transform ItemsRoot;
 		[Space]
-		[SerializeField] private GameObject[] FoldedView = default;
-		[SerializeField] private GameObject[] UnfoldedView = default;
+		[SerializeField] private GameObject[] FoldedView;
+		[SerializeField] private GameObject[] UnfoldedView;
 		[Space]
-		[SerializeField] private SimpleButton ViewAllButton = default;
-		[SerializeField] private Text ViewAllText = default;
-		[SerializeField] private GameObject ViewAllButtonHolder = default;
+		[SerializeField] private SimpleButton ViewAllButton;
+		[SerializeField] private Text ViewAllText;
+		[SerializeField] private GameObject ViewAllButtonHolder;
 		[Space]
-		[SerializeField] private SimpleButton CollapseListButton = default;
+		[SerializeField] private SimpleButton CollapseListButton;
 
 		private const string VIEW_ALL_TEMPLATE = "VIEW ALL (+{0} ITEMS)";
 		private ShowState _currentState = ShowState.Neither;
@@ -31,7 +31,9 @@ namespace Xsolla.Demo
 
 		public void ShowItems(BattlePassItemDescription[] items)
 		{
-			_currentItemsCount = items?.Length ?? 0;
+			var _currentItemsCount = 0;
+			if (items != null)
+				_currentItemsCount = items.Length;
 
 			if (items == null || items.Length == 0)
 				SetState(ShowState.Neither);

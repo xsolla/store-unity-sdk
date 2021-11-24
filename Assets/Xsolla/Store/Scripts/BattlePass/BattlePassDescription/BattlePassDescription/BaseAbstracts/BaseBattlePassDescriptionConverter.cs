@@ -9,6 +9,10 @@ namespace Xsolla.Demo
 		public event Action<IEnumerable<BattlePassDescription>> BattlePassDescriptionsConverted;
 		public abstract void OnBattlePassJsonExtracted(IEnumerable<BattlePassDescriptionRaw> battleJsonItems);
 
-		protected void RaiseBattlePassDescriptionsConverted(IEnumerable<BattlePassDescription> itemsConverted) => BattlePassDescriptionsConverted?.Invoke(itemsConverted);
+		protected void RaiseBattlePassDescriptionsConverted(IEnumerable<BattlePassDescription> itemsConverted)
+		{
+			if (BattlePassDescriptionsConverted != null)
+				BattlePassDescriptionsConverted.Invoke(itemsConverted);
+		}
 	}
 }

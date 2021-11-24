@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 using Xsolla.Core.Android;
 
@@ -12,16 +12,26 @@ namespace Xsolla.Core
 
 		public AndroidSDKSocialAuthHelper()
 		{
+			string loginID;
+			string callbackURL;
+			AuthorizationType authorizationType;
+			bool invalidationFlag;
+			int OAuthClientId;
+			string facebookAppId;
+			string googleServerId;
+			string wechatAppId;
+			string qqAppId;
+
 			GetXsollaSettings(
-				out string loginID,
-				out string callbackURL,
-				out AuthorizationType authorizationType,
-				out bool invalidationFlag,
-				out int OAuthClientId,
-				out string facebookAppId,
-				out string googleServerId,
-				out string wechatAppId,
-				out string qqAppId);
+				out loginID,
+				out callbackURL,
+				out authorizationType,
+				out invalidationFlag,
+				out OAuthClientId,
+				out facebookAppId,
+				out googleServerId,
+				out wechatAppId,
+				out qqAppId);
 
 			_androidHelper = new AndroidHelper();
 			_invalidationFlag = invalidationFlag;
@@ -31,14 +41,14 @@ namespace Xsolla.Core
 				var xlogin = new AndroidJavaClass("com.xsolla.android.login.XLogin");
 				var context = _androidHelper.ApplicationContext;
 
-				var socialConfig = new AndroidJavaObject("com.xsolla.android.login.XLogin$SocialConfig", facebookAppId, googleServerId, wechatAppId, qqAppId);
+				var socialConfig = new AndroidJavaObject("com.xsolla.android.login.XLoginstring.Format(SocialConfig", facebookAppId, googleServerId, wechatAppId, qqAppId);
 
 				AndroidJavaObject loginConfig;
 				AndroidJavaObject loginConfigBuilder;
 
 				loginConfigBuilder = authorizationType == AuthorizationType.JWT
-					? new AndroidJavaObject("com.xsolla.android.login.LoginConfig$JwtBuilder")
-					: new AndroidJavaObject("com.xsolla.android.login.LoginConfig$OauthBuilder");
+					? new AndroidJavaObject("com.xsolla.android.login.LoginConfigstring.Format(JwtBuilder")
+					: new AndroidJavaObject("com.xsolla.android.login.LoginConfigstring.Format(OauthBuilder");
 
 				loginConfigBuilder.Call<AndroidJavaObject>("setProjectId", loginID);
 				loginConfigBuilder.Call<AndroidJavaObject>("setSocialConfig", socialConfig);
@@ -56,7 +66,7 @@ namespace Xsolla.Core
 			}
 			catch (Exception ex)
 			{
-				throw new AggregateException($"AndroidSDKSocialAuthHelper.Ctor: {ex.Message}", ex);
+				throw new Exception(string.Format("AndroidSDKSocialAuthHelper.Ctor: {0}",ex.Message), ex);
 			}
 		}
 
@@ -64,11 +74,11 @@ namespace Xsolla.Core
 		{
 			var providerName = socialProvider.ToString().ToUpper();
 
-			Debug.Log($"Trying android social auth for '{providerName}'");
+			Debug.Log(string.Format("Trying android social auth for '{0}'", providerName));
 
 			try
 			{
-				var unitySDKHelper = new AndroidJavaClass("com.xsolla.android.login.XLogin$Unity");
+				var unitySDKHelper = new AndroidJavaClass("com.xsolla.android.login.XLoginstring.Format(Unity");
 				var actvity = _androidHelper.CurrentActivity;
 				var socialNetworkClass = new AndroidJavaClass("com.xsolla.android.login.social.SocialNetwork");
 				var socialNetworkObject = socialNetworkClass.GetStatic<AndroidJavaObject>(providerName);
@@ -78,7 +88,7 @@ namespace Xsolla.Core
 			}
 			catch (Exception ex)
 			{
-				throw new AggregateException($"AndroidSDKSocialAuthHelper.PerformSocialAuth: {ex.Message}", ex);
+				throw new Exception(string.Format("AndroidSDKSocialAuthHelper.PerformSocialAuth: {0}", ex.Message), ex);
 			}
 		}
 
@@ -94,7 +104,7 @@ namespace Xsolla.Core
 				}
 				catch (Exception ex)
 				{
-					Debug.LogError($"AndroidSDKSocialAuthHelper.IsRefreshSocialTokenPossible: {ex.Message}");
+					Debug.LogError(string.Format("AndroidSDKSocialAuthHelper.IsRefreshSocialTokenPossible: {0}", ex.Message));
 					canRefresh = false;
 				}
 
@@ -111,11 +121,11 @@ namespace Xsolla.Core
 				try
 				{
 					//Argument type of long is required, but is used only for JWT expiration check, which is not the case
-					isTokenExpired = isTokenExpired = _xlogin.CallStatic<bool>("isTokenExpired", (object) 0L);
+					isTokenExpired = _xlogin.CallStatic<bool>("isTokenExpired", (object) 0L);
 				}
 				catch (Exception ex)
 				{
-					Debug.LogError($"AndroidSDKSocialAuthHelper.IsSocialTokenExpired: {ex.Message}");
+					Debug.LogError(string.Format("AndroidSDKSocialAuthHelper.IsSocialTokenExpired: {0}", ex.Message));
 					isTokenExpired = false;
 				}
 
@@ -142,7 +152,7 @@ namespace Xsolla.Core
 			}
 			catch (Exception ex)
 			{
-				Debug.LogError($"AndroidSDKSocialAuthHelper.TryRefreshSocialToken: {ex.Message}");
+				Debug.LogError(string.Format("AndroidSDKSocialAuthHelper.TryRefreshSocialToken: {0}", ex.Message));
 				return false;
 			}
 		}

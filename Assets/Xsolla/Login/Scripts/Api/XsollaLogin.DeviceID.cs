@@ -52,16 +52,17 @@ namespace Xsolla.Login
 		private void JwtAuthViaDeviceID(string deviceType, LoginDeviceIdRequest requestBody, string payload = null, Action<string> onSuccess = null, Action<Error> onError = null)
 		{
 			var projectId = XsollaSettings.LoginId;
-			var payloadUrlParam = (payload != null) ? $"&payload={payload}" : string.Empty;
+			var payloadUrlParam = (payload != null) ? string.Format("&payload={0}", payload) : string.Empty;
 			var with_logout = XsollaSettings.JwtTokenInvalidationEnabled ? "1" : "0";
 
 			var url = string.Format(URL_JWT_DEVICE_ID_AUTH, deviceType, projectId, payloadUrlParam, with_logout);
 
 			WebRequestHelper.Instance.PostRequest<TokenEntity, LoginDeviceIdRequest>(SdkType.Login, url, requestBody,
-				onComplete: (response) =>
+				(response) =>
 				{
 					Token.Instance = Token.Create(response.token);
-					onSuccess?.Invoke(Token.Instance);
+					if (onSuccess != null)
+						onSuccess.Invoke(Token.Instance);
 				},
 				onError, Error.LoginErrors);
 		}
@@ -74,12 +75,23 @@ namespace Xsolla.Login
 			var url = string.Format(URL_OAUTH_DEVICE_ID_AUTH, deviceType, clientId, stateUrlParam);
 
 			WebRequestHelper.Instance.PostRequest<LoginJwtJsonResponse, LoginDeviceIdRequest>(SdkType.Login, url, requestBody,
-				onComplete: (response) =>
+				(response) =>
 				{
-					if (ParseUtils.TryGetValueFromUrl(response.login_url, ParseParameter.code, out string code))
-						XsollaLogin.Instance.ExchangeCodeToToken(code, onSuccessExchange: token => onSuccess?.Invoke(token), onError: onError);
+					string code;
+					if (ParseUtils.TryGetValueFromUrl(response.login_url, ParseParameter.code, out code))
+					{
+						XsollaLogin.Instance.ExchangeCodeToToken(code, onSuccessExchange: token =>
+						{
+							if (onSuccess != null)
+								onSuccess.Invoke(token);
+						}, onError: onError);
+
+					}
 					else
-						onError?.Invoke(Error.UnknownError);
+					{
+						if (onError != null)
+							onError.Invoke(Error.UnknownError);
+					}
 				},
 				onError, Error.LoginErrors);
 		}
@@ -103,7 +115,8 @@ namespace Xsolla.Login
 
 			Action<AddUsernameAndEmailResponse> onComplete = response =>
 			{
-				onSuccess?.Invoke(response.email_confirmation_required);
+				if (onSuccess != null)
+					onSuccess.Invoke(response.email_confirmation_required);
 			};
 
 			WebRequestHelper.Instance.PostRequest<AddUsernameAndEmailResponse, AddUsernameAndEmailRequest>(SdkType.Login, url, requestBody, WebRequestHeader.AuthHeader(Token.Instance),
@@ -124,7 +137,8 @@ namespace Xsolla.Login
 
 			Action<List<UserDeviceInfo>> onComplete = responseItems =>
 			{
-				onSuccess?.Invoke(responseItems);
+				if (onSuccess != null)
+					onSuccess.Invoke(responseItems);
 			};
 
 			WebRequestHelper.Instance.GetRequest<List<UserDeviceInfo>>(SdkType.Login, url, WebRequestHeader.AuthHeader(Token.Instance),

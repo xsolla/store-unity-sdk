@@ -7,9 +7,9 @@ namespace Xsolla.Core.Popup
 	[AddComponentMenu("Scripts/Xsolla.Core/Popup/NicknamePopup")]
 	public class NicknamePopup : MonoBehaviour, INicknamePopup
 	{
-		[SerializeField] SimpleButton ContinueButton = default;
-		[SerializeField] SimpleButton CancelButton = default;
-		[SerializeField] UserProfileEntryEditor Editor = default;
+		[SerializeField] SimpleButton ContinueButton;
+		[SerializeField] SimpleButton CancelButton;
+		[SerializeField] UserProfileEntryEditor Editor;
 
 		private string UserInput { get; set; }
 
@@ -22,7 +22,8 @@ namespace Xsolla.Core.Popup
 		{
 			ContinueButton.onClick = () =>
 			{
-				nicknameCallback?.Invoke(UserInput);
+				if (nicknameCallback != null)
+					nicknameCallback.Invoke(UserInput);
 				Destroy(gameObject, 0.001F);
 			};
 			return this;
@@ -32,7 +33,8 @@ namespace Xsolla.Core.Popup
 		{
 			CancelButton.onClick = () =>
 			{
-				cancelCallback?.Invoke();
+				if (cancelCallback != null)
+					cancelCallback.Invoke();
 				Destroy(gameObject, 0.001F);
 			};
 			return this;

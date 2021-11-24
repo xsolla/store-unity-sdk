@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Xsolla.UIBuilder;
 
 namespace Xsolla.Demo
 {
@@ -10,12 +9,10 @@ namespace Xsolla.Demo
 	{
 		protected const string GROUP_ALL = "ALL";
 
-		[SerializeField] protected WidgetProvider ItemPrefabProvider = new WidgetProvider();
-		[SerializeField] protected GroupsController groupsController = default;
-		[SerializeField] protected ItemContainer itemsContainer = default;
-		[SerializeField] protected GameObject emptyMessage = default;
-
-		private GameObject ItemPrefab => ItemPrefabProvider.GetValue();
+		[SerializeField] protected GameObject ItemPrefab;
+		[SerializeField] protected GroupsController groupsController;
+		[SerializeField] protected ItemContainer itemsContainer;
+		[SerializeField] protected GameObject emptyMessage;
 
 		protected abstract bool IsShowContent {get;}
 

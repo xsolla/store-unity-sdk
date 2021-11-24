@@ -5,15 +5,21 @@ namespace Xsolla.Demo
 {
 	public class OpenUrlOnClick : MonoBehaviour
 	{
-		[SerializeField] private SimpleButton Button = default;
-		[SerializeField] private UrlType UrlType = default;
+		[SerializeField] private SimpleButton Button;
+		[SerializeField] private UrlType UrlType;
 
 		private string _url;
 
 		public string URL
 		{
-			get => _url;
-			set => _url = value;
+			get
+			{
+				return _url;
+			}
+			set
+			{
+				_url = value;
+			}
 		}
 
 		private void Awake()

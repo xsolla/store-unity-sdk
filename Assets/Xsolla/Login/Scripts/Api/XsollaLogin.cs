@@ -8,7 +8,13 @@ namespace Xsolla.Login
 	[PublicAPI]
 	public partial class XsollaLogin : MonoSingleton<XsollaLogin>
 	{
-		private byte[] CryptoKey => Encoding.ASCII.GetBytes(XsollaSettings.LoginId.Replace("-", string.Empty).Substring(0, 16));
+		private byte[] CryptoKey
+		{
+			get
+			{
+				return Encoding.ASCII.GetBytes(XsollaSettings.LoginId.Replace("-", string.Empty).Substring(0, 16));
+			}
+		}
 
 		private void Awake()
 		{

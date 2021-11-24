@@ -7,8 +7,8 @@ namespace Xsolla.Demo
 {
 	public class UserInfoDrawer : MonoBehaviour
 	{
-		[SerializeField] private Text UserEmailText = default;
-		[SerializeField] private Text UserTagText = default;
+		[SerializeField] private Text UserEmailText;
+		[SerializeField] private Text UserTagText;
 
 		private const int USER_INFO_LIMIT = 42;
 
@@ -51,7 +51,7 @@ namespace Xsolla.Demo
 
 			UserEmailText.text = nameToDraw;
 
-			UserTagText.text = string.IsNullOrEmpty(info.tag) ? string.Empty : $"#{info.tag}";
+			UserTagText.text = string.IsNullOrEmpty(info.tag) ? string.Empty : string.Format("#{}", info.tag);
 			UserTagText.gameObject.SetActive(!string.IsNullOrEmpty(info.tag));
 		}
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -24,8 +24,16 @@ namespace Xsolla.Core.Popup
 		{
 			while (true)
 			{
-				yield return new WaitUntil(() => _condition?.Invoke() ?? false);
-				_callback?.Invoke();
+				yield return new WaitUntil(() =>
+				{
+					if (_condition != null)
+						return _condition.Invoke();
+					else
+						return false;
+				});
+
+				if (_callback != null)
+					_callback.Invoke();
 				Destroy(gameObject, 0.1F);
 				yield break;
 			}

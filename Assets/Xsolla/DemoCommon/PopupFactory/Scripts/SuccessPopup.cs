@@ -9,10 +9,10 @@ namespace Xsolla.Core.Popup
 	[AddComponentMenu("Scripts/Xsolla.Core/Popup/SuccessPopup")]
 	public class SuccessPopup : MonoBehaviour, ISuccessPopup
 	{
-		[SerializeField] private Text title = default;
-		[SerializeField] private Text message = default;
-		[SerializeField] private SimpleTextButton button = default;
-		[SerializeField] private Text buttonText = default;
+		[SerializeField] private Text title;
+		[SerializeField] private Text message;
+		[SerializeField] private SimpleTextButton button;
+		[SerializeField] private Text buttonText;
 
 		private void Awake()
 		{
@@ -33,7 +33,8 @@ namespace Xsolla.Core.Popup
 		{
 			button.onClick = () =>
 			{
-				buttonPressed?.Invoke();
+				if (buttonPressed != null)
+					buttonPressed.Invoke();
 				Destroy(gameObject, 0.001F);
 			};
 			return this;

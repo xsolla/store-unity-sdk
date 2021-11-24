@@ -4,7 +4,7 @@ namespace Xsolla.Demo
 {
 	public class UserAttributesProviderInvoker : MonoBehaviour
     {
-		[SerializeField] UserAttributesProvider UserAttributesProvider = default;
+		[SerializeField] UserAttributesProvider UserAttributesProvider;
 
 		private void Start()
 		{

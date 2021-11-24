@@ -7,25 +7,25 @@ namespace Xsolla.Demo
 	public class CartItemUI : MonoBehaviour
 	{
 		[SerializeField]
-		Image itemImage = default;
+		Image itemImage;
 		[SerializeField]
-		Text itemName = default;
+		Text itemName;
 		[SerializeField]
-		Text itemPrice = default;
+		Text itemPrice;
 		[SerializeField]
-		Text itemPriceWithoutDiscount = default;
+		Text itemPriceWithoutDiscount;
 		[SerializeField]
-		GameObject discountIco = default;
+		GameObject discountIco;
 
 		[SerializeField]
-		SimpleButton addButton = default;
+		SimpleButton addButton;
 		[SerializeField]
-		SimpleButton removeButton = default;
+		SimpleButton removeButton;
 		[SerializeField]
-		SimpleButton deleteButton = default;
+		SimpleButton deleteButton;
 
 		[SerializeField]
-		Text itemQuantity = default;
+		Text itemQuantity;
 
 		private UserCartItem _cartItem;
 
@@ -86,7 +86,7 @@ namespace Xsolla.Demo
 				}
 				else
 				{
-					Debug.LogError($"Cart item with sku = '{_cartItem.Sku}' without image!");
+					Debug.LogError(string.Format("Cart item with sku = '{0}' without image!", _cartItem.Sku));
 				}
 			}
 		}

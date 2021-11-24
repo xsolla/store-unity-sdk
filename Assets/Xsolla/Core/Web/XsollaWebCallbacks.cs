@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Xsolla.Core
 {
@@ -8,7 +8,8 @@ namespace Xsolla.Core
 
 		public void PublishMessage(object message)
 		{
-			MessageReceived?.Invoke(message);
+			if (MessageReceived != null)
+				MessageReceived.Invoke(message);
 		}
 
 		public override void Init()

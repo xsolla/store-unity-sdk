@@ -5,9 +5,9 @@ namespace Xsolla.Demo
 {
 	public class BattlePassUserExpUISetter : BaseBattlePassUserStatSubscriber
 	{
-		[SerializeField] private Text UserExpLabel = default;
-		[SerializeField] private Slider UserExpSlider = default;
-		[SerializeField] private GameObject[] ObjectsToDisableOnLevelMax = default;
+		[SerializeField] private Text UserExpLabel;
+		[SerializeField] private Slider UserExpSlider;
+		[SerializeField] private GameObject[] ObjectsToDisableOnLevelMax;
 
 		private const string EXP_TEMPLATE = "XP {0}<color=#FFFFFFB2>/{1}</color>";
 		private const string EXP_MAX = "XP MAX";

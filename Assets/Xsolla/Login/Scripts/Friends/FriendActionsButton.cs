@@ -7,8 +7,8 @@ namespace Xsolla.Demo
 {
 	public class FriendActionsButton : MonoBehaviour, IPointerExitHandler
 	{
-		[SerializeField] private GameObject actionPrefab = default;
-		[SerializeField] private Transform actionContainer = default;
+		[SerializeField] private GameObject actionPrefab;
+		[SerializeField] private Transform actionContainer;
 
 		private readonly List<GameObject> _actions = new List<GameObject>();
 
@@ -45,7 +45,8 @@ namespace Xsolla.Demo
 				button.onClick = () =>
 				{
 					actionContainer.gameObject.SetActive(false);
-					callback?.Invoke();
+					if (callback != null)
+						callback.Invoke();
 				};
 				_actions.Add(go);
 			}

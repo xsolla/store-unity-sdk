@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Xsolla.Core
 {
@@ -10,12 +10,14 @@ namespace Xsolla.Core
 
 		public void PublishPaymentStatusUpdate()
 		{
-			PaymentStatusUpdate?.Invoke();
+			if (PaymentStatusUpdate != null)
+				PaymentStatusUpdate.Invoke();
 		}
 
 		public void PublishPaymentCancel()
 		{
-			PaymentCancel?.Invoke();
+			if (PaymentCancel != null)
+				PaymentCancel.Invoke();
 		}
 	}
 }
