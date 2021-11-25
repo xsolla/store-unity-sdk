@@ -975,7 +975,7 @@ MonoBehaviour:
       _sprite: {fileID: 0}
     - _name: BlurBackground
       _id: fa17a7f3-67c6-49a7-a38a-26ffb5e4e6b0
-      _sprite: {fileID: 21300000, guid: 62b96774cc3d15e46817610cfc26bf68, type: 3}
+      _sprite: {fileID: 0}
     - _name: Left Background
       _id: 1ccb9175-26d1-48e0-8dfb-d05e03dcf41a
       _sprite: {fileID: 0}
