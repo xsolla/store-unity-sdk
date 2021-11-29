@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 using Xsolla.Core.Android;
 
@@ -111,7 +111,7 @@ namespace Xsolla.Core
 				try
 				{
 					//Argument type of long is required, but is used only for JWT expiration check, which is not the case
-					isTokenExpired = isTokenExpired = _xlogin.CallStatic<bool>("isTokenExpired", (object) 0L);
+					isTokenExpired = _xlogin.CallStatic<bool>("isTokenExpired", (object) 0L);
 				}
 				catch (Exception ex)
 				{

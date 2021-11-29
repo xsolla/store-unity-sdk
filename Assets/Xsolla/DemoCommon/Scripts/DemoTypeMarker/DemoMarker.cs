@@ -7,7 +7,7 @@ namespace Xsolla.Demo
 		{
 			get
 			{
-				if (_marker is null)
+				if (_marker == null)
 					_marker = new DemoMarker();
 
 				return _marker;
