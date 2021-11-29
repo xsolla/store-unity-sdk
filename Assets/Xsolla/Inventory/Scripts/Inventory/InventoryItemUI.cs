@@ -68,7 +68,7 @@ namespace Xsolla.Demo
 		{
 			if (!itemImage)
 				return;
-			
+
 			loadingCircle.SetActive(false);
 			itemImage.gameObject.SetActive(true);
 			itemImage.sprite = image;
@@ -197,7 +197,7 @@ namespace Xsolla.Demo
 		{
 			if (model.RemainingUses == null || itemQuantityImage == null || itemQuantityText == null) return;
 			EnableQuantityImage();
-			itemQuantityText.text = model.RemainingUses.Value.ToString(); 
+			itemQuantityText.text = model.RemainingUses.Value.ToString();
 		}
 
 		private void EnableQuantityImage()
@@ -307,8 +307,7 @@ namespace Xsolla.Demo
 			}
 			else
 			{
-				//TEXTREVIEW
-				Debug.LogError($"Item model was incorrect for item with sku '{itemModel.Sku}', expected type '{typeof (T)}'");
+				Debug.LogError($"Item model incorrect for item with SKU '{itemModel.Sku}', expected type is '{typeof (T)}'");
 				result = null;
 				return false;
 			}

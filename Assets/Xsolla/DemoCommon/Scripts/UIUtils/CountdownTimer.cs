@@ -8,11 +8,9 @@ namespace Xsolla.Demo
     public class CountdownTimer : MonoBehaviour
     {
 		[SerializeField] private Text OutputText = default;
-		//TEXTREVIEW
 		[Tooltip("Must contain %TIMER% marker. Example: 'Expires in %TIMER%'")]
 		[SerializeField] private string OutputTemplate = default;
-		//TEXTREVIEW
-		[Tooltip("Supported values are d(ays),h(ours),m(inutes),s(econds). Example: 'hhh:mm:ss'")]
+		[Tooltip("Supported values are d (days), h (hours), m (minutes), s (seconds). Example: 'hhh:mm:ss'")]
 		[SerializeField] private string TimerTemplate = default;
 		[SerializeField] private int DefaultSeconds = default;
 		[SerializeField] private TimerAction OnEnableAction = default;
@@ -33,10 +31,10 @@ namespace Xsolla.Demo
 			_timerTemplateFormat = GenerateTemplateFormat(TimerTemplate);
 
 			if (string.IsNullOrEmpty(TimerTemplate))
-				Debug.LogWarning("TimerTemplate is not set");//TEXTREVIEW
+				Debug.LogWarning("TimerTemplate is not set");
 
 			if (!string.IsNullOrEmpty(OutputTemplate) && !OutputTemplate.Contains(TIMER_MARK))
-				Debug.LogWarning("Incorrect OutputTemplate, check that %TIMER% included");//TEXTREVIEW
+				Debug.LogWarning("Incorrect OutputTemplate, check that %TIMER% is included");
 		}
 
 		public void StartTimer()
@@ -50,7 +48,7 @@ namespace Xsolla.Demo
 
 			_lastTimerValue = seconds;
 			_currentSecondsLeft = seconds;
-			
+
 			_timerCoroutine = StartCoroutine(TimerCoroutine());
 		}
 
