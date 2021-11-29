@@ -39,6 +39,20 @@ namespace Xsolla.Core
 				project.AddBuildProperty(targetGuid, "DEFINES_MODULE", "YES");
 				project.AddBuildProperty(targetGuid, "SWIFT_VERSION", "5.0");
 				project.AddBuildProperty(targetGuid, "COREML_CODEGEN_LANGUAGE", "Swift");
+
+				try
+				{
+					var projectInString = File.ReadAllText(projectPath);
+					projectInString = projectInString.Replace("ENABLE_BITCODE = YES;",$"ENABLE_BITCODE = NO;");
+					File.WriteAllText(projectPath, projectInString);
+				}
+				catch (Exception e)
+				{
+					Debug.LogException(e);
+				}
+
+				project.WriteToFile(projectPath);
+				
 			}
 	}
 }
