@@ -1,4 +1,19 @@
 # Changelog
+## [0.7.1] - 2021-12-??
+### Added
+- Auth via FaceID/TouchID for iOS builds
+- Passwordless auth via email
+- Passwordless auth via SMS
+- Game keys and entitlement system functionality
+### Fixed
+- Improved calculation of in-app browser size for VR projects
+- Other fixes and improvements
+### Changed
+- Order status polling replaced with WebSocket
+- Updated 'ItemPurchase' method (added 'quantity' parameter)
+- Improved social networks auth for iOS builds
+- Updated packages and dependencies
+
 ## [0.7.0] - 2021-09-17
 ### Added
 - Independent PayStation UI parameters
