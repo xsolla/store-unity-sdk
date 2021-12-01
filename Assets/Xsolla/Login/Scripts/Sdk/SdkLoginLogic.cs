@@ -139,45 +139,51 @@ namespace Xsolla.Demo
 
 		public void LinkSocialProvider(SocialProvider socialProvider, Action<SocialProvider> onSuccess, Action<Error> onError = null)
 		{
-			if (EnvironmentDefiner.IsStandaloneOrEditor)
-			{
-				XsollaLogin.Instance.LinkSocialProvider(
-					socialProvider,
-					url =>
-					{
-						var browser = BrowserHelper.Instance.InAppBrowser;
-						if (browser != null)
-						{
-							browser.Open(url);
-							
-							browser.AddInitHandler(() =>
-							{
-								browser.AddUrlChangeHandler(newUrl =>
-								{
-									Debug.Log($"URL = {newUrl}");
-									if (ParseUtils.TryGetValueFromUrl(newUrl, ParseParameter.token, out _))
-									{
-										browser.Close();
-										HotkeyCoroutine.Unlock(); 
-										onSuccess?.Invoke(socialProvider);
-									}
-								});
-							});
-						}
-						else
-						{
-							Debug.LogError("This functionality is not supported elsewhere except Editor and Standalone build");
-							onError?.Invoke(null);
-						}
-					}, 
-					onError);
-			}
-			else
+			if (!EnvironmentDefiner.IsStandaloneOrEditor)
 			{
 				var errorMessage = "LinkSocialProvider: This functionality is not supported elswere except Editor and Standalone build";
 				Debug.LogError(errorMessage);
 				onError?.Invoke(new Error(ErrorType.MethodIsNotAllowed, errorMessage: errorMessage));
+				return;
 			}
+
+			Action<string> urlCallback = url =>
+			{
+				var browser = BrowserHelper.Instance.InAppBrowser;
+				if (browser == null)
+				{
+					Debug.LogError("LinkSocialProvider: Can not obtain in-built browser");
+					onError?.Invoke(null);
+					return;
+				}
+
+				browser.Open(url);
+				browser.AddInitHandler(() =>
+				{
+					browser.AddUrlChangeHandler(newUrl =>
+					{
+						Debug.Log($"URL = {newUrl}");
+
+						if (ParseUtils.TryGetValueFromUrl(newUrl, ParseParameter.token, out _))
+						{
+							browser.Close();
+							HotkeyCoroutine.Unlock();
+							onSuccess?.Invoke(socialProvider);
+							return;
+						}
+
+						if (ParseUtils.TryGetValueFromUrl(newUrl, ParseParameter.error_code, out string errorCode) &&
+							ParseUtils.TryGetValueFromUrl(newUrl, ParseParameter.error_description, out string errorDescription))
+						{
+							browser.Close();
+							HotkeyCoroutine.Unlock();
+							onError?.Invoke(new Error(statusCode: errorCode, errorMessage: errorDescription));
+						}
+					});
+				});
+			};
+
+			XsollaLogin.Instance.LinkSocialProvider(socialProvider,urlCallback,onError);
 		}
 
 		private List<LinkedSocialNetwork> _networksCache;

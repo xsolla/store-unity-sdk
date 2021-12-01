@@ -16,6 +16,11 @@ namespace Xsolla.Core.Popup
 			return this;
 		}
 
+		public ISuccessPopup GetPopupCore()
+		{
+			return this.gameObject.GetComponent<SuccessPopup>();
+		}
+
 		private void AddCouponRewardItem(CouponRedeemedItemModel couponRewardItem)
 		{
 			itemsContainer.AddItem(itemPrefab).GetComponent<CouponRewardItemUI>().Initialize(couponRewardItem);

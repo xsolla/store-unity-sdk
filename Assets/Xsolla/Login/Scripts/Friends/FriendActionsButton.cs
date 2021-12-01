@@ -1,38 +1,58 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace Xsolla.Demo
 {
-	public class FriendActionsButton : MonoBehaviour, IPointerExitHandler
+	public class FriendActionsButton : MonoBehaviour
 	{
 		[SerializeField] private GameObject actionPrefab = default;
 		[SerializeField] private Transform actionContainer = default;
 
+		private static FriendActionsButton _activeButton;
+
 		private readonly List<GameObject> _actions = new List<GameObject>();
+
+		private bool IsActive => actionContainer.gameObject.activeSelf;
 
 		private void OnDestroy()
 		{
 			ClearActions();
+
+			if (_activeButton != null && _activeButton.Equals(this))
+				_activeButton = null;
 		}
 
 		private void Start()
 		{
 			if (actionContainer != null)
 			{
-				var btn = gameObject.GetComponent<SimpleButton>();
-				if (btn != null && actionContainer != null)
-				{
-					btn.onClick = () => actionContainer.gameObject.SetActive(!actionContainer.gameObject.activeInHierarchy);
-				}
 				actionContainer.gameObject.SetActive(false);
+
+				var btn = gameObject.GetComponent<SimpleButton>();
+				if (btn != null)
+					btn.onClick = ToggleActionContainer;
 			}
 		}
 
-		void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
+		private void ToggleActionContainer()
 		{
-			actionContainer.gameObject.SetActive(false);
+			var newActiveValue = !IsActive;
+			actionContainer.gameObject.SetActive(newActiveValue);
+
+			if (!_activeButton)
+			{
+				_activeButton = this;
+				return;
+			}
+
+			if (_activeButton.Equals(this))
+				return;
+
+			if (_activeButton.IsActive)
+				_activeButton.ToggleActionContainer();
+
+			_activeButton = this;
 		}
 
 		public void AddAction(string actionName, Action callback)

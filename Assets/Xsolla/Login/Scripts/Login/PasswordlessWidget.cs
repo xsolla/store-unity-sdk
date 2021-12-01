@@ -140,7 +140,7 @@ namespace Xsolla.Demo
 					OnPhoneRequest();
 					break;
 				case AuthType.Email:
-					//TODO
+					OnEmailRequest();
 					break;
 				default:
 					Debug.LogError($"PasswordlessWidget.OnResendButton: Unexpected auth type '{_currentAuthType}'");
@@ -154,7 +154,7 @@ namespace Xsolla.Demo
 		{
 			StoreDemoPopup.ShowWarning(
 				error: new Error(errorMessage: "Code expired"),
-				buttonCallback: CloseWidget);
+				buttonCallback: OnResendButton);
 		}
 
 		private void CloseWidget()
