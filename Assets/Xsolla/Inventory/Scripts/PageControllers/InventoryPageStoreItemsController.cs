@@ -8,7 +8,7 @@ namespace Xsolla.Demo
 {
 	public class InventoryPageStoreItemsController : BasePageStoreItemsController
 	{
-		[SerializeField] private SimpleButton RefreshInventoryButton;
+		[SerializeField] private SimpleButton RefreshInventoryButton = default;
 	
 		private string _lastGroup;
 
