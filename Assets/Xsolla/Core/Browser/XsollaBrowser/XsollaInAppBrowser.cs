@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 using Xsolla.Core.Browser;
 
@@ -10,7 +10,7 @@ namespace Xsolla.Core
 	public class XsollaInAppBrowser : MonoBehaviour
 #endif
 	{
-		[SerializeField] private GameObject BrowserPrefab;
+		[SerializeField] private GameObject BrowserPrefab = default;
 #if (UNITY_EDITOR || UNITY_STANDALONE)
 		private GameObject BrowserObject;
 
@@ -60,7 +60,7 @@ namespace Xsolla.Core
 		public void UpdateSize(int width, int height)
 		{
 			if (IsOpened)
-				SinglePageBrowser.GetComponent<Display2DBehaviour>().StartRedrawWith(width, height);
+				SinglePageBrowser.GetComponent<Display2DBehaviour>().StartRedraw(width, height);
 		}
 
 		private void CreateBrowser()

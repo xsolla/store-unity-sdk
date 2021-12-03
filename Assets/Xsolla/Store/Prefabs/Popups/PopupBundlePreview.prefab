@@ -887,6 +887,8 @@ GameObject:
   - component: {fileID: 6277992412920189642}
   - component: {fileID: 8963289880017305984}
   - component: {fileID: 5694657091240370138}
+  - component: {fileID: 2634590034722309150}
+  - component: {fileID: 6877838179028886726}
   m_Layer: 5
   m_Name: Background
   m_TagString: Untagged
@@ -934,7 +936,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.078431375, g: 0.078431375, b: 0.27450982, a: 1}
+  m_Color: {r: 0.42352942, g: 0.3137255, b: 0.23529412, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -950,6 +952,48 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2634590034722309150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3845580050456699172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc7a4b87c37a4cf18dcbc9b73bf98bd4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _propertyId: eb14616c-0e29-4dc4-bd30-dc3728cadd7e
+  _comp: {fileID: 5694657091240370138}
+  _pointerOverrider:
+    _pointerEvents: {fileID: 0}
+    _transitionMode: 0
+    _isOverrideHover: 0
+    _hoverPropertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
+    _isOverridePress: 0
+    _pressPropertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
+--- !u!114 &6877838179028886726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3845580050456699172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c17206fe0e154cd59df56614791ba46f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _propertyId: 7482b7ac-d5e5-4b5b-ae5e-d02628a0b6a4
+  _comp: {fileID: 5694657091240370138}
+  _pointerOverrider:
+    _pointerEvents: {fileID: 0}
+    _transitionMode: 0
+    _isOverrideHover: 0
+    _hoverPropertyId: f59ef3aa-9cf9-4946-8de2-f203b773a004
+    _isOverridePress: 0
+    _pressPropertyId: f59ef3aa-9cf9-4946-8de2-f203b773a004
 --- !u!1 &4136081948202344797
 GameObject:
   m_ObjectHideFlags: 0
@@ -1720,6 +1764,7 @@ GameObject:
   - component: {fileID: 8102698520465071262}
   - component: {fileID: 4770536767628221588}
   - component: {fileID: 2902698306498610369}
+  - component: {fileID: 6826447622523142334}
   m_Layer: 5
   m_Name: PopupBackground
   m_TagString: Untagged
@@ -1783,6 +1828,27 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &6826447622523142334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8048694052625749388}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc7a4b87c37a4cf18dcbc9b73bf98bd4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _propertyId: 3a51da75-0356-40c8-923e-dbb473a23bfb
+  _comp: {fileID: 2902698306498610369}
+  _pointerOverrider:
+    _pointerEvents: {fileID: 0}
+    _transitionMode: 0
+    _isOverrideHover: 0
+    _hoverPropertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
+    _isOverridePress: 0
+    _pressPropertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
 --- !u!1 &8129972910254772181
 GameObject:
   m_ObjectHideFlags: 0
@@ -1794,7 +1860,7 @@ GameObject:
   - component: {fileID: 8487992522623021007}
   - component: {fileID: 5605581243862389355}
   m_Layer: 5
-  m_Name: pref_PopupBundlePreview
+  m_Name: PopupBundlePreview
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1836,6 +1902,7 @@ MonoBehaviour:
   bundleImage: {fileID: 7078985849700691177}
   loadingCircle: {fileID: 735509372696028284}
   bundleName: {fileID: 3754280125939921755}
+  bundleDescription: {fileID: 0}
   bundleInfo: {fileID: 2617770433752925057}
   bundlePrice: {fileID: 3898933910185951139}
   bundlePriceWithoutDiscount: {fileID: 2790708481799031287}

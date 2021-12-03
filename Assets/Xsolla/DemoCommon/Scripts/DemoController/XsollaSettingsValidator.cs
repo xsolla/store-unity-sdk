@@ -5,25 +5,20 @@ namespace Xsolla.Demo
 {
 	public class XsollaSettingsValidator : MonoBehaviour
 	{
-		private void Start()
-		{
-			ValidateXsollaSettings();
-		}
-
-		private void ValidateXsollaSettings()
+		public bool ValidateXsollaSettings()
 		{
 			if (string.IsNullOrEmpty(XsollaSettings.LoginId))
 			{
 				var errorMessage = "Please copy the Login project ID from your Publisher Account and add it to your project settings";
 				GenerateLoginSettingsError(errorMessage);
-				return;
+				return false;
 			}
 
 			if (string.IsNullOrEmpty(XsollaSettings.StoreProjectId))
 			{
 				var errorMessage = "Please copy the Store project ID from your Publisher Account and add it to your project settings";
 				GenerateLoginSettingsError(errorMessage);
-				return;
+				return false;
 			}
 
 			var isDefaultLoginID = XsollaSettings.LoginId == Constants.DEFAULT_LOGIN_ID || XsollaSettings.LoginId == Constants.DEFAULT_PLATFORM_LOGIN_ID;
@@ -33,12 +28,17 @@ namespace Xsolla.Demo
 			{
 				var errorMessage = $"You changed [XsollaSettings->ProjectID] to '{XsollaSettings.StoreProjectId}', but did not change LoginID. Change LoginID from '{XsollaSettings.LoginId}' to correct value.";
 				GenerateLoginSettingsError(errorMessage);
+				return false;
 			}
-			else if (!isDefaultLoginID && isDefaultProjectID)
-			{
-				var errorMessage = $"You changed [XsollaSettings->LoginID] to '{XsollaSettings.LoginId}', but did not change ProjectID. Change ProjectID from '{XsollaSettings.StoreProjectId}' to correct value.";
-				GenerateLoginSettingsError(errorMessage);
-			}
+			
+			//if (isDefaultProjectID && !isDefaultLoginID)
+			//{
+			//	var errorMessage = $"You changed [XsollaSettings->LoginID] to '{XsollaSettings.LoginId}', but did not change ProjectID. Change ProjectID from '{XsollaSettings.StoreProjectId}' to correct value.";
+			//	GenerateLoginSettingsError(errorMessage);
+			//	return false;
+			//}
+
+			return true;
 		}
 
 		private void GenerateLoginSettingsError(string errorMessage)
@@ -46,7 +46,6 @@ namespace Xsolla.Demo
 			var proxyObject = new GameObject();
 			var proxyScript = proxyObject.AddComponent<LoginSettingsErrorHolder>();
 			proxyScript.LoginSettingsError = errorMessage;
-			DemoController.Instance.SetState(MenuState.LoginSettingsError);
 		}
 	}
 }

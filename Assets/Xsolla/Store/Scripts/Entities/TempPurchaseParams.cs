@@ -14,13 +14,16 @@ namespace Xsolla.Store
 		public Settings settings;
 
 		[JsonProperty("custom_parameters", NullValueHandling = NullValueHandling.Ignore)]
-		public Dictionary<string, object> customParameters;
+		public Dictionary<string, object> custom_parameters;
 		
 		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 		public string currency;
 		
 		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 		public string locale;
+
+		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+		public int? quantity;
 
 		[Serializable]
 		public class Settings

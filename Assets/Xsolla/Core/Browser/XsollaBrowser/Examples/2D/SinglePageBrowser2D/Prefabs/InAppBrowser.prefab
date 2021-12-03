@@ -297,7 +297,7 @@ PrefabInstance:
     - target: {fileID: 2921180944494038115, guid: 5dce3528d1dd7429d94941408d4aa0c4,
         type: 3}
       propertyPath: m_Name
-      value: pref_SinglePageBrowser2D
+      value: SinglePageBrowser2D
       objectReference: {fileID: 0}
     - target: {fileID: 2966595868497453108, guid: 5dce3528d1dd7429d94941408d4aa0c4,
         type: 3}
@@ -339,7 +339,8 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 19
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2921180944494038118, guid: 5dce3528d1dd7429d94941408d4aa0c4, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 5dce3528d1dd7429d94941408d4aa0c4, type: 3}
 --- !u!224 &6579090730566798601 stripped
 RectTransform:

@@ -2,11 +2,14 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 using UnityEngine;
+using Xsolla.Core.Popup;
 
 namespace Xsolla.Demo
 {
 	public class InventoryPageStoreItemsController : BasePageStoreItemsController
 	{
+		[SerializeField] private SimpleButton RefreshInventoryButton = default;
+	
 		private string _lastGroup;
 
 		protected override bool IsShowContent => UserInventory.Instance.HasVirtualItems || UserInventory.Instance.HasPurchasedSubscriptions;
@@ -14,12 +17,36 @@ namespace Xsolla.Demo
 		protected override void Initialize()
 		{
 			UserInventory.Instance.RefreshEvent += OnUserInventoryRefresh;
+
+			if (RefreshInventoryButton)
+				RefreshInventoryButton.onClick += RefreshInventory;
 		}
 
 		private void OnDestroy()
 		{
-			if (UserInventory.Instance) //If UserInventory is not in destroying state (on app exit)
+			//If UserInventory is not in destroying state (on app exit)
+			if (UserInventory.Instance)
+			{
 				UserInventory.Instance.RefreshEvent -= OnUserInventoryRefresh;
+
+				if (RefreshInventoryButton)
+					RefreshInventoryButton.onClick -= RefreshInventory;
+			}
+		}
+
+		private void RefreshInventory()
+		{
+			var isDone = false;
+			PopupFactory.Instance.CreateWaiting().SetCloseCondition(() => isDone);
+
+			UserInventory.Instance.Refresh(
+				() => isDone = true,
+				error =>
+				{
+					isDone = true;
+					StoreDemoPopup.ShowError(error);
+				}
+			);
 		}
 
 		private void OnUserInventoryRefresh()

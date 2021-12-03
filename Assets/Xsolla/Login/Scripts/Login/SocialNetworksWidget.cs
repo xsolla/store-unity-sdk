@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using Xsolla.Core;
@@ -8,16 +8,12 @@ namespace Xsolla.Demo
 	public class SocialNetworksWidget : MonoBehaviour
 	{
 		[SerializeField] private InputField FilterInput = default;
-
-		[SerializeField] private SimpleButton ReturnButton = default;
-
 		[SerializeField] private SocialProviderButton[] SocialNetworkButtons = default;
 
 		public Action<SocialProvider> OnSocialButtonClick { get; set; }
 
 		private void Awake()
 		{
-			ReturnButton.onClick += () => gameObject.SetActive(false);
 			FilterInput.onValueChanged.AddListener(OnFilterChanged);
 		}
 

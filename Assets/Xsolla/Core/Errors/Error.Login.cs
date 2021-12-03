@@ -32,6 +32,8 @@ namespace Xsolla.Core
 			{
 				{"003-007", ErrorType.UserIsNotActivated},
 				{"010-007", ErrorType.CaptchaRequiredException},
+				{"003-039", ErrorType.InvalidAuthorizationCode},
+				{"003-049", ErrorType.ExceededAuthorizationCodeAttempts}
 			};
 
 		public static readonly Dictionary<string, ErrorType> RegistrationErrors =

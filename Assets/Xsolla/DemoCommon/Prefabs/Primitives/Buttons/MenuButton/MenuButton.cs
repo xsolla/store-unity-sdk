@@ -174,7 +174,9 @@ namespace Xsolla.Demo
 		{
 			SetImageSprite(image, selectedStateSprite);
 			DecoratorPointerEvents.IsMute = false;
-			StartCoroutine(DoChangeColorOnNextFrame(SelectedTextColor.GetValue()));
+
+			if(gameObject.activeInHierarchy && gameObject.activeSelf)
+				StartCoroutine(DoChangeColorOnNextFrame(SelectedTextColor.GetValue()));
 
 			if (OnSelectedObject)
 				OnSelectedObject.SetActive(true);

@@ -1,26 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &6581756054525159514
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1013852533944635481}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc7a4b87c37a4cf18dcbc9b73bf98bd4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _propertyId: 5951064b-e847-4e0a-8996-71df5fc3526d
-  _pointerOverrider:
-    _pointerEvents: {fileID: 0}
-    _transitionMode: 0
-    _isOverrideHover: 0
-    _hoverPropertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
-    _isOverridePress: 0
-    _pressPropertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
-  _comp: {fileID: 9088977486116382870}
 --- !u!1 &2047852019588221729
 GameObject:
   m_ObjectHideFlags: 0
@@ -161,7 +140,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: f70b0d194d863d14eaa3261671349a4b, type: 3}
+    m_Font: {fileID: 12800000, guid: 6bd82bc6b4cdf6b429528a7fb8cc0b3a, type: 3}
     m_FontSize: 16
     m_FontStyle: 0
     m_BestFit: 1
@@ -187,6 +166,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _propertyId: 7b111555-c639-4655-9948-52030ad69aab
+  _comp: {fileID: 8338682128611929277}
   _pointerOverrider:
     _pointerEvents: {fileID: 0}
     _transitionMode: 0
@@ -194,7 +174,6 @@ MonoBehaviour:
     _hoverPropertyId: 7b111555-c639-4655-9948-52030ad69aab
     _isOverridePress: 0
     _pressPropertyId: 7b111555-c639-4655-9948-52030ad69aab
-  _comp: {fileID: 8338682128611929277}
 --- !u!114 &4935392827742318215
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -208,6 +187,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _propertyId: ff860625-4654-4245-9659-0daf1362e446
+  _comp: {fileID: 8338682128611929277}
   _pointerOverrider:
     _pointerEvents: {fileID: 0}
     _transitionMode: 0
@@ -215,7 +195,6 @@ MonoBehaviour:
     _hoverPropertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
     _isOverridePress: 0
     _pressPropertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
-  _comp: {fileID: 8338682128611929277}
 --- !u!1 &8268190510561603781
 GameObject:
   m_ObjectHideFlags: 0
@@ -283,7 +262,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: f70b0d194d863d14eaa3261671349a4b, type: 3}
+    m_Font: {fileID: 12800000, guid: 6bd82bc6b4cdf6b429528a7fb8cc0b3a, type: 3}
     m_FontSize: 16
     m_FontStyle: 0
     m_BestFit: 1
@@ -309,6 +288,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _propertyId: 7b111555-c639-4655-9948-52030ad69aab
+  _comp: {fileID: 474059309058914172}
   _pointerOverrider:
     _pointerEvents: {fileID: 0}
     _transitionMode: 0
@@ -316,7 +296,6 @@ MonoBehaviour:
     _hoverPropertyId: 7b111555-c639-4655-9948-52030ad69aab
     _isOverridePress: 0
     _pressPropertyId: 7b111555-c639-4655-9948-52030ad69aab
-  _comp: {fileID: 474059309058914172}
 --- !u!114 &4547230664207660718
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -330,6 +309,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _propertyId: 5951064b-e847-4e0a-8996-71df5fc3526d
+  _comp: {fileID: 474059309058914172}
   _pointerOverrider:
     _pointerEvents: {fileID: 0}
     _transitionMode: 0
@@ -337,7 +317,6 @@ MonoBehaviour:
     _hoverPropertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
     _isOverridePress: 0
     _pressPropertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
-  _comp: {fileID: 474059309058914172}
 --- !u!1001 &6175367856461470340
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -639,15 +618,3 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 8052319132354356452}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &9088977486116382870 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1269202866160880754, guid: 5c87b0385bd6d6745830bdb1416a289d,
-    type: 3}
-  m_PrefabInstance: {fileID: 8052319132354356452}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1013852533944635481}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
