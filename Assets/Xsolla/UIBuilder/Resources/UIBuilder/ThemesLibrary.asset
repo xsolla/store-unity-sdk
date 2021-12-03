@@ -613,16 +613,16 @@ MonoBehaviour:
     _sprites:
     - _name: Base Background
       _id: f59ef3aa-9cf9-4946-8de2-f203b773a004
-      _sprite: {fileID: 21300000, guid: 35da3fbd0066b7e4fab960299e7e5601, type: 3}
+      _sprite: {fileID: 21300000, guid: 0e69e7364c6514b4d8f8f6de6766a126, type: 3}
     - _name: Blank Background
       _id: 12ef0b5e-fa72-43a9-9ca3-aea7659483d4
-      _sprite: {fileID: 21300000, guid: 1fef16bbc680a0841bc40c4736141b6b, type: 3}
+      _sprite: {fileID: 21300000, guid: 6cbde91eeb370bf4bb53af313dc44a44, type: 3}
     - _name: BlurBackground
       _id: fa17a7f3-67c6-49a7-a38a-26ffb5e4e6b0
-      _sprite: {fileID: 21300000, guid: 1fef16bbc680a0841bc40c4736141b6b, type: 3}
+      _sprite: {fileID: 21300000, guid: 6cbde91eeb370bf4bb53af313dc44a44, type: 3}
     - _name: Left Background
       _id: 1ccb9175-26d1-48e0-8dfb-d05e03dcf41a
-      _sprite: {fileID: 21300000, guid: 1fef16bbc680a0841bc40c4736141b6b, type: 3}
+      _sprite: {fileID: 21300000, guid: 6cbde91eeb370bf4bb53af313dc44a44, type: 3}
     - _name: Top Background
       _id: 407489df-550f-4dd4-acf9-678063fc0cbb
       _sprite: {fileID: 21300000, guid: 164653135c4d522438b46c7445cfc1e2, type: 3}
