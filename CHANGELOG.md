@@ -1,18 +1,20 @@
 # Changelog
-## [0.7.1] - 2021-12-??
+## [0.7.1] - 2021-12-03
 ### Added
-- Auth via FaceID/TouchID for iOS builds
+- 'Web Shop' button in demo
 - Passwordless auth via email
 - Passwordless auth via SMS
+- Auth via FaceID/TouchID for iOS builds
 - Game keys and entitlement system functionality
+- Checking order status using WebSocket
+- 'Resend confirmation email' button
 ### Fixed
 - Improved calculation of in-app browser size for VR projects
 - Other fixes and improvements
 ### Changed
-- Order status polling replaced with WebSocket
 - Updated 'ItemPurchase' method (added 'quantity' parameter)
-- Improved social networks auth for iOS builds
 - Updated packages and dependencies
+- Improved social networks auth for iOS builds
 
 ## [0.7.0] - 2021-09-17
 ### Added
