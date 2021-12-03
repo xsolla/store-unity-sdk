@@ -68,10 +68,21 @@ namespace Xsolla.Core
 		public static bool TryGetValueFromUrl(string url, ParseParameter parameter, out string value)
 		{
 			var parameterName = parameter.ToString();
-			Debug.Log($"Trying to find {parameterName} in URL:{url}");
+			var regex = new Regex($"[&?]{parameterName}=[a-zA-Z0-9._+-]+");
+			value = regex.Match(url)?.Value?.Replace($"{parameterName}=", string.Empty).Replace("&",string.Empty).Replace("?",string.Empty);
 
-			var regex = new Regex($"[&?]{parameterName}=[a-zA-Z0-9._-]+");
-			value = regex.Match(url)?.Value?.Replace($"{parameterName}=", string.Empty).Replace("&", string.Empty).Replace("?", string.Empty);
+			switch (parameter)
+			{
+				case ParseParameter.error_code:
+				case ParseParameter.error_description:
+					if (value != null)
+						value = value.Replace("+", " ");
+					break;
+				default:
+					Debug.Log($"Trying to find {parameterName} in URL:{url}");
+					break;
+			}
+
 			return !string.IsNullOrEmpty(value);
 		}
 	}	

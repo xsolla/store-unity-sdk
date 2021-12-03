@@ -391,26 +391,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1218190968, guid: 4af1ad141a08941d8bc07459eb260991, type: 3}
-      propertyPath: Urls.Array.size
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 1218190968, guid: 4af1ad141a08941d8bc07459eb260991, type: 3}
-      propertyPath: Urls.Array.data[5]
-      value: https://developers.xsolla.com/sdk/unity/how-tos/user-management/#unity_sdk_how_to_use_user_attributes
-      objectReference: {fileID: 0}
-    - target: {fileID: 1218190968, guid: 4af1ad141a08941d8bc07459eb260991, type: 3}
-      propertyPath: Urls.Array.data[6]
-      value: https://developers.xsolla.com/sdk/unity/login/get-started/
-      objectReference: {fileID: 0}
-    - target: {fileID: 1218190968, guid: 4af1ad141a08941d8bc07459eb260991, type: 3}
-      propertyPath: Urls.Array.data[8]
-      value: https://github.com/xsolla/xsolla-sdk-backend
-      objectReference: {fileID: 0}
-    - target: {fileID: 1218190968, guid: 4af1ad141a08941d8bc07459eb260991, type: 3}
-      propertyPath: Urls.Array.data[9]
-      value: https://developers.xsolla.com/sdk/unity/how-tos/#unity_sdk_how_to_use_partners_login_system
-      objectReference: {fileID: 0}
     - target: {fileID: 6389733742317925048, guid: 4af1ad141a08941d8bc07459eb260991,
         type: 3}
       propertyPath: canvas
@@ -476,6 +456,5 @@ PrefabInstance:
       propertyPath: m_Name
       value: DemoController
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 2972252109948632364, guid: 4af1ad141a08941d8bc07459eb260991, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4af1ad141a08941d8bc07459eb260991, type: 3}

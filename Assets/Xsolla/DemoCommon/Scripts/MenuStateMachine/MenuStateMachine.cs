@@ -46,7 +46,7 @@ namespace Xsolla.Demo
 		private MenuState _currentState;
 		private GameObject _stateObject;
 
-		public MenuState MenuState => _currentState;
+		public MenuState CurrentState => _currentState;
 		public GameObject StateObject => _stateObject;
 
 		private void Awake()

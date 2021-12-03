@@ -16,6 +16,8 @@ namespace Xsolla.Core
 
 		private const string STEAM_APP_ID_TOOLTIP = "You will need to restart Unity Editor after changing Steam App ID";
 
+		private static PlatformType _prevPlatform = PlatformType.Xsolla;
+
 		private static bool PublishingPlatformSettings()
 		{
 			bool changed;
@@ -37,11 +39,17 @@ namespace Xsolla.Core
 		private static bool SteamSettings()
 		{
 			var changed = false;
+
 			var useSteam = EditorGUILayout.Toggle(new GUIContent("Use Steam authorization?", STEAM_AUTH_TOOLTIP), XsollaSettings.UseSteamAuth);
 			if (useSteam != XsollaSettings.UseSteamAuth)
 			{
 				XsollaSettings.UseSteamAuth = useSteam;
 				changed = true;
+
+				if (useSteam)
+					_prevPlatform = XsollaSettings.Platform;
+				else
+					XsollaSettings.Platform = _prevPlatform;
 			}
 
 			if (!XsollaSettings.UseSteamAuth)
@@ -109,6 +117,7 @@ namespace Xsolla.Core
 			}
 			else
 				XsollaSettings.UseConsoleAuth = false;
+
 			return changed;
 		}
 	}

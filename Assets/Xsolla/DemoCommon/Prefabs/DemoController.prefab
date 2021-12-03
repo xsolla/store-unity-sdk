@@ -51,6 +51,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stateMachine: {fileID: 6389733742317925048}
   urlContainer: {fileID: 1218190968}
+  settingsValidator: {fileID: 812151294674414048}
 --- !u!114 &1218190968
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69,10 +70,11 @@ MonoBehaviour:
   - http://publisher.xsolla.com/signup?store_type=sdk&utm_source=unity&utm_medium=demo&utm_campaign=marketplace
   - https://developers.xsolla.com/doc/pay-station/references/test-cards/#pay_station_references_test_cards
   - https://xsolla.com{0}privacypolicy
-  - https://developers.xsolla.com/sdk/unity/use-xsolla-servers/how-tos/#unity_sdk_use_xsolla_servers_how_to_use_user_attributes
-  - https://developers.xsolla.com/sdk/game-engines/unity/#unity_sdk_use_xsolla_servers_login_unity_sdk
+  - https://developers.xsolla.com/sdk/unity/how-tos/user-management/#unity_sdk_how_to_use_user_attributes
+  - https://developers.xsolla.com/sdk/unity/login/get-started/
   - https://livedemo.xsolla.com/sdk-account-linking/
-  - 
+  - https://github.com/xsolla/xsolla-sdk-backend
+  - https://developers.xsolla.com/sdk/unity/how-tos/#unity_sdk_how_to_use_partners_login_system
 --- !u!114 &812151294674414048
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -45,7 +45,6 @@ namespace Xsolla.Demo
 			}
 			else
 			{
-				//TEXTREVIEW
 				Debug.LogError("PasswordlessPhoneAuth: Could not extract arguments");
 				return false;
 			}
@@ -57,7 +56,7 @@ namespace Xsolla.Demo
 			var valid = regex.IsMatch(phone);
 
 			if (!valid)
-				Debug.LogError($"Phone is not valid: '{phone}'");//TEXTREVIEW
+				Debug.LogError($"Phone not valid: '{phone}'");
 
 			return valid;
 		}

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 using Xsolla.Core.Browser;
 
@@ -10,7 +10,7 @@ namespace Xsolla.Core
 	public class XsollaInAppBrowser : MonoBehaviour
 #endif
 	{
-		[SerializeField] private GameObject BrowserPrefab;
+		[SerializeField] private GameObject BrowserPrefab = default;
 #if (UNITY_EDITOR || UNITY_STANDALONE)
 		private GameObject BrowserObject;
 

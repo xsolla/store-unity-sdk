@@ -27,6 +27,9 @@ namespace Xsolla.Demo
 
 				OrderTracking.Instance.AddOrderForTracking(XsollaSettings.StoreProjectId, data.order_id, () =>
 				{
+					if (BrowserHelper.Instance.InAppBrowser?.IsOpened ?? false)
+						BrowserHelper.Instance.Close();
+
 					onSuccess?.Invoke(item);
 				},
 				onError);
@@ -89,6 +92,9 @@ namespace Xsolla.Demo
 							OrderTracking.Instance.AddOrderForTracking(XsollaSettings.StoreProjectId, data.order_id,
 							onSuccess: () =>
 							{
+								if (BrowserHelper.Instance.InAppBrowser?.IsOpened ?? false)
+									BrowserHelper.Instance.Close();
+
 								onSuccess?.Invoke(items);
 							},
 							onError);

@@ -44,7 +44,6 @@ namespace Xsolla.Demo
 			}
 			else
 			{
-				//TEXTREVIEW
 				Debug.LogError("PasswordlessEmailAuth: Could not extract arguments");
 				return false;
 			}

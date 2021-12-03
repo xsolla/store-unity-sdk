@@ -8,6 +8,7 @@ namespace Xsolla.Demo
 	{
 		[SerializeField]private MenuStateMachine stateMachine = default;
 		[SerializeField]private UrlContainer urlContainer = default;
+		[SerializeField]private XsollaSettingsValidator settingsValidator = default;
 
 		public UrlContainer UrlContainer => urlContainer;
 		public bool IsTutorialAvailable { get; private set; } = false;
@@ -24,7 +25,12 @@ namespace Xsolla.Demo
 
 		private void Start()
 		{
-			stateMachine.SetInitialState();
+			var settingsAreValid = settingsValidator.ValidateXsollaSettings();
+
+			if (settingsAreValid)
+				stateMachine.SetInitialState();
+			else
+				stateMachine.SetState(MenuState.LoginSettingsError);
 		}
 
 		protected override void OnDestroy()
@@ -48,7 +54,7 @@ namespace Xsolla.Demo
 		public MenuState GetState()
 		{
 			if (stateMachine != null)
-				return stateMachine.MenuState;
+				return stateMachine.CurrentState;
 
 			return MenuState.None;
 		}
