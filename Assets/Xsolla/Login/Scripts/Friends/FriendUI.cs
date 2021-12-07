@@ -27,7 +27,7 @@ namespace Xsolla.Demo
 			InitAvatar(FriendModel);
 			InitStatus(FriendModel);
 			InitNickname(FriendModel);
-			SetUserState(FriendModel.Relationship);
+			SetUserRelationship(FriendModel.Relationship);
 			SetSocialFriendship(FriendModel.SocialProvider);
 		}
 
@@ -128,7 +128,7 @@ namespace Xsolla.Demo
 			userState.Init(this, userButtons, userStatusLine, actionsButton);
 		}
 
-		public void SetUserState(UserRelationship relationship)
+		public void SetUserRelationship(UserRelationship relationship)
 		{
 			switch (relationship)
 			{

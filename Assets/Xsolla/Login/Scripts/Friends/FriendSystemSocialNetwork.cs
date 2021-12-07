@@ -27,11 +27,6 @@ namespace Xsolla.Demo
 		public SocialProvider Provider => provider;
 		public SimpleButton Button => GetComponent<SimpleButton>();
 
-		private void Awake()
-		{
-			SetState(State.Unlinked);
-		}
-
 		private void Start()
 		{
 			RefreshState();
@@ -98,6 +93,7 @@ namespace Xsolla.Demo
 					return;
 				}
 			}
+
 			StateChanged?.Invoke(provider, state);
 		}
 
