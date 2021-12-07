@@ -46,6 +46,12 @@ namespace Xsolla.Core
 			yield return InternalPerformWebRequest(webRequest,
 				() => ProcessRequest(webRequest, onComplete, onError, errorsToCheck));
 		}
+		
+		private IEnumerator PerformWebRequest(UnityWebRequest webRequest, Action<int> onComplete, Action<Error> onError, Dictionary<string, ErrorType> errorsToCheck)
+		{
+			yield return InternalPerformWebRequest(webRequest,
+				() => ProcessRequest(webRequest, onComplete, onError, errorsToCheck));
+		}
 
 		private IEnumerator PerformWebRequest(UnityWebRequest webRequest, Action<string> onComplete, Action<Error> onError, Dictionary<string, ErrorType> errorsToCheck)
 		{

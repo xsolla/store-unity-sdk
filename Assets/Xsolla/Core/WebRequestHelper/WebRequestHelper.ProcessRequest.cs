@@ -22,6 +22,15 @@ namespace Xsolla.Core
 			else
 				TriggerOnError(onError, error);
 		}
+		
+		void ProcessRequest(UnityWebRequest webRequest, Action<int> onComplete, Action<Error> onError, Dictionary<string, ErrorType> errorsToCheck)
+		{
+			Error error = CheckResponseForErrors(webRequest, errorsToCheck);
+			if (error == null)
+				onComplete?.Invoke((int)webRequest.responseCode);
+			else
+				TriggerOnError(onError, error);
+		}
 
 		/// <summary>
 		/// Processing request and invoke raw data (Action<string>) callback by success
