@@ -51,6 +51,7 @@ namespace Xsolla.UIBuilder
 				MetaList.onReorderCallbackWithDetails -= OnReorderElement;
 				MetaList.onAddCallback -= OnAddElement;
 				MetaList.onRemoveCallback -= OnRemoveElement;
+				MetaList.onCanRemoveCallback -= CanRemoveElement;
 			}
 
 			MetaList = new ReorderableList(MetaItems, typeof(PropertyMeta));
@@ -64,6 +65,7 @@ namespace Xsolla.UIBuilder
 			MetaList.onReorderCallbackWithDetails += OnReorderElement;
 			MetaList.onAddCallback += OnAddElement;
 			MetaList.onRemoveCallback += OnRemoveElement;
+			MetaList.onCanRemoveCallback += CanRemoveElement;
 		}
 
 		protected abstract void OnDrawElement(Rect rect, int index, bool isActive, bool isFocused);
@@ -78,6 +80,8 @@ namespace Xsolla.UIBuilder
 		protected abstract void OnAddElement(ReorderableList list);
 
 		protected abstract void OnRemoveElement(ReorderableList list);
+
+		protected abstract bool CanRemoveElement(ReorderableList list);
 
 		protected Rect CalculateFieldRect(Rect lineRect, int elementsCount)
 		{

@@ -59,6 +59,11 @@ namespace Xsolla.UIBuilder
 			IsMetaDirty = true;
 		}
 
+		protected override bool CanRemoveElement(ReorderableList list)
+		{
+			return list.count > 0;
+		}
+
 		public SpritesDrawer(ThemeEditorWindow window) : base(window)
 		{
 			HeaderTitle = "Sprites";

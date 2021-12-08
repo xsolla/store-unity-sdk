@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using Xsolla.UIBuilder;
 
 namespace Xsolla.Core
 {
@@ -19,6 +20,11 @@ namespace Xsolla.Core
 		private void OnDisable()
 		{
 			Button.onClick.RemoveListener(OnButtonClick);
+		}
+
+		private void Start()
+		{
+			DevMenuPage.TryLoadUiTheme();
 		}
 
 		private void OnButtonClick()

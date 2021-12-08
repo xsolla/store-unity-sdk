@@ -54,6 +54,11 @@ namespace Xsolla.UIBuilder
 			Window.OnGuiChanged();
 		}
 
+		protected override bool CanRemoveElement(ReorderableList list)
+		{
+			return list.count > 0;
+		}
+
 		public WidgetsDrawer(WidgetsEditorWindow window) : base(window)
 		{
 			HeaderTitle = "Widgets";
