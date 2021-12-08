@@ -26,7 +26,7 @@ namespace Xsolla.Demo
 			SetupPageChangingRules(newState, pageController, buttonsProvider);
 		}
 
-		private GameObject SetState(MenuState state)
+		public GameObject SetState(MenuState state)
 		{
 			return base.StateMachine.SetState(state);
 		}

@@ -80,21 +80,47 @@ namespace Xsolla.Login
 		public void Registration(string username, string password, string email, string oauthState = null, string payload = null, bool acceptConsent = true, bool promoEmailAgreement = true, List<string> fields = null, Action onSuccess = null, Action<Error> onError = null)
 		{
 			var registrationData = new RegistrationJson(username, password, email, acceptConsent, promoEmailAgreement, fields);
-			string url = default(string);
+			var url = GetRegistrationUrl(oauthState, payload);
+			WebRequestHelper.Instance.PostRequest(SdkType.Login, url, registrationData, onSuccess, onError, Error.RegistrationErrors);
+		}
+		
+		/// <summary>
+		/// User registration method.
+		/// </summary>
+		/// <remarks> Swagger method name:<c>Register</c>.</remarks>
+		/// <see cref="https://developers.xsolla.com/login-api/jwt/jwt-register"/>
+		/// <param name="username">User name.</param>
+		/// <param name="password">User password.</param>
+		/// <param name="email">User email for verification.</param>
+		/// <param name="oauthState">Value used for additional user verification on backend. Must be at least 8 symbols long. Will be "xsollatest" by default.</param>
+		/// <param name="payload">Custom data. The value of the parameter will be returned in the user JWT payload claim.</param>
+		/// <param name="acceptConsent">Whether the user gave consent to processing of their personal data.</param>
+		/// <param name="promoEmailAgreement">Whether the user gave consent to receive the newsletters.</param>
+		/// <param name="fields">Parameters used for extended registration forms.</param>
+		/// <param name="onSuccess">Success operation callback.</param>
+		/// <param name="onError">Failed operation callback.</param>
+		/// <seealso cref="SignIn"/>
+		/// <seealso cref="ResetPassword"/>
+		public void Registration(string username, string password, string email, string oauthState = null, string payload = null, bool acceptConsent = true, bool promoEmailAgreement = true, List<string> fields = null, Action<int> onSuccess = null, Action<Error> onError = null)
+		{
+			var registrationData = new RegistrationJson(username, password, email, acceptConsent, promoEmailAgreement, fields);
+			var url = GetRegistrationUrl(oauthState, payload);
+			WebRequestHelper.Instance.PostRequest(SdkType.Login, url, registrationData, onSuccess, onError, Error.RegistrationErrors);
+		}
 
+		private string GetRegistrationUrl(string oauthState = null, string payload = null)
+		{
 			if (XsollaSettings.AuthorizationType == AuthorizationType.JWT)
 			{
 				var proxy = XsollaSettings.UseProxy ? "proxy/registration" : "user";
-				url = string.Format(URL_USER_REGISTRATION, proxy, XsollaSettings.LoginId, XsollaSettings.CallbackUrl, payload);
+				return string.Format(URL_USER_REGISTRATION, proxy, XsollaSettings.LoginId, XsollaSettings.CallbackUrl, payload);
 			}
 			else /*if (XsollaSettings.AuthorizationType == AuthorizationType.OAuth2_0)*/
 			{
 				var clientId = XsollaSettings.OAuthClientId;
 				var state = oauthState ?? DEFAULT_OAUTH_STATE;
-				url = string.Format(URL_USER_OAUTH_REGISTRATION, clientId, state);
+				return string.Format(URL_USER_OAUTH_REGISTRATION, clientId, state);
 			}
-
-			WebRequestHelper.Instance.PostRequest<RegistrationJson>(SdkType.Login, url, registrationData, onSuccess, onError, Error.RegistrationErrors);
 		}
 
 		/// <summary>

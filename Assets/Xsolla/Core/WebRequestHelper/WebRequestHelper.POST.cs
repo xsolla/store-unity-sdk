@@ -81,6 +81,13 @@ namespace Xsolla.Core
 			var headers = GetAnalyticHeaders(sdkType);
 			StartCoroutine(PostRequestCor(sdkType, url, jsonObject, headers, onComplete, onError, errorsToCheck));
 		}
+		
+		public void PostRequest<D>(SdkType sdkType, string url, D jsonObject = null, Action<int> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
+			where D : class
+		{
+			var headers = GetAnalyticHeaders(sdkType);
+			StartCoroutine(PostRequestCor(sdkType, url, jsonObject, headers, onComplete, onError, errorsToCheck));
+		}
 		#endregion
 
 		#region PostRequest
@@ -143,6 +150,14 @@ namespace Xsolla.Core
 
 
 		IEnumerator PostRequestCor(SdkType sdkType, string url, object jsonObject, List<WebRequestHeader> requestHeaders, Action onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
+		{
+			url = AppendAnalyticsToUrl(sdkType, url);
+			UnityWebRequest webRequest = PreparePostWebRequest(url, jsonObject, requestHeaders);
+
+			yield return StartCoroutine(PerformWebRequest(webRequest, onComplete, onError, errorsToCheck));
+		}
+		
+		IEnumerator PostRequestCor(SdkType sdkType, string url, object jsonObject, List<WebRequestHeader> requestHeaders, Action<int> onComplete = null, Action<Error> onError = null, Dictionary<string, ErrorType> errorsToCheck = null)
 		{
 			url = AppendAnalyticsToUrl(sdkType, url);
 			UnityWebRequest webRequest = PreparePostWebRequest(url, jsonObject, requestHeaders);

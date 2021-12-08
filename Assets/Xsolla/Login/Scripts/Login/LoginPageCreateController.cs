@@ -70,15 +70,24 @@ namespace Xsolla.Demo
 
 			if (isFieldsFilled && isEmailValid)
 			{
-				Action onSuccessfulCreate = () =>
+				Action<int> onSuccessfulCreate = webRequestResponseCode =>
 				{
 					Debug.Log("LoginPageCreateController: Create success");
-					base.OnSuccess?.Invoke();
+					
+					if (webRequestResponseCode == 200)
+					{
+						FindObjectOfType<LoginPagesHelper>().SetState(MenuState.Authorization);
+						FindObjectOfType<LoginPageEnterController>().RunBasicAuth(username, password, true);
+					}
+					else
+					{
+						base.OnSuccess?.Invoke();
+					}
 				};
 
 				Action<Error> onFailedCreate = error =>
 				{
-					Debug.LogError($"LoginPageCreateController: Create error: {error.ToString()}");
+					Debug.LogError($"LoginPageCreateController: Create error: {error}");
 					base.OnError?.Invoke(error);
 				};
 
