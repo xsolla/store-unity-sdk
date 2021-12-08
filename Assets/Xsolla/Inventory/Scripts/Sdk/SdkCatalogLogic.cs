@@ -12,8 +12,6 @@ namespace Xsolla.Demo
 	{
 		private const uint CATALOG_CACHE_TIMEOUT = 500;
 
-		private readonly Dictionary<string, List<string>> _itemsGroups = new Dictionary<string, List<string>>();
-
 		private List<StoreItem> _itemsCache;
 		private DateTime _itemsCacheTime = DateTime.Now;
 		private bool _refreshItemsInProgress;
@@ -53,7 +51,6 @@ namespace Xsolla.Demo
 						IsConsumable = i.IsConsumable()
 					});
 					FillCatalogItem(virtualItems.Last(), i);
-					AddItemGroups(i);
 				});
 				onSuccess?.Invoke(virtualItems);
 			}, onError);
@@ -73,7 +70,6 @@ namespace Xsolla.Demo
 						CurrencySku = p.content.First().sku
 					});
 					FillCatalogItem(currencies.Last(), p);
-					AddItemGroups(p);
 				});
 				onSuccess?.Invoke(currencies);
 			}, onError);
@@ -93,7 +89,6 @@ namespace Xsolla.Demo
 						ExpirationPeriodText = i.inventory_options.expiration_period.ToString()
 					});
 					FillCatalogItem(subscriptionItems.Last(), i);
-					AddItemGroups(i);
 				});
 				onSuccess?.Invoke(subscriptionItems);
 			}, onError);
@@ -136,7 +131,6 @@ namespace Xsolla.Demo
 									};
 									model.Content.Add(new BundleContentItem(catalogItem, c.quantity));
 									FillCatalogItem(model.Content.Last().Item, item);
-									AddItemGroups(item);
 								}
 								else if (_bundlesCache.Any(i => i.Sku.Equals(c.sku)))
 								{
@@ -155,10 +149,12 @@ namespace Xsolla.Demo
 			}
 			else onSuccess?.Invoke(_bundlesCache);
 		}
-
+		
+		//TEXTREVIEW
+		[Obsolete("Use item.Groups instead")]
 		public List<string> GetCatalogGroupsByItem(ItemModel item)
 		{
-			return _itemsGroups.ContainsKey(item.Sku) ? _itemsGroups[item.Sku] : new List<string>();
+			return item.Groups;
 		}
 
 		private void RequestStoreItems(Action<List<StoreItem>> onSuccess, Action<Error> onError = null)
@@ -195,17 +191,6 @@ namespace Xsolla.Demo
 			onSuccess?.Invoke(_bundlesCache);
 		}
 
-		private void AddItemGroups(StoreItem item)
-		{
-			var groups = item.groups.Select(g => g.name).ToList();
-			if (!_itemsGroups.ContainsKey(item.sku))
-				_itemsGroups.Add(item.sku, new List<string>());
-			else
-				groups = groups.Except(_itemsGroups[item.sku]).ToList();
-			if (groups.Any())
-				_itemsGroups[item.sku].AddRange(groups);
-		}
-
 		private void FillItemModel(ItemModel model, StoreItem item)
 		{
 			model.Sku = item.sku;
@@ -213,7 +198,8 @@ namespace Xsolla.Demo
 			model.Description = item.description;
 			model.LongDescription = item.long_description;
 			model.ImageUrl = item.image_url;
-			model.Attributes = ItemAttributesConverter.ConvertAttributes(item.attributes);
+			model.Attributes = ItemInfoConverter.ConvertAttributes(item.attributes);
+			model.Groups = ItemInfoConverter.ConvertGroups(item.groups);
 		}
 
 		private void FillCatalogItem(CatalogItemModel model, StoreItem item)
@@ -225,6 +211,28 @@ namespace Xsolla.Demo
 
 			model.VirtualPrice = GetVirtualPrice(item, out var virtualPriceWithoutDiscount);
 			model.VirtualPriceWithoutDiscount = virtualPriceWithoutDiscount;
+		}
+
+		private void FillBundleItem(CatalogBundleItemModel model, BundleItem item)
+		{
+			model.Sku = item.sku;
+			model.Name = item.name;
+			model.Description = item.description;
+			model.ImageUrl = item.image_url;
+			model.Attributes = ItemInfoConverter.ConvertAttributes(item.attributes);
+			model.Groups = ItemInfoConverter.ConvertGroups(item.groups);
+
+			model.RealPrice = GetBundleRealPrice(item, out var realPriceWithoutDiscount);
+			model.RealPriceWithoutDiscount = realPriceWithoutDiscount;
+
+			model.VirtualPrice = GetBundleVirtualPrice(item, out var virtualPriceWithoutDiscount);
+			model.VirtualPriceWithoutDiscount = virtualPriceWithoutDiscount;
+
+			model.ContentRealPrice = GetBundleContentRealPrice(item, out var contentRealPriceWithoutDiscount);
+			model.ContentRealPriceWithoutDiscount = contentRealPriceWithoutDiscount;
+
+			model.ContentVirtualPrice = GetBundleContentVirtualPrice(item, out var contentVirtualPriceWithoutDiscount);
+			model.ContentVirtualPriceWithoutDiscount = contentVirtualPriceWithoutDiscount;
 		}
 
 		private KeyValuePair<string, float>? GetRealPrice(StoreItem item, out KeyValuePair<string, float>? priceWithoutDiscount)
@@ -255,21 +263,6 @@ namespace Xsolla.Demo
 
 			priceWithoutDiscount = new KeyValuePair<string, uint>(virtualPrice.sku, virtualPrice.GetAmountWithoutDiscount());
 			return new KeyValuePair<string, uint>(virtualPrice.sku, virtualPrice.GetAmount());
-		}
-
-		private void FillBundleItem(CatalogBundleItemModel model, BundleItem item)
-		{
-			model.RealPrice = GetBundleRealPrice(item, out var realPriceWithoutDiscount);
-			model.RealPriceWithoutDiscount = realPriceWithoutDiscount;
-
-			model.VirtualPrice = GetBundleVirtualPrice(item, out var virtualPriceWithoutDiscount);
-			model.VirtualPriceWithoutDiscount = virtualPriceWithoutDiscount;
-
-			model.ContentRealPrice = GetBundleContentRealPrice(item, out var contentRealPriceWithoutDiscount);
-			model.ContentRealPriceWithoutDiscount = contentRealPriceWithoutDiscount;
-
-			model.ContentVirtualPrice = GetBundleContentVirtualPrice(item, out var contentVirtualPriceWithoutDiscount);
-			model.ContentVirtualPriceWithoutDiscount = contentVirtualPriceWithoutDiscount;
 		}
 
 		private KeyValuePair<string, float>? GetBundleRealPrice(BundleItem item, out KeyValuePair<string, float>? priceWithoutDiscount)

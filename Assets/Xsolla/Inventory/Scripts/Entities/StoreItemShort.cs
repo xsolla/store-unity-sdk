@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Xsolla.Store
 {
@@ -8,6 +8,6 @@ namespace Xsolla.Store
 		public string sku;
 		public string name;
 		public string description;
-		public StoreItem.Group[] groups;
+		public StoreItemGroup[] groups;
 	}
 }

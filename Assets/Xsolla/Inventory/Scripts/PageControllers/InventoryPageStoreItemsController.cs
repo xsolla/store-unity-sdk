@@ -63,37 +63,23 @@ namespace Xsolla.Demo
 		{
 			_lastGroup = groupName;
 
-			var predicate = groupName.Equals(GROUP_ALL) ? new Func<string, bool>(_ => true) : g => g.Equals(groupName);
+			var isGroupAll = groupName.Equals(GROUP_ALL);
 
 			return UserInventory.Instance.AllItems.Where(i =>
 			{
 				if (i.IsVirtualCurrency())
 					return false;
-				else if (i.IsSubscription())
-				{
-					if (!UserCatalog.Instance.Subscriptions.Any(sub => sub.Sku.Equals(i.Sku)))
-					{
-						Debug.Log($"User subscription with sku = '{i.Sku}' have no equal catalog item!");
-						return false;
-					}
 
+				if (i.IsSubscription())
+				{
 					var model = UserInventory.Instance.Subscriptions.First(x => x.Sku.Equals(i.Sku));
 					if (!(model.Status != UserSubscriptionModel.SubscriptionStatusType.None && model.Expired.HasValue))
 					{
 						return false; //This is a non-purchased subscription
 					}
 				}
-				else
-				{
-					if (!UserCatalog.Instance.VirtualItems.Any(cat => cat.Sku.Equals(i.Sku)))
-					{
-						Debug.Log($"Inventory item with sku = '{i.Sku}' have no equal catalog item!");
-						return false;
-					}
-				}
 
-				var catalogItem = UserCatalog.Instance.AllItems.First(cat => cat.Sku.Equals(i.Sku));
-				var itemGroups = SdkCatalogLogic.Instance.GetCatalogGroupsByItem(catalogItem);
+				var itemGroups = i.Groups;
 
 				if (itemGroups.Count == 1 && itemGroups[0] == BattlePassConstants.BATTLEPASS_GROUP)
 					return false; //This is battlepass util item
@@ -101,7 +87,10 @@ namespace Xsolla.Demo
 				if (base.CheckHideInAttribute(i, HideInFlag.Inventory))
 					return false; //This item must be hidden by attribute
 
-				return itemGroups.Any(predicate);
+				if (isGroupAll)
+					return true;
+				else
+					return itemGroups.Any(g => g.Equals(groupName));
 			}).ToList();
 		}
 
@@ -120,7 +109,7 @@ namespace Xsolla.Demo
 				}
 				else
 				{
-					var currentItemGroups = SdkCatalogLogic.Instance.GetCatalogGroupsByItem(item);
+					var currentItemGroups = item.Groups;
 
 					foreach (var group in currentItemGroups)
 						itemGroups.Add(group);

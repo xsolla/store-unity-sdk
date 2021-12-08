@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xsolla.Core;
@@ -22,7 +22,8 @@ namespace Xsolla.Demo
 						IsConsumable = i.IsConsumable(),
 						InstanceId = i.instance_id,
 						RemainingUses = (uint?)i.quantity,
-						Attributes = ItemAttributesConverter.ConvertAttributes(i.attributes)
+						Attributes = ItemInfoConverter.ConvertAttributes(i.attributes),
+						Groups = ItemInfoConverter.ConvertGroups(i.groups)
 					}).ToList();
 				onSuccess?.Invoke(inventoryItems);
 			}, onError);
@@ -57,7 +58,8 @@ namespace Xsolla.Demo
 					ImageUrl = i.image_url,
 					IsConsumable = false,
 					Status = GetSubscriptionStatus(i.status),
-					Expired = i.expired_at.HasValue ? UnixTimeToDateTime(i.expired_at.Value) : (DateTime?)null
+					Expired = i.expired_at.HasValue ? UnixTimeToDateTime(i.expired_at.Value) : (DateTime?)null,
+					Groups = ItemInfoConverter.ConvertGroups(null)
 				}).ToList();
 				onSuccess?.Invoke(subscriptionItems);
 			}, onError);

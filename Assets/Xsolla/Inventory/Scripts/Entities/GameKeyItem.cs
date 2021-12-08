@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Xsolla.Store
 {
@@ -18,7 +18,7 @@ namespace Xsolla.Store
 		public bool has_keys;
 		public bool is_pre_order;
 		public string release_date;
-		public StoreItem.Group[] groups;
+		public StoreItemGroup[] groups;
 		public StoreItemAttribute[] attributes;
 	}
 }
