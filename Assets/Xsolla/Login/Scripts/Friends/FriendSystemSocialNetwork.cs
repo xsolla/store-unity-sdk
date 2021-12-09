@@ -32,7 +32,7 @@ namespace Xsolla.Demo
 			RefreshState();
 		}
 
-		private void RefreshState()
+		public void RefreshState()
 		{
 			if (provider == SocialProvider.None)
 				return;

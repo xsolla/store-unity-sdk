@@ -10,6 +10,7 @@ namespace Xsolla.Demo
 		[SerializeField] private WidgetProvider userPrefabProvider = default;
 		[SerializeField] private ItemContainer usersContainer = default;
 		[SerializeField] private FriendSystemSocialNetwork[] SocialNetworks = default;
+		[SerializeField] private SimpleButton RefreshButton = default;
 
 		private Dictionary<SocialProvider, List<FriendModel>> _socialFriends = new Dictionary<SocialProvider, List<FriendModel>>();
 
@@ -17,6 +18,9 @@ namespace Xsolla.Demo
 		{
 			foreach (var network in SocialNetworks)
 				network.StateChanged += NetworkOnStateChanged;
+
+			if (RefreshButton)
+				RefreshButton.onClick += RefreshSocialNetworks;
 		}
 
 		private void NetworkOnStateChanged(SocialProvider socialProvider, FriendSystemSocialNetwork.State state)
@@ -74,6 +78,15 @@ namespace Xsolla.Demo
 						createdFriendUIs.Add(friendUiScript);
 					}
 				}
+			}
+		}
+
+		private void RefreshSocialNetworks()
+		{
+			foreach (var network in SocialNetworks)
+			{
+				if (network.gameObject.activeSelf)
+					network.RefreshState();
 			}
 		}
 	}
