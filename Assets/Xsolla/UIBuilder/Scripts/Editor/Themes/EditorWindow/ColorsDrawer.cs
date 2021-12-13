@@ -55,11 +55,6 @@ namespace Xsolla.UIBuilder
 			IsMetaDirty = true;
 		}
 
-		protected override bool CanRemoveElement(ReorderableList list)
-		{
-			return list.count > 0;
-		}
-
 		public ColorsDrawer(ThemeEditorWindow window) : base(window)
 		{
 			HeaderTitle = "Colors";

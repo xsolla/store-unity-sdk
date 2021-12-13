@@ -81,7 +81,10 @@ namespace Xsolla.UIBuilder
 
 		protected abstract void OnRemoveElement(ReorderableList list);
 
-		protected abstract bool CanRemoveElement(ReorderableList list);
+		protected virtual bool CanRemoveElement(ReorderableList list)
+		{
+			return list.count > 0;
+		}
 
 		protected Rect CalculateFieldRect(Rect lineRect, int elementsCount)
 		{
