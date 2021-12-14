@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Xsolla.Store
 {
@@ -11,7 +11,7 @@ namespace Xsolla.Store
 		public string unit_type;
 		public string description;
 		public string image_url;
-		public StoreItem.Group[] groups;
+		public StoreItemGroup[] groups;
 		public StoreItemAttribute[] attributes;
 		public Unit[] unit_items;
 

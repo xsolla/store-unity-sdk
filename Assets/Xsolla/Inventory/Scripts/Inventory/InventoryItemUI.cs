@@ -26,6 +26,7 @@ namespace Xsolla.Demo
 #pragma warning restore 0414
 
 		private ItemModel _itemInformation;
+		private bool _canRenewSubscription = true;
 
 		public event Action<ItemModel> OnInitialized;
 
@@ -38,15 +39,17 @@ namespace Xsolla.Demo
 		{
 			_itemInformation = itemInformation;
 
-			if (itemName != null)
+			if (itemName)
 				itemName.text = _itemInformation.Name;
-			if (itemDescription != null)
+			if (itemDescription)
 				itemDescription.text = _itemInformation.Description;
 
 			LoadImage(_itemInformation.ImageUrl);
 
-			if (_itemInformation.IsSubscription())
+			if (_itemInformation.IsSubscription() && renewSubscriptionButton)
 				AttachRenewSubscriptionHandler();
+
+			RefreshUi();
 
 			OnInitialized?.Invoke(itemInformation);
 		}
@@ -59,7 +62,7 @@ namespace Xsolla.Demo
 				ImageLoader.Instance.GetImageAsync(url, LoadImageCallback);
 			else
 			{
-				Debug.LogError($"Inventory item with sku = '{_itemInformation.Sku}' have not image!");
+				Debug.LogError($"Inventory item with sku = '{_itemInformation.Sku}' has no image!");//TEXTREVIEW
 				LoadImageCallback(string.Empty, null);
 			}
 		}
@@ -72,8 +75,6 @@ namespace Xsolla.Demo
 			loadingCircle.SetActive(false);
 			itemImage.gameObject.SetActive(true);
 			itemImage.sprite = image;
-
-			RefreshUi();
 		}
 
 		private void RefreshUi()
@@ -85,13 +86,10 @@ namespace Xsolla.Demo
 
 			if (_itemInformation.IsSubscription())
 				DrawSubscriptionItem();
+			else if (_itemInformation.IsConsumable)
+				DrawConsumableVirtualItem();
 			else
-			{
-				if (_itemInformation.IsConsumable)
-					DrawConsumableVirtualItem();
-				else
-					DrawNonConsumableVirtualItem();
-			}
+				DrawNonConsumableVirtualItem();
 		}
 
 		private void DrawSubscriptionItem()
@@ -100,8 +98,7 @@ namespace Xsolla.Demo
 			{
 				if (model.Status != UserSubscriptionModel.SubscriptionStatusType.None && model.Expired.HasValue)
 				{
-					var isExpired = model.Status == UserSubscriptionModel.SubscriptionStatusType.Expired || model.Expired <= DateTime.Now;
-					if (isExpired)
+					if (model.Status == UserSubscriptionModel.SubscriptionStatusType.Expired || model.Expired <= DateTime.Now)
 						EnableExpiredTimeText(GetPassedTime(model.Expired.Value));
 					else
 						EnableRemainingTimeText(GetRemainingTime(model.Expired.Value));
@@ -113,11 +110,11 @@ namespace Xsolla.Demo
 
 		private void EnableRemainingTimeText(string text)
 		{
-			if (remainingTimeObject != null)
+			if (remainingTimeObject)
 				remainingTimeObject.SetActive(true);
-			if (expiredTimeObject != null)
+			if (expiredTimeObject)
 				expiredTimeObject.SetActive(false);
-			if (renewSubscriptionButton != null)
+			if (renewSubscriptionButton)
 				renewSubscriptionButton.gameObject.SetActive(false);
 
 			if (remainingTimeTimeText != null)
@@ -126,14 +123,20 @@ namespace Xsolla.Demo
 
 		private void EnableExpiredTimeText(string text)
 		{
-			if (remainingTimeObject != null)
+			if (remainingTimeObject)
 				remainingTimeObject.SetActive(false);
-			if (expiredTimeObject != null)
+			if (expiredTimeObject)
 				expiredTimeObject.SetActive(true);
-			if (renewSubscriptionButton != null)
-				renewSubscriptionButton.gameObject.SetActive(true);
 
-			if (expiredTimeText != null)
+			if (renewSubscriptionButton)
+			{
+				if (_canRenewSubscription)
+					renewSubscriptionButton.gameObject.SetActive(true);
+				else
+					renewSubscriptionButton.gameObject.SetActive(false);
+			}
+
+			if (expiredTimeText)
 				expiredTimeText.text = $"Expired {text}";
 		}
 

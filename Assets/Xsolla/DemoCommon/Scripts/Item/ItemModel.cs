@@ -13,6 +13,7 @@ namespace Xsolla.Demo
 		public string ImageUrl;
 		public bool IsConsumable;
 		public KeyValuePair<string, string>[] Attributes;
+		public List<string> Groups;
 
 		public abstract bool IsVirtualCurrency();
 		public abstract bool IsSubscription();

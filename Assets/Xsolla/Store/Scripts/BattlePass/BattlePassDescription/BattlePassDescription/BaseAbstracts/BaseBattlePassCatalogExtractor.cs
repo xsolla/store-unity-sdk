@@ -17,7 +17,7 @@ namespace Xsolla.Demo
 			var allItems = UserCatalog.Instance.AllItems;
 			var battlepassItems = allItems.Where(item =>
 			{
-				var itemGroups = SdkCatalogLogic.Instance.GetCatalogGroupsByItem(item);
+				var itemGroups = item.Groups;
 				return itemGroups.Count == 1 && itemGroups[0] == BattlePassConstants.BATTLEPASS_GROUP;
 			});
 			var targetItems = battlepassItems.Where(ItemPredicate);

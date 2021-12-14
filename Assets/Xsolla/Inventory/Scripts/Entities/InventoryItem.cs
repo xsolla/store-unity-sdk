@@ -16,12 +16,6 @@ namespace Xsolla.Store
 			};
 		private const string VIRTUAL_CURRENCY_TYPE = "virtual_currency";
 
-		[Serializable]
-		public class Group
-		{
-			public string external_id;
-			public string name;
-		}
 		public string sku;
 		public string name;
 		public string description;
@@ -29,7 +23,7 @@ namespace Xsolla.Store
 		public string type;
 		public string virtual_item_type;
 		public StoreItemAttribute[] attributes;
-		public StoreItem.Group[] groups;
+		public StoreItemGroup[] groups;
 		public string image_url;
 		public uint? quantity;
 		public uint? remaining_uses;

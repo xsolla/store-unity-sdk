@@ -3,7 +3,7 @@ using Xsolla.Store;
 
 namespace Xsolla.Demo
 {
-	public static class ItemAttributesConverter
+	public static class ItemInfoConverter
     {
 		public static KeyValuePair<string, string>[] ConvertAttributes(StoreItemAttribute[] attributes)
 		{
@@ -24,6 +24,18 @@ namespace Xsolla.Demo
 
 			//else
 			return (new KeyValuePair<string, string>[0]);
+		}
+
+		public static List<string> ConvertGroups(StoreItemGroup[] groups)
+		{
+			if (groups == null || groups.Length == 0)
+				return new List<string>();
+
+			var result = new List<string>(groups.Length);
+			foreach (var group in groups)
+				result.Add(group.name);
+
+			return result;
 		}
 	}
 }

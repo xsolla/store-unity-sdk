@@ -7,7 +7,7 @@ namespace Xsolla.Store
 	{
 		public string sku;
 		public string name;
-		public Group[] groups;
+		public StoreItemGroup[] groups;
 		public string description;
 		public StoreItemAttribute[] attributes;
 		public string type;
@@ -18,13 +18,6 @@ namespace Xsolla.Store
 		public Price total_content_price;
 		public VirtualPrice[] virtual_prices;
 		public Content[] content;
-		
-		[Serializable]
-		public class Group
-		{
-			public string external_id;
-			public string name;
-		}
 		
 		[Serializable]
 		public class Content
