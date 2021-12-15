@@ -38,6 +38,15 @@ namespace Xsolla.Demo
 
 		private void InitStoreDemo()
 		{
+			if (DemoMarker.IsInventoryPartAvailable)
+			{
+				if (!UserInventory.IsExist)
+					UserInventory.Instance.Init();
+
+				if (!UserCatalog.IsExist)
+					UserCatalog.Instance.Init();
+			}
+			
 			AttachButtonCallback(storeButton,
 				() => SetMenuState(MenuState.Store, () => UserCatalog.Instance.IsUpdated && UserInventory.Instance.IsUpdated));
 

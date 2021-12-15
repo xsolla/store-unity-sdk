@@ -8,9 +8,6 @@ namespace Xsolla.Demo
 	{
 		partial void UpdateStore()
 		{
-			if (!UserCatalog.IsExist)
-				UserCatalog.Instance.Init();
-
 			UserCatalog.Instance.UpdateItems(
 			onSuccess: () =>
 			{

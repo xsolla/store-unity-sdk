@@ -35,12 +35,8 @@ namespace Xsolla.Demo
 
 		partial void UpdateInventory()
 		{
-			if (!UserInventory.IsExist)
-				UserInventory.Instance.Init();
-
 			if (!DemoMarker.IsStorePartAvailable)
 			{
-				UserCatalog.Instance.Init();
 				UserCatalog.Instance.UpdateItems(
 					onSuccess: () => UserInventory.Instance.Refresh(onError: StoreDemoPopup.ShowError),
 					onError: error =>
