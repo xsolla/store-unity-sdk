@@ -21,7 +21,7 @@ PrefabInstance:
     - target: {fileID: 99872573161710455, guid: 021a5561721ed4361aaf16db756b1bca,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.14901961
+      value: 0.15294118
       objectReference: {fileID: 0}
     - target: {fileID: 99872573161710455, guid: 021a5561721ed4361aaf16db756b1bca,
         type: 3}
@@ -31,7 +31,7 @@ PrefabInstance:
     - target: {fileID: 99872573161710455, guid: 021a5561721ed4361aaf16db756b1bca,
         type: 3}
       propertyPath: m_Color.r
-      value: 0
+      value: 0.003921569
       objectReference: {fileID: 0}
     - target: {fileID: 313499650710526930, guid: 021a5561721ed4361aaf16db756b1bca,
         type: 3}
@@ -53,22 +53,22 @@ PrefabInstance:
     - target: {fileID: 899452563222025127, guid: 021a5561721ed4361aaf16db756b1bca,
         type: 3}
       propertyPath: m_Color.a
-      value: 0.5882353
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 899452563222025127, guid: 021a5561721ed4361aaf16db756b1bca,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.47058824
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 899452563222025127, guid: 021a5561721ed4361aaf16db756b1bca,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.47058824
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 899452563222025127, guid: 021a5561721ed4361aaf16db756b1bca,
         type: 3}
       propertyPath: m_Color.r
-      value: 0.47058824
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1058077489204073696, guid: 021a5561721ed4361aaf16db756b1bca,
         type: 3}
@@ -188,7 +188,7 @@ PrefabInstance:
     - target: {fileID: 2595438541972929563, guid: 021a5561721ed4361aaf16db756b1bca,
         type: 3}
       propertyPath: _pointerOverrider._hoverPropertyId
-      value: a888e9eb-55a8-4cb6-95f2-87c223ebc893
+      value: 8d406015-69a9-402e-aa9e-e28e56a8264c
       objectReference: {fileID: 0}
     - target: {fileID: 2595438541972929563, guid: 021a5561721ed4361aaf16db756b1bca,
         type: 3}

@@ -223,6 +223,11 @@ namespace Xsolla.Demo
 			loadingCircle.SetActive(false);
 			itemImage.gameObject.SetActive(true);
 			itemImage.sprite = image;
+
+			var aspectRatioFitter = itemImage.GetComponent<AspectRatioFitter>();
+			if (aspectRatioFitter)
+				aspectRatioFitter.aspectRatio = image.bounds.size.x / image.bounds.size.y;
+
 			InitExpirationTime(_itemInformation);
 		}
 
