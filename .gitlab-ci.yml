@@ -5,14 +5,14 @@ include:
 
 stages:
   - build
-  - deploy
-  - linking
   - code-analysis
   - autotests
   - package-export
   - build-demo-2019
   - build-demo-2020
   - build-demo-2021
+  - deploy
+  - linking
 
 variables:
   PROJECT_PATH: "%cd%"
@@ -283,3 +283,66 @@ build-android-2021:
   tags:
     - sdk_ci
     - windows
+# =========================================================================================================================
+# Deploy STAGE
+deploy stage:
+    stage: deploy
+    extends: .deploy stage
+    variables:
+        ENV: stage
+    only:
+        - /^stage-.*/
+    except:
+        - branches
+    dependencies:
+        - build-webgl-2019
+    script:
+        - /usr/local/bin/helper deploy ./Builds/${BUILD_TARGET_WEBGL}-${UNITY_2019_VERSION}
+
+current stage:
+    stage: linking
+    extends: .current stage
+    variables:
+        ENV: stage
+    only:
+        - /^stage-.*/
+    except:
+        - branches
+    script:
+        - /usr/local/bin/helper current
+
+stop stage:
+    stage: deploy
+    extends: .stop stage
+    only:
+        - /^stage-.*/
+    except:
+        - branches
+    script:
+        - /usr/local/bin/helper stop
+
+# =========================================================================================================================
+# Deploy PROD
+deploy prod:
+    stage: deploy
+    extends: .deploy prod
+    variables:
+        ENV: prod
+    dependencies:
+        - build-webgl-2019
+    script:
+        - /usr/local/bin/helper deploy ./Builds/${BUILD_TARGET_WEBGL}-${UNITY_2019_VERSION}
+
+current prod:
+    stage: linking
+    extends: .current prod
+    variables:
+        ENV: prod
+    script:
+        - /usr/local/bin/helper current
+
+stop prod:
+    stage: deploy
+    extends: .stop prod
+    script:
+        - /usr/local/bin/helper stop
