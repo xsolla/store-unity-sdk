@@ -51,6 +51,11 @@ namespace Xsolla.UIBuilder
 			IsMetaDirty = true;
 		}
 
+		protected override bool CanRemoveElement(ReorderableList list)
+		{
+			return list.count > 1;
+		}
+
 		public ThemesDrawer(ThemeEditorWindow window) : base(window)
 		{
 			HeaderTitle = "Themes";

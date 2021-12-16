@@ -1,6 +1,8 @@
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using Xsolla.Demo;
+using Xsolla.UIBuilder;
 
 namespace Xsolla.Core
 {
@@ -14,6 +16,7 @@ namespace Xsolla.Core
 		[SerializeField] private Toggle JwtToggle = default;
 		[SerializeField] private Toggle OAuthToggle = default;
 		[SerializeField] private InputField WebShopUrlInput = default;
+		[SerializeField] private Dropdown UiThemeDropdown = default;
 
 		private void OnEnable()
 		{
@@ -24,6 +27,7 @@ namespace Xsolla.Core
 			StoreProjectIdInput.onEndEdit.AddListener(OnStoreProjectIdInputEndEdit);
 			OAuthClientIdInput.onEndEdit.AddListener(OnOAuthClientIdInputInputEndEdit);
 			WebShopUrlInput.onEndEdit.AddListener(OnWebShopUrlEdit);
+			UiThemeDropdown.onValueChanged.AddListener(OnUiThemeDropdownChanged);
 
 			JwtToggle.onValueChanged.AddListener(OnJwtToggleChanged);
 			OAuthToggle.onValueChanged.AddListener(OnOAuthToggleChanged);
@@ -38,6 +42,7 @@ namespace Xsolla.Core
 			StoreProjectIdInput.onEndEdit.RemoveListener(OnStoreProjectIdInputEndEdit);
 			OAuthClientIdInput.onEndEdit.RemoveListener(OnOAuthClientIdInputInputEndEdit);
 			WebShopUrlInput.onEndEdit.RemoveListener(OnWebShopUrlEdit);
+			UiThemeDropdown.onValueChanged.RemoveListener(OnUiThemeDropdownChanged);
 
 			JwtToggle.onValueChanged.RemoveListener(OnJwtToggleChanged);
 			OAuthToggle.onValueChanged.RemoveListener(OnOAuthToggleChanged);
@@ -60,6 +65,7 @@ namespace Xsolla.Core
 			XsollaSettings.AuthorizationType = XsollaSettings.Instance.authorizationType;
 			XsollaSettings.OAuthClientId = XsollaSettings.Instance.oauthClientId;
 			XsollaSettings.WebStoreUrl = XsollaSettings.Instance.webStoreUrl;
+			ThemesLibrary.Current = ThemesLibrary.Themes.FirstOrDefault();
 
 			RedrawFields();
 		}
@@ -106,6 +112,13 @@ namespace Xsolla.Core
 			RedrawFields();
 		}
 
+		private void OnUiThemeDropdownChanged(int index)
+		{
+			ThemesLibrary.Current = ThemesLibrary.Themes[index];
+			SaveUiTheme();
+			RedrawFields();
+		}
+
 		private void RedrawFields()
 		{
 			LoginIdInput.text = XsollaSettings.LoginId;
@@ -113,12 +126,36 @@ namespace Xsolla.Core
 			OAuthClientIdInput.text = XsollaSettings.OAuthClientId.ToString();
 			WebShopUrlInput.text = XsollaSettings.WebStoreUrl;
 
+			var uiThemes = ThemesLibrary.Themes;
+			UiThemeDropdown.options = uiThemes.Select(theme => new Dropdown.OptionData(theme.Name)).ToList();
+
+			var uiThemeIndex = uiThemes.IndexOf(ThemesLibrary.Current);
+			if (uiThemeIndex < 0)
+				uiThemeIndex = 0;
+			UiThemeDropdown.SetValueWithoutNotify(uiThemeIndex);
+
 			var authorizationType = XsollaSettings.AuthorizationType;
 			JwtToggle.SetIsOnWithoutNotify(authorizationType == AuthorizationType.JWT);
 			OAuthToggle.SetIsOnWithoutNotify(authorizationType == AuthorizationType.OAuth2_0);
 
 			var oAuthInputParent = OAuthClientIdInput.transform.parent.gameObject;
 			oAuthInputParent.SetActive(authorizationType == AuthorizationType.OAuth2_0);
+		}
+
+		private const string UiThemeOverrideKey = "UiThemeOverride";
+
+		private static void SaveUiTheme()
+		{
+			PlayerPrefs.SetString(UiThemeOverrideKey, ThemesLibrary.Current.Id);
+		}
+
+		public static void TryLoadUiTheme()
+		{
+			if (!PlayerPrefs.HasKey(UiThemeOverrideKey))
+				return;
+
+			var id = PlayerPrefs.GetString(UiThemeOverrideKey);
+			ThemesLibrary.SetCurrentThemeById(id);
 		}
 	}
 }
