@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Xsolla.Core;
 using Xsolla.UIBuilder;
@@ -83,11 +84,15 @@ namespace Xsolla.Demo
 
 		private void RefreshSocialNetworks()
 		{
-			foreach (var network in SocialNetworks)
+			Action onFriendsUpdate = () =>
 			{
-				if (network.gameObject.activeSelf)
-					network.RefreshState();
-			}
+				foreach (var network in SocialNetworks)
+					if (network.gameObject.activeSelf)
+						network.RefreshState();
+			};
+
+			SdkLoginLogic.Instance.PurgeSocialProvidersCache();
+			UserFriends.Instance.UpdateFriends(onFriendsUpdate, StoreDemoPopup.ShowError);
 		}
 	}
 }

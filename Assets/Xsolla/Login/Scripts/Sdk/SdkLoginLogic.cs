@@ -191,6 +191,8 @@ namespace Xsolla.Demo
 		private DateTime _networksCacheTime;
 		private bool _networksCacheInProgress;
 
+		public void PurgeSocialProvidersCache() => _networksCache = null;
+
 		public void GetLinkedSocialProviders(Action<List<LinkedSocialNetwork>> onSuccess, Action<Error> onError = null)
 		{
 			if (_networksCacheInProgress)

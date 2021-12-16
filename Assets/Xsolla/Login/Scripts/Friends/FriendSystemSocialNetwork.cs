@@ -126,7 +126,11 @@ namespace Xsolla.Demo
 #endif
 			if (supported)
 			{
-				Action<SocialProvider> onSuccessLink = _ => RefreshState();
+				Action<SocialProvider> onSuccessLink = _ =>
+				{
+					SdkLoginLogic.Instance.PurgeSocialProvidersCache();
+					UserFriends.Instance.UpdateFriends(RefreshState,StoreDemoPopup.ShowError);
+				};
 				SdkLoginLogic.Instance.LinkSocialProvider(provider, onSuccess: onSuccessLink, onError: StoreDemoPopup.ShowError);
 			}
 			else
