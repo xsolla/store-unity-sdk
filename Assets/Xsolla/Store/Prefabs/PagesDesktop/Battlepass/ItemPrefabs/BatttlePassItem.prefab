@@ -839,7 +839,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1810,7 +1810,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc7a4b87c37a4cf18dcbc9b73bf98bd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _propertyId: 04bfcbbf-48b9-4677-9e9b-1b971001579e
+  _propertyId: 61ac076e-e575-4d3e-aaf4-17e05d0a1b6e
   _comp: {fileID: 6876999860663415892}
   _pointerOverrider:
     _pointerEvents: {fileID: 0}
