@@ -27,17 +27,12 @@ namespace Xsolla.Demo
 		public SocialProvider Provider => provider;
 		public SimpleButton Button => GetComponent<SimpleButton>();
 
-		private void Awake()
-		{
-			SetState(State.Unlinked);
-		}
-
 		private void Start()
 		{
 			RefreshState();
 		}
 
-		private void RefreshState()
+		public void RefreshState()
 		{
 			if (provider == SocialProvider.None)
 				return;
@@ -98,6 +93,7 @@ namespace Xsolla.Demo
 					return;
 				}
 			}
+
 			StateChanged?.Invoke(provider, state);
 		}
 
@@ -130,7 +126,11 @@ namespace Xsolla.Demo
 #endif
 			if (supported)
 			{
-				Action<SocialProvider> onSuccessLink = _ => RefreshState();
+				Action<SocialProvider> onSuccessLink = _ =>
+				{
+					SdkLoginLogic.Instance.PurgeSocialProvidersCache();
+					UserFriends.Instance.UpdateFriends(RefreshState,StoreDemoPopup.ShowError);
+				};
 				SdkLoginLogic.Instance.LinkSocialProvider(provider, onSuccess: onSuccessLink, onError: StoreDemoPopup.ShowError);
 			}
 			else

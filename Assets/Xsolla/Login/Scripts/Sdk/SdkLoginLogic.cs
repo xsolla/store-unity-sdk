@@ -157,8 +157,9 @@ namespace Xsolla.Demo
 				var browser = BrowserHelper.Instance.InAppBrowser;
 				if (browser == null)
 				{
-					Debug.LogError("LinkSocialProvider: Can not obtain in-built browser");
-					onError?.Invoke(null);
+					var message = "LinkSocialProvider: Can not obtain in-built browser";
+					Debug.LogError(message);
+					onError?.Invoke(new Error(ErrorType.MethodIsNotAllowed, errorMessage: message));
 					return;
 				}
 
@@ -194,6 +195,8 @@ namespace Xsolla.Demo
 		private List<LinkedSocialNetwork> _networksCache;
 		private DateTime _networksCacheTime;
 		private bool _networksCacheInProgress;
+
+		public void PurgeSocialProvidersCache() => _networksCache = null;
 
 		public void GetLinkedSocialProviders(Action<List<LinkedSocialNetwork>> onSuccess, Action<Error> onError = null)
 		{

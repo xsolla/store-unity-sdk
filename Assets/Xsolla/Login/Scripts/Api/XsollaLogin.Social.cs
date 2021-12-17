@@ -134,7 +134,7 @@ namespace Xsolla.Login
 			var redirectUrl = !string.IsNullOrEmpty(XsollaSettings.CallbackUrl) ? XsollaSettings.CallbackUrl : DEFAULT_REDIRECT_URI;
 			var url = string.Format(URL_LINK_SOCIAL_NETWORK, socialProvider.GetParameter(), redirectUrl);
 			WebRequestHelper.Instance.GetRequest<LinkSocialProviderResponse>(SdkType.Login, url, WebRequestHeader.AuthHeader(Token.Instance),
-				response => urlCallback?.Invoke(response.url));
+				response => urlCallback?.Invoke(response?.url ?? string.Empty));
 		}
 
 		/// <summary>
