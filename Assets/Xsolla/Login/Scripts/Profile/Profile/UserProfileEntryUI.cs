@@ -17,6 +17,7 @@ namespace Xsolla.Demo
 		[SerializeField] BaseUserProfileValueConverter ValueConverter = default;
 
 		private UserProfileEntryType _entryType;
+		private EntryState _currentState;
 	
 		private string CurrentValue
 		{
@@ -24,20 +25,12 @@ namespace Xsolla.Demo
 			set
 			{
 				CurrentValueText.text = value;
-
-				if(!string.IsNullOrEmpty(value))
-					SetState(EntryState.Set);
-				else
-				{
-					if (UnsetStateObjects)
-						SetState(EntryState.Unset);
-					else
-						SetState(EntryState.Edit);
-				}
+				SetState(value);
 			}
 		}
 
 		public static event Action<UserProfileEntryUI, UserProfileEntryType, string, string> UserEntryEdited;
+		private static event Action<UserProfileEntryUI> UserEntryEditStarted;
 
 		public void InitializeEntry(UserProfileEntryType entryType, string value)
 		{
@@ -55,10 +48,39 @@ namespace Xsolla.Demo
 		private void Awake()
 		{
 			foreach (var button in EditButtons)
-				button.onClick += () => SetState(EntryState.Edit);
+				button.onClick += StartEdit;
+
+			UserEntryEditStarted += OnEntryEdit;
 
 			if (EntryEditor)
 				EntryEditor.UserProfileEntryEdited += OnEntryEdited;
+		}
+
+		private void StartEdit()
+		{
+			SetState(EntryState.Edit);
+			UserEntryEditStarted?.Invoke(this);
+		}
+
+		private void OnEntryEdit(UserProfileEntryUI editingEntry)
+		{
+			if (!editingEntry.Equals(this) && _currentState == EntryState.Edit)
+			{
+				SetState(CurrentValueText.text);
+			}
+		}
+
+		private void SetState(string entryValue)
+		{
+			if (!string.IsNullOrEmpty(entryValue))
+				SetState(EntryState.Set);
+			else
+			{
+				if (UnsetStateObjects)
+					SetState(EntryState.Unset);
+				else
+					SetState(EntryState.Edit);
+			}
 		}
 
 		private void SetState(EntryState entryState)
@@ -69,6 +91,8 @@ namespace Xsolla.Demo
 				SetActive(UnsetStateObjects, entryState == EntryState.Unset);
 			if (EditStateObjects)
 				SetActive(EditStateObjects, entryState == EntryState.Edit);
+
+			_currentState = entryState;
 		}
 
 		private void SetActive(GameObject gameObject, bool targetState)
