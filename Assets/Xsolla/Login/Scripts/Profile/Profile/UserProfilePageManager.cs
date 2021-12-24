@@ -2,13 +2,14 @@
 using System.Collections;
 using System.Text.RegularExpressions;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using Xsolla.Core;
 using Xsolla.Core.Popup;
 using Xsolla.Login;
 
 namespace Xsolla.Demo
 {
-	public class UserProfilePageManager : MonoBehaviour
+	public class UserProfilePageManager : MonoBehaviour, IPointerClickHandler
 	{
 		public UserProfileEntryUI[] UserProfileEntries;
 
@@ -281,6 +282,13 @@ namespace Xsolla.Demo
 			var errorMessage = $"Incorrect new value for {entryType}: '{value}'";
 			var error = new Error(ErrorType.InvalidData, errorMessage: errorMessage);
 			StoreDemoPopup.ShowError(error);
+		}
+
+		void IPointerClickHandler.OnPointerClick(PointerEventData eventData)
+		{
+			//TEXTREVIEW
+			//Called on background or other non-active element click
+			UserProfileEntryUI.RaiseUserEntryEditStarted(null);
 		}
 	}
 }

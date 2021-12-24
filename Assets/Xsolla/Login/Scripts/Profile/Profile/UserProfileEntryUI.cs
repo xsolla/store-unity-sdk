@@ -30,7 +30,12 @@ namespace Xsolla.Demo
 		}
 
 		public static event Action<UserProfileEntryUI, UserProfileEntryType, string, string> UserEntryEdited;
-		private static event Action<UserProfileEntryUI> UserEntryEditStarted;
+		public static event Action<UserProfileEntryUI> UserEntryEditStarted;
+
+		public static void RaiseUserEntryEditStarted(UserProfileEntryUI entryUI)
+		{
+			UserEntryEditStarted?.Invoke(entryUI);
+		}
 
 		public void InitializeEntry(UserProfileEntryType entryType, string value)
 		{
@@ -64,7 +69,7 @@ namespace Xsolla.Demo
 
 		private void OnEntryEdit(UserProfileEntryUI editingEntry)
 		{
-			if (!editingEntry.Equals(this) && _currentState == EntryState.Edit)
+			if (_currentState == EntryState.Edit && (editingEntry == null || !editingEntry.Equals(this)))
 			{
 				SetState(CurrentValueText.text);
 			}
