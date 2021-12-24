@@ -1107,7 +1107,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Sore Project ID
+  m_Text: Store Project ID
 --- !u!114 &6031968587746927329
 MonoBehaviour:
   m_ObjectHideFlags: 0
