@@ -18,8 +18,8 @@ The Game Commerce asset contains the necessary methods to use the features of al
 
 We recommend using the game Commerce asset as is. For some specific situations, you can use other Xsolla assets:
 
-*   Use [Login & Account System asset](https://assetstore.unity.com/packages/slug/180654?_xm=3001.151246642924748818) if you are interested in the ready-made login system only.
-*   Use [Cross-Buy asset](https://assetstore.unity.com/packages/slug/184991?_xm=3001.151246642924748818) if you are going to publish your app on a platform that restricts the use of third-party payment tools.
+*   Use [Login & Account System asset](https://github.com/xsolla/login-unity-sdk) if you are interested in the ready-made login system only.
+*   Use [Cross-Buy asset](https://github.com/xsolla/inventory-unity-sdk) if you are going to publish your app on a platform that restricts the use of third-party payment tools.
 
 <div style="background-color: WhiteSmoke">
 <p><b>Note:</b> Game Commerce asset includes Login & Account System and Cross-Buy assets. You do <b>not</b> need to install them separately.</p>
@@ -232,8 +232,6 @@ Xsolla provides APIs to work with it’s products. The Game Commerce asset provi
 
 ### Conflict of multiple precompiled assemblies with Newtonsoft.json.dll
 
-#### Issue description
-
 The issue appears when importing the asset on Unity version 2020.3.10f1 and later. The following error message is displayed:
 
 >Multiple precompiled assemblies with the same name Newtonsoft.json.dll included on the current platform. Only one assembly with the same name is allowed per platform.
@@ -242,19 +240,7 @@ The conflict arises because the `Newtonsoft.json.dll` library is included in bot
 
 **Issue status:** Fixed in 0.6.4.4.
 
-
-#### Workaround
-
-1. Remove the `Newtonsoft.json.dll` library from the asset:
-    1. Create a new Unity project.
-    2. Install [Game Commerce asset](https://assetstore.unity.com/packages/slug/145141) from Unity Asset Store.
-    3. Go to  `Assets\Xsolla\Core\Browser\XsollaBrowser\Plugins` directory.
-    4. Remove `Newtonsoft.Json.dll` and `Newtonsoft.Json.dll.mdb` files.
-2. Restart Unity Editor.
-
 ### Newtonsoft.json.dll could not be found
-
-#### Issue description
 
 The problem appears if you upgraded a pre-existing project to Unity version 2020.3.10f1 and later. Importing an asset from the [Unity Asset Store](https://assetstore.unity.com/publishers/12995) into such a project is accompanied by many error messages like this:
 
@@ -264,10 +250,6 @@ The problem appears if you upgraded a pre-existing project to Unity version 2020
 The problem occurs because the `Newtonsoft.json.dll` library is not included in the asset for Unity version 2020.3.10f1 and later. As part of the editor, the library is supplied for versions 2020.3.10f1 and later, but when updating the project for these versions, the library requires manual installation.
 
 **Issue status:** Fixed in 0.6.4.4.
-
-#### Workaround
-
-Install the `Newtonsoft.json.dll` library manually using the <a href="https://docs.unity3d.com/Packages/com.unity.package-manager-ui@1.8/manual/index.html">Unity Package Manager</a>.
 
 
 ### Unable to resolve reference UnityEditor.iOS.Extensions.Xcode
@@ -316,7 +298,9 @@ See details on cause of the issue on [Unity Issue Tracker](https://issuetracker.
 
 [Explore legal information](https://developers.xsolla.com/sdk/unity/commerce/get-started/#sdk_legal_compliance) that helps you work with Xsolla.
 
-Xsolla offers the necessary tools to help you build and grow your gaming business, including personalized support at every stage. The terms of payment are determined by the contract that you can sign in Xsolla Publisher Account.
+Xsolla offers the necessary tools to help you build and grow your gaming business, including personalized support at every stage. The terms of payment are determined by the contract that can be signed via Publisher Account.
+
+**The cost of using all Xsolla products is 5% of the amount you receive for the sale of the game and in-game goods via Xsolla Pay Station.** If you do not use Xsolla Pay Station in your application, but use other products, contact your Account Manager to clarify the terms and conditions.
 
 ---
 
