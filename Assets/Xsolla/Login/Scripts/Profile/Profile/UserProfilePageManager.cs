@@ -9,7 +9,7 @@ using Xsolla.Login;
 
 namespace Xsolla.Demo
 {
-	public class UserProfilePageManager : MonoBehaviour, IPointerClickHandler
+	public class UserProfilePageManager : MonoBehaviour
 	{
 		public UserProfileEntryUI[] UserProfileEntries;
 
@@ -282,13 +282,6 @@ namespace Xsolla.Demo
 			var errorMessage = $"Incorrect new value for {entryType}: '{value}'";
 			var error = new Error(ErrorType.InvalidData, errorMessage: errorMessage);
 			StoreDemoPopup.ShowError(error);
-		}
-
-		void IPointerClickHandler.OnPointerClick(PointerEventData eventData)
-		{
-			//TEXTREVIEW
-			//Called on background or other non-active element click
-			UserProfileEntryUI.RaiseUserEntryEditStarted(null);
 		}
 	}
 }
