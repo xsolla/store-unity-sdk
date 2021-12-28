@@ -8,5 +8,7 @@ namespace Xsolla.Store
 		public string locale;
 		public int? quantity;
 		public Dictionary<string, object> custom_parameters;
+		public ShippingData shipping_data;
+		public Dictionary<string, object> shipping_method;
 	}
 }

@@ -23,6 +23,7 @@ namespace Xsolla.Store
 		public string image_url;
 		public string status;
 		public long? expired_at;
+		public string virtual_item_type;
 
 		[JsonProperty("class")]
 		public string subscription_class;

@@ -30,6 +30,7 @@ namespace Xsolla.Store
 		public string image_url;
 		public StoreItemAttribute[] attributes;
 		public bool is_free;
+		public bool is_bonus;
 		public Group[] groups;
 		public Price price;
 		public VirtualPrice[] virtual_prices;

@@ -39,8 +39,16 @@ namespace Xsolla.Store
 			public string percent;
 		}
 
+		[Serializable]
+		public class DiscountedItems
+		{
+			public string sku;
+			public Discount discount;
+		}
+
 		public BonusItem[] bonus;
 		public Discount discount;
+		public DiscountedItems discounted_items;
 		public bool is_selectable;
 	}
 }

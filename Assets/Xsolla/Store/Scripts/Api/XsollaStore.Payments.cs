@@ -84,6 +84,7 @@ namespace Xsolla.Store
 			TempPurchaseParams tempPurchaseParams = new TempPurchaseParams
 			{
 				sandbox = XsollaSettings.IsSandbox,
+				custom_parameters = purchaseParams?.custom_parameters
 			};
 
 			var url = string.Format(URL_BUY_ITEM_FOR_VC, projectId, itemSku, priceSku);
@@ -267,7 +268,9 @@ namespace Xsolla.Store
 				custom_parameters = purchaseParams?.custom_parameters,
 				currency = purchaseParams?.currency,
 				locale = purchaseParams?.locale,
-				quantity = purchaseParams?.quantity
+				quantity = purchaseParams?.quantity,
+				shipping_data = purchaseParams?.shipping_data,
+				shipping_method = purchaseParams?.shipping_method,
 			};
 
 			return tempPurchaseParams;
