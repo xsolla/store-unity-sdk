@@ -214,8 +214,13 @@ namespace Xsolla.Login
 		}
 
 		/// <summary>
-		/// Exchange OAuth2.0 access code to access token
+		/// Use this call:
+		///To get a user JWT.
+		///To refresh the JWT when it expires.Works only if scope=offline is passed in the registration or authentication call.
+		///To get a server JWT.The user participation isn't needed.
+		///Usage of this call depends on the value of the grant_type parameter.
 		/// </summary>
+		/// <remarks> Swagger method name:<c>Generate JWT</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/login-api/methods/oauth-20/generate-jwt"/>
 		/// <param name="code">Access code received from several other OAuth2.0 requests (example: code from social network auth)</param>
 		/// <param name="onSuccessExchange">Success operation callback. Contains exchanged token.</param>
@@ -228,10 +233,10 @@ namespace Xsolla.Login
 
 			var requestData = new WWWForm();
 
-			requestData.AddField("client_id", clientId);
 			requestData.AddField("grant_type", "authorization_code");
-			requestData.AddField("code", code);
+			requestData.AddField("client_id", clientId);
 			requestData.AddField("redirect_uri", DEFAULT_REDIRECT_URI);
+			requestData.AddField("code", code);
 
 			SendOAuthGenerateJwtRequest(requestData, onSuccessExchange, onError);
 		}

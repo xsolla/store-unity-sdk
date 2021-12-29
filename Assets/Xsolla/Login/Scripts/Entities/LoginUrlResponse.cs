@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 
 namespace Xsolla.Login
 {
 	[Serializable]
-	public class CrossAuthResponse
+	public class LoginUrlResponse
 	{
 		public string login_url;
 	}

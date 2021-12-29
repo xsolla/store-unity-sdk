@@ -12,22 +12,22 @@ namespace Xsolla.Login
 		private const string URL_USER_UPDATE_ATTRIBUTES = "https://login.xsolla.com/api/attributes/users/me/update";
 
 		/// <summary>
-		/// Returns user attributes.
+		/// Gets a list of particular user’s attributes.
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Get User's Attributes from Client</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/login-api/attributes/get-user-attributes-from-client"/>
 		/// <param name="token">JWT from Xsolla Login.</param>
-		/// <param name="projectId">Project ID from your Publisher Account.</param>
-		/// <param name="attributeKeys">Attributes names list filter</param>
-		/// <param name="userId">Login user ID. Can be null, because this info exist in the token.</param>
-		/// <param name="attributeType">User attribute type to get</param>
+		/// <param name="publisherProjectId">Project ID from Publisher Account which you want to get attributes for. If you do not specify it, it returns attributes without the value of this parameter.</param>
+		/// <param name="attributeType">Type of attributes to get.</param>
+		/// <param name="keys">List of attributes� keys which you want to get. If you do not specify them, it returns all user�s attributes.</param>
+		/// <param name="userId">User ID which attributes you want to get. Returns only attributes with the `public` value of the `permission` parameter. If you do not specify it or put your user ID there, it returns only your attributes with any value for the `permission` parameter.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		/// <seealso cref="UpdateUserAttributes"/>
 		/// <seealso cref="RemoveUserAttributes"/>
-		public void GetUserAttributes(string token, string projectId, UserAttributeType attributeType, [CanBeNull] List<string> attributeKeys, [CanBeNull] string userId, [NotNull] Action<List<UserAttribute>> onSuccess, [CanBeNull] Action<Error> onError)
+		public void GetUserAttributes(string token, string publisherProjectId, UserAttributeType attributeType, [CanBeNull] List<string> keys, [CanBeNull] string userId, [NotNull] Action<List<UserAttribute>> onSuccess, [CanBeNull] Action<Error> onError)
 		{
-			var getAttributesRequestBody = new GetAttributesJson(attributeKeys, projectId, userId);
+			var getAttributesRequestBody = new GetAttributesJson(keys, publisherProjectId, userId);
 			var headers = new List<WebRequestHeader> { WebRequestHeader.AuthHeader(token), WebRequestHeader.ContentTypeHeader() };
 
 			string url = default(string);
@@ -46,40 +46,41 @@ namespace Xsolla.Login
 		}
 
 		/// <summary>
-		/// Updates user attributes' values.
+		/// Updates and creates particular user’s attributes.
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Update User's Attributes from Client</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/login-api/attributes/update-users-attributes-from-client"/>
 		/// <param name="token">JWT from Xsolla Login.</param>
-		/// <param name="projectId">Project ID from your Publisher Account.</param>
-		/// <param name="attributes">Attributes list.</param>
+		/// <param name="publisherProjectId">Project ID from Publisher Account which you want to update the value of specified attributes for. If you do not specify it, it updates attributes that are general to all games only.</param>
+		/// <param name="attributes">List of attributes of the specified game. To add attribute which does not exist, set this attribute to the `key` parameter. To update `value` of the attribute, specify its `key` parameter and set the new `value`. You can change several attributes at a time.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		/// <seealso cref="GetUserAttributes"/>
 		/// <seealso cref="RemoveUserAttributes"/>
-		public void UpdateUserAttributes(string token, string projectId, List<UserAttribute> attributes, Action onSuccess, Action<Error> onError)
+		public void UpdateUserAttributes(string token, string publisherProjectId, List<UserAttribute> attributes, Action onSuccess, Action<Error> onError)
 		{
-			var modifyAttributesRequestBody = new ModifyAttributesJson(attributes, projectId, null);
+			var modifyAttributesRequestBody = new ModifyAttributesJson(attributes, publisherProjectId, null);
 			var headers = new List<WebRequestHeader>() { WebRequestHeader.AuthHeader(token), WebRequestHeader.ContentTypeHeader() };
 
 			WebRequestHelper.Instance.PostRequest(SdkType.Login, URL_USER_UPDATE_ATTRIBUTES, modifyAttributesRequestBody, headers, onSuccess, onError);
 		}
 
+		//TEXTREVIEW
 		/// <summary>
-		/// Removes user attributes.
+		/// Removes particular user's attributes.
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Update User's Attributes from Client</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/login-api/attributes/update-users-attributes-from-client"/>
 		/// <param name="token">JWT from Xsolla Login.</param>
-		/// <param name="projectId">Project ID from your Publisher Account.</param>
-		/// <param name="attributeKeys">Attributes names list.</param>
+		/// <param name="publisherProjectId">Project ID from Publisher Account which you want to update the value of specified attributes for. If you do not specify it, it updates attributes that are general to all games only.</param>
+		/// <param name="removingKeys">List of attributes which you want to delete. If you specify the same attribute in `attributes` parameter, it will not be deleted.</param>
 		/// <param name="onSuccess">Success operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		/// <seealso cref="GetUserAttributes"/>
 		/// <seealso cref="UpdateUserAttributes"/>
-		public void RemoveUserAttributes(string token, string projectId, List<string> attributeKeys, Action onSuccess, Action<Error> onError)
+		public void RemoveUserAttributes(string token, string publisherProjectId, List<string> removingKeys, Action onSuccess, Action<Error> onError)
 		{
-			var removeAttributesRequestBody = new ModifyAttributesJson(null, projectId, attributeKeys);
+			var removeAttributesRequestBody = new ModifyAttributesJson(null, publisherProjectId, removingKeys);
 			var headers = new List<WebRequestHeader>() { WebRequestHeader.AuthHeader(token), WebRequestHeader.ContentTypeHeader() };
 
 			WebRequestHelper.Instance.PostRequest(SdkType.Login, URL_USER_UPDATE_ATTRIBUTES, removeAttributesRequestBody, headers, onSuccess, onError);

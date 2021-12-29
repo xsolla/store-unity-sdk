@@ -1,6 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Linq;
+using Newtonsoft.Json;
 
 namespace Xsolla.Login
 {
@@ -10,18 +10,24 @@ namespace Xsolla.Login
 		public string username;
 		public string password;
 		public string email;
-		public bool accept_consent;
-		public int promo_email_agreement;
-		public List<string> fields;
 
-		public RegistrationJson(string userName, string password, string email, bool acceptConsent, bool promoEmailAgreement, List<string> fields)
+		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+		public bool? accept_consent;
+		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+		public List<string> fields;
+		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+		public int? promo_email_agreement;
+
+		public RegistrationJson(string userName, string password, string email, bool? acceptConsent = null, List<string> fields = null, bool? promoEmailAgreement = null)
 		{
-			username = userName;
+			this.username = userName;
 			this.password = password;
 			this.email = email;
-			accept_consent = acceptConsent;
-			promo_email_agreement = promoEmailAgreement ? 1 : 0;
-			this.fields = fields != null && fields.Any() ? fields : new List<string>();
+			this.accept_consent = acceptConsent;
+			this.fields = fields;
+
+			if (promoEmailAgreement.HasValue)
+				this.promo_email_agreement = promoEmailAgreement.Value ? 1 : 0;
 		}
 	}
 }

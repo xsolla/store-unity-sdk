@@ -7,31 +7,31 @@ namespace Xsolla.Login
 	public enum FriendAction
 	{
 		/// <summary>
-		/// Send friend request
+		/// To send a friend request
 		/// </summary>
 		SendInviteRequest,
 		/// <summary>
-		/// Cancel sent friend request
+		/// To cancel the friend request that was sent
 		/// </summary>
 		CancelRequest,
 		/// <summary>
-		/// Confirm  friend request
+		/// To confirm the friend request
 		/// </summary>
 		AcceptInvite,
 		/// <summary>
-		/// Cancel received friend request
+		/// To cancel the friend request that was received
 		/// </summary>
 		DenyInvite,
 		/// <summary>
-		/// Delete user from the friend list
+		/// To delete the user from the friend list
 		/// </summary>
 		RemoveFriend,
 		/// <summary>
-		/// Block user
+		/// To block the user
 		/// </summary>
 		BlockFriend,
 		/// <summary>
-		/// Unblock user
+		/// To unblock the user
 		/// </summary>
 		UnblockFriend
 	}
