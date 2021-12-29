@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Text.RegularExpressions;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using Xsolla.Core;
 using Xsolla.Core.Popup;
 using Xsolla.Login;
