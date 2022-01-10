@@ -13,7 +13,7 @@ namespace Xsolla.Demo
 		/// <summary>
 		/// Maximum friends count to display.
 		/// </summary>
-		private const int MAX_FRIENDS_COUNT = 100;
+		private const int MAX_FRIENDS_COUNT = 50;
 		/// <summary>
 		/// Default friend name value if the name isn't provided.
 		/// </summary>
