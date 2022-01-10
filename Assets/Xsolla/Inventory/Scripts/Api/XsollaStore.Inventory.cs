@@ -65,8 +65,6 @@ namespace Xsolla.Store
 		public void RedeemCouponCode(string projectId, CouponCode couponCode, [NotNull] Action<CouponRedeemedItems> onSuccess, [CanBeNull] Action<Error> onError)
 		{
 			var url = string.Format(URL_INVENTORY_REDEEM_COUPON, projectId);
-			var platformParam = GetPlatformUrlParam();
-			url = ConcatUrlAndParams(url, platformParam);
 
 			var headers = new List<WebRequestHeader>() { WebRequestHeader.AuthHeader(Token.Instance), WebRequestHeader.ContentTypeHeader() };
 			WebRequestHelper.Instance.PostRequest(SdkType.Store, url, couponCode, headers, onSuccess, onError, Error.CouponErrors);
@@ -82,12 +80,9 @@ namespace Xsolla.Store
 		/// <param name="couponCode">Unique case sensitive code. Contains letters and numbers.</param>
 		/// <param name="onSuccess">Success operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
-		public void GetCouponRewards(string projectId, string couponCode, [NotNull] Action<CouponReward> onSuccess, [CanBeNull] Action<Error> onError, [CanBeNull] string locale = null)
+		public void GetCouponRewards(string projectId, string couponCode, [NotNull] Action<CouponReward> onSuccess, [CanBeNull] Action<Error> onError)
 		{
 			var url = string.Format(URL_INVENTORY_GET_COUPON_REWARDS, projectId, couponCode);
-			var localeParam = GetLocaleUrlParam(locale);
-			var platformParam = GetPlatformUrlParam();
-			url = ConcatUrlAndParams(url, localeParam, platformParam);
 			
 			var headers = new List<WebRequestHeader>() { WebRequestHeader.AuthHeader(Token.Instance), WebRequestHeader.ContentTypeHeader() };
 			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, headers, onSuccess, onError, Error.CouponErrors);

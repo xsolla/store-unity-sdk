@@ -19,6 +19,7 @@ namespace Xsolla.Store
 			public string drm;
 			public string image_url;
 			public bool is_pre_order;
+			public StoreItemAttribute[] attributes;
 		}
 	}
 }

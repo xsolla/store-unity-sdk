@@ -15,6 +15,7 @@ namespace Xsolla.Store
 			public string description;
 			public string image_url;
 			public int quantity;
+			public InventoryOptions inventory_options;
 		}
 
 		public string bundle_type;

@@ -24,6 +24,12 @@ namespace Xsolla.Store
 
 		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 		public int? quantity;
+		
+		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+		public ShippingData shipping_data;
+		
+		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+		public Dictionary<string, object> shipping_method;
 
 		[Serializable]
 		public class Settings
