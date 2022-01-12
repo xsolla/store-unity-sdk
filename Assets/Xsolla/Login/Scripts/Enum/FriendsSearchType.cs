@@ -7,8 +7,8 @@ namespace Xsolla.Login
 	public enum FriendsSearchType
 	{
 		Added,
-		Pending,
 		Requested,
+		Pending,
 		Blocked,
 		BlocksMe
 	}
@@ -20,8 +20,8 @@ namespace Xsolla.Login
 			switch (provider)
 			{
 				case FriendsSearchType.Added: return "friends";
-				case FriendsSearchType.Pending: return "friend_requested_by";
 				case FriendsSearchType.Requested: return "friend_requested";
+				case FriendsSearchType.Pending: return "friend_requested_by";
 				case FriendsSearchType.Blocked: return "blocked";
 				case FriendsSearchType.BlocksMe: return "blocked_by";
 				default: return string.Empty;

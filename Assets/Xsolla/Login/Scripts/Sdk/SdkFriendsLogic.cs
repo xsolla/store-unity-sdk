@@ -13,7 +13,7 @@ namespace Xsolla.Demo
 		/// <summary>
 		/// Maximum friends count to display.
 		/// </summary>
-		private const int MAX_FRIENDS_COUNT = 100;
+		private const int MAX_FRIENDS_COUNT = 50;
 		/// <summary>
 		/// Default friend name value if the name isn't provided.
 		/// </summary>
@@ -153,7 +153,7 @@ namespace Xsolla.Demo
 			Action<List<FriendModel>> onSuccess = null, Action<Error> onError = null)
 		{
 			XsollaLogin.Instance.GetUserFriends(Token.Instance,
-				searchType, FRIENDS_SORT_TYPE, FRIENDS_SORT_ORDER, MAX_FRIENDS_COUNT, friends =>
+				searchType, FRIENDS_SORT_TYPE, FRIENDS_SORT_ORDER, null, MAX_FRIENDS_COUNT, friends =>
 				{
 					onSuccess?.Invoke(friends.Select(f =>
 					{

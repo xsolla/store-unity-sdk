@@ -9,9 +9,10 @@ namespace Xsolla.Login
 		public string email;
 		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 		public string link_url;
-		public bool send_link;
+		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+		public bool? send_link;
 
-		public StartAuthByEmailRequest(string email, string linkUrl, bool sendLink)
+		public StartAuthByEmailRequest(string email, string linkUrl = null, bool? sendLink = null)
 		{
 			this.email = email;
 			link_url = linkUrl;

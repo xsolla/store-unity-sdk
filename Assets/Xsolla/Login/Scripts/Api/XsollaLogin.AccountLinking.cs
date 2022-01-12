@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Xsolla.Core;
 
 namespace Xsolla.Login
@@ -14,7 +14,7 @@ namespace Xsolla.Login
 		/// This method is used for authenticating users in Xsolla Login,
 		/// who play on the consoles and other platforms
 		/// where Xsolla Login isn't used. You must implement it
-		/// on the your server side.
+		/// on your server side.
 		/// Integration flow on the server side:
 		/// <list type="number">
 		///		<item>
@@ -88,7 +88,8 @@ namespace Xsolla.Login
 
 		#region Comment
 		/// <summary>
-		/// Request code from unified account to link publishing platform account.
+		/// Creates the code for linking the platform account to the existing main account when the user logs in to the game via a gaming console.
+		/// The call is used with Link accounts by code request.
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Create Code for Linking Accounts</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/login-api/users/create-code-for-linking-accounts"/>

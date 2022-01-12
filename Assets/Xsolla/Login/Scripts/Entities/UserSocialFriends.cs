@@ -11,15 +11,11 @@ namespace Xsolla.Login
 	public class UserSocialFriends
 	{
 		/// <summary>
-		/// List of data from social friends accounts.
-		/// </summary>
-		public List<UserSocialFriend> data;
-		/// <summary>
 		/// Maximum number of friends that are returned at a time.
 		/// </summary>
 		public uint limit;
 		/// <summary>
-		/// Number of elements from which the list is generated.
+		/// Number of the elements from which the list is generated.
 		/// </summary>
 		public uint offset;
 		/// <summary>
@@ -27,7 +23,11 @@ namespace Xsolla.Login
 		/// </summary>
 		public uint total_count;
 		/// <summary>
-		/// Name of social provider.
+		/// List of data from social friends accounts.
+		/// </summary>
+		public List<UserSocialFriend> data;
+		/// <summary>
+		/// Name of a social provider.
 		/// </summary>
 		public string platform;
 		/// <summary>
