@@ -96,14 +96,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.16509432, b: 0.16509432, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: f70b0d194d863d14eaa3261671349a4b, type: 3}
+    m_Font: {fileID: 12800000, guid: fa577b6b2569be54a9efeef4b763dfc0, type: 3}
     m_FontSize: 14
     m_FontStyle: 0
     m_BestFit: 1
@@ -129,6 +129,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _propertyId: 7b111555-c639-4655-9948-52030ad69aab
+  _comp: {fileID: 3648550030265737943}
   _pointerOverrider:
     _pointerEvents: {fileID: 0}
     _transitionMode: 0
@@ -136,7 +137,6 @@ MonoBehaviour:
     _hoverPropertyId: 7b111555-c639-4655-9948-52030ad69aab
     _isOverridePress: 0
     _pressPropertyId: 7b111555-c639-4655-9948-52030ad69aab
-  _comp: {fileID: 3648550030265737943}
 --- !u!114 &7410470067270721048
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -149,7 +149,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc2106c456714323a645d26b01862ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _propertyId: a888e9eb-55a8-4cb6-95f2-87c223ebc893
+  _propertyId: 8d406015-69a9-402e-aa9e-e28e56a8264c
+  _comp: {fileID: 3648550030265737943}
   _pointerOverrider:
     _pointerEvents: {fileID: 0}
     _transitionMode: 0
@@ -157,7 +158,6 @@ MonoBehaviour:
     _hoverPropertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
     _isOverridePress: 0
     _pressPropertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
-  _comp: {fileID: 3648550030265737943}
 --- !u!1 &2988306753417256202
 GameObject:
   m_ObjectHideFlags: 0
@@ -314,7 +314,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: f70b0d194d863d14eaa3261671349a4b, type: 3}
+    m_Font: {fileID: 12800000, guid: fa577b6b2569be54a9efeef4b763dfc0, type: 3}
     m_FontSize: 16
     m_FontStyle: 0
     m_BestFit: 1
@@ -340,6 +340,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _propertyId: 7b111555-c639-4655-9948-52030ad69aab
+  _comp: {fileID: 2145794061174546050}
   _pointerOverrider:
     _pointerEvents: {fileID: 0}
     _transitionMode: 0
@@ -347,7 +348,6 @@ MonoBehaviour:
     _hoverPropertyId: 7b111555-c639-4655-9948-52030ad69aab
     _isOverridePress: 0
     _pressPropertyId: 7b111555-c639-4655-9948-52030ad69aab
-  _comp: {fileID: 2145794061174546050}
 --- !u!114 &6531625060589588818
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -361,6 +361,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _propertyId: f082ce88-2612-4821-9daa-8d421f912d8e
+  _comp: {fileID: 2145794061174546050}
   _pointerOverrider:
     _pointerEvents: {fileID: 0}
     _transitionMode: 0
@@ -368,7 +369,6 @@ MonoBehaviour:
     _hoverPropertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
     _isOverridePress: 0
     _pressPropertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
-  _comp: {fileID: 2145794061174546050}
 --- !u!1 &7252128037832865524
 GameObject:
   m_ObjectHideFlags: 0
@@ -429,7 +429,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0.35686302, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -458,6 +458,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _propertyId: e9c672ce-cad6-4ddf-8fe4-20b3b665f12e
+  _comp: {fileID: 8782264522565372385}
   _pointerOverrider:
     _pointerEvents: {fileID: 0}
     _transitionMode: 0
@@ -465,7 +466,6 @@ MonoBehaviour:
     _hoverPropertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
     _isOverridePress: 0
     _pressPropertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
-  _comp: {fileID: 8782264522565372385}
 --- !u!1 &7446015085508255753
 GameObject:
   m_ObjectHideFlags: 0
@@ -526,14 +526,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.16509432, b: 0.16509432, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: f70b0d194d863d14eaa3261671349a4b, type: 3}
+    m_Font: {fileID: 12800000, guid: fa577b6b2569be54a9efeef4b763dfc0, type: 3}
     m_FontSize: 22
     m_FontStyle: 0
     m_BestFit: 1
@@ -559,6 +559,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _propertyId: 7b111555-c639-4655-9948-52030ad69aab
+  _comp: {fileID: 7446015085508255755}
   _pointerOverrider:
     _pointerEvents: {fileID: 0}
     _transitionMode: 0
@@ -566,7 +567,6 @@ MonoBehaviour:
     _hoverPropertyId: 7b111555-c639-4655-9948-52030ad69aab
     _isOverridePress: 0
     _pressPropertyId: 7b111555-c639-4655-9948-52030ad69aab
-  _comp: {fileID: 7446015085508255755}
 --- !u!114 &4503757111814285319
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -580,6 +580,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _propertyId: a888e9eb-55a8-4cb6-95f2-87c223ebc893
+  _comp: {fileID: 7446015085508255755}
   _pointerOverrider:
     _pointerEvents: {fileID: 0}
     _transitionMode: 0
@@ -587,7 +588,6 @@ MonoBehaviour:
     _hoverPropertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
     _isOverridePress: 0
     _pressPropertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
-  _comp: {fileID: 7446015085508255755}
 --- !u!1 &7446015085648965445
 GameObject:
   m_ObjectHideFlags: 0

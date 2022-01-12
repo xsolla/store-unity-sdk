@@ -122,7 +122,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0.35686302, a: 1}
+  m_Color: {r: 0.7254902, g: 1, b: 0.2, a: 1}
   m_RaycastTarget: 0
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -150,7 +150,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc7a4b87c37a4cf18dcbc9b73bf98bd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _propertyId: e9c672ce-cad6-4ddf-8fe4-20b3b665f12e
+  _propertyId: cd078878-66a4-4637-8fe6-6f8120557afa
+  _comp: {fileID: 3949711085248611181}
   _pointerOverrider:
     _pointerEvents: {fileID: 0}
     _transitionMode: 0
@@ -158,7 +159,6 @@ MonoBehaviour:
     _hoverPropertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
     _isOverridePress: 0
     _pressPropertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
-  _comp: {fileID: 3949711085248611181}
 --- !u!1 &6459276844453319678
 GameObject:
   m_ObjectHideFlags: 0
@@ -219,14 +219,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.16509432, b: 0.16509432, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: f70b0d194d863d14eaa3261671349a4b, type: 3}
+    m_Font: {fileID: 12800000, guid: fa577b6b2569be54a9efeef4b763dfc0, type: 3}
     m_FontSize: 16
     m_FontStyle: 0
     m_BestFit: 1
@@ -252,6 +252,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _propertyId: 7b111555-c639-4655-9948-52030ad69aab
+  _comp: {fileID: 6541081271408603766}
   _pointerOverrider:
     _pointerEvents: {fileID: 0}
     _transitionMode: 0
@@ -259,7 +260,6 @@ MonoBehaviour:
     _hoverPropertyId: 7b111555-c639-4655-9948-52030ad69aab
     _isOverridePress: 0
     _pressPropertyId: 7b111555-c639-4655-9948-52030ad69aab
-  _comp: {fileID: 6541081271408603766}
 --- !u!114 &6852790804693283716
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -273,6 +273,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _propertyId: a888e9eb-55a8-4cb6-95f2-87c223ebc893
+  _comp: {fileID: 6541081271408603766}
   _pointerOverrider:
     _pointerEvents: {fileID: 0}
     _transitionMode: 0
@@ -280,4 +281,3 @@ MonoBehaviour:
     _hoverPropertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
     _isOverridePress: 0
     _pressPropertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
-  _comp: {fileID: 6541081271408603766}

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa775595831c4d3b83dc0d255c5bdad0, type: 3}
   m_Name: ThemesLibrary
   m_EditorClassIdentifier: 
-  _currentId: 089491b2-d94e-4c84-b024-5737065e0dd2
+  _currentId: 1b679e97-27e4-4f2b-8aac-4dd58f3e8581
   _themes:
   - _name: Xsollus
     _id: 1b679e97-27e4-4f2b-8aac-4dd58f3e8581
@@ -259,7 +259,13 @@ MonoBehaviour:
       _color: {r: 1, g: 1, b: 1, a: 1}
     - _name: Price without discount text
       _id: 75237317-519c-41af-a8e9-7cd2ee728ce3
-      _color: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
+      _color: {r: 0.6698113, g: 0.66033286, b: 0.66033286, a: 1}
+    - _name: Discount back
+      _id: abc92104-0835-4703-8a7d-67607745a0e5
+      _color: {r: 1, g: 1, b: 1, a: 0.2509804}
+    - _name: Discount text
+      _id: 3214ad0a-2ccd-47b8-a511-942176b8ba07
+      _color: {r: 1, g: 1, b: 1, a: 1}
     _sprites:
     - _name: Base Background
       _id: f59ef3aa-9cf9-4946-8de2-f203b773a004
@@ -372,6 +378,12 @@ MonoBehaviour:
     - _name: BP HighLight
       _id: 28e6352b-c5ce-4be0-90e4-7e629d9c666f
       _sprite: {fileID: 21300000, guid: bbf5dd307a281f543a7dd6ccd960808e, type: 3}
+    - _name: Main page logo
+      _id: c8d9c501-ae5d-4e7b-a288-04b815e14d9f
+      _sprite: {fileID: 21300000, guid: 691d013d73324984eb9cd2d4d5742dff, type: 3}
+    - _name: Enter page back
+      _id: 5c0b15ee-ca7f-497d-b2cb-e8393786d538
+      _sprite: {fileID: 21300000, guid: 6a8a27e3e79a44045b5fe6ad849f4fb6, type: 3}
     _fonts:
     - _name: Main Font
       _id: 7b111555-c639-4655-9948-52030ad69aab
@@ -420,10 +432,10 @@ MonoBehaviour:
       _color: {r: 1, g: 1, b: 1, a: 1}
     - _name: Input Back
       _id: 8448ca8c-1a44-4019-94a1-3ada7306f71c
-      _color: {r: 0.06666667, g: 0.06666667, b: 0.06666667, a: 1}
+      _color: {r: 0, g: 0, b: 0, a: 0.36078432}
     - _name: Input Border
       _id: 1a20bec4-d4b3-4606-bf0b-bf1a728a7f47
-      _color: {r: 1, g: 1, b: 1, a: 0.2}
+      _color: {r: 1, g: 1, b: 1, a: 0.29803923}
     - _name: Input Border Hover
       _id: e8c53602-b203-4d3f-bb64-e06c91fb271c
       _color: {r: 1, g: 1, b: 1, a: 1}
@@ -435,7 +447,7 @@ MonoBehaviour:
       _color: {r: 1, g: 1, b: 1, a: 0.5882353}
     - _name: Hyperlink
       _id: 5951064b-e847-4e0a-8996-71df5fc3526d
-      _color: {r: 0.990566, g: 0.990566, b: 0.990566, a: 0.6862745}
+      _color: {r: 0.990566, g: 0.990566, b: 0.990566, a: 1}
     - _name: Social Button
       _id: 21dc8235-80c2-4dd4-b5c6-40afe994b474
       _color: {r: 1, g: 1, b: 1, a: 1}
@@ -450,16 +462,16 @@ MonoBehaviour:
       _color: {r: 1, g: 0.16470589, b: 0.6039216, a: 1}
     - _name: Second Button Back
       _id: 73cf623e-4cc8-4e05-8e9b-893fc57ecd35
-      _color: {r: 0, g: 0, b: 0, a: 1}
+      _color: {r: 1, g: 1, b: 1, a: 0.36078432}
     - _name: Second Button Back Hover
       _id: 722081d3-48ef-4971-b981-c1d8c48401a7
-      _color: {r: 1, g: 0.16470589, b: 0.6039216, a: 1}
+      _color: {r: 1, g: 1, b: 1, a: 0.23921569}
     - _name: Second Button Border
       _id: ca37b2e6-bb12-4edc-aedb-be217b377bd6
-      _color: {r: 1, g: 1, b: 1, a: 0.2}
+      _color: {r: 1, g: 1, b: 1, a: 1}
     - _name: Second Button Border Hover
       _id: 6c5976aa-207f-4fc5-a85d-58db958960cf
-      _color: {r: 1, g: 0.16470589, b: 0.6039216, a: 1}
+      _color: {r: 1, g: 1, b: 1, a: 1}
     - _name: Second Button Border Press
       _id: 304ceece-9d15-460c-a809-b6879784c393
       _color: {r: 0.47058824, g: 0.47058824, b: 0.47058824, a: 0.5882353}
@@ -477,7 +489,7 @@ MonoBehaviour:
       _color: {r: 1, g: 1, b: 1, a: 1}
     - _name: Menu Button Hover
       _id: d3ad3a1e-4071-40c8-b6f7-11edde7ce496
-      _color: {r: 1, g: 0.16470589, b: 0.6039216, a: 1}
+      _color: {r: 0.7254902, g: 1, b: 0.2, a: 1}
     - _name: Cart Button
       _id: c79231aa-8f24-4f05-99aa-171f43d39ffc
       _color: {r: 1, g: 0.16470589, b: 0.6039216, a: 1}
@@ -489,7 +501,7 @@ MonoBehaviour:
       _color: {r: 1, g: 1, b: 1, a: 1}
     - _name: Item Background
       _id: 04bfcbbf-48b9-4677-9e9b-1b971001579e
-      _color: {r: 0.10156529, g: 0.054957286, b: 0.1792453, a: 0.9647059}
+      _color: {r: 0.0627451, g: 0.0627451, b: 0.0627451, a: 1}
     - _name: Item Loading Back
       _id: 368db7c9-cd9f-42c8-a3f4-6736e8b03ed1
       _color: {r: 0.5176471, g: 0.5568628, b: 0.69411767, a: 1}
@@ -525,13 +537,13 @@ MonoBehaviour:
       _color: {r: 1, g: 1, b: 1, a: 1}
     - _name: Main Menu Hover
       _id: 068cdb10-341f-4c79-8f73-cf751b289695
-      _color: {r: 1, g: 0.16470589, b: 0.6039216, a: 1}
+      _color: {r: 0.7254902, g: 1, b: 0.20000002, a: 1}
     - _name: Main Menu Press
       _id: 4f0d50bd-68f6-4c35-9cfa-6a1ba272257f
-      _color: {r: 1, g: 0.16470589, b: 0.6039216, a: 1}
+      _color: {r: 0.7254902, g: 1, b: 0.20000002, a: 1}
     - _name: Main Color
       _id: cd078878-66a4-4637-8fe6-6f8120557afa
-      _color: {r: 1, g: 0.16470589, b: 0.6039216, a: 1}
+      _color: {r: 0.7254902, g: 1, b: 0.2, a: 1}
     - _name: Transparent
       _id: a7ec42ea-49f2-4e5f-b985-63a0a592ccda
       _color: {r: 1, g: 1, b: 1, a: 0}
@@ -621,7 +633,13 @@ MonoBehaviour:
       _color: {r: 0.101960786, g: 0.05490196, b: 0.18039216, a: 1}
     - _name: Price without discount text
       _id: 75237317-519c-41af-a8e9-7cd2ee728ce3
-      _color: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
+      _color: {r: 0.36078432, g: 0.36078432, b: 0.36078432, a: 1}
+    - _name: Discount back
+      _id: abc92104-0835-4703-8a7d-67607745a0e5
+      _color: {r: 0.7254902, g: 1, b: 0.2, a: 1}
+    - _name: Discount text
+      _id: 3214ad0a-2ccd-47b8-a511-942176b8ba07
+      _color: {r: 0.0627451, g: 0.0627451, b: 0.0627451, a: 1}
     _sprites:
     - _name: Base Background
       _id: f59ef3aa-9cf9-4946-8de2-f203b773a004
@@ -682,7 +700,7 @@ MonoBehaviour:
       _sprite: {fileID: 21300000, guid: 065ddbf4432744185b704c5db1d940a8, type: 3}
     - _name: GameLogo
       _id: 1707d0e1-ef56-4549-ac03-679326d10851
-      _sprite: {fileID: 21300000, guid: f96dc212e0d37ec4c956a8340b1de478, type: 3}
+      _sprite: {fileID: 21300000, guid: 8b2d1079604e6c54bbc5c614d5d64bce, type: 3}
     - _name: Scroll Handle
       _id: 64570eff-417a-47e2-b507-fdbf0cd28695
       _sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
@@ -734,6 +752,12 @@ MonoBehaviour:
     - _name: BP HighLight
       _id: 28e6352b-c5ce-4be0-90e4-7e629d9c666f
       _sprite: {fileID: 21300000, guid: bbf5dd307a281f543a7dd6ccd960808e, type: 3}
+    - _name: Main page logo
+      _id: c8d9c501-ae5d-4e7b-a288-04b815e14d9f
+      _sprite: {fileID: 21300000, guid: f96dc212e0d37ec4c956a8340b1de478, type: 3}
+    - _name: Enter page back
+      _id: 5c0b15ee-ca7f-497d-b2cb-e8393786d538
+      _sprite: {fileID: 21300000, guid: cbb0d6cc69a6bc0438faa4faa5b41a10, type: 3}
     _fonts:
     - _name: Main Font
       _id: 7b111555-c639-4655-9948-52030ad69aab
@@ -812,13 +836,13 @@ MonoBehaviour:
       _color: {r: 0.909804, g: 0.7568628, b: 0.11764707, a: 1}
     - _name: Second Button Back
       _id: 73cf623e-4cc8-4e05-8e9b-893fc57ecd35
-      _color: {r: 0, g: 0, b: 0, a: 1}
+      _color: {r: 0.019607844, g: 0.019607844, b: 0.019607844, a: 1}
     - _name: Second Button Back Hover
       _id: 722081d3-48ef-4971-b981-c1d8c48401a7
       _color: {r: 0.909804, g: 0.7568628, b: 0.11764707, a: 1}
     - _name: Second Button Border
       _id: ca37b2e6-bb12-4edc-aedb-be217b377bd6
-      _color: {r: 0, g: 0, b: 0, a: 1}
+      _color: {r: 0.019607844, g: 0.019607844, b: 0.019607844, a: 1}
     - _name: Second Button Border Hover
       _id: 6c5976aa-207f-4fc5-a85d-58db958960cf
       _color: {r: 0.9098039, g: 0.75686276, b: 0.11764706, a: 1}
@@ -984,6 +1008,12 @@ MonoBehaviour:
     - _name: Price without discount text
       _id: 75237317-519c-41af-a8e9-7cd2ee728ce3
       _color: {r: 1, g: 1, b: 1, a: 1}
+    - _name: Discount back
+      _id: abc92104-0835-4703-8a7d-67607745a0e5
+      _color: {r: 1, g: 1, b: 1, a: 0.2509804}
+    - _name: Discount text
+      _id: 3214ad0a-2ccd-47b8-a511-942176b8ba07
+      _color: {r: 1, g: 1, b: 1, a: 1}
     _sprites:
     - _name: Base Background
       _id: f59ef3aa-9cf9-4946-8de2-f203b773a004
@@ -1096,6 +1126,12 @@ MonoBehaviour:
     - _name: BP HighLight
       _id: 28e6352b-c5ce-4be0-90e4-7e629d9c666f
       _sprite: {fileID: 21300000, guid: bbf5dd307a281f543a7dd6ccd960808e, type: 3}
+    - _name: Main page logo
+      _id: c8d9c501-ae5d-4e7b-a288-04b815e14d9f
+      _sprite: {fileID: 21300000, guid: 1b08964d6bbdbb940af36816d3b2e40e, type: 3}
+    - _name: Enter page back
+      _id: 5c0b15ee-ca7f-497d-b2cb-e8393786d538
+      _sprite: {fileID: 21300000, guid: 0e69e7364c6514b4d8f8f6de6766a126, type: 3}
     _fonts:
     - _name: Main Font
       _id: 7b111555-c639-4655-9948-52030ad69aab

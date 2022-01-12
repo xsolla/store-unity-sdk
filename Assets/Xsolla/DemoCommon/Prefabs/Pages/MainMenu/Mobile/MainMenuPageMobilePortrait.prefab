@@ -386,7 +386,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 202, y: -396}
+  m_AnchoredPosition: {x: 250, y: -396}
   m_SizeDelta: {x: 735, y: 246}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &5081581606292557862
@@ -2504,10 +2504,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3651631879210443712, guid: 65877487a700ab745b36d2689fcf7971,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f96dc212e0d37ec4c956a8340b1de478,
+        type: 3}
     - target: {fileID: 5708570786088160619, guid: 65877487a700ab745b36d2689fcf7971,
         type: 3}
       propertyPath: m_Name
       value: XsollusLogoMobile
+      objectReference: {fileID: 0}
+    - target: {fileID: 7904724100035682476, guid: 65877487a700ab745b36d2689fcf7971,
+        type: 3}
+      propertyPath: _propertyId
+      value: c8d9c501-ae5d-4e7b-a288-04b815e14d9f
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 65877487a700ab745b36d2689fcf7971, type: 3}
