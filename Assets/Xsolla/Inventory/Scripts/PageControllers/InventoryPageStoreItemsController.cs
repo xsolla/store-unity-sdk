@@ -81,9 +81,6 @@ namespace Xsolla.Demo
 
 				var itemGroups = i.Groups;
 
-				if (itemGroups.Count == 1 && itemGroups[0] == BattlePassConstants.BATTLEPASS_GROUP)
-					return false; //This is battlepass util item
-
 				if (base.CheckHideInAttribute(i, HideInFlag.Inventory))
 					return false; //This item must be hidden by attribute
 

@@ -15,13 +15,12 @@ namespace Xsolla.Demo
 		Store = 11,
 		BuyCurrency = 12,
 		Cart = 13,
-		Battlepass = 14,
-		Inventory = 15,
-		Profile = 16,
-		Character = 17,
-		Friends = 18,
-		SocialFriends = 19,
-		None = 20
+		Inventory = 14,
+		Profile = 15,
+		Character = 16,
+		Friends = 17,
+		SocialFriends = 18,
+		None = 19
 	}
 
 	public static class MenuStateExtension

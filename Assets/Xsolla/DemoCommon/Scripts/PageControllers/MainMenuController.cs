@@ -7,7 +7,6 @@ namespace Xsolla.Demo
 	public class MainMenuController : BaseMenuController
 	{
 		[SerializeField] private SimpleButton storeButton = default;
-		[SerializeField] private SimpleButton battlepassButton = default;
 		[SerializeField] private SimpleButton inventoryButton = default;
 		[SerializeField] private SimpleButton webStoreButton = default;
 		[SerializeField] private AccountLinkingManagerManual accountLinkingManager = default;
@@ -53,8 +52,6 @@ namespace Xsolla.Demo
 			if (!DemoController.Instance.IsAccessTokenAuth)
 			{
 				AttachUrlToButton(webStoreButton, DemoController.Instance.GetWebStoreUrl());
-				AttachButtonCallback(battlepassButton,
-					() => SetMenuState(MenuState.Battlepass, () => UserCatalog.Instance.IsUpdated));
 			}
 
 			AttachButtonCallback(inventoryButton, () =>
