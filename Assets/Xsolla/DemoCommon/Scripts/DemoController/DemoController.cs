@@ -98,6 +98,9 @@ namespace Xsolla.Demo
 			if (UserFriends.IsExist)
 				Destroy(UserFriends.Instance.gameObject);
 
+			if (UserAttributes.IsExist)
+				Destroy(UserAttributes.Instance.gameObject);
+
 			DestroyInventory();
 			DestroyStore();
 		}

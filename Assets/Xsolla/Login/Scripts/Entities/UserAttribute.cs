@@ -16,7 +16,7 @@ namespace Xsolla.Login
 
 		public UserAttribute GetCopy()
 		{
-			return new UserAttribute {key = string.Copy(key), permission = string.Copy(permission), value = string.Copy(value)};
+			return new UserAttribute {key = this.key, permission = this.permission, value = this.value};
 		}
 	}
 }
