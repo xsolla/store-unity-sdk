@@ -42,17 +42,17 @@ namespace Xsolla.Demo
 			NewButton.onClick += AddNewAttribute;
 			SaveButton.onClick += SaveAttributes;
 
-			AttributeItem.OnKeyChanged += HandleKeyChanged;
-			AttributeItem.OnValueChanged += HandleValueChanged;
-			AttributeItem.OnRemoveRequest += HandleRemoveRequest;
+			AttributeItemUI.OnKeyChanged += HandleKeyChanged;
+			AttributeItemUI.OnValueChanged += HandleValueChanged;
+			AttributeItemUI.OnRemoveRequest += HandleRemoveRequest;
 		}
 
 		private void OnDestroy()
 		{
 			_isAlive = false;
-			AttributeItem.OnKeyChanged -= HandleKeyChanged;
-			AttributeItem.OnValueChanged -= HandleValueChanged;
-			AttributeItem.OnRemoveRequest -= HandleRemoveRequest;
+			AttributeItemUI.OnKeyChanged -= HandleKeyChanged;
+			AttributeItemUI.OnValueChanged -= HandleValueChanged;
+			AttributeItemUI.OnRemoveRequest -= HandleRemoveRequest;
 
 			if (gameObject.scene.isLoaded)
 				UserAttributes.Instance.RevertChanges();
@@ -78,7 +78,7 @@ namespace Xsolla.Demo
 				foreach (var attribute in userAttributes)
 				{
 					var attributeObject = Instantiate<GameObject>(AttributePrefabProvider.GetValue(), root);
-					var uiScript = attributeObject.GetComponent<AttributeItem>();
+					var uiScript = attributeObject.GetComponent<AttributeItemUI>();
 
 					uiScript.IsReadOnly = readOnly;
 					uiScript.IsPublic = attribute.permission != "private";
@@ -113,7 +113,7 @@ namespace Xsolla.Demo
 			CustomAttributesTab.SetActive(!readOnly);
 		}
 
-		private void HandleKeyChanged(AttributeItem attributeItem, string oldKey, string newKey)
+		private void HandleKeyChanged(AttributeItemUI attributeItem, string oldKey, string newKey)
 		{
 			if (attributeItem.IsReadOnly)
 			{
@@ -130,7 +130,7 @@ namespace Xsolla.Demo
 			}
 		}
 
-		private void HandleValueChanged(AttributeItem attributeItem, string oldValue, string newValue)
+		private void HandleValueChanged(AttributeItemUI attributeItem, string oldValue, string newValue)
 		{
 			if (attributeItem.IsReadOnly)
 			{
@@ -147,7 +147,7 @@ namespace Xsolla.Demo
 			}
 		}
 
-		private void HandleRemoveRequest(AttributeItem attributeItem)
+		private void HandleRemoveRequest(AttributeItemUI attributeItem)
 		{
 			if (attributeItem.IsReadOnly)
 			{

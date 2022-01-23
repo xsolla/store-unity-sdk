@@ -29,7 +29,7 @@ namespace Xsolla.Demo
 			foreach (var attribute in attributes)
 			{
 				var newObject = Instantiate(AttributeItemPrefab, AttributesRoot);
-				var uiScript = newObject.GetComponent<AttributeItem>();
+				var uiScript = newObject.GetComponent<AttributeItemUI>();
 				uiScript.Key = attribute.Key;
 				uiScript.Value = attribute.Value;
 				LayoutRebuilder.ForceRebuildLayoutImmediate(newObject.transform as RectTransform);
