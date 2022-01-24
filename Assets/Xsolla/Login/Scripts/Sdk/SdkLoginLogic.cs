@@ -12,6 +12,14 @@ namespace Xsolla.Demo
 	{
 		private const int NETWORKS_CACHE_TIMEOUT = 5;
 
+		public event Action RegistrationEvent;
+		public event Action LoginEvent;
+
+		public event Action UpdateUserInfoEvent;
+		
+		public event Action UpdateUserAttributesEvent;
+		public event Action RemoveUserAttributesEvent;
+
 	#region Token
 		public void ValidateToken(string token, Action<string> onSuccess = null, Action<Error> onError = null)
 		{
@@ -40,10 +48,11 @@ namespace Xsolla.Demo
 
 		public void UpdateUserInfo(string token, UserInfoUpdate info, Action<UserInfo> onSuccess, Action<Error> onError = null)
 		{
-			Action<UserInfo> successCallback = newInfo =>
+			Action<UserInfo> successCallback = userInfo =>
 			{
-				_userCache[token] = newInfo;
-				onSuccess?.Invoke(newInfo);
+				_userCache[token] = userInfo;
+				onSuccess?.Invoke(userInfo);
+				UpdateUserInfoEvent?.Invoke();
 			};
 
 			XsollaLogin.Instance.UpdateUserInfo(token, info, successCallback, onError);
@@ -57,22 +66,46 @@ namespace Xsolla.Demo
 
 		public void Registration(string username, string password, string email, string state = null, Action onSuccess = null, Action<Error> onError = null)
 		{
-			XsollaLogin.Instance.Registration(username, password, email, null, state, null, true, true, null, onSuccess, onError);
+			Action successCallback = () =>
+			{
+				onSuccess?.Invoke();
+				RegistrationEvent?.Invoke();
+			};
+			
+			XsollaLogin.Instance.Registration(username, password, email, null, state, null, true, true, null, successCallback, onError);
 		}
 		
 		public void Registration(string username, string password, string email, string state = null, Action<int> onSuccess = null, Action<Error> onError = null)
 		{
-			XsollaLogin.Instance.Registration(username, password, email, null, state, null, true, true, null, onSuccess, onError);
+			Action<int> successCallback = responseCode =>
+			{
+				onSuccess?.Invoke(responseCode);
+				RegistrationEvent?.Invoke();
+			};
+			
+			XsollaLogin.Instance.Registration(username, password, email, null, state, null, true, true, null, successCallback, onError);
 		}
 
 		public void Registration(string username, string password, string email, string state = null, Action<LoginUrlResponse> onSuccess = null, Action<Error> onError = null)
 		{
-			XsollaLogin.Instance.Registration(username, password, email, null, state, null, true, true, null, onSuccess, onError);
+			Action<LoginUrlResponse> successCallback = response =>
+			{
+				onSuccess?.Invoke(response);
+				RegistrationEvent?.Invoke();
+			};
+			
+			XsollaLogin.Instance.Registration(username, password, email, null, state, null, true, true, null, successCallback, onError);
 		}
 
 		public void SignIn(string username, string password, bool rememberUser, Action<string> onSuccess, Action<Error> onError = null)
 		{
-			XsollaLogin.Instance.SignIn(username, password, rememberUser, null, null, onSuccess, onError);
+			Action<string> successCallback = token =>
+			{
+				onSuccess?.Invoke(token);
+				LoginEvent?.Invoke();
+			};
+			
+			XsollaLogin.Instance.SignIn(username, password, rememberUser, null, null, successCallback, onError);
 		}
 
 		public void AccessTokenAuth(string email, Action onSuccess, Action<Error> onError = null)
@@ -81,8 +114,14 @@ namespace Xsolla.Demo
 			{
 				parameters = new Dictionary<string, object>() { { "email", email } }
 			};
+			
+			Action successCallback = () =>
+			{
+				onSuccess?.Invoke();
+				LoginEvent?.Invoke();
+			};
 
-			XsollaLogin.Instance.GetUserAccessToken(authParams, onSuccess, onError);
+			XsollaLogin.Instance.GetUserAccessToken(authParams, successCallback, onError);
 		}
 
 		public void ResetPassword(string username, Action onSuccess = null, Action<Error> onError = null)
@@ -134,12 +173,24 @@ namespace Xsolla.Demo
 	#region Social
 		public void SteamAuth(string appId, string sessionTicket, string state = null, Action<string> onSuccess = null, Action<Error> onError = null)
 		{
-			XsollaLogin.Instance.SteamAuth(appId: appId, sessionTicket: sessionTicket, oauthState: state, payload: null, onSuccess: onSuccess, onError: onError);
+			Action<string> successCallback = token =>
+			{
+				onSuccess?.Invoke(token);
+				LoginEvent?.Invoke();
+			};
+			
+			XsollaLogin.Instance.SteamAuth(appId: appId, sessionTicket: sessionTicket, oauthState: state, payload: null, onSuccess: successCallback, onError: onError);
 		}
 
 		public void AuthViaDeviceID(Core.DeviceType deviceType, string deviceName, string deviceId, string payload = null, string state = null, Action<string> onSuccess = null, Action<Error> onError = null)
 		{
-			XsollaLogin.Instance.AuthViaDeviceID(deviceType, deviceName, deviceId, payload, state, onSuccess, onError);
+			Action<string> successCallback = token =>
+			{
+				onSuccess?.Invoke(token);
+				LoginEvent?.Invoke();
+			};
+			
+			XsollaLogin.Instance.AuthViaDeviceID(deviceType, deviceName, deviceId, payload, state, successCallback, onError);
 		}
 
 		public string GetSocialNetworkAuthUrl(SocialProvider socialProvider)
@@ -242,9 +293,15 @@ namespace Xsolla.Demo
 	#endregion
 
 	#region AccountLinking
-		public void SignInConsoleAccount(string userId, string platform, Action<string> successCase, Action<Error> failedCase)
+		public void SignInConsoleAccount(string userId, string platform, Action<string> onSuccess, Action<Error> onError)
 		{
-			XsollaLogin.Instance.SignInConsoleAccount(userId, platform, successCase, failedCase);
+			Action<string> successCallback = token =>
+			{
+				onSuccess?.Invoke(token);
+				LoginEvent?.Invoke();
+			};
+			
+			XsollaLogin.Instance.SignInConsoleAccount(userId, platform, successCallback, onError);
 		}
 
 		public void RequestLinkingCode(Action<LinkingCode> onSuccess, Action<Error> onError)
@@ -267,12 +324,24 @@ namespace Xsolla.Demo
 
 		public void UpdateUserAttributes(string token, string projectId, List<UserAttribute> attributes, Action onSuccess, Action<Error> onError)
 		{
-			XsollaLogin.Instance.UpdateUserAttributes(token, projectId, attributes, onSuccess, onError);
+			Action successCallback = () =>
+			{
+				onSuccess?.Invoke();
+				UpdateUserAttributesEvent?.Invoke();
+			};
+			
+			XsollaLogin.Instance.UpdateUserAttributes(token, projectId, attributes, successCallback, onError);
 		}
 
 		public void RemoveUserAttributes(string token, string projectId, List<string> attributeKeys, Action onSuccess, Action<Error> onError)
 		{
-			XsollaLogin.Instance.RemoveUserAttributes(token, projectId, attributeKeys, onSuccess, onError);
+			Action successCallback = () =>
+			{
+				onSuccess?.Invoke();
+				RemoveUserAttributesEvent?.Invoke();
+			};
+			
+			XsollaLogin.Instance.RemoveUserAttributes(token, projectId, attributeKeys, successCallback, onError);
 		}
 	#endregion
 
@@ -305,7 +374,13 @@ namespace Xsolla.Demo
 
 		public void CompleteAuthByPhoneNumber(string phoneNumber, string confirmationCode, string operationId, Action<string> onSuccess, Action<Error> onError = null)
 		{
-			XsollaLogin.Instance.CompleteAuthByPhoneNumber(phoneNumber, confirmationCode, operationId, onSuccess, onError);
+			Action<string> successCallback = token =>
+			{
+				onSuccess?.Invoke(token);
+				LoginEvent?.Invoke();
+			};
+			
+			XsollaLogin.Instance.CompleteAuthByPhoneNumber(phoneNumber, confirmationCode, operationId, successCallback, onError);
 		}
 
 		public void StartAuthByEmail(string email, string linkUrl, bool sendLink, Action<string> onSuccess, Action<Error> onError = null)
@@ -315,7 +390,13 @@ namespace Xsolla.Demo
 
 		public void CompleteAuthByEmail(string email, string confirmationCode, string operationId, Action<string> onSuccess, Action<Error> onError = null)
 		{
-			XsollaLogin.Instance.CompleteAuthByEmail(email, confirmationCode, operationId, onSuccess, onError);
+			Action<string> successCallback = token =>
+			{
+				onSuccess?.Invoke(token);
+				LoginEvent?.Invoke();
+			};
+			
+			XsollaLogin.Instance.CompleteAuthByEmail(email, confirmationCode, operationId, successCallback, onError);
 		}
 		#endregion
 	}

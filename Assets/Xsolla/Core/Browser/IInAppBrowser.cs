@@ -4,6 +4,12 @@ namespace Xsolla.Core
 {
 	public interface IInAppBrowser
 	{
+		event Action OpenEvent;
+
+		event Action CloseEvent;
+
+		event Action<string> UrlChangeEvent;
+		
 		bool IsOpened { get; }
 		
 		void Open(string url);
