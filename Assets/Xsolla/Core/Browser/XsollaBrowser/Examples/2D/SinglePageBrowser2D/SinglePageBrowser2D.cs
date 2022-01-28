@@ -3,7 +3,6 @@ using System.Collections;
 using PuppeteerSharp;
 using UnityEngine;
 using UnityEngine.UI;
-using Xsolla.Core.Popup;
 
 namespace Xsolla.Core.Browser
 {
@@ -18,6 +17,10 @@ namespace Xsolla.Core.Browser
 
 		public event Action<IXsollaBrowser> BrowserInitEvent;
 		public event Action BrowserClosedEvent;
+
+		public event Action<string, Action> AlertDialogEvent;
+		public event Action<string, Action, Action> ConfirmDialogEvent;
+		
 #pragma warning restore
 
 #if UNITY_EDITOR || UNITY_STANDALONE
@@ -186,7 +189,7 @@ namespace Xsolla.Core.Browser
 			Destroy(transform.parent.gameObject);
 		}
 
-		private static void HandleBrowserAlert(Dialog alert)
+		private void HandleBrowserAlert(Dialog alert)
 		{
 			switch (alert.DialogType)
 			{
@@ -208,23 +211,17 @@ namespace Xsolla.Core.Browser
 			}
 		}
 
-		private static void ShowSimpleAlertPopup(Dialog dialog)
+		private void ShowSimpleAlertPopup(Dialog dialog)
 		{
-			PopupFactory.Instance.CreateSuccess()
-				.SetTitle("Attention")
-				.SetMessage(dialog.Message)
-				.SetCallback(() => dialog.Accept());
+			AlertDialogEvent?.Invoke(dialog.Message, () => dialog.Accept());
 		}
 
-		private static void ShowConfirmAlertPopup(Dialog dialog)
+		private void ShowConfirmAlertPopup(Dialog dialog)
 		{
-			PopupFactory.Instance.CreateConfirmation()
-				.SetMessage(dialog.Message)
-				.SetConfirmCallback(() => dialog.Accept())
-				.SetCancelCallback(() => dialog.Dismiss());
+			ConfirmDialogEvent?.Invoke(dialog.Message, () => dialog.Accept(), () => dialog.Dismiss());
 		}
 
-		private static void CloseAlert(Dialog dialog)
+		private void CloseAlert(Dialog dialog)
 		{
 			Debug.Log("Browser alert was closed automatically");
 			dialog.Accept();

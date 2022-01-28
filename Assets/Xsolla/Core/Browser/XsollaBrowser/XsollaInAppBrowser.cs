@@ -13,17 +13,16 @@ namespace Xsolla.Core
 		[SerializeField] private GameObject BrowserPrefab = default;
 #if (UNITY_EDITOR || UNITY_STANDALONE)
 		private GameObject BrowserObject;
-
 		private SinglePageBrowser2D SinglePageBrowser;
-
 		private XsollaBrowser XsollaBrowser;
 
 		public event Action OpenEvent;
-		
 		public event Action CloseEvent;
-		
 		public event Action<string> UrlChangeEvent;
 		
+		public event Action<string, Action> AlertDialogEvent;
+		public event Action<string, Action, Action> ConfirmDialogEvent;
+
 		public bool IsOpened => BrowserObject;
 
 		private void OnDestroy()
@@ -34,7 +33,11 @@ namespace Xsolla.Core
 		public void Close(float delay = 0f)
 		{
 			if (SinglePageBrowser)
+			{
 				SinglePageBrowser.BrowserClosedEvent -= OnBrowserClosed;
+				SinglePageBrowser.AlertDialogEvent -= OnAlertDialogEvent;
+				SinglePageBrowser.ConfirmDialogEvent -= OnConfirmDialogEvent;
+			}
 			
 			if (XsollaBrowser)
 				XsollaBrowser.Navigate.UrlChangedEvent -= OnUrlChanged;
@@ -91,11 +94,13 @@ namespace Xsolla.Core
 			
 			SinglePageBrowser = BrowserObject.GetComponentInChildren<SinglePageBrowser2D>();
 			SinglePageBrowser.BrowserClosedEvent += OnBrowserClosed;
+			SinglePageBrowser.AlertDialogEvent += OnAlertDialogEvent;
+			SinglePageBrowser.ConfirmDialogEvent += OnConfirmDialogEvent;
 			
 			XsollaBrowser = BrowserObject.GetComponentInChildren<XsollaBrowser>();
 			XsollaBrowser.Navigate.UrlChangedEvent += OnUrlChanged;
 		}
-
+		
 		private void OnBrowserClosed()
 		{
 			CloseEvent?.Invoke();
@@ -104,6 +109,16 @@ namespace Xsolla.Core
 		private void OnUrlChanged(IXsollaBrowser browser, string url)
 		{
 			UrlChangeEvent?.Invoke(url);
+		}
+		
+		private void OnAlertDialogEvent(string message, Action acceptAction)
+		{
+			AlertDialogEvent?.Invoke(message, acceptAction);
+		}
+		
+		private void OnConfirmDialogEvent(string message, Action acceptAction, Action cancelAction)
+		{
+			ConfirmDialogEvent?.Invoke(message, acceptAction, cancelAction);
 		}
 #endif
 	}

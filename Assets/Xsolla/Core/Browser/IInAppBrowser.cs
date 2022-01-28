@@ -10,6 +10,10 @@ namespace Xsolla.Core
 
 		event Action<string> UrlChangeEvent;
 		
+		event Action<string, Action> AlertDialogEvent;
+		
+		event Action<string, Action, Action> ConfirmDialogEvent;
+		
 		bool IsOpened { get; }
 		
 		void Open(string url);
