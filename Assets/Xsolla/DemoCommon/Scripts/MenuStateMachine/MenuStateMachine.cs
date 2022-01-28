@@ -34,8 +34,6 @@ namespace Xsolla.Demo
 		[SerializeField] private GameObject cartMenuPrefab = default;
 		[SerializeField] private GameObject inventoryMenuPrefab = default;
 		[SerializeField] private GameObject profileMenuPrefab = default;
-		[SerializeField] private GameObject characterMenuPrefab = default;
-		[SerializeField] private GameObject characterMenuPrefabLoginSDK = default;
 		[SerializeField] private GameObject friendsMenuPrefab = default;
 		[SerializeField] private GameObject socialFriendsMenuPrefab = default;
 		[SerializeField] private GameObject loginSettingsErrorPrefab = default;
@@ -68,14 +66,10 @@ namespace Xsolla.Demo
 				{MenuState.Cart, cartMenuPrefab},
 				{MenuState.Inventory, inventoryMenuPrefab},
 				{MenuState.Profile, profileMenuPrefab},
-				{MenuState.Character, characterMenuPrefab},
 				{MenuState.Friends, friendsMenuPrefab},
 				{MenuState.SocialFriends, socialFriendsMenuPrefab},
 				{MenuState.LoginSettingsError, loginSettingsErrorPrefab},
 			};
-
-			if (DemoMarker.IsLoginDemo)
-				_stateMachine[MenuState.Character] = characterMenuPrefabLoginSDK;
 
 			if (_stateMachine[initialState] == null)
 			{

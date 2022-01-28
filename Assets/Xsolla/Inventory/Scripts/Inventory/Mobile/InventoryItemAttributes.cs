@@ -1,11 +1,11 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Xsolla.Demo
 {
 	public class InventoryItemAttributes : MonoBehaviour
 	{
-		[SerializeField] private AttributeItem AttributeItemPrefab = default;
+		[SerializeField] private AttributeItemUI AttributeItemPrefab = default;
 		[SerializeField] private Transform AttributesRoot = default;
 
 		private void Awake()

@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace Xsolla.Demo
 {
-	public class AttributeItem : MonoBehaviour
+	public class AttributeItemUI : MonoBehaviour
 	{
 		[SerializeField] bool _isReadOnly = default;
 		[SerializeField] InputField KeyInputField = default;
@@ -16,9 +16,9 @@ namespace Xsolla.Demo
 		private string _key;
 		private string _value;
 
-		public static Action<AttributeItem, string, string> OnKeyChanged;
-		public static Action<AttributeItem, string, string> OnValueChanged;
-		public static Action<AttributeItem> OnRemoveRequest;
+		public static Action<AttributeItemUI, string, string> OnKeyChanged;
+		public static Action<AttributeItemUI, string, string> OnValueChanged;
+		public static Action<AttributeItemUI> OnRemoveRequest;
 
 		public bool IsReadOnly
 		{
