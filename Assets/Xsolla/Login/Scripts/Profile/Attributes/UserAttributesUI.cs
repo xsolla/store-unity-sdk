@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Xsolla.Login;
 using Xsolla.UIBuilder;
 
@@ -24,6 +25,8 @@ namespace Xsolla.Demo
 		[Space]
 		[SerializeField] SimpleButton NewButton = default;
 		[SerializeField] SimpleButton SaveButton = default;
+		[Space]
+		[SerializeField] private RectTransform[] Layouts = default;
 
 		private const string DEFAULT_KEY = "CustomAttribute";
 		private const string DEFAULT_VALUE = "Custom value";
@@ -96,21 +99,28 @@ namespace Xsolla.Demo
 			foreach (var emptyObject in emptyObjects)
 				emptyObject.SetActive(!isFull);
 
-			if (!_isInitialized)
-			{
-				if (readOnly)
-					_initFlag += 10;
-				else
-					_initFlag += 1;
+			if (readOnly)
+				_initFlag |= 1;
+			else
+				_initFlag |= 10;
 
-				_isInitialized = _initFlag == 11;
-			}
+			_isInitialized = _initFlag == 11;
+
+			RebuildLayouts();
 		}
 
 		private void Show(bool readOnly)
 		{
 			ReadOnlyAttributesTab.SetActive(readOnly);
 			CustomAttributesTab.SetActive(!readOnly);
+
+			RebuildLayouts ();
+		}
+
+		private void RebuildLayouts()
+		{
+			foreach (var layout in Layouts)
+				LayoutRebuilder.ForceRebuildLayoutImmediate(layout);
 		}
 
 		private void HandleKeyChanged(AttributeItemUI attributeItem, string oldKey, string newKey)
