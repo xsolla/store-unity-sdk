@@ -18,6 +18,12 @@ namespace Xsolla.Core
 
 		private XsollaBrowser XsollaBrowser;
 
+		public event Action OpenEvent;
+		
+		public event Action CloseEvent;
+		
+		public event Action<string> UrlChangeEvent;
+		
 		public bool IsOpened => BrowserObject;
 
 		private void OnDestroy()
@@ -27,8 +33,16 @@ namespace Xsolla.Core
 
 		public void Close(float delay = 0f)
 		{
+			if (SinglePageBrowser)
+				SinglePageBrowser.BrowserClosedEvent -= OnBrowserClosed;
+			
+			if (XsollaBrowser)
+				XsollaBrowser.Navigate.UrlChangedEvent -= OnUrlChanged;
+			
 			if (BrowserObject)
 				Destroy(BrowserObject, delay);
+			
+			CloseEvent?.Invoke();
 		}
 
 		public void Open(string url)
@@ -37,6 +51,7 @@ namespace Xsolla.Core
 				CreateBrowser();
 
 			XsollaBrowser.Navigate.To(url);
+			OpenEvent?.Invoke();
 		}
 
 		public void AddCloseHandler(Action action)
@@ -73,8 +88,22 @@ namespace Xsolla.Core
 			}
 
 			BrowserObject = Instantiate(BrowserPrefab, canvas.transform);
+			
 			SinglePageBrowser = BrowserObject.GetComponentInChildren<SinglePageBrowser2D>();
+			SinglePageBrowser.BrowserClosedEvent += OnBrowserClosed;
+			
 			XsollaBrowser = BrowserObject.GetComponentInChildren<XsollaBrowser>();
+			XsollaBrowser.Navigate.UrlChangedEvent += OnUrlChanged;
+		}
+
+		private void OnBrowserClosed()
+		{
+			CloseEvent?.Invoke();
+		}
+
+		private void OnUrlChanged(IXsollaBrowser browser, string url)
+		{
+			UrlChangeEvent?.Invoke(url);
 		}
 #endif
 	}

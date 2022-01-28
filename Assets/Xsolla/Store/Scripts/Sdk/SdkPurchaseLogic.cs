@@ -8,6 +8,10 @@ namespace Xsolla.Demo
 {
 	public class SdkPurchaseLogic : MonoSingleton<SdkPurchaseLogic>
 	{
+		public event Action<CatalogItemModel> PurchaseForRealMoneyEvent;
+		public event Action<CatalogItemModel> PurchaseForVirtualCurrencyEvent;
+		public event Action<List<UserCartItem>> PurchaseCartEvent; 
+
 		public void PurchaseForRealMoney(CatalogItemModel item, RestrictedPaymentAllower restrictedPaymentAllower = null, Action<CatalogItemModel> onSuccess = null, Action<Error> onError = null)
 		{
 			XsollaStore.Instance.ItemPurchase(XsollaSettings.StoreProjectId, item.Sku,
@@ -31,6 +35,7 @@ namespace Xsolla.Demo
 						BrowserHelper.Instance.Close();
 
 					onSuccess?.Invoke(item);
+					PurchaseForRealMoneyEvent?.Invoke(item);
 				},
 				onError);
 			},
@@ -48,7 +53,11 @@ namespace Xsolla.Demo
 					OrderTracking.Instance.AddOrderForTracking(
 						XsollaSettings.StoreProjectId,
 						data.order_id,
-						() => onSuccess?.Invoke(item),
+						() =>
+						{
+							onSuccess?.Invoke(item);
+							PurchaseForVirtualCurrencyEvent?.Invoke(item);
+						},
 						onError
 					);
 				},
@@ -96,6 +105,7 @@ namespace Xsolla.Demo
 									BrowserHelper.Instance.Close();
 
 								onSuccess?.Invoke(items);
+								PurchaseCartEvent?.Invoke(items);
 							},
 							onError);
 

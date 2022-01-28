@@ -58,8 +58,8 @@ namespace Xsolla.Demo
 			SdkLoginLogic.Instance.SignInConsoleAccount(
 				userId: XsollaSettings.UsernameFromConsolePlatform,
 				platform: XsollaSettings.Platform.GetString(),
-				successCase: newToken => OnSuccessConsoleLogin(newToken, linkingResult),
-				failedCase: error => { linkingResult.IsLinked = false; StoreDemoPopup.ShowError(error); }
+				onSuccess: newToken => OnSuccessConsoleLogin(newToken, linkingResult),
+				onError: error => { linkingResult.IsLinked = false; StoreDemoPopup.ShowError(error); }
 			);
 		}
 
