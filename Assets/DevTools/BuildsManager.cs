@@ -49,7 +49,7 @@ namespace Xsolla
 
 		private static BuildTarget GetBuildTarget()
 		{
-			var envArg = GetEnvironmentArgument("customBuildTarget");
+			var envArg = GetEnvironmentArgument("buildTarget");
 			if (Enum.TryParse(envArg, out BuildTarget target))
 			{
 				return target;

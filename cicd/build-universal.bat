@@ -22,6 +22,6 @@ set UNITY_PATH="C:\Program Files\Unity\Hub\Editor\%UNITY_VERSION%\Editor\Unity.e
 echo %UNITY_PATH%
 
 echo "%UNITY_PATH% -batchmode -quit -projectPath %PROJECT_PATH% -customBuildPath "%BUILD_ROOT%" -customBuildTarget "%BUILD_TARGET%" -executeMethod Xsolla.BuildsManager.Build -logFile "%BUILD_LOG_PATH%""
-call %UNITY_PATH% -batchmode -quit -projectPath %PROJECT_PATH% -customBuildPath "%BUILD_ROOT%" -customBuildTarget "%BUILD_TARGET%" -executeMethod Xsolla.BuildsManager.Build -logFile "%BUILD_LOG_PATH%"
+call %UNITY_PATH% -batchmode -quit -projectPath %PROJECT_PATH% -customBuildPath "%BUILD_ROOT%" -buildTarget "%BUILD_TARGET%" -executeMethod Xsolla.BuildsManager.Build -logFile "%BUILD_LOG_PATH%" 
 
 exit /b %errorlevel%
