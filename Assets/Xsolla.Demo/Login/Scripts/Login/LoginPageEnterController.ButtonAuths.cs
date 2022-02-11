@@ -80,7 +80,7 @@ namespace Xsolla.Demo
 
 			object[] args = { username, password, rememberMe };
 
-			Action<string> onSuccessfulBasicAuth = token => SdkLoginLogic.Instance
+			Action<string> onSuccessfulBasicAuth = token => SdkAuthLogic.Instance
 				.ValidateToken(token, t => CompleteSuccessfulAuth(token, true, isSaveToken: rememberMe), ProcessError);
 			Action<Error> onFailedBasicAuth = ProcessError;
 
@@ -95,7 +95,7 @@ namespace Xsolla.Demo
 			IsAuthInProgress = true;
 			object[] args = { socialProvider };
 
-			Action<string> onSuccessfulSocialAuth = token => SdkLoginLogic.Instance
+			Action<string> onSuccessfulSocialAuth = token => SdkAuthLogic.Instance
 				.ValidateToken(token, t => CompleteSuccessfulAuth(token, isSaveToken: true), ProcessError);
 			Action<Error> onFailedSocialAuth = ProcessError;
 
@@ -116,7 +116,7 @@ namespace Xsolla.Demo
 			IsAuthInProgress = true;
 			PopupFactory.Instance.CreateWaiting().SetCloseCondition(() => IsAuthInProgress == false);
 
-			Action<string> onSuccessfulSteamAuth = token => SdkLoginLogic.Instance
+			Action<string> onSuccessfulSteamAuth = token => SdkAuthLogic.Instance
 				.ValidateToken(token, t => CompleteSuccessfulAuth(token, isSaveToken: true), ProcessError);
 			Action<Error> onFailedSteamAuth = ProcessError;
 
@@ -163,7 +163,7 @@ namespace Xsolla.Demo
 			IsAuthInProgress = true;
 			PopupFactory.Instance.CreateWaiting().SetCloseCondition(() => IsAuthInProgress == false);
 
-			Action<string> onSuccessfulDeviecIDAuth = token => SdkLoginLogic.Instance
+			Action<string> onSuccessfulDeviecIDAuth = token => SdkAuthLogic.Instance
 				.ValidateToken(token, t => CompleteSuccessfulAuth(token, isSaveToken: true), ProcessError);
 			Action<Error> onFailedDeviecIDAuth = ProcessError;
 
@@ -179,7 +179,7 @@ namespace Xsolla.Demo
 				return;
 			}
 
-			Action<string> onSuccessfulPasswordlessAuth = token => SdkLoginLogic.Instance
+			Action<string> onSuccessfulPasswordlessAuth = token => SdkAuthLogic.Instance
 				.ValidateToken(token, t => CompleteSuccessfulAuth(token, isSaveToken: true), ProcessError);
 			Action<Error> onFailedPasswordlessAuth = ProcessError;
 

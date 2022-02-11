@@ -91,7 +91,7 @@ namespace Xsolla.Demo
 					base.OnError?.Invoke(error);
 				};
 
-				SdkLoginLogic.Instance.Registration(username, password, email, onSuccess:onSuccessfulCreate, onError:onFailedCreate);
+				SdkAuthLogic.Instance.Registration(username, password, email, onSuccess:onSuccessfulCreate, onError:onFailedCreate);
 			}
 			else if (!isEmailValid)
 			{

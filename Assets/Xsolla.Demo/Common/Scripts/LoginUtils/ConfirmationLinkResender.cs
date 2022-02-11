@@ -1,8 +1,8 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 using Xsolla.Core;
 using Xsolla.Demo;
-using Debug = UnityEngine.Debug;
+using Debug = Xsolla.Core.Debug;
 
 public class ConfirmationLinkResender : MonoBehaviour
 {
@@ -29,12 +29,12 @@ public class ConfirmationLinkResender : MonoBehaviour
 
 	public void ResendRegistrationConfirmationEmail()
 	{
-		SdkLoginLogic.Instance.ResendConfirmationLink(LoginPageCreateController.LastEmail);
+		SdkAuthLogic.Instance.ResendConfirmationLink(LoginPageCreateController.LastEmail);
 	}
 
 	public void ResendPasswordResetEmail()
 	{
-		SdkLoginLogic.Instance.ResetPassword(LoginPageChangePasswordController.LastEmail);
+		SdkAuthLogic.Instance.ResetPassword(LoginPageChangePasswordController.LastEmail);
 	}
 
 	private void ReplaceEmailText(string email)

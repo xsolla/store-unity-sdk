@@ -31,7 +31,7 @@ namespace Xsolla.Demo
 		{
 			if (int.TryParse(XsollaSettings.SteamAppId, out _))
 			{
-				SdkLoginLogic.Instance.SteamAuth(XsollaSettings.SteamAppId, ticket, onSuccess:SuccessHandler, onError:FailHandler);
+				SdkAuthLogic.Instance.SteamAuth(XsollaSettings.SteamAppId, ticket, onSuccess:SuccessHandler, onError:FailHandler);
 			}
 			else
 			{

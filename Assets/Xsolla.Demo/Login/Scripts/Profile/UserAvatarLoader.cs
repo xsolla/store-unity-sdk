@@ -16,7 +16,7 @@ namespace Xsolla.Demo
 		private void Start()
 		{
 			var token = Token.Instance;
-			SdkLoginLogic.Instance.GetUserInfo(token, info =>
+			SdkAuthLogic.Instance.GetUserInfo(token, info =>
 			{
 				DrawAvatar(info.picture);
 			});

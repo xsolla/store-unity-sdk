@@ -30,7 +30,7 @@ namespace Xsolla.Demo
 			var deviceInfo = $"{deviceName}:{deviceModel}";
 			Debug.Log($"Trying device_type:'{deviceType}', device_id:'{deviceId}', device:'{deviceInfo}'");
 
-			SdkLoginLogic.Instance.AuthViaDeviceID(deviceType, deviceInfo, deviceId,
+			SdkAuthLogic.Instance.AuthViaDeviceID(deviceType, deviceInfo, deviceId,
 				onSuccess: SuccessHandler,
 				onError: FailHandler);
 		}

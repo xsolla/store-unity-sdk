@@ -67,7 +67,7 @@ namespace Xsolla.Demo
 			bool pendingBusy = true;
 			bool requestedBusy = true;
 
-			SdkLoginLogic.Instance.ValidateToken(
+			SdkAuthLogic.Instance.ValidateToken(
 				Token.Instance,
 				onSuccess: _ => isTokenValid = true,
 				onError: _ => isTokenValid = false
@@ -275,7 +275,7 @@ namespace Xsolla.Demo
 		public void SearchUsersByNickname(string nickname, [CanBeNull] Action<List<FriendModel>> onSuccess = null,
 			[CanBeNull] Action<Error> onError = null)
 		{
-			SdkLoginLogic.Instance.SearchUsersByNickname(nickname, onSuccess, onError);
+			SdkUserAccountLogic.Instance.SearchUsersByNickname(nickname, onSuccess, onError);
 		}
 	}
 }

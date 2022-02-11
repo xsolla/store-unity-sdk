@@ -16,7 +16,7 @@ namespace Xsolla.Demo
 
 			if (ResendEmailButton)
 			{
-				ResendEmailButton.onClick += () => SdkLoginLogic.Instance.ResendConfirmationLink(LoginPageEnterController.LastUsername);
+				ResendEmailButton.onClick += () => SdkAuthLogic.Instance.ResendConfirmationLink(LoginPageEnterController.LastUsername);
 				ResendEmailButton.gameObject.SetActive(false);
 			}
 		}

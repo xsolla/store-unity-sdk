@@ -58,7 +58,7 @@ namespace Xsolla.Demo
 				base.OnError?.Invoke(error);
 			};
 
-			SdkLoginLogic.Instance.ResetPassword(email, onSuccessfulPasswordChange, onFailedPasswordChange);
+			SdkAuthLogic.Instance.ResetPassword(email, onSuccessfulPasswordChange, onFailedPasswordChange);
 			IsPasswordChangeInProgress = false;
 		}
 	}
