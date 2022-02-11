@@ -20,7 +20,7 @@ namespace Xsolla.Demo
 
 		private void RequestToken()
 		{
-			SdkLoginLogic.Instance.SignInConsoleAccount(
+			SdkAuthLogic.Instance.SignInConsoleAccount(
 				userId: XsollaSettings.UsernameFromConsolePlatform,
 				platform: XsollaSettings.Platform.GetString(),
 				SuccessHandler,

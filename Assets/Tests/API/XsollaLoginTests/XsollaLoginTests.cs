@@ -20,7 +20,7 @@ namespace Tests
 			Action<string> onSuccess = _ => success = true;
 			Action<Error> onError = error => { errorMessage = error.errorMessage; success = false; };
 
-			XsollaLogin.Instance.SignIn("xsolla", "xsolla", false, null, null, onSuccess, onError);
+			XsollaAuth.Instance.SignIn("xsolla", "xsolla", false, null, null, onSuccess, onError);
 
 			yield return new WaitUntil(() => success.HasValue);
 
@@ -39,7 +39,7 @@ namespace Tests
 			Action<string> onSuccess = _ => success = true;
 			Action<Error> onError = error => { errorMessage = error.errorMessage; success = false; };
 
-			XsollaLogin.Instance.SignIn("asdfsdf", "pcwefd", false, null, null, onSuccess, onError);
+			XsollaAuth.Instance.SignIn("asdfsdf", "pcwefd", false, null, null, onSuccess, onError);
 
 			yield return new WaitUntil(() => success.HasValue);
 
@@ -58,7 +58,7 @@ namespace Tests
 
 			Action<string> onSuccessLogin = token => { demoUserToken = token; success = true; };
 			Action<Error> onErrorLogin = error => { errorMessage = error.errorMessage; success = false; };
-			XsollaLogin.Instance.SignIn("xsolla", "xsolla", false, null, null, onSuccessLogin, onErrorLogin);
+			XsollaAuth.Instance.SignIn("xsolla", "xsolla", false, null, null, onSuccessLogin, onErrorLogin);
 
 			yield return new WaitUntil(() => success.HasValue);
 
@@ -68,7 +68,7 @@ namespace Tests
 			success = default;
 			Action<UserInfo> onSuccess = _ => success = true;
 			Action<Error> onError = error => { errorMessage = error.errorMessage; success = false; };
-			XsollaLogin.Instance.GetUserInfo(demoUserToken, onSuccess, onError);
+			XsollaAuth.Instance.GetUserInfo(demoUserToken, onSuccess, onError);
 
 			yield return new WaitUntil(() => success.HasValue);
 

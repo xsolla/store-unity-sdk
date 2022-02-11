@@ -9,7 +9,7 @@ namespace Xsolla.Demo
 	#if UNITY_ANDROID
 		private void Start()
 		{
-			SdkLoginLogic.Instance.GetUserInfo(Token.Instance,
+			SdkAuthLogic.Instance.GetUserInfo(Token.Instance,
 				onSuccess: info =>
 				{
 					if (string.IsNullOrEmpty(info.email))

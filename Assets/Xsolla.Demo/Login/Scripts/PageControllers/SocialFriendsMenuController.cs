@@ -91,7 +91,7 @@ namespace Xsolla.Demo
 						network.RefreshState();
 			};
 
-			SdkLoginLogic.Instance.PurgeSocialProvidersCache();
+			SdkUserAccountLogic.Instance.PurgeSocialProvidersCache();
 			UserFriends.Instance.UpdateFriends(onFriendsUpdate, StoreDemoPopup.ShowError);
 		}
 	}

@@ -25,7 +25,7 @@ namespace Xsolla.Demo
 
 			getAccountLinkButton.onClick += () =>
 			{
-				SdkLoginLogic.Instance.RequestLinkingCode(
+				SdkUserAccountLogic.Instance.RequestLinkingCode(
 					code => StoreDemoPopup.ShowSuccess($"YOUR CODE: {code.code}"),
 					StoreDemoPopup.ShowError);
 			};
@@ -43,7 +43,7 @@ namespace Xsolla.Demo
 					var linkingResult = new LinkingResultContainer();
 					PopupFactory.Instance.CreateWaiting().SetCloseCondition(() => linkingResult.IsLinked != null);
 
-					SdkLoginLogic.Instance.LinkConsoleAccount(
+					SdkUserAccountLogic.Instance.LinkConsoleAccount(
 						userId: XsollaSettings.UsernameFromConsolePlatform,
 						platform: XsollaSettings.Platform.GetString(),
 						confirmationCode: code,
@@ -55,7 +55,7 @@ namespace Xsolla.Demo
 
 		private void LinkingAccountHandler(LinkingResultContainer linkingResult)
 		{
-			SdkLoginLogic.Instance.SignInConsoleAccount(
+			SdkAuthLogic.Instance.SignInConsoleAccount(
 				userId: XsollaSettings.UsernameFromConsolePlatform,
 				platform: XsollaSettings.Platform.GetString(),
 				onSuccess: newToken => OnSuccessConsoleLogin(newToken, linkingResult),
@@ -65,7 +65,7 @@ namespace Xsolla.Demo
 
 		private void OnSuccessConsoleLogin(string newToken, LinkingResultContainer linkingResult)
 		{
-			SdkLoginLogic.Instance.ValidateToken(
+			SdkAuthLogic.Instance.ValidateToken(
 				token: newToken,
 				onSuccess: validToken => ApplyNewToken(validToken, linkingResult),
 				onError: error => { linkingResult.IsLinked = false; StoreDemoPopup.ShowError(error); });

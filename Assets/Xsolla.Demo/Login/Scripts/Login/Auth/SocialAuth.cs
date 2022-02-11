@@ -20,7 +20,7 @@ namespace Xsolla.Demo
 			{
 				HotkeyCoroutine.Lock();
 
-				string url = SdkLoginLogic.Instance.GetSocialNetworkAuthUrl(provider);
+				string url = SdkAuthLogic.Instance.GetSocialNetworkAuthUrl(provider);
 				Debug.Log($"Social url: {url}");
 
 				var browser = BrowserHelper.Instance.InAppBrowser;
@@ -82,7 +82,7 @@ namespace Xsolla.Demo
 			else if (XsollaSettings.AuthorizationType == AuthorizationType.OAuth2_0 && ParseUtils.TryGetValueFromUrl(newUrl, ParseParameter.code, out var code))
 			{
 				Debug.Log($"We take{Environment.NewLine}from URL:{newUrl}{Environment.NewLine}code = {code}");
-				SdkLoginLogic.Instance.ExchangeCodeToToken(
+				SdkAuthLogic.Instance.ExchangeCodeToToken(
 					code,
 					onSuccessExchange: socialToken => StartCoroutine(SuccessAuthCoroutine(socialToken)),
 					onError: error => { Debug.LogError(error.errorMessage); base.OnError?.Invoke(error); }

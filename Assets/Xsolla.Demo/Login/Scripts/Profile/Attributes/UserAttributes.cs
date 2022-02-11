@@ -94,10 +94,10 @@ namespace Xsolla.Demo
 			Action<List<UserAttribute>> onSuccessGetReadonly = readOnlyAttributes =>
 			{
 				Action<List<UserAttribute>> onSuccessGetCustom = customAttributes => FinalizeUpdate(readOnlyAttributes, customAttributes, error: null);
-				SdkLoginLogic.Instance.GetUserAttributes(token, projectId, UserAttributeType.CUSTOM, attributeKeys, userId, onSuccessGetCustom, onErrorGet);
+				SdkUserAccountLogic.Instance.GetUserAttributes(token, projectId, UserAttributeType.CUSTOM, attributeKeys, userId, onSuccessGetCustom, onErrorGet);
 			};
 
-			SdkLoginLogic.Instance.GetUserAttributes(token, projectId, UserAttributeType.READONLY, attributeKeys, userId, onSuccessGetReadonly, onErrorGet);
+			SdkUserAccountLogic.Instance.GetUserAttributes(token, projectId, UserAttributeType.READONLY, attributeKeys, userId, onSuccessGetReadonly, onErrorGet);
 		}
 
 		//TEXTREVIEW
@@ -426,7 +426,7 @@ namespace Xsolla.Demo
 
 			string token = Token.Instance;
 			string projectId = XsollaSettings.StoreProjectId;
-			SdkLoginLogic.Instance.RemoveUserAttributes(token, projectId, _removedAttributes, onSuccessRemove, onError);
+			SdkUserAccountLogic.Instance.RemoveUserAttributes(token, projectId, _removedAttributes, onSuccessRemove, onError);
 		}
 
 		private void PushModifiedChanges(Action onSuccess, Action<Error> onError)
@@ -439,7 +439,7 @@ namespace Xsolla.Demo
 
 			string token = Token.Instance;
 			string projectId = XsollaSettings.StoreProjectId;
-			SdkLoginLogic.Instance.UpdateUserAttributes(token, projectId, _modifiedAttributes, onSuccessUpdate, onError);
+			SdkUserAccountLogic.Instance.UpdateUserAttributes(token, projectId, _modifiedAttributes, onSuccessUpdate, onError);
 		}
 
 		private void FinalizePush(Action onSuccess)

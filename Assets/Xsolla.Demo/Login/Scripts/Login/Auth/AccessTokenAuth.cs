@@ -9,7 +9,7 @@ namespace Xsolla.Demo
 		{
 			if (TryExtractArgs(args, out string email))
 			{
-				SdkLoginLogic.Instance.AccessTokenAuth(email, AccessTokenAuthSuccess, AccessTokenAuthFailed);
+				SdkAuthLogic.Instance.AccessTokenAuth(email, AccessTokenAuthSuccess, AccessTokenAuthFailed);
 			}
 			else
 			{

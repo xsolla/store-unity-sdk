@@ -1,403 +1,204 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
 using Xsolla.Core;
 using Xsolla.Login;
 
 namespace Xsolla.Demo
 {
-    public class SdkLoginLogic : MonoSingleton<SdkLoginLogic>
+	public class SdkLoginLogic : MonoSingleton<SdkLoginLogic>
 	{
 		private const int NETWORKS_CACHE_TIMEOUT = 5;
 
-		public event Action RegistrationEvent;
-		public event Action LoginEvent;
+		[Obsolete("Use SdkAuthLogic instead")]
+		public event Action RegistrationEvent
+		{
+			add => SdkAuthLogic.Instance.RegistrationEvent += value;
+			remove => SdkAuthLogic.Instance.RegistrationEvent -= value;
+		}
 
-		public event Action UpdateUserInfoEvent;
-		
-		public event Action UpdateUserAttributesEvent;
-		public event Action RemoveUserAttributesEvent;
+		[Obsolete("Use SdkAuthLogic instead")]
+		public event Action LoginEvent
+		{
+			add => SdkAuthLogic.Instance.LoginEvent += value;
+			remove => SdkAuthLogic.Instance.LoginEvent -= value;
+		}
 
-	#region Token
+		[Obsolete("Use SdkAuthLogic instead")]
+		public event Action UpdateUserInfoEvent
+		{
+			add => SdkAuthLogic.Instance.UpdateUserInfoEvent += value;
+			remove => SdkAuthLogic.Instance.UpdateUserInfoEvent -= value;
+		}
+
+		[Obsolete("Use SdkUserAccountLogic instead")]
+		public event Action UpdateUserAttributesEvent
+		{
+			add => SdkUserAccountLogic.Instance.UpdateUserAttributesEvent += value;
+			remove => SdkUserAccountLogic.Instance.UpdateUserAttributesEvent -= value;
+		}
+
+		[Obsolete("Use SdkUserAccountLogic instead")]
+		public event Action RemoveUserAttributesEvent
+		{
+			add => SdkUserAccountLogic.Instance.RemoveUserAttributesEvent += value;
+			remove => SdkUserAccountLogic.Instance.RemoveUserAttributesEvent -= value;
+		}
+
+		#region Token
+		[Obsolete("Use SdkAuthLogic instead")]
 		public void ValidateToken(string token, Action<string> onSuccess = null, Action<Error> onError = null)
-		{
-			GetUserInfo(token, useCache: false, onSuccess: info => onSuccess?.Invoke(token), onError: onError);
-		}
-	#endregion
+			=> SdkAuthLogic.Instance.ValidateToken(token, onSuccess, onError);
+		#endregion
 
-	#region User
+		#region User
+		[Obsolete("Use SdkAuthLogic instead")]
 		public void GetUserInfo(string token, Action<UserInfo> onSuccess = null, Action<Error> onError = null)
-		{
-			GetUserInfo(token, useCache: true, onSuccess, onError);
-		}
+			=> SdkAuthLogic.Instance.GetUserInfo(token, onSuccess, onError);
 
-		private readonly Dictionary<string, UserInfo> _userCache = new Dictionary<string, UserInfo>();
+		[Obsolete("Use SdkAuthLogic instead")]
 		public void GetUserInfo(string token, bool useCache, Action<UserInfo> onSuccess, Action<Error> onError = null)
-		{
-			if (useCache && _userCache.ContainsKey(token))
-				onSuccess?.Invoke(_userCache[token]);
-			else
-				XsollaLogin.Instance.GetUserInfo(token, info =>
-				{
-					_userCache[token] = info;
-					onSuccess?.Invoke(info);
-				}, onError);
-		}
+			=> SdkAuthLogic.Instance.GetUserInfo(token, useCache, onSuccess, onError);
 
+		[Obsolete("Use SdkAuthLogic instead")]
 		public void UpdateUserInfo(string token, UserInfoUpdate info, Action<UserInfo> onSuccess, Action<Error> onError = null)
-		{
-			Action<UserInfo> successCallback = userInfo =>
-			{
-				_userCache[token] = userInfo;
-				onSuccess?.Invoke(userInfo);
-				UpdateUserInfoEvent?.Invoke();
-			};
+			=> SdkAuthLogic.Instance.UpdateUserInfo(token, info, onSuccess, onError);
 
-			XsollaLogin.Instance.UpdateUserInfo(token, info, successCallback, onError);
-
-		}
-
+		[Obsolete("Use SdkUserAccountLogic instead")]
 		public void GetPublicInfo(string token, string user, Action<UserPublicInfo> onSuccess, Action<Error> onError = null)
-		{
-			XsollaLogin.Instance.GetPublicInfo(token, user, onSuccess, onError = null);
-		}
+			=> SdkUserAccountLogic.Instance.GetPublicInfo(token, user, onSuccess, onError);
 
+		[Obsolete("Use SdkAuthLogic instead")]
 		public void Registration(string username, string password, string email, string state = null, Action onSuccess = null, Action<Error> onError = null)
-		{
-			Action successCallback = () =>
-			{
-				onSuccess?.Invoke();
-				RegistrationEvent?.Invoke();
-			};
-			
-			XsollaLogin.Instance.Registration(username, password, email, null, state, null, true, true, null, successCallback, onError);
-		}
-		
+			=> SdkAuthLogic.Instance.Registration(username, password, email, state, onSuccess, onError);
+
+		[Obsolete("Use SdkAuthLogic instead")]
 		public void Registration(string username, string password, string email, string state = null, Action<int> onSuccess = null, Action<Error> onError = null)
-		{
-			Action<int> successCallback = responseCode =>
-			{
-				onSuccess?.Invoke(responseCode);
-				RegistrationEvent?.Invoke();
-			};
-			
-			XsollaLogin.Instance.Registration(username, password, email, null, state, null, true, true, null, successCallback, onError);
-		}
+			=> SdkAuthLogic.Instance.Registration(username, password, email, state, onSuccess, onError);
 
+		[Obsolete("Use SdkAuthLogic instead")]
 		public void Registration(string username, string password, string email, string state = null, Action<LoginUrlResponse> onSuccess = null, Action<Error> onError = null)
-		{
-			Action<LoginUrlResponse> successCallback = response =>
-			{
-				onSuccess?.Invoke(response);
-				RegistrationEvent?.Invoke();
-			};
-			
-			XsollaLogin.Instance.Registration(username, password, email, null, state, null, true, true, null, successCallback, onError);
-		}
+			=> SdkAuthLogic.Instance.Registration(username, password, email, state, onSuccess, onError);
 
+		[Obsolete("Use SdkAuthLogic instead")]
 		public void SignIn(string username, string password, bool rememberUser, Action<string> onSuccess, Action<Error> onError = null)
-		{
-			Action<string> successCallback = token =>
-			{
-				onSuccess?.Invoke(token);
-				LoginEvent?.Invoke();
-			};
-			
-			XsollaLogin.Instance.SignIn(username, password, rememberUser, null, null, successCallback, onError);
-		}
+			=> SdkAuthLogic.Instance.SignIn(username, password, rememberUser, onSuccess, onError);
 
+		[Obsolete("Use SdkAuthLogic instead")]
 		public void AccessTokenAuth(string email, Action onSuccess, Action<Error> onError = null)
-		{
-			var authParams = new AccessTokenAuthParams()
-			{
-				parameters = new Dictionary<string, object>() { { "email", email } }
-			};
-			
-			Action successCallback = () =>
-			{
-				onSuccess?.Invoke();
-				LoginEvent?.Invoke();
-			};
+			=> SdkAuthLogic.Instance.AccessTokenAuth(email, onSuccess, onError);
 
-			XsollaLogin.Instance.GetUserAccessToken(authParams, successCallback, onError);
-		}
-
+		[Obsolete("Use SdkAuthLogic instead")]
 		public void ResetPassword(string username, Action onSuccess = null, Action<Error> onError = null)
-		{
-			XsollaLogin.Instance.ResetPassword(username, null, onSuccess, onError);
-		}
+			=> SdkAuthLogic.Instance.ResetPassword(username, onSuccess, onError);
 
+		[Obsolete("Use SdkAuthLogic instead")]
 		public void ResendConfirmationLink(string username, Action onSuccess = null, Action<Error> onError = null)
-		{
-			XsollaLogin.Instance.ResendConfirmationLink(username, null, null, null, onSuccess, onError);
-		}
+			=> SdkAuthLogic.Instance.ResendConfirmationLink(username, onSuccess, onError);
 
+		[Obsolete("Use SdkUserAccountLogic instead")]
 		public void ChangeUserPhoneNumber(string token, string phoneNumber, Action onSuccess, Action<Error> onError)
-		{
-			XsollaLogin.Instance.ChangeUserPhoneNumber(token, phoneNumber, onSuccess, onError);
-		}
+			=> SdkUserAccountLogic.Instance.ChangeUserPhoneNumber(token, phoneNumber, onSuccess, onError);
 
+		[Obsolete("Use SdkUserAccountLogic instead")]
 		public void DeleteUserPhoneNumber(string token, string phoneNumber, Action onSuccess, Action<Error> onError)
-		{
-			XsollaLogin.Instance.DeleteUserPhoneNumber(token, phoneNumber, onSuccess, onError);
-		}
+			=> SdkUserAccountLogic.Instance.DeleteUserPhoneNumber(token, phoneNumber, onSuccess, onError);
 
+		[Obsolete("Use SdkUserAccountLogic instead")]
 		public void SearchUsersByNickname(string nickname, Action<List<FriendModel>> onSuccess = null, Action<Error> onError = null)
-		{
-			nickname = Uri.EscapeDataString(nickname);
+			=> SdkUserAccountLogic.Instance.SearchUsersByNickname(nickname, onSuccess, onError);
+		#endregion
 
-			XsollaLogin.Instance.SearchUsers(Token.Instance, nickname, 0, 20,
-				onSuccess: users =>
-				{
-					onSuccess?.Invoke(users.users.Where(u => !u.is_me).Select(u =>
-					{
-						var result = new FriendModel
-						{
-							Id = u.user_id,
-							AvatarUrl = u.avatar,
-							Nickname = u.nickname,
-							Tag = u.tag
-						};
-						var user = UserFriends.Instance.GetUserById(result.Id);
-						result.Status = user?.Status ?? UserOnlineStatus.Unknown;
-						result.Relationship = user?.Relationship ?? UserRelationship.Unknown;
-						return result;
-					}).ToList());
-				},
-				onError: onError);
-		}
-	#endregion
-
-	#region Social
+		#region Social
+		[Obsolete("Use SdkAuthLogic instead")]
 		public void SteamAuth(string appId, string sessionTicket, string state = null, Action<string> onSuccess = null, Action<Error> onError = null)
-		{
-			Action<string> successCallback = token =>
-			{
-				onSuccess?.Invoke(token);
-				LoginEvent?.Invoke();
-			};
-			
-			XsollaLogin.Instance.SteamAuth(appId: appId, sessionTicket: sessionTicket, oauthState: state, payload: null, onSuccess: successCallback, onError: onError);
-		}
+			=> SdkAuthLogic.Instance.SteamAuth(appId, sessionTicket, state, onSuccess, onError);
 
+		[Obsolete("Use SdkAuthLogic instead")]
 		public void AuthViaDeviceID(Core.DeviceType deviceType, string deviceName, string deviceId, string payload = null, string state = null, Action<string> onSuccess = null, Action<Error> onError = null)
-		{
-			Action<string> successCallback = token =>
-			{
-				onSuccess?.Invoke(token);
-				LoginEvent?.Invoke();
-			};
-			
-			XsollaLogin.Instance.AuthViaDeviceID(deviceType, deviceName, deviceId, payload, state, successCallback, onError);
-		}
+			=> SdkAuthLogic.Instance.AuthViaDeviceID(deviceType, deviceName, deviceId, payload, state, onSuccess, onError);
 
+		[Obsolete("Use SdkAuthLogic instead")]
 		public string GetSocialNetworkAuthUrl(SocialProvider socialProvider)
-		{
-			return XsollaLogin.Instance.GetSocialNetworkAuthUrl(socialProvider);
-		}
+			=> SdkAuthLogic.Instance.GetSocialNetworkAuthUrl(socialProvider);
 
+		[Obsolete("Use SdkUserAccountLogic instead")]
 		public void LinkSocialProvider(SocialProvider socialProvider, Action<SocialProvider> onSuccess, Action<Error> onError = null)
-		{
-			if (!EnvironmentDefiner.IsStandaloneOrEditor)
-			{
-				var errorMessage = "LinkSocialProvider: This functionality is not supported elswere except Editor and Standalone build";
-				Debug.LogError(errorMessage);
-				onError?.Invoke(new Error(ErrorType.MethodIsNotAllowed, errorMessage: errorMessage));
-				return;
-			}
+			=> SdkUserAccountLogic.Instance.LinkSocialProvider(socialProvider, onSuccess, onError);
 
-			Action<string> urlCallback = url =>
-			{
-				var browser = BrowserHelper.Instance.InAppBrowser;
-				if (browser == null)
-				{
-					var message = "LinkSocialProvider: Can not obtain in-built browser";
-					Debug.LogError(message);
-					onError?.Invoke(new Error(ErrorType.MethodIsNotAllowed, errorMessage: message));
-					return;
-				}
+		[Obsolete("Use SdkUserAccountLogic instead")]
+		public void PurgeSocialProvidersCache()
+			=> SdkUserAccountLogic.Instance.PurgeSocialProvidersCache();
 
-				browser.Open(url);
-				browser.AddInitHandler(() =>
-				{
-					browser.AddUrlChangeHandler(newUrl =>
-					{
-						Debug.Log($"URL = {newUrl}");
-
-						if (ParseUtils.TryGetValueFromUrl(newUrl, ParseParameter.token, out _))
-						{
-							browser.Close();
-							HotkeyCoroutine.Unlock();
-							onSuccess?.Invoke(socialProvider);
-							return;
-						}
-
-						if (ParseUtils.TryGetValueFromUrl(newUrl, ParseParameter.error_code, out string errorCode) &&
-							ParseUtils.TryGetValueFromUrl(newUrl, ParseParameter.error_description, out string errorDescription))
-						{
-							browser.Close();
-							HotkeyCoroutine.Unlock();
-							onError?.Invoke(new Error(statusCode: errorCode, errorMessage: errorDescription));
-						}
-					});
-				});
-			};
-
-			XsollaLogin.Instance.LinkSocialProvider(socialProvider,urlCallback,onError);
-		}
-
-		private List<LinkedSocialNetwork> _networksCache;
-		private DateTime _networksCacheTime;
-		private bool _networksCacheInProgress;
-
-		public void PurgeSocialProvidersCache() => _networksCache = null;
-
+		[Obsolete("Use SdkUserAccountLogic instead")]
 		public void GetLinkedSocialProviders(Action<List<LinkedSocialNetwork>> onSuccess, Action<Error> onError = null)
-		{
-			if (_networksCacheInProgress)
-			{
-				StartCoroutine(WaitLinkedSocialProviders(onSuccess));
-				return;
-			}
-			if ((DateTime.Now - _networksCacheTime).Seconds > NETWORKS_CACHE_TIMEOUT || _networksCache == null)
-			{
-				_networksCacheInProgress = true;
-				XsollaLogin.Instance.GetLinkedSocialProviders(networks =>
-				{
-					_networksCache = networks;
-					_networksCacheTime = DateTime.Now;
-					onSuccess?.Invoke(_networksCache);
-					_networksCacheInProgress = false;
-				}, error =>
-				{
-					if (_networksCache == null)
-						_networksCache = new List<LinkedSocialNetwork>();
-					onError?.Invoke(error);
-					_networksCacheInProgress = false;
-				});
-			}
-			else
-			{
-				onSuccess?.Invoke(_networksCache);
-			}
-		}
+			=> SdkUserAccountLogic.Instance.GetLinkedSocialProviders(onSuccess, onError);
+		#endregion
 
-		private IEnumerator WaitLinkedSocialProviders(Action<List<LinkedSocialNetwork>> onSuccess)
-		{
-			yield return new WaitWhile(() => _networksCacheInProgress);
-			onSuccess?.Invoke(_networksCache);
-		}
-
-	#endregion
-
-	#region AccountLinking
+		#region AccountLinking
+		[Obsolete("Use SdkAuthLogic instead")]
 		public void SignInConsoleAccount(string userId, string platform, Action<string> onSuccess, Action<Error> onError)
-		{
-			Action<string> successCallback = token =>
-			{
-				onSuccess?.Invoke(token);
-				LoginEvent?.Invoke();
-			};
-			
-			XsollaLogin.Instance.SignInConsoleAccount(userId, platform, successCallback, onError);
-		}
+			=> SdkAuthLogic.Instance.SignInConsoleAccount(userId, platform, onSuccess, onError);
 
+		[Obsolete("Use SdkUserAccountLogic instead")]
 		public void RequestLinkingCode(Action<LinkingCode> onSuccess, Action<Error> onError)
-		{
-			XsollaLogin.Instance.RequestLinkingCode(onSuccess, onError);
-		}
+			=> SdkUserAccountLogic.Instance.RequestLinkingCode(onSuccess, onError);
 
+		[Obsolete("Use SdkUserAccountLogic instead")]
 		public void LinkConsoleAccount(string userId, string platform, string confirmationCode, Action onSuccess, Action<Error> onError)
-		{
-			XsollaLogin.Instance.LinkConsoleAccount(userId, platform, confirmationCode, onSuccess, onError);
-		}
-	#endregion
+			=> SdkUserAccountLogic.Instance.LinkConsoleAccount(userId, platform, confirmationCode, onSuccess, onError);
+		#endregion
 
-	#region Attributes
+		#region Attributes
+		[Obsolete("Use SdkUserAccountLogic instead")]
 		public void GetUserAttributes(string token, string projectId, UserAttributeType attributeType,
 			List<string> attributeKeys, string userId, Action<List<UserAttribute>> onSuccess, Action<Error> onError)
-		{
-			XsollaLogin.Instance.GetUserAttributes(token, projectId, attributeType, attributeKeys, userId, onSuccess, onError);
-		}
+			=> SdkUserAccountLogic.Instance.GetUserAttributes(token, projectId, attributeType, attributeKeys, userId, onSuccess, onError);
 
+		[Obsolete("Use SdkUserAccountLogic instead")]
 		public void UpdateUserAttributes(string token, string projectId, List<UserAttribute> attributes, Action onSuccess, Action<Error> onError)
-		{
-			Action successCallback = () =>
-			{
-				onSuccess?.Invoke();
-				UpdateUserAttributesEvent?.Invoke();
-			};
-			
-			XsollaLogin.Instance.UpdateUserAttributes(token, projectId, attributes, successCallback, onError);
-		}
+			=> SdkUserAccountLogic.Instance.UpdateUserAttributes(token, projectId, attributes, onSuccess, onError);
 
+		[Obsolete("Use SdkUserAccountLogic instead")]
 		public void RemoveUserAttributes(string token, string projectId, List<string> attributeKeys, Action onSuccess, Action<Error> onError)
-		{
-			Action successCallback = () =>
-			{
-				onSuccess?.Invoke();
-				RemoveUserAttributesEvent?.Invoke();
-			};
-			
-			XsollaLogin.Instance.RemoveUserAttributes(token, projectId, attributeKeys, successCallback, onError);
-		}
-	#endregion
+			=> SdkUserAccountLogic.Instance.RemoveUserAttributes(token, projectId, attributeKeys, onSuccess, onError);
+		#endregion
 
-	#region OAuth2.0
-		public bool IsOAuthTokenRefreshInProgress => XsollaLogin.Instance.IsOAuthTokenRefreshInProgress;
+		#region OAuth2.0
+		[Obsolete("Use SdkAuthLogic instead")]
+		public bool IsOAuthTokenRefreshInProgress
+			=> SdkAuthLogic.Instance.IsOAuthTokenRefreshInProgress;
 
+		[Obsolete("Use SdkAuthLogic instead")]
 		public void ExchangeCodeToToken(string code, Action<string> onSuccessExchange = null, Action<Error> onError = null)
-		{
-			XsollaLogin.Instance.ExchangeCodeToToken(code, onSuccessExchange, onError);
-		}
-	#endregion
+			=> SdkAuthLogic.Instance.ExchangeCodeToToken(code, onSuccessExchange, onError);
+		#endregion
 
-	#region Picture
+		#region Picture
+		[Obsolete("Use SdkUserAccountLogic instead")]
 		public void UploadUserPicture(string token, byte[] pictureData, string boundary, Action<string> onSuccess, Action<Error> onError)
-		{
-			XsollaLogin.Instance.UploadUserPicture(token, pictureData, boundary, onSuccess, onError);
-		}
+			=> SdkUserAccountLogic.Instance.UploadUserPicture(token, pictureData, boundary, onSuccess, onError);
 
+		[Obsolete("Use SdkUserAccountLogic instead")]
 		public void DeleteUserPicture(string token, Action onSuccess, Action<Error> onError)
-		{
-			XsollaLogin.Instance.DeleteUserPicture(token, onSuccess, onError);
-		}
+			=> SdkUserAccountLogic.Instance.DeleteUserPicture(token, onSuccess, onError);
 		#endregion
 
 		#region Passwordless
+		[Obsolete("Use SdkAuthLogic instead")]
 		public void StartAuthByPhoneNumber(string phoneNumber, string linkUrl, bool sendLink, Action<string> onSuccess, Action<Error> onError = null)
-		{
-			XsollaLogin.Instance.StartAuthByPhoneNumber(phoneNumber, linkUrl, sendLink, onSuccess, onError);
-		}
+			=> SdkAuthLogic.Instance.StartAuthByPhoneNumber(phoneNumber, linkUrl, sendLink, onSuccess, onError);
 
+		[Obsolete("Use SdkAuthLogic instead")]
 		public void CompleteAuthByPhoneNumber(string phoneNumber, string confirmationCode, string operationId, Action<string> onSuccess, Action<Error> onError = null)
-		{
-			Action<string> successCallback = token =>
-			{
-				onSuccess?.Invoke(token);
-				LoginEvent?.Invoke();
-			};
-			
-			XsollaLogin.Instance.CompleteAuthByPhoneNumber(phoneNumber, confirmationCode, operationId, successCallback, onError);
-		}
+			=> SdkAuthLogic.Instance.CompleteAuthByPhoneNumber(phoneNumber, confirmationCode, operationId, onSuccess, onError);
 
+		[Obsolete("Use SdkAuthLogic instead")]
 		public void StartAuthByEmail(string email, string linkUrl, bool sendLink, Action<string> onSuccess, Action<Error> onError = null)
-		{
-			XsollaLogin.Instance.StartAuthByEmail(email, linkUrl, sendLink, onSuccess, onError);
-		}
+			=> SdkAuthLogic.Instance.StartAuthByEmail(email, linkUrl, sendLink, onSuccess, onError);
 
+		[Obsolete("Use SdkAuthLogic instead")]
 		public void CompleteAuthByEmail(string email, string confirmationCode, string operationId, Action<string> onSuccess, Action<Error> onError = null)
-		{
-			Action<string> successCallback = token =>
-			{
-				onSuccess?.Invoke(token);
-				LoginEvent?.Invoke();
-			};
-			
-			XsollaLogin.Instance.CompleteAuthByEmail(email, confirmationCode, operationId, successCallback, onError);
-		}
+			=> SdkAuthLogic.Instance.CompleteAuthByEmail(email, confirmationCode, operationId, onSuccess, onError);
 		#endregion
 	}
 }

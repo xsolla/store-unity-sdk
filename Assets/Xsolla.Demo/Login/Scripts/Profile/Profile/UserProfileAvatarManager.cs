@@ -39,7 +39,7 @@ namespace Xsolla.Demo
 			bool? isUserPictureUrlObtained = null;
 
 			var token = Token.Instance;
-			SdkLoginLogic.Instance.GetUserInfo(token,
+			SdkAuthLogic.Instance.GetUserInfo(token,
 				onSuccess: info =>
 				{
 					pictureUrl = info.picture;
@@ -91,7 +91,7 @@ namespace Xsolla.Demo
 			byte[] data = ConvertToData(sprite, out string boundary);
 
 			var token = Token.Instance;
-			SdkLoginLogic.Instance.UploadUserPicture(token, data, boundary,
+			SdkUserAccountLogic.Instance.UploadUserPicture(token, data, boundary,
 				onSuccess: imageInfo =>
 				{
 					var packedInfo = ParseUtils.FromJson<UserImageUpload>(imageInfo);
@@ -124,7 +124,7 @@ namespace Xsolla.Demo
 			ShowWaiting(() => isPictureDeleted == null);
 
 			var token = Token.Instance;
-			SdkLoginLogic.Instance.DeleteUserPicture(token,
+			SdkUserAccountLogic.Instance.DeleteUserPicture(token,
 				onSuccess: () =>
 				{
 					SetPictureUrlToInfo(null,
@@ -150,7 +150,7 @@ namespace Xsolla.Demo
 		private void SetPictureUrlToInfo(string pictureUrl, Action onSuccess = null, Action onError = null)
 		{
 			var token = Token.Instance;
-			SdkLoginLogic.Instance.GetUserInfo(token,
+			SdkAuthLogic.Instance.GetUserInfo(token,
 				onSuccess: info =>
 				{
 					info.picture = pictureUrl;

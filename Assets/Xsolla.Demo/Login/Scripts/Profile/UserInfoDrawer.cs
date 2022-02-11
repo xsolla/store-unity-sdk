@@ -24,7 +24,7 @@ namespace Xsolla.Demo
 
 			var busy = true;
 			var token = Core.Token.Instance;
-			SdkLoginLogic.Instance.GetUserInfo(token, info =>
+			SdkAuthLogic.Instance.GetUserInfo(token, info =>
 			{
 				DrawInfo(info);
 				busy = false;

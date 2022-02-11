@@ -14,7 +14,7 @@ namespace Xsolla.Demo
 			{
 				if (IsEmailValid(email))
 				{
-					SdkLoginLogic.Instance.StartAuthByEmail(
+					SdkAuthLogic.Instance.StartAuthByEmail(
 						email:email,
 						linkUrl: null,
 						sendLink:false,
@@ -64,7 +64,7 @@ namespace Xsolla.Demo
 
 		private void OnCode(string code)
 		{
-			SdkLoginLogic.Instance.CompleteAuthByEmail(
+			SdkAuthLogic.Instance.CompleteAuthByEmail(
 				email: _currentEmail,
 				confirmationCode: code,
 				operationId: _currentOperationID,

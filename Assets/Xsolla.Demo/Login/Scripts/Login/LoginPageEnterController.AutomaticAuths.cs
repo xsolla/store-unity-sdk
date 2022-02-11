@@ -40,7 +40,7 @@ namespace Xsolla.Demo
 			};
 
 			Action<string> onSuccessfulAutomaticAuth = token =>
-				SdkLoginLogic.Instance.ValidateToken(token, onSuccess: validToken => CompleteSuccessfulAuth(validToken), onError: _ => onFailedAutomaticAuth.Invoke(null));
+				SdkAuthLogic.Instance.ValidateToken(token, onSuccess: validToken => CompleteSuccessfulAuth(validToken), onError: _ => onFailedAutomaticAuth.Invoke(null));
 
 			switch (_autoAuthState)
 			{

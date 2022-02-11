@@ -15,7 +15,7 @@ namespace Xsolla.Demo
 			{
 				if (IsPhoneValid(phone))
 				{
-					SdkLoginLogic.Instance.StartAuthByPhoneNumber(
+					SdkAuthLogic.Instance.StartAuthByPhoneNumber(
 						phoneNumber:phone,
 						linkUrl: null,
 						sendLink:false,
@@ -71,7 +71,7 @@ namespace Xsolla.Demo
 
 		private void OnCode(string code)
 		{
-			SdkLoginLogic.Instance.CompleteAuthByPhoneNumber(
+			SdkAuthLogic.Instance.CompleteAuthByPhoneNumber(
 				phoneNumber: _currentPhone,
 				confirmationCode: code,
 				operationId: _currentOperationID,
