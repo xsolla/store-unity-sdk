@@ -9,7 +9,7 @@ namespace Xsolla.Login
 			"https://login.xsolla.com/api/login/device/{0}?projectId={1}{2}&with_logout={3}";
 
 		private const string URL_OAUTH_DEVICE_ID_AUTH =
-			"https://login.xsolla.com/api/oauth2/login/device/{0}?client_id={1}&response_type=code&state={2}&redirect_uri=https://login.xsolla.com/api/blank&scope=offline";
+			"https://login.xsolla.com/api/oauth2/login/device/{0}?client_id={1}&response_type=code&state={2}&redirect_uri={3}&scope=offline";
 
 		/// <summary>
 		/// Authenticates a user via a particular device ID. To enable authentication, contact your Account Manager.
@@ -60,8 +60,9 @@ namespace Xsolla.Login
 		{
 			var clientId = XsollaSettings.OAuthClientId;
 			var stateUrlParam = state ?? DEFAULT_OAUTH_STATE;
+			var redirectParam = (!string.IsNullOrEmpty(XsollaSettings.CallbackUrl)) ? XsollaSettings.CallbackUrl : DEFAULT_REDIRECT_URI;
 
-			var url = string.Format(URL_OAUTH_DEVICE_ID_AUTH, deviceType, clientId, stateUrlParam);
+			var url = string.Format(URL_OAUTH_DEVICE_ID_AUTH, deviceType, clientId, stateUrlParam, redirectParam);
 
 			WebRequestHelper.Instance.PostRequest<LoginUrlResponse, LoginDeviceIdRequest>(SdkType.Login, url, requestBody,
 				onComplete: (response) =>

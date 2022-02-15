@@ -15,16 +15,16 @@ namespace Xsolla.Login
 		private const string URL_JWT_RESEND_CONFIRMATION_LINK = "https://login.xsolla.com/api/user/resend_confirmation_link?projectId={0}&login_url={1}{2}";
 		private const string URL_OAUTH_RESEND_CONFIRMATION_LINK = "https://login.xsolla.com/api/oauth2/user/resend_confirmation_link?client_id={0}&state={1}&redirect_uri={2}";
 		private const string URL_JWT_USER_SOCIAL_NETWORK_TOKEN_AUTH = "https://login.xsolla.com/api/social/{0}/login_with_token?projectId={1}&payload={2}&with_logout={3}";
-		private const string URL_OAUTH_USER_SOCIAL_NETWORK_TOKEN_AUTH = "https://login.xsolla.com/api/oauth2/social/{0}/login_with_token?client_id={1}&response_type=code&redirect_uri=https://login.xsolla.com/api/blank&state={2}&scope=offline";
+		private const string URL_OAUTH_USER_SOCIAL_NETWORK_TOKEN_AUTH = "https://login.xsolla.com/api/oauth2/social/{0}/login_with_token?client_id={1}&response_type=code&redirect_uri={2}&state={3}&scope=offline";
 		private const string URL_GET_ACCESS_TOKEN = "{0}/login";
 		private const string URL_OAUTH_LOGOUT = "https://login.xsolla.com/api/oauth2/logout?sessions={0}";
 
 		private const string URL_JWT_START_AUTH_BY_EMAIL = "https://login.xsolla.com/api/login/email/request?projectId={0}&login_url={1}&with_logout={2}&payload={3}";
-		private const string URL_OAUTH_START_AUTH_BY_EMAIL = "https://login.xsolla.com/api/oauth2/login/email/request?response_type=code&client_id={0}&scope=offline&state={1}&redirect_uri=https://login.xsolla.com/api/blank";
+		private const string URL_OAUTH_START_AUTH_BY_EMAIL = "https://login.xsolla.com/api/oauth2/login/email/request?response_type=code&client_id={0}&scope=offline&state={1}&redirect_uri={2}";
 		private const string URL_JWT_COMPLETE_AUTH_BY_EMAIL = "https://login.xsolla.com/api/login/email/confirm?projectId={0}";
 		private const string URL_OAUTH_COMPLETE_AUTH_BY_EMAIL = "https://login.xsolla.com/api/oauth2/login/email/confirm?client_id={0}";
 		private const string URL_JWT_START_AUTH_BY_PHONE_NUMBER = "https://login.xsolla.com/api/login/phone/request?projectId={0}&login_url={1}&with_logout={2}&payload={3}";
-		private const string URL_OAUTH_START_AUTH_BY_PHONE_NUMBER = "https://login.xsolla.com/api/oauth2/login/phone/request?response_type=code&client_id={0}&scope=offline&state={1}&redirect_uri=https://login.xsolla.com/api/blank";
+		private const string URL_OAUTH_START_AUTH_BY_PHONE_NUMBER = "https://login.xsolla.com/api/oauth2/login/phone/request?response_type=code&client_id={0}&scope=offline&state={1}&redirect_uri={2}";
 		private const string URL_JWT_COMPLETE_AUTH_BY_PHONE_NUMBER = "https://login.xsolla.com/api/login/phone/confirm?projectId={0}";
 		private const string URL_OAUTH_COMPLETE_AUTH_BY_PHONE_NUMBER = "https://login.xsolla.com/api/oauth2/login/phone/confirm?client_id={0}";
 
@@ -197,7 +197,8 @@ namespace Xsolla.Login
 		{
 			var data = new StartAuthByEmailRequest(email, linkUrl, sendLink);
 			var state = oauthState ?? DEFAULT_OAUTH_STATE;
-			var url = string.Format(URL_OAUTH_START_AUTH_BY_EMAIL, XsollaSettings.OAuthClientId, state);
+			var redirectParam = (!string.IsNullOrEmpty(XsollaSettings.CallbackUrl)) ? XsollaSettings.CallbackUrl : DEFAULT_REDIRECT_URI;
+			var url = string.Format(URL_OAUTH_START_AUTH_BY_EMAIL, XsollaSettings.OAuthClientId, state, redirectParam);
 
 			WebRequestHelper.Instance.PostRequest<StartAuthByEmailResponse, StartAuthByEmailRequest>(
 				SdkType.Login,
@@ -306,7 +307,8 @@ namespace Xsolla.Login
 		{
 			var data = new StartAuthByPhoneNumberRequest(phoneNumber, linkUrl, sendLink);
 			var state = oauthState ?? DEFAULT_OAUTH_STATE;
-			var url = string.Format(URL_OAUTH_START_AUTH_BY_PHONE_NUMBER, XsollaSettings.OAuthClientId, state);
+			var redirectParam = (!string.IsNullOrEmpty(XsollaSettings.CallbackUrl)) ? XsollaSettings.CallbackUrl : DEFAULT_REDIRECT_URI;
+			var url = string.Format(URL_OAUTH_START_AUTH_BY_PHONE_NUMBER, XsollaSettings.OAuthClientId, state, redirectParam);
 
 			WebRequestHelper.Instance.PostRequest<StartAuthByPhoneNumberResponse, StartAuthByPhoneNumberRequest>(
 				SdkType.Login,
@@ -477,7 +479,8 @@ namespace Xsolla.Login
 		private void OAuthAuthWithSocialNetworkAccessToken(string accessToken, string accessTokenSecret, string openId, string providerName, string oauthState, Action<string> onSuccess, Action<Error> onError)
 		{
 			var state = oauthState ?? DEFAULT_OAUTH_STATE;
-			var url = string.Format(URL_OAUTH_USER_SOCIAL_NETWORK_TOKEN_AUTH, providerName, XsollaSettings.OAuthClientId, state);
+			var redirectParam = (!string.IsNullOrEmpty(XsollaSettings.CallbackUrl)) ? XsollaSettings.CallbackUrl : DEFAULT_REDIRECT_URI;
+			var url = string.Format(URL_OAUTH_USER_SOCIAL_NETWORK_TOKEN_AUTH, providerName, XsollaSettings.OAuthClientId, redirectParam, state);
 
 			var requestData = new SocialNetworkAccessTokenRequest
 			{
