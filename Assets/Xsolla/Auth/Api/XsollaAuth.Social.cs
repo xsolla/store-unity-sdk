@@ -114,7 +114,7 @@ namespace Xsolla.Login
 				case AuthorizationType.OAuth2_0:
 					var clientIdParam = XsollaSettings.OAuthClientId;
 					var stateParam = (!string.IsNullOrEmpty(oauthState)) ? oauthState : DEFAULT_OAUTH_STATE;
-					var redirectUriParam = DEFAULT_REDIRECT_URI;
+					var redirectUriParam = !string.IsNullOrEmpty(XsollaSettings.CallbackUrl) ? XsollaSettings.CallbackUrl : DEFAULT_REDIRECT_URI;
 					result = string.Format(URL_OAUTH_SOCIAL_AUTH, providerName.GetParameter(), clientIdParam, stateParam, redirectUriParam);
 					break;
 				default:

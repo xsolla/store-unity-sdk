@@ -9,7 +9,7 @@ namespace Xsolla.Login
 		private const string URL_JWT_USER_REGISTRATION = "https://login.xsolla.com/api/{0}?projectId={1}&login_url={2}{3}";
 		private const string URL_OAUTH_USER_REGISTRATION = "https://login.xsolla.com/api/oauth2/user?response_type=code&client_id={0}&state={1}&redirect_uri={2}";
 		private const string URL_JWT_USER_SIGNIN = "https://login.xsolla.com/api/{0}login?projectId={1}&login_url={2}{3}&with_logout={4}";
-		private const string URL_OAUTH_USER_SIGNIN = "https://login.xsolla.com/api/oauth2/login/token?client_id={0}&scope=offline";
+		private const string URL_OAUTH_USER_SIGNIN = "https://login.xsolla.com/api/oauth2/login/token?client_id={0}&scope=offline{1}";
 		private const string URL_USER_INFO = "https://login.xsolla.com/api/users/me";
 		private const string URL_PASSWORD_RESET = "https://login.xsolla.com/api/{0}?projectId={1}&login_url={2}";
 		private const string URL_JWT_RESEND_CONFIRMATION_LINK = "https://login.xsolla.com/api/user/resend_confirmation_link?projectId={0}&login_url={1}{2}";
@@ -149,7 +149,8 @@ namespace Xsolla.Login
 		private void OAuthSignIn(string username, string password, string redirectUri, Action<string> onSuccess, Action<Error> onError)
 		{
 			var loginData = new LoginRequest(username, password);
-			var url = string.Format(URL_OAUTH_USER_SIGNIN, XsollaSettings.OAuthClientId);
+			var redirectUriParam = (!string.IsNullOrEmpty(redirectUri)) ? $"&redirect_uri={redirectUri}" : string.Empty;
+			var url = string.Format(URL_OAUTH_USER_SIGNIN, XsollaSettings.OAuthClientId, redirectUriParam);
 
 			Action<LoginOAuthJsonResponse> successCallback = response =>
 			{
