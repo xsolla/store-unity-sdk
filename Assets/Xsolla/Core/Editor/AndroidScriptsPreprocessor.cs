@@ -19,6 +19,7 @@ namespace Xsolla.Core.Editor
 #if UNITY_ANDROID
 			Debug.Log("Xsolla SDK is now preprocessing native Android scripts.");
 			SetupWechatActivity();
+			SetupPaymentsProxyActivity();
 #endif
 		}
 
@@ -46,6 +47,30 @@ namespace Xsolla.Core.Editor
 			var editedScriptContent = Regex.Replace(scriptContent, "package.+;", string.Format("package {0}.wxapi;", androidPackageName));
 
 			File.WriteAllText(wechatActivityScriptPath, editedScriptContent);
+		}
+		
+		private void SetupPaymentsProxyActivity()
+		{
+			var activityScriptPath = Path.Combine(FindAndroidScripts(Application.dataPath).Replace("\\", "/"), "AndroidPaymentsProxy.java");
+			if (!File.Exists(activityScriptPath))
+			{
+				Debug.LogError("Android Payments Proxy activity script is missing.");
+				return;
+			}
+
+			var assetPath = "Assets" + activityScriptPath.Substring(Application.dataPath.Length);
+			var activityAsset = AssetImporter.GetAtPath(assetPath) as PluginImporter;
+			if (activityAsset != null)
+			{
+				activityAsset.SetCompatibleWithPlatform(BuildTarget.Android, true);
+				activityAsset.SaveAndReimport();
+			}
+
+			var scriptContent = File.ReadAllText(activityScriptPath);
+			var androidPackageName = Application.identifier;
+			var editedScriptContent = Regex.Replace(scriptContent, "package.+;", $"package {androidPackageName}.androidProxies;");
+
+			File.WriteAllText(activityScriptPath, editedScriptContent);
 		}
 
 		static string FindAndroidScripts(string path)

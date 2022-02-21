@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 namespace Xsolla.Core
 {
@@ -25,6 +26,16 @@ namespace Xsolla.Core
 			if (XsollaSettings.AndroidRedirectPolicySettings.IsOverride)
 			{
 				return XsollaSettings.AndroidRedirectPolicySettings.CreatePolicy();
+			}
+			else
+			{
+				return new RedirectPolicy{
+					return_url = $"app://xpayment.{Application.identifier}",
+					redirect_conditions = RedirectConditionsType.Any.ToString().ToLowerInvariant(),
+					delay = 0,
+					status_for_manual_redirection = StatusForManualRedirectionType.None.ToString().ToLowerInvariant(),
+					redirect_button_caption = string.Empty
+				};
 			}
 #elif UNITY_WEBGL
 			if (XsollaSettings.WebglRedirectPolicySettings.IsOverride)

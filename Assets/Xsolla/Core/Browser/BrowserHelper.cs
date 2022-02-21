@@ -55,6 +55,18 @@ namespace Xsolla.Core
 
 		public void OpenPurchase(string url, string token, bool forcePlatformBrowser = false, Action<int> onRestrictedPaymentMethod = null)
 		{
+#if UNITY_ANDROID
+			if (!Application.isEditor && XsollaSettings.InAppBrowserEnabled)
+			{
+				using (var sdkHelper = new AndroidSDKPaymentsHelper())
+				{
+					sdkHelper.PerformPayment(token, XsollaSettings.IsSandbox);
+				}
+
+				return;
+			}
+#endif
+
 #if UNITY_WEBGL
 			if((Application.platform == RuntimePlatform.WebGLPlayer) && XsollaSettings.InAppBrowserEnabled)
 			{
