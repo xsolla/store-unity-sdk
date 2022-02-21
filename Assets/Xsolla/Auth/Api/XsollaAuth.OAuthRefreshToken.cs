@@ -230,12 +230,13 @@ namespace Xsolla.Login
 			IsOAuthTokenRefreshInProgress = true;
 
 			var clientId = XsollaSettings.OAuthClientId;
+			var redirectUri = !string.IsNullOrEmpty(XsollaSettings.CallbackUrl) ? XsollaSettings.CallbackUrl : DEFAULT_REDIRECT_URI;
 
 			var requestData = new WWWForm();
 
 			requestData.AddField("grant_type", "authorization_code");
 			requestData.AddField("client_id", clientId);
-			requestData.AddField("redirect_uri", DEFAULT_REDIRECT_URI);
+			requestData.AddField("redirect_uri", redirectUri);
 			requestData.AddField("code", code);
 
 			SendOAuthGenerateJwtRequest(requestData, onSuccessExchange, onError);
