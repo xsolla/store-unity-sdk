@@ -1,8 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Xsolla.Login
+namespace Xsolla.UserAccount
 {
 	[Serializable]
 	public class ModifyAttributesJson

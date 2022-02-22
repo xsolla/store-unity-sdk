@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Xsolla.Store;
+using Xsolla.Core;
 
 namespace Xsolla.Demo
 {

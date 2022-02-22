@@ -1,6 +1,6 @@
 using System;
 
-namespace Xsolla.Login
+namespace Xsolla.UserAccount
 {
 	/// <summary>
 	/// Public user info entity.

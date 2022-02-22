@@ -1,10 +1,8 @@
 using System;
-using System.Collections;
-using System.Globalization;
 using UnityEngine;
 using UnityEngine.UI;
 using Xsolla.Core;
-using Xsolla.Store;
+using Xsolla.Subscriptions;
 
 namespace Xsolla.Demo
 {

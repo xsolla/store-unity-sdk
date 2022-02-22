@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace Xsolla.Core
+namespace Xsolla.Core.Editor
 {
 	public partial class XsollaSettingsEditor : UnityEditor.Editor
 	{

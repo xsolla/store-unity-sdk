@@ -1,7 +1,7 @@
 using Newtonsoft.Json;
 using System;
 
-namespace Xsolla.Login
+namespace Xsolla.Auth
 {
 	[Serializable]
 	public class LoginRequest

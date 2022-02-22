@@ -3,8 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Xsolla.Catalog;
 using Xsolla.Core;
-using Xsolla.Store;
 
 namespace Xsolla.Demo
 {
@@ -22,7 +22,7 @@ namespace Xsolla.Demo
 
 		public void GetVirtualCurrencies(Action<List<VirtualCurrencyModel>> onSuccess, Action<Error> onError = null)
 		{
-			XsollaStore.Instance.GetVirtualCurrencyList(XsollaSettings.StoreProjectId, items =>
+			XsollaCatalog.Instance.GetVirtualCurrencyList(XsollaSettings.StoreProjectId, items =>
 			{
 				var currencies = items.items.ToList();
 				if (currencies.Any())
@@ -58,7 +58,7 @@ namespace Xsolla.Demo
 
 		public void GetCatalogVirtualCurrencyPackages(Action<List<CatalogVirtualCurrencyModel>> onSuccess, Action<Error> onError = null)
 		{
-			XsollaStore.Instance.GetVirtualCurrencyPackagesList(XsollaSettings.StoreProjectId, packages =>
+			XsollaCatalog.Instance.GetVirtualCurrencyPackagesList(XsollaSettings.StoreProjectId, packages =>
 			{
 				var currencies = new List<CatalogVirtualCurrencyModel>();
 				packages.items.ForEach(p =>
@@ -100,7 +100,7 @@ namespace Xsolla.Demo
 			{
 				if (!_refreshBundlesInProgress)
 				{
-					XsollaStore.Instance.GetBundles(XsollaSettings.StoreProjectId, bundles =>
+					XsollaCatalog.Instance.GetBundles(XsollaSettings.StoreProjectId, bundles =>
 					{
 						var bundleItems = new List<CatalogBundleItemModel>();
 						bundles.items.ToList().ForEach(b =>
@@ -164,7 +164,7 @@ namespace Xsolla.Demo
 				if (!_refreshItemsInProgress)
 				{
 					_refreshItemsInProgress = true;
-					XsollaStore.Instance.GetCatalog(XsollaSettings.StoreProjectId, items =>
+					XsollaCatalog.Instance.GetCatalog(XsollaSettings.StoreProjectId, items =>
 					{
 						_refreshItemsInProgress = false;
 						_itemsCacheTime = DateTime.Now;

@@ -1,4 +1,4 @@
-namespace Xsolla.Login
+namespace Xsolla.UserAccount
 {
 	/// <summary>
 	/// Type of the action.

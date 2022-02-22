@@ -1,7 +1,7 @@
 using System;
 using Newtonsoft.Json;
 
-namespace Xsolla.Login
+namespace Xsolla.Auth
 {
 	[Serializable]
 	public class StartAuthByPhoneNumberRequest

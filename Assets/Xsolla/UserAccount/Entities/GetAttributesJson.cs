@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
-using UnityEngine;
 
-namespace Xsolla.Login
+namespace Xsolla.UserAccount
 {
 	[Serializable]
 	public class GetAttributesJson

@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using Xsolla.Core.Browser;
 
-namespace Xsolla.Core
+namespace Xsolla.Core.Browser
 {
 #if (UNITY_EDITOR || UNITY_STANDALONE)
 	public class XsollaInAppBrowser : MonoBehaviour, IInAppBrowser

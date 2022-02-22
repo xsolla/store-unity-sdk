@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
+using Xsolla.Auth;
 using Xsolla.Core;
-using Xsolla.Login;
+using Xsolla.UserAccount;
 
 namespace Xsolla.Demo
 {

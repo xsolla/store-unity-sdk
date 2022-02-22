@@ -1,7 +1,7 @@
 using System;
 using Xsolla.Core;
 
-namespace Xsolla.Login
+namespace Xsolla.UserAccount
 {
 	public partial class XsollaUserAccount : MonoSingleton<XsollaUserAccount>
 	{

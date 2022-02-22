@@ -1,6 +1,6 @@
-﻿using System;
+using System;
 
-namespace Xsolla.Login
+namespace Xsolla.Core
 {
 	[Serializable]
 	public class UserInfoUpdate

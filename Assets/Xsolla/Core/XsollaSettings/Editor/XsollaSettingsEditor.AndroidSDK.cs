@@ -2,7 +2,7 @@
 using UnityEngine;
 using Facebook.Unity.Editor;
 
-namespace Xsolla.Core
+namespace Xsolla.Core.Editor
 {
 	public partial class XsollaSettingsEditor : UnityEditor.Editor
 	{

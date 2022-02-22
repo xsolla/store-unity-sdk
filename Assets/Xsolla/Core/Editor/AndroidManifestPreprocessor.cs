@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 using System.IO;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
 using UnityEngine;
 
-namespace Xsolla.Core
+namespace Xsolla.Core.Editor
 {
 	public class AndroidManifestPreprocessor : IPreprocessBuildWithReport
 	{

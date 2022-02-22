@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using Xsolla.Core;
 
-namespace Xsolla.Login
+namespace Xsolla.Auth
 {
 	public partial class XsollaAuth : MonoSingleton<XsollaAuth>
 	{

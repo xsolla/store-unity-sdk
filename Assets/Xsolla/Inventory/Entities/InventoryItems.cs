@@ -1,6 +1,6 @@
-﻿using System;
+using System;
 
-namespace Xsolla.Store
+namespace Xsolla.Inventory
 {
 	[Serializable]
 	public class InventoryItems

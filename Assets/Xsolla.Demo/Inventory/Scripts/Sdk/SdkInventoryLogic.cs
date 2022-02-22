@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Xsolla.Catalog;
 using Xsolla.Core;
-using Xsolla.Store;
+using Xsolla.Inventory;
+using Xsolla.Subscriptions;
 
 namespace Xsolla.Demo
 {
@@ -10,7 +12,7 @@ namespace Xsolla.Demo
     {
 		public void GetInventoryItems(Action<List<InventoryItemModel>> onSuccess, Action<Error> onError = null)
 		{
-			XsollaStore.Instance.GetInventoryItems(XsollaSettings.StoreProjectId, items =>
+			XsollaInventory.Instance.GetInventoryItems(XsollaSettings.StoreProjectId, items =>
 			{
 				var inventoryItems = items.items.Where(i => !i.IsVirtualCurrency() && !i.IsSubscription()).Select(
 					i => new InventoryItemModel
@@ -31,7 +33,7 @@ namespace Xsolla.Demo
 
 		public void GetVirtualCurrencyBalance(Action<List<VirtualCurrencyBalanceModel>> onSuccess, Action<Error> onError = null)
 		{
-			XsollaStore.Instance.GetVirtualCurrencyBalance(XsollaSettings.StoreProjectId, balances =>
+			XsollaInventory.Instance.GetVirtualCurrencyBalance(XsollaSettings.StoreProjectId, balances =>
 			{
 				var result = balances.items.ToList().Select(b => new VirtualCurrencyBalanceModel
 				{
@@ -48,7 +50,7 @@ namespace Xsolla.Demo
 
 		public void GetUserSubscriptions(Action<List<UserSubscriptionModel>> onSuccess, Action<Error> onError = null)
 		{
-			XsollaStore.Instance.GetSubscriptions(XsollaSettings.StoreProjectId, items =>
+			XsollaSubscriptions.Instance.GetSubscriptions(XsollaSettings.StoreProjectId, items =>
 			{
 				var subscriptionItems = items.items.Select(i => new UserSubscriptionModel
 				{
@@ -74,14 +76,14 @@ namespace Xsolla.Demo
 				quantity = count
 			};
 
-			XsollaStore.Instance.ConsumeInventoryItem(XsollaSettings.StoreProjectId, consumeItem,
+			XsollaInventory.Instance.ConsumeInventoryItem(XsollaSettings.StoreProjectId, consumeItem,
 				onSuccess: () => onSuccess?.Invoke(item),
 				onError);
 		}
 
 		public void RedeemCouponCode(string couponCode, Action<List<CouponRedeemedItemModel>> onSuccess, Action<Error> onError)
 		{
-			XsollaStore.Instance.RedeemCouponCode(XsollaSettings.StoreProjectId, new CouponCode { coupon_code = couponCode },
+			XsollaCatalog.Instance.RedeemCouponCode(XsollaSettings.StoreProjectId, new CouponCode { coupon_code = couponCode },
 				onSuccess: redeemedItems =>
 				{
 					var redeemedItemModels = redeemedItems.items.Select(

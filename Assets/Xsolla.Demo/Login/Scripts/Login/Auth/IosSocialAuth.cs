@@ -1,8 +1,8 @@
-﻿using System;
+using System;
 using System.Runtime.InteropServices;
 using UnityEngine;
+using Xsolla.Auth;
 using Xsolla.Core;
-using Xsolla.Login;
 
 namespace Xsolla.Demo
 {

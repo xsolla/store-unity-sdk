@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 
-namespace Xsolla.Login
+namespace Xsolla.Core
 {
 	[Serializable]
 	public class UserInfo

@@ -1,4 +1,4 @@
-﻿#if UNITY_IOS
+#if UNITY_IOS
 
 using System;
 using System.ComponentModel.Design.Serialization;
@@ -8,7 +8,7 @@ using UnityEditor.Callbacks;
 using UnityEditor.iOS.Xcode;
 using UnityEngine;
 
-namespace Xsolla.Core
+namespace Xsolla.Core.Editor
 {
 	public static class iOSBuildPostProcess
 	{
@@ -22,12 +22,12 @@ namespace Xsolla.Core
 				var project = new PBXProject();
 				project.ReadFromFile(projectPath);
 
-	#if UNITY_2019_3_OR_NEWER
+#if UNITY_2019_3_OR_NEWER
 				var targetGuid = project.GetUnityFrameworkTargetGuid();
-	#else
+#else
 				var targetName = PBXProject.GetUnityTargetName();
 				var targetGuid = project.TargetGuidByName(targetName);
-	#endif
+#endif
 				project.SetBuildProperty(targetGuid, "ENABLE_BITCODE", "NO");
 				project.SetBuildProperty(targetGuid, "SWIFT_OBJC_BRIDGING_HEADER", "Libraries/Xsolla/Core/Plugins/iOS/Scripts/XsollaSDKLoginKitUnity-Bridging-Header.h");
 				project.SetBuildProperty(targetGuid, "SWIFT_OBJC_INTERFACE_HEADER_NAME", "XsollaSDKLoginKitUnity-Swift.h");

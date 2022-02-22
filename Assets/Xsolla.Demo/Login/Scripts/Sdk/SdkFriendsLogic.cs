@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Xsolla.Core;
-using Xsolla.Login;
+using Xsolla.UserAccount;
 
 namespace Xsolla.Demo
 {

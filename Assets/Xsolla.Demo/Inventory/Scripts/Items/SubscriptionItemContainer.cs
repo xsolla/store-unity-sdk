@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-using Xsolla.Store;
+using Xsolla.Subscriptions;
 
 namespace Xsolla.Demo
 {

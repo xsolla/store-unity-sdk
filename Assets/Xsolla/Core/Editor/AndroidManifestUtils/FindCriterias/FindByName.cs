@@ -1,7 +1,7 @@
-﻿using System;
+using System;
 using System.Xml;
 
-namespace Xsolla.Core
+namespace Xsolla.Core.Editor
 {
 	public class FindByName : IFindCriteria<XmlNode>
 	{
