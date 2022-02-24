@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Xsolla.Login
+namespace Xsolla.UserAccount
 {
 	/// <summary>
 	/// User's social friends entity.

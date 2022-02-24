@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Xsolla.Core
+namespace Xsolla.Core.Android
 {
 	public class AndroidSDKRefreshTokenCallback : AndroidJavaProxy
 	{

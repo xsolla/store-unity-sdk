@@ -1,6 +1,6 @@
-﻿using System;
+using System;
 
-namespace Xsolla.Login
+namespace Xsolla.Auth
 {
 	[Serializable]
 	public class ResetPassword

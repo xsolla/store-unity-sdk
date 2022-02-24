@@ -1,10 +1,8 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using UnityEngine;
 using Xsolla.Core;
-using Xsolla.Login;
+using Xsolla.UserAccount;
 
 namespace Xsolla.Demo
 {

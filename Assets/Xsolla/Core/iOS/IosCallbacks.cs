@@ -1,7 +1,7 @@
-﻿using System;
+using System;
 using AOT;
 
-namespace Xsolla.Core
+namespace Xsolla.Core.iOS
 {
 	public static class IosCallbacks
 	{

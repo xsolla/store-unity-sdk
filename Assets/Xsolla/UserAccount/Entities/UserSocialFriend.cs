@@ -1,7 +1,7 @@
 using System;
 using JetBrains.Annotations;
 
-namespace Xsolla.Login
+namespace Xsolla.UserAccount
 {
 	/// <summary>
 	/// User's social friend entity.

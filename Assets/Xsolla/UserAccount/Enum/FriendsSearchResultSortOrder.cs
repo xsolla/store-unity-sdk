@@ -1,4 +1,4 @@
-namespace Xsolla.Login
+namespace Xsolla.UserAccount
 {
 	/// <summary>
 	/// Condition for sorting users

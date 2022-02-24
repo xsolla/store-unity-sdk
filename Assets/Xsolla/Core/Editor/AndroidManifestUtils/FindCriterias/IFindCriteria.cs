@@ -1,4 +1,4 @@
-﻿namespace Xsolla.Core
+namespace Xsolla.Core.Editor
 {
 	public interface IFindCriteria<in T>
 	{

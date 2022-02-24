@@ -6,6 +6,7 @@ using UnityEngine;
 using Xsolla.Core;
 using Xsolla.Core.Popup;
 using Xsolla.Login;
+using Xsolla.UserAccount;
 
 namespace Xsolla.Demo
 {

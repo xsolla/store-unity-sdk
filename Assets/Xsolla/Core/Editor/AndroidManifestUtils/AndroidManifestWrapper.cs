@@ -1,7 +1,7 @@
-﻿using System.Xml;
+using System.Xml;
 using UnityEngine;
 
-namespace Xsolla.Core
+namespace Xsolla.Core.Editor
 {
 	public class AndroidManifestWrapper
 	{

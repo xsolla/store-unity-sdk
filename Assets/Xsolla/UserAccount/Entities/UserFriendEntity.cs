@@ -1,6 +1,7 @@
 using System;
+using Xsolla.Core;
 
-namespace Xsolla.Login
+namespace Xsolla.UserAccount
 {
 	/// <summary>
 	/// User's friend entity.

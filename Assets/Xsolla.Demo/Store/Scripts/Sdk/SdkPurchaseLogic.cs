@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Xsolla.Cart;
+using Xsolla.Catalog;
 using Xsolla.Core;
-using Xsolla.Store;
+using Xsolla.Orders;
 
 namespace Xsolla.Demo
 {
@@ -14,10 +16,10 @@ namespace Xsolla.Demo
 
 		public void PurchaseForRealMoney(CatalogItemModel item, RestrictedPaymentAllower restrictedPaymentAllower = null, Action<CatalogItemModel> onSuccess = null, Action<Error> onError = null)
 		{
-			XsollaStore.Instance.ItemPurchase(XsollaSettings.StoreProjectId, item.Sku,
+			XsollaCatalog.Instance.ItemPurchase(XsollaSettings.StoreProjectId, item.Sku,
 			onSuccess: data =>
 			{
-				XsollaStore.Instance.OpenPurchaseUi(data,
+				XsollaOrders.Instance.OpenPurchaseUi(data,
 				forcePlatformBrowser: false,
 				onRestrictedPaymentMethod: methodId =>
 				{
@@ -44,7 +46,7 @@ namespace Xsolla.Demo
 
 		public void PurchaseForVirtualCurrency(CatalogItemModel item, Action<CatalogItemModel> onSuccess = null, Action<Error> onError = null)
 		{
-			XsollaStore.Instance.ItemPurchaseForVirtualCurrency(
+			XsollaCatalog.Instance.ItemPurchaseForVirtualCurrency(
 				XsollaSettings.StoreProjectId,
 				item.Sku,
 				item.VirtualPrice?.Key,
@@ -73,9 +75,9 @@ namespace Xsolla.Demo
 				return;
 			}
 
-			XsollaStore.Instance.GetCartItems(XsollaSettings.StoreProjectId, newCart =>
+			XsollaCart.Instance.GetCartItems(XsollaSettings.StoreProjectId, newCart =>
 			{
-				XsollaStore.Instance.ClearCart(XsollaSettings.StoreProjectId, newCart.cart_id, () =>
+				XsollaCart.Instance.ClearCart(XsollaSettings.StoreProjectId, newCart.cart_id, () =>
 				{
 					var cartItems = items.Select(i => new CartFillItem
 					{
@@ -83,11 +85,11 @@ namespace Xsolla.Demo
 						quantity = i.Quantity
 					}).ToList();
 
-					XsollaStore.Instance.FillCart(XsollaSettings.StoreProjectId, cartItems, () =>
+					XsollaCart.Instance.FillCart(XsollaSettings.StoreProjectId, cartItems, () =>
 					{
-						XsollaStore.Instance.CartPurchase(XsollaSettings.StoreProjectId, newCart.cart_id, data =>
+						XsollaCart.Instance.CartPurchase(XsollaSettings.StoreProjectId, newCart.cart_id, data =>
 						{
-							XsollaStore.Instance.OpenPurchaseUi(data, false, methodId =>
+							XsollaOrders.Instance.OpenPurchaseUi(data, false, methodId =>
 							{
 								HandleRestrictedPaymentMethod(data, methodId, restrictedPaymentAllower,
 								onSuccess: () =>
@@ -126,7 +128,7 @@ namespace Xsolla.Demo
 
 				if (allowed)
 				{
-					XsollaStore.Instance.OpenPurchaseUi(data, true);
+					XsollaOrders.Instance.OpenPurchaseUi(data, true);
 					OrderTracking.Instance.AddOrderForTrackingUntilDone(XsollaSettings.StoreProjectId, data.order_id, onSuccess, onError);
 				}
 			};

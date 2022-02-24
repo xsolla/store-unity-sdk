@@ -2,7 +2,7 @@ using UnityEngine;
 using Xsolla.Core;
 using JetBrains.Annotations;
 
-namespace Xsolla.Login
+namespace Xsolla.Auth
 {
 	[PublicAPI]
 	public partial class XsollaAuth : MonoSingleton<XsollaAuth>

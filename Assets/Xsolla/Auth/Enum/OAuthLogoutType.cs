@@ -1,4 +1,4 @@
-﻿namespace Xsolla.Login
+namespace Xsolla.Auth
 {
 	public enum OAuthLogoutType
 	{

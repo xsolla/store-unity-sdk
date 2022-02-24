@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Threading.Tasks;
 using PuppeteerSharp;
@@ -7,7 +7,7 @@ using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
 using UnityEngine;
 
-namespace Xsolla.Core
+namespace Xsolla.Core.Browser
 {
 	public class XsollaBrowserPackPostprocessor : IPostprocessBuildWithReport
 	{

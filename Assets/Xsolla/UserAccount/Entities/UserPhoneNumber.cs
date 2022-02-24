@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
 
-namespace Xsolla.Login
+namespace Xsolla.UserAccount
 {
 	[Serializable]
 	public class UserPhoneNumber

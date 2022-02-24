@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-using Xsolla.Login;
+using Xsolla.Core;
 
 namespace Xsolla.Demo
 {

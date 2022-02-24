@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
 
-namespace Xsolla.Core
+namespace Xsolla.Core.Editor
 {
 	public class SteamAppIdPostprocessor : IPostprocessBuildWithReport
 	{

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace Xsolla.Login
+namespace Xsolla.Auth
 {
 	[Serializable]
 	public class RegistrationJson
