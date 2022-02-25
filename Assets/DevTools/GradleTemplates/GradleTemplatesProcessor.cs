@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿#if UNITY_ANDROID && UNITY_2019
+using System;
+using System.IO;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
 using UnityEngine;
@@ -15,26 +17,27 @@ namespace Xsolla
 
 		public void OnPreprocessBuild(BuildReport report)
 		{
-#if UNITY_ANDROID && UNITY_2019
 			Debug.Log("Generate gradle templates");
 			GenerateGradleTemplate(LauncherTemplateFileName);
 			GenerateGradleTemplate(MainTemplateFileName);
-#endif
 		}
 
 		public void OnPostprocessBuild(BuildReport report)
 		{
-#if UNITY_ANDROID && UNITY_2019
 			Debug.Log("Delete gradle templates");
 			DeleteGradleTemplate(LauncherTemplateFileName);
 			DeleteGradleTemplate(MainTemplateFileName);
-#endif
 		}
 
 		private void GenerateGradleTemplate(string fileName)
 		{
 			var sourcePath = GetSourcePath(fileName);
 			var targetPath = GetTargetPath(fileName);
+
+			var targetDir = Path.GetDirectoryName(targetPath);
+			if (targetDir != null && !Directory.Exists(targetDir))
+				Directory.CreateDirectory(targetDir);
+
 			if (!File.Exists(targetPath))
 				File.Copy(sourcePath, targetPath);
 		}
@@ -44,6 +47,10 @@ namespace Xsolla
 			var targetPath = GetTargetPath(fileName);
 			if (File.Exists(targetPath))
 				File.Delete(targetPath);
+
+			var metaFilePath = $"{targetPath}.meta";
+			if (File.Exists(metaFilePath))
+				File.Delete(metaFilePath);
 		}
 
 		private string GetSourcePath(string fileName)
@@ -57,3 +64,4 @@ namespace Xsolla
 		}
 	}
 }
+#endif

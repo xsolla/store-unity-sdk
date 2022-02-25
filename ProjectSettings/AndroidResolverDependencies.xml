@@ -5,6 +5,7 @@
     <package>com.xsolla.android:login-google:3.0.0</package>
     <package>com.xsolla.android:login-qq:3.0.0</package>
     <package>com.xsolla.android:login-wechat:3.0.0</package>
+    <package>com.xsolla.android:payments:1.0.0</package>
   </packages>
   <files>
     <file>Assets/Plugins/Android/androidx.activity.activity-1.2.4.aar</file>
@@ -72,6 +73,7 @@
     <file>Assets/Plugins/Android/com.xsolla.android.login-google-3.0.0.aar</file>
     <file>Assets/Plugins/Android/com.xsolla.android.login-qq-3.0.0.aar</file>
     <file>Assets/Plugins/Android/com.xsolla.android.login-wechat-3.0.0.aar</file>
+    <file>Assets/Plugins/Android/com.xsolla.android.payments-1.0.0.aar</file>
     <file>Assets/Plugins/Android/org.jetbrains.annotations-13.0.jar</file>
     <file>Assets/Plugins/Android/org.jetbrains.kotlin.kotlin-stdlib-1.5.31.jar</file>
     <file>Assets/Plugins/Android/org.jetbrains.kotlin.kotlin-stdlib-common-1.5.31.jar</file>

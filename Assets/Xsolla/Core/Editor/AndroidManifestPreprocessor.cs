@@ -22,6 +22,7 @@ namespace Xsolla.Core.Editor
 			Debug.Log("Xsolla SDK is now preprocessing your AndroidManifest.xml");
 			SetupDeepLinking();
 			SetupWeChat();
+			SetupPaymentsProxyActivity();
 #endif
 		}
 
@@ -128,6 +129,30 @@ namespace Xsolla.Core.Editor
 			{
 				manifest.SaveManifest();
 			}
+		}
+
+		private void SetupPaymentsProxyActivity()
+		{
+			var manifestPath = Path.Combine(Application.dataPath, MainManifestPath);
+			var manifestExists = File.Exists(manifestPath);
+
+			if (!manifestExists)
+			{
+				RestoreAndroidManifest(manifestPath);
+			}
+
+			var manifestWrapper = new AndroidManifestWrapper(manifestPath);
+			var activityName = $"{Application.identifier}.androidProxies.AndroidPaymentsProxy";
+
+			var activityNode = new ActivityNode(activityName);
+			activityNode.AddAttribute(AndroidManifestConstants.ExportedAttribute, "true");
+
+			// cleanup manifest in case activity node was added previously
+			if (manifestWrapper.ContainsNode(new FindByTag(AndroidManifestConstants.ApplicationTag), new FindByName(activityNode)))
+				manifestWrapper.RemoveNode(new FindByTag(AndroidManifestConstants.ApplicationTag), new FindByName(activityNode));
+
+			manifestWrapper.AddNode(activityNode, new FindByTag(AndroidManifestConstants.ApplicationTag));
+			manifestWrapper.SaveManifest();
 		}
 
 		static void RestoreAndroidManifest(string manifestPath)
