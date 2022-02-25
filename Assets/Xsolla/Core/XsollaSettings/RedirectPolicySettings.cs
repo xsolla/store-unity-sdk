@@ -42,13 +42,20 @@ namespace Xsolla.Core
 			{
 				return XsollaSettings.WebglRedirectPolicySettings.CreatePolicy();
 			}
+			else
+			{
+				return null;
+			}
 #else
 			if (XsollaSettings.DesktopRedirectPolicySettings.IsOverride)
 			{
 				return XsollaSettings.DesktopRedirectPolicySettings.CreatePolicy();
 			}
+			else
+			{
+				return null;
+			}
 #endif
-			return null;
 		}
 
 		private RedirectPolicy CreatePolicy()

@@ -10,8 +10,8 @@ namespace Xsolla.Core.Browser
 	public class XsollaInAppBrowser : MonoBehaviour
 #endif
 	{
-		[SerializeField] private GameObject BrowserPrefab = default;
 #if (UNITY_EDITOR || UNITY_STANDALONE)
+		[SerializeField] private GameObject BrowserPrefab = default;
 		private GameObject BrowserObject;
 		private SinglePageBrowser2D SinglePageBrowser;
 		private XsollaBrowser XsollaBrowser;
