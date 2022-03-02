@@ -19,11 +19,11 @@ namespace Xsolla.Inventory
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
-		/// <param name="locale">Defines localization of item's text fields.</param>
-		public void GetVirtualCurrencyBalance(string projectId, [NotNull] Action<VirtualCurrencyBalances> onSuccess, [CanBeNull] Action<Error> onError)
+		/// /// <param name="platform">Publishing platform the user plays on.</param>
+		public void GetVirtualCurrencyBalance(string projectId, [NotNull] Action<VirtualCurrencyBalances> onSuccess, [CanBeNull] Action<Error> onError, string platform = null)
 		{
 			var url = string.Format(URL_VIRTUAL_CURRENCY_BALANCE, projectId);
-			url = UrlParameterizer.ConcatUrlAndParams(url, withPlatform: true);
+			url = UrlParameterizer.ConcatUrlAndParams(url, platform: platform);
 
 			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, WebRequestHeader.AuthHeader(Token.Instance), onSuccess, onError, Error.ItemsListErrors);
 		}
@@ -39,10 +39,11 @@ namespace Xsolla.Inventory
 		/// <param name="limit">Limit for the number of elements on the page.</param>
 		/// <param name="offset">Number of the element from which the list is generated (the count starts from 0).</param>
 		/// <param name="locale">Defines localization of item's text fields.</param>
-		public void GetInventoryItems(string projectId, [NotNull] Action<InventoryItems> onSuccess, [CanBeNull] Action<Error> onError, int limit = 50, int offset = 0, [CanBeNull] string locale = null)
+		/// <param name="platform">Publishing platform the user plays on.</param>
+		public void GetInventoryItems(string projectId, [NotNull] Action<InventoryItems> onSuccess, [CanBeNull] Action<Error> onError, int limit = 50, int offset = 0, [CanBeNull] string locale = null, string platform = null)
 		{
 			var url = string.Format(URL_INVENTORY_GET_ITEMS, projectId);
-			url = UrlParameterizer.ConcatUrlAndParams(url, limit: limit, offset: offset, locale: locale, withPlatform: true);
+			url = UrlParameterizer.ConcatUrlAndParams(url, limit: limit, offset: offset, locale: locale, platform: platform);
 
 			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, WebRequestHeader.AuthHeader(Token.Instance), onSuccess, onError, Error.ItemsListErrors);
 		}
@@ -56,10 +57,11 @@ namespace Xsolla.Inventory
 		/// <param name="item">Contains consume parameters.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
-		public void ConsumeInventoryItem(string projectId, ConsumeItem item, [CanBeNull] Action onSuccess, [CanBeNull] Action<Error> onError)
+		/// <param name="platform">Publishing platform the user plays on.</param>
+		public void ConsumeInventoryItem(string projectId, ConsumeItem item, [CanBeNull] Action onSuccess, [CanBeNull] Action<Error> onError, string platform = null)
 		{
 			var url = string.Format(URL_INVENTORY_ITEM_CONSUME, projectId);
-			url = UrlParameterizer.ConcatUrlAndParams(url, withPlatform: true);
+			url = UrlParameterizer.ConcatUrlAndParams(url, platform: platform);
 
 			var headers = new List<WebRequestHeader>() { WebRequestHeader.AuthHeader(Token.Instance), WebRequestHeader.ContentTypeHeader() };
 

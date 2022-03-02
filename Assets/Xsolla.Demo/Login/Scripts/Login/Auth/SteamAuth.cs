@@ -8,7 +8,7 @@ namespace Xsolla.Demo
 
 		public override void TryAuth(params object[] args)
 		{
-			if (!XsollaSettings.UseSteamAuth)
+			if (!DemoSettings.UseSteamAuth)
 			{
 				Debug.Log("SteamAuth.TryAuth: Steam auth disabled");
 				base.OnError?.Invoke(null);
@@ -29,13 +29,13 @@ namespace Xsolla.Demo
 
 		private void RequestTokenBy(string ticket)
 		{
-			if (int.TryParse(XsollaSettings.SteamAppId, out _))
+			if (int.TryParse(DemoSettings.SteamAppId, out _))
 			{
-				SdkAuthLogic.Instance.SteamAuth(XsollaSettings.SteamAppId, ticket, onSuccess:SuccessHandler, onError:FailHandler);
+				SdkAuthLogic.Instance.SteamAuth(DemoSettings.SteamAppId, ticket, onSuccess:SuccessHandler, onError:FailHandler);
 			}
 			else
 			{
-				Debug.LogError($"Can't parse SteamAppId = {XsollaSettings.SteamAppId}");
+				Debug.LogError($"Can't parse SteamAppId = {DemoSettings.SteamAppId}");
 				base.OnError?.Invoke(new Error(errorMessage: "Steam auth failed"));
 			}
 		}

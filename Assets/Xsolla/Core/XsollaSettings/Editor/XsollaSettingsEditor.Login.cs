@@ -1,125 +1,95 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace Xsolla.Core.Editor
+namespace Xsolla.Core
 {
-	public partial class XsollaSettingsEditor : UnityEditor.Editor
+	public partial class XsollaSettingsEditor
 	{
-		const string LoginIdTooltip = "Login ID from your Publisher Account.";
+		private const string AUTHORIZATION_TYPE_LABEL = "Authorization Type";
+		private const string AUTHORIZATION_TYPE_TOOLTIP = "If you are not using Xsolla Login to authenticate user, select \"Acces Token.\"\n" +
+		                                                  "If you set up OAuth 2.0 protocol based authentication in Publisher Account, select \"OAuth.\"\n" +
+		                                                  "Otherwise, select \"JWT.\"";
 
-		const string CallbackUrlTooltip = "URL to redirect the user to after registration/authentication/password reset. " +
-											"Must be identical to Callback URL specified in Publisher Account in Login settings. Required if there are several Callback URLs.";
+		private const string CALLBACK_URL_LABEL = "Callback URL";
+		private const string CALLBACK_URL_TOOLTIP = "UURL to redirect the user to after signing up, logging in, or password reset. " +
+		                                            "Must be identical to the callback URL specified in Publisher Account in Login settings. " +
+		                                            "Required if there are several сallback URLs.";
 
-		const string JwtInvalidationTooltip = "Each time a user logs in, their previous JWT token becomes invalid.";
-		const string OAuthClientIdTooltip = "Your application ID. You will get it after sending the request to enable the OAuth 2.0 protocol. To get your application ID again, please contact your Account Manager.";
-		const string AuthServerTooltip = "URL for login via access token.";
+		private const string JWT_INVALIDATION_LABEL = "Invalidate Existing Sessions";
+		private const string JWT_INVALIDATION_TOOLTIP = "If enabled, every time the user logs in from a new device, " +
+		                                                "a new token replaces the old one and the old token becomes invalid.";
 
-		private bool XsollaLoginSettings()
+		private const string OAUTH_CLIENT_ID_LABEL = "OAuth Client ID";
+		private const string OAUTH_CLIENT_ID_TOOLTIP = "To get the ID, set up an OAuth client in Publusher account in the " +
+		                                               "\"Login -> your Login project -> Secure -> OAuth 2.0\" section.";
+
+		private const string AUTH_SERVER_LABEL = "Authentifiaction Server URL";
+		private const string AUTH_SERVER_TOOLTIP = "URL for login via an access token.";
+
+		private readonly string[] AuthorizationTypeOptions ={
+			"OAuth2.0",
+			"JWT",
+			"Access Token"
+		};
+
+		private bool LoginSettings()
 		{
-			bool changed = false;
-
-			using (new EditorGUILayout.VerticalScope("box"))
-			{
-				GUILayout.Label("Login SDK Settings", EditorStyles.boldLabel);
-
-				if (XsollaSettings.AuthorizationType == AuthorizationType.AccessToken)
-					changed = AccessTokenAuthSettings();
-				else
-					changed = DefaultAuthSettings();
-			}
-
 			EditorGUILayout.Space();
+			EditorGUILayout.BeginVertical(GroupAreaStyle);
+			EditorGUILayout.LabelField("Login", GroupHeaderStyle);
 
-			return changed;
-		}
+			var changed = false;
 
-		private static bool DefaultAuthSettings()
-		{
-			bool changed = false;
-
-			var loginId = EditorGUILayout.TextField(new GUIContent("Login ID [?]", LoginIdTooltip), XsollaSettings.LoginId);
-			if (loginId != XsollaSettings.LoginId)
-			{
-				XsollaSettings.LoginId = loginId;
-				changed = true;
-			}
-
-			var proxy = EditorGUILayout.Toggle("Enable proxy?", XsollaSettings.UseProxy);
-			if (proxy != XsollaSettings.UseProxy)
-			{
-				XsollaSettings.UseProxy = proxy;
-				changed = true;
-			}
-
-			var callback = EditorGUILayout.TextField(new GUIContent("Callback URL [?]", CallbackUrlTooltip), XsollaSettings.CallbackUrl);
-			if (callback != XsollaSettings.CallbackUrl)
-			{
-				XsollaSettings.CallbackUrl = callback;
-				changed = true;
-			}
-
-			var authorizationType = (AuthorizationType)EditorGUILayout.Popup(
-				label: "Authorization method",
-				selectedIndex: (int)XsollaSettings.AuthorizationType,
-				displayedOptions: new string[] { "JWT", "OAuth2.0", "Access Token" });
+			var authorizationType = (AuthorizationType) EditorGUILayout.Popup(new GUIContent(AUTHORIZATION_TYPE_LABEL, AUTHORIZATION_TYPE_TOOLTIP), (int) XsollaSettings.AuthorizationType, AuthorizationTypeOptions);
 			if (authorizationType != XsollaSettings.AuthorizationType)
 			{
 				XsollaSettings.AuthorizationType = authorizationType;
-				XsollaSettings.JwtTokenInvalidationEnabled = false;
+
+				if (authorizationType != AuthorizationType.JWT)
+					XsollaSettings.InvalidateExistingSessions = false;
+
 				changed = true;
 			}
 
-			if (authorizationType == AuthorizationType.JWT)
+			if (XsollaSettings.AuthorizationType == AuthorizationType.JWT)
 			{
-				var jwtTokenInvalidationEnabled = EditorGUILayout.Toggle(new GUIContent("Enable JWT invalidation? [?]", JwtInvalidationTooltip), XsollaSettings.JwtTokenInvalidationEnabled);
-				if (jwtTokenInvalidationEnabled != XsollaSettings.JwtTokenInvalidationEnabled)
+				var jwtTokenInvalidationEnabled = EditorGUILayout.Toggle(new GUIContent(JWT_INVALIDATION_LABEL, JWT_INVALIDATION_TOOLTIP), XsollaSettings.InvalidateExistingSessions);
+				if (jwtTokenInvalidationEnabled != XsollaSettings.InvalidateExistingSessions)
 				{
-					XsollaSettings.JwtTokenInvalidationEnabled = jwtTokenInvalidationEnabled;
+					XsollaSettings.InvalidateExistingSessions = jwtTokenInvalidationEnabled;
 					changed = true;
 				}
 			}
 			else if (authorizationType == AuthorizationType.OAuth2_0)
 			{
-				var oauthClientId = EditorGUILayout.IntField(new GUIContent("OAuth2.0 client ID [?]", OAuthClientIdTooltip), XsollaSettings.OAuthClientId);
+				var oauthClientId = EditorGUILayout.IntField(new GUIContent(OAUTH_CLIENT_ID_LABEL, OAUTH_CLIENT_ID_TOOLTIP), XsollaSettings.OAuthClientId);
 				if (oauthClientId != XsollaSettings.OAuthClientId)
 				{
 					XsollaSettings.OAuthClientId = oauthClientId;
 					changed = true;
 				}
 			}
-
-			var nickname = EditorGUILayout.Toggle("Request nickname on auth?", XsollaSettings.RequestNicknameOnAuth);
-			if (nickname != XsollaSettings.RequestNicknameOnAuth)
+			else if (authorizationType == AuthorizationType.AccessToken)
 			{
-				XsollaSettings.RequestNicknameOnAuth = nickname;
-				changed = true;
+				var authServerUrl = EditorGUILayout.TextField(new GUIContent(AUTH_SERVER_LABEL, AUTH_SERVER_TOOLTIP), XsollaSettings.AuthServerUrl);
+				if (authServerUrl != XsollaSettings.AuthServerUrl)
+				{
+					XsollaSettings.AuthServerUrl = authServerUrl;
+					changed = true;
+				}
 			}
 
-			return changed;
-		}
-
-		private static bool AccessTokenAuthSettings()
-		{
-			bool changed = false;
-
-			var authorizationType = (AuthorizationType)EditorGUILayout.Popup(
-				label: "Authorization method",
-				selectedIndex: (int)XsollaSettings.AuthorizationType,
-				displayedOptions: new string[] { "JWT", "OAuth2.0", "Access Token" });
-			if (authorizationType != XsollaSettings.AuthorizationType)
+			if (XsollaSettings.AuthorizationType != AuthorizationType.AccessToken)
 			{
-				XsollaSettings.AuthorizationType = authorizationType;
-				XsollaSettings.JwtTokenInvalidationEnabled = false;
-				changed = true;
+				var callback = EditorGUILayout.TextField(new GUIContent(CALLBACK_URL_LABEL, CALLBACK_URL_TOOLTIP), XsollaSettings.CallbackUrl);
+				if (callback != XsollaSettings.CallbackUrl)
+				{
+					XsollaSettings.CallbackUrl = callback;
+					changed = true;
+				}
 			}
 
-			var authServerUrl = EditorGUILayout.TextField(new GUIContent("Authentication server URL [?]", AuthServerTooltip), XsollaSettings.AuthServerUrl);
-			if (authServerUrl != XsollaSettings.AuthServerUrl)
-			{
-				XsollaSettings.AuthServerUrl = authServerUrl;
-				changed = true;
-			}
-
+			EditorGUILayout.EndVertical();
 			return changed;
 		}
 	}

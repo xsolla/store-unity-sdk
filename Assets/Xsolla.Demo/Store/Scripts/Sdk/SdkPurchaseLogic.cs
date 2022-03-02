@@ -12,7 +12,7 @@ namespace Xsolla.Demo
 	{
 		public event Action<CatalogItemModel> PurchaseForRealMoneyEvent;
 		public event Action<CatalogItemModel> PurchaseForVirtualCurrencyEvent;
-		public event Action<List<UserCartItem>> PurchaseCartEvent; 
+		public event Action<List<UserCartItem>> PurchaseCartEvent;
 
 		public void PurchaseForRealMoney(CatalogItemModel item, RestrictedPaymentAllower restrictedPaymentAllower = null, Action<CatalogItemModel> onSuccess = null, Action<Error> onError = null)
 		{
@@ -41,7 +41,7 @@ namespace Xsolla.Demo
 				},
 				onError);
 			},
-			onError);
+			onError, customHeaders: GenerateCustomHeaders());
 		}
 
 		public void PurchaseForVirtualCurrency(CatalogItemModel item, Action<CatalogItemModel> onSuccess = null, Action<Error> onError = null)
@@ -63,7 +63,7 @@ namespace Xsolla.Demo
 						onError
 					);
 				},
-				onError);
+				onError, customHeaders: GenerateCustomHeaders());
 		}
 
 		public void PurchaseCart(List<UserCartItem> items, RestrictedPaymentAllower restrictedPaymentAllower = null, Action<List<UserCartItem>> onSuccess = null, Action<Error> onError = null)
@@ -111,7 +111,7 @@ namespace Xsolla.Demo
 							},
 							onError);
 
-						}, onError);
+						}, onError, customHeaders: GenerateCustomHeaders());
 					}, onError);
 				}, onError);
 			}, onError);
@@ -142,6 +142,22 @@ namespace Xsolla.Demo
 			{
 				onAllowed.Invoke(true);
 			}
+#endif
+		}
+
+		private Dictionary<string, string> GenerateCustomHeaders()
+		{
+#if UNITY_STANDALONE || UNITY_EDITOR
+			if (DemoSettings.UseSteamAuth && DemoSettings.PaymentsFlow == PaymentsFlow.SteamGateway)
+			{
+				return new Dictionary<string, string>{{"x-steam-userid", Token.Instance.GetSteamUserID()}};
+			}
+			else
+			{
+				return null;
+			}
+#else
+			return null;
 #endif
 		}
 	}

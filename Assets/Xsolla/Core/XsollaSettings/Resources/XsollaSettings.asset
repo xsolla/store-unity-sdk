@@ -13,26 +13,18 @@ MonoBehaviour:
   m_Name: XsollaSettings
   m_EditorClassIdentifier: 
   loginId: 026201e3-7e40-11ea-a85b-42010aa80004
-  useProxy: 0
   callbackUrl: 
   authorizationType: 0
-  jwtTokenInvalidationEnabled: 0
+  invalidateExistingSessions: 0
   oauthClientId: 57
-  requestNicknameOnAuth: 1
   authServerUrl: https://sdk.xsolla.com/
-  useSteamAuth: 0
-  steamAppId: 480
-  useConsoleAuth: 0
-  platform: 1
-  usernameFromConsole: testPSMax3
   storeProjectId: 77640
-  paymentsFlow: 0
   isSandbox: 1
   inAppBrowserEnabled: 1
   packInAppBrowserInBuild: 1
   desktopRedirectPolicySettings:
     IsFoldout: 0
-    IsOverride: 0
+    UseSettingsFromPublisherAccount: 1
     ReturnUrl: 
     RedirectConditions: 0
     Delay: 0
@@ -40,7 +32,7 @@ MonoBehaviour:
     RedirectButtonCaption: 
   webglRedirectPolicySettings:
     IsFoldout: 0
-    IsOverride: 0
+    UseSettingsFromPublisherAccount: 1
     ReturnUrl: 
     RedirectConditions: 0
     Delay: 0
@@ -48,7 +40,15 @@ MonoBehaviour:
     RedirectButtonCaption: 
   androidRedirectPolicySettings:
     IsFoldout: 0
-    IsOverride: 0
+    UseSettingsFromPublisherAccount: 1
+    ReturnUrl: 
+    RedirectConditions: 0
+    Delay: 0
+    StatusForManualRedirection: 0
+    RedirectButtonCaption: 
+  iosRedirectPolicySettings:
+    IsFoldout: 0
+    UseSettingsFromPublisherAccount: 1
     ReturnUrl: 
     RedirectConditions: 0
     Delay: 0
@@ -59,24 +59,23 @@ MonoBehaviour:
     paystationTheme: 4
     paystationSize: 0
     paystationVersion: 0
-    isIndependentWindows: 0
   webglPayStationUISettings:
     isFoldout: 0
     paystationTheme: 4
     paystationSize: 0
     paystationVersion: 0
-    isIndependentWindows: 0
   androidPayStationUISettings:
     isFoldout: 0
     paystationTheme: 4
     paystationSize: 0
     paystationVersion: 0
-    isIndependentWindows: 0
+  iosPayStationUISettings:
+    isFoldout: 0
+    paystationTheme: 4
+    paystationSize: 0
+    paystationVersion: 0
   facebookAppId: 
   googleServerId: 
   wechatAppId: 
   qqAppId: 
-  useDeepLinking: 0
-  deepLinkRedirectUrl: 
-  webStoreUrl: https://sitebuilder.xsolla.com/game/sdk-web-store/
   logLevel: 0

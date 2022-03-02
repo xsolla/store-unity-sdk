@@ -79,7 +79,7 @@ namespace Xsolla.Auth
 		#endregion
 		public void SignInConsoleAccount(string userId, string platform, Action<string> successCase, Action<Error> failedCase)
 		{
-			var with_logout = XsollaSettings.JwtTokenInvalidationEnabled ? "1" : "0";
+			var with_logout = XsollaSettings.InvalidateExistingSessions ? "1" : "0";
 			var url = $"{URL_USER_CONSOLE_AUTH}?user_id={userId}&platform={platform}&with_logout={with_logout}";
 			WebRequestHelper.Instance.GetRequest(SdkType.Login, url, (TokenEntity result) => { successCase?.Invoke(result.token); }, failedCase);
 		}

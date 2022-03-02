@@ -36,12 +36,12 @@ namespace Xsolla.Core
 				return string.Empty;
 		}
 
-		public static string GetPlatformUrlParam()
+		public static string GetPlatformUrlParam(string platform)
 		{
-			if (XsollaSettings.Platform != PlatformType.None)
-				return $"&platform={XsollaSettings.Platform.GetString()}";
-			else
+			if (string.IsNullOrEmpty(platform))
 				return string.Empty;
+			
+			return $"&platform={platform}";
 		}
 
 		public static string GetAdditionalFieldsParam(string additionalFields)
@@ -91,7 +91,7 @@ namespace Xsolla.Core
 			int? offset = null,
 			string locale = null,
 			string currency = null,
-			bool withPlatform = false,
+			string platform = null,
 			string additionalFields = null,
 			string country = null)
 		{
@@ -101,7 +101,7 @@ namespace Xsolla.Core
 				GetOffsetUrlParam(offset),
 				GetLocaleUrlParam(locale),
 				GetCurrencyUrlParam(currency),
-				(withPlatform ? GetPlatformUrlParam() : string.Empty),
+				(!string.IsNullOrEmpty(platform) ? GetPlatformUrlParam(platform) : string.Empty),
 				GetAdditionalFieldsParam(additionalFields),
 				GetCountryUrlParam(country)
 			};

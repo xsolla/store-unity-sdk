@@ -3,6 +3,7 @@ using System.Runtime.InteropServices;
 using UnityEngine;
 using Xsolla.Auth;
 using Xsolla.Core;
+using Xsolla.Core.iOS;
 
 namespace Xsolla.Demo
 {

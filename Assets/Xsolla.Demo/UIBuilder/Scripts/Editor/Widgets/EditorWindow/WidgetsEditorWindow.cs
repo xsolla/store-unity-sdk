@@ -116,7 +116,7 @@ namespace Xsolla.UIBuilder
 			}
 		}
 
-		[MenuItem("Window/Xsolla/UI Widgets Editor")]
+		[MenuItem("Window/Xsolla/UI Widgets Editor", false, 1110)]
 		private static void OpenWindow()
 		{
 			GetWindow<WidgetsEditorWindow>("UI Widgets Editor");

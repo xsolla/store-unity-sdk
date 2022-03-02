@@ -38,24 +38,25 @@ namespace Xsolla.Core
 		/// Returns headers list such as <c>AuthHeader</c> and <c>SteamPaymentHeader</c>.
 		/// </summary>
 		/// <param name="token">Auth token taken from Xsolla Login.</param>
+		/// <param name="customHeaders">Custom headers for web request.</param>
 		/// <returns></returns>
-		public static List<WebRequestHeader> GetPaymentHeaders(Token token)
+		public static List<WebRequestHeader> GetPaymentHeaders(Token token, Dictionary<string, string> customHeaders = null)
 		{
 			var headers = new List<WebRequestHeader>
 			{
 				WebRequestHeader.AuthHeader(token)
 			};
 
-			if (XsollaSettings.UseSteamAuth && XsollaSettings.PaymentsFlow == PaymentsFlow.SteamGateway)
+			if (customHeaders != null)
 			{
-				var steamUserId = token.GetSteamUserID();
-				if (!string.IsNullOrEmpty(steamUserId))
+				foreach (var kvp in customHeaders)
 				{
-					headers.Add(WebRequestHeader.SteamPaymentHeader(steamUserId));
+					if (!string.IsNullOrEmpty(kvp.Key) && !string.IsNullOrEmpty(kvp.Value))
+						headers.Add(new WebRequestHeader(kvp.Key, kvp.Value));
 				}
 			}
 
 			return headers;
 		}
-	}
+    }
 }

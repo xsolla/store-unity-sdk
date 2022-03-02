@@ -1,4 +1,4 @@
-﻿namespace Xsolla.Core
+﻿namespace Xsolla.Demo
 {
 	public enum PaymentsFlow
 	{

@@ -35,7 +35,7 @@ namespace Xsolla.Demo
 
 					if (isUserEmailRegistration)
 						SetNickname(info.username);
-					else if (XsollaSettings.RequestNicknameOnAuth)
+					else if (DemoSettings.RequestNicknameOnAuth)
 						RequestNickname();
 				}
 			});

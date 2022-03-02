@@ -8,7 +8,7 @@ namespace Xsolla.Core
 	{
 		public bool IsFoldout;
 
-		public bool IsOverride;
+		public bool UseSettingsFromPublisherAccount = true;
 
 		public string ReturnUrl;
 
@@ -23,7 +23,7 @@ namespace Xsolla.Core
 		public static RedirectPolicy GeneratePolicy()
 		{
 #if UNITY_ANDROID
-			if (XsollaSettings.AndroidRedirectPolicySettings.IsOverride)
+			if (!XsollaSettings.AndroidRedirectPolicySettings.UseSettingsFromPublisherAccount)
 			{
 				return XsollaSettings.AndroidRedirectPolicySettings.CreatePolicy();
 			}
@@ -38,7 +38,7 @@ namespace Xsolla.Core
 				};
 			}
 #elif UNITY_WEBGL
-			if (XsollaSettings.WebglRedirectPolicySettings.IsOverride)
+			if (!XsollaSettings.WebglRedirectPolicySettings.UseSettingsFromPublisherAccount)
 			{
 				return XsollaSettings.WebglRedirectPolicySettings.CreatePolicy();
 			}
@@ -46,8 +46,17 @@ namespace Xsolla.Core
 			{
 				return null;
 			}
+#elif UNITY_IOS
+			if (!XsollaSettings.IosRedirectPolicySettings.UseSettingsFromPublisherAccount)
+			{
+				return XsollaSettings.IosRedirectPolicySettings.CreatePolicy();
+			}
+			else
+			{
+				return null;
+			}
 #else
-			if (XsollaSettings.DesktopRedirectPolicySettings.IsOverride)
+			if (!XsollaSettings.DesktopRedirectPolicySettings.UseSettingsFromPublisherAccount)
 			{
 				return XsollaSettings.DesktopRedirectPolicySettings.CreatePolicy();
 			}
