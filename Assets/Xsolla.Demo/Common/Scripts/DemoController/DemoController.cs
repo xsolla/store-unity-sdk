@@ -72,7 +72,7 @@ namespace Xsolla.Demo
 
 		public string GetWebStoreUrl()
 		{
-			return $"{XsollaSettings.WebStoreUrl}?token={Token.Instance}&remember_me=false";
+			return $"{DemoSettings.WebStoreUrl}?token={Token.Instance}&remember_me=false";
 		}
 
 		public void ShowTutorial(bool showWelcomeMessage) => ManualStartTutorial(showWelcomeMessage);

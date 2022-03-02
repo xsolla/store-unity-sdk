@@ -150,7 +150,7 @@ namespace Xsolla.Core
 			authorizationType = XsollaSettings.AuthorizationType;
 
 			if (authorizationType == AuthorizationType.JWT)
-				invalidationFlag = XsollaSettings.JwtTokenInvalidationEnabled;
+				invalidationFlag = XsollaSettings.InvalidateExistingSessions;
 			else /*if (authorizationType == AuthorizationType.OAuth2_0)*/
 				invalidationFlag = true;
 

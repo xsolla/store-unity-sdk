@@ -14,10 +14,10 @@ namespace Xsolla.Demo
 			if (TryExtractArgs(args, out string username, out string password, out bool rememberMe))
 			{
 				_isDemoUser = (username.ToUpper() == DEMO_USER_NAME && password.ToUpper() == DEMO_USER_NAME);
-				_isJwtInvalidationEnabled = XsollaSettings.JwtTokenInvalidationEnabled;
+				_isJwtInvalidationEnabled = XsollaSettings.InvalidateExistingSessions;
 
 				if(_isDemoUser && _isJwtInvalidationEnabled)
-					XsollaSettings.JwtTokenInvalidationEnabled = false;
+					XsollaSettings.InvalidateExistingSessions = false;
 
 				SdkAuthLogic.Instance.SignIn(username, password, rememberMe, BasicAuthSuccess, BasicAuthFailed);
 			}
@@ -79,7 +79,7 @@ namespace Xsolla.Demo
 		private void RestoreJwtInvalidationIfNeeded()
 		{
 			if(_isDemoUser && _isJwtInvalidationEnabled)
-				XsollaSettings.JwtTokenInvalidationEnabled = true;
+				XsollaSettings.InvalidateExistingSessions = true;
 		}
 	}
 }

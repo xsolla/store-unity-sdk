@@ -43,7 +43,7 @@ namespace Xsolla.Auth
 		{
 			var projectId = XsollaSettings.LoginId;
 			var payloadUrlParam = (payload != null) ? $"&payload={payload}" : string.Empty;
-			var with_logout = XsollaSettings.JwtTokenInvalidationEnabled ? "1" : "0";
+			var with_logout = XsollaSettings.InvalidateExistingSessions ? "1" : "0";
 
 			var url = string.Format(URL_JWT_DEVICE_ID_AUTH, deviceType, projectId, payloadUrlParam, with_logout);
 

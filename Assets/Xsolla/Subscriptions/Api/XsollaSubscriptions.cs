@@ -16,10 +16,11 @@ namespace Xsolla.Subscriptions
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
 		/// <param name="onSuccess">Success operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
-		public void GetSubscriptions(string projectId, [NotNull] Action<SubscriptionItems> onSuccess, [CanBeNull] Action<Error> onError)
+		/// <param name="platform">Publishing platform the user plays on.</param>
+		public void GetSubscriptions(string projectId, [NotNull] Action<SubscriptionItems> onSuccess, [CanBeNull] Action<Error> onError, string platform = null)
 		{
 			var url = string.Format(URL_GET_SUBSCRIPTIONS, projectId);
-			url = UrlParameterizer.ConcatUrlAndParams(url, withPlatform: true);
+			url = UrlParameterizer.ConcatUrlAndParams(url, platform: platform);
 
 			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, WebRequestHeader.AuthHeader(Token.Instance), onSuccess, onError, Error.ItemsListErrors);
 		}

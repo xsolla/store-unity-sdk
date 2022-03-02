@@ -6,7 +6,7 @@ namespace Xsolla.Demo
 	{
 		public override void TryAuth(params object[] args)
 		{
-			if (XsollaSettings.UseConsoleAuth)
+			if (DemoSettings.UseConsoleAuth)
 			{
 				Debug.Log("ConsolePlatformAuth.TryAuth: Console auth enabled, trying to get token");
 				RequestToken();
@@ -21,8 +21,8 @@ namespace Xsolla.Demo
 		private void RequestToken()
 		{
 			SdkAuthLogic.Instance.SignInConsoleAccount(
-				userId: XsollaSettings.UsernameFromConsolePlatform,
-				platform: XsollaSettings.Platform.GetString(),
+				userId: DemoSettings.UsernameFromConsolePlatform,
+				platform: DemoSettings.Platform.GetString(),
 				SuccessHandler,
 				FailHandler);
 		}
@@ -35,7 +35,7 @@ namespace Xsolla.Demo
 
 		private void FailHandler(Error error)
 		{
-			Debug.LogError($"Failed request token by console account with user = `{XsollaSettings.UsernameFromConsolePlatform}` and platform = `{XsollaSettings.Platform.GetString()}`. Error:{error.ToString()}");
+			Debug.LogError($"Failed request token by console account with user = `{DemoSettings.UsernameFromConsolePlatform}` and platform = `{DemoSettings.Platform.GetString()}`. Error:{error.ToString()}");
 			base.OnError?.Invoke(error);
 		}
 	}

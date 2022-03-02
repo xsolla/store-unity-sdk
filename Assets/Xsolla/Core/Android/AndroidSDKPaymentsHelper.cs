@@ -15,7 +15,7 @@ namespace Xsolla.Core
 				string redirectScheme = null;
 				string redirectHost = null;
 				var redirectPolicy = XsollaSettings.AndroidRedirectPolicySettings;
-				if (redirectPolicy.IsOverride && !string.IsNullOrEmpty(redirectPolicy.ReturnUrl))
+				if (!redirectPolicy.UseSettingsFromPublisherAccount && !string.IsNullOrEmpty(redirectPolicy.ReturnUrl))
 				{
 					var uri = new Uri(redirectPolicy.ReturnUrl);
 					redirectScheme = uri.Scheme;

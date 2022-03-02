@@ -64,7 +64,7 @@ namespace Xsolla.Core
 			XsollaSettings.StoreProjectId = XsollaSettings.Instance.storeProjectId;
 			XsollaSettings.AuthorizationType = XsollaSettings.Instance.authorizationType;
 			XsollaSettings.OAuthClientId = XsollaSettings.Instance.oauthClientId;
-			XsollaSettings.WebStoreUrl = XsollaSettings.Instance.webStoreUrl;
+			DemoSettings.WebStoreUrl = DemoSettings.Instance.webStoreUrl;
 			ThemesLibrary.Current = ThemesLibrary.Themes.FirstOrDefault();
 
 			RedrawFields();
@@ -108,7 +108,7 @@ namespace Xsolla.Core
 
 		private void OnWebShopUrlEdit(string value)
 		{
-			XsollaSettings.WebStoreUrl = value;
+			DemoSettings.WebStoreUrl = value;
 			RedrawFields();
 		}
 
@@ -124,7 +124,7 @@ namespace Xsolla.Core
 			LoginIdInput.text = XsollaSettings.LoginId;
 			StoreProjectIdInput.text = XsollaSettings.StoreProjectId;
 			OAuthClientIdInput.text = XsollaSettings.OAuthClientId.ToString();
-			WebShopUrlInput.text = XsollaSettings.WebStoreUrl;
+			WebShopUrlInput.text = DemoSettings.WebStoreUrl;
 
 			var uiThemes = ThemesLibrary.Themes;
 			UiThemeDropdown.options = uiThemes.Select(theme => new Dropdown.OptionData(theme.Name)).ToList();

@@ -228,12 +228,14 @@ namespace Xsolla.Catalog
 		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		/// <param name="purchaseParams">Purchase parameters such as <c>country</c>, <c>locale</c>, and <c>currency</c>.</param>
+		/// <param name="customHeaders">Custom web request headers</param>
 		/// <seealso cref="OpenPurchaseUi"/>
-		public void ItemPurchase(string projectId, string itemSku, [CanBeNull] Action<PurchaseData> onSuccess, [CanBeNull] Action<Error> onError, PurchaseParams purchaseParams = null)
+		public void ItemPurchase(string projectId, string itemSku, [CanBeNull] Action<PurchaseData> onSuccess, [CanBeNull] Action<Error> onError, PurchaseParams purchaseParams = null, Dictionary<string, string> customHeaders = null)
 		{
 			var tempPurchaseParams = PurchaseParamsGenerator.GenerateTempPurchaseParams(purchaseParams);
 			var url = string.Format(URL_BUY_ITEM, projectId, itemSku);
-			WebRequestHelper.Instance.PostRequest<PurchaseData, TempPurchaseParams>(SdkType.Store, url, tempPurchaseParams, PurchaseParamsGenerator.GetPaymentHeaders(Token.Instance), onSuccess, onError, Error.BuyItemErrors);
+			var paymentHeaders = PurchaseParamsGenerator.GetPaymentHeaders(Token.Instance, customHeaders);
+			WebRequestHelper.Instance.PostRequest<PurchaseData, TempPurchaseParams>(SdkType.Store, url, tempPurchaseParams, paymentHeaders, onSuccess, onError, Error.BuyItemErrors);
 		}
 
 		/// <summary>
@@ -248,6 +250,8 @@ namespace Xsolla.Catalog
 		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		/// <param name="purchaseParams">Purchase parameters such as <c>country</c>, <c>locale</c> and <c>currency</c>.</param>
+		/// <param name="platform">Publishing platform the user plays on.</param>
+		/// <param name="customHeaders">>Custom web request headers.</param>
 		/// <seealso cref="OpenPurchaseUi"/>
 		public void ItemPurchaseForVirtualCurrency(
 			string projectId,
@@ -255,7 +259,9 @@ namespace Xsolla.Catalog
 			string priceSku,
 			[CanBeNull] Action<PurchaseData> onSuccess,
 			[CanBeNull] Action<Error> onError,
-			PurchaseParams purchaseParams = null)
+			PurchaseParams purchaseParams = null,
+			string platform = null,
+			Dictionary<string, string> customHeaders = null)
 		{
 			TempPurchaseParams tempPurchaseParams = new TempPurchaseParams
 			{
@@ -264,9 +270,11 @@ namespace Xsolla.Catalog
 			};
 
 			var url = string.Format(URL_BUY_ITEM_FOR_VC, projectId, itemSku, priceSku);
-			url = UrlParameterizer.ConcatUrlAndParams(url, withPlatform: true);
+			var platformParam = UrlParameterizer.GetPlatformUrlParam(platform);
+			url = UrlParameterizer.ConcatUrlAndParams(url, platformParam);
 
-			WebRequestHelper.Instance.PostRequest<PurchaseData, TempPurchaseParams>(SdkType.Store, url, tempPurchaseParams, PurchaseParamsGenerator.GetPaymentHeaders(Token.Instance), onSuccess, onError, Error.BuyItemErrors);
+			var paymentHeaders = PurchaseParamsGenerator.GetPaymentHeaders(Token.Instance, customHeaders);
+			WebRequestHelper.Instance.PostRequest<PurchaseData, TempPurchaseParams>(SdkType.Store, url, tempPurchaseParams, paymentHeaders, onSuccess, onError, Error.BuyItemErrors);
 		}
 	}
 }

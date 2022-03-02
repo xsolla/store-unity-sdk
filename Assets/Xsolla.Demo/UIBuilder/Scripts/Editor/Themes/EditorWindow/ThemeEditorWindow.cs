@@ -96,7 +96,7 @@ namespace Xsolla.UIBuilder
 			window.SpritesDrawer.IsMetaDirty = true;
 		}
 
-		[MenuItem("Window/Xsolla/UI Themes Editor")]
+		[MenuItem("Window/Xsolla/UI Themes Editor", false, 1100)]
 		private static void OpenWindow()
 		{
 			GetWindow<ThemeEditorWindow>("UI Themes Editor");

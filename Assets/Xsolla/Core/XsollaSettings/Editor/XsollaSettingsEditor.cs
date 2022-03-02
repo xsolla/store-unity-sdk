@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace Xsolla.Core.Editor
+namespace Xsolla.Core
 {
 	[CustomEditor(typeof(XsollaSettings))]
 	public partial class XsollaSettingsEditor : UnityEditor.Editor
@@ -12,17 +12,18 @@ namespace Xsolla.Core.Editor
 			Selection.activeObject = XsollaSettings.Instance;
 		}
 
+		private GUIStyle GroupAreaStyle => GUI.skin.box;
+		
+		private GUIStyle GroupHeaderStyle => EditorStyles.boldLabel;
+
 		public override void OnInspectorGUI()
 		{
-			var changed =	XsollaLoginSettings() ||
-							PublishingPlatformSettings() ||
-							XsollaStoreSettings() ||
-							XsollaPayStationUISettings() ||
-							AndroidSDKSettings() ||
-							InventorySDKSettings();
-
-			XsollaAndroidSettings();
-			DemoSettings();
+			var changed = GeneralSettings() ||
+			              LoginSettings() ||
+			              PayStationSettings() ||
+			              AndroidSettings() ||
+			              DesktopSettings() ||
+			              EditorSettings();
 
 			if (changed)
 			{

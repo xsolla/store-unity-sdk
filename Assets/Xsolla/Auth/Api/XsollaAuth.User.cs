@@ -6,12 +6,12 @@ namespace Xsolla.Auth
 {
 	public partial class XsollaAuth : MonoSingleton<XsollaAuth>
 	{
-		private const string URL_JWT_USER_REGISTRATION = "https://login.xsolla.com/api/{0}?projectId={1}&login_url={2}{3}";
+		private const string URL_JWT_USER_REGISTRATION = "https://login.xsolla.com/api/user?projectId={0}&login_url={1}{2}";
 		private const string URL_OAUTH_USER_REGISTRATION = "https://login.xsolla.com/api/oauth2/user?response_type=code&client_id={0}&state={1}&redirect_uri={2}";
-		private const string URL_JWT_USER_SIGNIN = "https://login.xsolla.com/api/{0}login?projectId={1}&login_url={2}{3}&with_logout={4}";
+		private const string URL_JWT_USER_SIGNIN = "https://login.xsolla.com/api/login?projectId={0}&login_url={1}{2}&with_logout={3}";
 		private const string URL_OAUTH_USER_SIGNIN = "https://login.xsolla.com/api/oauth2/login/token?client_id={0}&scope=offline{1}";
 		private const string URL_USER_INFO = "https://login.xsolla.com/api/users/me";
-		private const string URL_PASSWORD_RESET = "https://login.xsolla.com/api/{0}?projectId={1}&login_url={2}";
+		private const string URL_PASSWORD_RESET = "https://login.xsolla.com/api/password/reset/request?projectId={0}&login_url={1}";
 		private const string URL_JWT_RESEND_CONFIRMATION_LINK = "https://login.xsolla.com/api/user/resend_confirmation_link?projectId={0}&login_url={1}{2}";
 		private const string URL_OAUTH_RESEND_CONFIRMATION_LINK = "https://login.xsolla.com/api/oauth2/user/resend_confirmation_link?client_id={0}&state={1}&redirect_uri={2}";
 		private const string URL_JWT_USER_SOCIAL_NETWORK_TOKEN_AUTH = "https://login.xsolla.com/api/social/{0}/login_with_token?projectId={1}&payload={2}&with_logout={3}";
@@ -86,11 +86,10 @@ namespace Xsolla.Auth
 		{
 			if (XsollaSettings.AuthorizationType == AuthorizationType.JWT)
 			{
-				var proxyParam = XsollaSettings.UseProxy ? "proxy/registration" : "user";
 				var projectIdParam = XsollaSettings.LoginId;
 				var loginUrlParam = (!string.IsNullOrEmpty(redirectUri)) ? redirectUri : XsollaSettings.CallbackUrl;
 				var payloadParam = (!string.IsNullOrEmpty(payload)) ? $"&payload={payload}" : "";
-				return string.Format(URL_JWT_USER_REGISTRATION, proxyParam, projectIdParam, loginUrlParam, payloadParam);
+				return string.Format(URL_JWT_USER_REGISTRATION, projectIdParam, loginUrlParam, payloadParam);
 			}
 			else /*if (XsollaSettings.AuthorizationType == AuthorizationType.OAuth2_0)*/
 			{
@@ -131,13 +130,11 @@ namespace Xsolla.Auth
 		{
 			var loginData = new LoginRequest(username, password, rememberUser);
 
-			var proxyParam = XsollaSettings.UseProxy ? "proxy/" : string.Empty;
 			var projectIdParam = XsollaSettings.LoginId;
 			var loginUrlParam = (!string.IsNullOrEmpty(redirectUri)) ? redirectUri : XsollaSettings.CallbackUrl;
 			var payloadParam = (!string.IsNullOrEmpty(payload)) ? $"&payload={payload}" : "";
-			var withLogoutParam = XsollaSettings.JwtTokenInvalidationEnabled ? "1" : "0";
-			var url = string.Format(URL_JWT_USER_SIGNIN, proxyParam, projectIdParam, loginUrlParam, payloadParam, withLogoutParam);
-
+			var withLogoutParam = XsollaSettings.InvalidateExistingSessions ? "1" : "0";
+			var url = string.Format(URL_JWT_USER_SIGNIN, projectIdParam, loginUrlParam, payloadParam, withLogoutParam);
 			WebRequestHelper.Instance.PostRequest<LoginUrlResponse, LoginRequest>(SdkType.Login, url, loginData, (response) =>
 			{
 				var parsedToken = ParseUtils.ParseToken(response.login_url);
@@ -182,7 +179,7 @@ namespace Xsolla.Auth
 		private void JwtStartAuthByEmail(string email, string linkUrl, bool? sendLink, Action<string> onSuccess, Action<Error> onError = null, string payload = null)
 		{
 			var data = new StartAuthByEmailRequest(email, linkUrl, sendLink);
-			var tokenInvalidationFlag = XsollaSettings.JwtTokenInvalidationEnabled ? "1" : "0";
+			var tokenInvalidationFlag = XsollaSettings.InvalidateExistingSessions ? "1" : "0";
 			var url = string.Format(URL_JWT_START_AUTH_BY_EMAIL, XsollaSettings.LoginId, XsollaSettings.CallbackUrl, tokenInvalidationFlag, payload);
 
 			WebRequestHelper.Instance.PostRequest<StartAuthByEmailResponse, StartAuthByEmailRequest>(
@@ -292,7 +289,7 @@ namespace Xsolla.Auth
 		private void JwtStartAuthByPhoneNumber(string phoneNumber, string linkUrl, bool sendLink, Action<string> onSuccess, Action<Error> onError = null, string payload = null)
 		{
 			var data = new StartAuthByPhoneNumberRequest(phoneNumber, linkUrl, sendLink);
-			var tokenInvalidationFlag = XsollaSettings.JwtTokenInvalidationEnabled ? "1" : "0";
+			var tokenInvalidationFlag = XsollaSettings.InvalidateExistingSessions ? "1" : "0";
 			var url = string.Format(URL_JWT_START_AUTH_BY_PHONE_NUMBER, XsollaSettings.LoginId, XsollaSettings.CallbackUrl, tokenInvalidationFlag, payload);
 
 			WebRequestHelper.Instance.PostRequest<StartAuthByPhoneNumberResponse, StartAuthByPhoneNumberRequest>(
@@ -397,10 +394,9 @@ namespace Xsolla.Auth
 		/// <seealso cref="SignIn"/>
 		public void ResetPassword(string email, string redirectUri = null, Action onSuccess = null, Action<Error> onError = null)
 		{
-			var proxyParam = XsollaSettings.UseProxy ? "proxy/registration/password/reset" : "password/reset/request";
 			var projectIdParam = XsollaSettings.LoginId;
 			var loginUrlParam = (!string.IsNullOrEmpty(redirectUri)) ? redirectUri : XsollaSettings.CallbackUrl;
-			var url = string.Format(URL_PASSWORD_RESET, proxyParam, projectIdParam, loginUrlParam);
+			var url = string.Format(URL_PASSWORD_RESET, projectIdParam, loginUrlParam);
 
 			WebRequestHelper.Instance.PostRequest(SdkType.Login, url, new ResetPassword(email), onSuccess, onError, Error.ResetPasswordErrors);
 		}
@@ -464,7 +460,7 @@ namespace Xsolla.Auth
 
 		private void JwtAuthWithSocialNetworkAccessToken(string accessToken, string accessTokenSecret, string openId, string providerName, string payload, Action<string> onSuccess, Action<Error> onError)
 		{
-			var tokenInvalidationFlag = XsollaSettings.JwtTokenInvalidationEnabled ? "1" : "0";
+			var tokenInvalidationFlag = XsollaSettings.InvalidateExistingSessions ? "1" : "0";
 			var url = string.Format(URL_JWT_USER_SOCIAL_NETWORK_TOKEN_AUTH, providerName, XsollaSettings.LoginId, payload, tokenInvalidationFlag);
 
 			var requestData = new SocialNetworkAccessTokenRequest

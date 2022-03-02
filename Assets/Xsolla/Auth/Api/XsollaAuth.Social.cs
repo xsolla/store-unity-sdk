@@ -54,7 +54,7 @@ namespace Xsolla.Auth
 				var loginUrlParam = (!string.IsNullOrEmpty(redirect_uri)) ? $"&login_url={redirect_uri}" : "";
 				var fieldsParam = (fields != null && fields.Count > 0) ? $"&fields={string.Join(",", fields)}" : "";
 				var payloadParam = (!string.IsNullOrEmpty(payload)) ? $"&payload={payload}" : "";
-				var withLogoutParam = XsollaSettings.JwtTokenInvalidationEnabled ? "1" : "0";
+				var withLogoutParam = XsollaSettings.InvalidateExistingSessions ? "1" : "0";
 				var codeParam = (!string.IsNullOrEmpty(code)) ? $"&code={code}" : "";
 
 				url = string.Format(URL_JWT_STEAM_CROSSAUTH, projectIdParam, loginUrlParam, fieldsParam, appId, payloadParam, withLogoutParam, sessionTicket, codeParam);
@@ -106,7 +106,7 @@ namespace Xsolla.Auth
 			{
 				case AuthorizationType.JWT:
 					var projectId = XsollaSettings.LoginId;
-					var withLogoutParam = XsollaSettings.JwtTokenInvalidationEnabled ? "1" : "0";
+					var withLogoutParam = XsollaSettings.InvalidateExistingSessions ? "1" : "0";
 					var fieldsParam = (fields != null && fields.Count > 0) ? $"&fields={string.Join(",", fields)}" : "";
 					var payloadParam = (!string.IsNullOrEmpty(payload)) ? $"&payload={payload}" : "";
 					result = string.Format(URL_JWT_SOCIAL_AUTH, providerName.GetParameter(), projectId, withLogoutParam, fieldsParam, payloadParam);
