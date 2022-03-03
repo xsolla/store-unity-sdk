@@ -70,15 +70,15 @@ namespace Xsolla.Demo
 
 		[Obsolete("Use SdkAuthLogic instead")]
 		public void Registration(string username, string password, string email, string state = null, Action onSuccess = null, Action<Error> onError = null)
-			=> SdkAuthLogic.Instance.Registration(username, password, email, state, onSuccess, onError);
+			=> SdkAuthLogic.Instance.Register(username, password, email, state, onSuccess, onError);
 
 		[Obsolete("Use SdkAuthLogic instead")]
 		public void Registration(string username, string password, string email, string state = null, Action<int> onSuccess = null, Action<Error> onError = null)
-			=> SdkAuthLogic.Instance.Registration(username, password, email, state, onSuccess, onError);
+			=> SdkAuthLogic.Instance.Register(username, password, email, state, onSuccess, onError);
 
 		[Obsolete("Use SdkAuthLogic instead")]
 		public void Registration(string username, string password, string email, string state = null, Action<LoginUrlResponse> onSuccess = null, Action<Error> onError = null)
-			=> SdkAuthLogic.Instance.Registration(username, password, email, state, onSuccess, onError);
+			=> SdkAuthLogic.Instance.Register(username, password, email, state, onSuccess, onError);
 
 		[Obsolete("Use SdkAuthLogic instead")]
 		public void SignIn(string username, string password, bool rememberUser, Action<string> onSuccess, Action<Error> onError = null)
@@ -98,7 +98,7 @@ namespace Xsolla.Demo
 
 		[Obsolete("Use SdkUserAccountLogic instead")]
 		public void ChangeUserPhoneNumber(string token, string phoneNumber, Action onSuccess, Action<Error> onError)
-			=> SdkUserAccountLogic.Instance.ChangeUserPhoneNumber(token, phoneNumber, onSuccess, onError);
+			=> SdkUserAccountLogic.Instance.UpdateUserPhoneNumber(token, phoneNumber, onSuccess, onError);
 
 		[Obsolete("Use SdkUserAccountLogic instead")]
 		public void DeleteUserPhoneNumber(string token, string phoneNumber, Action onSuccess, Action<Error> onError)
@@ -112,7 +112,7 @@ namespace Xsolla.Demo
 		#region Social
 		[Obsolete("Use SdkAuthLogic instead")]
 		public void SteamAuth(string appId, string sessionTicket, string state = null, Action<string> onSuccess = null, Action<Error> onError = null)
-			=> SdkAuthLogic.Instance.SteamAuth(appId, sessionTicket, state, onSuccess, onError);
+			=> SdkAuthLogic.Instance.SilentAuth("steam", appId, sessionTicket, state, onSuccess, onError);
 
 		[Obsolete("Use SdkAuthLogic instead")]
 		public void AuthViaDeviceID(Core.DeviceType deviceType, string deviceName, string deviceId, string payload = null, string state = null, Action<string> onSuccess = null, Action<Error> onError = null)

@@ -9,7 +9,7 @@ namespace Xsolla.Store
 	{
 		[Obsolete("Use XsollaCatalog instead")]
 		public void GetCatalogShort(string projectId, Action<StoreItemShortCollection> onSuccess, Action<Error> onError = null, string locale = null)
-			=> XsollaCatalog.Instance.GetCatalogShort(projectId, onSuccess, onError, locale);
+			=> XsollaCatalog.Instance.GetCatalogSimplified(projectId, onSuccess, onError, locale);
 
 		[Obsolete("Use XsollaCatalog instead")]
 		public void GetCatalog(string projectId, [NotNull] Action<StoreItems> onSuccess, [CanBeNull] Action<Error> onError, int limit = 50, int offset = 0, [CanBeNull] string locale = null, string additionalFields = "long_description", [CanBeNull] string country = null)

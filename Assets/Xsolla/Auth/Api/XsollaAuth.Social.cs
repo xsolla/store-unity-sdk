@@ -6,20 +6,17 @@ namespace Xsolla.Auth
 {
 	public partial class XsollaAuth : MonoSingleton<XsollaAuth>
 	{
-		/// <summary>
-		/// Temporary Steam auth endpoint. Will be changed later.
-		/// </summary>
-		private const string URL_JWT_STEAM_CROSSAUTH =
-			"https://login.xsolla.com/api/social/steam/cross_auth?projectId={0}{1}{2}&app_id={3}{4}&with_logout={5}&session_ticket={6}{7}&is_redirect=false";
+		private const string URL_JWT_SILENT_AUTH =
+			"https://login.xsolla.com/api/social/{0}/cross_auth?projectId={1}{2}{3}&app_id={4}{5}&with_logout={6}&session_ticket={7}{8}&is_redirect=false";
 
-		private const string URL_OAUTH_STEAM_CROSSAUTH =
-			"https://login.xsolla.com/api/oauth2/social/steam/cross_auth?client_id={0}&response_type=code&state={1}&redirect_uri={2}&app_id={3}&scope=offline&session_ticket={4}{5}&is_redirect=false";
+		private const string URL_OAUTH_SILENT_AUTH =
+			"https://login.xsolla.com/api/oauth2/social/{0}/cross_auth?client_id={1}&response_type=code&state={2}&redirectUrl={3}&app_id={4}&scope=offline&session_ticket={5}{6}&is_redirect=false";
 
 		private const string URL_JWT_SOCIAL_AUTH =
 			"https://login.xsolla.com/api/social/{0}/login_redirect?projectId={1}&with_logout={2}{3}{4}";
 
 		private const string URL_OAUTH_SOCIAL_AUTH =
-			"https://login.xsolla.com/api/oauth2/social/{0}/login_redirect?client_id={1}&state={2}&response_type=code&redirect_uri={3}&scope=offline";
+			"https://login.xsolla.com/api/oauth2/social/{0}/login_redirect?client_id={1}&state={2}&response_type=code&redirectUrl={3}&scope=offline";
 
 		private const string URL_GET_AVAILABLE_SOCIAL_NETWORKS =
 			"https://login.xsolla.com/api/users/me/login_urls?{0}";
@@ -33,9 +30,10 @@ namespace Xsolla.Auth
 		/// <remarks> Swagger method name:<c>Silent Authentication</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/login-api/methods/jwt/jwt-silent-authentication"/>.
 		/// <see cref="https://developers.xsolla.com/login-api/methods/oauth-20/oauth-20-silent-authentication"/>.
-		/// <param name="appId">Your Steam app ID.</param>
+		/// <param name="providerName">Name of the platform the user authorized in. Can be steam, xbox, stone, mailru, abyss.</param>
+		/// <param name="appId">Your app ID in the platform.</param>
 		/// <param name="sessionTicket">Session ticket received from the platform.</param>
-		/// <param name="redirect_uri">URL to redirect the user to after account confirmation, successful authentication, two-factor authentication configuration, or password reset confirmation.
+		/// <param name="redirectUrl">URL to redirect the user to after account confirmation, successful authentication, two-factor authentication configuration, or password reset confirmation.
 		/// Must be identical to the Callback URL specified in the URL block of Publisher Account. To find it, go to Login > your Login project > General settings. Required if there are several Callback URLs.</param>
 		/// <param name="fields">List of parameters which must be requested from the user or social network additionally and written to the JWT.The parameters must be separated by a comma. Used only for JWT auth.</param>
 		/// <param name="oauthState">Value used for additional user verification on backend. Must be at least 8 symbols long. Will be "xsollatest" by default. Used only for OAuth2.0 auth.</param>
@@ -43,48 +41,51 @@ namespace Xsolla.Auth
 		/// <param name="code">Code received from the platform.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
-		public void SteamAuth(string appId, string sessionTicket, string redirect_uri = null, List<string> fields = null, string oauthState = null, string payload = null, string code = null, Action<string> onSuccess = null, Action<Error> onError = null)
+		public void SilentAuth(string providerName, string appId, string sessionTicket, string redirectUrl = null, List<string> fields = null, string oauthState = null, string payload = null, string code = null, Action<string> onSuccess = null, Action<Error> onError = null)
 		{
-			string url = default(string);
-			Action<LoginUrlResponse> onSuccessResponse = null;
-
 			if (XsollaSettings.AuthorizationType == AuthorizationType.JWT)
-			{
-				var projectIdParam = XsollaSettings.LoginId;
-				var loginUrlParam = (!string.IsNullOrEmpty(redirect_uri)) ? $"&login_url={redirect_uri}" : "";
-				var fieldsParam = (fields != null && fields.Count > 0) ? $"&fields={string.Join(",", fields)}" : "";
-				var payloadParam = (!string.IsNullOrEmpty(payload)) ? $"&payload={payload}" : "";
-				var withLogoutParam = XsollaSettings.InvalidateExistingSessions ? "1" : "0";
-				var codeParam = (!string.IsNullOrEmpty(code)) ? $"&code={code}" : "";
-
-				url = string.Format(URL_JWT_STEAM_CROSSAUTH, projectIdParam, loginUrlParam, fieldsParam, appId, payloadParam, withLogoutParam, sessionTicket, codeParam);
-
-				onSuccessResponse = response =>
-				{
-					if (ParseUtils.TryGetValueFromUrl(response.login_url, ParseParameter.token, out string token))
-						onSuccess?.Invoke(token);
-					else
-						onError?.Invoke(Error.UnknownError);
-				};
-			}
+				JwtSilentAuth(providerName, appId, sessionTicket, redirectUrl, fields, oauthState, payload, code, onSuccess, onError);
 			else /*if (XsollaSettings.AuthorizationType == AuthorizationType.OAuth2_0)*/
+				OAuthSilentAuth(providerName, appId, sessionTicket, redirectUrl, fields, oauthState, payload, code, onSuccess, onError);
+		}
+
+		private void JwtSilentAuth(string providerName, string appId, string sessionTicket, string redirectUrl = null, List<string> fields = null, string oauthState = null, string payload = null, string code = null, Action<string> onSuccess = null, Action<Error> onError = null)
+		{
+			var projectIdParam = XsollaSettings.LoginId;
+			var loginUrlParam = (!string.IsNullOrEmpty(redirectUrl)) ? $"&login_url={redirectUrl}" : "";
+			var fieldsParam = (fields != null && fields.Count > 0) ? $"&fields={string.Join(",", fields)}" : "";
+			var payloadParam = (!string.IsNullOrEmpty(payload)) ? $"&payload={payload}" : "";
+			var withLogoutParam = XsollaSettings.InvalidateExistingSessions ? "1" : "0";
+			var codeParam = (!string.IsNullOrEmpty(code)) ? $"&code={code}" : "";
+			var url = string.Format(URL_JWT_SILENT_AUTH, providerName, projectIdParam, loginUrlParam, fieldsParam, appId, payloadParam, withLogoutParam, sessionTicket, codeParam);
+
+			Action<LoginUrlResponse> onSuccessResponse = response =>
 			{
-				var clientIdParam = XsollaSettings.OAuthClientId;
-				var stateParam = (!string.IsNullOrEmpty(oauthState)) ? oauthState : DEFAULT_OAUTH_STATE;
-				var redirectUriParam = (!string.IsNullOrEmpty(redirect_uri)) ? redirect_uri : DEFAULT_REDIRECT_URI;
-				var codeParam = (!string.IsNullOrEmpty(code)) ? $"&code={code}" : "";
+				if (ParseUtils.TryGetValueFromUrl(response.login_url, ParseParameter.token, out string token))
+					onSuccess?.Invoke(token);
+				else
+					onError?.Invoke(Error.UnknownError);
+			};
 
-				url = string.Format(URL_OAUTH_STEAM_CROSSAUTH, clientIdParam, stateParam, redirectUriParam, appId, sessionTicket, codeParam);
+			WebRequestHelper.Instance.GetRequest<LoginUrlResponse>(SdkType.Login, url, onSuccessResponse, onError);
+		}
+		
+		private void OAuthSilentAuth(string providerName, string appId, string sessionTicket, string redirectUrl = null, List<string> fields = null, string oauthState = null, string payload = null, string code = null, Action<string> onSuccess = null, Action<Error> onError = null)
+		{
+			var clientIdParam = XsollaSettings.OAuthClientId;
+			var stateParam = (!string.IsNullOrEmpty(oauthState)) ? oauthState : DEFAULT_OAUTH_STATE;
+			var redirectUriParam = (!string.IsNullOrEmpty(redirectUrl)) ? redirectUrl : DEFAULT_REDIRECT_URI;
+			var codeParam = (!string.IsNullOrEmpty(code)) ? $"&code={code}" : "";
 
-				onSuccessResponse = response =>
-				{
-					if (ParseUtils.TryGetValueFromUrl(response.login_url, ParseParameter.code, out string codeToExchange))
-						XsollaAuth.Instance.ExchangeCodeToToken(codeToExchange, onSuccessExchange: token => onSuccess?.Invoke(token), onError: onError);
-					else
-						onError?.Invoke(Error.UnknownError);
-				};
-			}
+			var url = string.Format(URL_OAUTH_SILENT_AUTH, providerName, clientIdParam, stateParam, redirectUriParam, appId, sessionTicket, codeParam);
 
+			Action<LoginUrlResponse> onSuccessResponse = response =>
+			{
+				if (ParseUtils.TryGetValueFromUrl(response.login_url, ParseParameter.code, out string codeToExchange))
+					ExchangeCodeToToken(codeToExchange, onSuccessExchange: token => onSuccess?.Invoke(token), onError: onError);
+				else
+					onError?.Invoke(Error.UnknownError);
+			};
 			WebRequestHelper.Instance.GetRequest<LoginUrlResponse>(SdkType.Login, url, onSuccessResponse, onError);
 		}
 

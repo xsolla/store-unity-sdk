@@ -11,7 +11,7 @@ namespace Xsolla.Store
 	{
 		[Obsolete("Use XsollaCatalog instead")]
 		public void ItemPurchase(string projectId, string itemSku, [CanBeNull] Action<PurchaseData> onSuccess, [CanBeNull] Action<Error> onError, PurchaseParams purchaseParams = null)
-			=> XsollaCatalog.Instance.ItemPurchase(projectId, itemSku, onSuccess, onError, purchaseParams);
+			=> XsollaCatalog.Instance.PurchaseItem(projectId, itemSku, onSuccess, onError, purchaseParams);
 
 		[Obsolete("Use XsollaCatalog instead")]
 		public void ItemPurchaseForVirtualCurrency(
@@ -21,15 +21,15 @@ namespace Xsolla.Store
 			[CanBeNull] Action<PurchaseData> onSuccess,
 			[CanBeNull] Action<Error> onError,
 			PurchaseParams purchaseParams = null)
-			=> XsollaCatalog.Instance.ItemPurchaseForVirtualCurrency(projectId, itemSku, priceSku, onSuccess, onError, purchaseParams);
+			=> XsollaCatalog.Instance.PurchaseItemForVirtualCurrency(projectId, itemSku, priceSku, onSuccess, onError, purchaseParams);
 
 		[Obsolete("Use XsollaCart instead")]
 		public void CartPurchase(string projectId, [CanBeNull] Action<PurchaseData> onSuccess, [CanBeNull] Action<Error> onError, PurchaseParams purchaseParams = null)
-			=> XsollaCart.Instance.CartPurchase(projectId, onSuccess, onError, purchaseParams);
+			=> XsollaCart.Instance.PurchaseCart(projectId, onSuccess, onError, purchaseParams);
 
 		[Obsolete("Use XsollaCart instead")]
 		public void CartPurchase(string projectId, string cartId, [CanBeNull] Action<PurchaseData> onSuccess, [CanBeNull] Action<Error> onError, PurchaseParams purchaseParams = null)
-			=> XsollaCart.Instance.CartPurchase(projectId, cartId, onSuccess, onError, purchaseParams);
+			=> XsollaCart.Instance.PurchaseCart(projectId, cartId, onSuccess, onError, purchaseParams);
 
 		[Obsolete("Use XsollaOrders instead")]
 		public void OpenPurchaseUi(PurchaseData purchaseData, bool forcePlatformBrowser = false, Action<int> onRestrictedPaymentMethod = null)

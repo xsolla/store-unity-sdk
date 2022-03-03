@@ -239,7 +239,7 @@ namespace Xsolla.Demo
 			SdkAuthLogic.Instance.GetUserInfo(token,
 				onSuccess: info => info.phone = newValue);
 
-			SdkUserAccountLogic.Instance.ChangeUserPhoneNumber(token, newValue,
+			SdkUserAccountLogic.Instance.UpdateUserPhoneNumber(token, newValue,
 				onSuccess: () => _isProfileUpdated = true,
 				onError: _commonErrorCallback);
 		}

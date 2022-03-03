@@ -17,15 +17,15 @@ namespace Xsolla.Login
 
 		[Obsolete("Use XsollaAuth instead")]
 		public void Registration(string username, string password, string email, string redirectUri = null, string state = null, string payload = null, bool? acceptConsent = null, bool? promoEmailAgreement = null, List<string> fields = null, Action<int> onSuccess = null, Action<Error> onError = null)
-			=> XsollaAuth.Instance.Registration(username, password, email, redirectUri, state, payload, acceptConsent, promoEmailAgreement, fields, onSuccess, onError);
+			=> XsollaAuth.Instance.Register(username, password, email, redirectUri, state, payload, acceptConsent, promoEmailAgreement, fields, onSuccess, onError);
 
 		[Obsolete("Use XsollaAuth instead")]
 		public void Registration(string username, string password, string email, string redirectUri = null, string oauthState = null, string payload = null, bool? acceptConsent = null, bool? promoEmailAgreement = null, List<string> fields = null, Action onSuccess = null, Action<Error> onError = null)
-			=> XsollaAuth.Instance.Registration(username, password, email, redirectUri, oauthState, payload, acceptConsent, promoEmailAgreement, fields, onSuccess, onError);
+			=> XsollaAuth.Instance.Register(username, password, email, redirectUri, oauthState, payload, acceptConsent, promoEmailAgreement, fields, onSuccess, onError);
 
 		[Obsolete("Use XsollaAuth instead")]
 		public void Registration(string username, string password, string email, string redirectUri = null, string oauthState = null, string payload = null, bool? acceptConsent = null, bool? promoEmailAgreement = null, List<string> fields = null, Action<LoginUrlResponse> onSuccess = null, Action<Error> onError = null)
-			=> XsollaAuth.Instance.Registration(username, password, email, redirectUri, oauthState, payload, acceptConsent, promoEmailAgreement, fields, onSuccess, onError);
+			=> XsollaAuth.Instance.Register(username, password, email, redirectUri, oauthState, payload, acceptConsent, promoEmailAgreement, fields, onSuccess, onError);
 
 		[Obsolete("Use XsollaAuth instead")]
 		public void SignIn(string username, string password, bool rememberMe, string redirectUri = null, string payload = null, Action<string> onSuccess = null, Action<Error> onError = null)
@@ -69,7 +69,7 @@ namespace Xsolla.Login
 
 		[Obsolete("Use XsollaUserAccount instead")]
 		public void ChangeUserPhoneNumber(string token, string phoneNumber, Action onSuccess, Action<Error> onError)
-			=> XsollaUserAccount.Instance.ChangeUserPhoneNumber(token, phoneNumber, onSuccess, onError);
+			=> XsollaUserAccount.Instance.UpdateUserPhoneNumber(token, phoneNumber, onSuccess, onError);
 
 		[Obsolete("Use XsollaUserAccount instead")]
 		public void DeleteUserPhoneNumber(string token, string phoneNumber, Action onSuccess, Action<Error> onError)

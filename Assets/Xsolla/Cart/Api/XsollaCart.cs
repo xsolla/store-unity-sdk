@@ -263,7 +263,7 @@ namespace Xsolla.Cart
 		/// <param name="onError">Failed operation callback.</param>
 		/// <param name="purchaseParams">Purchase parameters such as <c>country</c>, <c>locale</c> and <c>currency</c>.</param>
 		/// <param name="customHeaders">Custom web request headers.</param>
-		public void CartPurchase(string projectId, [CanBeNull] Action<PurchaseData> onSuccess, [CanBeNull] Action<Error> onError, PurchaseParams purchaseParams = null, Dictionary<string, string> customHeaders = null)
+		public void PurchaseCart(string projectId, [CanBeNull] Action<PurchaseData> onSuccess, [CanBeNull] Action<Error> onError, PurchaseParams purchaseParams = null, Dictionary<string, string> customHeaders = null)
 		{
 			var tempPurchaseParams = PurchaseParamsGenerator.GenerateTempPurchaseParams(purchaseParams);
 			var url = string.Format(URL_BUY_CURRENT_CART, projectId);
@@ -282,7 +282,7 @@ namespace Xsolla.Cart
 		/// <param name="onError">Failed operation callback.</param>
 		/// <param name="purchaseParams">Purchase parameters such as <c>country</c>, <c>locale</c> and <c>currency</c>.</param>
 		/// <param name="customHeaders">Custom web request headers.</param>
-		public void CartPurchase(string projectId, string cartId, [CanBeNull] Action<PurchaseData> onSuccess, [CanBeNull] Action<Error> onError, PurchaseParams purchaseParams = null, Dictionary<string, string> customHeaders = null)
+		public void PurchaseCart(string projectId, string cartId, [CanBeNull] Action<PurchaseData> onSuccess, [CanBeNull] Action<Error> onError, PurchaseParams purchaseParams = null, Dictionary<string, string> customHeaders = null)
 		{
 			var tempPurchaseParams = PurchaseParamsGenerator.GenerateTempPurchaseParams(purchaseParams);
 			var url = string.Format(URL_BUY_SPECIFIC_CART, projectId, cartId);

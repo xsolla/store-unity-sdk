@@ -62,20 +62,20 @@ namespace Xsolla.Auth
 		/// <param name="onError">Failed operation callback.</param>
 		/// <seealso cref="SignIn"/>
 		/// <seealso cref="ResetPassword"/>
-		public void Registration(string username, string password, string email, string redirectUri = null, string state = null, string payload = null, bool? acceptConsent = null, bool? promoEmailAgreement = null, List<string> fields = null, Action<int> onSuccess = null, Action<Error> onError = null)
+		public void Register(string username, string password, string email, string redirectUri = null, string state = null, string payload = null, bool? acceptConsent = null, bool? promoEmailAgreement = null, List<string> fields = null, Action<int> onSuccess = null, Action<Error> onError = null)
 		{
 			var registrationData = new RegistrationJson(username, password, email, acceptConsent, fields, promoEmailAgreement);
 			var url = GetRegistrationUrl(state, payload, redirectUri);
 			WebRequestHelper.Instance.PostRequest(SdkType.Login, url, registrationData, onSuccess, onError, Error.RegistrationErrors);
 		}
 
-		public void Registration(string username, string password, string email, string redirectUri = null, string oauthState = null, string payload = null, bool? acceptConsent = null, bool? promoEmailAgreement = null, List<string> fields = null, Action onSuccess = null, Action<Error> onError = null)
+		public void Register(string username, string password, string email, string redirectUri = null, string oauthState = null, string payload = null, bool? acceptConsent = null, bool? promoEmailAgreement = null, List<string> fields = null, Action onSuccess = null, Action<Error> onError = null)
 		{
 			Action<int> onSuccessRegistration = _ => onSuccess?.Invoke();
-			Registration(username, password, email, redirectUri, oauthState, payload, acceptConsent, promoEmailAgreement, fields, onSuccessRegistration, onError);
+			Register(username, password, email, redirectUri, oauthState, payload, acceptConsent, promoEmailAgreement, fields, onSuccessRegistration, onError);
 		}
 
-		public void Registration(string username, string password, string email, string redirectUri = null, string oauthState = null, string payload = null, bool? acceptConsent = null, bool? promoEmailAgreement = null, List<string> fields = null, Action<LoginUrlResponse> onSuccess = null, Action<Error> onError = null)
+		public void Register(string username, string password, string email, string redirectUri = null, string oauthState = null, string payload = null, bool? acceptConsent = null, bool? promoEmailAgreement = null, List<string> fields = null, Action<LoginUrlResponse> onSuccess = null, Action<Error> onError = null)
 		{
 			var registrationData = new RegistrationJson(username, password, email, acceptConsent, fields, promoEmailAgreement);
 			var url = GetRegistrationUrl(oauthState, payload, redirectUri);

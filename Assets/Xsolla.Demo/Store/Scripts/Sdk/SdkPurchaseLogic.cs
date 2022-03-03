@@ -16,7 +16,7 @@ namespace Xsolla.Demo
 
 		public void PurchaseForRealMoney(CatalogItemModel item, RestrictedPaymentAllower restrictedPaymentAllower = null, Action<CatalogItemModel> onSuccess = null, Action<Error> onError = null)
 		{
-			XsollaCatalog.Instance.ItemPurchase(XsollaSettings.StoreProjectId, item.Sku,
+			XsollaCatalog.Instance.PurchaseItem(XsollaSettings.StoreProjectId, item.Sku,
 			onSuccess: data =>
 			{
 				XsollaOrders.Instance.OpenPurchaseUi(data,
@@ -46,7 +46,7 @@ namespace Xsolla.Demo
 
 		public void PurchaseForVirtualCurrency(CatalogItemModel item, Action<CatalogItemModel> onSuccess = null, Action<Error> onError = null)
 		{
-			XsollaCatalog.Instance.ItemPurchaseForVirtualCurrency(
+			XsollaCatalog.Instance.PurchaseItemForVirtualCurrency(
 				XsollaSettings.StoreProjectId,
 				item.Sku,
 				item.VirtualPrice?.Key,
@@ -87,7 +87,7 @@ namespace Xsolla.Demo
 
 					XsollaCart.Instance.FillCart(XsollaSettings.StoreProjectId, cartItems, () =>
 					{
-						XsollaCart.Instance.CartPurchase(XsollaSettings.StoreProjectId, newCart.cart_id, data =>
+						XsollaCart.Instance.PurchaseCart(XsollaSettings.StoreProjectId, newCart.cart_id, data =>
 						{
 							XsollaOrders.Instance.OpenPurchaseUi(data, false, methodId =>
 							{
