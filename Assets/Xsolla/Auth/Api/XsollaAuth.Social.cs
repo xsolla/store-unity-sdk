@@ -10,7 +10,7 @@ namespace Xsolla.Auth
 			"https://login.xsolla.com/api/social/{0}/cross_auth?projectId={1}{2}{3}&app_id={4}{5}&with_logout={6}&session_ticket={7}{8}&is_redirect=false";
 
 		private const string URL_OAUTH_SILENT_AUTH =
-			"https://login.xsolla.com/api/oauth2/social/{0}/cross_auth?client_id={1}&response_type=code&state={2}&redirectUrl={3}&app_id={4}&scope=offline&session_ticket={5}{6}&is_redirect=false";
+			"https://login.xsolla.com/api/oauth2/social/{0}/cross_auth?client_id={1}&response_type=code&state={2}&redirect_uri={3}&app_id={4}&scope=offline&session_ticket={5}{6}&is_redirect=false";
 
 		private const string URL_JWT_SOCIAL_AUTH =
 			"https://login.xsolla.com/api/social/{0}/login_redirect?projectId={1}&with_logout={2}{3}{4}";
