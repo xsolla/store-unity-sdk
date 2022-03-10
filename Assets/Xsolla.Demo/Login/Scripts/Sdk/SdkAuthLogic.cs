@@ -50,7 +50,7 @@ namespace Xsolla.Demo
 			XsollaUserAccount.Instance.UpdateUserInfo(token, info, successCallback, onError);
 		}
 
-		public void Registration(string username, string password, string email, string state = null, Action onSuccess = null, Action<Error> onError = null)
+		public void Register(string username, string password, string email, string state = null, Action onSuccess = null, Action<Error> onError = null)
 		{
 			Action successCallback = () =>
 			{
@@ -58,10 +58,10 @@ namespace Xsolla.Demo
 				RegistrationEvent?.Invoke();
 			};
 
-			XsollaAuth.Instance.Registration(username, password, email, null, state, null, true, true, null, successCallback, onError);
+			XsollaAuth.Instance.Register(username, password, email, null, state, null, true, true, null, successCallback, onError);
 		}
 
-		public void Registration(string username, string password, string email, string state = null, Action<int> onSuccess = null, Action<Error> onError = null)
+		public void Register(string username, string password, string email, string state = null, Action<int> onSuccess = null, Action<Error> onError = null)
 		{
 			Action<int> successCallback = responseCode =>
 			{
@@ -69,10 +69,10 @@ namespace Xsolla.Demo
 				RegistrationEvent?.Invoke();
 			};
 
-			XsollaAuth.Instance.Registration(username, password, email, null, state, null, true, true, null, successCallback, onError);
+			XsollaAuth.Instance.Register(username, password, email, null, state, null, true, true, null, successCallback, onError);
 		}
 
-		public void Registration(string username, string password, string email, string state = null, Action<LoginUrlResponse> onSuccess = null, Action<Error> onError = null)
+		public void Register(string username, string password, string email, string state = null, Action<LoginUrlResponse> onSuccess = null, Action<Error> onError = null)
 		{
 			Action<LoginUrlResponse> successCallback = response =>
 			{
@@ -80,7 +80,7 @@ namespace Xsolla.Demo
 				RegistrationEvent?.Invoke();
 			};
 
-			XsollaAuth.Instance.Registration(username, password, email, null, state, null, true, true, null, successCallback, onError);
+			XsollaAuth.Instance.Register(username, password, email, null, state, null, true, true, null, successCallback, onError);
 		}
 
 		public void SignIn(string username, string password, bool rememberUser, Action<string> onSuccess, Action<Error> onError = null)
@@ -122,7 +122,7 @@ namespace Xsolla.Demo
 		#endregion
 
 		#region Social
-		public void SteamAuth(string appId, string sessionTicket, string state = null, Action<string> onSuccess = null, Action<Error> onError = null)
+		public void SilentAuth(string providerName, string appId, string sessionTicket, string state = null, Action<string> onSuccess = null, Action<Error> onError = null)
 		{
 			Action<string> successCallback = token =>
 			{
@@ -130,7 +130,7 @@ namespace Xsolla.Demo
 				LoginEvent?.Invoke();
 			};
 
-			XsollaAuth.Instance.SteamAuth(appId: appId, sessionTicket: sessionTicket, oauthState: state, payload: null, onSuccess: successCallback, onError: onError);
+			XsollaAuth.Instance.SilentAuth(providerName: providerName, appId: appId, sessionTicket: sessionTicket, oauthState: state, payload: null, onSuccess: successCallback, onError: onError);
 		}
 
 		public void AuthViaDeviceID(Core.DeviceType deviceType, string deviceName, string deviceId, string payload = null, string state = null, Action<string> onSuccess = null, Action<Error> onError = null)

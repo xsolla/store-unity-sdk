@@ -10,7 +10,7 @@ namespace Xsolla.Login
 	{
 		[Obsolete("Use XsollaAuth instead")]
 		public void SteamAuth(string appId, string sessionTicket, string redirect_uri = null, List<string> fields = null, string oauthState = null, string payload = null, string code = null, Action<string> onSuccess = null, Action<Error> onError = null)
-			=> XsollaAuth.Instance.SteamAuth(appId, sessionTicket, redirect_uri, fields, oauthState, payload, code, onSuccess, onError);
+			=> XsollaAuth.Instance.SilentAuth("steam", appId, sessionTicket, redirect_uri, fields, oauthState, payload, code, onSuccess, onError);
 
 		[Obsolete("Use XsollaAuth instead")]
 		public string GetSocialNetworkAuthUrl(SocialProvider providerName, string oauthState = null, List<string> fields = null, string payload = null)

@@ -70,7 +70,7 @@ namespace Xsolla.UserAccount
 		/// <param name="token">JWT from Xsolla Login.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
-		/// <seealso cref="ChangeUserPhoneNumber"/>
+		/// <seealso cref="UpdateUserPhoneNumber"/>
 		/// <seealso cref="DeleteUserPhoneNumber"/>
 		public void GetUserPhoneNumber(string token, Action<string> onSuccess, Action<Error> onError)
 		{
@@ -91,7 +91,7 @@ namespace Xsolla.UserAccount
 		/// <param name="onError">Failed operation callback.</param>
 		/// <seealso cref="GetUserPhoneNumber"/>
 		/// <seealso cref="DeleteUserPhoneNumber"/>
-		public void ChangeUserPhoneNumber(string token, string phoneNumber, Action onSuccess, Action<Error> onError)
+		public void UpdateUserPhoneNumber(string token, string phoneNumber, Action onSuccess, Action<Error> onError)
 		{
 			var request = new UserPhoneNumber
 			{
@@ -111,7 +111,7 @@ namespace Xsolla.UserAccount
 		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		/// <seealso cref="GetUserPhoneNumber"/>
-		/// <seealso cref="ChangeUserPhoneNumber"/>
+		/// <seealso cref="UpdateUserPhoneNumber"/>
 		public void DeleteUserPhoneNumber(string token, string phoneNumber, Action onSuccess, Action<Error> onError)
 		{
 			var url = $"{URL_USER_PHONE}/{phoneNumber}";

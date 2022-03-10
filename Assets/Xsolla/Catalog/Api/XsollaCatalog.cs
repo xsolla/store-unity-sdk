@@ -52,7 +52,7 @@ namespace Xsolla.Catalog
 		/// <param name="locale">Response language. Two-letter lowercase language code per ISO 639-1.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
-		public void GetCatalogShort(string projectId, Action<StoreItemShortCollection> onSuccess, Action<Error> onError = null, string locale = null)
+		public void GetCatalogSimplified(string projectId, Action<StoreItemShortCollection> onSuccess, Action<Error> onError = null, string locale = null)
 		{
 			var url = string.Format(URL_CATALOG_GET_ALL_VIRTUAL_ITEMS, projectId);
 			url = UrlParameterizer.ConcatUrlAndParams(url, locale: locale);
@@ -230,7 +230,7 @@ namespace Xsolla.Catalog
 		/// <param name="purchaseParams">Purchase parameters such as <c>country</c>, <c>locale</c>, and <c>currency</c>.</param>
 		/// <param name="customHeaders">Custom web request headers</param>
 		/// <seealso cref="OpenPurchaseUi"/>
-		public void ItemPurchase(string projectId, string itemSku, [CanBeNull] Action<PurchaseData> onSuccess, [CanBeNull] Action<Error> onError, PurchaseParams purchaseParams = null, Dictionary<string, string> customHeaders = null)
+		public void PurchaseItem(string projectId, string itemSku, [CanBeNull] Action<PurchaseData> onSuccess, [CanBeNull] Action<Error> onError, PurchaseParams purchaseParams = null, Dictionary<string, string> customHeaders = null)
 		{
 			var tempPurchaseParams = PurchaseParamsGenerator.GenerateTempPurchaseParams(purchaseParams);
 			var url = string.Format(URL_BUY_ITEM, projectId, itemSku);
@@ -253,7 +253,7 @@ namespace Xsolla.Catalog
 		/// <param name="platform">Publishing platform the user plays on.</param>
 		/// <param name="customHeaders">>Custom web request headers.</param>
 		/// <seealso cref="OpenPurchaseUi"/>
-		public void ItemPurchaseForVirtualCurrency(
+		public void PurchaseItemForVirtualCurrency(
 			string projectId,
 			string itemSku,
 			string priceSku,

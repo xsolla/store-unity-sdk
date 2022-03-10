@@ -21,9 +21,9 @@ namespace Xsolla.Demo
 			XsollaUserAccount.Instance.GetPublicInfo(token, user, onSuccess, onError = null);
 		}
 
-		public void ChangeUserPhoneNumber(string token, string phoneNumber, Action onSuccess, Action<Error> onError)
+		public void UpdateUserPhoneNumber(string token, string phoneNumber, Action onSuccess, Action<Error> onError)
 		{
-			XsollaUserAccount.Instance.ChangeUserPhoneNumber(token, phoneNumber, onSuccess, onError);
+			XsollaUserAccount.Instance.UpdateUserPhoneNumber(token, phoneNumber, onSuccess, onError);
 		}
 
 		public void DeleteUserPhoneNumber(string token, string phoneNumber, Action onSuccess, Action<Error> onError)
