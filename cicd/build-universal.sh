@@ -17,10 +17,10 @@ if [ "$PLATFORM" == "docker" ]; then
 	LICENCE_LOG_PATH="$BUILD_ROOT/license.log"
 	echo "$UNITY_LICENSE" > "$LICENSE_PATH"
 	unity-editor -batchmode -manualLicenseFile "$LICENSE_PATH" -logFile "$LICENCE_LOG_PATH"
-	unity-editor -batchmode -quit -projectPath "$PROJECT_PATH" -customBuildPath "$BUILD_ROOT" -customBuildTarget "$BUILD_TARGET" -executeMethod Xsolla.BuildsManager.Build -logFile "$BUILD_LOG_PATH"
+	unity-editor -batchmode -quit -projectPath "$PROJECT_PATH" -customBuildPath "$BUILD_ROOT" -customBuildTarget "$BUILD_TARGET" -executeMethod Xsolla.DevTools.BuildsManager.Build -logFile "$BUILD_LOG_PATH"
 else
 	UNITY_PATH="C:/Program Files/Unity/Hub/Editor/$UNITY_VERSION/Editor/Unity.exe"
-	"$UNITY_PATH" -batchmode -quit -projectPath "$PROJECT_PATH" -customBuildPath "$BUILD_ROOT" -buildTarget "$BUILD_TARGET" -executeMethod Xsolla.BuildsManager.Build -logFile "$BUILD_LOG_PATH"
+	"$UNITY_PATH" -batchmode -quit -projectPath "$PROJECT_PATH" -customBuildPath "$BUILD_ROOT" -buildTarget "$BUILD_TARGET" -executeMethod Xsolla.DevTools.BuildsManager.Build -logFile "$BUILD_LOG_PATH"
 fi
 
 EXIT_CODE=$?
