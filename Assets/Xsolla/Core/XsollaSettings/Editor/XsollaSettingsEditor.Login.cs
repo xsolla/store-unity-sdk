@@ -23,7 +23,7 @@ namespace Xsolla.Core
 		private const string OAUTH_CLIENT_ID_TOOLTIP = "To get the ID, set up an OAuth client in Publusher account in the " +
 		                                               "\"Login -> your Login project -> Secure -> OAuth 2.0\" section.";
 
-		private const string AUTH_SERVER_LABEL = "Authentifiaction Server URL";
+		private const string AUTH_SERVER_LABEL = "Authentication Server URL";
 		private const string AUTH_SERVER_TOOLTIP = "URL for login via an access token.";
 
 		private readonly string[] AuthorizationTypeOptions ={
