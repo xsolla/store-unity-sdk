@@ -2,25 +2,54 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
-namespace Xsolla
+namespace Xsolla.DevTools
 {
 	public static class PackagesManager
 	{
-		[MenuItem("Dev Tools/Export package")]
-		public static void ExportPackageDev()
+		[MenuItem("Dev Tools/Export SDK package", false, 100)]
+		public static void ExportSdk()
 		{
-			var packagePath = Application.dataPath.Replace("Assets", string.Empty);
-			packagePath = Path.Combine(packagePath, "xsolla-commerce-sdk.unitypackage");
+			var assetGuids = GetGuids("Assets/Xsolla");
+			var packagePath = BuildPackagePath("xsolla-commerce-sdk");
 
 			var parameters = new object[]{
-				GetGuids("Assets/Xsolla"),
+				assetGuids,
 				packagePath
 			};
 
+			ExportPackage(parameters);
+		}
+
+		[MenuItem("Dev Tools/Export DEMO package", false, 110)]
+		public static void ExportDemo()
+		{
+			var sdkAssetGuids = GetGuids("Assets/Xsolla");
+			var demoAssetGuids = GetGuids("Assets/Xsolla.Demo");
+			var assetGuids = sdkAssetGuids.Concat(demoAssetGuids).Distinct().ToArray();
+
+			var packagePath = BuildPackagePath("xsolla-commerce-demo");
+			
+			var parameters = new object[]{
+				assetGuids,
+				packagePath
+			};
+
+			ExportPackage(parameters);
+		}
+
+		private static string BuildPackagePath(string packageName)
+		{
+			var projectPath = Application.dataPath.Replace("Assets", string.Empty);
+			return Path.Combine(projectPath, $"{packageName}.unitypackage");
+		}
+
+		private static void ExportPackage(object[] parameters)
+		{
 			var methods = new List<string>{
 				"UnityEditor.PackageUtility.ExportPackageAndPackageManagerManifest",
 			};
