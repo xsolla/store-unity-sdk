@@ -55,23 +55,30 @@ namespace Xsolla.Core
 
 		public void OpenPurchase(string url, string token, bool forcePlatformBrowser = false, Action<int> onRestrictedPaymentMethod = null)
 		{
+			var isEditor = Application.isEditor;
+			var inAppBrowserEnabled = XsollaSettings.InAppBrowserEnabled;
+			var isSandbox = XsollaSettings.IsSandbox;
+			
 #if UNITY_ANDROID
-			if (!Application.isEditor && XsollaSettings.InAppBrowserEnabled)
+			if (!isEditor && inAppBrowserEnabled)
 			{
 				using (var sdkHelper = new AndroidSDKPaymentsHelper())
 				{
-					sdkHelper.PerformPayment(token, XsollaSettings.IsSandbox);
+					sdkHelper.PerformPayment(token, isSandbox);
 				}
-
 				return;
 			}
-#endif
-
-#if UNITY_WEBGL
-			if((Application.platform == RuntimePlatform.WebGLPlayer) && XsollaSettings.InAppBrowserEnabled)
+#elif UNITY_IOS
+			if (!isEditor && inAppBrowserEnabled)
+			{
+				new IosSDKPaymentsHelper().PerformPayment(token, isSandbox);
+				return;
+			}
+#elif UNITY_WEBGL
+			if((Application.platform == RuntimePlatform.WebGLPlayer) && inAppBrowserEnabled)
 			{
 				Screen.fullScreen = false;
-				OpenPaystationWidget(token, XsollaSettings.IsSandbox);
+				OpenPaystationWidget(token, isSandbox);
 				return;
 			}
 #endif

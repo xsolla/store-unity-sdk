@@ -29,10 +29,15 @@ namespace Xsolla.Core.Editor
 				var targetGuid = project.TargetGuidByName(targetName);
 #endif
 				project.SetBuildProperty(targetGuid, "ENABLE_BITCODE", "NO");
-				project.SetBuildProperty(targetGuid, "SWIFT_OBJC_BRIDGING_HEADER", "Libraries/Xsolla/Core/Plugins/iOS/Scripts/XsollaSDKLoginKitUnity-Bridging-Header.h");
-				project.SetBuildProperty(targetGuid, "SWIFT_OBJC_INTERFACE_HEADER_NAME", "XsollaSDKLoginKitUnity-Swift.h");
+				
+				project.SetBuildProperty(targetGuid, "SWIFT_OBJC_BRIDGING_HEADER", "Libraries/Xsolla/Core/Plugins/iOS/Scripts/XsollaSDKLoginKitObjectiveC-Bridging-Header.h");
+				project.SetBuildProperty(targetGuid, "SWIFT_OBJC_INTERFACE_HEADER_NAME", "XsollaSDKLoginKitObjectiveC-Swift.h");
+				
+				project.SetBuildProperty(targetGuid, "SWIFT_OBJC_BRIDGING_HEADER", "Libraries/Xsolla/Core/Plugins/iOS/Scripts/XsollaSDKPaymentsKitObjectiveC-Bridging-Header.h");
+				project.SetBuildProperty(targetGuid, "SWIFT_OBJC_INTERFACE_HEADER_NAME", "XsollaSDKPaymentsKitObjectiveC-Swift.h");
+
 				project.AddBuildProperty(targetGuid, "LD_RUNPATH_SEARCH_PATHS", "@executable_path/Frameworks $(PROJECT_DIR)/lib/$(CONFIGURATION) $(inherited)");
-				project.AddBuildProperty(targetGuid, "FRAMERWORK_SEARCH_PATHS", "$(inherited) $(PROJECT_DIR) $(PROJECT_DIR)/Frameworks");
+				project.AddBuildProperty(targetGuid, "FRAMEWORK_SEARCH_PATHS", "$(inherited) $(PROJECT_DIR) $(PROJECT_DIR)/Frameworks");
 				project.AddBuildProperty(targetGuid, "ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES", "YES");
 				project.AddBuildProperty(targetGuid, "DYLIB_INSTALL_NAME_BASE", "@rpath");
 				project.AddBuildProperty(targetGuid, "LD_DYLIB_INSTALL_NAME", "@executable_path/../Frameworks/$(EXECUTABLE_PATH)");

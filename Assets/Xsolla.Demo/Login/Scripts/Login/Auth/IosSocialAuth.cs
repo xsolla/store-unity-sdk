@@ -13,7 +13,7 @@ namespace Xsolla.Demo
 
 #if UNITY_IOS
 		[DllImport("__Internal")]
-		public static extern void _authBySocialNetwork(string platform, int clientID, string state, string redirectUri,
+		private static extern void _authBySocialNetwork(string platform, int clientID, string state, string redirectUri,
 			IosCallbacks.ActionStringCallbackDelegate onSuccessCallback, IntPtr onSuccessActionPtr,
 			IosCallbacks.ActionStringCallbackDelegate onErrorCallback, IntPtr onErrorActionPtr,
 			IosCallbacks.ActionVoidCallbackDelegate onCancelCallback, IntPtr onCancelActionPtr);
@@ -34,8 +34,13 @@ namespace Xsolla.Demo
 					Action<string> onSuccessNative = SuccessHandler;
 					Action<string> onErrorNative = FailHandler;
 					Action onCancelNative = CancelHandler;
+
+					var callbackUrl = XsollaSettings.CallbackUrl;
+					if (string.IsNullOrEmpty(callbackUrl))
+						callbackUrl = $"app://xlogin.{Application.identifier}";
+					
 #if UNITY_IOS
-					_authBySocialNetwork(providerName, XsollaSettings.OAuthClientId, DEMO_AUTH_STATE, XsollaSettings.CallbackUrl,
+					_authBySocialNetwork(providerName, XsollaSettings.OAuthClientId, DEMO_AUTH_STATE, callbackUrl,
 						IosCallbacks.ActionStringCallback, onSuccessNative.GetPointer(),
 						IosCallbacks.ActionStringCallback, onErrorNative.GetPointer(),
 						IosCallbacks.ActionVoidCallback, onCancelNative.GetPointer());

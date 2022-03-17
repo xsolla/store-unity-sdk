@@ -23,47 +23,21 @@ namespace Xsolla.Core
 		public static RedirectPolicy GeneratePolicy()
 		{
 #if UNITY_ANDROID
-			if (!XsollaSettings.AndroidRedirectPolicySettings.UseSettingsFromPublisherAccount)
-			{
-				return XsollaSettings.AndroidRedirectPolicySettings.CreatePolicy();
-			}
-			else
-			{
-				return new RedirectPolicy{
-					return_url = $"app://xpayment.{Application.identifier}",
-					redirect_conditions = RedirectConditionsType.Any.ToString().ToLowerInvariant(),
-					delay = 0,
-					status_for_manual_redirection = StatusForManualRedirectionType.None.ToString().ToLowerInvariant(),
-					redirect_button_caption = string.Empty
-				};
-			}
+			return !XsollaSettings.AndroidRedirectPolicySettings.UseSettingsFromPublisherAccount 
+				? XsollaSettings.AndroidRedirectPolicySettings.CreatePolicy() 
+				: CreateDefaultPaymentsPolicy();
 #elif UNITY_WEBGL
-			if (!XsollaSettings.WebglRedirectPolicySettings.UseSettingsFromPublisherAccount)
-			{
-				return XsollaSettings.WebglRedirectPolicySettings.CreatePolicy();
-			}
-			else
-			{
-				return null;
-			}
+			return !XsollaSettings.WebglRedirectPolicySettings.UseSettingsFromPublisherAccount 
+				? XsollaSettings.WebglRedirectPolicySettings.CreatePolicy() 
+				: null;
 #elif UNITY_IOS
-			if (!XsollaSettings.IosRedirectPolicySettings.UseSettingsFromPublisherAccount)
-			{
-				return XsollaSettings.IosRedirectPolicySettings.CreatePolicy();
-			}
-			else
-			{
-				return null;
-			}
+			return !XsollaSettings.IosRedirectPolicySettings.UseSettingsFromPublisherAccount 
+				? XsollaSettings.IosRedirectPolicySettings.CreatePolicy() 
+				: CreateDefaultPaymentsPolicy();
 #else
-			if (!XsollaSettings.DesktopRedirectPolicySettings.UseSettingsFromPublisherAccount)
-			{
-				return XsollaSettings.DesktopRedirectPolicySettings.CreatePolicy();
-			}
-			else
-			{
-				return null;
-			}
+			return !XsollaSettings.DesktopRedirectPolicySettings.UseSettingsFromPublisherAccount 
+				? XsollaSettings.DesktopRedirectPolicySettings.CreatePolicy() 
+				: null;
 #endif
 		}
 
@@ -76,6 +50,17 @@ namespace Xsolla.Core
 				delay = Delay,
 				status_for_manual_redirection = ConvertToString(StatusForManualRedirection),
 				redirect_button_caption = RedirectButtonCaption
+			};
+		}
+
+		private static RedirectPolicy CreateDefaultPaymentsPolicy()
+		{
+			return new RedirectPolicy{
+				return_url = $"app://xpayment.{Application.identifier}",
+				redirect_conditions = RedirectConditionsType.Any.ToString().ToLowerInvariant(),
+				delay = 0,
+				status_for_manual_redirection = StatusForManualRedirectionType.None.ToString().ToLowerInvariant(),
+				redirect_button_caption = string.Empty
 			};
 		}
 
