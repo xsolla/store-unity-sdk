@@ -2,7 +2,6 @@
 using System.Text.RegularExpressions;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace Xsolla.Core
 {
@@ -11,42 +10,31 @@ namespace Xsolla.Core
 		[PublicAPI]
 		public static T FromJson<T>(string json) where T : class
 		{
+			T result = default;
+
 			try
 			{
-				return JsonConvert.DeserializeObject<T>(json);
+				result = JsonConvert.DeserializeObject<T>(json);
 			}
-			catch (Exception e)
+			catch (Exception ex)
 			{
 				Debug.LogWarning($"Deserialization failed for {typeof(T)}");
-				Debug.LogException(e);
+				Debug.LogException(ex);
+				result = null;
 			}
 	
-			return null;
+			return result;
 		}
 		
 		public static Error ParseError(string json)
 		{
-			try
-			{
-				if (JsonConvert.DeserializeObject(json) is JArray)
-				{
-					// if json is a simple array return null to avoid raising exception while trying to parse it as an error
-					return null;
-				}
-			}
-			catch (Exception ex)
-			{
-				//if this is not a json at all
-				Debug.LogError(ex.Message);
-				return null;
-			}
-			
-			Error storeError = FromJson<Error>(json);
-			if((storeError == null) || (!storeError.IsValid())) {
-				Error.Login loginError = FromJson<Error.Login>(json);
-				storeError = loginError?.ToStoreError();
-			}
-			return storeError;
+			if (json.Contains("statusCode") && json.Contains("errorCode") && json.Contains("errorMessage"))
+				return FromJson<Error>(json);
+
+			if (json.Contains("error") && json.Contains("code") && json.Contains("description"))
+				return FromJson<LoginError>(json).ToError();
+
+			return null;
 		}
 		
 		public static string ParseToken(string token)

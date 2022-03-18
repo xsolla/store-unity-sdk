@@ -53,7 +53,7 @@ namespace Xsolla.Auth
 					Token.Instance = Token.Create(response.token);
 					onSuccess?.Invoke(Token.Instance);
 				},
-				onError, Error.LoginErrors);
+				onError, ErrorCheckType.LoginErrors);
 		}
 
 		private void OAuthAuthViaDeviceID(string deviceType, LoginDeviceIdRequest requestBody, string state = null, Action<string> onSuccess = null, Action<Error> onError = null)
@@ -72,7 +72,7 @@ namespace Xsolla.Auth
 					else
 						onError?.Invoke(Error.UnknownError);
 				},
-				onError, Error.LoginErrors);
+				onError, ErrorCheckType.LoginErrors);
 		}
 	}
 }

@@ -41,7 +41,7 @@ namespace Xsolla.Catalog
 			var url = string.Format(URL_CATALOG_GET_ITEMS, projectId);
 			url = UrlParameterizer.ConcatUrlAndParams(url, limit: limit, offset: offset, locale: locale, additionalFields: additionalFields, country: country);
 
-			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, onSuccess, onError, Error.ItemsListErrors);
+			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, onSuccess, onError, ErrorCheckType.ItemsListErrors);
 		}
 
 		/// <summary>
@@ -57,7 +57,7 @@ namespace Xsolla.Catalog
 			var url = string.Format(URL_CATALOG_GET_ALL_VIRTUAL_ITEMS, projectId);
 			url = UrlParameterizer.ConcatUrlAndParams(url, locale: locale);
 
-			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, onSuccess, onError, Error.ItemsListErrors);
+			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, onSuccess, onError, ErrorCheckType.ItemsListErrors);
 		}
 
 		/// <summary>
@@ -79,7 +79,7 @@ namespace Xsolla.Catalog
 			var url = string.Format(URL_CATALOG_GET_ITEMS_IN_GROUP, projectId, groupExternalId);
 			url = UrlParameterizer.ConcatUrlAndParams(url, limit: limit, offset: offset, locale: locale, additionalFields: additionalFields, country: country);
 
-			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, onSuccess, onError, Error.ItemsListErrors);
+			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, onSuccess, onError, ErrorCheckType.ItemsListErrors);
 		}
 
 		/// <summary>
@@ -119,7 +119,7 @@ namespace Xsolla.Catalog
 			var url = string.Format(URL_VIRTUAL_CURRENCY_LIST, projectId);
 			url = UrlParameterizer.ConcatUrlAndParams(url, limit: limit, offset: offset, locale: locale, additionalFields: additionalFields, country: country);
 
-			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, onSuccess, onError, Error.ItemsListErrors);
+			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, onSuccess, onError, ErrorCheckType.ItemsListErrors);
 		}
 
 		/// <summary>
@@ -140,7 +140,7 @@ namespace Xsolla.Catalog
 			var url = string.Format(URL_VIRTUAL_CURRENCY_PACKAGES_IN_PROJECT, projectId);
 			url = UrlParameterizer.ConcatUrlAndParams(url, limit: limit, offset: offset, locale: locale, additionalFields: additionalFields, country: country);
 
-			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, onSuccess, onError, Error.ItemsListErrors);
+			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, onSuccess, onError, ErrorCheckType.ItemsListErrors);
 		}
 
 		/// <summary>
@@ -161,7 +161,7 @@ namespace Xsolla.Catalog
 			var url = string.Format(URL_CATALOG_GET_BUNDLES, projectId);
 			url = UrlParameterizer.ConcatUrlAndParams(url, limit: limit, offset: offset, locale: locale, additionalFields: additionalFields, country: country);
 
-			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, onSuccess, onError, Error.ItemsListErrors);
+			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, onSuccess, onError, ErrorCheckType.ItemsListErrors);
 		}
 
 		/// <summary>
@@ -180,7 +180,7 @@ namespace Xsolla.Catalog
 			var url = string.Format(URL_CATALOG_GET_BUNDLE, projectId, sku);
 			url = UrlParameterizer.ConcatUrlAndParams(url, locale: locale, country: country);
 
-			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, onSuccess, onError, Error.ItemsListErrors);
+			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, onSuccess, onError, ErrorCheckType.ItemsListErrors);
 		}
 
 		/// <summary>
@@ -197,7 +197,7 @@ namespace Xsolla.Catalog
 			var url = string.Format(URL_INVENTORY_REDEEM_COUPON, projectId);
 
 			var headers = new List<WebRequestHeader>() { WebRequestHeader.AuthHeader(Token.Instance), WebRequestHeader.ContentTypeHeader() };
-			WebRequestHelper.Instance.PostRequest(SdkType.Store, url, couponCode, headers, onSuccess, onError, Error.CouponErrors);
+			WebRequestHelper.Instance.PostRequest(SdkType.Store, url, couponCode, headers, onSuccess, onError, ErrorCheckType.CouponErrors);
 		}
 
 		/// <summary>
@@ -215,7 +215,7 @@ namespace Xsolla.Catalog
 			var url = string.Format(URL_INVENTORY_GET_COUPON_REWARDS, projectId, couponCode);
 
 			var headers = new List<WebRequestHeader>() { WebRequestHeader.AuthHeader(Token.Instance), WebRequestHeader.ContentTypeHeader() };
-			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, headers, onSuccess, onError, Error.CouponErrors);
+			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, headers, onSuccess, onError, ErrorCheckType.CouponErrors);
 		}
 
 		/// <summary>
@@ -235,7 +235,7 @@ namespace Xsolla.Catalog
 			var tempPurchaseParams = PurchaseParamsGenerator.GenerateTempPurchaseParams(purchaseParams);
 			var url = string.Format(URL_BUY_ITEM, projectId, itemSku);
 			var paymentHeaders = PurchaseParamsGenerator.GetPaymentHeaders(Token.Instance, customHeaders);
-			WebRequestHelper.Instance.PostRequest<PurchaseData, TempPurchaseParams>(SdkType.Store, url, tempPurchaseParams, paymentHeaders, onSuccess, onError, Error.BuyItemErrors);
+			WebRequestHelper.Instance.PostRequest<PurchaseData, TempPurchaseParams>(SdkType.Store, url, tempPurchaseParams, paymentHeaders, onSuccess, onError, ErrorCheckType.BuyItemErrors);
 		}
 
 		/// <summary>
@@ -274,7 +274,7 @@ namespace Xsolla.Catalog
 			url = UrlParameterizer.ConcatUrlAndParams(url, platformParam);
 
 			var paymentHeaders = PurchaseParamsGenerator.GetPaymentHeaders(Token.Instance, customHeaders);
-			WebRequestHelper.Instance.PostRequest<PurchaseData, TempPurchaseParams>(SdkType.Store, url, tempPurchaseParams, paymentHeaders, onSuccess, onError, Error.BuyItemErrors);
+			WebRequestHelper.Instance.PostRequest<PurchaseData, TempPurchaseParams>(SdkType.Store, url, tempPurchaseParams, paymentHeaders, onSuccess, onError, ErrorCheckType.BuyItemErrors);
 		}
 	}
 }
