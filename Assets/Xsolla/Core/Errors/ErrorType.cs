@@ -2,8 +2,11 @@ namespace Xsolla.Core
 {
 	public enum ErrorType
 	{
+		Undefined,
+
 		UnknownError,
 		NetworkError,
+
 		InvalidToken,
 		AuthorizationHeaderNotSent,
 

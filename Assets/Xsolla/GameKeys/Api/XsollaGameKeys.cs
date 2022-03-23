@@ -31,7 +31,7 @@ namespace Xsolla.GameKeys
 			var url = string.Format(URL_GET_GAMES_LIST, projectId);
 			url = UrlParameterizer.ConcatUrlAndParams(url, limit: limit, offset: offset, locale: locale, additionalFields: additionalFields, country: country);
 
-			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, onSuccess, onError, Error.ItemsListErrors);
+			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, onSuccess, onError, ErrorCheckType.ItemsListErrors);
 		}
 
 		/// <summary>
@@ -50,7 +50,7 @@ namespace Xsolla.GameKeys
 			var url = string.Format(URL_GET_GAME_FOR_CATALOG, projectId, itemSku);
 			url = UrlParameterizer.ConcatUrlAndParams(url, locale: locale, additionalFields: additionalFields, country: country);
 
-			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, onSuccess, onError, Error.ItemsListErrors);
+			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, onSuccess, onError, ErrorCheckType.ItemsListErrors);
 		}
 
 		/// <summary>
@@ -69,7 +69,7 @@ namespace Xsolla.GameKeys
 			var url = string.Format(URL_GET_GAME_KEY_CATALOG, projectId, itemSku);
 			url = UrlParameterizer.ConcatUrlAndParams(url, locale: locale, additionalFields: additionalFields, country: country);
 
-			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, onSuccess, onError, Error.ItemsListErrors);
+			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, onSuccess, onError, ErrorCheckType.ItemsListErrors);
 		}
 
 		/// <summary>
@@ -90,7 +90,7 @@ namespace Xsolla.GameKeys
 			var url = string.Format(URL_GET_GAMES_BY_GROUP, projectId, groupId);
 			url = UrlParameterizer.ConcatUrlAndParams(url, limit: limit, offset: offset, locale: locale, additionalFields: additionalFields, country: country);
 
-			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, onSuccess, onError, Error.ItemsListErrors);
+			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, onSuccess, onError, ErrorCheckType.ItemsListErrors);
 		}
 
 		/// <summary>
@@ -111,7 +111,7 @@ namespace Xsolla.GameKeys
 			var url = string.Format(URL_GET_GAME_KEYS_BY_GROUP, projectId, groupId);
 			url = UrlParameterizer.ConcatUrlAndParams(url, limit: limit, offset: offset, locale: locale, additionalFields: additionalFields, country: country);
 
-			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, onSuccess, onError, Error.ItemsListErrors);
+			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, onSuccess, onError, ErrorCheckType.ItemsListErrors);
 		}
 
 		/// <summary>
@@ -124,7 +124,7 @@ namespace Xsolla.GameKeys
 		public void GetDrmList(string projectId, Action<DrmItems> onSuccess, Action<Error> onError = null)
 		{
 			var url = string.Format(URL_GET_DRM_LIST, projectId);
-			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, onSuccess, onError, Error.ItemsListErrors);
+			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, onSuccess, onError, ErrorCheckType.ItemsListErrors);
 		}
 
 		/// <summary>
@@ -144,7 +144,7 @@ namespace Xsolla.GameKeys
 			var url = string.Format(URL_GET_USER_OWNED_GAMES, projectId, sandboxFlag);
 			url = UrlParameterizer.ConcatUrlAndParams(url, limit: limit, offset: offset, additionalFields: additionalFields);
 
-			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, onSuccess, onError, Error.ItemsListErrors);
+			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, onSuccess, onError, ErrorCheckType.ItemsListErrors);
 		}
 
 		/// <summary>
@@ -161,7 +161,7 @@ namespace Xsolla.GameKeys
 			var url = string.Format(URL_REDEEM_GAME_CODE, projectId);
 			var data = new RedeemGameCodeRequest(gameCode, sandbox);
 
-			WebRequestHelper.Instance.PostRequest(SdkType.Login, url, data, WebRequestHeader.AuthHeader(Token.Instance), onSuccess, onError, Error.LoginErrors);
+			WebRequestHelper.Instance.PostRequest(SdkType.Login, url, data, WebRequestHeader.AuthHeader(Token.Instance), onSuccess, onError, ErrorCheckType.LoginErrors);
 		}
 	}
 }

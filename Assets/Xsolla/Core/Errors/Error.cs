@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Text;
 
 namespace Xsolla.Core
 {
@@ -9,13 +9,14 @@ namespace Xsolla.Core
 		public string statusCode;
 		public string errorCode;
 		public string errorMessage;
-		public ErrorType ErrorType { get; set; }
 
-		public Error(ErrorType errorType = ErrorType.UnknownError, string statusCode = "", string errorMessage = "", string errorCode = "")
+		public ErrorType ErrorType { get; set; } = ErrorType.UnknownError;
+
+		public Error(ErrorType errorType = ErrorType.UnknownError, string statusCode = "", string errorCode = "", string errorMessage = "")
 		{
 			this.statusCode = statusCode;
-			this.errorMessage = errorMessage;
 			this.errorCode = errorCode;
+			this.errorMessage = errorMessage;
 			ErrorType = errorType;
 		}
 
@@ -29,36 +30,28 @@ namespace Xsolla.Core
 			get { return new Error(ErrorType.UnknownError); }
 		}
 
-		public static readonly Dictionary<string, ErrorType> GeneralErrors =
-			new Dictionary<string, ErrorType>()
-			{
-				{"403", ErrorType.InvalidToken},
-				{"405", ErrorType.MethodIsNotAllowed},
-
-				{"0", ErrorType.InvalidProjectSettings},
-				{"003-001", ErrorType.InvalidLoginOrPassword},
-				{"003-061", ErrorType.InvalidProjectSettings},
-				{"010-011", ErrorType.MultipleLoginUrlsException},
-				{"010-012", ErrorType.SubmittedLoginUrlNotFoundException}
-			};
-
 		public bool IsValid()
 		{
-			return (statusCode != null) || (errorCode != null) || (errorMessage != null);
+			return	(statusCode != null) ||
+					(errorCode != null) ||
+					(errorMessage != null) ||
+					(ErrorType != ErrorType.Undefined);
 		}
 		
 		public override string ToString()
 		{
-			var message = string.Empty;
+			var builder = new StringBuilder();
+
 			if (ErrorType != ErrorType.UnknownError)
-				message += $"Type: {ErrorType}. ";
+				builder.Append($"Type: {ErrorType}. ");
 			if (!string.IsNullOrEmpty(statusCode))
-				message += $"Status code: {statusCode}. ";
+				builder.Append($"Status code: {statusCode}. ");
 			if (!string.IsNullOrEmpty(errorCode))
-				message += $"Error code: {errorCode}. ";
+				builder.Append($"Error code: {errorCode}. ");
 			if (!string.IsNullOrEmpty(errorMessage))
-				message += $"{errorMessage}. ";
-			return message;
+				builder.Append($"{errorMessage}. ");
+
+			return builder.ToString();
 		}
 	}
 }

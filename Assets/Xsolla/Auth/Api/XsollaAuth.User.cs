@@ -66,7 +66,7 @@ namespace Xsolla.Auth
 		{
 			var registrationData = new RegistrationJson(username, password, email, acceptConsent, fields, promoEmailAgreement);
 			var url = GetRegistrationUrl(state, payload, redirectUri);
-			WebRequestHelper.Instance.PostRequest(SdkType.Login, url, registrationData, onSuccess, onError, Error.RegistrationErrors);
+			WebRequestHelper.Instance.PostRequest(SdkType.Login, url, registrationData, onSuccess, onError, ErrorCheckType.RegistrationErrors);
 		}
 
 		public void Register(string username, string password, string email, string redirectUri = null, string oauthState = null, string payload = null, bool? acceptConsent = null, bool? promoEmailAgreement = null, List<string> fields = null, Action onSuccess = null, Action<Error> onError = null)
@@ -79,7 +79,7 @@ namespace Xsolla.Auth
 		{
 			var registrationData = new RegistrationJson(username, password, email, acceptConsent, fields, promoEmailAgreement);
 			var url = GetRegistrationUrl(oauthState, payload, redirectUri);
-			WebRequestHelper.Instance.PostRequest(SdkType.Login, url, registrationData, onSuccess, onError, Error.RegistrationErrors);
+			WebRequestHelper.Instance.PostRequest(SdkType.Login, url, registrationData, onSuccess, onError, ErrorCheckType.RegistrationErrors);
 		}
 
 		private string GetRegistrationUrl(string oauthState = null, string payload = null, string redirectUri = null)
@@ -140,7 +140,7 @@ namespace Xsolla.Auth
 				var parsedToken = ParseUtils.ParseToken(response.login_url);
 				Token.Instance = Token.Create(parsedToken);
 				onSuccess?.Invoke(Token.Instance);
-			}, onError, Error.LoginErrors);
+			}, onError, ErrorCheckType.LoginErrors);
 		}
 
 		private void OAuthSignIn(string username, string password, string redirectUri, Action<string> onSuccess, Action<Error> onError)
@@ -155,7 +155,7 @@ namespace Xsolla.Auth
 				onSuccess?.Invoke(response.access_token);
 			};
 
-			WebRequestHelper.Instance.PostRequest<LoginOAuthJsonResponse, LoginRequest>(SdkType.Login, url, loginData, successCallback, onError, Error.LoginErrors);
+			WebRequestHelper.Instance.PostRequest<LoginOAuthJsonResponse, LoginRequest>(SdkType.Login, url, loginData, successCallback, onError, ErrorCheckType.LoginErrors);
 		}
 
 		/// <summary>
@@ -188,7 +188,7 @@ namespace Xsolla.Auth
 				data,
 				response => onSuccess?.Invoke(response.operation_id),
 				onError,
-				Error.LoginErrors);
+				ErrorCheckType.LoginErrors);
 		}
 
 		private void OAuthStartAuthByEmail(string email, string linkUrl, bool? sendLink, Action<string> onSuccess, Action<Error> onError = null, string oauthState = null)
@@ -204,7 +204,7 @@ namespace Xsolla.Auth
 				data,
 				response => onSuccess?.Invoke(response.operation_id),
 				onError,
-				Error.LoginErrors);
+				ErrorCheckType.LoginErrors);
 		}
 
 		/// <summary>
@@ -246,7 +246,7 @@ namespace Xsolla.Auth
 					}
 				},
 				onError,
-				Error.LoginErrors);
+				ErrorCheckType.LoginErrors);
 		}
 
 		private void OAuthCompleteAuthByEmail(string email, string confirmationCode, string operationId, Action<string> onSuccess, Action<Error> onError = null)
@@ -266,7 +266,7 @@ namespace Xsolla.Auth
 						onError?.Invoke(Error.UnknownError);
 				},
 				onError,
-				Error.LoginErrors);
+				ErrorCheckType.LoginErrors);
 		}
 
 		/// <summary>
@@ -298,7 +298,7 @@ namespace Xsolla.Auth
 				data,
 				response => onSuccess?.Invoke(response.operation_id),
 				onError,
-				Error.LoginErrors);
+				ErrorCheckType.LoginErrors);
 		}
 
 		private void OAuthStartAuthByPhoneNumber(string phoneNumber, string linkUrl, bool sendLink, Action<string> onSuccess, Action<Error> onError = null, string oauthState = null)
@@ -314,7 +314,7 @@ namespace Xsolla.Auth
 				data,
 				response => onSuccess?.Invoke(response.operation_id),
 				onError,
-				Error.LoginErrors);
+				ErrorCheckType.LoginErrors);
 		}
 
 		/// <summary>
@@ -356,7 +356,7 @@ namespace Xsolla.Auth
 					}
 				},
 				onError,
-				Error.LoginErrors);
+				ErrorCheckType.LoginErrors);
 		}
 
 		private void OAuthCompleteAuthByPhoneNumber(string phoneNumber, string confirmationCode, string operationId, Action<string> onSuccess, Action<Error> onError = null)
@@ -376,7 +376,7 @@ namespace Xsolla.Auth
 						onError?.Invoke(Error.UnknownError);
 				},
 				onError,
-				Error.LoginErrors);
+				ErrorCheckType.LoginErrors);
 		}
 
 		/// <summary>
@@ -398,7 +398,7 @@ namespace Xsolla.Auth
 			var loginUrlParam = (!string.IsNullOrEmpty(redirectUri)) ? redirectUri : XsollaSettings.CallbackUrl;
 			var url = string.Format(URL_PASSWORD_RESET, projectIdParam, loginUrlParam);
 
-			WebRequestHelper.Instance.PostRequest(SdkType.Login, url, new ResetPassword(email), onSuccess, onError, Error.ResetPasswordErrors);
+			WebRequestHelper.Instance.PostRequest(SdkType.Login, url, new ResetPassword(email), onSuccess, onError, ErrorCheckType.ResetPasswordErrors);
 		}
 
 		/// <summary>
@@ -470,7 +470,7 @@ namespace Xsolla.Auth
 				openId = openId
 			};
 
-			WebRequestHelper.Instance.PostRequest(SdkType.Login, url, requestData, (TokenEntity result) => { onSuccess?.Invoke(result.token); }, onError, Error.LoginErrors);
+			WebRequestHelper.Instance.PostRequest(SdkType.Login, url, requestData, (TokenEntity result) => { onSuccess?.Invoke(result.token); }, onError, ErrorCheckType.LoginErrors);
 		}
 
 		private void OAuthAuthWithSocialNetworkAccessToken(string accessToken, string accessTokenSecret, string openId, string providerName, string oauthState, Action<string> onSuccess, Action<Error> onError)
@@ -486,7 +486,7 @@ namespace Xsolla.Auth
 				openId = openId
 			};
 
-			WebRequestHelper.Instance.PostRequest(SdkType.Login, url, requestData, onSuccess, onError, Error.LoginErrors);
+			WebRequestHelper.Instance.PostRequest(SdkType.Login, url, requestData, onSuccess, onError, ErrorCheckType.LoginErrors);
 		}
 
 		/// <summary>
@@ -503,7 +503,7 @@ namespace Xsolla.Auth
 			{
 				Token.Instance = Token.Create(response.access_token);
 				onSuccess?.Invoke();
-			}, onError, Error.LoginErrors);
+			}, onError, ErrorCheckType.LoginErrors);
 		}
 
 		/// <summary>

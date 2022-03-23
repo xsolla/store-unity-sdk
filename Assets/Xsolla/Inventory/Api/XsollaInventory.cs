@@ -25,7 +25,7 @@ namespace Xsolla.Inventory
 			var url = string.Format(URL_VIRTUAL_CURRENCY_BALANCE, projectId);
 			url = UrlParameterizer.ConcatUrlAndParams(url, platform: platform);
 
-			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, WebRequestHeader.AuthHeader(Token.Instance), onSuccess, onError, Error.ItemsListErrors);
+			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, WebRequestHeader.AuthHeader(Token.Instance), onSuccess, onError, ErrorCheckType.ItemsListErrors);
 		}
 
 		/// <summary>
@@ -45,7 +45,7 @@ namespace Xsolla.Inventory
 			var url = string.Format(URL_INVENTORY_GET_ITEMS, projectId);
 			url = UrlParameterizer.ConcatUrlAndParams(url, limit: limit, offset: offset, locale: locale, platform: platform);
 
-			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, WebRequestHeader.AuthHeader(Token.Instance), onSuccess, onError, Error.ItemsListErrors);
+			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, WebRequestHeader.AuthHeader(Token.Instance), onSuccess, onError, ErrorCheckType.ItemsListErrors);
 		}
 
 		/// <summary>
@@ -65,7 +65,7 @@ namespace Xsolla.Inventory
 
 			var headers = new List<WebRequestHeader>() { WebRequestHeader.AuthHeader(Token.Instance), WebRequestHeader.ContentTypeHeader() };
 
-			WebRequestHelper.Instance.PostRequest(SdkType.Store, url, item, headers, onSuccess, onError, Error.ConsumeItemErrors);
+			WebRequestHelper.Instance.PostRequest(SdkType.Store, url, item, headers, onSuccess, onError, ErrorCheckType.ConsumeItemErrors);
 		}
 	}
 }
