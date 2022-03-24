@@ -12,7 +12,7 @@ namespace Xsolla.Core
 			switch (checkType)
 			{
 				case ErrorCheckType.TokenErrors:
-					if (code.Equals("422"))
+					if (string.Equals(code,"422"))
 						errorType = ErrorType.TokenVerificationException;
 					break;
 
@@ -45,12 +45,12 @@ namespace Xsolla.Core
 
 				case ErrorCheckType.ItemsListErrors:
 				case ErrorCheckType.ConsumeItemErrors:
-					if (code.Equals("422"))
+					if (string.Equals(code,"422"))
 						errorType = ErrorType.InvalidData;
 					break;
 
 				case ErrorCheckType.BuyItemErrors:
-					if (code.Equals("422"))
+					if (string.Equals(code,"422"))
 						errorType = ErrorType.ProductDoesNotExist;
 					break;
 
@@ -75,7 +75,7 @@ namespace Xsolla.Core
 					break;
 
 				case ErrorCheckType.BuyCartErrors:
-					if (code.Equals("422"))
+					if (string.Equals(code,"422"))
 						errorType = ErrorType.CartNotFound;
 					break;
 

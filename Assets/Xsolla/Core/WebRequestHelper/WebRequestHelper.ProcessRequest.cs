@@ -103,18 +103,17 @@ namespace Xsolla.Core
 		private bool CheckNoErrors(UnityWebRequest webRequest, ErrorCheckType errorsToCheck, out Error error, bool log = true)
 		{
 #if UNITY_2020_1_OR_NEWER
-			if (webRequest.result == UnityWebRequest.Result.ConnectionError)
-			{
-				error = Error.NetworkError;
-				return false;
-			}
+			var isNetworkError = webRequest.result == UnityWebRequest.Result.ConnectionError;
+			var isHttpError = webRequest.result == UnityWebRequest.Result.ProtocolError;
 #else
-			if (webRequest.isNetworkError)
+			var isNetworkError = webRequest.isNetworkError;
+			var isHttpError = webRequest.isHttpError;
+#endif
+			if (isNetworkError)
 			{
 				error = Error.NetworkError;
 				return false;
 			}
-#endif
 
 			var url = webRequest.url;
 			var data = webRequest.downloadHandler.text;
@@ -122,23 +121,25 @@ namespace Xsolla.Core
 			if (log)
 				Debug.Log($"URL: {url}{Environment.NewLine}RESPONSE: {data}");
 
-			if (string.IsNullOrEmpty(data))
-			{
-				error = null;
-				return true;
-			}
-
-			error = ParseUtils.ParseError(data);
-
-			if (error != null && !string.IsNullOrEmpty(error.statusCode))
+			if (ParseUtils.TryParseError(data, out error))
 			{
 				if (CodeToErrorType.TryGetSpecificType(error.statusCode, errorsToCheck, out var specificErrorType))
 					error.ErrorType = specificErrorType;
 				else if (CodeToErrorType.TryGetCommonType(error.statusCode, out var commonErrorType))
 					error.ErrorType = commonErrorType;
-			}
 
-			return error == null;
+				return false;
+			}
+			else if (isHttpError)
+			{
+				error = Error.UnknownError;
+				return false;
+			}
+			else
+			{
+				error = null;
+				return true;
+			}
 		}
 	}
 }

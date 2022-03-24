@@ -36,7 +36,21 @@ namespace Xsolla.Core
 
 			return null;
 		}
-		
+
+		public static bool TryParseError(string json, out Error error)
+		{
+			if (!string.IsNullOrEmpty(json))
+			{
+				error = ParseError(json);
+				return error != null;
+			}
+			else
+			{
+				error = null;
+				return false;
+			}
+		}
+
 		public static string ParseToken(string token)
 		{
 			try
