@@ -33,7 +33,13 @@ namespace Xsolla.UserAccount
 			var providerUrlAddition = platform != SocialProvider.None ? $"&platform={platform.GetParameter()}" : string.Empty;
 			var url = string.Format(URL_USER_SOCIAL_FRIENDS, offset, limit, withUidFlag, providerUrlAddition);
 
-			WebRequestHelper.Instance.GetRequest(SdkType.Login, url, WebRequestHeader.AuthHeader(token), onSuccess, onError);
+			WebRequestHelper.Instance.GetRequest(SdkType.Login, url, WebRequestHeader.AuthHeader(token), onSuccess,
+				onError: error => TokenRefresh.HandleError(error, onError, () => GetUserSocialFriends(Token.Instance, platform, offset, limit, withXlUid, onSuccess, onError)));
+		}
+
+		public void GetUserSocialFriends(SocialProvider platform = SocialProvider.None, uint offset = 0, uint limit = 500, bool withXlUid = false, Action<UserSocialFriends> onSuccess = null, Action<Error> onError = null)
+		{
+			GetUserSocialFriends(Token.Instance, platform, offset, limit, withXlUid, onSuccess, onError);
 		}
 
 		/// <summary>
@@ -52,7 +58,13 @@ namespace Xsolla.UserAccount
 			var providerUrlAddition = platform != SocialProvider.None ? $"?platform={platform.GetParameter()}" : string.Empty;
 			var url = string.Format(URL_USER_UPDATE_SOCIAL_FRIENDS, providerUrlAddition);
 
-			WebRequestHelper.Instance.PostRequest(SdkType.Login, url, WebRequestHeader.AuthHeader(token), onSuccess, onError);
+			WebRequestHelper.Instance.PostRequest(SdkType.Login, url, WebRequestHeader.AuthHeader(token), onSuccess,
+				onError: error => TokenRefresh.HandleError(error, onError, () => UpdateUserSocialFriends(Token.Instance, platform, onSuccess, onError)));
+		}
+
+		public void UpdateUserSocialFriends(SocialProvider platform = SocialProvider.None, Action onSuccess = null, Action<Error> onError = null)
+		{
+			UpdateUserSocialFriends(Token.Instance, platform, onSuccess, onError);
 		}
 
 		/// <summary>
@@ -97,10 +109,22 @@ namespace Xsolla.UserAccount
 			}
 
 			var url = string.Format(URL_USER_GET_FRIENDS, type.GetParameter(), sortBy.GetParameter(), sortOrder.GetParameter(), afterParam, limitParam);
-			StartCoroutine(GetUserFriendsCoroutine(token, url, limit.Value, onSuccess, onError));
+			StartCoroutine(GetUserFriendsCoroutine(token, url, limit.Value, onSuccess,
+				onError: error => TokenRefresh.HandleError(error, onError, () => GetUserFriends(Token.Instance, type, sortBy, sortOrder, after, limit, onSuccess, onError))));
 		}
 
-		IEnumerator GetUserFriendsCoroutine(string token, string url, int count, Action<List<UserFriendEntity>> onSuccess, Action<Error> onError)
+		public void GetUserFriends(
+			FriendsSearchType type,
+			FriendsSearchResultsSort sortBy = FriendsSearchResultsSort.ByNickname,
+			FriendsSearchResultsSortOrder sortOrder = FriendsSearchResultsSortOrder.Asc,
+			string after = null,
+			int? limit = null,
+			Action<List<UserFriendEntity>> onSuccess = null, Action<Error> onError = null)
+		{
+			GetUserFriends(Token.Instance, type, sortBy, sortOrder, after, limit, onSuccess, onError);
+		}
+
+		private IEnumerator GetUserFriendsCoroutine(string token, string url, int count, Action<List<UserFriendEntity>> onSuccess, Action<Error> onError)
 		{
 			var result = new List<UserFriendEntity>();
 			while (count > 0 && !string.IsNullOrEmpty(url))
@@ -148,7 +172,13 @@ namespace Xsolla.UserAccount
 				action = action.GetParameter(),
 				user = user
 			};
-			WebRequestHelper.Instance.PostRequest(SdkType.Login, URL_USER_UPDATE_FRIENDS, request, WebRequestHeader.AuthHeader(token), onSuccess, onError);
+			WebRequestHelper.Instance.PostRequest(SdkType.Login, URL_USER_UPDATE_FRIENDS, request, WebRequestHeader.AuthHeader(token), onSuccess,
+				onError: error => TokenRefresh.HandleError(error, onError, () => UpdateUserFriends(Token.Instance, action, user, onSuccess, onError)));
+		}
+
+		public void UpdateUserFriends(FriendAction action, string user, Action onSuccess, Action<Error> onError)
+		{
+			UpdateUserFriends(Token.Instance, action, user, onSuccess, onError);
 		}
 	}
 }

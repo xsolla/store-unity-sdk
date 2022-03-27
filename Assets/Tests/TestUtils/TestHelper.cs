@@ -1,15 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using NUnit.Framework;
-using UnityEngine;
-using UnityEngine.TestTools;
+﻿using NUnit.Framework;
 using Xsolla.Core;
 
 using Debug = UnityEngine.Debug;
 
 namespace Xsolla.Tests
 {
-    public class TestHelper
+	public class TestHelper
     {
 		public static void Pass(string testName)
 		{
@@ -54,16 +50,20 @@ namespace Xsolla.Tests
 			Assert.Fail(message);
 		}
 
-		//public class ResultContainer
-		//{
-		//	public readonly bool success;
-		//	public readonly string errorMessage;
+		public static void CheckTokenChanged(string oldToken, string testName)
+		{
+			string newToken = Token.Instance;
 
-		//	public ResultContainer(bool success, string errorMessage)
-		//	{
-		//		this.success = success;
-		//		this.errorMessage = errorMessage;
-		//	}
-		//}
+			if (newToken != oldToken)
+				Pass(testName, "TOKEN CHANGED");
+			else
+				Fail(testName, "TOKEN DID NOT CHANGE");
+		}
+
+		public static void CheckTokenChanged(string testName)
+		{
+			string oldToken = TestSignInHelper.Instance.OldToken;
+			CheckTokenChanged(oldToken, testName);
+		}
 	}
 }

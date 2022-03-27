@@ -19,6 +19,8 @@ namespace Xsolla.Core
 				onComplete?.Invoke();
 			else
 				onError?.Invoke(error);
+
+			webRequest.Dispose();
 		}
 
 		/// <summary>
@@ -34,6 +36,8 @@ namespace Xsolla.Core
 				onComplete?.Invoke((int)webRequest.responseCode);
 			else
 				onError?.Invoke(error);
+
+			webRequest.Dispose();
 		}
 
 		/// <summary>
@@ -55,6 +59,8 @@ namespace Xsolla.Core
 			}
 			else
 				onError?.Invoke(error);
+
+			webRequest.Dispose();
 		}
 
 		/// <summary>
@@ -75,6 +81,8 @@ namespace Xsolla.Core
 			}
 			else
 				onError?.Invoke(error);
+
+			webRequest.Dispose();
 		}
 
 		/// <summary>
@@ -98,6 +106,8 @@ namespace Xsolla.Core
 			}
 			else
 				onError?.Invoke(error);
+
+			webRequest.Dispose();
 		}
 
 		private bool CheckNoErrors(UnityWebRequest webRequest, ErrorCheckType errorsToCheck, out Error error, bool log = true)

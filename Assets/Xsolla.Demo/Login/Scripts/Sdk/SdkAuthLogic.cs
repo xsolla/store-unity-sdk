@@ -15,7 +15,7 @@ namespace Xsolla.Demo
 		#region Token
 		public void ValidateToken(string token, Action<string> onSuccess = null, Action<Error> onError = null)
 		{
-			GetUserInfo(token, useCache: false, onSuccess: info => onSuccess?.Invoke(token), onError: onError);
+			GetUserInfo(token, useCache: false, onSuccess: _ => onSuccess?.Invoke(token), onError: onError);
 		}
 		#endregion
 
@@ -164,7 +164,16 @@ namespace Xsolla.Demo
 		#endregion
 
 		#region OAuth2.0
-		public bool IsOAuthTokenRefreshInProgress => XsollaAuth.Instance.IsOAuthTokenRefreshInProgress;
+		public void RefreshOAuthToken(Action<string> onSuccess, Action<Error> onError)
+		{
+			Action<string> successCallback = token =>
+			{
+				onSuccess?.Invoke(token);
+				LoginEvent?.Invoke();
+			};
+
+			XsollaAuth.Instance.RefreshOAuthToken(successCallback, onError);
+		}
 
 		public void ExchangeCodeToToken(string code, Action<string> onSuccessExchange = null, Action<Error> onError = null)
 		{

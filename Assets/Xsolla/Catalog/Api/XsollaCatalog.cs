@@ -197,7 +197,9 @@ namespace Xsolla.Catalog
 			var url = string.Format(URL_INVENTORY_REDEEM_COUPON, projectId);
 
 			var headers = new List<WebRequestHeader>() { WebRequestHeader.AuthHeader(Token.Instance), WebRequestHeader.ContentTypeHeader() };
-			WebRequestHelper.Instance.PostRequest(SdkType.Store, url, couponCode, headers, onSuccess, onError, ErrorCheckType.CouponErrors);
+			WebRequestHelper.Instance.PostRequest(SdkType.Store, url, couponCode, headers, onSuccess,
+				onError: error => TokenRefresh.HandleError(error, onError, () => RedeemCouponCode(projectId, couponCode, onSuccess, onError)),
+				ErrorCheckType.CouponErrors);
 		}
 
 		/// <summary>
@@ -215,7 +217,9 @@ namespace Xsolla.Catalog
 			var url = string.Format(URL_INVENTORY_GET_COUPON_REWARDS, projectId, couponCode);
 
 			var headers = new List<WebRequestHeader>() { WebRequestHeader.AuthHeader(Token.Instance), WebRequestHeader.ContentTypeHeader() };
-			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, headers, onSuccess, onError, ErrorCheckType.CouponErrors);
+			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, headers, onSuccess,
+				onError: error => TokenRefresh.HandleError(error, onError, () => GetCouponRewards(projectId, couponCode, onSuccess, onError)),
+				ErrorCheckType.CouponErrors);
 		}
 
 		/// <summary>
@@ -235,7 +239,9 @@ namespace Xsolla.Catalog
 			var tempPurchaseParams = PurchaseParamsGenerator.GenerateTempPurchaseParams(purchaseParams);
 			var url = string.Format(URL_BUY_ITEM, projectId, itemSku);
 			var paymentHeaders = PurchaseParamsGenerator.GetPaymentHeaders(Token.Instance, customHeaders);
-			WebRequestHelper.Instance.PostRequest<PurchaseData, TempPurchaseParams>(SdkType.Store, url, tempPurchaseParams, paymentHeaders, onSuccess, onError, ErrorCheckType.BuyItemErrors);
+			WebRequestHelper.Instance.PostRequest<PurchaseData, TempPurchaseParams>(SdkType.Store, url, tempPurchaseParams, paymentHeaders, onSuccess,
+				onError: error => TokenRefresh.HandleError(error, onError, () => PurchaseItem(projectId, itemSku, onSuccess, onError, purchaseParams, customHeaders)),
+				ErrorCheckType.BuyItemErrors);
 		}
 
 		/// <summary>
@@ -274,7 +280,9 @@ namespace Xsolla.Catalog
 			url = UrlParameterizer.ConcatUrlAndParams(url, platformParam);
 
 			var paymentHeaders = PurchaseParamsGenerator.GetPaymentHeaders(Token.Instance, customHeaders);
-			WebRequestHelper.Instance.PostRequest<PurchaseData, TempPurchaseParams>(SdkType.Store, url, tempPurchaseParams, paymentHeaders, onSuccess, onError, ErrorCheckType.BuyItemErrors);
+			WebRequestHelper.Instance.PostRequest<PurchaseData, TempPurchaseParams>(SdkType.Store, url, tempPurchaseParams, paymentHeaders, onSuccess,
+				onError: error => TokenRefresh.HandleError(error, onError, () => PurchaseItemForVirtualCurrency(projectId, itemSku, priceSku, onSuccess, onError, purchaseParams, platform, customHeaders)),
+				ErrorCheckType.BuyItemErrors);
 		}
 	}
 }

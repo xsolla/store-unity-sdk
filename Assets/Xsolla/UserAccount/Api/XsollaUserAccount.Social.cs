@@ -27,7 +27,8 @@ namespace Xsolla.UserAccount
 			var redirectUrl = !string.IsNullOrEmpty(XsollaSettings.CallbackUrl) ? XsollaSettings.CallbackUrl : DEFAULT_REDIRECT_URI;
 			var url = string.Format(URL_LINK_SOCIAL_NETWORK, providerName.GetParameter(), redirectUrl);
 			WebRequestHelper.Instance.GetRequest<LinkSocialProviderResponse>(SdkType.Login, url, WebRequestHeader.AuthHeader(Token.Instance),
-				response => urlCallback?.Invoke(response?.url ?? string.Empty));
+				onComplete: response => urlCallback?.Invoke(response?.url ?? string.Empty),
+				onError: error => TokenRefresh.HandleError(error, onError, () => LinkSocialProvider(providerName, urlCallback, onError)));
 		}
 
 		/// <summary>
@@ -39,7 +40,8 @@ namespace Xsolla.UserAccount
 		/// <param name="onError">Failed operation callback.</param>
 		public void GetLinkedSocialProviders(Action<List<LinkedSocialNetwork>> onSuccess, Action<Error> onError = null)
 		{
-			WebRequestHelper.Instance.GetRequest(SdkType.Login, URL_GET_LINKED_SOCIAL_NETWORKS, WebRequestHeader.AuthHeader(Token.Instance), onSuccess, onError);
+			WebRequestHelper.Instance.GetRequest(SdkType.Login, URL_GET_LINKED_SOCIAL_NETWORKS, WebRequestHeader.AuthHeader(Token.Instance), onSuccess,
+				onError: error => TokenRefresh.HandleError(error, onError, () => GetLinkedSocialProviders(onSuccess, onError)));
 		}
 	}
 }

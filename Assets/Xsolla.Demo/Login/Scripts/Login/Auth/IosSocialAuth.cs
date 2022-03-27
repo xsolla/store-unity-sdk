@@ -102,10 +102,6 @@ namespace Xsolla.Demo
 			PlayerPrefs.SetString(Constants.LAST_SUCCESS_AUTH_TOKEN, response.access_token);
 			PlayerPrefs.SetString(Constants.LAST_SUCCESS_OAUTH_REFRESH_TOKEN, response.refresh_token);
 
-			//Set expiration time for expiration check on next application start
-			var expirationTime = DateTime.Now.AddSeconds(response.expires_in);
-			PlayerPrefs.SetString(Constants.OAUTH_REFRESH_TOKEN_EXPIRATION_TIME, expirationTime.ToString());
-
 			Token.Instance = Token.Create(response.access_token);
 
 			base.OnSuccess?.Invoke(response.access_token);

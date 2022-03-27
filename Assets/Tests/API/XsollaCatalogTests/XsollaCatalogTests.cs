@@ -16,16 +16,10 @@ namespace Xsolla.Tests
 				UnityEngine.Object.DestroyImmediate(XsollaCatalog.Instance.gameObject);
 		}
 
-		private IEnumerator TestSession()
-		{
-			if (Token.Instance == null)
-				yield return TestSignInHelper.Instance.SignIn();
-		}
-
 		[UnityTest]
         public IEnumerator GetCatalog_DefaultValues_Success()
         {
-			yield return TestSession();
+			yield return TestSignInHelper.Instance.CheckSession();
 
 			bool? success = default;
 			string errorMessage = default;
@@ -74,7 +68,7 @@ namespace Xsolla.Tests
 		[UnityTest]
 		public IEnumerator GetCatalog_Parametrized_Success()
 		{
-			yield return TestSession();
+			yield return TestSignInHelper.Instance.CheckSession();
 
 			bool? success = default;
 			string errorMessage = default;
@@ -135,7 +129,7 @@ namespace Xsolla.Tests
 		[UnityTest]
 		public IEnumerator GetCatalogSimplified_DefaultValues_Success()
 		{
-			yield return TestSession();
+			yield return TestSignInHelper.Instance.CheckSession();
 
 			bool? success = default;
 			string errorMessage = default;
@@ -184,7 +178,7 @@ namespace Xsolla.Tests
 		[UnityTest]
 		public IEnumerator GetCatalogSimplified_Parametrized_Success()
 		{
-			yield return TestSession();
+			yield return TestSignInHelper.Instance.CheckSession();
 
 			bool? success = default;
 			string errorMessage = default;
@@ -234,7 +228,7 @@ namespace Xsolla.Tests
 		[UnityTest]
 		public IEnumerator GetGroupItems_DefaultValues_Success()
 		{
-			yield return TestSession();
+			yield return TestSignInHelper.Instance.CheckSession();
 
 			bool? success = default;
 			string errorMessage = default;
@@ -284,7 +278,7 @@ namespace Xsolla.Tests
 		[UnityTest]
 		public IEnumerator GetGroupItems_Parametrized_Success()
 		{
-			yield return TestSession();
+			yield return TestSignInHelper.Instance.CheckSession();
 
 			bool? success = default;
 			string errorMessage = default;
@@ -346,7 +340,7 @@ namespace Xsolla.Tests
 		[UnityTest]
 		public IEnumerator GetItemGroups_DefaultValues_Success()
 		{
-			yield return TestSession();
+			yield return TestSignInHelper.Instance.CheckSession();
 
 			bool? success = default;
 			string errorMessage = default;
@@ -395,7 +389,7 @@ namespace Xsolla.Tests
 		[UnityTest]
 		public IEnumerator GetItemGroups_Parametrized_Success()
 		{
-			yield return TestSession();
+			yield return TestSignInHelper.Instance.CheckSession();
 
 			bool? success = default;
 			string errorMessage = default;
@@ -447,7 +441,7 @@ namespace Xsolla.Tests
 		[UnityTest]
 		public IEnumerator GetVirtualCurrencyList_DefaultValues_Success()
 		{
-			yield return TestSession();
+			yield return TestSignInHelper.Instance.CheckSession();
 
 			bool? success = default;
 			string errorMessage = default;
@@ -496,7 +490,7 @@ namespace Xsolla.Tests
 		[UnityTest]
 		public IEnumerator GetVirtualCurrencyList_Parametrized_Success()
 		{
-			yield return TestSession();
+			yield return TestSignInHelper.Instance.CheckSession();
 
 			bool? success = default;
 			string errorMessage = default;
@@ -557,7 +551,7 @@ namespace Xsolla.Tests
 		[UnityTest]
 		public IEnumerator GetVirtualCurrencyPackagesList_DefaultValues_Success()
 		{
-			yield return TestSession();
+			yield return TestSignInHelper.Instance.CheckSession();
 
 			bool? success = default;
 			string errorMessage = default;
@@ -606,7 +600,7 @@ namespace Xsolla.Tests
 		[UnityTest]
 		public IEnumerator GetVirtualCurrencyPackagesList_Parametrized_Success()
 		{
-			yield return TestSession();
+			yield return TestSignInHelper.Instance.CheckSession();
 
 			bool? success = default;
 			string errorMessage = default;
@@ -667,7 +661,7 @@ namespace Xsolla.Tests
 		[UnityTest]
 		public IEnumerator GetBundles_DefaultValues_Success()
 		{
-			yield return TestSession();
+			yield return TestSignInHelper.Instance.CheckSession();
 
 			bool? success = default;
 			string errorMessage = default;
@@ -716,7 +710,7 @@ namespace Xsolla.Tests
 		[UnityTest]
 		public IEnumerator GetBundles_Parametrized_Success()
 		{
-			yield return TestSession();
+			yield return TestSignInHelper.Instance.CheckSession();
 
 			bool? success = default;
 			string errorMessage = default;
@@ -777,7 +771,7 @@ namespace Xsolla.Tests
 		[UnityTest]
 		public IEnumerator GetBundle_DefaultValues_Success()
 		{
-			yield return TestSession();
+			yield return TestSignInHelper.Instance.CheckSession();
 
 			bool? success = default;
 			string errorMessage = default;
@@ -813,7 +807,7 @@ namespace Xsolla.Tests
 		[UnityTest]
 		public IEnumerator GetBundle_Parametrized_Success()
 		{
-			yield return TestSession();
+			yield return TestSignInHelper.Instance.CheckSession();
 
 			bool? success = default;
 			string errorMessage = default;
@@ -851,7 +845,7 @@ namespace Xsolla.Tests
 		[UnityTest]
 		public IEnumerator RedeemCouponCode_WINTER2021_Success()
 		{
-			yield return TestSession();
+			yield return TestSignInHelper.Instance.CheckSession();
 
 			bool? success = default;
 			string errorMessage = default;
@@ -901,7 +895,7 @@ namespace Xsolla.Tests
 		[UnityTest]
 		public IEnumerator RedeemCouponCode_IncorrectCode_Failure()
 		{
-			yield return TestSession();
+			yield return TestSignInHelper.Instance.CheckSession();
 
 			bool? success = default;
 			string errorMessage = default;
@@ -928,9 +922,59 @@ namespace Xsolla.Tests
 		}
 
 		[UnityTest]
+		public IEnumerator RedeemCouponCode_WINTER2021_InvalidToken_SuccessAndTokenRefreshed()
+		{
+			yield return TestSignInHelper.Instance.SetOldToken();
+
+			bool? success = default;
+			string errorMessage = default;
+
+			XsollaCatalog.Instance.RedeemCouponCode(
+				projectId: XsollaSettings.StoreProjectId,
+				couponCode: new CouponCode() { coupon_code = "WINTER2021" },
+				onSuccess: items =>
+				{
+					if (items == null)
+					{
+						errorMessage = "CONTAINER IS NULL";
+						success = false;
+						return;
+					}
+
+					if (items.items == null)
+					{
+						errorMessage = "NESTED CONTAINER IS NULL";
+						success = false;
+						return;
+					}
+
+					if (items.items.Length == 0)
+					{
+						errorMessage = "NESTED CONTAIER IS EMPTY";
+						success = false;
+						return;
+					}
+
+					success = true;
+				},
+				onError: error =>
+				{
+					errorMessage = error?.errorMessage ?? "ERROR IS NULL";
+					success = false;
+				});
+
+			yield return new WaitUntil(() => success.HasValue);
+
+			if (success.Value)
+				TestHelper.CheckTokenChanged(nameof(RedeemCouponCode_WINTER2021_InvalidToken_SuccessAndTokenRefreshed));
+			else
+				TestHelper.Fail(nameof(RedeemCouponCode_WINTER2021_InvalidToken_SuccessAndTokenRefreshed), errorMessage);
+		}
+
+		[UnityTest]
 		public IEnumerator GetCouponRewards_WINTER2021_Success()
 		{
-			yield return TestSession();
+			yield return TestSignInHelper.Instance.CheckSession();
 
 			bool? success = default;
 			string errorMessage = default;
@@ -980,7 +1024,7 @@ namespace Xsolla.Tests
 		[UnityTest]
 		public IEnumerator GetCouponRewards_IncorrectCode_Failure()
 		{
-			yield return TestSession();
+			yield return TestSignInHelper.Instance.CheckSession();
 
 			bool? success = default;
 			string errorMessage = default;
@@ -1004,6 +1048,56 @@ namespace Xsolla.Tests
 				TestHelper.Pass(nameof(GetCouponRewards_IncorrectCode_Failure), errorMessage);
 			else
 				TestHelper.Fail(nameof(GetCouponRewards_IncorrectCode_Failure));
+		}
+
+		[UnityTest]
+		public IEnumerator GetCouponRewards_WINTER2021_InvalidToken_SuccessAndTokenRefreshed()
+		{
+			yield return TestSignInHelper.Instance.SetOldToken();
+
+			bool? success = default;
+			string errorMessage = default;
+
+			XsollaCatalog.Instance.GetCouponRewards(
+				projectId: XsollaSettings.StoreProjectId,
+				couponCode: "WINTER2021",
+				onSuccess: bonus =>
+				{
+					if (bonus == null)
+					{
+						errorMessage = "CONTAINER IS NULL";
+						success = false;
+						return;
+					}
+
+					if (bonus.bonus == null)
+					{
+						errorMessage = "NESTED CONTAINER IS NULL";
+						success = false;
+						return;
+					}
+
+					if (bonus.bonus.Length == 0)
+					{
+						errorMessage = "NESTED CONTAIER IS EMPTY";
+						success = false;
+						return;
+					}
+
+					success = true;
+				},
+				onError: error =>
+				{
+					errorMessage = error?.errorMessage ?? "ERROR IS NULL";
+					success = false;
+				});
+
+			yield return new WaitUntil(() => success.HasValue);
+
+			if (success.Value)
+				TestHelper.CheckTokenChanged(nameof(GetCouponRewards_WINTER2021_InvalidToken_SuccessAndTokenRefreshed));
+			else
+				TestHelper.Fail(nameof(GetCouponRewards_WINTER2021_InvalidToken_SuccessAndTokenRefreshed), errorMessage);
 		}
 	}
 }

@@ -42,7 +42,13 @@ namespace Xsolla.UserAccount
 					break;
 			}
 
-			WebRequestHelper.Instance.PostRequest(SdkType.Login, url, getAttributesRequestBody, headers, onSuccess, onError);
+			WebRequestHelper.Instance.PostRequest(SdkType.Login, url, getAttributesRequestBody, headers, onSuccess,
+				onError: error => TokenRefresh.HandleError(error, onError, () => GetUserAttributes(Token.Instance, publisherProjectId, attributeType, keys, userId, onSuccess, onError)));
+		}
+
+		public void GetUserAttributes(string publisherProjectId, UserAttributeType attributeType, [CanBeNull] List<string> keys, [CanBeNull] string userId, [NotNull] Action<List<UserAttribute>> onSuccess, [CanBeNull] Action<Error> onError)
+		{
+			GetUserAttributes(Token.Instance, publisherProjectId, attributeType, keys, userId, onSuccess, onError);
 		}
 
 		/// <summary>
@@ -62,7 +68,13 @@ namespace Xsolla.UserAccount
 			var modifyAttributesRequestBody = new ModifyAttributesJson(attributes, publisherProjectId, null);
 			var headers = new List<WebRequestHeader>() { WebRequestHeader.AuthHeader(token), WebRequestHeader.ContentTypeHeader() };
 
-			WebRequestHelper.Instance.PostRequest(SdkType.Login, URL_USER_UPDATE_ATTRIBUTES, modifyAttributesRequestBody, headers, onSuccess, onError);
+			WebRequestHelper.Instance.PostRequest(SdkType.Login, URL_USER_UPDATE_ATTRIBUTES, modifyAttributesRequestBody, headers, onSuccess,
+				onError: error => TokenRefresh.HandleError(error, onError, () => UpdateUserAttributes(Token.Instance, publisherProjectId, attributes, onSuccess, onError)));
+		}
+
+		public void UpdateUserAttributes(string publisherProjectId, List<UserAttribute> attributes, Action onSuccess, Action<Error> onError)
+		{
+			UpdateUserAttributes(Token.Instance, publisherProjectId, attributes, onSuccess, onError);
 		}
 
 		//TEXTREVIEW
@@ -83,7 +95,13 @@ namespace Xsolla.UserAccount
 			var removeAttributesRequestBody = new ModifyAttributesJson(null, publisherProjectId, removingKeys);
 			var headers = new List<WebRequestHeader>() { WebRequestHeader.AuthHeader(token), WebRequestHeader.ContentTypeHeader() };
 
-			WebRequestHelper.Instance.PostRequest(SdkType.Login, URL_USER_UPDATE_ATTRIBUTES, removeAttributesRequestBody, headers, onSuccess, onError);
+			WebRequestHelper.Instance.PostRequest(SdkType.Login, URL_USER_UPDATE_ATTRIBUTES, removeAttributesRequestBody, headers, onSuccess,
+				onError: error => TokenRefresh.HandleError(error, onError, () => RemoveUserAttributes(Token.Instance, publisherProjectId, removingKeys, onSuccess, onError)));
+		}
+
+		public void RemoveUserAttributes(string publisherProjectId, List<string> removingKeys, Action onSuccess, Action<Error> onError)
+		{
+			RemoveUserAttributes(Token.Instance, publisherProjectId, removingKeys, onSuccess, onError);
 		}
 	}
 }

@@ -10,10 +10,20 @@ namespace Xsolla.Auth
 		private const string DEFAULT_OAUTH_STATE = "xsollatest";
 		private const string DEFAULT_REDIRECT_URI = "https://login.xsolla.com/api/blank";
 
-		private void Awake()
+		public override void Init()
+		{
+			base.Init();
+
+			if (XsollaSettings.AuthorizationType == AuthorizationType.OAuth2_0)
+				SetupOAuthRefresh();
+		}
+
+		protected override void OnDestroy()
 		{
 			if (XsollaSettings.AuthorizationType == AuthorizationType.OAuth2_0)
-				InitOAuth2_0();
+				TeardownOAuthRefresh();
+
+			base.OnDestroy();
 		}
 
 		public void DeleteToken(string key)
@@ -30,6 +40,11 @@ namespace Xsolla.Auth
 			{
 				PlayerPrefs.SetString(key, token);
 			}
+		}
+
+		public string LoadToken(string key)
+		{
+			return PlayerPrefs.GetString(key, string.Empty);
 		}
 
 		string GetLocaleUrlParam(string locale)

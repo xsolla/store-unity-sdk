@@ -45,8 +45,11 @@ namespace Xsolla.Core
 
 				case ErrorCheckType.ItemsListErrors:
 				case ErrorCheckType.ConsumeItemErrors:
-					if (string.Equals(code,"422"))
-						errorType = ErrorType.InvalidData;
+					switch (code)
+					{
+						case "401": { errorType = ErrorType.InvalidToken; }; break;
+						case "422": { errorType = ErrorType.InvalidData; }; break;
+					}
 					break;
 
 				case ErrorCheckType.BuyItemErrors:
@@ -107,11 +110,12 @@ namespace Xsolla.Core
 
 			switch (code)
 			{
-				case "403":		{ errorType = ErrorType.InvalidToken; }; break;
+				case "403":
+				case "010-017": { errorType = ErrorType.InvalidToken; }; break;
 				case "405":		{ errorType = ErrorType.MethodIsNotAllowed; }; break;
-				case "0":		{ errorType = ErrorType.InvalidProjectSettings; }; break;
-				case "003-001": { errorType = ErrorType.InvalidLoginOrPassword; }; break;
+				case "0":
 				case "003-061": { errorType = ErrorType.InvalidProjectSettings; }; break;
+				case "003-001": { errorType = ErrorType.InvalidLoginOrPassword; }; break;
 				case "010-011": { errorType = ErrorType.MultipleLoginUrlsException; }; break;
 				case "010-012": { errorType = ErrorType.SubmittedLoginUrlNotFoundException; }; break;
 			}

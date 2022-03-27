@@ -29,7 +29,6 @@ namespace Xsolla.Core
 			{
 				DeleteRecord(Constants.LAST_SUCCESS_AUTH_TOKEN);
 				DeleteRecord(Constants.LAST_SUCCESS_OAUTH_REFRESH_TOKEN);
-				DeleteRecord(Constants.OAUTH_REFRESH_TOKEN_EXPIRATION_TIME);
 			}
 		}
 

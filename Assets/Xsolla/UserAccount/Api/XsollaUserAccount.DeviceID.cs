@@ -39,7 +39,7 @@ namespace Xsolla.UserAccount
 
 			WebRequestHelper.Instance.PostRequest<AddUsernameAndEmailResponse, AddUsernameAndEmailRequest>(SdkType.Login, url, requestBody, WebRequestHeader.AuthHeader(Token.Instance),
 				onComplete: onComplete,
-				onError: onError);
+				onError: error => TokenRefresh.HandleError(error, onError, () => AddUsernameEmailAuthToAccount(username, password, email, promoEmailAgreement, onSuccess, onError)));
 		}
 
 		/// <summary>
@@ -53,7 +53,7 @@ namespace Xsolla.UserAccount
 		{
 			WebRequestHelper.Instance.GetRequest<List<UserDeviceInfo>>(SdkType.Login, URL_GET_USERS_DEVICES, WebRequestHeader.AuthHeader(Token.Instance),
 				onComplete: onSuccess,
-				onError: onError);
+				onError: error => TokenRefresh.HandleError(error, onError, () => GetUserDevices(onSuccess, onError)));
 		}
 
 		/// <summary>
@@ -74,7 +74,7 @@ namespace Xsolla.UserAccount
 
 			WebRequestHelper.Instance.PostRequest<LinkDeviceRequest>(SdkType.Login, url, requestBody, WebRequestHeader.AuthHeader(Token.Instance),
 				onSuccess,
-				onError);
+				onError: error => TokenRefresh.HandleError(error, onError, () => LinkDeviceToAccount(deviceType, device, deviceId, onSuccess, onError)));
 		}
 
 		/// <summary>
@@ -91,7 +91,7 @@ namespace Xsolla.UserAccount
 
 			WebRequestHelper.Instance.DeleteRequest(SdkType.Login, url, WebRequestHeader.AuthHeader(Token.Instance),
 				onSuccess,
-				onError);
+				onError: error => TokenRefresh.HandleError(error, onError, () => UnlinkDeviceFromAccount(id, onSuccess, onError)));
 		}
 	}
 }

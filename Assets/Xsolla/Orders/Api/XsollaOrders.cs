@@ -47,7 +47,9 @@ namespace Xsolla.Orders
 		public void CheckOrderStatus(string projectId, int orderId, [NotNull] Action<OrderStatus> onSuccess, [CanBeNull] Action<Error> onError)
 		{
 			var url = string.Format(URL_ORDER_GET_STATUS, projectId, orderId);
-			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, WebRequestHeader.AuthHeader(Token.Instance), onSuccess, onError, ErrorCheckType.OrderStatusErrors);
+			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, WebRequestHeader.AuthHeader(Token.Instance), onSuccess,
+				onError: error => TokenRefresh.HandleError(error, onError, () => CheckOrderStatus(projectId, orderId, onSuccess, onError)),
+				ErrorCheckType.OrderStatusErrors);
 		}
 
 		/// <summary>
@@ -85,7 +87,9 @@ namespace Xsolla.Orders
 			var settings = GeneratePaymentTokenSettings(currency, locale, externalID, paymentMethod);
 			var requestBody = new CreatePaymentTokenRequest(purchase, settings, customParameters);
 
-			WebRequestHelper.Instance.PostRequest<TokenEntity, CreatePaymentTokenRequest>(SdkType.Store, url, requestBody, PurchaseParamsGenerator.GetPaymentHeaders(Token.Instance), onSuccess, onError, ErrorCheckType.BuyItemErrors);
+			WebRequestHelper.Instance.PostRequest<TokenEntity, CreatePaymentTokenRequest>(SdkType.Store, url, requestBody, PurchaseParamsGenerator.GetPaymentHeaders(Token.Instance), onSuccess,
+				onError: error => TokenRefresh.HandleError(error, onError, () => CreatePaymentToken(projectId, amount, currency, description, locale, externalID, paymentMethod, customParameters, onSuccess, onError)),
+				ErrorCheckType.BuyItemErrors);
 		}
 
 		/// <summary>
@@ -131,7 +135,9 @@ namespace Xsolla.Orders
 			var settings = GeneratePaymentTokenSettings(currency, locale, externalID, paymentMethod);
 			var requestBody = new CreatePaymentTokenRequest(purchase, settings, customParameters);
 
-			WebRequestHelper.Instance.PostRequest<TokenEntity, CreatePaymentTokenRequest>(SdkType.Store, url, requestBody, PurchaseParamsGenerator.GetPaymentHeaders(Token.Instance), onSuccess, onError, ErrorCheckType.BuyItemErrors);
+			WebRequestHelper.Instance.PostRequest<TokenEntity, CreatePaymentTokenRequest>(SdkType.Store, url, requestBody, PurchaseParamsGenerator.GetPaymentHeaders(Token.Instance), onSuccess,
+				onError: error => TokenRefresh.HandleError(error, onError, () => CreatePaymentToken(projectId, amount, currency, items, locale, externalID, paymentMethod, customParameters, onSuccess, onError)),
+				ErrorCheckType.BuyItemErrors);
 		}
 
 		private CreatePaymentTokenRequest.Settings GeneratePaymentTokenSettings(string currency, string locale, string externalID, int? paymentMethod)
