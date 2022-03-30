@@ -142,7 +142,7 @@ namespace Xsolla.Auth
 			var url = string.Format(URL_GET_AVAILABLE_SOCIAL_NETWORKS, localeParam);
 
 			WebRequestHelper.Instance.GetRequest(SdkType.Login, url, WebRequestHeader.AuthHeader(Token.Instance), onSuccess,
-				onError: error => TokenRefresh.HandleError(error, onError, () => GetLinksForSocialAuth(locale, onSuccess, onError)));
+				onError: error => TokenRefresh.Instance.CheckInvalidToken(error, onError, () => GetLinksForSocialAuth(locale, onSuccess, onError)));
 		}
 	}
 }

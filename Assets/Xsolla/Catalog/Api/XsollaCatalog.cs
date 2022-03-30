@@ -198,7 +198,7 @@ namespace Xsolla.Catalog
 
 			var headers = new List<WebRequestHeader>() { WebRequestHeader.AuthHeader(Token.Instance), WebRequestHeader.ContentTypeHeader() };
 			WebRequestHelper.Instance.PostRequest(SdkType.Store, url, couponCode, headers, onSuccess,
-				onError: error => TokenRefresh.HandleError(error, onError, () => RedeemCouponCode(projectId, couponCode, onSuccess, onError)),
+				onError: error => TokenRefresh.Instance.CheckInvalidToken(error, onError, () => RedeemCouponCode(projectId, couponCode, onSuccess, onError)),
 				ErrorCheckType.CouponErrors);
 		}
 
@@ -218,7 +218,7 @@ namespace Xsolla.Catalog
 
 			var headers = new List<WebRequestHeader>() { WebRequestHeader.AuthHeader(Token.Instance), WebRequestHeader.ContentTypeHeader() };
 			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, headers, onSuccess,
-				onError: error => TokenRefresh.HandleError(error, onError, () => GetCouponRewards(projectId, couponCode, onSuccess, onError)),
+				onError: error => TokenRefresh.Instance.CheckInvalidToken(error, onError, () => GetCouponRewards(projectId, couponCode, onSuccess, onError)),
 				ErrorCheckType.CouponErrors);
 		}
 
@@ -240,7 +240,7 @@ namespace Xsolla.Catalog
 			var url = string.Format(URL_BUY_ITEM, projectId, itemSku);
 			var paymentHeaders = PurchaseParamsGenerator.GetPaymentHeaders(Token.Instance, customHeaders);
 			WebRequestHelper.Instance.PostRequest<PurchaseData, TempPurchaseParams>(SdkType.Store, url, tempPurchaseParams, paymentHeaders, onSuccess,
-				onError: error => TokenRefresh.HandleError(error, onError, () => PurchaseItem(projectId, itemSku, onSuccess, onError, purchaseParams, customHeaders)),
+				onError: error => TokenRefresh.Instance.CheckInvalidToken(error, onError, () => PurchaseItem(projectId, itemSku, onSuccess, onError, purchaseParams, customHeaders)),
 				ErrorCheckType.BuyItemErrors);
 		}
 
@@ -281,7 +281,7 @@ namespace Xsolla.Catalog
 
 			var paymentHeaders = PurchaseParamsGenerator.GetPaymentHeaders(Token.Instance, customHeaders);
 			WebRequestHelper.Instance.PostRequest<PurchaseData, TempPurchaseParams>(SdkType.Store, url, tempPurchaseParams, paymentHeaders, onSuccess,
-				onError: error => TokenRefresh.HandleError(error, onError, () => PurchaseItemForVirtualCurrency(projectId, itemSku, priceSku, onSuccess, onError, purchaseParams, platform, customHeaders)),
+				onError: error => TokenRefresh.Instance.CheckInvalidToken(error, onError, () => PurchaseItemForVirtualCurrency(projectId, itemSku, priceSku, onSuccess, onError, purchaseParams, platform, customHeaders)),
 				ErrorCheckType.BuyItemErrors);
 		}
 	}

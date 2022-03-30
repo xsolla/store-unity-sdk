@@ -48,7 +48,7 @@ namespace Xsolla.Orders
 		{
 			var url = string.Format(URL_ORDER_GET_STATUS, projectId, orderId);
 			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, WebRequestHeader.AuthHeader(Token.Instance), onSuccess,
-				onError: error => TokenRefresh.HandleError(error, onError, () => CheckOrderStatus(projectId, orderId, onSuccess, onError)),
+				onError: error => TokenRefresh.Instance.CheckInvalidToken(error, onError, () => CheckOrderStatus(projectId, orderId, onSuccess, onError)),
 				ErrorCheckType.OrderStatusErrors);
 		}
 
@@ -88,7 +88,7 @@ namespace Xsolla.Orders
 			var requestBody = new CreatePaymentTokenRequest(purchase, settings, customParameters);
 
 			WebRequestHelper.Instance.PostRequest<TokenEntity, CreatePaymentTokenRequest>(SdkType.Store, url, requestBody, PurchaseParamsGenerator.GetPaymentHeaders(Token.Instance), onSuccess,
-				onError: error => TokenRefresh.HandleError(error, onError, () => CreatePaymentToken(projectId, amount, currency, description, locale, externalID, paymentMethod, customParameters, onSuccess, onError)),
+				onError: error => TokenRefresh.Instance.CheckInvalidToken(error, onError, () => CreatePaymentToken(projectId, amount, currency, description, locale, externalID, paymentMethod, customParameters, onSuccess, onError)),
 				ErrorCheckType.BuyItemErrors);
 		}
 
@@ -136,7 +136,7 @@ namespace Xsolla.Orders
 			var requestBody = new CreatePaymentTokenRequest(purchase, settings, customParameters);
 
 			WebRequestHelper.Instance.PostRequest<TokenEntity, CreatePaymentTokenRequest>(SdkType.Store, url, requestBody, PurchaseParamsGenerator.GetPaymentHeaders(Token.Instance), onSuccess,
-				onError: error => TokenRefresh.HandleError(error, onError, () => CreatePaymentToken(projectId, amount, currency, items, locale, externalID, paymentMethod, customParameters, onSuccess, onError)),
+				onError: error => TokenRefresh.Instance.CheckInvalidToken(error, onError, () => CreatePaymentToken(projectId, amount, currency, items, locale, externalID, paymentMethod, customParameters, onSuccess, onError)),
 				ErrorCheckType.BuyItemErrors);
 		}
 

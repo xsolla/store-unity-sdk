@@ -23,7 +23,7 @@ namespace Xsolla.Subscriptions
 			url = UrlParameterizer.ConcatUrlAndParams(url, platform: platform);
 
 			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, WebRequestHeader.AuthHeader(Token.Instance), onSuccess,
-				onError: error => TokenRefresh.HandleError(error, onError, () => GetSubscriptions(projectId, onSuccess, onError, platform)),
+				onError: error => TokenRefresh.Instance.CheckInvalidToken(error, onError, () => GetSubscriptions(projectId, onSuccess, onError, platform)),
 				ErrorCheckType.ItemsListErrors);
 		}
 	}

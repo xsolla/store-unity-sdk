@@ -43,7 +43,7 @@ namespace Xsolla.UserAccount
 			}
 
 			WebRequestHelper.Instance.PostRequest(SdkType.Login, url, getAttributesRequestBody, headers, onSuccess,
-				onError: error => TokenRefresh.HandleError(error, onError, () => GetUserAttributes(Token.Instance, publisherProjectId, attributeType, keys, userId, onSuccess, onError)));
+				onError: error => TokenRefresh.Instance.CheckInvalidToken(error, onError, () => GetUserAttributes(Token.Instance, publisherProjectId, attributeType, keys, userId, onSuccess, onError)));
 		}
 
 		public void GetUserAttributes(string publisherProjectId, UserAttributeType attributeType, [CanBeNull] List<string> keys, [CanBeNull] string userId, [NotNull] Action<List<UserAttribute>> onSuccess, [CanBeNull] Action<Error> onError)
@@ -69,7 +69,7 @@ namespace Xsolla.UserAccount
 			var headers = new List<WebRequestHeader>() { WebRequestHeader.AuthHeader(token), WebRequestHeader.ContentTypeHeader() };
 
 			WebRequestHelper.Instance.PostRequest(SdkType.Login, URL_USER_UPDATE_ATTRIBUTES, modifyAttributesRequestBody, headers, onSuccess,
-				onError: error => TokenRefresh.HandleError(error, onError, () => UpdateUserAttributes(Token.Instance, publisherProjectId, attributes, onSuccess, onError)));
+				onError: error => TokenRefresh.Instance.CheckInvalidToken(error, onError, () => UpdateUserAttributes(Token.Instance, publisherProjectId, attributes, onSuccess, onError)));
 		}
 
 		public void UpdateUserAttributes(string publisherProjectId, List<UserAttribute> attributes, Action onSuccess, Action<Error> onError)
@@ -96,7 +96,7 @@ namespace Xsolla.UserAccount
 			var headers = new List<WebRequestHeader>() { WebRequestHeader.AuthHeader(token), WebRequestHeader.ContentTypeHeader() };
 
 			WebRequestHelper.Instance.PostRequest(SdkType.Login, URL_USER_UPDATE_ATTRIBUTES, removeAttributesRequestBody, headers, onSuccess,
-				onError: error => TokenRefresh.HandleError(error, onError, () => RemoveUserAttributes(Token.Instance, publisherProjectId, removingKeys, onSuccess, onError)));
+				onError: error => TokenRefresh.Instance.CheckInvalidToken(error, onError, () => RemoveUserAttributes(Token.Instance, publisherProjectId, removingKeys, onSuccess, onError)));
 		}
 
 		public void RemoveUserAttributes(string publisherProjectId, List<string> removingKeys, Action onSuccess, Action<Error> onError)

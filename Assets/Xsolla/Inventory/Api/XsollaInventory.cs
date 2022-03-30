@@ -26,7 +26,7 @@ namespace Xsolla.Inventory
 			url = UrlParameterizer.ConcatUrlAndParams(url, platform: platform);
 
 			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, WebRequestHeader.AuthHeader(Token.Instance), onSuccess,
-				onError: error => TokenRefresh.HandleError(error, onError, () => GetVirtualCurrencyBalance(projectId, onSuccess, onError, platform)),
+				onError: error => TokenRefresh.Instance.CheckInvalidToken(error, onError, () => GetVirtualCurrencyBalance(projectId, onSuccess, onError, platform)),
 				ErrorCheckType.ItemsListErrors);
 		}
 
@@ -48,7 +48,7 @@ namespace Xsolla.Inventory
 			url = UrlParameterizer.ConcatUrlAndParams(url, limit: limit, offset: offset, locale: locale, platform: platform);
 
 			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, WebRequestHeader.AuthHeader(Token.Instance), onSuccess,
-				onError: error => TokenRefresh.HandleError(error, onError, () => GetInventoryItems(projectId, onSuccess, onError, limit, offset, locale, platform)),
+				onError: error => TokenRefresh.Instance.CheckInvalidToken(error, onError, () => GetInventoryItems(projectId, onSuccess, onError, limit, offset, locale, platform)),
 				ErrorCheckType.ItemsListErrors);
 		}
 
@@ -70,7 +70,7 @@ namespace Xsolla.Inventory
 			var headers = new List<WebRequestHeader>() { WebRequestHeader.AuthHeader(Token.Instance), WebRequestHeader.ContentTypeHeader() };
 
 			WebRequestHelper.Instance.PostRequest(SdkType.Store, url, item, headers, onSuccess,
-				onError: error => TokenRefresh.HandleError(error, onError, () => ConsumeInventoryItem(projectId, item, onSuccess, onError, platform)),
+				onError: error => TokenRefresh.Instance.CheckInvalidToken(error, onError, () => ConsumeInventoryItem(projectId, item, onSuccess, onError, platform)),
 				ErrorCheckType.ConsumeItemErrors);
 		}
 	}

@@ -9,12 +9,6 @@ namespace Xsolla.Tests
 {
 	public class XsollaAuthOAuthRefreshTokenTests
     {
-		[OneTimeSetUp]
-		public void OneTimeSetUp() => TestSignInHelper.Instance.Setup();
-
-		[OneTimeTearDown]
-		public void OneTimeTearDown() => TestSignInHelper.Instance.TearDown();
-
 		[UnityTest]
         public IEnumerator RefreshOAuthToken_TokenChanged()
         {

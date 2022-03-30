@@ -13,12 +13,6 @@ namespace Xsolla.Tests
 {
     public class XsollaAuthSocialTests
     {
-		[SetUp]
-		public void Setup() => TestSignInHelper.Instance.Setup();
-
-		[TearDown]
-		public void TearDown() => TestSignInHelper.Instance.TearDown();
-
 		[Test]
 		public void GetSocialNetworkAuthUrl_JWT_Success()
 		{
@@ -39,13 +33,7 @@ namespace Xsolla.Tests
 
 		private IEnumerator GetLinksForSocialAuth(string testName, string locale)
 		{
-			if (Token.Instance == null)
-			{
-				yield return TestSignInHelper.Instance.SignIn();
-
-				if (Token.Instance == null)
-					TestHelper.Fail(testName, "COULD NOT SIGN IN");
-			}
+			yield return TestSignInHelper.Instance.CheckSession();
 
 			bool? success = default;
 			string errorMessage = default;

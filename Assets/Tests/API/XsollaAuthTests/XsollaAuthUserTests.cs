@@ -9,10 +9,12 @@ namespace Xsolla.Tests
 	public class XsollaAuthUserTests
     {
 		[SetUp]
-		public void Setup() => TestSignInHelper.Instance.Setup();
-
 		[TearDown]
-		public void TearDown() => TestSignInHelper.Instance.TearDown();
+		public void Setup()
+		{
+			if (XsollaSettings.AuthorizationType != AuthorizationType.OAuth2_0)
+				XsollaSettings.AuthorizationType = AuthorizationType.OAuth2_0;
+		}
 
 		[UnityTest]
 		public IEnumerator SignIn_JWT_Success()

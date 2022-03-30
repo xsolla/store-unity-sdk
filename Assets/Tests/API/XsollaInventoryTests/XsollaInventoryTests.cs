@@ -10,10 +10,10 @@ namespace Xsolla.Tests
 	public class XsollaInventoryTests
     {
 		[OneTimeTearDown]
-		public void TearDown()
+		public void OneTimeTearDown()
 		{
 			if (XsollaInventory.IsExist)
-				UnityEngine.Object.DestroyImmediate(XsollaInventory.Instance.gameObject);
+				XsollaInventory.DestroyImmediate(XsollaInventory.Instance.gameObject);
 		}
 
 		[UnityTest]

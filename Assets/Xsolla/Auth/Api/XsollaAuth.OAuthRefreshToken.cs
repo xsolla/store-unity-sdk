@@ -20,7 +20,7 @@ namespace Xsolla.Auth
 		/// <param name="onError">Failed operation callback.</param>
 		public void RefreshOAuthToken(Action<string> onSuccess, Action<Error> onError)
 		{
-			var refreshToken = LoadToken(Constants.LAST_SUCCESS_OAUTH_REFRESH_TOKEN);
+			var refreshToken = TokenRefresh.Instance.RefreshToken;
 			RefreshOAuthToken(refreshToken, onSuccess, onError);
 		}
 
@@ -133,7 +133,7 @@ namespace Xsolla.Auth
 		{
 			Token.Instance = Token.Create(response.access_token);
 			SaveToken(Constants.LAST_SUCCESS_AUTH_TOKEN, response.access_token);
-			SaveToken(Constants.LAST_SUCCESS_OAUTH_REFRESH_TOKEN, response.refresh_token);
+			TokenRefresh.Instance.RefreshToken = response.refresh_token;
 
 			onSuccessToken?.Invoke(response.access_token);
 		}
@@ -143,7 +143,7 @@ namespace Xsolla.Auth
 			if (_subscribed) return;
 
 			_subscribed = true;
-			TokenRefresh.OnInvalidToken += HandleInvalidToken;
+			TokenRefresh.Instance.OnInvalidToken += HandleInvalidToken;
 		}
 
 		private void TeardownOAuthRefresh()
@@ -151,7 +151,7 @@ namespace Xsolla.Auth
 			if (!_subscribed) return;
 
 			_subscribed = false;
-			TokenRefresh.OnInvalidToken -= HandleInvalidToken;
+			TokenRefresh.Instance.OnInvalidToken -= HandleInvalidToken;
 		}
 
 		private void HandleInvalidToken(Action repeatCall, Action<Error> onError)

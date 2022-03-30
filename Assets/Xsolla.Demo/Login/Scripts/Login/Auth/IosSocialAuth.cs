@@ -100,7 +100,7 @@ namespace Xsolla.Demo
 			var response = ParseUtils.FromJson<LoginOAuthJsonResponse>(tokenInfo);
 
 			PlayerPrefs.SetString(Constants.LAST_SUCCESS_AUTH_TOKEN, response.access_token);
-			PlayerPrefs.SetString(Constants.LAST_SUCCESS_OAUTH_REFRESH_TOKEN, response.refresh_token);
+			TokenRefresh.Instance.RefreshToken = response.refresh_token;
 
 			Token.Instance = Token.Create(response.access_token);
 

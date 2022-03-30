@@ -1,12 +1,31 @@
 using System;
+using UnityEngine;
 
 namespace Xsolla.Core
 {
-	public static class TokenRefresh
+	public class TokenRefresh : MonoSingleton<TokenRefresh>
     {
-		public static Action<Action,Action<Error>> OnInvalidToken;
+		private string _refreshToken;
 
-		public static void HandleError(Error error, Action<Error> onErrorCallback, Action repeatCall)
+		public string RefreshToken
+		{
+			get
+			{
+				if (string.IsNullOrEmpty(_refreshToken))
+					_refreshToken = PlayerPrefs.GetString(Constants.LAST_SUCCESS_OAUTH_REFRESH_TOKEN, string.Empty);
+
+				return _refreshToken;
+			}
+			set
+			{
+				_refreshToken = value;
+				PlayerPrefs.SetString(Constants.LAST_SUCCESS_OAUTH_REFRESH_TOKEN, value);
+			}
+		}
+
+		public Action<Action,Action<Error>> OnInvalidToken;
+
+		public void CheckInvalidToken(Error error, Action<Error> onErrorCallback, Action repeatCall)
 		{
 			if (error.ErrorType == ErrorType.InvalidToken &&
 				XsollaSettings.AuthorizationType == AuthorizationType.OAuth2_0 &&

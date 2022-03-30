@@ -45,7 +45,7 @@ namespace Xsolla.Cart
 			url = UrlParameterizer.ConcatUrlAndParams(url, locale: locale, currency: currency);
 
 			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, WebRequestHeader.AuthHeader(Token.Instance), onSuccess,
-				onError: error => TokenRefresh.HandleError(error, onError, () => GetCartItems(projectId, onSuccess, onError, locale, currency)),
+				onError: error => TokenRefresh.Instance.CheckInvalidToken(error, onError, () => GetCartItems(projectId, onSuccess, onError, locale, currency)),
 				ErrorCheckType.CreateCartErrors);
 		}
 
@@ -66,7 +66,7 @@ namespace Xsolla.Cart
 			url = UrlParameterizer.ConcatUrlAndParams(url, locale: locale, currency: currency);
 
 			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, WebRequestHeader.AuthHeader(Token.Instance), onSuccess,
-				onError: error => TokenRefresh.HandleError(error, onError, () => GetCartItems(projectId, cartId, onSuccess, onError, locale, currency)),
+				onError: error => TokenRefresh.Instance.CheckInvalidToken(error, onError, () => GetCartItems(projectId, cartId, onSuccess, onError, locale, currency)),
 				ErrorCheckType.GetCartItemsErrors);
 		}
 
@@ -85,7 +85,7 @@ namespace Xsolla.Cart
 			var url = string.Format(URL_CART_CURRENT_FILL, projectId);
 			var entity = new CartFillEntity { items = items };
 			WebRequestHelper.Instance.PutRequest(SdkType.Store, url, entity, WebRequestHeader.AuthHeader(Token.Instance), onSuccess,
-				onError: error => TokenRefresh.HandleError(error, onError, () => FillCart(projectId, items, onSuccess, onError)),
+				onError: error => TokenRefresh.Instance.CheckInvalidToken(error, onError, () => FillCart(projectId, items, onSuccess, onError)),
 				ErrorCheckType.CreateCartErrors);
 		}
 
@@ -105,7 +105,7 @@ namespace Xsolla.Cart
 			var url = string.Format(URL_CART_SPECIFIC_FILL, projectId, cartId);
 			var entity = new CartFillEntity { items = items };
 			WebRequestHelper.Instance.PutRequest(SdkType.Store, url, entity, WebRequestHeader.AuthHeader(Token.Instance), onSuccess,
-				onError: error => TokenRefresh.HandleError(error, onError, () => FillCart(projectId, cartId, items, onSuccess, onError)),
+				onError: error => TokenRefresh.Instance.CheckInvalidToken(error, onError, () => FillCart(projectId, cartId, items, onSuccess, onError)),
 				ErrorCheckType.CreateCartErrors);
 		}
 
@@ -125,7 +125,7 @@ namespace Xsolla.Cart
 			var url = string.Format(URL_CART_CURRENT_ITEM_UPDATE, projectId, itemSku);
 			var jsonObject = new Quantity { quantity = quantity };
 			WebRequestHelper.Instance.PutRequest<Quantity>(SdkType.Store, url, jsonObject, WebRequestHeader.AuthHeader(Token.Instance), onSuccess,
-				onError: error => TokenRefresh.HandleError(error, onError, () => UpdateItemInCart(projectId, itemSku, quantity, onSuccess, onError)),
+				onError: error => TokenRefresh.Instance.CheckInvalidToken(error, onError, () => UpdateItemInCart(projectId, itemSku, quantity, onSuccess, onError)),
 				ErrorCheckType.AddToCartCartErrors);
 		}
 
@@ -146,7 +146,7 @@ namespace Xsolla.Cart
 			var url = string.Format(URL_CART_SPECIFIC_ITEM_UPDATE, projectId, cartId, itemSku);
 			var jsonObject = new Quantity { quantity = quantity };
 			WebRequestHelper.Instance.PutRequest<Quantity>(SdkType.Store, url, jsonObject, WebRequestHeader.AuthHeader(Token.Instance), onSuccess,
-				onError: error => TokenRefresh.HandleError(error, onError, () => UpdateItemInCart(projectId, cartId, itemSku, quantity, onSuccess, onError)),
+				onError: error => TokenRefresh.Instance.CheckInvalidToken(error, onError, () => UpdateItemInCart(projectId, cartId, itemSku, quantity, onSuccess, onError)),
 				ErrorCheckType.AddToCartCartErrors);
 		}
 
@@ -163,7 +163,7 @@ namespace Xsolla.Cart
 		{
 			var url = string.Format(URL_CART_CURRENT_ITEM_REMOVE, projectId, itemSku);
 			WebRequestHelper.Instance.DeleteRequest(SdkType.Store, url, WebRequestHeader.AuthHeader(Token.Instance), onSuccess,
-				onError: error => TokenRefresh.HandleError(error, onError, () => RemoveItemFromCart(projectId, itemSku, onSuccess, onError)),
+				onError: error => TokenRefresh.Instance.CheckInvalidToken(error, onError, () => RemoveItemFromCart(projectId, itemSku, onSuccess, onError)),
 				ErrorCheckType.DeleteFromCartErrors);
 		}
 
@@ -181,7 +181,7 @@ namespace Xsolla.Cart
 		{
 			var url = string.Format(URL_CART_SPECIFIC_ITEM_REMOVE, projectId, cartId, itemSku);
 			WebRequestHelper.Instance.DeleteRequest(SdkType.Store, url, WebRequestHeader.AuthHeader(Token.Instance), onSuccess,
-				onError: error => TokenRefresh.HandleError(error, onError, () => RemoveItemFromCart(projectId, cartId, itemSku, onSuccess, onError)),
+				onError: error => TokenRefresh.Instance.CheckInvalidToken(error, onError, () => RemoveItemFromCart(projectId, cartId, itemSku, onSuccess, onError)),
 				ErrorCheckType.DeleteFromCartErrors);
 		}
 
@@ -197,7 +197,7 @@ namespace Xsolla.Cart
 		{
 			var url = string.Format(URL_CART_CURRENT_CLEAR, projectId);
 			WebRequestHelper.Instance.PutRequest<Quantity>(SdkType.Store, url, null, WebRequestHeader.AuthHeader(Token.Instance), onSuccess,
-				onError: error => TokenRefresh.HandleError(error, onError, () => ClearCart(projectId, onSuccess, onError)),
+				onError: error => TokenRefresh.Instance.CheckInvalidToken(error, onError, () => ClearCart(projectId, onSuccess, onError)),
 				ErrorCheckType.AddToCartCartErrors);
 		}
 
@@ -214,7 +214,7 @@ namespace Xsolla.Cart
 		{
 			var url = string.Format(URL_CART_SPECIFIC_CLEAR, projectId, cartId);
 			WebRequestHelper.Instance.PutRequest<Quantity>(SdkType.Store, url, null, WebRequestHeader.AuthHeader(Token.Instance), onSuccess,
-				onError: error => TokenRefresh.HandleError(error, onError, () => ClearCart(projectId, cartId, onSuccess, onError)),
+				onError: error => TokenRefresh.Instance.CheckInvalidToken(error, onError, () => ClearCart(projectId, cartId, onSuccess, onError)),
 				ErrorCheckType.AddToCartCartErrors);
 		}
 
@@ -237,7 +237,7 @@ namespace Xsolla.Cart
 				cart = string.IsNullOrEmpty(cartId) ? null : new RedeemPromocodeRequest.Cart { id = cartId }
 			};
 			WebRequestHelper.Instance.PostRequest(SdkType.Store, url, request, WebRequestHeader.AuthHeader(Token.Instance), onSuccess,
-				onError: error => TokenRefresh.HandleError(error, onError, () => RedeemPromocode(projectId, promocode, cartId, onSuccess, onError)),
+				onError: error => TokenRefresh.Instance.CheckInvalidToken(error, onError, () => RedeemPromocode(projectId, promocode, cartId, onSuccess, onError)),
 				ErrorCheckType.DeleteFromCartErrors);
 		}
 
@@ -256,7 +256,7 @@ namespace Xsolla.Cart
 			var url = string.Format(URL_GET_PROMOCODE_REWARD, projectId, promocode);
 
 			WebRequestHelper.Instance.PostRequest(SdkType.Store, url, WebRequestHeader.AuthHeader(Token.Instance), onSuccess,
-				onError: error => TokenRefresh.HandleError(error, onError, () => GetPromocodeReward(projectId, promocode, onSuccess, onError)),
+				onError: error => TokenRefresh.Instance.CheckInvalidToken(error, onError, () => GetPromocodeReward(projectId, promocode, onSuccess, onError)),
 				ErrorCheckType.DeleteFromCartErrors);
 		}
 
@@ -275,7 +275,7 @@ namespace Xsolla.Cart
 			var url = string.Format(URL_REMOVE_PROMOCODE_FROM_CART, projectId);
 
 			WebRequestHelper.Instance.PutRequest(SdkType.Store, url, data, WebRequestHeader.AuthHeader(Token.Instance), onSuccess,
-				onError: error => TokenRefresh.HandleError(error, onError, () => RemovePromocodeFromCart(projectId, cartId, onSuccess, onError)),
+				onError: error => TokenRefresh.Instance.CheckInvalidToken(error, onError, () => RemovePromocodeFromCart(projectId, cartId, onSuccess, onError)),
 				ErrorCheckType.DeleteFromCartErrors);
 		}
 
@@ -295,7 +295,7 @@ namespace Xsolla.Cart
 			var url = string.Format(URL_BUY_CURRENT_CART, projectId);
 			var paymentHeaders = PurchaseParamsGenerator.GetPaymentHeaders(Token.Instance, customHeaders);
 			WebRequestHelper.Instance.PostRequest<PurchaseData, TempPurchaseParams>(SdkType.Store, url, tempPurchaseParams, paymentHeaders, onSuccess,
-				onError: error => TokenRefresh.HandleError(error, onError, () => PurchaseCart(projectId, onSuccess, onError, purchaseParams, customHeaders)),
+				onError: error => TokenRefresh.Instance.CheckInvalidToken(error, onError, () => PurchaseCart(projectId, onSuccess, onError, purchaseParams, customHeaders)),
 				ErrorCheckType.BuyCartErrors);
 		}
 
@@ -316,7 +316,7 @@ namespace Xsolla.Cart
 			var url = string.Format(URL_BUY_SPECIFIC_CART, projectId, cartId);
 			var paymentHeaders = PurchaseParamsGenerator.GetPaymentHeaders(Token.Instance, customHeaders);
 			WebRequestHelper.Instance.PostRequest<PurchaseData, TempPurchaseParams>(SdkType.Store, url, tempPurchaseParams, paymentHeaders, onSuccess,
-				onError: error => TokenRefresh.HandleError(error, onError, () => PurchaseCart(projectId, cartId, onSuccess, onError, purchaseParams, customHeaders)),
+				onError: error => TokenRefresh.Instance.CheckInvalidToken(error, onError, () => PurchaseCart(projectId, cartId, onSuccess, onError, purchaseParams, customHeaders)),
 				ErrorCheckType.BuyCartErrors);
 		}
 	}

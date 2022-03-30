@@ -26,7 +26,7 @@ namespace Xsolla.UserAccount
 		public void UpdateUserInfo(string token, UserInfoUpdate info, Action<UserInfo> onSuccess, Action<Error> onError = null)
 		{
 			WebRequestHelper.Instance.PatchRequest(SdkType.Login, URL_USER_INFO, info, WebRequestHeader.AuthHeader(token), onSuccess,
-				onError: error => TokenRefresh.HandleError(error, onError, () => UpdateUserInfo(Token.Instance, info, onSuccess, onError)));
+				onError: error => TokenRefresh.Instance.CheckInvalidToken(error, onError, () => UpdateUserInfo(Token.Instance, info, onSuccess, onError)));
 		}
 		
 		public void UpdateUserInfo(UserInfoUpdate info, Action<UserInfo> onSuccess, Action<Error> onError = null)
@@ -50,7 +50,7 @@ namespace Xsolla.UserAccount
 		{
 			var url = string.Format(URL_SEARCH_USER, nickname, offset, limit);
 			WebRequestHelper.Instance.GetRequest(SdkType.Login, url, WebRequestHeader.AuthHeader(token), onSuccess,
-				onError: error => TokenRefresh.HandleError(error, onError, () => SearchUsers(Token.Instance, nickname, offset, limit, onSuccess, onError)));
+				onError: error => TokenRefresh.Instance.CheckInvalidToken(error, onError, () => SearchUsers(Token.Instance, nickname, offset, limit, onSuccess, onError)));
 		}
 
 		public void SearchUsers(string nickname, uint offset, uint limit, Action<FoundUsers> onSuccess, Action<Error> onError = null)
@@ -71,7 +71,7 @@ namespace Xsolla.UserAccount
 		{
 			var url = string.Format(URL_USER_PUBLIC_INFO, userId);
 			WebRequestHelper.Instance.GetRequest(SdkType.Login, url, WebRequestHeader.AuthHeader(token), onSuccess,
-				onError: error => TokenRefresh.HandleError(error, onError, () => GetPublicInfo(Token.Instance, userId, onSuccess, onError)));
+				onError: error => TokenRefresh.Instance.CheckInvalidToken(error, onError, () => GetPublicInfo(Token.Instance, userId, onSuccess, onError)));
 		}
 
 		public void GetPublicInfo(string userId, Action<UserPublicInfo> onSuccess, Action<Error> onError = null)
@@ -94,7 +94,7 @@ namespace Xsolla.UserAccount
 		{
 			WebRequestHelper.Instance.GetRequest(SdkType.Login, URL_USER_PHONE, WebRequestHeader.AuthHeader(token),
 				onComplete: (UserPhoneNumber number) => onSuccess?.Invoke(number.phone_number),
-				onError: error => TokenRefresh.HandleError(error, onError, () => GetUserPhoneNumber(Token.Instance, onSuccess, onError)));
+				onError: error => TokenRefresh.Instance.CheckInvalidToken(error, onError, () => GetUserPhoneNumber(Token.Instance, onSuccess, onError)));
 		}
 
 		public void GetUserPhoneNumber(Action<string> onSuccess, Action<Error> onError)
@@ -118,7 +118,7 @@ namespace Xsolla.UserAccount
 		{
 			var request = new UserPhoneNumber { phone_number = phoneNumber };
 			WebRequestHelper.Instance.PostRequest(SdkType.Login, URL_USER_PHONE, request, WebRequestHeader.AuthHeader(token), onSuccess,
-				onError: error => TokenRefresh.HandleError(error, onError, () => UpdateUserPhoneNumber(Token.Instance, phoneNumber, onSuccess, onError)));
+				onError: error => TokenRefresh.Instance.CheckInvalidToken(error, onError, () => UpdateUserPhoneNumber(Token.Instance, phoneNumber, onSuccess, onError)));
 		}
 
 		public void UpdateUserPhoneNumber(string phoneNumber, Action onSuccess, Action<Error> onError)
@@ -142,7 +142,7 @@ namespace Xsolla.UserAccount
 		{
 			var url = $"{URL_USER_PHONE}/{phoneNumber}";
 			WebRequestHelper.Instance.DeleteRequest(SdkType.Login, url, WebRequestHeader.AuthHeader(token), onSuccess,
-				onError: error => TokenRefresh.HandleError(error, onError, () => DeleteUserPhoneNumber(Token.Instance, phoneNumber, onSuccess, onError)));
+				onError: error => TokenRefresh.Instance.CheckInvalidToken(error, onError, () => DeleteUserPhoneNumber(Token.Instance, phoneNumber, onSuccess, onError)));
 		}
 
 		public void DeleteUserPhoneNumber(string phoneNumber, Action onSuccess, Action<Error> onError)
@@ -170,7 +170,7 @@ namespace Xsolla.UserAccount
 				}
 			};
 			WebRequestHelper.Instance.PostUploadRequest(SdkType.Login, URL_USER_PICTURE, pictureData, headers, onSuccess,
-				onError: error => TokenRefresh.HandleError(error, onError, () => UploadUserPicture(Token.Instance, pictureData, boundary, onSuccess, onError)));
+				onError: error => TokenRefresh.Instance.CheckInvalidToken(error, onError, () => UploadUserPicture(Token.Instance, pictureData, boundary, onSuccess, onError)));
 		}
 
 		public void UploadUserPicture(byte[] pictureData, string boundary, Action<string> onSuccess, Action<Error> onError)
@@ -191,7 +191,7 @@ namespace Xsolla.UserAccount
 		{
 			var url = URL_USER_PICTURE;
 			WebRequestHelper.Instance.DeleteRequest(SdkType.Login, url, WebRequestHeader.AuthHeader(token), onSuccess,
-				onError: error => TokenRefresh.HandleError(error, onError, () => DeleteUserPicture(Token.Instance, onSuccess, onError)));
+				onError: error => TokenRefresh.Instance.CheckInvalidToken(error, onError, () => DeleteUserPicture(Token.Instance, onSuccess, onError)));
 		}
 
 		public void DeleteUserPicture(Action onSuccess, Action<Error> onError)
@@ -229,7 +229,7 @@ namespace Xsolla.UserAccount
 		{
 			Action<UserEmail> successCallback = response => { onSuccess?.Invoke(response.current_email); };
 			WebRequestHelper.Instance.GetRequest(SdkType.Login, URL_USER_GET_EMAIL, WebRequestHeader.AuthHeader(token), successCallback,
-				onError: error => TokenRefresh.HandleError(error, onError, () => GetUserEmail(Token.Instance, onSuccess, onError)));
+				onError: error => TokenRefresh.Instance.CheckInvalidToken(error, onError, () => GetUserEmail(Token.Instance, onSuccess, onError)));
 		}
 
 		public void GetUserEmail(Action<string> onSuccess, Action<Error> onError)
