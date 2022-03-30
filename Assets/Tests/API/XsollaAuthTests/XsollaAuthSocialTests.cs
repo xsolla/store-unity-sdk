@@ -13,12 +13,6 @@ namespace Xsolla.Tests
 {
     public class XsollaAuthSocialTests
     {
-		[OneTimeSetUp]
-		public void Setup() => new XsollaAuthUserTests().Setup();
-
-		[OneTimeTearDown]
-		public void TearDown() => new XsollaAuthUserTests().TearDown();
-
 		[Test]
 		public void GetSocialNetworkAuthUrl_JWT_Success()
 		{
@@ -39,13 +33,7 @@ namespace Xsolla.Tests
 
 		private IEnumerator GetLinksForSocialAuth(string testName, string locale)
 		{
-			if (Token.Instance == null)
-			{
-				yield return TestSignInHelper.Instance.SignIn();
-
-				if (Token.Instance == null)
-					TestHelper.Fail(testName, "COULD NOT SIGN IN");
-			}
+			yield return TestSignInHelper.Instance.CheckSession();
 
 			bool? success = default;
 			string errorMessage = default;
@@ -93,6 +81,14 @@ namespace Xsolla.Tests
 		public IEnumerator GetLinksForSocialAuth_ruRU_Success()
 		{
 			yield return GetLinksForSocialAuth(nameof(GetLinksForSocialAuth_ruRU_Success), "ru_RU");
+		}
+
+		[UnityTest]
+		public IEnumerator GetLinksForSocialAuth_InvalidToken_SuccessAndTokenRefreshed()
+		{
+			yield return TestSignInHelper.Instance.SetOldToken();
+			yield return GetLinksForSocialAuth(nameof(GetLinksForSocialAuth_InvalidToken_SuccessAndTokenRefreshed), null);
+			TestHelper.CheckTokenChanged(nameof(GetLinksForSocialAuth_InvalidToken_SuccessAndTokenRefreshed));
 		}
 	}
 }

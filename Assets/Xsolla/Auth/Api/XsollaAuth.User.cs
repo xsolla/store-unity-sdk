@@ -151,8 +151,7 @@ namespace Xsolla.Auth
 
 			Action<LoginOAuthJsonResponse> successCallback = response =>
 			{
-				ProcessOAuthResponse(response);
-				onSuccess?.Invoke(response.access_token);
+				ProcessOAuthResponse(response, onSuccess);
 			};
 
 			WebRequestHelper.Instance.PostRequest<LoginOAuthJsonResponse, LoginRequest>(SdkType.Login, url, loginData, successCallback, onError, ErrorCheckType.LoginErrors);

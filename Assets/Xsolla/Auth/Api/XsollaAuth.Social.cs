@@ -141,7 +141,8 @@ namespace Xsolla.Auth
 			var localeParam = GetLocaleUrlParam(locale).Replace("&", string.Empty);
 			var url = string.Format(URL_GET_AVAILABLE_SOCIAL_NETWORKS, localeParam);
 
-			WebRequestHelper.Instance.GetRequest(SdkType.Login, url, WebRequestHeader.AuthHeader(Token.Instance), onSuccess, onError);
+			WebRequestHelper.Instance.GetRequest(SdkType.Login, url, WebRequestHeader.AuthHeader(Token.Instance), onSuccess,
+				onError: error => TokenRefresh.Instance.CheckInvalidToken(error, onError, () => GetLinksForSocialAuth(locale, onSuccess, onError)));
 		}
 	}
 }

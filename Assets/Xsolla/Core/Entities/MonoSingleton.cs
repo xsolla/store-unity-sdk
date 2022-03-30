@@ -1,11 +1,12 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 namespace Xsolla.Core
 {
 	public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T>
 	{
-		const string PATH_TO_PREFABS = "";
-		static T _instance;
+		private const string PATH_TO_PREFABS = "";
+		private static T _instance;
+		private bool _isInitialized = false;
 
 		public static T Instance
 		{
@@ -14,10 +15,26 @@ namespace Xsolla.Core
 				if (_instance == null)
 				{
 					_instance = InstantiateThis();
-					_instance?.Init();
+					_instance?.OneTimeInit();
 				}
 
 				return _instance;
+			}
+		}
+
+		public static bool IsExist => _instance != null;
+
+		private void Awake()
+		{
+			if (_instance == null)
+			{
+				DontDestroyOnLoad(gameObject);
+				_instance = this as T;
+				_instance.OneTimeInit();
+			}
+			else if (_instance != this)
+			{
+				Destroy(gameObject);
 			}
 		}
 
@@ -71,38 +88,24 @@ namespace Xsolla.Core
 			return instance.AddComponent<T>();
 		}
 
-		public static bool IsExist {
-			get {
-				return _instance != null;
-			}
-		}
-
-		// If no other MonoBehaviour request the instance in an awake function
-		// executing before this one, no need to search the object.
-		void Awake()
-		{
-			if (_instance == null)
-			{
-				DontDestroyOnLoad(gameObject);
-				_instance = this as T;
-				_instance.Init();
-			}
-			else if (_instance != this)
-			{
-				Destroy(gameObject);
-			}
-		}
-
 		protected virtual void OnDestroy()
 		{
 			Debug.Log(typeof(T) + " is destroyed.");
 			_instance = null;
 		}
 
-		// This function is called when the instance is used the first time
-		// Put all the initializations you need here, as you would do in Awake
+		private void OneTimeInit()
+		{
+			if (!_isInitialized)
+			{
+				_isInitialized = true;
+				Init();
+			}
+		}
+
 		public virtual void Init()
 		{
+
 		}
 
 		private void OnApplicationQuit()

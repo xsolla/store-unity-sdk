@@ -40,16 +40,14 @@ namespace Xsolla.Core
 		
 		public override string ToString()
 		{
-			var builder = new StringBuilder();
+			var builder = new StringBuilder($"Error: {ErrorType}.");
 
-			if (ErrorType != ErrorType.UnknownError)
-				builder.Append($"Type: {ErrorType}. ");
 			if (!string.IsNullOrEmpty(statusCode))
-				builder.Append($"Status code: {statusCode}. ");
+				builder.Append($" Status code: {statusCode}.");
 			if (!string.IsNullOrEmpty(errorCode))
-				builder.Append($"Error code: {errorCode}. ");
+				builder.Append($" Error code: {errorCode}.");
 			if (!string.IsNullOrEmpty(errorMessage))
-				builder.Append($"{errorMessage}. ");
+				builder.Append($" {errorMessage}.");
 
 			return builder.ToString();
 		}

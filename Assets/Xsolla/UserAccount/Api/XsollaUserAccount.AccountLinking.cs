@@ -22,7 +22,8 @@ namespace Xsolla.UserAccount
 		#endregion
 		public void RequestLinkingCode(Action<LinkingCode> onSuccess, Action<Error> onError)
 		{
-			WebRequestHelper.Instance.PostRequest<LinkingCode>(SdkType.Login, URL_LINKING_CODE_REQUEST, WebRequestHeader.AuthHeader(Token.Instance), onSuccess, onError);
+			WebRequestHelper.Instance.PostRequest<LinkingCode>(SdkType.Login, URL_LINKING_CODE_REQUEST, WebRequestHeader.AuthHeader(Token.Instance), onSuccess,
+				onError: error => TokenRefresh.Instance.CheckInvalidToken(error, onError, () => RequestLinkingCode(onSuccess, onError)));
 		}
 
 		#region Comment

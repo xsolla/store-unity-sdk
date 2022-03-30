@@ -45,7 +45,7 @@ namespace Xsolla.Demo
 			switch (_autoAuthState)
 			{
 				case 0:
-					TryAuthBy<SavedTokenAuth>(args: null, onSuccess: onSuccessfulAutomaticAuth, onFailed: onFailedAutomaticAuth);
+					TryAuthBy<SavedTokenAuth>(args: null, onSuccess: validToken => CompleteSuccessfulAuth(validToken), onFailed: onFailedAutomaticAuth);
 					break;
 				case 1:
 					TryAuthBy<LauncherAuth>(args: null, onSuccess: onSuccessfulAutomaticAuth, onFailed: onFailedAutomaticAuth);

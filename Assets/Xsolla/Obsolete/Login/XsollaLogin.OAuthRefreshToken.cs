@@ -6,9 +6,9 @@ namespace Xsolla.Login
 {
 	public partial class XsollaLogin : MonoSingleton<XsollaLogin>
 	{
-		[Obsolete("Use XsollaAuth instead")]
+		[Obsolete("Obsolete and will always return false")]
 		public bool IsOAuthTokenRefreshInProgress
-			=> XsollaAuth.Instance.IsOAuthTokenRefreshInProgress;
+			=> false;
 
 		[Obsolete("Use XsollaAuth instead")]
 		public void ExchangeCodeToToken(string code, Action<string> onSuccessExchange = null, Action<Error> onError = null)

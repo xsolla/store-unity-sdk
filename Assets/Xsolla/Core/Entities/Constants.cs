@@ -11,7 +11,6 @@ namespace Xsolla.Core
 
 		public const string LAST_SUCCESS_AUTH_TOKEN = "xsolla_login_last_success_auth_token";
 		public const string LAST_SUCCESS_OAUTH_REFRESH_TOKEN = "xsolla_login_last_success_oauth_refresh_token";
-		public const string OAUTH_REFRESH_TOKEN_EXPIRATION_TIME = "xsolla_login_oauth_refresh_token_expiration_time";
 
 		public const string CartGroupName = "CART";
 		public const string CurrencyGroupName = "CURRENCY";

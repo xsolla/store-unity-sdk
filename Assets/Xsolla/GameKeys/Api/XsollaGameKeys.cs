@@ -161,7 +161,9 @@ namespace Xsolla.GameKeys
 			var url = string.Format(URL_REDEEM_GAME_CODE, projectId);
 			var data = new RedeemGameCodeRequest(gameCode, sandbox);
 
-			WebRequestHelper.Instance.PostRequest(SdkType.Login, url, data, WebRequestHeader.AuthHeader(Token.Instance), onSuccess, onError, ErrorCheckType.LoginErrors);
+			WebRequestHelper.Instance.PostRequest(SdkType.Login, url, data, WebRequestHeader.AuthHeader(Token.Instance), onSuccess,
+				onError: error => TokenRefresh.Instance.CheckInvalidToken(error, onError, () => RedeemGameCode(projectId, gameCode, sandbox, onSuccess, onError)),
+				ErrorCheckType.LoginErrors);
 		}
 	}
 }

@@ -165,9 +165,9 @@ namespace Xsolla.Demo
 		#endregion
 
 		#region OAuth2.0
-		[Obsolete("Use SdkAuthLogic instead")]
+		[Obsolete("Obsolete and will always return false")]
 		public bool IsOAuthTokenRefreshInProgress
-			=> SdkAuthLogic.Instance.IsOAuthTokenRefreshInProgress;
+			=> false;
 
 		[Obsolete("Use SdkAuthLogic instead")]
 		public void ExchangeCodeToToken(string code, Action<string> onSuccessExchange = null, Action<Error> onError = null)
