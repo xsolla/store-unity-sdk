@@ -11,9 +11,6 @@ namespace Xsolla.Demo
 
 		private void Awake()
 		{
-			if (DemoController.Instance.IsAccessTokenAuth)
-				DisableCommonButtons();
-
 			if (ResendEmailButton)
 			{
 				ResendEmailButton.onClick += () => SdkAuthLogic.Instance.ResendConfirmationLink(LoginPageEnterController.LastUsername);

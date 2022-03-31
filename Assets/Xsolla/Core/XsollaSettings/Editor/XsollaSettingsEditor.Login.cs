@@ -23,13 +23,9 @@ namespace Xsolla.Core
 		private const string OAUTH_CLIENT_ID_TOOLTIP = "To get the ID, set up an OAuth client in Publusher account in the " +
 		                                               "\"Login -> your Login project -> Secure -> OAuth 2.0\" section.";
 
-		private const string AUTH_SERVER_LABEL = "Authentication Server URL";
-		private const string AUTH_SERVER_TOOLTIP = "URL for login via an access token.";
-
 		private readonly string[] AuthorizationTypeOptions ={
 			"OAuth2.0",
-			"JWT",
-			"Access Token"
+			"JWT"
 		};
 
 		private bool LoginSettings()
@@ -51,42 +47,33 @@ namespace Xsolla.Core
 				changed = true;
 			}
 
-			if (XsollaSettings.AuthorizationType == AuthorizationType.JWT)
+			switch (XsollaSettings.AuthorizationType)
 			{
-				var jwtTokenInvalidationEnabled = EditorGUILayout.Toggle(new GUIContent(JWT_INVALIDATION_LABEL, JWT_INVALIDATION_TOOLTIP), XsollaSettings.InvalidateExistingSessions);
-				if (jwtTokenInvalidationEnabled != XsollaSettings.InvalidateExistingSessions)
-				{
-					XsollaSettings.InvalidateExistingSessions = jwtTokenInvalidationEnabled;
-					changed = true;
-				}
-			}
-			else if (authorizationType == AuthorizationType.OAuth2_0)
-			{
-				var oauthClientId = EditorGUILayout.IntField(new GUIContent(OAUTH_CLIENT_ID_LABEL, OAUTH_CLIENT_ID_TOOLTIP), XsollaSettings.OAuthClientId);
-				if (oauthClientId != XsollaSettings.OAuthClientId)
-				{
-					XsollaSettings.OAuthClientId = oauthClientId;
-					changed = true;
-				}
-			}
-			else if (authorizationType == AuthorizationType.AccessToken)
-			{
-				var authServerUrl = EditorGUILayout.TextField(new GUIContent(AUTH_SERVER_LABEL, AUTH_SERVER_TOOLTIP), XsollaSettings.AuthServerUrl);
-				if (authServerUrl != XsollaSettings.AuthServerUrl)
-				{
-					XsollaSettings.AuthServerUrl = authServerUrl;
-					changed = true;
-				}
+				case AuthorizationType.OAuth2_0:
+					var oauthClientId = EditorGUILayout.IntField(new GUIContent(OAUTH_CLIENT_ID_LABEL, OAUTH_CLIENT_ID_TOOLTIP), XsollaSettings.OAuthClientId);
+					if (oauthClientId != XsollaSettings.OAuthClientId)
+					{
+						XsollaSettings.OAuthClientId = oauthClientId;
+						changed = true;
+					}
+					break;
+				case AuthorizationType.JWT:
+					var jwtTokenInvalidationEnabled = EditorGUILayout.Toggle(new GUIContent(JWT_INVALIDATION_LABEL, JWT_INVALIDATION_TOOLTIP), XsollaSettings.InvalidateExistingSessions);
+					if (jwtTokenInvalidationEnabled != XsollaSettings.InvalidateExistingSessions)
+					{
+						XsollaSettings.InvalidateExistingSessions = jwtTokenInvalidationEnabled;
+						changed = true;
+					}
+					break;
+				default:
+					break;
 			}
 
-			if (XsollaSettings.AuthorizationType != AuthorizationType.AccessToken)
+			var callback = EditorGUILayout.TextField(new GUIContent(CALLBACK_URL_LABEL, CALLBACK_URL_TOOLTIP), XsollaSettings.CallbackUrl);
+			if (callback != XsollaSettings.CallbackUrl)
 			{
-				var callback = EditorGUILayout.TextField(new GUIContent(CALLBACK_URL_LABEL, CALLBACK_URL_TOOLTIP), XsollaSettings.CallbackUrl);
-				if (callback != XsollaSettings.CallbackUrl)
-				{
-					XsollaSettings.CallbackUrl = callback;
-					changed = true;
-				}
+				XsollaSettings.CallbackUrl = callback;
+				changed = true;
 			}
 
 			EditorGUILayout.EndVertical();

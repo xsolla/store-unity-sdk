@@ -12,7 +12,6 @@ namespace Xsolla.Demo
 
 		public UrlContainer UrlContainer => urlContainer;
 		public bool IsTutorialAvailable { get; private set; } = false;
-		public bool IsAccessTokenAuth => XsollaSettings.AuthorizationType == AuthorizationType.AccessToken;
 
 		public override void Init()
 		{

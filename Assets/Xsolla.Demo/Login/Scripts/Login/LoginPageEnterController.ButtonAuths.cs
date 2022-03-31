@@ -23,20 +23,11 @@ namespace Xsolla.Demo
 		[SerializeField] private PasswordlessWidget PasswordlessWidget = default;
 
 		[Space]
-		[SerializeField] InputField EmailAccessTokenAuthInputField = default;
-		[SerializeField] SimpleButton LoginAccessTokenAuthButton = default;
-
-		[Space]
 		[SerializeField] SimpleButton DeviceIDAuthButton = default;
-
-		[Space]
-		[SerializeField] GameObject LoginAuthPage = default;
-		[SerializeField] GameObject AccessTokenAuthPage = default;
 
 		private void Awake()
 		{
 			LoginButton.onClick += PrepareAndRunBasicAuth;
-			LoginAccessTokenAuthButton.onClick += PrepareAndRunAccessTokenAuth;
 
 			SocialNetworksWidget.OnSocialButtonClick = RunSocialAuth;
 			OtherSocialNetworksButton.onClick += () => SocialNetworksWidget.gameObject.SetActive(true);
@@ -55,14 +46,6 @@ namespace Xsolla.Demo
 
 			if (DeviceIDAuthButton)
 				DeviceIDAuthButton.onClick += RunDeviceIDAuth;
-
-			if (DemoController.Instance.IsAccessTokenAuth)
-			{
-				LoginAuthPage.SetActive(false);
-				AccessTokenAuthPage.SetActive(true);
-
-				DisableCommonButtons();
-			}
 		}
 
 		private void PrepareAndRunBasicAuth()
@@ -121,38 +104,6 @@ namespace Xsolla.Demo
 			Action<Error> onFailedSteamAuth = ProcessError;
 
 			TryAuthBy<SteamAuth>(args: null, onSuccess: onSuccessfulSteamAuth, onFailed: onFailedSteamAuth);
-		}
-
-		private void PrepareAndRunAccessTokenAuth()
-		{
-			RunAccessTokenAuth(EmailAccessTokenAuthInputField.text);
-		}
-
-		public void RunAccessTokenAuth(string email)
-		{
-			if (IsAuthInProgress)
-				return;
-
-			var isEmailValid = ValidateEmail(email);
-
-			if (isEmailValid)
-			{
-				IsAuthInProgress = true;
-				PopupFactory.Instance.CreateWaiting().SetCloseCondition(() => IsAuthInProgress == false);
-
-				object[] args = { email };
-
-				Action<string> onSuccessfulAccessTokenAuth = token => CompleteSuccessfulAuth(token, false, isPaystation: true);
-				Action<Error> onFailedBasicAuth = ProcessError;
-
-				TryAuthBy<AccessTokenAuth>(args, onSuccessfulAccessTokenAuth, onFailedBasicAuth);
-			}
-			else
-			{
-				Debug.Log($"Invalid email: {email}");
-				Error error = new Error(errorType: ErrorType.RegistrationNotAllowedException, errorMessage: "Invalid email");
-				base.OnError?.Invoke(error);
-			}
 		}
 
 		public void RunDeviceIDAuth()
