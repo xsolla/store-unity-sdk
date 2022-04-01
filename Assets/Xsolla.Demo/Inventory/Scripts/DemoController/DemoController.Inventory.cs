@@ -17,7 +17,7 @@ namespace Xsolla.Demo
 
 		partial void AutoStartTutorial()
 		{
-			if (IsTutorialAvailable && !IsAccessTokenAuth)
+			if (IsTutorialAvailable)
 			{
 				if (!_tutorialManager.IsTutorialCompleted())
 					_tutorialManager.ShowTutorial();

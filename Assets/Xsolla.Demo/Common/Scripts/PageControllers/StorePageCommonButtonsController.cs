@@ -17,7 +17,7 @@ namespace Xsolla.Demo
 			AttachUrlToButton(testCardsButton, DemoController.Instance.UrlContainer.GetUrl(UrlType.TestCardsUrl));
 			AttachButtonCallback(backButton, () => DemoController.Instance.SetPreviousState());
 
-			if (DemoController.Instance.IsTutorialAvailable && !DemoController.Instance.IsAccessTokenAuth)
+			if (DemoController.Instance.IsTutorialAvailable)
 			{
 				tutorialButton.gameObject.SetActive(true);
 				AttachButtonCallback(tutorialButton, () => DemoController.Instance.ShowTutorial(false));

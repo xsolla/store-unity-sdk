@@ -49,10 +49,7 @@ namespace Xsolla.Demo
 			AttachButtonCallback(storeButton,
 				() => SetMenuState(MenuState.Store, () => UserCatalog.Instance.IsUpdated && UserInventory.Instance.IsUpdated));
 
-			if (!DemoController.Instance.IsAccessTokenAuth)
-			{
-				AttachUrlToButton(webStoreButton, DemoController.Instance.GetWebStoreUrl());
-			}
+			AttachUrlToButton(webStoreButton, DemoController.Instance.GetWebStoreUrl());
 
 			AttachButtonCallback(inventoryButton, () =>
 			{
@@ -82,26 +79,20 @@ namespace Xsolla.Demo
 					SetMenuState(MenuState.Inventory, () => UserInventory.Instance.IsUpdated);
 			});
 
-			if (!DemoController.Instance.IsAccessTokenAuth)
-			{
-				AttachUrlToButton(webStoreButton, DemoController.Instance.GetWebStoreUrl());
-				accountLinkingManager.Init();
+			AttachUrlToButton(webStoreButton, DemoController.Instance.GetWebStoreUrl());
+			accountLinkingManager.Init();
 
-				AttachButtonCallback(tutorialButton, () =>
-				{
-					if (DemoController.Instance.IsTutorialAvailable)
-						DemoController.Instance.ShowTutorial(false);
-				});
-			}
+			AttachButtonCallback(tutorialButton, () =>
+			{
+				if (DemoController.Instance.IsTutorialAvailable)
+					DemoController.Instance.ShowTutorial(false);
+			});
 			
 			InitCommonButtons();
 		}
 
 		private void InitLoginButtons()
 		{
-			if (DemoController.Instance.IsAccessTokenAuth)
-				return;
-
 			AttachButtonCallback(profileButton,
 				() => SetMenuState(MenuState.Profile, () => UserCatalog.Instance.IsUpdated));
 			AttachButtonCallback(characterButton,
