@@ -2,8 +2,8 @@
 ## [0.7.1] - 2021-12-03
 ### Added
 - 'Web Shop' button in demo
-- Passwordless auth via email
-- Passwordless auth via SMS
+- Passwordless login via email
+- Passwordless login via SMS
 - Auth via FaceID/TouchID for iOS builds
 - Game keys and entitlement system functionality
 - Checking order status using WebSocket
@@ -18,8 +18,8 @@
 
 ## [0.7.0] - 2021-09-17
 ### Added
-- Independent PayStation UI parameters
-- PayStation for Safari browser (ApplePay support)
+- Independent Pay Station UI parameters
+- Pay Station for Safari browser (Apple Pay support)
 - Virtual currency purchase order status tracking
 ### Fixed
 - Various fixes and improvements
@@ -27,75 +27,75 @@
 - Refactoring and SDK Architecture improvements
 - Social friends recommendations list increased
 - Update API methods comments
-- Move newtonsoft to packages
+- Move Newtonsoft to packages
 
 ## [0.6.4.5] - 2021-07-16
 ### Added
-- Vertical mobile demo scene
+- Vertical orientation for mobile demo scene
 ### Fixed
 - WebGL build
 
 ## [0.6.4.4] - 2021-07-12
 ### Added
-- Horizontal mobile demo scene
+- Horizontal orientation for mobile demo scene
 ### Fixed
 - Several payment systems flow for WebGL build
-- Pay Station auto-close after purchase for Unity 2020+
+- Pay Station auto-close after purchase for Unity 2020 and later
 - Demo behaviour after social auth cancel
 - WeChat errors for android build
-- Errors raising once after import for Unity 2020+
+- Errors raising once after import for Unity 2020 and later
 - In-built browser render quality
-- Included copy of Newtonsoft lib now can be safely removed in case of conflict
+- Included copy of Newtonsoft library now can be safely removed in case of conflict
 - Various other fixes and improvements
 ### Changed
 - API methods update
 - Third-party dependency manager is now included into Xsolla package
-- Updated third-party Puppeteer Sharp library to match Unity's own Newtonsoft lib
+- Updated third-party Puppeteer Sharp library to match Unity's own Newtonsoft library
 
 ## [0.6.4.3] - 2021-06-10
 ### Added
 - Device ID authorization
 - OAuth2.0 state parameter for more API methods
-- Added: Paystation UI settings for different build targets
-- Added: Additional Paystation UI color themes
-- Added: 'Create payment token' method
-- Added: Xsolla assembly definitions
+- Pay Station UI settings for different build targets
+- Additional Pay Station UI color themes
+- 'Create payment token' method
+- Xsolla assembly definitions
 ### Fixed
-- Fixed: In-game browser scroll
-- Fixed: In-game browser numpad
-- Fixed: In-game browser redirection links
-- Fixed: In-game browser post purchase behaviour
-- Fixed: In-game browser window size now corresponds with Paystation UI size
-- Fixed: Handling of few purchase systems that become incompletable with in-game browser
-- Fixed: Various other fixes and improvements
+- In-game browser scroll
+- In-game browser numpad
+- In-game browser redirection links
+- In-game browser post purchase behaviour
+- In-game browser window size now corresponds with Paystation UI size
+- Handling of few purchase systems that become incompletable with in-game browser
+- Various other fixes and improvements
 ### Changed
-- Changed: Paystation opening version 2 -> 3
+- Changed: Pay Station opening version 2 -> 3
 - Changed: Updated purchase API methods
 ### Removed
 - Removed: Several surplus libraries (reworked corresponding functionality to use custom logic)
 
 ## [0.6.4.2] - 2021-04-23
 ### Added
-- Added itmes attributes support
-- Added items store/inventory hiding based on HideIn attribute
+- Item attributes support
+- Items store/inventory hiding based on HideIn attribute
 ### Fixed
 - Minor fixes
 
 ## [0.6.4.1] - 2021-04-16
 ### Added
-- Added QQ Android auth
+- QQ Android auth
 
 ## [0.6.4.0] - 2021-03-31
 ### Added
 - Battle Pass
 - UI Builder
-- XboxOne/PS4 support
+- Xbox One/PS4 support
 - Redirect policy settings
 - Logging level settings
 - API method for resend account confirmation email
 ### Fixed
  - Payment status polling
- - AppleID authorization
+ - Apple ID authorization
 ### Changed
 - PayStation Widget version
 
@@ -110,8 +110,8 @@
 ## [0.6.3.2] - 2021-02-05
 ### Changed
 - Minimum supported version of Unity — 2019.4.19f1
-- Url of documentation page about user attributes
-- Authorization via social networks on android
+- URL of user attributes documentation page
+- Login via social networks on android
 
 ### Fixed
 - Built-in browser for MacOS Big Sur
@@ -136,12 +136,12 @@
 ### Fixed
 - Various bug fixes and improvements
 
-## [1.0.0.1] - 2020-10-27 
+## [1.0.0.1] - 2020-10-27
 
 ### Fixed
-- Minor bugs.
+- Minor bugs
 
-## [1.0.0.0] - 2020-10-08 
+## [1.0.0.0] - 2020-10-08
 
-### Added 
+### Added
 - Friends system functionality.
