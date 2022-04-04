@@ -62,7 +62,7 @@ namespace Xsolla.Demo
 				ImageLoader.Instance.GetImageAsync(url, LoadImageCallback);
 			else
 			{
-				Debug.LogError($"Inventory item with sku = '{_itemInformation.Sku}' has no image!");//TEXTREVIEW
+				Debug.LogError($"Inventory item with sku = '{_itemInformation.Sku}' has no image!");
 				LoadImageCallback(string.Empty, null);
 			}
 		}

@@ -77,7 +77,6 @@ namespace Xsolla.UserAccount
 			UpdateUserAttributes(Token.Instance, publisherProjectId, attributes, onSuccess, onError);
 		}
 
-		//TEXTREVIEW
 		/// <summary>
 		/// Removes particular user's attributes.
 		/// </summary>

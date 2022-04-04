@@ -17,9 +17,8 @@ namespace Xsolla.Demo
 		private bool _isUpdateInProgress;
 		private Queue<UpdateQueueItem> _updateQueue = new Queue<UpdateQueueItem>();
 
-		//TEXTREVIEW
 		/// <summary>
-		/// Returns count of changes since last push, -1 if attributes were not initialized
+		/// Returns number of changes since last push, -1 if attributes were not initialized.
 		/// </summary>
 		public int ChangesCount
 		{
@@ -35,9 +34,8 @@ namespace Xsolla.Demo
 			}
 		}
 
-		//TEXTREVIEW
 		/// <summary>
-		/// Updates current user attributes from server. Also called from withtin GetAttributes method if not called earlier.
+		/// Updates current user attributes from server. Also called from withtin the GetAttributes method if not called earlier.
 		/// </summary>
 		/// <param name="onSuccess">Success callback</param>
 		/// <param name="onError">Error callback</param>
@@ -98,9 +96,8 @@ namespace Xsolla.Demo
 			SdkUserAccountLogic.Instance.GetUserAttributes(token, projectId, UserAttributeType.READONLY, attributeKeys, userId, onSuccessGetReadonly, onErrorGet);
 		}
 
-		//TEXTREVIEW
 		/// <summary>
-		/// Returns user readonly attributes. Updates user attributes if not done beforehand.
+		/// Returns user read-only attributes. Updates user attributes if not done beforehand.
 		/// </summary>
 		/// <param name="onSuccess">Success callback</param>
 		/// <param name="onError">Error callback</param>
@@ -118,7 +115,6 @@ namespace Xsolla.Demo
 				UpdateAttributes();
 		}
 
-		//TEXTREVIEW
 		/// <summary>
 		/// Returns user custom attributes. Updates user attributes if not done beforehand.
 		/// </summary>
@@ -138,7 +134,6 @@ namespace Xsolla.Demo
 				UpdateAttributes();
 		}
 
-		//TEXTREVIEW
 		/// <summary>
 		/// Replaces one key of custom attribute with another, keeping the value.
 		/// </summary>
@@ -181,9 +176,8 @@ namespace Xsolla.Demo
 			return true;
 		}
 
-		//TEXTREVIEW
 		/// <summary>
-		/// Changes the value of custom attribute
+		/// Changes the value of custom attribute.
 		/// </summary>
 		/// <param name="key">Attribute key</param>
 		/// <param name="newValue">New value</param>
@@ -217,9 +211,8 @@ namespace Xsolla.Demo
 			return true;
 		}
 
-		//TEXTREVIEW
 		/// <summary>
-		/// Removes custom attribute
+		/// Removes custom attribute.
 		/// </summary>
 		/// <param name="key">Attribute key</param>
 		/// <param name="error">Error code, 'None' if deletion succeeded</param>
@@ -238,9 +231,8 @@ namespace Xsolla.Demo
 			return true;
 		}
 
-		//TEXTREVIEW
 		/// <summary>
-		/// Adds new attribute
+		/// Adds new attribute.
 		/// </summary>
 		/// <param name="newKey">Attribute key</param>
 		/// <param name="newValue">Attribute value</param>
@@ -303,12 +295,11 @@ namespace Xsolla.Demo
 			return newAttribute;
 		}
 
-		//TEXTREVIEW
 		/// <summary>
-		/// Sends accumulated changes to server. Must be called before application close in order to maintain changes.
+		/// Sends accumulated changes to server. Must be called before the application closes in order to maintain changes.
 		/// </summary>
 		/// <param name="onSuccess">Success callback</param>
-		/// <param name="onCancelled">Cancelled callback. Called if attributes were not loaded beforehand or no changes made</param>
+		/// <param name="onCancelled">Cancellation callback. Called if attributes were not loaded beforehand or no changes were made</param>
 		/// <param name="onError">Error callback</param>
 		public void PushChanges(Action onSuccess = null, Action onCancelled = null, Action<Error> onError = null)
 		{
@@ -347,9 +338,8 @@ namespace Xsolla.Demo
 			}
 		}
 
-		//TEXTREVIEW
 		/// <summary>
-		/// Reverts local changes
+		/// Reverts local changes.
 		/// </summary>
 		public bool RevertChanges()
 		{

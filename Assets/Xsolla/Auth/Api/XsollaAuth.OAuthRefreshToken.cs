@@ -10,9 +10,8 @@ namespace Xsolla.Auth
 		private const string URL_OAUTH_GENERATE_JWT = "https://login.xsolla.com/api/oauth2/token";
 		private bool _subscribed = false;
 
-		//TEXTREVIEW
 		/// <summary>
-		/// Refreshes the existing token using previously saved OAuth2.0 refresh token
+		/// Refreshes the existing token using previously saved OAuth2.0 refresh token.
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Generate JWT</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/login-api/methods/oauth-20/generate-jwt"/>
@@ -24,9 +23,8 @@ namespace Xsolla.Auth
 			RefreshOAuthToken(refreshToken, onSuccess, onError);
 		}
 
-		//TEXTREVIEW
 		/// <summary>
-		/// Refreshes the existing token using provided OAuth2.0 refresh token
+		/// Refreshes the existing token using provided OAuth2.0 refresh token.
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Generate JWT</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/login-api/methods/oauth-20/generate-jwt"/>
@@ -100,13 +98,12 @@ namespace Xsolla.Auth
 			}
 		}
 
-		//TEXTREVIEW
 		/// <summary>
 		/// Exchanges the code received in the authentication call for the JWT token.
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Generate JWT</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/login-api/methods/oauth-20/generate-jwt"/>
-		/// <param name="code">Access code received from several other OAuth2.0 requests (example: code from social network auth)</param>
+		/// <param name="code">Access code received from several other OAuth2.0 requests (example: code from social network auth).</param>
 		/// <param name="onSuccessExchange">Success operation callback. Contains exchanged token.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		public void ExchangeCodeToToken(string code, Action<string> onSuccessExchange = null, Action<Error> onError = null)

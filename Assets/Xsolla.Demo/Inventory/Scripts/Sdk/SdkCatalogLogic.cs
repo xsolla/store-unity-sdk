@@ -150,7 +150,6 @@ namespace Xsolla.Demo
 			else onSuccess?.Invoke(_bundlesCache);
 		}
 		
-		//TEXTREVIEW
 		[Obsolete("Use item.Groups instead")]
 		public List<string> GetCatalogGroupsByItem(ItemModel item)
 		{
