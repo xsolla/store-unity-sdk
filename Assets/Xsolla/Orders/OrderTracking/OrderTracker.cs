@@ -27,7 +27,8 @@ namespace Xsolla.Orders
 		{
 			if (Token.Instance == null)
 			{
-				onError?.Invoke(new Error(ErrorType.InvalidToken, "Invalid token in order status polling. Polling stopped"));
+				Debug.LogWarning("No Token in order status polling. Polling stopped");
+				onCancel?.Invoke();
 				return;
 			}
 

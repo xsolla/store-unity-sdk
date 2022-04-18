@@ -34,14 +34,14 @@ namespace Xsolla.Demo
 	
 		private void CompleteSuccessfulAuth(string encodedToken, bool isBasicAuth = false, bool isPaystation = false, bool isSaveToken = false)
 		{
-			if(isSaveToken)
-				Token.Save();
-
 			if (!isBasicAuth)
 			{
 				encodedToken = encodedToken.Split('&').First();
 				Token.Instance = Token.Create(encodedToken);
 			}
+
+			if(isSaveToken)
+				Token.Save();
 
 			Debug.Log($"Successful auth with token = {encodedToken}");
 			MainMenuNicknameChecker.ResetFlag();

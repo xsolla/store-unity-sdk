@@ -148,7 +148,9 @@ namespace Xsolla.Auth
 			if (!_subscribed) return;
 
 			_subscribed = false;
-			TokenRefresh.Instance.OnInvalidToken -= HandleInvalidToken;
+
+			if (TokenRefresh.IsExist)
+				TokenRefresh.Instance.OnInvalidToken -= HandleInvalidToken;
 		}
 
 		private void HandleInvalidToken(Action repeatCall, Action<Error> onError)

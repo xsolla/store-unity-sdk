@@ -23,7 +23,7 @@ namespace Xsolla.Core
 			}
 		}
 
-		public Action<Action,Action<Error>> OnInvalidToken;
+		public event Action<Action, Action<Error>> OnInvalidToken;
 
 		public void CheckInvalidToken(Error error, Action<Error> onErrorCallback, Action repeatCall)
 		{

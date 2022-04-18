@@ -68,7 +68,7 @@ namespace Xsolla.Demo
 			where T: CatalogItemModel
 		{
 			var busy = true;
-			if (method != null)
+			if (method != null && Token.Instance != null)
 				method.Invoke(items =>
 				{
 					busy = false;

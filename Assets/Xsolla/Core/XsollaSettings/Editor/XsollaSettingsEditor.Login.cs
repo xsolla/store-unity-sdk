@@ -11,7 +11,7 @@ namespace Xsolla.Core
 		                                                  "Otherwise, select \"JWT.\"";
 
 		private const string CALLBACK_URL_LABEL = "Callback URL";
-		private const string CALLBACK_URL_TOOLTIP = "UURL to redirect the user to after signing up, logging in, or password reset. " +
+		private const string CALLBACK_URL_TOOLTIP = "URL to redirect the user to after signing up, logging in, or password reset. " +
 		                                            "Must be identical to the callback URL specified in Publisher Account in Login settings. " +
 		                                            "Required if there are several сallback URLs.";
 

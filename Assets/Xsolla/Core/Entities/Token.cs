@@ -38,12 +38,15 @@ namespace Xsolla.Core
 				: CreatePaystationToken(encodedToken);
 		}
 
-		public static void Save()
+		public static bool Save()
 		{
-			if (Instance == null)
-				return;
-
-			PlayerPrefs.SetString(Constants.LAST_SUCCESS_AUTH_TOKEN, Instance.EncodedToken);
+			if (Instance != null)
+			{
+				PlayerPrefs.SetString(Constants.LAST_SUCCESS_AUTH_TOKEN, Instance.EncodedToken);
+				return true;
+			}
+			else
+				return false;
 		}
 
 		public static bool Load()

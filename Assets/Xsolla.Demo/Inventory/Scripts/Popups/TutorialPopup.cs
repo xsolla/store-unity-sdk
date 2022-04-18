@@ -118,7 +118,7 @@ namespace Xsolla.Core.Popup
 				var highlightableObjects = GameObject.FindGameObjectsWithTag(Constants.INVENTORY_TUTORIAL_HIGHLIGHT_TAG);
 
 				var highlightObject = highlightableObjects.FirstOrDefault(
-					obj => obj.activeSelf && obj.GetComponent<HighlightElement>().ID == CurrentStepInfo.highlightElementId);
+					obj => obj.activeSelf && obj.GetComponent<HighlightElement>()?.ID == CurrentStepInfo.highlightElementId);
 
 				if (highlightObject == null)
 					yield break;

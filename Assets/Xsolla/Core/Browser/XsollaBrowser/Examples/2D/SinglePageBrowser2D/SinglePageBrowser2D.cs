@@ -29,6 +29,7 @@ namespace Xsolla.Core.Browser
 		private Keyboard2DBehaviour keyboard;
 		private Mouse2DBehaviour mouse;
 		private string _urlBeforePopup;
+		private Preloader2DBehaviour _preloader;
 
 		private void Awake()
 		{
@@ -100,14 +101,28 @@ namespace Xsolla.Core.Browser
 		private IEnumerator Start()
 		{
 			yield return new WaitForEndOfFrame();
-			yield return StartCoroutine(WaitPreloaderCoroutine());
+			_preloader = gameObject.AddComponent<Preloader2DBehaviour>();
+			_preloader.Prefab = PreloaderPrefab;
+			yield return new WaitWhile(() => xsollaBrowser.FetchingProgress < 100);
 
 			display.StartRedraw((int) Viewport.x, (int) Viewport.y);
+			display.RedrawFrameCompleteEvent += DestroyPreloader;
 			display.RedrawFrameCompleteEvent += EnableCloseButton;
 			display.ViewportChangedEvent += (width, height) => Viewport = new Vector2(width, height);
 
 			InitializeInput();
 			BrowserInitEvent?.Invoke(xsollaBrowser);
+		}
+
+		private void DestroyPreloader()
+		{
+			display.RedrawFrameCompleteEvent -= DestroyPreloader;
+
+			if (_preloader != null)
+			{
+				Destroy(_preloader, 0.001f);
+				_preloader = null;
+			}
 		}
 
 		private void EnableCloseButton()
@@ -116,12 +131,6 @@ namespace Xsolla.Core.Browser
 
 			CloseButton.gameObject.SetActive(true);
 			CloseButton.onClick.AddListener(OnCloseButtonPressed);
-		}
-
-		private IEnumerator WaitPreloaderCoroutine()
-		{
-			gameObject.AddComponent<Preloader2DBehaviour>().Prefab = PreloaderPrefab;
-			yield return new WaitWhile(() => gameObject.GetComponent<Preloader2DBehaviour>() != null);
 		}
 
 		private void InitializeInput()

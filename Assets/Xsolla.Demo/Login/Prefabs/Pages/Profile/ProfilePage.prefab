@@ -6824,7 +6824,7 @@ PrefabInstance:
     - target: {fileID: 4850298947150133163, guid: f92f8f364fb2790469938b89ee22fa9f,
         type: 3}
       propertyPath: m_Size
-      value: 0.73051226
+      value: 0.9010989
       objectReference: {fileID: 0}
     - target: {fileID: 4850298947150133163, guid: f92f8f364fb2790469938b89ee22fa9f,
         type: 3}
@@ -7327,6 +7327,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_CharacterLimit
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3556058798278730967, guid: 19a0722b258b4d942885051c0cf04db0,
+        type: 3}
+      propertyPath: m_Navigation.m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3556058798278730967, guid: 19a0722b258b4d942885051c0cf04db0,
+        type: 3}
+      propertyPath: m_ShouldActivateOnSelect
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4713473416483474669, guid: 19a0722b258b4d942885051c0cf04db0,
         type: 3}

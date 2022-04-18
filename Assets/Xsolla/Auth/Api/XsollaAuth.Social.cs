@@ -16,7 +16,7 @@ namespace Xsolla.Auth
 			"https://login.xsolla.com/api/social/{0}/login_redirect?projectId={1}&with_logout={2}{3}{4}";
 
 		private const string URL_OAUTH_SOCIAL_AUTH =
-			"https://login.xsolla.com/api/oauth2/social/{0}/login_redirect?client_id={1}&state={2}&response_type=code&redirectUrl={3}&scope=offline";
+			"https://login.xsolla.com/api/oauth2/social/{0}/login_redirect?client_id={1}&state={2}&response_type=code&redirect_uri={3}&scope=offline";
 
 		private const string URL_GET_AVAILABLE_SOCIAL_NETWORKS =
 			"https://login.xsolla.com/api/users/me/login_urls?{0}";
