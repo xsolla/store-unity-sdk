@@ -68,10 +68,15 @@ namespace Xsolla.Tests
 
 		public IEnumerator SetOldToken()
 		{
+			yield return GenerateSession();
+			Token.Instance = Token.Create(OLD_TOKEN);
+		}
+
+		public IEnumerator GenerateSession()
+		{
 			XsollaAuth.Instance.Init();
 			yield return SignOut();
 			yield return CheckSession();
-			Token.Instance = Token.Create(OLD_TOKEN);
 		}
 
 		public class SignInResult

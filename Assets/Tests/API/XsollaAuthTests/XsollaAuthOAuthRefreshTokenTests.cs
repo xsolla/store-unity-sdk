@@ -12,7 +12,7 @@ namespace Xsolla.Tests
 		[UnityTest]
         public IEnumerator RefreshOAuthToken_TokenChanged()
         {
-			yield return TestSignInHelper.Instance.CheckSession();
+			yield return TestSignInHelper.Instance.GenerateSession();
 
 			string prevToken = Token.Instance;
 			bool? success = default;
@@ -40,7 +40,7 @@ namespace Xsolla.Tests
 		[UnityTest]
 		public IEnumerator RefreshOAuthToken_OldRefreshToken_Failure()
 		{
-			yield return TestSignInHelper.Instance.CheckSession();
+			yield return TestSignInHelper.Instance.GenerateSession();
 
 			bool? success = default;
 			string errorMessage = default;
