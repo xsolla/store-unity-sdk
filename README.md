@@ -1,280 +1,129 @@
 
-# Game Commerce asset for Unity
-
-Game Commerce asset is a set of classes and methods that you can integrate into your Unity app to work with Xsolla products.
+The SDK makes it easier to integrate Xsolla products into your UE4 project by providing out-of-the-box data structures and methods for working with Xsolla API.
 
 After integration, you can use:
 
-*   [Login](https://developers.xsolla.com/doc/login/) for authenticating users and managing the friend system and user account
-*   [In-Game Store](https://developers.xsolla.com/doc/in-game-store/) for managing in-game purchases and player inventory in your app
-*   [Pay Station](https://developers.xsolla.com/doc/pay-station/) for setting up payments
+* [Login](https://developers.xsolla.com/doc/login/) for authenticating users and managing the friend system and user account.
+* [In-Game Store](https://developers.xsolla.com/doc/in-game-store/) for managing in-game purchases and player inventory in your application.
+* [Pay Station](https://developers.xsolla.com/doc/pay-station/) for setting up payments.
 
-[Try our demo to learn more](https://livedemo.xsolla.com/sdk/unity/webgl/).
+[Learn more about supported features →](#Features)
 
+To start with the SDK, you need to install this asset and set up a project in [Xsolla Publisher Account](https://publisher.xsolla.com/signup?utm_source=sdk&utm_medium=unity-store/).
 
-![Game Commerce demo](https://i.imgur.com/cx0YR1r.png "Game Commerce demo")
+[Go to the integration guide →](https://developers.xsolla.com/sdk/unity/)
 
-The Game Commerce asset contains the necessary methods to use the features of all Xsolla products listed above. If you plan to use only some of them in your app, feel free to remove unnecessary modules from the asset.
+## Features
 
-We recommend using the game Commerce asset as is. For some specific situations, you can use other Xsolla assets:
+### Authentication
 
-*   Use [Login & Account System asset](https://github.com/xsolla/login-unity-sdk) if you are interested in the ready-made login system only.
-*   Use [Cross-Buy asset](https://github.com/xsolla/inventory-unity-sdk) if you are going to publish your app on a platform that restricts the use of third-party payment tools.
+* [JWT](https://jwt.io/introduction/) standard-based and [OAuth 2.0](https://oauth.net/2/) protocol-based authentication.
+* Classic login (username/email and password).
+* Social login.
+* Social login on the user’s device via a social network client (Google, Facebook, WeChat, and QQ).
+* Login via a launcher (Steam or [Xsolla Launcher](https://developers.xsolla.com/doc/launcher/)).
+* Login via a device ID.
+* Passwordless login via a one-time code or a link sent via SMS or email.
 
-<div style="background-color: WhiteSmoke">
-<p><b>Note:</b> Game Commerce asset includes Login & Account System and Cross-Buy assets. You do <b>not</b> need to install them separately.</p>
-</div>
+### User management
 
-For a better understanding of which asset to choose, use the table:
+* User attributes to manage additional information.
+* Friend system.
+* Cross-platform account linking.
+* Secure Xsolla storage for user data. Alternatively, you can connect PlayFab, Firebase, or your custom storage.
 
+**INFO:** You can also manage user accounts and access rights via Xsolla Publisher Account.
 
-<table>
-  <tr>
-   <td>
-   </td>
-   <td style="text-align: center"><b>Game Commerce asset</b>
-   </td>
-   <td style="text-align: center"><b>Login & Account System asset</b>
-   </td>
-   <td style="text-align: center"><b>Cross-Buy asset</b>
-   </td>
-  </tr>
-  <tr>
-   <td colspan="4" ><b>In-game store</sb>
-   </td>
-  </tr>
-  <tr>
-   <td>
-    Virtual currency
-   </td>
-   <td>+
-   </td>
-   <td>
-   </td>
-   <td>
-   </td>
-  </tr>
-  <tr>
-   <td>
-    Virtual items
-   </td>
-   <td>+
-   </td>
-   <td>
-   </td>
-   <td>
-   </td>
-  </tr>
-  <tr>
-   <td>
-    Player inventory
-   </td>
-   <td>+
-   </td>
-   <td>
-   </td>
-   <td>+
-   </td>
-  </tr>
-  <tr>
-   <td>
-    Bundles
-   </td>
-   <td>+
-   </td>
-   <td>
-   </td>
-   <td>
-   </td>
-  </tr>
-  <tr>
-   <td>
-    Promotional campaigns
-   </td>
-   <td>+
-   </td>
-   <td>
-   </td>
-   <td>
-   </td>
-  </tr>
-  <tr>
-   <td colspan="4" ><b>Login</b>
-   </td>
-  </tr>
-  <tr>
-   <td>
-    Authentication
-   </td>
-   <td>+
-   </td>
-   <td>+
-   </td>
-   <td>+
-   </td>
-  </tr>
-  <tr>
-   <td>
-    User management
-   </td>
-   <td>+
-   </td>
-   <td>+
-   </td>
-   <td>+
-   </td>
-  </tr>
-  <tr>
-   <td><strong>Payment UI</strong>
-   </td>
-   <td>+
-   </td>
-   <td>
-   </td>
-   <td>
-   </td>
-  </tr>
-  <tr>
-  <td colspan="4" ><b>Additional features</b>
-   </td>
-  </tr>
-  <tr>
-   <td>
-    UI builder
-   </td>
-   <td>
-    +
-   </td>
-   <td>
-    +
-   </td>
-   <td>
-    +
-   </td>
-  </tr>
-  <tr>
-   <td>
-    Battle pass
-   </td>
-   <td>
-    +
-   </td>
-   <td>
-   </td>
-   <td>
-   </td>
-  </tr>
-</table>
+### Catalog
 
+* Virtual currency:
+    * Sell virtual currency in any amount or in packages (for real money or other virtual currency).
+    * Sell hard currency (for real money only).
+* Virtual items:
+    * Set up a catalog of in-game items.
+    * Sell virtual items for real and virtual currency.
+* Bundles:
+    * Sell bundles for real or virtual currency.
+* Promotional campaigns:
+    * Reward users with virtual currency packages, game keys, or virtual items for coupons.
+    * Give users bonuses or apply a discount on items in the cart with promo codes.
+
+**INFO:** You can add items in the catalog or manage campaigns with discounts, coupons, and promo codes via Xsolla Publisher Account.
+
+### Item purchase
+
+* Sell items in one click or via the shopping cart.
+* Provide users with a convenient payment UI. Main features:
+    * 700+ payment methods in 200+ countries, including bank cards, digital wallets, mobile payments, cash kiosks, gift cards, and special offers.
+    * 130+ currencies.
+    * UI localized into 20+ languages.
+    * Desktop and mobile versions.
+
+**INFO:** Xsolla Publisher Account provides you with purchase analytics, transaction history, and other statistics.
+
+### Player inventory
+
+* Get and verify an inventory.
+* Consume items according to the game logic.
+* Consume virtual currency according to the in-game logics (for example, when opening a location or purchasing level for some currency).
+* Synchronize all purchases and premium rewards of the user across all platforms.
 
 ## Requirements
 
 ### System requirements
 
-*   64-bit OS
-*   Windows 7 SP1 and later
-*   macOS 10.12 and later
-*   The version of Unity not earlier than 2019.4.19f1
+* 64-bit OS
+* Windows 7 SP1 and later
+* macOS 10.12 and later
+* The version of Unity not earlier than 2019.4.19f1
 
 ### Target OS
 
-*   Android
-*   macOS
-*   Windows 64-bit
+* Android
+* macOS
+* Windows 64-bit
 
 Additionally, the asset supports [creating WebGL build](https://developers.xsolla.com/sdk/unity/how-tos/application-build/#unity_sdk_how_to_build_webgl) to run your application in a browser.
 
-<div style="background-color: WhiteSmoke">
-<p><b>Note:</b></p>
-<p>We recommend you use the Mono compiler for desktop platforms as it's compatible with the provided in-game browser. If you use other browser solutions, you can use the IL2CPP compiler instead. To create game builds for Android, you can use either Mono or IL2CPP compilers.</p>
-</div>
+**NOTE:**
+We recommend you use the Mono compiler for desktop platforms as it’s compatible with the provided in-game browser. If you use other browser solutions, you can use the IL2CPP compiler instead.
+You can use either Mono or IL2CPP compilers to create game builds for Android.
 
+## Usage
 
-## Integration
+To send requests to Xsolla servers and receive responses, the SDK provides the `XsollaAuth`, `XsollaCatalog`, `XsollaCart`, and `XsollaOrders` classes. If you want to implement your own logic for buying items or inventory management, and don’t want to write boilerplate code for API calls, these classes are a good place to start.
 
-The following integration options are available:
+Follow the [step-by-step tutorials](https://developers.xsolla.com/sdk/unity/tutorials/) to get started with basic SDK features.
 
-<table>
-  <tr>
-   <td>
-<h3  style="text-align: center">
-<img src="https://i.imgur.com/3bdXcuv.png" width="50" >
-</h3>
-<h3 style="text-align: center">Use Xsolla servers</h3>
-   </td>
-   <td>
-<h3 style="text-align: center">
-<img src="https://i.imgur.com/eGmKMPX.png" width="50" >
-</h3>
-<h3 style="text-align: center">Use your server</h3>
-   </td>
-  </tr>
-  <tr>
-   <td>Choose this option if you want a ready-made server solution for monetization and in-game items management. After integration of the asset, you can use <a href="https://developers.xsolla.com/doc/login/">Xsolla Login</a>, <a href="https://developers.xsolla.com/doc/in-game-store/">In-Game Store</a>, <a href="https://developers.xsolla.com/doc/in-game-store/features/player-inventory/">Player Inventory</a>, and <a href="https://developers.xsolla.com/doc/pay-station/">Xsolla Pay Station</a>.
-   </td>
-   <td>Choose this option if you have already implemented the game logic for authentication, in-game store, and player inventory on your servers and want to use <a href="https://developers.xsolla.com/doc/pay-station/">Xsolla Pay Station</a>.
-   </td>
-  </tr>
-  <tr>
-   <td><a href="https://developers.xsolla.com/sdk/unity/commerce/use-xsolla-servers/">Get started →</a> 
-   </td>
-   <td><a href="https://developers.xsolla.com/sdk/unity/commerce/use-your-server-side/">Get started →</a>
-   </td>
-  </tr>
-</table>
+Explore [code reference documentation](https://developers.xsolla.com/sdk-code-references/unity-store/) to learn more about SDK methods.
 
+# Known issues
 
-## Usage 
+## Unable to resolve reference UnityEditor.iOS.Extensions.Xcode
 
-Xsolla provides APIs to work with it’s products. The Game Commerce asset provides classes and methods for API calls, so you won’t need to write boilerplate code. Use the [tutorials](https://developers.xsolla.com/sdk/unity/tutorials/) to learn how you can use the [asset methods](https://developers.xsolla.com/sdk-code-references/unity-store/).
-
-## Known issues
-
-### Conflict of multiple precompiled assemblies with Newtonsoft.json.dll
-
-The issue appears when importing the asset on Unity version 2020.3.10f1 and later. The following error message is displayed:
-
->Multiple precompiled assemblies with the same name Newtonsoft.json.dll included on the current platform. Only one assembly with the same name is allowed per platform.
-
-The conflict arises because the `Newtonsoft.json.dll` library is included in both the Unity Editor and the asset. The library is included in the versions 2020.3.10f1 and later of the editor. And the asset includes the library to support the earlier versions of Unity Editor.
-
-**Issue status:** Fixed in 0.6.4.4.
-
-### Newtonsoft.json.dll could not be found
-
-The problem appears if you upgraded a pre-existing project to Unity version 2020.3.10f1 and later. Importing an asset from the [Unity Asset Store](https://assetstore.unity.com/publishers/12995) into such a project is accompanied by many error messages like this:
-
->The type or namespace name ‘Newtonsoft’ could not be found (are you missing a using directive or an assembly reference?)
-
-
-The problem occurs because the `Newtonsoft.json.dll` library is not included in the asset for Unity version 2020.3.10f1 and later. As part of the editor, the library is supplied for versions 2020.3.10f1 and later, but when updating the project for these versions, the library requires manual installation.
-
-**Issue status:** Fixed in 0.6.4.4.
-
-
-### Unable to resolve reference UnityEditor.iOS.Extensions.Xcode
-
-#### Issue description
+### Issue description
 
 The issue appears when using External Dependency Manager on Unity version 2020.1.0f1 and later.
 
 When building the application, an error message is displayed:
 
-
->Assembly 'Packages/com.google.external-dependency-manager/ExternalDependencyManager/Editor/Google.IOSResolver_v1.2.161.dll' will not be loaded due to errors:
+```
+Assembly 'Packages/com.google.external-dependency-manager/ExternalDependencyManager/Editor/Google.IOSResolver_v1.2.161.dll' will not be loaded due to errors:
 Unable to resolve reference 'UnityEditor.iOS.Extensions.Xcode'. Is the assembly missing or incompatible with the current platform?
 Reference validation can be disabled in the Plugin Inspector.
+```
 
-**Issue status:** Fixed in 0.6.4.5.
+**Issue status**: Fixed in 0.6.4.5.
 
-#### Workaround
+### Workaround
 
 Install iOS Build Support module from Unity Hub.
 
-### Error occurred running Unity content on page of WebGL build
+## Error occurred running Unity content on page of WebGL build
 
-#### Issue description
- The issue may appear when logging in WebGL build. The following error message is displayed:
+### Issue description
+
+The issue may appear when logging in WebGL build. The following error message is displayed:
 
 ![WebGL error message](https://i.imgur.com/me3ADT4.png "WebGL error message")
 
@@ -282,7 +131,8 @@ See details on cause of the issue on [Unity Issue Tracker](https://issuetracker.
 
 **Issue status:** Won’t fix.
 
-#### Workaround
+
+### Workaround
 
 1. Open Unity project.
 2. Click **Edit > Project Settings** in the main menu.
@@ -294,31 +144,26 @@ See details on cause of the issue on [Unity Issue Tracker](https://issuetracker.
 8. Create a new WebGL build.
 
 
-## Legal info
+## Pricing
 
-[Explore legal information](https://developers.xsolla.com/sdk/unity/commerce/get-started/#sdk_legal_compliance) that helps you work with Xsolla.
+Xsolla offers the necessary tools to help you build and grow your gaming business, including personalized support at every stage. The terms of payment are determined by the contract that you can sign via Publisher Account.
 
-Xsolla offers the necessary tools to help you build and grow your gaming business, including personalized support at every stage. The terms of payment are determined by the contract that can be signed via Publisher Account.
+The cost of using all Xsolla products is 5% of the amount you receive for the sale of the game and in-game goods via Xsolla Pay Station. If you don’t use Xsolla Pay Station in your application, but use other products, contact your Account Manager to clarify the terms and conditions.
 
-**The cost of using all Xsolla products is 5% of the amount you receive for the sale of the game and in-game goods via Xsolla Pay Station.** If you do not use Xsolla Pay Station in your application, but use other products, contact your Account Manager to clarify the terms and conditions.
+Explore [legal information](https://xsolla.com/pricing) that helps you work with Xsolla.
 
----
-
-### License
+## License
 
 See the [LICENSE](https://github.com/xsolla/store-unity-sdk/blob/master/LICENSE.txt) file.
 
+## Contacts
 
-### Community
-[Join our Discord server](https://discord.gg/auNFyzZx96) and connect with the Xsolla team and developers who use Xsolla products.
+* [Support team and feedback](https://xsolla.com/partner-support)
+* [Integration team](mailto:integration@xsolla.com)
 
 
-### Additional resources
+## Additional resources
 
-*   [Xsolla official website](https://xsolla.com/)
-*   [Developers documentation](https://developers.xsolla.com/sdk/unity/)
-*   [Code reference](https://developers.xsolla.com/sdk-code-references/unity-store/)
-*   API reference:
-    *   [Pay Station API](https://developers.xsolla.com/pay-station-api/)
-    *   [Login API](https://developers.xsolla.com/login-api/) 
-    *   [Commerce API](https://developers.xsolla.com/commerce-api/)
+* [Xsolla official website](https://xsolla.com/)
+* [Developers documentation](https://developers.xsolla.com/sdk/unity/)
+* [Code reference documentation](https://developers.xsolla.com/sdk-code-references/unity-store/)
