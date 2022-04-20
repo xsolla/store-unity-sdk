@@ -5,6 +5,8 @@ using System.Linq;
 using JetBrains.Annotations;
 using UnityEngine;
 using Xsolla.Core;
+using Xsolla.Catalog;
+
 
 namespace Xsolla.Demo
 {
@@ -68,7 +70,7 @@ namespace Xsolla.Demo
 			where T: CatalogItemModel
 		{
 			var busy = true;
-			if (method != null && Token.Instance != null)
+			if (method != null && Token.Instance != null && XsollaCatalog.IsExist)
 				method.Invoke(items =>
 				{
 					busy = false;

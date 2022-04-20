@@ -9,7 +9,7 @@ namespace Xsolla.Auth
 		private const string URL_JWT_USER_REGISTRATION = "https://login.xsolla.com/api/user?projectId={0}&login_url={1}{2}";
 		private const string URL_OAUTH_USER_REGISTRATION = "https://login.xsolla.com/api/oauth2/user?response_type=code&client_id={0}&state={1}&redirect_uri={2}";
 		private const string URL_JWT_USER_SIGNIN = "https://login.xsolla.com/api/login?projectId={0}&login_url={1}{2}&with_logout={3}";
-		private const string URL_OAUTH_USER_SIGNIN = "https://login.xsolla.com/api/oauth2/login/token?client_id={0}&scope=offline{1}";
+		private const string URL_OAUTH_USER_SIGNIN = "https://login.xsolla.com/api/oauth2/login/token?client_id={0}&scope=offline&redirect_uri={1}";
 		private const string URL_USER_INFO = "https://login.xsolla.com/api/users/me";
 		private const string URL_PASSWORD_RESET = "https://login.xsolla.com/api/password/reset/request?projectId={0}&login_url={1}";
 		private const string URL_JWT_RESEND_CONFIRMATION_LINK = "https://login.xsolla.com/api/user/resend_confirmation_link?projectId={0}&login_url={1}{2}";
@@ -87,7 +87,7 @@ namespace Xsolla.Auth
 			if (XsollaSettings.AuthorizationType == AuthorizationType.JWT)
 			{
 				var projectIdParam = XsollaSettings.LoginId;
-				var loginUrlParam = (!string.IsNullOrEmpty(redirectUri)) ? redirectUri : XsollaSettings.CallbackUrl;
+				var loginUrlParam = GetRedirectUrl(redirectUri);
 				var payloadParam = (!string.IsNullOrEmpty(payload)) ? $"&payload={payload}" : "";
 				return string.Format(URL_JWT_USER_REGISTRATION, projectIdParam, loginUrlParam, payloadParam);
 			}
@@ -95,7 +95,7 @@ namespace Xsolla.Auth
 			{
 				var clientIdParam = XsollaSettings.OAuthClientId;
 				var stateParam = (!string.IsNullOrEmpty(oauthState)) ? oauthState : DEFAULT_OAUTH_STATE;
-				var redirectUriParam = (!string.IsNullOrEmpty(redirectUri)) ? redirectUri : DEFAULT_REDIRECT_URI;
+				var redirectUriParam = GetRedirectUrl(redirectUri);
 				return string.Format(URL_OAUTH_USER_REGISTRATION, clientIdParam, stateParam, redirectUriParam);
 			}
 		}
@@ -131,7 +131,7 @@ namespace Xsolla.Auth
 			var loginData = new LoginRequest(username, password, rememberUser);
 
 			var projectIdParam = XsollaSettings.LoginId;
-			var loginUrlParam = (!string.IsNullOrEmpty(redirectUri)) ? redirectUri : XsollaSettings.CallbackUrl;
+			var loginUrlParam = GetRedirectUrl(redirectUri);
 			var payloadParam = (!string.IsNullOrEmpty(payload)) ? $"&payload={payload}" : "";
 			var withLogoutParam = XsollaSettings.InvalidateExistingSessions ? "1" : "0";
 			var url = string.Format(URL_JWT_USER_SIGNIN, projectIdParam, loginUrlParam, payloadParam, withLogoutParam);
@@ -146,7 +146,7 @@ namespace Xsolla.Auth
 		private void OAuthSignIn(string username, string password, string redirectUri, Action<string> onSuccess, Action<Error> onError)
 		{
 			var loginData = new LoginRequest(username, password);
-			var redirectUriParam = (!string.IsNullOrEmpty(redirectUri)) ? $"&redirect_uri={redirectUri}" : string.Empty;
+			var redirectUriParam = GetRedirectUrl(redirectUri);
 			var url = string.Format(URL_OAUTH_USER_SIGNIN, XsollaSettings.OAuthClientId, redirectUriParam);
 
 			Action<LoginOAuthJsonResponse> successCallback = response =>
@@ -178,8 +178,9 @@ namespace Xsolla.Auth
 		private void JwtStartAuthByEmail(string email, string linkUrl, bool? sendLink, Action<string> onSuccess, Action<Error> onError = null, string payload = null)
 		{
 			var data = new StartAuthByEmailRequest(email, linkUrl, sendLink);
+			var redirectParam = GetRedirectUrl();
 			var tokenInvalidationFlag = XsollaSettings.InvalidateExistingSessions ? "1" : "0";
-			var url = string.Format(URL_JWT_START_AUTH_BY_EMAIL, XsollaSettings.LoginId, XsollaSettings.CallbackUrl, tokenInvalidationFlag, payload);
+			var url = string.Format(URL_JWT_START_AUTH_BY_EMAIL, XsollaSettings.LoginId, redirectParam, tokenInvalidationFlag, payload);
 
 			WebRequestHelper.Instance.PostRequest<StartAuthByEmailResponse, StartAuthByEmailRequest>(
 				SdkType.Login,
@@ -194,7 +195,7 @@ namespace Xsolla.Auth
 		{
 			var data = new StartAuthByEmailRequest(email, linkUrl, sendLink);
 			var state = oauthState ?? DEFAULT_OAUTH_STATE;
-			var redirectParam = (!string.IsNullOrEmpty(XsollaSettings.CallbackUrl)) ? XsollaSettings.CallbackUrl : DEFAULT_REDIRECT_URI;
+			var redirectParam = GetRedirectUrl();
 			var url = string.Format(URL_OAUTH_START_AUTH_BY_EMAIL, XsollaSettings.OAuthClientId, state, redirectParam);
 
 			WebRequestHelper.Instance.PostRequest<StartAuthByEmailResponse, StartAuthByEmailRequest>(
@@ -288,8 +289,9 @@ namespace Xsolla.Auth
 		private void JwtStartAuthByPhoneNumber(string phoneNumber, string linkUrl, bool sendLink, Action<string> onSuccess, Action<Error> onError = null, string payload = null)
 		{
 			var data = new StartAuthByPhoneNumberRequest(phoneNumber, linkUrl, sendLink);
+			var redirectParam = GetRedirectUrl();
 			var tokenInvalidationFlag = XsollaSettings.InvalidateExistingSessions ? "1" : "0";
-			var url = string.Format(URL_JWT_START_AUTH_BY_PHONE_NUMBER, XsollaSettings.LoginId, XsollaSettings.CallbackUrl, tokenInvalidationFlag, payload);
+			var url = string.Format(URL_JWT_START_AUTH_BY_PHONE_NUMBER, XsollaSettings.LoginId, redirectParam, tokenInvalidationFlag, payload);
 
 			WebRequestHelper.Instance.PostRequest<StartAuthByPhoneNumberResponse, StartAuthByPhoneNumberRequest>(
 				SdkType.Login,
@@ -304,7 +306,7 @@ namespace Xsolla.Auth
 		{
 			var data = new StartAuthByPhoneNumberRequest(phoneNumber, linkUrl, sendLink);
 			var state = oauthState ?? DEFAULT_OAUTH_STATE;
-			var redirectParam = (!string.IsNullOrEmpty(XsollaSettings.CallbackUrl)) ? XsollaSettings.CallbackUrl : DEFAULT_REDIRECT_URI;
+			var redirectParam = GetRedirectUrl();
 			var url = string.Format(URL_OAUTH_START_AUTH_BY_PHONE_NUMBER, XsollaSettings.OAuthClientId, state, redirectParam);
 
 			WebRequestHelper.Instance.PostRequest<StartAuthByPhoneNumberResponse, StartAuthByPhoneNumberRequest>(
@@ -394,7 +396,7 @@ namespace Xsolla.Auth
 		public void ResetPassword(string email, string redirectUri = null, Action onSuccess = null, Action<Error> onError = null)
 		{
 			var projectIdParam = XsollaSettings.LoginId;
-			var loginUrlParam = (!string.IsNullOrEmpty(redirectUri)) ? redirectUri : XsollaSettings.CallbackUrl;
+			var loginUrlParam = GetRedirectUrl(redirectUri);
 			var url = string.Format(URL_PASSWORD_RESET, projectIdParam, loginUrlParam);
 
 			WebRequestHelper.Instance.PostRequest(SdkType.Login, url, new ResetPassword(email), onSuccess, onError, ErrorCheckType.ResetPasswordErrors);
@@ -422,7 +424,7 @@ namespace Xsolla.Auth
 			if (XsollaSettings.AuthorizationType == AuthorizationType.JWT)
 			{
 				var projectIdParam = XsollaSettings.LoginId;
-				var loginUrlParam = (!string.IsNullOrEmpty(redirectUri)) ? redirectUri : XsollaSettings.CallbackUrl;
+				var loginUrlParam = GetRedirectUrl(redirectUri);
 				var payloadParam = (!string.IsNullOrEmpty(payload)) ? $"&payload={payload}" : "";
 				url = string.Format(URL_JWT_RESEND_CONFIRMATION_LINK, projectIdParam, loginUrlParam, payloadParam);
 			}
@@ -475,7 +477,7 @@ namespace Xsolla.Auth
 		private void OAuthAuthWithSocialNetworkAccessToken(string accessToken, string accessTokenSecret, string openId, string providerName, string oauthState, Action<string> onSuccess, Action<Error> onError)
 		{
 			var state = oauthState ?? DEFAULT_OAUTH_STATE;
-			var redirectParam = (!string.IsNullOrEmpty(XsollaSettings.CallbackUrl)) ? XsollaSettings.CallbackUrl : DEFAULT_REDIRECT_URI;
+			var redirectParam = GetRedirectUrl();
 			var url = string.Format(URL_OAUTH_USER_SOCIAL_NETWORK_TOKEN_AUTH, providerName, XsollaSettings.OAuthClientId, redirectParam, state);
 
 			var requestData = new SocialNetworkAccessTokenRequest
@@ -520,6 +522,21 @@ namespace Xsolla.Auth
 			var url = string.Format(URL_OAUTH_LOGOUT, logoutTypeFlag);
 
 			WebRequestHelper.Instance.GetRequest(SdkType.Login, url, WebRequestHeader.AuthHeader(token), onSuccess, onError);
+		}
+
+		private string GetRedirectUrl(string redirectArg)
+		{
+			if (!string.IsNullOrEmpty(redirectArg))
+				return redirectArg;
+			else if (!string.IsNullOrEmpty(XsollaSettings.CallbackUrl))
+				return XsollaSettings.CallbackUrl;
+			else
+				return DEFAULT_REDIRECT_URI;
+		}
+
+		private string GetRedirectUrl()
+		{
+			return GetRedirectUrl(null);
 		}
 	}
 }
