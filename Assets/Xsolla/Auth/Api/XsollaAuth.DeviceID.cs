@@ -60,7 +60,7 @@ namespace Xsolla.Auth
 		{
 			var clientId = XsollaSettings.OAuthClientId;
 			var stateUrlParam = state ?? DEFAULT_OAUTH_STATE;
-			var redirectParam = (!string.IsNullOrEmpty(XsollaSettings.CallbackUrl)) ? XsollaSettings.CallbackUrl : DEFAULT_REDIRECT_URI;
+			var redirectParam = RedirectUtils.GetRedirectUrl();
 
 			var url = string.Format(URL_OAUTH_DEVICE_ID_AUTH, deviceType, clientId, stateUrlParam, redirectParam);
 

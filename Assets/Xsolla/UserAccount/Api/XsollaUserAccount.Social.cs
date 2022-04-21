@@ -12,8 +12,6 @@ namespace Xsolla.UserAccount
 		private const string URL_GET_LINKED_SOCIAL_NETWORKS =
 			"https://login.xsolla.com/api/users/me/social_providers";
 
-		private const string DEFAULT_REDIRECT_URI = "https://login.xsolla.com/api/blank";
-
 		/// <summary>
 		/// Links the social network, which is used by the player for authentication, to the user account.
 		/// </summary>
@@ -24,7 +22,7 @@ namespace Xsolla.UserAccount
 		/// <param name="onError">Failed operation callback.</param>
 		public void LinkSocialProvider(SocialProvider providerName, Action<string> urlCallback, Action<Error> onError = null)
 		{
-			var redirectUrl = !string.IsNullOrEmpty(XsollaSettings.CallbackUrl) ? XsollaSettings.CallbackUrl : DEFAULT_REDIRECT_URI;
+			var redirectUrl = RedirectUtils.GetRedirectUrl();
 			var url = string.Format(URL_LINK_SOCIAL_NETWORK, providerName.GetParameter(), redirectUrl);
 			WebRequestHelper.Instance.GetRequest<LinkSocialProviderResponse>(SdkType.Login, url, WebRequestHeader.AuthHeader(Token.Instance),
 				onComplete: response => urlCallback?.Invoke(response?.url ?? string.Empty),

@@ -48,7 +48,7 @@ namespace Xsolla.Auth
 			}
 
 			var clientId = XsollaSettings.OAuthClientId;
-			var redirectUri = !string.IsNullOrEmpty(XsollaSettings.CallbackUrl) ? XsollaSettings.CallbackUrl : DEFAULT_REDIRECT_URI;
+			var redirectUri = RedirectUtils.GetRedirectUrl();
 			var requestData = new WWWForm();
 
 			requestData.AddField("client_id", clientId);
@@ -109,7 +109,7 @@ namespace Xsolla.Auth
 		public void ExchangeCodeToToken(string code, Action<string> onSuccessExchange = null, Action<Error> onError = null)
 		{
 			var clientId = XsollaSettings.OAuthClientId;
-			var redirectUri = !string.IsNullOrEmpty(XsollaSettings.CallbackUrl) ? XsollaSettings.CallbackUrl : DEFAULT_REDIRECT_URI;
+			var redirectUri = RedirectUtils.GetRedirectUrl();
 
 			var requestData = new WWWForm();
 

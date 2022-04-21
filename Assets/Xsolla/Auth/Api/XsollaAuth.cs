@@ -8,7 +8,7 @@ namespace Xsolla.Auth
 	public partial class XsollaAuth : MonoSingleton<XsollaAuth>
 	{
 		private const string DEFAULT_OAUTH_STATE = "xsollatest";
-		private const string DEFAULT_REDIRECT_URI = "https://login.xsolla.com/api/blank";
+		
 
 		public override void Init()
 		{

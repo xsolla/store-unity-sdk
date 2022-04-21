@@ -91,7 +91,7 @@ namespace Xsolla.Demo
 				LoginEvent?.Invoke();
 			};
 
-			XsollaAuth.Instance.SignIn(username, password, rememberUser, XsollaSettings.CallbackUrl, null, successCallback, onError);
+			XsollaAuth.Instance.SignIn(username, password, rememberUser, null, null, successCallback, onError);
 		}
 
 		public void AccessTokenAuth(string email, Action onSuccess, Action<Error> onError = null)

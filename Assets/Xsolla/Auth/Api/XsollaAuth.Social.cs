@@ -74,7 +74,7 @@ namespace Xsolla.Auth
 		{
 			var clientIdParam = XsollaSettings.OAuthClientId;
 			var stateParam = (!string.IsNullOrEmpty(oauthState)) ? oauthState : DEFAULT_OAUTH_STATE;
-			var redirectUriParam = (!string.IsNullOrEmpty(redirectUrl)) ? redirectUrl : DEFAULT_REDIRECT_URI;
+			var redirectUriParam = RedirectUtils.GetRedirectUrl(redirectUrl);
 			var codeParam = (!string.IsNullOrEmpty(code)) ? $"&code={code}" : "";
 
 			var url = string.Format(URL_OAUTH_SILENT_AUTH, providerName, clientIdParam, stateParam, redirectUriParam, appId, sessionTicket, codeParam);
@@ -115,7 +115,7 @@ namespace Xsolla.Auth
 				case AuthorizationType.OAuth2_0:
 					var clientIdParam = XsollaSettings.OAuthClientId;
 					var stateParam = (!string.IsNullOrEmpty(oauthState)) ? oauthState : DEFAULT_OAUTH_STATE;
-					var redirectUriParam = !string.IsNullOrEmpty(XsollaSettings.CallbackUrl) ? XsollaSettings.CallbackUrl : DEFAULT_REDIRECT_URI;
+					var redirectUriParam = RedirectUtils.GetRedirectUrl();
 					result = string.Format(URL_OAUTH_SOCIAL_AUTH, providerName.GetParameter(), clientIdParam, stateParam, redirectUriParam);
 					break;
 				default:

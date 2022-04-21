@@ -29,7 +29,7 @@ namespace Xsolla.UserAccount
 		public void AddUsernameEmailAuthToAccount(string username, string password, string email, int? promoEmailAgreement = null, Action<bool> onSuccess = null, Action<Error> onError = null)
 		{
 			var requestBody = new AddUsernameAndEmailRequest(username, password, email, promoEmailAgreement);
-			var loginUrl = XsollaSettings.CallbackUrl;
+			var loginUrl = RedirectUtils.GetRedirectUrl();
 			var url = string.Format(URL_ADD_USERNAME_EMAIL, loginUrl);
 
 			Action<AddUsernameAndEmailResponse> onComplete = response =>
