@@ -1,11 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace Xsolla.Core
 {
 	public partial class WebRequestHelper : MonoSingleton<WebRequestHelper>
 	{
-		private const string ANALYTICS_URL_TEMPLATE = "engine=unity&engine_v={0}&sdk={1}&sdk_v={2}{3}";
+		private const string ANALYTICS_URL_TEMPLATE = "engine=unity&engine_v={0}&sdk={1}&sdk_v={2}&build_platform={3}{4}";
 
 		//Uncomment and fill the values if you want to hardcode referral info
 		private KeyValuePair<string, string>? _referralAnalytics/* = new KeyValuePair<string, string>("MyReferralPlugin", "0.0.0.1")*/;
@@ -24,9 +27,8 @@ namespace Xsolla.Core
 			}
 
 			var dividingSymbol = url.Contains("?") ? "&" : "?";
-			var engineVersion = Application.unityVersion;
-
-			GetSdkSpecificParameters(analyticsType, out string sdkType, out string sdkVersion);
+			GetUnityParameters(toUpper: false, out string engineVersion, out string buildPlatform);
+			GetXsollaSdkParameters(analyticsType, toUpper: false, out string sdkType, out string sdkVersion);
 
 			var referralAnalytics = default(string);
 
@@ -37,7 +39,7 @@ namespace Xsolla.Core
 				referralAnalytics = $"&ref={referralPlugin}&ref_v={referralVersion}";
 			}
 
-			var analyticsAddition = string.Format(ANALYTICS_URL_TEMPLATE, engineVersion, sdkType, sdkVersion, referralAnalytics);
+			var analyticsAddition = string.Format(ANALYTICS_URL_TEMPLATE, engineVersion, sdkType, sdkVersion, buildPlatform, referralAnalytics);
 
 			var result =  $"{url}{dividingSymbol}{analyticsAddition}";
 			return result;
@@ -78,15 +80,17 @@ namespace Xsolla.Core
 			if (Application.platform == RuntimePlatform.WebGLPlayer)
 				return new List<WebRequestHeader>();
 
-			GetSdkSpecificParameters(analyticsType, out string sdkType, out string sdkVersion);
+			GetUnityParameters(toUpper: true, out string engineVersion, out string buildPlatform);
+			GetXsollaSdkParameters(analyticsType, toUpper: true, out string sdkType, out string sdkVersion);
 
 			var resultCapacity = _referralAnalytics.HasValue ? 6 : 4;
 			var result = new List<WebRequestHeader>(capacity: resultCapacity)
 			{
 				new WebRequestHeader() { Name = "X-ENGINE", Value = "UNITY" },
-				new WebRequestHeader() { Name = "X-ENGINE-V", Value = Application.unityVersion.ToUpper() },
-				new WebRequestHeader() { Name = "X-SDK", Value = sdkType.ToUpper() },
-				new WebRequestHeader() { Name = "X-SDK-V", Value = sdkVersion.ToUpper() }
+				new WebRequestHeader() { Name = "X-ENGINE-V", Value = engineVersion },
+				new WebRequestHeader() { Name = "X-SDK", Value = sdkType },
+				new WebRequestHeader() { Name = "X-SDK-V", Value = sdkVersion },
+				new WebRequestHeader() { Name = "X-BUILD-PLATFORM", Value = buildPlatform }
 			};
 
 			if (_referralAnalytics.HasValue)//if (_referralAnalytics != null)
@@ -101,25 +105,42 @@ namespace Xsolla.Core
 			return result;
 		}
 
-		private void GetSdkSpecificParameters(SdkType analyticsType, out string sdkType, out string sdkVersion)
+		private void GetXsollaSdkParameters(SdkType analyticsType, bool toUpper, out string sdkType, out string sdkVersion)
 		{
-			sdkType = default(string);
-			sdkVersion = default(string);
-
 			switch (analyticsType)
 			{
 				case SdkType.Login:
-					sdkType = "login";
+					sdkType = toUpper ? "LOGIN" : "login";
 					sdkVersion = Constants.LoginSdkVersion;
 					break;
 				case SdkType.Store:
-					sdkType = "store";
+					sdkType = toUpper ? "STORE" : "store";
 					sdkVersion = Constants.StoreSdkVersion;
 					break;
 				default:
-					Debug.LogError($"Unexpected analyticsType: '{analyticsType.ToString()}'");
+					Debug.LogError($"Unexpected analyticsType: '{analyticsType}'");
+					sdkType = string.Empty;
+					sdkVersion = string.Empty;
 					break;
 			}
+		}
+
+		private void GetUnityParameters(bool toUpper, out string engineVersion, out string buildPlatform)
+		{
+			engineVersion = Application.unityVersion;
+#if UNITY_EDITOR
+			buildPlatform = EditorUserBuildSettings.activeBuildTarget.ToString();
+#else
+			buildPlatform = Application.platform.ToString();
+#endif
+
+			if (toUpper)
+			{
+				engineVersion = engineVersion.ToUpper();
+				buildPlatform = buildPlatform.ToUpper();
+			}
+			else
+				buildPlatform = buildPlatform.ToLower();
 		}
 	}
 }
