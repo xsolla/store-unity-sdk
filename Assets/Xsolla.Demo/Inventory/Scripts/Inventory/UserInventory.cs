@@ -45,11 +45,17 @@ namespace Xsolla.Demo
 			var itemsUpdated = false;
 			var subscriptionsUpdated = false;
 
+			if (Token.Instance == null)
+				yield break;
+
 			SdkInventoryLogic.Instance.GetVirtualCurrencyBalance(balance =>
 			{
 				Balance = balance;
 				balanceUpdated = true;
 			}, onError);
+
+			if (Token.Instance == null)
+				yield break;
 
 			SdkInventoryLogic.Instance.GetInventoryItems(items =>
 			{
@@ -57,11 +63,15 @@ namespace Xsolla.Demo
 				itemsUpdated = true;
 			}, onError);
 
+			if (Token.Instance == null)
+				yield break;
+
 			SdkInventoryLogic.Instance.GetUserSubscriptions(items =>
 			{
 				Subscriptions = items;
 				subscriptionsUpdated = true;
 			}, onError);
+			
 			yield return new WaitUntil(() => balanceUpdated && itemsUpdated && subscriptionsUpdated);
 
 			IsUpdated = true;
