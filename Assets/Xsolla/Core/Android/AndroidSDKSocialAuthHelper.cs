@@ -14,7 +14,6 @@ namespace Xsolla.Core
 		{
 			GetXsollaSettings(
 				out string loginID,
-				out string callbackURL,
 				out AuthorizationType authorizationType,
 				out bool invalidationFlag,
 				out int OAuthClientId,
@@ -43,8 +42,6 @@ namespace Xsolla.Core
 				loginConfigBuilder.Call<AndroidJavaObject>("setProjectId", loginID);
 				loginConfigBuilder.Call<AndroidJavaObject>("setSocialConfig", socialConfig);
 
-				if (!string.IsNullOrEmpty(callbackURL))
-					loginConfigBuilder.Call<AndroidJavaObject>("setCallbackUrl", callbackURL);
 				if (authorizationType == AuthorizationType.OAuth2_0)
 					loginConfigBuilder.Call<AndroidJavaObject>("setOauthClientId", OAuthClientId);
 
@@ -147,14 +144,13 @@ namespace Xsolla.Core
 			}
 		}
 
-		private void GetXsollaSettings(out string loginID, out string callbackURL, out AuthorizationType authorizationType, out bool invalidationFlag, out int OAuthClientId, out string facebookAppId, out string googleServerId, out string wechatAppId, out string qqAppId)
+		private void GetXsollaSettings(out string loginID, out AuthorizationType authorizationType, out bool invalidationFlag, out int OAuthClientId, out string facebookAppId, out string googleServerId, out string wechatAppId, out string qqAppId)
 		{
 			loginID = XsollaSettings.LoginId;
-			callbackURL = XsollaSettings.CallbackUrl;
 			authorizationType = XsollaSettings.AuthorizationType;
 
 			if (authorizationType == AuthorizationType.JWT)
-				invalidationFlag = XsollaSettings.JwtTokenInvalidationEnabled;
+				invalidationFlag = XsollaSettings.InvalidateExistingSessions;
 			else /*if (authorizationType == AuthorizationType.OAuth2_0)*/
 				invalidationFlag = true;
 

@@ -12,23 +12,23 @@ namespace Xsolla.Core
 			Selection.activeObject = XsollaSettings.Instance;
 		}
 
+		private GUIStyle GroupAreaStyle => GUI.skin.box;
+		
+		private GUIStyle GroupHeaderStyle => EditorStyles.boldLabel;
+
 		public override void OnInspectorGUI()
 		{
-			var changed =	XsollaLoginSettings() ||
-							PublishingPlatformSettings() ||
-							XsollaStoreSettings() ||
-							XsollaPayStationUISettings() ||
-							AndroidSDKSettings() ||
-							InventorySDKSettings();
-
-			XsollaAndroidSettings();
-			DemoSettings();
+			var changed = GeneralSettings() ||
+			              LoginSettings() ||
+			              PayStationSettings() ||
+			              AndroidSettings() ||
+			              DesktopSettings() ||
+			              EditorSettings();
 
 			if (changed)
 			{
 				DeleteRecord(Constants.LAST_SUCCESS_AUTH_TOKEN);
 				DeleteRecord(Constants.LAST_SUCCESS_OAUTH_REFRESH_TOKEN);
-				DeleteRecord(Constants.OAUTH_REFRESH_TOKEN_EXPIRATION_TIME);
 			}
 		}
 

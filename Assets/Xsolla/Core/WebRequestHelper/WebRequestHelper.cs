@@ -41,19 +41,25 @@ namespace Xsolla.Core
 			_requests.Remove(webRequest);
 		}
 
-		private IEnumerator PerformWebRequest(UnityWebRequest webRequest, Action onComplete, Action<Error> onError, Dictionary<string, ErrorType> errorsToCheck)
+		private IEnumerator PerformWebRequest(UnityWebRequest webRequest, Action onComplete, Action<Error> onError, ErrorCheckType errorsToCheck)
+		{
+			yield return InternalPerformWebRequest(webRequest,
+				() => ProcessRequest(webRequest, onComplete, onError, errorsToCheck));
+		}
+		
+		private IEnumerator PerformWebRequest(UnityWebRequest webRequest, Action<int> onComplete, Action<Error> onError, ErrorCheckType errorsToCheck)
 		{
 			yield return InternalPerformWebRequest(webRequest,
 				() => ProcessRequest(webRequest, onComplete, onError, errorsToCheck));
 		}
 
-		private IEnumerator PerformWebRequest(UnityWebRequest webRequest, Action<string> onComplete, Action<Error> onError, Dictionary<string, ErrorType> errorsToCheck)
+		private IEnumerator PerformWebRequest(UnityWebRequest webRequest, Action<string> onComplete, Action<Error> onError, ErrorCheckType errorsToCheck)
 		{
 			yield return InternalPerformWebRequest(webRequest,
 				() => ProcessRequest(webRequest, onComplete, onError, errorsToCheck));
 		}
 
-		private IEnumerator PerformWebRequest<T>(UnityWebRequest webRequest, Action<T> onComplete, Action<Error> onError, Dictionary<string, ErrorType> errorsToCheck) where T : class
+		private IEnumerator PerformWebRequest<T>(UnityWebRequest webRequest, Action<T> onComplete, Action<Error> onError, ErrorCheckType errorsToCheck) where T : class
 		{
 			yield return InternalPerformWebRequest(webRequest,
 				() => ProcessRequest(webRequest, onComplete, onError, errorsToCheck));

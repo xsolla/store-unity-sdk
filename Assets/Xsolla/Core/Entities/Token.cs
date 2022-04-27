@@ -7,13 +7,62 @@ namespace Xsolla.Core
 {
 	public class Token
 	{
+		private static Token _instance;
+
+		public static Token Instance
+		{
+			get => _instance;
+			set
+			{
+				_instance = value;
+				TokenChanged?.Invoke(value);
+			}
+		}
+
 		private string EncodedToken { get; set; }
-
 		private TokenPayload Payload { get; set; }
-
 		private bool IsPaystationToken => Payload == null;
 
-		private const string PlayerPrefsKey = "xsolla_login_last_success_auth_token";
+		public static event Action<Token> TokenChanged;
+
+		private Token() {}
+
+		public static Token Create(string encodedToken)
+		{
+			if (string.IsNullOrEmpty(encodedToken))
+				throw new ArgumentNullException(nameof(encodedToken), "Encoded token argument is null or empty");
+
+			var tokenPartsCount = encodedToken.Split('.').Length;
+			return tokenPartsCount == 3
+				? CreateJwtToken(encodedToken)
+				: CreatePaystationToken(encodedToken);
+		}
+
+		public static bool Save()
+		{
+			if (Instance != null)
+			{
+				PlayerPrefs.SetString(Constants.LAST_SUCCESS_AUTH_TOKEN, Instance.EncodedToken);
+				return true;
+			}
+			else
+				return false;
+		}
+
+		public static bool Load()
+		{
+			var encodedToken = PlayerPrefs.GetString(Constants.LAST_SUCCESS_AUTH_TOKEN, null);
+			if (string.IsNullOrEmpty(encodedToken))
+				return false;
+
+			Instance = Create(encodedToken);
+			return true;
+		}
+
+		public static void DeleteSave()
+		{
+			PlayerPrefs.DeleteKey(Constants.LAST_SUCCESS_AUTH_TOKEN);
+		}
 
 		public bool IsMasterAccount()
 		{
@@ -28,7 +77,7 @@ namespace Xsolla.Core
 			if (IsPaystationToken)
 				return 0;
 
-			var now = (int) DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
+			var now = (int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
 			return Mathf.Max(Payload.exp - now, 0);
 		}
 
@@ -67,57 +116,6 @@ namespace Xsolla.Core
 			return steamUserUrl.Split('/').Last();
 		}
 
-		private static Token _instance;
-
-		public static Token Instance
-		{
-			get => _instance;
-			set
-			{
-				_instance = value;
-				TokenChanged?.Invoke();
-			}
-		}
-
-		public static event Action TokenChanged;
-
-		public static Token Create(string encodedToken)
-		{
-			if (string.IsNullOrEmpty(encodedToken))
-				throw new Exception("Encoded token argument is null or empty");
-
-			var tokenPartsCount = encodedToken.Split('.').Length;
-			return tokenPartsCount == 3
-				? CreateJwtToken(encodedToken)
-				: CreatePaystationToken(encodedToken);
-		}
-
-		public static void Save()
-		{
-			if (Instance == null)
-				return;
-
-			PlayerPrefs.SetString(PlayerPrefsKey, Instance.EncodedToken);
-		}
-
-		public static bool Load()
-		{
-			if (!PlayerPrefs.HasKey(PlayerPrefsKey))
-				return false;
-
-			var encodedToken = PlayerPrefs.GetString(PlayerPrefsKey);
-			if (string.IsNullOrEmpty(encodedToken))
-				return false;
-
-			Instance = Create(encodedToken);
-			return true;
-		}
-
-		public static void DeleteSave()
-		{
-			PlayerPrefs.DeleteKey(PlayerPrefsKey);
-		}
-
 		private static Token CreateJwtToken(string encodedToken)
 		{
 			if (string.IsNullOrEmpty(encodedToken))
@@ -133,7 +131,8 @@ namespace Xsolla.Core
 			if (string.IsNullOrEmpty(payload.type))
 				throw new Exception($"Token must have 'type' parameter. Your token = {encodedToken}");
 
-			return new Token{
+			return new Token
+			{
 				EncodedToken = encodedToken,
 				Payload = payload
 			};
@@ -141,36 +140,15 @@ namespace Xsolla.Core
 
 		private static Token CreatePaystationToken(string encodedToken)
 		{
-			return new Token{
+			return new Token
+			{
 				EncodedToken = encodedToken
 			};
 		}
 
-		private Token()
-		{
-		}
-
-		[Obsolete()]
-		private Token(string encodedToken = null, bool isPaystationToken = false)
-		{
-			Instance = Create(encodedToken);
-			EncodedToken = Instance.EncodedToken;
-			Payload = Instance.Payload;
-		}
-
-		public override string ToString()
-		{
-			return EncodedToken;
-		}
-
-		public static implicit operator string(Token token)
-		{
-			return token != null ? token.EncodedToken : string.Empty;
-		}
-
 		private static bool TryParsePayload(string encodedPayload, out TokenPayload payloadObject)
 		{
-			//Fixed FromBase64String convertion.
+			//Fix FromBase64String convertion
 			encodedPayload = encodedPayload.Replace('-', '+').Replace('_', '/');
 
 			var padding = encodedPayload.Length % 4;
@@ -194,6 +172,16 @@ namespace Xsolla.Core
 			}
 
 			return true;
+		}
+
+		public override string ToString()
+		{
+			return EncodedToken;
+		}
+
+		public static implicit operator string(Token token)
+		{
+			return token != null ? token.EncodedToken : string.Empty;
 		}
 
 		[Serializable]

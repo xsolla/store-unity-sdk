@@ -1,11 +1,11 @@
-﻿using System.IO;
+using System.IO;
 using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
 using UnityEngine;
 
-namespace Xsolla.Core
+namespace Xsolla.Core.Editor
 {
 	public class BuildPreProcess : IPreprocessBuildWithReport
 	{

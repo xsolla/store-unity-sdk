@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEditor.Build.Reporting;
 using UnityEngine;
 
-namespace Xsolla
+namespace Xsolla.DevTools
 {
 	public static class BuildsManager
 	{
@@ -49,7 +49,7 @@ namespace Xsolla
 
 		private static BuildTarget GetBuildTarget()
 		{
-			var envArg = GetEnvironmentArgument("customBuildTarget");
+			var envArg = GetEnvironmentArgument("buildTarget");
 			if (Enum.TryParse(envArg, out BuildTarget target))
 			{
 				return target;

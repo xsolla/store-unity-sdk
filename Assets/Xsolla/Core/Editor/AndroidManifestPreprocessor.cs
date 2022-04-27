@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 using System.IO;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
 using UnityEngine;
 
-namespace Xsolla.Core
+namespace Xsolla.Core.Editor
 {
 	public class AndroidManifestPreprocessor : IPreprocessBuildWithReport
 	{
@@ -20,70 +20,9 @@ namespace Xsolla.Core
 		{
 #if UNITY_ANDROID
 			Debug.Log("Xsolla SDK is now preprocessing your AndroidManifest.xml");
-			SetupDeepLinking();
 			SetupWeChat();
+			SetupPaymentsProxyActivity();
 #endif
-		}
-
-		void SetupDeepLinking()
-		{
-			var manifestPath = Path.Combine(Application.dataPath, MainManifestPath);
-			var manifestExists = File.Exists(manifestPath);
-
-			if (!manifestExists)
-			{
-				if (!XsollaSettings.UseDeepLinking)
-				{
-					return;
-				}
-
-				RestoreAndroidManifest(manifestPath);
-			}
-
-			var manifest = new AndroidManifestWrapper(manifestPath);
-
-			if (XsollaSettings.UseDeepLinking && string.IsNullOrEmpty(XsollaSettings.DeepLinkRedirectUrl))
-			{
-				Debug.LogError("Redirect URL for Android deep linking is empty. Please check plugin settings.");
-				return;
-			}
-
-			var redirectUrl = !string.IsNullOrEmpty(XsollaSettings.DeepLinkRedirectUrl) ? new Uri(XsollaSettings.DeepLinkRedirectUrl) : null;
-
-			var data = new DataNode(redirectUrl?.Scheme, redirectUrl?.Host, redirectUrl?.PathAndQuery);
-			var action = new ActionNode("android.intent.action.VIEW");
-			var categoryDefault = new CategoryNode("android.intent.category.DEFAULT");
-			var categoryBrowsable = new CategoryNode("android.intent.category.BROWSABLE");
-
-			var intentFilter = new IntentFilterNode(AndroidManifestConstants.ActivityTag);
-			intentFilter.AddAttribute(AndroidManifestConstants.LabelAttribute, XsollaManifestLabel);
-			intentFilter.AddChildNode(data);
-			intentFilter.AddChildNode(action);
-			intentFilter.AddChildNode(categoryDefault);
-			intentFilter.AddChildNode(categoryBrowsable);
-
-			var manifestChanged = false;
-
-			// action node used to identify main game activity
-			var mainActivityAction = new ActionNode("android.intent.action.MAIN");
-
-			// cleanup manifest in case deep linking settings were added previously
-			if (manifest.ContainsNode(new FindByChildName(AndroidManifestConstants.ActivityTag, mainActivityAction), new FindByLabel(intentFilter)))
-			{
-				manifest.RemoveNode(new FindByChildName(AndroidManifestConstants.ActivityTag, mainActivityAction), new FindByLabel(intentFilter));
-				manifestChanged = true;
-			}
-
-			if (XsollaSettings.UseDeepLinking)
-			{
-				manifest.AddNode(intentFilter, new FindByChildName(AndroidManifestConstants.ActivityTag, mainActivityAction));
-				manifestChanged = true;
-			}
-
-			if (manifestChanged)
-			{
-				manifest.SaveManifest();
-			}
 		}
 
 		void SetupWeChat()
@@ -128,6 +67,30 @@ namespace Xsolla.Core
 			{
 				manifest.SaveManifest();
 			}
+		}
+
+		private void SetupPaymentsProxyActivity()
+		{
+			var manifestPath = Path.Combine(Application.dataPath, MainManifestPath);
+			var manifestExists = File.Exists(manifestPath);
+
+			if (!manifestExists)
+			{
+				RestoreAndroidManifest(manifestPath);
+			}
+
+			var manifestWrapper = new AndroidManifestWrapper(manifestPath);
+			var activityName = $"{Application.identifier}.androidProxies.AndroidPaymentsProxy";
+
+			var activityNode = new ActivityNode(activityName);
+			activityNode.AddAttribute(AndroidManifestConstants.ExportedAttribute, "true");
+
+			// cleanup manifest in case activity node was added previously
+			if (manifestWrapper.ContainsNode(new FindByTag(AndroidManifestConstants.ApplicationTag), new FindByName(activityNode)))
+				manifestWrapper.RemoveNode(new FindByTag(AndroidManifestConstants.ApplicationTag), new FindByName(activityNode));
+
+			manifestWrapper.AddNode(activityNode, new FindByTag(AndroidManifestConstants.ApplicationTag));
+			manifestWrapper.SaveManifest();
 		}
 
 		static void RestoreAndroidManifest(string manifestPath)

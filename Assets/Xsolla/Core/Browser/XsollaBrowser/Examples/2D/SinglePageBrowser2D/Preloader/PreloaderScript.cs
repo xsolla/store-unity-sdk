@@ -15,8 +15,13 @@ namespace Xsolla.Core.Browser
 
 		public void SetPercent(uint value)
 		{
-			if(text != null)
-				text.text = "Update" + Environment.NewLine + value.ToString() + "%";
+			SetText($"Update{Environment.NewLine}{value}%");
+		}
+
+		public void SetText(string value)
+		{
+			if (text != null)
+				text.text = value;
 		}
 	}
 }

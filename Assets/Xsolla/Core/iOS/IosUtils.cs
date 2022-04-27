@@ -1,7 +1,7 @@
-﻿using System;
+using System;
 using System.Runtime.InteropServices;
 
-namespace Xsolla.Core
+namespace Xsolla.Core.iOS
 {
 	public static class IosUtils
 	{

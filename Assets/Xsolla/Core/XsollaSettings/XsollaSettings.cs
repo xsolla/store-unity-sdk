@@ -14,22 +14,13 @@ namespace Xsolla.Core
 		private static XsollaSettings _instance;
 
 		[SerializeField] public string loginId = Constants.DEFAULT_LOGIN_ID;
-		[SerializeField] private bool useProxy = default;
 		[SerializeField] private string callbackUrl = default;
-		[SerializeField] public AuthorizationType authorizationType = default;
-		[SerializeField] private bool jwtTokenInvalidationEnabled = default;
+		[SerializeField] public AuthorizationType authorizationType = AuthorizationType.OAuth2_0;
+		[SerializeField] private bool invalidateExistingSessions = default;
 		[SerializeField] public int oauthClientId = default;
-		[SerializeField] private bool requestNicknameOnAuth = true;
 		[SerializeField] private string authServerUrl = "https://sdk.xsolla.com/";
 
-		[SerializeField] private bool useSteamAuth = default;
-		[SerializeField] private string steamAppId = "480";
-		[SerializeField] private bool useConsoleAuth = default;
-		[SerializeField] private PlatformType platform = PlatformType.Xsolla;
-		[SerializeField] private string usernameFromConsole = default;
-
 		[SerializeField] public string storeProjectId = Constants.DEFAULT_PROJECT_ID;
-		[SerializeField] private PaymentsFlow paymentsFlow = PaymentsFlow.XsollaPayStation;
 		[SerializeField] private bool isSandbox = true;
 		[SerializeField] private bool inAppBrowserEnabled = true;
 		[SerializeField] private bool packInAppBrowserInBuild = true;
@@ -37,26 +28,27 @@ namespace Xsolla.Core
 		[SerializeField] private RedirectPolicySettings desktopRedirectPolicySettings = new RedirectPolicySettings();
 		[SerializeField] private RedirectPolicySettings webglRedirectPolicySettings = new RedirectPolicySettings();
 		[SerializeField] private RedirectPolicySettings androidRedirectPolicySettings = new RedirectPolicySettings();
+		[SerializeField] private RedirectPolicySettings iosRedirectPolicySettings = new RedirectPolicySettings();
 
 		[SerializeField] private PayStationUISettings desktopPayStationUISettings = new PayStationUISettings();
 		[SerializeField] private PayStationUISettings webglPayStationUISettings = new PayStationUISettings();
 		[SerializeField] private PayStationUISettings androidPayStationUISettings = new PayStationUISettings();
+		[SerializeField] private PayStationUISettings iosPayStationUISettings = new PayStationUISettings();
 
 		[SerializeField] private string facebookAppId = default;
 		[SerializeField] private string googleServerId = default;
 		[SerializeField] private string wechatAppId = default;
 		[SerializeField] private string qqAppId = default;
 
-		[SerializeField] private bool useDeepLinking = false;
-		[SerializeField] private string deepLinkRedirectUrl = default;
-
-		[SerializeField] public string webStoreUrl = "https://sitebuilder.xsolla.com/game/sdk-web-store/";
-
 		[SerializeField] private LogLevel logLevel = LogLevel.InfoWarningsErrors;
 		
 		private const string LoginIdKey = nameof(loginId);
 
 		public static event Action Changed;
+		
+		public static bool PayStationGroupFoldout { get; set; }
+		
+		public static bool RedirectPolicyGroupFoldout { get; set; }
 
 		public static string LoginId
 		{
@@ -78,61 +70,6 @@ namespace Xsolla.Core
 				}
 				
 				Changed?.Invoke();
-			}
-		}
-
-		public static bool UseSteamAuth
-		{
-			get => Instance.useSteamAuth;
-			set
-			{
-				Instance.useSteamAuth = value;
-
-				string useSteamMark = default(string);
-#if UNITY_EDITOR_WIN
-				useSteamMark = "Assets\\Xsolla\\ThirdParty\\use_steam";
-#else
-				useSteamMark = "Assets/Xsolla/ThirdParty/use_steam";
-#endif
-				try
-				{
-					if (value)
-						File.Create(useSteamMark);
-					else
-					{
-						File.Delete(useSteamMark);
-
-						var meta = $"{useSteamMark}.meta";
-						if (File.Exists(meta))
-							File.Delete(meta);
-					}
-				}
-				catch (Exception ex)
-				{
-					Debug.LogError($"Could not create or delete {useSteamMark}. {ex.Message}");
-				}
-
-				MarkAssetDirty();
-			}
-		}
-
-		public static string SteamAppId
-		{
-			get => Instance.steamAppId;
-			set
-			{
-				Instance.steamAppId = value;
-				MarkAssetDirty();
-			}
-		}
-
-		public static bool UseProxy
-		{
-			get => Instance.useProxy;
-			set
-			{
-				Instance.useProxy = value;
-				MarkAssetDirty();
 			}
 		}
 
@@ -167,12 +104,12 @@ namespace Xsolla.Core
 			}
 		}
 
-		public static bool JwtTokenInvalidationEnabled
+		public static bool InvalidateExistingSessions
 		{
-			get => Instance.jwtTokenInvalidationEnabled;
+			get => Instance.invalidateExistingSessions;
 			set
 			{
-				Instance.jwtTokenInvalidationEnabled = value;
+				Instance.invalidateExistingSessions = value;
 				MarkAssetDirty();
 			}
 		}
@@ -197,18 +134,8 @@ namespace Xsolla.Core
 					Instance.oauthClientId = value;
 					MarkAssetDirty();
 				}
-				
-				Changed?.Invoke();
-			}
-		}
 
-		public static bool RequestNicknameOnAuth
-		{
-			get => Instance.requestNicknameOnAuth;
-			set
-			{
-				Instance.requestNicknameOnAuth = value;
-				MarkAssetDirty();
+				Changed?.Invoke();
 			}
 		}
 
@@ -218,26 +145,6 @@ namespace Xsolla.Core
 			set
 			{
 				Instance.authServerUrl = value;
-				MarkAssetDirty();
-			}
-		}
-
-		public static bool UseConsoleAuth
-		{
-			get => Instance.useConsoleAuth;
-			set
-			{
-				Instance.useConsoleAuth = value;
-				MarkAssetDirty();
-			}
-		}
-
-		public static string UsernameFromConsolePlatform
-		{
-			get => Instance.usernameFromConsole;
-			set
-			{
-				Instance.usernameFromConsole = value;
 				MarkAssetDirty();
 			}
 		}
@@ -277,32 +184,12 @@ namespace Xsolla.Core
 			}
 		}
 
-		public static PaymentsFlow PaymentsFlow
-		{
-			get => Instance.paymentsFlow;
-			set
-			{
-				Instance.paymentsFlow = value;
-				MarkAssetDirty();
-			}
-		}
-
 		public static bool IsSandbox
 		{
 			get => Instance.isSandbox;
 			set
 			{
 				Instance.isSandbox = value;
-				MarkAssetDirty();
-			}
-		}
-
-		public static PlatformType Platform
-		{
-			get => Instance.platform;
-			set
-			{
-				Instance.platform = value;
 				MarkAssetDirty();
 			}
 		}
@@ -345,6 +232,12 @@ namespace Xsolla.Core
 			set => Instance.androidRedirectPolicySettings = value;
 		}
 
+		public static RedirectPolicySettings IosRedirectPolicySettings
+		{
+			get => Instance.iosRedirectPolicySettings;
+			set => Instance.iosRedirectPolicySettings = value;
+		}
+
 		public static PayStationUISettings DesktopPayStationUISettings
 		{
 			get => Instance.desktopPayStationUISettings;
@@ -361,6 +254,12 @@ namespace Xsolla.Core
 		{
 			get => Instance.androidPayStationUISettings;
 			set => Instance.androidPayStationUISettings = value;
+		}
+		
+		public static PayStationUISettings IosPayStationUISettings
+		{
+			get => Instance.iosPayStationUISettings;
+			set => Instance.iosPayStationUISettings = value;
 		}
 
 		public static string FacebookAppId
@@ -385,50 +284,6 @@ namespace Xsolla.Core
 		{
 			get => Instance.qqAppId;
 			set => Instance.qqAppId = value;
-		}
-
-		public static bool UseDeepLinking
-		{
-			get => Instance.useDeepLinking;
-			set
-			{
-				Instance.useDeepLinking = value;
-				MarkAssetDirty();
-			}
-		}
-
-		public static string DeepLinkRedirectUrl
-		{
-			get => Instance.deepLinkRedirectUrl;
-			set
-			{
-				Instance.deepLinkRedirectUrl = value;
-				MarkAssetDirty();
-			}
-		}
-
-		private const string WebStoreUrlKey = nameof(webStoreUrl);
-		public static string WebStoreUrl
-		{
-			get
-			{
-				if (PlayerPrefs.HasKey(WebStoreUrlKey))
-					return PlayerPrefs.GetString(WebStoreUrlKey);
-				else
-					return Instance.webStoreUrl;
-			}
-			set
-			{
-				PlayerPrefs.SetString(WebStoreUrlKey, value);
-
-				if (!Application.isPlaying)
-				{
-					Instance.webStoreUrl = value;
-					MarkAssetDirty();
-				}
-
-				Changed?.Invoke();
-			}
 		}
 
 		public static LogLevel LogLevel

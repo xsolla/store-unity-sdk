@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Xsolla.Core
+namespace Xsolla.Core.Editor
 {
 	public class DataNode : BaseManifestNode
 	{

@@ -1,4 +1,4 @@
-﻿#if (UNITY_EDITOR || UNITY_STANDALONE)
+#if (UNITY_EDITOR || UNITY_STANDALONE)
 using UnityEngine;
 using System.Collections;
 
@@ -23,7 +23,6 @@ namespace Xsolla.Core.Browser
 			xsollaBrowser.FetchingBrowserEvent += OnBrowserFetchingEvent;
 
 			StartCoroutine(PreloaderInstantiateCoroutine());
-			StartCoroutine(PreloaderDestroyCoroutine());
 		}
 
 		private void OnDestroy()
@@ -61,22 +60,16 @@ namespace Xsolla.Core.Browser
 			if (preloaderObject == null)
 				yield break;
 
-			if (progress > 99)
-				progress = 100;
-
-			preloaderObject.GetComponent<PreloaderScript>().SetPercent((uint) progress);
+			if (progress < 99)
+				preloaderObject.GetComponent<PreloaderScript>().SetPercent((uint) progress);
+			else
+				preloaderObject.GetComponent<PreloaderScript>().SetText(string.Empty);
 		}
 
 		private IEnumerator PreloaderInstantiateCoroutine()
 		{
 			yield return new WaitWhile(() => Prefab == null);
 			preloaderObject = Instantiate(Prefab, transform);
-		}
-
-		private IEnumerator PreloaderDestroyCoroutine()
-		{
-			yield return new WaitWhile(() => xsollaBrowser.FetchingProgress < 100);
-			Destroy(this, 0.001f);
 		}
 	}
 }

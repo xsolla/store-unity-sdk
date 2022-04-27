@@ -1,13 +1,12 @@
 
 # SDK composition
 
-The SDK consists of the following parts:
-
-*   The main SDK module — a set of classes and methods for making requests to the Xsolla REST APIs. The main SDK module includes:
-    *   The `Login` namespace that contains methods and classes for working with user authentication, the friend system, and for obtaining user information, etc.
-    *   The `Store` namespace that contains methods and classes for working with virtual items and virtual currencies, making purchases, payment processing, managing a shopping cart, opening the payment UI, etc.
-    *   The `Core` namespace that contains lower-level classes that are common to the rest of the SDK. For example, common methods for calling APIs, built-in browser, SDK settings, methods for integrating with third-party solutions, etc.
-*   Demo project module — a set of classes, prefabs, assets, etc., to demonstrate how the SDK works. Implemented by `Demo` namespace.
+The SDK is a set of classes and methods for making requests to the Xsolla REST APIs. It includes the following namespaces:
+*   The `Auth` namespace that contains methods and classes for working with user authentication, the friend system, and for obtaining user information, etc.
+*   The `Catalog` namespace that contains methods and classes for working with virtual items and virtual currencies, making purchases, etc.
+*   The `Orders` namespace that contains methods and classes for payment processing and opening the payment UI.
+*   The`Cart` namespace that contains methods and classes for managing a shopping cart.
+*   The `Core` namespace that contains lower-level classes that are common to the rest of the SDK. For example, common methods for calling APIs, built-in browser, SDK settings, methods for integrating with third-party solutions, etc.
 
 
 ## The main SDK module
@@ -15,29 +14,9 @@ The SDK consists of the following parts:
 
 ### SDK methods for calling the Xsolla APIs
 
-To send requests to Xsolla servers and receive responses, the SDK provides the `XsollaStore` and `XsollaLogin` classes. If you want to implement your own logic for buying items or inventory management, and don’t want to write boilerplate code for API calls, these classes are a good place to start.
+To send requests to Xsolla servers and receive responses, the SDK provides the `XsollaAuth`, `XsollaCatalog`, `XsollaCart`, and `XsollaOrders` classes. If you want to implement your own logic for buying items or inventory management, and don’t want to write boilerplate code for API calls, these classes are a good place to start.
 
-The `XsollaLogin` class includes methods to implement the following features:
-*   sign-up
-*   email confirmation
-*   user authentication via various mechanisms
-*   password reset
-*   cross-platform account linking
-*   managing user attributes
-*   friend system
-*   user account
-
-The `XsollaStore` class includes methods to implement the following features:
-
-*   selling virtual items and virtual currency
-*   managing an in-game store
-*   managing a shopping cart
-*   working with promotional campaigns (discounts, coupons, and promo codes)
-*   managing user inventory
-*   managing cross-platform inventory
-*   managing virtual currency balance
-
-The `XsollaStore` and `XsollaLogin` classes contain methods to refer to the `WebRequestHelper` class, which uses the standard [UnityWebRequest](https://docs.unity3d.com/ScriptReference/Networking.UnityWebRequest.html) class. Since the methods for API calls use coroutines for requests to Xsolla servers, [delegates](https://learn.unity.com/tutorial/delegates#5c894658edbc2a0d28f48aee) act for them as parameters. Delegates are called when a response is received from the server.
+The `XsollaAuth`, `XsollaCatalog`, `XsollaCart`, and `XsollaOrders` classes contain methods to refer to the `WebRequestHelper` class, which uses the standard [UnityWebRequest](https://docs.unity3d.com/ScriptReference/Networking.UnityWebRequest.html) class. Since the methods for API calls use coroutines for requests to Xsolla servers, [delegates](https://learn.unity.com/tutorial/delegates#5c894658edbc2a0d28f48aee) act for them as parameters. Delegates are called when a response is received from the server.
 
 <div style="background-color: #d9d9d9">
 	<p><strong>Example:</strong></p>
@@ -92,28 +71,4 @@ The SDK provides utility classes to work with Unity or third-party modules and s
 </p>
 </div>
 
-## Demo project module
 
-Demo project classes represent one of the possible logics for the login system, inventory, and in-game store. You can use the demo project in two ways:
-
-*   as an example
-*   as an initial version of the login system, inventory, and in-game store in order to get a quick result and expand its capabilities if necessary
-
-Most of the demo project module is the ordinary [MonoBehaviour](https://docs.unity3d.com/ru/current/ScriptReference/MonoBehaviour.html) classes that use the SDK:
-
-*   Page controllers.
-
-<div style="background-color: #d9d9d9">
-	<p><strong>Example:</strong></p>
-	<p>The <code>LoginPageController</code> manages the user's login page. It determines whether the user is authorized, and if not, it can display a sign-up page or a registration page.</p>
-</div>
-
-*   Classes for UI building and managing.
-
-<div style="background-color: #d9d9d9">
-	<p><strong>Example:</strong></p>
-	<p>The <code>CartControls</code> class builds a page with information about the cart data (e.g., the number of items to purchase) and counts and shows the total purchase price, etc.
-</p>
-</div>
-
-*   Classes for pop-up windows displaying various information to the user (e.g., successful purchase information or a field for entering a coupon).

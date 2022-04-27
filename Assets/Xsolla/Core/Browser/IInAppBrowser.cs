@@ -1,9 +1,19 @@
-﻿using System;
+using System;
 
 namespace Xsolla.Core
 {
 	public interface IInAppBrowser
 	{
+		event Action OpenEvent;
+
+		event Action CloseEvent;
+
+		event Action<string> UrlChangeEvent;
+		
+		event Action<string, Action> AlertDialogEvent;
+		
+		event Action<string, Action, Action> ConfirmDialogEvent;
+		
 		bool IsOpened { get; }
 		
 		void Open(string url);
