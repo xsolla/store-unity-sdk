@@ -136,21 +136,6 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Untagged
       objectReference: {fileID: 0}
-    - target: {fileID: 4996951075387888303, guid: 8a7604a292124488388498e3d582c635,
-        type: 3}
-      propertyPath: hoverStateSprite
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4996951075387888303, guid: 8a7604a292124488388498e3d582c635,
-        type: 3}
-      propertyPath: normalStateSprite
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4996951075387888303, guid: 8a7604a292124488388498e3d582c635,
-        type: 3}
-      propertyPath: pressedStateSprite
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 5777158178903229598, guid: 8a7604a292124488388498e3d582c635,
         type: 3}
       propertyPath: m_Text
@@ -519,21 +504,6 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Untagged
       objectReference: {fileID: 0}
-    - target: {fileID: 4996951075387888303, guid: 8a7604a292124488388498e3d582c635,
-        type: 3}
-      propertyPath: hoverStateSprite
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4996951075387888303, guid: 8a7604a292124488388498e3d582c635,
-        type: 3}
-      propertyPath: normalStateSprite
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4996951075387888303, guid: 8a7604a292124488388498e3d582c635,
-        type: 3}
-      propertyPath: pressedStateSprite
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 5777158178903229598, guid: 8a7604a292124488388498e3d582c635,
         type: 3}
       propertyPath: m_Text
@@ -751,26 +721,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4996951075387888303, guid: 8a7604a292124488388498e3d582c635,
-        type: 3}
-      propertyPath: image
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4996951075387888303, guid: 8a7604a292124488388498e3d582c635,
-        type: 3}
-      propertyPath: hoverStateSprite
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4996951075387888303, guid: 8a7604a292124488388498e3d582c635,
-        type: 3}
-      propertyPath: normalStateSprite
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4996951075387888303, guid: 8a7604a292124488388498e3d582c635,
-        type: 3}
-      propertyPath: pressedStateSprite
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 5777158178903229598, guid: 8a7604a292124488388498e3d582c635,
         type: 3}
       propertyPath: m_Text
@@ -819,38 +769,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8710963704733311453, guid: 8a7604a292124488388498e3d582c635,
         type: 3}
-      propertyPath: m_Pivot.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8710963704733311453, guid: 8a7604a292124488388498e3d582c635,
-        type: 3}
-      propertyPath: m_Pivot.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8710963704733311453, guid: 8a7604a292124488388498e3d582c635,
-        type: 3}
       propertyPath: m_RootOrder
       value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 8710963704733311453, guid: 8a7604a292124488388498e3d582c635,
-        type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8710963704733311453, guid: 8a7604a292124488388498e3d582c635,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8710963704733311453, guid: 8a7604a292124488388498e3d582c635,
-        type: 3}
-      propertyPath: m_AnchorMin.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8710963704733311453, guid: 8a7604a292124488388498e3d582c635,
-        type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8710963704733311453, guid: 8a7604a292124488388498e3d582c635,
         type: 3}
@@ -861,21 +781,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 55
-      objectReference: {fileID: 0}
-    - target: {fileID: 8710963704733311453, guid: 8a7604a292124488388498e3d582c635,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.0000046
-      objectReference: {fileID: 0}
-    - target: {fileID: 8710963704733311453, guid: 8a7604a292124488388498e3d582c635,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1.0000046
-      objectReference: {fileID: 0}
-    - target: {fileID: 8710963704733311453, guid: 8a7604a292124488388498e3d582c635,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1.0000046
       objectReference: {fileID: 0}
     - target: {fileID: 8710963704733311453, guid: 8a7604a292124488388498e3d582c635,
         type: 3}
@@ -891,26 +796,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8710963704733311453, guid: 8a7604a292124488388498e3d582c635,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8710963704733311453, guid: 8a7604a292124488388498e3d582c635,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8710963704733311453, guid: 8a7604a292124488388498e3d582c635,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8710963704733311453, guid: 8a7604a292124488388498e3d582c635,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8710963704733311453, guid: 8a7604a292124488388498e3d582c635,
         type: 3}
@@ -991,26 +876,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4996951075387888303, guid: 8a7604a292124488388498e3d582c635,
-        type: 3}
-      propertyPath: image
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4996951075387888303, guid: 8a7604a292124488388498e3d582c635,
-        type: 3}
-      propertyPath: hoverStateSprite
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4996951075387888303, guid: 8a7604a292124488388498e3d582c635,
-        type: 3}
-      propertyPath: normalStateSprite
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4996951075387888303, guid: 8a7604a292124488388498e3d582c635,
-        type: 3}
-      propertyPath: pressedStateSprite
-      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5777158178903229598, guid: 8a7604a292124488388498e3d582c635,
         type: 3}
@@ -1237,26 +1102,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4996951075387888303, guid: 8a7604a292124488388498e3d582c635,
-        type: 3}
-      propertyPath: image
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4996951075387888303, guid: 8a7604a292124488388498e3d582c635,
-        type: 3}
-      propertyPath: hoverStateSprite
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4996951075387888303, guid: 8a7604a292124488388498e3d582c635,
-        type: 3}
-      propertyPath: normalStateSprite
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4996951075387888303, guid: 8a7604a292124488388498e3d582c635,
-        type: 3}
-      propertyPath: pressedStateSprite
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 5777158178903229598, guid: 8a7604a292124488388498e3d582c635,
         type: 3}
       propertyPath: m_Text
@@ -1477,21 +1322,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4996951075387888303, guid: 8a7604a292124488388498e3d582c635,
-        type: 3}
-      propertyPath: hoverStateSprite
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4996951075387888303, guid: 8a7604a292124488388498e3d582c635,
-        type: 3}
-      propertyPath: normalStateSprite
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4996951075387888303, guid: 8a7604a292124488388498e3d582c635,
-        type: 3}
-      propertyPath: pressedStateSprite
-      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5777158178903229598, guid: 8a7604a292124488388498e3d582c635,
         type: 3}
@@ -1714,26 +1544,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4996951075387888303, guid: 8a7604a292124488388498e3d582c635,
-        type: 3}
-      propertyPath: image
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4996951075387888303, guid: 8a7604a292124488388498e3d582c635,
-        type: 3}
-      propertyPath: hoverStateSprite
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4996951075387888303, guid: 8a7604a292124488388498e3d582c635,
-        type: 3}
-      propertyPath: normalStateSprite
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4996951075387888303, guid: 8a7604a292124488388498e3d582c635,
-        type: 3}
-      propertyPath: pressedStateSprite
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 5777158178903229598, guid: 8a7604a292124488388498e3d582c635,
         type: 3}
       propertyPath: m_Text
@@ -1955,26 +1765,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4996951075387888303, guid: 8a7604a292124488388498e3d582c635,
-        type: 3}
-      propertyPath: image
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4996951075387888303, guid: 8a7604a292124488388498e3d582c635,
-        type: 3}
-      propertyPath: hoverStateSprite
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4996951075387888303, guid: 8a7604a292124488388498e3d582c635,
-        type: 3}
-      propertyPath: normalStateSprite
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4996951075387888303, guid: 8a7604a292124488388498e3d582c635,
-        type: 3}
-      propertyPath: pressedStateSprite
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 5777158178903229598, guid: 8a7604a292124488388498e3d582c635,
         type: 3}
       propertyPath: m_Text
@@ -2150,21 +1940,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -27.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3547370729128751038, guid: 8a7604a292124488388498e3d582c635,
-        type: 3}
-      propertyPath: m_Color.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3547370729128751038, guid: 8a7604a292124488388498e3d582c635,
-        type: 3}
-      propertyPath: m_Color.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3547370729128751038, guid: 8a7604a292124488388498e3d582c635,
-        type: 3}
-      propertyPath: m_Color.r
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3552198232811647689, guid: 8a7604a292124488388498e3d582c635,
         type: 3}
       propertyPath: m_Name
@@ -2174,21 +1949,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4996951075387888303, guid: 8a7604a292124488388498e3d582c635,
-        type: 3}
-      propertyPath: image
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4996951075387888303, guid: 8a7604a292124488388498e3d582c635,
-        type: 3}
-      propertyPath: hoverStateSprite
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4996951075387888303, guid: 8a7604a292124488388498e3d582c635,
-        type: 3}
-      propertyPath: pressedStateSprite
-      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5777158178903229598, guid: 8a7604a292124488388498e3d582c635,
         type: 3}
@@ -2395,21 +2155,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TagString
       value: Untagged
-      objectReference: {fileID: 0}
-    - target: {fileID: 4996951075387888303, guid: 8a7604a292124488388498e3d582c635,
-        type: 3}
-      propertyPath: hoverStateSprite
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4996951075387888303, guid: 8a7604a292124488388498e3d582c635,
-        type: 3}
-      propertyPath: normalStateSprite
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4996951075387888303, guid: 8a7604a292124488388498e3d582c635,
-        type: 3}
-      propertyPath: pressedStateSprite
-      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5777158178903229598, guid: 8a7604a292124488388498e3d582c635,
         type: 3}
@@ -2627,26 +2372,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4996951075387888303, guid: 8a7604a292124488388498e3d582c635,
-        type: 3}
-      propertyPath: image
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4996951075387888303, guid: 8a7604a292124488388498e3d582c635,
-        type: 3}
-      propertyPath: hoverStateSprite
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4996951075387888303, guid: 8a7604a292124488388498e3d582c635,
-        type: 3}
-      propertyPath: normalStateSprite
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4996951075387888303, guid: 8a7604a292124488388498e3d582c635,
-        type: 3}
-      propertyPath: pressedStateSprite
-      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5777158178903229598, guid: 8a7604a292124488388498e3d582c635,
         type: 3}

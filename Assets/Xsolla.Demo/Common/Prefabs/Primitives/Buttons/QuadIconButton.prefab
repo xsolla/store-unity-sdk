@@ -63,9 +63,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 0}
-  normalStateSprite: {fileID: 21300000, guid: 0e265dfc18fe543509aaa94589440c60, type: 3}
-  hoverStateSprite: {fileID: 21300000, guid: d5bfbb2f8f9054412b8486663f5a9f1b, type: 3}
-  pressedStateSprite: {fileID: 21300000, guid: 138d2d443648d4a2d8754b43fc0bb3f5, type: 3}
+  normalStateSprite: {fileID: 0}
+  hoverStateSprite: {fileID: 0}
+  pressedStateSprite: {fileID: 0}
 --- !u!114 &724900622245027519
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -108,6 +108,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _propertyId: eafe0aee-3dab-4935-9dc1-68e1e6bbb6be
+  _comp: {fileID: 724900622245027519}
   _pointerOverrider:
     _pointerEvents: {fileID: 0}
     _transitionMode: 0
@@ -115,7 +116,6 @@ MonoBehaviour:
     _hoverPropertyId: f59ef3aa-9cf9-4946-8de2-f203b773a004
     _isOverridePress: 0
     _pressPropertyId: f59ef3aa-9cf9-4946-8de2-f203b773a004
-  _comp: {fileID: 724900622245027519}
 --- !u!114 &6341075981915955074
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -129,6 +129,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _propertyId: e59ff61f-7047-4473-8b4d-4441b6d901e5
+  _comp: {fileID: 724900622245027519}
   _pointerOverrider:
     _pointerEvents: {fileID: 81407433067588584}
     _transitionMode: 1
@@ -136,7 +137,6 @@ MonoBehaviour:
     _hoverPropertyId: 4b755027-0140-42bc-b65d-6532545441c8
     _isOverridePress: 1
     _pressPropertyId: 1c6a09b6-2e70-455a-8053-ca6d8e5bd90f
-  _comp: {fileID: 724900622245027519}
 --- !u!114 &81407433067588584
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -213,7 +213,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: fc30e8140cbc6d54997f8fb72ab854aa, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 666731e1fee393a43a448b0ddc34ca67, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

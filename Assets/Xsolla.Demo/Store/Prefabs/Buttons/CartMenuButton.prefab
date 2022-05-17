@@ -66,7 +66,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 1e220e873967576489fed85a1d7a15d4, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 691b0d43f07bcb84dae0b17998a994be, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -302,9 +302,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 0}
-  normalStateSprite: {fileID: 21300000, guid: d9f94f6d907f04fca86f6f5086ce97f0, type: 3}
-  hoverStateSprite: {fileID: 21300000, guid: 464a9e4fa7f964a1ab4831ef6da17148, type: 3}
-  pressedStateSprite: {fileID: 21300000, guid: d9f94f6d907f04fca86f6f5086ce97f0, type: 3}
+  normalStateSprite: {fileID: 0}
+  hoverStateSprite: {fileID: 0}
+  pressedStateSprite: {fileID: 0}
   buttonText: {fileID: 0}
   counterText: {fileID: 2450111662633111686}
 --- !u!114 &9027387657576622123

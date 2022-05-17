@@ -60,9 +60,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 921315915576973306}
-  normalStateSprite: {fileID: 21300000, guid: b51ba205ca4cff94a96156a386a4122d, type: 3}
-  hoverStateSprite: {fileID: 21300000, guid: f171bc356e25af64e8b61ebea8a8519a, type: 3}
-  pressedStateSprite: {fileID: 21300000, guid: e0350dfc5e1a1044d9febd27e5d3791f, type: 3}
+  normalStateSprite: {fileID: 21300000, guid: fb6b6d58223e3a5488627367edfe38bf, type: 3}
+  hoverStateSprite: {fileID: 21300000, guid: f9dd0b96addc7e74998a61e451ff11b8, type: 3}
+  pressedStateSprite: {fileID: 21300000, guid: 64445c139f52ba448990470957f19db1, type: 3}
 --- !u!114 &7864096700362216819
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -140,7 +140,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b51ba205ca4cff94a96156a386a4122d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fb6b6d58223e3a5488627367edfe38bf, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -163,6 +163,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _propertyId: 21dc8235-80c2-4dd4-b5c6-40afe994b474
+  _comp: {fileID: 921315915576973306}
   _pointerOverrider:
     _pointerEvents: {fileID: 7864096700362216819}
     _transitionMode: 1
@@ -170,4 +171,3 @@ MonoBehaviour:
     _hoverPropertyId: 8a69aa1d-8a69-4fab-89ab-0b979e74df8c
     _isOverridePress: 0
     _pressPropertyId: 2a5a816b-0b34-4462-a11c-94ae69041b5d
-  _comp: {fileID: 921315915576973306}
