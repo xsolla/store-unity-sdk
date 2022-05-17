@@ -3,9 +3,9 @@
 namespace Xsolla.Subscriptions
 {
 	[Serializable]
-	public class SubscriptionItems
+	public class PlanItems
 	{
-		public SubscriptionItem[] items;
+		public PlanItem[] items;
 		public bool has_more;
 	}
 }

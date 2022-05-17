@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-using Xsolla.Subscriptions;
+using Xsolla.Inventory;
 
 namespace Xsolla.Demo
 {
@@ -19,7 +19,7 @@ namespace Xsolla.Demo
 			_items = new List<GameObject>();
 		}
 
-		public void AddItem(SubscriptionItem itemInformation)
+		public void AddItem(TimeLimitedItem itemInformation)
 		{
 			var newItem = Instantiate(itemPrefab, itemParent);
 			newItem.GetComponent<SubscriptionItemUI>().Initialize(itemInformation);

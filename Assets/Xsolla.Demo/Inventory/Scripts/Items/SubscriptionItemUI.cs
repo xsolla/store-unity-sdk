@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 using Xsolla.Core;
-using Xsolla.Subscriptions;
+using Xsolla.Inventory;
 
 namespace Xsolla.Demo
 {
@@ -21,9 +21,9 @@ namespace Xsolla.Demo
 		[SerializeField]
 		Text itemExpiration = default;
 
-		SubscriptionItem _itemInformation;
+		TimeLimitedItem _itemInformation;
 
-		public void Initialize(SubscriptionItem itemInformation)
+		public void Initialize(TimeLimitedItem itemInformation)
 		{
 			_itemInformation = itemInformation;
 
@@ -54,7 +54,7 @@ namespace Xsolla.Demo
 			ChangeImageUrl(_itemInformation);
 		}
 
-		private void ChangeImageUrl(SubscriptionItem itemInformation)
+		private void ChangeImageUrl(TimeLimitedItem itemInformation)
 		{
 			if (!string.IsNullOrEmpty(_itemInformation.image_url))
 				ImageLoader.Instance.GetImageAsync(_itemInformation.image_url, LoadImageCallback);
