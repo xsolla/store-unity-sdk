@@ -14,7 +14,7 @@ namespace Xsolla.Orders
 			if (trackers.ContainsKey(orderId))
 				return;
 
-			var orderTrackingData = CreateOrderTrackingData(projectId, orderId, onSuccess, onError);
+			var orderTrackingData = new OrderTrackingData(projectId,orderId,onSuccess,onError);
 			var tracker = CreateTracker(orderTrackingData);
 			StartTracker(tracker);
 		}
@@ -24,7 +24,7 @@ namespace Xsolla.Orders
 			if (trackers.ContainsKey(orderId))
 				return;
 
-			var orderTrackingData = CreateOrderTrackingData(projectId, orderId, onSuccess, onError);
+			var orderTrackingData = new OrderTrackingData(projectId,orderId,onSuccess,onError);
 			var tracker = new OrderTrackerByShortPolling(orderTrackingData, this);
 			StartTracker(tracker);
 		}
@@ -40,24 +40,14 @@ namespace Xsolla.Orders
 
 		private void StartTracker(OrderTracker tracker)
 		{
-			trackers.Add(tracker.trackingData.OrderId, tracker);
+			trackers.Add(tracker.trackingData.orderId, tracker);
 			tracker.Start();
 		}
 
 		public void ReplaceTracker(OrderTracker oldTracker, OrderTracker newTracker)
 		{
-			RemoveOrderFromTracking(oldTracker.trackingData.OrderId);
+			RemoveOrderFromTracking(oldTracker.trackingData.orderId);
 			StartTracker(newTracker);
-		}
-
-		private OrderTrackingData CreateOrderTrackingData(string projectId, int orderId, Action onSuccess = null, Action<Error> onError = null)
-		{
-			return new OrderTrackingData{
-				ProjectId = projectId,
-				OrderId = orderId,
-				SuccessCallback = onSuccess,
-				ErrorCallback = onError
-			};
 		}
 
 		private OrderTracker CreateTracker(OrderTrackingData trackingData)

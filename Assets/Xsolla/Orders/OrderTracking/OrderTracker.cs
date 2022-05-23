@@ -20,7 +20,7 @@ namespace Xsolla.Orders
 
 		protected void RemoveSelfFromTracking()
 		{
-			orderTracking.RemoveOrderFromTracking(trackingData.OrderId);
+			orderTracking.RemoveOrderFromTracking(trackingData.orderId);
 		}
 
 		protected void CheckOrderStatus(Action onDone = null, Action onCancel = null, Action<Error> onError = null)
@@ -32,15 +32,15 @@ namespace Xsolla.Orders
 				return;
 			}
 
-			var orderId = trackingData.OrderId;
+			var orderId = trackingData.orderId;
 			if (currentRequests.Contains(orderId)) // Prevent double check
 				return;
 
 			currentRequests.Add(orderId);
 
 			XsollaOrders.Instance.CheckOrderStatus(
-				trackingData.ProjectId,
-				trackingData.OrderId,
+				trackingData.projectId,
+				trackingData.orderId,
 				status =>
 				{
 					currentRequests.Remove(orderId);
