@@ -15,7 +15,27 @@ namespace Xsolla.Orders
 				return;
 
 			var orderTrackingData = new OrderTrackingData(projectId,orderId,onSuccess,onError);
-			var tracker = CreateTracker(orderTrackingData);
+#if UNITY_WEBGL
+			var tracker = (!Application.isEditor && XsollaSettings.InAppBrowserEnabled)
+				? (OrderTracker)new OrderTrackerByPaystationCallbacks(orderTrackingData, this)
+				: (OrderTracker)new OrderTrackerByShortPolling(orderTrackingData, this);
+#else
+			var tracker = new OrderTrackerByWebsockets(orderTrackingData, this);
+#endif
+			StartTracker(tracker);
+		}
+
+		public void AddVirtualCurrencyOrderForTracking(string projectId, int orderId, Action onSuccess = null, Action<Error> onError = null)
+		{
+			if (trackers.ContainsKey(orderId))
+				return;
+
+			var orderTrackingData = new OrderTrackingData(projectId,orderId,onSuccess,onError);
+#if UNITY_WEBGL
+			var tracker = new OrderTrackerByShortPolling(orderTrackingData, this);
+#else
+			var tracker = new OrderTrackerByWebsockets(orderTrackingData, this);
+#endif
 			StartTracker(tracker);
 		}
 
@@ -38,26 +58,16 @@ namespace Xsolla.Orders
 			trackers.Remove(orderId);
 		}
 
-		private void StartTracker(OrderTracker tracker)
-		{
-			trackers.Add(tracker.trackingData.orderId, tracker);
-			tracker.Start();
-		}
-
 		public void ReplaceTracker(OrderTracker oldTracker, OrderTracker newTracker)
 		{
 			RemoveOrderFromTracking(oldTracker.trackingData.orderId);
 			StartTracker(newTracker);
 		}
 
-		private OrderTracker CreateTracker(OrderTrackingData trackingData)
+		private void StartTracker(OrderTracker tracker)
 		{
-#if UNITY_WEBGL
-			if (!Application.isEditor && XsollaSettings.InAppBrowserEnabled)
-				return new OrderTrackerByPaystationCallbacks(trackingData, this);
-#endif
-
-			return new OrderTrackerByWebsockets(trackingData, this);
+			trackers.Add(tracker.trackingData.orderId, tracker);
+			tracker.Start();
 		}
 	}
 }
