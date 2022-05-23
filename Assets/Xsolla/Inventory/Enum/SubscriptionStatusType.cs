@@ -1,4 +1,4 @@
-namespace Xsolla.Subscriptions
+namespace Xsolla.Inventory
 {
 	public enum SubscriptionStatusType
 	{

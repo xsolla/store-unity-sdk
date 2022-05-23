@@ -5,11 +5,12 @@ using Xsolla.Core;
 
 namespace Xsolla.Inventory
 {
-	public partial class XsollaInventory : MonoSingleton<XsollaInventory>
+	public class XsollaInventory : MonoSingleton<XsollaInventory>
 	{
 		private const string URL_VIRTUAL_CURRENCY_BALANCE = Constants.BASE_STORE_API_URL + "/user/virtual_currency_balance";
 		private const string URL_INVENTORY_GET_ITEMS = Constants.BASE_STORE_API_URL + "/user/inventory/items";
 		private const string URL_INVENTORY_ITEM_CONSUME = Constants.BASE_STORE_API_URL + "/user/inventory/item/consume";
+		private const string URL_GET_TIME_LIMITED_ITEMS = Constants.BASE_STORE_API_URL + "/user/subscriptions";
 
 		/// <summary>
 		/// Returns balance for all virtual currencies.
@@ -72,6 +73,25 @@ namespace Xsolla.Inventory
 			WebRequestHelper.Instance.PostRequest(SdkType.Store, url, item, headers, onSuccess,
 				onError: error => TokenRefresh.Instance.CheckInvalidToken(error, onError, () => ConsumeInventoryItem(projectId, item, onSuccess, onError, platform)),
 				ErrorCheckType.ConsumeItemErrors);
+		}
+		
+		/// <summary>
+		/// Retrieves the current user’s time limited items.
+		/// </summary>
+		/// <remarks> Swagger method name:<c>Retrieves the current user’s time limited items.</c>.</remarks>
+		/// <see cref="https://developers.xsolla.com/store-api/inventory-client/get-user-subscriptions"/>
+		/// <param name="projectId">Project ID from your Publisher Account.</param>
+		/// <param name="onSuccess">Success operation callback.</param>
+		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="platform">Publishing platform the user plays on.</param>
+		public void GetTimeLimitedItems(string projectId, [NotNull] Action<TimeLimitedItems> onSuccess, [CanBeNull] Action<Error> onError, string platform = null)
+		{
+			var url = string.Format(URL_GET_TIME_LIMITED_ITEMS, projectId);
+			url = UrlParameterizer.ConcatUrlAndParams(url, platform: platform);
+
+			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, WebRequestHeader.AuthHeader(Token.Instance), onSuccess,
+				onError: error => TokenRefresh.Instance.CheckInvalidToken(error, onError, () => GetTimeLimitedItems(projectId, onSuccess, onError, platform)),
+				ErrorCheckType.ItemsListErrors);
 		}
 	}
 }

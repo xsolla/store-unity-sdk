@@ -117,6 +117,10 @@ namespace Xsolla.Core
 					sdkType = toUpper ? "STORE" : "store";
 					sdkVersion = Constants.StoreSdkVersion;
 					break;
+				case SdkType.Subscriptions:
+					sdkType = toUpper ? "SUBSCRIPTIONS" : "subscriptions";
+					sdkVersion = Constants.StoreSdkVersion;
+					break;
 				default:
 					Debug.LogError($"Unexpected analyticsType: '{analyticsType}'");
 					sdkType = string.Empty;
