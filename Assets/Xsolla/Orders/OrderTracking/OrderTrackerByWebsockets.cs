@@ -24,7 +24,7 @@ namespace Xsolla.Orders
 			if (!onMainThreadExecutor)
 				onMainThreadExecutor = orderTracking.gameObject.AddComponent<OnMainThreadExecutor>();
 
-			var url = string.Format(URL_PATTERN, trackingData.OrderId, trackingData.ProjectId);
+			var url = string.Format(URL_PATTERN, trackingData.orderId, trackingData.projectId);
 			webSocket = new WebSocket(url);
 			webSocket.SslConfiguration.EnabledSslProtocols = System.Security.Authentication.SslProtocols.Tls12;
 
@@ -72,7 +72,7 @@ namespace Xsolla.Orders
 					status.status,
 					onDone: () =>
 					{
-						trackingData.SuccessCallback?.Invoke();
+						trackingData.successCallback?.Invoke();
 						RemoveSelfFromTracking();
 					},
 					onCancel: RemoveSelfFromTracking

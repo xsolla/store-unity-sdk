@@ -26,13 +26,13 @@ namespace Xsolla.Orders
 			CheckOrderStatus(
 				onDone: () =>
 				{
-					trackingData.SuccessCallback?.Invoke();
+					trackingData.successCallback?.Invoke();
 					RemoveSelfFromTracking();
 				},
 				onCancel: RemoveSelfFromTracking,
 				onError: error =>
 				{
-					trackingData.ErrorCallback?.Invoke(error);
+					trackingData.errorCallback?.Invoke(error);
 					RemoveSelfFromTracking();
 				}
 			);
