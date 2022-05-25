@@ -111,22 +111,23 @@ namespace Xsolla.Core
 			{
 				case SdkType.Login:
 					sdkType = toUpper ? "LOGIN" : "login";
-					sdkVersion = Constants.SdkVersion;
 					break;
 				case SdkType.Store:
 					sdkType = toUpper ? "STORE" : "store";
-					sdkVersion = Constants.SdkVersion;
 					break;
 				case SdkType.Subscriptions:
 					sdkType = toUpper ? "SUBSCRIPTIONS" : "subscriptions";
-					sdkVersion = Constants.SdkVersion;
 					break;
 				default:
 					Debug.LogError($"Unexpected analyticsType: '{analyticsType}'");
 					sdkType = string.Empty;
-					sdkVersion = string.Empty;
 					break;
 			}
+
+			if (XsollaMarker.HasDemoPart)
+				sdkVersion = $"{Constants.SdkVersion}{(toUpper ? "_DEMO" : "_demo")}";
+			else
+				sdkVersion = Constants.SdkVersion;
 		}
 
 		private void GetUnityParameters(bool toUpper, out string engineVersion, out string buildPlatform)
