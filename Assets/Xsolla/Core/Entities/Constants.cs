@@ -2,8 +2,7 @@ namespace Xsolla.Core
 {
 	public static class Constants
 	{
-		public const string LoginSdkVersion = "1.0.0";
-		public const string StoreSdkVersion = "1.0.0";
+		public const string SdkVersion = "1.0.0";
 
 		public const string DEFAULT_PROJECT_ID = "77640";
 		public const string DEFAULT_LOGIN_ID = "026201e3-7e40-11ea-a85b-42010aa80004";
@@ -20,9 +19,6 @@ namespace Xsolla.Core
 		public const string SubscriptionsContainerName = "SUBSCRIPTIONS";
 		public const string AttributesContainerName = "ATTRIBUTES";
 		public const string EmptyContainerName = "EMPTY_CONTAINER";
-
-		public const float DefaultButtonRateLimitMs = 500.0F;
-		public const float LoginPageRateLimitMs = 1500.0F;
 
 		public const string INVENTORY_TUTORIAL_COMPLETED = "xsolla_inventory_tutorial_completion_flag";
 		public const string INVENTORY_TUTORIAL_HIGHLIGHT_TAG = "Highlight";
