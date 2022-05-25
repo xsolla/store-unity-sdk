@@ -33,12 +33,6 @@ namespace Xsolla.Tests
 						return;
 					}
 
-					if (!AreEqual(nameof(plans.items.Length), 2, plans.items.Length, ref errorMessage))
-					{
-						success = false;
-						return;
-					}
-
 					if (!AreEqual(nameof(plans.has_more), false, plans.has_more, ref errorMessage))
 					{
 						success = false;
