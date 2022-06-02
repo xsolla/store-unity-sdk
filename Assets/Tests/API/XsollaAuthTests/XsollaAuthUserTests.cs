@@ -1,5 +1,6 @@
 using System.Collections;
 using NUnit.Framework;
+using UnityEngine;
 using UnityEngine.TestTools;
 using Xsolla.Auth;
 using Xsolla.Core;
@@ -113,7 +114,7 @@ namespace Xsolla.Tests
 			});
 		}
 
-		//There is a limit for this request, so test only one arguments combination - high risk of request error because of backend rules otherwise
+		//There is a limit for this request, so test only one arguments combination - high risk of request error because of backend rules
 		[UnityTest]
 		public IEnumerator StartAuthByPhoneNumber_Success()
 		{
@@ -176,6 +177,124 @@ namespace Xsolla.Tests
 					onSuccess: () => TestHelper.Pass(testName),
 					onError: error => TestHelper.Fail(testName, error));
 			});
+		}
+
+		[UnityTest]
+		public IEnumerator ResetPassword_DefaultValues_Success()
+		{
+			yield return ResetPassword_TestCore(nameof(ResetPassword_DefaultValues_Success));
+		}
+
+		[UnityTest]
+		public IEnumerator ResetPassword_de_DE_Locale_Success()
+		{
+			yield return ResetPassword_TestCore(nameof(ResetPassword_de_DE_Locale_Success), locale:"de_DE");
+		}
+
+		private IEnumerator ResetPassword_TestCore(string testName, string redirectUri = null, string locale = null)
+		{
+			
+			var signInResult = default(TestSignInHelper.SignInResult);
+			yield return TestSignInHelper.Instance.SignIn(callback: result => signInResult = result);
+			yield return new WaitWhile(() => signInResult == null);
+
+			if (!signInResult.success || Token.Instance == null)
+				TestHelper.Fail(testName, signInResult);
+
+			var userEmail = default(string);
+			var getInfoError = default(Error);
+			var busy = true;
+			XsollaAuth.Instance.GetUserInfo(
+				token: Token.Instance,
+				onSuccess: userInfo =>
+				{
+					userEmail = userInfo?.email;
+					busy = false;
+				},
+				onError: error =>
+				{
+					getInfoError = error;
+					busy = false;
+				});
+
+			yield return new WaitWhile(() => busy);
+			if (getInfoError != null)
+			{
+				TestHelper.Fail(testName, getInfoError);
+				yield break;
+			}
+			if (userEmail == null)
+			{
+				TestHelper.Fail(testName, "UserEmail is NULL");
+				yield break;
+			}
+
+			XsollaAuth.Instance.ResetPassword(
+				email: userEmail,
+				redirectUri: redirectUri,
+				locale: locale,
+				onSuccess: () => TestHelper.Pass(testName),
+				onError: error => TestHelper.Fail(testName, error));
+		}
+
+		[UnityTest]
+		public IEnumerator ResendConfirmationLink_DefaultValues_Success()
+		{
+			yield return ResendConfirmationLink_TestCore(nameof(ResendConfirmationLink_DefaultValues_Success));
+		}
+
+		[UnityTest]
+		public IEnumerator ResendConfirmationLink_de_DE_Locale_Success()
+		{
+			yield return ResendConfirmationLink_TestCore(nameof(ResendConfirmationLink_de_DE_Locale_Success), locale:"de_DE");
+		}
+
+		private IEnumerator ResendConfirmationLink_TestCore(string testName, string redirectUri = null, string state = null, string payload = null, string locale = null)
+		{
+			
+			var signInResult = default(TestSignInHelper.SignInResult);
+			yield return TestSignInHelper.Instance.SignIn(callback: result => signInResult = result);
+			yield return new WaitWhile(() => signInResult == null);
+
+			if (!signInResult.success || Token.Instance == null)
+				TestHelper.Fail(testName, signInResult);
+
+			var userEmail = default(string);
+			var getInfoError = default(Error);
+			var busy = true;
+			XsollaAuth.Instance.GetUserInfo(
+				token: Token.Instance,
+				onSuccess: userInfo =>
+				{
+					userEmail = userInfo?.email;
+					busy = false;
+				},
+				onError: error =>
+				{
+					getInfoError = error;
+					busy = false;
+				});
+
+			yield return new WaitWhile(() => busy);
+			if (getInfoError != null)
+			{
+				TestHelper.Fail(testName, getInfoError);
+				yield break;
+			}
+			if (userEmail == null)
+			{
+				TestHelper.Fail(testName, "UserEmail is NULL");
+				yield break;
+			}
+
+			XsollaAuth.Instance.ResendConfirmationLink(
+				username: userEmail,
+				redirectUri: redirectUri,
+				state: state,
+				payload: payload,
+				locale: locale,
+				onSuccess: () => TestHelper.Pass(testName),
+				onError: error => TestHelper.Fail(testName, error));
 		}
 	}
 }
