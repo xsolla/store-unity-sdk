@@ -96,10 +96,6 @@ namespace Xsolla.Login
 			=> XsollaAuth.Instance.AuthWithSocialNetworkAccessToken(accessToken, accessTokenSecret, openId, providerName, payload, state, onSuccess, onError);
 
 		[Obsolete("Use XsollaAuth instead")]
-		public void GetUserAccessToken(AccessTokenAuthParams authParams, Action onSuccess, Action<Error> onError = null)
-			=> XsollaAuth.Instance.GetUserAccessToken(authParams, onSuccess, onError);
-
-		[Obsolete("Use XsollaAuth instead")]
 		public void OAuthLogout(string token, OAuthLogoutType sessions, Action onSuccess, Action<Error> onError = null)
 			=> XsollaAuth.Instance.OAuthLogout(token, sessions, onSuccess, onError);
 	}
