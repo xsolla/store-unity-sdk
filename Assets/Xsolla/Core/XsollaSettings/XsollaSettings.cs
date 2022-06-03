@@ -18,7 +18,6 @@ namespace Xsolla.Core
 		[SerializeField] public AuthorizationType authorizationType = AuthorizationType.OAuth2_0;
 		[SerializeField] private bool invalidateExistingSessions = default;
 		[SerializeField] public int oauthClientId = default;
-		[SerializeField] private string authServerUrl = "https://sdk.xsolla.com/";
 
 		[SerializeField] public string storeProjectId = Constants.DEFAULT_PROJECT_ID;
 		[SerializeField] private bool isSandbox = true;
@@ -136,16 +135,6 @@ namespace Xsolla.Core
 				}
 
 				Changed?.Invoke();
-			}
-		}
-
-		public static string AuthServerUrl
-		{
-			get => Instance.authServerUrl;
-			set
-			{
-				Instance.authServerUrl = value;
-				MarkAssetDirty();
 			}
 		}
 

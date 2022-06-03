@@ -490,24 +490,7 @@ namespace Xsolla.Auth
 
 			WebRequestHelper.Instance.PostRequest(SdkType.Login, url, requestData, onSuccess, onError, ErrorCheckType.LoginErrors);
 		}
-
-		/// <summary>
-		/// Gets user access token provided by game backend.
-		/// </summary>
-		/// <param name="authParams">Custom authentication parameters.</param>
-		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
-		public void GetUserAccessToken(AccessTokenAuthParams authParams, Action onSuccess, Action<Error> onError = null)
-		{
-			var url = string.Format(URL_GET_ACCESS_TOKEN, XsollaSettings.AuthServerUrl);
-
-			WebRequestHelper.Instance.PostRequest<AccessTokenResponse, Dictionary<string, object>>(SdkType.Login, url, authParams.parameters, response =>
-			{
-				Token.Instance = Token.Create(response.access_token);
-				onSuccess?.Invoke();
-			}, onError, ErrorCheckType.LoginErrors);
-		}
-
+		
 		/// <summary>
 		/// Logs the user out and deletes the user session.
 		/// </summary>

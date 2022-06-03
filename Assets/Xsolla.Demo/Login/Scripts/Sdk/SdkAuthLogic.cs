@@ -93,23 +93,7 @@ namespace Xsolla.Demo
 
 			XsollaAuth.Instance.SignIn(username, password, rememberUser, null, null, successCallback, onError);
 		}
-
-		public void AccessTokenAuth(string email, Action onSuccess, Action<Error> onError = null)
-		{
-			var authParams = new AccessTokenAuthParams()
-			{
-				parameters = new Dictionary<string, object>() { { "email", email } }
-			};
-
-			Action successCallback = () =>
-			{
-				onSuccess?.Invoke();
-				LoginEvent?.Invoke();
-			};
-
-			XsollaAuth.Instance.GetUserAccessToken(authParams, successCallback, onError);
-		}
-
+		
 		public void ResetPassword(string username, Action onSuccess = null, Action<Error> onError = null)
 		{
 			XsollaAuth.Instance.ResetPassword(username, null, onSuccess, onError);
