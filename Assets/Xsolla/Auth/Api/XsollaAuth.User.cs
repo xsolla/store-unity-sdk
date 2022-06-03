@@ -432,14 +432,14 @@ namespace Xsolla.Auth
 				var projectIdParam = XsollaSettings.LoginId;
 				var loginUrlParam = RedirectUtils.GetRedirectUrl(redirectUri);
 				var payloadParam = (!string.IsNullOrEmpty(payload)) ? $"&payload={payload}" : "";
-				var localeParam = (!string.IsNullOrEmpty(locale)) ? $"&locale={locale}" : "&locale=de_DE";
+				var localeParam = (!string.IsNullOrEmpty(locale)) ? $"&locale={locale}" : "";
 				url = string.Format(URL_JWT_RESEND_CONFIRMATION_LINK, projectIdParam, loginUrlParam, payloadParam, localeParam);
 			}
 			else/*if (XsollaSettings.AuthorizationType == AuthorizationType.OAuth2_0)*/
 			{
 				var stateParam = state ?? DEFAULT_OAUTH_STATE;
 				var redirectUriParam = RedirectUtils.GetRedirectUrl(redirectUri);
-				var localeParam = (!string.IsNullOrEmpty(locale)) ? $"&locale={locale}" : "&locale=de_DE";
+				var localeParam = (!string.IsNullOrEmpty(locale)) ? $"&locale={locale}" : "";
 				url = string.Format(URL_OAUTH_RESEND_CONFIRMATION_LINK, XsollaSettings.OAuthClientId, stateParam, redirectUriParam, localeParam);
 			}
 

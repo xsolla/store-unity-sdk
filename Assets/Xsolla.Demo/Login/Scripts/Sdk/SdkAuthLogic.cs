@@ -58,7 +58,8 @@ namespace Xsolla.Demo
 				RegistrationEvent?.Invoke();
 			};
 
-			XsollaAuth.Instance.Register(username, password, email, null, state, null, true, true, null, null, successCallback, onError);
+			XsollaAuth.Instance.Register(username, password, email,
+			oauthState:state, acceptConsent:true, promoEmailAgreement:true, onSuccess:successCallback, onError:onError);
 		}
 
 		public void Register(string username, string password, string email, string state = null, Action<int> onSuccess = null, Action<Error> onError = null)
@@ -69,7 +70,8 @@ namespace Xsolla.Demo
 				RegistrationEvent?.Invoke();
 			};
 
-			XsollaAuth.Instance.Register(username, password, email, null, state, null, true, true, null, null, successCallback, onError:onError);
+			XsollaAuth.Instance.Register(username, password, email,
+			oauthState:state, acceptConsent:true, promoEmailAgreement:true, onSuccess:successCallback, onError:onError);
 		}
 
 		public void Register(string username, string password, string email, string state = null, Action<LoginUrlResponse> onSuccess = null, Action<Error> onError = null)
@@ -80,7 +82,8 @@ namespace Xsolla.Demo
 				RegistrationEvent?.Invoke();
 			};
 
-			XsollaAuth.Instance.Register(username, password, email, null, state, null, true, true, null, null, successCallback, onError);
+			XsollaAuth.Instance.Register(username, password, email,
+			oauthState:state, acceptConsent:true, promoEmailAgreement:true, onSuccess:successCallback, onError:onError);
 		}
 
 		public void SignIn(string username, string password, bool rememberUser, Action<string> onSuccess, Action<Error> onError = null)
@@ -91,7 +94,7 @@ namespace Xsolla.Demo
 				LoginEvent?.Invoke();
 			};
 
-			XsollaAuth.Instance.SignIn(username, password, rememberUser, null, null, successCallback, onError);
+			XsollaAuth.Instance.SignIn(username, password, rememberUser, onSuccess:successCallback, onError:onError);
 		}
 
 		public void AccessTokenAuth(string email, Action onSuccess, Action<Error> onError = null)
@@ -112,12 +115,12 @@ namespace Xsolla.Demo
 
 		public void ResetPassword(string username, Action onSuccess = null, Action<Error> onError = null)
 		{
-			XsollaAuth.Instance.ResetPassword(username, null, onSuccess:onSuccess, onError:onError);
+			XsollaAuth.Instance.ResetPassword(username, onSuccess:onSuccess, onError:onError);
 		}
 
 		public void ResendConfirmationLink(string username, Action onSuccess = null, Action<Error> onError = null)
 		{
-			XsollaAuth.Instance.ResendConfirmationLink(username, null, null, null, onSuccess:onSuccess, onError:onError);
+			XsollaAuth.Instance.ResendConfirmationLink(username, onSuccess:onSuccess, onError:onError);
 		}
 		#endregion
 
@@ -130,7 +133,7 @@ namespace Xsolla.Demo
 				LoginEvent?.Invoke();
 			};
 
-			XsollaAuth.Instance.SilentAuth(providerName: providerName, appId: appId, sessionTicket: sessionTicket, oauthState: state, payload: null, onSuccess: successCallback, onError: onError);
+			XsollaAuth.Instance.SilentAuth(providerName: providerName, appId: appId, sessionTicket: sessionTicket, oauthState: state, onSuccess: successCallback, onError: onError);
 		}
 
 		public void AuthViaDeviceID(Core.DeviceType deviceType, string deviceName, string deviceId, string payload = null, string state = null, Action<string> onSuccess = null, Action<Error> onError = null)
