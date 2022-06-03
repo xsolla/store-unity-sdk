@@ -6,14 +6,14 @@ namespace Xsolla.Auth
 {
 	public partial class XsollaAuth : MonoSingleton<XsollaAuth>
 	{
-		private const string URL_JWT_USER_REGISTRATION = "https://login.xsolla.com/api/user?projectId={0}&login_url={1}{2}";
-		private const string URL_OAUTH_USER_REGISTRATION = "https://login.xsolla.com/api/oauth2/user?response_type=code&client_id={0}&state={1}&redirect_uri={2}";
+		private const string URL_JWT_USER_REGISTRATION = "https://login.xsolla.com/api/user?projectId={0}&login_url={1}{2}{3}";
+		private const string URL_OAUTH_USER_REGISTRATION = "https://login.xsolla.com/api/oauth2/user?response_type=code&client_id={0}&state={1}&redirect_uri={2}{3}";
 		private const string URL_JWT_USER_SIGNIN = "https://login.xsolla.com/api/login?projectId={0}&login_url={1}{2}&with_logout={3}";
 		private const string URL_OAUTH_USER_SIGNIN = "https://login.xsolla.com/api/oauth2/login/token?client_id={0}&scope=offline&redirect_uri={1}";
 		private const string URL_USER_INFO = "https://login.xsolla.com/api/users/me";
-		private const string URL_PASSWORD_RESET = "https://login.xsolla.com/api/password/reset/request?projectId={0}&login_url={1}";
-		private const string URL_JWT_RESEND_CONFIRMATION_LINK = "https://login.xsolla.com/api/user/resend_confirmation_link?projectId={0}&login_url={1}{2}";
-		private const string URL_OAUTH_RESEND_CONFIRMATION_LINK = "https://login.xsolla.com/api/oauth2/user/resend_confirmation_link?client_id={0}&state={1}&redirect_uri={2}";
+		private const string URL_PASSWORD_RESET = "https://login.xsolla.com/api/password/reset/request?projectId={0}&login_url={1}{2}";
+		private const string URL_JWT_RESEND_CONFIRMATION_LINK = "https://login.xsolla.com/api/user/resend_confirmation_link?projectId={0}&login_url={1}{2}{3}";
+		private const string URL_OAUTH_RESEND_CONFIRMATION_LINK = "https://login.xsolla.com/api/oauth2/user/resend_confirmation_link?client_id={0}&state={1}&redirect_uri={2}{3}";
 		private const string URL_JWT_USER_SOCIAL_NETWORK_TOKEN_AUTH = "https://login.xsolla.com/api/social/{0}/login_with_token?projectId={1}&payload={2}&with_logout={3}";
 		private const string URL_OAUTH_USER_SOCIAL_NETWORK_TOKEN_AUTH = "https://login.xsolla.com/api/oauth2/social/{0}/login_with_token?client_id={1}&response_type=code&redirect_uri={2}&state={3}&scope=offline";
 		private const string URL_GET_ACCESS_TOKEN = "{0}/login";
@@ -58,45 +58,48 @@ namespace Xsolla.Auth
 		/// <param name="acceptConsent">Whether the user gave consent to processing of their personal data.</param>
 		/// <param name="fields">Parameters used for extended registration form. To use this feature, please contact your Account Manager.</param>
 		/// <param name="promoEmailAgreement">User consent to receive the newsletter.</param>
+		/// <param name="locale">Defines localization of the email user receives.</param>
 		/// <param name="onSuccess">Success operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		/// <seealso cref="SignIn"/>
 		/// <seealso cref="ResetPassword"/>
-		public void Register(string username, string password, string email, string redirectUri = null, string state = null, string payload = null, bool? acceptConsent = null, bool? promoEmailAgreement = null, List<string> fields = null, Action<int> onSuccess = null, Action<Error> onError = null)
+		public void Register(string username, string password, string email, string redirectUri = null, string oauthState = null, string payload = null, bool? acceptConsent = null, bool? promoEmailAgreement = null, List<string> fields = null, string locale = null, Action<int> onSuccess = null, Action<Error> onError = null)
 		{
 			var registrationData = new RegistrationJson(username, password, email, acceptConsent, fields, promoEmailAgreement);
-			var url = GetRegistrationUrl(state, payload, redirectUri);
+			var url = GetRegistrationUrl(oauthState, payload, redirectUri, locale);
 			WebRequestHelper.Instance.PostRequest(SdkType.Login, url, registrationData, onSuccess, onError, ErrorCheckType.RegistrationErrors);
 		}
 
-		public void Register(string username, string password, string email, string redirectUri = null, string oauthState = null, string payload = null, bool? acceptConsent = null, bool? promoEmailAgreement = null, List<string> fields = null, Action onSuccess = null, Action<Error> onError = null)
+		public void Register(string username, string password, string email, string redirectUri = null, string oauthState = null, string payload = null, bool? acceptConsent = null, bool? promoEmailAgreement = null, List<string> fields = null, string locale = null, Action onSuccess = null, Action<Error> onError = null)
 		{
 			Action<int> onSuccessRegistration = _ => onSuccess?.Invoke();
-			Register(username, password, email, redirectUri, oauthState, payload, acceptConsent, promoEmailAgreement, fields, onSuccessRegistration, onError);
+			Register(username, password, email, redirectUri, oauthState, payload, acceptConsent, promoEmailAgreement, fields, locale, onSuccessRegistration, onError);
 		}
 
-		public void Register(string username, string password, string email, string redirectUri = null, string oauthState = null, string payload = null, bool? acceptConsent = null, bool? promoEmailAgreement = null, List<string> fields = null, Action<LoginUrlResponse> onSuccess = null, Action<Error> onError = null)
+		public void Register(string username, string password, string email, string redirectUri = null, string oauthState = null, string payload = null, bool? acceptConsent = null, bool? promoEmailAgreement = null, List<string> fields = null, string locale = null, Action<LoginUrlResponse> onSuccess = null, Action<Error> onError = null)
 		{
 			var registrationData = new RegistrationJson(username, password, email, acceptConsent, fields, promoEmailAgreement);
-			var url = GetRegistrationUrl(oauthState, payload, redirectUri);
+			var url = GetRegistrationUrl(oauthState, payload, redirectUri, locale);
 			WebRequestHelper.Instance.PostRequest(SdkType.Login, url, registrationData, onSuccess, onError, ErrorCheckType.RegistrationErrors);
 		}
 
-		private string GetRegistrationUrl(string oauthState = null, string payload = null, string redirectUri = null)
+		private string GetRegistrationUrl(string oauthState = null, string payload = null, string redirectUri = null, string locale = null)
 		{
 			if (XsollaSettings.AuthorizationType == AuthorizationType.JWT)
 			{
 				var projectIdParam = XsollaSettings.LoginId;
-				var loginUrlParam = RedirectUtils.GetRedirectUrl(redirectUri);
 				var payloadParam = (!string.IsNullOrEmpty(payload)) ? $"&payload={payload}" : "";
-				return string.Format(URL_JWT_USER_REGISTRATION, projectIdParam, loginUrlParam, payloadParam);
+				var loginUrlParam = RedirectUtils.GetRedirectUrl(redirectUri);
+				var localeParam = (!string.IsNullOrEmpty(locale)) ? $"&locale={locale}" : "";
+				return string.Format(URL_JWT_USER_REGISTRATION, projectIdParam, loginUrlParam, payloadParam, localeParam);
 			}
 			else /*if (XsollaSettings.AuthorizationType == AuthorizationType.OAuth2_0)*/
 			{
 				var clientIdParam = XsollaSettings.OAuthClientId;
 				var stateParam = (!string.IsNullOrEmpty(oauthState)) ? oauthState : DEFAULT_OAUTH_STATE;
 				var redirectUriParam = RedirectUtils.GetRedirectUrl(redirectUri);
-				return string.Format(URL_OAUTH_USER_REGISTRATION, clientIdParam, stateParam, redirectUriParam);
+				var localeParam = (!string.IsNullOrEmpty(locale)) ? $"&locale={locale}" : "";
+				return string.Format(URL_OAUTH_USER_REGISTRATION, clientIdParam, stateParam, redirectUriParam, localeParam);
 			}
 		}
 
@@ -391,13 +394,15 @@ namespace Xsolla.Auth
 		/// To find it, go to Login > your Login project > General settings. Required if there are several Callback URLs.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="locale">Defines localization of the email user receives.</param>
 		/// <seealso cref="Registration"/>
 		/// <seealso cref="SignIn"/>
-		public void ResetPassword(string email, string redirectUri = null, Action onSuccess = null, Action<Error> onError = null)
+		public void ResetPassword(string email, string redirectUri = null, string locale = null, Action onSuccess = null, Action<Error> onError = null)
 		{
 			var projectIdParam = XsollaSettings.LoginId;
 			var loginUrlParam = RedirectUtils.GetRedirectUrl(redirectUri);
-			var url = string.Format(URL_PASSWORD_RESET, projectIdParam, loginUrlParam);
+			var localeParam = (!string.IsNullOrEmpty(locale)) ? $"&locale={locale}" : "";
+			var url = string.Format(URL_PASSWORD_RESET, projectIdParam, loginUrlParam, localeParam);
 
 			WebRequestHelper.Instance.PostRequest(SdkType.Login, url, new ResetPassword(email), onSuccess, onError, ErrorCheckType.ResetPasswordErrors);
 		}
@@ -414,11 +419,12 @@ namespace Xsolla.Auth
 		/// To find it, go to Login > your Login project > General settings. Required if there are several Callback URLs.</param>
 		/// <param name="state">Value used for additional user verification. Often used to mitigate CSRF Attacks. The value will be returned in the response. Must be longer than 8 symbols. Used only for OAuth2.0 auth.</param> 
 		/// <param name="payload">Your custom data. The value of the parameter will be returned in the payload claim of the user JWT. Used only for JWT auth.</param>
+		/// <param name="locale">Defines localization of the email user receives.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		/// <seealso cref="Registration"/>
 		/// <seealso cref="SignIn"/>
-		public void ResendConfirmationLink(string username, string redirectUri = null, string state = null, string payload = null, Action onSuccess = null, Action<Error> onError = null)
+		public void ResendConfirmationLink(string username, string redirectUri = null, string state = null, string payload = null, string locale = null, Action onSuccess = null, Action<Error> onError = null)
 		{
 			string url;
 			if (XsollaSettings.AuthorizationType == AuthorizationType.JWT)
@@ -426,13 +432,15 @@ namespace Xsolla.Auth
 				var projectIdParam = XsollaSettings.LoginId;
 				var loginUrlParam = RedirectUtils.GetRedirectUrl(redirectUri);
 				var payloadParam = (!string.IsNullOrEmpty(payload)) ? $"&payload={payload}" : "";
-				url = string.Format(URL_JWT_RESEND_CONFIRMATION_LINK, projectIdParam, loginUrlParam, payloadParam);
+				var localeParam = (!string.IsNullOrEmpty(locale)) ? $"&locale={locale}" : "";
+				url = string.Format(URL_JWT_RESEND_CONFIRMATION_LINK, projectIdParam, loginUrlParam, payloadParam, localeParam);
 			}
 			else/*if (XsollaSettings.AuthorizationType == AuthorizationType.OAuth2_0)*/
 			{
 				var stateParam = state ?? DEFAULT_OAUTH_STATE;
 				var redirectUriParam = RedirectUtils.GetRedirectUrl(redirectUri);
-				url = string.Format(URL_OAUTH_RESEND_CONFIRMATION_LINK, XsollaSettings.OAuthClientId, stateParam, redirectUriParam);
+				var localeParam = (!string.IsNullOrEmpty(locale)) ? $"&locale={locale}" : "";
+				url = string.Format(URL_OAUTH_RESEND_CONFIRMATION_LINK, XsollaSettings.OAuthClientId, stateParam, redirectUriParam, localeParam);
 			}
 
 			WebRequestHelper.Instance.PostRequest(SdkType.Login, url, new ResendConfirmationLinkRequest(username), onSuccess, onError);
