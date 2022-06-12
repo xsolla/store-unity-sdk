@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Xsolla.Core
 {
 	public class TokenRefresh : MonoSingleton<TokenRefresh>
-    {
+	{
 		private string _refreshToken;
 
 		public string RefreshToken
@@ -39,5 +39,5 @@ namespace Xsolla.Core
 				onErrorCallback?.Invoke(error);
 			}
 		}
-    }
+	}
 }

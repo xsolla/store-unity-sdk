@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Runtime.CompilerServices;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
@@ -8,7 +9,7 @@ using Xsolla.Core;
 namespace Xsolla.Tests
 {
 	public class XsollaAuthUserTests
-    {
+	{
 		[SetUp]
 		[TearDown]
 		public void Setup()
@@ -21,189 +22,157 @@ namespace Xsolla.Tests
 		public IEnumerator SignIn_JWT_Success()
 		{
 			XsollaSettings.AuthorizationType = AuthorizationType.JWT;
-			yield return TestSignInHelper.Instance.SignIn(callback: result =>
-			{
-				var testName = nameof(SignIn_JWT_Success);
-
-				if (result.success)
-				{
-					if (Token.Instance != null)
-						TestHelper.Pass(testName);
-					else
-						TestHelper.Fail(testName, "TOKEN IS NULL");
-				}
-				else
-					TestHelper.Fail(testName, result);
-			});
+			yield return SignIn();
 		}
 
 		[UnityTest]
 		public IEnumerator SignIn_OAuth_Success()
 		{
-			yield return TestSignInHelper.Instance.SignIn(callback: result =>
-			{
-				var testName = nameof(SignIn_OAuth_Success);
-
-				if (result.success)
-				{
-					if (Token.Instance != null)
-						TestHelper.Pass(testName);
-					else
-						TestHelper.Fail(testName, "TOKEN IS NULL");
-				}
-				else
-					TestHelper.Fail(testName, result);
-			});
+			yield return SignIn();
 		}
 
 		[UnityTest]
 		public IEnumerator SignIn_JWT_IncorrectData_Failure()
 		{
 			XsollaSettings.AuthorizationType = AuthorizationType.JWT;
-			yield return TestSignInHelper.Instance.SignIn("k4TCNgHs", "k4TCNgHs", result =>
-			{
-				var testName = nameof(SignIn_JWT_IncorrectData_Failure);
-
-				if (!result.success)
-					TestHelper.Pass(testName, result);
-				else
-					TestHelper.Fail(testName);
-			});
+			yield return SignIn(login:"k4TCNgHs", password:"k4TCNgHs", isSuccessExpected: false);
 		}
 
 		[UnityTest]
 		public IEnumerator SignIn_OAuth_IncorrectData_Failure()
 		{
-			yield return TestSignInHelper.Instance.SignIn("k4TCNgHs", "k4TCNgHs", result =>
-			{
-				var testName = nameof(SignIn_OAuth_IncorrectData_Failure);
+			yield return SignIn(login:"k4TCNgHs", password:"k4TCNgHs", isSuccessExpected: false);
+		}
 
-				if (!result.success)
-					TestHelper.Pass(testName, result);
-				else
-					TestHelper.Fail(testName);
-			});
+		private IEnumerator SignIn([CallerMemberName] string testName = null, string login = "xsolla", string password = "xsolla", bool isSuccessExpected = true)
+		{
+			TestSignInHelper.SignInResult signInResult = null;
+
+			yield return TestSignInHelper.Instance.SignIn(login, password, result => signInResult = result);
+			yield return new WaitUntil(() => signInResult != null);
+
+			if (signInResult.success == isSuccessExpected)
+				TestHelper.Pass(signInResult,testName);
+			else
+				TestHelper.Fail(signInResult,testName);
 		}
 
 		[UnityTest]
 		public IEnumerator GetUserInfo_Success()
 		{
-			yield return TestSignInHelper.Instance.SignIn(callback: result =>
-			{
-				var testName = nameof(GetUserInfo_Success);
+			yield return TestSignInHelper.Instance.CheckSession();
 
-				if (!result.success || Token.Instance == null)
+			bool? success = null;
+			Error getInfoError = null;
+
+			XsollaAuth.Instance.GetUserInfo(
+				token: Token.Instance,
+				onSuccess: userInfo => success = userInfo != null,
+				onError: error =>
 				{
-					TestHelper.Fail(testName, result);
-					return;
-				}
+					success = false;
+					getInfoError = error;
+				});
+			
+			yield return new WaitUntil(() => success.HasValue);
 
-				XsollaAuth.Instance.GetUserInfo(
-					token: Token.Instance,
-					onSuccess: userInfo =>
-					{
-						if (userInfo != null)
-							TestHelper.Pass(testName, userInfo?.email ?? "EMPTY EMAIL");
-						else
-							TestHelper.Fail(testName, "userInfo is NULL");
-					},
-					onError: error =>
-					{
-						TestHelper.Fail(testName, error);
-					});
-			});
+			if (success.Value)
+				TestHelper.Pass();
+			else
+				TestHelper.Fail(getInfoError);
 		}
 
 		//There is a limit for this request, so test only one arguments combination - high risk of request error because of backend rules
 		[UnityTest]
 		public IEnumerator StartAuthByPhoneNumber_Success()
 		{
-			yield return TestSignInHelper.Instance.SignIn(callback: result =>
-			{
-				var testName = nameof(StartAuthByPhoneNumber_Success);
+			bool? success = null;
+			string operationID = null;
+			Error startAuthError = null;
 
-				if (!result.success || Token.Instance == null)
+			XsollaAuth.Instance.StartAuthByPhoneNumber(
+				phoneNumber: "+79008007060",
+				linkUrl: null,
+				sendLink: false,
+				onSuccess: opID =>
 				{
-					TestHelper.Fail(testName, result);
-					return;
-				}
+					operationID = opID;
+					success = true;
+				},
+				onError: error =>
+				{
+					startAuthError = error;
+					success = false;
+				});
 
-				XsollaAuth.Instance.StartAuthByPhoneNumber(
-					phoneNumber: "+79008007060",
-					linkUrl: null,
-					sendLink: false,
-					onSuccess: operationID => TestHelper.Pass(testName, operationID),
-					onError: error => TestHelper.Fail(testName, error));
-			});
+			yield return new WaitUntil(() => success.HasValue);
+
+			if (success.Value)
+				TestHelper.Pass(additionalInfo: operationID);
+			else
+				TestHelper.Fail(error: startAuthError);
 		}
 
 		[UnityTest]
 		public IEnumerator OAuthLogout_Sso_Success()
 		{
-			yield return TestSignInHelper.Instance.SignIn(callback: result =>
-			{
-				var testName = nameof(OAuthLogout_Sso_Success);
-
-				if (!result.success || Token.Instance == null)
-				{
-					TestHelper.Fail(testName, result);
-					return;
-				}
-
-				XsollaAuth.Instance.OAuthLogout(
-					token: Token.Instance,
-					sessions: OAuthLogoutType.Sso,
-					onSuccess: () => TestHelper.Pass(testName),
-					onError: error => TestHelper.Fail(testName, error));
-			});
+			yield return OAuthLogout(logoutType: OAuthLogoutType.Sso);
 		}
 
 		[UnityTest]
 		public IEnumerator OAuthLogout_All_Success()
 		{
-			yield return TestSignInHelper.Instance.SignIn(callback: result =>
-			{
-				var testName = nameof(OAuthLogout_All_Success);
+			yield return OAuthLogout(logoutType: OAuthLogoutType.All);
+		}
 
-				if (!result.success || Token.Instance == null)
+		private IEnumerator OAuthLogout([CallerMemberName]string testName = null, OAuthLogoutType logoutType = OAuthLogoutType.All)
+		{
+			yield return TestSignInHelper.Instance.CheckSession();
+
+			bool? success = null;
+			Error getInfoError = null;
+
+			XsollaAuth.Instance.OAuthLogout(
+				token: Token.Instance,
+				sessions: logoutType,
+				onSuccess: () => success = true,
+				onError: error =>
 				{
-					TestHelper.Fail(testName, result);
-					return;
-				}
+					success = false;
+					getInfoError = error;
+				});
+			
+			yield return new WaitUntil(() => success.HasValue);
 
-				XsollaAuth.Instance.OAuthLogout(
-					token: Token.Instance,
-					sessions: OAuthLogoutType.All,
-					onSuccess: () => TestHelper.Pass(testName),
-					onError: error => TestHelper.Fail(testName, error));
-			});
+			if (success.Value)
+			{
+				TestHelper.Pass(testName);
+				Token.Instance = null;
+			}
+			else
+				TestHelper.Fail(getInfoError, testName);
 		}
 
 		[UnityTest]
 		public IEnumerator ResetPassword_DefaultValues_Success()
 		{
-			yield return ResetPassword_TestCore(nameof(ResetPassword_DefaultValues_Success));
+			yield return ResetPassword();
 		}
 
 		[UnityTest]
 		public IEnumerator ResetPassword_de_DE_Locale_Success()
 		{
-			yield return ResetPassword_TestCore(nameof(ResetPassword_de_DE_Locale_Success), locale:"de_DE");
+			yield return ResetPassword(locale:"de_DE");
 		}
 
-		private IEnumerator ResetPassword_TestCore(string testName, string redirectUri = null, string locale = null)
+		private IEnumerator ResetPassword([CallerMemberName]string testName = null, string redirectUri = null, string locale = null)
 		{
-			
-			var signInResult = default(TestSignInHelper.SignInResult);
-			yield return TestSignInHelper.Instance.SignIn(callback: result => signInResult = result);
-			yield return new WaitWhile(() => signInResult == null);
+			yield return TestSignInHelper.Instance.CheckSession();
 
-			if (!signInResult.success || Token.Instance == null)
-				TestHelper.Fail(testName, signInResult);
+			string userEmail = null;
+			Error getInfoError = null;
+			bool busy = true;
 
-			var userEmail = default(string);
-			var getInfoError = default(Error);
-			var busy = true;
 			XsollaAuth.Instance.GetUserInfo(
 				token: Token.Instance,
 				onSuccess: userInfo =>
@@ -220,48 +189,57 @@ namespace Xsolla.Tests
 			yield return new WaitWhile(() => busy);
 			if (getInfoError != null)
 			{
-				TestHelper.Fail(testName, getInfoError);
+				TestHelper.Fail(getInfoError, testName);
 				yield break;
 			}
 			if (userEmail == null)
 			{
-				TestHelper.Fail(testName, "UserEmail is NULL");
+				TestHelper.Fail("UserEmail is NULL", testName);
 				yield break;
 			}
+
+			bool? success = null;
+			Error resetPasswordError = null;
 
 			XsollaAuth.Instance.ResetPassword(
 				email: userEmail,
 				redirectUri: redirectUri,
 				locale: locale,
-				onSuccess: () => TestHelper.Pass(testName),
-				onError: error => TestHelper.Fail(testName, error));
+				onSuccess: () => success = true,
+				onError: error => 
+				{
+					resetPasswordError = error;
+					success = false;
+				});
+
+			yield return new WaitUntil(() => success.HasValue);
+
+			if (success.Value)
+				TestHelper.Pass();
+			else
+				TestHelper.Fail(error: resetPasswordError);
 		}
 
 		[UnityTest]
 		public IEnumerator ResendConfirmationLink_DefaultValues_Success()
 		{
-			yield return ResendConfirmationLink_TestCore(nameof(ResendConfirmationLink_DefaultValues_Success));
+			yield return ResendConfirmationLink();
 		}
 
 		[UnityTest]
 		public IEnumerator ResendConfirmationLink_de_DE_Locale_Success()
 		{
-			yield return ResendConfirmationLink_TestCore(nameof(ResendConfirmationLink_de_DE_Locale_Success), locale:"de_DE");
+			yield return ResendConfirmationLink(locale:"de_DE");
 		}
 
-		private IEnumerator ResendConfirmationLink_TestCore(string testName, string redirectUri = null, string state = null, string payload = null, string locale = null)
+		private IEnumerator ResendConfirmationLink([CallerMemberName]string testName = null, string redirectUri = null, string state = null, string payload = null, string locale = null)
 		{
-			
-			var signInResult = default(TestSignInHelper.SignInResult);
-			yield return TestSignInHelper.Instance.SignIn(callback: result => signInResult = result);
-			yield return new WaitWhile(() => signInResult == null);
+			yield return TestSignInHelper.Instance.CheckSession();
 
-			if (!signInResult.success || Token.Instance == null)
-				TestHelper.Fail(testName, signInResult);
+			string userEmail = null;
+			Error getInfoError = null;
+			bool busy = true;
 
-			var userEmail = default(string);
-			var getInfoError = default(Error);
-			var busy = true;
 			XsollaAuth.Instance.GetUserInfo(
 				token: Token.Instance,
 				onSuccess: userInfo =>
@@ -278,14 +256,17 @@ namespace Xsolla.Tests
 			yield return new WaitWhile(() => busy);
 			if (getInfoError != null)
 			{
-				TestHelper.Fail(testName, getInfoError);
+				TestHelper.Fail(getInfoError, testName);
 				yield break;
 			}
 			if (userEmail == null)
 			{
-				TestHelper.Fail(testName, "UserEmail is NULL");
+				TestHelper.Fail("UserEmail is NULL", testName);
 				yield break;
 			}
+
+			bool? success = null;
+			Error resendLinkError = null;
 
 			XsollaAuth.Instance.ResendConfirmationLink(
 				username: userEmail,
@@ -293,8 +274,19 @@ namespace Xsolla.Tests
 				state: state,
 				payload: payload,
 				locale: locale,
-				onSuccess: () => TestHelper.Pass(testName),
-				onError: error => TestHelper.Fail(testName, error));
+				onSuccess: () => success = true,
+				onError: error => 
+				{
+					resendLinkError = error;
+					success = false;
+				});
+
+			yield return new WaitUntil(() => success.HasValue);
+
+			if (success.Value)
+				TestHelper.Pass();
+			else
+				TestHelper.Fail(error: resendLinkError);
 		}
 	}
 }
