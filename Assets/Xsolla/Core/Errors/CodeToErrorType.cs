@@ -60,6 +60,7 @@ namespace Xsolla.Core
 				case ErrorCheckType.CreateCartErrors:
 					switch (code)
 					{
+						case "401":
 						case "403": { errorType = ErrorType.InvalidToken; }; break;
 						case "404": { errorType = ErrorType.UserNotFound; }; break;
 						case "422": { errorType = ErrorType.InvalidData; }; break;
@@ -71,6 +72,7 @@ namespace Xsolla.Core
 				case ErrorCheckType.DeleteFromCartErrors:
 					switch (code)
 					{
+						case "401":
 						case "403": { errorType = ErrorType.InvalidToken; }; break;
 						case "404": { errorType = ErrorType.CartNotFound; }; break;
 						case "422": { errorType = ErrorType.InvalidData; }; break;

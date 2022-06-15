@@ -254,5 +254,87 @@ namespace Xsolla.Tests
 			else
 				TestHelper.Fail(errorMessage, testName);
 		}
+
+		[UnityTest]
+		public IEnumerator GetTimeLimitedItems_DefaultValues_Success()
+		{
+			yield return GetTimeLimitedItems(defaultValues: true);
+		}
+
+		[UnityTest]
+		public IEnumerator GetTimeLimitedItems_Parametrized_Success()
+		{
+			yield return GetTimeLimitedItems(defaultValues: false);
+		}
+
+		[UnityTest]
+		public IEnumerator GetTimeLimitedItems_DefaultValues_InvalidToken_Success()
+		{
+			yield return TestSignInHelper.Instance.SetOldToken();
+			yield return GetTimeLimitedItems(defaultValues: true);
+		}
+
+		private IEnumerator GetTimeLimitedItems([CallerMemberName]string testName = null, bool defaultValues = true)
+		{
+			yield return TestSignInHelper.Instance.CheckSession();
+
+			bool? success = default;
+			string errorMessage = default;
+
+			Action<TimeLimitedItems> onSuccess = items =>
+			{
+				if (items == null)
+				{
+					errorMessage = "CONTAINER IS NULL";
+					success = false;
+					return;
+				}
+
+				if (items.items == null)
+				{
+					errorMessage = "NESTED CONTAINER IS NULL";
+					success = false;
+					return;
+				}
+
+				if (items.items.Length == 0)
+				{
+					errorMessage = "NESTED CONTAINER IS EMPTY";
+					success = false;
+					return;
+				}
+
+				success = true;
+			};
+
+			Action<Error> onError = error =>
+			{
+				errorMessage = error?.errorMessage ?? "ERROR IS NULL";
+				success = false;
+			};
+
+			if (defaultValues)
+			{
+				XsollaInventory.Instance.GetTimeLimitedItems(
+					projectId: XsollaSettings.StoreProjectId,
+					onSuccess: onSuccess,
+					onError: onError);
+			}
+			else
+			{
+				XsollaInventory.Instance.GetTimeLimitedItems(
+					projectId: XsollaSettings.StoreProjectId,
+					onSuccess: onSuccess,
+					onError: onError,
+					platform: "xsolla");
+			}
+
+			yield return new WaitUntil(() => success.HasValue);
+
+			if (success.Value)
+				TestHelper.Pass(testName);
+			else
+				TestHelper.Fail(errorMessage, testName);
+		}
 	}
 }
