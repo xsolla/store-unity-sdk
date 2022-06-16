@@ -5,9 +5,9 @@
 - ‘locale’ argument for email sending methods
 ### Fixed
 - WebGL virtual currency purchase
-- Demo: Resources optimized
+- Resource optimization for demo
 ### Removed
-- Custom access token auth
+- Custom access token authentication
 
 ## [1.0.0] - 2022-04-20
 ### Added
