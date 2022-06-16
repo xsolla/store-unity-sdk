@@ -4,7 +4,6 @@ using System.Linq;
 using Xsolla.Catalog;
 using Xsolla.Core;
 using Xsolla.Inventory;
-using Xsolla.Subscriptions;
 
 namespace Xsolla.Demo
 {
@@ -50,7 +49,7 @@ namespace Xsolla.Demo
 
 		public void GetUserSubscriptions(Action<List<UserSubscriptionModel>> onSuccess, Action<Error> onError = null)
 		{
-			XsollaSubscriptions.Instance.GetSubscriptions(XsollaSettings.StoreProjectId, items =>
+			XsollaInventory.Instance.GetTimeLimitedItems(XsollaSettings.StoreProjectId, items =>
 			{
 				var subscriptionItems = items.items.Select(i => new UserSubscriptionModel
 				{

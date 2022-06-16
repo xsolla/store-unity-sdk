@@ -2,6 +2,6 @@ namespace Xsolla.Core
 {
 	public enum SdkType
 	{
-		None, Login, Store
+		None, Login, Store, Subscriptions
 	}
 }

@@ -1,43 +1,43 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Newtonsoft.Json;
+﻿using System;
 
 namespace Xsolla.Subscriptions
 {
 	[Serializable]
 	public class SubscriptionItem
 	{
-		static readonly Dictionary<string, SubscriptionStatusType> StatusTypes =
-			new Dictionary<string, SubscriptionStatusType>()
-			{
-				{"none", SubscriptionStatusType.None},
-				{"active", SubscriptionStatusType.Active},
-				{"expired", SubscriptionStatusType.Expired}
-			};
-
-		public string sku;
-		public string name;
-		public string type;
-		public string description;
-		public string image_url;
+		public int id;
+		public int plan_id;
+		public string plan_external_id;
+		public string plan_name;
+		public string plan_description;
+		public DateTime? plan_start_date;
+		public DateTime? plan_end_date;
+		public int? product_id;
+		public string product_external_id;
+		public string product_name;
+		public string product_description;
 		public string status;
-		public long? expired_at;
-		public string virtual_item_type;
+		public bool is_in_trial;
+		public int? trial_period;
+		public DateTime date_create;
+		public DateTime? date_next_charge;
+		public DateTime? date_last_charge;
+		public SubscriptionCharge charge;
+		public Period period;
 
-		[JsonProperty("class")]
-		public string subscription_class;
-		
-		public SubscriptionStatusType Status
+		public SubscriptionStatus Status
 		{
 			get
 			{
-				if (StatusTypes.Keys.Contains(status))
+				switch (status)
 				{
-					return StatusTypes[status];
+					case "new": return SubscriptionStatus.New;
+					case "active": return SubscriptionStatus.Active;
+					case "canceled": return SubscriptionStatus.Canceled;
+					case "non_renewing": return SubscriptionStatus.NonRenewing;
+					case "pause": return SubscriptionStatus.Pause;
+					default: return SubscriptionStatus.Unknown;
 				}
-
-				return SubscriptionStatusType.None;
 			}
 		}
 	}

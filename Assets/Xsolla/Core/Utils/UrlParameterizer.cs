@@ -2,8 +2,8 @@ using System.Text;
 
 namespace Xsolla.Core
 {
-    public static class UrlParameterizer
-    {
+	public static class UrlParameterizer
+	{
 		public static string GetLimitUrlParam(int? limit)
 		{
 			if (limit.HasValue)
@@ -40,7 +40,7 @@ namespace Xsolla.Core
 		{
 			if (string.IsNullOrEmpty(platform))
 				return string.Empty;
-			
+
 			return $"&platform={platform}";
 		}
 
@@ -79,6 +79,38 @@ namespace Xsolla.Core
 				else
 				{
 					builder.Append(param);
+				}
+			}
+
+			return builder.ToString();
+		}
+
+		public static string ConcatUrlAndParams<T>(string url, string key, T[] parameters)
+		{
+			if (string.IsNullOrEmpty(key))
+				return url;
+
+			if (parameters == null || parameters.Length == 0)
+				return url;
+
+			var isQuestionMarkRequired = !url.Contains("?");
+			var builder = new StringBuilder(url);
+
+			foreach (var param in parameters)
+			{
+				var stringParam = param?.ToString();
+				if (string.IsNullOrEmpty(stringParam))
+					continue;
+
+				var kvp = $"{key}={stringParam}";
+				if (isQuestionMarkRequired)
+				{
+					builder.Append($"?{kvp}");
+					isQuestionMarkRequired = false;
+				}
+				else
+				{
+					builder.Append($"&{kvp}");
 				}
 			}
 

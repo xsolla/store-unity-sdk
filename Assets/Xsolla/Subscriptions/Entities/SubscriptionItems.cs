@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 
 namespace Xsolla.Subscriptions
 {
@@ -6,5 +6,6 @@ namespace Xsolla.Subscriptions
 	public class SubscriptionItems
 	{
 		public SubscriptionItem[] items;
+		public bool has_more;
 	}
 }

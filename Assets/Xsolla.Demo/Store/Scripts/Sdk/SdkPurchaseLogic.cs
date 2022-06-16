@@ -52,7 +52,7 @@ namespace Xsolla.Demo
 				item.VirtualPrice?.Key,
 				data =>
 				{
-					OrderTracking.Instance.AddOrderForTracking(
+					OrderTracking.Instance.AddVirtualCurrencyOrderForTracking(
 						XsollaSettings.StoreProjectId,
 						data.order_id,
 						() =>

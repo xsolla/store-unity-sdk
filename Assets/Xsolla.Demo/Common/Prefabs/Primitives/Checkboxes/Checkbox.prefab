@@ -338,7 +338,7 @@ MonoBehaviour:
   m_SpriteState:
     m_HighlightedSprite: {fileID: 21300000, guid: 887dfe242163b460a82de84c6183d3b3,
       type: 3}
-    m_PressedSprite: {fileID: 21300000, guid: a8a2fce2e147949f2839bb35253c7463, type: 3}
+    m_PressedSprite: {fileID: 21300000, guid: cef3f2e19bf604dba99bab2181ca09e1, type: 3}
     m_SelectedSprite: {fileID: 21300000, guid: 887dfe242163b460a82de84c6183d3b3, type: 3}
     m_DisabledSprite: {fileID: 21300000, guid: cef3f2e19bf604dba99bab2181ca09e1, type: 3}
   m_AnimationTriggers:
@@ -550,7 +550,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.06666667, g: 0.06666667, b: 0.06666667, a: 1}
+  m_Color: {r: 0.003921569, g: 0.08627451, b: 0.15294118, a: 0.5019608}
   m_RaycastTarget: 0
   m_Maskable: 1
   m_OnCullStateChanged:

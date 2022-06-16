@@ -83,11 +83,7 @@ namespace Xsolla.Demo
 		[Obsolete("Use SdkAuthLogic instead")]
 		public void SignIn(string username, string password, bool rememberUser, Action<string> onSuccess, Action<Error> onError = null)
 			=> SdkAuthLogic.Instance.SignIn(username, password, rememberUser, onSuccess, onError);
-
-		[Obsolete("Use SdkAuthLogic instead")]
-		public void AccessTokenAuth(string email, Action onSuccess, Action<Error> onError = null)
-			=> SdkAuthLogic.Instance.AccessTokenAuth(email, onSuccess, onError);
-
+		
 		[Obsolete("Use SdkAuthLogic instead")]
 		public void ResetPassword(string username, Action onSuccess = null, Action<Error> onError = null)
 			=> SdkAuthLogic.Instance.ResetPassword(username, onSuccess, onError);
