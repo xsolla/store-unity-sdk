@@ -12,11 +12,11 @@ namespace Xsolla.Auth
 		private const string URL_OAUTH_SILENT_AUTH =
 			"https://login.xsolla.com/api/oauth2/social/{0}/cross_auth?client_id={1}&response_type=code&state={2}&redirect_uri={3}&app_id={4}&scope=offline&session_ticket={5}{6}&is_redirect=false";
 
-		private const string URL_JWT_SOCIAL_AUTH =
-			"https://login.xsolla.com/api/social/{0}/login_redirect?projectId={1}&with_logout={2}{3}{4}";
+		private const string URL_JWT_GET_LINK_FOR_SOCIAL_AUTH =
+			"https://login.xsolla.com/api/social/{0}/login_url?projectId={1}&with_logout={2}{3}{4}";
 
-		private const string URL_OAUTH_SOCIAL_AUTH =
-			"https://login.xsolla.com/api/oauth2/social/{0}/login_redirect?client_id={1}&state={2}&response_type=code&redirect_uri={3}&scope=offline";
+		private const string URL_OAUTH_GET_LINK_FOR_SOCIAL_AUTH =
+			"https://login.xsolla.com/api/oauth2/social/{0}/login_url?client_id={1}&state={2}&response_type=code&redirect_uri={3}&scope=offline";
 
 		private const string URL_GET_AVAILABLE_SOCIAL_NETWORKS =
 			"https://login.xsolla.com/api/users/me/login_urls?{0}";
@@ -93,8 +93,8 @@ namespace Xsolla.Auth
 		/// Get `url` for social authentication in browser.
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Auth via Social Network</c>.</remarks>
-		/// <see cref="https://developers.xsolla.com/login-api/jwt/jwt-auth-via-social-network/"/>.
-		/// <see cref="https://developers.xsolla.com/login-api/methods/oauth-20/oauth-20-auth-via-social-network"/>.
+		/// <see cref="https://developers.xsolla.com/api/login/operation/jwt-get-link-for-social-auth/"/>.
+		/// <see cref="https://developers.xsolla.com/api/login/operation/oauth-20-get-link-for-social-auth/"/>.
 		/// <param name="providerName">Name of the social network connected to Login in Publisher Account.</param>
 		/// <param name="fields">List of parameters which must be requested from the user or social network additionally and written to the JWT. The parameters must be separated by a comma. Used only for JWT auth.</param>
 		/// <param name="oauthState">Value used for additional user verification on backend. Must be at least 8 symbols long. Will be "xsollatest" by default.</param>
@@ -110,13 +110,13 @@ namespace Xsolla.Auth
 					var withLogoutParam = XsollaSettings.InvalidateExistingSessions ? "1" : "0";
 					var fieldsParam = (fields != null && fields.Count > 0) ? $"&fields={string.Join(",", fields)}" : "";
 					var payloadParam = (!string.IsNullOrEmpty(payload)) ? $"&payload={payload}" : "";
-					result = string.Format(URL_JWT_SOCIAL_AUTH, providerName.GetParameter(), projectId, withLogoutParam, fieldsParam, payloadParam);
+					result = string.Format(URL_JWT_GET_LINK_FOR_SOCIAL_AUTH, providerName.GetParameter(), projectId, withLogoutParam, fieldsParam, payloadParam);
 					break;
 				case AuthorizationType.OAuth2_0:
 					var clientIdParam = XsollaSettings.OAuthClientId;
 					var stateParam = (!string.IsNullOrEmpty(oauthState)) ? oauthState : DEFAULT_OAUTH_STATE;
 					var redirectUriParam = RedirectUtils.GetRedirectUrl();
-					result = string.Format(URL_OAUTH_SOCIAL_AUTH, providerName.GetParameter(), clientIdParam, stateParam, redirectUriParam);
+					result = string.Format(URL_OAUTH_GET_LINK_FOR_SOCIAL_AUTH, providerName.GetParameter(), clientIdParam, stateParam, redirectUriParam);
 					break;
 				default:
 					Debug.LogError($"Unexpected authorization type: '{XsollaSettings.AuthorizationType}'");
@@ -132,7 +132,7 @@ namespace Xsolla.Auth
 		/// You can get the link by this call and add it to your button for authentication via the social network.
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Get Links for Social Auth</c>.</remarks>
-		/// <see cref="https://developers.xsolla.com/user-account-api/social-networks/getusersmeloginurls/"/>.
+		/// <see cref="https://developers.xsolla.com/api/login/operation/get-links-for-social-auth/"/>.
 		/// <param name="onSuccess">Success operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		/// <param name="locale">Defines localization request localization settings.</param>
