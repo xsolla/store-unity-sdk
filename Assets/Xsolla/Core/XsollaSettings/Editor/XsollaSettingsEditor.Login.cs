@@ -11,9 +11,10 @@ namespace Xsolla.Core
 		                                                  "Otherwise, select \"JWT.\"";
 
 		private const string CALLBACK_URL_LABEL = "Callback URL";
-		private const string CALLBACK_URL_TOOLTIP = "URL to redirect the user to after signing up, logging in, or password reset. " +
-		                                            "Must be identical to the callback URL specified in Publisher Account in Login settings. " +
-		                                            "Required if there are several сallback URLs.";
+		private const string CALLBACK_URL_TOOLTIP = "URI to redirect the user to after signing up, logging in, or password reset.\n" +
+		                                            "For OAuth 2.0 authorization must be identical to the OAuth 2.0 redirect URI specified in Publisher Account in Login >Security > OAuth 2.0 settings.\n" +
+		                                            "For JWT authorization must be identical to the callback URL specified in Publisher Account in Login settings.\n" +
+		                                            "Required if there are several сallback URIs.";
 
 		private const string JWT_INVALIDATION_LABEL = "Invalidate Existing Sessions";
 		private const string JWT_INVALIDATION_TOOLTIP = "If enabled, every time the user logs in from a new device, " +

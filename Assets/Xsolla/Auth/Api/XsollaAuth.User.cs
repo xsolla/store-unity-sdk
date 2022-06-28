@@ -213,7 +213,8 @@ namespace Xsolla.Auth
 		/// <summary>
 		/// Completes authentication by the user email address and a confirmation code.
 		/// </summary>
-		/// <see cref="https://developers.xsolla.com/login-api/auth/jwt/jwt-complete-auth-by-email/"/>
+		/// <see cref="https://developers.xsolla.com/api/login/operation/jwt-complete-auth-by-email/"/>
+		/// <see cref="https://developers.xsolla.com/api/login/operation/oauth-20-complete-auth-by-email/"/>
 		/// <param name="email">User email address.</param>
 		/// <param name="confirmationCode">Confirmation code.</param>
 		/// <param name="operationId">ID of the confirmation code.</param>

@@ -15,7 +15,7 @@ namespace Xsolla.UserAccount
 		/// Gets a list of particular user’s attributes.
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Get User's Attributes from Client</c>.</remarks>
-		/// <see cref="https://developers.xsolla.com/login-api/attributes/get-user-attributes-from-client"/>
+		/// <see cref="https://developers.xsolla.com/api/login/operation/get-users-attributes-from-client/"/>
 		/// <param name="token">JWT from Xsolla Login.</param>
 		/// <param name="publisherProjectId">Project ID from Publisher Account which you want to get attributes for. If you do not specify it, it returns attributes without the value of this parameter.</param>
 		/// <param name="attributeType">Type of attributes to get.</param>

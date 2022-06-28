@@ -17,7 +17,6 @@ MonoBehaviour:
   authorizationType: 0
   invalidateExistingSessions: 0
   oauthClientId: 57
-  authServerUrl: https://sdk.xsolla.com/
   storeProjectId: 77640
   isSandbox: 1
   inAppBrowserEnabled: 1

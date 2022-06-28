@@ -38,9 +38,9 @@ namespace Xsolla.Core
 		private const string REDIRECT_CONDITIONS_LABEL = "Redirect Conditions";
 		private const string REDIRECT_CONDITIONS_TOOLTIP = "Payment status when user is automatically redirected to the return URL.\n" +
 		                                                   "\"None\" — do not redirect.\n" +
-		                                                   "\"Successful\" — redirect when a payment is successful.\n" +
-		                                                   "\"Successful or Canceled\" — redirect when a payment is successful or canceled.\n" +
-		                                                   "\"Any\" — redirect for any payment status.";
+		                                                   "\"Successful payment\" — redirect when a payment is successful.\n" +
+		                                                   "\"Successful or canceled payment\" — redirect when a payment is successful or canceled.\n" +
+		                                                   "\"Any payment\" — redirect for any payment status.";
 
 		private const string REDIRECT_TIMEOUT_LABEL = "Redirect Timeout";
 		private const string REDIRECT_TIMEOUT_TOOLTIP = "Redirect timeout in seconds.";
@@ -48,9 +48,9 @@ namespace Xsolla.Core
 		private const string MANUAL_REDIRECTION_LABEL = "Status for Manual Redirection";
 		private const string MANUAL_REDIRECTION_TOOLTIP = "Payment status when the redirect button appears.\n" +
 		                                                  "\"None\" — do not redirect.\n" +
-		                                                  "\"Purchase\" for Virtual Currency — redirect when purchase is made using virtual currency.\n" +
-		                                                  "\"Successful\" — redirect when a payment is successful.\n" +
-		                                                  "\"Successful or Canceled\" — redirect when a payment is successful or canceled.";
+		                                                  "\"Purchase using virtual currency\" — redirect when purchase is made using virtual currency.\n" +
+		                                                  "\"Successful payment\" — redirect when a payment is successful.\n" +
+		                                                  "\"Successful or canceled payment\" — redirect when a payment is successful or canceled.";
 
 		private const string REDIRECT_BUTTON_LABEL = "Redirect Button Caption";
 		private const string REDIRECT_BUTTON_TOOLTIP = "Caption of the button that will redirect the user to the return URL.";
@@ -65,16 +65,16 @@ namespace Xsolla.Core
 
 		private readonly string[] RedirectConditionsOptions ={
 			"None",
-			"Successful",
-			"Successful or Canceled",
-			"Any"
+			"Successful payment",
+			"Successful or canceled payment",
+			"Any payment"
 		};
 
 		private readonly string[] StatusForManualRedirectionOptions ={
 			"None",
-			"Purchase for Virtual Currency",
-			"Successful",
-			"Successful or Canceled"
+			"Purchase using virtual currency",
+			"Successful payment",
+			"Successful or canceled payment"
 		};
 
 		private bool PayStationSettings()
