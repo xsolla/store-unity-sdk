@@ -23,21 +23,24 @@ namespace Xsolla.Core.Browser
 			if (!XsollaSettings.InAppBrowserEnabled || !XsollaSettings.PackInAppBrowserInBuild)
 				return;
 
-			var browserPlatform = Platform.Unknown;
+			var browserPlatform = string.Empty;
 			switch (report.summary.platform)
 			{
 				case BuildTarget.StandaloneOSX:
-					browserPlatform = Platform.MacOS;
+					browserPlatform = "MacOS";
 					break;
 				case BuildTarget.StandaloneWindows:
-					browserPlatform = Platform.Win32;
+					browserPlatform = "Win32";
 					break;
 				case BuildTarget.StandaloneWindows64:
-					browserPlatform = Platform.Win64;
+					browserPlatform = "Win64";
+					break;
+				case BuildTarget.StandaloneLinux64:
+					browserPlatform = "Linux";
 					break;
 			}
 
-			if (browserPlatform == Platform.Unknown)
+			if (string.IsNullOrEmpty(browserPlatform))
 			{
 				Debug.LogWarning($"Build target \"{report.summary.platform}\" is not supported. Packing browser in the build is skipped");
 				return;
@@ -60,18 +63,16 @@ namespace Xsolla.Core.Browser
 				return;
 			}
 
-			var projectBrowserDirectory = Path.Combine(Directory.GetCurrentDirectory(), ".local-chromium");
-			projectBrowserDirectory = Path.Combine(projectBrowserDirectory, $"{browserPlatform}-{BROWSER_REVISION}");
-
-			if (Directory.Exists(projectBrowserDirectory))
+			var sourceBrowserDirectory = Path.Combine(Application.persistentDataPath, $"{browserPlatform}-{BROWSER_REVISION}");
+			if (Directory.Exists(sourceBrowserDirectory))
 			{
 				buildBrowserDirectory = Path.Combine(buildBrowserDirectory, $"{browserPlatform}-{BROWSER_REVISION}");
 
-				foreach (var dirPath in Directory.GetDirectories(projectBrowserDirectory, "*", SearchOption.AllDirectories))
-					Directory.CreateDirectory(dirPath.Replace(projectBrowserDirectory, buildBrowserDirectory));
+				foreach (var dirPath in Directory.GetDirectories(sourceBrowserDirectory, "*", SearchOption.AllDirectories))
+					Directory.CreateDirectory(dirPath.Replace(sourceBrowserDirectory, buildBrowserDirectory));
 
-				foreach (var filePath in Directory.GetFiles(projectBrowserDirectory, "*.*", SearchOption.AllDirectories))
-					File.Copy(filePath, filePath.Replace(projectBrowserDirectory, buildBrowserDirectory), true);
+				foreach (var filePath in Directory.GetFiles(sourceBrowserDirectory, "*.*", SearchOption.AllDirectories))
+					File.Copy(filePath, filePath.Replace(sourceBrowserDirectory, buildBrowserDirectory), true);
 			}
 			else
 			{
@@ -81,13 +82,12 @@ namespace Xsolla.Core.Browser
 					return;
 				}
 
-				var fetcherOptions = new BrowserFetcherOptions{
+				var fetcher = new XsollaBrowserFetcher{
 					Platform = browserPlatform,
 					Path = buildBrowserDirectory
 				};
-
-				var browserFetcher = new BrowserFetcher(fetcherOptions);
-				Task.Run(async () => await browserFetcher.DownloadAsync(BROWSER_REVISION)).Wait();
+				
+				Task.Run(async () => await fetcher.DownloadAsync()).Wait();
 			}
 		}
 	}
