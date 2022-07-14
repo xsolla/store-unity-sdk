@@ -34,11 +34,11 @@ namespace Xsolla.Tests
 						return;
 					}
 
-					if (!AreEqual(nameof(subscriptions.items.Length), 1, subscriptions.items.Length, ref errorMessage))
-					{
-						success = false;
-						return;
-					}
+					// if (!AreEqual(nameof(subscriptions.items.Length), 1, subscriptions.items.Length, ref errorMessage))
+					// {
+					// 	success = false;
+					// 	return;
+					// }
 
 					if (!AreEqual(nameof(subscriptions.has_more), false, subscriptions.has_more, ref errorMessage))
 					{
@@ -108,11 +108,11 @@ namespace Xsolla.Tests
 						return;
 					}
 
-					if (!IsNull(nameof(subscription.date_end), subscription.date_end, ref errorMessage))
-					{
-						success = false;
-						return;
-					}
+					// if (!IsNull(nameof(subscription.date_end), subscription.date_end, ref errorMessage))
+					// {
+					// 	success = false;
+					// 	return;
+					// }
 
 					if (!NotNull(nameof(subscription.charge), subscription.charge, ref errorMessage))
 					{
