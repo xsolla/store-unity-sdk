@@ -13,10 +13,10 @@ namespace Xsolla.Auth
 			"https://login.xsolla.com/api/oauth2/social/{0}/cross_auth?client_id={1}&response_type=code&state={2}&redirect_uri={3}&app_id={4}&scope=offline&session_ticket={5}{6}&is_redirect=false";
 
 		private const string URL_JWT_GET_LINK_FOR_SOCIAL_AUTH =
-			"https://login.xsolla.com/api/social/{0}/login_url?projectId={1}&with_logout={2}{3}{4}";
+			"https://login.xsolla.com/api/social/{0}/login_redirect?projectId={1}&with_logout={2}{3}{4}";
 
 		private const string URL_OAUTH_GET_LINK_FOR_SOCIAL_AUTH =
-			"https://login.xsolla.com/api/oauth2/social/{0}/login_url?client_id={1}&state={2}&response_type=code&redirect_uri={3}&scope=offline";
+			"https://login.xsolla.com/api/oauth2/social/{0}/login_redirect?client_id={1}&state={2}&response_type=code&redirect_uri={3}&scope=offline";
 
 		private const string URL_GET_AVAILABLE_SOCIAL_NETWORKS =
 			"https://login.xsolla.com/api/users/me/login_urls?{0}";

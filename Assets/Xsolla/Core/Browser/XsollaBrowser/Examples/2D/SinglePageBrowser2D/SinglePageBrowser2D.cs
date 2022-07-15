@@ -1,6 +1,6 @@
 using System;
 using System.Collections;
-using PuppeteerSharp;
+using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,7 +20,6 @@ namespace Xsolla.Core.Browser
 
 		public event Action<string, Action> AlertDialogEvent;
 		public event Action<string, Action, Action> ConfirmDialogEvent;
-		
 #pragma warning restore
 
 #if UNITY_EDITOR || UNITY_STANDALONE
@@ -50,35 +49,10 @@ namespace Xsolla.Core.Browser
 			xsollaBrowser.LogEvent += Debug.Log;
 			xsollaBrowser.Launch
 			(
-				new LaunchBrowserOptions{
-					Width = (int) Viewport.x,
-					Height = (int) Viewport.y,
-				},
-				new BrowserFetcherOptions{
-#if UNITY_STANDALONE && !UNITY_EDITOR
-					Path = !XsollaSettings.PackInAppBrowserInBuild ? Application.persistentDataPath : String.Empty,
-#endif
-
-#if UNITY_EDITOR
-					Path = Application.persistentDataPath,
-#endif
-
-#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-#if UNITY_64
-					Platform = Platform.Win64
-#else
-					Platform = Platform.Win32
-#endif
-#endif
-
-#if UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
-					Platform = Platform.MacOS
-#endif
-
-#if UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX
-					Platform = Platform.Linux
-#endif
-				}
+				(int) Viewport.x,
+				(int) Viewport.y,
+				GetBrowserPlatform(),
+				GetBrowserPath()
 			);
 
 			xsollaBrowser.Navigate.SetOnPopupListener((popupUrl =>
@@ -93,7 +67,7 @@ namespace Xsolla.Core.Browser
 				xsollaBrowser.Navigate.To(popupUrl, newUrl => { BackButton.gameObject.SetActive(true); });
 			}));
 
-			xsollaBrowser.Navigate.SetOnAlertListener(HandleBrowserAlert);
+			xsollaBrowser.SetDialogHandler(HandleBrowserDialog);
 
 			display = this.GetOrAddComponent<Display2DBehaviour>();
 		}
@@ -112,6 +86,40 @@ namespace Xsolla.Core.Browser
 
 			InitializeInput();
 			BrowserInitEvent?.Invoke(xsollaBrowser);
+		}
+		
+		private string GetBrowserPlatform()
+		{
+#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+#if UNITY_64
+			return "Win64";
+#else
+			return "Win32";
+#endif
+#endif
+
+#if UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
+			return "MacOS";
+#endif
+
+#if UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX
+			return "Linux";
+#endif
+		}
+
+		private string GetBrowserPath()
+		{
+#if UNITY_EDITOR
+			return Application.persistentDataPath;
+#endif
+			if (XsollaSettings.PackInAppBrowserInBuild)
+			{
+				var path = Application.dataPath;
+				path = Directory.GetParent(path).FullName;
+				return Path.Combine(path, ".local-chromium");
+			}
+
+			return Application.persistentDataPath;
 		}
 
 		private void DestroyPreloader()
@@ -198,39 +206,39 @@ namespace Xsolla.Core.Browser
 			Destroy(transform.parent.gameObject);
 		}
 
-		private void HandleBrowserAlert(Dialog alert)
+		private void HandleBrowserDialog(XsollaBrowserDialog dialog)
 		{
-			switch (alert.DialogType)
+			switch (dialog.Type)
 			{
-				case DialogType.Alert:
-					ShowSimpleAlertPopup(alert);
+				case XsollaBrowserDialogType.Alert:
+					ShowSimpleAlertPopup(dialog);
 					break;
-				case DialogType.Prompt:
-					CloseAlert(alert);
+				case XsollaBrowserDialogType.Prompt:
+					CloseAlert(dialog);
 					break;
-				case DialogType.Confirm:
-					ShowConfirmAlertPopup(alert);
+				case XsollaBrowserDialogType.Confirm:
+					ShowConfirmAlertPopup(dialog);
 					break;
-				case DialogType.BeforeUnload:
-					CloseAlert(alert);
+				case XsollaBrowserDialogType.BeforeUnload:
+					CloseAlert(dialog);
 					break;
 				default:
-					CloseAlert(alert);
+					CloseAlert(dialog);
 					break;
 			}
 		}
-
-		private void ShowSimpleAlertPopup(Dialog dialog)
+		
+		private void ShowSimpleAlertPopup(XsollaBrowserDialog dialog)
 		{
-			AlertDialogEvent?.Invoke(dialog.Message, () => dialog.Accept());
+			AlertDialogEvent?.Invoke(dialog.Message, dialog.Accept);
 		}
-
-		private void ShowConfirmAlertPopup(Dialog dialog)
+		
+		private void ShowConfirmAlertPopup(XsollaBrowserDialog dialog)
 		{
-			ConfirmDialogEvent?.Invoke(dialog.Message, () => dialog.Accept(), () => dialog.Dismiss());
+			ConfirmDialogEvent?.Invoke(dialog.Message, dialog.Accept, dialog.Dismiss);
 		}
-
-		private void CloseAlert(Dialog dialog)
+		
+		private void CloseAlert(XsollaBrowserDialog dialog)
 		{
 			Debug.Log("Browser alert was closed automatically");
 			dialog.Accept();
