@@ -111,15 +111,18 @@ namespace Xsolla.Core.Browser
 		{
 #if UNITY_EDITOR
 			return Application.persistentDataPath;
-#endif
+#else
 			if (XsollaSettings.PackInAppBrowserInBuild)
 			{
 				var path = Application.dataPath;
 				path = Directory.GetParent(path).FullName;
 				return Path.Combine(path, ".local-chromium");
 			}
-
-			return Application.persistentDataPath;
+			else
+			{
+				return Application.persistentDataPath;
+			}
+#endif
 		}
 
 		private void DestroyPreloader()
