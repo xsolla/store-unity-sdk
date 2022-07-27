@@ -13,21 +13,9 @@ namespace Xsolla.Tests
 	public class XsollaAuthSocialTests
 	{
 		[Test]
-		public void GetSocialNetworkAuthUrl_JWT_Success()
+		public void GetSocialNetworkAuthUrl_Success()
 		{
-			XsollaSettings.AuthorizationType = AuthorizationType.JWT;
-			GetSocialNetworkAuthUrl();
-		}
-
-		[Test]
-		public void GetSocialNetworkAuthUrl_OAuth_Success()
-		{
-			XsollaSettings.AuthorizationType = AuthorizationType.OAuth2_0;
-			GetSocialNetworkAuthUrl();
-		}
-
-		private void GetSocialNetworkAuthUrl([CallerMemberName] string testName = null)
-		{
+			var testName = nameof(GetSocialNetworkAuthUrl_Success);
 			var url = XsollaAuth.Instance.GetSocialNetworkAuthUrl(providerName: SocialProvider.Facebook);
 			if (!string.IsNullOrEmpty(url))
 				TestHelper.Pass($"auth URL: {url}",testName);

@@ -13,8 +13,6 @@ namespace Xsolla.Core
 		[SerializeField] private InputField LoginIdInput = default;
 		[SerializeField] private InputField StoreProjectIdInput = default;
 		[SerializeField] private InputField OAuthClientIdInput = default;
-		[SerializeField] private Toggle JwtToggle = default;
-		[SerializeField] private Toggle OAuthToggle = default;
 		[SerializeField] private InputField WebShopUrlInput = default;
 		[SerializeField] private Dropdown UiThemeDropdown = default;
 
@@ -28,9 +26,6 @@ namespace Xsolla.Core
 			OAuthClientIdInput.onEndEdit.AddListener(OnOAuthClientIdInputInputEndEdit);
 			WebShopUrlInput.onEndEdit.AddListener(OnWebShopUrlEdit);
 			UiThemeDropdown.onValueChanged.AddListener(OnUiThemeDropdownChanged);
-
-			JwtToggle.onValueChanged.AddListener(OnJwtToggleChanged);
-			OAuthToggle.onValueChanged.AddListener(OnOAuthToggleChanged);
 		}
 
 		private void OnDisable()
@@ -43,9 +38,6 @@ namespace Xsolla.Core
 			OAuthClientIdInput.onEndEdit.RemoveListener(OnOAuthClientIdInputInputEndEdit);
 			WebShopUrlInput.onEndEdit.RemoveListener(OnWebShopUrlEdit);
 			UiThemeDropdown.onValueChanged.RemoveListener(OnUiThemeDropdownChanged);
-
-			JwtToggle.onValueChanged.RemoveListener(OnJwtToggleChanged);
-			OAuthToggle.onValueChanged.RemoveListener(OnOAuthToggleChanged);
 		}
 
 		private void Start()
@@ -62,7 +54,6 @@ namespace Xsolla.Core
 		{
 			XsollaSettings.LoginId = XsollaSettings.Instance.loginId;
 			XsollaSettings.StoreProjectId = XsollaSettings.Instance.storeProjectId;
-			XsollaSettings.AuthorizationType = XsollaSettings.Instance.authorizationType;
 			XsollaSettings.OAuthClientId = XsollaSettings.Instance.oauthClientId;
 			DemoSettings.WebStoreUrl = DemoSettings.Instance.webStoreUrl;
 			ThemesLibrary.Current = ThemesLibrary.Themes.FirstOrDefault();
@@ -86,22 +77,6 @@ namespace Xsolla.Core
 		{
 			if (int.TryParse(value, out var oAuthClientId))
 				XsollaSettings.OAuthClientId = oAuthClientId;
-
-			RedrawFields();
-		}
-
-		private void OnJwtToggleChanged(bool isOn)
-		{
-			if (isOn)
-				XsollaSettings.AuthorizationType = AuthorizationType.JWT;
-
-			RedrawFields();
-		}
-
-		private void OnOAuthToggleChanged(bool isOn)
-		{
-			if (isOn)
-				XsollaSettings.AuthorizationType = AuthorizationType.OAuth2_0;
 
 			RedrawFields();
 		}
@@ -134,12 +109,8 @@ namespace Xsolla.Core
 				uiThemeIndex = 0;
 			UiThemeDropdown.SetValueWithoutNotify(uiThemeIndex);
 
-			var authorizationType = XsollaSettings.AuthorizationType;
-			JwtToggle.SetIsOnWithoutNotify(authorizationType == AuthorizationType.JWT);
-			OAuthToggle.SetIsOnWithoutNotify(authorizationType == AuthorizationType.OAuth2_0);
-
 			var oAuthInputParent = OAuthClientIdInput.transform.parent.gameObject;
-			oAuthInputParent.SetActive(authorizationType == AuthorizationType.OAuth2_0);
+			oAuthInputParent.SetActive(true);
 		}
 
 		private const string UiThemeOverrideKey = "UiThemeOverride";

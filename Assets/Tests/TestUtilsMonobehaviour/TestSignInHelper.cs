@@ -32,27 +32,24 @@ namespace Xsolla.Tests
 			if (Token.Instance == null)
 				yield break;
 
-			if (XsollaSettings.AuthorizationType == AuthorizationType.OAuth2_0)
+			bool? success = default;
+			string errorMessage = default;
+
+			Action onSuccess = () => success = true;
+			Action<Error> onError = error =>
 			{
-				bool? success = default;
-				string errorMessage = default;
+				errorMessage = error?.errorMessage ?? "ERROR IS NULL";
+				UnityEngine.Debug.LogError(errorMessage);
+				success = false;
+			};
 
-				Action onSuccess = () => success = true;
-				Action<Error> onError = error =>
-				{
-					errorMessage = error?.errorMessage ?? "ERROR IS NULL";
-					UnityEngine.Debug.LogError(errorMessage);
-					success = false;
-				};
+			XsollaAuth.Instance.OAuthLogout(
+				token: Token.Instance,
+				sessions: OAuthLogoutType.All,
+				onSuccess: onSuccess,
+				onError: onError);
 
-				XsollaAuth.Instance.OAuthLogout(
-					token: Token.Instance,
-					sessions: OAuthLogoutType.All,
-					onSuccess: onSuccess,
-					onError: onError);
-
-				yield return new WaitUntil(() => success.HasValue);
-			}
+			yield return new WaitUntil(() => success.HasValue);
 
 			Token.Instance = null;
 			TokenRefresh.Instance.RefreshToken = string.Empty;
@@ -62,7 +59,6 @@ namespace Xsolla.Tests
 		{
 			if (Token.Instance == null ||
 				string.IsNullOrEmpty(TokenRefresh.Instance.RefreshToken) ||
-				XsollaSettings.AuthorizationType != AuthorizationType.OAuth2_0 ||
 				!XsollaAuth.IsExist)
 			{
 				yield return GenerateNewSession();
@@ -83,7 +79,6 @@ namespace Xsolla.Tests
 			if (Token.Instance != null)
 				yield return SignOut();
 
-			XsollaSettings.AuthorizationType = AuthorizationType.OAuth2_0;
 			yield return TestSignInHelper.Instance.SignIn();
 		}
 

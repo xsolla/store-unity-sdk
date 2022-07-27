@@ -74,12 +74,7 @@ namespace Xsolla.Demo
 
 		private void UrlChangedHandler(string newUrl)
 		{
-			if (XsollaSettings.AuthorizationType == AuthorizationType.JWT && ParseUtils.TryGetValueFromUrl(newUrl, ParseParameter.token, out var token))
-			{
-				Debug.Log($"We take{Environment.NewLine}from URL:{newUrl}{Environment.NewLine}token = {token}");
-				StartCoroutine(SuccessAuthCoroutine(token));
-			}
-			else if (XsollaSettings.AuthorizationType == AuthorizationType.OAuth2_0 && ParseUtils.TryGetValueFromUrl(newUrl, ParseParameter.code, out var code))
+			if (ParseUtils.TryGetValueFromUrl(newUrl, ParseParameter.code, out var code))
 			{
 				Debug.Log($"We take{Environment.NewLine}from URL:{newUrl}{Environment.NewLine}code = {code}");
 				SdkAuthLogic.Instance.ExchangeCodeToToken(
