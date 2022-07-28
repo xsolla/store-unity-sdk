@@ -13,16 +13,12 @@ namespace Xsolla.Auth
 		public override void Init()
 		{
 			base.Init();
-
-			if (XsollaSettings.AuthorizationType == AuthorizationType.OAuth2_0)
-				SetupOAuthRefresh();
+			SetupOAuthRefresh();
 		}
 
 		protected override void OnDestroy()
 		{
-			if (XsollaSettings.AuthorizationType == AuthorizationType.OAuth2_0)
-				TeardownOAuthRefresh();
-
+			TeardownOAuthRefresh();
 			base.OnDestroy();
 		}
 

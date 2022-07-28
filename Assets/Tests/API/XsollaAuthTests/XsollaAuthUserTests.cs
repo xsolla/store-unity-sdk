@@ -10,32 +10,10 @@ namespace Xsolla.Tests
 {
 	public class XsollaAuthUserTests
 	{
-		[SetUp]
-		[TearDown]
-		public void Setup()
-		{
-			if (XsollaSettings.AuthorizationType != AuthorizationType.OAuth2_0)
-				XsollaSettings.AuthorizationType = AuthorizationType.OAuth2_0;
-		}
-
-		[UnityTest]
-		public IEnumerator SignIn_JWT_Success()
-		{
-			XsollaSettings.AuthorizationType = AuthorizationType.JWT;
-			yield return SignIn();
-		}
-
 		[UnityTest]
 		public IEnumerator SignIn_OAuth_Success()
 		{
 			yield return SignIn();
-		}
-
-		[UnityTest]
-		public IEnumerator SignIn_JWT_IncorrectData_Failure()
-		{
-			XsollaSettings.AuthorizationType = AuthorizationType.JWT;
-			yield return SignIn(login:"k4TCNgHs", password:"k4TCNgHs", isSuccessExpected: false);
 		}
 
 		[UnityTest]

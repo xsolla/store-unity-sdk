@@ -15,7 +15,6 @@ namespace Xsolla.Core
 
 		[SerializeField] public string loginId = Constants.DEFAULT_LOGIN_ID;
 		[SerializeField] private string callbackUrl = default;
-		[SerializeField] public AuthorizationType authorizationType = AuthorizationType.OAuth2_0;
 		[SerializeField] private bool invalidateExistingSessions = default;
 		[SerializeField] public int oauthClientId = default;
 
@@ -65,37 +64,6 @@ namespace Xsolla.Core
 				if (!Application.isPlaying)
 				{
 					Instance.loginId = value;
-					MarkAssetDirty();
-				}
-				
-				Changed?.Invoke();
-			}
-		}
-
-		private const string AuthorizationTypeKey = nameof(authorizationType);
-
-		public static AuthorizationType AuthorizationType
-		{
-			get
-			{
-				if (PlayerPrefs.HasKey(AuthorizationTypeKey))
-				{
-					var stringResult = PlayerPrefs.GetString(AuthorizationTypeKey);
-					if (Enum.TryParse(stringResult, out AuthorizationType result))
-					{
-						return result;
-					}
-				}
-
-				return Instance.authorizationType;
-			}
-			set
-			{
-				PlayerPrefs.SetString(AuthorizationTypeKey, value.ToString());
-				
-				if (!Application.isPlaying)
-				{
-					Instance.authorizationType = value;
 					MarkAssetDirty();
 				}
 				
