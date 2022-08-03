@@ -15,7 +15,7 @@ namespace Xsolla.Auth
 		private const string URL_GET_ACCESS_TOKEN = "{0}/login";
 		private const string URL_OAUTH_LOGOUT = "https://login.xsolla.com/api/oauth2/logout?sessions={0}";
 
-		private const string URL_START_AUTH_BY_EMAIL = "https://login.xsolla.com/api/oauth2/login/email/request?response_type=code&client_id={0}&scope=offline&state={1}&redirect_uri={2}";
+		private const string URL_START_AUTH_BY_EMAIL = "https://login.xsolla.com/api/oauth2/login/email/request?response_type=code&client_id={0}&scope=offline&state={1}&redirect_uri={2}{3}";
 		private const string URL_COMPLETE_AUTH_BY_EMAIL = "https://login.xsolla.com/api/oauth2/login/email/confirm?client_id={0}";
 		private const string URL_START_AUTH_BY_PHONE_NUMBER = "https://login.xsolla.com/api/oauth2/login/phone/request?response_type=code&client_id={0}&scope=offline&state={1}&redirect_uri={2}";
 		private const string URL_COMPLETE_AUTH_BY_PHONE_NUMBER = "https://login.xsolla.com/api/oauth2/login/phone/confirm?client_id={0}";
@@ -125,14 +125,16 @@ namespace Xsolla.Auth
 		/// <param name="linkUrl">URL to redirect the user to the status authentication page.</param>
 		/// <param name="sendLink">Shows whether a link is sent with the confirmation code in the email or not.</param>
 		/// <param name="oauthState">Value used for additional user verification. Often used to mitigate CSRF Attacks. The value will be returned in the response. Must be longer than 8 symbols.</param>
+		/// <param name="locale">Defines localization of the email user receives.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
-		public void StartAuthByEmail(string email, string linkUrl, bool? sendLink, string oauthState, Action<string> onSuccess, Action<Error> onError = null)
+		public void StartAuthByEmail(string email, string linkUrl, bool? sendLink, string oauthState = null, string locale = null, Action<string> onSuccess = null, Action<Error> onError = null)
 		{
 			var data = new StartAuthByEmailRequest(email, linkUrl, sendLink);
 			var state = oauthState ?? DEFAULT_OAUTH_STATE;
 			var redirectParam = RedirectUtils.GetRedirectUrl();
-			var url = string.Format(URL_START_AUTH_BY_EMAIL, XsollaSettings.OAuthClientId, state, redirectParam);
+			var localeParam = (!string.IsNullOrEmpty(locale)) ? $"&locale={locale}" : "";
+			var url = string.Format(URL_START_AUTH_BY_EMAIL, XsollaSettings.OAuthClientId, state, redirectParam, localeParam);
 
 			WebRequestHelper.Instance.PostRequest<StartAuthByEmailResponse, StartAuthByEmailRequest>(
 				SdkType.Login,
