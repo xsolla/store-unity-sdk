@@ -93,13 +93,19 @@ namespace Xsolla.Subscriptions
 		/// <see cref="https://subscriptions.xsolla.com/api/doc/user#/Subscriptions/post_xsolla_subscription_apiuser_renewusersubscription"/>
 		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. **Required**.</param>
 		/// <param name="subscriptionId">Subscription ID. **Required**.</param>
+		/// <param name="paymentSettings">Settings.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
-		public void GetSubscriptionRenewalUrl(string projectId, int subscriptionId, Action<PaymentLink> onSuccess, Action<Error> onError = null)
+		public void GetSubscriptionRenewalUrl(string projectId, int subscriptionId, PaymentSettings settings, Action<PaymentLink> onSuccess, Action<Error> onError = null)
 		{
 			var url = string.Format(URL_GET_RENEWAL_URL, projectId, subscriptionId);
-			var data = new RenewalSubscriptionRequest(XsollaSettings.IsSandbox);
+			var data = new RenewalSubscriptionRequest(settings);
 			WebRequestHelper.Instance.PostRequest(SdkType.Subscriptions, url, data, WebRequestHeader.AuthHeader(Token.Instance), onSuccess, onError);
+		}
+
+		public void GetSubscriptionRenewalUrl(string projectId, int subscriptionId, Action<PaymentLink> onSuccess, Action<Error> onError = null)
+		{
+			GetSubscriptionRenewalUrl(projectId, subscriptionId, new PaymentSettings(XsollaSettings.IsSandbox), onSuccess, onError);
 		}
 
 		/// <summary>
@@ -108,16 +114,22 @@ namespace Xsolla.Subscriptions
 		/// <see cref="https://subscriptions.xsolla.com/api/doc/user#/Subscriptions/post_xsolla_subscription_apiuser_buysubscription"/>
 		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. **Required**.</param>
 		/// <param name="planExternalId">List of subscription plan external IDs (32 characters per ID). Plan external ID can be found in Publisher Account in the **Subscriptions > Subscription plans** section next to the plan name.</param>
+		/// <param name="paymentSettings">Settings.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		/// <param name="country">User's country. Affects the choice of locale and currency. By default, it is determined by the user's IP address.</param>
-		public void GetSubscriptionPurchaseUrl(string projectId, string planExternalId, Action<PaymentLink> onSuccess, Action<Error> onError = null, string country = null)
+		public void GetSubscriptionPurchaseUrl(string projectId, string planExternalId, PaymentSettings settings, Action<PaymentLink> onSuccess, Action<Error> onError = null, string country = null)
 		{
 			var url = string.Format(URL_GET_PURCHASE_URL, projectId);
 			url = UrlParameterizer.ConcatUrlAndParams(url, country: country);
 
-			var data = new BuySubscriptionRequest(planExternalId, XsollaSettings.IsSandbox);
+			var data = new BuySubscriptionRequest(planExternalId, settings);
 			WebRequestHelper.Instance.PostRequest(SdkType.Subscriptions, url, data, WebRequestHeader.AuthHeader(Token.Instance), onSuccess, onError);
+		}
+
+		public void GetSubscriptionPurchaseUrl(string projectId, string planExternalId, Action<PaymentLink> onSuccess, Action<Error> onError = null, string country = null)
+		{
+			GetSubscriptionPurchaseUrl(projectId, planExternalId, new PaymentSettings(XsollaSettings.IsSandbox), onSuccess, onError, country);
 		}
 
 		/// <summary>
@@ -125,16 +137,22 @@ namespace Xsolla.Subscriptions
 		/// </summary>
 		/// <see cref="https://subscriptions.xsolla.com/api/doc/user#/Subscriptions/post_xsolla_subscription_apiuser_getmanagesubscriptionslink"/>
 		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. **Required**.</param>
+		/// <param name="paymentSettings">Settings.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		/// <param name="country">User's country. Affects the choice of locale and currency. By default, it is determined by the user's IP address.</param>
-		public void GetSubscriptionManagementUrl(string projectId, Action<PaymentLink> onSuccess, Action<Error> onError = null, string country = null)
+		public void GetSubscriptionManagementUrl(string projectId, PaymentSettings settings, Action<PaymentLink> onSuccess, Action<Error> onError = null, string country = null)
 		{
 			var url = string.Format(URL_GET_MANAGEMENT_URL, projectId);
 			url = UrlParameterizer.ConcatUrlAndParams(url, country: country);
 
-			var data = new ManageSubscriptionRequest(XsollaSettings.IsSandbox);
+			var data = new ManageSubscriptionRequest(settings);
 			WebRequestHelper.Instance.PostRequest(SdkType.Subscriptions, url, data, WebRequestHeader.AuthHeader(Token.Instance), onSuccess, onError);
+		}
+
+		public void GetSubscriptionManagementUrl(string projectId, Action<PaymentLink> onSuccess, Action<Error> onError = null, string country = null)
+		{
+			GetSubscriptionManagementUrl(projectId, new PaymentSettings(XsollaSettings.IsSandbox), onSuccess, onError, country);
 		}
 
 		/// <summary>
