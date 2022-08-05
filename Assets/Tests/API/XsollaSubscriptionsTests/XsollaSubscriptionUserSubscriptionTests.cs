@@ -332,6 +332,39 @@ namespace Xsolla.Tests
 		}
 
 		[UnityTest]
+		public IEnumerator GetSubscriptionPurchaseUrl_DefaultPaymentSettings_Success()
+		{
+			yield return TestSignInHelper.Instance.CheckSession();
+
+			bool? success = default;
+			string errorMessage = default;
+
+			XsollaSubscriptions.Instance.GetSubscriptionPurchaseUrl(
+				XsollaSettings.StoreProjectId,
+				"tNuy9WMo",
+				GenerateSettings(),
+				link =>
+				{
+					if (!NotNull(nameof(link.link_to_ps), link.link_to_ps, ref errorMessage))
+					{
+						success = false;
+						return;
+					}
+
+					success = true;
+				},
+				error =>
+				{
+					errorMessage = error?.errorMessage ?? "ERROR IS NULL";
+					success = false;
+				}
+			);
+
+			yield return new WaitUntil(() => success.HasValue);
+			HandleResult(nameof(GetSubscriptionPurchaseUrl_DefaultPaymentSettings_Success), success, errorMessage);
+		}
+
+		[UnityTest]
 		public IEnumerator GetSubscriptionManagementUrl_Success()
 		{
 			yield return TestSignInHelper.Instance.CheckSession();
@@ -360,6 +393,78 @@ namespace Xsolla.Tests
 
 			yield return new WaitUntil(() => success.HasValue);
 			HandleResult(nameof(GetSubscriptionManagementUrl_Success), success, errorMessage);
+		}
+
+		[UnityTest]
+		public IEnumerator GetSubscriptionManagementUrl_DefaultPaymentSettings_Success()
+		{
+			yield return TestSignInHelper.Instance.CheckSession();
+
+			bool? success = default;
+			string errorMessage = default;
+
+			XsollaSubscriptions.Instance.GetSubscriptionManagementUrl(
+				XsollaSettings.StoreProjectId,
+				GenerateSettings(),
+				link =>
+				{
+					if (!NotNull(nameof(link.link_to_ps), link.link_to_ps, ref errorMessage))
+					{
+						success = false;
+						return;
+					}
+
+					success = true;
+				},
+				error =>
+				{
+					errorMessage = error?.errorMessage ?? "ERROR IS NULL";
+					success = false;
+				}
+			);
+
+			yield return new WaitUntil(() => success.HasValue);
+			HandleResult(nameof(GetSubscriptionManagementUrl_Success), success, errorMessage);
+		}
+
+		private PaymentSettings GenerateSettings()
+		{
+			var settings = new PaymentSettings();
+			settings.sandbox = true;
+			settings.ui = new PaymentSettings.UI();
+				settings.ui.size = "large";
+				settings.ui.theme = "ps4-default-dark";
+				settings.ui.version = "desktop";
+				settings.ui.desktop = new PaymentSettings.UI.Desktop();
+					settings.ui.desktop.header = new PaymentSettings.UI.Desktop.Header();
+						settings.ui.desktop.header.is_visible = true;
+						settings.ui.desktop.header.visible_logo = true;
+						settings.ui.desktop.header.visible_name = true;
+						settings.ui.desktop.header.type = "compact";
+						settings.ui.desktop.header.close_button = true;
+				settings.ui.mobile = new PaymentSettings.UI.Mobile();
+					settings.ui.mobile.mode = "saved_accounts";
+					settings.ui.mobile.footer = new PaymentSettings.UI.Mobile.Footer(){is_visible=true};
+					settings.ui.mobile.header = new PaymentSettings.UI.Mobile.Header(){close_button=true};
+				//settings.ui.license_url = "string";
+				settings.ui.mode = "user_account";
+				settings.ui.user_account = new PaymentSettings.UI.UserAccount();
+					settings.ui.user_account.history = new PaymentSettings.UI.UserAccount.EnableAndOrder(){enable=true,order=1};
+					settings.ui.user_account.payment_accounts = new PaymentSettings.UI.UserAccount.EnableAndOrder(){enable=true,order=1};
+					settings.ui.user_account.info = new PaymentSettings.UI.UserAccount.EnableAndOrder(){enable=true,order=1};
+					settings.ui.user_account.subscriptions = new PaymentSettings.UI.UserAccount.EnableAndOrder(){enable=true,order=1};
+			settings.currency = "USD";
+			settings.locale = "en";
+			// settings.external_id = "string";
+			settings.payment_method = 1;
+			settings.return_url = Constants.DEFAULT_REDIRECT_URL;
+			settings.redirect_policy = new PaymentSettings.RedirectPolicy();
+				settings.redirect_policy.redirect_conditions = "none";
+				settings.redirect_policy.delay = 0;
+				settings.redirect_policy.status_for_manual_redirection = "none";
+				settings.redirect_policy.redirect_button_caption = "string";
+
+			return settings;
 		}
 	}
 }

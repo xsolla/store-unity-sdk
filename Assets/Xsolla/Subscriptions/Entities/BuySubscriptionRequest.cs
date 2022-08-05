@@ -8,10 +8,10 @@ namespace Xsolla.Subscriptions
 		public string plan_external_id;
 		public PaymentSettings settings;
 
-		public BuySubscriptionRequest(string planExternalId, bool sandbox)
+		public BuySubscriptionRequest(string planExternalId, PaymentSettings settings)
 		{
 			plan_external_id = planExternalId;
-			settings = new PaymentSettings(sandbox);
+			this.settings = settings;
 		}
 	}
 }
