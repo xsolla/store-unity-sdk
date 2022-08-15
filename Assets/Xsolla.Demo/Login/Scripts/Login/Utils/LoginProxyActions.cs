@@ -11,7 +11,7 @@ namespace Xsolla.Demo
 
 		private static void RunDemoUserAuthMethod(LoginPageEnterController loginController, object arg)
 		{
-			loginController.RunBasicAuth(username: "xsolla", password: "xsolla", rememberMe: true);
+			loginController.RunDemoUserAuth();
 		}
 
 		private static void RunSocialAuthMethod(LoginPageEnterController loginController, object arg)

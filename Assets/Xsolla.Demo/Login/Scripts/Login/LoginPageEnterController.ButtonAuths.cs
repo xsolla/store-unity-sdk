@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using Xsolla.Auth;
 using Xsolla.Core;
 using Xsolla.Core.Popup;
 
@@ -135,6 +136,31 @@ namespace Xsolla.Demo
 			Action<Error> onFailedPasswordlessAuth = ProcessError;
 
 			TryAuthBy<T>(args: new object[] { PasswordlessWidget, value }, onSuccess: onSuccessfulPasswordlessAuth, onFailed: onFailedPasswordlessAuth);
+		}
+
+		public void RunDemoUserAuth()
+		{
+			if(IsAuthInProgress)
+				return;
+
+			IsAuthInProgress = true;
+			PopupFactory.Instance.CreateWaiting().SetCloseCondition(() => IsAuthInProgress == false);
+			/*TEXTREVIEW*/
+			Debug.LogWarning("!PLEASE WAIT! Process of creating new demo user can take up to 30 seconds");
+
+			Action<LoginOAuthJsonResponse> onDemoUserSuccess = response =>
+			{
+				Token.Instance = Token.Create(response.access_token);
+				PlayerPrefs.SetString(Constants.LAST_SUCCESS_AUTH_TOKEN, response.access_token);
+				TokenRefresh.Instance.RefreshToken = response.refresh_token;
+				SdkAuthLogic.Instance.ValidateToken(response.access_token, t => CompleteSuccessfulAuth(t, isSaveToken: true), ProcessError);
+			};
+
+			WebRequestHelper.Instance.GetRequest<LoginOAuthJsonResponse>(
+				sdkType: SdkType.Login,
+				url: "https://us-central1-xsolla-sdk-demo.cloudfunctions.net/generateDemoUserToken",
+				onComplete: onDemoUserSuccess,
+				onError: ProcessError);
 		}
 
 		private void DisableCommonButtons()

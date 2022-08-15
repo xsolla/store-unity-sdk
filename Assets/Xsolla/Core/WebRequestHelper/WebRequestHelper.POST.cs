@@ -185,7 +185,13 @@ namespace Xsolla.Core
 		{
 			url = AppendAnalyticsToUrl(sdkType, url);
 			UnityWebRequest webRequest = UnityWebRequest.Post(url, UnityWebRequest.kHttpVerbPOST);
-			webRequest.timeout = 10;
+
+			/*TEXTREVIEW*/
+			//Timeout was set to 10 seconds for the reason unknown, I've changed it to 30 because of one specific request that can take up to 10-30 seconds
+			//Also considered this recommendation from UnityTech employee
+			//https://forum.unity.com/threads/sendwebrequest-curl-timeout-error.854812/
+			webRequest.timeout = 30;
+
 			webRequest.uploadHandler = (UploadHandler)new UploadHandlerRaw(fileData);
 			AttachHeadersToPostRequest(webRequest, requestHeaders, withContentType: false);
 
@@ -205,7 +211,7 @@ namespace Xsolla.Core
 		private UnityWebRequest PreparePostWebRequest(string url, object jsonObject, List<WebRequestHeader> requestHeaders)
 		{
 			UnityWebRequest webRequest = UnityWebRequest.Post(url, UnityWebRequest.kHttpVerbPOST);
-			webRequest.timeout = 10;
+			webRequest.timeout = 30;
 
 			AttachBodyToPostRequest(webRequest, jsonObject);
 			AttachHeadersToPostRequest(webRequest, requestHeaders);
@@ -216,7 +222,7 @@ namespace Xsolla.Core
 		private UnityWebRequest PreparePostUploadRequest(string url, string pathToFile, List<WebRequestHeader> requestHeaders)
 		{
 			var webRequest = UnityWebRequest.Post(url, UnityWebRequest.kHttpVerbPOST);
-			webRequest.timeout = 10;
+			webRequest.timeout = 30;
 
 			AttachFileToUploadRequest(webRequest, pathToFile);
 			AttachHeadersToPostRequest(webRequest, requestHeaders);
