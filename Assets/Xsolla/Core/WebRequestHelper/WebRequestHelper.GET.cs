@@ -9,7 +9,7 @@ namespace Xsolla.Core
 	{
 		public void GetRequest<T>(SdkType sdkType, string url, List<WebRequestHeader> requestHeaders, Action<T> onComplete = null, Action<Error> onError = null, ErrorCheckType errorsToCheck = ErrorCheckType.CommonErrors) where T : class
 		{
-			var headers = AppendAnalyticHeaders(sdkType, requestHeaders?.ToArray());
+			var headers = AppendAnalyticHeaders(sdkType, requestHeaders);
 			StartCoroutine(GetRequestCor<T>(sdkType, url, headers, onComplete, onError, errorsToCheck));
 		}
 

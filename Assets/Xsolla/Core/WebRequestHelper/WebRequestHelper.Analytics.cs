@@ -45,15 +45,12 @@ namespace Xsolla.Core
 			return result;
 		}
 
-		private List<WebRequestHeader> AppendAnalyticHeaders(SdkType analyticsType, params WebRequestHeader[] headers)
+		private List<WebRequestHeader> AppendAnalyticHeaders(SdkType analyticsType, List<WebRequestHeader> headers)
 		{
 			if (analyticsType == SdkType.None)
 			{
 				Debug.LogWarning("Attempt to add analytics without providing analyticsType parameter");
-				if (headers != null)
-					return new List<WebRequestHeader>(headers);
-				else
-					return null;
+				return headers;
 			}
 
 			var analyticHeaders = GetAnalyticHeaders(analyticsType);
@@ -61,12 +58,35 @@ namespace Xsolla.Core
 
 			if (headers != null)
 			{
-				result = new List<WebRequestHeader>(headers);
+				result = headers;
 				result.AddRange(analyticHeaders);
 			}
 			else
 			{
-				Debug.LogWarning("Attmpt to append analytic headers to 'null'");
+				result = analyticHeaders;
+			}
+
+			return result;
+		}
+
+		private List<WebRequestHeader> AppendAnalyticHeaders(SdkType analyticsType, WebRequestHeader header)
+		{
+			if (analyticsType == SdkType.None)
+			{
+				Debug.LogWarning("Attempt to add analytics without providing analyticsType parameter");
+				return new List<WebRequestHeader>(){header};
+			}
+
+			var analyticHeaders = GetAnalyticHeaders(analyticsType);
+			var result = default(List<WebRequestHeader>);
+
+			if (header != null)
+			{
+				result = new List<WebRequestHeader>(){header};
+				result.AddRange(analyticHeaders);
+			}
+			else
+			{
 				result = analyticHeaders;
 			}
 
