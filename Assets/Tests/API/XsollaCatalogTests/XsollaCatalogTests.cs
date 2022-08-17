@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Runtime.CompilerServices;
+using System.Linq;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
@@ -30,9 +31,24 @@ namespace Xsolla.Tests
 			yield return GetCatalog(defaultValues: false);
 		}
 
-		private IEnumerator GetCatalog([CallerMemberName]string testName = null, bool defaultValues = true)
+		[UnityTest]
+		public IEnumerator GetCatalog_Personalized_HasPersonalizedItem()
 		{
-			yield return TestSignInHelper.Instance.CheckSession();
+			yield return GetCatalog(personalized: true);
+		}
+
+		[UnityTest]
+		public IEnumerator GetCatalog_NonPersonalized_NoPersonalizedItem()
+		{
+			yield return GetCatalog(personalized: false);
+		}
+
+		private IEnumerator GetCatalog([CallerMemberName]string testName = null, bool defaultValues = true, bool personalized = false)
+		{
+			if (personalized)
+				yield return TestSignInHelper.Instance.CheckSession();
+			else
+				Token.Instance = null;
 
 			bool? success = default;
 			string errorMessage = default;
@@ -66,6 +82,14 @@ namespace Xsolla.Tests
 					success = false;
 					return;
 				}
+
+				var hasPersonalizedItem = items.items.FirstOrDefault(x => x.sku.Equals("xsollus_personalized_item")) != null;
+				if (personalized != hasPersonalizedItem)
+				{
+					errorMessage = $"PERSONALIZATION ERROR, EXPECTED {personalized} ACTUAL {hasPersonalizedItem}";
+					success = false;
+					return;
+				};
 
 				success = true;
 			};
@@ -116,9 +140,24 @@ namespace Xsolla.Tests
 			yield return GetCatalogSmplified(defaultValues: false);
 		}
 
-		private IEnumerator GetCatalogSmplified([CallerMemberName]string testName = null, bool defaultValues = true)
+		[UnityTest]
+		public IEnumerator GetCatalogSimplified_Personalized_HasPersonalizedItem()
 		{
-			yield return TestSignInHelper.Instance.CheckSession();
+			yield return GetCatalogSmplified(personalized: true);
+		}
+
+		[UnityTest]
+		public IEnumerator GetCatalogSimplified_NonPersonalized_NoPersonalizedItem()
+		{
+			yield return GetCatalogSmplified(personalized: false);
+		}
+
+		private IEnumerator GetCatalogSmplified([CallerMemberName]string testName = null, bool defaultValues = true, bool personalized = false)
+		{
+			if (personalized)
+				yield return TestSignInHelper.Instance.CheckSession();
+			else
+				Token.Instance = null;
 
 			bool? success = default;
 			string errorMessage = default;
@@ -145,6 +184,14 @@ namespace Xsolla.Tests
 					success = false;
 					return;
 				}
+
+				var hasPersonalizedItem = items.items.FirstOrDefault(x => x.sku.Equals("xsollus_personalized_item")) != null;
+				if (personalized != hasPersonalizedItem)
+				{
+					errorMessage = $"PERSONALIZATION ERROR, EXPECTED {personalized} ACTUAL {hasPersonalizedItem}";
+					success = false;
+					return;
+				};
 
 				success = true;
 			};
@@ -442,9 +489,24 @@ namespace Xsolla.Tests
 			yield return GetVirtualCurrencyPackagesList(defaultValues: false);
 		}
 
-		private IEnumerator GetVirtualCurrencyPackagesList([CallerMemberName]string testName = null, bool defaultValues = true)
+		[UnityTest]
+		public IEnumerator GetVirtualCurrencyPackagesList_Personalized_HasPersonalizedItem()
 		{
-			yield return TestSignInHelper.Instance.CheckSession();
+			yield return GetVirtualCurrencyPackagesList(personalized: true);
+		}
+
+		[UnityTest]
+		public IEnumerator GetVirtualCurrencyPackagesList_NonPersonalized_NoPersonalizedItem()
+		{
+			yield return GetVirtualCurrencyPackagesList(personalized: false);
+		}
+
+		private IEnumerator GetVirtualCurrencyPackagesList([CallerMemberName]string testName = null, bool defaultValues = true, bool personalized = false)
+		{
+			if (personalized)
+				yield return TestSignInHelper.Instance.CheckSession();
+			else
+				Token.Instance = null;
 
 			bool? success = default;
 			string errorMessage = default;
@@ -478,6 +540,14 @@ namespace Xsolla.Tests
 					success = false;
 					return;
 				}
+
+				var hasPersonalizedItem = items.items.FirstOrDefault(x => x.sku.Equals("crystal_pack_specialxsollus")) != null;
+				if (personalized != hasPersonalizedItem)
+				{
+					errorMessage = $"PERSONALIZATION ERROR, EXPECTED {personalized} ACTUAL {hasPersonalizedItem}";
+					success = false;
+					return;
+				};
 
 				success = true;
 			};
@@ -528,9 +598,24 @@ namespace Xsolla.Tests
 			yield return GetBundles(defaultValues: false);
 		}
 
-		private IEnumerator GetBundles([CallerMemberName]string testName = null, bool defaultValues = true)
+		[UnityTest]
+		public IEnumerator GetBundles_Personalized_HasPersonalizedItem()
 		{
-			yield return TestSignInHelper.Instance.CheckSession();
+			yield return GetBundles(personalized: true);
+		}
+
+		[UnityTest]
+		public IEnumerator GetBundles_NonPersonalized_NoPersonalizedItem()
+		{
+			yield return GetBundles(personalized: false);
+		}
+
+		private IEnumerator GetBundles([CallerMemberName]string testName = null, bool defaultValues = true, bool personalized = false)
+		{
+			if (personalized)
+				yield return TestSignInHelper.Instance.CheckSession();
+			else
+				Token.Instance = null;
 
 			bool? success = default;
 			string errorMessage = default;
@@ -564,6 +649,14 @@ namespace Xsolla.Tests
 					success = false;
 					return;
 				}
+
+				var hasPersonalizedItem = items.items.FirstOrDefault(x => x.sku.Equals("sdk_special_pack_forxsollus")) != null;
+				if (personalized != hasPersonalizedItem)
+				{
+					errorMessage = $"PERSONALIZATION ERROR, EXPECTED {personalized} ACTUAL {hasPersonalizedItem}";
+					success = false;
+					return;
+				};
 
 				success = true;
 			};

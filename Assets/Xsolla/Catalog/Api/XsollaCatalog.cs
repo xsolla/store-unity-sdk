@@ -41,7 +41,7 @@ namespace Xsolla.Catalog
 			var url = string.Format(URL_CATALOG_GET_ITEMS, projectId);
 			url = UrlParameterizer.ConcatUrlAndParams(url, limit: limit, offset: offset, locale: locale, additionalFields: additionalFields, country: country);
 
-			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, onSuccess, onError, ErrorCheckType.ItemsListErrors);
+			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, GetPersonalizationHeader(), onSuccess, onError, ErrorCheckType.ItemsListErrors);
 		}
 
 		/// <summary>
@@ -57,7 +57,7 @@ namespace Xsolla.Catalog
 			var url = string.Format(URL_CATALOG_GET_ALL_VIRTUAL_ITEMS, projectId);
 			url = UrlParameterizer.ConcatUrlAndParams(url, locale: locale);
 
-			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, onSuccess, onError, ErrorCheckType.ItemsListErrors);
+			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, GetPersonalizationHeader(), onSuccess, onError, ErrorCheckType.ItemsListErrors);
 		}
 
 		/// <summary>
@@ -79,7 +79,7 @@ namespace Xsolla.Catalog
 			var url = string.Format(URL_CATALOG_GET_ITEMS_IN_GROUP, projectId, groupExternalId);
 			url = UrlParameterizer.ConcatUrlAndParams(url, limit: limit, offset: offset, locale: locale, additionalFields: additionalFields, country: country);
 
-			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, onSuccess, onError, ErrorCheckType.ItemsListErrors);
+			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, GetPersonalizationHeader(), onSuccess, onError, ErrorCheckType.ItemsListErrors);
 		}
 
 		/// <summary>
@@ -140,7 +140,7 @@ namespace Xsolla.Catalog
 			var url = string.Format(URL_VIRTUAL_CURRENCY_PACKAGES_IN_PROJECT, projectId);
 			url = UrlParameterizer.ConcatUrlAndParams(url, limit: limit, offset: offset, locale: locale, additionalFields: additionalFields, country: country);
 
-			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, onSuccess, onError, ErrorCheckType.ItemsListErrors);
+			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, GetPersonalizationHeader(), onSuccess, onError, ErrorCheckType.ItemsListErrors);
 		}
 
 		/// <summary>
@@ -161,7 +161,7 @@ namespace Xsolla.Catalog
 			var url = string.Format(URL_CATALOG_GET_BUNDLES, projectId);
 			url = UrlParameterizer.ConcatUrlAndParams(url, limit: limit, offset: offset, locale: locale, additionalFields: additionalFields, country: country);
 
-			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, onSuccess, onError, ErrorCheckType.ItemsListErrors);
+			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, GetPersonalizationHeader(), onSuccess, onError, ErrorCheckType.ItemsListErrors);
 		}
 
 		/// <summary>
@@ -180,7 +180,7 @@ namespace Xsolla.Catalog
 			var url = string.Format(URL_CATALOG_GET_BUNDLE, projectId, sku);
 			url = UrlParameterizer.ConcatUrlAndParams(url, locale: locale, country: country);
 
-			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, onSuccess, onError, ErrorCheckType.ItemsListErrors);
+			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, GetPersonalizationHeader(), onSuccess, onError, ErrorCheckType.ItemsListErrors);
 		}
 
 		/// <summary>
@@ -284,5 +284,7 @@ namespace Xsolla.Catalog
 				onError: error => TokenRefresh.Instance.CheckInvalidToken(error, onError, () => PurchaseItemForVirtualCurrency(projectId, itemSku, priceSku, onSuccess, onError, purchaseParams, platform, customHeaders)),
 				ErrorCheckType.BuyItemErrors);
 		}
+
+		private WebRequestHeader GetPersonalizationHeader() => (Token.Instance != null) ? WebRequestHeader.AuthHeader(Token.Instance) : null;
 	}
 }

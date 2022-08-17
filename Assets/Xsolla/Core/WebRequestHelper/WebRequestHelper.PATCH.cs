@@ -11,7 +11,7 @@ namespace Xsolla.Core
 	{
 		public void PatchRequest<T, D>(SdkType sdkType, string url, D jsonObject, List<WebRequestHeader> requestHeaders, Action<T> onComplete = null, Action<Error> onError = null, ErrorCheckType errorsToCheck = ErrorCheckType.CommonErrors) where T : class
 		{
-			var headers = AppendAnalyticHeaders(sdkType, requestHeaders?.ToArray());
+			var headers = AppendAnalyticHeaders(sdkType, requestHeaders);
 			StartCoroutine(PatchRequestCor<T, D>(sdkType, url, jsonObject, headers, onComplete, onError, errorsToCheck));
 		}
 
