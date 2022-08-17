@@ -102,7 +102,7 @@ namespace Xsolla.Core
 				if (string.IsNullOrEmpty(stringParam))
 					continue;
 
-				var kvp = $"{key}={stringParam}";
+				var kvp = $"{key}[]={stringParam}";
 				if (isQuestionMarkRequired)
 				{
 					builder.Append($"?{kvp}");
