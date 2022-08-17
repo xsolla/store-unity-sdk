@@ -180,6 +180,46 @@ namespace Xsolla.Tests
 		}
 
 		[UnityTest]
+		public IEnumerator GetSubscriptionPlans_MultipleExternalIds_Success()
+		{
+			yield return TestSignInHelper.Instance.CheckSession();
+
+			bool? success = default;
+			string errorMessage = default;
+
+			XsollaSubscriptions.Instance.GetSubscriptionPlans(
+				"77640",
+				plans =>
+				{
+					if (!NotNull(nameof(plans.items), plans.items, ref errorMessage))
+					{
+						success = false;
+						return;
+					}
+					
+					if (!AreEqual(nameof(plans.items.Length), 2, plans.items.Length, ref errorMessage))
+					{
+						success = false;
+						return;
+					}
+
+					success = true;
+				},
+				error =>
+				{
+					errorMessage = error?.errorMessage ?? "ERROR IS NULL";
+					success = false;
+				},
+				planExternalId: new[]{
+					"tNuy9WMo","IFIwBTne"
+				}
+			);
+
+			yield return new WaitUntil(() => success.HasValue);
+			HandleResult(nameof(GetSubscriptionPlans_FilteredByExternalId_Success), success, errorMessage);
+		}
+
+		[UnityTest]
 		public IEnumerator GetSubscriptionPlans_FilteredBNonExistentExternalId_Success()
 		{
 			yield return TestSignInHelper.Instance.CheckSession();
