@@ -1,4 +1,18 @@
 # Changelog
+## [1.2.0] - 2022-08-19
+### Added
+- Locale param to passwordless authorization
+- PS UI settings for subscription methods
+- Unique Demo User generation
+- Personalization for catalogue requests
+### Fixed
+- Several API and documentation links
+- Updated Newtonsoft Json dependencies
+- In-built browser dependency on exact Newtonsoft Json version
+- Subscriptions array url parameters
+### Removed
+- JWT authorization variant
+
 ## [1.1.0] - 2022-06-10
 ### Added
 - Subscription methods
