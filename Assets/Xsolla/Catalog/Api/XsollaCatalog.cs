@@ -25,8 +25,7 @@ namespace Xsolla.Catalog
 
 		/// <summary>
 		/// Returns all items in catalog.
-/*TEXTREVIEW*/
-		/// If used after authorization will also return items available for this specific user.
+		/// If used after authorization, it will also return items available for this specific user.
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Get virtual items list</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/store-api/items/get-virtual-items"/>
@@ -47,8 +46,7 @@ namespace Xsolla.Catalog
 		}
 
 		/// <summary>
-		/// Gets a list of all virtual items for searching on client-side.
-/*TEXTREVIEW*/
+		/// Gets a list of all virtual items for searching on the client side.
 		/// If used after authorization will also return items available for this specific user.
 		/// </summary>
 		/// <see cref="https://developers.xsolla.com/in-game-store-buy-button-api/virtual-items-currency/catalog/get-all-virtual-items/"/>
@@ -66,8 +64,7 @@ namespace Xsolla.Catalog
 
 		/// <summary>
 		/// Returns items in a specific group.
-/*TEXTREVIEW*/
-		/// If used after authorization will also return items available for this specific user.
+		/// If used after authorization, it will also return items available for this specific user.
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Get items list by specified group</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/store-api/items/get-virtual-items-group"/>
@@ -129,9 +126,8 @@ namespace Xsolla.Catalog
 		}
 
 		/// <summary>
-		/// Returns the list of virtual currency packages.
-/*TEXTREVIEW*/
-		/// If used after authorization will also return items available for this specific user.
+		/// Returns a list of virtual currency packages.
+		/// If used after authorization, it will also return items available for this specific user.
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Get virtual currency package list</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/store-api/items/get-virtual-currency-package"/>
@@ -153,8 +149,7 @@ namespace Xsolla.Catalog
 
 		/// <summary>
 		/// Returns all bundles in a catalog.
-/*TEXTREVIEW*/
-		/// If used after authorization will also return items available for this specific user.
+		/// If used after authorization, it will also return items available for this specific user.
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Get list of bundles</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/store-api/bundles/catalog/get-bundle-list"/>
@@ -176,8 +171,7 @@ namespace Xsolla.Catalog
 
 		/// <summary>
 		/// Returns specified bundle.
-/*TEXTREVIEW*/
-		/// If used after authorization will be able to return bundle available for this specific user.
+		/// If used after authorization, it will be able to return bundle available for this specific user.
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Get specified bundle</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/store-api/bundles/catalog/get-bundle"/>

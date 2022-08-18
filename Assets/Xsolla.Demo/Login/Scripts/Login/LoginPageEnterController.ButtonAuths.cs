@@ -145,7 +145,6 @@ namespace Xsolla.Demo
 
 			IsAuthInProgress = true;
 			PopupFactory.Instance.CreateWaiting().SetCloseCondition(() => IsAuthInProgress == false);
-			/*TEXTREVIEW*/
 			Debug.LogWarning("!PLEASE WAIT! Process of creating new demo user can take up to 30 seconds");
 
 			Action<LoginOAuthJsonResponse> onDemoUserSuccess = response =>
