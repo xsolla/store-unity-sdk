@@ -1,15 +1,15 @@
 # Changelog
 ## [1.2.0] - 2022-08-19
 ### Added
-- Locale param to passwordless authorization
+- Locale parameter to passwordless authorization
 - PS UI settings for subscription methods
 - Unique Demo User generation
-- Personalization for catalogue requests
+- Personalization for catalog requests
 ### Fixed
 - Several API and documentation links
-- Updated Newtonsoft Json dependencies
-- In-built browser dependency on exact Newtonsoft Json version
-- Subscriptions array url parameters
+- Updated Newtonsoft JSON dependencies
+- Built-in browser dependency on exact Newtonsoft JSON version
+- Subscriptions array URL parameters
 ### Removed
 - JWT authorization variant
 
@@ -30,7 +30,7 @@
 - Purchase UI via native SDK for iOS
 - SDK autotest
 - Scripted package export
-- Demo: UI skin selection
+- UI skin selection for demo
 ### Fixed
 - Request error parsing and handling
 - OAuth2.0 token refresh
@@ -39,7 +39,7 @@
 - Demo: Catalog and inventory initialization
 - Other fixes and improvements
 ### Changed
-- Updated wrapper methods for IGS & BB API calls
+- Updated wrapper methods for IGS&BB API calls
 - Updated wrapper methods for Login API calls
 - Separated 'Xsolla' and 'Xsolla.Demo'
 - Separated 'Login' into several modules
@@ -58,7 +58,7 @@
 - 'Web Shop' button in demo
 - Passwordless login via email
 - Passwordless login via SMS
-- Auth via FaceID/TouchID for iOS builds
+- Authentication via FaceID/TouchID for iOS builds
 - Game keys and entitlement system functionality
 - Checking order status using WebSocket
 - 'Resend confirmation email' button
@@ -68,7 +68,7 @@
 ### Changed
 - Updated 'ItemPurchase' method (added 'quantity' parameter)
 - Updated packages and dependencies
-- Improved social networks auth for iOS builds
+- Improved social networks authentication for iOS builds
 
 ## [0.7.0] - 2021-09-17
 ### Added
@@ -78,10 +78,10 @@
 ### Fixed
 - Various fixes and improvements
 ### Changed
-- Refactoring and SDK Architecture improvements
-- Social friends recommendations list increased
-- Update API methods comments
-- Move Newtonsoft to packages
+- Improved refactoring and SDK Architecture
+- Increased social friends recommendations list
+- Updated API methods comments
+- Moved Newtonsoft to packages
 
 ## [0.6.4.5] - 2021-07-16
 ### Added
@@ -96,11 +96,11 @@
 - Several payment systems flow for WebGL build
 - Pay Station auto-close after purchase for Unity 2020 and later
 - Demo behaviour after social auth cancel
-- WeChat errors for android build
+- WeChat errors for Android build
 - Errors raising once after import for Unity 2020 and later
-- In-built browser render quality
+- Built-in browser render quality
 - Included copy of Newtonsoft library now can be safely removed in case of conflict
-- Various other fixes and improvements
+- Various fixes and improvements
 ### Changed
 - API methods update
 - Third-party dependency manager is now included into Xsolla package
@@ -119,11 +119,11 @@
 - In-game browser numpad
 - In-game browser redirection links
 - In-game browser post purchase behaviour
-- In-game browser window size now corresponds with Paystation UI size
-- Handling of few purchase systems that become incompletable with in-game browser
-- Various other fixes and improvements
+- In-game browser window size now corresponds with Pay Station UI size
+- Handling of few purchase systems that become impossible to complete with in-game browser
+- Various fixes and improvements
 ### Changed
-- Changed: Pay Station opening version 2 -> 3
+- Changed: Pay Station opening version from 2 to 3
 - Changed: Updated purchase API methods
 ### Removed
 - Removed: Several surplus libraries (reworked corresponding functionality to use custom logic)
@@ -137,7 +137,7 @@
 
 ## [0.6.4.1] - 2021-04-16
 ### Added
-- QQ Android auth
+- QQ Android authentication
 
 ## [0.6.4.0] - 2021-03-31
 ### Added
@@ -151,7 +151,7 @@
  - Payment status polling
  - Apple ID authorization
 ### Changed
-- PayStation Widget version
+- Pay Station Widget version
 
 ## [0.6.3.4] - 2021-03-18
 ### Changed
@@ -159,13 +159,13 @@
 
 ## [0.6.3.3] - 2021-03-05
 ### Changed
-- Added WeChat Android auth
+- Added WeChat Android authentication
 
 ## [0.6.3.2] - 2021-02-05
 ### Changed
 - Minimum supported version of Unity — 2019.4.19f1
 - URL of user attributes documentation page
-- Login via social networks on android
+- Social login on Android
 
 ### Fixed
 - Built-in browser for MacOS Big Sur
@@ -198,4 +198,4 @@
 ## [1.0.0.0] - 2020-10-08
 
 ### Added
-- Friends system functionality.
+- Friends system functionality
