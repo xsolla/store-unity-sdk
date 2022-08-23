@@ -1,37 +1,49 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 using Xsolla.Auth;
 using Xsolla.Core;
 
-using Debug = UnityEngine.Debug;
-
 namespace Xsolla.Tests
 {
-    public class XsollaAuthSocialTests
-    {
+	public class XsollaAuthSocialTests
+	{
 		[Test]
-		public void GetSocialNetworkAuthUrl_JWT_Success()
+		public void GetSocialNetworkAuthUrl_Success()
 		{
-			XsollaSettings.AuthorizationType = AuthorizationType.JWT;
+			var testName = nameof(GetSocialNetworkAuthUrl_Success);
 			var url = XsollaAuth.Instance.GetSocialNetworkAuthUrl(providerName: SocialProvider.Facebook);
-			Debug.Log($"AUTH URL: {url}");
-			Assert.IsTrue(!string.IsNullOrEmpty(url));
+			if (!string.IsNullOrEmpty(url))
+				TestHelper.Pass($"auth URL: {url}",testName);
+			else
+				TestHelper.Fail("auth URL is NULL",testName);
 		}
 
-		[Test]
-		public void GetSocialNetworkAuthUrl_OAuth_Success()
+		[UnityTest]
+		public IEnumerator GetLinksForSocialAuth_NoLocale_Success()
 		{
-			XsollaSettings.AuthorizationType = AuthorizationType.OAuth2_0;
-			var url = XsollaAuth.Instance.GetSocialNetworkAuthUrl(providerName: SocialProvider.Facebook);
-			Debug.Log($"AUTH URL: {url}");
-			Assert.IsTrue(!string.IsNullOrEmpty(url));
+			yield return GetLinksForSocialAuth(locale: null);
 		}
 
-		private IEnumerator GetLinksForSocialAuth(string testName, string locale)
+		[UnityTest]
+		public IEnumerator GetLinksForSocialAuth_deDE_Locale_Success()
+		{
+			yield return GetLinksForSocialAuth(locale: "de_DE");
+		}
+
+		[UnityTest]
+		public IEnumerator GetLinksForSocialAuth_InvalidToken_SuccessAndTokenRefreshed()
+		{
+			yield return TestSignInHelper.Instance.SetOldToken();
+			yield return GetLinksForSocialAuth(locale: null);
+			TestHelper.CheckTokenChanged();
+		}
+
+		private IEnumerator GetLinksForSocialAuth([CallerMemberName] string testName = null, string locale = null)
 		{
 			yield return TestSignInHelper.Instance.CheckSession();
 
@@ -62,33 +74,7 @@ namespace Xsolla.Tests
 			if (success.Value)
 				TestHelper.Pass(testName);
 			else
-				TestHelper.Fail(testName, errorMessage);
-		}
-
-		[UnityTest]
-		public IEnumerator GetLinksForSocialAuth_NoLocale_Success()
-		{
-			yield return GetLinksForSocialAuth(nameof(GetLinksForSocialAuth_NoLocale_Success), null);
-		}
-
-		[UnityTest]
-		public IEnumerator GetLinksForSocialAuth_enUS_Success()
-		{
-			yield return GetLinksForSocialAuth(nameof(GetLinksForSocialAuth_enUS_Success), "en_US");
-		}
-
-		[UnityTest]
-		public IEnumerator GetLinksForSocialAuth_ruRU_Success()
-		{
-			yield return GetLinksForSocialAuth(nameof(GetLinksForSocialAuth_ruRU_Success), "ru_RU");
-		}
-
-		[UnityTest]
-		public IEnumerator GetLinksForSocialAuth_InvalidToken_SuccessAndTokenRefreshed()
-		{
-			yield return TestSignInHelper.Instance.SetOldToken();
-			yield return GetLinksForSocialAuth(nameof(GetLinksForSocialAuth_InvalidToken_SuccessAndTokenRefreshed), null);
-			TestHelper.CheckTokenChanged(nameof(GetLinksForSocialAuth_InvalidToken_SuccessAndTokenRefreshed));
+				TestHelper.Fail(errorMessage, testName);
 		}
 	}
 }

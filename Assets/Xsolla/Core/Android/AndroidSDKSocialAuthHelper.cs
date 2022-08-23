@@ -7,15 +7,12 @@ namespace Xsolla.Core
 	public class AndroidSDKSocialAuthHelper : IDisposable
 	{
 		private AndroidHelper _androidHelper;
-		private bool _invalidationFlag;
 		private AndroidJavaClass _xlogin;
 
 		public AndroidSDKSocialAuthHelper()
 		{
 			GetXsollaSettings(
 				out string loginID,
-				out AuthorizationType authorizationType,
-				out bool invalidationFlag,
 				out int OAuthClientId,
 				out string facebookAppId,
 				out string googleServerId,
@@ -23,7 +20,6 @@ namespace Xsolla.Core
 				out string qqAppId);
 
 			_androidHelper = new AndroidHelper();
-			_invalidationFlag = invalidationFlag;
 
 			try
 			{
@@ -35,15 +31,10 @@ namespace Xsolla.Core
 				AndroidJavaObject loginConfig;
 				AndroidJavaObject loginConfigBuilder;
 
-				loginConfigBuilder = authorizationType == AuthorizationType.JWT
-					? new AndroidJavaObject("com.xsolla.android.login.LoginConfig$JwtBuilder")
-					: new AndroidJavaObject("com.xsolla.android.login.LoginConfig$OauthBuilder");
-
+				loginConfigBuilder = new AndroidJavaObject("com.xsolla.android.login.LoginConfig$OauthBuilder");
 				loginConfigBuilder.Call<AndroidJavaObject>("setProjectId", loginID);
 				loginConfigBuilder.Call<AndroidJavaObject>("setSocialConfig", socialConfig);
-
-				if (authorizationType == AuthorizationType.OAuth2_0)
-					loginConfigBuilder.Call<AndroidJavaObject>("setOauthClientId", OAuthClientId);
+				loginConfigBuilder.Call<AndroidJavaObject>("setOauthClientId", OAuthClientId);
 
 				loginConfig = loginConfigBuilder.Call<AndroidJavaObject>("build");
 
@@ -69,9 +60,8 @@ namespace Xsolla.Core
 				var actvity = _androidHelper.CurrentActivity;
 				var socialNetworkClass = new AndroidJavaClass("com.xsolla.android.login.social.SocialNetwork");
 				var socialNetworkObject = socialNetworkClass.GetStatic<AndroidJavaObject>(providerName);
-				var invalidationFlag = _invalidationFlag;
 
-				unitySDKHelper.CallStatic("authSocial", actvity, socialNetworkObject, invalidationFlag);
+				unitySDKHelper.CallStatic("authSocial", actvity, socialNetworkObject, /*invalidationFlag:*/true);
 			}
 			catch (Exception ex)
 			{
@@ -144,16 +134,9 @@ namespace Xsolla.Core
 			}
 		}
 
-		private void GetXsollaSettings(out string loginID, out AuthorizationType authorizationType, out bool invalidationFlag, out int OAuthClientId, out string facebookAppId, out string googleServerId, out string wechatAppId, out string qqAppId)
+		private void GetXsollaSettings(out string loginID, out int OAuthClientId, out string facebookAppId, out string googleServerId, out string wechatAppId, out string qqAppId)
 		{
 			loginID = XsollaSettings.LoginId;
-			authorizationType = XsollaSettings.AuthorizationType;
-
-			if (authorizationType == AuthorizationType.JWT)
-				invalidationFlag = XsollaSettings.InvalidateExistingSessions;
-			else /*if (authorizationType == AuthorizationType.OAuth2_0)*/
-				invalidationFlag = true;
-
 			OAuthClientId = XsollaSettings.OAuthClientId;
 			facebookAppId = XsollaSettings.FacebookAppId;
 			googleServerId = XsollaSettings.GoogleServerId;

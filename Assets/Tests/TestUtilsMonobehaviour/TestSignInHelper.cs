@@ -12,18 +12,6 @@ namespace Xsolla.Tests
 
 		public string OldToken => OLD_TOKEN;
 
-		public IEnumerator CheckSession()
-		{
-			if (Token.Instance == null ||
-				string.IsNullOrEmpty(TokenRefresh.Instance.RefreshToken) ||
-				XsollaSettings.AuthorizationType != AuthorizationType.OAuth2_0 ||
-				!XsollaAuth.IsExist)
-			{
-				XsollaSettings.AuthorizationType = AuthorizationType.OAuth2_0;
-				yield return TestSignInHelper.Instance.SignIn();
-			}
-		}
-
 		public IEnumerator SignIn(string login = "xsolla", string password = "xsolla", Action<SignInResult> callback = null)
 		{
 			bool? success = default;
@@ -41,42 +29,57 @@ namespace Xsolla.Tests
 
 		public IEnumerator SignOut()
 		{
-			if (Token.Instance == null ||
-				XsollaSettings.AuthorizationType != AuthorizationType.OAuth2_0)
+			if (Token.Instance == null)
 				yield break;
 
 			bool? success = default;
 			string errorMessage = default;
 
 			Action onSuccess = () => success = true;
-			Action<Error> onSignOutError = error =>
+			Action<Error> onError = error =>
 			{
-				errorMessage = error?.errorMessage ?? "ERROR IS NULL"; success = false;
+				errorMessage = error?.errorMessage ?? "ERROR IS NULL";
 				UnityEngine.Debug.LogError(errorMessage);
+				success = false;
 			};
 
 			XsollaAuth.Instance.OAuthLogout(
 				token: Token.Instance,
 				sessions: OAuthLogoutType.All,
 				onSuccess: onSuccess,
-				onError: onSignOutError);
+				onError: onError);
 
 			yield return new WaitUntil(() => success.HasValue);
+
 			Token.Instance = null;
 			TokenRefresh.Instance.RefreshToken = string.Empty;
 		}
 
+		public IEnumerator CheckSession()
+		{
+			if (Token.Instance == null ||
+				string.IsNullOrEmpty(TokenRefresh.Instance.RefreshToken) ||
+				!XsollaAuth.IsExist)
+			{
+				yield return GenerateNewSession();
+			}
+		}
+
 		public IEnumerator SetOldToken()
 		{
-			yield return GenerateSession();
+			yield return GenerateNewSession();
 			Token.Instance = Token.Create(OLD_TOKEN);
 		}
 
-		public IEnumerator GenerateSession()
+		public IEnumerator GenerateNewSession()
 		{
-			XsollaAuth.Instance.Init();
-			yield return SignOut();
-			yield return CheckSession();
+			if (!XsollaAuth.IsExist)
+				XsollaAuth.Instance.Init();
+
+			if (Token.Instance != null)
+				yield return SignOut();
+
+			yield return TestSignInHelper.Instance.SignIn();
 		}
 
 		public class SignInResult

@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 using Xsolla.Core;
@@ -8,11 +7,11 @@ using Xsolla.Auth;
 namespace Xsolla.Tests
 {
 	public class XsollaAuthOAuthRefreshTokenTests
-    {
+	{
 		[UnityTest]
-        public IEnumerator RefreshOAuthToken_TokenChanged()
-        {
-			yield return TestSignInHelper.Instance.GenerateSession();
+		public IEnumerator RefreshOAuthToken_TokenChanged()
+		{
+			yield return TestSignInHelper.Instance.GenerateNewSession();
 
 			string prevToken = Token.Instance;
 			bool? success = default;
@@ -31,16 +30,16 @@ namespace Xsolla.Tests
 
 			yield return new WaitUntil(() => success.HasValue);
 
-			if (!success.Value)
-				TestHelper.Fail(nameof(RefreshOAuthToken_TokenChanged), errorMessage);
+			if (success.Value)
+				TestHelper.CheckTokenChanged(oldToken: prevToken);
 			else
-				TestHelper.CheckTokenChanged(prevToken, nameof(RefreshOAuthToken_TokenChanged));
+				TestHelper.Fail(errorMessage);
 		}
 
 		[UnityTest]
 		public IEnumerator RefreshOAuthToken_OldRefreshToken_Failure()
 		{
-			yield return TestSignInHelper.Instance.GenerateSession();
+			yield return TestSignInHelper.Instance.GenerateNewSession();
 
 			bool? success = default;
 			string errorMessage = default;
@@ -64,11 +63,11 @@ namespace Xsolla.Tests
 			yield return new WaitUntil(() => success.HasValue);
 
 			if (success.Value)
-				TestHelper.Fail(nameof(RefreshOAuthToken_OldRefreshToken_Failure), "Expected call to fail");
+				TestHelper.Fail(additionalInfo: "Expected call to fail");
 			else if (errorType != ErrorType.InvalidToken)
-				TestHelper.Fail(nameof(RefreshOAuthToken_OldRefreshToken_Failure), $"Unexpected error type: {errorType}");
+				TestHelper.Fail(additionalInfo: $"Unexpected error type: {errorType}");
 			else
-				TestHelper.Pass(nameof(RefreshOAuthToken_OldRefreshToken_Failure), errorMessage);
+				TestHelper.Pass(additionalInfo: errorMessage);
 		}
 	}
 }

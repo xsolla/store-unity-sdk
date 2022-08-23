@@ -25,6 +25,7 @@ namespace Xsolla.Catalog
 
 		/// <summary>
 		/// Returns all items in catalog.
+		/// If used after authorization, it will also return items available for this specific user.
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Get virtual items list</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/store-api/items/get-virtual-items"/>
@@ -41,11 +42,12 @@ namespace Xsolla.Catalog
 			var url = string.Format(URL_CATALOG_GET_ITEMS, projectId);
 			url = UrlParameterizer.ConcatUrlAndParams(url, limit: limit, offset: offset, locale: locale, additionalFields: additionalFields, country: country);
 
-			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, onSuccess, onError, ErrorCheckType.ItemsListErrors);
+			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, GetPersonalizationHeader(), onSuccess, onError, ErrorCheckType.ItemsListErrors);
 		}
 
 		/// <summary>
-		/// Gets a list of all virtual items for searching on client-side.
+		/// Gets a list of all virtual items for searching on the client side.
+		/// If used after authorization will also return items available for this specific user.
 		/// </summary>
 		/// <see cref="https://developers.xsolla.com/in-game-store-buy-button-api/virtual-items-currency/catalog/get-all-virtual-items/"/>
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
@@ -57,11 +59,12 @@ namespace Xsolla.Catalog
 			var url = string.Format(URL_CATALOG_GET_ALL_VIRTUAL_ITEMS, projectId);
 			url = UrlParameterizer.ConcatUrlAndParams(url, locale: locale);
 
-			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, onSuccess, onError, ErrorCheckType.ItemsListErrors);
+			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, GetPersonalizationHeader(), onSuccess, onError, ErrorCheckType.ItemsListErrors);
 		}
 
 		/// <summary>
 		/// Returns items in a specific group.
+		/// If used after authorization, it will also return items available for this specific user.
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Get items list by specified group</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/store-api/items/get-virtual-items-group"/>
@@ -79,7 +82,7 @@ namespace Xsolla.Catalog
 			var url = string.Format(URL_CATALOG_GET_ITEMS_IN_GROUP, projectId, groupExternalId);
 			url = UrlParameterizer.ConcatUrlAndParams(url, limit: limit, offset: offset, locale: locale, additionalFields: additionalFields, country: country);
 
-			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, onSuccess, onError, ErrorCheckType.ItemsListErrors);
+			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, GetPersonalizationHeader(), onSuccess, onError, ErrorCheckType.ItemsListErrors);
 		}
 
 		/// <summary>
@@ -123,7 +126,8 @@ namespace Xsolla.Catalog
 		}
 
 		/// <summary>
-		/// Returns the list of virtual currency packages.
+		/// Returns a list of virtual currency packages.
+		/// If used after authorization, it will also return items available for this specific user.
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Get virtual currency package list</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/store-api/items/get-virtual-currency-package"/>
@@ -140,11 +144,12 @@ namespace Xsolla.Catalog
 			var url = string.Format(URL_VIRTUAL_CURRENCY_PACKAGES_IN_PROJECT, projectId);
 			url = UrlParameterizer.ConcatUrlAndParams(url, limit: limit, offset: offset, locale: locale, additionalFields: additionalFields, country: country);
 
-			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, onSuccess, onError, ErrorCheckType.ItemsListErrors);
+			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, GetPersonalizationHeader(), onSuccess, onError, ErrorCheckType.ItemsListErrors);
 		}
 
 		/// <summary>
 		/// Returns all bundles in a catalog.
+		/// If used after authorization, it will also return items available for this specific user.
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Get list of bundles</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/store-api/bundles/catalog/get-bundle-list"/>
@@ -161,11 +166,12 @@ namespace Xsolla.Catalog
 			var url = string.Format(URL_CATALOG_GET_BUNDLES, projectId);
 			url = UrlParameterizer.ConcatUrlAndParams(url, limit: limit, offset: offset, locale: locale, additionalFields: additionalFields, country: country);
 
-			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, onSuccess, onError, ErrorCheckType.ItemsListErrors);
+			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, GetPersonalizationHeader(), onSuccess, onError, ErrorCheckType.ItemsListErrors);
 		}
 
 		/// <summary>
 		/// Returns specified bundle.
+		/// If used after authorization, it will be able to return bundle available for this specific user.
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Get specified bundle</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/store-api/bundles/catalog/get-bundle"/>
@@ -180,7 +186,7 @@ namespace Xsolla.Catalog
 			var url = string.Format(URL_CATALOG_GET_BUNDLE, projectId, sku);
 			url = UrlParameterizer.ConcatUrlAndParams(url, locale: locale, country: country);
 
-			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, onSuccess, onError, ErrorCheckType.ItemsListErrors);
+			WebRequestHelper.Instance.GetRequest(SdkType.Store, url, GetPersonalizationHeader(), onSuccess, onError, ErrorCheckType.ItemsListErrors);
 		}
 
 		/// <summary>
@@ -284,5 +290,7 @@ namespace Xsolla.Catalog
 				onError: error => TokenRefresh.Instance.CheckInvalidToken(error, onError, () => PurchaseItemForVirtualCurrency(projectId, itemSku, priceSku, onSuccess, onError, purchaseParams, platform, customHeaders)),
 				ErrorCheckType.BuyItemErrors);
 		}
+
+		private WebRequestHeader GetPersonalizationHeader() => (Token.Instance != null) ? WebRequestHeader.AuthHeader(Token.Instance) : null;
 	}
 }

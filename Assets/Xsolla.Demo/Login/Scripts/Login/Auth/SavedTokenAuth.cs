@@ -28,7 +28,7 @@ namespace Xsolla.Demo
 		{
 			Debug.Log($"SavedTokenAuth.TryAuth: Error occured while validating: {error.ErrorType}");
 
-			if (error.ErrorType == ErrorType.InvalidToken && XsollaSettings.AuthorizationType == AuthorizationType.OAuth2_0)
+			if (error.ErrorType == ErrorType.InvalidToken)
 			{
 				Debug.Log($"SavedTokenAuth.TryAuth: Trying to refresh OAuth token");
 				SdkAuthLogic.Instance.RefreshOAuthToken(

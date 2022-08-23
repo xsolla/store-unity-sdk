@@ -7,9 +7,9 @@ namespace Xsolla.Subscriptions
 	{
 		public PaymentSettings settings;
 
-		public ManageSubscriptionRequest(bool sandbox)
+		public ManageSubscriptionRequest(PaymentSettings settings)
 		{
-			settings = new PaymentSettings(sandbox);
+			this.settings = settings;
 		}
 	}
 }

@@ -10,7 +10,7 @@ namespace Xsolla.Inventory
 		private const string URL_VIRTUAL_CURRENCY_BALANCE = Constants.BASE_STORE_API_URL + "/user/virtual_currency_balance";
 		private const string URL_INVENTORY_GET_ITEMS = Constants.BASE_STORE_API_URL + "/user/inventory/items";
 		private const string URL_INVENTORY_ITEM_CONSUME = Constants.BASE_STORE_API_URL + "/user/inventory/item/consume";
-		private const string URL_GET_TIME_LIMITED_ITEMS = Constants.BASE_STORE_API_URL + "/user/subscriptions";
+		private const string URL_GET_TIME_LIMITED_ITEMS = Constants.BASE_STORE_API_URL + "/user/time_limited_items";
 
 		/// <summary>
 		/// Returns balance for all virtual currencies.

@@ -45,7 +45,7 @@ namespace Xsolla.DevTools
 		private static string BuildPackagePath(string packageName)
 		{
 			var projectPath = Application.dataPath.Replace("Assets", string.Empty);
-			return Path.Combine(projectPath, $"{packageName}.unitypackage");
+			return Path.Combine(projectPath, $"{packageName}_v{PlayerSettings.bundleVersion}.unitypackage");
 		}
 
 		private static void ExportPackage(object[] parameters)

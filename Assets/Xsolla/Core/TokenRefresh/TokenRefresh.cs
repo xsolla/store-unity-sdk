@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Xsolla.Core
 {
 	public class TokenRefresh : MonoSingleton<TokenRefresh>
-    {
+	{
 		private string _refreshToken;
 
 		public string RefreshToken
@@ -28,7 +28,6 @@ namespace Xsolla.Core
 		public void CheckInvalidToken(Error error, Action<Error> onErrorCallback, Action repeatCall)
 		{
 			if (error.ErrorType == ErrorType.InvalidToken &&
-				XsollaSettings.AuthorizationType == AuthorizationType.OAuth2_0 &&
 				OnInvalidToken != null)
 			{
 				Debug.Log("TokenRefresh: Attempting to refresh the token");
@@ -39,5 +38,5 @@ namespace Xsolla.Core
 				onErrorCallback?.Invoke(error);
 			}
 		}
-    }
+	}
 }

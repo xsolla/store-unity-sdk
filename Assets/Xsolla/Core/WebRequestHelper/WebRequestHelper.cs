@@ -84,8 +84,8 @@ namespace Xsolla.Core
 		{
 			if (requestHeaders != null)
 				foreach (var header in requestHeaders)
-					webRequest.SetRequestHeader(header.Name, header.Value);
+					if (header != null)
+						webRequest.SetRequestHeader(header.Name, header.Value);
 		}
 	}
 }
-
