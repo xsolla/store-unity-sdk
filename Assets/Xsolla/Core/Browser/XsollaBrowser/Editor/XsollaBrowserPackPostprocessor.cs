@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
-using PuppeteerSharp;
 using UnityEditor;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
@@ -17,10 +16,9 @@ namespace Xsolla.Core.Browser
 
 		public void OnPostprocessBuild(BuildReport report)
 		{
-			if (report.summary.platformGroup != BuildTargetGroup.Standalone)
-				return;
-
-			if (!XsollaSettings.InAppBrowserEnabled || !XsollaSettings.PackInAppBrowserInBuild)
+			if (report.summary.platformGroup != BuildTargetGroup.Standalone ||
+				!XsollaSettings.InAppBrowserEnabled ||
+				!XsollaSettings.PackInAppBrowserInBuild)
 				return;
 
 			var browserPlatform = string.Empty;
