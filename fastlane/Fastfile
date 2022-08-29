@@ -1,0 +1,179 @@
+# Local configuration parameters
+
+@output_directory = ENV["output_directory"]
+@app_identifier = ENV["app_identifier"]
+@team_id = ENV["team_id"]
+
+@app_project_name = "Example"
+
+@project_file = "Example/#{@app_project_name}.xcodeproj"
+
+# Ключи для переменных окружения, созданных экшеном match, значения в ENV появляются ТОЛЬКО после выполнения match!
+@profile_path_development_key = "sigh_#{@app_identifier}_development_profile-path"
+@profile_path_adhoc_key = "sigh_#{@app_identifier}_adhoc_profile-path"
+@profile_name_adhoc_key = "sigh_#{@app_identifier}_adhoc_profile-name"
+
+# Если по разным причинам в кичейне установлено несколько разных сертификатов, которые могут подходить для подписи,
+# например, старые или просроченные, то нужно будет в локальном .env.local прописать конкретный, актуальный идентити.
+# Скопировать его имя можно прямо из кичейна (правой кнопкой мыши, контекстное меню, copy "Blah-blah: (blah) Blah"
+# По умолчанию в дефолтном .env устанавливаются автоматические идентити эппл
+@code_sign_identity_development = ENV["code_sign_identity_development"]
+@code_sign_identity_distribution = ENV["code_sign_identity_distribution"]
+
+# Токен доступа к API DIAWI, установлен в дефолтном .env, при необходимости можно перезаписать своим в .env.local
+@diawi_api_token = ENV["diawi_api_access_token"]
+@diawi_ios_app_name = "SDK iOS Demo"
+
+### LANES ###
+
+default_platform(:ios)
+
+platform :ios do
+
+  ### MATCH ALL ###
+
+  # Команда скачивает из приватного репозитория необходимые сертификаты и профили для разработки и дистрибуции,
+  # устанавливает в кичейн и систему, обновляет все данные в локальной версии проекта. Теоретически, у всех в команде
+  # будут установлены одни и те же сертификаты и профили, и изменений в проекте сохраняемых в гите не будет
+  desc "Sync and apply all used certificate & profile"
+  lane :match_all do
+
+    # Процесс синхронизации профилей и сертификатов, хранящихся в приватном репозитории (может использовать вся команда)
+    match(
+      # Тип adhoc выбран для того, чтобы распространять сборку через DIAWI, он же влияет на типы профилей для подписи
+      type: "development",
+
+      # Не создавать, не обновлять профили и сертификаты у эппла. Подходит для членов команды без доступа к эпплу
+      readonly: ENV["match_readonly"]
+    )
+
+    # Обновляет в проектном файле настройки профиля (устанавливает профиль полученный через match) для релизной конфигурации
+    update_project_provisioning(
+      build_configuration: "Debug",
+      xcodeproj: @project_file,
+      # Путь к профилю берется из переменных окружения, добавляется туда match имя переменной можно посмотреть в выводе в консоль работы match
+      profile: ENV[@profile_path_development_key],
+      code_signing_identity: @code_sign_identity_development
+    )
+
+    # Процесс синхронизации профилей и сертификатов, хранящихся в приватном репозитории (может использовать вся команда)
+    match(
+      # Тип adhoc выбран для того, чтобы распространять сборку через DIAWI, он же влияет на типы профилей для подписи
+      type: "adhoc",
+
+      # Если появились новые устройства, актуализировать и скачать профиль у эппла (отключается следующей настройкой)
+      force_for_new_devices: true,
+
+      # Не создавать, не обновлять профили и сертификаты у эппла. Подходит для членов команды без доступа к эпплу
+      readonly: ENV["match_readonly"]
+    )
+
+    # Обновляет в проектном файле настройки профиля (устанавливает профиль полученный через match) для релизной конфигурации
+    update_project_provisioning(
+      build_configuration: "Release",
+      xcodeproj: @project_file,
+      # Путь к профилю берется из переменных окружения, добавляется туда match имя переменной можно посмотреть в выводе в консоль работы match
+      profile: ENV[@profile_path_adhoc_key],
+      code_signing_identity: @code_sign_identity_distribution
+    )
+
+  end
+
+  ### DIAWI ###
+
+  desc "Build app"
+  lane :diawi_build do
+
+    # Запускает установку подов для проекта
+    cocoapods(podfile: "./Example/")
+
+    # Обновляет настройки автоподписи в проектном файле
+    update_code_signing_settings(
+      # Выключаем автоматическую подпись
+      use_automatic_signing: false,
+      path: @project_file
+    )
+
+    # Процесс синхронизации профилей и сертификатов, хранящихся в приватном репозитории (может использовать вся команда)
+    match(
+      # Тип adhoc выбран для того, чтобы распространять сборку через DIAWI, он же влияет на типы профилей для подписи
+      type: "adhoc",
+
+      # Если появились новые устройства, актуализировать и скачать профиль у эппла (отключается следующей настройкой)
+      force_for_new_devices: true,
+
+      # Не создавать, не обновлять профили и сертификаты у эппла. Подходит для членов команды без доступа к эпплу
+      readonly: ENV["match_readonly"]
+    )
+
+    # Обновляет в проектном файле настройки профиля (устанавливает профиль полученный через match) для релизной конфигурации
+    update_project_provisioning(
+      xcodeproj: @project_file,
+      # Путь к профилю берется из переменных окружения, добавляется туда match имя переменной можно посмотреть в выводе в консоль работы match
+      profile: ENV[@profile_path_adhoc_key],
+      build_configuration: "Release"
+    )
+
+    # Обновляет в проектном файле настройки команды
+    update_project_team(
+      path: @project_file,
+      teamid: @team_id
+    )
+
+    # Собирает билд проекта
+    build_app(
+      workspace: "XsollaSDK.xcworkspace",
+      scheme: "Example",
+      output_directory: @output_directory,
+      # Используем релизную конфигурацию, потому что тестируем "релиз" в DIAWI
+      configuration: "Release",
+      # Тип adhoc выбран для того, чтобы распространять сборку через DIAWI
+      export_method: "ad-hoc",
+      export_options:
+      {
+        # Ручное подписание
+        signingStyle: "manual",
+        compileBitcode: false,
+        uploadBitcode: false,
+        # Профили для подписи
+        provisioningProfiles:
+        {
+          # Имя переменной можно посмотреть в выводе в консоль работы match
+          @app_identifier => ENV[@profile_name_adhoc_key]
+        }
+      },
+      silent: true,
+      clean: true
+    )
+
+    # "Плагин" для закачки сборки в DIAWI
+    diawi(
+      # Токен создается в "профиле" DIAWI
+      token: @diawi_api_token,
+      file: "#{@output_directory}/#{@app_project_name}.ipa",
+      find_by_udid: false,
+      wall_of_apps: false
+    )
+
+    sh("scripts/diawi_callback_helper.sh \"#{lane_context[SharedValues::UPLOADED_FILE_LINK_TO_DIAWI]}\" \"#{@app_identifier}\" \"#{@diawi_ios_app_name}\"")
+
+    # Удаляет артефакты сборки
+    clean_build_artifacts
+
+  end
+
+  ### Health check ###
+
+  desc "Health check"
+  lane :health do
+    puts "✅✅✅ Fastlane is safe and sound"
+  end
+
+  ### PLAYGROUND ###
+
+  desc "Playground"
+  lane :pg do
+    puts "Playground lane"
+  end
+
+end

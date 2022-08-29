@@ -1,0 +1,8 @@
+# The bundle identifier
+app_identifier "com.xsolla.sdk.Example"
+
+# The team identifier
+team_id ENV["team_id"]
+
+# Заменить, если это возможно на переменную окружения, которая НЕ сохраняется в гите
+apple_id ENV["apple_id"]
