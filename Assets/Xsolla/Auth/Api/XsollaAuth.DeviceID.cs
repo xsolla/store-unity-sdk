@@ -23,13 +23,13 @@ namespace Xsolla.Auth
 		/// <param name="onError">Failed operation callback.</param>
 		public void AuthViaDeviceID(DeviceType deviceType, string device, string deviceId, string payload = null, string state = null, Action<string> onSuccess = null, Action<Error> onError = null)
 		{
-			var deviceTypeAsString = deviceType.ToString().ToLower();
+			var deviceTypeToLower = deviceType.ToString().ToLower();
 			var requestBody = new LoginDeviceIdRequest(device, deviceId);
 			var clientId = XsollaSettings.OAuthClientId;
 			var stateUrlParam = state ?? DEFAULT_OAUTH_STATE;
 			var redirectParam = RedirectUtils.GetRedirectUrl();
 
-			var url = string.Format(URL_DEVICE_ID_AUTH, deviceType, clientId, stateUrlParam, redirectParam);
+			var url = string.Format(URL_DEVICE_ID_AUTH, deviceTypeToLower, clientId, stateUrlParam, redirectParam);
 
 			WebRequestHelper.Instance.PostRequest<LoginUrlResponse, LoginDeviceIdRequest>(SdkType.Login, url, requestBody,
 				onComplete: (response) =>
