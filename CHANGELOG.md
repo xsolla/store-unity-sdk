@@ -1,4 +1,8 @@
 # Changelog
+## [1.2.1] - 2022-08-29
+### Fixed
+- DeviceID authorization
+
 ## [1.2.0] - 2022-08-19
 ### Added
 - Locale parameter to passwordless authorization
