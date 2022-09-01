@@ -1,5 +1,5 @@
 # The bundle identifier
-app_identifier "com.xsolla.sdk.Example"
+app_identifier ENV["app_identifier"]
 
 # The team identifier
 team_id ENV["team_id"]

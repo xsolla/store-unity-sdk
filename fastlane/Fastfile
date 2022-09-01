@@ -1,12 +1,11 @@
 # Local configuration parameters
 
-@output_directory = ENV["output_directory"]
+@output_directory = ENV["BUILD_ROOT"] + "/FastlaneOutput"
 @app_identifier = ENV["app_identifier"]
 @team_id = ENV["team_id"]
 
-@app_project_name = "Example"
-
-@project_file = "Example/#{@app_project_name}.xcodeproj"
+@app_project_name = "XsollaInGameStoreUnityAsset"
+@project_file = ENV["BUILD_ROOT"] + "/Unity-iPhone.xcodeproj"
 
 # Ключи для переменных окружения, созданных экшеном match, значения в ENV появляются ТОЛЬКО после выполнения match!
 @profile_path_development_key = "sigh_#{@app_identifier}_development_profile-path"
@@ -22,7 +21,7 @@
 
 # Токен доступа к API DIAWI, установлен в дефолтном .env, при необходимости можно перезаписать своим в .env.local
 @diawi_api_token = ENV["diawi_api_access_token"]
-@diawi_ios_app_name = "SDK iOS Demo"
+@diawi_ios_app_name = "Unity SDK Demo iOS " + ENV["UNITY_VERSION"]
 
 ### LANES ###
 
@@ -84,9 +83,6 @@ platform :ios do
   desc "Build app"
   lane :diawi_build do
 
-    # Запускает установку подов для проекта
-    cocoapods(podfile: "./Example/")
-
     # Обновляет настройки автоподписи в проектном файле
     update_code_signing_settings(
       # Выключаем автоматическую подпись
@@ -111,6 +107,7 @@ platform :ios do
       xcodeproj: @project_file,
       # Путь к профилю берется из переменных окружения, добавляется туда match имя переменной можно посмотреть в выводе в консоль работы match
       profile: ENV[@profile_path_adhoc_key],
+      target_filter: "Unity-iPhone",
       build_configuration: "Release"
     )
 
@@ -122,8 +119,9 @@ platform :ios do
 
     # Собирает билд проекта
     build_app(
-      workspace: "XsollaSDK.xcworkspace",
-      scheme: "Example",
+      xcargs: "-UseModernBuildSystem=TRUE",
+      project: @project_file,
+      scheme: "Unity-iPhone",
       output_directory: @output_directory,
       # Используем релизную конфигурацию, потому что тестируем "релиз" в DIAWI
       configuration: "Release",
