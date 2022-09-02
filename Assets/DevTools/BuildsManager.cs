@@ -13,7 +13,7 @@ namespace Xsolla.DevTools
 		{
 			var buildTarget = GetBuildTarget();
 			var buildPath = GetBuildPath(buildTarget);
-			var buildScenes = GetBuildScenes();
+			var buildScenes = GetBuildScenes(buildTarget);
 
 			Debug.Log($"[BuildsManager] Begin. Target: {buildTarget} Path:{buildPath}");
 
@@ -58,12 +58,12 @@ namespace Xsolla.DevTools
 			throw new Exception($"Can't parse build target from environment argument: {envArg}");
 		}
 
-		private static string GetBuildPath(BuildTarget target)
+		private static string GetBuildPath(BuildTarget buildTarget)
 		{
 			var path = GetEnvironmentArgument("customBuildPath");
 			var productName = Application.productName;
 
-			switch (target)
+			switch (buildTarget)
 			{
 				case BuildTarget.Android:
 					return Path.Combine(path, $"{productName}.apk");
@@ -75,13 +75,18 @@ namespace Xsolla.DevTools
 			}
 		}
 
-		private static string[] GetBuildScenes()
+		private static string[] GetBuildScenes(BuildTarget buildTarget)
 		{
-			return EditorBuildSettings.scenes
-				.Where(scene => scene.enabled)
-				.Where(scene => !string.IsNullOrEmpty(scene.path))
-				.Select(sce => sce.path)
-				.ToArray();
+			if (buildTarget == BuildTarget.Android || buildTarget == BuildTarget.iOS)
+			{
+				return new[]{
+					"Assets/Xsolla.Demo/Common/Scene/XsollusMobilePortrait.unity"
+				};
+			}
+			
+			return new[]{
+				"Assets/Xsolla.Demo/Common/Scene/Xsollus.unity"
+			};
 		}
 
 		private static string GetEnvironmentArgument(string name)
