@@ -1,4 +1,3 @@
-using System;
 using System.IO;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
@@ -9,7 +8,6 @@ namespace Xsolla.Core.Editor
 	public class AndroidManifestPreprocessor : IPreprocessBuildWithReport
 	{
 		const string MainManifestPath = "Plugins/Android/AndroidManifest.xml";
-		const string XsollaManifestLabel = "xsolla";
 
 		public int callbackOrder
 		{
@@ -21,7 +19,8 @@ namespace Xsolla.Core.Editor
 #if UNITY_ANDROID
 			Debug.Log("Xsolla SDK is now preprocessing your AndroidManifest.xml");
 			SetupWeChat();
-			SetupPaymentsProxyActivity();
+			SetupProxyActivity("AndroidPaymentsProxy");
+			SetupProxyActivity("AndroidAuthProxy");
 #endif
 		}
 
@@ -69,7 +68,7 @@ namespace Xsolla.Core.Editor
 			}
 		}
 
-		private void SetupPaymentsProxyActivity()
+		private void SetupProxyActivity(string activityName)
 		{
 			var manifestPath = Path.Combine(Application.dataPath, MainManifestPath);
 			var manifestExists = File.Exists(manifestPath);
@@ -80,9 +79,9 @@ namespace Xsolla.Core.Editor
 			}
 
 			var manifestWrapper = new AndroidManifestWrapper(manifestPath);
-			var activityName = $"{Application.identifier}.androidProxies.AndroidPaymentsProxy";
+			var fullActivityName = $"{Application.identifier}.androidProxies.{activityName}";
 
-			var activityNode = new ActivityNode(activityName);
+			var activityNode = new ActivityNode(fullActivityName);
 			activityNode.AddAttribute(AndroidManifestConstants.ExportedAttribute, "true");
 
 			// cleanup manifest in case activity node was added previously
@@ -115,10 +114,10 @@ namespace Xsolla.Core.Editor
 					return dir;
 				}
 
-				var rec = FindAndroidManifestBackup(dir);
-				if (rec != null)
+				var recursiveSearchResult = FindAndroidManifestBackup(dir);
+				if (recursiveSearchResult != null)
 				{
-					return rec;
+					return recursiveSearchResult;
 				}
 			}
 
