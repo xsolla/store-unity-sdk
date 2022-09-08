@@ -15,15 +15,14 @@ import com.xsolla.android.login.social.SocialNetwork;
 
 public class AndroidAuthProxy extends Activity
 {
-
-    private static final String ARG_SOCIAL_NETWORK = "social_network";
+    private static SocialNetwork targetSocialNetwork;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
 
-        SocialNetwork socialNetwork = SocialNetwork.valueOf(getIntent().getStringExtra(ARG_SOCIAL_NETWORK));
+        SocialNetwork socialNetwork = targetSocialNetwork;
         XLogin.startSocialAuth(this, socialNetwork, new StartSocialCallback()
         {
             @Override
@@ -42,7 +41,7 @@ public class AndroidAuthProxy extends Activity
     {
         super.onActivityResult(requestCode, resultCode, data);
 
-        SocialNetwork socialNetwork = SocialNetwork.valueOf(getIntent().getStringExtra(ARG_SOCIAL_NETWORK));
+        SocialNetwork socialNetwork = targetSocialNetwork;
 
         XLogin.finishSocialAuth(this, socialNetwork, requestCode, requestCode, data,
         new FinishSocialCallback()
@@ -90,8 +89,7 @@ public class AndroidAuthProxy extends Activity
 
     public static void authSocial(Activity currentActivity, Activity proxyActivity, SocialNetwork socialNetwork)
     {
-        Intent intent = new Intent(currentActivity, AndroidAuthProxy.class);
-        intent.putExtra(ARG_SOCIAL_NETWORK, socialNetwork.toString());
-        currentActivity.startActivity(intent);
+        targetSocialNetwork = socialNetwork;
+        currentActivity.startActivity(new Intent(currentActivity, AndroidAuthProxy.class));
     }
 }

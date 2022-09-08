@@ -56,13 +56,12 @@ namespace Xsolla.Core
 
 			try
 			{
-				var unitySDKHelper = new AndroidJavaClass($"{Application.identifier}.androidProxies.AndroidAuthProxy");
-				var proxyActivity = new AndroidJavaObject($"{Application.identifier}.androidProxies.AndroidAuthProxy");
 				var currentActivity = _androidHelper.CurrentActivity;
+				var proxyActivity = new AndroidJavaObject($"{Application.identifier}.androidProxies.AndroidAuthProxy");
 				var socialNetworkClass = new AndroidJavaClass("com.xsolla.android.login.social.SocialNetwork");
 				var socialNetworkObject = socialNetworkClass.GetStatic<AndroidJavaObject>(providerName);
 
-				unitySDKHelper.CallStatic("authSocial", currentActivity, proxyActivity, socialNetworkObject);
+				proxyActivity.CallStatic("authSocial", currentActivity, proxyActivity, socialNetworkObject);
 			}
 			catch (Exception ex)
 			{
