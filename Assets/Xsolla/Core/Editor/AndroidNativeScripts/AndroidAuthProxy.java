@@ -9,13 +9,22 @@ import android.os.Bundle;
 import com.unity3d.player.UnityPlayer;
 
 import com.xsolla.android.login.XLogin;
-import com.xsolla.android.login.callback.FinishSocialCallback;
-import com.xsolla.android.login.callback.StartSocialCallback;
 import com.xsolla.android.login.social.SocialNetwork;
+import com.xsolla.android.login.callback.AuthCallback;
+import com.xsolla.android.login.callback.StartSocialCallback;
+import com.xsolla.android.login.callback.FinishSocialCallback;
 
 public class AndroidAuthProxy extends Activity
 {
     private static SocialNetwork targetSocialNetwork;
+    private static AuthCallback authCallback;
+
+    public static void authSocial(Activity currentActivity, Activity proxyActivity, SocialNetwork socialNetwork, AuthCallback callback)
+    {
+        targetSocialNetwork = socialNetwork;
+        authCallback = callback;
+        currentActivity.startActivity(new Intent(currentActivity, AndroidAuthProxy.class));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -30,7 +39,7 @@ public class AndroidAuthProxy extends Activity
 
             @Override
             public void onError(Throwable throwable, String errorMessage) {
-                sendMessage(socialNetwork.toString(), "ERROR", String.format("Error:'%s' Message:'%s'",throwable.toString(), errorMessage));
+                authCallback.onError(throwable, String.format("Error:'%s' Message:'%s'",throwable.toString(), errorMessage));
                 finish();
             }
         });
@@ -48,48 +57,21 @@ public class AndroidAuthProxy extends Activity
         {
             @Override
             public void onAuthSuccess() {
-                sendMessage(socialNetwork.toString(), "SUCCESS", XLogin.getToken());
+                authCallback.onSuccess();
                 finish();
             }
 
             @Override
             public void onAuthCancelled() {
-                sendMessage(socialNetwork.toString(), "CANCELLED", null);
+                authCallback.onError(new Throwable(), "CANCELLED");
                 finish();
             }
 
             @Override
             public void onAuthError(Throwable throwable, String errorMessage) {
-                sendMessage(socialNetwork.toString(), "ERROR", String.format("Error:'%s' Message:'%s'",throwable.toString(), errorMessage));
+                authCallback.onError(throwable, String.format("Error:'%s' Message:'%s'",throwable.toString(), errorMessage));
                 finish();
             }
         });
-    }
-
-    public static void sendMessage(String socialNetwork, String status, String body)
-    {
-        try
-        {
-            Class unityPlayer = Class.forName("com.unity3d.player.UnityPlayer");
-            Method method = unityPlayer.getMethod("UnitySendMessage", String.class, String.class, String.class);
-            StringBuilder builder = new StringBuilder(socialNetwork).append('#').append(status);
-            if (body != null) {
-                builder.append('#');
-                builder.append(body);
-            }
-
-            String unityArgument = builder.toString();
-            method.invoke(unityPlayer, "SocialNetworks", "ReceiveSocialAuthResult", unityArgument);
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    public static void authSocial(Activity currentActivity, Activity proxyActivity, SocialNetwork socialNetwork)
-    {
-        targetSocialNetwork = socialNetwork;
-        currentActivity.startActivity(new Intent(currentActivity, AndroidAuthProxy.class));
     }
 }
