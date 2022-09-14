@@ -59,6 +59,8 @@ deploy doc:
     url: https://$CI_PROJECT_NAME-$CI_COMMIT_REF_NAME.doc.srv.local/$URL_SLUG
     on_stop: stop doc
   when: manual
+  after_script:
+    - echo https://$CI_PROJECT_NAME-$CI_COMMIT_REF_NAME.doc.srv.local/$URL_SLUG
   tags:
     - sshclient
 
