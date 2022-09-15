@@ -45,3 +45,43 @@ build doc:
     - build.zip
   tags:
     - devops
+
+deploy doc:
+  stage: deploy
+  extends:      .deploy doc
+  only:
+    - /^v.*/
+  dependencies:
+    - build doc
+  environment:
+    name: doc/$CI_COMMIT_REF_SLUG
+    url: https://$CI_PROJECT_NAME-$CI_COMMIT_REF_NAME.doc.srv.local/$URL_SLUG
+    on_stop: stop doc
+  when: manual
+  after_script:
+    - echo https://$CI_PROJECT_NAME-$CI_COMMIT_REF_NAME.doc.srv.local/$URL_SLUG
+  tags:
+    - sshclient
+
+current doc:
+  extends:      .current doc
+  only:
+    - /^v.*/
+  dependencies:
+    - deploy doc
+  environment:
+    name: doc/current
+    url: https://developers.xsolla.com/sdk-code-references/unity-store
+  tags:
+    - sshclient
+
+stop doc:
+  extends:      .stop doc
+  environment:
+    name: doc/$CI_COMMIT_REF_SLUG
+    action: stop
+  only:
+    - /^v.*/
+  tags:
+    - sshclient
+  dependencies: []
