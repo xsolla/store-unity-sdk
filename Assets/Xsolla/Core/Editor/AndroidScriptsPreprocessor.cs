@@ -18,43 +18,19 @@ namespace Xsolla.Core.Editor
 		{
 #if UNITY_ANDROID
 			Debug.Log("Xsolla SDK is now preprocessing native Android scripts.");
-			SetupWechatActivity();
-			SetupPaymentsProxyActivity();
+			SetupActivity("WXEntryActivity",      enableCondition:!string.IsNullOrEmpty(XsollaSettings.WeChatAppId), packageSuffix:"wxapi");
+			SetupActivity("AndroidPaymentsProxy", enableCondition:true, packageSuffix:"androidProxies");
+			SetupActivity("AndroidAuthProxy",     enableCondition:true, packageSuffix:"androidProxies");
 #endif
 		}
 
-		void SetupWechatActivity()
+		private void SetupActivity(string activityName, bool enableCondition, string packageSuffix)
 		{
-			var wechatActivityScriptPath = Path.Combine(FindAndroidScripts(Application.dataPath).Replace("\\", "/"), "WXEntryActivity.java");
+			var activityScriptPath = Path.Combine(FindAndroidScripts(Application.dataPath).Replace("\\", "/"), $"{activityName}.java");
 
-			if (!File.Exists(wechatActivityScriptPath))
-			{
-				Debug.LogError("WeChat Android activity script is missing.");
-				return;
-			}
-
-			var wechatActivityAssetPath = "Assets" + wechatActivityScriptPath.Substring(Application.dataPath.Length);
-			var wechatActivityAsset = AssetImporter.GetAtPath(wechatActivityAssetPath) as PluginImporter;
-			if (wechatActivityAsset != null)
-			{
-				wechatActivityAsset.SetCompatibleWithPlatform(BuildTarget.Android, !string.IsNullOrEmpty(XsollaSettings.WeChatAppId));
-				wechatActivityAsset.SaveAndReimport();
-			}
-
-			var scriptContent = File.ReadAllText(wechatActivityScriptPath);
-
-			var androidPackageName = Application.identifier;
-			var editedScriptContent = Regex.Replace(scriptContent, "package.+;", string.Format("package {0}.wxapi;", androidPackageName));
-
-			File.WriteAllText(wechatActivityScriptPath, editedScriptContent);
-		}
-		
-		private void SetupPaymentsProxyActivity()
-		{
-			var activityScriptPath = Path.Combine(FindAndroidScripts(Application.dataPath).Replace("\\", "/"), "AndroidPaymentsProxy.java");
 			if (!File.Exists(activityScriptPath))
 			{
-				Debug.LogError("Android Payments Proxy activity script is missing.");
+				Debug.LogError($"{activityName} activity script is missing.");
 				return;
 			}
 
@@ -62,18 +38,19 @@ namespace Xsolla.Core.Editor
 			var activityAsset = AssetImporter.GetAtPath(assetPath) as PluginImporter;
 			if (activityAsset != null)
 			{
-				activityAsset.SetCompatibleWithPlatform(BuildTarget.Android, true);
+				activityAsset.SetCompatibleWithPlatform(BuildTarget.Android, enableCondition);
 				activityAsset.SaveAndReimport();
 			}
 
 			var scriptContent = File.ReadAllText(activityScriptPath);
+
 			var androidPackageName = Application.identifier;
-			var editedScriptContent = Regex.Replace(scriptContent, "package.+;", $"package {androidPackageName}.androidProxies;");
+			var editedScriptContent = Regex.Replace(scriptContent, "package.+;", $"package {androidPackageName}.{packageSuffix};");
 
 			File.WriteAllText(activityScriptPath, editedScriptContent);
 		}
 
-		static string FindAndroidScripts(string path)
+		private static string FindAndroidScripts(string path)
 		{
 			foreach (var dir in Directory.GetDirectories(path))
 			{
@@ -82,10 +59,10 @@ namespace Xsolla.Core.Editor
 					return dir;
 				}
 
-				var rec = FindAndroidScripts(dir);
-				if (rec != null)
+				var recursiveSearchResult = FindAndroidScripts(dir);
+				if (recursiveSearchResult != null)
 				{
-					return rec;
+					return recursiveSearchResult;
 				}
 			}
 
