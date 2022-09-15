@@ -45,26 +45,16 @@ namespace Xsolla.Core
 		public static bool PayStationGroupFoldout { get; set; }
 		public static bool RedirectPolicyGroupFoldout { get; set; }
 
-		private const string LoginIdKey = nameof(loginId);
 		public static string LoginId
 		{
-			get
-			{
-				if (PlayerPrefs.HasKey(LoginIdKey))
-					return PlayerPrefs.GetString(LoginIdKey);
-
-				return Instance.loginId;
-			}
+			get => Instance.loginId;
 			set
 			{
-				PlayerPrefs.SetString(LoginIdKey, value);
+				Instance.loginId = value;
 
 				if (!Application.isPlaying)
-				{
-					Instance.loginId = value;
 					MarkAssetDirty();
-				}
-				
+
 				Changed?.Invoke();
 			}
 		}
@@ -79,26 +69,15 @@ namespace Xsolla.Core
 			}
 		}
 
-		private const string OAuthClientIdKey = nameof(oauthClientId);
-
 		public static int OAuthClientId
 		{
-			get
-			{
-				if (PlayerPrefs.HasKey(OAuthClientIdKey))
-					return PlayerPrefs.GetInt(OAuthClientIdKey);
-
-				return Instance.oauthClientId;
-			}
+			get => Instance.oauthClientId;
 			set
 			{
-				PlayerPrefs.SetInt(OAuthClientIdKey, value);
+				Instance.oauthClientId = value;
 
 				if (!Application.isPlaying)
-				{
-					Instance.oauthClientId = value;
 					MarkAssetDirty();
-				}
 
 				Changed?.Invoke();
 			}
@@ -114,27 +93,16 @@ namespace Xsolla.Core
 			}
 		}
 
-		private const string StoreProjectIdKey = nameof(storeProjectId);
-
 		public static string StoreProjectId
 		{
-			get
-			{
-				if (PlayerPrefs.HasKey(StoreProjectIdKey))
-					return PlayerPrefs.GetString(StoreProjectIdKey);
-
-				return Instance.storeProjectId;
-			}
+			get => Instance.storeProjectId;
 			set
 			{
-				PlayerPrefs.SetString(StoreProjectIdKey, value);
+				Instance.storeProjectId = value;
 
 				if (!Application.isPlaying)
-				{
-					Instance.storeProjectId = value;
 					MarkAssetDirty();
-				}
-				
+
 				Changed?.Invoke();
 			}
 		}
