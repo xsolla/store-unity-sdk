@@ -21,22 +21,15 @@ namespace Xsolla.Demo
 				return false;
 			}
 
-			var isDefaultLoginID = XsollaSettings.LoginId == Constants.DEFAULT_LOGIN_ID || XsollaSettings.LoginId == Constants.DEFAULT_PLATFORM_LOGIN_ID;
+			var isDefaultLoginID = XsollaSettings.LoginId == Constants.DEFAULT_LOGIN_ID;
 			var isDefaultProjectID = XsollaSettings.StoreProjectId == Constants.DEFAULT_PROJECT_ID;
 
 			if (isDefaultLoginID && !isDefaultProjectID)
 			{
-				var errorMessage = $"You changed [XsollaSettings->ProjectID] to '{XsollaSettings.StoreProjectId}', but did not change LoginID. Change LoginID from '{XsollaSettings.LoginId}' to correct value.";
+				var errorMessage = $"You've changed [XsollaSettings->ProjectID] to '{XsollaSettings.StoreProjectId}', but did not change LoginID. Change LoginID from '{XsollaSettings.LoginId}' to correct value.";
 				GenerateLoginSettingsError(errorMessage);
 				return false;
 			}
-			
-			//if (isDefaultProjectID && !isDefaultLoginID)
-			//{
-			//	var errorMessage = $"You changed [XsollaSettings->LoginID] to '{XsollaSettings.LoginId}', but did not change ProjectID. Change ProjectID from '{XsollaSettings.StoreProjectId}' to correct value.";
-			//	GenerateLoginSettingsError(errorMessage);
-			//	return false;
-			//}
 
 			return true;
 		}

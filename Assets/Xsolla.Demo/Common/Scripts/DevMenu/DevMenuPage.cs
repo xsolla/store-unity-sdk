@@ -52,10 +52,10 @@ namespace Xsolla.Core
 
 		private void OnResetButtonClick()
 		{
-			XsollaSettings.LoginId = XsollaSettings.Instance.loginId;
-			XsollaSettings.StoreProjectId = XsollaSettings.Instance.storeProjectId;
-			XsollaSettings.OAuthClientId = XsollaSettings.Instance.oauthClientId;
-			DemoSettings.WebStoreUrl = DemoSettings.Instance.webStoreUrl;
+			XsollaSettings.LoginId = Constants.DEFAULT_LOGIN_ID;
+			XsollaSettings.StoreProjectId = Constants.DEFAULT_PROJECT_ID;
+			XsollaSettings.OAuthClientId = Constants.DEFAULT_OAUTH_CLIENT_ID;
+			DemoSettings.WebStoreUrl = Constants.DEFAULT_WEB_STORE_URL;
 			ThemesLibrary.Current = ThemesLibrary.Themes.FirstOrDefault();
 
 			RedrawFields();

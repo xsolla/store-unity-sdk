@@ -7,18 +7,18 @@ namespace Xsolla.Core
 {
 	public class XsollaSettings : ScriptableObject
 	{
-		private const string SettingsAssetName = "XsollaSettings";
-		private const string SettingsAssetPath = "Resources/";
-		private const string SettingsAssetExtension = ".asset";
+		private const string SETTINGS_ASSET_NAME = "XsollaSettings";
+		private const string SETTINGS_ASSET_PATH = "Resources/";
+		private const string SETTINGS_ASSET_EXTENSION = ".asset";
 
 		private static XsollaSettings _instance;
 
-		[SerializeField] public string loginId = Constants.DEFAULT_LOGIN_ID;
+		[SerializeField] private string loginId = Constants.DEFAULT_LOGIN_ID;
 		[SerializeField] private string callbackUrl = default;
 		[SerializeField] private bool invalidateExistingSessions = default;
-		[SerializeField] public int oauthClientId = default;
+		[SerializeField] private int oauthClientId = Constants.DEFAULT_OAUTH_CLIENT_ID;
 
-		[SerializeField] public string storeProjectId = Constants.DEFAULT_PROJECT_ID;
+		[SerializeField] private string storeProjectId = Constants.DEFAULT_PROJECT_ID;
 		[SerializeField] private bool isSandbox = true;
 		[SerializeField] private bool inAppBrowserEnabled = true;
 		[SerializeField] private bool packInAppBrowserInBuild = true;
@@ -39,15 +39,13 @@ namespace Xsolla.Core
 		[SerializeField] private string qqAppId = default;
 
 		[SerializeField] private LogLevel logLevel = LogLevel.InfoWarningsErrors;
-		
-		private const string LoginIdKey = nameof(loginId);
 
 		public static event Action Changed;
-		
+
 		public static bool PayStationGroupFoldout { get; set; }
-		
 		public static bool RedirectPolicyGroupFoldout { get; set; }
 
+		private const string LoginIdKey = nameof(loginId);
 		public static string LoginId
 		{
 			get
@@ -257,23 +255,21 @@ namespace Xsolla.Core
 		{
 			get
 			{
-				_instance = _instance ? _instance : Resources.Load(SettingsAssetName) as XsollaSettings;
-				if (_instance != null) return _instance;
-				_instance = CreateInstance<XsollaSettings>();
-				SaveAsset(Path.Combine(GetSdkPath(), SettingsAssetPath), SettingsAssetName);
+				if (_instance)
+					return _instance;
+				
+				_instance = Resources.Load(SETTINGS_ASSET_NAME) as XsollaSettings;
+				if (_instance)
+					return _instance;
 
+				_instance = CreateInstance<XsollaSettings>();
+#if UNITY_EDITOR
+				var absolutePath = Path.GetDirectoryName(Path.GetDirectoryName(FindEditor(Application.dataPath)));
+				var sdkPath = absolutePath.Replace("\\", "/").Replace(Application.dataPath, "Assets"); 
+				SaveAsset(Path.Combine(sdkPath, SETTINGS_ASSET_PATH), SETTINGS_ASSET_NAME);
+#endif
 				return _instance;
 			}
-		}
-
-		private static string GetSdkPath()
-		{
-			return GetAbsoluteSdkPath().Replace("\\", "/").Replace(Application.dataPath, "Assets");
-		}
-
-		private static string GetAbsoluteSdkPath()
-		{
-			return Path.GetDirectoryName(Path.GetDirectoryName(FindEditor(Application.dataPath)));
 		}
 
 		private static string FindEditor(string path)
@@ -302,11 +298,9 @@ namespace Xsolla.Core
 		{
 #if UNITY_EDITOR
 			if (!Directory.Exists(directory))
-			{
 				Directory.CreateDirectory(directory);
-			}
 
-			AssetDatabase.CreateAsset(Instance, directory + name + SettingsAssetExtension);
+			AssetDatabase.CreateAsset(Instance, $"{directory}{name}{SETTINGS_ASSET_EXTENSION}");
 			AssetDatabase.Refresh();
 #endif
 		}
