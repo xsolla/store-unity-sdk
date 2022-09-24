@@ -99,13 +99,13 @@ namespace Xsolla.Subscriptions
 		public void GetSubscriptionRenewalUrl(string projectId, int subscriptionId, PaymentSettings settings, Action<PaymentLink> onSuccess, Action<Error> onError = null)
 		{
 			var url = string.Format(URL_GET_RENEWAL_URL, projectId, subscriptionId);
-			var data = new RenewalSubscriptionRequest(settings);
+			var data = new RenewalSubscriptionRequest(CheckAndFillPaymentSettings(settings));
 			WebRequestHelper.Instance.PostRequest(SdkType.Subscriptions, url, data, WebRequestHeader.AuthHeader(Token.Instance), onSuccess, onError);
 		}
 
 		public void GetSubscriptionRenewalUrl(string projectId, int subscriptionId, Action<PaymentLink> onSuccess, Action<Error> onError = null)
 		{
-			GetSubscriptionRenewalUrl(projectId, subscriptionId, new PaymentSettings(XsollaSettings.IsSandbox), onSuccess, onError);
+			GetSubscriptionRenewalUrl(projectId, subscriptionId, new PaymentSettings(), onSuccess, onError);
 		}
 
 		/// <summary>
@@ -123,13 +123,13 @@ namespace Xsolla.Subscriptions
 			var url = string.Format(URL_GET_PURCHASE_URL, projectId);
 			url = UrlParameterizer.ConcatUrlAndParams(url, country: country);
 
-			var data = new BuySubscriptionRequest(planExternalId, settings);
+			var data = new BuySubscriptionRequest(planExternalId, CheckAndFillPaymentSettings(settings));
 			WebRequestHelper.Instance.PostRequest(SdkType.Subscriptions, url, data, WebRequestHeader.AuthHeader(Token.Instance), onSuccess, onError);
 		}
 
 		public void GetSubscriptionPurchaseUrl(string projectId, string planExternalId, Action<PaymentLink> onSuccess, Action<Error> onError = null, string country = null)
 		{
-			GetSubscriptionPurchaseUrl(projectId, planExternalId, new PaymentSettings(XsollaSettings.IsSandbox), onSuccess, onError, country);
+			GetSubscriptionPurchaseUrl(projectId, planExternalId, new PaymentSettings(), onSuccess, onError, country);
 		}
 
 		/// <summary>
@@ -146,13 +146,13 @@ namespace Xsolla.Subscriptions
 			var url = string.Format(URL_GET_MANAGEMENT_URL, projectId);
 			url = UrlParameterizer.ConcatUrlAndParams(url, country: country);
 
-			var data = new ManageSubscriptionRequest(settings);
+			var data = new ManageSubscriptionRequest(CheckAndFillPaymentSettings(settings));
 			WebRequestHelper.Instance.PostRequest(SdkType.Subscriptions, url, data, WebRequestHeader.AuthHeader(Token.Instance), onSuccess, onError);
 		}
 
 		public void GetSubscriptionManagementUrl(string projectId, Action<PaymentLink> onSuccess, Action<Error> onError = null, string country = null)
 		{
-			GetSubscriptionManagementUrl(projectId, new PaymentSettings(XsollaSettings.IsSandbox), onSuccess, onError, country);
+			GetSubscriptionManagementUrl(projectId, new PaymentSettings(), onSuccess, onError, country);
 		}
 
 		/// <summary>
@@ -175,6 +175,49 @@ namespace Xsolla.Subscriptions
 			url = UrlParameterizer.ConcatUrlAndParams(url, "plan_external_id", planExternalId);
 			url = UrlParameterizer.ConcatUrlAndParams(url, limit: limit, offset: offset, locale: locale, country: country);
 			WebRequestHelper.Instance.GetRequest(SdkType.Subscriptions, url, WebRequestHeader.AuthHeader(Token.Instance), onSuccess, onError);
+		}
+
+		private PaymentSettings CheckAndFillPaymentSettings(PaymentSettings paymentSettings)
+		{
+			if (paymentSettings == null)
+				paymentSettings = new PaymentSettings();
+
+			if (paymentSettings.sandbox == null)
+				paymentSettings.sandbox = XsollaSettings.IsSandbox;
+
+			var commonUiSettings = PayStationUISettings.GenerateSettings();
+			if (commonUiSettings != null)
+			{
+				if (paymentSettings.ui == null)
+					paymentSettings.ui = new PaymentSettings.UI();
+
+				if (paymentSettings.ui.size == null)
+					paymentSettings.ui.size = commonUiSettings.size;
+				if (paymentSettings.ui.theme == null)
+					paymentSettings.ui.theme = commonUiSettings.theme;
+				if (paymentSettings.ui.version == null)
+					paymentSettings.ui.version = commonUiSettings.version;
+			}
+
+			var commonRedirectPolicy = RedirectPolicySettings.GeneratePolicy();
+			if (commonRedirectPolicy != null)
+			{
+				if (paymentSettings.redirect_policy == null)
+					paymentSettings.redirect_policy = new PaymentSettings.RedirectPolicy();
+
+				if (paymentSettings.return_url == null)
+					paymentSettings.return_url = commonRedirectPolicy.return_url;
+				if (paymentSettings.redirect_policy.redirect_conditions == null)
+					paymentSettings.redirect_policy.redirect_conditions = commonRedirectPolicy.redirect_conditions;
+				if (paymentSettings.redirect_policy.delay == null)
+					paymentSettings.redirect_policy.delay = commonRedirectPolicy.delay;
+				if (paymentSettings.redirect_policy.status_for_manual_redirection == null)
+					paymentSettings.redirect_policy.status_for_manual_redirection = commonRedirectPolicy.status_for_manual_redirection;
+				if (paymentSettings.redirect_policy.redirect_button_caption == null)
+					paymentSettings.redirect_policy.redirect_button_caption = commonRedirectPolicy.redirect_button_caption;
+			}
+
+			return paymentSettings;
 		}
 	}
 }
