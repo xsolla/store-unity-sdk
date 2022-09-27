@@ -10,6 +10,10 @@ namespace Xsolla.Tests
 {
 	public class XsollaAuthUserTests
 	{
+		[OneTimeSetUp]
+		[OneTimeTearDown]
+		public void Clear() => TestHelper.Clear();
+
 		[UnityTest]
 		public IEnumerator SignIn_OAuth_Success()
 		{

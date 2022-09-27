@@ -14,12 +14,13 @@ namespace Xsolla.Tests
 	{
 		private Cart.Cart _currentCart;
 
+		[OneTimeSetUp]
+		public void Clear() => TestHelper.Clear();
+
 		[OneTimeTearDown]
 		public void OneTimeTearDown()
 		{
-			if (XsollaCart.IsExist)
-				XsollaCart.DestroyImmediate(XsollaCart.Instance.gameObject);
-
+			TestHelper.Clear();
 			_currentCart = null;
 		}
 

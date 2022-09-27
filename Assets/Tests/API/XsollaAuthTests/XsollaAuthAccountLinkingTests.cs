@@ -5,11 +5,16 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using Xsolla.Auth;
 using System.Collections.Generic;
+using NUnit.Framework;
 
 namespace Xsolla.Tests
 {
 	public class XsollaAuthAccountLinkingTests
 	{
+		[OneTimeSetUp]
+		[OneTimeTearDown]
+		public void Clear() => TestHelper.Clear();
+
 		[UnityTest]
 		public IEnumerator SignInConsoleAccount_nintendo_shop_Success()
 		{

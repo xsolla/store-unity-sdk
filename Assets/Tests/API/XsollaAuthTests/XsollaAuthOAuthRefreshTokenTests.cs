@@ -3,11 +3,16 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using Xsolla.Core;
 using Xsolla.Auth;
+using NUnit.Framework;
 
 namespace Xsolla.Tests
 {
 	public class XsollaAuthOAuthRefreshTokenTests
 	{
+		[OneTimeSetUp]
+		[OneTimeTearDown]
+		public void Clear() => TestHelper.Clear();
+
 		[UnityTest]
 		public IEnumerator RefreshOAuthToken_TokenChanged()
 		{
