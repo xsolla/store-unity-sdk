@@ -12,12 +12,9 @@ namespace Xsolla.Tests
 {
 	public class XsollaCatalogTests
 	{
+		[OneTimeSetUp]
 		[OneTimeTearDown]
-		public void OneTimeTearDown()
-		{
-			if (XsollaCatalog.IsExist)
-				XsollaCatalog.DestroyImmediate(XsollaCatalog.Instance.gameObject);
-		}
+		public void Clear() => TestHelper.Clear();
 
 		[UnityTest]
 		public IEnumerator GetCatalog_DefaultValues_Success()

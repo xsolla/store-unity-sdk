@@ -1,6 +1,15 @@
 ﻿using System.Runtime.CompilerServices;
 using NUnit.Framework;
+using UnityEngine;
 using Xsolla.Core;
+using Xsolla.Auth;
+using Xsolla.Catalog;
+using Xsolla.Cart;
+using Xsolla.Inventory;
+using Xsolla.GameKeys;
+using Xsolla.Orders;
+using Xsolla.Subscriptions;
+using Xsolla.UserAccount;
 
 using Debug = UnityEngine.Debug;
 
@@ -65,6 +74,42 @@ namespace Xsolla.Tests
 				Pass("TOKEN CHANGED", testName);
 			else
 				Fail("TOKEN DID NOT CHANGE", testName);
+		}
+
+		public static void Clear()
+		{
+			//Clear Token and Refresh Token
+			if (Token.Instance != null)
+				Token.Instance = null;
+			if (TokenRefresh.IsExist)
+				GameObject.DestroyImmediate(TokenRefresh.Instance.gameObject);
+
+			PlayerPrefs.DeleteKey(Constants.LAST_SUCCESS_AUTH_TOKEN);
+			PlayerPrefs.DeleteKey(Constants.LAST_SUCCESS_OAUTH_REFRESH_TOKEN);
+
+			//Delete temporary objects if any
+			if (XsollaAuth.IsExist)
+				GameObject.DestroyImmediate(XsollaAuth.Instance.gameObject);
+			if (XsollaCart.IsExist)
+				GameObject.DestroyImmediate(XsollaCart.Instance.gameObject);
+			if (XsollaCatalog.IsExist)
+				GameObject.DestroyImmediate(XsollaCatalog.Instance.gameObject);
+			if (XsollaGameKeys.IsExist)
+				GameObject.DestroyImmediate(XsollaGameKeys.Instance.gameObject);
+			if (XsollaInventory.IsExist)
+				GameObject.DestroyImmediate(XsollaInventory.Instance.gameObject);
+			if (XsollaOrders.IsExist)
+				GameObject.DestroyImmediate(XsollaOrders.Instance.gameObject);
+			if (XsollaSubscriptions.IsExist)
+				GameObject.DestroyImmediate(XsollaSubscriptions.Instance.gameObject);
+			if (XsollaUserAccount.IsExist)
+				GameObject.DestroyImmediate(XsollaUserAccount.Instance.gameObject);
+
+			//Delete temporary util objects if any
+			if (TestSignInHelper.IsExist)
+				GameObject.DestroyImmediate(TestSignInHelper.Instance.gameObject);
+			if (WebRequestHelper.IsExist)
+				GameObject.DestroyImmediate(WebRequestHelper.Instance.gameObject);
 		}
 	}
 }
