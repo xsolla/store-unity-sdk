@@ -26,16 +26,13 @@ namespace Xsolla.Core
 			              EditorSettings();
 
 			if (changed)
-			{
-				DeleteRecord(Constants.LAST_SUCCESS_AUTH_TOKEN);
-				DeleteRecord(Constants.LAST_SUCCESS_OAUTH_REFRESH_TOKEN);
-			}
+				DropSavedTokens();
 		}
 
-		private void DeleteRecord(string key)
+		public static void DropSavedTokens()
 		{
-			if (!string.IsNullOrEmpty(key) && PlayerPrefs.HasKey(key))
-				PlayerPrefs.DeleteKey(key);
+			PlayerPrefs.DeleteKey(Constants.LAST_SUCCESS_AUTH_TOKEN);
+			PlayerPrefs.DeleteKey(Constants.LAST_SUCCESS_OAUTH_REFRESH_TOKEN);
 		}
 	}
 }

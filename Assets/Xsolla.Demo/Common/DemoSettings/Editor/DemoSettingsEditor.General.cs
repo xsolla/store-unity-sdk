@@ -5,10 +5,9 @@ namespace Xsolla.Demo
 	public partial class DemoSettingsEditor
 	{
 		private const string REQUEST_NICKNAME_ON_AUTH_LABEL = "Request Nickname on Auth";
-
 		private const string WEB_STORE_URL_LABEL = "Web Store URL";
 
-		private void GeneralSettings()
+		private bool GeneralSettings()
 		{
 			EditorGUILayout.Space();
 			EditorGUILayout.BeginVertical(GroupAreaStyle);
@@ -27,6 +26,8 @@ namespace Xsolla.Demo
 			}
 
 			EditorGUILayout.EndVertical();
+			//TEXTREVIEW
+			return false;//These settings do not affect authorization and thus should not result in token deletion
 		}
 	}
 }
