@@ -1,5 +1,6 @@
 ﻿using UnityEditor;
 using UnityEngine;
+using Xsolla.Core;
 
 namespace Xsolla.Demo
 {
@@ -18,9 +19,12 @@ namespace Xsolla.Demo
 
 		public override void OnInspectorGUI()
 		{
-			GeneralSettings();
-			PlatformSettings();
-			SteamSettings();
+			var changed = GeneralSettings() ||
+						  PlatformSettings() ||
+						  SteamSettings();
+
+			if (changed)
+				XsollaSettingsEditor.DropSavedTokens();
 		}
 	}
 }

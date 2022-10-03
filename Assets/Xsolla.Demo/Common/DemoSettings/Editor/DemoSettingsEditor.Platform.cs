@@ -11,44 +11,42 @@ namespace Xsolla.Demo
 		private const string PLATFORM_USERNAME_LABEL = "Username from Console";
 		private const string PLATFORM_USERNAME_TOOLTIP = "Social username from console platform";
 
-		private void PlatformSettings()
+		private bool PlatformSettings()
 		{
 			EditorGUILayout.Space();
 			EditorGUILayout.BeginVertical(GroupAreaStyle);
 			EditorGUILayout.LabelField("Platform", GroupHeaderStyle);
 
-			GUI.enabled = !DemoSettings.UseSteamAuth;
+			var useSteam = DemoSettings.UseSteamAuth;
+			if (useSteam)
+				GUI.enabled = false;
+
+			var changed = false;
 
 			var platform = (PlatformType) EditorGUILayout.EnumPopup(new GUIContent(PLATFORM_LABEL, PLATFORM_TOOLTIP), DemoSettings.Platform);
 			if (platform != DemoSettings.Platform)
 			{
 				DemoSettings.Platform = platform;
+				changed = true;
 			}
 
-			GUI.enabled = true;
+			DemoSettings.UseConsoleAuth = !useSteam && platform > PlatformType.Xsolla;
 
-			if (DemoSettings.UseSteamAuth)
-			{
-				EditorGUILayout.EndVertical();
-				return;
-			}
-
-			if (DemoSettings.Platform != PlatformType.None && DemoSettings.Platform != PlatformType.Xsolla)
+			if (DemoSettings.UseConsoleAuth)
 			{
 				var username = EditorGUILayout.TextField(new GUIContent(PLATFORM_USERNAME_LABEL, PLATFORM_USERNAME_TOOLTIP), DemoSettings.UsernameFromConsolePlatform);
 				if (username != DemoSettings.UsernameFromConsolePlatform)
 				{
 					DemoSettings.UsernameFromConsolePlatform = username;
+					changed = true;
 				}
+			}
 
-				DemoSettings.UseConsoleAuth = true;
-			}
-			else
-			{
-				DemoSettings.UseConsoleAuth = false;
-			}
+			if (useSteam)
+				GUI.enabled = true;
 
 			EditorGUILayout.EndVertical();
+			return changed;
 		}
 	}
 }
