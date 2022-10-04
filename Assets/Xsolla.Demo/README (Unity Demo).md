@@ -23,7 +23,6 @@ The demo also shows the following user management features:
 
 * User account management
 * User attributes customization
-* Friend system
 
 
 ## How to use snippets from demo in your project

@@ -19,7 +19,7 @@ namespace Xsolla.UserAccount
 		/// <param name="token">JWT from Xsolla Login.</param>
 		/// <param name="publisherProjectId">Project ID from Publisher Account which you want to get attributes for. If you do not specify it, it returns attributes without the value of this parameter.</param>
 		/// <param name="attributeType">Type of attributes to get.</param>
-		/// <param name="keys">List of attributes� keys which you want to get. If you do not specify them, it returns all user�s attributes.</param>
+		/// <param name="keys">List of attributes' keys which you want to get. If you do not specify them, it returns all user's attributes.</param>
 		/// <param name="userId">User ID which attributes you want to get. Returns only attributes with the `public` value of the `permission` parameter. If you do not specify it or put your user ID there, it returns only your attributes with any value for the `permission` parameter.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>

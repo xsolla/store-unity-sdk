@@ -23,7 +23,7 @@ namespace Xsolla.Subscriptions
 		/// </summary>
 		/// <see cref="https://subscriptions.xsolla.com/api/doc/public#/User%20Plans/get_xsolla_subscription_apipublic_getsubscriptionsplans"/>
 		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. **Required**.</param>
-		/// <param name="planId">Array of subscription plan IDs. Plan ID can be found in the URL of the subscription details page in Publisher Account (`https://publisher.xsolla.com/{merchant_id}/projects/{project_id}/subscriptions/plans/{merplan_id}`).</param>
+		/// <param name="planId">Array of subscription plan IDs. Plan ID can be found in the URL of the subscription details page in Publisher Account (https://publisher.xsolla.com/{merchant_id}/projects/{project_id}/subscriptions/plans/{merplan_id}).</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		/// <param name="planExternalId">List of subscription plan external IDs (32 characters per ID). Plan external ID can be found in Publisher Account in the **Subscriptions > Subscription plans** section next to the plan name.</param>
@@ -162,7 +162,7 @@ namespace Xsolla.Subscriptions
 		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. **Required**.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
-		/// <param name="planId">Array of subscription plan IDs. Plan ID can be found in the URL of the subscription details page in Publisher Account (`https://publisher.xsolla.com/{merchant_id}/projects/{project_id}/subscriptions/plans/{merplan_id}`).</param>
+		/// <param name="planId">Array of subscription plan IDs. Plan ID can be found in the URL of the subscription details page in Publisher Account (https://publisher.xsolla.com/{merchant_id}/projects/{project_id}/subscriptions/plans/{merplan_id}).</param>
 		/// <param name="planExternalId">List of subscription plan external IDs (32 characters per ID). Plan external ID can be found in Publisher Account in the **Subscriptions > Subscription plans** section next to the plan name.</param>
 		/// <param name="limit">Limit for the number of elements on the page (15 elements are displayed by default).</param>
 		/// <param name="offset">Number of elements from which the list is generated (the count starts from 0).</param>
