@@ -40,7 +40,13 @@ namespace Xsolla.Tests
 			yield return GetCatalog(personalized: false);
 		}
 
-		private IEnumerator GetCatalog([CallerMemberName]string testName = null, bool defaultValues = true, bool personalized = false)
+		[UnityTest]
+		public IEnumerator GetCatalog_PromotionItem_HasPromotionItem()
+		{
+			yield return GetCatalog(checkPromotion: true);
+		}
+
+		private IEnumerator GetCatalog([CallerMemberName]string testName = null, bool defaultValues = true, bool personalized = false, bool checkPromotion = false)
 		{
 			if (personalized)
 				yield return TestSignInHelper.Instance.CheckSession();
@@ -87,6 +93,37 @@ namespace Xsolla.Tests
 					success = false;
 					return;
 				};
+
+				if (checkPromotion)
+				{
+					var itemWithPromotion = items.items.FirstOrDefault(x => x.sku.Equals("sdk_team_special"));
+					if (itemWithPromotion == null)
+					{
+						errorMessage = "PROMOTION ERROR, EXPECTED ITEM NOT FOUND";
+						success = false;
+						return;
+					}
+
+					var promotionContainer = itemWithPromotion.promotions;
+					if (promotionContainer == null || promotionContainer.Length == 0)
+					{
+						errorMessage = "PROMOTION ERROR, PROMOTION CONTAINER IS NULL OR EMPTY";
+						success = false;
+						return;
+					}
+
+					var promotionItem = promotionContainer[0];
+					if (string.IsNullOrEmpty(promotionItem.name) ||
+						string.IsNullOrEmpty(promotionItem.date_start) ||
+						string.IsNullOrEmpty(promotionItem.date_end))
+					{
+						errorMessage = $"PROMOTION ERROR, PROMOTION FIELDS: name:'{promotionItem.name}' date_start:'{promotionItem.date_start}' date_end:'{promotionItem.date_end}'";
+						success = false;
+						return;
+					}
+
+					UnityEngine.Debug.Log("PERSONALIZATION PASSED SUCCESSFULLY");
+				}
 
 				success = true;
 			};
