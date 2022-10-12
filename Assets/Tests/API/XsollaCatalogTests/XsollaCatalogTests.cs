@@ -94,35 +94,10 @@ namespace Xsolla.Tests
 					return;
 				};
 
-				if (checkPromotion)
+				if (checkPromotion && !IsPromotionItemPreset(items.items, out errorMessage))
 				{
-					var itemWithPromotion = items.items.FirstOrDefault(x => x.sku.Equals("sdk_team_special"));
-					if (itemWithPromotion == null)
-					{
-						errorMessage = "PROMOTION ERROR, EXPECTED ITEM NOT FOUND";
-						success = false;
-						return;
-					}
-
-					var promotionContainer = itemWithPromotion.promotions;
-					if (promotionContainer == null || promotionContainer.Length == 0)
-					{
-						errorMessage = "PROMOTION ERROR, PROMOTION CONTAINER IS NULL OR EMPTY";
-						success = false;
-						return;
-					}
-
-					var promotionItem = promotionContainer[0];
-					if (string.IsNullOrEmpty(promotionItem.name) ||
-						string.IsNullOrEmpty(promotionItem.date_start) ||
-						string.IsNullOrEmpty(promotionItem.date_end))
-					{
-						errorMessage = $"PROMOTION ERROR, PROMOTION FIELDS: name:'{promotionItem.name}' date_start:'{promotionItem.date_start}' date_end:'{promotionItem.date_end}'";
-						success = false;
-						return;
-					}
-
-					UnityEngine.Debug.Log("PERSONALIZATION PASSED SUCCESSFULLY");
+					success = false;
+					return;
 				}
 
 				success = true;
@@ -186,7 +161,13 @@ namespace Xsolla.Tests
 			yield return GetCatalogSmplified(personalized: false);
 		}
 
-		private IEnumerator GetCatalogSmplified([CallerMemberName]string testName = null, bool defaultValues = true, bool personalized = false)
+		// [UnityTest]
+		// public IEnumerator GetCatalogSimplified_PromotionItem_HasPromotionItem()
+		// {
+		// 	yield return GetCatalogSmplified(checkPromotion: true);
+		// }
+
+		private IEnumerator GetCatalogSmplified([CallerMemberName]string testName = null, bool defaultValues = true, bool personalized = false, bool checkPromotion = false)
 		{
 			if (personalized)
 				yield return TestSignInHelper.Instance.CheckSession();
@@ -226,6 +207,38 @@ namespace Xsolla.Tests
 					success = false;
 					return;
 				};
+
+				//We can not follow DRY here because items are different
+				if (checkPromotion)
+				{
+					var itemWithPromotion = items.items.FirstOrDefault(x => x.sku.Equals("sdk_team_special"));
+					if (itemWithPromotion == null)
+					{
+						errorMessage = "PROMOTION ERROR, EXPECTED ITEM NOT FOUND";
+						success = false;
+						return;
+					}
+
+					var promotionContainer = itemWithPromotion.promotions;
+					if (promotionContainer == null || promotionContainer.Length == 0)
+					{
+						errorMessage = "PROMOTION ERROR, PROMOTION CONTAINER IS NULL OR EMPTY";
+						success = false;
+						return;
+					}
+
+					var promotionItem = promotionContainer[0];
+					if (string.IsNullOrEmpty(promotionItem.name) ||
+						string.IsNullOrEmpty(promotionItem.date_start) ||
+						string.IsNullOrEmpty(promotionItem.date_end))
+					{
+						errorMessage = $"PROMOTION ERROR, PROMOTION FIELDS: name:'{promotionItem.name}' date_start:'{promotionItem.date_start}' date_end:'{promotionItem.date_end}'";
+						success = false;
+						return;
+					}
+
+					UnityEngine.Debug.Log("PERSONALIZATION PASSED SUCCESSFULLY");
+				}
 
 				success = true;
 			};
@@ -272,7 +285,13 @@ namespace Xsolla.Tests
 			yield return GetGroupItems(defaultValues: false);
 		}
 
-		private IEnumerator GetGroupItems([CallerMemberName]string testName = null, bool defaultValues = true)
+		[UnityTest]
+		public IEnumerator GetGroupItems_PromotionItem_HasPromotionItem()
+		{
+			yield return GetGroupItems(checkPromotion: true);
+		}
+
+		private IEnumerator GetGroupItems([CallerMemberName]string testName = null, bool defaultValues = true, bool checkPromotion = false)
 		{
 			yield return TestSignInHelper.Instance.CheckSession();
 
@@ -305,6 +324,12 @@ namespace Xsolla.Tests
 				if (!defaultValues && items.items.Length != 5)
 				{
 					errorMessage = "LIMIT ERROR";
+					success = false;
+					return;
+				}
+
+				if (checkPromotion && !IsPromotionItemPreset(items.items, out errorMessage))
+				{
 					success = false;
 					return;
 				}
@@ -935,6 +960,36 @@ namespace Xsolla.Tests
 				TestHelper.Pass(errorMessage, testName);
 			else
 				TestHelper.Fail(errorMessage, testName);
+		}
+
+		private bool IsPromotionItemPreset(StoreItem[] items, out string errorMessage)
+		{
+			var itemWithPromotion = items.FirstOrDefault(x => x.sku.Equals("sdk_team_special"));
+			if (itemWithPromotion == null)
+			{
+				errorMessage = "PROMOTION ERROR, EXPECTED ITEM NOT FOUND";
+				return false;
+			}
+
+			var promotionContainer = itemWithPromotion.promotions;
+			if (promotionContainer == null || promotionContainer.Length == 0)
+			{
+				errorMessage = "PROMOTION ERROR, PROMOTION CONTAINER IS NULL OR EMPTY";
+				return false;
+			}
+
+			var promotionItem = promotionContainer[0];
+			if (string.IsNullOrEmpty(promotionItem.name) ||
+				string.IsNullOrEmpty(promotionItem.date_start) ||
+				string.IsNullOrEmpty(promotionItem.date_end))
+			{
+				errorMessage = $"PROMOTION ERROR, PROMOTION FIELDS: name:'{promotionItem.name}' date_start:'{promotionItem.date_start}' date_end:'{promotionItem.date_end}'";
+				return false;
+			}
+
+			UnityEngine.Debug.Log("PERSONALIZATION PASSED SUCCESSFULLY");
+			errorMessage = null;
+			return true;
 		}
 	}
 }
