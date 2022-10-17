@@ -10,5 +10,6 @@ namespace Xsolla.Catalog
 		public string name;
 		public string description;
 		public StoreItemGroup[] groups;
+		public StoreItemPromotion[] promotions;
 	}
 }
