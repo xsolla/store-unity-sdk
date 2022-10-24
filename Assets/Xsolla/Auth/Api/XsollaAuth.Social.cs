@@ -14,15 +14,12 @@ namespace Xsolla.Auth
 			"https://login.xsolla.com/api/users/me/login_urls?{0}";
 
 		/// <summary>
-		/// Exchanges the user JWT from Steam for the JWT in your project
-		/// Note: this feature doesn't work "out the box" yet.
-		/// If you want to enable Steam auth, you need to contact the
-		/// support team by email:<see cref="support@xsolla.com"/>.
+		/// Exchanges the session ticket from Steam, Xbox, or Epic Games to the JWT.
 		/// </summary>
 		/// <remarks> Swagger method name:<c>Silent Authentication</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/login-api/methods/jwt/jwt-silent-authentication"/>.
 		/// <see cref="https://developers.xsolla.com/login-api/methods/oauth-20/oauth-20-silent-authentication"/>.
-		/// <param name="providerName">Name of the platform the user authorized in. Can be steam, xbox, stone, mailru, abyss.</param>
+		/// <param name="providerName">Name of the platform the user authorized in. Can be `steam`, `xbox`, `epicgames`.</param>
 		/// <param name="appId">Your app ID in the platform.</param>
 		/// <param name="sessionTicket">Session ticket received from the platform.</param>
 		/// <param name="redirectUrl">URL to redirect the user to after account confirmation, successful authentication, two-factor authentication configuration, or password reset confirmation.
