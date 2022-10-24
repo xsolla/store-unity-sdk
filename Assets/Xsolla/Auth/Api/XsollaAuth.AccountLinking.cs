@@ -62,10 +62,6 @@ namespace Xsolla.Auth
 		///						`Content-Type: application/json` and `X-SERVER-AUTHORIZATION: YourGeneratedJwt`
 		///						</description>
 		///					</item>
-		///					<item>
-		///					<term>Body</term>
-		///					<description>see documentation.</description>
-		///					</item>
 		///				</list>
 		///				
 		///			</description>
