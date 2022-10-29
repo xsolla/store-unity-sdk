@@ -1,4 +1,18 @@
 # Changelog
+## [1.3.0] - 2022-10-31
+### Added
+- Authorization by device id in demo
+- Promotions to store methods
+- IOS build in ci pipeline
+- Docs parcere in cicd
+### Changed
+- Rework android social auth
+- Merge Store payment settings and Subscriptions payment settings
+### Fixed
+- Mismatch project settings
+- Remove temp objects between tests
+- Clear token on platform auth select
+
 ## [1.2.1] - 2022-08-29
 ### Fixed
 - DeviceID authorization
