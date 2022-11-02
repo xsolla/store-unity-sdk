@@ -26,8 +26,7 @@ namespace Xsolla.Demo
 			}
 
 			EditorGUILayout.EndVertical();
-			//TEXTREVIEW
-			return false;//These settings do not affect authorization and thus should not result in token deletion
+			return false;//These settings don't affect authorization and therefore don't result in token deletion.
 		}
 	}
 }
