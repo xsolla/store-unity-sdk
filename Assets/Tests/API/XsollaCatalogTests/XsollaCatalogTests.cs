@@ -43,7 +43,7 @@ namespace Xsolla.Tests
 		[UnityTest]
 		public IEnumerator GetCatalog_PromotionItem_HasPromotionItem()
 		{
-			yield return GetCatalog(checkPromotion: true);
+			yield return GetCatalog(personalized: true, checkPromotion: true);
 		}
 
 		private IEnumerator GetCatalog([CallerMemberName]string testName = null, bool defaultValues = true, bool personalized = false, bool checkPromotion = false)
