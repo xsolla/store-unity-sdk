@@ -39,7 +39,8 @@ namespace Xsolla.UserAccount
 
 			WebRequestHelper.Instance.PostRequest<AddUsernameAndEmailResponse, AddUsernameAndEmailRequest>(SdkType.Login, url, requestBody, WebRequestHeader.AuthHeader(Token.Instance),
 				onComplete: onComplete,
-				onError: error => TokenRefresh.Instance.CheckInvalidToken(error, onError, () => AddUsernameEmailAuthToAccount(username, password, email, promoEmailAgreement, onSuccess, onError)));
+				onError: error => TokenRefresh.Instance.CheckInvalidToken(error, onError, () => AddUsernameEmailAuthToAccount(username, password, email, promoEmailAgreement, onSuccess, onError)),
+				errorsToCheck: ErrorCheckType.RegistrationErrors);
 		}
 
 		/// <summary>
