@@ -11,7 +11,7 @@ namespace Xsolla.Core
 		private const string ANALYTICS_URL_TEMPLATE = "engine=unity&engine_v={0}&sdk={1}&sdk_v={2}&build_platform={3}{4}";
 
 		//Uncomment and fill the values if you want to hardcode referral info
-		private KeyValuePair<string, string>? _referralAnalytics/* = new KeyValuePair<string, string>("MyReferralPlugin", "0.0.0.1")*/;
+		private KeyValuePair<string, string>? _referralAnalytics/* = new KeyValuePair<string, string>("MyReferralPlugin", "0.0.1")*/;
 
 		public void SetReferralAnalytics(string referralPlugin, string referralVersion)
 		{
@@ -45,7 +45,7 @@ namespace Xsolla.Core
 			return result;
 		}
 
-		private List<WebRequestHeader> AppendAnalyticHeaders(SdkType analyticsType, List<WebRequestHeader> headers)
+		public List<WebRequestHeader> AppendAnalyticHeaders(SdkType analyticsType, List<WebRequestHeader> headers)
 		{
 			if (analyticsType == SdkType.None)
 			{
@@ -69,7 +69,7 @@ namespace Xsolla.Core
 			return result;
 		}
 
-		private List<WebRequestHeader> AppendAnalyticHeaders(SdkType analyticsType, WebRequestHeader header)
+		public List<WebRequestHeader> AppendAnalyticHeaders(SdkType analyticsType, WebRequestHeader header)
 		{
 			if (analyticsType == SdkType.None)
 			{
@@ -137,6 +137,9 @@ namespace Xsolla.Core
 					break;
 				case SdkType.Subscriptions:
 					sdkType = toUpper ? "SUBSCRIPTIONS" : "subscriptions";
+					break;
+				case SdkType.SettingsFillTool:
+					sdkType = toUpper ? "SETTINGS-FILL-TOOL" : "settings-fill-tool";
 					break;
 				default:
 					Debug.LogError($"Unexpected analyticsType: '{analyticsType}'");

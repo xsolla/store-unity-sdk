@@ -36,7 +36,7 @@ namespace Xsolla.Core
 			url = AppendAnalyticsToUrl(sdkType, url);
 
 			var webRequest = UnityWebRequest.Get(url);
-			AttachHeaders(webRequest, requestHeaders);
+			AttachHeadersToRequest(webRequest, requestHeaders);
 
 			yield return StartCoroutine(PerformWebRequest(webRequest, onComplete, onError, errorsToCheck));
 		}
@@ -46,7 +46,7 @@ namespace Xsolla.Core
 			url = AppendAnalyticsToUrl(sdkType, url);
 
 			var webRequest = UnityWebRequest.Get(url);
-			AttachHeaders(webRequest, requestHeaders);
+			AttachHeadersToRequest(webRequest, requestHeaders);
 
 			yield return StartCoroutine(PerformWebRequest(webRequest, onComplete, onError, errorsToCheck));
 		}
