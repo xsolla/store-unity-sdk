@@ -1,9 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 using JetBrains.Annotations;
-using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -212,7 +210,7 @@ namespace Xsolla.Core
 			UnityWebRequest webRequest = UnityWebRequest.Post(url, UnityWebRequest.kHttpVerbPOST);
 			webRequest.timeout = 30;
 
-			AttachBodyToPostRequest(webRequest, jsonObject);
+			AttachBodyToRequest(webRequest, jsonObject);
 			AttachHeadersToPostRequest(webRequest, requestHeaders);
 
 			return webRequest;
@@ -236,15 +234,6 @@ namespace Xsolla.Core
 			}
 		}
 
-		private void AttachBodyToPostRequest(UnityWebRequest webRequest, object jsonObject)
-		{
-			if (jsonObject != null) {
-				string jsonData = JsonConvert.SerializeObject(jsonObject).Replace('\n', ' ');
-				byte[] body = new UTF8Encoding().GetBytes(jsonData);
-				webRequest.uploadHandler = (UploadHandler)new UploadHandlerRaw(body);
-			}
-		}
-
 		private void AttachHeadersToPostRequest(UnityWebRequest webRequest, List<WebRequestHeader> requestHeaders, bool withContentType = true)
 		{
 			if (withContentType)
@@ -255,7 +244,7 @@ namespace Xsolla.Core
 					requestHeaders = new List<WebRequestHeader>() { WebRequestHeader.ContentTypeHeader() };
 			}
 
-			AttachHeaders(webRequest, requestHeaders);
+			AttachHeadersToRequest(webRequest, requestHeaders);
 		}
 	}
 }

@@ -110,7 +110,7 @@ namespace Xsolla.Core
 			webRequest.Dispose();
 		}
 
-		private bool CheckNoErrors(UnityWebRequest webRequest, ErrorCheckType errorsToCheck, out Error error, bool log = true)
+		public static bool CheckNoErrors(UnityWebRequest webRequest, ErrorCheckType errorsToCheck, out Error error, bool log = true)
 		{
 #if UNITY_2020_1_OR_NEWER
 			var isNetworkError = webRequest.result == UnityWebRequest.Result.ConnectionError;

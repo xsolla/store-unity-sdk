@@ -39,29 +39,21 @@ namespace Xsolla.Core
 
 		public static bool TryParseError(string json, out Error error)
 		{
-			if (!string.IsNullOrEmpty(json))
-			{
-				error = ParseError(json);
-				return error != null;
-			}
-			else
+			if (string.IsNullOrEmpty(json))
 			{
 				error = null;
 				return false;
 			}
-		}
 
-		public static string ParseToken(string token)
-		{
 			try
 			{
-				var regex = new Regex(@"token=\S*[&#]");
-				var match = regex.Match(token).Value.Replace("token=", string.Empty);
-				return match.Remove(match.Length - 1);
+				error = ParseError(json);
+				return error != null;
 			}
-			catch (Exception)
+			catch (System.Exception ex)
 			{
-				return string.Empty;
+				error = new Error(errorType: ErrorType.InvalidData, errorMessage: ex.Message);
+				return true;
 			}
 		}
 
@@ -69,14 +61,14 @@ namespace Xsolla.Core
 		{
 			var parameterName = parameter.ToString();
 			var regex = new Regex($"[&?]{parameterName}=[a-zA-Z0-9._+-]+");
-			value = regex.Match(url)?.Value?.Replace($"{parameterName}=", string.Empty).Replace("&",string.Empty).Replace("?",string.Empty);
+			value = regex.Match(url)?.Value?.Replace($"{parameterName}=",string.Empty).Replace("&",string.Empty).Replace("?",string.Empty);
 
 			switch (parameter)
 			{
 				case ParseParameter.error_code:
 				case ParseParameter.error_description:
 					if (value != null)
-						value = value.Replace("+", " ");
+						value = value.Replace("+"," ");
 					break;
 				default:
 					Debug.Log($"Trying to find {parameterName} in URL:{url}");

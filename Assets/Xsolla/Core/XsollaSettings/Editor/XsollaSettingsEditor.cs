@@ -18,7 +18,8 @@ namespace Xsolla.Core
 
 		public override void OnInspectorGUI()
 		{
-			var changed = GeneralSettings() ||
+			var changed = AutoFillSettings() ||
+			              GeneralSettings() ||
 			              LoginSettings() ||
 			              PayStationSettings() ||
 			              AndroidSettings() ||

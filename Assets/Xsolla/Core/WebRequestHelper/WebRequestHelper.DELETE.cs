@@ -25,7 +25,7 @@ namespace Xsolla.Core
 
 			var webRequest = UnityWebRequest.Delete(url);
 			webRequest.downloadHandler = new DownloadHandlerBuffer();
-			AttachHeaders(webRequest, requestHeaders);
+			AttachHeadersToRequest(webRequest, requestHeaders);
 
 			yield return StartCoroutine(PerformWebRequest(webRequest, onComplete, onError, errorsToCheck));
 		}
