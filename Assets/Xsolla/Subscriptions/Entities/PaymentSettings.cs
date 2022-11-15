@@ -23,15 +23,6 @@ namespace Xsolla.Subscriptions
 		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 		public RedirectPolicy redirect_policy;
 
-		public PaymentSettings(bool sandbox)
-		{
-			this.sandbox = sandbox;
-		}
-
-		public PaymentSettings()
-		{
-		}
-
 		[Serializable]
 		public class UI
 		{

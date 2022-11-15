@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 
 namespace Xsolla.Core.Android
@@ -25,7 +25,7 @@ namespace Xsolla.Core.Android
 			}
 		}
 
-		public void onError(AndroidJavaException throwable, string errorMessage)
+		public void onError(AndroidJavaObject _, string errorMessage)
 		{
 			var error = new Error(errorMessage: errorMessage);
 			OnError?.Invoke(error);

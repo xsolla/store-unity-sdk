@@ -45,8 +45,8 @@ namespace Xsolla.Core
 		{
 			public int id;
 			public string name;
-			public bool is_default;
-			public bool is_deletable;
+			public bool? is_default;
+			public bool? is_deletable;
 		}
 	}
 }

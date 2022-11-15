@@ -24,7 +24,7 @@ namespace Xsolla.GameKeys
 		/// <param name="limit">Limit for the number of elements on the page.</param>
 		/// <param name="offset">Number of the element from which the list is generated (the count starts from 0).</param>
 		/// <param name="locale">Response language. Two-letter lowercase language code per ISO 639-1.</param>
-		/// <param name="additionalFields">The list of additional fields. These fields will be in a response if you send them in a request. Available fields 'media_list', 'order', and 'long_description'.</param>
+		/// <param name="additionalFields">The list of additional fields. These fields will be in a response if you send them in a request. Available fields `media_list`, `order`, and `long_description`.</param>
 		/// <param name="country">Country used to calculate regional prices and restrictions for the catalog. Two-letter uppercase country code per ISO 3166-1 alpha-2. If you do not specify the country explicitly, it will be defined by the user IP address.</param>
 		public void GetGamesList(string projectId, Action<GameItems> onSuccess, Action<Error> onError = null, int limit = 50, int offset = 0, string locale = null, string additionalFields = "long_description", string country = null)
 		{
@@ -43,7 +43,7 @@ namespace Xsolla.GameKeys
 		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		/// <param name="locale">Response language. Two-letter lowercase language code per ISO 639-1.</param>
-		/// <param name="additionalFields">The list of additional fields. These fields will be in a response if you send them in a request. Available fields 'media_list', 'order', and 'long_description'.</param>
+		/// <param name="additionalFields">The list of additional fields. These fields will be in a response if you send them in a request. Available fields `media_list`, `order`, and `long_description`.</param>
 		/// <param name="country">Country used to calculate regional prices and restrictions for the catalog. Two-letter uppercase country code per ISO 3166-1 alpha-2. If you do not specify the country explicitly, it will be defined by the user IP address.</param>
 		public void GetGameForCatalog(string projectId, string itemSku, Action<GameItem> onSuccess, Action<Error> onError = null, string locale = null, string additionalFields = "long_description", string country = null)
 		{
@@ -62,7 +62,7 @@ namespace Xsolla.GameKeys
 		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		/// <param name="locale">Response language. Two-letter lowercase language code per ISO 639-1.</param>
-		/// <param name="additionalFields">The list of additional fields. These fields will be in a response if you send them in a request. Available fields 'media_list', 'order', and 'long_description'.</param>
+		/// <param name="additionalFields">The list of additional fields. These fields will be in a response if you send them in a request. Available fields `media_list`, `order`, and `long_description`.</param>
 		/// <param name="country">Country used to calculate regional prices and restrictions for the catalog. Two-letter uppercase country code per ISO 3166-1 alpha-2. If you do not specify the country explicitly, it will be defined by the user IP address.</param>
 		public void GetGameKeyForCatalog(string projectId, string itemSku, Action<GameKeyItems> onSuccess, Action<Error> onError = null, string locale = null, string additionalFields = "long_description", string country = null)
 		{
@@ -83,7 +83,7 @@ namespace Xsolla.GameKeys
 		/// <param name="limit">Limit for the number of elements on the page.</param>
 		/// <param name="offset">Number of the element from which the list is generated (the count starts from 0).</param>
 		/// <param name="locale">Response language. Two-letter lowercase language code per ISO 639-1.</param>
-		/// <param name="additionalFields">The list of additional fields. These fields will be in a response if you send them in a request. Available fields 'media_list', 'order', and 'long_description'.</param>
+		/// <param name="additionalFields">The list of additional fields. These fields will be in a response if you send them in a request. Available fields `media_list`, `order`, and `long_description`.</param>
 		/// <param name="country">Country used to calculate regional prices and restrictions for the catalog. Two-letter uppercase country code per ISO 3166-1 alpha-2. If you do not specify the country explicitly, it will be defined by the user IP address.</param>
 		public void GetGamesListBySpecifiedGroup(string projectId, string groupId, Action<GameItems> onSuccess, Action<Error> onError = null, int limit = 50, int offset = 0, string locale = null, string additionalFields = "long_description", string country = null)
 		{
@@ -104,7 +104,7 @@ namespace Xsolla.GameKeys
 		/// <param name="limit">Limit for the number of elements on the page.</param>
 		/// <param name="offset">Number of the element from which the list is generated (the count starts from 0).</param>
 		/// <param name="locale">Response language. Two-letter lowercase language code per ISO 639-1.</param>
-		/// <param name="additionalFields">The list of additional fields. These fields will be in a response if you send them in a request. Available fields 'media_list', 'order', and 'long_description'.</param>
+		/// <param name="additionalFields">The list of additional fields. These fields will be in a response if you send them in a request. Available fields `media_list`, `order`, and `long_description`.</param>
 		/// <param name="country">Country used to calculate regional prices and restrictions for the catalog. Two-letter uppercase country code per ISO 3166-1 alpha-2. If you do not specify the country explicitly, it will be defined by the user IP address.</param>
 		public void GetGameKeysListBySpecifiedGroup(string projectId, string groupId, Action<GameKeyItems> onSuccess, Action<Error> onError = null, int limit = 50, int offset = 0, string locale = null, string additionalFields = "long_description", string country = null)
 		{
@@ -132,12 +132,12 @@ namespace Xsolla.GameKeys
 		/// </summary>
 		/// <see cref="https://developers.xsolla.com/in-game-store-buy-button-api/game-keys/entitlement/get-user-games/"/>
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
-		/// <param name="sandbox">What type of entitlements should be returned. If the parameter is set to true, the entitlements received by the user in the sandbox mode only are returned. If the parameter isn't passed or is set to false, the entitlements received by the user in the live mode only are returned."</param>
+		/// <param name="sandbox">What type of entitlements should be returned. If the parameter is set to true, the entitlements received by the user in the sandbox mode only are returned. If the parameter isn't passed or is set to false, the entitlements received by the user in the live mode only are returned.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
 		/// <param name="limit">Limit for the number of elements on the page.</param>
 		/// <param name="offset">Number of the element from which the list is generated (the count starts from 0).</param>
-		/// <param name="additionalFields">The list of additional fields. These fields will be in a response if you send them in a request. Available fields 'media_list', 'order', and 'long_description'.</param>
+		/// <param name="additionalFields">The list of additional fields. These fields will be in a response if you send them in a request. Available fields `media_list`, `order`, and `long_description`.</param>
 		public void GetOwnedGames(string projectId, bool sandbox, Action<GameOwnership> onSuccess, Action<Error> onError = null, int limit = 50, int offset = 0, string additionalFields = "long_description")
 		{
 			var sandboxFlag = sandbox ? "1" : "0";

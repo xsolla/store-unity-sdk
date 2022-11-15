@@ -18,21 +18,23 @@ namespace Xsolla.Demo
 		private const string PAYMENTS_FLOW_TOOLTIP = "You need to sign an additional partner agreement to use Steam as a payment system. "
 		                                             + "Contact the Integration or Account Manager";
 
-		private void SteamSettings()
+		private bool SteamSettings()
 		{
 			EditorGUILayout.Space();
 			EditorGUILayout.BeginVertical(GroupAreaStyle);
 			EditorGUILayout.LabelField("Steam", GroupHeaderStyle);
 
+			var changed = false;
+
 			var useSteam = EditorGUILayout.Toggle(new GUIContent(STEAM_AUTH_LABEL, STEAM_AUTH_TOOLTIP), DemoSettings.UseSteamAuth);
 			if (useSteam != DemoSettings.UseSteamAuth)
 			{
 				DemoSettings.UseSteamAuth = useSteam;
+				changed = true;
 
 				if (useSteam)
 				{
 					DemoSettings.Platform = PlatformType.PC_Other;
-					DemoSettings.UseConsoleAuth = false;
 				}
 				else
 				{
@@ -44,13 +46,14 @@ namespace Xsolla.Demo
 			if (!DemoSettings.UseSteamAuth)
 			{
 				EditorGUILayout.EndVertical();
-				return;
+				return changed;
 			}
 
 			var appId = EditorGUILayout.TextField(new GUIContent(STEAM_APP_ID_LABEL, STEAM_APP_ID_TOOLTIP), DemoSettings.SteamAppId);
 			if (appId != DemoSettings.SteamAppId)
 			{
 				DemoSettings.SteamAppId = appId;
+				changed = true;
 
 				var steamAppIdFiles = new[]{
 					Application.dataPath.Replace("Assets", "steam_appid.txt"),
@@ -77,9 +80,11 @@ namespace Xsolla.Demo
 			if (paymentsFlow != DemoSettings.PaymentsFlow)
 			{
 				DemoSettings.PaymentsFlow = paymentsFlow;
+				changed = true;
 			}
 
 			EditorGUILayout.EndVertical();
+			return changed;
 		}
 	}
 }

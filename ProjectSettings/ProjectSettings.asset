@@ -13,7 +13,7 @@ PlayerSettings:
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: Xsolla Inc.
-  productName: Xsolla In-Game Store Unity Asset
+  productName: XsollaInGameStoreUnityAsset
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
@@ -124,7 +124,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleVersion: 1.2.1
+  bundleVersion: 1.3.0
   preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
@@ -170,7 +170,7 @@ PlayerSettings:
   applicationIdentifier:
     Android: com.XsollaInc.XsollaInGameStoreUnityAsset
     Standalone: com.XsollaInc.XsollaInGameStoreUnityAsset
-    iPhone: com.XsollaInc.XsollaInGameStoreUnityAsset
+    iPhone: com.xsolla.sdk.unity.Example
   buildNumber: {}
   AndroidBundleVersionCode: 1
   AndroidMinSdkVersion: 21
@@ -235,12 +235,12 @@ PlayerSettings:
   metalAPIValidation: 1
   iOSRenderExtraFrameOnPause: 0
   iosCopyPluginsCodeInsteadOfSymlink: 0
-  appleDeveloperTeamID: 
-  iOSManualSigningProvisioningProfileID: 
+  appleDeveloperTeamID: 2FWGTXK3RK
+  iOSManualSigningProvisioningProfileID: match AdHoc com.xsolla.sdk.Example
   tvOSManualSigningProvisioningProfileID: 
-  iOSManualSigningProvisioningProfileType: 0
+  iOSManualSigningProvisioningProfileType: 2
   tvOSManualSigningProvisioningProfileType: 0
-  appleEnableAutomaticSigning: 0
+  appleEnableAutomaticSigning: 2
   iOSRequireARKit: 0
   iOSAutomaticallyDetectAndAddCapabilities: 1
   appleEnableProMotion: 0
@@ -439,6 +439,7 @@ PlayerSettings:
   switchTitleNames_12: 
   switchTitleNames_13: 
   switchTitleNames_14: 
+  switchTitleNames_15: 
   switchPublisherNames_0: 
   switchPublisherNames_1: 
   switchPublisherNames_2: 
@@ -454,6 +455,7 @@ PlayerSettings:
   switchPublisherNames_12: 
   switchPublisherNames_13: 
   switchPublisherNames_14: 
+  switchPublisherNames_15: 
   switchIcons_0: {fileID: 0}
   switchIcons_1: {fileID: 0}
   switchIcons_2: {fileID: 0}
@@ -469,6 +471,7 @@ PlayerSettings:
   switchIcons_12: {fileID: 0}
   switchIcons_13: {fileID: 0}
   switchIcons_14: {fileID: 0}
+  switchIcons_15: {fileID: 0}
   switchSmallIcons_0: {fileID: 0}
   switchSmallIcons_1: {fileID: 0}
   switchSmallIcons_2: {fileID: 0}
@@ -484,6 +487,7 @@ PlayerSettings:
   switchSmallIcons_12: {fileID: 0}
   switchSmallIcons_13: {fileID: 0}
   switchSmallIcons_14: {fileID: 0}
+  switchSmallIcons_15: {fileID: 0}
   switchManualHTML: 
   switchAccessibleURLs: 
   switchLegalInformation: 
@@ -546,6 +550,8 @@ PlayerSettings:
   switchSocketInitializeEnabled: 1
   switchNetworkInterfaceManagerInitializeEnabled: 1
   switchPlayerConnectionEnabled: 1
+  switchUseMicroSleepForYield: 1
+  switchMicroSleepForYieldTime: 25
   ps4NPAgeRating: 12
   ps4NPTitleSecret: 
   ps4NPTrophyPackPath: 
@@ -620,6 +626,31 @@ PlayerSettings:
   ps4attribEyeToEyeDistanceSettingVR: 0
   ps4IncludedModules: []
   ps4attribVROutputEnabled: 0
+  ps5ParamFilePath: 
+  ps5VideoOutPixelFormat: 0
+  ps5VideoOutInitialWidth: 1920
+  ps5VideoOutOutputMode: 1
+  ps5BackgroundImagePath: 
+  ps5StartupImagePath: 
+  ps5Pic2Path: 
+  ps5StartupImagesFolder: 
+  ps5IconImagesFolder: 
+  ps5SaveDataImagePath: 
+  ps5SdkOverride: 
+  ps5BGMPath: 
+  ps5ShareOverlayImagePath: 
+  ps5NPConfigZipPath: 
+  ps5Passcode: 5PN2qmWqBlQ9wQj99nsQzldVI5ZuGXbE
+  ps5UseResolutionFallback: 0
+  ps5UseAudio3dBackend: 0
+  ps5ScriptOptimizationLevel: 2
+  ps5Audio3dVirtualSpeakerCount: 14
+  ps5UpdateReferencePackage: 
+  ps5disableAutoHideSplash: 0
+  ps5OperatingSystemCanDisableSplashScreen: 0
+  ps5IncludedModules: []
+  ps5SharedBinaryContentLabels: []
+  ps5SharedBinarySystemFolders: []
   monoEnv: 
   splashScreenBackgroundSourceLandscape: {fileID: 0}
   splashScreenBackgroundSourcePortrait: {fileID: 0}
@@ -648,6 +679,7 @@ PlayerSettings:
   il2cppCompilerConfiguration: {}
   managedStrippingLevel: {}
   incrementalIl2cppBuild: {}
+  suppressCommonWarnings: 1
   allowUnsafeCode: 0
   additionalIl2CppArgs: 
   scriptingRuntimeVersion: 1

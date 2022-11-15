@@ -1,0 +1,11 @@
+git_url("git@gitlab.loc:sdk_group/fastlane-ios-sdk-demoapp.git")
+
+storage_mode("git")
+
+type("adhoc") # The default type, can be: appstore, adhoc, enterprise or development
+
+# Application bundle name
+app_identifier(ENV["app_identifier"])
+
+# Your Apple Developer Portal username
+username(ENV["apple_id"])

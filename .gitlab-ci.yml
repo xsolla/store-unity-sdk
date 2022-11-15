@@ -11,24 +11,25 @@ stages:
   - build-demo-2019
   - build-demo-2020
   - build-demo-2021
+  - build-demo-iOS
   - deploy
   - linking
 
 variables:
-  PROJECT_PATH: "%cd%"
+  PROJECT_PATH: $CI_PROJECT_DIR
   AUTOTESTS_BAT: "cicd/autotests.bat"
   PACKAGE_BAT: "cicd/package-export.bat"
   PACKAGE_NAME: xsolla-commerce-sdk.unitypackage
   BUILD_ROOT_PATH: "Builds"
-  BUILD_SCRIPT: "./cicd/build-universal.sh"
-  BUILD_BAT: "cicd/build-universal.bat"
+  BUILD_SCRIPT_WIN: "cicd/build-demo-win.bat"
+  BUILD_SCRIPT_MAC: "cicd/build-demo-mac.sh"
   BUILD_TARGET_WINDOWS: "StandaloneWindows64"
   BUILD_TARGET_WEBGL: "WebGL"
   BUILD_TARGET_ANDROID: "Android"
+  BUILD_TARGET_IOS: "iOS"
   UNITY_2019_VERSION: "2019.4.27f1"
   UNITY_2020_VERSION: "2020.3.14f1"
   UNITY_2021_VERSION: "2021.1.13f1"
-  BUILD_PLATFORM: "window"
   GIT_CLEAN_FLAGS: -ffdx
 
 build doc:
@@ -37,10 +38,17 @@ build doc:
     - /^v.*/
   image: alpine
   script:
-  - apk update && apk add doxygen graphviz ttf-freefont zip
-  - doxygen Documentation/Autogen/Doxyfile
-  - mv Documentation/Autogen/html/ docs/
-  - cd docs/ && zip -r ../build.zip *
+  - apk update && apk add doxygen graphviz ttf-freefont zip git nodejs npm
+  - doxygen Documentation/Autogen/Doxyfile >/dev/null
+  - git clone https://$GITHUB_ACCESS_TOKEN@github.com/xsolla/sdk-reference-parser-unity-ue.git
+  - mkdir -p sdk-reference-parser-unity-ue/src
+  - mkdir -p sdk-reference-parser-unity-ue/dist
+  - mv Documentation/Autogen/html/ sdk-reference-parser-unity-ue/src >/dev/null
+  - cd sdk-reference-parser-unity-ue
+  - npm install
+  - npm start
+  - mv -v dist/html/* dist >/dev/null
+  - cd dist && zip -r $CI_PROJECT_DIR/build.zip * >/dev/null
   artifacts:
     paths:
     - build.zip
@@ -146,7 +154,7 @@ export_package:
 build-windows-2019:
   stage: build-demo-2019
   script:
-    - call %BUILD_BAT% %PROJECT_PATH% %UNITY_2019_VERSION% %BUILD_ROOT_PATH% %BUILD_TARGET_WINDOWS% %BUILD_PLATFORM%
+    - call %BUILD_SCRIPT_WIN% %PROJECT_PATH% %UNITY_2019_VERSION% %BUILD_ROOT_PATH% %BUILD_TARGET_WINDOWS%
   artifacts:
     name: "%UNITY_2019_VERSION%_%BUILD_TARGET_WINDOWS%_%CI_COMMIT_REF_NAME%"
     when: always
@@ -161,7 +169,7 @@ build-windows-2019:
 build-webgl-2019:
   stage: build-demo-2019
   script:
-    - call %BUILD_BAT% %PROJECT_PATH% %UNITY_2019_VERSION% %BUILD_ROOT_PATH% %BUILD_TARGET_WEBGL% %BUILD_PLATFORM%
+    - call %BUILD_SCRIPT_WIN% %PROJECT_PATH% %UNITY_2019_VERSION% %BUILD_ROOT_PATH% %BUILD_TARGET_WEBGL%
   artifacts:
     name: "%UNITY_2019_VERSION%_%BUILD_TARGET_WEBGL%_%CI_COMMIT_REF_NAME%"
     when: always
@@ -176,7 +184,7 @@ build-webgl-2019:
 build-android-2019:
   stage: build-demo-2019
   script:
-    - call %BUILD_BAT% %PROJECT_PATH% %UNITY_2019_VERSION% %BUILD_ROOT_PATH% %BUILD_TARGET_ANDROID% %BUILD_PLATFORM%
+    - call %BUILD_SCRIPT_WIN% %PROJECT_PATH% %UNITY_2019_VERSION% %BUILD_ROOT_PATH% %BUILD_TARGET_ANDROID%
   artifacts:
     name: "%UNITY_2019_VERSION%_%BUILD_TARGET_ANDROID%_%CI_COMMIT_REF_NAME%"
     when: always
@@ -194,7 +202,7 @@ build-android-2019:
 build-windows-2020:
   stage: build-demo-2020
   script:
-    - call %BUILD_BAT% %PROJECT_PATH% %UNITY_2020_VERSION% %BUILD_ROOT_PATH% %BUILD_TARGET_WINDOWS% %BUILD_PLATFORM%
+    - call %BUILD_SCRIPT_WIN% %PROJECT_PATH% %UNITY_2020_VERSION% %BUILD_ROOT_PATH% %BUILD_TARGET_WINDOWS%
   artifacts:
     name: "%UNITY_2020_VERSION%_%BUILD_TARGET_WINDOWS%_%CI_COMMIT_REF_NAME%"
     when: always
@@ -209,7 +217,7 @@ build-windows-2020:
 build-webgl-2020:
   stage: build-demo-2020
   script:
-    - call %BUILD_BAT% %PROJECT_PATH% %UNITY_2020_VERSION% %BUILD_ROOT_PATH% %BUILD_TARGET_WEBGL% %BUILD_PLATFORM%
+    - call %BUILD_SCRIPT_WIN% %PROJECT_PATH% %UNITY_2020_VERSION% %BUILD_ROOT_PATH% %BUILD_TARGET_WEBGL%
   artifacts:
     name: "%UNITY_2020_VERSION%_%BUILD_TARGET_WEBGL%_%CI_COMMIT_REF_NAME%"
     when: always
@@ -224,7 +232,7 @@ build-webgl-2020:
 build-android-2020:
   stage: build-demo-2020
   script:
-    - call %BUILD_BAT% %PROJECT_PATH% %UNITY_2020_VERSION% %BUILD_ROOT_PATH% %BUILD_TARGET_ANDROID% %BUILD_PLATFORM%
+    - call %BUILD_SCRIPT_WIN% %PROJECT_PATH% %UNITY_2020_VERSION% %BUILD_ROOT_PATH% %BUILD_TARGET_ANDROID%
   artifacts:
     name: "%UNITY_2020_VERSION%_%BUILD_TARGET_ANDROID%_%CI_COMMIT_REF_NAME%"
     when: always
@@ -242,7 +250,7 @@ build-android-2020:
 build-windows-2021:
   stage: build-demo-2021
   script:
-    - call %BUILD_BAT% %PROJECT_PATH% %UNITY_2021_VERSION% %BUILD_ROOT_PATH% %BUILD_TARGET_WINDOWS% %BUILD_PLATFORM%
+    - call %BUILD_SCRIPT_WIN% %PROJECT_PATH% %UNITY_2021_VERSION% %BUILD_ROOT_PATH% %BUILD_TARGET_WINDOWS%
   artifacts:
     name: "%UNITY_2021_VERSION%_%BUILD_TARGET_WINDOWS%_%CI_COMMIT_REF_NAME%"
     when: always
@@ -257,7 +265,7 @@ build-windows-2021:
 build-webgl-2021:
   stage: build-demo-2021
   script:
-    - call %BUILD_BAT% %PROJECT_PATH% %UNITY_2021_VERSION% %BUILD_ROOT_PATH% %BUILD_TARGET_WEBGL% %BUILD_PLATFORM%
+    - call %BUILD_SCRIPT_WIN% %PROJECT_PATH% %UNITY_2021_VERSION% %BUILD_ROOT_PATH% %BUILD_TARGET_WEBGL%
   artifacts:
     name: "%UNITY_2021_VERSION%_%BUILD_TARGET_WEBGL%_%CI_COMMIT_REF_NAME%"
     when: always
@@ -272,7 +280,7 @@ build-webgl-2021:
 build-android-2021:
   stage: build-demo-2021
   script:
-    - call %BUILD_BAT% %PROJECT_PATH% %UNITY_2021_VERSION% %BUILD_ROOT_PATH% %BUILD_TARGET_ANDROID% %BUILD_PLATFORM%
+    - call %BUILD_SCRIPT_WIN% %PROJECT_PATH% %UNITY_2021_VERSION% %BUILD_ROOT_PATH% %BUILD_TARGET_ANDROID%
   artifacts:
     name: "%UNITY_2021_VERSION%_%BUILD_TARGET_ANDROID%_%CI_COMMIT_REF_NAME%"
     when: always
@@ -283,8 +291,47 @@ build-android-2021:
   tags:
     - sdk_ci
     - windows
+
+# =================================================================================================================
+# IOS DEMO
+
+build-ios-2019:
+  stage: build-demo-iOS
+  script:
+    - chmod 755 fastlane/scripts/diawi_callback_helper.sh
+    - sh $BUILD_SCRIPT_MAC $PROJECT_PATH $UNITY_2019_VERSION $BUILD_ROOT_PATH $BUILD_TARGET_IOS
+  dependencies: []
+  tags:
+    - sdk_ci
+    - mac
+
+build-ios-2020:
+  stage: build-demo-iOS
+  script:
+    - chmod 755 fastlane/scripts/diawi_callback_helper.sh
+    - sh $BUILD_SCRIPT_MAC $PROJECT_PATH $UNITY_2020_VERSION $BUILD_ROOT_PATH $BUILD_TARGET_IOS
+  dependencies: []
+  needs:
+    - build-ios-2019
+  tags:
+    - sdk_ci
+    - mac
+
+build-ios-2021:
+  stage: build-demo-iOS
+  script:
+    - chmod 755 fastlane/scripts/diawi_callback_helper.sh
+    - sh $BUILD_SCRIPT_MAC $PROJECT_PATH $UNITY_2021_VERSION $BUILD_ROOT_PATH $BUILD_TARGET_IOS
+  dependencies: []
+  needs:
+    - build-ios-2020
+  tags:
+    - sdk_ci
+    - mac
+
 # =========================================================================================================================
 # Deploy STAGE
+
 deploy stage:
     stage: deploy
     extends: .deploy stage
@@ -323,6 +370,7 @@ stop stage:
 
 # =========================================================================================================================
 # Deploy PROD
+
 deploy prod:
     stage: deploy
     extends: .deploy prod

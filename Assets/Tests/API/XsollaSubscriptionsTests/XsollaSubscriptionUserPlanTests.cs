@@ -9,13 +9,10 @@ namespace Xsolla.Tests
 {
 	public class XsollaSubscriptionUserPlanTests : XsollaSubscriptionTestsBase
 	{
+		[OneTimeSetUp]
 		[OneTimeTearDown]
-		public void OneTimeTearDown()
-		{
-			if (XsollaSubscriptions.IsExist)
-				Object.DestroyImmediate(XsollaSubscriptions.Instance.gameObject);
-		}
-		
+		public void Clear() => TestHelper.Clear();
+
 		[UnityTest]
 		public IEnumerator GetSubscriptionPlans_Default_Success()
 		{

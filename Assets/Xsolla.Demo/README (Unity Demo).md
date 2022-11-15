@@ -15,7 +15,6 @@ The demo project covers the following user scenarios:
 * Purchase for real or virtual currency
 * Purchase in one click or via the shopping cart
 * Consuming items from the player inventory
-* Cross-platform account linking
 
 **NOTE:** By default, the demo is working in sandbox mode. To test the purchase process, use [test cards](https://developers.xsolla.com/doc/pay-station/references/test-cards/). Sandbox mode only simulates the behavior of a payment method, no real money is involved. You can try out sandbox mode without signing any agreements with Xsolla or paying any fees.
 
@@ -23,7 +22,6 @@ The demo also shows the following user management features:
 
 * User account management
 * User attributes customization
-* Friend system
 
 
 ## How to use snippets from demo in your project

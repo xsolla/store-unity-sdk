@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
@@ -84,7 +84,8 @@ namespace Xsolla.Core
 		public InventoryOptions inventory_options;
 		public int order;
 		public MediaListItem[] media_list;
-		
+		public StoreItemPromotion[] promotions;
+
 		public StoreItem DeepClone()
 		{
 			string json = JsonConvert.SerializeObject(this);

@@ -41,56 +41,50 @@ namespace Xsolla.Core
 		private static T InstantiateThis()
 		{
 			string componentName = typeof(T).Name;
-			Debug.Log("No instance of " + componentName);
-			T result = InstantiateFromScene();
+			Debug.Log($"No instance of {componentName}");
 
-			if (result == null)
+			//Try finding pre-existing object on the scene
+			T result = FindObjectOfType(typeof(T)) as T;
+			if (result != null)
 			{
-				result = InstantiateFromResources();
-				if (result != null)
-					Debug.Log(componentName + " loaded from resources.");
+				Debug.Log($"{componentName} found in the scene.");
+				return result;
 			}
-			else
-				Debug.Log(componentName + " found in the scene.");
 
-			if (result == null)
+			//Try loading from resources
+			var prefab = Resources.Load($"{PATH_TO_PREFABS}{typeof(T).Name}");
+			if (prefab != null)
 			{
-				result = InstantiateAsNewObject();
-				if (result != null)
-					Debug.Log(componentName + " a temporary one is created.");
+				var instance = Instantiate(prefab) as GameObject;
+				if (instance != null)
+					instance.name = typeof(T).Name;
+				result = instance?.GetComponent<T>();
 			}
+			if (result != null)
+			{
+				Debug.Log($"{componentName} loaded from resources.");
+				return result;
+			}
+
+			//Create new object
+			var newInstance = new GameObject($"Temp Instance of {typeof(T)}");
+			result = newInstance.AddComponent<T>();
+			if (result != null)
+			{
+				Debug.Log($"{componentName} a temporary one is created.");
+				return result;
+			}
+
+			//else
+			Debug.LogError($"Could not instantiate {componentName}");
 			return result;
 		}
 
-		private static T InstantiateFromScene()
-		{
-			return FindObjectOfType(typeof(T)) as T;
-		}
-
-		private static T InstantiateFromResources()
-		{
-			string path = PATH_TO_PREFABS + typeof(T).Name;
-			
-			var prefab = Resources.Load(path);
-			if (prefab == null) return null;
-			
-			GameObject instance = Instantiate(prefab) as GameObject;
-			if (instance != null)
-			{
-				instance.name = typeof(T).Name;
-			}
-			return instance == null ? null : instance.GetComponent<T>();
-		}
-
-		private static T InstantiateAsNewObject()
-		{
-			GameObject instance = new GameObject("Temp Instance of " + typeof(T));
-			return instance.AddComponent<T>();
-		}
+		public virtual void Init() {}
 
 		protected virtual void OnDestroy()
 		{
-			Debug.Log(typeof(T) + " is destroyed.");
+			Debug.Log($"{typeof(T)} is destroyed.");
 			_instance = null;
 		}
 
@@ -101,11 +95,6 @@ namespace Xsolla.Core
 				_isInitialized = true;
 				Init();
 			}
-		}
-
-		public virtual void Init()
-		{
-
 		}
 
 		private void OnApplicationQuit()

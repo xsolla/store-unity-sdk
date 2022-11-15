@@ -11,12 +11,9 @@ namespace Xsolla.Tests
 {
 	public class XsollaInventoryTests
 	{
+		[OneTimeSetUp]
 		[OneTimeTearDown]
-		public void OneTimeTearDown()
-		{
-			if (XsollaInventory.IsExist)
-				XsollaInventory.DestroyImmediate(XsollaInventory.Instance.gameObject);
-		}
+		public void Clear() => TestHelper.Clear();
 
 		[UnityTest]
 		public IEnumerator GetVirtualCurrencyBalance_DefaultValues_Success()

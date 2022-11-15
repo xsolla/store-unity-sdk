@@ -48,7 +48,7 @@ namespace Xsolla.Core
 			}
 		}
 
-		public void PerformSocialAuth(SocialProvider socialProvider)
+		public void PerformSocialAuth(SocialProvider socialProvider, Action<string> onSuccess, Action onCancelled, Action<Error> onError)
 		{
 			var providerName = socialProvider.ToString().ToUpper();
 
@@ -56,12 +56,18 @@ namespace Xsolla.Core
 
 			try
 			{
-				var unitySDKHelper = new AndroidJavaClass("com.xsolla.android.login.XLogin$Unity");
-				var actvity = _androidHelper.CurrentActivity;
+				var currentActivity = _androidHelper.CurrentActivity;
+				var proxyActivity = new AndroidJavaObject($"{Application.identifier}.androidProxies.AndroidAuthProxy");
 				var socialNetworkClass = new AndroidJavaClass("com.xsolla.android.login.social.SocialNetwork");
 				var socialNetworkObject = socialNetworkClass.GetStatic<AndroidJavaObject>(providerName);
+				var callback = new AndroidSDKAuthCallback
+				{
+					OnSuccess = onSuccess,
+					OnCancelled = onCancelled,
+					OnError = onError
+				};
 
-				unitySDKHelper.CallStatic("authSocial", actvity, socialNetworkObject, /*invalidationFlag:*/true);
+				proxyActivity.CallStatic("authSocial", currentActivity, proxyActivity, socialNetworkObject, callback);
 			}
 			catch (Exception ex)
 			{

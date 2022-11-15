@@ -274,7 +274,7 @@ namespace Xsolla.Auth
 		/// <param name="redirectUri">URL to redirect the user to after account confirmation, successful authentication, two-factor authentication configuration, or password reset confirmation.
 		/// Must be identical to the Callback URL specified in the URL block of Publisher Account.
 		/// To find it, go to Login > your Login project > General settings. Required if there are several Callback URLs.</param>
-		/// <param name="state">Value used for additional user verification. Often used to mitigate CSRF Attacks. The value will be returned in the response. Must be longer than 8 symbols. Used only for OAuth2.0 auth.</param> 
+		/// <param name="state">Value used for additional user verification. Often used to mitigate CSRF Attacks. The value will be returned in the response. Must be longer than 8 symbols. Used only for OAuth2.0 auth.</param>
 		/// <param name="payload">[OBSOLETE]Were used only for JWT auth.</param>
 		/// <param name="locale">Defines localization of the email user receives.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
@@ -298,8 +298,8 @@ namespace Xsolla.Auth
 		/// <see cref="https://developers.xsolla.com/login-api/auth/jwt/jwt-auth-via-access-token-of-social-network/"/>
 		/// <see cref="https://developers.xsolla.com/login-api/auth/oauth-20/oauth-20-auth-via-access-token-of-social-network/"/>
 		/// <param name="accessToken">Access token received from a social network.</param>
-		/// <param name="accessTokenSecret">Parameter oauth_token_secret received from the authorization request. Required for Twitter only.</param>
-		/// <param name="openId">Parameter 'openid' received from the social network. Required for WeChat only.</param>
+		/// <param name="accessTokenSecret">Parameter `oauth_token_secret` received from the authorization request. Required for Twitter only.</param>
+		/// <param name="openId">Parameter `openid` received from the social network. Required for WeChat only.</param>
 		/// <param name="providerName">Name of the social network connected to the Login in Publisher Account.</param>
 		/// <param name="payload">[OBSOLETE]Were used only for JWT auth.</param>
 		/// <param name="state">Value used for additional user verification. Often used to mitigate CSRF Attacks. The value will be returned in the response. Must be longer than 8 symbols. Used only for OAuth2.0 auth</param>
@@ -320,7 +320,7 @@ namespace Xsolla.Auth
 
 			WebRequestHelper.Instance.PostRequest(SdkType.Login, url, requestData, onSuccess, onError, ErrorCheckType.LoginErrors);
 		}
-		
+
 		/// <summary>
 		/// Logs the user out and deletes the user session.
 		/// </summary>

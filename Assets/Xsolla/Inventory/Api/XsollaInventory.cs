@@ -20,7 +20,7 @@ namespace Xsolla.Inventory
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
 		/// <param name="onError">Failed operation callback.</param>
-		/// /// <param name="platform">Publishing platform the user plays on.</param>
+		/// <param name="platform">Publishing platform the user plays on.</param>
 		public void GetVirtualCurrencyBalance(string projectId, [NotNull] Action<VirtualCurrencyBalances> onSuccess, [CanBeNull] Action<Error> onError, string platform = null)
 		{
 			var url = string.Format(URL_VIRTUAL_CURRENCY_BALANCE, projectId);
@@ -74,7 +74,7 @@ namespace Xsolla.Inventory
 				onError: error => TokenRefresh.Instance.CheckInvalidToken(error, onError, () => ConsumeInventoryItem(projectId, item, onSuccess, onError, platform)),
 				ErrorCheckType.ConsumeItemErrors);
 		}
-		
+
 		/// <summary>
 		/// Retrieves the current user’s time limited items.
 		/// </summary>

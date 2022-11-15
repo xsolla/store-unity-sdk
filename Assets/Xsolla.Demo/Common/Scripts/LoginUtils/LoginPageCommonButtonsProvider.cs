@@ -28,20 +28,10 @@ namespace Xsolla.Demo
 		{
 			if (DemoUserButton)
 			{
-				var isChanged = IsSettingsChanged();
-				DemoUserButton.gameObject.SetActive(!isChanged);
+				var isDefaultProject = XsollaSettings.LoginId == Constants.DEFAULT_LOGIN_ID &&
+									   XsollaSettings.StoreProjectId == Constants.DEFAULT_PROJECT_ID;
+				DemoUserButton.gameObject.SetActive(isDefaultProject);
 			}
-		}
-
-		private bool IsSettingsChanged()
-		{
-			if (XsollaSettings.LoginId != Constants.DEFAULT_LOGIN_ID)
-				return true;
-
-			if (XsollaSettings.StoreProjectId != Constants.DEFAULT_PROJECT_ID)
-				return true;
-
-			return false;
 		}
 	}
 }

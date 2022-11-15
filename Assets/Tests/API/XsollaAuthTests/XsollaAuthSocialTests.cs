@@ -12,6 +12,10 @@ namespace Xsolla.Tests
 {
 	public class XsollaAuthSocialTests
 	{
+		[OneTimeSetUp]
+		[OneTimeTearDown]
+		public void Clear() => TestHelper.Clear();
+
 		[Test]
 		public void GetSocialNetworkAuthUrl_Success()
 		{

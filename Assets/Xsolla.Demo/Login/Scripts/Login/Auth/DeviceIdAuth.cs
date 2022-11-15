@@ -16,9 +16,9 @@ namespace Xsolla.Demo
 				return;
 
 #if UNITY_IOS
-			var deviceType = Core.DeviceType.iOS;
+			var deviceType = DeviceType.iOS;
 #else
-			var deviceType = Core.DeviceType.Android;
+			var deviceType = DeviceType.Android;
 #endif
 			var possibleException = DeviceIdUtil.GetDeviceInfo(deviceType, out string deviceId, out string deviceName, out string deviceModel);
 			if (possibleException != null)

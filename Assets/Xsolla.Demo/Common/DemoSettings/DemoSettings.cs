@@ -2,13 +2,14 @@
 using System.IO;
 using UnityEditor;
 using UnityEngine;
+using Xsolla.Core;
 
 namespace Xsolla.Demo
 {
 	public class DemoSettings : ScriptableObject
 	{
 		[SerializeField] private bool _requestNicknameOnAuth = true;
-		[SerializeField] public string webStoreUrl = "https://sitebuilder.xsolla.com/game/sdk-web-store/";
+		[SerializeField] private string webStoreUrl = Constants.DEFAULT_WEB_STORE_URL;
 
 		[SerializeField] private bool useSteamAuth = default;
 		[SerializeField] private string steamAppId = "480";

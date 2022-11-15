@@ -1,0 +1,8 @@
+# The bundle identifier
+app_identifier ENV["app_identifier"]
+
+# The team identifier
+team_id ENV["team_id"]
+
+# Заменить, если это возможно на переменную окружения, которая НЕ сохраняется в гите
+apple_id ENV["apple_id"]
