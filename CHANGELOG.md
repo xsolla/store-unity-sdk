@@ -1,11 +1,23 @@
 # Changelog
+## [1.3.0] - 2022-10-31
+### Added
+- Authorization by device ID in demo
+- Promotions to store methods
+### Changed
+- Reworked Android social login
+- Merged Store payment settings and Subscriptions payment settings
+### Fixed
+- Mismatch project settings
+- Remove temp objects between tests
+- Clear token on platform auth select
+
 ## [1.2.1] - 2022-08-29
 ### Fixed
 - DeviceID authorization
 
 ## [1.2.0] - 2022-08-19
 ### Added
-- Locale parameter to passwordless authorization
+- Locale parameter for passwordless authorization
 - PS UI settings for subscription methods
 - Unique Demo User generation
 - Personalization for catalog requests
@@ -39,7 +51,7 @@
 - Request error parsing and handling
 - OAuth2.0 token refresh
 - Use of redirect URL settings in several API calls
-- User's inventory items that were removed from a catalog
+- User's inventory items that were removed from catalog
 - Demo: Catalog and inventory initialization
 - Other fixes and improvements
 ### Changed
@@ -98,10 +110,10 @@
 - Horizontal orientation for mobile demo scene
 ### Fixed
 - Several payment systems flow for WebGL build
-- Pay Station auto-close after purchase for Unity 2020 and later
-- Demo behaviour after social auth cancel
+- Pay Station auto-closing after purchasing for Unity 2020 and later
+- Demo behavior after social auth cancellation
 - WeChat errors for Android build
-- Errors raising once after import for Unity 2020 and later
+- Errors occurring once after import for Unity 2020 and later
 - Built-in browser render quality
 - Included copy of Newtonsoft library now can be safely removed in case of conflict
 - Various fixes and improvements
@@ -122,9 +134,9 @@
 - In-game browser scroll
 - In-game browser numpad
 - In-game browser redirection links
-- In-game browser post purchase behaviour
+- In-game browser post purchase behavior
 - In-game browser window size now corresponds with Pay Station UI size
-- Handling of few purchase systems that become impossible to complete with in-game browser
+- Handling of a few purchase systems that become impossible to complete with in-game browser
 - Various fixes and improvements
 ### Changed
 - Changed: Pay Station opening version from 2 to 3
