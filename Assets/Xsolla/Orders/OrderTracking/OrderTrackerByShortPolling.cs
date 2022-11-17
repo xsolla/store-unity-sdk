@@ -1,11 +1,14 @@
+using System;
 using System.Collections;
 using UnityEngine;
+using Xsolla.Core;
 
 namespace Xsolla.Orders
 {
 	public class OrderTrackerByShortPolling : OrderTracker
 	{
-		private const float CHECK_STATUS_COOLDOWN = 3f;
+		public static float ShortPollingInterval {get;set;} = 3f;
+		public static float ShortPollingSecondsLimit {get;set;} = 600f;
 
 		private Coroutine checkStatusCoroutine;
 
@@ -22,23 +25,35 @@ namespace Xsolla.Orders
 
 		private IEnumerator CheckOrderStatus()
 		{
+			var interval = new WaitForSeconds(ShortPollingInterval);
+			var limit = Time.time + ShortPollingSecondsLimit;
+
+			Action onDone = () =>
+			{
+				trackingData.successCallback?.Invoke();
+				base.RemoveSelfFromTracking();
+			};
+
+			Action onCancel = () =>
+			{
+				base.RemoveSelfFromTracking();
+			};
+
+			Action<Error> onError = error =>
+			{
+				trackingData.errorCallback?.Invoke(error);
+				base.RemoveSelfFromTracking();
+			};
+
 			while (true)
 			{
-				yield return new WaitForSeconds(CHECK_STATUS_COOLDOWN);
+				yield return interval;
+				CheckOrderStatus(onDone, onCancel, onError);
 
-				CheckOrderStatus(
-					onDone: () =>
-					{
-						trackingData.successCallback?.Invoke();
-						RemoveSelfFromTracking();
-					},
-					onCancel: RemoveSelfFromTracking,
-					onError: error =>
-					{
-						trackingData.errorCallback?.Invoke(error);
-						RemoveSelfFromTracking();
-					}
-				);
+				if (Time.time > limit) {
+					onError?.Invoke(new Error(ErrorType.TimeLimitReached, errorMessage:"Polling time limit reached"));
+					break;
+				}
 			}
 		}
 

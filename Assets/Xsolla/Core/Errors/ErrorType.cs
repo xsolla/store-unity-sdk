@@ -32,6 +32,8 @@ namespace Xsolla.Core
 		MultipleLoginUrlsException,
 		SubmittedLoginUrlNotFoundException,
 
-		IncorrectFriendState
+		IncorrectFriendState,
+
+		TimeLimitReached
 	}
 }
