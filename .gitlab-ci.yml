@@ -38,13 +38,19 @@ build doc:
     - /^v.*/
   image: ubuntu
   script:
-  - apk update && apk add doxygen graphviz ttf-freefont zip git nodejs npm
+  - sudo apt update
+  - sudo apt-get install curl doxygen graphviz ttf-freefont zip nodejs npm
   - doxygen Documentation/Autogen/Doxyfile >/dev/null
+  
   - git clone https://$GITHUB_ACCESS_TOKEN@github.com/xsolla/sdk-reference-parser-unity-ue.git
   - mkdir -p sdk-reference-parser-unity-ue/src
   - mkdir -p sdk-reference-parser-unity-ue/dist
   - mv Documentation/Autogen/html/ sdk-reference-parser-unity-ue/src >/dev/null
   - cd sdk-reference-parser-unity-ue
+
+  - curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash - 
+  - sudo apt install nodejs 
+
   - npm install
   - npm start
   - mv -v dist/html/* dist >/dev/null
