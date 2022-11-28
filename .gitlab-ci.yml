@@ -45,10 +45,13 @@ build doc:
   - mkdir -p sdk-reference-parser-unity-ue/dist
   - mv Documentation/Autogen/html/ sdk-reference-parser-unity-ue/src >/dev/null
   - cd sdk-reference-parser-unity-ue
+
+
+  - PYTHONUNBUFFERED=1
   - apk add --update --no-cache python3 && ln -sf python3 /usr/bin/python
-  - PIP_ROOT_USER_ACTION=ignore
   - python3 -m ensurepip
   - pip3 install --no-cache --upgrade pip setuptools
+
   - npm install
   - npm start
   - mv -v dist/html/* dist >/dev/null
