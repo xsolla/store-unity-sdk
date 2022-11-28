@@ -54,6 +54,7 @@ build doc:
   - cd dist && zip -r $CI_PROJECT_DIR/build.zip * >/dev/null
   artifacts:
     paths:
+      /root/.npm/_logs/
     - build.zip
   tags:
     - devops
