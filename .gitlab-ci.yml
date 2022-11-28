@@ -36,7 +36,7 @@ build doc:
   stage: build
   only:
     - /^v.*/
-  image: alpine
+  image: ubuntu
   script:
   - apk update && apk add doxygen graphviz ttf-freefont zip git nodejs npm
   - doxygen Documentation/Autogen/Doxyfile >/dev/null
