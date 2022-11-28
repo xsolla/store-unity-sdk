@@ -45,6 +45,7 @@ build doc:
   - mkdir -p sdk-reference-parser-unity-ue/dist
   - mv Documentation/Autogen/html/ sdk-reference-parser-unity-ue/src >/dev/null
   - cd sdk-reference-parser-unity-ue
+  - npm install node-sass
   - npm install
   - npm start
   - mv -v dist/html/* dist >/dev/null
