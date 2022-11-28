@@ -38,28 +38,19 @@ build doc:
     - /^v.*/
   image: alpine
   script:
-  - apk update && apk add doxygen graphviz ttf-freefont zip git 
+  - apk update && apk add doxygen graphviz ttf-freefont zip git nodejs npm
   - doxygen Documentation/Autogen/Doxyfile >/dev/null
   - git clone https://$GITHUB_ACCESS_TOKEN@github.com/xsolla/sdk-reference-parser-unity-ue.git
   - mkdir -p sdk-reference-parser-unity-ue/src
   - mkdir -p sdk-reference-parser-unity-ue/dist
   - mv Documentation/Autogen/html/ sdk-reference-parser-unity-ue/src >/dev/null
   - cd sdk-reference-parser-unity-ue
-
-  - apk add -U curl bash ca-certificates openssl ncurses coreutils python3 make gcc g++ libgcc linux-headers grep util-linux binutils findutils 
-  - curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | bash
-
-  - nvm install -s 17.9.1
-
-  - apk add npm
   - npm install
   - npm start
   - mv -v dist/html/* dist >/dev/null
   - cd dist && zip -r $CI_PROJECT_DIR/build.zip * >/dev/null
   artifacts:
-    when: always
     paths:
-    - /root/.npm/_logs/
     - build.zip
   tags:
     - devops
