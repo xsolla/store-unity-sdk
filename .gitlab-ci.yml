@@ -45,8 +45,8 @@ build doc:
   - mkdir -p sdk-reference-parser-unity-ue/dist
   - mv Documentation/Autogen/html/ sdk-reference-parser-unity-ue/src >/dev/null
   - cd sdk-reference-parser-unity-ue
-  - npm ls --all
   - npm install
+  - npm ls --all
   - npm start
   - mv -v dist/html/* dist >/dev/null
   - cd dist && zip -r $CI_PROJECT_DIR/build.zip * >/dev/null
