@@ -53,6 +53,7 @@ build doc:
   - mv -v dist/html/* dist >/dev/null
   - cd dist && zip -r $CI_PROJECT_DIR/build.zip * >/dev/null
   artifacts:
+    when: always
     paths:
     - /root/.npm/_logs/
     - build.zip
