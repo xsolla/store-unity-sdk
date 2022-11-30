@@ -35,5 +35,11 @@ namespace Xsolla.Core
 			PlayerPrefs.DeleteKey(Constants.LAST_SUCCESS_AUTH_TOKEN);
 			PlayerPrefs.DeleteKey(Constants.LAST_SUCCESS_OAUTH_REFRESH_TOKEN);
 		}
+
+		private static void DrawErrorBox(string message)
+		{
+			EditorGUILayout.HelpBox(message, MessageType.Error, true);
+			EditorGUILayout.Space();
+		}
 	}
 }

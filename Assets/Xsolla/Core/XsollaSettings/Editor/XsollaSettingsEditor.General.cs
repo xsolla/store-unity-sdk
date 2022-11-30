@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using System;
+using UnityEditor;
 using UnityEngine;
 
 namespace Xsolla.Core
@@ -31,12 +32,18 @@ namespace Xsolla.Core
 				changed = true;
 			}
 
+			if (string.IsNullOrEmpty(projectId) || projectId.StartsWith(" ") || projectId.EndsWith(" ") || !int.TryParse(projectId, out var intProjectId) || intProjectId <= 0)
+				DrawErrorBox("Project ID has incorrect value"); //TEXTREVIEW
+
 			var loginId = EditorGUILayout.TextField(new GUIContent(LOGIN_ID_LABEL, LOGIN_ID_TOOLTIP), XsollaSettings.LoginId);
 			if (loginId != XsollaSettings.LoginId)
 			{
 				XsollaSettings.LoginId = loginId;
 				changed = true;
 			}
+
+			if (loginId.StartsWith(" ") || loginId.EndsWith(" ") || !Guid.TryParse(loginId, out _))
+				DrawErrorBox("Login ID has incorrect value"); //TEXTREVIEW
 
 			XsollaSettings.InAppBrowserEnabled = EditorGUILayout.Toggle(new GUIContent(IN_APP_BROWSER_LABEL, IN_APP_BROWSER_TOOLTIP), XsollaSettings.InAppBrowserEnabled);
 

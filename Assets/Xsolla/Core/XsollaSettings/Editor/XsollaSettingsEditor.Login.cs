@@ -1,3 +1,4 @@
+using System;
 using UnityEditor;
 using UnityEngine;
 
@@ -29,6 +30,8 @@ namespace Xsolla.Core
 				changed = true;
 			}
 
+			if (oauthClientId <= 0)
+				DrawErrorBox("OAuth Client ID has incorrect value"); //TEXTREVIEW
 
 			var callback = EditorGUILayout.TextField(new GUIContent(CALLBACK_URL_LABEL, CALLBACK_URL_TOOLTIP), XsollaSettings.CallbackUrl);
 			if (callback != XsollaSettings.CallbackUrl)
@@ -36,6 +39,9 @@ namespace Xsolla.Core
 				XsollaSettings.CallbackUrl = callback;
 				changed = true;
 			}
+
+			if (!string.IsNullOrWhiteSpace(callback) && (callback.StartsWith(" ") || callback.EndsWith(" ") || !Uri.IsWellFormedUriString(callback, UriKind.Absolute))) 
+				DrawErrorBox("Callback URL has incorrect value"); //TEXTREVIEW
 
 			EditorGUILayout.EndVertical();
 			return changed;

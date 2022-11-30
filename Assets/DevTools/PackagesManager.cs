@@ -34,6 +34,8 @@ namespace Xsolla.DevTools
 		[MenuItem("Dev Tools/Export DEMO package", false, 110)]
 		public static void ExportDemo()
 		{
+			ResetSdkSettings();
+			
 			var sdkAssetGuids = GetGuids("Assets/Xsolla");
 			var demoAssetGuids = GetGuids("Assets/Xsolla.Demo");
 			var assetGuids = sdkAssetGuids.Concat(demoAssetGuids).Distinct().ToArray();
