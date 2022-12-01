@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
 
@@ -32,7 +33,8 @@ namespace Xsolla.Core
 				changed = true;
 			}
 
-			if (string.IsNullOrEmpty(projectId) || projectId.StartsWith(" ") || projectId.EndsWith(" ") || !int.TryParse(projectId, out var intProjectId) || intProjectId <= 0)
+			var regex = new Regex(@"^[1-9]\d*$");
+			if (!regex.IsMatch(projectId))
 				DrawErrorBox("Project ID has incorrect value"); //TEXTREVIEW
 
 			var loginId = EditorGUILayout.TextField(new GUIContent(LOGIN_ID_LABEL, LOGIN_ID_TOOLTIP), XsollaSettings.LoginId);
@@ -42,7 +44,8 @@ namespace Xsolla.Core
 				changed = true;
 			}
 
-			if (loginId.StartsWith(" ") || loginId.EndsWith(" ") || !Guid.TryParse(loginId, out _))
+			regex = new Regex(@"^[^\s].+[^\s]$");
+			if (!regex.IsMatch(loginId) || !Guid.TryParse(loginId, out _))
 				DrawErrorBox("Login ID has incorrect value"); //TEXTREVIEW
 
 			XsollaSettings.InAppBrowserEnabled = EditorGUILayout.Toggle(new GUIContent(IN_APP_BROWSER_LABEL, IN_APP_BROWSER_TOOLTIP), XsollaSettings.InAppBrowserEnabled);

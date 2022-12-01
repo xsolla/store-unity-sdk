@@ -1,4 +1,5 @@
 using System;
+using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
 
@@ -40,7 +41,8 @@ namespace Xsolla.Core
 				changed = true;
 			}
 
-			if (!string.IsNullOrWhiteSpace(callback) && (callback.StartsWith(" ") || callback.EndsWith(" ") || !Uri.IsWellFormedUriString(callback, UriKind.Absolute))) 
+			var regex = new Regex(@"^[^\s].+[^\s]$");
+			if (!string.IsNullOrEmpty(callback) && (!regex.IsMatch(callback) || !Uri.IsWellFormedUriString(callback, UriKind.Absolute))) 
 				DrawErrorBox("Callback URL has incorrect value"); //TEXTREVIEW
 
 			EditorGUILayout.EndVertical();
