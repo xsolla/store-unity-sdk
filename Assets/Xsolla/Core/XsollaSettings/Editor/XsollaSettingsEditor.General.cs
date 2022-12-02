@@ -1,4 +1,6 @@
-﻿using UnityEditor;
+﻿using System;
+using System.Text.RegularExpressions;
+using UnityEditor;
 using UnityEngine;
 
 namespace Xsolla.Core
@@ -31,12 +33,20 @@ namespace Xsolla.Core
 				changed = true;
 			}
 
+			var regex = new Regex(@"^[1-9]\d*$");
+			if (!regex.IsMatch(projectId))
+				DrawErrorBox("Project ID has incorrect value"); //TEXTREVIEW
+
 			var loginId = EditorGUILayout.TextField(new GUIContent(LOGIN_ID_LABEL, LOGIN_ID_TOOLTIP), XsollaSettings.LoginId);
 			if (loginId != XsollaSettings.LoginId)
 			{
 				XsollaSettings.LoginId = loginId;
 				changed = true;
 			}
+
+			regex = new Regex(@"^[^\s].+[^\s]$");
+			if (!regex.IsMatch(loginId) || !Guid.TryParse(loginId, out _))
+				DrawErrorBox("Login ID has incorrect value"); //TEXTREVIEW
 
 			XsollaSettings.InAppBrowserEnabled = EditorGUILayout.Toggle(new GUIContent(IN_APP_BROWSER_LABEL, IN_APP_BROWSER_TOOLTIP), XsollaSettings.InAppBrowserEnabled);
 
