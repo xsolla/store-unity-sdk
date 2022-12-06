@@ -18,6 +18,9 @@ namespace Xsolla.Core.AutoFillSettings
 		private ToolStep _currentStep = ToolStep.Undefined;
 		private bool _isCodeRequired = false;
 
+		private readonly float _defaultProgressIncrimination;
+		private float _currentProgress;
+
 		private List<string[]> _settings;
 		private readonly int _settingsCount;
 		private readonly Dictionary<SettingsType,string> _settingsLabels;
@@ -52,6 +55,8 @@ namespace Xsolla.Core.AutoFillSettings
 			_settingsCount = Enum.GetValues(typeof(SettingsType)).Length;
 			_selectionCur = new int[_settingsCount];
 			_selectionNew = new int[_settingsCount];
+			_defaultProgressIncrimination = 1f / (_settingsCount+1);
+			_currentProgress = -_defaultProgressIncrimination;
 		}
 
 		private void Awake()
@@ -103,11 +108,33 @@ namespace Xsolla.Core.AutoFillSettings
 				_message = string.Format(MESSAGE_TEMPLATE,message);
 			else
 				_message = null;
+
+			this.Repaint();
 		}
 
 		public void ClearMessage()
 		{
 			ShowMessage(null);
+		}
+
+		public void ShowProgress(float? progress = null)
+		{
+			if (!progress.HasValue)
+				progress = _currentProgress + _defaultProgressIncrimination;
+
+			if (progress < 0f)
+				progress = 0f;
+			else if (progress > 1f)
+				progress = 1f;
+
+			_currentProgress = progress.Value;
+			this.Repaint();
+		}
+
+		public void ClearProgress()
+		{
+			_currentProgress = -_defaultProgressIncrimination;
+			this.Repaint();
 		}
 
 		private void OnGUI()
@@ -147,6 +174,16 @@ namespace Xsolla.Core.AutoFillSettings
 			CheckSelectionChange();
 			if (GUILayout.Button("Apply settings",_buttonStyle)) {RaiseOnApply();}
 			GuiLockEnd();
+
+			//Progress bar
+			if (_currentProgress >= 0f) {
+				var verticalPos = _isCodeRequired ? (176+65) : 176;
+				EditorGUI.ProgressBar(
+					position: new Rect(x:30, y:verticalPos, width:(position.width - 60), height:30),
+					value: _currentProgress,
+					text: "Loading..."
+				);
+			}
 		}
 
 		private string[] GetSettingsList(int index)
