@@ -427,15 +427,11 @@ namespace Xsolla.Core.AutoFillSettings
 #if AUTOFILLTOOL_DEBUG
 			Debug.Log($"Selection applied: [{string.Join(",",projectID,loginID,OAuthID,redirectURL)}]");
 #else
-			if (projectID.HasValue)
-				XsollaSettings.StoreProjectId = projectID.Value.ToString();
-			if (!string.IsNullOrEmpty(loginID))
-				XsollaSettings.LoginId = loginID;
-			if (OAuthID.HasValue)
-				XsollaSettings.OAuthClientId = OAuthID.Value;
-			if (!string.IsNullOrEmpty(redirectURL))
-				XsollaSettings.CallbackUrl = redirectURL;
-			
+			XsollaSettings.StoreProjectId = projectID?.ToString() ?? string.Empty;
+			XsollaSettings.LoginId        = loginID ?? string.Empty;
+			XsollaSettings.OAuthClientId  = OAuthID ?? default(int);
+			XsollaSettings.CallbackUrl    = redirectURL ?? string.Empty;
+
 			Debug.Log("Settings applied");
 #endif
 		}
