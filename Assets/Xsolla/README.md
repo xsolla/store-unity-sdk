@@ -17,7 +17,7 @@ To start with the SDK, you need to install this asset and set up a project in [X
 
 ### Authentication
 
-* [JWT](https://jwt.io/introduction/) standard-based and [OAuth 2.0](https://oauth.net/2/) protocol-based authentication.
+* [OAuth 2.0](https://oauth.net/2/) protocol-based authentication.
 * Classic login (username/email and password).
 * Social login.
 * Social login on the user’s device via a social network client (Google, Facebook, WeChat, and QQ).
@@ -79,6 +79,7 @@ To start with the SDK, you need to install this asset and set up a project in [X
 ### Target OS
 
 * Android
+* iOS
 * macOS
 * Windows 64-bit
 
