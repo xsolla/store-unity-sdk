@@ -20,7 +20,6 @@ namespace Xsolla.Demo
 		public override void OnInspectorGUI()
 		{
 			var changed = GeneralSettings() ||
-						  PlatformSettings() ||
 						  SteamSettings();
 
 			if (changed)
