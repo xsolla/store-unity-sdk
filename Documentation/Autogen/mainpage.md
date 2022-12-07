@@ -50,7 +50,7 @@ Browser limitations:
 
 * One page per browser instance.
 * No navigating functions: Back, Forward, etc.
-* The keyboard input sends only uppercase symbols.
+* Only [printable ASCII characters](http://facweb.cs.depaul.edu/sjost/it212/documents/ascii-pr.htm) are supported..
 * Works only for desktop builds.
 * Compatible only with Mono compiler.
 
