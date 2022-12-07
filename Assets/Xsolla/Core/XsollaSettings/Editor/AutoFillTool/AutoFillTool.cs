@@ -17,6 +17,7 @@ namespace Xsolla.Core.AutoFillSettings
 		private AutoFillRequester _requester;
 		private SettingsTree _tree;
 		private ToolStep _currentStep;
+		private SettingsType _currentProgress = (SettingsType)(-1);
 
 		private string _currentToken;
 		private string _currentChallengeID;
@@ -92,6 +93,7 @@ namespace Xsolla.Core.AutoFillSettings
 		{
 			Debug.LogError(errorMessage);
 			_window?.ShowMessage(errorMessage);
+			_window?.ClearProgress();
 		}
 
 		private void ShowError(Error error)
@@ -116,6 +118,7 @@ namespace Xsolla.Core.AutoFillSettings
 			}
 
 			_window?.ClearMessage();
+			_window?.ShowProgress(0f);
 			SetToolStep(ToolStep.Wait);
 
 			if (rememberMe)
@@ -133,6 +136,7 @@ namespace Xsolla.Core.AutoFillSettings
 			{
 				if (!IsAlive) {return;}
 				_currentToken = token;
+				_window?.ShowProgress();
 				GenerateAndShowSettingsTree();
 			};
 
@@ -140,6 +144,7 @@ namespace Xsolla.Core.AutoFillSettings
 			{
 				if (!IsAlive) {return;}
 				_currentChallengeID = challengeID;
+				_window?.ClearProgress();
 				SetToolStep(ToolStep.Code);
 			};
 
@@ -171,12 +176,14 @@ namespace Xsolla.Core.AutoFillSettings
 			}
 
 			_window?.ClearMessage();
+			_window?.ShowProgress(0f);
 			SetToolStep(ToolStep.Wait);
 
 			Action<string> onTokenGet = token =>
 			{
 				if (!IsAlive) {return;}
 				_currentToken = token;
+				_window?.ShowProgress();
 				GenerateAndShowSettingsTree();
 			};
 
@@ -204,6 +211,7 @@ namespace Xsolla.Core.AutoFillSettings
 
 			Action finalCallback = () =>
 			{
+				_window.ClearProgress();
 				_window.UpdateSettings(_tree.GenerateTableView(defaultSelection),defaultSelection);
 				SetToolStep(ToolStep.Settings);
 			};
@@ -213,6 +221,11 @@ namespace Xsolla.Core.AutoFillSettings
 
 		private void RecursiveAddNode(Node curNode, SettingsType curLevel, Action finalCallback)
 		{
+			if (curLevel > _currentProgress) {
+				_currentProgress = curLevel;
+				_window?.ShowProgress();
+			}
+
 			switch (curLevel)
 			{
 				case SettingsType.MerchantID:
@@ -427,15 +440,11 @@ namespace Xsolla.Core.AutoFillSettings
 #if AUTOFILLTOOL_DEBUG
 			Debug.Log($"Selection applied: [{string.Join(",",projectID,loginID,OAuthID,redirectURL)}]");
 #else
-			if (projectID.HasValue)
-				XsollaSettings.StoreProjectId = projectID.Value.ToString();
-			if (!string.IsNullOrEmpty(loginID))
-				XsollaSettings.LoginId = loginID;
-			if (OAuthID.HasValue)
-				XsollaSettings.OAuthClientId = OAuthID.Value;
-			if (!string.IsNullOrEmpty(redirectURL))
-				XsollaSettings.CallbackUrl = redirectURL;
-			
+			XsollaSettings.StoreProjectId = projectID?.ToString() ?? string.Empty;
+			XsollaSettings.LoginId        = loginID ?? string.Empty;
+			XsollaSettings.OAuthClientId  = OAuthID ?? default(int);
+			XsollaSettings.CallbackUrl    = redirectURL ?? string.Empty;
+
 			Debug.Log("Settings applied");
 #endif
 		}
