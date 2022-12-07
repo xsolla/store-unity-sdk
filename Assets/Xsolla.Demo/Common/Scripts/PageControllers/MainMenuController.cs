@@ -9,9 +9,7 @@ namespace Xsolla.Demo
 		[SerializeField] private SimpleButton storeButton = default;
 		[SerializeField] private SimpleButton inventoryButton = default;
 		[SerializeField] private SimpleButton webStoreButton = default;
-		[SerializeField] private AccountLinkingManagerManual accountLinkingManager = default;
 		[SerializeField] private SimpleButton profileButton = default;
-		[SerializeField] private SimpleButton characterButton = default;
 		[SerializeField] private SimpleButton friendsButton = default;
 		[SerializeField] private SimpleButton publisherAccountButton = default;
 		[SerializeField] private SimpleButton documentationButton = default;
@@ -80,7 +78,6 @@ namespace Xsolla.Demo
 			});
 
 			AttachUrlToButton(webStoreButton, DemoController.Instance.GetWebStoreUrl());
-			accountLinkingManager.Init();
 
 			AttachButtonCallback(tutorialButton, () =>
 			{
@@ -95,8 +92,6 @@ namespace Xsolla.Demo
 		{
 			AttachButtonCallback(profileButton,
 				() => SetMenuState(MenuState.Profile, () => UserCatalog.Instance.IsUpdated));
-			AttachButtonCallback(characterButton,
-				() => SetMenuState(MenuState.Character, () => UserCatalog.Instance.IsUpdated));
 
 			AttachButtonCallback(friendsButton, HandleFriendsButton);
 		}
