@@ -8,46 +8,43 @@ namespace Xsolla.Orders
 {
 	public class OrderTrackerByWebsockets : OrderTracker
 	{
-		private WebSocket webSocket;
-
-		private Coroutine timeoutCoroutine;
-
-		private OnMainThreadExecutor onMainThreadExecutor;
-
 		private const string URL_PATTERN = "wss://store-ws.xsolla.com/sub/order/status?order_id={0}&project_id={1}";
-
 		private const int TIME_OUT_DURATION = 300;
+
+		private WebSocket _webSocket;
+		private Coroutine _timeoutCoroutine;
+		private OnMainThreadExecutor _onMainThreadExecutor;
 
 		public override void Start()
 		{
-			onMainThreadExecutor = orderTracking.GetComponent<OnMainThreadExecutor>();
-			if (!onMainThreadExecutor)
-				onMainThreadExecutor = orderTracking.gameObject.AddComponent<OnMainThreadExecutor>();
+			_onMainThreadExecutor = OrderTracking.Instance.GetComponent<OnMainThreadExecutor>();
+			if (!_onMainThreadExecutor)
+				_onMainThreadExecutor = OrderTracking.Instance.gameObject.AddComponent<OnMainThreadExecutor>();
 
-			var url = string.Format(URL_PATTERN, trackingData.orderId, trackingData.projectId);
-			webSocket = new WebSocket(url);
-			webSocket.SslConfiguration.EnabledSslProtocols = System.Security.Authentication.SslProtocols.Tls12;
+			var url = string.Format(URL_PATTERN, TrackingData.orderId, TrackingData.projectId);
+			_webSocket = new WebSocket(url);
+			_webSocket.SslConfiguration.EnabledSslProtocols = System.Security.Authentication.SslProtocols.Tls12;
 
-			webSocket.OnMessage += OnWebSocketMessage;
-			webSocket.OnClose += OnWebSocketClose;
-			webSocket.OnError += OnWebSocketError;
-			webSocket.Connect();
+			_webSocket.OnMessage += OnWebSocketMessage;
+			_webSocket.OnClose += OnWebSocketClose;
+			_webSocket.OnError += OnWebSocketError;
+			_webSocket.Connect();
 
-			timeoutCoroutine = StartCoroutine(WaitTimeout());
+			_timeoutCoroutine = base.StartCoroutine(WaitTimeout());
 		}
 
 		public override void Stop()
 		{
-			if (webSocket != null)
+			if (_webSocket != null)
 			{
-				webSocket.OnMessage -= OnWebSocketMessage;
-				webSocket.OnClose -= OnWebSocketClose;
-				webSocket.OnError -= OnWebSocketError;
-				webSocket = null;
+				_webSocket.OnMessage -= OnWebSocketMessage;
+				_webSocket.OnClose -= OnWebSocketClose;
+				_webSocket.OnError -= OnWebSocketError;
+				_webSocket = null;
 			}
 
-			if (timeoutCoroutine != null)
-				StopCoroutine(timeoutCoroutine);
+			if (_timeoutCoroutine != null)
+				base.StopCoroutine(_timeoutCoroutine);
 		}
 
 		private IEnumerator WaitTimeout()
@@ -58,13 +55,13 @@ namespace Xsolla.Orders
 
 		private void ReplaceSelfByShortPollingTracker()
 		{
-			var shortPollingTracker = new OrderTrackerByShortPolling(trackingData, orderTracking);
-			orderTracking.ReplaceTracker(this, shortPollingTracker);
+			var shortPollingTracker = new OrderTrackerByShortPolling(TrackingData);
+			OrderTracking.Instance.ReplaceTracker(this, shortPollingTracker);
 		}
 
 		private void OnWebSocketMessage(object sender, MessageEventArgs args)
 		{
-			onMainThreadExecutor.Enqueue(() =>
+			_onMainThreadExecutor.Enqueue(() =>
 			{
 				var status = JsonConvert.DeserializeObject<OrderStatus>(args.Data);
 
@@ -72,7 +69,7 @@ namespace Xsolla.Orders
 					status.status,
 					onDone: () =>
 					{
-						trackingData.successCallback?.Invoke();
+						TrackingData.successCallback?.Invoke();
 						RemoveSelfFromTracking();
 					},
 					onCancel: RemoveSelfFromTracking
@@ -82,15 +79,15 @@ namespace Xsolla.Orders
 
 		private void OnWebSocketClose(object sender, CloseEventArgs args)
 		{
-			onMainThreadExecutor.Enqueue(ReplaceSelfByShortPollingTracker);
+			_onMainThreadExecutor.Enqueue(ReplaceSelfByShortPollingTracker);
 		}
 
 		private void OnWebSocketError(object sender, ErrorEventArgs args)
 		{
-			onMainThreadExecutor.Enqueue(ReplaceSelfByShortPollingTracker);
+			_onMainThreadExecutor.Enqueue(ReplaceSelfByShortPollingTracker);
 		}
 
-		public OrderTrackerByWebsockets(OrderTrackingData trackingData, OrderTracking orderTracking) : base(trackingData, orderTracking)
+		public OrderTrackerByWebsockets(OrderTrackingData trackingData) : base(trackingData)
 		{
 		}
 	}

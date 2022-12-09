@@ -14,13 +14,13 @@ namespace Xsolla.Orders
 
 		public override void Start()
 		{
-			checkStatusCoroutine = StartCoroutine(CheckOrderStatus());
+			checkStatusCoroutine = base.StartCoroutine(CheckOrderStatus());
 		}
 
 		public override void Stop()
 		{
 			if (checkStatusCoroutine != null)
-				StopCoroutine(checkStatusCoroutine);
+				base.StopCoroutine(checkStatusCoroutine);
 		}
 
 		private IEnumerator CheckOrderStatus()
@@ -30,7 +30,7 @@ namespace Xsolla.Orders
 
 			Action onDone = () =>
 			{
-				trackingData.successCallback?.Invoke();
+				base.TrackingData?.successCallback?.Invoke();
 				base.RemoveSelfFromTracking();
 			};
 
@@ -41,14 +41,14 @@ namespace Xsolla.Orders
 
 			Action<Error> onError = error =>
 			{
-				trackingData.errorCallback?.Invoke(error);
+				base.TrackingData?.errorCallback?.Invoke(error);
 				base.RemoveSelfFromTracking();
 			};
 
 			while (true)
 			{
 				yield return interval;
-				CheckOrderStatus(onDone, onCancel, onError);
+				base.CheckOrderStatus(onDone, onCancel, onError);
 
 				if (Time.time > limit) {
 					onError?.Invoke(new Error(ErrorType.TimeLimitReached, errorMessage:"Polling time limit reached"));
@@ -57,7 +57,7 @@ namespace Xsolla.Orders
 			}
 		}
 
-		public OrderTrackerByShortPolling(OrderTrackingData trackingData, OrderTracking orderTracking) : base(trackingData, orderTracking)
+		public OrderTrackerByShortPolling(OrderTrackingData trackingData) : base(trackingData)
 		{
 		}
 	}
