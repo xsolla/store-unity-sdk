@@ -6,17 +6,15 @@ namespace Xsolla.Orders
 	{
 		public override void Start()
 		{
-#if UNITY_WEBGL
-			XsollaWebCallbacks.PaymentStatusUpdate += CheckOrderStatus;
-			XsollaWebCallbacks.PaymentCancel += RemoveSelfFromTracking;
-#endif
+			XsollaWebCallbacks.Instance.OnPaymentStatusUpdate += CheckOrderStatus;
+			XsollaWebCallbacks.Instance.OnPaymentCancel += RemoveSelfFromTracking;
 		}
 
 		public override void Stop()
 		{
+			XsollaWebCallbacks.Instance.OnPaymentStatusUpdate -= CheckOrderStatus;
+			XsollaWebCallbacks.Instance.OnPaymentCancel -= RemoveSelfFromTracking;
 #if UNITY_WEBGL
-			XsollaWebCallbacks.PaymentStatusUpdate -= CheckOrderStatus;
-			XsollaWebCallbacks.PaymentCancel -= RemoveSelfFromTracking;
 			BrowserHelper.ClosePaystationWidget();
 #endif
 		}
