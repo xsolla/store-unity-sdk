@@ -83,6 +83,7 @@ namespace Xsolla.Core.Editor
 
 			var activityNode = new ActivityNode(fullActivityName);
 			activityNode.AddAttribute(AndroidManifestConstants.ExportedAttribute, "true");
+			activityNode.AddAttribute(AndroidManifestConstants.ConfigChanges, "orientation|screenSize|keyboardHidden");
 
 			// cleanup manifest in case activity node was added previously
 			if (manifestWrapper.ContainsNode(new FindByTag(AndroidManifestConstants.ApplicationTag), new FindByName(activityNode)))
