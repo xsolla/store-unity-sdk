@@ -7,6 +7,12 @@ namespace Xsolla.Demo
 {
 	public class DemoShop : MonoSingleton<DemoShop>
 	{
+		public void PurchaseFreeItem(CatalogItemModel item, Action<CatalogItemModel> onSuccess = null, Action<Error> onError = null)
+		{
+			SdkPurchaseLogic.Instance.PurchaseFreeItem(item,
+				OnSuccessPurchase(onSuccess),
+				OnPurchaseError(onError));
+		}
 		public void PurchaseForRealMoney(CatalogItemModel item, Action<CatalogItemModel> onSuccess = null, Action<Error> onError = null)
 		{
 			var restrictedPaymentAllower = GenerateAllower();
@@ -60,6 +66,24 @@ namespace Xsolla.Demo
 
 			SdkPurchaseLogic.Instance.PurchaseCart(items,
 				restrictedPaymentAllower,
+				onSuccessPurchase,
+				OnPurchaseError(onError));
+		}
+		
+		public void PurchaseFreeCart(List<UserCartItem> items, Action<List<UserCartItem>> onSuccess, Action<Error> onError = null, bool isShowResultToUser = true)
+		{
+			Action<List<UserCartItem>> onSuccessPurchase = purchasedItems =>
+			{
+				if (isShowResultToUser)
+					CompletePurchase(popupCallback: () => onSuccess?.Invoke(purchasedItems));
+				else
+				{
+					UserInventory.Instance.Refresh(onError: StoreDemoPopup.ShowError);
+					onSuccess?.Invoke(purchasedItems);
+				}
+			};
+
+			SdkPurchaseLogic.Instance.PurchaseFreeCart(items,
 				onSuccessPurchase,
 				OnPurchaseError(onError));
 		}
