@@ -130,7 +130,7 @@ namespace Xsolla.Tests
 				success = false;
 			};
 
-			if		(cartID == null && defaultValues)
+			if (cartID == null && defaultValues)
 			{
 				XsollaCart.Instance.GetCartItems(
 					projectId: XsollaSettings.StoreProjectId,
@@ -176,21 +176,21 @@ namespace Xsolla.Tests
 		[UnityTest]
 		public IEnumerator FillCart_NoCartId_Success()
 		{
-			yield return FillCart();
+			yield return FillCart(fillItems: new List<CartFillItem> {new CartFillItem {sku = "lootbox_1", quantity = 1}});
 		}
 
 		[UnityTest]
 		public IEnumerator FillCart_NoCartId_InvalidToken_Success()
 		{
 			yield return TestSignInHelper.Instance.SetOldToken();
-			yield return FillCart();
+			yield return FillCart(fillItems: new List<CartFillItem> {new CartFillItem {sku = "lootbox_1", quantity = 1}});
 		}
 
 		[UnityTest]
 		public IEnumerator FillCart_CartId_Success()
 		{
 			yield return PrepareCurrentCart();
-			yield return FillCart(cartID: _currentCart.cart_id);
+			yield return FillCart(fillItems: new List<CartFillItem> {new CartFillItem {sku = "lootbox_1", quantity = 1}}, cartID: _currentCart.cart_id);
 		}
 
 		[UnityTest]
@@ -198,17 +198,15 @@ namespace Xsolla.Tests
 		{
 			yield return PrepareCurrentCart();
 			yield return TestSignInHelper.Instance.SetOldToken();
-			yield return FillCart(cartID: _currentCart.cart_id);
+			yield return FillCart(fillItems: new List<CartFillItem> {new CartFillItem {sku = "lootbox_1", quantity = 1}}, cartID: _currentCart.cart_id);
 		}
 
-		private IEnumerator FillCart([CallerMemberName]string testName = null, string cartID = null)
+		private IEnumerator FillCart([CallerMemberName]string testName = null, List<CartFillItem> fillItems = null, string cartID = null)
 		{
 			yield return TestSignInHelper.Instance.CheckSession();
 
 			bool? success = default;
 			string errorMessage = default;
-
-			var fillItems = new List<CartFillItem>(){new CartFillItem(){sku = "lootbox_1", quantity = 1}};
 
 			Action onSuccess = () =>
 			{
@@ -603,7 +601,7 @@ namespace Xsolla.Tests
 				TestHelper.Fail(errorMessage, testName);
 		}
 
-				[UnityTest]
+		[UnityTest]
 		public IEnumerator PurchaseCart_NoCartId_Success()
 		{
 			yield return PurchaseCart();
@@ -657,6 +655,107 @@ namespace Xsolla.Tests
 			yield return new WaitUntil(() => success.HasValue);
 
 			if (success.Value)
+				TestHelper.Pass(testName);
+			else
+				TestHelper.Fail(errorMessage, testName);
+		}
+		
+		[UnityTest]
+		public IEnumerator CreateOrderWithFreeCart_Success()
+		{
+			yield return TestSignInHelper.Instance.SignInAsTestUser();
+			yield return ClearCart();
+			yield return FillCart(fillItems: new List<CartFillItem> {new CartFillItem {sku = "Xsolla_free_item", quantity = 1}});
+			yield return CreateOrderWithFreeCart();
+		}
+		
+		[UnityTest]
+		public IEnumerator CreateOrderWithFreeCart_NotFreeItem_Failure()
+		{
+			yield return TestSignInHelper.Instance.SignInAsTestUser();
+			yield return ClearCart();
+			yield return FillCart(fillItems: new List<CartFillItem> {new CartFillItem {sku = "lootbox_1", quantity = 1}});
+			yield return CreateOrderWithFreeCart(isSuccessExpected: false);
+		}
+		
+		[UnityTest]
+		public IEnumerator CreateOrderWithFreeCart_InvalidUser_Failure()
+		{
+			yield return TestSignInHelper.Instance.SignIn();
+			yield return ClearCart();
+			yield return FillCart(fillItems: new List<CartFillItem> {new CartFillItem {sku = "Xsolla_free_item", quantity = 1}});
+			yield return CreateOrderWithFreeCart(isSuccessExpected: false);
+		}
+		
+		[UnityTest]
+		public IEnumerator CreateOrderWithFreeParticularCart_Success()
+		{
+			yield return TestSignInHelper.Instance.SignInAsTestUser();
+			yield return PrepareCurrentCart();
+			yield return ClearCart(cartID: _currentCart.cart_id);
+			yield return FillCart(fillItems: new List<CartFillItem> {new CartFillItem {sku = "Xsolla_free_item", quantity = 1}}, cartID: _currentCart.cart_id);
+			yield return CreateOrderWithFreeCart(cartID: _currentCart.cart_id);
+		}
+		
+		[UnityTest]
+		public IEnumerator CreateOrderWithFreeParticularCart_NotFreeItem_Failure()
+		{
+			yield return TestSignInHelper.Instance.SignInAsTestUser();
+			yield return PrepareCurrentCart();
+			yield return ClearCart(cartID: _currentCart.cart_id);
+			yield return FillCart(fillItems: new List<CartFillItem> {new CartFillItem {sku = "lootbox_1", quantity = 1}}, cartID: _currentCart.cart_id);
+			yield return CreateOrderWithFreeCart(cartID: _currentCart.cart_id, isSuccessExpected: false);
+		}
+		
+		[UnityTest]
+		public IEnumerator CreateOrderWithFreeParticularCart_InvalidUser_Failure()
+		{
+			yield return TestSignInHelper.Instance.SignIn();
+			yield return PrepareCurrentCart();
+			yield return ClearCart(cartID: _currentCart.cart_id);
+			yield return FillCart(fillItems: new List<CartFillItem> {new CartFillItem {sku = "Xsolla_free_item", quantity = 1}}, cartID: _currentCart.cart_id);
+			yield return CreateOrderWithFreeCart(cartID: _currentCart.cart_id, isSuccessExpected: false);
+		}
+
+		private IEnumerator CreateOrderWithFreeCart([CallerMemberName]string testName = null, string cartID = null, bool isSuccessExpected = true)
+		{
+			yield return TestSignInHelper.Instance.CheckSession();
+
+			bool? success = default;
+			string errorMessage = default;
+
+			Action<int> onSuccess = orderId =>
+			{
+				success = true;
+			};
+
+			Action<Error> onError = error =>
+			{
+				errorMessage = error?.errorMessage ?? "ERROR IS NULL";
+				success = false;
+			};
+
+			if (cartID == null)
+			{
+				XsollaCart.Instance.CreateOrderWithFreeCart(
+					XsollaSettings.StoreProjectId,
+					onSuccess,
+					onError
+				);
+			}
+			else
+			{
+				XsollaCart.Instance.CreateOrderWithParticularFreeCart(
+					XsollaSettings.StoreProjectId,
+					cartID,
+					onSuccess,
+					onError
+				);
+			}
+			
+			yield return new WaitUntil(() => success.HasValue);
+			
+			if (success.Value == isSuccessExpected)
 				TestHelper.Pass(testName);
 			else
 				TestHelper.Fail(errorMessage, testName);

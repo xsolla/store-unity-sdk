@@ -23,6 +23,8 @@ namespace Xsolla.Catalog
 		private const string URL_BUY_ITEM = Constants.BASE_STORE_API_URL + "/payment/item/{1}";
 		private const string URL_BUY_ITEM_FOR_VC = Constants.BASE_STORE_API_URL + "/payment/item/{1}/virtual/{2}";
 
+		private const string URL_CREATE_FREE_ORDER_WITH_ITEM = Constants.BASE_STORE_API_URL + "/free/item/{1}";
+
 		/// <summary>
 		/// Returns all items in catalog.
 		/// If used after authorization, it will also return items available for this specific user.
@@ -239,7 +241,6 @@ namespace Xsolla.Catalog
 		/// <param name="onError">Failed operation callback.</param>
 		/// <param name="purchaseParams">Purchase parameters such as <c>country</c>, <c>locale</c>, and <c>currency</c>.</param>
 		/// <param name="customHeaders">Custom web request headers</param>
-		/// <seealso cref="OpenPurchaseUi"/>
 		public void PurchaseItem(string projectId, string itemSku, [CanBeNull] Action<PurchaseData> onSuccess, [CanBeNull] Action<Error> onError, PurchaseParams purchaseParams = null, Dictionary<string, string> customHeaders = null)
 		{
 			var tempPurchaseParams = PurchaseParamsGenerator.GenerateTempPurchaseParams(purchaseParams);
@@ -264,16 +265,7 @@ namespace Xsolla.Catalog
 		/// <param name="purchaseParams">Purchase parameters such as <c>country</c>, <c>locale</c> and <c>currency</c>.</param>
 		/// <param name="platform">Publishing platform the user plays on.</param>
 		/// <param name="customHeaders">Custom web request headers.</param>
-		/// <seealso cref="OpenPurchaseUi"/>
-		public void PurchaseItemForVirtualCurrency(
-			string projectId,
-			string itemSku,
-			string priceSku,
-			[CanBeNull] Action<PurchaseData> onSuccess,
-			[CanBeNull] Action<Error> onError,
-			PurchaseParams purchaseParams = null,
-			string platform = null,
-			Dictionary<string, string> customHeaders = null)
+		public void PurchaseItemForVirtualCurrency(string projectId, string itemSku, string priceSku, [CanBeNull] Action<PurchaseData> onSuccess, [CanBeNull] Action<Error> onError, PurchaseParams purchaseParams = null, string platform = null, Dictionary<string, string> customHeaders = null)
 		{
 			TempPurchaseParams tempPurchaseParams = new TempPurchaseParams
 			{
@@ -288,6 +280,28 @@ namespace Xsolla.Catalog
 			var paymentHeaders = PurchaseParamsGenerator.GetPaymentHeaders(Token.Instance, customHeaders);
 			WebRequestHelper.Instance.PostRequest<PurchaseData, TempPurchaseParams>(SdkType.Store, url, tempPurchaseParams, paymentHeaders, onSuccess,
 				onError: error => TokenRefresh.Instance.CheckInvalidToken(error, onError, () => PurchaseItemForVirtualCurrency(projectId, itemSku, priceSku, onSuccess, onError, purchaseParams, platform, customHeaders)),
+				ErrorCheckType.BuyItemErrors);
+		}
+
+		/// <summary>
+		/// Create order with specified free item. The created order will get a 'done' order status.
+		/// </summary>
+		/// <remarks> Swagger method name:<c>Create order with specified free item</c>.</remarks>
+		/// <see cref="https://developers.xsolla.com/ru/api/igs-bb/operation/create-free-order-with-item/"/>
+		/// <param name="projectId">Project ID from your Publisher Account.</param>
+		/// <param name="itemSku">Item SKU to purchase.</param>
+		/// <param name="onSuccess">Successful operation callback.</param>
+		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="purchaseParams">Purchase parameters such as <c>country</c>, <c>locale</c>, and <c>currency</c>.</param>
+		/// <param name="customHeaders">Custom web request headers</param>
+		public void CreateOrderWithSpecifiedFreeItem(string projectId, string itemSku, [CanBeNull] Action<int> onSuccess, [CanBeNull] Action<Error> onError, PurchaseParams purchaseParams = null, Dictionary<string, string> customHeaders = null)
+		{
+			var tempPurchaseParams = PurchaseParamsGenerator.GenerateTempPurchaseParams(purchaseParams);
+			var url = string.Format(URL_CREATE_FREE_ORDER_WITH_ITEM, projectId, itemSku);
+			var paymentHeaders = PurchaseParamsGenerator.GetPaymentHeaders(Token.Instance, customHeaders);
+			WebRequestHelper.Instance.PostRequest<PurchaseData, TempPurchaseParams>(SdkType.Store, url, tempPurchaseParams, paymentHeaders,
+				onComplete: purchaseData => onSuccess?.Invoke(purchaseData.order_id),
+				onError: error => TokenRefresh.Instance.CheckInvalidToken(error, onError, () => CreateOrderWithSpecifiedFreeItem(projectId, itemSku, onSuccess, onError, purchaseParams, customHeaders)),
 				ErrorCheckType.BuyItemErrors);
 		}
 

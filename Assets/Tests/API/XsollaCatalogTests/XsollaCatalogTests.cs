@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Runtime.CompilerServices;
 using System.Linq;
@@ -990,6 +990,52 @@ namespace Xsolla.Tests
 			UnityEngine.Debug.Log("PERSONALIZATION PASSED SUCCESSFULLY");
 			errorMessage = null;
 			return true;
+		}
+
+		[UnityTest]
+		public IEnumerator CreateOrderWithSpecifiedFreeItem_Success()
+		{
+			yield return TestSignInHelper.Instance.SignInAsTestUser();
+			yield return CreateOrderWithSpecifiedFreeItem(itemSku: "Xsolla_free_item", isSuccessExpected: true);
+		}
+		
+		[UnityTest]
+		public IEnumerator CreateOrderWithSpecifiedFreeItem_NonExistentSku_Failure()
+		{
+			yield return TestSignInHelper.Instance.SignInAsTestUser();
+			yield return CreateOrderWithSpecifiedFreeItem(itemSku: "abcdef", isSuccessExpected: false);
+		}
+		
+		[UnityTest]
+		public IEnumerator CreateOrderWithSpecifiedFreeItem_InvalidUser_Failure()
+		{
+			yield return TestSignInHelper.Instance.SignIn();
+			yield return CreateOrderWithSpecifiedFreeItem(itemSku: "Xsolla_free_item", isSuccessExpected: false);
+		}
+		
+		private IEnumerator CreateOrderWithSpecifiedFreeItem([CallerMemberName]string testName = null, string itemSku = null, bool isSuccessExpected = true)
+		{
+			yield return TestSignInHelper.Instance.CheckSession();
+			
+			bool? success = default;
+			string errorMessage = default;
+
+			XsollaCatalog.Instance.CreateOrderWithSpecifiedFreeItem(
+				XsollaSettings.StoreProjectId,
+				itemSku,
+				orderId => success = true, 
+				error =>
+				{
+					errorMessage = error.errorMessage;
+					success = false;
+				});
+
+			yield return new WaitUntil(() => success.HasValue);
+
+			if (success.Value == isSuccessExpected)
+				TestHelper.Pass(testName);
+			else
+				TestHelper.Fail(errorMessage, testName);
 		}
 	}
 }
