@@ -27,6 +27,7 @@ namespace Xsolla.Demo
 		[SerializeField] SimpleTextButton checkoutButtonButton = default;
 		[SerializeField] GameObject prices = default;
 		[SerializeField] GameObject purchasedText = default;
+		[SerializeField] GameObject freePrice = default;
 
 		private CatalogItemModel _itemInformation;
 
@@ -34,17 +35,15 @@ namespace Xsolla.Demo
 
 		public event Action<CatalogItemModel> OnInitialized;
 
-		private void Awake()
+		public void Initialize(CatalogItemModel virtualItem)
 		{
 			itemPrice.gameObject.SetActive(false);
 			itemPriceWithoutDiscount.gameObject.SetActive(false);
 			itemPriceVcImage.gameObject.SetActive(false);
 			itemPriceVcText.gameObject.SetActive(false);
 			expirationTimeObject.SetActive(false);
-		}
-
-		public void Initialize(CatalogItemModel virtualItem)
-		{
+			freePrice.SetActive(false);
+			
 			_itemInformation = virtualItem;
 
 			if (virtualItem.VirtualPrice != null)
@@ -153,7 +152,6 @@ namespace Xsolla.Demo
 
 		private void InitializeRealPrice(CatalogItemModel virtualItem)
 		{
-			EnablePrice(false);
 			cartButton.gameObject.SetActive(true);
 			if (UserCart.Instance.Contains(virtualItem.Sku))
 				cartButton.Select(true);
@@ -166,32 +164,31 @@ namespace Xsolla.Demo
 
 				EnableCheckout(isSelected);
 			};
+			
 			var realPrice = virtualItem.RealPrice;
 			if (realPrice == null)
 			{
-				Debug.LogError($"Catalog item with sku = {virtualItem.Sku} have not any price!");
+				freePrice.SetActive(true);
 				return;
 			}
-
+			
+			EnablePrice(false);
+				
 			var valuePair = realPrice.Value;
 			var currency = valuePair.Key;
 			var price = valuePair.Value;
 			itemPrice.text = PriceFormatter.FormatPrice(currency, price);
 
 			var priceWithoutDiscountContainer = virtualItem.RealPriceWithoutDiscount;
-
 			if (priceWithoutDiscountContainer == null || !priceWithoutDiscountContainer.HasValue || priceWithoutDiscountContainer.Value.Value == default(float))
 				return;
 
 			var priceWithoutDiscount = priceWithoutDiscountContainer.Value.Value;
-
 			if (priceWithoutDiscount == price)
 				return;
-			else
-			{
-				itemPriceWithoutDiscount.text = PriceFormatter.FormatPrice(currency, priceWithoutDiscount);
-				itemPriceWithoutDiscount.gameObject.SetActive(true);
-			}
+			
+			itemPriceWithoutDiscount.text = PriceFormatter.FormatPrice(currency, priceWithoutDiscount);
+			itemPriceWithoutDiscount.gameObject.SetActive(true);
 		}
 
 		private void InitializeVirtualItem(CatalogItemModel virtualItem)
@@ -250,14 +247,12 @@ namespace Xsolla.Demo
 		{
 			Action<CatalogItemModel> onPurchased = item => { StartCoroutine(WaitInventoryUpdate(() => CheckIfItemPurchased(item))); };
 
-			if (virtualItem.VirtualPrice == null)
-			{
-				buyButton.onClick = () => DemoShop.Instance.PurchaseForRealMoney(virtualItem, onPurchased);
-			}
-			else
-			{
+			if (virtualItem.VirtualPrice != null)
 				buyButton.onClick = () => DemoShop.Instance.PurchaseForVirtualCurrency(virtualItem, onPurchased);
-			}
+			else if (virtualItem.Price != null)
+				buyButton.onClick = () => DemoShop.Instance.PurchaseForRealMoney(virtualItem, onPurchased);
+			else
+				buyButton.onClick = () => DemoShop.Instance.PurchaseFreeItem(virtualItem, onPurchased);
 		}
 
 		private void AttachPreviewButtonHandler(CatalogItemModel virtualItem)

@@ -27,6 +27,11 @@ namespace Xsolla.Tests
 			callback?.Invoke(new SignInResult(success.Value, errorMessage));
 		}
 
+		public IEnumerator SignInAsTestUser()
+		{
+			yield return SignIn("sdk@xsolla.com", "1qazXSW@");
+		}
+
 		public IEnumerator SignOut()
 		{
 			if (Token.Instance == null)
