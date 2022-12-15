@@ -16,8 +16,6 @@ namespace Xsolla.Demo
 		public override void Init()
 		{
 			base.Init();
-			XsollaWebCallbacks.Instance.Init();
-
 			stateMachine.StateChangedEvent += OnStateChanged;
 			InitTutorial();
 		}

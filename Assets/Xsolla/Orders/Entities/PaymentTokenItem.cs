@@ -1,7 +1,7 @@
 namespace Xsolla.Orders
 {
-    public class PaymentTokenItem
-    {
+	public class PaymentTokenItem
+	{
 		public readonly string name;
 		public readonly string amount;
 		public readonly string amountBeforeDiscount;

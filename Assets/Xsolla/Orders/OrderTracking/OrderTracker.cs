@@ -8,47 +8,45 @@ namespace Xsolla.Orders
 {
 	public abstract class OrderTracker
 	{
-		public readonly OrderTrackingData trackingData;
+		private readonly OrderTrackingData _trackingData;
+		private bool _isCheckInProgress = false;
 
-		protected readonly OrderTracking orderTracking;
-
-		private readonly List<int> currentRequests;
+		public OrderTrackingData TrackingData => _trackingData;
 
 		public abstract void Start();
-
 		public abstract void Stop();
 
 		protected void RemoveSelfFromTracking()
 		{
-			orderTracking.RemoveOrderFromTracking(trackingData.orderId);
+			OrderTracking.Instance.RemoveOrderFromTracking(TrackingData.orderId);
 		}
 
 		protected void CheckOrderStatus(Action onDone = null, Action onCancel = null, Action<Error> onError = null)
 		{
 			if (Token.Instance == null)
 			{
-				Debug.LogWarning("No Token in order status polling. Polling stopped");
+				Debug.LogWarning("No Token in order status check. Check cancelled");
 				onCancel?.Invoke();
 				return;
 			}
 
-			var orderId = trackingData.orderId;
-			if (currentRequests.Contains(orderId)) // Prevent double check
+			if (_isCheckInProgress) // Prevent double check
 				return;
 
-			currentRequests.Add(orderId);
+			_isCheckInProgress = true;
 
+			var orderId = TrackingData.orderId;
 			XsollaOrders.Instance.CheckOrderStatus(
-				trackingData.projectId,
-				trackingData.orderId,
+				TrackingData.projectId,
+				TrackingData.orderId,
 				status =>
 				{
-					currentRequests.Remove(orderId);
+					_isCheckInProgress = false;
 					HandleOrderStatus(status.status, onDone, onCancel);
 				},
 				error =>
 				{
-					currentRequests.Remove(orderId);
+					_isCheckInProgress = false;
 					onError?.Invoke(error);
 				}
 			);
@@ -69,19 +67,17 @@ namespace Xsolla.Orders
 
 		protected Coroutine StartCoroutine(IEnumerator routine)
 		{
-			return orderTracking.StartCoroutine(routine);
+			return OrderTracking.Instance.StartCoroutine(routine);
 		}
 
 		protected void StopCoroutine(Coroutine routine)
 		{
-			orderTracking.StopCoroutine(routine);
+			OrderTracking.Instance.StopCoroutine(routine);
 		}
 
-		protected OrderTracker(OrderTrackingData trackingData, OrderTracking orderTracking)
+		protected OrderTracker(OrderTrackingData trackingData)
 		{
-			this.trackingData = trackingData;
-			this.orderTracking = orderTracking;
-			currentRequests = new List<int>();
+			_trackingData = trackingData;
 		}
 	}
 }

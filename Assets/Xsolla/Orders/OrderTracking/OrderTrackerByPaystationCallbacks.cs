@@ -6,39 +6,37 @@ namespace Xsolla.Orders
 	{
 		public override void Start()
 		{
-#if UNITY_WEBGL
-			XsollaWebCallbacks.PaymentStatusUpdate += CheckOrderStatus;
-			XsollaWebCallbacks.PaymentCancel += RemoveSelfFromTracking;
-#endif
+			XsollaWebCallbacks.Instance.OnPaymentStatusUpdate += HandleStatusUpdate;
+			XsollaWebCallbacks.Instance.OnPaymentCancel += RemoveSelfFromTracking;
 		}
 
 		public override void Stop()
 		{
+			XsollaWebCallbacks.Instance.OnPaymentStatusUpdate -= HandleStatusUpdate;
+			XsollaWebCallbacks.Instance.OnPaymentCancel -= RemoveSelfFromTracking;
 #if UNITY_WEBGL
-			XsollaWebCallbacks.PaymentStatusUpdate -= CheckOrderStatus;
-			XsollaWebCallbacks.PaymentCancel -= RemoveSelfFromTracking;
 			BrowserHelper.ClosePaystationWidget();
 #endif
 		}
 
-		private void CheckOrderStatus()
+		private void HandleStatusUpdate()
 		{
-			CheckOrderStatus(
+			base.CheckOrderStatus(
 				onDone: () =>
 				{
-					trackingData.successCallback?.Invoke();
-					RemoveSelfFromTracking();
+					base.TrackingData?.successCallback?.Invoke();
+					base.RemoveSelfFromTracking();
 				},
-				onCancel: RemoveSelfFromTracking,
+				onCancel: base.RemoveSelfFromTracking,
 				onError: error =>
 				{
-					trackingData.errorCallback?.Invoke(error);
-					RemoveSelfFromTracking();
+					base.TrackingData?.errorCallback?.Invoke(error);
+					base.RemoveSelfFromTracking();
 				}
 			);
 		}
 
-		public OrderTrackerByPaystationCallbacks(OrderTrackingData trackingData, OrderTracking orderTracking) : base(trackingData, orderTracking)
+		public OrderTrackerByPaystationCallbacks(OrderTrackingData trackingData) : base(trackingData)
 		{
 		}
 	}

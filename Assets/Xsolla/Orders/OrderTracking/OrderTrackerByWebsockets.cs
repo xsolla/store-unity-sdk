@@ -1,78 +1,75 @@
-using System.Collections;
+using System;
 using Newtonsoft.Json;
-using UnityEngine;
 using WebSocketSharp;
 using Xsolla.Core;
+using UnityEngine;
 
 namespace Xsolla.Orders
 {
 	public class OrderTrackerByWebsockets : OrderTracker
 	{
-		private WebSocket webSocket;
-
-		private Coroutine timeoutCoroutine;
-
-		private OnMainThreadExecutor onMainThreadExecutor;
-
 		private const string URL_PATTERN = "wss://store-ws.xsolla.com/sub/order/status?order_id={0}&project_id={1}";
+		private const float EXPECTED_TTL = 300f;
 
-		private const int TIME_OUT_DURATION = 300;
+		private WebSocket _webSocket;
+		private OnMainThreadExecutor _onMainThreadExecutor;
+		private float _startTime;
 
 		public override void Start()
 		{
-			onMainThreadExecutor = orderTracking.GetComponent<OnMainThreadExecutor>();
-			if (!onMainThreadExecutor)
-				onMainThreadExecutor = orderTracking.gameObject.AddComponent<OnMainThreadExecutor>();
+			_onMainThreadExecutor = OrderTracking.Instance.GetComponent<OnMainThreadExecutor>();
+			if (!_onMainThreadExecutor)
+				_onMainThreadExecutor = OrderTracking.Instance.gameObject.AddComponent<OnMainThreadExecutor>();
 
-			var url = string.Format(URL_PATTERN, trackingData.orderId, trackingData.projectId);
-			webSocket = new WebSocket(url);
-			webSocket.SslConfiguration.EnabledSslProtocols = System.Security.Authentication.SslProtocols.Tls12;
+			var url = string.Format(URL_PATTERN, base.TrackingData.orderId, base.TrackingData.projectId);
+			_webSocket = new WebSocket(url);
+			_webSocket.SslConfiguration.EnabledSslProtocols = System.Security.Authentication.SslProtocols.Tls12;
 
-			webSocket.OnMessage += OnWebSocketMessage;
-			webSocket.OnClose += OnWebSocketClose;
-			webSocket.OnError += OnWebSocketError;
-			webSocket.Connect();
+			_webSocket.OnMessage += OnWebSocketMessage;
+			_webSocket.OnClose += OnWebSocketInterrupt;
+			_webSocket.OnError += OnWebSocketInterrupt;
+			_webSocket.Connect();
 
-			timeoutCoroutine = StartCoroutine(WaitTimeout());
+			_startTime = Time.time;
 		}
 
 		public override void Stop()
 		{
-			if (webSocket != null)
+			if (_webSocket != null)
 			{
-				webSocket.OnMessage -= OnWebSocketMessage;
-				webSocket.OnClose -= OnWebSocketClose;
-				webSocket.OnError -= OnWebSocketError;
-				webSocket = null;
+				_webSocket.OnMessage -= OnWebSocketMessage;
+				_webSocket.OnClose -= OnWebSocketInterrupt;
+				_webSocket.OnError -= OnWebSocketInterrupt;
+				_webSocket.Close();
+				_webSocket = null;
 			}
-
-			if (timeoutCoroutine != null)
-				StopCoroutine(timeoutCoroutine);
 		}
 
-		private IEnumerator WaitTimeout()
-		{
-			yield return new WaitForSeconds(TIME_OUT_DURATION);
-			ReplaceSelfByShortPollingTracker();
-		}
-
-		private void ReplaceSelfByShortPollingTracker()
-		{
-			var shortPollingTracker = new OrderTrackerByShortPolling(trackingData, orderTracking);
-			orderTracking.ReplaceTracker(this, shortPollingTracker);
-		}
-
+		//TEXTREVIEW
 		private void OnWebSocketMessage(object sender, MessageEventArgs args)
 		{
-			onMainThreadExecutor.Enqueue(() =>
+			_onMainThreadExecutor.Enqueue(() =>
 			{
-				var status = JsonConvert.DeserializeObject<OrderStatus>(args.Data);
+				OrderStatus status = null;
 
-				HandleOrderStatus(
+				try {
+					status = JsonConvert.DeserializeObject<OrderStatus>(args.Data);
+				} catch (System.Exception ex) {
+					Debug.LogError($"Could not parse WebSocket message with exception: {ex.Message}");
+				}
+
+				if (status == null) {
+					Debug.LogError($"WebSocket message order status is null");
+					return;
+				}
+
+				Debug.Log($"WebSocket status message. OrderID:'{status.order_id}' Status:'{status.status}'");
+
+				base.HandleOrderStatus(
 					status.status,
 					onDone: () =>
 					{
-						trackingData.successCallback?.Invoke();
+						base.TrackingData.successCallback?.Invoke();
 						RemoveSelfFromTracking();
 					},
 					onCancel: RemoveSelfFromTracking
@@ -80,17 +77,46 @@ namespace Xsolla.Orders
 			});
 		}
 
-		private void OnWebSocketClose(object sender, CloseEventArgs args)
+		//TEXTREVIEW
+		private void OnWebSocketInterrupt(object sender, EventArgs args)
 		{
-			onMainThreadExecutor.Enqueue(ReplaceSelfByShortPollingTracker);
+			_onMainThreadExecutor.Enqueue(() =>
+			{
+				if (args is CloseEventArgs closeArgs)
+					Debug.LogWarning($"WebSocket was closed with code:'{closeArgs.Code}', reason:'{closeArgs.Reason}', wasClean:'{closeArgs.WasClean}'");
+				else if (args is ErrorEventArgs errorArgs)
+					Debug.LogError($"WebSocket was closed with exception:'{errorArgs.Exception.Message}', message:'{errorArgs.Message}'");
+				else
+					Debug.LogWarning($"WebSocket was closed with unexpected argument '{args}'");
+
+				var webSocketTTL = Time.time - _startTime;
+
+				if (webSocketTTL >= EXPECTED_TTL)
+				{
+					Debug.Log($"WebSocket TTL '{webSocketTTL}' is OK, replacing interrupted websocket with a new one");
+
+					var newTracker = new OrderTrackerByWebsockets(base.TrackingData);
+
+					if (OrderTracking.Instance.ReplaceTracker(this, newTracker))
+						Debug.Log($"Traker for order {base.TrackingData.orderId} is replaced with a new one");
+					else
+						Debug.LogError($"Failed to relace tracker for order {base.TrackingData.orderId}");
+				}
+				else
+				{
+					Debug.LogWarning($"WebSocket TTL '{webSocketTTL}' is lower than expected, switching to short-polling");
+
+					var shortPollingTracker = new OrderTrackerByShortPolling(base.TrackingData);
+
+					if (OrderTracking.Instance.ReplaceTracker(this, shortPollingTracker))
+						Debug.Log($"Traker for order {base.TrackingData.orderId} is replaced with short polling");
+					else
+						Debug.LogError($"Failed to relace tracker for order {base.TrackingData.orderId}");
+				}
+			});
 		}
 
-		private void OnWebSocketError(object sender, ErrorEventArgs args)
-		{
-			onMainThreadExecutor.Enqueue(ReplaceSelfByShortPollingTracker);
-		}
-
-		public OrderTrackerByWebsockets(OrderTrackingData trackingData, OrderTracking orderTracking) : base(trackingData, orderTracking)
+		public OrderTrackerByWebsockets(OrderTrackingData trackingData) : base(trackingData)
 		{
 		}
 	}

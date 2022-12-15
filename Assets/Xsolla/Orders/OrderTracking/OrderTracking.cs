@@ -7,66 +7,84 @@ namespace Xsolla.Orders
 {
 	public class OrderTracking : MonoSingleton<OrderTracking>
 	{
-		private readonly Dictionary<int, OrderTracker> trackers = new Dictionary<int, OrderTracker>();
+		private readonly Dictionary<int, OrderTracker> _currentTrackers = new Dictionary<int, OrderTracker>();
 
-		public void AddOrderForTracking(string projectId, int orderId, Action onSuccess = null, Action<Error> onError = null)
+		public bool IsTracking(int orderId)
 		{
-			if (trackers.ContainsKey(orderId))
-				return;
+			return _currentTrackers.ContainsKey(orderId);
+		}
+
+		public bool AddOrderForTracking(string projectId, int orderId, Action onSuccess = null, Action<Error> onError = null)
+		{
+			if (IsTracking(orderId))
+				return false;
 
 			var orderTrackingData = new OrderTrackingData(projectId,orderId,onSuccess,onError);
 #if UNITY_WEBGL
 			var tracker = (!Application.isEditor && XsollaSettings.InAppBrowserEnabled)
-				? (OrderTracker)new OrderTrackerByPaystationCallbacks(orderTrackingData, this)
-				: (OrderTracker)new OrderTrackerByShortPolling(orderTrackingData, this);
+				? (OrderTracker)new OrderTrackerByPaystationCallbacks(orderTrackingData)
+				: (OrderTracker)new OrderTrackerByShortPolling(orderTrackingData);
 #else
-			var tracker = new OrderTrackerByWebsockets(orderTrackingData, this);
+			var tracker = new OrderTrackerByWebsockets(orderTrackingData);
 #endif
 			StartTracker(tracker);
+			return true;
 		}
 
-		public void AddVirtualCurrencyOrderForTracking(string projectId, int orderId, Action onSuccess = null, Action<Error> onError = null)
+		public bool AddVirtualCurrencyOrderForTracking(string projectId, int orderId, Action onSuccess = null, Action<Error> onError = null)
 		{
-			if (trackers.ContainsKey(orderId))
-				return;
+			if (IsTracking(orderId))
+				return false;
 
 			var orderTrackingData = new OrderTrackingData(projectId,orderId,onSuccess,onError);
 #if UNITY_WEBGL
-			var tracker = new OrderTrackerByShortPolling(orderTrackingData, this);
+			var tracker = new OrderTrackerByShortPolling(orderTrackingData);
 #else
-			var tracker = new OrderTrackerByWebsockets(orderTrackingData, this);
+			var tracker = new OrderTrackerByWebsockets(orderTrackingData);
 #endif
 			StartTracker(tracker);
+			return true;
 		}
 
+		[Obsolete("Use AddOrderForShortPollingTracking instead")]
 		public void AddOrderForTrackingUntilDone(string projectId, int orderId, Action onSuccess = null, Action<Error> onError = null)
+			=> AddOrderForShortPollingTracking(projectId, orderId, onSuccess, onError);
+
+		public bool AddOrderForShortPollingTracking(string projectId, int orderId, Action onSuccess = null, Action<Error> onError = null)
 		{
-			if (trackers.ContainsKey(orderId))
-				return;
+			if (IsTracking(orderId))
+				return false;
 
 			var orderTrackingData = new OrderTrackingData(projectId,orderId,onSuccess,onError);
-			var tracker = new OrderTrackerByShortPolling(orderTrackingData, this);
+			var tracker = new OrderTrackerByShortPolling(orderTrackingData);
 			StartTracker(tracker);
+			return true;
 		}
 
-		public void RemoveOrderFromTracking(int orderId)
+		public bool RemoveOrderFromTracking(int orderId)
 		{
-			if (!trackers.TryGetValue(orderId, out var tracker))
-				return;
+			if (_currentTrackers.TryGetValue(orderId, out var tracker)) {
+				tracker.Stop();
+				_currentTrackers.Remove(orderId);
+				return true;
+			}
 
-			tracker.Stop();
-			trackers.Remove(orderId);
+			return false;
 		}
 
-		public void ReplaceTracker(OrderTracker oldTracker, OrderTracker newTracker)
+		public bool ReplaceTracker(OrderTracker oldTracker, OrderTracker newTracker)
 		{
-			RemoveOrderFromTracking(oldTracker.trackingData.orderId);
-			StartTracker(newTracker);
+			if (RemoveOrderFromTracking(oldTracker.TrackingData.orderId)) {
+				StartTracker(newTracker);
+				return true;
+			}
+
+			return false;
 		}
 
 		private void StartTracker(OrderTracker tracker)
 		{
-			trackers.Add(tracker.trackingData.orderId, tracker);
+			_currentTrackers.Add(tracker.TrackingData.orderId, tracker);
 			tracker.Start();
 		}
 	}

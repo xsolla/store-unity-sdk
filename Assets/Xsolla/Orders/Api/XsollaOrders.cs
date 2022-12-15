@@ -2,16 +2,14 @@ using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using Xsolla.Core;
-using Xsolla.Core.Browser;
 
 namespace Xsolla.Orders
 {
-	public partial class XsollaOrders : MonoSingleton<XsollaOrders>
+	public class XsollaOrders : MonoSingleton<XsollaOrders>
 	{
 		private const string URL_ORDER_GET_STATUS = Constants.BASE_STORE_API_URL + "/order/{1}";
 		private const string URL_PAYSTATION_UI = "https://secure.xsolla.com/paystation3/?access_token=";
 		private const string URL_PAYSTATION_UI_IN_SANDBOX_MODE = "https://sandbox-secure.xsolla.com/paystation3/?access_token=";
-
 		private const string URL_CREATE_PAYMENT_TOKEN = Constants.BASE_STORE_API_URL + "/payment";
 
 
