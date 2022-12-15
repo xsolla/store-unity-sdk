@@ -6,7 +6,7 @@ namespace Xsolla.Orders
 {
 	[Serializable]
 	public class CreatePaymentTokenRequest
-    {
+	{
 		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 		public Settings settings;
 
