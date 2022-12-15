@@ -35,7 +35,7 @@ namespace Xsolla.Demo
 
 		public event Action<CatalogItemModel> OnInitialized;
 
-		private void Awake()
+		public void Initialize(CatalogItemModel virtualItem)
 		{
 			itemPrice.gameObject.SetActive(false);
 			itemPriceWithoutDiscount.gameObject.SetActive(false);
@@ -43,10 +43,7 @@ namespace Xsolla.Demo
 			itemPriceVcText.gameObject.SetActive(false);
 			expirationTimeObject.SetActive(false);
 			freePrice.SetActive(false);
-		}
-
-		public void Initialize(CatalogItemModel virtualItem)
-		{
+			
 			_itemInformation = virtualItem;
 
 			if (virtualItem.VirtualPrice != null)
