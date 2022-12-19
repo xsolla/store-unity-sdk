@@ -1,3 +1,5 @@
+using System;
+using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
 
@@ -29,6 +31,8 @@ namespace Xsolla.Core
 				changed = true;
 			}
 
+			if (oauthClientId <= 0)
+				DrawErrorBox("OAuth Client ID has incorrect value");
 
 			var callback = EditorGUILayout.TextField(new GUIContent(CALLBACK_URL_LABEL, CALLBACK_URL_TOOLTIP), XsollaSettings.CallbackUrl);
 			if (callback != XsollaSettings.CallbackUrl)
@@ -36,6 +40,10 @@ namespace Xsolla.Core
 				XsollaSettings.CallbackUrl = callback;
 				changed = true;
 			}
+
+			var regex = new Regex(@"^[^\s].+[^\s]$");
+			if (!string.IsNullOrEmpty(callback) && (!regex.IsMatch(callback) || !Uri.IsWellFormedUriString(callback, UriKind.Absolute)))
+				DrawErrorBox("Callback URL has incorrect value");
 
 			EditorGUILayout.EndVertical();
 			return changed;

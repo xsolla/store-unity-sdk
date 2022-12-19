@@ -45,15 +45,27 @@ In addition to methods for calling the APIs, the SDK contains data and classes f
 
 The built-in browser is a separate module designed to open web pages inside the application. It is usually used to open a payment UI and to log a user in via third-party services.
 
+Browser limitations:
+
+
+* One page per browser instance.
+* No navigating functions: Back, Forward, etc.
+* Only [printable ASCII characters](http://facweb.cs.depaul.edu/sjost/it212/documents/ascii-pr.htm) are supported..
+* Works only for desktop builds.
+* Compatible only with Mono compiler.
+
+To enable/disable the build-in browser use the **Enable In-App browser** box in the **Inspector** panel.
+
+When the application starts, it checks for the built-in browser. If the built-in browser isn't installed, it is downloaded. The file that needs to be downloaded is 300 MB, so it may take some time when the user first starts your application. You can also pack the browser in your application. In this case, when building the application, the browser is downloaded in advance and placed in the build folder. To do this, check the **Pack In-App Browser in Build** box in the **Inspector** panel.
+
 The `BrowserHelper` class is a convenient entry point for interacting with the built-in browser. That class contains the necessary methods for using the browser.
 
-Use the `Open` method to open a webpage, passing the required URL as a parameter.
+Use the `Open` method to open a web page, passing the required URL as a parameter.
 
-To open the payment UI via the built-in browser, use the `BrowserHelper` class and the `OpenPurchase` method, passing as parameters:
+To open the payment UI via the built-in browser, use the `BrowserHelper` class and the `OpenPurchase` method and pass the following parameters:
 
-*   `Url` — Pay Station API endpoint.
-*   `Token` — Pay Station token.
-*   `IsSandbox` — payment processing mode.
+* `Url` — Pay Station API endpoint.
+* `Token` — Pay Station token.
 
 
 ### Utils classes

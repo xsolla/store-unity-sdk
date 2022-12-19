@@ -29,6 +29,9 @@ namespace Xsolla.Cart
 		private const string URL_BUY_CURRENT_CART = Constants.BASE_STORE_API_URL + "/payment/cart";
 		private const string URL_BUY_SPECIFIC_CART = Constants.BASE_STORE_API_URL + "/payment/cart/{1}";
 
+		private const string URL_BUY_CURRENT_FREE_CART = Constants.BASE_STORE_API_URL + "/free/cart";
+		private const string URL_BUY_SPECIFIC_FREE_CART = Constants.BASE_STORE_API_URL + "/free/cart/{1}";
+
 		/// <summary>
 		/// Returns a current user's cart.
 		/// </summary>
@@ -317,6 +320,49 @@ namespace Xsolla.Cart
 			var paymentHeaders = PurchaseParamsGenerator.GetPaymentHeaders(Token.Instance, customHeaders);
 			WebRequestHelper.Instance.PostRequest<PurchaseData, TempPurchaseParams>(SdkType.Store, url, tempPurchaseParams, paymentHeaders, onSuccess,
 				onError: error => TokenRefresh.Instance.CheckInvalidToken(error, onError, () => PurchaseCart(projectId, cartId, onSuccess, onError, purchaseParams, customHeaders)),
+				ErrorCheckType.BuyCartErrors);
+		}
+		
+		/// <summary>
+		/// Create order with free cart. The created order will get a 'done' order status.
+		/// </summary>
+		/// <remarks> Swagger method name:<c>Create order with free cart</c>.</remarks>
+		/// <see cref="https://developers.xsolla.com/ru/api/igs-bb/operation/create-free-order/"/>
+		/// <param name="projectId">Project ID from your Publisher Account.</param>
+		/// <param name="onSuccess">Success operation callback.</param>
+		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="purchaseParams">Purchase parameters such as <c>country</c>, <c>locale</c> and <c>currency</c>.</param>
+		/// <param name="customHeaders">Custom web request headers.</param>
+		public void CreateOrderWithFreeCart(string projectId, [CanBeNull] Action<int> onSuccess, [CanBeNull] Action<Error> onError, PurchaseParams purchaseParams = null, Dictionary<string, string> customHeaders = null)
+		{
+			var tempPurchaseParams = PurchaseParamsGenerator.GenerateTempPurchaseParams(purchaseParams);
+			var url = string.Format(URL_BUY_CURRENT_FREE_CART, projectId);
+			var paymentHeaders = PurchaseParamsGenerator.GetPaymentHeaders(Token.Instance, customHeaders);
+			WebRequestHelper.Instance.PostRequest<PurchaseData, TempPurchaseParams>(SdkType.Store, url, tempPurchaseParams, paymentHeaders,
+				onComplete: purchaseData => onSuccess?.Invoke(purchaseData.order_id),
+				onError: error => TokenRefresh.Instance.CheckInvalidToken(error, onError, () => CreateOrderWithFreeCart(projectId, onSuccess, onError, purchaseParams, customHeaders)),
+				ErrorCheckType.BuyCartErrors);
+		}
+		
+		/// <summary>
+		/// Create order with particular free cart. The created order will get a 'done' order status.
+		/// </summary>
+		/// <remarks> Swagger method name:<c>Create order with particular free cart</c>.</remarks>
+		/// <see cref="https://developers.xsolla.com/ru/api/igs-bb/operation/create-free-order-by-cart-id/"/>
+		/// <param name="projectId">Project ID from your Publisher Account.</param>
+		/// <param name="cartId">Unique cart identifier.</param>
+		/// <param name="onSuccess">Successful operation callback.</param>
+		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="purchaseParams">Purchase parameters such as <c>country</c>, <c>locale</c> and <c>currency</c>.</param>
+		/// <param name="customHeaders">Custom web request headers.</param>
+		public void CreateOrderWithParticularFreeCart(string projectId, string cartId, [CanBeNull] Action<int> onSuccess, [CanBeNull] Action<Error> onError, PurchaseParams purchaseParams = null, Dictionary<string, string> customHeaders = null)
+		{
+			var tempPurchaseParams = PurchaseParamsGenerator.GenerateTempPurchaseParams(purchaseParams);
+			var url = string.Format(URL_BUY_SPECIFIC_FREE_CART, projectId, cartId);
+			var paymentHeaders = PurchaseParamsGenerator.GetPaymentHeaders(Token.Instance, customHeaders);
+			WebRequestHelper.Instance.PostRequest<PurchaseData, TempPurchaseParams>(SdkType.Store, url, tempPurchaseParams, paymentHeaders, 
+				onComplete: purchaseData => onSuccess?.Invoke(purchaseData.order_id),
+				onError: error => TokenRefresh.Instance.CheckInvalidToken(error, onError, () => CreateOrderWithParticularFreeCart(projectId, cartId, onSuccess, onError, purchaseParams, customHeaders)),
 				ErrorCheckType.BuyCartErrors);
 		}
 	}

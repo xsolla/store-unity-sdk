@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using UnityEditor;
 using UnityEngine;
+using Xsolla.Core;
 
 namespace Xsolla.DevTools
 {
@@ -14,6 +15,11 @@ namespace Xsolla.DevTools
 		[MenuItem("Dev Tools/Export SDK package", false, 100)]
 		public static void ExportSdk()
 		{
+			XsollaSettings.StoreProjectId = string.Empty;
+			XsollaSettings.LoginId = string.Empty;
+			XsollaSettings.OAuthClientId = 0;
+			AssetDatabase.SaveAssets();
+
 			var assetGuids = GetGuids("Assets/Xsolla");
 			var packagePath = BuildPackagePath("xsolla-commerce-sdk");
 
@@ -28,6 +34,8 @@ namespace Xsolla.DevTools
 		[MenuItem("Dev Tools/Export DEMO package", false, 110)]
 		public static void ExportDemo()
 		{
+			ResetSdkSettings();
+			
 			var sdkAssetGuids = GetGuids("Assets/Xsolla");
 			var demoAssetGuids = GetGuids("Assets/Xsolla.Demo");
 			var assetGuids = sdkAssetGuids.Concat(demoAssetGuids).Distinct().ToArray();
@@ -42,6 +50,15 @@ namespace Xsolla.DevTools
 			ExportPackage(parameters);
 		}
 
+		[MenuItem("Dev Tools/Reset SDK Settings", false, 120)]
+		public static void ResetSdkSettings()
+		{
+			XsollaSettings.StoreProjectId = Constants.DEFAULT_PROJECT_ID;
+			XsollaSettings.LoginId = Constants.DEFAULT_LOGIN_ID;
+			XsollaSettings.OAuthClientId = Constants.DEFAULT_OAUTH_CLIENT_ID;
+			AssetDatabase.SaveAssets();
+		}
+
 		private static string BuildPackagePath(string packageName)
 		{
 			var projectPath = Application.dataPath.Replace("Assets", string.Empty);
@@ -51,7 +68,7 @@ namespace Xsolla.DevTools
 		private static void ExportPackage(object[] parameters)
 		{
 			var methods = new List<string>{
-				"UnityEditor.PackageUtility.ExportPackageAndPackageManagerManifest",
+				"UnityEditor.PackageUtility.ExportPackageAndPackageManagerManifest"
 			};
 
 			TryStaticInvoke(methods, parameters);

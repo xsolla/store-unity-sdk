@@ -17,5 +17,6 @@ namespace Xsolla.Core.Editor
 		public const string NameAttribute = "android:name";
 		public const string LabelAttribute = "android:label";
 		public const string ExportedAttribute = "android:exported";
+		public const string ConfigChanges = "android:configChanges";
 	}
 }

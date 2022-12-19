@@ -10,10 +10,24 @@ namespace Xsolla.Demo
 {
 	public class SdkPurchaseLogic : MonoSingleton<SdkPurchaseLogic>
 	{
+		public event Action<CatalogItemModel> PurchaseForFreeEvent;
 		public event Action<CatalogItemModel> PurchaseForRealMoneyEvent;
 		public event Action<CatalogItemModel> PurchaseForVirtualCurrencyEvent;
 		public event Action<List<UserCartItem>> PurchaseCartEvent;
 
+		public void PurchaseFreeItem(CatalogItemModel item, Action<CatalogItemModel> onSuccess = null, Action<Error> onError = null)
+		{
+			XsollaCatalog.Instance.CreateOrderWithSpecifiedFreeItem(
+				XsollaSettings.StoreProjectId,
+				item.Sku,
+				onSuccess: i =>
+				{
+					onSuccess?.Invoke(item);
+					PurchaseForFreeEvent?.Invoke(item);
+				},
+				onError);
+		}
+		
 		public void PurchaseForRealMoney(CatalogItemModel item, RestrictedPaymentAllower restrictedPaymentAllower = null, Action<CatalogItemModel> onSuccess = null, Action<Error> onError = null)
 		{
 			XsollaCatalog.Instance.PurchaseItem(XsollaSettings.StoreProjectId, item.Sku,
@@ -116,6 +130,33 @@ namespace Xsolla.Demo
 				}, onError);
 			}, onError);
 		}
+		
+		public void PurchaseFreeCart(List<UserCartItem> items, Action<List<UserCartItem>> onSuccess = null, Action<Error> onError = null)
+		{
+			if (!items.Any())
+			{
+				var error = new Error(errorMessage: "Cart is empty");
+				onError?.Invoke(error);
+				return;
+			}
+
+			XsollaCart.Instance.GetCartItems(XsollaSettings.StoreProjectId, newCart =>
+			{
+				XsollaCart.Instance.ClearCart(XsollaSettings.StoreProjectId, newCart.cart_id, () =>
+				{
+					var cartItems = items.Select(i => new CartFillItem
+					{
+						sku = i.Sku,
+						quantity = i.Quantity
+					}).ToList();
+
+					XsollaCart.Instance.FillCart(XsollaSettings.StoreProjectId, cartItems, () =>
+					{
+						XsollaCart.Instance.CreateOrderWithFreeCart(XsollaSettings.StoreProjectId, orderId => onSuccess?.Invoke(items), onError);
+					}, onError);
+				}, onError);
+			}, onError);
+		}
 
 		private void HandleRestrictedPaymentMethod(PurchaseData data, int methodId, RestrictedPaymentAllower restrictedPaymentAllower, Action onSuccess, Action<Error> onError)
 		{
@@ -128,8 +169,8 @@ namespace Xsolla.Demo
 
 				if (allowed)
 				{
-					XsollaOrders.Instance.OpenPurchaseUi(data, true);
-					OrderTracking.Instance.AddOrderForTrackingUntilDone(XsollaSettings.StoreProjectId, data.order_id, onSuccess, onError);
+					XsollaOrders.Instance.OpenPurchaseUi(data, forcePlatformBrowser:true);
+					OrderTracking.Instance.AddOrderForShortPollingTracking(XsollaSettings.StoreProjectId, data.order_id, onSuccess, onError);
 				}
 			};
 
@@ -149,16 +190,9 @@ namespace Xsolla.Demo
 		{
 #if UNITY_STANDALONE || UNITY_EDITOR
 			if (DemoSettings.UseSteamAuth && DemoSettings.PaymentsFlow == PaymentsFlow.SteamGateway)
-			{
 				return new Dictionary<string, string>{{"x-steam-userid", Token.Instance.GetSteamUserID()}};
-			}
-			else
-			{
-				return null;
-			}
-#else
-			return null;
 #endif
+			return null;
 		}
 	}
 }

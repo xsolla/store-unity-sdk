@@ -4,7 +4,7 @@ using System.Text;
 namespace Xsolla.Core
 {
 	[Serializable]
-	public partial class Error
+	public class Error
 	{
 		public string statusCode;
 		public string errorCode;
