@@ -1,4 +1,21 @@
 # Changelog
+## [1.4.0] - 2022-12-16
+### Added
+- Xsolla Settings validation
+- Xsolla Settings autofill tool for Editor
+- Free items API
+### Changed
+- Order tracking now uses WebSockets in full with short polling left as a fallback option
+- Short polling of order status now has configurable time limit and rate
+- Xsolla Settings autofill tool edits
+- Building SDK package now clears the settings
+### Fixed
+- Adding occupied email to account now returns correct error type
+- Android deeplink with screen orientation change
+### Removed
+- Account linking demo
+
+
 ## [1.3.0] - 2022-10-31
 ### Added
 - Authorization by device ID in demo

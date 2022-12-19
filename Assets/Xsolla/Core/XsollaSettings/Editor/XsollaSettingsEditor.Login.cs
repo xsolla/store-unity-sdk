@@ -32,7 +32,7 @@ namespace Xsolla.Core
 			}
 
 			if (oauthClientId <= 0)
-				DrawErrorBox("OAuth Client ID has incorrect value"); //TEXTREVIEW
+				DrawErrorBox("OAuth Client ID has incorrect value");
 
 			var callback = EditorGUILayout.TextField(new GUIContent(CALLBACK_URL_LABEL, CALLBACK_URL_TOOLTIP), XsollaSettings.CallbackUrl);
 			if (callback != XsollaSettings.CallbackUrl)
@@ -42,8 +42,8 @@ namespace Xsolla.Core
 			}
 
 			var regex = new Regex(@"^[^\s].+[^\s]$");
-			if (!string.IsNullOrEmpty(callback) && (!regex.IsMatch(callback) || !Uri.IsWellFormedUriString(callback, UriKind.Absolute))) 
-				DrawErrorBox("Callback URL has incorrect value"); //TEXTREVIEW
+			if (!string.IsNullOrEmpty(callback) && (!regex.IsMatch(callback) || !Uri.IsWellFormedUriString(callback, UriKind.Absolute)))
+				DrawErrorBox("Callback URL has incorrect value");
 
 			EditorGUILayout.EndVertical();
 			return changed;

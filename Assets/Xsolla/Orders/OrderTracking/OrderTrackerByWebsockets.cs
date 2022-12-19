@@ -45,7 +45,6 @@ namespace Xsolla.Orders
 			}
 		}
 
-		//TEXTREVIEW
 		private void OnWebSocketMessage(object sender, MessageEventArgs args)
 		{
 			_onMainThreadExecutor.Enqueue(() =>
@@ -77,41 +76,40 @@ namespace Xsolla.Orders
 			});
 		}
 
-		//TEXTREVIEW
 		private void OnWebSocketInterrupt(object sender, EventArgs args)
 		{
 			_onMainThreadExecutor.Enqueue(() =>
 			{
 				if (args is CloseEventArgs closeArgs)
-					Debug.LogWarning($"WebSocket was closed with code:'{closeArgs.Code}', reason:'{closeArgs.Reason}', wasClean:'{closeArgs.WasClean}'");
+					Debug.LogWarning($"WebSocket was closed with the code:'{closeArgs.Code}', reason:'{closeArgs.Reason}', wasClean:'{closeArgs.WasClean}'");
 				else if (args is ErrorEventArgs errorArgs)
-					Debug.LogError($"WebSocket was closed with exception:'{errorArgs.Exception.Message}', message:'{errorArgs.Message}'");
+					Debug.LogError($"WebSocket was closed with the exception:'{errorArgs.Exception.Message}', message:'{errorArgs.Message}'");
 				else
-					Debug.LogWarning($"WebSocket was closed with unexpected argument '{args}'");
+					Debug.LogWarning($"WebSocket was closed with the unexpected argument '{args}'");
 
 				var webSocketTTL = Time.time - _startTime;
 
 				if (webSocketTTL >= EXPECTED_TTL)
 				{
-					Debug.Log($"WebSocket TTL '{webSocketTTL}' is OK, replacing interrupted websocket with a new one");
+					Debug.Log($"WebSocket TTL '{webSocketTTL}' is OK, replacing an interrupted websocket with a new one");
 
 					var newTracker = new OrderTrackerByWebsockets(base.TrackingData);
 
 					if (OrderTracking.Instance.ReplaceTracker(this, newTracker))
-						Debug.Log($"Traker for order {base.TrackingData.orderId} is replaced with a new one");
+						Debug.Log($"Traker for an order {base.TrackingData.orderId} is replaced with a new one");
 					else
-						Debug.LogError($"Failed to relace tracker for order {base.TrackingData.orderId}");
+						Debug.LogError($"Failed to relace a tracker for an order {base.TrackingData.orderId}");
 				}
 				else
 				{
-					Debug.LogWarning($"WebSocket TTL '{webSocketTTL}' is lower than expected, switching to short-polling");
+					Debug.LogWarning($"WebSocket TTL '{webSocketTTL}' is lower than expected, switching to short polling");
 
 					var shortPollingTracker = new OrderTrackerByShortPolling(base.TrackingData);
 
 					if (OrderTracking.Instance.ReplaceTracker(this, shortPollingTracker))
-						Debug.Log($"Traker for order {base.TrackingData.orderId} is replaced with short polling");
+						Debug.Log($"Traker for an order {base.TrackingData.orderId} is replaced with short polling");
 					else
-						Debug.LogError($"Failed to relace tracker for order {base.TrackingData.orderId}");
+						Debug.LogError($"Failed to relace the tracker for an order {base.TrackingData.orderId}");
 				}
 			});
 		}

@@ -35,7 +35,7 @@ namespace Xsolla.Core
 
 			var regex = new Regex(@"^[1-9]\d*$");
 			if (!regex.IsMatch(projectId))
-				DrawErrorBox("Project ID has incorrect value"); //TEXTREVIEW
+				DrawErrorBox("Project ID has incorrect value");
 
 			var loginId = EditorGUILayout.TextField(new GUIContent(LOGIN_ID_LABEL, LOGIN_ID_TOOLTIP), XsollaSettings.LoginId);
 			if (loginId != XsollaSettings.LoginId)
@@ -46,7 +46,7 @@ namespace Xsolla.Core
 
 			regex = new Regex(@"^[^\s].+[^\s]$");
 			if (!regex.IsMatch(loginId) || !Guid.TryParse(loginId, out _))
-				DrawErrorBox("Login ID has incorrect value"); //TEXTREVIEW
+				DrawErrorBox("Login ID has incorrect value");
 
 			XsollaSettings.InAppBrowserEnabled = EditorGUILayout.Toggle(new GUIContent(IN_APP_BROWSER_LABEL, IN_APP_BROWSER_TOOLTIP), XsollaSettings.InAppBrowserEnabled);
 
