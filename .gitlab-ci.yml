@@ -2,6 +2,9 @@ include:
   - project: 'sysadm-docker/ubuntu-sshclient'
     ref:     'master'
     file:    'gitlab-ci-template.yml'
+  - project: 'security/security-tools'
+    ref: 'v1'
+    file: 'gitlab-ci.yml'
 
 stages:
   - build
@@ -14,6 +17,7 @@ stages:
   - build-demo-iOS
   - deploy
   - linking
+  - security scan
 
 variables:
   PROJECT_PATH: $CI_PROJECT_DIR
