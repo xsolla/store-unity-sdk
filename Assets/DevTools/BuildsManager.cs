@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using UnityEditor;
 using UnityEditor.Build.Reporting;
 using UnityEngine;
@@ -24,6 +23,9 @@ namespace Xsolla.DevTools
 				options = BuildOptions.None
 			};
 
+			if (buildTarget == BuildTarget.iOS)
+				SetupIosSigningSettings();
+
 			var buildResult = BuildPipeline.BuildPlayer(buildPlayerOptions).summary.result;
 			switch (buildResult)
 			{
@@ -45,6 +47,14 @@ namespace Xsolla.DevTools
 
 			var exitCode = buildResult == BuildResult.Succeeded ? 0 : 1;
 			EditorApplication.Exit(exitCode);
+		}
+
+		private static void SetupIosSigningSettings()
+		{
+			PlayerSettings.iOS.appleEnableAutomaticSigning = false;
+			PlayerSettings.iOS.iOSManualProvisioningProfileType = ProvisioningProfileType.Distribution;
+			PlayerSettings.iOS.appleDeveloperTeamID = GetEnvironmentArgument("IOS_SIGN_TEAM_ID");
+			PlayerSettings.iOS.iOSManualProvisioningProfileID = GetEnvironmentArgument("IOS_PROVISION_ID");
 		}
 
 		private static BuildTarget GetBuildTarget()
@@ -83,7 +93,7 @@ namespace Xsolla.DevTools
 					"Assets/Xsolla.Demo/Common/Scene/XsollusMobilePortrait.unity"
 				};
 			}
-			
+
 			return new[]{
 				"Assets/Xsolla.Demo/Common/Scene/Xsollus.unity"
 			};
@@ -99,6 +109,10 @@ namespace Xsolla.DevTools
 					return args[i + 1];
 				}
 			}
+
+			var envVar = Environment.GetEnvironmentVariable(name);
+			if (!string.IsNullOrWhiteSpace(envVar))
+				return envVar;
 
 			throw new Exception($"Can't parse environment argument: {name}");
 		}
