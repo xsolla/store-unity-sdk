@@ -6,8 +6,8 @@ namespace Xsolla.Core
 {
 	public class AndroidSDKSocialAuthHelper : IDisposable
 	{
-		private AndroidHelper _androidHelper;
-		private AndroidJavaClass _xlogin;
+		private readonly AndroidHelper _androidHelper;
+		private readonly AndroidJavaClass _xlogin;
 
 		public AndroidSDKSocialAuthHelper()
 		{
@@ -62,9 +62,9 @@ namespace Xsolla.Core
 				var socialNetworkObject = socialNetworkClass.GetStatic<AndroidJavaObject>(providerName);
 				var callback = new AndroidSDKAuthCallback
 				{
-					OnSuccess = onSuccess,
-					OnCancelled = onCancelled,
-					OnError = onError
+					OnSuccess = token => _androidHelper.OnMainThreadExecutor.Enqueue(() => onSuccess(token)),
+					OnCancelled = () => _androidHelper.OnMainThreadExecutor.Enqueue(onCancelled),
+					OnError = error => _androidHelper.OnMainThreadExecutor.Enqueue(() => onError(error))
 				};
 
 				proxyActivity.CallStatic("authSocial", currentActivity, proxyActivity, socialNetworkObject, callback);
@@ -79,7 +79,7 @@ namespace Xsolla.Core
 		{
 			get
 			{
-				var canRefresh = default(bool);
+				bool canRefresh;
 
 				try
 				{
@@ -99,7 +99,7 @@ namespace Xsolla.Core
 		{
 			get
 			{
-				var isTokenExpired = default(bool);
+				bool isTokenExpired;
 
 				try
 				{
@@ -116,27 +116,24 @@ namespace Xsolla.Core
 			}
 		}
 
-		public bool TryRefreshSocialToken(Action<string> onSuccessRefresh, Action<Error> onError)
+		public void TryRefreshSocialToken(Action<string> onSuccessRefresh, Action<Error> onError)
 		{
 			try
 			{
 				if (IsRefreshSocialTokenPossible)
 				{
-					var callback = new AndroidSDKRefreshTokenCallback();
-
-					callback.OnSuccess = onSuccessRefresh;
-					callback.OnError = onError;
+					var callback = new AndroidSDKRefreshTokenCallback
+					{
+						OnSuccess = token => _androidHelper.OnMainThreadExecutor.Enqueue(() => onSuccessRefresh(token)),
+						OnError = error => _androidHelper.OnMainThreadExecutor.Enqueue(() => onError(error))
+					};
 
 					_xlogin.CallStatic("refreshToken", callback);
-					return true;
 				}
-				else
-					return false;
 			}
 			catch (Exception ex)
 			{
 				Debug.LogError($"AndroidSDKSocialAuthHelper.TryRefreshSocialToken: {ex.Message}");
-				return false;
 			}
 		}
 

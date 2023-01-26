@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using UnityEngine;
 using Xsolla.Core;
 
@@ -84,14 +83,6 @@ namespace Xsolla.Auth
 					};
 
 					ProcessOAuthResponse(surrogateResponse, onSuccess);
-				};
-
-				Action<Error> onRefreshError = error =>
-				{
-					if (error != null)
-						Debug.LogError(error.errorMessage);
-
-					onError?.Invoke(error);
 				};
 
 				helper.TryRefreshSocialToken(onSuccessRefresh, onError);
