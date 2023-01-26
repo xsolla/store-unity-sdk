@@ -9,21 +9,22 @@ namespace Xsolla.Core.Android
 		private AndroidJavaObject _activity;
 		private AndroidJavaObject _context;
 
-	#if !UNITY_ANDROID
-		public AndroidHelper ()
-		{
-			Debug.LogError("AndroidHelper.Ctor: This class is not supposed to work outside of Android context");
-		}
-	#endif
+		private static OnMainThreadExecutor _onMainThreadExecutorInstance;
 
-		public AndroidJavaClass UnityPlayer
+		public AndroidHelper()
+		{
+			if (!_onMainThreadExecutorInstance)
+				_onMainThreadExecutorInstance = new GameObject("Android Main Thread Executor").AddComponent<OnMainThreadExecutor>();
+		}
+
+		public OnMainThreadExecutor OnMainThreadExecutor => _onMainThreadExecutorInstance;
+
+		private AndroidJavaClass UnityPlayer
 		{
 			get
 			{
-				if(_unityPlayer == null)
-				{
+				if (_unityPlayer == null)
 					_unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-				}
 
 				return _unityPlayer;
 			}
@@ -33,11 +34,8 @@ namespace Xsolla.Core.Android
 		{
 			get
 			{
-				if(_activity == null)
-				{
-					var unityPlayer = UnityPlayer;
-					_activity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
-				}
+				if (_activity == null)
+					_activity = UnityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
 
 				return _activity;
 			}
@@ -48,10 +46,7 @@ namespace Xsolla.Core.Android
 			get
 			{
 				if (_context == null)
-				{
-					var activity = CurrentActivity;
-					_context = activity.Call<AndroidJavaObject>("getApplicationContext");
-				}
+					_context = CurrentActivity.Call<AndroidJavaObject>("getApplicationContext");
 
 				return _context;
 			}
