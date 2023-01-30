@@ -78,7 +78,10 @@ namespace Xsolla.Core.Browser
 		public void UpdateSize(int width, int height)
 		{
 			if (IsOpened)
+			{
+				SinglePageBrowser.SetViewport(new Vector2(width, height));
 				SinglePageBrowser.GetComponent<Display2DBehaviour>().StartRedraw(width, height);
+			}
 		}
 
 		private void CreateBrowser()

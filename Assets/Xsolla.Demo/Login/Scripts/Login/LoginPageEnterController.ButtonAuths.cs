@@ -28,7 +28,7 @@ namespace Xsolla.Demo
 
 		private void Awake()
 		{
-			LoginButton.onClick += PrepareAndRunBasicAuth;
+			LoginButton.onClick += () => RunBasicAuth(EmailInputField.text, PasswordInputField.text, RememberMeCheckbox.isOn);
 
 			SocialNetworksWidget.OnSocialButtonClick = RunSocialAuth;
 			OtherSocialNetworksButton.onClick += () => SocialNetworksWidget.gameObject.SetActive(true);
@@ -49,26 +49,38 @@ namespace Xsolla.Demo
 				DeviceIDAuthButton.onClick += RunDeviceIDAuth;
 		}
 
-		private void PrepareAndRunBasicAuth()
-		{
-			RunBasicAuth(EmailInputField.text, PasswordInputField.text, RememberMeCheckbox.isOn);
-		}
-
 		public void RunBasicAuth(string username, string password, bool rememberMe)
 		{
-			if(IsAuthInProgress)
+			if (IsAuthInProgress)
 				return;
 
 			IsAuthInProgress = true;
 			PopupFactory.Instance.CreateWaiting().SetCloseCondition(() => IsAuthInProgress == false);
 
-			object[] args = { username, password, rememberMe };
+			object[] args = {username, password, rememberMe};
 
-			Action<string> onSuccessfulBasicAuth = token => SdkAuthLogic.Instance
-				.ValidateToken(token, t => CompleteSuccessfulAuth(token, true, isSaveToken: rememberMe), ProcessError);
-			Action<Error> onFailedBasicAuth = ProcessError;
+			Action<string> onSuccessfulBasicAuth = token =>
+			{
+				SdkAuthLogic.Instance.ValidateToken(
+					token,
+					t => CompleteSuccessfulAuth(token, true, isSaveToken: rememberMe),
+					ProcessError);
+			};
 
-			TryAuthBy<BasicAuth>(args, onSuccessfulBasicAuth, onFailedBasicAuth);
+			TryAuthBy<BasicAuth>(args, onSuccessfulBasicAuth, ProcessError);
+		}
+
+		public void RunWidgetAuth()
+		{
+			Action<string> onSuccessfulWidgetAuth = token =>
+			{
+				SdkAuthLogic.Instance.ValidateToken(
+					token: token,
+					onSuccess: t => CompleteSuccessfulAuth(token, true, isSaveToken: true),
+					onError: ProcessError);
+			};
+
+			TryAuthBy<LoginWidgetAuth>(null, onSuccessfulWidgetAuth, ProcessError);
 		}
 
 		public void RunSocialAuth(SocialProvider socialProvider)
@@ -142,11 +154,11 @@ namespace Xsolla.Demo
 		{
 			if(IsAuthInProgress)
 				return;
-
+			
 			IsAuthInProgress = true;
 			PopupFactory.Instance.CreateWaiting().SetCloseCondition(() => IsAuthInProgress == false);
 			Debug.LogWarning("!PLEASE WAIT! Process of creating new demo user can take up to 30 seconds");
-
+			
 			Action<LoginOAuthJsonResponse> onDemoUserSuccess = response =>
 			{
 				Token.Instance = Token.Create(response.access_token);
@@ -154,7 +166,7 @@ namespace Xsolla.Demo
 				TokenRefresh.Instance.RefreshToken = response.refresh_token;
 				SdkAuthLogic.Instance.ValidateToken(response.access_token, t => CompleteSuccessfulAuth(t, isSaveToken: true), ProcessError);
 			};
-
+			
 			WebRequestHelper.Instance.GetRequest<LoginOAuthJsonResponse>(
 				sdkType: SdkType.Login,
 				url: "https://us-central1-xsolla-sdk-demo.cloudfunctions.net/generateDemoUserToken",
