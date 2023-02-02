@@ -39,7 +39,7 @@ namespace Xsolla.Core.Browser
 				SinglePageBrowser.ConfirmDialogEvent -= OnConfirmDialogEvent;
 			}
 			
-			if (XsollaBrowser)
+			if (XsollaBrowser && XsollaBrowser.Navigate != null)
 				XsollaBrowser.Navigate.UrlChangedEvent -= OnUrlChanged;
 			
 			if (BrowserObject)

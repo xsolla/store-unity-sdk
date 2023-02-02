@@ -339,6 +339,8 @@ namespace Xsolla.Auth
 			void onBrowserClose()
 			{
 				onCancel?.Invoke();
+				browser.CloseEvent -= onBrowserClose;
+				browser.UrlChangeEvent -= onBrowserUrlChange;
 			}
 
 			void onBrowserUrlChange(string newUrl)
@@ -346,6 +348,8 @@ namespace Xsolla.Auth
 				if (ParseUtils.TryGetValueFromUrl(newUrl, ParseParameter.token, out var token))
 				{
 					browser.CloseEvent -= onBrowserClose;
+					browser.UrlChangeEvent -= onBrowserUrlChange;
+					BrowserHelper.Instance.Close();
 					onSuccess?.Invoke(token);
 				}
 			}

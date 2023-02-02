@@ -8,11 +8,7 @@ namespace Xsolla.Demo
 		public override void TryAuth(params object[] args)
 		{
 			XsollaAuth.Instance.AuthWithXsollaWidget(
-				onSuccess: token =>
-				{
-					BrowserHelper.Instance.Close();
-					base.OnSuccess?.Invoke(token);
-				});
+				onSuccess: token => { base.OnSuccess?.Invoke(token); });
 
 			BrowserHelper.Instance.InAppBrowser.UpdateSize(820, 840);
 		}

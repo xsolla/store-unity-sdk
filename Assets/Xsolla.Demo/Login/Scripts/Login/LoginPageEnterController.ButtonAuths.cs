@@ -76,7 +76,7 @@ namespace Xsolla.Demo
 			{
 				SdkAuthLogic.Instance.ValidateToken(
 					token: token,
-					onSuccess: t => CompleteSuccessfulAuth(token, true, isSaveToken: true),
+					onSuccess: t => CompleteSuccessfulAuth(token, isSaveToken: true),
 					onError: ProcessError);
 			};
 
