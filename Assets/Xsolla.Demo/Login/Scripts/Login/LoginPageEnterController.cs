@@ -32,7 +32,7 @@ namespace Xsolla.Demo
 			auth.TryAuth(args);
 		}
 	
-		private void CompleteSuccessfulAuth(string encodedToken, bool isBasicAuth = false, bool isPaystation = false, bool isSaveToken = false)
+		private void CompleteSuccessfulAuth(string encodedToken, bool isBasicAuth = false, bool isSaveToken = false)
 		{
 			if (!isBasicAuth)
 			{

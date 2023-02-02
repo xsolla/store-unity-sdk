@@ -29,6 +29,11 @@ namespace Xsolla.Core.Browser
 		private Mouse2DBehaviour mouse;
 		private string _urlBeforePopup;
 		private Preloader2DBehaviour _preloader;
+		
+		public void SetViewport(Vector2 viewport)
+		{
+			Viewport = viewport;
+		}
 
 		private void Awake()
 		{
