@@ -21,7 +21,7 @@ namespace Xsolla.Auth
 		private const string URL_COMPLETE_AUTH_BY_PHONE_NUMBER = "https://login.xsolla.com/api/oauth2/login/phone/confirm?client_id={0}";
 
 		private const string URL_XSOLLA_LOGIN_WIDGET = "https://login-widget.xsolla.com/latest/?projectId={0}&login_url={1}";
-		
+
 		/// <summary>
 		/// Gets details of the user authenticated by the JWT.
 		/// </summary>
@@ -322,18 +322,18 @@ namespace Xsolla.Auth
 
 			WebRequestHelper.Instance.PostRequest(SdkType.Login, url, requestData, onSuccess, onError, ErrorCheckType.LoginErrors);
 		}
-		
-		//TEXTREVIEW
+
+
 		/// <summary>
-		/// Authenticates the user with Xsolla login widget.
+		/// Authenticates the user with Xsolla Login widget.
 		/// </summary>
 		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onCancel">User close browser callback.</param>
+		/// <param name="onCancel">Browser closing by user callback.</param>
 		public void AuthWithXsollaWidget(Action<string> onSuccess, Action onCancel = null)
 		{
 			var url = string.Format(URL_XSOLLA_LOGIN_WIDGET, XsollaSettings.LoginId, RedirectUtils.GetRedirectUrl());
 			BrowserHelper.Instance.Open(url);
-			
+
 			var browser = BrowserHelper.Instance.InAppBrowser;
 
 			void onBrowserClose()
