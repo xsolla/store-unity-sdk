@@ -24,7 +24,7 @@ To start with the SDK, you need to install this asset and set up a project in [X
 * Login via a launcher (Steam or [Xsolla Launcher](https://developers.xsolla.com/doc/launcher/)).
 * Login via a device ID.
 * Passwordless login via a one-time code or a link sent via SMS or email.
-* Xsolla Login widget that currently supports classic and social login. The widget opens in the built-in browser and can’t be used for native social login.
+* Xsolla Login widget that currently supports classic, social, and passwordless login. The widget opens in the built-in browser and can’t be used for native social login.
 
 ### User management
 
