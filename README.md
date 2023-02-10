@@ -6,6 +6,7 @@ After integration, you can use:
 * [Login](https://developers.xsolla.com/doc/login/) for authenticating users and managing the friend system and user account.
 * [In-Game Store](https://developers.xsolla.com/doc/in-game-store/) for managing in-game purchases and player inventory in your application.
 * [Pay Station](https://developers.xsolla.com/doc/pay-station/) for setting up payments.
+* [Subscriptions](https://developers.xsolla.com/doc/subscriptions/) to provide users with access to a package of services under specified conditions (subscription cost and duration).
 
 [Learn more about supported features →](#Features)
 
@@ -49,6 +50,14 @@ To start with the SDK, you need to install this asset and set up a project in [X
     * Give users bonuses or apply a discount on items in the cart with promo codes.
 
 **INFO:** You can add items in the catalog or manage campaigns with discounts, coupons, and promo codes via Xsolla Publisher Account.
+
+### Subscriptions
+
+* Selling subscriptions.
+* Subscription renewal and cancelation.
+* Subscription management from a user’s dashboard.
+
+**INFO:** You can add and manage subscription plans via Xsolla Publisher Account.
 
 ### Item purchase
 
