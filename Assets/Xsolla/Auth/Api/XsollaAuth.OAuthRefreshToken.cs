@@ -10,12 +10,10 @@ namespace Xsolla.Auth
 		private bool _subscribed = false;
 
 		/// <summary>
-		/// Refreshes the existing token using previously saved OAuth2.0 refresh token.
+		/// Refreshes the token in case it is expired. Works only when OAuth 2.0 is enabled.
 		/// </summary>
-		/// <remarks> Swagger method name:<c>Generate JWT</c>.</remarks>
-		/// <see cref="https://developers.xsolla.com/login-api/methods/oauth-20/generate-jwt"/>
-		/// <param name="onSuccessExchange">Success operation callback. Contains new token.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onSuccessExchange">Called after successful token refreshing. Refresh data including the JWT will be received.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		public void RefreshOAuthToken(Action<string> onSuccess, Action<Error> onError)
 		{
 			var refreshToken = TokenRefresh.Instance.RefreshToken;
@@ -23,13 +21,11 @@ namespace Xsolla.Auth
 		}
 
 		/// <summary>
-		/// Refreshes the existing token using provided OAuth2.0 refresh token.
+		/// Refreshes the token in case it is expired. Works only when OAuth 2.0 is enabled.
 		/// </summary>
-		/// <remarks> Swagger method name:<c>Generate JWT</c>.</remarks>
-		/// <see cref="https://developers.xsolla.com/login-api/methods/oauth-20/generate-jwt"/>
-		/// <param name="refreshToken">Refresh token.</param>
-		/// <param name="onSuccessExchange">Success operation callback. Contains new token.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="refreshToken">Token used to refresh the expired access token. Received when authorizing the user with username/password for the first time.</param>
+		/// <param name="onSuccessExchange"Called after successful token refreshing. Refresh data including the JWT will be received./param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		public void RefreshOAuthToken(string refreshToken, Action<string> onSuccess, Action<Error> onError)
 		{
 			if (EnvironmentDefiner.IsAndroid && Token.Instance.FromSocialNetwork())
@@ -90,13 +86,11 @@ namespace Xsolla.Auth
 		}
 
 		/// <summary>
-		/// Exchanges the code received in the authentication call for the JWT token.
+		/// Exchanges the user authentication code to a valid JWT.
 		/// </summary>
-		/// <remarks> Swagger method name:<c>Generate JWT</c>.</remarks>
-		/// <see cref="https://developers.xsolla.com/login-api/methods/oauth-20/generate-jwt"/>
-		/// <param name="code">Access code received from several other OAuth2.0 requests (example: code from social network auth).</param>
-		/// <param name="onSuccessExchange">Success operation callback. Contains exchanged token.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="code">Access code received from several other OAuth 2.0 requests (example: code from social network authentication).</param>
+		/// <param name="onSuccessExchange">Called after successful exchanging. Contains exchanged token.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		public void ExchangeCodeToToken(string code, Action<string> onSuccessExchange = null, Action<Error> onError = null)
 		{
 			var clientId = XsollaSettings.OAuthClientId;

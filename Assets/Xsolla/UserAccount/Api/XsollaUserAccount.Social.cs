@@ -19,7 +19,7 @@ namespace Xsolla.UserAccount
 		/// <see cref="https://developers.xsolla.com/user-account-api/social-networks/link-social-network-to-account/"/>.
 		/// <param name="providerName">Name of the social network connected to Login in Publisher Account.</param>
 		/// <param name="urlCallback">Success operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		public void LinkSocialProvider(SocialProvider providerName, Action<string> urlCallback, Action<Error> onError = null)
 		{
 			var redirectUrl = RedirectUtils.GetRedirectUrl();
@@ -35,7 +35,7 @@ namespace Xsolla.UserAccount
 		/// <remarks> Swagger method name:<c>Get Linked Networks</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/user-account-api/social-networks/get-linked-networks/"/>.
 		/// <param name="onSuccess">Success operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		public void GetLinkedSocialProviders(Action<List<LinkedSocialNetwork>> onSuccess, Action<Error> onError = null)
 		{
 			WebRequestHelper.Instance.GetRequest(SdkType.Login, URL_GET_LINKED_SOCIAL_NETWORKS, WebRequestHeader.AuthHeader(Token.Instance), onSuccess,

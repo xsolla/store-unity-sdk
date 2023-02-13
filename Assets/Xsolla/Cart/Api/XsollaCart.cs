@@ -39,7 +39,7 @@ namespace Xsolla.Cart
 		/// <see cref="https://developers.xsolla.com/store-api/cart-payment/cart/get-user-cart/"/>
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="locale">Defines localization of item's text fields.</param>
 		/// <param name="currency">Defines currency of item's price.</param>
 		public void GetCartItems(string projectId, [NotNull] Action<Cart> onSuccess, [CanBeNull] Action<Error> onError, [CanBeNull] string locale = null, [CanBeNull] string currency = null)
@@ -60,7 +60,7 @@ namespace Xsolla.Cart
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
 		/// <param name="cartId">Unique cart identifier.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="locale">Defines localization of item's text fields.</param>
 		/// <param name="currency">Defines currency of item's price.</param>
 		public void GetCartItems(string projectId, string cartId, [NotNull] Action<CartItems> onSuccess, [CanBeNull] Action<Error> onError, [CanBeNull] string locale = null, [CanBeNull] string currency = null)
@@ -82,7 +82,7 @@ namespace Xsolla.Cart
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
 		/// <param name="items">Items for purchase.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		public void FillCart(string projectId, List<CartFillItem> items, [NotNull] Action onSuccess, [CanBeNull] Action<Error> onError)
 		{
 			var url = string.Format(URL_CART_CURRENT_FILL, projectId);
@@ -102,7 +102,7 @@ namespace Xsolla.Cart
 		/// <param name="cartId">Unique cart identifier.</param>
 		/// <param name="items">Items for purchase.</param>
 		/// <param name="onSuccess">Success operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		public void FillCart(string projectId, string cartId, List<CartFillItem> items, [NotNull] Action onSuccess, [CanBeNull] Action<Error> onError)
 		{
 			var url = string.Format(URL_CART_SPECIFIC_FILL, projectId, cartId);
@@ -121,7 +121,7 @@ namespace Xsolla.Cart
 		/// <param name="itemSku">SKU of item for purchase.</param>
 		/// <param name="quantity">Quantity of purchased item.</param>
 		/// <param name="onSuccess">Success operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <seealso cref="GetCartItems(string,System.Action{Xsolla.Store.Cart},System.Action{Xsolla.Core.Error},string,string)"/>
 		public void UpdateItemInCart(string projectId, string itemSku, int quantity, [CanBeNull] Action onSuccess, [CanBeNull] Action<Error> onError)
 		{
@@ -142,7 +142,7 @@ namespace Xsolla.Cart
 		/// <param name="itemSku">SKU of item for purchase.</param>
 		/// <param name="quantity">Quantity of purchased items.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <seealso cref="GetCartItems(string,System.Action{Xsolla.Store.Cart},System.Action{Xsolla.Core.Error},string,string)"/>
 		public void UpdateItemInCart(string projectId, string cartId, string itemSku, int quantity, [CanBeNull] Action onSuccess, [CanBeNull] Action<Error> onError)
 		{
@@ -161,7 +161,7 @@ namespace Xsolla.Cart
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
 		/// <param name="itemSku">Item SKU to delete.</param>
 		/// <param name="onSuccess">Success operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		public void RemoveItemFromCart(string projectId, string itemSku, [CanBeNull] Action onSuccess, [CanBeNull] Action<Error> onError)
 		{
 			var url = string.Format(URL_CART_CURRENT_ITEM_REMOVE, projectId, itemSku);
@@ -179,7 +179,7 @@ namespace Xsolla.Cart
 		/// <param name="cartId">Unique cart identifier.</param>
 		/// <param name="itemSku">Item SKU to delete.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		public void RemoveItemFromCart(string projectId, string cartId, string itemSku, [CanBeNull] Action onSuccess, [CanBeNull] Action<Error> onError)
 		{
 			var url = string.Format(URL_CART_SPECIFIC_ITEM_REMOVE, projectId, cartId, itemSku);
@@ -195,7 +195,7 @@ namespace Xsolla.Cart
 		/// <see cref="https://developers.xsolla.com/store-api/cart-payment/cart/cart-clear/"/>
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
 		/// <param name="onSuccess">Success operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		public void ClearCart(string projectId, [CanBeNull] Action onSuccess, [CanBeNull] Action<Error> onError)
 		{
 			var url = string.Format(URL_CART_CURRENT_CLEAR, projectId);
@@ -212,7 +212,7 @@ namespace Xsolla.Cart
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
 		/// <param name="cartId">Unique cart identifier.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		public void ClearCart(string projectId, string cartId, [CanBeNull] Action onSuccess, [CanBeNull] Action<Error> onError)
 		{
 			var url = string.Format(URL_CART_SPECIFIC_CLEAR, projectId, cartId);
@@ -230,7 +230,7 @@ namespace Xsolla.Cart
 		/// <param name="promocode">Unique code of promocode. Contains letters and numbers.</param>
 		/// <param name="cartId">Unique cart identifier. Optional.</param>
 		/// <param name="onSuccess">Success operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		public void RedeemPromocode(string projectId, string promocode, string cartId, [NotNull] Action<CartItems> onSuccess, [CanBeNull] Action<Error> onError)
 		{
 			var url = string.Format(URL_REDEEM_PROMOCODE, projectId);
@@ -253,7 +253,7 @@ namespace Xsolla.Cart
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
 		/// <param name="promocode">Unique code of promocode. Contains letters and numbers.</param>
 		/// <param name="onSuccess">Success operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		public void GetPromocodeReward(string projectId, string promocode, [NotNull] Action<PromocodeReward> onSuccess, [CanBeNull] Action<Error> onError)
 		{
 			var url = string.Format(URL_GET_PROMOCODE_REWARD, projectId, promocode);
@@ -271,7 +271,7 @@ namespace Xsolla.Cart
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
 		/// <param name="cartId">Cart ID.</param>
 		/// <param name="onSuccess">Success operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		public void RemovePromocodeFromCart(string projectId, string cartId, Action<RemovePromocodeFromCartResponse> onSuccess, Action<Error> onError = null)
 		{
 			var data = new RemovePromocodeFromCartRequest(cartId);
@@ -289,7 +289,7 @@ namespace Xsolla.Cart
 		/// <see cref="https://developers.xsolla.com/store-api/cart-payment/payment/create-order/"/>
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
 		/// <param name="onSuccess">Success operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="purchaseParams">Purchase parameters such as <c>country</c>, <c>locale</c> and <c>currency</c>.</param>
 		/// <param name="customHeaders">Custom web request headers.</param>
 		public void PurchaseCart(string projectId, [CanBeNull] Action<PurchaseData> onSuccess, [CanBeNull] Action<Error> onError, PurchaseParams purchaseParams = null, Dictionary<string, string> customHeaders = null)
@@ -310,7 +310,7 @@ namespace Xsolla.Cart
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
 		/// <param name="cartId">Unique cart identifier.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="purchaseParams">Purchase parameters such as <c>country</c>, <c>locale</c> and <c>currency</c>.</param>
 		/// <param name="customHeaders">Custom web request headers.</param>
 		public void PurchaseCart(string projectId, string cartId, [CanBeNull] Action<PurchaseData> onSuccess, [CanBeNull] Action<Error> onError, PurchaseParams purchaseParams = null, Dictionary<string, string> customHeaders = null)
@@ -330,7 +330,7 @@ namespace Xsolla.Cart
 		/// <see cref="https://developers.xsolla.com/ru/api/igs-bb/operation/create-free-order/"/>
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
 		/// <param name="onSuccess">Success operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="purchaseParams">Purchase parameters such as <c>country</c>, <c>locale</c> and <c>currency</c>.</param>
 		/// <param name="customHeaders">Custom web request headers.</param>
 		public void CreateOrderWithFreeCart(string projectId, [CanBeNull] Action<int> onSuccess, [CanBeNull] Action<Error> onError, PurchaseParams purchaseParams = null, Dictionary<string, string> customHeaders = null)
@@ -352,7 +352,7 @@ namespace Xsolla.Cart
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
 		/// <param name="cartId">Unique cart identifier.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="purchaseParams">Purchase parameters such as <c>country</c>, <c>locale</c> and <c>currency</c>.</param>
 		/// <param name="customHeaders">Custom web request headers.</param>
 		public void CreateOrderWithParticularFreeCart(string projectId, string cartId, [CanBeNull] Action<int> onSuccess, [CanBeNull] Action<Error> onError, PurchaseParams purchaseParams = null, Dictionary<string, string> customHeaders = null)

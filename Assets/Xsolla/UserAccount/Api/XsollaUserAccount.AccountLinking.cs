@@ -16,7 +16,7 @@ namespace Xsolla.UserAccount
 		/// <remarks> Swagger method name:<c>Create Code for Linking Accounts</c>.</remarks>
 		/// <see cref="https://developers.xsolla.com/login-api/users/create-code-for-linking-accounts"/>
 		/// <param name="onSuccess">Success operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <seealso cref="SignInConsoleAccount"/>
 		/// <seealso cref="LinkConsoleAccount"/>
 		#endregion
@@ -90,7 +90,7 @@ namespace Xsolla.UserAccount
 		/// <param name="platform">Platform name (XBox, PS4, etc).</param>
 		/// <param name="confirmationCode">Code, taken from unified account.</param>
 		/// <param name="onSuccess">Success operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <seealso cref="SignInConsoleAccount"/>
 		/// <seealso cref="RequestLinkingCode"/>
 		#endregion

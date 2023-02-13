@@ -22,7 +22,7 @@ namespace Xsolla.UserAccount
 		/// <param name="token">JWT from Xsolla Login.</param>
 		/// <param name="info">User information.</param>
 		/// <param name="onSuccess">Success operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		public void UpdateUserInfo(string token, UserInfoUpdate info, Action<UserInfo> onSuccess, Action<Error> onError = null)
 		{
 			WebRequestHelper.Instance.PatchRequest(SdkType.Login, URL_USER_INFO, info, WebRequestHeader.AuthHeader(token), onSuccess,
@@ -45,7 +45,7 @@ namespace Xsolla.UserAccount
 		/// <param name="offset">Number of the elements from which the list is generated.</param>
 		/// <param name="limit">Maximum number of users that are returned at a time.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		public void SearchUsers(string token, string nickname, uint offset, uint limit, Action<FoundUsers> onSuccess, Action<Error> onError = null)
 		{
 			var url = string.Format(URL_SEARCH_USER, nickname, offset, limit);
@@ -66,7 +66,7 @@ namespace Xsolla.UserAccount
 		/// <param name="token">JWT from Xsolla Login.</param>
 		/// <param name="userId">The Xsolla Login user ID.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		public void GetPublicInfo(string token, string userId, Action<UserPublicInfo> onSuccess, Action<Error> onError = null)
 		{
 			var url = string.Format(URL_USER_PUBLIC_INFO, userId);
@@ -87,7 +87,7 @@ namespace Xsolla.UserAccount
 		/// <see cref="https://en.wikipedia.org/wiki/National_conventions_for_writing_telephone_numbers"/>
 		/// <param name="token">JWT from Xsolla Login.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <seealso cref="UpdateUserPhoneNumber"/>
 		/// <seealso cref="DeleteUserPhoneNumber"/>
 		public void GetUserPhoneNumber(string token, Action<string> onSuccess, Action<Error> onError)
@@ -111,7 +111,7 @@ namespace Xsolla.UserAccount
 		/// <param name="token">JWT from Xsolla Login.</param>
 		/// <param name="phoneNumber">Updated user phone number according to national conventions.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <seealso cref="GetUserPhoneNumber"/>
 		/// <seealso cref="DeleteUserPhoneNumber"/>
 		public void UpdateUserPhoneNumber(string token, string phoneNumber, Action onSuccess, Action<Error> onError)
@@ -135,7 +135,7 @@ namespace Xsolla.UserAccount
 		/// <param name="token">JWT from Xsolla Login.</param>
 		/// <param name="phoneNumber">User phone number according to national conventions.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <seealso cref="GetUserPhoneNumber"/>
 		/// <seealso cref="UpdateUserPhoneNumber"/>
 		public void DeleteUserPhoneNumber(string token, string phoneNumber, Action onSuccess, Action<Error> onError)
@@ -158,7 +158,7 @@ namespace Xsolla.UserAccount
 		/// <param name="token">JWT from Xsolla Login.</param>
 		/// <param name="pictureData">User profile picture in the binary format.</param>
 		/// <param name="onSuccess">Success operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <seealso cref="DeleteUserPicture"/>
 		public void UploadUserPicture(string token, byte[] pictureData, string boundary, Action<string> onSuccess, Action<Error> onError)
 		{
@@ -185,7 +185,7 @@ namespace Xsolla.UserAccount
 		/// <see cref="https://developers.xsolla.com/api/login/operation/delete-user-picture/"/>
 		/// <param name="token">JWT from Xsolla Login.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <seealso cref="UploadUserPicture"/>
 		public void DeleteUserPicture(string token, Action onSuccess, Action<Error> onError)
 		{
@@ -206,7 +206,7 @@ namespace Xsolla.UserAccount
 		/// <see cref="https://developers.xsolla.com/login-api/user-account/managed-by-client/user-profile/check-users-age"/>
 		/// <param name="dateOfBirth">User’s birth date in the YYYY-MM-DD format.</param>
 		/// <param name="onSuccess">Success operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		public void CheckUserAge(string dateOfBirth, Action<UserCheckAgeResult> onSuccess, Action<Error> onError)
 		{
 			var request = new UserCheckAgeRequest
@@ -224,7 +224,7 @@ namespace Xsolla.UserAccount
 		/// <see cref="https://developers.xsolla.com/login-api/user-account/managed-by-client/user-profile/get-user-email"/>
 		/// <param name="token">JWT from Xsolla Login.</param>
 		/// <param name="onSuccess">Success operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		public void GetUserEmail(string token, Action<string> onSuccess, Action<Error> onError)
 		{
 			Action<UserEmail> successCallback = response => { onSuccess?.Invoke(response.current_email); };

@@ -33,7 +33,7 @@ namespace Xsolla.Catalog
 		/// <see cref="https://developers.xsolla.com/store-api/items/get-virtual-items"/>
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="limit">Limit for the number of elements on the page.</param>
 		/// <param name="offset">Number of the element from which the list is generated (the count starts from 0).</param>
 		/// <param name="locale">Response language. Two-letter lowercase language code per ISO 639-1.</param>
@@ -55,7 +55,7 @@ namespace Xsolla.Catalog
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
 		/// <param name="locale">Response language. Two-letter lowercase language code per ISO 639-1.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		public void GetCatalogSimplified(string projectId, Action<StoreItemShortCollection> onSuccess, Action<Error> onError = null, string locale = null)
 		{
 			var url = string.Format(URL_CATALOG_GET_ALL_VIRTUAL_ITEMS, projectId);
@@ -73,7 +73,7 @@ namespace Xsolla.Catalog
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
 		/// <param name="groupExternalId">Group external ID.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="limit">Limit for the number of elements on the page.</param>
 		/// <param name="offset">Number of the element from which the list is generated (the count starts from 0).</param>
 		/// <param name="locale">Response language. Two-letter lowercase language code per ISO 639-1.</param>
@@ -94,7 +94,7 @@ namespace Xsolla.Catalog
 		/// <see cref="https://developers.xsolla.com/store-api/groups/get-item-groups"/>
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="limit">Limit for the number of elements on the page.</param>
 		/// <param name="offset">Number of the element from which the list is generated (the count starts from 0).</param>
 		/// <param name="locale">Defines localization of the item text fields.</param>
@@ -113,7 +113,7 @@ namespace Xsolla.Catalog
 		/// <see cref="https://developers.xsolla.com/store-api/items/get-virtual-currency"/>
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="limit">Limit for the number of elements on the page.</param>
 		/// <param name="offset">Number of the element from which the list is generated (the count starts from 0).</param>
 		/// <param name="locale">Response language. Two-letter lowercase language code per ISO 639-1.</param>
@@ -135,7 +135,7 @@ namespace Xsolla.Catalog
 		/// <see cref="https://developers.xsolla.com/store-api/items/get-virtual-currency-package"/>
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="limit">Limit for the number of elements on the page.</param>
 		/// <param name="offset">Number of the element from which the list is generated (the count starts from 0).</param>
 		/// <param name="locale">Response language. Two-letter lowercase language code per ISO 639-1.</param>
@@ -157,7 +157,7 @@ namespace Xsolla.Catalog
 		/// <see cref="https://developers.xsolla.com/store-api/bundles/catalog/get-bundle-list"/>
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="limit">Limit for the number of elements on the page.</param>
 		/// <param name="offset">Number of the element from which the list is generated (the count starts from 0).</param>
 		/// <param name="locale">Defines localization of the item text fields.</param>
@@ -180,7 +180,7 @@ namespace Xsolla.Catalog
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
 		/// <param name="sku"></param>
 		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="locale">Defines localization of the item text fields.</param>
 		/// <param name="country">Country used to calculate regional prices and restrictions for the catalog. Two-letter uppercase country code per ISO 3166-1 alpha-2. If you do not specify the country explicitly, it will be defined by the user IP address.</param>
 		public void GetBundle(string projectId, string sku, [NotNull] Action<BundleItem> onSuccess, [CanBeNull] Action<Error> onError, [CanBeNull] string locale = null, [CanBeNull] string country = null)
@@ -199,7 +199,7 @@ namespace Xsolla.Catalog
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
 		/// <param name="couponCode">Unique coupon code. Contains letters and numbers.</param>
 		/// <param name="onSuccess">Success operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		public void RedeemCouponCode(string projectId, CouponCode couponCode, [NotNull] Action<CouponRedeemedItems> onSuccess, [CanBeNull] Action<Error> onError)
 		{
 			var url = string.Format(URL_INVENTORY_REDEEM_COUPON, projectId);
@@ -219,7 +219,7 @@ namespace Xsolla.Catalog
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
 		/// <param name="couponCode">Unique case sensitive code. Contains letters and numbers.</param>
 		/// <param name="onSuccess">Success operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		public void GetCouponRewards(string projectId, string couponCode, [NotNull] Action<CouponReward> onSuccess, [CanBeNull] Action<Error> onError)
 		{
 			var url = string.Format(URL_INVENTORY_GET_COUPON_REWARDS, projectId, couponCode);
@@ -238,7 +238,7 @@ namespace Xsolla.Catalog
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
 		/// <param name="itemSku">Item SKU to purchase.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="purchaseParams">Purchase parameters such as <c>country</c>, <c>locale</c>, and <c>currency</c>.</param>
 		/// <param name="customHeaders">Custom web request headers</param>
 		public void PurchaseItem(string projectId, string itemSku, [CanBeNull] Action<PurchaseData> onSuccess, [CanBeNull] Action<Error> onError, PurchaseParams purchaseParams = null, Dictionary<string, string> customHeaders = null)
@@ -261,7 +261,7 @@ namespace Xsolla.Catalog
 		/// <param name="itemSku">Item SKU to purchase.</param>
 		/// <param name="priceSku">Virtual currency SKU.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="purchaseParams">Purchase parameters such as <c>country</c>, <c>locale</c> and <c>currency</c>.</param>
 		/// <param name="platform">Publishing platform the user plays on.</param>
 		/// <param name="customHeaders">Custom web request headers.</param>
@@ -291,7 +291,7 @@ namespace Xsolla.Catalog
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
 		/// <param name="itemSku">Item SKU to purchase.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="purchaseParams">Purchase parameters such as <c>country</c>, <c>locale</c>, and <c>currency</c>.</param>
 		/// <param name="customHeaders">Custom web request headers</param>
 		public void CreateOrderWithSpecifiedFreeItem(string projectId, string itemSku, [CanBeNull] Action<int> onSuccess, [CanBeNull] Action<Error> onError, PurchaseParams purchaseParams = null, Dictionary<string, string> customHeaders = null)

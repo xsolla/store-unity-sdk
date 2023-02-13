@@ -20,7 +20,7 @@ namespace Xsolla.GameKeys
 		/// <see cref="https://developers.xsolla.com/commerce-api/game-keys/catalog/get-games-list/"/>
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="limit">Limit for the number of elements on the page.</param>
 		/// <param name="offset">Number of the element from which the list is generated (the count starts from 0).</param>
 		/// <param name="locale">Response language. Two-letter lowercase language code per ISO 639-1.</param>
@@ -41,7 +41,7 @@ namespace Xsolla.GameKeys
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
 		/// <param name="itemSku">Item SKU.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="locale">Response language. Two-letter lowercase language code per ISO 639-1.</param>
 		/// <param name="additionalFields">The list of additional fields. These fields will be in a response if you send them in a request. Available fields `media_list`, `order`, and `long_description`.</param>
 		/// <param name="country">Country used to calculate regional prices and restrictions for the catalog. Two-letter uppercase country code per ISO 3166-1 alpha-2. If you do not specify the country explicitly, it will be defined by the user IP address.</param>
@@ -60,7 +60,7 @@ namespace Xsolla.GameKeys
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
 		/// <param name="itemSku">Item SKU.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="locale">Response language. Two-letter lowercase language code per ISO 639-1.</param>
 		/// <param name="additionalFields">The list of additional fields. These fields will be in a response if you send them in a request. Available fields `media_list`, `order`, and `long_description`.</param>
 		/// <param name="country">Country used to calculate regional prices and restrictions for the catalog. Two-letter uppercase country code per ISO 3166-1 alpha-2. If you do not specify the country explicitly, it will be defined by the user IP address.</param>
@@ -79,7 +79,7 @@ namespace Xsolla.GameKeys
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
 		/// <param name="groupId">Group external ID.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="limit">Limit for the number of elements on the page.</param>
 		/// <param name="offset">Number of the element from which the list is generated (the count starts from 0).</param>
 		/// <param name="locale">Response language. Two-letter lowercase language code per ISO 639-1.</param>
@@ -100,7 +100,7 @@ namespace Xsolla.GameKeys
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
 		/// <param name="groupId">Group external ID.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="limit">Limit for the number of elements on the page.</param>
 		/// <param name="offset">Number of the element from which the list is generated (the count starts from 0).</param>
 		/// <param name="locale">Response language. Two-letter lowercase language code per ISO 639-1.</param>
@@ -120,7 +120,7 @@ namespace Xsolla.GameKeys
 		/// <see cref="https://developers.xsolla.com/in-game-store-buy-button-api/game-keys/catalog/get-drm-list/"/>
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		public void GetDrmList(string projectId, Action<DrmItems> onSuccess, Action<Error> onError = null)
 		{
 			var url = string.Format(URL_GET_DRM_LIST, projectId);
@@ -134,7 +134,7 @@ namespace Xsolla.GameKeys
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
 		/// <param name="sandbox">What type of entitlements should be returned. If the parameter is set to true, the entitlements received by the user in the sandbox mode only are returned. If the parameter isn't passed or is set to false, the entitlements received by the user in the live mode only are returned.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="limit">Limit for the number of elements on the page.</param>
 		/// <param name="offset">Number of the element from which the list is generated (the count starts from 0).</param>
 		/// <param name="additionalFields">The list of additional fields. These fields will be in a response if you send them in a request. Available fields `media_list`, `order`, and `long_description`.</param>
@@ -155,7 +155,7 @@ namespace Xsolla.GameKeys
 		/// <param name="gameCode">Game code.</param>
 		/// <param name="sandbox">Redeem game code in the sandbox mode. The option is available for those users who are specified in the list of company users.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		public void RedeemGameCode(string projectId, string gameCode, bool sandbox, Action onSuccess, Action<Error> onError = null)
 		{
 			var url = string.Format(URL_REDEEM_GAME_CODE, projectId);

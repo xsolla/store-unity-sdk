@@ -9,18 +9,19 @@ namespace Xsolla.Auth
 			"https://login.xsolla.com/api/oauth2/login/device/{0}?client_id={1}&response_type=code&state={2}&redirect_uri={3}&scope=offline";
 
 		/// <summary>
-		/// Authenticates a user via a particular device ID. To enable authentication, contact your Account Manager.
+		/// Authenticates the user via a particular device ID.
 		/// </summary>
-		/// <remarks> Swagger method name:<c>Auth via Device ID</c>.</remarks>
-		/// <see cref="https://developers.xsolla.com/login-api/auth/jwt/jwt-auth-via-device-id"/>.
-		/// <see cref="https://developers.xsolla.com/login-api/auth/oauth-20/oauth-20-auth-via-device-id/"/>.
-		/// <param name="deviceType">Type of the device.</param>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/authentication/auth-via-device-id/).</remarks>
+		/// <param name="deviceType">Type of the device. Can be `android` and `ios`.</param>
 		/// <param name="device">Manufacturer and model name of the device.</param>
-		/// <param name="deviceId">Device ID: For Android it is an ANDROID_ID constant. For iOS it is an identifierForVendor property.</param>
-		/// <param name="payload">[OBSOLETE] Were used only for JWT authorization type.</param>
-		/// <param name="state">Value used for additional user verification. Often used to mitigate CSRF Attacks. The value will be returned in the response. Must be longer than 8 characters. Used only for OAuth2.0 authorization type.</param>
-		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="deviceId">Platform specific unique device ID.
+		/// For Android, it is an [ANDROID_ID](https://developer.android.com/reference/android/provider/Settings.Secure#ANDROID_ID) constant.
+		/// For iOS, it is an [identifierForVendor](https://developer.apple.com/documentation/uikit/uidevice/1620059-identifierforvendor?language=objc) property.
+		/// </param>
+		/// <param name="payload">[OBSOLETE] Your custom data. Used only for JWT authorization type.</param>
+		/// <param name="state">Value used for additional user verification on backend. Must be at least 8 symbols long. `xsollatest` by default. Required for OAuth 2.0.</param>
+		/// <param name="onSuccess">Called after successful user authentication via the device ID.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		public void AuthViaDeviceID(DeviceType deviceType, string device, string deviceId, string payload = null, string state = null, Action<string> onSuccess = null, Action<Error> onError = null)
 		{
 			var deviceTypeToLower = deviceType.ToString().ToLower();

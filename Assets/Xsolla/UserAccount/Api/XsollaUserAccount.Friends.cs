@@ -26,7 +26,7 @@ namespace Xsolla.UserAccount
 		/// <param name="limit">Maximum number of friends that are returned at a time. Default: 500.</param>
 		/// <param name="withXlUid">Shows whether the social friends are from your game. Default: false.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		public void GetUserSocialFriends(string token, SocialProvider platform = SocialProvider.None, uint offset = 0, uint limit = 500, bool withXlUid = false, Action<UserSocialFriends> onSuccess = null, Action<Error> onError = null)
 		{
 			var withUidFlag = withXlUid ? "true" : "false";
@@ -52,7 +52,7 @@ namespace Xsolla.UserAccount
 		/// <param name="platform">Name of the chosen social provider which you can enable in your Publisher Account > your Login project > Social connections.
 		/// If you do not specify it, the call gets friends from all social providers.</param>
 		/// <param name="onSuccess">Success operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		public void UpdateUserSocialFriends(string token, SocialProvider platform = SocialProvider.None, Action onSuccess = null, Action<Error> onError = null)
 		{
 			var providerUrlAddition = platform != SocialProvider.None ? $"?platform={platform.GetParameter()}" : string.Empty;
@@ -79,7 +79,7 @@ namespace Xsolla.UserAccount
 		/// <param name="after">Parameter that is used for API pagination.</param>
 		/// <param name="limit">Maximum number of users that are returned at a time. Default: 20.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		public void GetUserFriends(
 			string token,
 			FriendsSearchType type,
@@ -164,7 +164,7 @@ namespace Xsolla.UserAccount
 		/// <param name="action">Type of the action.</param>
 		/// <param name="user">ID of the user to change relationship with.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		public void UpdateUserFriends(string token, FriendAction action, string user, Action onSuccess, Action<Error> onError)
 		{
 			var request = new UserFriendUpdate

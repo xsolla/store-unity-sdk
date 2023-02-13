@@ -25,7 +25,7 @@ namespace Xsolla.Subscriptions
 		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. **Required**.</param>
 		/// <param name="planId">Array of subscription plan IDs. Plan ID can be found in the URL of the subscription details page in Publisher Account (https://publisher.xsolla.com/{merchant_id}/projects/{project_id}/subscriptions/plans/{merplan_id}).</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="planExternalId">List of subscription plan external IDs (32 characters per ID). Plan external ID can be found in Publisher Account in the **Subscriptions > Subscription plans** section next to the plan name.</param>
 		/// <param name="limit">Limit for the number of elements on the page (15 elements are displayed by default).</param>
 		/// <param name="offset">Number of elements from which the list is generated (the count starts from 0).</param>
@@ -46,7 +46,7 @@ namespace Xsolla.Subscriptions
 		/// <see cref="https://subscriptions.xsolla.com/api/doc/user#/Subscriptions/get_xsolla_subscription_apiuser_getuseractivesubscriptions"/>
 		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. **Required**.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="limit">Limit for the number of elements on the page (15 elements are displayed by default).</param>
 		/// <param name="offset">Number of elements from which the list is generated (the count starts from 0).</param>
 		/// <param name="locale">Language of the UI. By default, it is determined by the user's IP address. Can be enforced by using an ISO 639-1 code.</param>
@@ -64,7 +64,7 @@ namespace Xsolla.Subscriptions
 		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. **Required**.</param>
 		/// <param name="subscriptionId">Subscription ID. **Required**.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="locale">Language of the UI. By default, it is determined by the user's IP address. Can be enforced by using an ISO 639-1 code.</param>
 		public void GetSubscriptionDetails(string projectId, int subscriptionId, Action<SubscriptionDetails> onSuccess, Action<Error> onError = null, string locale = null)
 		{
@@ -80,7 +80,7 @@ namespace Xsolla.Subscriptions
 		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. **Required**.</param>
 		/// <param name="subscriptionId">Subscription ID. **Required**.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		public void CancelSubscription(string projectId, int subscriptionId, Action onSuccess, Action<Error> onError = null)
 		{
 			var url = string.Format(URL_CANCEL_SUBSCRIPTION, projectId, subscriptionId);
@@ -95,7 +95,7 @@ namespace Xsolla.Subscriptions
 		/// <param name="subscriptionId">Subscription ID. **Required**.</param>
 		/// <param name="paymentSettings">Settings.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		public void GetSubscriptionRenewalUrl(string projectId, int subscriptionId, PaymentSettings settings, Action<PaymentLink> onSuccess, Action<Error> onError = null)
 		{
 			var url = string.Format(URL_GET_RENEWAL_URL, projectId, subscriptionId);
@@ -116,7 +116,7 @@ namespace Xsolla.Subscriptions
 		/// <param name="planExternalId">List of subscription plan external IDs (32 characters per ID). Plan external ID can be found in Publisher Account in the **Subscriptions > Subscription plans** section next to the plan name.</param>
 		/// <param name="paymentSettings">Settings.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="country">User's country. Affects the choice of locale and currency. By default, it is determined by the user's IP address.</param>
 		public void GetSubscriptionPurchaseUrl(string projectId, string planExternalId, PaymentSettings settings, Action<PaymentLink> onSuccess, Action<Error> onError = null, string country = null)
 		{
@@ -139,7 +139,7 @@ namespace Xsolla.Subscriptions
 		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. **Required**.</param>
 		/// <param name="paymentSettings">Settings.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="country">User's country. Affects the choice of locale and currency. By default, it is determined by the user's IP address.</param>
 		public void GetSubscriptionManagementUrl(string projectId, PaymentSettings settings, Action<PaymentLink> onSuccess, Action<Error> onError = null, string country = null)
 		{
@@ -161,7 +161,7 @@ namespace Xsolla.Subscriptions
 		/// <see cref="https://subscriptions.xsolla.com/api/doc/public#/User%20Plans/get_xsolla_subscription_apipublic_getsubscriptionsplans"/>
 		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. **Required**.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="planId">Array of subscription plan IDs. Plan ID can be found in the URL of the subscription details page in Publisher Account (https://publisher.xsolla.com/{merchant_id}/projects/{project_id}/subscriptions/plans/{merplan_id}).</param>
 		/// <param name="planExternalId">List of subscription plan external IDs (32 characters per ID). Plan external ID can be found in Publisher Account in the **Subscriptions > Subscription plans** section next to the plan name.</param>
 		/// <param name="limit">Limit for the number of elements on the page (15 elements are displayed by default).</param>

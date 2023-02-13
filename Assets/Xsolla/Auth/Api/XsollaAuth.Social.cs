@@ -14,22 +14,21 @@ namespace Xsolla.Auth
 			"https://login.xsolla.com/api/users/me/login_urls?{0}";
 
 		/// <summary>
-		/// Exchanges the session ticket from Steam, Xbox, or Epic Games to the JWT.
+		/// Authenticates a user by exchanging the session ticket from Steam, Xbox, or Epic Games to the JWT.
 		/// </summary>
-		/// <remarks> Swagger method name:<c>Silent Authentication</c>.</remarks>
-		/// <see cref="https://developers.xsolla.com/login-api/methods/jwt/jwt-silent-authentication"/>.
-		/// <see cref="https://developers.xsolla.com/login-api/methods/oauth-20/oauth-20-silent-authentication"/>.
-		/// <param name="providerName">Name of the platform the user authorized in. Can be `steam`, `xbox`, `epicgames`.</param>
-		/// <param name="appId">Your app ID in the platform.</param>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unreal-engine/authentication/silent-auth/).</remarks>
+		/// <param name="providerName">Platform on which the session ticket was obtained. Can be `steam`, `xbox`, or `epicgames`.</param>
+		/// <param name="appId">Platform application identifier.</param>
 		/// <param name="sessionTicket">Session ticket received from the platform.</param>
-		/// <param name="redirectUrl">URL to redirect the user to after account confirmation, successful authentication, two-factor authentication configuration, or password reset confirmation.
-		/// Must be identical to the Callback URL specified in the URL block of Publisher Account. To find it, go to Login > your Login project > General settings. Required if there are several Callback URLs.</param>
-		/// <param name="fields">[OBSOLETE] Were used only for JWT auth.</param>
+		/// <param name="redirectUri">URI to redirect the user to after account confirmation, successful authentication, two-factor authentication configuration, or password reset confirmation.
+		/// Must be identical to the OAuth 2.0 redirect URIs specified in Publisher Account.
+		/// Required if there are several URIs.</param>
+		/// <param name="fields">[OBSOLETE] List of parameters which must be requested from the user or social network additionally and written to the JWT. The parameters must be separated by a comma. Used only for JWT authorization type.</param>
 		/// <param name="oauthState">Value used for additional user verification on backend. Must be at least 8 symbols long. Will be `xsollatest` by default. Used only for OAuth2.0 auth.</param>
-		/// <param name="payload">[OBSOLETE] Were used only for JWT auth.</param>
+		/// <param name="payload">[OBSOLETE] Your custom data. Used only for JWT authorization type.</param>
 		/// <param name="code">Code received from the platform.</param>
-		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onSuccess">Called after successful user authentication with a platform session ticket. Authentication data including a JWT will be received.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		public void SilentAuth(string providerName, string appId, string sessionTicket, string redirectUrl = null, List<string> fields = null, string oauthState = null, string payload = null, string code = null, Action<string> onSuccess = null, Action<Error> onError = null)
 		{
 			var clientIdParam = XsollaSettings.OAuthClientId;
@@ -50,15 +49,14 @@ namespace Xsolla.Auth
 		}
 
 		/// <summary>
-		/// Get `url` for social authentication in browser.
+		/// Returns URL for authentication via the specified social network in a browser.
 		/// </summary>
-		/// <remarks> Swagger method name:<c>Auth via Social Network</c>.</remarks>
-		/// <see cref="https://developers.xsolla.com/api/login/operation/jwt-get-link-for-social-auth/"/>.
-		/// <see cref="https://developers.xsolla.com/api/login/operation/oauth-20-get-link-for-social-auth/"/>.
-		/// <param name="providerName">Name of the social network connected to Login in Publisher Account.</param>
-		/// <param name="fields">List of parameters which must be requested from the user or social network additionally and written to the JWT. The parameters must be separated by a comma. Used only for JWT auth.</param>
-		/// <param name="oauthState">Value used for additional user verification on backend. Must be at least 8 symbols long. Will be `xsollatest` by default.</param>
-		/// <param name="payload">Your custom data. The value of the parameter will be returned in the payload claim of the user JWT. Used only for JWT auth.</param>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/authentication/social-auth/#sdk_how_to_set_up_web_auth_via_social_networks).</remarks>
+		/// <param name="providerName">Name of a social network. Provider must be connected to Login in Publisher Account.
+		/// Can be `amazon`, `apple`, `baidu`, `battlenet`, `discord`, `facebook`, `github`, `google`, `kakao`, `linkedin`, `mailru`, `microsoft`, `msn`, `naver`, `ok`, `paypal`, `psn`, `qq`, `reddit`, `steam`, `twitch`, `twitter`, `vimeo`, `vk`, `wechat`, `weibo`, `yahoo`, `yandex`, `youtube`, or `xbox`.</param>
+		/// <param name="fields">[OBSOLETE] List of parameters which must be requested from the user or social network additionally and written to the JWT. The parameters must be separated by a comma. Used only for JWT authorization type.</param>
+		/// <param name="oauthState">Value used for additional user verification on backend. Must be at least 8 symbols long. `xsollatest` by default. Required for OAuth 2.0.</param>
+		/// <param name="payload">[OBSOLETE] Your custom data. Used only for JWT authorization type.</param>
 		public string GetSocialNetworkAuthUrl(SocialProvider providerName, string oauthState = null, List<string> fields = null, string payload = null)
 		{
 			var clientIdParam = XsollaSettings.OAuthClientId;
@@ -71,14 +69,17 @@ namespace Xsolla.Auth
 		}
 
 		/// <summary>
-		/// Gets links for authentication via the social networks enabled in your Login project > General settings > Social Networks section of Publisher Account. The links are valid for 10 minutes.
+		/// Returns list of links for social authentication enabled in Publisher Account (<b>your Login project > Authentication > Social login</b> section).
+		/// The links are valid for 10 minutes.
 		/// You can get the link by this call and add it to your button for authentication via the social network.
 		/// </summary>
-		/// <remarks> Swagger method name:<c>Get Links for Social Auth</c>.</remarks>
-		/// <see cref="https://developers.xsolla.com/api/login/operation/get-links-for-social-auth/"/>.
-		/// <param name="onSuccess">Success operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
-		/// <param name="locale">Defines localization request localization settings.</param>
+		/// <param name="onSuccess">Called after list of links for social authentication was successfully received.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
+		/// <param name="locale"> Region in the `language code_country code` format, where:
+		/// - `language code` — language code in the [ISO 639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) format;
+		/// - `country code` — country/region code in the [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format.
+		/// The list of the links will be sorted from most to least used social networks, according to the variable value.
+		/// </param>
 		public void GetLinksForSocialAuth(string locale = null, Action<List<SocialNetworkLink>> onSuccess = null, Action<Error> onError = null)
 		{
 			var localeParam = GetLocaleUrlParam(locale).Replace("&", string.Empty);

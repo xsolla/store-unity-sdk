@@ -22,7 +22,7 @@ namespace Xsolla.UserAccount
 		/// <param name="keys">List of attributes' keys which you want to get. If you do not specify them, it returns all user's attributes.</param>
 		/// <param name="userId">User ID which attributes you want to get. Returns only attributes with the `public` value of the `permission` parameter. If you do not specify it or put your user ID there, it returns only your attributes with any value for the `permission` parameter.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <seealso cref="UpdateUserAttributes"/>
 		/// <seealso cref="RemoveUserAttributes"/>
 		public void GetUserAttributes(string token, string publisherProjectId, UserAttributeType attributeType, [CanBeNull] List<string> keys, [CanBeNull] string userId, [NotNull] Action<List<UserAttribute>> onSuccess, [CanBeNull] Action<Error> onError)
@@ -60,7 +60,7 @@ namespace Xsolla.UserAccount
 		/// <param name="publisherProjectId">Project ID from Publisher Account which you want to update the value of specified attributes for. If you do not specify it, it updates attributes that are general to all games only.</param>
 		/// <param name="attributes">List of attributes of the specified game. To add attribute which does not exist, set this attribute to the `key` parameter. To update `value` of the attribute, specify its `key` parameter and set the new `value`. You can change several attributes at a time.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <seealso cref="GetUserAttributes"/>
 		/// <seealso cref="RemoveUserAttributes"/>
 		public void UpdateUserAttributes(string token, string publisherProjectId, List<UserAttribute> attributes, Action onSuccess, Action<Error> onError)
@@ -86,7 +86,7 @@ namespace Xsolla.UserAccount
 		/// <param name="publisherProjectId">Project ID from Publisher Account which you want to update the value of specified attributes for. If you do not specify it, it updates attributes that are general to all games only.</param>
 		/// <param name="removingKeys">List of attributes which you want to delete. If you specify the same attribute in `attributes` parameter, it will not be deleted.</param>
 		/// <param name="onSuccess">Success operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <seealso cref="GetUserAttributes"/>
 		/// <seealso cref="UpdateUserAttributes"/>
 		public void RemoveUserAttributes(string token, string publisherProjectId, List<string> removingKeys, Action onSuccess, Action<Error> onError)

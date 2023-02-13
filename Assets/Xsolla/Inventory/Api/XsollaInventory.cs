@@ -19,7 +19,7 @@ namespace Xsolla.Inventory
 		/// <see cref="https://developers.xsolla.com/store-api/inventory-client/get-user-virtual-balance"/>
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="platform">Publishing platform the user plays on.</param>
 		public void GetVirtualCurrencyBalance(string projectId, [NotNull] Action<VirtualCurrencyBalances> onSuccess, [CanBeNull] Action<Error> onError, string platform = null)
 		{
@@ -38,7 +38,7 @@ namespace Xsolla.Inventory
 		/// <see cref="https://developers.xsolla.com/store-api/inventory-client/get-user-inventory"/>
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="limit">Limit for the number of elements on the page.</param>
 		/// <param name="offset">Number of the element from which the list is generated (the count starts from 0).</param>
 		/// <param name="locale">Defines localization of item's text fields.</param>
@@ -61,7 +61,7 @@ namespace Xsolla.Inventory
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
 		/// <param name="item">Contains consume parameters.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="platform">Publishing platform the user plays on.</param>
 		public void ConsumeInventoryItem(string projectId, ConsumeItem item, [CanBeNull] Action onSuccess, [CanBeNull] Action<Error> onError, string platform = null)
 		{
@@ -82,7 +82,7 @@ namespace Xsolla.Inventory
 		/// <see cref="https://developers.xsolla.com/store-api/inventory-client/get-user-subscriptions"/>
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
 		/// <param name="onSuccess">Success operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="platform">Publishing platform the user plays on.</param>
 		public void GetTimeLimitedItems(string projectId, [NotNull] Action<TimeLimitedItems> onSuccess, [CanBeNull] Action<Error> onError, string platform = null)
 		{

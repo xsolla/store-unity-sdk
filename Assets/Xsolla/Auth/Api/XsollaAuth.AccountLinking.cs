@@ -63,15 +63,15 @@ namespace Xsolla.Auth
 		///						</description>
 		///					</item>
 		///				</list>
-		///				
+		///
 		///			</description>
 		///		</item>
 		/// </list>
 		/// </summary>
 		/// <param name="userId">Social platform (XBox, PS4, etc) user unique identifier.</param>
 		/// <param name="platform">Platform name (XBox, PS4, etc).</param>
-		/// <param name="successCase">Success operation callback.</param>
-		/// <param name="failedCase">Failed operation callback.</param>
+		/// <param name="successCase">Called after successful user authentication. Authentication data including the JWT will be received.</param>
+		/// <param name="failedCase">Called after the request resulted with an error.</param>
 		#endregion
 		public void SignInConsoleAccount(string userId, string platform, Action<string> successCase, Action<Error> failedCase)
 		{

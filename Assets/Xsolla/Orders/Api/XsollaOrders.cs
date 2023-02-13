@@ -39,7 +39,7 @@ namespace Xsolla.Orders
 		/// <param name="projectId">Project ID from your Publisher Account.</param>
 		/// <param name="orderId">Unique order identifier.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <seealso cref="ItemPurchaseForVirtualCurrency"/>
 		/// <seealso cref="CartPurchase"/>
 		public void CheckOrderStatus(string projectId, int orderId, [NotNull] Action<OrderStatus> onSuccess, [CanBeNull] Action<Error> onError)
@@ -64,7 +64,7 @@ namespace Xsolla.Orders
 		/// <param name="paymentMethod">Payment method ID.</param>
 		/// <param name="customParameters">Your custom parameters represented as a valid JSON set of key-value pairs.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		public void CreatePaymentToken(
 			string projectId,
 			float amount,
@@ -104,7 +104,7 @@ namespace Xsolla.Orders
 		/// <param name="paymentMethod">Payment method ID.</param>
 		/// <param name="customParameters">Your custom parameters represented as a valid JSON set of key-value pairs.</param>
 		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		public void CreatePaymentToken(
 			string projectId,
 			float amount,
