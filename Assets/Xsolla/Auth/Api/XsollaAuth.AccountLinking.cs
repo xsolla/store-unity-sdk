@@ -20,16 +20,15 @@ namespace Xsolla.Auth
 		///			<description>
 		///				<list type="bullet">
 		///					<item>
-		///						<term>Request credentionals</term>
-		///						<description>before write any code, contact with support by email:<see cref="support@xsolla.com"/>
-		///						and request <c>ClientID</c> + <c>ClientSecret</c>.
+		///						<term>Connect OAuth 2.0 server client</term>
+		///						<description>Follow the [instructions](https://developers.xsolla.com/doc/login/security/connecting-oauth2/#login_features_connecting_oauth2_connecting_client) to connect the client and cope copy the <b>Client ID</b> and <b>Secret key</b>.
 		///						</description>
 		///					</item>
 		///					<item>
 		///						<term>Implement method: </term>
 		///						<description>
 		///							<see cref="https://developers.xsolla.com/login-api/oauth-20/generate-user-jwt"/>
-		///							with application/x-www-form-urlencoded payload parameters:
+		///							with `application/x-www-form-urlencoded` payload parameters:
 		///							<list type="bullet">
 		///								<item>
 		///									<description>client_id=YOUR_CLIENT_ID</description>
@@ -61,6 +60,9 @@ namespace Xsolla.Auth
 		///						<description>
 		///						`Content-Type: application/json` and `X-SERVER-AUTHORIZATION: YourGeneratedJwt`
 		///						</description>
+		///					</item>
+		///					<item>
+		///						<term>[More information about authentication via custom ID](https://developers.xsolla.com/sdk/unity/authentication/auth-via-custom-id/).</term>
 		///					</item>
 		///				</list>
 		///

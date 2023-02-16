@@ -24,7 +24,7 @@ namespace Xsolla.Auth
 		/// Refreshes the token in case it is expired. Works only when OAuth 2.0 is enabled.
 		/// </summary>
 		/// <param name="refreshToken">Token used to refresh the expired access token. Received when authorizing the user with username/password for the first time.</param>
-		/// <param name="onSuccessExchange"Called after successful token refreshing. Refresh data including the JWT will be received./param>
+		/// <param name="onSuccessExchange"> Called after successful token refreshing. Refresh data including the JWT will be received.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		public void RefreshOAuthToken(string refreshToken, Action<string> onSuccess, Action<Error> onError)
 		{

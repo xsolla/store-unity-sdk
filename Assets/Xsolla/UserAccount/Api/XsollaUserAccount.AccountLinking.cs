@@ -11,11 +11,10 @@ namespace Xsolla.UserAccount
 		#region Comment
 		/// <summary>
 		/// Creates the code for linking the platform account to the existing main account when the user logs in to the game via a gaming console.
-		/// The call is used with Link accounts by code request.
+		/// The call is used with [Link accounts by code](https://developers.xsolla.com/login-api/linking-account/linking/link-accounts-by-code/) request.
 		/// </summary>
-		/// <remarks> Swagger method name:<c>Create Code for Linking Accounts</c>.</remarks>
-		/// <see cref="https://developers.xsolla.com/login-api/users/create-code-for-linking-accounts"/>
-		/// <param name="onSuccess">Success operation callback.</param>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/user-account-and-attributes/account-linking/).</remarks>
+		/// <param name="onSuccess">Called after successful linking code creation.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <seealso cref="SignInConsoleAccount"/>
 		/// <seealso cref="LinkConsoleAccount"/>
@@ -39,16 +38,15 @@ namespace Xsolla.UserAccount
 		///			<description>
 		///				<list type="bullet">
 		///					<item>
-		///						<term>Request credentionals</term>
-		///						<description>before write any code, contact with support by email:<see cref="support@xsolla.com"/>
-		///						and request <c>ClientID</c> + <c>ClientSecret</c>.
+		///						<term>Connect OAuth 2.0 server client</term>
+		///						<description>Follow the [instructions](https://developers.xsolla.com/doc/login/security/connecting-oauth2/#login_features_connecting_oauth2_connecting_client) to connect the client and cope copy the <b>Client ID</b> and <b>Secret key</b>.
 		///						</description>
 		///					</item>
 		///					<item>
 		///						<term>Implement method: </term>
 		///						<description>
 		///							<see cref="https://developers.xsolla.com/login-api/oauth-20/generate-user-jwt"/>
-		///							with application/x-www-form-urlencoded payload parameters:
+		///							with `application/x-www-form-urlencoded` payload parameters:
 		///							<list type="bullet">
 		///								<item>
 		///									<description>client_id=YOUR_CLIENT_ID</description>

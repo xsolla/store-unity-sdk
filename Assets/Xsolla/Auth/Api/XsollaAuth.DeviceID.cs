@@ -15,7 +15,7 @@ namespace Xsolla.Auth
 		/// <param name="deviceType">Type of the device. Can be `android` and `ios`.</param>
 		/// <param name="device">Manufacturer and model name of the device.</param>
 		/// <param name="deviceId">Platform specific unique device ID.
-		/// For Android, it is an [ANDROID_ID](https://developer.android.com/reference/android/provider/Settings.Secure#ANDROID_ID) constant.
+		/// For Android, it is an [ANDROID_ID](https://developer.android.com/reference/android/provider/Settings.Secure#ANDROID_ID) constant.<br/>
 		/// For iOS, it is an [identifierForVendor](https://developer.apple.com/documentation/uikit/uidevice/1620059-identifierforvendor?language=objc) property.
 		/// </param>
 		/// <param name="payload">[OBSOLETE] Your custom data. Used only for JWT authorization type.</param>

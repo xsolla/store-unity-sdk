@@ -13,12 +13,12 @@ namespace Xsolla.UserAccount
 			"https://login.xsolla.com/api/users/me/social_providers";
 
 		/// <summary>
-		/// Links the social network, which is used by the player for authentication, to the user account.
+		/// Links a social network that can be used for authentication to the current account.
 		/// </summary>
-		/// <remarks> Swagger method name:<c>Link Social Network To Account</c>.</remarks>
-		/// <see cref="https://developers.xsolla.com/user-account-api/social-networks/link-social-network-to-account/"/>.
-		/// <param name="providerName">Name of the social network connected to Login in Publisher Account.</param>
-		/// <param name="urlCallback">Success operation callback.</param>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/user-account-and-attributes/account-linking/#sdk_account_linking_additional_account).</remarks>
+		/// <param name="providerName">Name of a social network. Provider must be connected to Login in Publisher Account.<br/>
+		/// Can be `amazon`, `apple`, `baidu`, `battlenet`, `discord`, `facebook`, `github`, `google`, `instagram`, `kakao`, `linkedin`, `mailru`, `microsoft`, `msn`, `naver`, `ok`, `paradox`, `paypal`, `psn`, `qq`, `reddit`, `steam`, `twitch`, `twitter`, `vimeo`, `vk`, `wechat`, `weibo`, `yahoo`, `yandex`, `youtube`, `xbox`, `playstation`.</param>
+		/// <param name="urlCallback">Called after the URL for social authentication was successfully received.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		public void LinkSocialProvider(SocialProvider providerName, Action<string> urlCallback, Action<Error> onError = null)
 		{
@@ -30,11 +30,9 @@ namespace Xsolla.UserAccount
 		}
 
 		/// <summary>
-		/// Gets a list of the social networks linked to the user account.
+		/// Returns the list of social networks linked to the user account.
 		/// </summary>
-		/// <remarks> Swagger method name:<c>Get Linked Networks</c>.</remarks>
-		/// <see cref="https://developers.xsolla.com/user-account-api/social-networks/get-linked-networks/"/>.
-		/// <param name="onSuccess">Success operation callback.</param>
+		/// <param name="onSuccess">Called after the list of linked social networks was successfully received.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		public void GetLinkedSocialProviders(Action<List<LinkedSocialNetwork>> onSuccess, Action<Error> onError = null)
 		{

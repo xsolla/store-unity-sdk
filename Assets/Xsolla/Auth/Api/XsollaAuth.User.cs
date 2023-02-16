@@ -100,7 +100,7 @@ namespace Xsolla.Auth
 		/// <param name="onSuccess">Called after successful user authentication. Authentication data including the JWT will be received.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <seealso cref="SignInConsoleAccount"/>
-		/// <seealso cref="Registration"/>
+		/// <seealso cref="Register"/>
 		/// <seealso cref="ResetPassword"/>
 		/// <seealso cref="ResendConfirmationLink"/>
 		public void SignIn(string username, string password, bool rememberMe, string redirectUri = null, string payload = null, Action<string> onSuccess = null, Action<Error> onError = null)
@@ -120,7 +120,7 @@ namespace Xsolla.Auth
 		/// <summary>
 		/// Starts user authentication and sends an email with a one-time code and a link to the specified email address (if login via magic link is configured for the Login project)
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unreal-engine/authentication/passwordless-auth/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/authentication/passwordless-auth/).</remarks>
 		/// <param name="email">User email address.</param>
 		/// <param name="linkUrl">URL to redirect the user to the status authentication page.</param>
 		/// <param name="sendLink">Shows whether a link is sent with the confirmation code in the email or not.</param>
@@ -254,7 +254,7 @@ namespace Xsolla.Auth
 		/// <param name="locale">Defines localization of the email the user receives.
 		/// The following languages are supported: Arabic (`ar_AE`), Bulgarian (`bg_BG`), Czech (`cz_CZ`), German (`de_DE`), Spanish (`es_ES`), French (`fr_FR`), Hebrew (`he_IL`), Italian (`it_IT`), Japanese (`ja_JP`), Korean (`ko_KR`), Polish (`pl_PL`), Portuguese (`pt_BR`), Romanian (`ro_RO`), Russian (`ru_RU`), Thai (`th_TH`), Turkish (`tr_TR`), Vietnamese (`vi_VN`), Chinese Simplified (`zh_CN`), Chinese Traditional (`zh_TW`), English (`en_XX`, default).
 		/// </param>
-		/// <seealso cref="Registration"/>
+		/// <seealso cref="Register"/>
 		/// <seealso cref="SignIn"/>
 		/// <seealso cref="ResendConfirmationLink"/>
 		public void ResetPassword(string email, string redirectUri = null, string locale = null, Action onSuccess = null, Action<Error> onError = null)
@@ -282,7 +282,7 @@ namespace Xsolla.Auth
 		/// </param>
 		/// <param name="onSuccess">Called after successful sending of the request.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
-		/// <seealso cref="Registration"/>
+		/// <seealso cref="Register"/>
 		/// <seealso cref="SignIn"/>
 		/// <seealso cref="ResetPassword"/>
 		public void ResendConfirmationLink(string username, string redirectUri = null, string state = null, string payload = null, string locale = null, Action onSuccess = null, Action<Error> onError = null)

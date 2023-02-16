@@ -16,7 +16,7 @@ namespace Xsolla.Auth
 		/// <summary>
 		/// Authenticates a user by exchanging the session ticket from Steam, Xbox, or Epic Games to the JWT.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unreal-engine/authentication/silent-auth/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/authentication/silent-auth/).</remarks>
 		/// <param name="providerName">Platform on which the session ticket was obtained. Can be `steam`, `xbox`, or `epicgames`.</param>
 		/// <param name="appId">Platform application identifier.</param>
 		/// <param name="sessionTicket">Session ticket received from the platform.</param>
@@ -77,7 +77,7 @@ namespace Xsolla.Auth
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="locale"> Region in the `language code_country code` format, where:
 		/// - `language code` — language code in the [ISO 639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) format;
-		/// - `country code` — country/region code in the [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format.
+		/// - `country code` — country/region code in the [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format.<br/>
 		/// The list of the links will be sorted from most to least used social networks, according to the variable value.
 		/// </param>
 		public void GetLinksForSocialAuth(string locale = null, Action<List<SocialNetworkLink>> onSuccess = null, Action<Error> onError = null)
