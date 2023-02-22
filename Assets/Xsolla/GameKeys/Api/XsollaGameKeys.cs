@@ -18,8 +18,8 @@ namespace Xsolla.GameKeys
 		/// Gets a games list for building a catalog.
 		/// </summary>
 		/// <see cref="https://developers.xsolla.com/commerce-api/game-keys/catalog/get-games-list/"/>
-		/// <param name="projectId">Project ID from your Publisher Account.</param>
-		/// <param name="onSuccess">Successful operation callback.</param>
+		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. </param>
+		/// <param name="onSuccess">Called after server response.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="limit">Limit for the number of elements on the page.</param>
 		/// <param name="offset">Number of the element from which the list is generated (the count starts from 0).</param>
@@ -38,9 +38,9 @@ namespace Xsolla.GameKeys
 		/// Gets a game for the catalog.
 		/// </summary>
 		/// <see cref="https://developers.xsolla.com/in-game-store-buy-button-api/game-keys/catalog/get-game-by-sku/"/>
-		/// <param name="projectId">Project ID from your Publisher Account.</param>
+		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. </param>
 		/// <param name="itemSku">Item SKU.</param>
-		/// <param name="onSuccess">Successful operation callback.</param>
+		/// <param name="onSuccess">Called after server response.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="locale">Response language. Two-letter lowercase language code per ISO 639-1.</param>
 		/// <param name="additionalFields">The list of additional fields. These fields will be in a response if you send them in a request. Available fields `media_list`, `order`, and `long_description`.</param>
@@ -57,9 +57,9 @@ namespace Xsolla.GameKeys
 		/// Gets a game key for the catalog.
 		/// </summary>
 		/// <see cref="https://developers.xsolla.com/in-game-store-buy-button-api/game-keys/catalog/get-game-key-by-sku/"/>
-		/// <param name="projectId">Project ID from your Publisher Account.</param>
+		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. </param>
 		/// <param name="itemSku">Item SKU.</param>
-		/// <param name="onSuccess">Successful operation callback.</param>
+		/// <param name="onSuccess">Called after server response.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="locale">Response language. Two-letter lowercase language code per ISO 639-1.</param>
 		/// <param name="additionalFields">The list of additional fields. These fields will be in a response if you send them in a request. Available fields `media_list`, `order`, and `long_description`.</param>
@@ -76,9 +76,9 @@ namespace Xsolla.GameKeys
 		/// Gets a games list from the specified group for building a catalog.
 		/// </summary>
 		/// <see cref="https://developers.xsolla.com/in-game-store-buy-button-api/game-keys/catalog/get-games-group/"/>
-		/// <param name="projectId">Project ID from your Publisher Account.</param>
+		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. </param>
 		/// <param name="groupId">Group external ID.</param>
-		/// <param name="onSuccess">Successful operation callback.</param>
+		/// <param name="onSuccess">Called after server response.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="limit">Limit for the number of elements on the page.</param>
 		/// <param name="offset">Number of the element from which the list is generated (the count starts from 0).</param>
@@ -97,9 +97,9 @@ namespace Xsolla.GameKeys
 		/// Gets a game key list from the specified group for building a catalog.
 		/// </summary>
 		/// <see cref="https://developers.xsolla.com/in-game-store-buy-button-api/game-keys/catalog/get-game-keys-group/"/>
-		/// <param name="projectId">Project ID from your Publisher Account.</param>
+		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. </param>
 		/// <param name="groupId">Group external ID.</param>
-		/// <param name="onSuccess">Successful operation callback.</param>
+		/// <param name="onSuccess">Called after server response.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="limit">Limit for the number of elements on the page.</param>
 		/// <param name="offset">Number of the element from which the list is generated (the count starts from 0).</param>
@@ -118,8 +118,8 @@ namespace Xsolla.GameKeys
 		/// Grants entitlement by a provided game code.
 		/// </summary>
 		/// <see cref="https://developers.xsolla.com/in-game-store-buy-button-api/game-keys/catalog/get-drm-list/"/>
-		/// <param name="projectId">Project ID from your Publisher Account.</param>
-		/// <param name="onSuccess">Successful operation callback.</param>
+		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. </param>
+		/// <param name="onSuccess">Called after server response.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		public void GetDrmList(string projectId, Action<DrmItems> onSuccess, Action<Error> onError = null)
 		{
@@ -131,9 +131,9 @@ namespace Xsolla.GameKeys
 		/// Get the list of games owned by the user. The response will contain an array of games owned by a particular user.
 		/// </summary>
 		/// <see cref="https://developers.xsolla.com/in-game-store-buy-button-api/game-keys/entitlement/get-user-games/"/>
-		/// <param name="projectId">Project ID from your Publisher Account.</param>
+		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. </param>
 		/// <param name="sandbox">What type of entitlements should be returned. If the parameter is set to true, the entitlements received by the user in the sandbox mode only are returned. If the parameter isn't passed or is set to false, the entitlements received by the user in the live mode only are returned.</param>
-		/// <param name="onSuccess">Successful operation callback.</param>
+		/// <param name="onSuccess">Called after server response.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="limit">Limit for the number of elements on the page.</param>
 		/// <param name="offset">Number of the element from which the list is generated (the count starts from 0).</param>
@@ -151,10 +151,10 @@ namespace Xsolla.GameKeys
 		/// Grants entitlement by a provided game code.
 		/// </summary>
 		/// <see cref="https://developers.xsolla.com/commerce-api/game-keys/entitlement/redeem-game-pin-code/"/>
-		/// <param name="projectId">Project ID from your Publisher Account.</param>
+		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. </param>
 		/// <param name="gameCode">Game code.</param>
 		/// <param name="sandbox">Redeem game code in the sandbox mode. The option is available for those users who are specified in the list of company users.</param>
-		/// <param name="onSuccess">Successful operation callback.</param>
+		/// <param name="onSuccess">Called after server response.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		public void RedeemGameCode(string projectId, string gameCode, bool sandbox, Action onSuccess, Action<Error> onError = null)
 		{

@@ -38,7 +38,7 @@ namespace Xsolla.Orders
 		/// Returns status of the specified order.
 		/// </summary>
 		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/item-purchase/track-order/).</remarks>
-		/// <param name="projectId">Project ID from your Publisher Account.</param>
+		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. </param>
 		/// <param name="orderId">Unique order identifier.</param>
 		/// <param name="onSuccess">Called after server response.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
@@ -55,7 +55,7 @@ namespace Xsolla.Orders
 		/// <summary>
 		/// Creates a new payment token.
 		/// </summary>
-		/// <param name="projectId">Project ID from your Publisher Account.</param>
+		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. </param>
 		/// <param name="amount">The total amount to be paid by the user.</param>
 		/// <param name="currency">Default purchase currency. Three-letter code per [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) (USD by default).</param>
 		/// <param name="description">Purchase description. Used to describe the purchase if there are no specific items.</param>
@@ -94,7 +94,7 @@ namespace Xsolla.Orders
 		/// <summary>
 		/// Creates a new payment token.
 		/// </summary>
-		/// <param name="projectId">Project ID from your Publisher Account.</param>
+		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. </param>
 		/// <param name="amount">The total amount to be paid by the user.</param>
 		/// <param name="currency">Default purchase currency. Three-letter code per [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) (USD by deafaulr).</param>
 		/// <param name="items">Used to describe a purchase if it includes a list of specific items.</param>

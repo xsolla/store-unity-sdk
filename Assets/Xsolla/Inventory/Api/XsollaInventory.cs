@@ -16,8 +16,8 @@ namespace Xsolla.Inventory
 		/// Returns the current user’s balance of virtual currency. For each virtual currency, complete data is returned.
 		/// </summary>
 		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/player-inventory/display-inventory/).</remarks>
-		/// <param name="projectId">Project ID from your Publisher Account.</param>
-		/// <param name="onSuccess">Successful operation callback.</param>
+		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. </param>
+		/// <param name="onSuccess">Called after server response.</param>
 		/// <param name="onError">Called after virtual currency balance was successfully received.</param>
 		/// <param name="platform">Publishing platform the user plays on.<br/>
 		/// Can be `xsolla` (default), `playstation_network`, `xbox_live`, `pc_standalone`, `nintendo_shop`, `google_play`, `app_store_ios`, `android_standalone`, `ios_standalone`, `android_other`, `ios_other`, or `pc_other`.</param>
@@ -35,7 +35,7 @@ namespace Xsolla.Inventory
 		/// Returns a list of virtual items from the user’s inventory according to pagination settings. For each virtual item, complete data is returned.
 		/// </summary>
 		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/player-inventory/display-inventory/).</remarks>
-		/// <param name="projectId">Project ID from your Publisher Account.</param>
+		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. </param>
 		/// <param name="onSuccess">Called after purchased virtual items were successfully received.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="limit">Limit for the number of elements on the page.</param>
@@ -58,7 +58,7 @@ namespace Xsolla.Inventory
 		/// Consumes an inventory item. Use for only for consumable virtual items.
 		/// </summary>
 		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/player-inventory/consume-item/).</remarks>
-		/// <param name="projectId">Project ID from your Publisher Account.</param>
+		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. </param>
 		/// <param name="item">Contains consume parameters.</param>
 		/// <param name="onSuccess">Called after successful inventory item consumption.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
@@ -80,7 +80,7 @@ namespace Xsolla.Inventory
 		/// Returns a list of time-limited items from the user’s inventory. For each item, complete data is returned.
 		/// </summary>
 		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/player-inventory/display-inventory/).</remarks>
-		/// <param name="projectId">Project ID from your Publisher Account.</param>
+		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. </param>
 		/// <param name="onSuccess">Called after list of user time limited items was successfully received.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="platform">Publishing platform the user plays on.<br/>

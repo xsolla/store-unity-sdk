@@ -31,7 +31,7 @@ namespace Xsolla.Catalog
 		/// If used after user authentication, the method returns items that match the personalization rules for the current user.
 		/// </summary>
 		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/catalog/catalog-display/).</remarks>
-		/// <param name="projectId">Project ID from your Publisher Account.</param>
+		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. </param>
 		/// <param name="onSuccess">Called after virtual items were successfully received.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="limit">Limit for the number of elements on the page.</param>
@@ -54,7 +54,7 @@ namespace Xsolla.Catalog
 		/// If used after user authentication, the method returns items that match the personalization rules for the current user.
 		/// </summary>
 		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/catalog/catalog-display/).</remarks>
-		/// <param name="projectId">Project ID from your Publisher Account.</param>
+		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. </param>
 		/// <param name="locale">Response language. </br>
 		/// The following languages are supported: Arabic (`ar`), Bulgarian (`bg`), Czech (`cs`), German (`de`), Spanish (`es`), French (`fr`), Hebrew (`he`), Italian (`it`), Japanese (`ja`), Korean (`ko`), Polish (`pl`), Portuguese (`pt`), Romanian (`ro`), Russian (`ru`), Thai (`th`), Turkish (`tr`), Vietnamese (`vi`), Chinese Simplified (`cn`), Chinese Traditional (`tw`), English (`en`, default).<br/>
 		/// Leave empty to use the default value.</param>
@@ -73,7 +73,7 @@ namespace Xsolla.Catalog
 		/// If used after user authentication, the method returns items that match the personalization rules for the current user.
 		/// </summary>
 		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/catalog/catalog-display/).</remarks>
-		/// <param name="projectId">Project ID from your Publisher Account.</param>
+		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. </param>
 		/// <param name="groupExternalId">Group external ID.</param>
 		/// <param name="onSuccess">Called after server response.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
@@ -95,7 +95,7 @@ namespace Xsolla.Catalog
 		/// Returns a full list of virtual item groups. The list includes groups for which display in the store is enabled in the settings.
 		/// </summary>
 		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/catalog/catalog-display/).</remarks>
-		/// <param name="projectId">Project ID from your Publisher Account.</param>
+		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. </param>
 		/// <param name="onSuccess">Called after virtual item groups were successfully received.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="limit">Limit for the number of elements on the page.</param>
@@ -114,7 +114,7 @@ namespace Xsolla.Catalog
 		/// Returns a list of virtual currencies according to pagination settings.
 		/// </summary>
 		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/catalog/catalog-display/).</remarks>
-		/// <param name="projectId">Project ID from your Publisher Account.</param>
+		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. </param>
 		/// <param name="onSuccess">Called after virtual currencies were successfully received.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="limit">Limit for the number of elements on the page.</param>
@@ -136,7 +136,7 @@ namespace Xsolla.Catalog
 		/// If used after user authentication, the method returns packages that match the personalization rules for the current user.
 		/// </summary>
 		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/catalog/catalog-display/).</remarks>
-		/// <param name="projectId">Project ID from your Publisher Account.</param>
+		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. </param>
 		/// <param name="onSuccess">Called after virtual currency packages were successfully received.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="limit">Limit for the number of elements on the page.</param>
@@ -158,7 +158,7 @@ namespace Xsolla.Catalog
 		/// If used after user authentication, the method returns items that match the personalization rules for the current user.
 		/// </summary>
 		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/catalog/catalog-display/#unreal_engine_sdk_how_to_bundles).</remarks>
-		/// <param name="projectId">Project ID from your Publisher Account.</param>
+		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. </param>
 		/// <param name="onSuccess">Called after bundles are successfully received.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="limit">Limit for the number of elements on the page.</param>
@@ -180,7 +180,7 @@ namespace Xsolla.Catalog
 		/// If used after user authentication, the method returns items that match the personalization rules for the current user.
 		/// </summary>
 		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/catalog/catalog-display/#unreal_engine_sdk_how_to_bundles).</remarks>
-		/// <param name="projectId">Project ID from your Publisher Account.</param>
+		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. </param>
 		/// <param name="sku">Bundle SKU.</param>
 		/// <param name="onSuccess">Called after the cart is successfully filled.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
@@ -202,7 +202,7 @@ namespace Xsolla.Catalog
 		/// - to the entitlement system (game keys)
 		/// </summary>
 		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/promo/coupons).</remarks>
-		/// <param name="projectId">Project ID from your Publisher Account.</param>
+		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. </param>
 		/// <param name="couponCode">Unique case sensitive code. Contains letters and numbers.</param>
 		/// <param name="onSuccess">Called after successful coupon redemption.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
@@ -220,7 +220,7 @@ namespace Xsolla.Catalog
 		/// Returns a list of items that can be credited to the user when the coupon is redeemed. Can be used to let users choose one of many items as a bonus. The usual case is choosing a DRM if the coupon contains a game as a bonus.
 		/// </summary>
 		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/promo/coupons).</remarks>
-		/// <param name="projectId">Project ID from your Publisher Account.</param>
+		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. </param>
 		/// <param name="couponCode">Unique case sensitive code. Contains letters and numbers.</param>
 		/// <param name="onSuccess">Called after receiving coupon rewards successfully.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
@@ -238,7 +238,7 @@ namespace Xsolla.Catalog
 		/// Creates an order with a specified item. The created order will get a `new` order status.
 		/// </summary>
 		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/item-purchase/one-click-purchase/).</remarks>
-		/// <param name="projectId">Project ID from your Publisher Account.</param>
+		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. </param>
 		/// <param name="itemSku">Item SKU to purchase.</param>
 		/// <param name="onSuccess">Called after server response.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
@@ -258,10 +258,10 @@ namespace Xsolla.Catalog
 		/// Creates an order with a specified item, returns unique identifier of the created order and the Pay Station token for the purchase of the specified product by virtual currency. The created order will get a `new` order status.
 		/// </summary>
 		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/item-purchase/purchase-for-vc/).</remarks>
-		/// <param name="projectId">Project ID from your Publisher Account.</param>
+		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. </param>
 		/// <param name="itemSku">Item SKU to purchase.</param>
 		/// <param name="priceSku">Virtual currency SKU.</param>
-		/// <param name="onSuccess">Successful operation callback.</param>
+		/// <param name="onSuccess">Called after server response.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="purchaseParams">Purchase parameters such as <c>country</c>, <c>locale</c> and <c>currency</c>.</param>
 		/// <param name="platform">Publishing platform the user plays on.<br/>
@@ -289,7 +289,7 @@ namespace Xsolla.Catalog
 		/// Create order with specified free item. The created order will get a `done` order status.
 		/// </summary>
 		/// <remarks><remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/promo/free-items/).</remarks>.</remarks>
-		/// <param name="projectId">Project ID from your Publisher Account.</param>
+		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. </param>
 		/// <param name="itemSku">Desired free item SKU.</param>
 		/// <param name="onSuccess">Called after the payment was successfully completed..</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
