@@ -17,7 +17,6 @@ namespace Xsolla.GameKeys
 		/// <summary>
 		/// Gets a games list for building a catalog.
 		/// </summary>
-		/// <see cref="https://developers.xsolla.com/commerce-api/game-keys/catalog/get-games-list/"/>
 		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. </param>
 		/// <param name="onSuccess">Called after server response.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
@@ -37,7 +36,6 @@ namespace Xsolla.GameKeys
 		/// <summary>
 		/// Gets a game for the catalog.
 		/// </summary>
-		/// <see cref="https://developers.xsolla.com/in-game-store-buy-button-api/game-keys/catalog/get-game-by-sku/"/>
 		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. </param>
 		/// <param name="itemSku">Item SKU.</param>
 		/// <param name="onSuccess">Called after server response.</param>
@@ -56,7 +54,6 @@ namespace Xsolla.GameKeys
 		/// <summary>
 		/// Gets a game key for the catalog.
 		/// </summary>
-		/// <see cref="https://developers.xsolla.com/in-game-store-buy-button-api/game-keys/catalog/get-game-key-by-sku/"/>
 		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. </param>
 		/// <param name="itemSku">Item SKU.</param>
 		/// <param name="onSuccess">Called after server response.</param>
@@ -75,7 +72,6 @@ namespace Xsolla.GameKeys
 		/// <summary>
 		/// Gets a games list from the specified group for building a catalog.
 		/// </summary>
-		/// <see cref="https://developers.xsolla.com/in-game-store-buy-button-api/game-keys/catalog/get-games-group/"/>
 		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. </param>
 		/// <param name="groupId">Group external ID.</param>
 		/// <param name="onSuccess">Called after server response.</param>
@@ -96,7 +92,6 @@ namespace Xsolla.GameKeys
 		/// <summary>
 		/// Gets a game key list from the specified group for building a catalog.
 		/// </summary>
-		/// <see cref="https://developers.xsolla.com/in-game-store-buy-button-api/game-keys/catalog/get-game-keys-group/"/>
 		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. </param>
 		/// <param name="groupId">Group external ID.</param>
 		/// <param name="onSuccess">Called after server response.</param>
@@ -117,7 +112,6 @@ namespace Xsolla.GameKeys
 		/// <summary>
 		/// Grants entitlement by a provided game code.
 		/// </summary>
-		/// <see cref="https://developers.xsolla.com/in-game-store-buy-button-api/game-keys/catalog/get-drm-list/"/>
 		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. </param>
 		/// <param name="onSuccess">Called after server response.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
@@ -130,7 +124,6 @@ namespace Xsolla.GameKeys
 		/// <summary>
 		/// Get the list of games owned by the user. The response will contain an array of games owned by a particular user.
 		/// </summary>
-		/// <see cref="https://developers.xsolla.com/in-game-store-buy-button-api/game-keys/entitlement/get-user-games/"/>
 		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. </param>
 		/// <param name="sandbox">What type of entitlements should be returned. If the parameter is set to true, the entitlements received by the user in the sandbox mode only are returned. If the parameter isn't passed or is set to false, the entitlements received by the user in the live mode only are returned.</param>
 		/// <param name="onSuccess">Called after server response.</param>
@@ -150,7 +143,6 @@ namespace Xsolla.GameKeys
 		/// <summary>
 		/// Grants entitlement by a provided game code.
 		/// </summary>
-		/// <see cref="https://developers.xsolla.com/commerce-api/game-keys/entitlement/redeem-game-pin-code/"/>
 		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. </param>
 		/// <param name="gameCode">Game code.</param>
 		/// <param name="sandbox">Redeem game code in the sandbox mode. The option is available for those users who are specified in the list of company users.</param>
