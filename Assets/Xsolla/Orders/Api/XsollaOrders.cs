@@ -16,10 +16,14 @@ namespace Xsolla.Orders
 		/// <summary>
 		/// Opens Pay Station in the browser with a retrieved Pay Station token.
 		/// </summary>
-		/// <see cref="https://developers.xsolla.com/doc/pay-station"/>
+		/// More about the use cases:
+		/// - [Cart purchase](https://developers.xsolla.com/sdk/unity/item-purchase/cart-purchase/)
+		/// - [Purchase in one click](https://developers.xsolla.com/sdk/unity/item-purchase/one-click-purchase/)
+		/// - [Ordering free items](https://developers.xsolla.com/sdk/unity/promo/free-items/#sdk_free_items_order_item_via_cart)
+		///
 		/// <param name="purchaseData">Contains Pay Station token for the purchase.</param>
-		/// <param name="forcePlatformBrowser">Flag indicating whether to force platform browser usage ignoring plug-in settings.</param>
-		/// <param name="onRestrictedPaymentMethod">Restricted payment method was triggered in an in-app browser.</param>
+		/// <param name="forcePlatformBrowser">Whether to force platform browser usage ignoring plug-in settings.</param>
+		/// <param name="onRestrictedPaymentMethod">Restricted payment method was triggered in an built-in browser.</param>
 		/// <seealso cref="BrowserHelper"/>
 		public void OpenPurchaseUi(PurchaseData purchaseData, bool forcePlatformBrowser = false, Action<int> onRestrictedPaymentMethod = null)
 		{
@@ -34,14 +38,13 @@ namespace Xsolla.Orders
 		/// <summary>
 		/// Returns status of the specified order.
 		/// </summary>
-		/// <remarks> Swagger method name:<c>Get order</c>.</remarks>
-		/// <see cref="https://developers.xsolla.com/store-api/order/get-order"/>
-		/// <param name="projectId">Project ID from your Publisher Account.</param>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/item-purchase/track-order/).</remarks>
+		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. </param>
 		/// <param name="orderId">Unique order identifier.</param>
-		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
-		/// <seealso cref="ItemPurchaseForVirtualCurrency"/>
-		/// <seealso cref="CartPurchase"/>
+		/// <param name="onSuccess">Called after server response.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
+		/// <seealso cref="PurchaseItemForVirtualCurrency"/>
+		/// <seealso cref="PurchaseCart"/>
 		public void CheckOrderStatus(string projectId, int orderId, [NotNull] Action<OrderStatus> onSuccess, [CanBeNull] Action<Error> onError)
 		{
 			var url = string.Format(URL_ORDER_GET_STATUS, projectId, orderId);
@@ -53,18 +56,17 @@ namespace Xsolla.Orders
 		/// <summary>
 		/// Creates a new payment token.
 		/// </summary>
-		/// <remarks> Swagger method name:<c>Create payment token</c>.</remarks>
-		/// <see cref="https://developers.xsolla.com/commerce-api/cart-payment/payment/create-payment"/>
-		/// <param name="projectId">Project ID from your Publisher Account.</param>
+		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. </param>
 		/// <param name="amount">The total amount to be paid by the user.</param>
-		/// <param name="currency">Default purchase currency. Three-letter code per ISO 4217.</param>
+		/// <param name="currency">Default purchase currency. Three-letter code per [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) (USD by default).</param>
 		/// <param name="description">Purchase description. Used to describe the purchase if there are no specific items.</param>
-		/// <param name="locale">:Interface language. Two-letter lowercase language code.</param>
+		/// <param name="locale">Interface language. <br/>
+		/// The following languages are supported: Arabic (`ar`), Bulgarian (`bg`), Czech (`cs`), German (`de`), Spanish (`es`), French (`fr`), Hebrew (`he`), Italian (`it`), Japanese (`ja`), Korean (`ko`), Polish (`pl`), Portuguese (`pt`), Romanian (`ro`), Russian (`ru`), Thai (`th`), Turkish (`tr`), Vietnamese (`vi`), Chinese Simplified (`cn`), Chinese Traditional (`tw`), English (`en`, default).</param>
 		/// <param name="externalID">Transaction's external ID.</param>
 		/// <param name="paymentMethod">Payment method ID.</param>
 		/// <param name="customParameters">Your custom parameters represented as a valid JSON set of key-value pairs.</param>
-		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onSuccess">Called after the successful item purchase.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		public void CreatePaymentToken(
 			string projectId,
 			float amount,
@@ -93,18 +95,17 @@ namespace Xsolla.Orders
 		/// <summary>
 		/// Creates a new payment token.
 		/// </summary>
-		/// <remarks> Swagger method name:<c>Create payment token</c>.</remarks>
-		/// <see cref="https://developers.xsolla.com/commerce-api/cart-payment/payment/create-payment"/>
-		/// <param name="projectId">Project ID from your Publisher Account.</param>
+		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. </param>
 		/// <param name="amount">The total amount to be paid by the user.</param>
-		/// <param name="currency">Default purchase currency. Three-letter code per ISO 4217.</param>
+		/// <param name="currency">Default purchase currency. Three-letter code per [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) (USD by deafault).</param>
 		/// <param name="items">Used to describe a purchase if it includes a list of specific items.</param>
-		/// <param name="locale">:Interface language. Two-letter lowercase language code.</param>
+		/// <param name="locale">Interface language. <br/>
+		/// The following languages are supported: Arabic (`ar`), Bulgarian (`bg`), Czech (`cs`), German (`de`), Spanish (`es`), French (`fr`), Hebrew (`he`), Italian (`it`), Japanese (`ja`), Korean (`ko`), Polish (`pl`), Portuguese (`pt`), Romanian (`ro`), Russian (`ru`), Thai (`th`), Turkish (`tr`), Vietnamese (`vi`), Chinese Simplified (`cn`), Chinese Traditional (`tw`), English (`en`, default).</param>
 		/// <param name="externalID">Transaction's external ID.</param>
 		/// <param name="paymentMethod">Payment method ID.</param>
 		/// <param name="customParameters">Your custom parameters represented as a valid JSON set of key-value pairs.</param>
-		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onSuccess">Called after the successful item purchase.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		public void CreatePaymentToken(
 			string projectId,
 			float amount,

@@ -21,16 +21,18 @@ namespace Xsolla.Subscriptions
 		/// <summary>
 		/// Returns a list of all plans, including plans purchased by the user while promotions are active.
 		/// </summary>
-		/// <see cref="https://subscriptions.xsolla.com/api/doc/public#/User%20Plans/get_xsolla_subscription_apipublic_getsubscriptionsplans"/>
-		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. **Required**.</param>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/subscriptions/subscriptions-purchase/).</remarks>
+		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project.</param>
 		/// <param name="planId">Array of subscription plan IDs. Plan ID can be found in the URL of the subscription details page in Publisher Account (https://publisher.xsolla.com/{merchant_id}/projects/{project_id}/subscriptions/plans/{merplan_id}).</param>
-		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onSuccess">Called after public plans have been successfully recieved.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="planExternalId">List of subscription plan external IDs (32 characters per ID). Plan external ID can be found in Publisher Account in the **Subscriptions > Subscription plans** section next to the plan name.</param>
 		/// <param name="limit">Limit for the number of elements on the page (15 elements are displayed by default).</param>
 		/// <param name="offset">Number of elements from which the list is generated (the count starts from 0).</param>
-		/// <param name="locale">Language of the UI. By default, it is determined by the user's IP address. Can be enforced by using an ISO 639-1 code.</param>
-		/// <param name="country">User's country. Affects the choice of locale and currency. By default, it is determined by the user's IP address.</param>
+		/// <param name="locale">Language of the UI.<br/>
+		/// The following languages are supported: Arabic (`ar`), Bulgarian (`bg`), Czech (`cs`), German (`de`), Spanish (`es`), French (`fr`), Hebrew (`he`), Italian (`it`), Japanese (`ja`), Korean (`ko`), Polish (`pl`), Portuguese (`pt`), Romanian (`ro`), Russian (`ru`), Thai (`th`), Turkish (`tr`), Vietnamese (`vi`), Chinese Simplified (`cn`), Chinese Traditional (`tw`), English (`en`, default).<br/>
+		/// By default, it is determined by the user's IP address.</param>
+		/// <param name="country">User's country. Affects the choice of locale and currency. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). By default, it is determined by the user's IP address.</param>
 		public void GetSubscriptionPublicPlans(string projectId, Action<PlanItems> onSuccess, Action<Error> onError = null, int[] planId = null, string[] planExternalId = null, int limit = 50, int offset = 0, string locale = null, string country = null)
 		{
 			var url = string.Format(URL_GET_PUBLIC_PLANS, projectId);
@@ -43,13 +45,15 @@ namespace Xsolla.Subscriptions
 		/// <summary>
 		/// Returns a list of active recurrent subscriptions that have the status `active`, `non renewing`, and `pause`.
 		/// </summary>
-		/// <see cref="https://subscriptions.xsolla.com/api/doc/user#/Subscriptions/get_xsolla_subscription_apiuser_getuseractivesubscriptions"/>
-		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. **Required**.</param>
-		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/subscriptions/subscription-management/).</remarks>
+		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project.</param>
+		/// <param name="onSuccess">Called after the list pf subscriptions has been successfully recieved.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="limit">Limit for the number of elements on the page (15 elements are displayed by default).</param>
 		/// <param name="offset">Number of elements from which the list is generated (the count starts from 0).</param>
-		/// <param name="locale">Language of the UI. By default, it is determined by the user's IP address. Can be enforced by using an ISO 639-1 code.</param>
+		/// <param name="locale">Language of the UI.<br/>
+		/// The following languages are supported: Arabic (`ar`), Bulgarian (`bg`), Czech (`cs`), German (`de`), Spanish (`es`), French (`fr`), Hebrew (`he`), Italian (`it`), Japanese (`ja`), Korean (`ko`), Polish (`pl`), Portuguese (`pt`), Romanian (`ro`), Russian (`ru`), Thai (`th`), Turkish (`tr`), Vietnamese (`vi`), Chinese Simplified (`cn`), Chinese Traditional (`tw`), English (`en`, default).<br/>
+		/// By default, it is determined by the user's IP address.</param>
 		public void GetSubscriptions(string projectId, Action<SubscriptionItems> onSuccess, Action<Error> onError = null, int limit = 50, int offset = 0, string locale = null)
 		{
 			var url = string.Format(URL_GET_SUBSCRIPTIONS, projectId);
@@ -58,14 +62,16 @@ namespace Xsolla.Subscriptions
 		}
 
 		/// <summary>
-		/// Returns information about a subscription by its ID. Subscription can be in any status.
+		/// Returns information about a subscription by its ID. Subscription can be have any status.
 		/// </summary>
-		/// <see cref="https://subscriptions.xsolla.com/api/doc/user#/Subscriptions/get_xsolla_subscription_apiuser_getusersubscription"/>
-		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. **Required**.</param>
-		/// <param name="subscriptionId">Subscription ID. **Required**.</param>
-		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
-		/// <param name="locale">Language of the UI. By default, it is determined by the user's IP address. Can be enforced by using an ISO 639-1 code.</param>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/subscriptions/subscription-management/).</remarks>
+		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. </param>
+		/// <param name="subscriptionId">Subscription ID.</param>
+		/// <param name="onSuccess">Called after subscription data have been successfully recieved.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
+		/// <param name="locale">Language of the UI.<br/>
+		/// The following languages are supported: Arabic (`ar`), Bulgarian (`bg`), Czech (`cs`), German (`de`), Spanish (`es`), French (`fr`), Hebrew (`he`), Italian (`it`), Japanese (`ja`), Korean (`ko`), Polish (`pl`), Portuguese (`pt`), Romanian (`ro`), Russian (`ru`), Thai (`th`), Turkish (`tr`), Vietnamese (`vi`), Chinese Simplified (`cn`), Chinese Traditional (`tw`), English (`en`, default).<br/>
+		/// By default, it is determined by the user's IP address.</param>
 		public void GetSubscriptionDetails(string projectId, int subscriptionId, Action<SubscriptionDetails> onSuccess, Action<Error> onError = null, string locale = null)
 		{
 			var url = string.Format(URL_GET_SUBSCRIPTION_DETAILS, projectId, subscriptionId);
@@ -74,13 +80,13 @@ namespace Xsolla.Subscriptions
 		}
 
 		/// <summary>
-		/// Changes a regular subscription status to non_renewing (subscription is automatically canceled after expiration).
+		/// Changes a regular subscription status to `non_renewing` (subscription is automatically canceled after expiration).
 		/// </summary>
-		/// <see cref="https://subscriptions.xsolla.com/api/doc/user#/Subscriptions/put_xsolla_subscription_apiuser_cancelusersubscription"/>
-		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. **Required**.</param>
-		/// <param name="subscriptionId">Subscription ID. **Required**.</param>
-		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/subscriptions/subscription-management/).</remarks>
+		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project.</param>
+		/// <param name="subscriptionId">Subscription ID.</param>
+		/// <param name="onSuccess">Called after successful subscription cancelling.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		public void CancelSubscription(string projectId, int subscriptionId, Action onSuccess, Action<Error> onError = null)
 		{
 			var url = string.Format(URL_CANCEL_SUBSCRIPTION, projectId, subscriptionId);
@@ -88,14 +94,14 @@ namespace Xsolla.Subscriptions
 		}
 
 		/// <summary>
-		/// Returns Pay Station URL for the subscription renewal.
+		/// Returns the URL of the renewal interface for the selected subscription.
 		/// </summary>
-		/// <see cref="https://subscriptions.xsolla.com/api/doc/user#/Subscriptions/post_xsolla_subscription_apiuser_renewusersubscription"/>
-		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. **Required**.</param>
-		/// <param name="subscriptionId">Subscription ID. **Required**.</param>
-		/// <param name="paymentSettings">Settings.</param>
-		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/subscriptions/subscription-management/).</remarks>
+		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project.</param>
+		/// <param name="subscriptionId">Subscription ID. </param>
+		/// <param name="paymentSettings">Pay Station UI settings.</param>
+		/// <param name="onSuccess">Called after the URL has been successfully recieved.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		public void GetSubscriptionRenewalUrl(string projectId, int subscriptionId, PaymentSettings settings, Action<PaymentLink> onSuccess, Action<Error> onError = null)
 		{
 			var url = string.Format(URL_GET_RENEWAL_URL, projectId, subscriptionId);
@@ -111,13 +117,13 @@ namespace Xsolla.Subscriptions
 		/// <summary>
 		/// Returns Pay Station URL for the subscription purchase.
 		/// </summary>
-		/// <see cref="https://subscriptions.xsolla.com/api/doc/user#/Subscriptions/post_xsolla_subscription_apiuser_buysubscription"/>
-		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. **Required**.</param>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/subscriptions/subscriptions-purchase/).</remarks>
+		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. </param>
 		/// <param name="planExternalId">List of subscription plan external IDs (32 characters per ID). Plan external ID can be found in Publisher Account in the **Subscriptions > Subscription plans** section next to the plan name.</param>
-		/// <param name="paymentSettings">Settings.</param>
-		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
-		/// <param name="country">User's country. Affects the choice of locale and currency. By default, it is determined by the user's IP address.</param>
+		/// <param name="paymentSettings">Pay Station UI settings.</param>
+		/// <param name="onSuccess">Called after the URL has been successfully recieved.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
+		/// <param name="country">User's country. Affects the choice of locale and currency. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). By default, it is determined by the user's IP address.</param>
 		public void GetSubscriptionPurchaseUrl(string projectId, string planExternalId, PaymentSettings settings, Action<PaymentLink> onSuccess, Action<Error> onError = null, string country = null)
 		{
 			var url = string.Format(URL_GET_PURCHASE_URL, projectId);
@@ -133,14 +139,14 @@ namespace Xsolla.Subscriptions
 		}
 
 		/// <summary>
-		/// Returns Pay Station URL for the subscription management.
+		/// Returns the URL of the management interface for the selected subscription.
 		/// </summary>
-		/// <see cref="https://subscriptions.xsolla.com/api/doc/user#/Subscriptions/post_xsolla_subscription_apiuser_getmanagesubscriptionslink"/>
-		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. **Required**.</param>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/subscriptions/subscription-management/).</remarks>
+		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project.</param>
 		/// <param name="paymentSettings">Settings.</param>
-		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
-		/// <param name="country">User's country. Affects the choice of locale and currency. By default, it is determined by the user's IP address.</param>
+		/// <param name="onSuccess">Called after the URL jas beeb successfully revieved.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
+		/// <param name="country">User's country. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Affects the choice of locale and currency. By default, it is determined by the user's IP address.</param>
 		public void GetSubscriptionManagementUrl(string projectId, PaymentSettings settings, Action<PaymentLink> onSuccess, Action<Error> onError = null, string country = null)
 		{
 			var url = string.Format(URL_GET_MANAGEMENT_URL, projectId);
@@ -156,18 +162,20 @@ namespace Xsolla.Subscriptions
 		}
 
 		/// <summary>
-		/// Returns a list of all plans, including plans purchased by the user while promotions are active.
+		/// Returns a list of plans available to authorized users, including plans purchased by the user while promotions are active.
 		/// </summary>
-		/// <see cref="https://subscriptions.xsolla.com/api/doc/public#/User%20Plans/get_xsolla_subscription_apipublic_getsubscriptionsplans"/>
-		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. **Required**.</param>
-		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/subscriptions/subscriptions-purchase/).</remarks>
+		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project.</param>
+		/// <param name="onSuccess">Called after a list of plans has been successfully recieved.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="planId">Array of subscription plan IDs. Plan ID can be found in the URL of the subscription details page in Publisher Account (https://publisher.xsolla.com/{merchant_id}/projects/{project_id}/subscriptions/plans/{merplan_id}).</param>
 		/// <param name="planExternalId">List of subscription plan external IDs (32 characters per ID). Plan external ID can be found in Publisher Account in the **Subscriptions > Subscription plans** section next to the plan name.</param>
 		/// <param name="limit">Limit for the number of elements on the page (15 elements are displayed by default).</param>
 		/// <param name="offset">Number of elements from which the list is generated (the count starts from 0).</param>
-		/// <param name="locale">Language of the UI. By default, it is determined by the user's IP address. Can be enforced by using an ISO 639-1 code.</param>
-		/// <param name="country">User's country. Affects the choice of locale and currency. By default, it is determined by the user's IP address.</param>
+		/// <param name="locale">Language of the UI.<br/>
+		/// The following languages are supported: Arabic (`ar`), Bulgarian (`bg`), Czech (`cs`), German (`de`), Spanish (`es`), French (`fr`), Hebrew (`he`), Italian (`it`), Japanese (`ja`), Korean (`ko`), Polish (`pl`), Portuguese (`pt`), Romanian (`ro`), Russian (`ru`), Thai (`th`), Turkish (`tr`), Vietnamese (`vi`), Chinese Simplified (`cn`), Chinese Traditional (`tw`), English (`en`, default).<bt/>
+		/// By default, it is determined by the user's IP address.</param>
+		/// <param name="country">User's country. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Affects the choice of locale and currency. By default, it is determined by the user's IP address.</param>
 		public void GetSubscriptionPlans(string projectId, Action<PlanItems> onSuccess, Action<Error> onError = null, int[] planId = null, string[] planExternalId = null, int limit = 50, int offset = 0, string locale = null, string country = null)
 		{
 			var url = string.Format(URL_GET_PLANS, projectId);

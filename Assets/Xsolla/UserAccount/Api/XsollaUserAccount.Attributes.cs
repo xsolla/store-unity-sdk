@@ -12,17 +12,16 @@ namespace Xsolla.UserAccount
 		private const string URL_USER_UPDATE_ATTRIBUTES = "https://login.xsolla.com/api/attributes/users/me/update";
 
 		/// <summary>
-		/// Gets a list of particular user’s attributes.
+		/// Returns a list of particular user’s attributes with their values and descriptions. Returns only user-editable attributes.
 		/// </summary>
-		/// <remarks> Swagger method name:<c>Get User's Attributes from Client</c>.</remarks>
-		/// <see cref="https://developers.xsolla.com/api/login/operation/get-users-attributes-from-client/"/>
-		/// <param name="token">JWT from Xsolla Login.</param>
-		/// <param name="publisherProjectId">Project ID from Publisher Account which you want to get attributes for. If you do not specify it, it returns attributes without the value of this parameter.</param>
-		/// <param name="attributeType">Type of attributes to get.</param>
-		/// <param name="keys">List of attributes' keys which you want to get. If you do not specify them, it returns all user's attributes.</param>
-		/// <param name="userId">User ID which attributes you want to get. Returns only attributes with the `public` value of the `permission` parameter. If you do not specify it or put your user ID there, it returns only your attributes with any value for the `permission` parameter.</param>
-		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/user-account-and-attributes/user-attributes/).</remarks>
+		/// <param name="token">User authorization token.</param>
+		/// <param name="publisherProjectId">Project ID from Publisher Account which you want to get attributes for. If you do not specify it, it returns attributes that were created without this parameter.</param>
+		/// <param name="attributeType">Type of attributes to get. Can be `Readonly` or `Custom`.</param>
+		/// <param name="keys">List of attributes’ keys which you want to get. If not specified, the method returns all user’s attributes.</param>
+		/// <param name="userId">Identifier of a user whose public attributes should be requested. If not specified, the method returns attrubutes for the current user.</param>
+		/// <param name="onSuccess">Called after user attributes were successfully received.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <seealso cref="UpdateUserAttributes"/>
 		/// <seealso cref="RemoveUserAttributes"/>
 		public void GetUserAttributes(string token, string publisherProjectId, UserAttributeType attributeType, [CanBeNull] List<string> keys, [CanBeNull] string userId, [NotNull] Action<List<UserAttribute>> onSuccess, [CanBeNull] Action<Error> onError)
@@ -52,15 +51,14 @@ namespace Xsolla.UserAccount
 		}
 
 		/// <summary>
-		/// Updates and creates particular user’s attributes.
+		/// Updates the values of user attributes with the specified IDs. The method can be used to create or remove attributes. Changes are made on the user data storage side (server side).
 		/// </summary>
-		/// <remarks> Swagger method name:<c>Update User's Attributes from Client</c>.</remarks>
-		/// <see cref="https://developers.xsolla.com/login-api/attributes/update-users-attributes-from-client"/>
-		/// <param name="token">JWT from Xsolla Login.</param>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/user-account-and-attributes/user-attributes/).</remarks>
+		/// <param name="token">User authorization token.</param>
 		/// <param name="publisherProjectId">Project ID from Publisher Account which you want to update the value of specified attributes for. If you do not specify it, it updates attributes that are general to all games only.</param>
 		/// <param name="attributes">List of attributes of the specified game. To add attribute which does not exist, set this attribute to the `key` parameter. To update `value` of the attribute, specify its `key` parameter and set the new `value`. You can change several attributes at a time.</param>
-		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onSuccess">Called after successful user attributes modification on the server side.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <seealso cref="GetUserAttributes"/>
 		/// <seealso cref="RemoveUserAttributes"/>
 		public void UpdateUserAttributes(string token, string publisherProjectId, List<UserAttribute> attributes, Action onSuccess, Action<Error> onError)
@@ -78,15 +76,14 @@ namespace Xsolla.UserAccount
 		}
 
 		/// <summary>
-		/// Removes particular user's attributes.
+		/// Removes user attributes with the specified IDs. Changes are made on the user data storage side (server side).
 		/// </summary>
-		/// <remarks> Swagger method name:<c>Update User's Attributes from Client</c>.</remarks>
-		/// <see cref="https://developers.xsolla.com/login-api/attributes/update-users-attributes-from-client"/>
-		/// <param name="token">JWT from Xsolla Login.</param>
-		/// <param name="publisherProjectId">Project ID from Publisher Account which you want to update the value of specified attributes for. If you do not specify it, it updates attributes that are general to all games only.</param>
-		/// <param name="removingKeys">List of attributes which you want to delete. If you specify the same attribute in `attributes` parameter, it will not be deleted.</param>
-		/// <param name="onSuccess">Success operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/user-account-and-attributes/user-attributes/).</remarks>
+		/// <param name="token">User authorization token.</param>
+		/// <param name="publisherProjectId">Project ID from Publisher Account which you want to get attributes for. If you do not specify it, it returns attributes that were created without this parameter.</param>
+		/// <param name="removingKeys">List of attribute keys for removal.</param>
+		/// <param name="onSuccess">Called after successful user attributes removal on the server side.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <seealso cref="GetUserAttributes"/>
 		/// <seealso cref="UpdateUserAttributes"/>
 		public void RemoveUserAttributes(string token, string publisherProjectId, List<string> removingKeys, Action onSuccess, Action<Error> onError)

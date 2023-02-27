@@ -18,15 +18,14 @@ namespace Xsolla.UserAccount
 		/// <summary>
 		/// Gets a list of user’s friends from a social provider.
 		/// </summary>
-		/// <remarks> Swagger method name:<c>Get Social Account Friends</c>.</remarks>
-		/// <see cref="https://developers.xsolla.com/login-api/methods/users/get-users-friends/"/>.
-		/// <param name="token">JWT from Xsolla Login.</param>
-		/// <param name="platform">Name of the chosen social provider which you can enable in your Publisher Account > your Login project > Social connections. If you do not specify it, the call gets friends from all social providers.</param>
-		/// <param name="offset">Number of the elements from which the list is generated. Default: 0.</param>
-		/// <param name="limit">Maximum number of friends that are returned at a time. Default: 500.</param>
-		/// <param name="withXlUid">Shows whether the social friends are from your game. Default: false.</param>
-		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="token">User authorization token.</param>
+		/// <param name="platform">Name of a social network. Provider must be connected to Login in Publisher Account.<br/>
+		/// Can be `amazon`, `apple`, `baidu`, `battlenet`, `discord`, `facebook`, `github`, `google`, `kakao`, `linkedin`, `mailru`, `microsoft`, `msn`, `naver`, `ok`, `paypal`, `psn`, `qq`, `reddit`, `steam`, `twitch`, `twitter`, `vimeo`, `vk`, `wechat`, `weibo`, `yahoo`, `yandex`, `youtube`, or `xbox`.</param>
+		/// <param name="offset">Number of the elements from which the list is generated. </param>
+		/// <param name="limit">Maximum number of friends that are returned at a time.</param>
+		/// <param name="withXlUid">Shows whether the social friends are from your game.</param>
+		/// <param name="onSuccess">Called after user friends data was successfully received.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		public void GetUserSocialFriends(string token, SocialProvider platform = SocialProvider.None, uint offset = 0, uint limit = 500, bool withXlUid = false, Action<UserSocialFriends> onSuccess = null, Action<Error> onError = null)
 		{
 			var withUidFlag = withXlUid ? "true" : "false";
@@ -46,13 +45,12 @@ namespace Xsolla.UserAccount
 		/// Begins data processing to update a list of user’s friends from a social provider.
 		/// Note that there may be a delay in data processing because of the Xsolla Login server or provider server high loads.
 		/// </summary>
-		/// <remarks> Swagger method name:<c>Update Social Account Friends</c>.</remarks>
-		/// <see cref="https://developers.xsolla.com/login-api/methods/users/update-users-friends/"/>.
-		/// <param name="token">JWT from Xsolla Login.</param>
-		/// <param name="platform">Name of the chosen social provider which you can enable in your Publisher Account > your Login project > Social connections.
+		/// <param name="token">User authorization token.</param>
+		/// <param name="platform">Name of a social network. Provider must be connected to Login in Publisher Account.<br/>
+		/// Can be `amazon`, `apple`, `baidu`, `battlenet`, `discord`, `facebook`, `github`, `google`, `kakao`, `linkedin`, `mailru`, `microsoft`, `msn`, `naver`, `ok`, `paypal`, `psn`, `qq`, `reddit`, `steam`, `twitch`, `twitter`, `vimeo`, `vk`, `wechat`, `weibo`, `yahoo`, `yandex`, `youtube`, or `xbox`.<br/>
 		/// If you do not specify it, the call gets friends from all social providers.</param>
-		/// <param name="onSuccess">Success operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onSuccess">Called after user friends were successfully received.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		public void UpdateUserSocialFriends(string token, SocialProvider platform = SocialProvider.None, Action onSuccess = null, Action<Error> onError = null)
 		{
 			var providerUrlAddition = platform != SocialProvider.None ? $"?platform={platform.GetParameter()}" : string.Empty;
@@ -70,16 +68,14 @@ namespace Xsolla.UserAccount
 		/// <summary>
 		/// Gets a list of users added as friends of the authenticated user.
 		/// </summary>
-		/// <remarks> Swagger method name:<c>Get Friends</c>.</remarks>
-		/// <see cref="https://developers.xsolla.com/user-account-api/user-friends/get-friends"/>.
-		/// <param name="token">JWT from Xsolla Login.</param>
+		/// <param name="token">User authorization token.</param>
 		/// <param name="type">Friends type.</param>
 		/// <param name="sortBy">Condition for sorting the users.</param>
 		/// <param name="sortOrder">Condition for sorting the list of users.</param>
 		/// <param name="after">Parameter that is used for API pagination.</param>
 		/// <param name="limit">Maximum number of users that are returned at a time. Default: 20.</param>
-		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onSuccess">Called after user friends data was successfully received.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		public void GetUserFriends(
 			string token,
 			FriendsSearchType type,
@@ -156,15 +152,13 @@ namespace Xsolla.UserAccount
 		}
 
 		/// <summary>
-		/// Updates the friend list of the authenticated user.
+		/// Modifies relationships with the specified user.
 		/// </summary>
-		/// <remarks> Swagger method name:<c>Update User's Friends</c>.</remarks>
-		/// <see cref="https://developers.xsolla.com/login-api/user-account/managed-by-client/user-friends/update-users-friends"/>.
-		/// <param name="token">JWT from Xsolla Login.</param>
+		/// <param name="token">User authorization token.</param>
 		/// <param name="action">Type of the action.</param>
-		/// <param name="user">ID of the user to change relationship with.</param>
-		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="user">Identifier of the user to change relationship with.</param>
+		/// <param name="onSuccess">Called after successful user friends data modification.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		public void UpdateUserFriends(string token, FriendAction action, string user, Action onSuccess, Action<Error> onError)
 		{
 			var request = new UserFriendUpdate
