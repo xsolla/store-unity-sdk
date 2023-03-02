@@ -60,7 +60,7 @@ namespace Xsolla.Core
 				redirect_conditions = RedirectConditionsType.Any.ToString().ToLowerInvariant(),
 				delay = 0,
 				status_for_manual_redirection = StatusForManualRedirectionType.None.ToString().ToLowerInvariant(),
-				redirect_button_caption = string.Empty
+				redirect_button_caption = "Return to game"
 			};
 		}
 
