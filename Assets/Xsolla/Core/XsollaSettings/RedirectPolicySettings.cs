@@ -84,6 +84,7 @@ namespace Xsolla.Core
 				case StatusForManualRedirectionType.Vc:                   return "vc";
 				case StatusForManualRedirectionType.Successful:           return "successful";
 				case StatusForManualRedirectionType.SuccessfulOrCanceled: return "successful_or_canceled";
+				case StatusForManualRedirectionType.Any:                  return "any";
 				default:                                                  return "none";
 			}
 		}
@@ -101,7 +102,8 @@ namespace Xsolla.Core
 			None,
 			Vc,
 			Successful,
-			SuccessfulOrCanceled
+			SuccessfulOrCanceled,
+			Any
 		}
 	}
 }
