@@ -1,7 +1,8 @@
+#if UNITY_IOS
 using System;
 using System.Runtime.InteropServices;
 
-namespace Xsolla.Core.iOS
+namespace Xsolla.Core
 {
 	public static class IosUtils
 	{
@@ -23,3 +24,4 @@ namespace Xsolla.Core.iOS
 		}
 	}
 }
+#endif

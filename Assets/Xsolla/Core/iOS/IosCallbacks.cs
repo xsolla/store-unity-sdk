@@ -1,7 +1,8 @@
+#if UNITY_IOS
 using System;
 using AOT;
 
-namespace Xsolla.Core.iOS
+namespace Xsolla.Core
 {
 	public static class IosCallbacks
 	{
@@ -40,3 +41,4 @@ namespace Xsolla.Core.iOS
 		}
 	}
 }
+#endif

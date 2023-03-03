@@ -2,7 +2,6 @@
 using System;
 using System.Runtime.InteropServices;
 using UnityEngine;
-using Xsolla.Core.iOS;
 
 namespace Xsolla.Core
 {
