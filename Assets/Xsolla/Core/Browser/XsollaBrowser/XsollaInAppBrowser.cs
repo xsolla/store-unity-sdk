@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using Xsolla.Core.Browser;
 
 namespace Xsolla.Core.Browser
 {
@@ -11,7 +10,7 @@ namespace Xsolla.Core.Browser
 #endif
 	{
 #if (UNITY_EDITOR || UNITY_STANDALONE)
-		[SerializeField] private GameObject BrowserPrefab = default;
+		[SerializeField] private GameObject BrowserPrefab;
 		private GameObject BrowserObject;
 		private SinglePageBrowser2D SinglePageBrowser;
 		private XsollaBrowser XsollaBrowser;
@@ -19,7 +18,7 @@ namespace Xsolla.Core.Browser
 		public event Action OpenEvent;
 		public event Action CloseEvent;
 		public event Action<string> UrlChangeEvent;
-		
+
 		public event Action<string, Action> AlertDialogEvent;
 		public event Action<string, Action, Action> ConfirmDialogEvent;
 
@@ -38,13 +37,13 @@ namespace Xsolla.Core.Browser
 				SinglePageBrowser.AlertDialogEvent -= OnAlertDialogEvent;
 				SinglePageBrowser.ConfirmDialogEvent -= OnConfirmDialogEvent;
 			}
-			
+
 			if (XsollaBrowser && XsollaBrowser.Navigate != null)
 				XsollaBrowser.Navigate.UrlChangedEvent -= OnUrlChanged;
-			
+
 			if (BrowserObject)
 				Destroy(BrowserObject, delay);
-			
+
 			CloseEvent?.Invoke();
 		}
 
@@ -78,10 +77,7 @@ namespace Xsolla.Core.Browser
 		public void UpdateSize(int width, int height)
 		{
 			if (IsOpened)
-			{
-				SinglePageBrowser.SetViewport(new Vector2(width, height));
-				SinglePageBrowser.GetComponent<Display2DBehaviour>().StartRedraw(width, height);
-			}
+				SinglePageBrowser.SetViewport(new Vector2Int(width, height));
 		}
 
 		private void CreateBrowser()
@@ -94,16 +90,16 @@ namespace Xsolla.Core.Browser
 			}
 
 			BrowserObject = Instantiate(BrowserPrefab, canvas.transform);
-			
+
 			SinglePageBrowser = BrowserObject.GetComponentInChildren<SinglePageBrowser2D>();
 			SinglePageBrowser.BrowserClosedEvent += OnBrowserClosed;
 			SinglePageBrowser.AlertDialogEvent += OnAlertDialogEvent;
 			SinglePageBrowser.ConfirmDialogEvent += OnConfirmDialogEvent;
-			
+
 			XsollaBrowser = BrowserObject.GetComponentInChildren<XsollaBrowser>();
 			XsollaBrowser.Navigate.UrlChangedEvent += OnUrlChanged;
 		}
-		
+
 		private void OnBrowserClosed()
 		{
 			CloseEvent?.Invoke();
@@ -113,12 +109,12 @@ namespace Xsolla.Core.Browser
 		{
 			UrlChangeEvent?.Invoke(url);
 		}
-		
+
 		private void OnAlertDialogEvent(string message, Action acceptAction)
 		{
 			AlertDialogEvent?.Invoke(message, acceptAction);
 		}
-		
+
 		private void OnConfirmDialogEvent(string message, Action acceptAction, Action cancelAction)
 		{
 			ConfirmDialogEvent?.Invoke(message, acceptAction, cancelAction);

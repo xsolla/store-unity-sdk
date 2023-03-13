@@ -6,36 +6,33 @@ using UnityEngine.UI;
 
 namespace Xsolla.Core.Browser
 {
-	[RequireComponent(typeof(XsollaBrowser))]
-	[RequireComponent(typeof(Image))]
 	public class Display2DBehaviour : MonoBehaviour
 	{
-		private IXsollaBrowserRender render;
-		private Canvas canvas;
-		private RectTransform canvasTransform;
-		private Image image;
-		
+		private IXsollaBrowserRender xsollaRender;
+		private RawImage renderImage;
+
 		public Vector2Int CurrentRenderSize { get; private set; }
 
 		public event Action<int, int> ViewportChangedEvent;
 		public event Action RedrawFrameCompleteEvent;
 
-		private void Awake()
+		private IEnumerator Start()
 		{
-			canvas = GetComponentInParent<Canvas>();
-			if (canvas == null)
+			if (!GetComponentInParent<Canvas>())
 			{
-				Debug.LogAssertion("Canvas not found. This browser for 2D project.");
+				Debug.LogError("Canvas not found. This browser for 2D project.");
 				Destroy(gameObject);
-				return;
+				yield break;
 			}
 
-			canvasTransform = canvas.transform as RectTransform;
+			renderImage = gameObject.GetComponent<RawImage>();
+			SetOpacity(0);
 
-			image = gameObject.GetComponent<Image>();
-			SetOpacity(0.0f);
+			yield return new WaitWhile(() => !GetComponent<XsollaBrowser>());
+			var xsollaBrowser = GetComponent<XsollaBrowser>();
 
-			StartCoroutine(InitializeCoroutine());
+			yield return new WaitWhile(() => xsollaBrowser.Render == null);
+			xsollaRender = xsollaBrowser.Render;
 		}
 
 		private void OnDestroy()
@@ -43,52 +40,34 @@ namespace Xsolla.Core.Browser
 			StopRedraw();
 		}
 
-		private void SetOpacity(float opacity)
-		{
-			if (image == null)
-				return;
-
-			var color = image.color;
-			color.a = opacity;
-			image.color = color;
-		}
-
 		public void StartRedraw(int width, int height)
 		{
-			if (render == null)
+			if (xsollaRender == null)
 				return;
 
 			StopRedraw();
-
-			var canvasSize = canvasTransform.rect.size;
-			var clampedSize = new Vector2Int(
-				Mathf.Min(width, (int) canvasSize.x),
-				Mathf.Min(height, (int) canvasSize.y)
-			);
-
-			if (CurrentRenderSize != clampedSize)
-				render.SetResolution(width, height, ViewportCallback);
-			else
-				StartCoroutine(RedrawCoroutine());
-		}
-
-		private IEnumerator InitializeCoroutine()
-		{
-			yield return new WaitWhile(() => GetComponent<XsollaBrowser>() == null);
-			IXsollaBrowser xsollaBrowser = GetComponent<XsollaBrowser>();
-			yield return new WaitWhile(() => xsollaBrowser.Render == null);
-			render = xsollaBrowser.Render;
+			xsollaRender.SetResolution(width, height, OnRenderResolutionChanged);
 		}
 
 		private void StopRedraw()
 		{
-			SetOpacity(0.0f);
+			SetOpacity(0);
 
-			if (render != null)
+			if (xsollaRender != null)
 				StopAllCoroutines();
 		}
 
-		private void ViewportCallback(int width, int height)
+		private void SetOpacity(float opacity)
+		{
+			if (renderImage == null)
+				return;
+
+			var color = renderImage.color;
+			color.a = opacity;
+			renderImage.color = color;
+		}
+
+		private void OnRenderResolutionChanged(int width, int height)
 		{
 			CurrentRenderSize = new Vector2Int(width, height);
 			ViewportChangedEvent?.Invoke(width, height);
@@ -99,22 +78,20 @@ namespace Xsolla.Core.Browser
 		{
 			while (enabled)
 			{
-				yield return ActionExtensions.WaitMethod<Sprite>(render.To, sprite =>
-				{
-					ApplySpriteToImage(sprite);
-					RedrawFrameCompleteEvent?.Invoke();
-				});
+				yield return ActionExtensions.WaitMethod<Texture2D>(
+					xsollaRender.To,
+					texture =>
+					{
+						if (renderImage != null && texture != null)
+						{
+							SetOpacity(1.0f);
+							renderImage.texture = texture;
+							renderImage.SetNativeSize();
+						}
+
+						RedrawFrameCompleteEvent?.Invoke();
+					});
 			}
-		}
-
-		private void ApplySpriteToImage(Sprite sprite)
-		{
-			if (image == null || sprite == null)
-				return;
-
-			SetOpacity(1.0f);
-			image.sprite = sprite;
-			image.SetNativeSize();
 		}
 	}
 }
