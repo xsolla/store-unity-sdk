@@ -52,12 +52,15 @@ namespace Xsolla.Core.Browser
 
 			xsollaBrowser = this.GetOrAddComponent<XsollaBrowser>();
 			xsollaBrowser.LogEvent += Debug.Log;
+
 			xsollaBrowser.Launch
 			(
 				(int) Viewport.x,
 				(int) Viewport.y,
 				GetBrowserPlatform(),
-				GetBrowserPath()
+				GetBrowserPath(),
+				Constants.BROWSER_REVISION,
+				Constants.CUSTOM_BROWSER_USER_AGENT
 			);
 
 			xsollaBrowser.Navigate.SetOnPopupListener((popupUrl =>
