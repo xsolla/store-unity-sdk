@@ -4,15 +4,13 @@ using System.Collections;
 
 namespace Xsolla.Core.Browser
 {
-	[RequireComponent(typeof(XsollaBrowser))]
 	public class Preloader2DBehaviour : MonoBehaviour
 	{
 		private int lastProgress;
 		private object progressLocker;
 		private GameObject preloaderObject;
 		private XsollaBrowser xsollaBrowser;
-
-		public GameObject Prefab { get; set; }
+		private GameObject prefab;
 
 		private void Awake()
 		{
@@ -37,6 +35,11 @@ namespace Xsolla.Core.Browser
 			}
 
 			progressLocker = null;
+		}
+
+		public void SetPrefab(GameObject obj)
+		{
+			prefab = obj;
 		}
 
 		private void OnBrowserFetchingEvent(int progress)
@@ -68,8 +71,8 @@ namespace Xsolla.Core.Browser
 
 		private IEnumerator PreloaderInstantiateCoroutine()
 		{
-			yield return new WaitWhile(() => Prefab == null);
-			preloaderObject = Instantiate(Prefab, transform);
+			yield return new WaitWhile(() => prefab == null);
+			preloaderObject = Instantiate(prefab, transform);
 		}
 	}
 }

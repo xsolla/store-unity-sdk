@@ -1,39 +1,30 @@
 using System;
 using System.Collections;
-using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Xsolla.Core.Browser
 {
-	[RequireComponent(typeof(Image))]
 	public class SinglePageBrowser2D : MonoBehaviour
 	{
-#pragma warning disable
-		[SerializeField] private Button CloseButton = default;
-		[SerializeField] private Button BackButton = default;
-		[SerializeField] private Vector2 Viewport = new Vector2(1920.0F, 1080.0F);
-		[SerializeField] private GameObject PreloaderPrefab = default;
+		[SerializeField] private Button CloseButton;
+		[SerializeField] private Button BackButton;
+		[SerializeField] private Vector2Int Viewport = new Vector2Int(1920, 1080);
+		[SerializeField] private GameObject PreloaderPrefab;
 
 		public event Action<IXsollaBrowser> BrowserInitEvent;
 		public event Action BrowserClosedEvent;
 
 		public event Action<string, Action> AlertDialogEvent;
 		public event Action<string, Action, Action> ConfirmDialogEvent;
-#pragma warning restore
 
 #if UNITY_EDITOR || UNITY_STANDALONE
 		private XsollaBrowser xsollaBrowser;
 		private Display2DBehaviour display;
 		private Keyboard2DBehaviour keyboard;
 		private Mouse2DBehaviour mouse;
-		private string _urlBeforePopup;
-		private Preloader2DBehaviour _preloader;
-		
-		public void SetViewport(Vector2 viewport)
-		{
-			Viewport = viewport;
-		}
+		private string urlBeforePopup;
+		private Preloader2DBehaviour preloader;
 
 		private void Awake()
 		{
@@ -42,38 +33,30 @@ namespace Xsolla.Core.Browser
 			CloseButton.gameObject.SetActive(false);
 			BackButton.gameObject.SetActive(false);
 
-			var canvasTrn = GetComponentInParent<Canvas>().transform;
-			var canvasRect = ((RectTransform) canvasTrn).rect;
-
-			if (Viewport.x > canvasRect.width)
-				Viewport.x = canvasRect.width;
-			if (Viewport.y > canvasRect.height)
-				Viewport.y = canvasRect.height;
-
 			xsollaBrowser = this.GetOrAddComponent<XsollaBrowser>();
 			xsollaBrowser.LogEvent += Debug.Log;
 
 			xsollaBrowser.Launch
 			(
-				(int) Viewport.x,
-				(int) Viewport.y,
+				Viewport.x,
+				Viewport.y,
 				GetBrowserPlatform(),
 				GetBrowserPath(),
 				Constants.BROWSER_REVISION,
 				Constants.CUSTOM_BROWSER_USER_AGENT
 			);
 
-			xsollaBrowser.Navigate.SetOnPopupListener((popupUrl =>
+			xsollaBrowser.Navigate.SetOnPopupListener(popupUrl =>
 			{
 				xsollaBrowser.Navigate.GetUrl(currentUrl =>
 				{
-					if (string.IsNullOrEmpty(_urlBeforePopup))
+					if (string.IsNullOrEmpty(urlBeforePopup))
 					{
-						_urlBeforePopup = currentUrl;
+						urlBeforePopup = currentUrl;
 					}
 				});
 				xsollaBrowser.Navigate.To(popupUrl, newUrl => { BackButton.gameObject.SetActive(true); });
-			}));
+			});
 
 			xsollaBrowser.SetDialogHandler(HandleBrowserDialog);
 
@@ -83,19 +66,29 @@ namespace Xsolla.Core.Browser
 		private IEnumerator Start()
 		{
 			yield return new WaitForEndOfFrame();
-			_preloader = gameObject.AddComponent<Preloader2DBehaviour>();
-			_preloader.Prefab = PreloaderPrefab;
+			
+			preloader = gameObject.AddComponent<Preloader2DBehaviour>();
+			preloader.SetPrefab(PreloaderPrefab);
 			yield return new WaitWhile(() => xsollaBrowser.FetchingProgress < 100);
 
-			display.StartRedraw((int) Viewport.x, (int) Viewport.y);
+			display.StartRedraw(Viewport.x, Viewport.y);
 			display.RedrawFrameCompleteEvent += DestroyPreloader;
 			display.RedrawFrameCompleteEvent += EnableCloseButton;
-			display.ViewportChangedEvent += (width, height) => Viewport = new Vector2(width, height);
+			display.ViewportChangedEvent += (width, height) => UnityEngine.Debug.Log("Display viewport changed: " + width + "x" + height);
 
-			InitializeInput();
+			mouse = this.GetOrAddComponent<Mouse2DBehaviour>();
+			keyboard = this.GetOrAddComponent<Keyboard2DBehaviour>();
+			keyboard.EscapePressed += OnKeyboardEscapePressed;
 			BrowserInitEvent?.Invoke(xsollaBrowser);
 		}
-		
+
+		public void SetViewport(Vector2Int viewport)
+		{
+			Viewport = viewport;
+			if (display)
+				display.StartRedraw(Viewport.x, Viewport.y);
+		}
+
 		private string GetBrowserPlatform()
 		{
 #if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
@@ -123,8 +116,8 @@ namespace Xsolla.Core.Browser
 			if (XsollaSettings.PackInAppBrowserInBuild)
 			{
 				var path = Application.dataPath;
-				path = Directory.GetParent(path).FullName;
-				return Path.Combine(path, ".local-chromium");
+				path = System.IO.Directory.GetParent(path).FullName;
+				return System.IO.Path.Combine(path, ".local-chromium");
 			}
 			else
 			{
@@ -137,10 +130,10 @@ namespace Xsolla.Core.Browser
 		{
 			display.RedrawFrameCompleteEvent -= DestroyPreloader;
 
-			if (_preloader != null)
+			if (preloader != null)
 			{
-				Destroy(_preloader, 0.001f);
-				_preloader = null;
+				Destroy(preloader, 0.001f);
+				preloader = null;
 			}
 		}
 
@@ -150,13 +143,6 @@ namespace Xsolla.Core.Browser
 
 			CloseButton.gameObject.SetActive(true);
 			CloseButton.onClick.AddListener(OnCloseButtonPressed);
-		}
-
-		private void InitializeInput()
-		{
-			mouse = this.GetOrAddComponent<Mouse2DBehaviour>();
-			keyboard = this.GetOrAddComponent<Keyboard2DBehaviour>();
-			keyboard.EscapePressed += OnKeyboardEscapePressed;
 		}
 
 		private void OnCloseButtonPressed()
@@ -170,10 +156,10 @@ namespace Xsolla.Core.Browser
 			Debug.Log("`Back` button pressed");
 			xsollaBrowser.Navigate.Back((newUrl =>
 			{
-				if (newUrl.Equals(_urlBeforePopup))
+				if (newUrl.Equals(urlBeforePopup))
 				{
 					BackButton.gameObject.SetActive(false);
-					_urlBeforePopup = string.Empty;
+					urlBeforePopup = string.Empty;
 				}
 			}));
 		}
@@ -238,17 +224,17 @@ namespace Xsolla.Core.Browser
 					break;
 			}
 		}
-		
+
 		private void ShowSimpleAlertPopup(XsollaBrowserDialog dialog)
 		{
 			AlertDialogEvent?.Invoke(dialog.Message, dialog.Accept);
 		}
-		
+
 		private void ShowConfirmAlertPopup(XsollaBrowserDialog dialog)
 		{
 			ConfirmDialogEvent?.Invoke(dialog.Message, dialog.Accept, dialog.Dismiss);
 		}
-		
+
 		private void CloseAlert(XsollaBrowserDialog dialog)
 		{
 			Debug.Log("Browser alert was closed automatically");
