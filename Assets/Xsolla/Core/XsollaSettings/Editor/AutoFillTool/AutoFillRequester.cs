@@ -18,7 +18,11 @@ namespace Xsolla.Core.AutoFillSettings
 
 		public void RequestToken(string username, string password, Action<string> onToken, Action<string> onConfirmationNeeded, Action<Error> onError)
 		{
+#if UNITY_2022_2_OR_NEWER
+			var webRequest = UnityWebRequest.PostWwwForm(TOKEN_REQUEST_URL, UnityWebRequest.kHttpVerbPOST);
+#else
 			var webRequest = UnityWebRequest.Post(TOKEN_REQUEST_URL, UnityWebRequest.kHttpVerbPOST);
+#endif
 			var requestBody = new TokenRequestBody(username, password);
 			var requestHeaders = WebRequestHelper.Instance.AppendAnalyticHeaders(SdkType.SettingsFillTool, WebRequestHeader.ContentTypeHeader());
 
