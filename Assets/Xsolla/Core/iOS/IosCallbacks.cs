@@ -8,16 +8,13 @@ namespace Xsolla.Core
 	{
 		public delegate void ActionVoidCallbackDelegate(IntPtr actionPtr);
 
-		public delegate void ActionStringCallbackDelegate(IntPtr actionPtr, string msg);
+		public delegate void ActionStringCallbackDelegate(IntPtr actionPtr, string value);
+		
+		public delegate void ActionBoolCallbackDelegate(IntPtr actionPtr, bool value);
 
 		[MonoPInvokeCallback(typeof(ActionVoidCallbackDelegate))]
 		public static void ActionVoidCallback(IntPtr actionPtr)
 		{
-			if (UnityEngine.Debug.isDebugBuild)
-			{
-				Debug.Log("ActionVoidCallback");
-			}
-
 			if (actionPtr != IntPtr.Zero)
 			{
 				var action = actionPtr.Cast<Action>();
@@ -26,17 +23,22 @@ namespace Xsolla.Core
 		}
 
 		[MonoPInvokeCallback(typeof(ActionStringCallbackDelegate))]
-		public static void ActionStringCallback(IntPtr actionPtr, string msg)
+		public static void ActionStringCallback(IntPtr actionPtr, string value)
 		{
-			if (UnityEngine.Debug.isDebugBuild)
-			{
-				Debug.Log("ActionStringCallback");
-			}
-
 			if (actionPtr != IntPtr.Zero)
 			{
 				var action = actionPtr.Cast<Action<string>>();
-				action(msg);
+				action(value);
+			}
+		}
+		
+		[MonoPInvokeCallback(typeof(ActionBoolCallbackDelegate))]
+		public static void ActionBoolCallback(IntPtr actionPtr, bool value)
+		{
+			if (actionPtr != IntPtr.Zero)
+			{
+				var action = actionPtr.Cast<Action<bool>>();
+				action(value);
 			}
 		}
 	}

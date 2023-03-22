@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8512248451890891546}
-  - component: {fileID: 3425978131112166831}
   m_Layer: 5
   m_Name: CloseBrowserButton
   m_TagString: Untagged
@@ -37,19 +36,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 38, y: 38}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &3425978131112166831
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 136409554734120397}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 857fffdc58a99496f81e46a93aa209e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CloseButton: {fileID: 4928372993454275591}
 --- !u!1 &4720652441121955456
 GameObject:
   m_ObjectHideFlags: 0

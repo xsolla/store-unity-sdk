@@ -12,7 +12,6 @@ namespace Xsolla.Orders
 		private const string URL_PAYSTATION_UI_IN_SANDBOX_MODE = "https://sandbox-secure.xsolla.com/paystation3/?access_token=";
 		private const string URL_CREATE_PAYMENT_TOKEN = Constants.BASE_STORE_API_URL + "/payment";
 
-
 		/// <summary>
 		/// Opens Pay Station in the browser with a retrieved Pay Station token.
 		/// </summary>
@@ -20,19 +19,21 @@ namespace Xsolla.Orders
 		/// - [Cart purchase](https://developers.xsolla.com/sdk/unity/item-purchase/cart-purchase/)
 		/// - [Purchase in one click](https://developers.xsolla.com/sdk/unity/item-purchase/one-click-purchase/)
 		/// - [Ordering free items](https://developers.xsolla.com/sdk/unity/promo/free-items/#sdk_free_items_order_item_via_cart)
-		///
+		/// 
 		/// <param name="purchaseData">Contains Pay Station token for the purchase.</param>
 		/// <param name="forcePlatformBrowser">Whether to force platform browser usage ignoring plug-in settings.</param>
 		/// <param name="onRestrictedPaymentMethod">Restricted payment method was triggered in an built-in browser.</param>
+		/// <param name="onBrowserClosed">TEXTREVIEW</param>
 		/// <seealso cref="BrowserHelper"/>
-		public void OpenPurchaseUi(PurchaseData purchaseData, bool forcePlatformBrowser = false, Action<int> onRestrictedPaymentMethod = null)
+		public void OpenPurchaseUi(PurchaseData purchaseData, bool forcePlatformBrowser = false, Action<int> onRestrictedPaymentMethod = null, Action<bool> onBrowserClosed = null)
 		{
 			string url = XsollaSettings.IsSandbox ? URL_PAYSTATION_UI_IN_SANDBOX_MODE : URL_PAYSTATION_UI;
 			BrowserHelper.Instance.OpenPurchase(
 				url,
 				purchaseData.token,
 				forcePlatformBrowser,
-				onRestrictedPaymentMethod);
+				onRestrictedPaymentMethod,
+				onBrowserClosed);
 		}
 
 		/// <summary>

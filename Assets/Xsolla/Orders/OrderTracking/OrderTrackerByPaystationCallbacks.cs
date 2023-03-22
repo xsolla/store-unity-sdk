@@ -1,43 +1,51 @@
-using Xsolla.Core;
-
 namespace Xsolla.Orders
 {
 	public class OrderTrackerByPaystationCallbacks : OrderTracker
 	{
+#if UNITY_WEBGL
+		private bool isCancelByUser;
+#endif
+
 		public override void Start()
 		{
 			XsollaWebCallbacks.Instance.OnPaymentStatusUpdate += HandleStatusUpdate;
-			XsollaWebCallbacks.Instance.OnPaymentCancel += RemoveSelfFromTracking;
+			XsollaWebCallbacks.Instance.OnPaymentCancel += HandlePaymentCancel;
 		}
 
 		public override void Stop()
 		{
 			XsollaWebCallbacks.Instance.OnPaymentStatusUpdate -= HandleStatusUpdate;
-			XsollaWebCallbacks.Instance.OnPaymentCancel -= RemoveSelfFromTracking;
+			XsollaWebCallbacks.Instance.OnPaymentCancel -= HandlePaymentCancel;
 #if UNITY_WEBGL
-			BrowserHelper.ClosePaystationWidget();
+			Xsolla.Core.BrowserHelper.ClosePaystationWidget(isCancelByUser);
 #endif
 		}
 
 		private void HandleStatusUpdate()
 		{
-			base.CheckOrderStatus(
+			CheckOrderStatus(
 				onDone: () =>
 				{
-					base.TrackingData?.successCallback?.Invoke();
-					base.RemoveSelfFromTracking();
+					TrackingData?.successCallback?.Invoke();
+					RemoveSelfFromTracking();
 				},
-				onCancel: base.RemoveSelfFromTracking,
+				onCancel: RemoveSelfFromTracking,
 				onError: error =>
 				{
-					base.TrackingData?.errorCallback?.Invoke(error);
-					base.RemoveSelfFromTracking();
+					TrackingData?.errorCallback?.Invoke(error);
+					RemoveSelfFromTracking();
 				}
 			);
 		}
 
-		public OrderTrackerByPaystationCallbacks(OrderTrackingData trackingData) : base(trackingData)
+		private void HandlePaymentCancel()
 		{
+#if UNITY_WEBGL
+			isCancelByUser = true;
+#endif
+			RemoveSelfFromTracking();
 		}
+
+		public OrderTrackerByPaystationCallbacks(OrderTrackingData trackingData) : base(trackingData) { }
 	}
 }
