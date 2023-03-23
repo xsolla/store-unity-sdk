@@ -16,7 +16,7 @@ namespace Xsolla.Core.Browser
 		private XsollaBrowser XsollaBrowser;
 
 		public event Action OpenEvent;
-		public event Action CloseEvent;
+		public event Action<bool> CloseEvent;
 		public event Action<string> UrlChangeEvent;
 
 		public event Action<string, Action> AlertDialogEvent;
@@ -24,16 +24,11 @@ namespace Xsolla.Core.Browser
 
 		public bool IsOpened => BrowserObject;
 
-		private void OnDestroy()
-		{
-			Close();
-		}
-
-		public void Close(float delay = 0f)
+		public void Close(float delay = 0f, bool isManually = false)
 		{
 			if (SinglePageBrowser)
 			{
-				SinglePageBrowser.BrowserClosedEvent -= OnBrowserClosed;
+				SinglePageBrowser.BrowserCloseRequest -= OnBrowserCloseRequest;
 				SinglePageBrowser.AlertDialogEvent -= OnAlertDialogEvent;
 				SinglePageBrowser.ConfirmDialogEvent -= OnConfirmDialogEvent;
 			}
@@ -44,7 +39,13 @@ namespace Xsolla.Core.Browser
 			if (BrowserObject)
 				Destroy(BrowserObject, delay);
 
-			CloseEvent?.Invoke();
+			CloseEvent?.Invoke(isManually);
+
+			OpenEvent = null;
+			CloseEvent = null;
+			UrlChangeEvent = null;
+			AlertDialogEvent = null;
+			ConfirmDialogEvent = null;
 		}
 
 		public void Open(string url)
@@ -59,7 +60,7 @@ namespace Xsolla.Core.Browser
 		public void AddCloseHandler(Action action)
 		{
 			if (IsOpened)
-				SinglePageBrowser.BrowserClosedEvent += action;
+				CloseEvent += _ => action?.Invoke();
 		}
 
 		public void AddUrlChangeHandler(Action<string> callback)
@@ -92,7 +93,7 @@ namespace Xsolla.Core.Browser
 			BrowserObject = Instantiate(BrowserPrefab, canvas.transform);
 
 			SinglePageBrowser = BrowserObject.GetComponentInChildren<SinglePageBrowser2D>();
-			SinglePageBrowser.BrowserClosedEvent += OnBrowserClosed;
+			SinglePageBrowser.BrowserCloseRequest += OnBrowserCloseRequest;
 			SinglePageBrowser.AlertDialogEvent += OnAlertDialogEvent;
 			SinglePageBrowser.ConfirmDialogEvent += OnConfirmDialogEvent;
 
@@ -100,9 +101,9 @@ namespace Xsolla.Core.Browser
 			XsollaBrowser.Navigate.UrlChangedEvent += OnUrlChanged;
 		}
 
-		private void OnBrowserClosed()
+		private void OnBrowserCloseRequest()
 		{
-			CloseEvent?.Invoke();
+			Close(0, true);
 		}
 
 		private void OnUrlChanged(IXsollaBrowser browser, string url)

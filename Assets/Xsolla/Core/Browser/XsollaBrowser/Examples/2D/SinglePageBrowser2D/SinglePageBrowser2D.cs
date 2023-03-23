@@ -12,12 +12,14 @@ namespace Xsolla.Core.Browser
 		[SerializeField] private Vector2Int Viewport = new Vector2Int(1920, 1080);
 		[SerializeField] private GameObject PreloaderPrefab;
 
+#pragma warning disable CS0067
 		public event Action<IXsollaBrowser> BrowserInitEvent;
-		public event Action BrowserClosedEvent;
+		public event Action BrowserCloseRequest;
 
 		public event Action<string, Action> AlertDialogEvent;
 		public event Action<string, Action, Action> ConfirmDialogEvent;
-
+#pragma warning restore CS0067
+		
 #if UNITY_EDITOR || UNITY_STANDALONE
 		private XsollaBrowser xsollaBrowser;
 		private Display2DBehaviour display;
@@ -66,7 +68,7 @@ namespace Xsolla.Core.Browser
 		private IEnumerator Start()
 		{
 			yield return new WaitForEndOfFrame();
-			
+
 			preloader = gameObject.AddComponent<Preloader2DBehaviour>();
 			preloader.SetPrefab(PreloaderPrefab);
 			yield return new WaitWhile(() => xsollaBrowser.FetchingProgress < 100);
@@ -80,6 +82,36 @@ namespace Xsolla.Core.Browser
 			keyboard = this.GetOrAddComponent<Keyboard2DBehaviour>();
 			keyboard.EscapePressed += OnKeyboardEscapePressed;
 			BrowserInitEvent?.Invoke(xsollaBrowser);
+		}
+
+		private void OnDestroy()
+		{
+			StopAllCoroutines();
+
+			if (mouse != null)
+			{
+				Destroy(mouse);
+				mouse = null;
+			}
+
+			if (display != null)
+			{
+				Destroy(display);
+				display = null;
+			}
+
+			if (keyboard != null)
+			{
+				keyboard.EscapePressed -= OnKeyboardEscapePressed;
+				Destroy(keyboard);
+				keyboard = null;
+			}
+
+			if (xsollaBrowser != null)
+			{
+				Destroy(xsollaBrowser);
+				xsollaBrowser = null;
+			}
 		}
 
 		public void SetViewport(Vector2Int viewport)
@@ -148,59 +180,26 @@ namespace Xsolla.Core.Browser
 		private void OnCloseButtonPressed()
 		{
 			Debug.Log("`Close` button pressed");
-			Destroy(gameObject, 0.001f);
+			BrowserCloseRequest?.Invoke();
 		}
 
 		private void OnBackButtonPressed()
 		{
 			Debug.Log("`Back` button pressed");
-			xsollaBrowser.Navigate.Back((newUrl =>
+			xsollaBrowser.Navigate.Back(newUrl =>
 			{
 				if (newUrl.Equals(urlBeforePopup))
 				{
 					BackButton.gameObject.SetActive(false);
 					urlBeforePopup = string.Empty;
 				}
-			}));
+			});
 		}
 
 		private void OnKeyboardEscapePressed()
 		{
 			Debug.Log("`Escape` button pressed");
 			Destroy(gameObject, 0.001f);
-		}
-
-		private void OnDestroy()
-		{
-			StopAllCoroutines();
-			BrowserClosedEvent?.Invoke();
-
-			if (mouse != null)
-			{
-				Destroy(mouse);
-				mouse = null;
-			}
-
-			if (display != null)
-			{
-				Destroy(display);
-				display = null;
-			}
-
-			if (keyboard != null)
-			{
-				keyboard.EscapePressed -= OnKeyboardEscapePressed;
-				Destroy(keyboard);
-				keyboard = null;
-			}
-
-			if (xsollaBrowser != null)
-			{
-				Destroy(xsollaBrowser);
-				xsollaBrowser = null;
-			}
-
-			Destroy(transform.parent.gameObject);
 		}
 
 		private void HandleBrowserDialog(XsollaBrowserDialog dialog)

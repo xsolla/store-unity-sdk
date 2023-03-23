@@ -6,7 +6,7 @@ namespace Xsolla.Core
 	{
 		event Action OpenEvent;
 
-		event Action CloseEvent;
+		event Action<bool> CloseEvent;
 
 		event Action<string> UrlChangeEvent;
 		
@@ -18,7 +18,7 @@ namespace Xsolla.Core
 		
 		void Open(string url);
 
-		void Close(float delay = 0f);
+		void Close(float delay = 0f, bool isManually = false);
 
 		void AddInitHandler(Action callback);
 

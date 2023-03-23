@@ -39,13 +39,21 @@ namespace Xsolla.Core
 			{"https://secure.xsolla.com/pages/vkpay", 3496},
 			{"https://sandbox-secure.xsolla.com/pages/vkpay", 3496}
 		};
-
+		
 #if UNITY_WEBGL
 		[DllImport("__Internal")]
-		public static extern void ClosePaystationWidget();
-		
-		[DllImport("__Internal")]
 		private static extern void OpenPaystationWidget(string token, bool sandbox);
+
+		[DllImport("__Internal")]
+		private static extern void ClosePaystationWidget();
+		
+		private static Action<bool> WebGLBrowserClosedCallback;
+		
+		public static void ClosePaystationWidget(bool isManually)
+		{
+			WebGLBrowserClosedCallback?.Invoke(isManually);
+			ClosePaystationWidget();
+		}
 #endif
 
 #if UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
@@ -53,7 +61,7 @@ namespace Xsolla.Core
 		private static extern void OpenUrlInSafari(string url);
 #endif
 
-		public void OpenPurchase(string url, string token, bool forcePlatformBrowser = false, Action<int> onRestrictedPaymentMethod = null)
+		public void OpenPurchase(string url, string token, bool forcePlatformBrowser = false, Action<int> onRestrictedPaymentMethod = null, Action<bool> onBrowserClosed = null)
 		{
 			var isEditor = Application.isEditor;
 			var inAppBrowserEnabled = XsollaSettings.InAppBrowserEnabled;
@@ -64,19 +72,20 @@ namespace Xsolla.Core
 			{
 				using (var sdkHelper = new AndroidSDKPaymentsHelper())
 				{
-					sdkHelper.PerformPayment(token, isSandbox);
+					sdkHelper.PerformPayment(token, isSandbox, onBrowserClosed);
 				}
 				return;
 			}
 #elif UNITY_IOS
 			if (!isEditor && inAppBrowserEnabled)
 			{
-				new IosSDKPaymentsHelper().PerformPayment(token, isSandbox);
+				new IosSDKPaymentsHelper().PerformPayment(token, isSandbox, onBrowserClosed);
 				return;
 			}
 #elif UNITY_WEBGL
-			if((Application.platform == RuntimePlatform.WebGLPlayer) && inAppBrowserEnabled)
+			if(Application.platform == RuntimePlatform.WebGLPlayer && inAppBrowserEnabled)
 			{
+				WebGLBrowserClosedCallback = onBrowserClosed;
 				Screen.fullScreen = false;
 				OpenPaystationWidget(token, isSandbox);
 				return;
@@ -90,6 +99,7 @@ namespace Xsolla.Core
 			{
 				TrackRestrictedPaymentMethod(onRestrictedPaymentMethod);
 				UpdateBrowserSize();
+				InAppBrowser.CloseEvent += onBrowserClosed;
 			}
 #endif
 		}

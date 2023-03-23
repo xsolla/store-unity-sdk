@@ -335,7 +335,7 @@ namespace Xsolla.Auth
 
 			var browser = BrowserHelper.Instance.InAppBrowser;
 
-			void onBrowserClose()
+			void onBrowserClose(bool isManually)
 			{
 				onCancel?.Invoke();
 				browser.CloseEvent -= onBrowserClose;

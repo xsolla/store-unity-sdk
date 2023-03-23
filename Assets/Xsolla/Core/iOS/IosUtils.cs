@@ -9,13 +9,10 @@ namespace Xsolla.Core
 		public static T Cast<T>(this IntPtr instancePtr)
 		{
 			var instanceHandle = GCHandle.FromIntPtr(instancePtr);
-			if (!(instanceHandle.Target is T))
-			{
-				throw new InvalidCastException("Failed to cast IntPtr");
-			}
+			if (instanceHandle.Target is T target)
+				return target;
 
-			var castedTarget = (T) instanceHandle.Target;
-			return castedTarget;
+			throw new InvalidCastException($"Failed to cast IntPtr to {typeof(T).FullName}");
 		}
 
 		public static IntPtr GetPointer(this object obj)

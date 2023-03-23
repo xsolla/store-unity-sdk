@@ -6,7 +6,14 @@ namespace Xsolla.Core
 {
 	public class AndroidSDKPaymentsHelper : IDisposable
 	{
-		public void PerformPayment(string token, bool isSandbox)
+		private readonly AndroidHelper androidHelper;
+
+		public AndroidSDKPaymentsHelper()
+		{
+			androidHelper = new AndroidHelper();
+		}
+
+		public void PerformPayment(string token, bool isSandbox, Action<bool> browserClosedCallback)
 		{
 			try
 			{
@@ -22,8 +29,12 @@ namespace Xsolla.Core
 					redirectHost = uri.Host;
 				}
 
+				var browserCallback = new AndroidSDKBrowserCallback {
+					OnBrowserClosed = isManually => androidHelper.OnMainThreadExecutor.Enqueue(() => browserClosedCallback?.Invoke(isManually))
+				};
+
 				var activity = new AndroidHelper().CurrentActivity;
-				proxyClass.CallStatic("performPayment", activity, token, isSandbox, redirectScheme, redirectHost);
+				proxyClass.CallStatic("performPayment", activity, token, isSandbox, redirectScheme, redirectHost, browserCallback);
 			}
 			catch (Exception e)
 			{
@@ -33,7 +44,7 @@ namespace Xsolla.Core
 
 		public void Dispose()
 		{
-			return;
+			androidHelper.Dispose();
 		}
 	}
 }

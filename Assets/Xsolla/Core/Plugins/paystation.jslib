@@ -24,7 +24,7 @@ mergeInto(LibraryManager.library, {
 				Module.SendMessage('XsollaWebCallbacks', 'PublishPaymentStatusUpdate');
 			});
 
-				XPayStationWidget.on(XPayStationWidget.eventTypes.CLOSE, function (event, data) {
+            XPayStationWidget.on(XPayStationWidget.eventTypes.CLOSE, function (event, data) {
 				if (data === undefined) {
 					Module.SendMessage('XsollaWebCallbacks', 'PublishPaymentCancel');
 				}
@@ -49,6 +49,7 @@ mergeInto(LibraryManager.library, {
 		var elements = document.getElementsByClassName('xpaystation-widget-lightbox');
 		for (var i = 0; i < elements.length; i++) {
 			elements[i].style.display = 'none';
+			elements[i].remove();
 		}
 	},
 });

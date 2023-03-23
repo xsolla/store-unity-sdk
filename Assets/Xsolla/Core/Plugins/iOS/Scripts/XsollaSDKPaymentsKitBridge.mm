@@ -4,10 +4,13 @@
 #pragma mark - C interface
 
 typedef void(ActionStringCallbackDelegate)(void *actionPtr, const char *data);
+typedef void(ActionBoolCallbackDelegate)(void *actionPtr, const bool data);
 
 extern "C" {
     
-    void _performPayment(char* token, bool isSandbox, char* redirectUrl, ActionStringCallbackDelegate errorCallback, void *errorActionPtr) {
+    void _performPayment(char* token, bool isSandbox, char* redirectUrl, 
+        ActionStringCallbackDelegate errorCallback, void *errorActionPtr, 
+        ActionBoolCallbackDelegate browserCallback, void *browserCallbackActionPtr) {
 
         NSString* tokenString = [XsollaUtils createNSStringFrom:token];
         NSString* redirectUrlString = [XsollaUtils createNSStringFrom:redirectUrl];     
@@ -15,13 +18,13 @@ extern "C" {
 
         [[PaymentsKitObjectiveC shared] performPaymentWithPaymentToken:tokenString presenter:UnityGetGLViewController() isSandbox:isSandboxBool redirectUrl:redirectUrlString completionHandler:^(NSError * _Nullable error)
         {
-            if(error != nil) {
+            if(error != nil && error.code != NSError.cancelledByUserError) {
                 NSLog(@"Error code: %ld", error.code);
-                
-                if(error.code != NSError.cancelledByUserError) {
-                    errorCallback(errorActionPtr, [XsollaUtils createCStringFrom:error.localizedDescription]);
-                }               
+                errorCallback(errorActionPtr, [XsollaUtils createCStringFrom:error.localizedDescription]);
             }
+            
+            BOOL isManually = (error != nil && error.code == NSError.cancelledByUserError);
+            browserCallback(browserCallbackActionPtr, isManually);
         }];
     }
 
