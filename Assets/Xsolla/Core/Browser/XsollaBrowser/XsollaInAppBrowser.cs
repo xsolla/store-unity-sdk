@@ -60,7 +60,7 @@ namespace Xsolla.Core.Browser
 		public void AddCloseHandler(Action action)
 		{
 			if (IsOpened)
-				SinglePageBrowser.BrowserCloseRequest += action;
+				CloseEvent += _ => action?.Invoke();
 		}
 
 		public void AddUrlChangeHandler(Action<string> callback)
