@@ -1,4 +1,21 @@
 # Changelog
+## [1.5.0] - 2023-03-27
+### Added
+- User login with Xsolla Login widget
+- Social login helper for iOS builds
+- Browser closed callback for `XsollaOrders.OpenPurchaseUi` method
+- Ability to change the user agent of Xsolla in-app browser
+- `Any payment` option for manual redirection in the redirect policy settings
+
+### Fixed
+- Cancel event invoking upon successful purchase for iOS builds
+- Default redirect policy generation which caused error in some cases
+- Use of obsolete methods for Unity 2020.3 and later
+- Saving auth token outside main thread for Android builds
+- Changing Xsolla in-app browser resolution after browser creation
+- Endless redirect loop after purchase completion on Android
+
+
 ## [1.4.0] - 2022-12-16
 ### Added
 - Xsolla Settings validation

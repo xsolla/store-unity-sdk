@@ -1,4 +1,78 @@
 # Changelog
+## [1.5.0] - 2023-03-27
+### Added
+- User login with Xsolla Login widget
+- Social login helper for iOS builds
+- Browser closed callback for `XsollaOrders.OpenPurchaseUi` method
+- Ability to change the user agent of Xsolla in-app browser
+- `Any payment` option for manual redirection in the redirect policy settings
+
+### Fixed
+- Cancel event invoking upon successful purchase for iOS builds
+- Default redirect policy generation which caused error in some cases
+- Use of obsolete methods for Unity 2020.3 and later
+- Saving auth token outside main thread for Android builds
+- Changing Xsolla in-app browser resolution after browser creation
+- Endless redirect loop after purchase completion on Android
+
+
+## [1.4.0] - 2022-12-16
+### Added
+- Xsolla Settings validation
+- Xsolla Settings autofill tool for Editor
+- Free items API
+### Changed
+- Order tracking now uses WebSockets in full with short polling left as a fallback option
+- Short polling of order status now has configurable time limit and rate
+- Xsolla Settings autofill tool edits
+- Building SDK package now clears the settings
+### Fixed
+- Adding occupied email to account now returns correct error type
+- Android deeplink with screen orientation change
+### Removed
+- Account linking demo
+
+
+## [1.3.0] - 2022-10-31
+### Added
+- Authorization by device ID in demo
+- Promotions to store methods
+### Changed
+- Reworked Android social login
+- Merged Store payment settings and Subscriptions payment settings
+### Fixed
+- Mismatch project settings
+- Remove temp objects between tests
+- Clear token on platform auth select
+
+## [1.2.1] - 2022-08-29
+### Fixed
+- DeviceID authorization
+
+## [1.2.0] - 2022-08-19
+### Added
+- Locale parameter for passwordless authorization
+- PS UI settings for subscription methods
+- Unique Demo User generation
+- Personalization for catalog requests
+### Fixed
+- Several API and documentation links
+- Updated Newtonsoft JSON dependencies
+- Built-in browser dependency on exact Newtonsoft JSON version
+- Subscriptions array URL parameters
+### Removed
+- JWT authorization variant
+
+## [1.1.0] - 2022-06-10
+### Added
+- Subscription methods
+- ‘locale’ argument for email sending methods
+### Fixed
+- WebGL virtual currency purchase
+- Resource optimization for demo
+### Removed
+- Custom access token authentication
+
 ## [1.0.0] - 2022-04-20
 ### Added
 - Static SDK events
@@ -6,16 +80,16 @@
 - Purchase UI via native SDK for iOS
 - SDK autotest
 - Scripted package export
-- Demo: UI skin selection
+- UI skin selection for demo
 ### Fixed
 - Request error parsing and handling
 - OAuth2.0 token refresh
 - Use of redirect URL settings in several API calls
-- User's inventory items that were removed from a catalog
+- User's inventory items that were removed from catalog
 - Demo: Catalog and inventory initialization
 - Other fixes and improvements
 ### Changed
-- Updated wrapper methods for IGS & BB API calls
+- Updated wrapper methods for IGS&BB API calls
 - Updated wrapper methods for Login API calls
 - Separated 'Xsolla' and 'Xsolla.Demo'
 - Separated 'Login' into several modules
@@ -34,7 +108,7 @@
 - 'Web Shop' button in demo
 - Passwordless login via email
 - Passwordless login via SMS
-- Auth via FaceID/TouchID for iOS builds
+- Authentication via FaceID/TouchID for iOS builds
 - Game keys and entitlement system functionality
 - Checking order status using WebSocket
 - 'Resend confirmation email' button
@@ -44,7 +118,7 @@
 ### Changed
 - Updated 'ItemPurchase' method (added 'quantity' parameter)
 - Updated packages and dependencies
-- Improved social networks auth for iOS builds
+- Improved social networks authentication for iOS builds
 
 ## [0.7.0] - 2021-09-17
 ### Added
@@ -54,10 +128,10 @@
 ### Fixed
 - Various fixes and improvements
 ### Changed
-- Refactoring and SDK Architecture improvements
-- Social friends recommendations list increased
-- Update API methods comments
-- Move Newtonsoft to packages
+- Improved refactoring and SDK Architecture
+- Increased social friends recommendations list
+- Updated API methods comments
+- Moved Newtonsoft to packages
 
 ## [0.6.4.5] - 2021-07-16
 ### Added
@@ -70,13 +144,13 @@
 - Horizontal orientation for mobile demo scene
 ### Fixed
 - Several payment systems flow for WebGL build
-- Pay Station auto-close after purchase for Unity 2020 and later
-- Demo behaviour after social auth cancel
-- WeChat errors for android build
-- Errors raising once after import for Unity 2020 and later
-- In-built browser render quality
+- Pay Station auto-closing after purchasing for Unity 2020 and later
+- Demo behavior after social auth cancellation
+- WeChat errors for Android build
+- Errors occurring once after import for Unity 2020 and later
+- Built-in browser render quality
 - Included copy of Newtonsoft library now can be safely removed in case of conflict
-- Various other fixes and improvements
+- Various fixes and improvements
 ### Changed
 - API methods update
 - Third-party dependency manager is now included into Xsolla package
@@ -94,12 +168,12 @@
 - In-game browser scroll
 - In-game browser numpad
 - In-game browser redirection links
-- In-game browser post purchase behaviour
-- In-game browser window size now corresponds with Paystation UI size
-- Handling of few purchase systems that become incompletable with in-game browser
-- Various other fixes and improvements
+- In-game browser post purchase behavior
+- In-game browser window size now corresponds with Pay Station UI size
+- Handling of a few purchase systems that become impossible to complete with in-game browser
+- Various fixes and improvements
 ### Changed
-- Changed: Pay Station opening version 2 -> 3
+- Changed: Pay Station opening version from 2 to 3
 - Changed: Updated purchase API methods
 ### Removed
 - Removed: Several surplus libraries (reworked corresponding functionality to use custom logic)
@@ -113,7 +187,7 @@
 
 ## [0.6.4.1] - 2021-04-16
 ### Added
-- QQ Android auth
+- QQ Android authentication
 
 ## [0.6.4.0] - 2021-03-31
 ### Added
@@ -124,10 +198,10 @@
 - Logging level settings
 - API method for resend account confirmation email
 ### Fixed
- - Payment status polling
- - Apple ID authorization
+- Payment status polling
+- Apple ID authorization
 ### Changed
-- PayStation Widget version
+- Pay Station Widget version
 
 ## [0.6.3.4] - 2021-03-18
 ### Changed
@@ -135,13 +209,13 @@
 
 ## [0.6.3.3] - 2021-03-05
 ### Changed
-- Added WeChat Android auth
+- Added WeChat Android authentication
 
 ## [0.6.3.2] - 2021-02-05
 ### Changed
 - Minimum supported version of Unity — 2019.4.19f1
 - URL of user attributes documentation page
-- Login via social networks on android
+- Social login on Android
 
 ### Fixed
 - Built-in browser for MacOS Big Sur
@@ -174,4 +248,4 @@
 ## [1.0.0.0] - 2020-10-08
 
 ### Added
-- Friends system functionality.
+- Friends system functionality

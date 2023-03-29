@@ -23,7 +23,7 @@ namespace Xsolla.Orders
 		/// <param name="purchaseData">Contains Pay Station token for the purchase.</param>
 		/// <param name="forcePlatformBrowser">Whether to force platform browser usage ignoring plug-in settings.</param>
 		/// <param name="onRestrictedPaymentMethod">Restricted payment method was triggered in an built-in browser.</param>
-		/// <param name="onBrowserClosed">TEXTREVIEW</param>
+		/// <param name="onBrowserClosed">Called after the browser was closed.</param>
 		/// <seealso cref="BrowserHelper"/>
 		public void OpenPurchaseUi(PurchaseData purchaseData, bool forcePlatformBrowser = false, Action<int> onRestrictedPaymentMethod = null, Action<bool> onBrowserClosed = null)
 		{
