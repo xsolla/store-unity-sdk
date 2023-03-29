@@ -7,6 +7,7 @@ import android.os.Bundle;
 import com.unity3d.player.UnityPlayer;
 import com.xsolla.android.payments.XPayments;
 import com.xsolla.android.payments.data.AccessToken;
+import com.xsolla.android.payments.callback.BrowserCallback;
 
 public class AndroidPaymentsProxy extends Activity {
 
@@ -15,8 +16,12 @@ public class AndroidPaymentsProxy extends Activity {
     private static final String ARG_REDIRECT_HOST = "redirect_host";
     private static final String ARG_REDIRECT_SCHEME = "redirect_scheme";
     private static final int RC_PAY_STATION = 1;
+    
+    private static BrowserCallback browserCallback;
 
-    public static void performPayment(Activity activity, String token, boolean isSandbox, String redirectScheme, String redirectHost) {
+    public static void performPayment(Activity activity, String token, boolean isSandbox, String redirectScheme, String redirectHost, BrowserCallback callback) {
+        browserCallback = callback;
+        
         Intent intent = new Intent(activity, AndroidPaymentsProxy.class);
         intent.putExtra(ARG_TOKEN, token);
         intent.putExtra(ARG_SANDBOX, isSandbox);
@@ -28,6 +33,10 @@ public class AndroidPaymentsProxy extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            finish();
+            return;
+        }
 
         Intent intent = getIntent();
         String token = intent.getStringExtra(ARG_TOKEN);
@@ -51,6 +60,12 @@ public class AndroidPaymentsProxy extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        
+        XPayments.Result result = XPayments.Result.fromResultIntent(data);
+        XPayments.Status status = result.getStatus();
+        boolean isManually = status == XPayments.Status.CANCELLED;
+        browserCallback.onBrowserClosed(isManually);
+
         finish();
     }
 }

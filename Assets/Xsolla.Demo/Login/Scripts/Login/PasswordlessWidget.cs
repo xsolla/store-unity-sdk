@@ -17,6 +17,9 @@ namespace Xsolla.Demo
 		[SerializeField] private SimpleButton PhoneChoiceButton = default;
 		[SerializeField] private SimpleButton EmailChoiceButton = default;
 		[Space]
+		[SerializeField] private LoginPageEnterController LoginPageEnterController = default;
+		[SerializeField] private SimpleButton LoginWidgetAuthButton = default;
+		[Space]
 		[SerializeField] private InputField PhoneInputField = default;
 		[SerializeField] private UserProfileEntryPhoneValueConverter PhoneConverter = default;
 		[SerializeField] private SimpleTextButtonDisableable PhoneSendButton = default;
@@ -50,6 +53,8 @@ namespace Xsolla.Demo
 			CodeInputField.onValueChanged.AddListener(OnCodeInput);
 			ResendButton.onClick += OnResendButton;
 			Timer.TimeIsUp += OnTimerEnd;
+
+			LoginWidgetAuthButton.onClick += LoginPageEnterController.RunWidgetAuth;
 		}
 
 		public void RequestCode(Action<string> onCode)

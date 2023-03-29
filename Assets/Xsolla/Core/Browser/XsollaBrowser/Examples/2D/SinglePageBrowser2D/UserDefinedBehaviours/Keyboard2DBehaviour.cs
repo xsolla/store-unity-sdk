@@ -6,7 +6,6 @@ using System.Linq;
 
 namespace Xsolla.Core.Browser
 {
-	[RequireComponent(typeof(XsollaBrowser))]
 	public class Keyboard2DBehaviour : MonoBehaviour
 	{
 		private IXsollaBrowserKeyboardInput keyboardInput;

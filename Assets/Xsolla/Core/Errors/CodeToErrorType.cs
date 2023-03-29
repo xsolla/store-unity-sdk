@@ -113,6 +113,7 @@ namespace Xsolla.Core
 			switch (code)
 			{
 				case "403":
+				case "010-023":
 				case "010-017": { errorType = ErrorType.InvalidToken; }; break;
 				case "405":		{ errorType = ErrorType.MethodIsNotAllowed; }; break;
 				case "0":

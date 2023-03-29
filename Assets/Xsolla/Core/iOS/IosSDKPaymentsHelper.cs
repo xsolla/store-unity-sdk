@@ -2,30 +2,40 @@
 using System;
 using System.Runtime.InteropServices;
 using UnityEngine;
-using Xsolla.Core.iOS;
 
 namespace Xsolla.Core
 {
-	public class IosSDKPaymentsHelper 
+	public class IosSDKPaymentsHelper
 	{
 		[DllImport("__Internal")]
 		private static extern void _performPayment(string token, bool isSandbox, string redirectUrl,
-			IosCallbacks.ActionStringCallbackDelegate onErrorCallback, IntPtr onErrorActionPtr);
+			IosCallbacks.ActionStringCallbackDelegate onErrorCallback, IntPtr onErrorActionPtr,
+			IosCallbacks.ActionBoolCallbackDelegate browserCallback, IntPtr browserCallbackActionPtr);
 
-		public void PerformPayment(string token, bool isSandbox)
+		private Action<bool> OnBrowserClosed { get; set; }
+
+		public void PerformPayment(string token, bool isSandbox, Action<bool> onBrowserClosed = null)
 		{
+			OnBrowserClosed = onBrowserClosed;
+
 			var redirectPolicy = XsollaSettings.IosRedirectPolicySettings;
 			var redirectUrl = redirectPolicy.UseSettingsFromPublisherAccount
 				? $"app://xpayment.{Application.identifier}"
 				: redirectPolicy.ReturnUrl;
 
 			Action<string> onErrorNative = FailHandler;
-			_performPayment(token, isSandbox, redirectUrl, IosCallbacks.ActionStringCallback, onErrorNative.GetPointer());
+			Action<bool> onBrowserClosedNative = HandleBrowserClosed;
+			_performPayment(token, isSandbox, redirectUrl, IosCallbacks.ActionStringCallback, onErrorNative.GetPointer(), IosCallbacks.ActionBoolCallback, onBrowserClosedNative.GetPointer());
 		}
-		
-		private void FailHandler(string error)
+
+		private static void FailHandler(string error)
 		{
 			Debug.LogError($"Payments failed. Error: {error}");
+		}
+
+		private void HandleBrowserClosed(bool isManually)
+		{
+			OnBrowserClosed?.Invoke(isManually);
 		}
 	}
 }

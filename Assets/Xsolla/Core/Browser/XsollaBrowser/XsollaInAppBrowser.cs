@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using Xsolla.Core.Browser;
 
 namespace Xsolla.Core.Browser
 {
@@ -11,41 +10,42 @@ namespace Xsolla.Core.Browser
 #endif
 	{
 #if (UNITY_EDITOR || UNITY_STANDALONE)
-		[SerializeField] private GameObject BrowserPrefab = default;
+		[SerializeField] private GameObject BrowserPrefab;
 		private GameObject BrowserObject;
 		private SinglePageBrowser2D SinglePageBrowser;
 		private XsollaBrowser XsollaBrowser;
 
 		public event Action OpenEvent;
-		public event Action CloseEvent;
+		public event Action<bool> CloseEvent;
 		public event Action<string> UrlChangeEvent;
-		
+
 		public event Action<string, Action> AlertDialogEvent;
 		public event Action<string, Action, Action> ConfirmDialogEvent;
 
 		public bool IsOpened => BrowserObject;
 
-		private void OnDestroy()
-		{
-			Close();
-		}
-
-		public void Close(float delay = 0f)
+		public void Close(float delay = 0f, bool isManually = false)
 		{
 			if (SinglePageBrowser)
 			{
-				SinglePageBrowser.BrowserClosedEvent -= OnBrowserClosed;
+				SinglePageBrowser.BrowserCloseRequest -= OnBrowserCloseRequest;
 				SinglePageBrowser.AlertDialogEvent -= OnAlertDialogEvent;
 				SinglePageBrowser.ConfirmDialogEvent -= OnConfirmDialogEvent;
 			}
-			
-			if (XsollaBrowser)
+
+			if (XsollaBrowser && XsollaBrowser.Navigate != null)
 				XsollaBrowser.Navigate.UrlChangedEvent -= OnUrlChanged;
-			
+
 			if (BrowserObject)
 				Destroy(BrowserObject, delay);
-			
-			CloseEvent?.Invoke();
+
+			CloseEvent?.Invoke(isManually);
+
+			OpenEvent = null;
+			CloseEvent = null;
+			UrlChangeEvent = null;
+			AlertDialogEvent = null;
+			ConfirmDialogEvent = null;
 		}
 
 		public void Open(string url)
@@ -60,7 +60,7 @@ namespace Xsolla.Core.Browser
 		public void AddCloseHandler(Action action)
 		{
 			if (IsOpened)
-				SinglePageBrowser.BrowserClosedEvent += action;
+				CloseEvent += _ => action?.Invoke();
 		}
 
 		public void AddUrlChangeHandler(Action<string> callback)
@@ -78,7 +78,7 @@ namespace Xsolla.Core.Browser
 		public void UpdateSize(int width, int height)
 		{
 			if (IsOpened)
-				SinglePageBrowser.GetComponent<Display2DBehaviour>().StartRedraw(width, height);
+				SinglePageBrowser.SetViewport(new Vector2Int(width, height));
 		}
 
 		private void CreateBrowser()
@@ -91,31 +91,31 @@ namespace Xsolla.Core.Browser
 			}
 
 			BrowserObject = Instantiate(BrowserPrefab, canvas.transform);
-			
+
 			SinglePageBrowser = BrowserObject.GetComponentInChildren<SinglePageBrowser2D>();
-			SinglePageBrowser.BrowserClosedEvent += OnBrowserClosed;
+			SinglePageBrowser.BrowserCloseRequest += OnBrowserCloseRequest;
 			SinglePageBrowser.AlertDialogEvent += OnAlertDialogEvent;
 			SinglePageBrowser.ConfirmDialogEvent += OnConfirmDialogEvent;
-			
+
 			XsollaBrowser = BrowserObject.GetComponentInChildren<XsollaBrowser>();
 			XsollaBrowser.Navigate.UrlChangedEvent += OnUrlChanged;
 		}
-		
-		private void OnBrowserClosed()
+
+		private void OnBrowserCloseRequest()
 		{
-			CloseEvent?.Invoke();
+			Close(0, true);
 		}
 
 		private void OnUrlChanged(IXsollaBrowser browser, string url)
 		{
 			UrlChangeEvent?.Invoke(url);
 		}
-		
+
 		private void OnAlertDialogEvent(string message, Action acceptAction)
 		{
 			AlertDialogEvent?.Invoke(message, acceptAction);
 		}
-		
+
 		private void OnConfirmDialogEvent(string message, Action acceptAction, Action cancelAction)
 		{
 			ConfirmDialogEvent?.Invoke(message, acceptAction, cancelAction);

@@ -12,7 +12,10 @@ namespace Xsolla.Core
 			var exception = GetDeviceID(deviceType, out deviceId);
 			return exception;
 		}
-
+		/// <summary>
+		/// Returns a device ID for user authentication in the format required by the Xsolla API.
+		/// </summary>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/authentication/auth-via-device-id/).</remarks>
 		public static Exception GetDeviceID(DeviceType deviceType, out string deviceID)
 		{
 			deviceID = default(string);

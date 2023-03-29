@@ -26,19 +26,21 @@ namespace Xsolla.Catalog
 		private const string URL_CREATE_FREE_ORDER_WITH_ITEM = Constants.BASE_STORE_API_URL + "/free/item/{1}";
 
 		/// <summary>
-		/// Returns all items in catalog.
-		/// If used after authorization, it will also return items available for this specific user.
+		/// Returns a list of virtual items according to pagination settings.
+		/// The list includes items for which display in the store is enabled in the settings. For each virtual item, complete data is returned.
+		/// If used after user authentication, the method returns items that match the personalization rules for the current user.
 		/// </summary>
-		/// <remarks> Swagger method name:<c>Get virtual items list</c>.</remarks>
-		/// <see cref="https://developers.xsolla.com/store-api/items/get-virtual-items"/>
-		/// <param name="projectId">Project ID from your Publisher Account.</param>
-		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/catalog/catalog-display/).</remarks>
+		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. </param>
+		/// <param name="onSuccess">Called after virtual items were successfully received.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="limit">Limit for the number of elements on the page.</param>
 		/// <param name="offset">Number of the element from which the list is generated (the count starts from 0).</param>
-		/// <param name="locale">Response language. Two-letter lowercase language code per ISO 639-1.</param>
+		/// <param name="locale">Response language.<br/>
+		/// The following languages are supported: Arabic (`ar`), Bulgarian (`bg`), Czech (`cs`), German (`de`), Spanish (`es`), French (`fr`), Hebrew (`he`), Italian (`it`), Japanese (`ja`), Korean (`ko`), Polish (`pl`), Portuguese (`pt`), Romanian (`ro`), Russian (`ru`), Thai (`th`), Turkish (`tr`), Vietnamese (`vi`), Chinese Simplified (`cn`), Chinese Traditional (`tw`), English (`en`, default).<br/>
+		/// Leave empty to use the default value.</param>
 		/// <param name="additionalFields">The list of additional fields. These fields will be in a response if you send them in a request. Available fields `media_list`, `order`, and `long_description`.</param>
-		/// <param name="country">Country used to calculate regional prices and restrictions for the catalog. Two-letter uppercase country code per ISO 3166-1 alpha-2. If you do not specify the country explicitly, it will be defined by the user IP address.</param>
+		/// <param name="country">Country to calculate regional prices and restrictions to catalog. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Calculated based on the user's IP address if not specified.</param>
 		public void GetCatalog(string projectId, [NotNull] Action<StoreItems> onSuccess, [CanBeNull] Action<Error> onError, int limit = 50, int offset = 0, [CanBeNull] string locale = null, string additionalFields = "long_description", [CanBeNull] string country = null)
 		{
 			var url = string.Format(URL_CATALOG_GET_ITEMS, projectId);
@@ -48,14 +50,16 @@ namespace Xsolla.Catalog
 		}
 
 		/// <summary>
-		/// Gets a list of all virtual items for searching on the client side.
-		/// If used after authorization will also return items available for this specific user.
+		/// Returns a full list of virtual items. The list includes items for which display in the store is enabled in the settings. For each virtual item, the SKU, name, description, and data about the groups it belongs to are returned.
+		/// If used after user authentication, the method returns items that match the personalization rules for the current user.
 		/// </summary>
-		/// <see cref="https://developers.xsolla.com/in-game-store-buy-button-api/virtual-items-currency/catalog/get-all-virtual-items/"/>
-		/// <param name="projectId">Project ID from your Publisher Account.</param>
-		/// <param name="locale">Response language. Two-letter lowercase language code per ISO 639-1.</param>
-		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/catalog/catalog-display/).</remarks>
+		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. </param>
+		/// <param name="locale">Response language. <br/>
+		/// The following languages are supported: Arabic (`ar`), Bulgarian (`bg`), Czech (`cs`), German (`de`), Spanish (`es`), French (`fr`), Hebrew (`he`), Italian (`it`), Japanese (`ja`), Korean (`ko`), Polish (`pl`), Portuguese (`pt`), Romanian (`ro`), Russian (`ru`), Thai (`th`), Turkish (`tr`), Vietnamese (`vi`), Chinese Simplified (`cn`), Chinese Traditional (`tw`), English (`en`, default).<br/>
+		/// Leave empty to use the default value.</param>
+		/// <param name="onSuccess">Called after server response.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		public void GetCatalogSimplified(string projectId, Action<StoreItemShortCollection> onSuccess, Action<Error> onError = null, string locale = null)
 		{
 			var url = string.Format(URL_CATALOG_GET_ALL_VIRTUAL_ITEMS, projectId);
@@ -65,20 +69,20 @@ namespace Xsolla.Catalog
 		}
 
 		/// <summary>
-		/// Returns items in a specific group.
-		/// If used after authorization, it will also return items available for this specific user.
+		/// Returns a list of items for the specified group according to pagination settings. The list includes items for which display in the store is enabled in the settings. In the settings of the group, the display in the store must be enabled.
+		/// If used after user authentication, the method returns items that match the personalization rules for the current user.
 		/// </summary>
-		/// <remarks> Swagger method name:<c>Get items list by specified group</c>.</remarks>
-		/// <see cref="https://developers.xsolla.com/store-api/items/get-virtual-items-group"/>
-		/// <param name="projectId">Project ID from your Publisher Account.</param>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/catalog/catalog-display/).</remarks>
+		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. </param>
 		/// <param name="groupExternalId">Group external ID.</param>
-		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onSuccess">Called after server response.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="limit">Limit for the number of elements on the page.</param>
 		/// <param name="offset">Number of the element from which the list is generated (the count starts from 0).</param>
-		/// <param name="locale">Response language. Two-letter lowercase language code per ISO 639-1.</param>
+		/// <param name="locale">Response language.<br/>
+		/// The following languages are supported: Arabic (`ar`), Bulgarian (`bg`), Czech (`cs`), German (`de`), Spanish (`es`), French (`fr`), Hebrew (`he`), Italian (`it`), Japanese (`ja`), Korean (`ko`), Polish (`pl`), Portuguese (`pt`), Romanian (`ro`), Russian (`ru`), Thai (`th`), Turkish (`tr`), Vietnamese (`vi`), Chinese Simplified (`cn`), Chinese Traditional (`tw`), English (`en`, default).</param>
 		/// <param name="additionalFields">The list of additional fields. This fields will be in a response if you send its in a request. Available fields `media_list`, `order`, `long_description`.</param>
-		/// <param name="country">Country used to calculate regional prices and restrictions for the catalog. Two-letter uppercase country code per ISO 3166-1 alpha-2. If you do not specify the country explicitly, it will be defined by the user IP address.</param>
+		/// <param name="country">Country used to calculate regional prices and restrictions for the catalog. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). By default, it is determined by the user's IP address.</param>
 		public void GetGroupItems(string projectId, string groupExternalId, [NotNull] Action<StoreItems> onSuccess, [CanBeNull] Action<Error> onError, int? limit = null, int? offset = null, [CanBeNull] string locale = null, string additionalFields = null, string country = null)
 		{
 			var url = string.Format(URL_CATALOG_GET_ITEMS_IN_GROUP, projectId, groupExternalId);
@@ -88,16 +92,16 @@ namespace Xsolla.Catalog
 		}
 
 		/// <summary>
-		/// Returns groups list.
+		/// Returns a full list of virtual item groups. The list includes groups for which display in the store is enabled in the settings.
 		/// </summary>
-		/// <remarks> Swagger method name:<c>Get items groups list</c>.</remarks>
-		/// <see cref="https://developers.xsolla.com/store-api/groups/get-item-groups"/>
-		/// <param name="projectId">Project ID from your Publisher Account.</param>
-		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/catalog/catalog-display/).</remarks>
+		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. </param>
+		/// <param name="onSuccess">Called after virtual item groups were successfully received.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="limit">Limit for the number of elements on the page.</param>
 		/// <param name="offset">Number of the element from which the list is generated (the count starts from 0).</param>
-		/// <param name="locale">Defines localization of the item text fields.</param>
+		/// <param name="locale">Defines localization of the item text fields.<br/>
+		/// The following languages are supported: Arabic (`ar`), Bulgarian (`bg`), Czech (`cs`), German (`de`), Spanish (`es`), French (`fr`), Hebrew (`he`), Italian (`it`), Japanese (`ja`), Korean (`ko`), Polish (`pl`), Portuguese (`pt`), Romanian (`ro`), Russian (`ru`), Thai (`th`), Turkish (`tr`), Vietnamese (`vi`), Chinese Simplified (`cn`), Chinese Traditional (`tw`), English (`en`, default).</param>
 		public void GetItemGroups(string projectId, [NotNull] Action<Groups> onSuccess, [CanBeNull] Action<Error> onError, int limit = 50, int offset = 0, [CanBeNull] string locale = null)
 		{
 			var url = string.Format(URL_CATALOG_GET_GROUPS, projectId);
@@ -107,18 +111,18 @@ namespace Xsolla.Catalog
 		}
 
 		/// <summary>
-		/// Returns info for all virtual currencies.
+		/// Returns a list of virtual currencies according to pagination settings.
 		/// </summary>
-		/// <remarks> Swagger method name:<c>Get virtual currency list</c>.</remarks>
-		/// <see cref="https://developers.xsolla.com/store-api/items/get-virtual-currency"/>
-		/// <param name="projectId">Project ID from your Publisher Account.</param>
-		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/catalog/catalog-display/).</remarks>
+		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. </param>
+		/// <param name="onSuccess">Called after virtual currencies were successfully received.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="limit">Limit for the number of elements on the page.</param>
 		/// <param name="offset">Number of the element from which the list is generated (the count starts from 0).</param>
-		/// <param name="locale">Response language. Two-letter lowercase language code per ISO 639-1.</param>
+		/// <param name="locale">Response language.<br/>
+		/// The following languages are supported: Arabic (`ar`), Bulgarian (`bg`), Czech (`cs`), German (`de`), Spanish (`es`), French (`fr`), Hebrew (`he`), Italian (`it`), Japanese (`ja`), Korean (`ko`), Polish (`pl`), Portuguese (`pt`), Romanian (`ro`), Russian (`ru`), Thai (`th`), Turkish (`tr`), Vietnamese (`vi`), Chinese Simplified (`cn`), Chinese Traditional (`tw`), English (`en`, default).</param>
 		/// <param name="additionalFields">The list of additional fields. These fields will be in a response if you send them in a request. Available fields `media_list`, `order`, and `long_description`.</param>
-		/// <param name="country">Country used to calculate regional prices and restrictions for the catalog. Two-letter uppercase country code per ISO 3166-1 alpha-2. If you do not specify the country explicitly, it will be defined by the user IP address.</param>
+		/// <param name="country">Country used to calculate regional prices and restrictions for the catalog. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). By default, it is determined by the user's IP address.</param>
 		public void GetVirtualCurrencyList(string projectId, [NotNull] Action<VirtualCurrencyItems> onSuccess, [CanBeNull] Action<Error> onError, int limit = 50, int offset = 0, [CanBeNull] string locale = null, string additionalFields = null, string country = null)
 		{
 			var url = string.Format(URL_VIRTUAL_CURRENCY_LIST, projectId);
@@ -128,19 +132,19 @@ namespace Xsolla.Catalog
 		}
 
 		/// <summary>
-		/// Returns a list of virtual currency packages.
-		/// If used after authorization, it will also return items available for this specific user.
+		/// Returns a list of virtual currency packages according to pagination settings. The list includes packages for which display in the store is enabled in the settings.
+		/// If used after user authentication, the method returns packages that match the personalization rules for the current user.
 		/// </summary>
-		/// <remarks> Swagger method name:<c>Get virtual currency package list</c>.</remarks>
-		/// <see cref="https://developers.xsolla.com/store-api/items/get-virtual-currency-package"/>
-		/// <param name="projectId">Project ID from your Publisher Account.</param>
-		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/catalog/catalog-display/).</remarks>
+		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. </param>
+		/// <param name="onSuccess">Called after virtual currency packages were successfully received.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="limit">Limit for the number of elements on the page.</param>
 		/// <param name="offset">Number of the element from which the list is generated (the count starts from 0).</param>
-		/// <param name="locale">Response language. Two-letter lowercase language code per ISO 639-1.</param>
+		/// <param name="locale">Response language.<br/>
+		/// The following languages are supported: Arabic (`ar`), Bulgarian (`bg`), Czech (`cs`), German (`de`), Spanish (`es`), French (`fr`), Hebrew (`he`), Italian (`it`), Japanese (`ja`), Korean (`ko`), Polish (`pl`), Portuguese (`pt`), Romanian (`ro`), Russian (`ru`), Thai (`th`), Turkish (`tr`), Vietnamese (`vi`), Chinese Simplified (`cn`), Chinese Traditional (`tw`), English (`en`, default).</param>
 		/// <param name="additionalFields">The list of additional fields. These fields will be in a response if you send them in a request. Available fields `media_list`, `order`, and `long_description`.</param>
-		/// <param name="country">Country used to calculate regional prices and restrictions for the catalog. Two-letter uppercase country code per ISO 3166-1 alpha-2. If you do not specify the country explicitly, it will be defined by the user IP address.</param>
+		/// <param name="country">Country used to calculate regional prices and restrictions for the catalog. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). By default, it is determined by the user's IP address.</param>
 		public void GetVirtualCurrencyPackagesList(string projectId, [NotNull] Action<VirtualCurrencyPackages> onSuccess, [CanBeNull] Action<Error> onError, int limit = 50, int offset = 0, [CanBeNull] string locale = null, string additionalFields = null, string country = null)
 		{
 			var url = string.Format(URL_VIRTUAL_CURRENCY_PACKAGES_IN_PROJECT, projectId);
@@ -150,19 +154,19 @@ namespace Xsolla.Catalog
 		}
 
 		/// <summary>
-		/// Returns all bundles in a catalog.
-		/// If used after authorization, it will also return items available for this specific user.
+		/// Returns a list of bundles according to pagination settings. The list includes bundles for which display in the store is enabled in the settings.
+		/// If used after user authentication, the method returns items that match the personalization rules for the current user.
 		/// </summary>
-		/// <remarks> Swagger method name:<c>Get list of bundles</c>.</remarks>
-		/// <see cref="https://developers.xsolla.com/store-api/bundles/catalog/get-bundle-list"/>
-		/// <param name="projectId">Project ID from your Publisher Account.</param>
-		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/catalog/catalog-display/#unreal_engine_sdk_how_to_bundles).</remarks>
+		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. </param>
+		/// <param name="onSuccess">Called after bundles are successfully received.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="limit">Limit for the number of elements on the page.</param>
 		/// <param name="offset">Number of the element from which the list is generated (the count starts from 0).</param>
-		/// <param name="locale">Defines localization of the item text fields.</param>
-		/// <param name="additionalFields">The list of additional fields. This fields will be in a response if you send its in a request. Available fields 'media_list', 'order', 'long_description'.</param>
-		/// <param name="country">Country used to calculate regional prices and restrictions for the catalog. Two-letter uppercase country code per ISO 3166-1 alpha-2. If you do not specify the country explicitly, it will be defined by the user IP address.</param>
+		/// <param name="locale">Defines localization of the item text fields.<br/>
+		/// The following languages are supported: Arabic (`ar`), Bulgarian (`bg`), Czech (`cs`), German (`de`), Spanish (`es`), French (`fr`), Hebrew (`he`), Italian (`it`), Japanese (`ja`), Korean (`ko`), Polish (`pl`), Portuguese (`pt`), Romanian (`ro`), Russian (`ru`), Thai (`th`), Turkish (`tr`), Vietnamese (`vi`), Chinese Simplified (`cn`), Chinese Traditional (`tw`), English (`en`, default).</param>
+		/// <param name="additionalFields">The list of additional fields. This fields will be in a response if you send its in a request. Available fields `media_list`, `order`, `long_description`.</param>
+		/// <param name="country">Country used to calculate regional prices and restrictions for the catalog. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). By default, it is determined by the user's IP address.</param>
 		public void GetBundles(string projectId, [NotNull] Action<BundleItems> onSuccess, [CanBeNull] Action<Error> onError, int limit = 50, int offset = 0, [CanBeNull] string locale = null, string additionalFields = null, [CanBeNull] string country = null)
 		{
 			var url = string.Format(URL_CATALOG_GET_BUNDLES, projectId);
@@ -172,17 +176,17 @@ namespace Xsolla.Catalog
 		}
 
 		/// <summary>
-		/// Returns specified bundle.
-		/// If used after authorization, it will be able to return bundle available for this specific user.
+		/// Returns information about the contents of the specified bundle. In the bundle settings, display in the store must be enabled.
+		/// If used after user authentication, the method returns items that match the personalization rules for the current user.
 		/// </summary>
-		/// <remarks> Swagger method name:<c>Get specified bundle</c>.</remarks>
-		/// <see cref="https://developers.xsolla.com/store-api/bundles/catalog/get-bundle"/>
-		/// <param name="projectId">Project ID from your Publisher Account.</param>
-		/// <param name="sku"></param>
-		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
-		/// <param name="locale">Defines localization of the item text fields.</param>
-		/// <param name="country">Country used to calculate regional prices and restrictions for the catalog. Two-letter uppercase country code per ISO 3166-1 alpha-2. If you do not specify the country explicitly, it will be defined by the user IP address.</param>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/catalog/catalog-display/#unreal_engine_sdk_how_to_bundles).</remarks>
+		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. </param>
+		/// <param name="sku">Bundle SKU.</param>
+		/// <param name="onSuccess">Called after the cart is successfully filled.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
+		/// <param name="locale">Defines localization of the item text fields.<br/>
+		/// The following languages are supported: Arabic (`ar`), Bulgarian (`bg`), Czech (`cs`), German (`de`), Spanish (`es`), French (`fr`), Hebrew (`he`), Italian (`it`), Japanese (`ja`), Korean (`ko`), Polish (`pl`), Portuguese (`pt`), Romanian (`ro`), Russian (`ru`), Thai (`th`), Turkish (`tr`), Vietnamese (`vi`), Chinese Simplified (`cn`), Chinese Traditional (`tw`), English (`en`, default).</param>
+		/// <param name="country">Country used to calculate regional prices and restrictions for the catalog. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). By default, it is determined by the user's IP address.</param>
 		public void GetBundle(string projectId, string sku, [NotNull] Action<BundleItem> onSuccess, [CanBeNull] Action<Error> onError, [CanBeNull] string locale = null, [CanBeNull] string country = null)
 		{
 			var url = string.Format(URL_CATALOG_GET_BUNDLE, projectId, sku);
@@ -192,14 +196,16 @@ namespace Xsolla.Catalog
 		}
 
 		/// <summary>
-		/// Redeems a coupon code.
+		/// Redeems the coupon code and delivers a reward to the user in one of the following ways:
+		/// - to their inventory (virtual items, virtual currency packages, or bundles)
+		/// - via email (game keys)
+		/// - to the entitlement system (game keys)
 		/// </summary>
-		/// <remarks> Swagger method name:<c>Redeem coupon code</c>.</remarks>
-		/// <see cref="https://developers.xsolla.com/store-api/promotions/coupons/redeem-coupon/"/>
-		/// <param name="projectId">Project ID from your Publisher Account.</param>
-		/// <param name="couponCode">Unique coupon code. Contains letters and numbers.</param>
-		/// <param name="onSuccess">Success operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/promo/coupons).</remarks>
+		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. </param>
+		/// <param name="couponCode">Unique case sensitive code. Contains letters and numbers.</param>
+		/// <param name="onSuccess">Called after successful coupon redemption.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		public void RedeemCouponCode(string projectId, CouponCode couponCode, [NotNull] Action<CouponRedeemedItems> onSuccess, [CanBeNull] Action<Error> onError)
 		{
 			var url = string.Format(URL_INVENTORY_REDEEM_COUPON, projectId);
@@ -211,15 +217,13 @@ namespace Xsolla.Catalog
 		}
 
 		/// <summary>
-		/// Gets coupons rewards by its code. Can be used to allow users to choose one of many items as a bonus.
-		/// The usual case is choosing a DRM if the coupon contains a game as a bonus (type=unit).
+		/// Returns a list of items that can be credited to the user when the coupon is redeemed. Can be used to let users choose one of many items as a bonus. The usual case is choosing a DRM if the coupon contains a game as a bonus.
 		/// </summary>
-		/// <remarks> Swagger method name:<c>Get coupon rewards</c>.</remarks>
-		/// <see cref="https://developers.xsolla.com/store-api/promotions/coupons/get-coupon-rewards-by-code/"/>
-		/// <param name="projectId">Project ID from your Publisher Account.</param>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/promo/coupons).</remarks>
+		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. </param>
 		/// <param name="couponCode">Unique case sensitive code. Contains letters and numbers.</param>
-		/// <param name="onSuccess">Success operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onSuccess">Called after receiving coupon rewards successfully.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		public void GetCouponRewards(string projectId, string couponCode, [NotNull] Action<CouponReward> onSuccess, [CanBeNull] Action<Error> onError)
 		{
 			var url = string.Format(URL_INVENTORY_GET_COUPON_REWARDS, projectId, couponCode);
@@ -231,14 +235,13 @@ namespace Xsolla.Catalog
 		}
 
 		/// <summary>
-		/// Creates an order with a specified item. The created order will get a 'new' order status.
+		/// Creates an order with a specified item. The created order will get a `new` order status.
 		/// </summary>
-		/// <remarks> Swagger method name:<c>Create order with specified item</c>.</remarks>
-		/// <see cref="https://developers.xsolla.com/store-api/payment/create-order-with-item"/>
-		/// <param name="projectId">Project ID from your Publisher Account.</param>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/item-purchase/one-click-purchase/).</remarks>
+		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. </param>
 		/// <param name="itemSku">Item SKU to purchase.</param>
-		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onSuccess">Called after server response.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="purchaseParams">Purchase parameters such as <c>country</c>, <c>locale</c>, and <c>currency</c>.</param>
 		/// <param name="customHeaders">Custom web request headers</param>
 		public void PurchaseItem(string projectId, string itemSku, [CanBeNull] Action<PurchaseData> onSuccess, [CanBeNull] Action<Error> onError, PurchaseParams purchaseParams = null, Dictionary<string, string> customHeaders = null)
@@ -252,18 +255,17 @@ namespace Xsolla.Catalog
 		}
 
 		/// <summary>
-		/// Returns unique identifier of the created order and
-		/// the Pay Station token for the purchase of the specified product by virtual currency.
+		/// Creates an order with a specified item, returns unique identifier of the created order and the Pay Station token for the purchase of the specified product by virtual currency. The created order will get a `new` order status.
 		/// </summary>
-		/// <remarks> Swagger method name:<c>Create order with specified item purchased by virtual currency</c>.</remarks>
-		/// <see cref="https://developers.xsolla.com/store-api/payment/create-order-with-item-for-virtual-currency"/>
-		/// <param name="projectId">Project ID from your Publisher Account.</param>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/item-purchase/purchase-for-vc/).</remarks>
+		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. </param>
 		/// <param name="itemSku">Item SKU to purchase.</param>
 		/// <param name="priceSku">Virtual currency SKU.</param>
-		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onSuccess">Called after server response.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="purchaseParams">Purchase parameters such as <c>country</c>, <c>locale</c> and <c>currency</c>.</param>
-		/// <param name="platform">Publishing platform the user plays on.</param>
+		/// <param name="platform">Publishing platform the user plays on.<br/>
+		/// Can be `xsolla` (default), `playstation_network`, `xbox_live`, `pc_standalone`, `nintendo_shop`, `google_play`, `app_store_ios`, `android_standalone`, `ios_standalone`, `android_other`, `ios_other`, or `pc_other`.</param>
 		/// <param name="customHeaders">Custom web request headers.</param>
 		public void PurchaseItemForVirtualCurrency(string projectId, string itemSku, string priceSku, [CanBeNull] Action<PurchaseData> onSuccess, [CanBeNull] Action<Error> onError, PurchaseParams purchaseParams = null, string platform = null, Dictionary<string, string> customHeaders = null)
 		{
@@ -284,14 +286,13 @@ namespace Xsolla.Catalog
 		}
 
 		/// <summary>
-		/// Create order with specified free item. The created order will get a 'done' order status.
+		/// Create order with specified free item. The created order will get a `done` order status.
 		/// </summary>
-		/// <remarks> Swagger method name:<c>Create order with specified free item</c>.</remarks>
-		/// <see cref="https://developers.xsolla.com/ru/api/igs-bb/operation/create-free-order-with-item/"/>
-		/// <param name="projectId">Project ID from your Publisher Account.</param>
-		/// <param name="itemSku">Item SKU to purchase.</param>
-		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/promo/free-items/).</remarks>
+		/// <param name="projectId">Project ID, can be found in Publisher Account next to the name of the project. </param>
+		/// <param name="itemSku">Desired free item SKU.</param>
+		/// <param name="onSuccess">Called after the payment was successfully completed.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="purchaseParams">Purchase parameters such as <c>country</c>, <c>locale</c>, and <c>currency</c>.</param>
 		/// <param name="customHeaders">Custom web request headers</param>
 		public void CreateOrderWithSpecifiedFreeItem(string projectId, string itemSku, [CanBeNull] Action<int> onSuccess, [CanBeNull] Action<Error> onError, PurchaseParams purchaseParams = null, Dictionary<string, string> customHeaders = null)

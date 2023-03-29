@@ -6,8 +6,6 @@ using System;
 
 namespace Xsolla.Core.Browser
 {
-	[RequireComponent(typeof(XsollaBrowser))]
-	[RequireComponent(typeof(Display2DBehaviour))]
 	public class Mouse2DBehaviour : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler, IScrollHandler
 	{
 		private Canvas canvas;
@@ -100,7 +98,7 @@ namespace Xsolla.Core.Browser
 			}
 			else
 			{
-				yield return new WaitForFixedUpdate();
+				yield return null;
 			}
 		}
 

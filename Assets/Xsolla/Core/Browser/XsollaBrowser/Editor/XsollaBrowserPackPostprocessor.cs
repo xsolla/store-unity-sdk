@@ -10,8 +10,6 @@ namespace Xsolla.Core.Browser
 {
 	public class XsollaBrowserPackPostprocessor : IPostprocessBuildWithReport
 	{
-		private const string BROWSER_REVISION = "884014";
-
 		public int callbackOrder { get; }
 
 		public void OnPostprocessBuild(BuildReport report)
@@ -61,10 +59,11 @@ namespace Xsolla.Core.Browser
 				return;
 			}
 
-			var sourceBrowserDirectory = Path.Combine(Application.persistentDataPath, $"{browserPlatform}-{BROWSER_REVISION}");
+			const string browserRevision = Constants.BROWSER_REVISION;
+			var sourceBrowserDirectory = Path.Combine(Application.persistentDataPath, $"{browserPlatform}-{browserRevision}");
 			if (Directory.Exists(sourceBrowserDirectory))
 			{
-				buildBrowserDirectory = Path.Combine(buildBrowserDirectory, $"{browserPlatform}-{BROWSER_REVISION}");
+				buildBrowserDirectory = Path.Combine(buildBrowserDirectory, $"{browserPlatform}-{browserRevision}");
 
 				foreach (var dirPath in Directory.GetDirectories(sourceBrowserDirectory, "*", SearchOption.AllDirectories))
 					Directory.CreateDirectory(dirPath.Replace(sourceBrowserDirectory, buildBrowserDirectory));
@@ -82,7 +81,8 @@ namespace Xsolla.Core.Browser
 
 				var fetcher = new XsollaBrowserFetcher{
 					Platform = browserPlatform,
-					Path = buildBrowserDirectory
+					Path = buildBrowserDirectory,
+					Revision = Constants.BROWSER_REVISION
 				};
 				
 				Task.Run(async () => await fetcher.DownloadAsync()).Wait();

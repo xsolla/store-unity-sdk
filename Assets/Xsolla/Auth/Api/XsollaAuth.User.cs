@@ -20,41 +20,43 @@ namespace Xsolla.Auth
 		private const string URL_START_AUTH_BY_PHONE_NUMBER = "https://login.xsolla.com/api/oauth2/login/phone/request?response_type=code&client_id={0}&scope=offline&state={1}&redirect_uri={2}";
 		private const string URL_COMPLETE_AUTH_BY_PHONE_NUMBER = "https://login.xsolla.com/api/oauth2/login/phone/confirm?client_id={0}";
 
+		private const string URL_XSOLLA_LOGIN_WIDGET = "https://login-widget.xsolla.com/latest/?projectId={0}&login_url={1}";
+
 		/// <summary>
-		/// Gets details of the user authenticated by the JWT.
+		/// Returns user details.
 		/// </summary>
-		/// <remarks> Swagger method name:<c>Get User Details</c>.</remarks>
-		/// <see cref="https://developers.xsolla.com/api/login/operation/get-user-details/"/>
-		/// <param name="token">JWT from Xsolla Login.</param>
-		/// <param name="onSuccess">Success operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/user-account-and-attributes/user-account/).</remarks>
+		/// <param name="token">User authorization token.</param>
+		/// <param name="onSuccess">Called after successful user details were successfully received.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		public void GetUserInfo(string token, Action<UserInfo> onSuccess, Action<Error> onError = null)
 		{
 			WebRequestHelper.Instance.GetRequest(SdkType.Login, URL_USER_INFO, WebRequestHeader.AuthHeader(token), onSuccess, onError);
 		}
 
 		/// <summary>
-		/// Creates a new user.
+		/// Creates a new user account in the application and sends a sign-up confirmation email to the specified email address. To complete registration, the user must follow the link from the email.
 		/// </summary>
-		/// <remarks> Swagger method name:<c>Register New User</c>.</remarks>
-		/// <see cref="https://developers.xsolla.com/login-api/jwt/jwt-register"/>
-		/// <see cref="https://developers.xsolla.com/login-api/auth/oauth-20/oauth-20-register-new-user"/>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/authentication/classic-auth/).</remarks>
 		/// <param name="username">Username.</param>
 		/// <param name="password">User password.</param>
 		/// <param name="email">User email address.</param>
-		/// <param name="redirectUri">URL to redirect the user to after account confirmation, successful authentication, two-factor authentication configuration, or password reset confirmation.
-		/// Must be identical to the Callback URL specified in the URL block of Publisher Account.
-		/// To find it, go to Login > your Login project > General settings. Required if there are several Callback URLs.</param>
-		/// <param name="oauthState">Value used for additional user verification. Often used to mitigate CSRF Attacks. The value will be returned in the response. Must be longer than 8 symbols.</param>
-		/// <param name="payload">[OBSOLETE]Were used only for JWT auth.</param>
+		/// <param name="redirectUri">URI to redirect the user to after account confirmation, successful authentication, two-factor authentication configuration, or password reset confirmation.
+		/// Must be identical to the OAuth 2.0 redirect URIs specified in Publisher Account.
+		/// Required if there are several URIs.</param>
+		/// <param name="oauthState">Value used for additional user verification on backend. Must be at least 8 symbols long. `xsollatest` by default. Required for OAuth 2.0.</param>
+		/// <param name="payload">[OBSOLETE] Your custom data. Used only for JWT authorization type.</param>
 		/// <param name="acceptConsent">Whether the user gave consent to processing of their personal data.</param>
 		/// <param name="fields">Parameters used for extended registration form. To use this feature, please contact your Account Manager.</param>
 		/// <param name="promoEmailAgreement">User consent to receive the newsletter.</param>
-		/// <param name="locale">Defines localization of the email user receives.</param>
-		/// <param name="onSuccess">Success operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="locale">Defines localization of the email the user receives.<br/>
+		/// The following languages are supported: Arabic (`ar_AE`), Bulgarian (`bg_BG`), Czech (`cz_CZ`), German (`de_DE`), Spanish (`es_ES`), French (`fr_FR`), Hebrew (`he_IL`), Italian (`it_IT`), Japanese (`ja_JP`), Korean (`ko_KR`), Polish (`pl_PL`), Portuguese (`pt_BR`), Romanian (`ro_RO`), Russian (`ru_RU`), Thai (`th_TH`), Turkish (`tr_TR`), Vietnamese (`vi_VN`), Chinese Simplified (`zh_CN`), Chinese Traditional (`zh_TW`), English (`en_XX`, default).
+		/// </param>
+		/// <param name="onSuccess">Called after successful user registration. Account confirmation message will be sent to the specified email address.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <seealso cref="SignIn"/>
 		/// <seealso cref="ResetPassword"/>
+		/// <seealso cref="ResendConfirmationLink"/>
 		public void Register(string username, string password, string email, string redirectUri = null, string oauthState = null, string payload = null, bool? acceptConsent = null, bool? promoEmailAgreement = null, List<string> fields = null, string locale = null, Action<int> onSuccess = null, Action<Error> onError = null)
 		{
 			var registrationData = new RegistrationJson(username, password, email, acceptConsent, fields, promoEmailAgreement);
@@ -85,23 +87,22 @@ namespace Xsolla.Auth
 		}
 
 		/// <summary>
-		/// Authenticates the user by the username/email and password specified.
+		/// Authenticates the user by the username/email and password specified via the authentication interface.
 		/// </summary>
-		/// <remarks> Swagger method name:<c>Auth by Username and Password</c>.</remarks>
-		/// <see cref="https://developers.xsolla.com/login-api/jwt/auth-by-username-and-password"/>
-		/// <see cref="https://developers.xsolla.com/login-api/auth/oauth-20/oauth-20-auth-by-username-and-password"/>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/authentication/classic-auth/).</remarks>
 		/// <param name="username">Username or email address.</param>
 		/// <param name="password">User password.</param>
-		/// <param name="rememberMe">[OBSOLETE]Were used only for JWT auth.</param>
-		/// <param name="redirectUri">URL to redirect the user to after account confirmation, successful authentication, two-factor authentication configuration, or password reset confirmation.
-		/// Must be identical to the Callback URL specified in the URL block of Publisher Account.
-		/// To find it, go to Login > your Login project > General settings. Required if there are several Callback URLs.</param>
-		/// <param name="payload">[OBSOLETE]Were used only for JWT auth.</param>
-		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="rememberMe">Whether the user agrees to save the authentication data.</param>
+		/// <param name="redirectUri">URI to redirect the user to after account confirmation, successful authentication, two-factor authentication configuration, or password reset confirmation.
+		/// Must be identical to the OAuth 2.0 redirect URIs specified in Publisher Account.
+		/// Required if there are several URIs.</param>
+		/// <param name="payload">[OBSOLETE] Your custom data. Used only for JWT authorization type.</param>
+		/// <param name="onSuccess">Called after successful user authentication. Authentication data including the JWT will be received.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <seealso cref="SignInConsoleAccount"/>
-		/// <seealso cref="Registration"/>
+		/// <seealso cref="Register"/>
 		/// <seealso cref="ResetPassword"/>
+		/// <seealso cref="ResendConfirmationLink"/>
 		public void SignIn(string username, string password, bool rememberMe, string redirectUri = null, string payload = null, Action<string> onSuccess = null, Action<Error> onError = null)
 		{
 			var loginData = new LoginRequest(username, password);
@@ -117,17 +118,18 @@ namespace Xsolla.Auth
 		}
 
 		/// <summary>
-		/// Starts authentication by the user email address and sends a confirmation code to their email address.
+		/// Starts user authentication and sends an email with a one-time code and a link to the specified email address (if login via magic link is configured for the Login project)
 		/// </summary>
-		/// <see cref="https://developers.xsolla.com/api/login/operation/jwt-start-auth-by-email/"/>
-		/// <see cref="https://developers.xsolla.com/api/login/operation/oauth-20-start-auth-by-email/"/>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/authentication/passwordless-auth/).</remarks>
 		/// <param name="email">User email address.</param>
 		/// <param name="linkUrl">URL to redirect the user to the status authentication page.</param>
 		/// <param name="sendLink">Shows whether a link is sent with the confirmation code in the email or not.</param>
-		/// <param name="oauthState">Value used for additional user verification. Often used to mitigate CSRF Attacks. The value will be returned in the response. Must be longer than 8 symbols.</param>
-		/// <param name="locale">Defines localization of the email user receives.</param>
-		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="oauthState">Value used for additional user verification on backend. Must be at least 8 symbols long. `xsollatest` by default. Required for OAuth 2.0.</param>
+		/// <param name="locale">Defines localization of the email the user receives.
+		/// The following languages are supported: Arabic (`ar_AE`), Bulgarian (`bg_BG`), Czech (`cz_CZ`), German (`de_DE`), Spanish (`es_ES`), French (`fr_FR`), Hebrew (`he_IL`), Italian (`it_IT`), Japanese (`ja_JP`), Korean (`ko_KR`), Polish (`pl_PL`), Portuguese (`pt_BR`), Romanian (`ro_RO`), Russian (`ru_RU`), Thai (`th_TH`), Turkish (`tr_TR`), Vietnamese (`vi_VN`), Chinese Simplified (`zh_CN`), Chinese Traditional (`zh_TW`), English (`en_XX`, default).
+		/// </param>
+		/// <param name="onSuccess">Called after successful email authentication start.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		public void StartAuthByEmail(string email, string linkUrl, bool? sendLink, string oauthState = null, string locale = null, Action<string> onSuccess = null, Action<Error> onError = null)
 		{
 			var data = new StartAuthByEmailRequest(email, linkUrl, sendLink);
@@ -151,15 +153,14 @@ namespace Xsolla.Auth
 		}
 
 		/// <summary>
-		/// Completes authentication by the user email address and a confirmation code.
+		/// Completes authentication after the user enters a one-time code or follows a link received in an email.
 		/// </summary>
-		/// <see cref="https://developers.xsolla.com/api/login/operation/jwt-complete-auth-by-email/"/>
-		/// <see cref="https://developers.xsolla.com/api/login/operation/oauth-20-complete-auth-by-email/"/>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/authentication/passwordless-auth/).</remarks>
 		/// <param name="email">User email address.</param>
 		/// <param name="confirmationCode">Confirmation code.</param>
-		/// <param name="operationId">ID of the confirmation code.</param>
-		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="operationId">Identifier of the confirmation code.</param>
+		/// <param name="onSuccess">Called after successful email authentication.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		public void CompleteAuthByEmail(string email, string confirmationCode, string operationId, Action<string> onSuccess, Action<Error> onError = null)
 		{
 			var data = new CompleteAuthByEmailRequest(email, confirmationCode, operationId);
@@ -181,15 +182,15 @@ namespace Xsolla.Auth
 		}
 
 		/// <summary>
-		/// Starts authentication by the user phone number and sends a confirmation code to their phone number
+		/// Starts user authentication and sends an SMS with a one-time code and a link to the specified phone number (if login via magic link is configured for the Login project).
 		/// </summary>
-		/// <see cref="https://developers.xsolla.com/login-api/auth/jwt/jwt-start-auth-by-phone-number/"/>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/authentication/passwordless-auth/).</remarks>
 		/// <param name="phoneNumber">User phone number.</param>
 		/// <param name="linkUrl">URL to redirect the user to the status authentication page.</param>
 		/// <param name="sendLink">Shows whether a link is sent with the confirmation code in the SMS or not.</param>
-		/// <param name="oauthState">Value used for additional user verification. Often used to mitigate CSRF Attacks. The value will be returned in the response. Must be longer than 8 symbols.</param>
-		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="oauthState">Value used for additional user verification on backend. Must be at least 8 symbols long. `xsollatest` by default. Required for OAuth 2.0.</param>
+		/// <param name="onSuccess">Called after successful phone number authentication start.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		public void StartAuthByPhoneNumber(string phoneNumber, string linkUrl, bool sendLink, string oauthState, Action<string> onSuccess, Action<Error> onError = null)
 		{
 			var data = new StartAuthByPhoneNumberRequest(phoneNumber, linkUrl, sendLink);
@@ -212,14 +213,14 @@ namespace Xsolla.Auth
 		}
 
 		/// <summary>
-		/// Completes authentication by the user phone number and a confirmation code.
+		/// Completes authentication after the user enters a one-time code or follows a link received by SMS.
 		/// </summary>
-		/// <see cref="https://developers.xsolla.com/login-api/auth/jwt/jwt-complete-auth-by-phone-number/"/>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/authentication/passwordless-auth/).</remarks>
 		/// <param name="phoneNumber">User phone number.</param>
 		/// <param name="confirmationCode">Confirmation code.</param>
-		/// <param name="operationId">ID of the confirmation code.</param>
-		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="operationId">Identifier of the confirmation code.</param>
+		/// <param name="onSuccess">Called after successful phone number authentication.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		public void CompleteAuthByPhoneNumber(string phoneNumber, string confirmationCode, string operationId, Action<string> onSuccess, Action<Error> onError = null)
 		{
 			var data = new CompleteAuthByPhoneNumberRequest(phoneNumber, confirmationCode, operationId);
@@ -241,19 +242,21 @@ namespace Xsolla.Auth
 		}
 
 		/// <summary>
-		/// Resets the user password with user confirmation.
+		/// Resets the user’s current password and sends an email to change the password to the email address specified during sign-up.
 		/// </summary>
-		/// <remarks> Swagger method name:<c>Reset Password</c>.</remarks>
-		/// <see cref="https://developers.xsolla.com/api/login/operation/reset-password/"/>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/authentication/classic-auth/).</remarks>
 		/// <param name="email">Email to send the password change verification message to.</param>
-		/// <param name="redirectUri">URL to redirect the user to after account confirmation, successful authentication, two-factor authentication configuration, or password reset confirmation.
-		/// Must be identical to the Callback URL specified in the URL block of Publisher Account.
-		/// To find it, go to Login > your Login project > General settings. Required if there are several Callback URLs.</param>
-		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
-		/// <param name="locale">Defines localization of the email user receives.</param>
-		/// <seealso cref="Registration"/>
+		/// <param name="redirectUri">URI to redirect the user to after account confirmation, successful authentication, two-factor authentication configuration, or password reset confirmation.
+		/// Must be identical to the OAuth 2.0 redirect URIs specified in Publisher Account.
+		/// Required if there are several URIs.</param>
+		/// <param name="onSuccess">Called after successful user password reset.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
+		/// <param name="locale">Defines localization of the email the user receives.
+		/// The following languages are supported: Arabic (`ar_AE`), Bulgarian (`bg_BG`), Czech (`cz_CZ`), German (`de_DE`), Spanish (`es_ES`), French (`fr_FR`), Hebrew (`he_IL`), Italian (`it_IT`), Japanese (`ja_JP`), Korean (`ko_KR`), Polish (`pl_PL`), Portuguese (`pt_BR`), Romanian (`ro_RO`), Russian (`ru_RU`), Thai (`th_TH`), Turkish (`tr_TR`), Vietnamese (`vi_VN`), Chinese Simplified (`zh_CN`), Chinese Traditional (`zh_TW`), English (`en_XX`, default).
+		/// </param>
+		/// <seealso cref="Register"/>
 		/// <seealso cref="SignIn"/>
+		/// <seealso cref="ResendConfirmationLink"/>
 		public void ResetPassword(string email, string redirectUri = null, string locale = null, Action onSuccess = null, Action<Error> onError = null)
 		{
 			var projectIdParam = XsollaSettings.LoginId;
@@ -265,22 +268,23 @@ namespace Xsolla.Auth
 		}
 
 		/// <summary>
-		/// Resends an account confirmation email to a user. To complete account confirmation, the user should follow the link in the email.
+		/// Resends a sign-up confirmation email to the specified email address. To complete registration, the user must follow the link from the email.
 		/// </summary>
-		/// <remarks> Swagger method name:<c>Resend Confirmation Link</c>.</remarks>
-		/// <see cref="https://developers.xsolla.com/login-api/methods/jwt/jwt-resend-account-confirmation-email"/>
-		/// <see cref="https://developers.xsolla.com/login-api/emails/oauth-20/oauth-20-resend-account-confirmation-email"/>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/authentication/classic-auth/).</remarks>
 		/// <param name="username">Username or user email address.</param>
-		/// <param name="redirectUri">URL to redirect the user to after account confirmation, successful authentication, two-factor authentication configuration, or password reset confirmation.
-		/// Must be identical to the Callback URL specified in the URL block of Publisher Account.
-		/// To find it, go to Login > your Login project > General settings. Required if there are several Callback URLs.</param>
-		/// <param name="state">Value used for additional user verification. Often used to mitigate CSRF Attacks. The value will be returned in the response. Must be longer than 8 symbols. Used only for OAuth2.0 auth.</param>
-		/// <param name="payload">[OBSOLETE]Were used only for JWT auth.</param>
-		/// <param name="locale">Defines localization of the email user receives.</param>
-		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
-		/// <seealso cref="Registration"/>
+		/// <param name="redirectUri">URI to redirect the user to after account confirmation, successful authentication, two-factor authentication configuration, or password reset confirmation.
+		/// Must be identical to the OAuth 2.0 redirect URIs specified in Publisher Account.
+		/// Required if there are several URIs.</param>
+		/// <param name="state">Value used for additional user verification on backend. Must be at least 8 symbols long. `xsollatest` by default. Required for OAuth 2.0.</param>
+		/// <param name="payload">[OBSOLETE] Your custom data. Used only for JWT authorization type.</param>
+		/// <param name="locale">Defines localization of the email user receives.
+		/// The following languages are supported: Arabic (`ar_AE`), Bulgarian (`bg_BG`), Czech (`cz_CZ`), German (`de_DE`), Spanish (`es_ES`), French (`fr_FR`), Hebrew (`he_IL`), Italian (`it_IT`), Japanese (`ja_JP`), Korean (`ko_KR`), Polish (`pl_PL`), Portuguese (`pt_BR`), Romanian (`ro_RO`), Russian (`ru_RU`), Thai (`th_TH`), Turkish (`tr_TR`), Vietnamese (`vi_VN`), Chinese Simplified (`zh_CN`), Chinese Traditional (`zh_TW`), English (`en_XX`, default).
+		/// </param>
+		/// <param name="onSuccess">Called after successful sending of the request.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
+		/// <seealso cref="Register"/>
 		/// <seealso cref="SignIn"/>
+		/// <seealso cref="ResetPassword"/>
 		public void ResendConfirmationLink(string username, string redirectUri = null, string state = null, string payload = null, string locale = null, Action onSuccess = null, Action<Error> onError = null)
 		{
 			var stateParam = state ?? DEFAULT_OAUTH_STATE;
@@ -294,17 +298,14 @@ namespace Xsolla.Auth
 		/// <summary>
 		/// Authenticates the user with the access token using social network credentials.
 		/// </summary>
-		/// <remarks> Swagger method name:<c>Auth via Access Token of Social Network</c>.</remarks>
-		/// <see cref="https://developers.xsolla.com/login-api/auth/jwt/jwt-auth-via-access-token-of-social-network/"/>
-		/// <see cref="https://developers.xsolla.com/login-api/auth/oauth-20/oauth-20-auth-via-access-token-of-social-network/"/>
 		/// <param name="accessToken">Access token received from a social network.</param>
 		/// <param name="accessTokenSecret">Parameter `oauth_token_secret` received from the authorization request. Required for Twitter only.</param>
 		/// <param name="openId">Parameter `openid` received from the social network. Required for WeChat only.</param>
-		/// <param name="providerName">Name of the social network connected to the Login in Publisher Account.</param>
-		/// <param name="payload">[OBSOLETE]Were used only for JWT auth.</param>
-		/// <param name="state">Value used for additional user verification. Often used to mitigate CSRF Attacks. The value will be returned in the response. Must be longer than 8 symbols. Used only for OAuth2.0 auth</param>
-		/// <param name="onSuccess">Success operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="providerName">Name of the social network connected to Login in Publisher Account. Can be `facebook`, `google`, `wechat`, or `qq_mobile`.</param>
+		/// <param name="payload">[OBSOLETE] Your custom data. Used only for JWT authorization type.</param>
+		/// <param name="state">Value used for additional user verification on backend. Must be at least 8 symbols long. `xsollatest` by default. Required for OAuth 2.0.</param>
+		/// <param name="onSuccess">Called after successful user authentication on the specified platform.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		public void AuthWithSocialNetworkAccessToken(string accessToken, string accessTokenSecret, string openId, string providerName, string payload, string state = null, Action<string> onSuccess = null, Action<Error> onError = null)
 		{
 			var oauthState = state ?? DEFAULT_OAUTH_STATE;
@@ -321,15 +322,48 @@ namespace Xsolla.Auth
 			WebRequestHelper.Instance.PostRequest(SdkType.Login, url, requestData, onSuccess, onError, ErrorCheckType.LoginErrors);
 		}
 
+
 		/// <summary>
-		/// Logs the user out and deletes the user session.
+		/// Authenticates the user with Xsolla Login widget.
 		/// </summary>
-		/// <remarks> Swagger method name:<c>Log User Out</c>.</remarks>
-		/// <see cref="https://developers.xsolla.com/api/login/operation/log-user-out/"/>
-		/// <param name="token">JWT from Xsolla Login.</param>
-		/// <param name="sessions">Shows how the user is logged out and how the user session is deleted.</param>
-		/// <param name="onSuccess">Successful operation callback.</param>
-		/// <param name="onError">Failed operation callback.</param>
+		/// <param name="onSuccess">Called after successful authentication.</param>
+		/// <param name="onCancel">Called after browser closing by user.</param>
+		public void AuthWithXsollaWidget(Action<string> onSuccess, Action onCancel = null)
+		{
+			var url = string.Format(URL_XSOLLA_LOGIN_WIDGET, XsollaSettings.LoginId, RedirectUtils.GetRedirectUrl());
+			BrowserHelper.Instance.Open(url);
+
+			var browser = BrowserHelper.Instance.InAppBrowser;
+
+			void onBrowserClose(bool isManually)
+			{
+				onCancel?.Invoke();
+				browser.CloseEvent -= onBrowserClose;
+				browser.UrlChangeEvent -= onBrowserUrlChange;
+			}
+
+			void onBrowserUrlChange(string newUrl)
+			{
+				if (ParseUtils.TryGetValueFromUrl(newUrl, ParseParameter.token, out var token))
+				{
+					browser.CloseEvent -= onBrowserClose;
+					browser.UrlChangeEvent -= onBrowserUrlChange;
+					BrowserHelper.Instance.Close();
+					onSuccess?.Invoke(token);
+				}
+			}
+
+			browser.CloseEvent += onBrowserClose;
+			browser.UrlChangeEvent += onBrowserUrlChange;
+		}
+
+		/// <summary>
+		/// Logs the user out and deletes the user session according to the value of the sessions parameter (OAuth2.0 only).
+		/// </summary>
+		/// <param name="token">User authorization token.</param>
+		/// <param name="sessions">Shows how the user is logged out and how the user session is deleted. Can be `sso` or `all` (default). Leave empty to use the default value.</param>
+		/// <param name="onSuccess">Called after successful user logout.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		public void OAuthLogout(string token, OAuthLogoutType sessions, Action onSuccess, Action<Error> onError = null)
 		{
 			var logoutTypeFlag = sessions.ToString().ToLowerInvariant();

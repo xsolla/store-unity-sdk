@@ -2,6 +2,9 @@ include:
   - project: 'sysadm-docker/ubuntu-sshclient'
     ref:     'master'
     file:    'gitlab-ci-template.yml'
+  - project: 'security/security-tools'
+    ref: 'v1'
+    file: 'gitlab-ci.yml'
 
 stages:
   - build
@@ -14,6 +17,7 @@ stages:
   - build-demo-iOS
   - deploy
   - linking
+  - security scan
 
 variables:
   PROJECT_PATH: $CI_PROJECT_DIR
@@ -36,9 +40,9 @@ build doc:
   stage: build
   only:
     - /^v.*/
-  image: alpine
+  image: node:14-alpine3.15
   script:
-  - apk update && apk add doxygen graphviz ttf-freefont zip git nodejs npm
+  - apk update && apk add doxygen graphviz ttf-freefont zip git
   - doxygen Documentation/Autogen/Doxyfile >/dev/null
   - git clone https://$GITHUB_ACCESS_TOKEN@github.com/xsolla/sdk-reference-parser-unity-ue.git
   - mkdir -p sdk-reference-parser-unity-ue/src
@@ -295,39 +299,41 @@ build-android-2021:
 # =================================================================================================================
 # IOS DEMO
 
-build-ios-2019:
+.build-ios-demo:
   stage: build-demo-iOS
-  script:
+  before_script:
+    - export IOS_SIGN_TEAM_ID=$IOS_SIGN_TEAM_ID
+    - export IOS_PROVISION_ID=$IOS_PROVISION_ID
     - chmod 755 fastlane/scripts/diawi_callback_helper.sh
-    - sh $BUILD_SCRIPT_MAC $PROJECT_PATH $UNITY_2019_VERSION $BUILD_ROOT_PATH $BUILD_TARGET_IOS
+  artifacts:
+    name: "$UNITY_2019_VERSION_$BUILD_TARGET_IOS_$CI_COMMIT_REF_NAME"
+    when: always
+    paths:
+      - "Builds/build.log"
+    expire_in: 3 days
   dependencies: []
   tags:
     - sdk_ci
     - mac
+
+build-ios-2019:
+  extends: .build-ios-demo
+  script:
+    - sh $BUILD_SCRIPT_MAC $PROJECT_PATH $UNITY_2019_VERSION $BUILD_ROOT_PATH $BUILD_TARGET_IOS
 
 build-ios-2020:
-  stage: build-demo-iOS
+  extends: .build-ios-demo
   script:
-    - chmod 755 fastlane/scripts/diawi_callback_helper.sh
     - sh $BUILD_SCRIPT_MAC $PROJECT_PATH $UNITY_2020_VERSION $BUILD_ROOT_PATH $BUILD_TARGET_IOS
-  dependencies: []
   needs:
     - build-ios-2019
-  tags:
-    - sdk_ci
-    - mac
 
 build-ios-2021:
-  stage: build-demo-iOS
+  extends: .build-ios-demo
   script:
-    - chmod 755 fastlane/scripts/diawi_callback_helper.sh
     - sh $BUILD_SCRIPT_MAC $PROJECT_PATH $UNITY_2021_VERSION $BUILD_ROOT_PATH $BUILD_TARGET_IOS
-  dependencies: []
   needs:
     - build-ios-2020
-  tags:
-    - sdk_ci
-    - mac
 
 # =========================================================================================================================
 # Deploy STAGE

@@ -1848,6 +1848,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 12800000, guid: f70b0d194d863d14eaa3261671349a4b,
         type: 3}
+    - target: {fileID: 1428180471746017715, guid: e467dd2a3ee1efb42bd10523125351b7,
+        type: 3}
+      propertyPath: LoginPageEnterController
+      value: 
+      objectReference: {fileID: 1484963181}
     - target: {fileID: 1541428644768594327, guid: e467dd2a3ee1efb42bd10523125351b7,
         type: 3}
       propertyPath: ButtonsToClick.Array.data[1]

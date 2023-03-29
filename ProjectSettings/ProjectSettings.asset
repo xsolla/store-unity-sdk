@@ -124,7 +124,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleVersion: 1.4.0
+  bundleVersion: 1.5.0
   preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
@@ -235,10 +235,10 @@ PlayerSettings:
   metalAPIValidation: 1
   iOSRenderExtraFrameOnPause: 0
   iosCopyPluginsCodeInsteadOfSymlink: 0
-  appleDeveloperTeamID: 2FWGTXK3RK
-  iOSManualSigningProvisioningProfileID: match AdHoc com.xsolla.sdk.Example
+  appleDeveloperTeamID: 
+  iOSManualSigningProvisioningProfileID: 
   tvOSManualSigningProvisioningProfileID: 
-  iOSManualSigningProvisioningProfileType: 2
+  iOSManualSigningProvisioningProfileType: 0
   tvOSManualSigningProvisioningProfileType: 0
   appleEnableAutomaticSigning: 2
   iOSRequireARKit: 0
@@ -640,7 +640,7 @@ PlayerSettings:
   ps5BGMPath: 
   ps5ShareOverlayImagePath: 
   ps5NPConfigZipPath: 
-  ps5Passcode: 5PN2qmWqBlQ9wQj99nsQzldVI5ZuGXbE
+  ps5Passcode: dVI5ZuGXbEWRK5RhRXdCdG5nG5azdNMK
   ps5UseResolutionFallback: 0
   ps5UseAudio3dBackend: 0
   ps5ScriptOptimizationLevel: 2

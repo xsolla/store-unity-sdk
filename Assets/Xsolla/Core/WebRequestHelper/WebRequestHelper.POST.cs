@@ -182,7 +182,11 @@ namespace Xsolla.Core
 		IEnumerator PostUploadRequestCor(SdkType sdkType, string url, byte[] fileData, List<WebRequestHeader> requestHeaders, Action<string> onComplete = null, Action<Error> onError = null, ErrorCheckType errorsToCheck = ErrorCheckType.CommonErrors)
 		{
 			url = AppendAnalyticsToUrl(sdkType, url);
+#if UNITY_2022_2_OR_NEWER
+			UnityWebRequest webRequest = UnityWebRequest.PostWwwForm(url, UnityWebRequest.kHttpVerbPOST);
+#else
 			UnityWebRequest webRequest = UnityWebRequest.Post(url, UnityWebRequest.kHttpVerbPOST);
+#endif
 
 			//Timeout was set to 10 seconds for the unknown reason. I've changed it to 30 because of one specific request that can take up to 10-30 seconds.
 			//Also considered this recommendation from a UnityTech employee:
@@ -207,7 +211,11 @@ namespace Xsolla.Core
 
 		private UnityWebRequest PreparePostWebRequest(string url, object jsonObject, List<WebRequestHeader> requestHeaders)
 		{
+#if UNITY_2022_2_OR_NEWER
+			UnityWebRequest webRequest = UnityWebRequest.PostWwwForm(url, UnityWebRequest.kHttpVerbPOST);
+#else
 			UnityWebRequest webRequest = UnityWebRequest.Post(url, UnityWebRequest.kHttpVerbPOST);
+#endif
 			webRequest.timeout = 30;
 
 			AttachBodyToRequest(webRequest, jsonObject);
@@ -218,7 +226,11 @@ namespace Xsolla.Core
 
 		private UnityWebRequest PreparePostUploadRequest(string url, string pathToFile, List<WebRequestHeader> requestHeaders)
 		{
-			var webRequest = UnityWebRequest.Post(url, UnityWebRequest.kHttpVerbPOST);
+#if UNITY_2022_2_OR_NEWER
+			UnityWebRequest webRequest = UnityWebRequest.PostWwwForm(url, UnityWebRequest.kHttpVerbPOST);
+#else
+			UnityWebRequest webRequest = UnityWebRequest.Post(url, UnityWebRequest.kHttpVerbPOST);
+#endif
 			webRequest.timeout = 30;
 
 			AttachFileToUploadRequest(webRequest, pathToFile);

@@ -2,7 +2,7 @@ namespace Xsolla.Core
 {
 	public static class Constants
 	{
-		public const string SdkVersion = "1.4.0";
+		public const string SdkVersion = "1.5.0";
 
 		public const string DEFAULT_PROJECT_ID = "77640";
 		public const string DEFAULT_LOGIN_ID = "026201e3-7e40-11ea-a85b-42010aa80004";
@@ -17,5 +17,8 @@ namespace Xsolla.Core
 		public const string INVENTORY_TUTORIAL_HIGHLIGHT_TAG = "Highlight";
 
 		public const string BASE_STORE_API_URL = "https://store.xsolla.com/api/v2/project/{0}";
+		
+		public const string BROWSER_REVISION = "1069273";
+		public const string CUSTOM_BROWSER_USER_AGENT = null;
 	}
 }
