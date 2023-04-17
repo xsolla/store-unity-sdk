@@ -5,7 +5,7 @@ namespace Xsolla.UserAccount
 	/// <summary>
 	/// Public user info entity.
 	/// </summary>
-	/// <see cref="https://go-xsolla-login.doc.srv.loc/login-api/users/get-public-user-profile"/>
+	/// <see href="https://go-xsolla-login.doc.srv.loc/login-api/users/get-public-user-profile"/>
 	[Serializable]
 	public class UserPublicInfo
 	{

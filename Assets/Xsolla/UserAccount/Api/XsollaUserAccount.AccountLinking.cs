@@ -16,8 +16,8 @@ namespace Xsolla.UserAccount
 		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/user-account-and-attributes/account-linking/).</remarks>
 		/// <param name="onSuccess">Called after successful linking code creation.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
-		/// <seealso cref="SignInConsoleAccount"/>
-		/// <seealso cref="LinkConsoleAccount"/>
+		/// <seealso href="SignInConsoleAccount"/>
+		/// <seealso href="LinkConsoleAccount"/>
 		#endregion
 		public void RequestLinkingCode(Action<LinkingCode> onSuccess, Action<Error> onError)
 		{
@@ -45,7 +45,7 @@ namespace Xsolla.UserAccount
 		///					<item>
 		///						<term>Implement method: </term>
 		///						<description>
-		///							<see cref="https://developers.xsolla.com/login-api/oauth-20/generate-user-jwt"/>
+		///							<see href="https://developers.xsolla.com/login-api/oauth-20/generate-user-jwt"/>
 		///							with `application/x-www-form-urlencoded` payload parameters:
 		///							<list type="bullet">
 		///								<item>
@@ -66,7 +66,7 @@ namespace Xsolla.UserAccount
 		///		<item>
 		///			<term>Implement APIs for account linking </term>
 		///			<description>
-		///				<see cref="https://developers.xsolla.com/login-api/users/link-accounts-by-code"/>
+		///				<see href="https://developers.xsolla.com/login-api/users/link-accounts-by-code"/>
 		///				with:
 		///				<list type="bullet">
 		///					<item>
@@ -89,8 +89,8 @@ namespace Xsolla.UserAccount
 		/// <param name="confirmationCode">Code, taken from unified account.</param>
 		/// <param name="onSuccess">Success operation callback.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
-		/// <seealso cref="SignInConsoleAccount"/>
-		/// <seealso cref="RequestLinkingCode"/>
+		/// <seealso href="SignInConsoleAccount"/>
+		/// <seealso href="RequestLinkingCode"/>
 		#endregion
 		public void LinkConsoleAccount(string userId, string platform, string confirmationCode, Action onSuccess, Action<Error> onError)
 		{

@@ -4,7 +4,7 @@ namespace Xsolla.Core
 {
 	/// <summary>
 	/// Social providers list for Login Social Auth.
-	/// See full list at <see cref="https://developers.xsolla.com/login-api/jwt/jwt-auth-via-social-network/"/>.
+	/// See full list at <see href="https://developers.xsolla.com/login-api/jwt/jwt-auth-via-social-network/"/>.
 	/// </summary>
 	public enum SocialProvider
 	{

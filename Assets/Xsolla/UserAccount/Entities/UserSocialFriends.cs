@@ -6,7 +6,7 @@ namespace Xsolla.UserAccount
 	/// <summary>
 	/// User's social friends entity.
 	/// </summary>
-	/// <see cref="https://developers.xsolla.com/login-api/methods/users/get-users-friends"/>
+	/// <see href="https://developers.xsolla.com/login-api/methods/users/get-users-friends"/>
 	[Serializable]
 	public class UserSocialFriends
 	{

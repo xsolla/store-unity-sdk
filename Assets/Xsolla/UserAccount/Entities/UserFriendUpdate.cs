@@ -5,7 +5,7 @@ namespace Xsolla.UserAccount
 	/// <summary>
 	/// User's friend entity.
 	/// </summary>
-	/// <see cref="https://developers.xsolla.com/user-account-api/user-friends/postusersmerelationships"/>
+	/// <see href="https://developers.xsolla.com/user-account-api/user-friends/postusersmerelationships"/>
 	[Serializable]
 	public class UserFriendUpdate
 	{
