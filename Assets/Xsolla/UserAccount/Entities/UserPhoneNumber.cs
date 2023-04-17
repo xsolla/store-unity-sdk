@@ -8,8 +8,7 @@ namespace Xsolla.UserAccount
 		/// <summary>
 		/// User phone number.
 		/// </summary>
-		/// <see href="https://developers.xsolla.com/user-account-api/user-phone-number/getusersmephone"/>
-		/// <see href="https://en.wikipedia.org/wiki/National_conventions_for_writing_telephone_numbers"/>
+		/// <see href="https://en.wikipedia.org/wiki/National_conventions_for_writing_telephone_numbers">National conventions for writing telephone numbers</see>
 		public string phone_number;
 	}
 }

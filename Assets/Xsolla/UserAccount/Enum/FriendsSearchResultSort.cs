@@ -3,7 +3,6 @@ namespace Xsolla.UserAccount
 	/// <summary>
 	/// Condition for sorting users
 	/// </summary>
-	/// <see href="https://developers.xsolla.com/user-account-api/user-friends/get-friends"/>
 	public enum FriendsSearchResultsSort
 	{
 		ByNickname,

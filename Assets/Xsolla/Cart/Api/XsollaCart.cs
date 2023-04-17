@@ -117,7 +117,7 @@ namespace Xsolla.Cart
 		/// <param name="quantity">Quantity of purchased item.</param>
 		/// <param name="onSuccess">Called after successfully adding a new item to the cart.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
-		/// <seealso href="GetCartItems(string,System.Action{Xsolla.Store.Cart},System.Action{Xsolla.Core.Error},string,string)"/>
+		/// <seealso href="GetCartItems(string,System.Action{Xsolla.Cart.Cart},System.Action{Xsolla.Core.Error},string,string)"/>
 		public void UpdateItemInCart(string projectId, string itemSku, int quantity, [CanBeNull] Action onSuccess, [CanBeNull] Action<Error> onError)
 		{
 			var url = string.Format(URL_CART_CURRENT_ITEM_UPDATE, projectId, itemSku);
@@ -137,7 +137,7 @@ namespace Xsolla.Cart
 		/// <param name="quantity">Quantity of purchased items.</param>
 		/// <param name="onSuccess">Called after successfully adding a new item to the cart.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
-		/// <seealso href="GetCartItems(string,System.Action{Xsolla.Store.Cart},System.Action{Xsolla.Core.Error},string,string)"/>
+		/// <seealso href="GetCartItems(string,System.Action{Xsolla.Cart.Cart},System.Action{Xsolla.Core.Error},string,string)"/>
 		public void UpdateItemInCart(string projectId, string cartId, string itemSku, int quantity, [CanBeNull] Action onSuccess, [CanBeNull] Action<Error> onError)
 		{
 			var url = string.Format(URL_CART_SPECIFIC_ITEM_UPDATE, projectId, cartId, itemSku);
