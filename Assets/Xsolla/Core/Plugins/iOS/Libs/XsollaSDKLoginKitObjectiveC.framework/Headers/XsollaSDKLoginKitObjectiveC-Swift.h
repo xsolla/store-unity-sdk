@@ -278,7 +278,7 @@ SWIFT_CLASS("_TtC27XsollaSDKLoginKitObjectiveC19JWTGenerationParams")
 /// The type of getting the JWT. Can be:
 /// <ul>
 ///   <li>
-///     <em>authorization_code</em> to exchange the code received in the <a href="Xsolla.Auth.XsollaAuth.SignIn"/> to JWT
+///     <em>authorization_code</em> to exchange the code received in the <code>Xsolla.Auth.XsollaAuth.SignIn"</code.> to JWT
 ///     The value of the <code>authCode</code> parameter must be specified.
 ///   </li>
 ///   <li>
@@ -409,15 +409,15 @@ SWIFT_CLASS("_TtC27XsollaSDKLoginKitObjectiveC12OAuth2Params")
 /// The value will be returned in the response. Must be longer than 8 characters.
 @property (nonatomic, readonly, strong) NSString * _Nonnull state;
 /// Grant type used in your project that has the enabled OAuth 2.0 protocol. Must be <em>code</em> to get the user authentication code in the response.
-/// The received code must be exchanged to a JWT via the <a href="Xsolla.Auth.XsollaAuth.ExchangeCodeToToken"/>
+/// The received code must be exchanged to a JWT via the <code>Xsolla.Auth.XsollaAuth.ExchangeCodeToToken</code>
 /// method to finish user authentication.
 @property (nonatomic, readonly, strong) NSString * _Nonnull responseType;
 /// Scope is a mechanism in OAuth 2.0 to limit application’s access to a user’s account.
 /// Can be:
-/// 1. <em>email</em> for <a href="Xsolla.Auth.XsollaAuth.AuthWithSocialNetworkAccessToken"/>
-/// or <a href="Xsolla.Auth.XsollaAuth.GetSocialNetworkAuthUrl"/>
+/// 1. <em>email</em> for <code>Xsolla.Auth.XsollaAuth.AuthWithSocialNetworkAccessToken</code>
+/// or <code>Xsolla.Auth.XsollaAuth.GetSocialNetworkAuthUrl</code>
 /// methods to additionally request an email from the user.
-/// 2. <em>offline</em> to use <code>refresh_token</code> from <a href="Xsolla.Auth.XsollaAuth.ExchangeCodeToToken"/>
+/// 2. <em>offline</em> to use <code>refresh_token</code> from <code>Xsolla.Auth.XsollaAuth.ExchangeCodeToToken</code>
 /// method to refresh the JWT when it is expired.
 /// 3. <em>playfab</em> to write SessionTicket to the session_ticket claim of the JWT if you store user data on the PlayFab side.
 /// If you process your own values of the <em>scope</em> parameter, and the values aren’t mentioned above, you can set them when using this method.
@@ -432,7 +432,7 @@ SWIFT_CLASS("_TtC27XsollaSDKLoginKitObjectiveC12OAuth2Params")
 
 /// The type of getting the JWT.
 typedef SWIFT_ENUM(NSInteger, TokenGrantType, open) {
-/// To exchange the code received in the <a href="Xsolla.Auth.XsollaAuth.SignIn"/>
+/// To exchange the code received in the <code>Xsolla.Auth.XsollaAuth.SignIn</code>
 /// for a JWT.
   TokenGrantTypeAuthorizationCode = 0,
 /// To get the refreshed JWT when the previous value is expired.
