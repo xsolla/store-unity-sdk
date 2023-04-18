@@ -81,8 +81,8 @@ namespace Xsolla.UserAccount
 		/// <param name="token">User authorization token.</param>
 		/// <param name="onSuccess">Called after user phone number was successfully received.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
-		/// <seealso href="UpdateUserPhoneNumber"/>
-		/// <seealso href="DeleteUserPhoneNumber"/>
+		/// <seealso cref="UpdateUserPhoneNumber"/>
+		/// <seealso cref="DeleteUserPhoneNumber"/>
 		public void GetUserPhoneNumber(string token, Action<string> onSuccess, Action<Error> onError)
 		{
 			WebRequestHelper.Instance.GetRequest(SdkType.Login, URL_USER_PHONE, WebRequestHeader.AuthHeader(token),
@@ -103,8 +103,8 @@ namespace Xsolla.UserAccount
 		/// <param name="phoneNumber">Updated user phone number according to national conventions.</param>
 		/// <param name="onSuccess">Called after user phone number was successfully modified.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
-		/// <seealso href="GetUserPhoneNumber"/>
-		/// <seealso href="DeleteUserPhoneNumber"/>
+		/// <seealso cref="GetUserPhoneNumber"/>
+		/// <seealso cref="DeleteUserPhoneNumber"/>
 		public void UpdateUserPhoneNumber(string token, string phoneNumber, Action onSuccess, Action<Error> onError)
 		{
 			var request = new UserPhoneNumber { phone_number = phoneNumber };
@@ -125,8 +125,8 @@ namespace Xsolla.UserAccount
 		/// <param name="phoneNumber">User phone number for removal.</param>
 		/// <param name="onSuccess">Called after the user phone number was successfully removed.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
-		/// <seealso href="GetUserPhoneNumber"/>
-		/// <seealso href="UpdateUserPhoneNumber"/>
+		/// <seealso cref="GetUserPhoneNumber"/>
+		/// <seealso cref="UpdateUserPhoneNumber"/>
 		public void DeleteUserPhoneNumber(string token, string phoneNumber, Action onSuccess, Action<Error> onError)
 		{
 			var url = $"{URL_USER_PHONE}/{phoneNumber}";
@@ -147,7 +147,7 @@ namespace Xsolla.UserAccount
 		/// <param name="pictureData">User profile picture in the binary format.</param>
 		/// <param name="onSuccess">Called after the user profile picture was successfully modified.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
-		/// <seealso href="DeleteUserPicture"/>
+		/// <seealso cref="DeleteUserPicture"/>
 		public void UploadUserPicture(string token, byte[] pictureData, string boundary, Action<string> onSuccess, Action<Error> onError)
 		{
 			var headers = new List<WebRequestHeader>(){
@@ -173,7 +173,7 @@ namespace Xsolla.UserAccount
 		/// <param name="token">User authorization token.</param>
 		/// <param name="onSuccess">Called after user profile picture was successfully removed.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
-		/// <seealso href="UploadUserPicture"/>
+		/// <seealso cref="UploadUserPicture"/>
 		public void DeleteUserPicture(string token, Action onSuccess, Action<Error> onError)
 		{
 			var url = URL_USER_PICTURE;

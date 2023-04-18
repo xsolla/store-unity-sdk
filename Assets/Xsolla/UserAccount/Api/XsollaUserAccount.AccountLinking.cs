@@ -16,8 +16,8 @@ namespace Xsolla.UserAccount
 		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/user-account-and-attributes/account-linking/).</remarks>
 		/// <param name="onSuccess">Called after successful linking code creation.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
-		/// <seealso href="Xsolla.Auth.XsollaAuth.SignInConsoleAccount"/>
-		/// <seealso href="LinkConsoleAccount"/>
+		/// <seealso cref="Xsolla.Auth.XsollaAuth.SignInConsoleAccount"/>
+		/// <seealso cref="LinkConsoleAccount"/>
 		#endregion
 		public void RequestLinkingCode(Action<LinkingCode> onSuccess, Action<Error> onError)
 		{
@@ -89,8 +89,8 @@ namespace Xsolla.UserAccount
 		/// <param name="confirmationCode">Code, taken from unified account.</param>
 		/// <param name="onSuccess">Success operation callback.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
-		/// <seealso href="Xsolla.Auth.XsollaAuth.SignInConsoleAccount"/>
-		/// <seealso href="RequestLinkingCode"/>
+		/// <seealso cref="Xsolla.Auth.XsollaAuth.SignInConsoleAccount"/>
+		/// <seealso cref="RequestLinkingCode"/>
 		#endregion
 		public void LinkConsoleAccount(string userId, string platform, string confirmationCode, Action onSuccess, Action<Error> onError)
 		{

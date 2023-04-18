@@ -22,8 +22,8 @@ namespace Xsolla.UserAccount
 		/// <param name="userId">Identifier of a user whose public attributes should be requested. If not specified, the method returns attrubutes for the current user.</param>
 		/// <param name="onSuccess">Called after user attributes were successfully received.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
-		/// <seealso href="UpdateUserAttributes"/>
-		/// <seealso href="RemoveUserAttributes"/>
+		/// <seealso cref="UpdateUserAttributes"/>
+		/// <seealso cref="RemoveUserAttributes"/>
 		public void GetUserAttributes(string token, string publisherProjectId, UserAttributeType attributeType, [CanBeNull] List<string> keys, [CanBeNull] string userId, [NotNull] Action<List<UserAttribute>> onSuccess, [CanBeNull] Action<Error> onError)
 		{
 			var getAttributesRequestBody = new GetAttributesJson(keys, publisherProjectId, userId);
@@ -59,8 +59,8 @@ namespace Xsolla.UserAccount
 		/// <param name="attributes">List of attributes of the specified game. To add attribute which does not exist, set this attribute to the `key` parameter. To update `value` of the attribute, specify its `key` parameter and set the new `value`. You can change several attributes at a time.</param>
 		/// <param name="onSuccess">Called after successful user attributes modification on the server side.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
-		/// <seealso href="GetUserAttributes"/>
-		/// <seealso href="RemoveUserAttributes"/>
+		/// <seealso cref="GetUserAttributes"/>
+		/// <seealso cref="RemoveUserAttributes"/>
 		public void UpdateUserAttributes(string token, string publisherProjectId, List<UserAttribute> attributes, Action onSuccess, Action<Error> onError)
 		{
 			var modifyAttributesRequestBody = new ModifyAttributesJson(attributes, publisherProjectId, null);
@@ -84,8 +84,8 @@ namespace Xsolla.UserAccount
 		/// <param name="removingKeys">List of attribute keys for removal.</param>
 		/// <param name="onSuccess">Called after successful user attributes removal on the server side.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
-		/// <seealso href="GetUserAttributes"/>
-		/// <seealso href="UpdateUserAttributes"/>
+		/// <seealso cref="GetUserAttributes"/>
+		/// <seealso cref="UpdateUserAttributes"/>
 		public void RemoveUserAttributes(string token, string publisherProjectId, List<string> removingKeys, Action onSuccess, Action<Error> onError)
 		{
 			var removeAttributesRequestBody = new ModifyAttributesJson(null, publisherProjectId, removingKeys);

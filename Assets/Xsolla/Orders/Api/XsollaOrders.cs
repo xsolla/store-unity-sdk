@@ -24,7 +24,7 @@ namespace Xsolla.Orders
 		/// <param name="forcePlatformBrowser">Whether to force platform browser usage ignoring plug-in settings.</param>
 		/// <param name="onRestrictedPaymentMethod">Restricted payment method was triggered in an built-in browser.</param>
 		/// <param name="onBrowserClosed">Called after the browser was closed.</param>
-		/// <seealso href="Xsolla.Core.BrowserHelper"/>
+		/// <seealso cref="Xsolla.Core.BrowserHelper"/>
 		public void OpenPurchaseUi(PurchaseData purchaseData, bool forcePlatformBrowser = false, Action<int> onRestrictedPaymentMethod = null, Action<bool> onBrowserClosed = null)
 		{
 			string url = XsollaSettings.IsSandbox ? URL_PAYSTATION_UI_IN_SANDBOX_MODE : URL_PAYSTATION_UI;
@@ -44,8 +44,8 @@ namespace Xsolla.Orders
 		/// <param name="orderId">Unique order identifier.</param>
 		/// <param name="onSuccess">Called after server response.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
-		/// <seealso href="Xsolla.Catalog.XsollaCatalog.PurchaseItemForVirtualCurrency"/>
-		/// <seealso href="Xsolla.Cart.XsollaCart.PurchaseCart.PurchaseCart(string,string,System.Action{Xsolla.Core.PurchaseData},System.Action{Xsolla.Core.Error},Xsolla.Core.PurchaseParams,Dictionary{string, string})"/>
+		/// <seealso cref="Xsolla.Catalog.XsollaCatalog.PurchaseItemForVirtualCurrency"/>
+		/// <seealso cref="Xsolla.Cart.XsollaCart.PurchaseCart.PurchaseCart(string,string,System.Action{Xsolla.Core.PurchaseData},System.Action{Xsolla.Core.Error},Xsolla.Core.PurchaseParams,Dictionary{string, string})"/>
 		public void CheckOrderStatus(string projectId, int orderId, [NotNull] Action<OrderStatus> onSuccess, [CanBeNull] Action<Error> onError)
 		{
 			var url = string.Format(URL_ORDER_GET_STATUS, projectId, orderId);

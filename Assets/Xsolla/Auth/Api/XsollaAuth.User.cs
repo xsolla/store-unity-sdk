@@ -54,9 +54,9 @@ namespace Xsolla.Auth
 		/// </param>
 		/// <param name="onSuccess">Called after successful user registration. Account confirmation message will be sent to the specified email address.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
-		/// <seealso href="SignIn"/>
-		/// <seealso href="ResetPassword"/>
-		/// <seealso href="ResendConfirmationLink"/>
+		/// <seealso cref="SignIn"/>
+		/// <seealso cref="ResetPassword"/>
+		/// <seealso cref="ResendConfirmationLink"/>
 		public void Register(string username, string password, string email, string redirectUri = null, string oauthState = null, string payload = null, bool? acceptConsent = null, bool? promoEmailAgreement = null, List<string> fields = null, string locale = null, Action<int> onSuccess = null, Action<Error> onError = null)
 		{
 			var registrationData = new RegistrationJson(username, password, email, acceptConsent, fields, promoEmailAgreement);
@@ -99,10 +99,10 @@ namespace Xsolla.Auth
 		/// <param name="payload">[OBSOLETE] Your custom data. Used only for JWT authorization type.</param>
 		/// <param name="onSuccess">Called after successful user authentication. Authentication data including the JWT will be received.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
-		/// <seealso href="SignInConsoleAccount"/>
-		/// <seealso href="Register"/>
-		/// <seealso href="ResetPassword"/>
-		/// <seealso href="ResendConfirmationLink"/>
+		/// <seealso cref="SignInConsoleAccount"/>
+		/// <seealso cref="Register"/>
+		/// <seealso cref="ResetPassword"/>
+		/// <seealso cref="ResendConfirmationLink"/>
 		public void SignIn(string username, string password, bool rememberMe, string redirectUri = null, string payload = null, Action<string> onSuccess = null, Action<Error> onError = null)
 		{
 			var loginData = new LoginRequest(username, password);
@@ -254,9 +254,9 @@ namespace Xsolla.Auth
 		/// <param name="locale">Defines localization of the email the user receives.
 		/// The following languages are supported: Arabic (`ar_AE`), Bulgarian (`bg_BG`), Czech (`cz_CZ`), German (`de_DE`), Spanish (`es_ES`), French (`fr_FR`), Hebrew (`he_IL`), Italian (`it_IT`), Japanese (`ja_JP`), Korean (`ko_KR`), Polish (`pl_PL`), Portuguese (`pt_BR`), Romanian (`ro_RO`), Russian (`ru_RU`), Thai (`th_TH`), Turkish (`tr_TR`), Vietnamese (`vi_VN`), Chinese Simplified (`zh_CN`), Chinese Traditional (`zh_TW`), English (`en_XX`, default).
 		/// </param>
-		/// <seealso href="Register"/>
-		/// <seealso href="SignIn"/>
-		/// <seealso href="ResendConfirmationLink"/>
+		/// <seealso cref="Register"/>
+		/// <seealso cref="SignIn"/>
+		/// <seealso cref="ResendConfirmationLink"/>
 		public void ResetPassword(string email, string redirectUri = null, string locale = null, Action onSuccess = null, Action<Error> onError = null)
 		{
 			var projectIdParam = XsollaSettings.LoginId;
@@ -282,9 +282,9 @@ namespace Xsolla.Auth
 		/// </param>
 		/// <param name="onSuccess">Called after successful sending of the request.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
-		/// <seealso href="Register"/>
-		/// <seealso href="SignIn"/>
-		/// <seealso href="ResetPassword"/>
+		/// <seealso cref="Register"/>
+		/// <seealso cref="SignIn"/>
+		/// <seealso cref="ResetPassword"/>
 		public void ResendConfirmationLink(string username, string redirectUri = null, string state = null, string payload = null, string locale = null, Action onSuccess = null, Action<Error> onError = null)
 		{
 			var stateParam = state ?? DEFAULT_OAUTH_STATE;
