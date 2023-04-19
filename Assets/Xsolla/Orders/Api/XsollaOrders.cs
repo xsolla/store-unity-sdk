@@ -19,12 +19,12 @@ namespace Xsolla.Orders
 		/// - [Cart purchase](https://developers.xsolla.com/sdk/unity/item-purchase/cart-purchase/)
 		/// - [Purchase in one click](https://developers.xsolla.com/sdk/unity/item-purchase/one-click-purchase/)
 		/// - [Ordering free items](https://developers.xsolla.com/sdk/unity/promo/free-items/#sdk_free_items_order_item_via_cart)
-		/// 
+		///
 		/// <param name="purchaseData">Contains Pay Station token for the purchase.</param>
 		/// <param name="forcePlatformBrowser">Whether to force platform browser usage ignoring plug-in settings.</param>
 		/// <param name="onRestrictedPaymentMethod">Restricted payment method was triggered in an built-in browser.</param>
 		/// <param name="onBrowserClosed">Called after the browser was closed.</param>
-		/// <seealso cref="BrowserHelper"/>
+		/// <seealso cref="Xsolla.Core.BrowserHelper"/>
 		public void OpenPurchaseUi(PurchaseData purchaseData, bool forcePlatformBrowser = false, Action<int> onRestrictedPaymentMethod = null, Action<bool> onBrowserClosed = null)
 		{
 			string url = XsollaSettings.IsSandbox ? URL_PAYSTATION_UI_IN_SANDBOX_MODE : URL_PAYSTATION_UI;
@@ -44,8 +44,7 @@ namespace Xsolla.Orders
 		/// <param name="orderId">Unique order identifier.</param>
 		/// <param name="onSuccess">Called after server response.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
-		/// <seealso cref="PurchaseItemForVirtualCurrency"/>
-		/// <seealso cref="PurchaseCart"/>
+		/// <seealso cref="Xsolla.Catalog.XsollaCatalog.PurchaseItemForVirtualCurrency"/>
 		public void CheckOrderStatus(string projectId, int orderId, [NotNull] Action<OrderStatus> onSuccess, [CanBeNull] Action<Error> onError)
 		{
 			var url = string.Format(URL_ORDER_GET_STATUS, projectId, orderId);
