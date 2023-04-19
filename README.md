@@ -95,6 +95,8 @@ To start with the SDK, you need to install this asset and set up a project in [X
 
 Additionally, the asset supports [creating WebGL build](https://developers.xsolla.com/sdk/unity/how-tos/application-build/#unity_sdk_how_to_build_webgl) to run your application in a browser.
 
+The SDK uses [Google Mobile Services](https://www.android.com/gms/) and doesn’t support builds for devices without Google Mobile Services, such as Huawei.
+
 **NOTE:**
 We recommend you use the Mono compiler for desktop platforms as it’s compatible with the provided in-game browser. If you use other browser solutions, you can use the IL2CPP compiler instead.
 You can use either Mono or IL2CPP compilers to create game builds for Android.
