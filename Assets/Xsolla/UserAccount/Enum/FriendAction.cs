@@ -3,7 +3,6 @@ namespace Xsolla.UserAccount
 	/// <summary>
 	/// Type of the action.
 	/// </summary>
-	/// <see cref="https://developers.xsolla.com/user-account-api/user-friends/postusersmerelationships"/>
 	public enum FriendAction
 	{
 		/// <summary>

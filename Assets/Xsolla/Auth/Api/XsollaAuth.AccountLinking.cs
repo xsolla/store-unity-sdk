@@ -27,7 +27,7 @@ namespace Xsolla.Auth
 		///					<item>
 		///						<term>Implement method: </term>
 		///						<description>
-		///							<see cref="https://developers.xsolla.com/login-api/oauth-20/generate-user-jwt"/>
+		///							<see href="https://developers.xsolla.com/login-api/oauth-20/generate-user-jwt"/>
 		///							with `application/x-www-form-urlencoded` payload parameters:
 		///							<list type="bullet">
 		///								<item>
@@ -48,7 +48,7 @@ namespace Xsolla.Auth
 		///		<item>
 		///			<term>Implement auth method </term>
 		///			<description>
-		///				<see cref="https://developers.xsolla.com/login-api/jwt/auth-by-custom-id"/>
+		///				<see href="https://developers.xsolla.com/login-api/jwt/auth-by-custom-id"/>
 		///				with:
 		///				<list type="bullet">
 		///					<item>

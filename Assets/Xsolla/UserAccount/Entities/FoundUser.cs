@@ -5,7 +5,6 @@ namespace Xsolla.UserAccount
 	/// <summary>
 	/// Found user entity.
 	/// </summary>
-	/// <see cref="https://go-xsolla-login.doc.srv.loc/login-api/users/get-users-search-by-nickname"/>
 	[Serializable]
 	public class FoundUser
 	{

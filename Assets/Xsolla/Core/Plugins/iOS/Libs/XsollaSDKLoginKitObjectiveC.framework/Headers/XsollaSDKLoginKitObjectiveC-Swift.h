@@ -213,7 +213,7 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 #endif
 #else
 #if !defined(SWIFT_NOEXCEPT)
-# define SWIFT_NOEXCEPT 
+# define SWIFT_NOEXCEPT
 #endif
 #endif
 #if defined(__cplusplus)
@@ -278,7 +278,7 @@ SWIFT_CLASS("_TtC27XsollaSDKLoginKitObjectiveC19JWTGenerationParams")
 /// The type of getting the JWT. Can be:
 /// <ul>
 ///   <li>
-///     <em>authorization_code</em> to exchange the code received in the <a href="https://developers.xsolla.com/login-api/methods/oauth-20/oauth-20-auth-by-username-and-password/">method</a> to JWT
+///     <em>authorization_code</em> to exchange the code received in the <code>Xsolla.Auth.XsollaAuth.SignIn"</code.> to JWT
 ///     The value of the <code>authCode</code> parameter must be specified.
 ///   </li>
 ///   <li>
@@ -357,7 +357,7 @@ SWIFT_AVAILABILITY(ios,introduced=13.4)
 ///   <li>
 ///     providerName: Name of the social network connected to Login in Publisher Account.
 ///     Can be: <em>amazon</em>, <em>apple</em>, <em>baidu</em>, <em>battlenet</em>, <em>discord</em>, <em>facebook</em>, <em>github</em>, <em>google</em>, <em>kakao</em>, <em>linkedin</em>, <em>mailru</em>, <em>microsoft</em>, <em>msn</em>, <em>naver</em>, <em>ok</em>, <em>paypal</em>, <em>psn</em>, <em>reddit</em>,   <em>steam</em>, <em>twitch</em>, <em>twitter</em>, <em>vimeo</em>, <em>vk</em>, <em>wechat</em>, <em>weibo</em>, <em>yahoo</em>, <em>yandex</em>, <em>youtube</em>, <em>xbox</em>.
-///     If you store user data in   <a href="https://developers.xsolla.com/doc/login/how-to/users-storage-playfab">PlayFab</a>, only ‘twitch’   is available.
+///     If you store user data in <a href="https://developers.xsolla.com/doc/login/how-to/users-storage-playfab">PlayFab</a>, only ‘twitch’   is available.
 ///   </li>
 ///   <li>
 ///     oAuth2Params: Instance of <em>OAuth2Params</em>.
@@ -409,15 +409,15 @@ SWIFT_CLASS("_TtC27XsollaSDKLoginKitObjectiveC12OAuth2Params")
 /// The value will be returned in the response. Must be longer than 8 characters.
 @property (nonatomic, readonly, strong) NSString * _Nonnull state;
 /// Grant type used in your project that has the enabled OAuth 2.0 protocol. Must be <em>code</em> to get the user authentication code in the response.
-/// The received code must be exchanged to a JWT via the <a href="https://developers.xsolla.com/login-api/oauth-20/generate-jwt">Generate JWT</a>
+/// The received code must be exchanged to a JWT via the <code>Xsolla.Auth.XsollaAuth.ExchangeCodeToToken</code>
 /// method to finish user authentication.
 @property (nonatomic, readonly, strong) NSString * _Nonnull responseType;
 /// Scope is a mechanism in OAuth 2.0 to limit application’s access to a user’s account.
 /// Can be:
-/// 1. <em>email</em> for <a href="https://developers.xsolla.com/login-api/oauth-20/oauth-20-auth-via-social-network">Auth via social network</a>
-/// or <a href="https://developers.xsolla.com/login-api/oauth-20/oauth-20-get-link-for-social-auth">Get link for social auth</a>
+/// 1. <em>email</em> for <code>Xsolla.Auth.XsollaAuth.AuthWithSocialNetworkAccessToken</code>
+/// or <code>Xsolla.Auth.XsollaAuth.GetSocialNetworkAuthUrl</code>
 /// methods to additionally request an email from the user.
-/// 2. <em>offline</em> to use <code>refresh_token</code> from <a href="https://developers.xsolla.com/login-api/oauth-20/generate-jwt">Generate JWT</a>
+/// 2. <em>offline</em> to use <code>refresh_token</code> from <code>Xsolla.Auth.XsollaAuth.ExchangeCodeToToken</code>
 /// method to refresh the JWT when it is expired.
 /// 3. <em>playfab</em> to write SessionTicket to the session_ticket claim of the JWT if you store user data on the PlayFab side.
 /// If you process your own values of the <em>scope</em> parameter, and the values aren’t mentioned above, you can set them when using this method.
@@ -432,7 +432,7 @@ SWIFT_CLASS("_TtC27XsollaSDKLoginKitObjectiveC12OAuth2Params")
 
 /// The type of getting the JWT.
 typedef SWIFT_ENUM(NSInteger, TokenGrantType, open) {
-/// To exchange the code received in the <a href="https://developers.xsolla.com/login-api/methods/oauth-20/oauth-20-auth-by-username-and-password/">method</a>
+/// To exchange the code received in the <code>Xsolla.Auth.XsollaAuth.SignIn</code>
 /// for a JWT.
   TokenGrantTypeAuthorizationCode = 0,
 /// To get the refreshed JWT when the previous value is expired.
