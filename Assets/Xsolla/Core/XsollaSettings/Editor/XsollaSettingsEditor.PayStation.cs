@@ -17,8 +17,7 @@ namespace Xsolla.Core
 		private const string IOS_GROUP_LABEL = "iOS";
 
 		private const string PAYSTATION_THEME_LABEL = "Pay Station Theme";
-		private const string PAYSTATION_THEME_TOOLTIP = "Pay Station Theme.\n" +
-		                                                "To use default themes, enter \"default\" or \"default_dark\" values." +
+		private const string PAYSTATION_THEME_TOOLTIP = "To use default themes, enter \"default\" or \"default_dark\" values." +
 		                                                "Or enter the name of the custom theme you configured in Publisher Account to use it.";
 
 		private const string PAYSTATION_SIZE_LABEL = "Pay Station Size";
