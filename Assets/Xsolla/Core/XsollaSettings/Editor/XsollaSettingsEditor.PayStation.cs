@@ -17,7 +17,8 @@ namespace Xsolla.Core
 		private const string IOS_GROUP_LABEL = "iOS";
 
 		private const string PAYSTATION_THEME_LABEL = "Pay Station Theme";
-		private const string PAYSTATION_THEME_TOOLTIP = "Pay Station Theme";
+		private const string PAYSTATION_THEME_TOOLTIP = "To use default themes, enter \"default\" or \"default_dark\" values." +
+		                                                "Or enter the name of the custom theme you configured in Publisher Account to use it.";
 
 		private const string PAYSTATION_SIZE_LABEL = "Pay Station Size";
 		private const string PAYSTATION_SIZE_TOOLTIP = "Small: 620 x 630 px\n" +
@@ -55,14 +56,6 @@ namespace Xsolla.Core
 
 		private const string REDIRECT_BUTTON_LABEL = "Redirect Button Caption";
 		private const string REDIRECT_BUTTON_TOOLTIP = "Caption of the button that will redirect the user to the return URL.";
-
-		private readonly string[] ThemeOptions ={
-			"Default",
-			"Dark",
-			"Default Dark",
-			"PS4 Default Light",
-			"PS4 Default Dark",
-		};
 
 		private readonly string[] RedirectConditionsOptions ={
 			"None",
@@ -145,7 +138,7 @@ namespace Xsolla.Core
 			settings.isFoldout = EditorGUILayout.Foldout(settings.isFoldout, title);
 			if (settings.isFoldout)
 			{
-				settings.paystationTheme = (PayStationUISettings.PaystationTheme) EditorGUILayout.Popup(new GUIContent(PAYSTATION_THEME_LABEL, PAYSTATION_THEME_TOOLTIP), (int) settings.paystationTheme, ThemeOptions);
+				settings.paystationTheme = EditorGUILayout.TextField(new GUIContent(PAYSTATION_THEME_LABEL, PAYSTATION_THEME_TOOLTIP), settings.paystationTheme);
 				settings.paystationSize = (PayStationUISettings.PaystationSize) EditorGUILayout.EnumPopup(new GUIContent(PAYSTATION_SIZE_LABEL, PAYSTATION_SIZE_TOOLTIP), settings.paystationSize);
 				settings.paystationVersion = (PayStationUISettings.PaystationVersion) EditorGUILayout.EnumPopup(new GUIContent(PAYSTATION_VERSION_LABEL, PAYSTATION_VERSION_TOOLTIP), settings.paystationVersion);
 			}

@@ -6,7 +6,7 @@ namespace Xsolla.Core
 	public class PayStationUISettings
 	{
 		public bool isFoldout;
-		public PaystationTheme paystationTheme = PaystationTheme.PS4_DefaultDark;
+		public string paystationTheme = "default";
 		public PaystationSize paystationSize = PaystationSize.Auto;
 		public PaystationVersion paystationVersion = PaystationVersion.Auto;
 		
@@ -26,8 +26,9 @@ namespace Xsolla.Core
 		private PayStationUI CreateSettings()
 		{
 			var ui = new PayStationUI{
-				theme = ConvertToString(paystationTheme)
 			};
+
+			ui.theme = paystationTheme;
 
 			if (paystationSize != PaystationSize.Auto)
 				ui.size = ConvertToString(paystationSize);
@@ -36,19 +37,6 @@ namespace Xsolla.Core
 				ui.version = ConvertToString(paystationVersion);
 
 			return ui;
-		}
-
-		private string ConvertToString(PaystationTheme theme)
-		{
-			switch (theme)
-			{
-				case PaystationTheme.Default:		return "default";
-				case PaystationTheme.Dark:			return "dark";
-				case PaystationTheme.DefaultDark:	return "default_dark";
-				case PaystationTheme.PS4_DefaultLight:	return "ps4-default-light";
-				case PaystationTheme.PS4_DefaultDark:	return "ps4-default-dark";
-				default: goto case PaystationTheme.PS4_DefaultDark;
-			}
 		}
 
 		private string ConvertToString(PaystationSize size)
@@ -70,15 +58,6 @@ namespace Xsolla.Core
 				case PaystationVersion.Mobile:	return "mobile";
 				default: goto case PaystationVersion.Desktop;
 			}
-		}
-
-		public enum PaystationTheme
-		{
-			Default,
-			Dark,
-			DefaultDark,
-			PS4_DefaultLight,
-			PS4_DefaultDark
 		}
 
 		public enum PaystationSize

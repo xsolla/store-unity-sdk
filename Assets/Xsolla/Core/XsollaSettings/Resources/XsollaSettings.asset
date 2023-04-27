@@ -54,22 +54,22 @@ MonoBehaviour:
     RedirectButtonCaption: 
   desktopPayStationUISettings:
     isFoldout: 0
-    paystationTheme: 4
+    paystationTheme: default
     paystationSize: 0
     paystationVersion: 0
   webglPayStationUISettings:
     isFoldout: 0
-    paystationTheme: 4
+    paystationTheme: default
     paystationSize: 0
     paystationVersion: 0
   androidPayStationUISettings:
     isFoldout: 0
-    paystationTheme: 4
+    paystationTheme: default
     paystationSize: 0
     paystationVersion: 0
   iosPayStationUISettings:
     isFoldout: 0
-    paystationTheme: 4
+    paystationTheme: default
     paystationSize: 0
     paystationVersion: 0
   facebookAppId: 
