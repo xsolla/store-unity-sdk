@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Xsolla.Core.Popup
+namespace Xsolla.Demo.Popup
 {
 	public interface ISuccessPopup
 	{

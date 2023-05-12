@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using Xsolla.Core.Popup;
+using Xsolla.Core;
+using Xsolla.Demo.Popup;
 using Xsolla.UIBuilder;
 
 namespace Xsolla.Demo
@@ -24,7 +25,7 @@ namespace Xsolla.Demo
 			if (ItemPrefab == null || itemsContainer == null || cartControls == null)
 			{
 				var message = "Cart prefab is broken. Some fields is null.";
-				Debug.LogError(message);
+				XDebug.LogError(message);
 				PopupFactory.Instance.CreateError()
 					.SetMessage(message)
 					.SetCallback(() => DemoController.Instance.SetState(MenuState.Main));

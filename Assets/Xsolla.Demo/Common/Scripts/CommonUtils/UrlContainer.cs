@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using Xsolla.Core;
 
 namespace Xsolla.Demo
 {
@@ -25,12 +26,12 @@ namespace Xsolla.Demo
 			var urlsArrayLength = Urls.Length;
 
 			if (urlsArrayLength != numberOfElementsInEnum)
-				Debug.LogError($"URLs length is {urlsArrayLength} while there are {numberOfElementsInEnum} UrlTypes defined. Expect the IndexOutOfRangeException.");
+				XDebug.LogError($"URLs length is {urlsArrayLength} while there are {numberOfElementsInEnum} UrlTypes defined. Expect the IndexOutOfRangeException.");
 
 			for (int i = 0; i < urlsArrayLength; i++)
 			{
 				if (string.IsNullOrEmpty(Urls[i]))
-					Debug.Log($"URL value for '{typeNames[i]}' is null or empty.");
+					XDebug.Log($"URL value for '{typeNames[i]}' is null or empty.");
 			}
 		}
 	}

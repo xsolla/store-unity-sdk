@@ -1,8 +1,8 @@
 using System;
 using UnityEngine;
-using Xsolla.Core;
-using Xsolla.Core.Popup;
-using Xsolla.Login;
+using Xsolla.Auth;
+using Xsolla.Demo.Popup;
+using Xsolla.UserAccount;
 
 namespace Xsolla.Demo
 {
@@ -26,19 +26,20 @@ namespace Xsolla.Demo
 
 		private void CheckNicknamePresence()
 		{
-			var token = Token.Instance;
-			SdkAuthLogic.Instance.GetUserInfo(token, info =>
-			{
-				if (string.IsNullOrEmpty(info.nickname))
+			XsollaAuth.GetUserInfo(
+				info =>
 				{
-					var isUserEmailRegistration = !string.IsNullOrEmpty(info.email) && !string.IsNullOrEmpty(info.username);
+					if (string.IsNullOrEmpty(info.nickname))
+					{
+						var isUserEmailRegistration = !string.IsNullOrEmpty(info.email) && !string.IsNullOrEmpty(info.username);
 
-					if (isUserEmailRegistration)
-						SetNickname(info.username);
-					else if (DemoSettings.RequestNicknameOnAuth)
-						RequestNickname();
-				}
-			});
+						if (isUserEmailRegistration)
+							SetNickname(info.username);
+						else if (DemoSettings.RequestNicknameOnAuth)
+							RequestNickname();
+					}
+				},
+				error => XDebug.LogError("Could not get user info"));
 		}
 
 		private void RequestNickname()
@@ -51,14 +52,16 @@ namespace Xsolla.Demo
 			var isNicknameUpdateInProgress = true;
 			ShowWaiting(() => isNicknameUpdateInProgress);
 
-			var token = Token.Instance;
-			var updatePack = new UserInfoUpdate() { nickname = newNickname };
+			var updateInfo = new UserInfoUpdate {
+				nickname = newNickname
+			};
 
-			SdkAuthLogic.Instance.UpdateUserInfo(token, updatePack,
-				onSuccess: _ => isNicknameUpdateInProgress = false,
-				onError: error =>
+			XsollaUserAccount.UpdateUserInfo(
+				updateInfo,
+				_ => isNicknameUpdateInProgress = false,
+				error =>
 				{
-					Debug.LogError("Could not update user info");
+					XDebug.LogError("Could not update user info");
 					isNicknameUpdateInProgress = false;
 					StoreDemoPopup.ShowError(error);
 				});

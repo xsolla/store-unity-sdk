@@ -15,8 +15,8 @@ namespace Xsolla.Core.Browser
 		public void OnPostprocessBuild(BuildReport report)
 		{
 			if (report.summary.platformGroup != BuildTargetGroup.Standalone ||
-				!XsollaSettings.InAppBrowserEnabled ||
-				!XsollaSettings.PackInAppBrowserInBuild)
+			    !XsollaSettings.InAppBrowserEnabled ||
+			    !XsollaSettings.PackInAppBrowserInBuild)
 				return;
 
 			var browserPlatform = string.Empty;
@@ -38,14 +38,14 @@ namespace Xsolla.Core.Browser
 
 			if (string.IsNullOrEmpty(browserPlatform))
 			{
-				Debug.LogWarning($"Build target \"{report.summary.platform}\" is not supported. Packing browser in the build is skipped");
+				XDebug.LogWarning($"Build target \"{report.summary.platform}\" is not supported. Packing browser in the build is skipped", true);
 				return;
 			}
 
 			var buildBrowserDirectory = Path.GetDirectoryName(report.summary.outputPath);
 			if (string.IsNullOrEmpty(buildBrowserDirectory))
 				throw new Exception(nameof(buildBrowserDirectory));
-			
+
 			buildBrowserDirectory = Path.Combine(buildBrowserDirectory, ".local-chromium");
 
 			try
@@ -55,7 +55,7 @@ namespace Xsolla.Core.Browser
 			}
 			catch (Exception e)
 			{
-				Debug.LogWarning($"Can't delete existing browser directory. Packing browser in the build is skipped. Exception: {e}");
+				XDebug.LogWarning($"Can't delete existing browser directory. Packing browser in the build is skipped. Exception: {e}", true);
 				return;
 			}
 
@@ -75,16 +75,16 @@ namespace Xsolla.Core.Browser
 			{
 				if (Application.internetReachability == NetworkReachability.NotReachable)
 				{
-					Debug.LogWarning("Internet connection is unavailable. Packing browser in the build is skipped");
+					XDebug.LogWarning("Internet connection is unavailable. Packing browser in the build is skipped", true);
 					return;
 				}
 
-				var fetcher = new XsollaBrowserFetcher{
+				var fetcher = new XsollaBrowserFetcher {
 					Platform = browserPlatform,
 					Path = buildBrowserDirectory,
 					Revision = Constants.BROWSER_REVISION
 				};
-				
+
 				Task.Run(async () => await fetcher.DownloadAsync()).Wait();
 			}
 		}

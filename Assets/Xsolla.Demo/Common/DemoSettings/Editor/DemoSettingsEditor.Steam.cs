@@ -67,12 +67,12 @@ namespace Xsolla.Demo
 						File.WriteAllText(filePath, appId);
 					}
 
-					Debug.Log("[Steamworks.NET] Files \"steam_appid.txt\" successfully updated. Please relaunch Unity");
+					XDebug.Log("[Steamworks.NET] Files \"steam_appid.txt\" successfully updated. Please relaunch Unity", true);
 				}
 				catch (Exception)
 				{
 					var filePathsArray = string.Join("\n", steamAppIdFiles);
-					Debug.LogWarning($"[Steamworks.NET] Could not write SteamAppId in the files \"steam_appid.txt\". Please edit them manually and relaunch Unity. Files:\n{filePathsArray}\n");
+					XDebug.LogWarning($"[Steamworks.NET] Could not write SteamAppId in the files \"steam_appid.txt\". Please edit them manually and relaunch Unity. Files:\n{filePathsArray}\n", true);
 				}
 			}
 

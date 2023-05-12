@@ -2,6 +2,7 @@
 using Xsolla.Core;
 using UnityEngine;
 using UnityEngine.UI;
+using Xsolla.Auth;
 
 namespace Xsolla.Demo
 {
@@ -18,9 +19,9 @@ namespace Xsolla.Demo
 			set
 			{
 				if (value)
-					Debug.Log("LoginPageChangePasswordController: Password reset started");
+					XDebug.Log("LoginPageChangePasswordController: Password reset started");
 				else
-					Debug.Log("LoginPageChangePasswordController: Password reset ended");
+					XDebug.Log("LoginPageChangePasswordController: Password reset ended");
 
 				base.IsInProgress = value;
 			}
@@ -48,17 +49,17 @@ namespace Xsolla.Demo
 
 			Action onSuccessfulPasswordChange = () =>
 			{
-				Debug.Log("LoginPageChangePasswordController: Password change success");
-				base.OnSuccess?.Invoke();
+				XDebug.Log("LoginPageChangePasswordController: Password change success");
+				OnSuccess?.Invoke();
 			};
 
 			Action<Error> onFailedPasswordChange = error =>
 			{
-				Debug.LogError($"LoginPageChangePasswordController: Password change error: {error.ToString()}");
-				base.OnError?.Invoke(error);
+				XDebug.LogError($"LoginPageChangePasswordController: Password change error: {error.ToString()}");
+				OnError?.Invoke(error);
 			};
 
-			SdkAuthLogic.Instance.ResetPassword(email, onSuccessfulPasswordChange, onFailedPasswordChange);
+			XsollaAuth.ResetPassword(email, onSuccessfulPasswordChange, onFailedPasswordChange);
 			IsPasswordChangeInProgress = false;
 		}
 	}

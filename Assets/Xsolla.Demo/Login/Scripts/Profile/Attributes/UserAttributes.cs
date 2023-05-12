@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using UnityEngine;
 using Xsolla.Core;
 using Xsolla.UserAccount;
 
 namespace Xsolla.Demo
 {
-    public class UserAttributes : MonoSingleton<UserAttributes>
+	public class UserAttributes : MonoSingleton<UserAttributes>
 	{
 		private List<UserAttribute> _readOnlyAttributes;
 		private List<UserAttribute> _customAttributesOriginal;
@@ -26,7 +27,7 @@ namespace Xsolla.Demo
 			{
 				if (_modifiedAttributes == null || _removedAttributes == null)
 				{
-					Debug.LogError($"UserAttributes: Get or update attributes before use");
+					XDebug.LogError($"UserAttributes: Get or update attributes before use");
 					return -1;
 				}
 
@@ -43,9 +44,9 @@ namespace Xsolla.Demo
 		{
 			_isUpdateInProgress = true;
 
-			List<string> attributeKeys = null;//Get all existing attributes without filter
-			string userId = null;//Get current user attributes
-			string token = Token.Instance;
+			List<string> attributeKeys = null; //Get all existing attributes without filter
+			string userId = null; //Get current user attributes
+			string token = XsollaToken.AccessToken;
 			string projectId = XsollaSettings.StoreProjectId;
 
 			void FinalizeUpdate(List<UserAttribute> readOnlyAttributes, List<UserAttribute> customAttributes, Error error)
@@ -82,18 +83,24 @@ namespace Xsolla.Demo
 				_isUpdateInProgress = false;
 			}
 
-			Action<Error> onErrorGet = error =>
+			Action<Error> onErrorGet = error => { FinalizeUpdate(null, null, error); };
+
+			Action<Xsolla.UserAccount.UserAttributes> onSuccessGetReadonly = readOnlyAttributes =>
 			{
-				FinalizeUpdate(null, null, error);
+				Action<Xsolla.UserAccount.UserAttributes> onSuccessGetCustom = customAttributes => FinalizeUpdate(readOnlyAttributes.items, customAttributes.items, error: null);
+
+				XsollaUserAccount.GetUserAttributes(UserAttributeType.CUSTOM,
+					attributeKeys,
+					userId,
+					onSuccessGetCustom,
+					onErrorGet);
 			};
 
-			Action<List<UserAttribute>> onSuccessGetReadonly = readOnlyAttributes =>
-			{
-				Action<List<UserAttribute>> onSuccessGetCustom = customAttributes => FinalizeUpdate(readOnlyAttributes, customAttributes, error: null);
-				SdkUserAccountLogic.Instance.GetUserAttributes(token, projectId, UserAttributeType.CUSTOM, attributeKeys, userId, onSuccessGetCustom, onErrorGet);
-			};
-
-			SdkUserAccountLogic.Instance.GetUserAttributes(token, projectId, UserAttributeType.READONLY, attributeKeys, userId, onSuccessGetReadonly, onErrorGet);
+			XsollaUserAccount.GetUserAttributes(UserAttributeType.READONLY,
+				attributeKeys,
+				userId,
+				onSuccessGetReadonly,
+				onErrorGet);
 		}
 
 		/// <summary>
@@ -109,7 +116,7 @@ namespace Xsolla.Demo
 				return;
 			}
 
-			_updateQueue.Enqueue(new UpdateQueueItem() {OnGetReadonly=onSuccess, OnError=onError});
+			_updateQueue.Enqueue(new UpdateQueueItem() {OnGetReadonly = onSuccess, OnError = onError});
 
 			if (!_isUpdateInProgress)
 				UpdateAttributes();
@@ -128,7 +135,7 @@ namespace Xsolla.Demo
 				return;
 			}
 
-			_updateQueue.Enqueue(new UpdateQueueItem() { OnGetCustom = onSuccess, OnError = onError });
+			_updateQueue.Enqueue(new UpdateQueueItem() {OnGetCustom = onSuccess, OnError = onError});
 
 			if (!_isUpdateInProgress)
 				UpdateAttributes();
@@ -149,21 +156,21 @@ namespace Xsolla.Demo
 
 			if (oldKey == newKey)
 			{
-				Debug.LogError($"UserAttributes.ChangeKey: New key equals old key. OldKey:{oldKey} NewKey:{newKey}");
+				XDebug.LogError($"UserAttributes.ChangeKey: New key equals old key. OldKey:{oldKey} NewKey:{newKey}");
 				error = AttributesError.IncorrectKey;
 				return false;
 			}
 
 			if (newKey.Length > 256 || !Regex.IsMatch(newKey, "^[A-Za-z0-9_]+$"))
 			{
-				Debug.LogError($"UserAttributes.ChangeKey: New key does not follow rules MaxLength:256 Pattern:[A-Za-z0-9_]+. OldKey:{oldKey} NewKey:{newKey}");
+				XDebug.LogError($"UserAttributes.ChangeKey: New key does not follow rules MaxLength:256 Pattern:[A-Za-z0-9_]+. OldKey:{oldKey} NewKey:{newKey}");
 				error = AttributesError.IncorrectKey;
 				return false;
 			}
 
 			if (!IsNewKey(newKey))
 			{
-				Debug.LogError($"UserAttributes.ChangeKey: This key already exists. OldKey:{oldKey} NewKey:{newKey}");
+				XDebug.LogError($"UserAttributes.ChangeKey: This key already exists. OldKey:{oldKey} NewKey:{newKey}");
 				error = AttributesError.IncorrectKey;
 				return false;
 			}
@@ -191,14 +198,14 @@ namespace Xsolla.Demo
 
 			if (string.IsNullOrEmpty(newValue))
 			{
-				Debug.LogError($"UserAttributes.ChangeValue: Value can not be null or empty");
+				XDebug.LogError($"UserAttributes.ChangeValue: Value can not be null or empty");
 				error = AttributesError.IncorrectValue;
 				return false;
 			}
 
 			if (newValue.Length > 256)
 			{
-				Debug.LogError($"UserAttributes.ChangeValue: New value does not follow rule MaxLength:256 Key:{key} NewValue:{newValue}");
+				XDebug.LogError($"UserAttributes.ChangeValue: New value does not follow rule MaxLength:256 Key:{key} NewValue:{newValue}");
 				error = AttributesError.IncorrectValue;
 				return false;
 			}
@@ -243,42 +250,42 @@ namespace Xsolla.Demo
 		{
 			if (_customAttributes == null)
 			{
-				Debug.LogError($"UserAttributes: Get or update attributes before use");
+				XDebug.LogError($"UserAttributes: Get or update attributes before use");
 				error = AttributesError.NotInitialized;
 				return null;
 			}
 
 			if (string.IsNullOrEmpty(newKey))
 			{
-				Debug.LogError($"UserAttributes.AddNewAttribute: Key can not be null or empty");
+				XDebug.LogError($"UserAttributes.AddNewAttribute: Key can not be null or empty");
 				error = AttributesError.IncorrectKey;
 				return null;
 			}
 
 			if (newKey.Length > 256 || !Regex.IsMatch(newKey, "^[A-Za-z0-9_]+$"))
 			{
-				Debug.LogError($"UserAttributes.AddNewAttribute: New key does not follow rules MaxLength:256 Pattern:[A-Za-z0-9_]+. NewKey:{newKey}");
+				XDebug.LogError($"UserAttributes.AddNewAttribute: New key does not follow rules MaxLength:256 Pattern:[A-Za-z0-9_]+. NewKey:{newKey}");
 				error = AttributesError.IncorrectKey;
 				return null;
 			}
 
 			if (string.IsNullOrEmpty(newValue))
 			{
-				Debug.LogError($"UserAttributes.AddNewAttribute: Value can not be null or empty");
+				XDebug.LogError($"UserAttributes.AddNewAttribute: Value can not be null or empty");
 				error = AttributesError.IncorrectValue;
 				return null;
 			}
 
 			if (newValue.Length > 256)
 			{
-				Debug.LogError($"UserAttributes.AddNewAttribute: New value does not follow rule MaxLength:256 Key:{newKey} NewValue:{newValue}");
+				XDebug.LogError($"UserAttributes.AddNewAttribute: New value does not follow rule MaxLength:256 Key:{newKey} NewValue:{newValue}");
 				error = AttributesError.IncorrectValue;
 				return null;
 			}
 
 			if (!IsNewKey(newKey))
 			{
-				Debug.LogError($"UserAttributes.AddNewAttribute: This key already exists. NewKey:{newKey} NewValue:{newValue}");
+				XDebug.LogError($"UserAttributes.AddNewAttribute: This key already exists. NewKey:{newKey} NewValue:{newValue}");
 				error = AttributesError.IncorrectKey;
 				return null;
 			}
@@ -306,7 +313,7 @@ namespace Xsolla.Demo
 			var changesCount = ChangesCount;
 			if (changesCount < 1)
 			{
-				Debug.Log($"UserAttributes.PushChanges: Push cancelled. Changes count:'{changesCount}'");
+				XDebug.Log($"UserAttributes.PushChanges: Push cancelled. Changes count:'{changesCount}'");
 				onCancelled?.Invoke();
 				return;
 			}
@@ -329,7 +336,7 @@ namespace Xsolla.Demo
 			else if (_modifiedAttributes.Count > 0)
 			{
 				Action onSuccessUpdate = () => FinalizePush(onSuccess);
-				PushModifiedChanges(onSuccessUpdate,onError);
+				PushModifiedChanges(onSuccessUpdate, onError);
 			}
 			else if (_removedAttributes.Count > 0)
 			{
@@ -357,14 +364,14 @@ namespace Xsolla.Demo
 		{
 			if (_customAttributes == null)
 			{
-				Debug.LogError($"UserAttributes: Get or update attributes before use");
+				XDebug.LogError($"UserAttributes: Get or update attributes before use");
 				error = AttributesError.NotInitialized;
 				return null;
 			}
 
 			if (string.IsNullOrEmpty(key))
 			{
-				Debug.LogError($"UserAttributes: Key can not be null or empty");
+				XDebug.LogError($"UserAttributes: Key can not be null or empty");
 				error = AttributesError.IncorrectKey;
 				return null;
 			}
@@ -381,7 +388,7 @@ namespace Xsolla.Demo
 
 			if (attributeToReturn == null)
 			{
-				Debug.LogError($"UserAttributes: Could not find attribute. Key:{key}");
+				XDebug.LogError($"UserAttributes: Could not find attribute. Key:{key}");
 				error = AttributesError.KeyNotFound;
 				return null;
 			}
@@ -401,33 +408,30 @@ namespace Xsolla.Demo
 					break;
 				}
 			}
+
 			return isNew;
 		}
 
 		private void PushRemoveChanges(Action onSuccess, Action<Error> onError)
 		{
-			Action onSuccessRemove = () =>
-			{
-				_removedAttributes.Clear();
-				onSuccess?.Invoke();
-			};
-
-			string token = Token.Instance;
-			string projectId = XsollaSettings.StoreProjectId;
-			SdkUserAccountLogic.Instance.RemoveUserAttributes(token, projectId, _removedAttributes, onSuccessRemove, onError);
+			XsollaUserAccount.RemoveUserAttributes(_removedAttributes,
+				() =>
+				{
+					_removedAttributes.Clear();
+					onSuccess?.Invoke();
+				},
+				onError);
 		}
 
 		private void PushModifiedChanges(Action onSuccess, Action<Error> onError)
 		{
-			Action onSuccessUpdate = () =>
-			{
-				_modifiedAttributes.Clear();
-				onSuccess?.Invoke();
-			};
-
-			string token = Token.Instance;
-			string projectId = XsollaSettings.StoreProjectId;
-			SdkUserAccountLogic.Instance.UpdateUserAttributes(token, projectId, _modifiedAttributes, onSuccessUpdate, onError);
+			XsollaUserAccount.UpdateUserAttributes(_modifiedAttributes,
+				() =>
+				{
+					_modifiedAttributes.Clear();
+					onSuccess?.Invoke();
+				},
+				onError);
 		}
 
 		private void FinalizePush(Action onSuccess)

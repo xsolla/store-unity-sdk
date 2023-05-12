@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using Xsolla.Auth;
 using Xsolla.Core;
-using Xsolla.Core.Popup;
+using Xsolla.Demo.Popup;
 
 namespace Xsolla.Demo
 {
 	public class UserProfilePasswordReset : MonoBehaviour
 	{
-		[SerializeField] SimpleButton PasswordEditButton = default;
+		[SerializeField] private SimpleButton PasswordEditButton = default;
 
 		private const string MESSAGE_TEMPLATE = "Change your password using the instructions we sent to <color=#F8115D>{email@domain.com}</color>.";
 
@@ -23,14 +24,13 @@ namespace Xsolla.Demo
 
 			string email = null;
 
-			var token = Token.Instance;
-			SdkAuthLogic.Instance.GetUserInfo(token,
-				onSuccess: info =>
+			XsollaAuth.GetUserInfo(
+				info =>
 				{
 					email = info.email;
 					isInfoObtained = true;
 				},
-				onError: error =>
+				error =>
 				{
 					StoreDemoPopup.ShowError(error);
 					isInfoObtained = false;
@@ -43,17 +43,14 @@ namespace Xsolla.Demo
 
 			Action onSuccessfulPasswordChange = () =>
 			{
-				Debug.Log("Password reset request success");
+				XDebug.Log("Password reset request success");
 				var message = MESSAGE_TEMPLATE.Replace("{email@domain.com}", email);
 				PopupFactory.Instance.CreateSuccessPasswordReset().SetMessage(message);
 			};
 
-			Action<Error> onFailedPasswordChange = error =>
-			{
-				StoreDemoPopup.ShowError(error);
-			};
+			Action<Error> onFailedPasswordChange = error => { StoreDemoPopup.ShowError(error); };
 
-			SdkAuthLogic.Instance.ResetPassword(email, onSuccessfulPasswordChange, onFailedPasswordChange);
+			XsollaAuth.ResetPassword(email, onSuccessfulPasswordChange, onFailedPasswordChange);
 		}
 	}
 }

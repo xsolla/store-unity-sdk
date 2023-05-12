@@ -3,9 +3,10 @@ using System.Collections;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using Xsolla.Core;
 using Xsolla.Demo;
 
-namespace Xsolla.Core.Popup
+namespace Xsolla.Demo.Popup
 {
 	public class TutorialPopup : MonoBehaviour, ITutorialPopup
 	{
@@ -112,10 +113,9 @@ namespace Xsolla.Core.Popup
 
 			yield return new WaitForSeconds(0.1f);
 
-
 			if (!string.IsNullOrEmpty(CurrentStepInfo.highlightElementId))
 			{
-				var highlightableObjects = GameObject.FindGameObjectsWithTag(Constants.INVENTORY_TUTORIAL_HIGHLIGHT_TAG);
+				var highlightableObjects = GameObject.FindGameObjectsWithTag("Highlight");
 
 				var highlightObject = highlightableObjects.FirstOrDefault(
 					obj => obj.activeSelf && obj.GetComponent<HighlightElement>()?.ID == CurrentStepInfo.highlightElementId);
@@ -163,7 +163,7 @@ namespace Xsolla.Core.Popup
 			if (!string.IsNullOrEmpty(CurrentStepInfo.associatedDocumentation))
 			{
 				documentationButton.gameObject.SetActive(true);
-				documentationButton.onClick = () => { BrowserHelper.Instance.Open(CurrentStepInfo.associatedDocumentation, true); };
+				documentationButton.onClick = () => { XsollaWebBrowser.Open(CurrentStepInfo.associatedDocumentation, true); };
 			}
 			else
 			{
@@ -188,7 +188,7 @@ namespace Xsolla.Core.Popup
 		{
 			if (!IsTutorialInfoValid)
 			{
-				Debug.LogError("Tutorial popup info is invalid or missing!");
+				XDebug.LogError("Tutorial popup info is invalid or missing!");
 				Destroy(gameObject, 0.001F);
 				return;
 			}
@@ -209,7 +209,7 @@ namespace Xsolla.Core.Popup
 		{
 			if (!IsTutorialInfoValid)
 			{
-				Debug.LogError("Tutorial popup info is invalid or missing!");
+				XDebug.LogError("Tutorial popup info is invalid or missing!");
 				Destroy(gameObject, 0.001F);
 				return;
 			}

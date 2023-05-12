@@ -1,55 +1,43 @@
-﻿using Xsolla.Core;
+﻿using System;
+using Xsolla.Auth;
+using Xsolla.Core;
 
 namespace Xsolla.Demo
 {
 	public class SteamAuth : LoginAuthorization
 	{
-		private string _steamSessionTicket = default;
-
-		public override void TryAuth(params object[] args)
+		public override void TryAuth(object[] args, Action onSuccess, Action<Error> onError)
 		{
+#if !(UNITY_EDITOR || UNITY_STANDALONE)
+			onError?.Invoke(null);
+#else
 			if (!DemoSettings.UseSteamAuth)
 			{
-				Debug.Log("SteamAuth.TryAuth: Steam auth disabled");
-				base.OnError?.Invoke(null);
+				onError?.Invoke(null);
+				return;
 			}
-			else
+
+			var appId = DemoSettings.SteamAppId;
+			if (!int.TryParse(appId, out _))
 			{
-				Debug.Log("SteamAuth.TryAuth: Steam auth enabled, trying to get token");
-
-	#if UNITY_STANDALONE || UNITY_EDITOR
-				_steamSessionTicket = new SteamSessionTicket().ToString();
-	#endif
-				if (!string.IsNullOrEmpty(_steamSessionTicket))
-					RequestTokenBy(_steamSessionTicket);
-				else
-					base.OnError?.Invoke(new Error(errorMessage: "Steam auth failed"));
+				onError?.Invoke(new Error(errorMessage: "Steam auth failed. Can't parse SteamAppId"));
+				return;
 			}
-		}
 
-		private void RequestTokenBy(string ticket)
-		{
-			if (int.TryParse(DemoSettings.SteamAppId, out _))
+			var sessionTicket = SteamUtils.GetSteamSessionTicket();
+			if (string.IsNullOrEmpty(sessionTicket))
 			{
-				SdkAuthLogic.Instance.SilentAuth("steam", DemoSettings.SteamAppId, ticket, onSuccess:SuccessHandler, onError:FailHandler);
+				onError?.Invoke(new Error(errorMessage: "Steam auth failed. Can't get session ticket"));
+				return;
 			}
-			else
-			{
-				Debug.LogError($"Can't parse SteamAppId = {DemoSettings.SteamAppId}");
-				base.OnError?.Invoke(new Error(errorMessage: "Steam auth failed"));
-			}
-		}
 
-		private void SuccessHandler(string token)
-		{
-			Debug.Log("SteamAuth.SuccessHandler: Token loaded");
-			base.OnSuccess?.Invoke(token);
-		}
-
-		private void FailHandler(Error error)
-		{
-			Debug.LogError($"Token request by steam session ticket failed. Ticket: {_steamSessionTicket} Error: {error.ToString()}");
-			base.OnError?.Invoke(error);
+			XsollaAuth.SilentAuth(
+				"steam",
+				appId,
+				sessionTicket,
+				onSuccess,
+				onError);
+#endif
 		}
 	}
 }

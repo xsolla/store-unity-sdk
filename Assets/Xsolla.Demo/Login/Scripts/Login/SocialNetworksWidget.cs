@@ -40,7 +40,7 @@ namespace Xsolla.Demo
 
 			foreach (var button in SocialNetworkButtons)
 			{
-				button.gameObject.SetActive(button.SocialProvider.GetParameter().StartsWith(filterText));
+				button.gameObject.SetActive(button.SocialProvider.ToString().ToLowerInvariant().StartsWith(filterText));
 			}
 		}
 	}

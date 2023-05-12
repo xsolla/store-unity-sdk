@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Xsolla.Core.Popup
+namespace Xsolla.Demo.Popup
 {
 	internal static class GameObjectPopupExtensions
 	{
@@ -51,7 +51,7 @@ namespace Xsolla.Core.Popup
 			}
 			else
 			{
-				Debug.LogError("You try use 2D popup component, but Canvas object is missing!");
+				XDebug.LogError("You try use 2D popup component, but Canvas object is missing!");
 			}
 		}
 
@@ -59,7 +59,7 @@ namespace Xsolla.Core.Popup
 		{
 			if (prefab == null)
 			{
-				Debug.LogError(
+				XDebug.LogError(
 					"You try create object, but prefab for it is null. " + Environment.NewLine +
 					"Check `PopupFactory` script for missing prefabs.");
 				return null;

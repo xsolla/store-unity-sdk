@@ -2,8 +2,8 @@ using System;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
+using Xsolla.Auth;
 using Xsolla.Core;
-using Xsolla.Login;
 
 namespace Xsolla.Demo
 {
@@ -11,7 +11,7 @@ namespace Xsolla.Demo
 	{
 		[SerializeField] private string CurrencySkuOrName = default;
 		[SerializeField] private bool TryUseDefaultCurrencyOnFailure = default;
-		[SerializeField] private uint LevelUpPrice = default;
+		[SerializeField] private int LevelUpPrice = default;
 		[SerializeField] private VirtualCurrencyBalanceUI VirtualCurrencyPrefab = default;
 		[SerializeField] private Transform PriceTagPlacement = default;
 		[SerializeField] private SimpleButton LevelUpButton = default;
@@ -28,7 +28,6 @@ namespace Xsolla.Demo
 
 		private void Start()
 		{
-			var token = Token.Instance;
 
 			Action<UserInfo> successCallback = info =>
 			{
@@ -39,11 +38,11 @@ namespace Xsolla.Demo
 
 			Action<Error> errorCallback = error =>
 			{
-				Debug.LogError("Could not get info for character level save/load");
+				XDebug.LogError("Could not get info for character level save/load");
 				InitializeUI();
 			};
 
-			SdkAuthLogic.Instance.GetUserInfo(token, successCallback, errorCallback);
+			XsollaAuth.GetUserInfo(successCallback, errorCallback);
 		}
 
 		private void InitializeUI()
@@ -52,7 +51,7 @@ namespace Xsolla.Demo
 
 			if(_targetCurrency == null)
 			{
-				Debug.Log("Could not obtain target currency");
+				XDebug.Log("Could not obtain target currency");
 				LevelUpButton.onClick -= TryUpTheLevel;
 				return;
 			}
@@ -75,7 +74,7 @@ namespace Xsolla.Demo
 			var userCurrency = UserInventory.Instance.Balance?.Find(currency => _targetCurrency.Sku == currency.Sku);
 			if (userCurrency == null)
 			{
-				Debug.Log("UserInventory does not contain required currency");
+				XDebug.Log("UserInventory does not contain required currency");
 				return;
 			}
 
@@ -103,17 +102,17 @@ namespace Xsolla.Demo
 						levelUpPayment,
 						(int)LevelUpPrice,
 						onSuccess: _ => onSuccessConsume.Invoke(),
-						onError: _ => Debug.Log("Could not consume virtual currency"));
+						onError: _ => XDebug.Log("Could not consume virtual currency"));
 				}
 				else
 				{
-					Debug.LogError("Character level up supposed to be hidden in case InventoryDemo was not provided");
+					XDebug.LogError("Character level up supposed to be hidden in case InventoryDemo was not provided");
 				}
 			}
 			else
 			{
 				var errorMessage = "Not enough currency amount to up the level";
-				Debug.Log(errorMessage);
+				XDebug.Log(errorMessage);
 				StoreDemoPopup.ShowWarning(new Error(errorMessage: errorMessage));
 			}
 		}
@@ -123,7 +122,7 @@ namespace Xsolla.Demo
 			var allCurrencies = UserCatalog.Instance.VirtualCurrencies;
 			if (allCurrencies == null)
 			{
-				Debug.LogWarning("UserCatalog returned null as VirtualCurrencies");
+				XDebug.LogWarning("UserCatalog returned null as VirtualCurrencies");
 				return null;
 			}
 
@@ -135,11 +134,11 @@ namespace Xsolla.Demo
 
 				if (/*still*/targetCurrency == null)
 				{
-					Debug.LogWarning($"Could not find specified virtual currency: {CurrencySkuOrName}");
+					XDebug.LogWarning($"Could not find specified virtual currency: {CurrencySkuOrName}");
 
 					if (TryUseDefaultCurrencyOnFailure)
 					{
-						Debug.Log("Will try to get default project's currency");
+						XDebug.Log("Will try to get default project's currency");
 						targetCurrency = allCurrencies.Count > 0 ? allCurrencies[0] : null;
 					}
 				}
@@ -148,12 +147,12 @@ namespace Xsolla.Demo
 				targetCurrency = allCurrencies.Count > 0 ? allCurrencies[0] : null;
 
 			if (targetCurrency == null)
-				Debug.LogWarning("Could not find virtual currency");
+				XDebug.LogWarning("Could not find virtual currency");
 
 			return targetCurrency;
 		}
 
-		private void DrawPrice(VirtualCurrencyModel priceCurrency, uint price)
+		private void DrawPrice(VirtualCurrencyModel priceCurrency, int price)
 		{
 			var currencyObject = Instantiate(VirtualCurrencyPrefab.gameObject, PriceTagPlacement);
 			var currencyUI = currencyObject.GetComponent<VirtualCurrencyBalanceUI>();
@@ -167,7 +166,7 @@ namespace Xsolla.Demo
 				return PlayerPrefs.GetInt(levelEntry, 1);
 			else
 			{
-				Debug.LogError("Could not load level. Level entry is null or empty");
+				XDebug.LogError("Could not load level. Level entry is null or empty");
 				return 1;
 			}
 		}
@@ -177,7 +176,7 @@ namespace Xsolla.Demo
 			if (!string.IsNullOrEmpty(levelEntry))
 				PlayerPrefs.SetInt(levelEntry, characterLevel);
 			else
-				Debug.LogError("Could not save level. Level entry is null or empty");
+				XDebug.LogError("Could not save level. Level entry is null or empty");
 		}
 
 		private void ShowLevel(int characterLevel)

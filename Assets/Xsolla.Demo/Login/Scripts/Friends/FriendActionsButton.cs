@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Xsolla.Core;
 
 namespace Xsolla.Demo
 {
@@ -71,7 +72,7 @@ namespace Xsolla.Demo
 			}
 			else
 			{
-				Debug.LogError("In FriendActionsButton script `actionPrefab` or `actionContainer` = null!");
+				XDebug.LogError("In FriendActionsButton script `actionPrefab` or `actionContainer` = null!");
 			}
 		}
 

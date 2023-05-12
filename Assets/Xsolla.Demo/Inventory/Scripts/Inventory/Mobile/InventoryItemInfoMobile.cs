@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Xsolla.Core;
 
 namespace Xsolla.Demo
 {
@@ -18,7 +19,7 @@ namespace Xsolla.Demo
 		{
 			if (_instance == null)
 			{
-				Debug.LogError("Instance not set");
+				XDebug.LogError("Instance not set");
 				return;
 			}
 

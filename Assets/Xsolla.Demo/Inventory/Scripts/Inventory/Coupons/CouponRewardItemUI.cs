@@ -25,7 +25,7 @@ namespace Xsolla.Demo
 				}
 				else
 				{
-					Debug.LogError($"Coupon reward item item with sku = '{rewardItem.Sku}' without image!");
+					XDebug.LogError($"Coupon reward item item with sku = '{rewardItem.Sku}' without image!");
 				}
 			}
 		}

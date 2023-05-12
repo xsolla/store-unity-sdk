@@ -23,7 +23,7 @@ namespace Xsolla.Demo
 			}
 			else
 			{
-				Debug.LogError($"Bundle content item with sku = '{item.Sku}' without image!");
+				XDebug.LogError($"Bundle content item with sku = '{item.Sku}' without image!");
 			}
 		}
 

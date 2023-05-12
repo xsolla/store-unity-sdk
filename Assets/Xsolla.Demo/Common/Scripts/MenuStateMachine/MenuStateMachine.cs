@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using Xsolla.Core.Popup;
+using Xsolla.Demo.Popup;
 
 namespace Xsolla.Demo
 {
@@ -115,7 +115,7 @@ namespace Xsolla.Demo
 			}
 			else
 			{
-				Debug.LogError($"Prefab object is null for state = {state.ToString()}. Changing state to initial.");
+				XDebug.LogError($"Prefab object is null for state = {state.ToString()}. Changing state to initial.");
 				SetInitialState();
 			}
 

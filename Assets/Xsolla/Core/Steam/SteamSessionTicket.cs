@@ -1,23 +1,22 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
-using UnityEngine;
-
 #if UNITY_STANDALONE
 using Steamworks;
 #endif
 
 namespace Xsolla.Core
 {
-	/// <summary>
-	/// This ticket you can change for Login JWT
-	/// and use it in Xsolla Store
-	/// </summary>
-	public class SteamSessionTicket
+	internal class SteamSessionTicket
 	{
-		private string ticket = "";
+		private static byte[] RefreshTicket()
+		{
+			return Initialized()
+				? GetTicketData()
+				: Array.Empty<byte>();
+		}
 
-		private bool Initialized()
+		private static bool Initialized()
 		{
 			bool result;
 			try
@@ -26,60 +25,45 @@ namespace Xsolla.Core
 			}
 			catch (Exception e)
 			{
-				Debug.LogWarning("Steam initialization error. " + e.Message);
+				XDebug.LogError("Steam initialization error. " + e.Message);
 				result = false;
 			}
 
 			return result;
 		}
 
-		private byte[] GetTicketData()
+		private static byte[] GetTicketData()
 		{
-			byte[] ticket = new byte[1024];
+			var ticket = new byte[1024];
 			try
 			{
 #if UNITY_STANDALONE
-				SteamUser.GetAuthSessionTicket(ticket, 1024, out uint length);
+				SteamUser.GetAuthSessionTicket(ticket, 1024, out var length);
 				Array.Resize(ref ticket, (int) length);
 #else
-            ticket = new byte[0];
+				ticket = new byte[0];
 #endif
 			}
 			catch (Exception e)
 			{
-				Debug.Log("Get steam session ticket exception: " + e.Message);
-				ticket = new byte[0];
+				XDebug.LogError("Get steam session ticket exception: " + e.Message);
+				ticket = Array.Empty<byte>();
 			}
 
 			return ticket;
 		}
 
-		private byte[] RefreshTicket()
+		private static string ConvertTicket(byte[] ticket)
 		{
-			return Initialized() ? GetTicketData() : (new byte[0]);
+			var stringBuilder = new StringBuilder();
+			ticket.ToList().ForEach(b => stringBuilder.AppendFormat("{0:x2}", b));
+			return stringBuilder.ToString();
 		}
 
-		string ConvertTicket(byte[] ticket)
-		{
-			StringBuilder sb = new StringBuilder();
-			ticket.ToList().ForEach(b => sb.AppendFormat("{0:x2}", b));
-			return sb.ToString();
-		}
-
-		/// <summary>
-		/// Get ticket value for change with Login API
-		/// </summary>
-		/// <returns></returns>
 		public override string ToString()
 		{
-			if (string.IsNullOrEmpty(ticket))
-			{
-				byte[] ticketData = RefreshTicket();
-				ticket = ConvertTicket(ticketData);
-				Debug.Log("Requested steam session ticket = " + (string.IsNullOrEmpty(ticket) ? "none" : ticket));
-			}
-
-			return ticket;
+			var ticketData = RefreshTicket();
+			return ConvertTicket(ticketData);
 		}
 	}
 }

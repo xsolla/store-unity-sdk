@@ -109,9 +109,9 @@ namespace Xsolla.Demo
 
 			var items = GetItems();
 			if (items.Any(x => x.Item.RealPrice != null))
-				DemoShop.Instance.PurchaseCart(items, handleSuccess, onError);
+				StoreLogic.PurchaseCart(items, handleSuccess, onError);
 			else
-				DemoShop.Instance.PurchaseFreeCart(items, handleSuccess, onError);
+				StoreLogic.PurchaseFreeCart(items, handleSuccess, onError);
 		}
 	}
 }

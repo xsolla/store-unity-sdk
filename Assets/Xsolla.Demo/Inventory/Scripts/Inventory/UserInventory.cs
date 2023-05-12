@@ -45,33 +45,33 @@ namespace Xsolla.Demo
 			var itemsUpdated = false;
 			var subscriptionsUpdated = false;
 
-			if (Token.Instance == null)
+			if (!XsollaToken.Exists)
 				yield break;
 
-			SdkInventoryLogic.Instance.GetVirtualCurrencyBalance(balance =>
+			InventoryLogic.Instance.GetVirtualCurrencyBalance(balance =>
 			{
 				Balance = balance;
 				balanceUpdated = true;
 			}, onError);
 
-			if (Token.Instance == null)
+			if (!XsollaToken.Exists)
 				yield break;
 
-			SdkInventoryLogic.Instance.GetInventoryItems(items =>
+			InventoryLogic.Instance.GetInventoryItems(items =>
 			{
 				VirtualItems = items.Where(i => !i.IsVirtualCurrency() && !i.IsSubscription()).ToList();
 				itemsUpdated = true;
 			}, onError);
 
-			if (Token.Instance == null)
+			if (!XsollaToken.Exists)
 				yield break;
 
-			SdkInventoryLogic.Instance.GetUserSubscriptions(items =>
+			InventoryLogic.Instance.GetUserSubscriptions(items =>
 			{
 				Subscriptions = items;
 				subscriptionsUpdated = true;
 			}, onError);
-			
+
 			yield return new WaitUntil(() => balanceUpdated && itemsUpdated && subscriptionsUpdated);
 
 			IsUpdated = true;

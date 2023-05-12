@@ -1,32 +1,44 @@
 ﻿using System;
 using System.Text.RegularExpressions;
-using JetBrains.Annotations;
 using Newtonsoft.Json;
+using UnityEngine;
 
 namespace Xsolla.Core
 {
 	public static class ParseUtils
 	{
-		[PublicAPI]
-		public static T FromJson<T>(string json) where T : class
+		private static readonly JsonSerializerSettings serializerSettings;
+
+		static ParseUtils()
 		{
-			T result = default;
+			serializerSettings = new JsonSerializerSettings {
+				NullValueHandling = NullValueHandling.Ignore
+			};
+		}
+
+		public static string ToJson<TData>(TData data) where TData : class
+		{
+			return JsonConvert.SerializeObject(data, serializerSettings);
+		}
+
+		public static TData FromJson<TData>(string json) where TData : class
+		{
+			TData result;
 
 			try
 			{
-				result = JsonConvert.DeserializeObject<T>(json);
+				result = JsonConvert.DeserializeObject<TData>(json, serializerSettings);
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
-				Debug.LogWarning($"Deserialization failed for {typeof(T)}");
-				Debug.LogException(ex);
+				XDebug.LogWarning($"Deserialization failed for {typeof(TData)}");
 				result = null;
 			}
-	
+
 			return result;
 		}
-		
-		public static Error ParseError(string json)
+
+		private static Error ParseError(string json)
 		{
 			if (json.Contains("statusCode") && json.Contains("errorCode") && json.Contains("errorMessage"))
 				return FromJson<Error>(json);
@@ -50,9 +62,9 @@ namespace Xsolla.Core
 				error = ParseError(json);
 				return error != null;
 			}
-			catch (System.Exception ex)
+			catch (Exception ex)
 			{
-				error = new Error(errorType: ErrorType.InvalidData, errorMessage: ex.Message);
+				error = new Error(ErrorType.InvalidData, errorMessage: ex.Message);
 				return true;
 			}
 		}
@@ -61,21 +73,24 @@ namespace Xsolla.Core
 		{
 			var parameterName = parameter.ToString();
 			var regex = new Regex($"[&?]{parameterName}=[a-zA-Z0-9._+-]+");
-			value = regex.Match(url)?.Value?.Replace($"{parameterName}=",string.Empty).Replace("&",string.Empty).Replace("?",string.Empty);
+			value = regex.Match(url)
+				.Value
+				.Replace($"{parameterName}=", string.Empty)
+				.Replace("&", string.Empty)
+				.Replace("?", string.Empty);
 
 			switch (parameter)
 			{
 				case ParseParameter.error_code:
 				case ParseParameter.error_description:
-					if (value != null)
-						value = value.Replace("+"," ");
+					value = value?.Replace("+", " ");
 					break;
 				default:
-					Debug.Log($"Trying to find {parameterName} in URL:{url}");
+					XDebug.Log($"Trying to find {parameterName} in URL:{url}");
 					break;
 			}
 
 			return !string.IsNullOrEmpty(value);
 		}
-	}	
+	}
 }

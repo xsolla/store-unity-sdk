@@ -1,3 +1,5 @@
+using System;
+using Xsolla.Auth;
 using Xsolla.Core;
 
 namespace Xsolla.Demo
@@ -5,77 +7,75 @@ namespace Xsolla.Demo
 	public class PasswordlessEmailAuth : LoginAuthorization
 	{
 		private string _currentEmail;
-		private string _currentOperationID;
+		private string _currentOperationId;
 		private ICodeRequester _currentRequester;
 
-		public override void TryAuth(params object[] args)
+		public override void TryAuth(object[] args, Action onSuccess, Action<Error> onError)
 		{
-			if (TryExtractArgs(args, out var requester, out var email))
+			if (!TryExtractArgs(args, out var requester, out var email))
 			{
-				if (IsEmailValid(email))
+				XDebug.LogError("PasswordlessEmailAuth.TryAuth: Could not extract arguments");
+				onError?.Invoke(new Error(errorMessage: "Passwordless auth failed"));
+				return;
+			}
+
+			if (!IsEmailValid(email))
+			{
+				var error = new Error(ErrorType.InvalidData, errorMessage: $"Email not valid '{email}'");
+				requester?.RaiseOnError(error);
+				onError?.Invoke(error);
+				return;
+			}
+
+			_currentEmail = email;
+			_currentRequester = requester;
+
+			XsollaAuth.StartAuthByEmail(
+				email,
+				data => OnStartAuth(data.operation_id, onSuccess),
+				error =>
 				{
-					SdkAuthLogic.Instance.StartAuthByEmail(
-						email:email,
-						linkUrl: null,
-						sendLink:false,
-						onSuccess: id => OnStartAuth(email, id, requester),
-						onError: error => OnPasswordlessError(error,requester));
-				}
-				else
-					OnPasswordlessError(new Error(ErrorType.InvalidData, errorMessage:$"Email not valid '{email}'"), requester);
-			}
-			else
-			{
-				Debug.LogError("PasswordlessEmailAuth.TryAuth: Could not extract arguments");
-				base.OnError?.Invoke(new Error(errorMessage: "Passwordless auth failed"));
-			}
+					requester?.RaiseOnError(error);
+					onError?.Invoke(error);
+				});
 		}
 
-		private bool TryExtractArgs(object[] args, out ICodeRequester requester, out string email)
+		private static bool TryExtractArgs(object[] args, out ICodeRequester requester, out string email)
 		{
 			requester = null;
 			email = null;
 
 			if (args.Length >= 2 && args[0] is ICodeRequester && args[1] is string)
 			{
-				requester = (ICodeRequester)args[0];
-				email = (string)args[1];
+				requester = (ICodeRequester) args[0];
+				email = (string) args[1];
 				return true;
 			}
-			else
-			{
-				Debug.LogError("PasswordlessEmailAuth: Could not extract arguments");
-				return false;
-			}
+
+			XDebug.LogError("PasswordlessEmailAuth: Could not extract arguments");
+			return false;
 		}
 
-		private bool IsEmailValid(string email)
+		private static bool IsEmailValid(string email)
 		{
-			return (email.Length > 1 && email.Length < 255);
+			return email.Length > 1 && email.Length < 255;
 		}
 
-		private void OnStartAuth(string email, string operationID, ICodeRequester requester)
+		private void OnStartAuth(string operationId, Action onSuccess)
 		{
-			_currentEmail = email;
-			_currentOperationID = operationID;
-			_currentRequester = requester;
-			requester.RequestCode(OnCode);
+			_currentOperationId = operationId;
+			_currentRequester.RequestCode(code => OnCodeReceived(code, onSuccess));
 		}
 
-		private void OnCode(string code)
+		private void OnCodeReceived(string code, Action onSuccess)
 		{
-			SdkAuthLogic.Instance.CompleteAuthByEmail(
-				email: _currentEmail,
-				confirmationCode: code,
-				operationId: _currentOperationID,
-				onSuccess: token => base.OnSuccess?.Invoke(token),
-				onError: OnCodeError);
-		}
-
-		private void OnPasswordlessError(Error error, ICodeRequester requester)
-		{
-			requester.RaiseOnError(error);
-			base.OnError?.Invoke(error);
+			XsollaAuth.CompleteAuthByEmail(
+				_currentEmail,
+				code,
+				_currentOperationId,
+				onSuccess,
+				OnCodeError
+			);
 		}
 
 		private void OnCodeError(Error error)

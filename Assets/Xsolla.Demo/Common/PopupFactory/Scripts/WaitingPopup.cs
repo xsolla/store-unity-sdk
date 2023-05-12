@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace Xsolla.Core.Popup
+namespace Xsolla.Demo.Popup
 {
 	[AddComponentMenu("Scripts/Xsolla.Core/Popup/SuccessPopup")]
 	public class WaitingPopup : MonoBehaviour, IWaitingPopup

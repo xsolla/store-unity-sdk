@@ -6,16 +6,16 @@ namespace Xsolla.Core
 	{
 		event Action OpenEvent;
 
-		event Action<bool> CloseEvent;
+		event Action<BrowserCloseInfo> CloseEvent;
 
 		event Action<string> UrlChangeEvent;
-		
+
 		event Action<string, Action> AlertDialogEvent;
-		
+
 		event Action<string, Action, Action> ConfirmDialogEvent;
-		
+
 		bool IsOpened { get; }
-		
+
 		void Open(string url);
 
 		void Close(float delay = 0f, bool isManually = false);

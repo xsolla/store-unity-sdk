@@ -2,10 +2,10 @@
 using System.Collections;
 using System.Text.RegularExpressions;
 using UnityEngine;
-using UnityEngine.EventSystems;
+using Xsolla.Auth;
 using Xsolla.Core;
-using Xsolla.Core.Popup;
-using Xsolla.Login;
+using Xsolla.Demo.Popup;
+using Xsolla.UserAccount;
 
 namespace Xsolla.Demo
 {
@@ -15,7 +15,7 @@ namespace Xsolla.Demo
 
 		private bool? _isProfileUpdated;
 		private Action<Error> _commonErrorCallback;
-		private  Func<bool> _commonWaitCondition;
+		private Func<bool> _commonWaitCondition;
 		private bool _isUpdateInProgress;
 
 		private const int POPUP_VALUE_LIMIT = 20;
@@ -27,7 +27,7 @@ namespace Xsolla.Demo
 			_commonErrorCallback = error =>
 			{
 				_isProfileUpdated = false;
-				Debug.LogError(error.errorMessage);
+				XDebug.LogError(error.errorMessage);
 				StoreDemoPopup.ShowError(error);
 			};
 
@@ -42,17 +42,16 @@ namespace Xsolla.Demo
 		private IEnumerator Start()
 		{
 			UserInfo userInfo = null;
-			var token = Token.Instance;
 
-			SdkAuthLogic.Instance.GetUserInfo(token,
-				onSuccess: info =>
+			XsollaAuth.GetUserInfo(
+				info =>
 				{
 					userInfo = info;
 					_isProfileUpdated = true;
 				},
-				onError: _commonErrorCallback);
+				_commonErrorCallback);
 
-			ShowWaiting(waitWhile: _commonWaitCondition);
+			ShowWaiting(_commonWaitCondition);
 			yield return new WaitWhile(_commonWaitCondition);
 
 			if (userInfo == null)
@@ -66,9 +65,9 @@ namespace Xsolla.Demo
 
 		private void InitializeEntries(UserInfo userInfo)
 		{
-			for (int index = 0; index < UserProfileEntries.Length; index++)
+			for (var index = 0; index < UserProfileEntries.Length; index++)
 			{
-				var entryType = (UserProfileEntryType)index;
+				var entryType = (UserProfileEntryType) index;
 				string entryValue = null;
 
 				switch (entryType)
@@ -110,21 +109,21 @@ namespace Xsolla.Demo
 		{
 			if (newValue == null)
 			{
-				Debug.LogError($"New value of entryType {entryType} is null. Can not update");
+				XDebug.LogError($"New value of entryType {entryType} is null. Can not update");
 				sender.InitializeEntry(entryType, oldValue);
 				return;
 			}
 
 			if (_isUpdateInProgress)
 			{
-				Debug.LogWarning("Can not update new entry while another update is in progress");
+				XDebug.LogWarning("Can not update new entry while another update is in progress");
 				sender.InitializeEntry(entryType, oldValue);
 				return;
 			}
 
 			_isUpdateInProgress = true;
 			_isProfileUpdated = null;
-			ShowWaiting(waitWhile: _commonWaitCondition);
+			ShowWaiting(_commonWaitCondition);
 			StartCoroutine(UnsetIsInProgressOnCompletion());
 			StartCoroutine(RevertValueOnError(sender, entryType, oldValue));
 
@@ -144,7 +143,7 @@ namespace Xsolla.Demo
 						StartCoroutine(DeleteUserPhoneNumber());
 					break;
 				default:
-					Debug.LogWarning($"Update of {entryType} is not supported");
+					XDebug.LogWarning($"Update of {entryType} is not supported");
 					_isProfileUpdated = false;
 					return;
 			}
@@ -161,7 +160,7 @@ namespace Xsolla.Demo
 		{
 			yield return new WaitWhile(_commonWaitCondition);
 
-			if(_isProfileUpdated == false)
+			if (_isProfileUpdated == false)
 				sender.InitializeEntry(entryType, oldValue);
 		}
 
@@ -173,7 +172,7 @@ namespace Xsolla.Demo
 			switch (entryType)
 			{
 				case UserProfileEntryType.DateOfBirth:
-					if (DateTime.TryParse(newValue, out DateTime birthday))
+					if (DateTime.TryParse(newValue, out var birthday))
 						infoUpdatePack.birthday = newValue;
 					else
 						isValueValid = false;
@@ -183,9 +182,9 @@ namespace Xsolla.Demo
 					break;
 				case UserProfileEntryType.Gender:
 					if (newValue == UserProfileGender.MALE_SHORT ||
-						newValue == UserProfileGender.FEMALE_SHORT ||
-						newValue == UserProfileGender.OTHER_LOWERCASE ||
-						newValue == UserProfileGender.PREFER_NOT_LOWERCASE)
+					    newValue == UserProfileGender.FEMALE_SHORT ||
+					    newValue == UserProfileGender.OTHER_LOWERCASE ||
+					    newValue == UserProfileGender.PREFER_NOT_LOWERCASE)
 						infoUpdatePack.gender = newValue;
 					else
 						isValueValid = false;
@@ -206,15 +205,14 @@ namespace Xsolla.Demo
 				return;
 			}
 
-		
-			var token = Token.Instance;
-			SdkAuthLogic.Instance.UpdateUserInfo(token, infoUpdatePack,
-				onSuccess: newInfo =>
+			XsollaUserAccount.UpdateUserInfo(
+				infoUpdatePack,
+				newInfo =>
 				{
 					InitializeEntries(newInfo);
 					_isProfileUpdated = true;
 				},
-				onError: _commonErrorCallback);
+				_commonErrorCallback);
 		}
 
 		private IEnumerator UpdateUpperRightCornerInfoOnCompletion()
@@ -223,38 +221,29 @@ namespace Xsolla.Demo
 			FindObjectOfType<UserInfoDrawer>()?.Refresh();
 		}
 
-		private void UpdateUserPhoneNumber(string newValue)
+		private void UpdateUserPhoneNumber(string newPhone)
 		{
-			var isValid = Regex.IsMatch(newValue, @"^\+(\d){5,25}$");
-
+			var isValid = Regex.IsMatch(newPhone, @"^\+(\d){5,25}$");
 			if (!isValid)
 			{
-				ShowInvalidValue(UserProfileEntryType.PhoneNumber, newValue);
+				ShowInvalidValue(UserProfileEntryType.PhoneNumber, newPhone);
 				_isProfileUpdated = false;
 				return;
 			}
 
-			var token = Token.Instance;
-
-			SdkAuthLogic.Instance.GetUserInfo(token,
-				onSuccess: info => info.phone = newValue);
-
-			SdkUserAccountLogic.Instance.UpdateUserPhoneNumber(token, newValue,
-				onSuccess: () => _isProfileUpdated = true,
-				onError: _commonErrorCallback);
+			XsollaUserAccount.UpdateUserPhoneNumber(
+				newPhone,
+				() => _isProfileUpdated = true,
+				_commonErrorCallback);
 		}
 
 		private IEnumerator DeleteUserPhoneNumber()
 		{
-			var token = Token.Instance;
 			UserInfo userInfo = null;
 
-			SdkAuthLogic.Instance.GetUserInfo(token,
-				onSuccess: info =>
-				{
-					userInfo = info;
-				},
-				onError: _commonErrorCallback);
+			XsollaAuth.GetUserInfo(
+				info => { userInfo = info; },
+				_commonErrorCallback);
 
 			yield return new WaitWhile(() => _isProfileUpdated == null && userInfo == null);
 
@@ -263,9 +252,10 @@ namespace Xsolla.Demo
 				var oldPhoneNumber = userInfo.phone;
 				userInfo.phone = null;
 
-				SdkUserAccountLogic.Instance.DeleteUserPhoneNumber(token, oldPhoneNumber,
-					onSuccess: () => _isProfileUpdated = true,
-					onError: _commonErrorCallback);
+				XsollaUserAccount.DeleteUserPhoneNumber(
+					oldPhoneNumber,
+					() => _isProfileUpdated = true,
+					_commonErrorCallback);
 			}
 		}
 

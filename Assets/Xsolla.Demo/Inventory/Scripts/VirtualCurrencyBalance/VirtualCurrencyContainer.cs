@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Xsolla.Core;
 using Xsolla.UIBuilder;
 
 namespace Xsolla.Demo
@@ -15,7 +16,7 @@ namespace Xsolla.Demo
 		private void Awake()
 		{
 			if (virtualCurrencyBalanceProvider.GetValue() != null) return;
-			Debug.LogAssertion("VirtualCurrencyBalancePrefab is missing!");
+			XDebug.LogWarning("VirtualCurrencyBalancePrefab is missing!");
 			Destroy(gameObject);
 		}
 

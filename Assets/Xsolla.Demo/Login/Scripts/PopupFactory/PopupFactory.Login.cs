@@ -1,4 +1,4 @@
-namespace Xsolla.Core.Popup
+namespace Xsolla.Demo.Popup
 {
 	public partial class PopupFactory : MonoSingleton<PopupFactory>
 	{

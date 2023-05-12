@@ -1,14 +1,14 @@
 using UnityEngine;
 using Xsolla.Core;
-using Xsolla.Core.Popup;
+using Xsolla.Demo.Popup;
 
 namespace Xsolla.Demo
 {
 	public partial class DemoController : MonoSingleton<DemoController>
 	{
-		[SerializeField]private MenuStateMachine stateMachine = default;
-		[SerializeField]private UrlContainer urlContainer = default;
-		[SerializeField]private XsollaSettingsValidator settingsValidator = default;
+		[SerializeField] private MenuStateMachine stateMachine = default;
+		[SerializeField] private UrlContainer urlContainer = default;
+		[SerializeField] private XsollaSettingsValidator settingsValidator = default;
 
 		public UrlContainer UrlContainer => urlContainer;
 		public bool IsTutorialAvailable { get; private set; } = false;
@@ -34,7 +34,7 @@ namespace Xsolla.Demo
 		{
 			DestroyInstances();
 
-			if(PopupFactory.IsExist)
+			if (PopupFactory.IsExist)
 				Destroy(PopupFactory.Instance.gameObject);
 
 			base.OnDestroy();
@@ -69,7 +69,7 @@ namespace Xsolla.Demo
 
 		public string GetWebStoreUrl()
 		{
-			return $"{DemoSettings.WebStoreUrl}?token={Token.Instance}&remember_me=false";
+			return $"{DemoSettings.WebStoreUrl}?token={XsollaToken.AccessToken}&remember_me=false";
 		}
 
 		public void ShowTutorial(bool showWelcomeMessage) => ManualStartTutorial(showWelcomeMessage);
@@ -79,7 +79,7 @@ namespace Xsolla.Demo
 			if (lastState.IsPostAuthState() && newState.IsAuthState())
 			{
 				DestroyInstances();
-				Token.Instance = null;
+				XsollaToken.DeleteSavedInstance();
 			}
 
 			if (lastState.IsAuthState() && newState == MenuState.Main)

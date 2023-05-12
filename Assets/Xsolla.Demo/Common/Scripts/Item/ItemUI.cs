@@ -27,7 +27,7 @@ namespace Xsolla.Demo
 			if (!string.IsNullOrEmpty(imageUrl))
 				ImageLoader.Instance.GetImageAsync(imageUrl, LoadImageCallback);
 			else
-				Debug.LogError($"Item with sku: '{itemSku}' has no image url");
+				XDebug.LogError($"Item with sku: '{itemSku}' has no image url");
 		}
 
 		private void LoadImageCallback(string url, Sprite image)

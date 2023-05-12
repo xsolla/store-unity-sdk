@@ -3,8 +3,7 @@ using System.Collections;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-using Xsolla.Core;
-using Xsolla.Core.Popup;
+using Xsolla.Demo.Popup;
 
 namespace Xsolla.Demo
 {
@@ -43,7 +42,7 @@ namespace Xsolla.Demo
 			itemPriceVcText.gameObject.SetActive(false);
 			expirationTimeObject.SetActive(false);
 			freePrice.SetActive(false);
-			
+
 			_itemInformation = virtualItem;
 
 			if (virtualItem.VirtualPrice != null)
@@ -134,7 +133,7 @@ namespace Xsolla.Demo
 							itemPriceVcImage.sprite = sprite;
 					});
 				else
-					Debug.LogError($"Virtual currency item with sku = '{virtualItem.Sku}' without image!");
+					XDebug.LogError($"Virtual currency item with sku = '{virtualItem.Sku}' without image!");
 			}));
 		}
 
@@ -164,16 +163,16 @@ namespace Xsolla.Demo
 
 				EnableCheckout(isSelected);
 			};
-			
+
 			var realPrice = virtualItem.RealPrice;
 			if (realPrice == null)
 			{
 				freePrice.SetActive(true);
 				return;
 			}
-			
+
 			EnablePrice(false);
-				
+
 			var valuePair = realPrice.Value;
 			var currency = valuePair.Key;
 			var price = valuePair.Value;
@@ -186,7 +185,7 @@ namespace Xsolla.Demo
 			var priceWithoutDiscount = priceWithoutDiscountContainer.Value.Value;
 			if (priceWithoutDiscount == price)
 				return;
-			
+
 			itemPriceWithoutDiscount.text = PriceFormatter.FormatPrice(currency, priceWithoutDiscount);
 			itemPriceWithoutDiscount.gameObject.SetActive(true);
 		}
@@ -195,7 +194,7 @@ namespace Xsolla.Demo
 		{
 			if (string.IsNullOrEmpty(virtualItem.Name))
 			{
-				Debug.LogError($"Try initialize item with sku = {virtualItem.Sku} without name!");
+				XDebug.LogError($"Try initialize item with sku = {virtualItem.Sku} without name!");
 				virtualItem.Name = virtualItem.Sku;
 			}
 
@@ -208,7 +207,7 @@ namespace Xsolla.Demo
 			}
 			else
 			{
-				Debug.LogError($"Virtual item item with sku = '{virtualItem.Sku}' without image!");
+				XDebug.LogError($"Virtual item item with sku = '{virtualItem.Sku}' without image!");
 			}
 		}
 
@@ -216,7 +215,7 @@ namespace Xsolla.Demo
 		{
 			if (!itemImage)
 				return;
-			
+
 			loadingCircle.SetActive(false);
 			itemImage.gameObject.SetActive(true);
 			itemImage.sprite = image;
@@ -235,7 +234,7 @@ namespace Xsolla.Demo
 			var subscription = UserCatalog.Instance.Subscriptions.First(s => s.Sku.Equals(virtualItem.Sku));
 			if (subscription == null)
 			{
-				Debug.LogError($"Something went wrong... Can not find subscription item with sku = '{virtualItem.Sku}'!");
+				XDebug.LogError($"Something went wrong... Can not find subscription item with sku = '{virtualItem.Sku}'!");
 				return;
 			}
 
@@ -248,11 +247,11 @@ namespace Xsolla.Demo
 			Action<CatalogItemModel> onPurchased = item => { StartCoroutine(WaitInventoryUpdate(() => CheckIfItemPurchased(item))); };
 
 			if (virtualItem.VirtualPrice != null)
-				buyButton.onClick = () => DemoShop.Instance.PurchaseForVirtualCurrency(virtualItem, onPurchased);
+				buyButton.onClick = () => StoreLogic.PurchaseForVirtualCurrency(virtualItem, onPurchased, null);
 			else if (virtualItem.Price != null)
-				buyButton.onClick = () => DemoShop.Instance.PurchaseForRealMoney(virtualItem, onPurchased);
+				buyButton.onClick = () => StoreLogic.PurchaseForRealMoney(virtualItem, onPurchased, null);
 			else
-				buyButton.onClick = () => DemoShop.Instance.PurchaseFreeItem(virtualItem, onPurchased);
+				buyButton.onClick = () => StoreLogic.PurchaseFreeItem(virtualItem, onPurchased, null);
 		}
 
 		private void AttachPreviewButtonHandler(CatalogItemModel virtualItem)

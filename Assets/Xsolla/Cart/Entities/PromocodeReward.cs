@@ -5,14 +5,29 @@ namespace Xsolla.Cart
 	[Serializable]
 	public class PromocodeReward
 	{
+		public BonusItem[] bonus;
+		public Discount discount;
+		public DiscountedItems discounted_items;
+		public bool is_selectable;
+
 		[Serializable]
-		public class UnitItem
+		public class BonusItem
+		{
+			public RewardItem item;
+			public int quantity;
+		}
+
+		[Serializable]
+		public class Discount
+		{
+			public string percent;
+		}
+
+		[Serializable]
+		public class DiscountedItems
 		{
 			public string sku;
-			public string type;
-			public string name;
-			public string drm_name;
-			public string drm_sku;
+			public Discount discount;
 		}
 
 		[Serializable]
@@ -27,28 +42,13 @@ namespace Xsolla.Cart
 		}
 
 		[Serializable]
-		public class BonusItem
-		{
-			public RewardItem item;
-			public int quantity;
-		}
-		
-		[Serializable]
-		public class Discount
-		{
-			public string percent;
-		}
-
-		[Serializable]
-		public class DiscountedItems
+		public class UnitItem
 		{
 			public string sku;
-			public Discount discount;
+			public string type;
+			public string name;
+			public string drm_name;
+			public string drm_sku;
 		}
-
-		public BonusItem[] bonus;
-		public Discount discount;
-		public DiscountedItems discounted_items;
-		public bool is_selectable;
 	}
 }

@@ -29,7 +29,7 @@ namespace Xsolla.Demo
 			switch (state)
 			{
 				case FriendSystemSocialNetwork.State.Linked:
-					SdkFriendsLogic.Instance.GetFriendsFromSocialNetworks(
+					FriendsLogic.Instance.GetFriendsFromSocialNetworks(
 						onSuccess: newFriends =>
 						{
 							_socialFriends[socialProvider] = newFriends;
@@ -91,7 +91,7 @@ namespace Xsolla.Demo
 						network.RefreshState();
 			};
 
-			SdkUserAccountLogic.Instance.PurgeSocialProvidersCache();
+			UserAccountLogic.Instance.PurgeSocialProvidersCache();
 			UserFriends.Instance.UpdateFriends(onFriendsUpdate, StoreDemoPopup.ShowError);
 		}
 	}
