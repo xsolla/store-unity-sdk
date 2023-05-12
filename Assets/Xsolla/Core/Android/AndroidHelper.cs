@@ -1,23 +1,15 @@
-﻿using System;
+using System;
 using UnityEngine;
 
-namespace Xsolla.Core.Android
+namespace Xsolla.Core
 {
-	public class AndroidHelper : IDisposable
+	internal class AndroidHelper
 	{
 		private AndroidJavaClass _unityPlayer;
 		private AndroidJavaObject _activity;
 		private AndroidJavaObject _context;
-
-		private static OnMainThreadExecutor _onMainThreadExecutorInstance;
-
-		public AndroidHelper()
-		{
-			if (!_onMainThreadExecutorInstance)
-				_onMainThreadExecutorInstance = new GameObject("Android Main Thread Executor").AddComponent<OnMainThreadExecutor>();
-		}
-
-		public OnMainThreadExecutor OnMainThreadExecutor => _onMainThreadExecutorInstance;
+		private static MainThreadExecutor _mainThreadExecutorInstance;
+		private static AndroidJavaClass _xlogin;
 
 		private AndroidJavaClass UnityPlayer
 		{
@@ -41,7 +33,7 @@ namespace Xsolla.Core.Android
 			}
 		}
 
-		public AndroidJavaObject ApplicationContext
+		private AndroidJavaObject ApplicationContext
 		{
 			get
 			{
@@ -52,11 +44,50 @@ namespace Xsolla.Core.Android
 			}
 		}
 
-		public void Dispose()
+		public AndroidJavaClass Xlogin => _xlogin;
+
+		public MainThreadExecutor MainThreadExecutor => _mainThreadExecutorInstance;
+
+		public AndroidHelper()
 		{
-			_context?.Dispose();
-			_activity?.Dispose();
-			_unityPlayer?.Dispose();
+			CreateMainThreadExecutor();
+			InitLogin();
+		}
+
+		private static void CreateMainThreadExecutor()
+		{
+			if (!_mainThreadExecutorInstance)
+				_mainThreadExecutorInstance = new GameObject("Android MainThreadExecutor").AddComponent<MainThreadExecutor>();
+		}
+
+		private void InitLogin()
+		{
+			if (_xlogin != null)
+				return;
+
+			try
+			{
+				_xlogin = new AndroidJavaClass("com.xsolla.android.login.XLogin");
+				var socialConfig = new AndroidJavaObject(
+					"com.xsolla.android.login.XLogin$SocialConfig",
+					XsollaSettings.FacebookAppId,
+					XsollaSettings.GoogleServerId,
+					XsollaSettings.WeChatAppId,
+					XsollaSettings.QQAppId);
+
+				var loginConfigBuilder = new AndroidJavaObject("com.xsolla.android.login.LoginConfig$OauthBuilder");
+				loginConfigBuilder.Call<AndroidJavaObject>("setSocialConfig", socialConfig);
+				loginConfigBuilder.Call<AndroidJavaObject>("setProjectId", XsollaSettings.LoginId);
+				loginConfigBuilder.Call<AndroidJavaObject>("setOauthClientId", XsollaSettings.OAuthClientId);
+
+				var loginConfig = loginConfigBuilder.Call<AndroidJavaObject>("build");
+
+				_xlogin.CallStatic("init", ApplicationContext, loginConfig);
+			}
+			catch (Exception e)
+			{
+				throw new AggregateException($"AndroidSDKSocialAuthHelper.Ctor: {e.Message}", e);
+			}
 		}
 	}
 }

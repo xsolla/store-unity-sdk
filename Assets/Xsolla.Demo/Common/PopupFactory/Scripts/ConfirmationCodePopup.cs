@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Xsolla.Demo;
 
-namespace Xsolla.Core.Popup
+namespace Xsolla.Demo.Popup
 {
 	[AddComponentMenu("Scripts/Xsolla.Core/Popup/ConfirmationCodePopup")]
 	public class ConfirmationCodePopup : MonoBehaviour, IConfirmationCodePopup

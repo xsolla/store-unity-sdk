@@ -1,4 +1,5 @@
 using System;
+using Xsolla.Core;
 
 namespace Xsolla.Catalog
 {
@@ -7,4 +8,7 @@ namespace Xsolla.Catalog
 	{
 		public VirtualCurrencyItem[] items;
 	}
+
+	[Serializable]
+	public class VirtualCurrencyItem : StoreItem { }
 }

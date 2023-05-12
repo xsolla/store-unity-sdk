@@ -22,7 +22,7 @@ namespace Xsolla.Core.Editor
 
 			if (tag.Equals(xmlNode.Name))
 			{
-				var child = xmlNode.FindNodeRecursive(new FindByName(this.childNode));
+				var child = xmlNode.FindNodeRecursive(new FindByName(childNode));
 				return child != null;
 			}
 

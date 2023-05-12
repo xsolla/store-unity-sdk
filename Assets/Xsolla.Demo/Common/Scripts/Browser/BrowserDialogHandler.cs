@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using Xsolla.Core;
-using Xsolla.Core.Popup;
+using Xsolla.Demo.Popup;
 
 namespace Xsolla.Demo
 {
@@ -8,7 +8,7 @@ namespace Xsolla.Demo
 	{
 		private void Awake()
 		{
-			var browser = BrowserHelper.Instance.InAppBrowser;
+			var browser = XsollaWebBrowser.InAppBrowser;
 			if (browser == null)
 				return;
 			

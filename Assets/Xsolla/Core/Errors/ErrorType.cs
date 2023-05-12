@@ -11,6 +11,8 @@ namespace Xsolla.Core
 		AuthorizationHeaderNotSent,
 
 		MethodIsNotAllowed,
+		NotSupportedOnCurrentPlatform,
+
 		InvalidData,
 		ProductDoesNotExist,
 		UserNotFound,
@@ -18,9 +20,9 @@ namespace Xsolla.Core
 		OrderNotFound,
 		InvalidCoupon,
 
-		PasswordResetingNotAllowedForProject,
-		TokenVerificationException,
+		PasswordResetNotAllowedForProject,
 		RegistrationNotAllowedException,
+		TokenVerificationException,
 		UsernameIsTaken,
 		EmailIsTaken,
 		UserIsNotActivated,

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace Xsolla.Core.Browser
 {
-	public class SinglePageBrowser2D : MonoBehaviour
+	internal class SinglePageBrowser2D : MonoBehaviour
 	{
 		[SerializeField] private Button CloseButton;
 		[SerializeField] private Button BackButton;
@@ -19,7 +19,7 @@ namespace Xsolla.Core.Browser
 		public event Action<string, Action> AlertDialogEvent;
 		public event Action<string, Action, Action> ConfirmDialogEvent;
 #pragma warning restore CS0067
-		
+
 #if UNITY_EDITOR || UNITY_STANDALONE
 		private XsollaBrowser xsollaBrowser;
 		private Display2DBehaviour display;
@@ -36,7 +36,7 @@ namespace Xsolla.Core.Browser
 			BackButton.gameObject.SetActive(false);
 
 			xsollaBrowser = this.GetOrAddComponent<XsollaBrowser>();
-			xsollaBrowser.LogEvent += Debug.Log;
+			xsollaBrowser.LogEvent += s => XDebug.Log(s);
 
 			xsollaBrowser.Launch
 			(
@@ -76,7 +76,7 @@ namespace Xsolla.Core.Browser
 			display.StartRedraw(Viewport.x, Viewport.y);
 			display.RedrawFrameCompleteEvent += DestroyPreloader;
 			display.RedrawFrameCompleteEvent += EnableCloseButton;
-			display.ViewportChangedEvent += (width, height) => UnityEngine.Debug.Log("Display viewport changed: " + width + "x" + height);
+			display.ViewportChangedEvent += (width, height) => XDebug.Log("Display viewport changed: " + width + "x" + height);
 
 			mouse = this.GetOrAddComponent<Mouse2DBehaviour>();
 			keyboard = this.GetOrAddComponent<Keyboard2DBehaviour>();
@@ -179,13 +179,13 @@ namespace Xsolla.Core.Browser
 
 		private void OnCloseButtonPressed()
 		{
-			Debug.Log("`Close` button pressed");
+			XDebug.Log("`Close` button pressed");
 			BrowserCloseRequest?.Invoke();
 		}
 
 		private void OnBackButtonPressed()
 		{
-			Debug.Log("`Back` button pressed");
+			XDebug.Log("`Back` button pressed");
 			xsollaBrowser.Navigate.Back(newUrl =>
 			{
 				if (newUrl.Equals(urlBeforePopup))
@@ -198,8 +198,7 @@ namespace Xsolla.Core.Browser
 
 		private void OnKeyboardEscapePressed()
 		{
-			Debug.Log("`Escape` button pressed");
-			Destroy(gameObject, 0.001f);
+			BrowserCloseRequest?.Invoke();
 		}
 
 		private void HandleBrowserDialog(XsollaBrowserDialog dialog)
@@ -236,7 +235,7 @@ namespace Xsolla.Core.Browser
 
 		private void CloseAlert(XsollaBrowserDialog dialog)
 		{
-			Debug.Log("Browser alert was closed automatically");
+			XDebug.Log("Browser alert was closed automatically");
 			dialog.Accept();
 		}
 #endif

@@ -1,12 +1,12 @@
 ﻿#if (UNITY_EDITOR || UNITY_STANDALONE)
-using UnityEngine;
-using System.Collections;
 using System;
+using System.Collections;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Xsolla.Core.Browser
 {
-	public class Display2DBehaviour : MonoBehaviour
+	internal class Display2DBehaviour : MonoBehaviour
 	{
 		private IXsollaBrowserRender xsollaRender;
 		private RawImage renderImage;
@@ -20,7 +20,7 @@ namespace Xsolla.Core.Browser
 		{
 			if (!GetComponentInParent<Canvas>())
 			{
-				Debug.LogError("Canvas not found. This browser for 2D project.");
+				XDebug.LogError("Canvas not found. This browser for 2D project.");
 				Destroy(gameObject);
 				yield break;
 			}

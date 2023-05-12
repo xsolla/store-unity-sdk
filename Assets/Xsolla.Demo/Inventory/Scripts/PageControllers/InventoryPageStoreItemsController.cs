@@ -1,8 +1,7 @@
 using System.Collections.Generic;
-using System;
 using System.Linq;
 using UnityEngine;
-using Xsolla.Core.Popup;
+using Xsolla.Demo.Popup;
 
 namespace Xsolla.Demo
 {

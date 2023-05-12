@@ -1,18 +1,18 @@
 #if (UNITY_EDITOR || UNITY_STANDALONE)
-using UnityEngine;
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace Xsolla.Core.Browser
 {
-	public class Keyboard2DBehaviour : MonoBehaviour
+	internal class Keyboard2DBehaviour : MonoBehaviour
 	{
 		private IXsollaBrowserKeyboardInput keyboardInput;
 
 		public event Action EscapePressed;
 
-		private static readonly List<KeyCode> SystemKeys = new List<KeyCode>{
+		private static readonly List<KeyCode> SystemKeys = new List<KeyCode> {
 			KeyCode.Escape
 		};
 

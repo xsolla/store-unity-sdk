@@ -1,4 +1,6 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Text.RegularExpressions;
+using Xsolla.Auth;
 using Xsolla.Core;
 
 namespace Xsolla.Demo
@@ -6,83 +8,81 @@ namespace Xsolla.Demo
 	public class PasswordlessPhoneAuth : LoginAuthorization
 	{
 		private string _currentPhone;
-		private string _currentOperationID;
+		private string _currentOperationId;
 		private ICodeRequester _currentRequester;
 
-		public override void TryAuth(params object[] args)
+		public override void TryAuth(object[] args, Action onSuccess, Action<Error> onError)
 		{
-			if (TryExtractArgs(args, out var requester, out var phone))
+			if (!TryExtractArgs(args, out var requester, out var phone))
 			{
-				if (IsPhoneValid(phone))
+				XDebug.LogError("PasswordlessPhoneAuth.TryAuth: Could not extract arguments");
+				onError?.Invoke(new Error(errorMessage: "Passwordless auth failed"));
+				return;
+			}
+
+			if (!IsPhoneValid(phone))
+			{
+				var error = new Error(ErrorType.InvalidData, errorMessage: $"Phone not valid '{phone}'");
+				requester?.RaiseOnError(error);
+				onError?.Invoke(error);
+				return;
+			}
+
+			_currentPhone = phone;
+			_currentRequester = requester;
+
+			XsollaAuth.StartAuthByPhoneNumber(
+				phone,
+				data => OnStartAuth(data.operation_id, onSuccess),
+				error =>
 				{
-					SdkAuthLogic.Instance.StartAuthByPhoneNumber(
-						phoneNumber:phone,
-						linkUrl: null,
-						sendLink:false,
-						onSuccess: id => OnStartAuth(phone, id, requester),
-						onError: error => OnPasswordlessError(error,requester));
-				}
-				else
-					OnPasswordlessError(new Error(ErrorType.InvalidData, errorMessage:$"Phone not valid '{phone}'"), requester);
-			}
-			else
-			{
-				Debug.LogError("PasswordlessPhoneAuth.TryAuth: Could not extract arguments");
-				base.OnError?.Invoke(new Error(errorMessage: "Passwordless auth failed"));
-			}
+					requester?.RaiseOnError(error);
+					onError?.Invoke(error);
+				});
 		}
 
-		private bool TryExtractArgs(object[] args, out ICodeRequester requester, out string phone)
+		private static bool TryExtractArgs(object[] args, out ICodeRequester requester, out string phone)
 		{
 			requester = null;
 			phone = null;
 
 			if (args.Length >= 2 && args[0] is ICodeRequester && args[1] is string)
 			{
-				requester = (ICodeRequester)args[0];
-				phone = (string)args[1];
+				requester = (ICodeRequester) args[0];
+				phone = (string) args[1];
 				return true;
 			}
-			else
-			{
-				Debug.LogError("PasswordlessPhoneAuth: Could not extract arguments");
-				return false;
-			}
+
+			XDebug.LogError("PasswordlessPhoneAuth: Could not extract arguments");
+			return false;
 		}
 
-		private bool IsPhoneValid(string phone)
+		private static bool IsPhoneValid(string phone)
 		{
 			var regex = new Regex("^\\+(\\d){5,25}$");
 			var valid = regex.IsMatch(phone);
 
 			if (!valid)
-				Debug.LogError($"Phone not valid: '{phone}'");
+				XDebug.LogError($"Phone not valid: '{phone}'");
 
 			return valid;
 		}
 
-		private void OnStartAuth(string phone, string operationID, ICodeRequester requester)
+		private void OnStartAuth(string operationId, Action onSuccess)
 		{
-			_currentPhone = phone;
-			_currentOperationID = operationID;
-			_currentRequester = requester;
-			requester.RequestCode(OnCode);
+			_currentOperationId = operationId;
+			_currentRequester.RequestCode(code => OnCodeReceived(code, onSuccess));
 		}
 
-		private void OnCode(string code)
+		private void OnCodeReceived(string code, Action onSuccess)
 		{
-			SdkAuthLogic.Instance.CompleteAuthByPhoneNumber(
-				phoneNumber: _currentPhone,
-				confirmationCode: code,
-				operationId: _currentOperationID,
-				onSuccess: token => base.OnSuccess?.Invoke(token),
-				onError: OnCodeError);
-		}
-
-		private void OnPasswordlessError(Error error, ICodeRequester requester)
-		{
-			requester.RaiseOnError(error);
-			base.OnError?.Invoke(error);
+			XsollaAuth.CompleteAuthByPhoneNumber(
+				_currentPhone,
+				code,
+				_currentOperationId,
+				onSuccess,
+				OnCodeError
+			);
 		}
 
 		private void OnCodeError(Error error)

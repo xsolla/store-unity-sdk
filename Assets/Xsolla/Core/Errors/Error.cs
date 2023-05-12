@@ -10,44 +10,30 @@ namespace Xsolla.Core
 		public string errorCode;
 		public string errorMessage;
 
-		public ErrorType ErrorType { get; set; } = ErrorType.UnknownError;
+		public ErrorType ErrorType { get; set; }
 
 		public Error(ErrorType errorType = ErrorType.UnknownError, string statusCode = "", string errorCode = "", string errorMessage = "")
 		{
+			ErrorType = errorType;
 			this.statusCode = statusCode;
 			this.errorCode = errorCode;
 			this.errorMessage = errorMessage;
-			ErrorType = errorType;
 		}
 
-		public static Error NetworkError
-		{
-			get { return new Error(ErrorType.NetworkError); }
-		}
-		
-		public static Error UnknownError
-		{
-			get { return new Error(ErrorType.UnknownError); }
-		}
+		public static Error UnknownError => new Error();
 
-		public bool IsValid()
-		{
-			return	(statusCode != null) ||
-					(errorCode != null) ||
-					(errorMessage != null) ||
-					(ErrorType != ErrorType.Undefined);
-		}
-		
 		public override string ToString()
 		{
 			var builder = new StringBuilder($"Error: {ErrorType}.");
 
 			if (!string.IsNullOrEmpty(statusCode))
 				builder.Append($" Status code: {statusCode}.");
+
 			if (!string.IsNullOrEmpty(errorCode))
 				builder.Append($" Error code: {errorCode}.");
+
 			if (!string.IsNullOrEmpty(errorMessage))
-				builder.Append($" {errorMessage}.");
+				builder.Append($" Message: {errorMessage}.");
 
 			return builder.ToString();
 		}

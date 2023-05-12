@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using Xsolla.Auth;
+using Xsolla.Core;
 
 namespace Xsolla.Demo
 {
@@ -6,20 +8,15 @@ namespace Xsolla.Demo
 	{
 		private void Start()
 		{
-			var token = Core.Token.Instance;
-
-			SdkAuthLogic.Instance.GetUserInfo(token,
-				onSuccess: info =>
+			XsollaAuth.GetUserInfo(
+				info =>
 				{
 					var isEmailPresented = !string.IsNullOrEmpty(info.email);
 					var isUsernamePresented = !string.IsNullOrEmpty(info.username);
-
 					if (!isEmailPresented && !isUsernamePresented)
-					{
-						this.gameObject.SetActive(false);
-					}
+						gameObject.SetActive(false);
 				},
-				onError: error => Debug.Log("Could not get user info"));
+				error => XDebug.Log("Could not get user info"));
 		}
 	}
-}	
+}

@@ -1,6 +1,7 @@
 using System;
+using UnityEngine;
 using Xsolla.Core;
-using Xsolla.Core.Popup;
+using Xsolla.Demo.Popup;
 
 namespace Xsolla.Demo
 {
@@ -15,14 +16,14 @@ namespace Xsolla.Demo
 
 		public static void ShowError(Error error)
 		{
-			Debug.LogError(error);
+			XDebug.LogError(error);
 			var popup = PopupFactory.Instance.CreateError();
 			popup.SetMessage(error.ToString());
 		}
 
 		public static void ShowError(Error error, Action buttonCallback)
 		{
-			Debug.LogError(error);
+			XDebug.LogError(error);
 			var popup = PopupFactory.Instance.CreateError();
 			popup.SetMessage(error.ToString());
 			popup.SetCallback(buttonCallback);
@@ -30,7 +31,7 @@ namespace Xsolla.Demo
 
 		public static void ShowWarning(Error error, Action buttonCallback = null)
 		{
-			Debug.LogWarning(error);
+			XDebug.LogWarning(error);
 			var popup = PopupFactory.Instance.CreateError();
 			popup.SetMessage(error.ToString());
 

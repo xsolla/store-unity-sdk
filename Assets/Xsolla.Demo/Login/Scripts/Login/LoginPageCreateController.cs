@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using Xsolla.Auth;
 using Xsolla.Core;
 
 namespace Xsolla.Demo
@@ -27,9 +28,9 @@ namespace Xsolla.Demo
 			set
 			{
 				if (value)
-					Debug.Log("LoginPageCreateController: Create started");
+					XDebug.Log("LoginPageCreateController: Create started");
 				else
-					Debug.Log("LoginPageCreateController: Create ended");
+					XDebug.Log("LoginPageCreateController: Create ended");
 
 				base.IsInProgress = value;
 			}
@@ -70,38 +71,45 @@ namespace Xsolla.Demo
 
 			if (isFieldsFilled && isEmailValid)
 			{
-				Action<int> onSuccessfulCreate = webRequestResponseCode =>
+				Action<LoginLink> onSuccessfulCreate = loginLink =>
 				{
-					Debug.Log("LoginPageCreateController: Create success");
-					
-					if (webRequestResponseCode == 200)
+					XDebug.Log("LoginPageCreateController: Create success");
+
+					if (loginLink.login_url != null)
 					{
 						FindObjectOfType<LoginPagesHelper>().SetState(MenuState.Authorization);
 						FindObjectOfType<LoginPageEnterController>().RunBasicAuth(username, password, true);
 					}
 					else
 					{
-						base.OnSuccess?.Invoke();
+						OnSuccess?.Invoke();
 					}
 				};
 
 				Action<Error> onFailedCreate = error =>
 				{
-					Debug.LogError($"LoginPageCreateController: Create error: {error}");
-					base.OnError?.Invoke(error);
+					XDebug.LogError($"LoginPageCreateController: Create error: {error}");
+					OnError?.Invoke(error);
 				};
 
-				SdkAuthLogic.Instance.Register(username, password, email, onSuccess:onSuccessfulCreate, onError:onFailedCreate);
+				XsollaAuth.Register(
+					username,
+					password,
+					email,
+					onSuccessfulCreate,
+					onFailedCreate,
+					acceptConsent: true,
+					promoEmailAgreement: true);
 			}
 			else if (!isEmailValid)
 			{
-				Debug.Log($"Invalid email: {email}");
+				XDebug.Log($"Invalid email: {email}");
 				Error error = new Error(errorType: ErrorType.RegistrationNotAllowedException, errorMessage: "Invalid email");
-				base.OnError?.Invoke(error);
+				OnError?.Invoke(error);
 			}
 			else
 			{
-				Debug.LogError($"Fields are not filled. Username: '{username}' Password: '{password}'");
+				XDebug.LogError($"Fields are not filled. Username: '{username}' Password: '{password}'");
 				Error error = new Error(errorType: ErrorType.RegistrationNotAllowedException, errorMessage: $"Not all fields are filled");
 				base.OnError?.Invoke(error);
 			}

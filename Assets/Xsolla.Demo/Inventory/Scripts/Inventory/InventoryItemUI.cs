@@ -62,7 +62,7 @@ namespace Xsolla.Demo
 				ImageLoader.Instance.GetImageAsync(url, LoadImageCallback);
 			else
 			{
-				Debug.LogError($"Inventory item with sku = '{_itemInformation.Sku}' has no image!");
+				XDebug.LogError($"Inventory item with sku = '{_itemInformation.Sku}' has no image!");
 				LoadImageCallback(string.Empty, null);
 			}
 		}
@@ -314,7 +314,7 @@ namespace Xsolla.Demo
 			}
 			else
 			{
-				Debug.LogError($"Item model incorrect for item with SKU '{itemModel.Sku}', expected type is '{typeof (T)}'");
+				XDebug.LogError($"Item model incorrect for item with SKU '{itemModel.Sku}', expected type is '{typeof (T)}'");
 				result = null;
 				return false;
 			}

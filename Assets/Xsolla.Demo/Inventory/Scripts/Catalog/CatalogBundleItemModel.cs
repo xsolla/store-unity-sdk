@@ -11,8 +11,8 @@ namespace Xsolla.Demo
 		public KeyValuePair<string, float>? ContentRealPrice { get; set; }
 		public KeyValuePair<string, float>? ContentRealPriceWithoutDiscount { get; set; }
 
-		public KeyValuePair<string, uint>? ContentVirtualPrice { get; set; }
-		public KeyValuePair<string, uint>? ContentVirtualPriceWithoutDiscount { get; set; }
+		public KeyValuePair<string, int>? ContentVirtualPrice { get; set; }
+		public KeyValuePair<string, int>? ContentVirtualPriceWithoutDiscount { get; set; }
 
 		public List<BundleContentItem> Content { get; set; }
 	}

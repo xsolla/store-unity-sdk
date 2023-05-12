@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using Xsolla.Auth;
 using Xsolla.Core;
 
 namespace Xsolla.Demo
@@ -15,11 +16,9 @@ namespace Xsolla.Demo
 
 		private void Start()
 		{
-			var token = Token.Instance;
-			SdkAuthLogic.Instance.GetUserInfo(token, info =>
-			{
-				DrawAvatar(info.picture);
-			});
+			XsollaAuth.GetUserInfo(
+				info => { DrawAvatar(info.picture); },
+				XDebug.LogError);
 		}
 
 		private void DrawAvatar(string avatarUrl)

@@ -1,12 +1,12 @@
 ﻿#if (UNITY_EDITOR || UNITY_STANDALONE)
-using UnityEngine;
-using System.Collections;
-using UnityEngine.EventSystems;
 using System;
+using System.Collections;
+using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Xsolla.Core.Browser
 {
-	public class Mouse2DBehaviour : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler, IScrollHandler
+	internal class Mouse2DBehaviour : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler, IScrollHandler
 	{
 		private Canvas canvas;
 		private RectTransform selfRectTransform;
@@ -56,7 +56,7 @@ namespace Xsolla.Core.Browser
 		void IPointerClickHandler.OnPointerClick(PointerEventData eventData)
 		{
 			var mousePosition = CalculateBrowserMousePosition(eventData.position);
-			browserMouse.Click(mousePosition, pos => Debug.Log("Click handled by: " + pos));
+			browserMouse.Click(mousePosition, pos => XDebug.Log("Click handled by: " + pos));
 		}
 
 		void IScrollHandler.OnScroll(PointerEventData eventData)
@@ -111,7 +111,7 @@ namespace Xsolla.Core.Browser
 				return point;
 			}
 
-			Debug.LogWarning("You try get mouse position, but mouse not over canvas");
+			XDebug.LogWarning("You try get mouse position, but mouse not over canvas");
 			return Vector2.zero;
 		}
 	}

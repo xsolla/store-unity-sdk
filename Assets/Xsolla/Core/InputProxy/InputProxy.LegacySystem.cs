@@ -15,10 +15,7 @@ namespace Xsolla.Core
 			return Input.GetKeyUp(code);
 		}
 
-		public static Vector3 MousePosition
-		{
-			get => Input.mousePosition;
-		}
+		public static Vector3 MousePosition => Input.mousePosition;
 	}
 }
 

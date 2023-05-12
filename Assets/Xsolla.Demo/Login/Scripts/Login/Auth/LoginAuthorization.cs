@@ -6,9 +6,6 @@ namespace Xsolla.Demo
 {
 	public abstract class LoginAuthorization : MonoBehaviour
 	{
-		public Action<string> OnSuccess { get; set; }
-		public Action<Error> OnError { get; set; }
-
-		public abstract void TryAuth(params object[] args);
+		public abstract void TryAuth(object[] args, Action onSuccess, Action<Error> onError);
 	}
 }

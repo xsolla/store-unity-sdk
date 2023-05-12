@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 using UnityEngine;
+using Xsolla.Demo;
 
 public static class CurrencyFormatUtil
 {
@@ -13,7 +14,7 @@ public static class CurrencyFormatUtil
 		var currenciesFile = (TextAsset) Resources.Load(CURRENCY_FORMAT_FILE_NAME);
 		if (currenciesFile == null)
 		{
-			Debug.LogAssertion("Can not find or load currencies file");
+			XDebug.LogWarning("Can not find or load currencies file");
 			return;
 		}
 

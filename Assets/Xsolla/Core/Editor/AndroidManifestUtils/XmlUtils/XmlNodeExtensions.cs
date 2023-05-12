@@ -11,7 +11,7 @@ namespace Xsolla.Core.Editor
 				return root;
 			}
 
-			XmlNode currentNode = root.FirstChild;
+			var currentNode = root.FirstChild;
 			while (currentNode != null)
 			{
 				var node = currentNode.FindNodeRecursive(criteria);
@@ -28,7 +28,7 @@ namespace Xsolla.Core.Editor
 
 		public static XmlNode FindNodeInChildren(this XmlNode root, IFindCriteria<XmlNode> criteria)
 		{
-			XmlNode currentNode = root.FirstChild;
+			var currentNode = root.FirstChild;
 			while (currentNode != null)
 			{
 				if (criteria.MatchesCriteria(currentNode))
@@ -62,7 +62,6 @@ namespace Xsolla.Core.Editor
 			}
 
 			node.ChildNodes.ForEach(childNode => xmlElement.AddAndroidManifestNode(xmlDocument, childNode));
-
 			root.InsertAt(xmlElement, 0);
 		}
 

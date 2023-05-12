@@ -1,6 +1,6 @@
 using UnityEngine;
 using Xsolla.Core;
-using Xsolla.Core.Popup;
+using Xsolla.Demo.Popup;
 
 namespace Xsolla.Demo
 {

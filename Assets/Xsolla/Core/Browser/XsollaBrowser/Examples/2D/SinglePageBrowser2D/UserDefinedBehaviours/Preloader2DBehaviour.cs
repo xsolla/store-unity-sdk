@@ -1,10 +1,10 @@
 #if (UNITY_EDITOR || UNITY_STANDALONE)
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
 
 namespace Xsolla.Core.Browser
 {
-	public class Preloader2DBehaviour : MonoBehaviour
+	internal class Preloader2DBehaviour : MonoBehaviour
 	{
 		private int lastProgress;
 		private object progressLocker;
@@ -49,7 +49,7 @@ namespace Xsolla.Core.Browser
 				if (lastProgress >= progress)
 					return;
 
-				Debug.Log($"Update[%]: {lastProgress} => {progress}");
+				XDebug.Log($"Update[%]: {lastProgress} => {progress}");
 				lastProgress = progress;
 
 				StartCoroutine(PreloaderCoroutine(progress));
@@ -64,7 +64,7 @@ namespace Xsolla.Core.Browser
 				yield break;
 
 			if (progress < 99)
-				preloaderObject.GetComponent<PreloaderScript>().SetPercent((uint) progress);
+				preloaderObject.GetComponent<PreloaderScript>().SetPercent((int) progress);
 			else
 				preloaderObject.GetComponent<PreloaderScript>().SetText(string.Empty);
 		}

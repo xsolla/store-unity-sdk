@@ -1,4 +1,5 @@
 ﻿using System;
+using Xsolla.Auth;
 using Xsolla.Core;
 
 namespace Xsolla.Demo
@@ -9,76 +10,75 @@ namespace Xsolla.Demo
 		private bool _isDemoUser;
 		private bool _isJwtInvalidationEnabled;
 
-		public override void TryAuth(params object[] args)
+		public override void TryAuth(object[] args, Action onSuccess, Action<Error> onError)
 		{
-			if (TryExtractArgs(args, out string username, out string password, out bool rememberMe))
+			if (!TryExtractArgs(args, out var username, out var password))
 			{
-				_isDemoUser = (username.ToUpper() == DEMO_USER_NAME && password.ToUpper() == DEMO_USER_NAME);
-				_isJwtInvalidationEnabled = XsollaSettings.InvalidateExistingSessions;
-
-				if(_isDemoUser && _isJwtInvalidationEnabled)
-					XsollaSettings.InvalidateExistingSessions = false;
-
-				SdkAuthLogic.Instance.SignIn(username, password, rememberMe, BasicAuthSuccess, BasicAuthFailed);
+				onError?.Invoke(new Error(errorMessage: "Basic auth failed. Can't extract username and password"));
+				return;
 			}
-			else
-			{
-				Debug.LogError("BasicAuth.TryAuth: Could not extract arguments for SignIn");
-				base.OnError?.Invoke(new Error(errorMessage: "Basic auth failed"));
-			}
+
+			ChangeJwtInvalidationIfNeeded(username, password);
+
+			XsollaAuth.SignIn(
+				username,
+				password,
+				() =>
+				{
+					RestoreJwtInvalidationIfNeeded();
+					onSuccess?.Invoke();
+				},
+				error =>
+				{
+					RestoreJwtInvalidationIfNeeded();
+					onError?.Invoke(error);
+				});
 		}
 
-		private bool TryExtractArgs(object[] args, out string username, out string password, out bool rememberMe)
+		private static bool TryExtractArgs(object[] args, out string username, out string password)
 		{
-			username = default(string);
-			password = default(string);
-			rememberMe = default(bool);
+			username = default;
+			password = default;
 
 			if (args == null)
 			{
-				Debug.LogError("BasicAuth.TryExtractArgs: 'object[] args' was null");
+				XDebug.LogError("BasicAuth.TryExtractArgs: 'object[] args' was null");
 				return false;
 			}
 
-			if (args.Length != 3)
+			if (args.Length != 2)
 			{
-				Debug.LogError($"BasicAuth.TryExtractArgs: args.Length expected 3, was {args.Length}");
+				XDebug.LogError($"BasicAuth.TryExtractArgs: args.Length expected 2, was {args.Length}");
 				return false;
 			}
 
 			try
 			{
-				username = (string)args[0];
-				password = (string)args[1];
-				rememberMe = (bool)args[2];
-
+				username = (string) args[0];
+				password = (string) args[1];
 				LoginPageEnterController.LastUsername = username;
 			}
 			catch (Exception ex)
 			{
-				Debug.LogError($"BasicAuth.TryExtractArgs: Error during argument extraction: {ex.Message}");
+				XDebug.LogError($"BasicAuth.TryExtractArgs: Error during argument extraction: {ex.Message}");
 				return false;
 			}
 
 			return true;
 		}
 
-		private void BasicAuthSuccess(string token)
+		private void ChangeJwtInvalidationIfNeeded(string username, string password)
 		{
-			RestoreJwtInvalidationIfNeeded();
-			base.OnSuccess?.Invoke(Token.Instance);
-		}
+			_isDemoUser = username.ToUpper() == DEMO_USER_NAME && password.ToUpper() == DEMO_USER_NAME;
+			_isJwtInvalidationEnabled = XsollaSettings.InvalidateExistingSessions;
 
-		private void BasicAuthFailed(Error error)
-		{
-			RestoreJwtInvalidationIfNeeded();
-			Debug.LogWarning($"BasicAuth: auth failed. Error: {error.errorMessage}");
-			base.OnError?.Invoke(error);
+			if (_isDemoUser && _isJwtInvalidationEnabled)
+				XsollaSettings.InvalidateExistingSessions = false;
 		}
 
 		private void RestoreJwtInvalidationIfNeeded()
 		{
-			if(_isDemoUser && _isJwtInvalidationEnabled)
+			if (_isDemoUser && _isJwtInvalidationEnabled)
 				XsollaSettings.InvalidateExistingSessions = true;
 		}
 	}

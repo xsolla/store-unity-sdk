@@ -1,3 +1,4 @@
+using System;
 using Xsolla.Auth;
 using Xsolla.Core;
 
@@ -5,12 +6,13 @@ namespace Xsolla.Demo
 {
 	internal class LoginWidgetAuth : LoginAuthorization
 	{
-		public override void TryAuth(params object[] args)
+		public override void TryAuth(object[] _, Action onSuccess, Action<Error> onError)
 		{
-			XsollaAuth.Instance.AuthWithXsollaWidget(
-				onSuccess: token => { base.OnSuccess?.Invoke(token); });
+			XsollaAuth.AuthWithXsollaWidget(
+				onSuccess,
+				() => onError?.Invoke(null));
 
-			BrowserHelper.Instance.InAppBrowser.UpdateSize(820, 840);
+			XsollaWebBrowser.InAppBrowser.UpdateSize(820, 840);
 		}
 	}
 }

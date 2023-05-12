@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using Xsolla.Auth;
 using Xsolla.Core;
 
 namespace Xsolla.Demo
@@ -16,15 +17,14 @@ namespace Xsolla.Demo
 		{
 			if (!UserEmailText)
 			{
-				Debug.LogWarning("Can not draw user info because 'UserEmailText' field is null or empty!");
+				XDebug.LogWarning("Can not draw user info because 'UserEmailText' field is null or empty!");
 				yield break;
 			}
 
-			yield return new WaitWhile(() => Core.Token.Instance == null);
+			yield return new WaitWhile(() => !XsollaToken.Exists);
 
 			var busy = true;
-			var token = Core.Token.Instance;
-			SdkAuthLogic.Instance.GetUserInfo(token, info =>
+			XsollaAuth.GetUserInfo(info =>
 			{
 				DrawInfo(info);
 				busy = false;

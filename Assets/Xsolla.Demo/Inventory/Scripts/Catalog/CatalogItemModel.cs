@@ -6,8 +6,8 @@ namespace Xsolla.Demo
 	{
 		public KeyValuePair<string, float>? RealPrice { get; set; }
 		public KeyValuePair<string, float>? RealPriceWithoutDiscount { get; set; }
-		public KeyValuePair<string, uint>? VirtualPrice { get; set; }
-		public KeyValuePair<string, uint>? VirtualPriceWithoutDiscount { get; set; }
+		public KeyValuePair<string, int>? VirtualPrice { get; set; }
+		public KeyValuePair<string, int>? VirtualPriceWithoutDiscount { get; set; }
 
 		public KeyValuePair<string, float>? Price => VirtualPrice.HasValue
 			? new KeyValuePair<string, float>(VirtualPrice.Value.Key, VirtualPrice.Value.Value)

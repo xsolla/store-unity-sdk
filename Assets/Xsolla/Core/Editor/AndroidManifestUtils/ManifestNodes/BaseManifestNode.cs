@@ -6,9 +6,8 @@ namespace Xsolla.Core.Editor
 	{
 		public string Tag { get; private set; }
 		public string ParentTag { get; private set; }
-		public Dictionary<string, string> Attributes { get; private set; }
-		public List<BaseManifestNode> ChildNodes { get; private set; }
-
+		public Dictionary<string, string> Attributes { get; }
+		public List<BaseManifestNode> ChildNodes { get; }
 
 		public BaseManifestNode(string tag, string parentTag = "", Dictionary<string, string> attributes = null, List<BaseManifestNode> childNodes = null)
 		{

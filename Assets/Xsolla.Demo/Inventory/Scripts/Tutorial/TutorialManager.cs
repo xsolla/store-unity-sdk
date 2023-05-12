@@ -1,17 +1,17 @@
 using UnityEngine;
-using Xsolla.Core;
-using Xsolla.Core.Popup;
+using Xsolla.Demo.Popup;
 
 namespace Xsolla.Demo
 {
 	public class TutorialManager : MonoBehaviour
 	{
 		[SerializeField] private TutorialInfo _tutorialInfo = default;
+		private const string INVENTORY_TUTORIAL_COMPLETED = "xsolla_inventory_tutorial_completion_flag";
 
-	#if UNITY_EDITOR
+#if UNITY_EDITOR
 		[ContextMenu("Reset tutorial")]
-		public void DropTutorial() => PlayerPrefs.SetInt(Constants.INVENTORY_TUTORIAL_COMPLETED, 0);
-	#endif
+		public void DropTutorial() => PlayerPrefs.SetInt(INVENTORY_TUTORIAL_COMPLETED, 0);
+#endif
 
 		public void ShowTutorial(bool showWelcomeMessage = true)
 		{
@@ -23,12 +23,12 @@ namespace Xsolla.Demo
 
 		public bool IsTutorialCompleted()
 		{
-			return PlayerPrefs.GetInt(Constants.INVENTORY_TUTORIAL_COMPLETED, 0) > 0;
+			return PlayerPrefs.GetInt(INVENTORY_TUTORIAL_COMPLETED, 0) > 0;
 		}
 
 		void MarkTutorialAsCompleted()
 		{
-			PlayerPrefs.SetInt(Constants.INVENTORY_TUTORIAL_COMPLETED, 1);
+			PlayerPrefs.SetInt(INVENTORY_TUTORIAL_COMPLETED, 1);
 		}
 	}
 }

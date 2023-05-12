@@ -6,19 +6,19 @@ namespace Xsolla.Demo
 {
 	public class UserProfileEntryUI : MonoBehaviour
 	{
-		[SerializeField] GameObject SetStateObjects = default;
-		[SerializeField] GameObject UnsetStateObjects = default;
-		[SerializeField] GameObject EditStateObjects = default;
+		[SerializeField] private GameObject SetStateObjects;
+		[SerializeField] private GameObject UnsetStateObjects;
+		[SerializeField] private GameObject EditStateObjects;
 
-		[SerializeField] Text CurrentValueText = default;
+		[SerializeField] private Text CurrentValueText;
 
-		[SerializeField] SimpleButton[] EditButtons = default;
-		[SerializeField] UserProfileEntryEditor EntryEditor = default;
-		[SerializeField] BaseUserProfileValueConverter ValueConverter = default;
+		[SerializeField] private SimpleButton[] EditButtons;
+		[SerializeField] private UserProfileEntryEditor EntryEditor;
+		[SerializeField] private BaseUserProfileValueConverter ValueConverter;
 
 		private UserProfileEntryType _entryType;
 		private EntryState _currentState;
-	
+
 		private string CurrentValue
 		{
 			get => CurrentValueText.text;
@@ -132,7 +132,9 @@ namespace Xsolla.Demo
 
 		private enum EntryState
 		{
-			Set, Unset, Edit
+			Set,
+			Unset,
+			Edit
 		}
 	}
 }

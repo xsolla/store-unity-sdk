@@ -7,7 +7,7 @@ namespace Xsolla.Demo
 	[RequireComponent(typeof(SimpleButton))]
 	public class AvatarChoiceButton : MonoBehaviour
 	{
-		[SerializeField] Image AvatarImage = default;
+		[SerializeField] private Image AvatarImage;
 
 		public static event Action<Sprite> AvatarPicked;
 

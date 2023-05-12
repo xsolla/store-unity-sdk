@@ -70,7 +70,7 @@ namespace Xsolla.Demo
 			where T: CatalogItemModel
 		{
 			var busy = true;
-			if (method != null && Token.Instance != null && XsollaCatalog.IsExist)
+			if (method != null && XsollaToken.Exists)
 				method.Invoke(items =>
 				{
 					busy = false;
@@ -92,7 +92,7 @@ namespace Xsolla.Demo
 		private IEnumerator UpdateVirtualCurrenciesCoroutine(Action<Error> onError = null)
 		{
 			var busy = true;
-			SdkCatalogLogic.Instance.GetVirtualCurrencies(items =>
+			CatalogLogic.Instance.GetVirtualCurrencies(items =>
 			{
 				VirtualCurrencies = items;
 				UpdateVirtualCurrenciesEvent?.Invoke(items);
@@ -104,7 +104,7 @@ namespace Xsolla.Demo
 		private IEnumerator UpdateVirtualItemsCoroutine(Action<Error> onError = null)
 		{
 			yield return StartCoroutine(UpdateSomeItemsCoroutine<CatalogVirtualItemModel>(
-				SdkCatalogLogic.Instance.GetCatalogVirtualItems, items =>
+				CatalogLogic.Instance.GetCatalogVirtualItems, items =>
 				{
 					VirtualItems = items;
 					UpdateItemsEvent?.Invoke(items);
@@ -114,7 +114,7 @@ namespace Xsolla.Demo
 		private IEnumerator UpdateVirtualCurrencyPackagesCoroutine(Action<Error> onError = null)
 		{
 			yield return StartCoroutine(UpdateSomeItemsCoroutine<CatalogVirtualCurrencyModel>(
-			SdkCatalogLogic.Instance.GetCatalogVirtualCurrencyPackages, items =>
+			CatalogLogic.Instance.GetCatalogVirtualCurrencyPackages, items =>
 			{
 				CurrencyPackages = items;
 				UpdateVirtualCurrencyPackagesEvent?.Invoke(items);
@@ -124,7 +124,7 @@ namespace Xsolla.Demo
 		private IEnumerator UpdateBundlesCoroutine(Action<Error> onError = null)
 		{
 			yield return StartCoroutine(UpdateSomeItemsCoroutine<CatalogBundleItemModel>(
-				SdkCatalogLogic.Instance.GetCatalogBundles, items =>
+				CatalogLogic.Instance.GetCatalogBundles, items =>
 				{
 					Bundles = items;
 					UpdateBundlesEvent?.Invoke(items);
@@ -134,7 +134,7 @@ namespace Xsolla.Demo
 		private IEnumerator UpdateSubscriptionsCoroutine(Action<Error> onError = null)
 		{
 			yield return StartCoroutine(UpdateSomeItemsCoroutine<CatalogSubscriptionItemModel>(
-			SdkCatalogLogic.Instance.GetCatalogSubscriptions, items =>
+			CatalogLogic.Instance.GetCatalogSubscriptions, items =>
 			{
 				Subscriptions = items;
 				UpdateSubscriptionsEvent?.Invoke(items);

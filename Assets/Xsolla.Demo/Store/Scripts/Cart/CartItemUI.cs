@@ -97,7 +97,7 @@ namespace Xsolla.Demo
 				}
 				else
 				{
-					Debug.LogError($"Cart item with sku = '{_cartItem.Sku}' without image!");
+					XDebug.LogError($"Cart item with sku = '{_cartItem.Sku}' without image!");
 				}
 			}
 		}

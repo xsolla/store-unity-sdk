@@ -1,12 +1,14 @@
 using UnityEngine;
 using UnityEngine.UI;
+using Xsolla.Auth;
+using Xsolla.Core;
 
 namespace Xsolla.Demo
 {
 	public class ConfirmationLinkResender : MonoBehaviour
 	{
-		[SerializeField] SimpleButton resendButton = default;
-		[SerializeField] Text emailText = default;
+		[SerializeField] private SimpleButton resendButton;
+		[SerializeField] private Text emailText;
 
 		void Awake()
 		{
@@ -21,19 +23,19 @@ namespace Xsolla.Demo
 					ReplaceEmailText(LoginPageChangePasswordController.LastEmail);
 					break;
 				default:
-					Debug.LogWarning($"Unexpected state");
+					XDebug.LogWarning("Unexpected state");
 					break;
 			}
 		}
 
-		public void ResendRegistrationConfirmationEmail()
+		private void ResendRegistrationConfirmationEmail()
 		{
-			SdkAuthLogic.Instance.ResendConfirmationLink(LoginPageCreateController.LastEmail);
+			XsollaAuth.ResendConfirmationLink(LoginPageCreateController.LastEmail, null, null);
 		}
 
-		public void ResendPasswordResetEmail()
+		private void ResendPasswordResetEmail()
 		{
-			SdkAuthLogic.Instance.ResetPassword(LoginPageChangePasswordController.LastEmail);
+			XsollaAuth.ResetPassword(LoginPageChangePasswordController.LastEmail, null, null);
 		}
 
 		private void ReplaceEmailText(string email)

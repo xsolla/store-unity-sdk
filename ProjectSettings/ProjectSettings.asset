@@ -168,8 +168,8 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
-    Android: com.XsollaInc.XsollaInGameStoreUnityAsset
-    Standalone: com.XsollaInc.XsollaInGameStoreUnityAsset
+    Android: com.xsolla.sdk.unity.Example
+    Standalone: com.xsolla.sdk.unity.Example
     iPhone: com.xsolla.sdk.unity.Example
   buildNumber: {}
   AndroidBundleVersionCode: 1

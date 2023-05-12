@@ -102,7 +102,7 @@ namespace Xsolla.Demo
 		private void OnPhoneRequest()
 		{
 			var phone = PhoneConverter.ConvertBack(PhoneInputField.text);
-			Debug.Log($"PasswordlessWidget: phone is '{phone}'");
+			XDebug.Log($"PasswordlessWidget: phone is '{phone}'");
 			_currentAuthType = AuthType.Phone;
 			OnPhoneAccessRequest?.Invoke(phone);
 		}
@@ -124,7 +124,7 @@ namespace Xsolla.Demo
 		private void OnEmailRequest()
 		{
 			var email = EmailInputField.text;
-			Debug.Log($"PasswordlessWidget: email is '{email}'");
+			XDebug.Log($"PasswordlessWidget: email is '{email}'");
 			_currentAuthType = AuthType.Email;
 			OnEmailAccessRequest?.Invoke(email);
 		}
@@ -148,7 +148,7 @@ namespace Xsolla.Demo
 					OnEmailRequest();
 					break;
 				default:
-					Debug.LogError($"PasswordlessWidget.OnResendButton: Unexpected auth type '{_currentAuthType}'");
+					XDebug.LogError($"PasswordlessWidget.OnResendButton: Unexpected auth type '{_currentAuthType}'");
 					break;
 			}
 

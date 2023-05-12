@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 namespace Xsolla.Core.Browser
 {
-	public class CloseBrowserButton : MonoBehaviour
+	internal class CloseBrowserButton : MonoBehaviour
 	{
 		[SerializeField] private Button CloseButton;
 

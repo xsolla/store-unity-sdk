@@ -7,7 +7,7 @@ namespace Xsolla.Demo
 	{
 		private void Awake()
 		{
-			if (BrowserHelper.Instance.InAppBrowser == null)
+			if (XsollaWebBrowser.InAppBrowser == null)
 				gameObject.SetActive(false);
 		}
 	}

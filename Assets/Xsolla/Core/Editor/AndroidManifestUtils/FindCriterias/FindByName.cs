@@ -20,8 +20,8 @@ namespace Xsolla.Core.Editor
 				{
 					var attributeNode = xmlNode.Attributes.GetNamedItem(AndroidManifestConstants.NameAttribute);
 					return attributeNode != null
-							&& node.Attributes.ContainsKey(AndroidManifestConstants.NameAttribute)
-							&& attributeNode.Value.Equals(node.Attributes[AndroidManifestConstants.NameAttribute]);
+					       && node.Attributes.ContainsKey(AndroidManifestConstants.NameAttribute)
+					       && attributeNode.Value.Equals(node.Attributes[AndroidManifestConstants.NameAttribute]);
 				}
 			}
 

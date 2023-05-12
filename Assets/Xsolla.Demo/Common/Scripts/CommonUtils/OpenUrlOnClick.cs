@@ -24,7 +24,7 @@ namespace Xsolla.Demo
 
 		private void OpenUrl()
 		{
-			BrowserHelper.Instance.Open(URL, true);
+			XsollaWebBrowser.Open(URL, true);
 		}
 	}
 }

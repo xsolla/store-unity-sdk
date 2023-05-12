@@ -1,19 +1,20 @@
 using UnityEngine;
 using UnityEngine.UI;
+using Xsolla.Auth;
 using Xsolla.Core;
 
 namespace Xsolla.Demo
 {
 	public class LoginPageErrorShower : MonoBehaviour
 	{
-		[SerializeField] Text ErrorText = default;
-		[SerializeField] private SimpleTextButton ResendEmailButton = default;
+		[SerializeField] private Text ErrorText;
+		[SerializeField] private SimpleTextButton ResendEmailButton;
 
 		private void Awake()
 		{
 			if (ResendEmailButton)
 			{
-				ResendEmailButton.onClick += () => SdkAuthLogic.Instance.ResendConfirmationLink(LoginPageEnterController.LastUsername);
+				ResendEmailButton.onClick += () => XsollaAuth.ResendConfirmationLink(LoginPageEnterController.LastUsername, null, null);
 				ResendEmailButton.gameObject.SetActive(false);
 			}
 		}

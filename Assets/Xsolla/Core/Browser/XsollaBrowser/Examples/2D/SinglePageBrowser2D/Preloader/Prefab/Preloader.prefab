@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5561199953501409930}
   - component: {fileID: 5561199953501409929}
   - component: {fileID: 5561199953501409928}
-  - component: {fileID: 3999812513701158159}
+  - component: {fileID: 1049038703679564542}
   m_Layer: 5
   m_Name: BlackCircle
   m_TagString: Untagged
@@ -55,17 +55,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 5561199953501409925}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Sprite: {fileID: 21300000, guid: 24bcef6b1d7c14fd1a5fa1351d1a6311, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
@@ -75,7 +74,8 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
---- !u!114 &3999812513701158159
+  m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1049038703679564542
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -84,7 +84,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5561199953501409925}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ace5b50f1146743be9dd1382d9335217, type: 3}
+  m_Script: {fileID: 11500000, guid: 3de5891bdc874398803489ddf2813488, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Speed: -60
@@ -159,7 +159,7 @@ GameObject:
   - component: {fileID: 5561199954118118455}
   - component: {fileID: 5561199954118118453}
   - component: {fileID: 5561199954118118452}
-  - component: {fileID: 5561199954118118458}
+  - component: {fileID: 7330312468145340142}
   m_Layer: 5
   m_Name: RedCircle
   m_TagString: Untagged
@@ -203,17 +203,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 5561199954118118454}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Sprite: {fileID: 21300000, guid: 369ec08421dc249768dd4d1fb3c031b0, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
@@ -223,7 +222,8 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
---- !u!114 &5561199954118118458
+  m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7330312468145340142
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -232,7 +232,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5561199954118118454}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ace5b50f1146743be9dd1382d9335217, type: 3}
+  m_Script: {fileID: 11500000, guid: 3de5891bdc874398803489ddf2813488, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Speed: 60
@@ -290,17 +290,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 8502095929233832665}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: f70b0d194d863d14eaa3261671349a4b, type: 3}
     m_FontSize: 32
