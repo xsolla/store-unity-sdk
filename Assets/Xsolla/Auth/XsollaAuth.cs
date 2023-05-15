@@ -10,13 +10,13 @@ namespace Xsolla.Auth
 		private const string BASE_URL = "https://login.xsolla.com/api";
 
 		/// <summary>
-		/// Creates a new user account in the application and sends a sign-up confirmation email to the specified email address. To complete registration, the user must follow the link from the email.
+		/// Creates a new user account in the application and sends a sign-up confirmation email to the specified email address. To complete registration, the user should follow the link from the email. To disable email confirmation, contact your Account Manager.
 		/// </summary>
 		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/authentication/classic-auth/).</remarks>
 		/// <param name="username">Username.</param>
 		/// <param name="password">User password.</param>
 		/// <param name="email">User email address.</param>
-		/// <param name="onSuccess">Called after successful user registration. Account confirmation message will be sent to the specified email address //TEXTREVIEW or not if the account confirmation disabled in Publisher Account settings</param>
+		/// <param name="onSuccess">Called after successful user registration. An account confirmation message will be sent to the specified email address if not disabled.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="redirectUri">URI to redirect the user to after account confirmation, successful authentication, two-factor authentication configuration, or password reset confirmation.
 		///     Must be identical to the OAuth 2.0 redirect URIs specified in Publisher Account.
@@ -328,7 +328,7 @@ namespace Xsolla.Auth
 		}
 
 		/// <summary>
-		///TEXTREVIEW Authenticates the user by saved token. Returns true if the token was successfully loaded and the user was authenticated.
+		/// Authenticates the user by saved token. Returns `true` if the token is loaded successfully and the user is authenticated
 		/// </summary>
 		public static bool AuthViaSavedToken()
 		{
@@ -529,7 +529,7 @@ namespace Xsolla.Auth
 		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/authentication/auth-via-device-id/).</remarks>
 		/// <param name="onSuccess">Called after successful user authentication via the device ID.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
-		/// <param name="deviceInfo"> //TEXTREVIEW Information about the device is used to identify the user.</param>
+		/// <param name="deviceInfo">Information about the device that is used to identify the user.</param>
 		/// <param name="redirectUri">URI to redirect the user to after account confirmation, successful authentication, two-factor authentication configuration, or password reset confirmation.
 		///     Must be identical to the OAuth 2.0 redirect URIs specified in Publisher Account.
 		///     Required if there are several URIs.</param>
@@ -755,13 +755,13 @@ namespace Xsolla.Auth
 				onError);
 		}
 
-		//TEXTREVIEW 
 		/// <summary>
-		/// Starts social authentication via the specified social network.
+		/// Authenticates user via an account in the specified social networks.
 		/// </summary>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/authentication/social-auth/).</remarks>
 		/// <param name="provider">Name of a social network. Provider must be connected to Login in Publisher Account.
 		/// Can be `amazon`, `apple`, `baidu`, `battlenet`, `discord`, `facebook`, `github`, `google`, `kakao`, `linkedin`, `mailru`, `microsoft`, `msn`, `naver`, `ok`, `paypal`, `psn`, `qq`, `reddit`, `steam`, `twitch`, `twitter`, `vimeo`, `vk`, `wechat`, `weibo`, `yahoo`, `yandex`, `youtube`, or `xbox`.</param>
-		/// <param name="onSuccess">Called after successful user details were successfully received.</param>
+		/// <param name="onSuccess">Called after successful user authentication. Authentication data including the JWT will be received.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="onCancel">Called in case user closed browser.</param>
 		public static void AuthViaSocialNetwork(SocialProvider provider, Action onSuccess, Action<Error> onError, Action onCancel)

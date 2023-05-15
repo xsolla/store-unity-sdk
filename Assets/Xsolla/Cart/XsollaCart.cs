@@ -215,7 +215,7 @@ namespace Xsolla.Cart
 		/// Creates an order with items from the cart with the specified ID. Returns the payment token and order ID. The created order will get a `new` order status.
 		/// </summary>
 		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/item-purchase/cart-purchase/).</remarks>
-		/// <param name="onSuccess">Called after the payment token was successfully fetched.</param>
+		/// <param name="onSuccess">Called after the order was successfully created.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="cartId">Unique cart identifier.</param>
 		/// <param name="purchaseParams">Purchase parameters such as <c>country</c>, <c>locale</c> and <c>currency</c>.</param>
@@ -267,11 +267,11 @@ namespace Xsolla.Cart
 				ErrorGroup.BuyCartErrors);
 		}
 
-		//TEXTREVIEW 
 		/// <summary>
-		/// Launch purchase process for a specified or current cart. Opens the payment UI in browser
+		/// Launches purchase process for the cart with the specified ID or for the cart of the current user. This method encapsulates methods for creating an order, opening a payment UI, and tracking the order status.
 		/// </summary>
-		/// <param name="onSuccess">Called after the payment was successfully completed.</param>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/item-purchase/cart-purchase/).</remarks>
+		/// <param name="onSuccess">Called after the order transitions to the 'done' status.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="cartId">Unique cart identifier.</param>
 		/// <param name="onBrowseClosed">Called after browser closed.</param>
@@ -304,11 +304,11 @@ namespace Xsolla.Cart
 			);
 		}
 
-		//TEXTREVIEW 
 		/// <summary>
-		/// Launch purchase process for a specified or current cart. Opens the payment UI in browser
+		/// Launches purchase process for the free cart with the specified ID or for the free cart of the current user. This method encapsulates methods for creating an order and tracking the order status.
 		/// </summary>
-		/// <param name="onSuccess">Called after the payment was successfully completed.</param>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/promo/free-items/).</remarks>
+		/// <param name="onSuccess">Called after the order transitions to the 'done' status.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="cartId">Unique cart identifier.</param>
 		/// <param name="purchaseParams">Purchase parameters such as <c>country</c>, <c>locale</c>, and <c>currency</c>.</param>

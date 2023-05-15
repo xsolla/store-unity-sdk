@@ -369,7 +369,7 @@ namespace Xsolla.Catalog
 		/// </summary>
 		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/promo/free-items/).</remarks>
 		/// <param name="itemSku">Desired free item SKU.</param>
-		/// <param name="onSuccess">Called after the payment was successfully completed.</param>
+		/// <param name="onSuccess">Called after the order was successfully created.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="purchaseParams">Purchase parameters such as <c>country</c>, <c>locale</c>, and <c>currency</c>.</param>
 		/// <param name="customHeaders">Custom web request headers</param>
@@ -389,12 +389,12 @@ namespace Xsolla.Catalog
 				ErrorGroup.BuyItemErrors);
 		}
 
-		//TEXTREVIEW 
 		/// <summary>
-		/// Launch purchase process for a specified item. Opens the payment UI in browser
+		/// Launches purchase process for a specified item. This method encapsulates methods for creating an order, opening a payment UI, and tracking the order status.
 		/// </summary>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/item-purchase/one-click-purchase/).</remarks>
 		/// <param name="itemSku">Desired free item SKU.</param>
-		/// <param name="onSuccess">Called after the payment was successfully completed.</param>
+		/// <param name="onSuccess">Called after the order transitions to the 'done' status.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="onBrowseClosed">Called after browser closed.</param>
 		/// <param name="purchaseParams">Purchase parameters such as <c>country</c>, <c>locale</c>, and <c>currency</c>.</param>
@@ -425,13 +425,14 @@ namespace Xsolla.Catalog
 				customHeaders);
 		}
 
-		//TEXTREVIEW 
+		//TEXTREVIEW
 		/// <summary>
-		/// Launch purchase process for a specified item by virtual currency.
+		/// Launch purchase process for a specified item by virtual currency. This method encapsulates methods for creating an order and tracking the order status.
 		/// </summary>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/item-purchase/purchase-for-vc/).</remarks>
 		/// <param name="itemSku">Desired free item SKU.</param>
 		/// <param name="priceSku">Virtual currency SKU.</param>
-		/// <param name="onSuccess">Called after the payment was successfully completed.</param>
+		/// <param name="onSuccess">Called after the order transitions to the 'done' status.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="purchaseParams">Purchase parameters such as <c>country</c>, <c>locale</c>, and <c>currency</c>.</param>
 		/// <param name="platform">Publishing platform the user plays on.<br/>
@@ -455,12 +456,12 @@ namespace Xsolla.Catalog
 				customHeaders);
 		}
 
-		//TEXTREVIEW 
 		/// <summary>
-		/// Launch purchase process for a specified free item.
+		/// Launches purchase process for a specified free item. This method encapsulates methods for creating an order and tracking the order status.
 		/// </summary>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/promo/free-items/).</remarks>
 		/// <param name="itemSku">Desired free item SKU.</param>
-		/// <param name="onSuccess">Called after the payment was successfully completed.</param>
+		/// <param name="onSuccess">Called after the order transitions to the 'done' status.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="purchaseParams">Purchase parameters such as <c>country</c>, <c>locale</c>, and <c>currency</c>.</param>
 		/// <param name="customHeaders">Custom web request headers.</param>

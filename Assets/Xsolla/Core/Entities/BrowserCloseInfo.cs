@@ -2,7 +2,7 @@ namespace Xsolla.Core
 {
 	public class BrowserCloseInfo
 	{
-		//TEXTREVIEW Is browser closed manually by user
+		// Whether the browser is closed manually by a user.
 		public bool isManually;
 	}
 }
