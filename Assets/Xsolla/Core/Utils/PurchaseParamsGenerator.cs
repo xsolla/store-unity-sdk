@@ -8,19 +8,18 @@ namespace Xsolla.Core
 		{
 			var settings = new PurchaseParamsRequest.Settings {
 				ui = PayStationUISettings.GenerateSettings(),
-				redirect_policy = RedirectPolicySettings.GeneratePolicy()
+				redirect_policy = RedirectPolicySettings.GeneratePolicy(),
+				external_id = purchaseParams?.external_id
 			};
 
 			if (settings.redirect_policy != null)
-			{
 				settings.return_url = settings.redirect_policy.return_url;
-			}
 
 			//Fix 'The array value is found, but an object is required' in case of empty values.
 			if (settings.ui == null && settings.redirect_policy == null && settings.return_url == null)
 				settings = null;
 
-			var tempPurchaseParams = new PurchaseParamsRequest() {
+			var requestData = new PurchaseParamsRequest {
 				sandbox = XsollaSettings.IsSandbox,
 				settings = settings,
 				custom_parameters = purchaseParams?.custom_parameters,
@@ -31,7 +30,7 @@ namespace Xsolla.Core
 				shipping_method = purchaseParams?.shipping_method
 			};
 
-			return tempPurchaseParams;
+			return requestData;
 		}
 
 		public static List<WebRequestHeader> GeneratePaymentHeaders(Dictionary<string, string> customHeaders = null)

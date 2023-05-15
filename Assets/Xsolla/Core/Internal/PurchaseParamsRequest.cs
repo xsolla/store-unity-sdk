@@ -18,6 +18,7 @@ namespace Xsolla.Core
 		[Serializable]
 		public class Settings
 		{
+			public string external_id;
 			public string return_url;
 			public PayStationUI ui;
 			public RedirectPolicy redirect_policy;
