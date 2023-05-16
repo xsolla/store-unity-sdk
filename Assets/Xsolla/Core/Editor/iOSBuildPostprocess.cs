@@ -1,3 +1,4 @@
+#if UNITY_IOS
 using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
@@ -60,3 +61,4 @@ namespace Xsolla.Core.Editor
 		}
 	}
 }
+#endif
