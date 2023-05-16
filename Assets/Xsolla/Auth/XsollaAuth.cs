@@ -773,7 +773,7 @@ namespace Xsolla.Auth
 		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/authentication/social-auth/).</remarks>
 		/// <param name="provider">Name of a social network. Provider must be connected to Login in Publisher Account.
 		/// Can be `amazon`, `apple`, `baidu`, `battlenet`, `discord`, `facebook`, `github`, `google`, `kakao`, `linkedin`, `mailru`, `microsoft`, `msn`, `naver`, `ok`, `paypal`, `psn`, `qq`, `reddit`, `steam`, `twitch`, `twitter`, `vimeo`, `vk`, `wechat`, `weibo`, `yahoo`, `yandex`, `youtube`, or `xbox`.</param>
-		/// <param name="onSuccess">Called after successful user authentication. Authentication data including the JWT will be received.</param>
+		/// <param name="onSuccess">Called after successful user authentication.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="onCancel">Called in case user closed browser.</param>
 		public static void AuthViaSocialNetwork(SocialProvider provider, Action onSuccess, Action<Error> onError, Action onCancel)

@@ -218,8 +218,8 @@ namespace Xsolla.Cart
 		/// <param name="onSuccess">Called after the order was successfully created.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="cartId">Unique cart identifier.</param>
-		/// <param name="purchaseParams">Purchase parameters such as <c>country</c>, <c>locale</c> and <c>currency</c>.</param>
-		/// <param name="customHeaders">Custom web request headers.</param>
+		/// <param name="purchaseParams">Purchase parameters such as <c>country</c>, <c>locale</c>, <c>currency</c>, and <c>quantity</c>.</param>
+		/// <param name="customHeaders">Custom HTTP request headers.</param>
 		public static void CreateOrder(Action<OrderData> onSuccess, Action<Error> onError, string cartId = null, PurchaseParams purchaseParams = null, Dictionary<string, string> customHeaders = null)
 		{
 			var url = string.IsNullOrWhiteSpace(cartId)
@@ -246,8 +246,8 @@ namespace Xsolla.Cart
 		/// <param name="onSuccess">Called after server response.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="cartId">Unique cart identifier.</param>
-		/// <param name="purchaseParams">Purchase parameters such as <c>country</c>, <c>locale</c> and <c>currency</c>.</param>
-		/// <param name="customHeaders">Custom web request headers.</param>
+		/// <param name="purchaseParams">Purchase parameters such as <c>country</c>, <c>locale</c>, <c>currency</c>, and <c>quantity</c>.</param>
+		/// <param name="customHeaders">Custom HTTP request headers.</param>
 		public static void CreateOrderWithFreeCart(Action<OrderId> onSuccess, Action<Error> onError, string cartId = null, PurchaseParams purchaseParams = null, Dictionary<string, string> customHeaders = null)
 		{
 			var url = string.IsNullOrWhiteSpace(cartId)
@@ -276,7 +276,7 @@ namespace Xsolla.Cart
 		/// <param name="cartId">Unique cart identifier.</param>
 		/// <param name="onBrowseClosed">Called after browser closed.</param>
 		/// <param name="purchaseParams">Purchase parameters such as <c>country</c>, <c>locale</c>, and <c>currency</c>.</param>
-		/// <param name="customHeaders">Custom web request headers.</param>
+		/// <param name="customHeaders">Custom HTTP request headers.</param>
 		public static void Purchase(Action<OrderStatus> onSuccess, Action<Error> onError, string cartId = null, Action<BrowserCloseInfo> onBrowseClosed = null, PurchaseParams purchaseParams = null, Dictionary<string, string> customHeaders = null)
 		{
 			CreateOrder(
@@ -312,7 +312,7 @@ namespace Xsolla.Cart
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="cartId">Unique cart identifier.</param>
 		/// <param name="purchaseParams">Purchase parameters such as <c>country</c>, <c>locale</c>, and <c>currency</c>.</param>
-		/// <param name="customHeaders">Custom web request headers.</param>
+		/// <param name="customHeaders">Custom HTTP request headers.</param>
 		public static void PurchaseFreeCart(Action<OrderStatus> onSuccess, Action<Error> onError, string cartId = null, PurchaseParams purchaseParams = null, Dictionary<string, string> customHeaders = null)
 		{
 			CreateOrderWithFreeCart(

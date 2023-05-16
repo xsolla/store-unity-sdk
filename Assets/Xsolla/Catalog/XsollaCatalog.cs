@@ -337,10 +337,10 @@ namespace Xsolla.Catalog
 		/// <param name="priceSku">Virtual currency SKU.</param>
 		/// <param name="onSuccess">Called after server response.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
-		/// <param name="purchaseParams">Purchase parameters such as <c>country</c>, <c>locale</c> and <c>currency</c>.</param>
+		/// <param name="purchaseParams">Purchase parameters such as <c>country</c>, <c>locale</c>, <c>currency</c>, and <c>quantity</c>.</param>
 		/// <param name="platform">Publishing platform the user plays on.<br/>
 		///     Can be `xsolla` (default), `playstation_network`, `xbox_live`, `pc_standalone`, `nintendo_shop`, `google_play`, `app_store_ios`, `android_standalone`, `ios_standalone`, `android_other`, `ios_other`, or `pc_other`.</param>
-		/// <param name="customHeaders">Custom web request headers.</param>
+		/// <param name="customHeaders">Custom HTTP request headers.</param>
 		public static void CreateOrderByVirtualCurrency(string itemSku, string priceSku, Action<OrderId> onSuccess, Action<Error> onError, PurchaseParams purchaseParams = null, string platform = null, Dictionary<string, string> customHeaders = null)
 		{
 			var url = new UrlBuilder($"{BaseUrl}/payment/item/{itemSku}/virtual/{priceSku}")
@@ -437,7 +437,7 @@ namespace Xsolla.Catalog
 		/// <param name="purchaseParams">Purchase parameters such as <c>country</c>, <c>locale</c>, and <c>currency</c>.</param>
 		/// <param name="platform">Publishing platform the user plays on.<br/>
 		///     Can be `xsolla` (default), `playstation_network`, `xbox_live`, `pc_standalone`, `nintendo_shop`, `google_play`, `app_store_ios`, `android_standalone`, `ios_standalone`, `android_other`, `ios_other`, or `pc_other`.</param>
-		/// <param name="customHeaders">Custom web request headers.</param>
+		/// <param name="customHeaders">Custom HTTP request headers.</param>
 		public static void PurchaseForVirtualCurrency(string itemSku, string priceSku, Action<OrderStatus> onSuccess, Action<Error> onError, PurchaseParams purchaseParams = null, string platform = null, Dictionary<string, string> customHeaders = null)
 		{
 			CreateOrderByVirtualCurrency(
@@ -464,7 +464,7 @@ namespace Xsolla.Catalog
 		/// <param name="onSuccess">Called after the order transitions to the 'done' status.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="purchaseParams">Purchase parameters such as <c>country</c>, <c>locale</c>, and <c>currency</c>.</param>
-		/// <param name="customHeaders">Custom web request headers.</param>
+		/// <param name="customHeaders">Custom HTTP request headers.</param>
 		public static void PurchaseFreeItem(string itemSku, Action<OrderStatus> onSuccess, Action<Error> onError, PurchaseParams purchaseParams = null, Dictionary<string, string> customHeaders = null)
 		{
 			CreateOrderWithFreeItem(
