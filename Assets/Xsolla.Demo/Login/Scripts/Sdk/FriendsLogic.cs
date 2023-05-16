@@ -186,7 +186,7 @@ namespace Xsolla.Demo
 
 				//Avatar preload
 				if (!string.IsNullOrEmpty(recommendedFriend.AvatarUrl))
-					ImageLoader.Instance.GetImageAsync(recommendedFriend.AvatarUrl, null);
+					ImageLoader.LoadSprite(recommendedFriend.AvatarUrl, null);
 			}
 
 			onSuccess?.Invoke(recommendedFriends);
@@ -204,7 +204,7 @@ namespace Xsolla.Demo
 						var result = ConvertFriendEntity(f, relationship);
 						// this method used at this place for fastest image loading
 						if (!string.IsNullOrEmpty(result.AvatarUrl))
-							ImageLoader.Instance.GetImageAsync(result.AvatarUrl, null);
+							ImageLoader.LoadSprite(result.AvatarUrl, null);
 						return result;
 					}).ToList());
 				}, 

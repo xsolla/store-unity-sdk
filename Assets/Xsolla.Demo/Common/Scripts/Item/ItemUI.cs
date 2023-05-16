@@ -25,12 +25,12 @@ namespace Xsolla.Demo
 		private void SetImage(string imageUrl, string itemSku)
 		{
 			if (!string.IsNullOrEmpty(imageUrl))
-				ImageLoader.Instance.GetImageAsync(imageUrl, LoadImageCallback);
+				ImageLoader.LoadSprite(imageUrl, LoadImageCallback);
 			else
 				XDebug.LogError($"Item with sku: '{itemSku}' has no image url");
 		}
 
-		private void LoadImageCallback(string url, Sprite image)
+		private void LoadImageCallback(Sprite image)
 		{
 			if (ItemImage)
 			{

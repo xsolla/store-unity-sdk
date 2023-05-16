@@ -35,7 +35,7 @@ namespace Xsolla.Demo
 		{
 			if (!string.IsNullOrEmpty(friend.AvatarUrl))
 			{
-				ImageLoader.Instance.GetImageAsync(friend.AvatarUrl, (url, sprite) =>
+				ImageLoader.LoadSprite(friend.AvatarUrl, sprite =>
 				{
 					if (avatarImage)
 					{

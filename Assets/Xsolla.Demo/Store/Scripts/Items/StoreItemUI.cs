@@ -3,6 +3,7 @@ using System.Collections;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using Xsolla.Core;
 using Xsolla.Demo.Popup;
 
 namespace Xsolla.Demo
@@ -127,7 +128,7 @@ namespace Xsolla.Demo
 				var currency = UserCatalog.Instance.VirtualCurrencies.First(vc => vc.Sku.Equals(currencySku));
 
 				if (!string.IsNullOrEmpty(currency.ImageUrl))
-					ImageLoader.Instance.GetImageAsync(currency.ImageUrl, (_, sprite) =>
+					ImageLoader.LoadSprite(currency.ImageUrl, sprite =>
 					{
 						if (itemPriceVcImage)
 							itemPriceVcImage.sprite = sprite;
@@ -203,7 +204,7 @@ namespace Xsolla.Demo
 			gameObject.name = "Item_" + virtualItem.Name.Replace(" ", "");
 			if (!string.IsNullOrEmpty(virtualItem.ImageUrl))
 			{
-				ImageLoader.Instance.GetImageAsync(virtualItem.ImageUrl, LoadImageCallback);
+				ImageLoader.LoadSprite(virtualItem.ImageUrl, LoadImageCallback);
 			}
 			else
 			{
@@ -211,7 +212,7 @@ namespace Xsolla.Demo
 			}
 		}
 
-		private void LoadImageCallback(string url, Sprite image)
+		private void LoadImageCallback(Sprite image)
 		{
 			if (!itemImage)
 				return;

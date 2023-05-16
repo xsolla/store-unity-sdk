@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using Xsolla.Core;
 using Xsolla.Demo;
 
 namespace Xsolla.Demo.Popup
@@ -37,7 +38,7 @@ namespace Xsolla.Demo.Popup
 
 			if (!string.IsNullOrEmpty(bundle.ImageUrl))
 			{
-				ImageLoader.Instance.GetImageAsync(bundle.ImageUrl, LoadImageCallback);
+				ImageLoader.LoadSprite(bundle.ImageUrl, LoadImageCallback);
 			}
 			else
 			{
@@ -121,7 +122,7 @@ namespace Xsolla.Demo.Popup
 			bundlePriceWithoutDiscount.text = PriceFormatter.FormatPrice(contentCurrency, contentPrice);
 		}
 
-		private void LoadImageCallback(string url, Sprite sprite)
+		private void LoadImageCallback(Sprite sprite)
 		{
 			if (!bundleImage)
 				return;
@@ -137,7 +138,7 @@ namespace Xsolla.Demo.Popup
 			var currency = UserCatalog.Instance.VirtualCurrencies.First(vc => vc.Sku.Equals(currencySku));
 			if (!string.IsNullOrEmpty(currency.ImageUrl))
 			{
-				ImageLoader.Instance.GetImageAsync(currency.ImageUrl, (_, sprite) =>
+				ImageLoader.LoadSprite(currency.ImageUrl, sprite =>
 				{
 					if (bundlePriceVcImage)
 					{

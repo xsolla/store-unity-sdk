@@ -5,6 +5,7 @@ namespace Xsolla.Core
 		None,
 		Consumable,
 		NonConsumable,
-		NonRenewingSubscription
+		NonRenewingSubscription,
+		VirtualCurrency
 	}
 }

@@ -9,6 +9,12 @@ namespace Xsolla.Auth
 	{
 		private const string BASE_URL = "https://login.xsolla.com/api";
 
+		//TEXTREVIEW Check if the user is authenticated
+		public static bool IsUserAuthenticated()
+		{
+			return XsollaToken.Exists;
+		}
+
 		/// <summary>
 		/// Creates a new user account in the application and sends a sign-up confirmation email to the specified email address. To complete registration, the user should follow the link from the email. To disable email confirmation, contact your Account Manager.
 		/// </summary>
@@ -328,14 +334,6 @@ namespace Xsolla.Auth
 		}
 
 		/// <summary>
-		/// Authenticates the user by saved token. Returns `true` if the token is loaded successfully and the user is authenticated
-		/// </summary>
-		public static bool AuthViaSavedToken()
-		{
-			return XsollaToken.TryLoadInstance();
-		}
-
-		/// <summary>
 		/// Authenticates the user with the access token using social network credentials.
 		/// </summary>
 		/// <param name="accessToken">Access token received from a social network.</param>
@@ -371,6 +369,14 @@ namespace Xsolla.Auth
 				link => ParseCodeFromUrlAndExchangeToToken(link.login_url, onSuccess, onError),
 				onError,
 				ErrorGroup.LoginErrors);
+		}
+
+		/// <summary>
+		/// Authenticates the user by saved token. Returns `true` if the token is loaded successfully and the user is authenticated
+		/// </summary>
+		public static bool AuthViaSavedToken()
+		{
+			return XsollaToken.TryLoadInstance();
 		}
 
 		/// <summary>
@@ -413,6 +419,12 @@ namespace Xsolla.Auth
 
 			browser.CloseEvent += onBrowserClose;
 			browser.UrlChangeEvent += onBrowserUrlChange;
+		}
+
+		//TEXTREVIEW Auth via Xsolla Launcher
+		public static void AuthViaXsollaLauncher(Action onSuccess, Action<Error> onError)
+		{
+			new XsollaLauncherAuth().Perform(onSuccess, onError);
 		}
 
 		/// <summary>
