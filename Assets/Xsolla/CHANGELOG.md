@@ -1,37 +1,36 @@
 # Changelog
 ## [2.0.0] - 2023-05-18
 ### Added
-- 'XsollaAuth.AuthViaSocialNetwork' method for cross-platform social network authentication
-- 'XsollaAuth.AuthViaXsollaLauncher' method for authentication via Xsolla Launcher
-- 'XsollaAuth.AuthViaSavedToken' method for authentication via saved token which was received in previous authentication
-- 'XsollaAuth.IsUserAuthenticated' method for checking if user is authenticated
-- 'XsollaCatalog.Purchase' method for purchasing virtual items for real money
-- 'XsollaCatalog.PurchaseForVirtualCurrency' method for purchasing virtual items for virtual currency
-- 'XsollaCatalog.PurchaseFreeItem' method for purchasing free virtual items
-- 'XsollaCart.Purchase' method for purchasing virtual items from cart for real money
-- 'XsollaCart.PurchaseFreeCart' method for purchasing free virtual items from cart
-- 'SteamUtils' class which provides additional methods for authentication and purchase via Steam
+- `XsollaAuth.AuthViaSocialNetwork` SDK method for cross-platform social network authentication. Method incapsulates web-based and native authentication methods
+- `XsollaAuth.AuthViaXsollaLauncher` SDK method for authentication via Xsolla Launcher
+- `XsollaAuth.AuthViaSavedToken` SDK method for authentication with a saved token which was received during previous authentication
+- `XsollaAuth.IsUserAuthenticated` SDK method for checking if the user is authenticated
+- `XsollaCatalog.Purchase` SDK method for purchasing virtual items for real money
+- `XsollaCatalog.PurchaseForVirtualCurrency` SDK method for purchasing virtual items for virtual currency
+- `XsollaCatalog.PurchaseFreeItem` SDK method for purchasing free virtual items
+- `XsollaCart.Purchase` SDK method for purchasing virtual items from the cart for real money
+- `XsollaCart.PurchaseFreeCart` method for purchasing free virtual items from the cart
+- `SteamUtils` class which provides additional methods for authentication and purchasing via Steam
 
 ### Changed
-- All methods and classes of requests are static now. There is not need to use singleton 'Instance' property anymore
-- All authorization methods in 'XsollaAuth' class don't pass 'token' as success callback parameter now. They save token data locally for further use. Use 'XsollaToken' class to get token data if you need it
-- Added silent refresh token logic for all requests which required authorization
-- 'XsollaAuth.AuthViaSocialNetwork' method now is cross-platform and available for iOS and Android
-- Almost all parameters for 'XsollaAuth.AuthViaDeviceID' method is optional now. SDK detects required parameters such as 'device_id' automatically if they are not specified
-- 'XsollaAuth.Logout' method invalidate local saved token data now
-- Class 'Token' renamed to 'XsollaToken' and made static
-- Removed method overloads for 'XsollaCart' class. Parameter 'cartId' is optional now for all methods in this class and use current cart id by default
-- 'XsollaAuth.Register' now pass 'LoginLink' as success callback parameter
-- 'XsollaAuth.StartAuthByEmail' and 'XsollaAuth.StartAuthByPhoneNumber' now pass 'OperationId' as success callback parameter
-- 'BrowserUtils' renamed to 'XsollaWebBrowser'
-- 'XsollaInAppBrowser' have his own 'Canvas' component now
+- All methods and classes of requests are static now. You don't have to use the singleton `Instance` property anymore
+- All authorization methods in `XsollaAuth` class don't pass `token` as success callback parameter now. They save token data locally for further use. Use `XsollaToken` class to get token data if you need it
+-  All requests which required authorization has silent refresh token logic now
+- `XsollaAuth.AuthViaDeviceID` SDK method. Device info parameters are optional now. SDK detects required parameters such as `device_id` automatically if not specified
+- `XsollaAuth.Logout` SDK method. It invalidates local saved token data
+- Class `Token` renamed to `XsollaToken` and made static
+- SDK methods of `XsollaCart` class. Method overloads where removed. Parameter `cartId` is optional, if not specified method uses current cart ID
+- `XsollaAuth.Register` SDK method. It passes `LoginLink` as success callback parameter
+- `XsollaAuth.StartAuthByEmail` and `XsollaAuth.StartAuthByPhoneNumber` SDK methods. They pass `OperationId` as success callback parameter
+- `BrowserUtils` renamed to `XsollaWebBrowser`
+- `Canvas` component for `XsollaInAppBrowser`
 
 ### Removed
-- Class 'OrderTracking' is internal now and not available for use in client code
-- All android and ios helper classes are internal now and not available for use in client code
+- Class `OrderTracking` is internal now and not available for use in the client code
+- All Android and iOS helper classes are internal now and not available for use in the client code
 
 ### Fixed
-- Disabling 'bitcode' parameter of Xcode project for iOS builds
+- Disabling `bitcode` parameter of Xcode project for iOS builds
 
 
 ## [1.5.0] - 2023-03-27
