@@ -425,7 +425,6 @@ namespace Xsolla.Catalog
 				customHeaders);
 		}
 
-		//TEXTREVIEW
 		/// <summary>
 		/// Launch purchase process for a specified item by virtual currency. This method encapsulates methods for creating an order and tracking the order status.
 		/// </summary>

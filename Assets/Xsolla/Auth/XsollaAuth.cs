@@ -9,7 +9,7 @@ namespace Xsolla.Auth
 	{
 		private const string BASE_URL = "https://login.xsolla.com/api";
 
-		//TEXTREVIEW Check if the user is authenticated
+		/// Checks if the user is authenticated.
 		public static bool IsUserAuthenticated()
 		{
 			return XsollaToken.Exists;
@@ -420,8 +420,10 @@ namespace Xsolla.Auth
 			browser.CloseEvent += onBrowserClose;
 			browser.UrlChangeEvent += onBrowserUrlChange;
 		}
-
-		//TEXTREVIEW Auth via Xsolla Launcher
+		/// <summary>
+		/// Authenticates the user via Xsolla Launcher
+		/// </summary>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/authentication/auth-via-launcher/#unity_sdk_how_to_set_up_auth_via_launcher).</remarks>
 		public static void AuthViaXsollaLauncher(Action onSuccess, Action<Error> onError)
 		{
 			new XsollaLauncherAuth().Perform(onSuccess, onError);
