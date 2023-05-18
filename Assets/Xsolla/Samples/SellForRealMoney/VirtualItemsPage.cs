@@ -15,13 +15,13 @@ namespace Xsolla.Samples.SellForRealMoney
 		{
 			// Starting the authentication process
 			// Pass the credentials and callback functions for success and error cases
-			// The credentials (username and password) are hardcoded for the sake of simplicity
+			// The credentials (username and password) are hard-coded for simplicity
 			XsollaAuth.SignIn("xsolla", "xsolla", OnAuthenticationSuccess, OnError);
 		}
 
 		private void OnAuthenticationSuccess()
 		{
-			// After successful authentication starting the request for catalog from store
+			// Starting the items request from the store after successful authentication
 			// Pass the callback functions for success and error cases
 			XsollaCatalog.GetCatalog(OnItemsRequestSuccess, OnError);
 		}
@@ -31,7 +31,7 @@ namespace Xsolla.Samples.SellForRealMoney
 			// Iterating the items collection
 			foreach (var storeItem in storeItems.items)
 			{
-				// Skipping the items without price for real money
+				// Skipping items without prices in real money
 				if (storeItem.price == null)
 					continue;
 
@@ -39,22 +39,22 @@ namespace Xsolla.Samples.SellForRealMoney
 				var widgetGo = Instantiate(WidgetPrefab, WidgetsContainer, false);
 				var widget = widgetGo.GetComponent<VirtualItemWidget>();
 
-				// Assigning the values for ui elements
+				// Assigning the values for UI elements
 				widget.NameText.text = storeItem.name;
 				widget.DescriptionText.text = storeItem.description;
 
-				// Assigning the price and currency values for ui elements
+				// Assigning the price and currency values for UI elements
 				var price = storeItem.price;
 				widget.PriceText.text = $"{price.amount} {price.currency}";
 
-				// Loading the item image and assign it to the ui element
+				// Loading the item image and assigning it to the UI element
 				ImageLoader.LoadSprite(storeItem.image_url, sprite => widget.IconImage.sprite = sprite);
 
 				// Assigning the click listener for the buy button
 				widget.BuyButton.onClick.AddListener(() =>
 				{
 					// Starting the purchase process
-					// Pass the item sku and callback functions for success and error cases
+					// Pass the item SKU and callback functions for success and error cases
 					XsollaCatalog.Purchase(storeItem.sku, OnPurchaseSuccess, OnError);
 				});
 			}
@@ -63,13 +63,13 @@ namespace Xsolla.Samples.SellForRealMoney
 		private void OnPurchaseSuccess(OrderStatus status)
 		{
 			Debug.Log("Purchase successful");
-			// Some actions
+			// Add actions taken in case of success
 		}
 
 		private void OnError(Error error)
 		{
 			Debug.LogError($"Error: {error.errorMessage}");
-			// Some actions
+			// Add actions taken in case of error
 		}
 	}
 }

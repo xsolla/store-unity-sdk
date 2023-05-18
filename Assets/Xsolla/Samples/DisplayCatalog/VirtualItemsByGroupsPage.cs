@@ -19,20 +19,20 @@ namespace Xsolla.Samples.DisplayCatalog
 		{
 			// Starting the authentication process
 			// Pass the credentials and callback functions for success and error cases
-			// The credentials (username and password) are hardcoded for the sake of simplicity
+			// The credentials (username and password) are hard-coded for simplicity
 			XsollaAuth.SignIn("xsolla", "xsolla", OnAuthenticationSuccess, OnError);
 		}
 
 		private void OnAuthenticationSuccess()
 		{
-			// After successful authentication starting the request for catalog from store
+			// Starting the items request from the store after successful authentication
 			// Pass the callback functions for success and error cases
 			XsollaCatalog.GetCatalog(OnItemsRequestSuccess, OnError);
 		}
 
 		private void OnItemsRequestSuccess(StoreItems storeItems)
 		{
-			// Selecting the group’s name from items and order them alphabetical
+			// Selecting the group’s name from items and order them alphabetically
 			var groupNames = storeItems.items
 				.SelectMany(x => x.groups)
 				.GroupBy(x => x.name)
@@ -41,7 +41,7 @@ namespace Xsolla.Samples.DisplayCatalog
 				.Select(x => x.name)
 				.ToList();
 
-			// Add group name for “all groups”, which will mean show all items regardless of group affiliation
+			// Add group name for catalog category with all items regardless of group affiliation
 			groupNames.Insert(0, "All");
 
 			// Iterating the group names collection
@@ -51,7 +51,7 @@ namespace Xsolla.Samples.DisplayCatalog
 				var buttonGo = Instantiate(GroupButtonPrefab, GroupButtonsContainer, false);
 				var groupButton = buttonGo.GetComponent<VirtualItemGroupButton>();
 
-				// Assigning the values for ui elements
+				// Assigning the values for UI elements
 				groupButton.NameText.text = groupName;
 
 				// Adding listener for button click event
@@ -67,7 +67,7 @@ namespace Xsolla.Samples.DisplayCatalog
 			// Clear container
 			DeleteAllChildren(ItemWidgetsContainer);
 
-			// Declaring variable for items which will display on page
+			// Declaring variable for items to be displayed on the page
 			IEnumerable<StoreItem> itemsForDisplay;
 			if (groupName == "All")
 			{
@@ -78,19 +78,19 @@ namespace Xsolla.Samples.DisplayCatalog
 				itemsForDisplay = storeItems.items.Where(item => item.groups.Any(group => group.name == groupName));
 			}
 
-			// Iterating the items collection and assign values for appropriate ui elements
+			// Iterating the items collection and assigning values for appropriate UI elements
 			foreach (var storeItem in itemsForDisplay)
 			{
 				// Instantiating the widget prefab as child of the container
 				var widgetGo = Instantiate(ItemWidgetPrefab, ItemWidgetsContainer, false);
 				var widget = widgetGo.GetComponent<VirtualItemWidget>();
 
-				// Assigning the values for ui elements
+				// Assigning the values for UI elements
 				widget.NameText.text = storeItem.name;
 				widget.DescriptionText.text = storeItem.description;
 
 				// The item can be purchased for real money or virtual currency
-				// Checking the price type and assign the appropriate value for price text
+				// Checking the price type and assigning the appropriate value for price text
 				if (storeItem.price != null)
 				{
 					var realMoneyPrice = storeItem.price;
@@ -102,7 +102,7 @@ namespace Xsolla.Samples.DisplayCatalog
 					widget.PriceText.text = $"{virtualCurrencyPrice.name}: {virtualCurrencyPrice.amount}";
 				}
 
-				// Loading the image for item icon and assign it to the ui element
+				// Loading the image for item icon and assigning it to the UI element
 				ImageLoader.LoadSprite(storeItem.image_url, sprite => widget.IconImage.sprite = sprite);
 			}
 		}
@@ -110,10 +110,10 @@ namespace Xsolla.Samples.DisplayCatalog
 		private void OnError(Error error)
 		{
 			Debug.LogError($"Error: {error.errorMessage}");
-			// Some actions
+			//  Add actions taken in case of error
 		}
 
-		// Utility method for delete all children of container
+		// Utility method to delete all children of a container
 		private static void DeleteAllChildren(Transform parent)
 		{
 			var childList = parent.Cast<Transform>().ToList();

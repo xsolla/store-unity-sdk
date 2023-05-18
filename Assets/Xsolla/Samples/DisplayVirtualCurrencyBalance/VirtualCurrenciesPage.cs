@@ -15,13 +15,13 @@ namespace Xsolla.Samples.DisplayVirtualCurrencyBalance
 		{
 			// Starting the authentication process
 			// Pass the credentials and callback functions for success and error cases
-			// The credentials (username and password) are hardcoded for the sake of simplicity
+			// The credentials (username and password) are hard-coded for simplicity
 			XsollaAuth.SignIn("xsolla", "xsolla", OnAuthenticationSuccess, OnError);
 		}
 
 		private void OnAuthenticationSuccess()
 		{
-			// After successful authentication starting the request for virtual currencies
+			// Starting the virtual currencies request from the store after successful authentication
 			// Pass the callback functions for success and error cases
 			XsollaInventory.GetVirtualCurrencyBalance(OnBalanceRequestSuccess, OnError);
 		}
@@ -35,7 +35,7 @@ namespace Xsolla.Samples.DisplayVirtualCurrencyBalance
 				var widgetGo = Instantiate(WidgetPrefab, WidgetsContainer, false);
 				var widget = widgetGo.GetComponent<VirtualCurrencyWidget>();
 
-				// Assigning the values for ui elements
+				// Assigning the values for UI elements
 				widget.NameText.text = balanceItem.name;
 				widget.AmountText.text = balanceItem.amount.ToString();
 
@@ -46,7 +46,7 @@ namespace Xsolla.Samples.DisplayVirtualCurrencyBalance
 		private void OnError(Error error)
 		{
 			Debug.LogError($"Error: {error.errorMessage}");
-			// Some actions
+			// Add actions taken in case of error
 		}
 	}
 }

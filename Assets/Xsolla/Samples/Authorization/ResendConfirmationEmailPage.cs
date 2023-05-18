@@ -20,7 +20,7 @@ namespace Xsolla.Samples.Authorization
 				var username = UsernameInput.text;
 
 				// Call the resend confirmation email method
-				// Pass username and callback functions for success and error cases
+				// Pass the username and callback functions for success and error cases
 				XsollaAuth.ResendConfirmationLink(username, OnSuccess, OnError);
 			});
 		}
@@ -28,13 +28,13 @@ namespace Xsolla.Samples.Authorization
 		private void OnSuccess()
 		{
 			Debug.Log("Resend confirmation email successful");
-			// Some actions
+			// Add actions taken in case of success
 		}
 
 		private void OnError(Error error)
 		{
 			Debug.LogError($"Resend confirmation email failed. Error: {error.errorMessage}");
-			// Some actions
+			// Add actions taken in case of error
 		}
 	}
 }

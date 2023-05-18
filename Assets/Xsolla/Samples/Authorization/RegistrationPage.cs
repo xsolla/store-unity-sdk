@@ -18,12 +18,12 @@ namespace Xsolla.Samples.Authorization
 			// Handling the button click
 			RegisterButton.onClick.AddListener(() =>
 			{
-				// Get the username, email and password from the input fields
+				// Get the username, email and password from input fields
 				var username = UsernameInput.text;
 				var email = EmailInputField.text;
 				var password = PasswordInputField.text;
 
-				// Call the registration method
+				// Call the user registration method
 				// Pass credentials and callback functions for success and error cases
 				XsollaAuth.Register(username, password, email, OnSuccess, OnError);
 			});
@@ -32,13 +32,13 @@ namespace Xsolla.Samples.Authorization
 		private void OnSuccess(LoginLink loginLink)
 		{
 			Debug.Log("Registration successful");
-			// Some actions
+			// Add actions taken in case of success
 		}
 
 		private void OnError(Error error)
 		{
 			Debug.LogError($"Registration failed. Error: {error.errorMessage}");
-			// Some actions
+			// Add actions taken in case of error
 		}
 	}
 }

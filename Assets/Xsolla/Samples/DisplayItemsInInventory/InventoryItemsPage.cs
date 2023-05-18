@@ -15,13 +15,13 @@ namespace Xsolla.Samples.DisplayItemsInInventory
 		{
 			// Starting the authentication process
 			// Pass the credentials and callback functions for success and error cases
-			// The credentials (username and password) are hardcoded for the sake of simplicity
+			// The credentials (username and password) are hard-coded for simplicity
 			XsollaAuth.SignIn("xsolla", "xsolla", OnAuthenticationSuccess, OnError);
 		}
 
 		private void OnAuthenticationSuccess()
 		{
-			// After successful authentication starting the request for inventory items
+			// Starting the items request from the store after successful authentication
 			// Pass the callback functions for success and error cases
 			XsollaInventory.GetInventoryItems(OnItemsRequestSuccess, OnError);
 		}
@@ -39,12 +39,12 @@ namespace Xsolla.Samples.DisplayItemsInInventory
 				var widgetGo = Instantiate(WidgetPrefab, WidgetsContainer, false);
 				var widget = widgetGo.GetComponent<InventoryItemWidget>();
 
-				// Assigning the values for ui elements
+				// Assigning the values for UI elements
 				widget.NameText.text = inventoryItem.name;
 				widget.DescriptionText.text = inventoryItem.description;
 				widget.QuantityText.text = inventoryItem.quantity.ToString();
 
-				// Loading the item image and assign it to the ui element
+				// Loading the item image and assigning it to the UI element
 				ImageLoader.LoadSprite(inventoryItem.image_url, sprite => widget.IconImage.sprite = sprite);
 			}
 		}
@@ -52,6 +52,7 @@ namespace Xsolla.Samples.DisplayItemsInInventory
 		private void OnError(Error error)
 		{
 			Debug.LogError($"Error: {error.errorMessage}");
+			// Add actions taken in case of error
 		}
 	}
 }

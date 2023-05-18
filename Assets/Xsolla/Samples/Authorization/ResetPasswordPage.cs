@@ -20,7 +20,7 @@ namespace Xsolla.Samples.Authorization
 				var username = UsernameInput.text;
 
 				// Call the password reset method
-				// Pass username and callback functions for success and error cases
+				// Pass the username and callback functions for success and error cases
 				XsollaAuth.ResetPassword(username, OnSuccess, OnError);
 			});
 		}
@@ -28,13 +28,13 @@ namespace Xsolla.Samples.Authorization
 		private void OnSuccess()
 		{
 			Debug.Log("Password reset successful");
-			// Some actions
+			// Add actions taken in case of success
 		}
 
 		private void OnError(Error error)
 		{
 			Debug.LogError($"Password reset failed. Error: {error.errorMessage}");
-			// Some actions
+			// Add actions taken in case of error
 		}
 	}
 }

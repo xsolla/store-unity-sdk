@@ -16,13 +16,13 @@ namespace Xsolla.Samples.DisplayCatalog
 		{
 			// Starting the authentication process
 			// Pass the credentials and callback functions for success and error cases
-			// The credentials (username and password) are hardcoded for the sake of simplicity
+			// The credentials (username and password) are hard-coded for simplicity
 			XsollaAuth.SignIn("xsolla", "xsolla", OnAuthenticationSuccess, OnError);
 		}
 
 		private void OnAuthenticationSuccess()
 		{
-			// After successful authentication starting the request for bundles from store
+			// Starting the bundle request from the store after successful authentication
 			// Pass the callback functions for success and error cases
 			XsollaCatalog.GetBundles(OnBundlesRequestSuccess, OnError);
 		}
@@ -36,16 +36,16 @@ namespace Xsolla.Samples.DisplayCatalog
 				var widgetGo = Instantiate(WidgetPrefab, WidgetsContainer, false);
 				var widget = widgetGo.GetComponent<BundleWidget>();
 
-				// Assigning the values for ui elements
+				// Assigning the values for UI elements
 				widget.NameText.text = bundleItem.name;
 				widget.DescriptionText.text = bundleItem.description;
 
-				// Creating the string with bundle content and assign it to the ui element
+				// Creating the string with bundle content and assigning it to the UI element
 				var bundleContent = bundleItem.content.Select(x => $"{x.name} x {x.quantity}");
 				widget.ContentText.text = string.Join("\n", bundleContent);
 
 				// The bundle can be purchased for real money or virtual currency
-				// Checking the price type and assign the values for appropriate ui elements
+				// Checking the price type and assigning the values for appropriate UI elements
 				if (bundleItem.price != null)
 				{
 					var realMoneyPrice = bundleItem.price;
@@ -57,7 +57,7 @@ namespace Xsolla.Samples.DisplayCatalog
 					widget.PriceText.text = $"{virtualCurrencyPrice.name}: {virtualCurrencyPrice.amount}";
 				}
 
-				// Loading the bundle image and assign it to the ui element
+				// Loading the bundle image and assigning it to the UI element
 				ImageLoader.LoadSprite(bundleItem.image_url, sprite => widget.IconImage.sprite = sprite);
 			}
 		}
@@ -65,7 +65,7 @@ namespace Xsolla.Samples.DisplayCatalog
 		private void OnError(Error error)
 		{
 			Debug.LogError($"Error: {error.errorMessage}");
-			// Some actions
+			// Add actions taken in case of error
 		}
 	}
 }

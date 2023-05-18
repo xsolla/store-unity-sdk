@@ -17,7 +17,7 @@ namespace Xsolla.Samples.Authorization
 			SignInButton.onClick.AddListener(() =>
 			{
 				// Call the social authorization method
-				// Pass the social network provider and callback functions for success and error cases
+				// Pass the social network provider and callback functions for success, error and cancel cases
 				XsollaAuth.AuthViaSocialNetwork(SocialProvider, OnSuccess, OnError, OnCancel);
 			});
 		}
@@ -25,19 +25,19 @@ namespace Xsolla.Samples.Authorization
 		private void OnSuccess()
 		{
 			Debug.Log("Social authorization successful");
-			// Some actions
+			// Add actions taken in case of success
 		}
 
 		private void OnError(Error error)
 		{
 			Debug.LogError($"Social authorization failed. Error: {error.errorMessage}");
-			// Some actions
+			// Add actions taken in case of error
 		}
 
 		private void OnCancel()
 		{
 			Debug.Log("Social authorization cancelled by user.");
-			// Some actions
+			// Add actions taken in case the user canceles authorization
 		}
 	}
 }
