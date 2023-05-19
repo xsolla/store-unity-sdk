@@ -75,7 +75,7 @@ namespace Xsolla.Core
 				return;
 			}
 
-#elif UNITY_WEBGL
+#elif UNITY_WEBGL && !UNITY_EDITOR
 			if (XsollaSettings.InAppBrowserEnabled)
 			{
 				WebGLBrowserClosedCallback = isManually =>
@@ -116,17 +116,17 @@ namespace Xsolla.Core
 			XDebug.Log($"WebBrowser. Open url: {url}");
 #if UNITY_EDITOR || UNITY_STANDALONE
 			if (InAppBrowser != null && !forcePlatformBrowser)
-			{
 				InAppBrowser.Open(url);
-				return;
-			}
+			else
+				Application.OpenURL(url);
 #elif UNITY_WEBGL
 #pragma warning disable 0618
 			Application.ExternalEval($"window.open(\"{url}\",\"_blank\")");
 #pragma warning restore 0618
 			return;
-#endif
+#else
 			Application.OpenURL(url);
+#endif
 		}
 
 		public static void Close(float delay = 0)

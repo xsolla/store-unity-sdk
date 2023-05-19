@@ -411,14 +411,13 @@ namespace Xsolla.Catalog
 						onBrowseClosed);
 
 					OrderTrackingService.AddOrderForTracking(orderData.order_id,
-						() =>
+						true, () =>
 						{
 							if (XsollaWebBrowser.InAppBrowser?.IsOpened ?? false)
 								XsollaWebBrowser.Close();
 
 							OrderStatusService.GetOrderStatus(orderData.order_id, onSuccess, onError);
-						},
-						onError);
+						}, onError);
 				},
 				onError,
 				purchaseParams,
@@ -446,8 +445,7 @@ namespace Xsolla.Catalog
 				{
 					OrderTrackingService.AddOrderForTracking(
 						orderId.order_id,
-						() => OrderStatusService.GetOrderStatus(orderId.order_id, onSuccess, onError),
-						onError);
+						false, () => OrderStatusService.GetOrderStatus(orderId.order_id, onSuccess, onError), onError);
 				},
 				onError,
 				purchaseParams,
@@ -472,8 +470,7 @@ namespace Xsolla.Catalog
 				{
 					OrderTrackingService.AddOrderForTracking(
 						orderId.order_id,
-						() => OrderStatusService.GetOrderStatus(orderId.order_id, onSuccess, onError),
-						onError);
+						false, () => OrderStatusService.GetOrderStatus(orderId.order_id, onSuccess, onError), onError);
 				},
 				onError,
 				purchaseParams,

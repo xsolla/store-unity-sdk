@@ -288,14 +288,13 @@ namespace Xsolla.Cart
 						onBrowseClosed);
 
 					OrderTrackingService.AddOrderForTracking(orderData.order_id,
-						() =>
+						true, () =>
 						{
 							if (XsollaWebBrowser.InAppBrowser?.IsOpened ?? false)
 								XsollaWebBrowser.Close();
 
 							OrderStatusService.GetOrderStatus(orderData.order_id, onSuccess, onError);
-						},
-						onError);
+						}, onError);
 				},
 				onError,
 				cartId,
@@ -319,9 +318,8 @@ namespace Xsolla.Cart
 				orderId =>
 				{
 					OrderTrackingService.AddOrderForTracking(
-						orderId.order_id,
-						() => OrderStatusService.GetOrderStatus(orderId.order_id, onSuccess, onError),
-						onError);
+						orderId.order_id, 
+						false, () => OrderStatusService.GetOrderStatus(orderId.order_id, onSuccess, onError), onError);
 				},
 				onError,
 				cartId,
