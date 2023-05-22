@@ -21,6 +21,7 @@ namespace Xsolla.Core
 		public int order;
 		public MediaListItem[] media_list;
 		public StoreItemPromotion[] promotions;
+		public StoreItemLimits limits;
 
 		public VirtualItemType VirtualItemType
 		{

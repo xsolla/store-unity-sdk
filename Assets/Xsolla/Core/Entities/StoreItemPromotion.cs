@@ -10,7 +10,7 @@ namespace Xsolla.Core
 		public string date_end;
 		public Discount discount;
 		public Bonus[] bonus;
-		public Limits limits;
+		public PromotionLimits limits;
 
 		[Serializable]
 		public class Discount
@@ -27,7 +27,7 @@ namespace Xsolla.Core
 		}
 
 		[Serializable]
-		public class Limits
+		public class PromotionLimits
 		{
 			public PerUser per_user;
 
