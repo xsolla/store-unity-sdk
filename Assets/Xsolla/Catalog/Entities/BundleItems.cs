@@ -26,6 +26,7 @@ namespace Xsolla.Catalog
 		public VirtualPrice[] virtual_prices;
 		public Content[] content;
 		public StoreItemPromotion[] promotions;
+		public StoreItemLimits limits;
 
 		[Serializable]
 		public class Content
