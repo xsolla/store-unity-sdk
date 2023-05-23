@@ -36,7 +36,7 @@ namespace Xsolla.Demo
 			items.ForEach(i =>
 			{
 				if (!string.IsNullOrEmpty(i.ImageUrl))
-					ImageLoader.Instance.GetImageAsync(i.ImageUrl, null);
+					ImageLoader.LoadSprite(i.ImageUrl, null);
 				else
 					XDebug.LogError($"Catalog item with sku = '{i.Sku}' without image!");
 			});

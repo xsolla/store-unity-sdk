@@ -15,9 +15,9 @@ namespace Xsolla.Demo
 			{
 				if (!string.IsNullOrEmpty(item.ImageUrl))
 				{
-					ImageLoader.Instance.GetImageAsync(item.ImageUrl, (_, sprite) =>
+					ImageLoader.LoadSprite(item.ImageUrl, sprite =>
 					{
-						if (Image/*still*/!= null)
+						if (Image /*still*/ != null)
 							Image.sprite = sprite;
 					});
 				}

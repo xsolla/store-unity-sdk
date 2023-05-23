@@ -93,19 +93,17 @@ namespace Xsolla.Demo
 			{
 				if (!string.IsNullOrEmpty(_cartItem.ImageUrl))
 				{
-					ImageLoader.Instance.GetImageAsync(_cartItem.ImageUrl, LoadImageCallback);
+					ImageLoader.LoadSprite(_cartItem.ImageUrl, image =>
+					{
+						if (itemImage)
+							itemImage.sprite = image;
+					});
 				}
 				else
 				{
 					XDebug.LogError($"Cart item with sku = '{_cartItem.Sku}' without image!");
 				}
 			}
-		}
-
-		void LoadImageCallback(string url, Sprite image)
-		{
-			if (itemImage)
-				itemImage.sprite = image;
 		}
 	}
 }

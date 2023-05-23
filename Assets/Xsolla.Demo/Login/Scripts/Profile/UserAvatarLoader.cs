@@ -10,8 +10,6 @@ namespace Xsolla.Demo
 		[SerializeField] private Image UserAvatarHolder = default;
 		[SerializeField] private Sprite AvatarPlaceholder = default;
 
-		private static string _expectedAvatarUrl;
-
 		public void Refresh() => Start();
 
 		private void Start()
@@ -27,18 +25,13 @@ namespace Xsolla.Demo
 			{
 				if (UserAvatarHolder)
 					UserAvatarHolder.sprite = AvatarPlaceholder;
-
-				_expectedAvatarUrl = null;
 			}
 			else
 			{
-				if (avatarUrl != _expectedAvatarUrl)
-					_expectedAvatarUrl = avatarUrl;
-
-				ImageLoader.Instance.GetImageAsync(avatarUrl,
-					callback: (receivedAvatarUrl, avatar) =>
+				ImageLoader.LoadSprite(avatarUrl,
+					avatar =>
 					{
-						if (receivedAvatarUrl == _expectedAvatarUrl && UserAvatarHolder != null)
+						if (UserAvatarHolder)
 							UserAvatarHolder.sprite = avatar;
 					});
 			}

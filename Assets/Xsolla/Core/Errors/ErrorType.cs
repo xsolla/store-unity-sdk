@@ -15,6 +15,7 @@ namespace Xsolla.Core
 
 		InvalidData,
 		ProductDoesNotExist,
+		PayStationServiceException,
 		UserNotFound,
 		CartNotFound,
 		OrderNotFound,

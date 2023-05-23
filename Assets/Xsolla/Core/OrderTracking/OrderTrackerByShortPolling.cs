@@ -11,7 +11,7 @@ namespace Xsolla.Core
 
 		public override void Start()
 		{
-			checkStatusCoroutine = CoroutinesExecutor.Run(CheckOrderStatus());
+			checkStatusCoroutine = CoroutinesExecutor.Run(TrackOrderStatus());
 		}
 
 		public override void Stop()
@@ -19,14 +19,14 @@ namespace Xsolla.Core
 			CoroutinesExecutor.Stop(checkStatusCoroutine);
 		}
 
-		private IEnumerator CheckOrderStatus()
+		private IEnumerator TrackOrderStatus()
 		{
 			var timeLimit = Time.realtimeSinceStartup + Constants.SHORT_POLLING_LIMIT;
 
 			while (true)
 			{
-				yield return Constants.SHORT_POLLING_INTERVAL;
-				base.CheckOrderStatus(HandleOrderDone, RemoveSelfFromTracking, HandleError);
+				yield return new WaitForSeconds(Constants.SHORT_POLLING_INTERVAL);
+				CheckOrderStatus(HandleOrderDone, RemoveSelfFromTracking, HandleError);
 
 				if (Time.realtimeSinceStartup > timeLimit)
 				{

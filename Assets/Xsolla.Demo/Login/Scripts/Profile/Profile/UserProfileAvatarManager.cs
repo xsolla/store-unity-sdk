@@ -103,7 +103,6 @@ namespace Xsolla.Demo
 						SetPictureUrlToInfo(pictureUrl,
 							onSuccess: () =>
 							{
-								ImageLoader.Instance.AddImage(pictureUrl, sprite);
 								RefreshImageLoaders();
 								isImageUploaded = true;
 							},

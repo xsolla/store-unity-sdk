@@ -21,19 +21,17 @@ namespace Xsolla.Demo
 			{
 				if (!string.IsNullOrEmpty(rewardItem.ImageUrl))
 				{
-					ImageLoader.Instance.GetImageAsync(rewardItem.ImageUrl, LoadImageCallback);
+					ImageLoader.LoadSprite(rewardItem.ImageUrl, image =>
+					{
+						if (itemImage)
+							itemImage.sprite = image;
+					});
 				}
 				else
 				{
 					XDebug.LogError($"Coupon reward item item with sku = '{rewardItem.Sku}' without image!");
 				}
 			}
-		}
-
-		void LoadImageCallback(string url, Sprite image)
-		{
-			if (itemImage)
-				itemImage.sprite = image;
 		}
 	}
 }

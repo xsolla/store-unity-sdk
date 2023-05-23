@@ -337,10 +337,10 @@ namespace Xsolla.Catalog
 		/// <param name="priceSku">Virtual currency SKU.</param>
 		/// <param name="onSuccess">Called after server response.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
-		/// <param name="purchaseParams">Purchase parameters such as <c>country</c>, <c>locale</c> and <c>currency</c>.</param>
+		/// <param name="purchaseParams">Purchase parameters such as <c>country</c>, <c>locale</c>, <c>currency</c>, and <c>quantity</c>.</param>
 		/// <param name="platform">Publishing platform the user plays on.<br/>
 		///     Can be `xsolla` (default), `playstation_network`, `xbox_live`, `pc_standalone`, `nintendo_shop`, `google_play`, `app_store_ios`, `android_standalone`, `ios_standalone`, `android_other`, `ios_other`, or `pc_other`.</param>
-		/// <param name="customHeaders">Custom web request headers.</param>
+		/// <param name="customHeaders">Custom HTTP request headers.</param>
 		public static void CreateOrderByVirtualCurrency(string itemSku, string priceSku, Action<OrderId> onSuccess, Action<Error> onError, PurchaseParams purchaseParams = null, string platform = null, Dictionary<string, string> customHeaders = null)
 		{
 			var url = new UrlBuilder($"{BaseUrl}/payment/item/{itemSku}/virtual/{priceSku}")
@@ -369,7 +369,7 @@ namespace Xsolla.Catalog
 		/// </summary>
 		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/promo/free-items/).</remarks>
 		/// <param name="itemSku">Desired free item SKU.</param>
-		/// <param name="onSuccess">Called after the payment was successfully completed.</param>
+		/// <param name="onSuccess">Called after the order was successfully created.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="purchaseParams">Purchase parameters such as <c>country</c>, <c>locale</c>, and <c>currency</c>.</param>
 		/// <param name="customHeaders">Custom web request headers</param>
@@ -389,12 +389,12 @@ namespace Xsolla.Catalog
 				ErrorGroup.BuyItemErrors);
 		}
 
-		//TEXTREVIEW 
 		/// <summary>
-		/// Launch purchase process for a specified item. Opens the payment UI in browser
+		/// Launches purchase process for a specified item. This method encapsulates methods for creating an order, opening a payment UI, and tracking the order status.
 		/// </summary>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/item-purchase/one-click-purchase/).</remarks>
 		/// <param name="itemSku">Desired free item SKU.</param>
-		/// <param name="onSuccess">Called after the payment was successfully completed.</param>
+		/// <param name="onSuccess">Called after the order transitions to the 'done' status.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="onBrowseClosed">Called after browser closed.</param>
 		/// <param name="purchaseParams">Purchase parameters such as <c>country</c>, <c>locale</c>, and <c>currency</c>.</param>
@@ -411,32 +411,31 @@ namespace Xsolla.Catalog
 						onBrowseClosed);
 
 					OrderTrackingService.AddOrderForTracking(orderData.order_id,
-						() =>
+						true, () =>
 						{
 							if (XsollaWebBrowser.InAppBrowser?.IsOpened ?? false)
 								XsollaWebBrowser.Close();
 
 							OrderStatusService.GetOrderStatus(orderData.order_id, onSuccess, onError);
-						},
-						onError);
+						}, onError);
 				},
 				onError,
 				purchaseParams,
 				customHeaders);
 		}
 
-		//TEXTREVIEW 
 		/// <summary>
-		/// Launch purchase process for a specified item by virtual currency.
+		/// Launch purchase process for a specified item by virtual currency. This method encapsulates methods for creating an order and tracking the order status.
 		/// </summary>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/item-purchase/purchase-for-vc/).</remarks>
 		/// <param name="itemSku">Desired free item SKU.</param>
 		/// <param name="priceSku">Virtual currency SKU.</param>
-		/// <param name="onSuccess">Called after the payment was successfully completed.</param>
+		/// <param name="onSuccess">Called after the order transitions to the 'done' status.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="purchaseParams">Purchase parameters such as <c>country</c>, <c>locale</c>, and <c>currency</c>.</param>
 		/// <param name="platform">Publishing platform the user plays on.<br/>
 		///     Can be `xsolla` (default), `playstation_network`, `xbox_live`, `pc_standalone`, `nintendo_shop`, `google_play`, `app_store_ios`, `android_standalone`, `ios_standalone`, `android_other`, `ios_other`, or `pc_other`.</param>
-		/// <param name="customHeaders">Custom web request headers.</param>
+		/// <param name="customHeaders">Custom HTTP request headers.</param>
 		public static void PurchaseForVirtualCurrency(string itemSku, string priceSku, Action<OrderStatus> onSuccess, Action<Error> onError, PurchaseParams purchaseParams = null, string platform = null, Dictionary<string, string> customHeaders = null)
 		{
 			CreateOrderByVirtualCurrency(
@@ -446,8 +445,7 @@ namespace Xsolla.Catalog
 				{
 					OrderTrackingService.AddOrderForTracking(
 						orderId.order_id,
-						() => OrderStatusService.GetOrderStatus(orderId.order_id, onSuccess, onError),
-						onError);
+						false, () => OrderStatusService.GetOrderStatus(orderId.order_id, onSuccess, onError), onError);
 				},
 				onError,
 				purchaseParams,
@@ -455,15 +453,15 @@ namespace Xsolla.Catalog
 				customHeaders);
 		}
 
-		//TEXTREVIEW 
 		/// <summary>
-		/// Launch purchase process for a specified free item.
+		/// Launches purchase process for a specified free item. This method encapsulates methods for creating an order and tracking the order status.
 		/// </summary>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/promo/free-items/).</remarks>
 		/// <param name="itemSku">Desired free item SKU.</param>
-		/// <param name="onSuccess">Called after the payment was successfully completed.</param>
+		/// <param name="onSuccess">Called after the order transitions to the 'done' status.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="purchaseParams">Purchase parameters such as <c>country</c>, <c>locale</c>, and <c>currency</c>.</param>
-		/// <param name="customHeaders">Custom web request headers.</param>
+		/// <param name="customHeaders">Custom HTTP request headers.</param>
 		public static void PurchaseFreeItem(string itemSku, Action<OrderStatus> onSuccess, Action<Error> onError, PurchaseParams purchaseParams = null, Dictionary<string, string> customHeaders = null)
 		{
 			CreateOrderWithFreeItem(
@@ -472,8 +470,7 @@ namespace Xsolla.Catalog
 				{
 					OrderTrackingService.AddOrderForTracking(
 						orderId.order_id,
-						() => OrderStatusService.GetOrderStatus(orderId.order_id, onSuccess, onError),
-						onError);
+						false, () => OrderStatusService.GetOrderStatus(orderId.order_id, onSuccess, onError), onError);
 				},
 				onError,
 				purchaseParams,

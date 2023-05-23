@@ -215,11 +215,11 @@ namespace Xsolla.Cart
 		/// Creates an order with items from the cart with the specified ID. Returns the payment token and order ID. The created order will get a `new` order status.
 		/// </summary>
 		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/item-purchase/cart-purchase/).</remarks>
-		/// <param name="onSuccess">Called after the payment token was successfully fetched.</param>
+		/// <param name="onSuccess">Called after the order was successfully created.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="cartId">Unique cart identifier.</param>
-		/// <param name="purchaseParams">Purchase parameters such as <c>country</c>, <c>locale</c> and <c>currency</c>.</param>
-		/// <param name="customHeaders">Custom web request headers.</param>
+		/// <param name="purchaseParams">Purchase parameters such as <c>country</c>, <c>locale</c>, <c>currency</c>, and <c>quantity</c>.</param>
+		/// <param name="customHeaders">Custom HTTP request headers.</param>
 		public static void CreateOrder(Action<OrderData> onSuccess, Action<Error> onError, string cartId = null, PurchaseParams purchaseParams = null, Dictionary<string, string> customHeaders = null)
 		{
 			var url = string.IsNullOrWhiteSpace(cartId)
@@ -246,8 +246,8 @@ namespace Xsolla.Cart
 		/// <param name="onSuccess">Called after server response.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="cartId">Unique cart identifier.</param>
-		/// <param name="purchaseParams">Purchase parameters such as <c>country</c>, <c>locale</c> and <c>currency</c>.</param>
-		/// <param name="customHeaders">Custom web request headers.</param>
+		/// <param name="purchaseParams">Purchase parameters such as <c>country</c>, <c>locale</c>, <c>currency</c>, and <c>quantity</c>.</param>
+		/// <param name="customHeaders">Custom HTTP request headers.</param>
 		public static void CreateOrderWithFreeCart(Action<OrderId> onSuccess, Action<Error> onError, string cartId = null, PurchaseParams purchaseParams = null, Dictionary<string, string> customHeaders = null)
 		{
 			var url = string.IsNullOrWhiteSpace(cartId)
@@ -267,16 +267,16 @@ namespace Xsolla.Cart
 				ErrorGroup.BuyCartErrors);
 		}
 
-		//TEXTREVIEW 
 		/// <summary>
-		/// Launch purchase process for a specified or current cart. Opens the payment UI in browser
+		/// Launches purchase process for the cart with the specified ID or for the cart of the current user. This method encapsulates methods for creating an order, opening a payment UI, and tracking the order status.
 		/// </summary>
-		/// <param name="onSuccess">Called after the payment was successfully completed.</param>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/item-purchase/cart-purchase/).</remarks>
+		/// <param name="onSuccess">Called after the order transitions to the 'done' status.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="cartId">Unique cart identifier.</param>
 		/// <param name="onBrowseClosed">Called after browser closed.</param>
 		/// <param name="purchaseParams">Purchase parameters such as <c>country</c>, <c>locale</c>, and <c>currency</c>.</param>
-		/// <param name="customHeaders">Custom web request headers.</param>
+		/// <param name="customHeaders">Custom HTTP request headers.</param>
 		public static void Purchase(Action<OrderStatus> onSuccess, Action<Error> onError, string cartId = null, Action<BrowserCloseInfo> onBrowseClosed = null, PurchaseParams purchaseParams = null, Dictionary<string, string> customHeaders = null)
 		{
 			CreateOrder(
@@ -288,14 +288,13 @@ namespace Xsolla.Cart
 						onBrowseClosed);
 
 					OrderTrackingService.AddOrderForTracking(orderData.order_id,
-						() =>
+						true, () =>
 						{
 							if (XsollaWebBrowser.InAppBrowser?.IsOpened ?? false)
 								XsollaWebBrowser.Close();
 
 							OrderStatusService.GetOrderStatus(orderData.order_id, onSuccess, onError);
-						},
-						onError);
+						}, onError);
 				},
 				onError,
 				cartId,
@@ -304,24 +303,23 @@ namespace Xsolla.Cart
 			);
 		}
 
-		//TEXTREVIEW 
 		/// <summary>
-		/// Launch purchase process for a specified or current cart. Opens the payment UI in browser
+		/// Launches purchase process for the free cart with the specified ID or for the free cart of the current user. This method encapsulates methods for creating an order and tracking the order status.
 		/// </summary>
-		/// <param name="onSuccess">Called after the payment was successfully completed.</param>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/promo/free-items/).</remarks>
+		/// <param name="onSuccess">Called after the order transitions to the 'done' status.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="cartId">Unique cart identifier.</param>
 		/// <param name="purchaseParams">Purchase parameters such as <c>country</c>, <c>locale</c>, and <c>currency</c>.</param>
-		/// <param name="customHeaders">Custom web request headers.</param>
+		/// <param name="customHeaders">Custom HTTP request headers.</param>
 		public static void PurchaseFreeCart(Action<OrderStatus> onSuccess, Action<Error> onError, string cartId = null, PurchaseParams purchaseParams = null, Dictionary<string, string> customHeaders = null)
 		{
 			CreateOrderWithFreeCart(
 				orderId =>
 				{
 					OrderTrackingService.AddOrderForTracking(
-						orderId.order_id,
-						() => OrderStatusService.GetOrderStatus(orderId.order_id, onSuccess, onError),
-						onError);
+						orderId.order_id, 
+						false, () => OrderStatusService.GetOrderStatus(orderId.order_id, onSuccess, onError), onError);
 				},
 				onError,
 				cartId,

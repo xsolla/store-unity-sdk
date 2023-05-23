@@ -29,6 +29,9 @@ namespace Xsolla.Inventory
 		{
 			get
 			{
+				if (!string.IsNullOrEmpty(type) && type.Equals("virtual_currency"))
+					return VirtualItemType.VirtualCurrency;
+
 				if (string.IsNullOrEmpty(virtual_item_type))
 					return VirtualItemType.None;
 
