@@ -1,30 +1,29 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
-using Xsolla.Auth;
 using Xsolla.Core;
-using Xsolla.Core.Popup;
+using Xsolla.Demo.Popup;
 
 namespace Xsolla.Demo
 {
-	public partial class LoginPageEnterController : LoginPageController
+	public partial class LoginPageEnterController
 	{
-		[SerializeField] InputField EmailInputField = default;
-		[SerializeField] InputField PasswordInputField = default;
-		[SerializeField] Toggle RememberMeCheckbox = default;
-		[SerializeField] SimpleButton LoginButton = default;
+		[SerializeField] private InputField EmailInputField;
+		[SerializeField] private InputField PasswordInputField;
+		[SerializeField] private Toggle RememberMeCheckbox;
+		[SerializeField] private SimpleButton LoginButton;
 
 		[Space]
-		[SerializeField] private SimpleSocialButton[] MainSocialLoginButtons = default;
-		[SerializeField] private SimpleButton OtherSocialNetworksButton = default;
-		[SerializeField] private SocialNetworksWidget SocialNetworksWidget = default;
+		[SerializeField] private SimpleSocialButton[] MainSocialLoginButtons;
+		[SerializeField] private SimpleButton OtherSocialNetworksButton;
+		[SerializeField] private SocialNetworksWidget SocialNetworksWidget;
 
 		[Space]
-		[SerializeField] private SimpleButton PasswordlessButton = default;
-		[SerializeField] private PasswordlessWidget PasswordlessWidget = default;
+		[SerializeField] private SimpleButton PasswordlessButton;
+		[SerializeField] private PasswordlessWidget PasswordlessWidget;
 
 		[Space]
-		[SerializeField] SimpleButton DeviceIDAuthButton = default;
+		[SerializeField] private SimpleButton DeviceIDAuthButton;
 
 		private void Awake()
 		{
@@ -36,8 +35,8 @@ namespace Xsolla.Demo
 			if (PasswordlessWidget)
 			{
 				PasswordlessButton.onClick += () => PasswordlessWidget.gameObject.SetActive(true);
-				PasswordlessWidget.OnPhoneAccessRequest += phone => RunPasswordlessAuth<PasswordlessPhoneAuth>(phone);
-				PasswordlessWidget.OnEmailAccessRequest += email => RunPasswordlessAuth<PasswordlessEmailAuth>(email);
+				PasswordlessWidget.OnPhoneAccessRequest += RunPasswordlessAuth<PasswordlessPhoneAuth>;
+				PasswordlessWidget.OnEmailAccessRequest += RunPasswordlessAuth<PasswordlessEmailAuth>;
 			}
 
 			foreach (var button in MainSocialLoginButtons)
@@ -57,30 +56,17 @@ namespace Xsolla.Demo
 			IsAuthInProgress = true;
 			PopupFactory.Instance.CreateWaiting().SetCloseCondition(() => IsAuthInProgress == false);
 
-			object[] args = {username, password, rememberMe};
-
-			Action<string> onSuccessfulBasicAuth = token =>
-			{
-				SdkAuthLogic.Instance.ValidateToken(
-					token,
-					t => CompleteSuccessfulAuth(token, true, isSaveToken: rememberMe),
-					ProcessError);
+			object[] args = {
+				username,
+				password
 			};
 
-			TryAuthBy<BasicAuth>(args, onSuccessfulBasicAuth, ProcessError);
+			TryAuthBy<BasicAuth>(args, SuperComplete, ProcessError);
 		}
 
 		public void RunWidgetAuth()
 		{
-			Action<string> onSuccessfulWidgetAuth = token =>
-			{
-				SdkAuthLogic.Instance.ValidateToken(
-					token: token,
-					onSuccess: t => CompleteSuccessfulAuth(token, isSaveToken: true),
-					onError: ProcessError);
-			};
-
-			TryAuthBy<LoginWidgetAuth>(null, onSuccessfulWidgetAuth, ProcessError);
+			TryAuthBy<LoginWidgetAuth>(null, SuperComplete, ProcessError);
 		}
 
 		public void RunSocialAuth(SocialProvider socialProvider)
@@ -89,19 +75,9 @@ namespace Xsolla.Demo
 				return;
 
 			IsAuthInProgress = true;
-			object[] args = { socialProvider };
+			object[] args = {socialProvider};
 
-			Action<string> onSuccessfulSocialAuth = token => SdkAuthLogic.Instance
-				.ValidateToken(token, t => CompleteSuccessfulAuth(token, isSaveToken: true), ProcessError);
-			Action<Error> onFailedSocialAuth = ProcessError;
-
-	#if UNITY_EDITOR || UNITY_STANDALONE
-			TryAuthBy<SocialAuth>(args, onSuccessfulSocialAuth, onFailedSocialAuth);
-	#elif UNITY_ANDROID
-			TryAuthBy<AndroidSocialAuth>(args, onSuccessfulSocialAuth, onFailedSocialAuth);
-	#elif UNITY_IOS
-			TryAuthBy<IosSocialAuth>(args, onSuccessfulSocialAuth, onFailedSocialAuth);
-	#endif
+			TryAuthBy<SocialAuth>(args, SuperComplete, ProcessError);
 		}
 
 		public void RunManualSteamAuth()
@@ -112,14 +88,10 @@ namespace Xsolla.Demo
 			IsAuthInProgress = true;
 			PopupFactory.Instance.CreateWaiting().SetCloseCondition(() => IsAuthInProgress == false);
 
-			Action<string> onSuccessfulSteamAuth = token => SdkAuthLogic.Instance
-				.ValidateToken(token, t => CompleteSuccessfulAuth(token, isSaveToken: true), ProcessError);
-			Action<Error> onFailedSteamAuth = ProcessError;
-
-			TryAuthBy<SteamAuth>(args: null, onSuccess: onSuccessfulSteamAuth, onFailed: onFailedSteamAuth);
+			TryAuthBy<SteamAuth>(null, SuperComplete, ProcessError);
 		}
 
-		public void RunDeviceIDAuth()
+		private void RunDeviceIDAuth()
 		{
 			if (IsAuthInProgress)
 				return;
@@ -127,47 +99,42 @@ namespace Xsolla.Demo
 			IsAuthInProgress = true;
 			PopupFactory.Instance.CreateWaiting().SetCloseCondition(() => IsAuthInProgress == false);
 
-			Action<string> onSuccessfulDeviecIDAuth = token => SdkAuthLogic.Instance
-				.ValidateToken(token, t => CompleteSuccessfulAuth(token, isSaveToken: true), ProcessError);
-			Action<Error> onFailedDeviecIDAuth = ProcessError;
-
-			TryAuthBy<DeviceIdAuth>(args: null, onSuccess: onSuccessfulDeviecIDAuth, onFailed: onFailedDeviecIDAuth);
+			TryAuthBy<DeviceIdAuth>(null, SuperComplete, ProcessError);
 		}
 
-		public void RunPasswordlessAuth<T>(string value) where T : LoginAuthorization
+		private void RunPasswordlessAuth<T>(string value) where T : LoginAuthorization
 		{
+			var args = new object[] {
+				PasswordlessWidget,
+				value
+			};
+
 			var passwordlessAuth = GetComponent<T>();
 			if (passwordlessAuth != null)
 			{
-				passwordlessAuth.TryAuth(PasswordlessWidget, value);
+				passwordlessAuth.TryAuth(args, SuperComplete, ProcessError);
 				return;
 			}
 
-			Action<string> onSuccessfulPasswordlessAuth = token => SdkAuthLogic.Instance
-				.ValidateToken(token, t => CompleteSuccessfulAuth(token, isSaveToken: true), ProcessError);
-			Action<Error> onFailedPasswordlessAuth = ProcessError;
-
-			TryAuthBy<T>(args: new object[] { PasswordlessWidget, value }, onSuccess: onSuccessfulPasswordlessAuth, onFailed: onFailedPasswordlessAuth);
+			TryAuthBy<T>(args, SuperComplete, ProcessError);
 		}
 
 		public void RunDemoUserAuth()
 		{
-			if(IsAuthInProgress)
+			if (IsAuthInProgress)
 				return;
-			
+
 			IsAuthInProgress = true;
 			PopupFactory.Instance.CreateWaiting().SetCloseCondition(() => IsAuthInProgress == false);
-			Debug.LogWarning("!PLEASE WAIT! Process of creating new demo user can take up to 30 seconds");
-			
-			Action<LoginOAuthJsonResponse> onDemoUserSuccess = response =>
+			XDebug.LogWarning("!PLEASE WAIT! Process of creating new demo user can take up to 30 seconds");
+
+			Action<DemoUserLoginResponse> onDemoUserSuccess = response =>
 			{
-				Token.Instance = Token.Create(response.access_token);
-				PlayerPrefs.SetString(Constants.LAST_SUCCESS_AUTH_TOKEN, response.access_token);
-				TokenRefresh.Instance.RefreshToken = response.refresh_token;
-				SdkAuthLogic.Instance.ValidateToken(response.access_token, t => CompleteSuccessfulAuth(t, isSaveToken: true), ProcessError);
+				XsollaToken.Create(response.access_token, response.refresh_token);
+				SuperComplete();
 			};
-			
-			WebRequestHelper.Instance.GetRequest<LoginOAuthJsonResponse>(
+
+			WebRequestHelper.Instance.GetRequest(
 				sdkType: SdkType.Login,
 				url: "https://us-central1-xsolla-sdk-demo.cloudfunctions.net/generateDemoUserToken",
 				onComplete: onDemoUserSuccess,
@@ -179,9 +146,9 @@ namespace Xsolla.Demo
 			var buttonsProvider = GetComponent<LoginPageCommonButtonsProvider>();
 			if (buttonsProvider != null)
 			{
-				if(buttonsProvider.DemoUserButton != null)
+				if (buttonsProvider.DemoUserButton != null)
 					buttonsProvider.DemoUserButton.gameObject.SetActive(false);
-				if(buttonsProvider.LogInButton != null)
+				if (buttonsProvider.LogInButton != null)
 					buttonsProvider.LogInButton.gameObject.SetActive(false);
 			}
 		}

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 using Xsolla.Core;
-using Xsolla.Core.Popup;
+using Xsolla.Demo.Popup;
 
 namespace Xsolla.Demo
 {
@@ -20,7 +20,7 @@ namespace Xsolla.Demo
 		{
 			if (!string.IsNullOrEmpty(url))
 			{
-				AttachButtonCallback(button, () => BrowserHelper.Instance.Open(url, true));
+				AttachButtonCallback(button, () => XsollaWebBrowser.Open(url, true));
 			}
 		}
 	

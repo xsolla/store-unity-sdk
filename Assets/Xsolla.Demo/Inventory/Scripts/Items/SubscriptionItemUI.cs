@@ -57,24 +57,22 @@ namespace Xsolla.Demo
 		private void ChangeImageUrl(TimeLimitedItem itemInformation)
 		{
 			if (!string.IsNullOrEmpty(_itemInformation.image_url))
-				ImageLoader.Instance.GetImageAsync(_itemInformation.image_url, LoadImageCallback);
+				ImageLoader.LoadSprite(_itemInformation.image_url, image =>
+				{
+					if (!itemImage)
+						return;
+			
+					loadingCircle.SetActive(false);
+					itemImage.sprite = image;
+				});
 			else
 			{
-				Debug.LogError($"Subscription item with sku = '{itemInformation.sku}' without image!");
+				XDebug.LogError($"Subscription item with sku = '{itemInformation.sku}' without image!");
 				loadingCircle.SetActive(false);
 				itemImage.sprite = null;
 			}
 		}
 
-		void LoadImageCallback(string url, Sprite image)
-		{
-			if (!itemImage)
-				return;
-			
-			loadingCircle.SetActive(false);
-			itemImage.sprite = image;
-		}
-	
 		private DateTime UnixTimeToDateTime(long unixTime)
 		{
 			DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);

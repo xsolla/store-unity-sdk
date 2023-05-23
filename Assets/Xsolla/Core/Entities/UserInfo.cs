@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 
 namespace Xsolla.Core
 {
@@ -25,13 +24,13 @@ namespace Xsolla.Core
 		public UserBan ban;
 		public string country;
 		public string tag;
-		[CanBeNull] public string connection_information;
-		[CanBeNull] public bool? is_anonymous;
-		[CanBeNull] public string phone_auth;
+		public string connection_information;
+		public bool? is_anonymous;
+		public string phone_auth;
 		/// <summary>
 		/// User status. Can be 'online' or 'offline'.
 		/// </summary>
-		[CanBeNull] public string presence;
+		public string presence;
 
 		[Serializable]
 		public class UserBan
@@ -40,6 +39,7 @@ namespace Xsolla.Core
 			public string date_to;
 			public string reason;
 		}
+
 		[Serializable]
 		public class UserGroup
 		{

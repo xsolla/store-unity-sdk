@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using Xsolla.Core;
 
 namespace Xsolla.Demo
 {
@@ -10,7 +11,7 @@ namespace Xsolla.Demo
 
 		public void Initialize(float discount)
 		{
-			Debug.Log("Discount = " + discount);
+			XDebug.Log("Discount = " + discount);
 			discountAmount.text = $"- {PriceFormatter.FormatPrice(discount)}";
 		}
 	}

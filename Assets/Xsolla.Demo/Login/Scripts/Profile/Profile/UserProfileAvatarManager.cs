@@ -3,21 +3,21 @@ using System.Collections;
 using System.Text;
 using System.Collections.Generic;
 using UnityEngine;
+using Xsolla.Auth;
 using Xsolla.Core;
-using Xsolla.Core.Popup;
-using Xsolla.Login;
+using Xsolla.Demo.Popup;
 using Xsolla.UserAccount;
 
 namespace Xsolla.Demo
 {
 	public class UserProfileAvatarManager : MonoBehaviour
 	{
-		[SerializeField] GameObject SetBlock = default;
-		[SerializeField] GameObject UnsetBlock = default;
-		[SerializeField] GameObject EditBlock = default;
+		[SerializeField] private GameObject SetBlock;
+		[SerializeField] private GameObject UnsetBlock;
+		[SerializeField] private GameObject EditBlock;
 
-		[SerializeField] SimpleButton[] EditButtons = default;
-		[SerializeField] SimpleButton DeleteButton = default;
+		[SerializeField] private SimpleButton[] EditButtons;
+		[SerializeField] private SimpleButton DeleteButton;
 
 		private void Awake()
 		{
@@ -39,14 +39,13 @@ namespace Xsolla.Demo
 			string pictureUrl = null;
 			bool? isUserPictureUrlObtained = null;
 
-			var token = Token.Instance;
-			SdkAuthLogic.Instance.GetUserInfo(token,
-				onSuccess: info =>
+			XsollaAuth.GetUserInfo(
+				info =>
 				{
 					pictureUrl = info.picture;
 					isUserPictureUrlObtained = true;
 				},
-				onError: error =>
+				error =>
 				{
 					StoreDemoPopup.ShowError(error);
 					isUserPictureUrlObtained = false;
@@ -91,9 +90,10 @@ namespace Xsolla.Demo
 
 			byte[] data = ConvertToData(sprite, out string boundary);
 
-			var token = Token.Instance;
-			SdkUserAccountLogic.Instance.UploadUserPicture(token, data, boundary,
-				onSuccess: imageInfo =>
+			XsollaUserAccount.UploadUserPicture(
+				data,
+				boundary,
+				imageInfo =>
 				{
 					var packedInfo = ParseUtils.FromJson<UserImageUpload>(imageInfo);
 
@@ -103,16 +103,15 @@ namespace Xsolla.Demo
 						SetPictureUrlToInfo(pictureUrl,
 							onSuccess: () =>
 							{
-								ImageLoader.Instance.AddImage(pictureUrl, sprite);
 								RefreshImageLoaders();
 								isImageUploaded = true;
 							},
 							onError: () => isImageUploaded = false);
 					}
 					else
-						Debug.LogError($"Could not parse server response: {imageInfo}");
+						XDebug.LogError($"Could not parse server response: {imageInfo}");
 				},
-				onError: error =>
+				error =>
 				{
 					isImageUploaded = false;
 					StoreDemoPopup.ShowError(error);
@@ -124,9 +123,8 @@ namespace Xsolla.Demo
 			bool? isPictureDeleted = null;
 			ShowWaiting(() => isPictureDeleted == null);
 
-			var token = Token.Instance;
-			SdkUserAccountLogic.Instance.DeleteUserPicture(token,
-				onSuccess: () =>
+			XsollaUserAccount.DeleteUserPicture(
+				() =>
 				{
 					SetPictureUrlToInfo(null,
 						onSuccess: () =>
@@ -136,7 +134,7 @@ namespace Xsolla.Demo
 						},
 						onError: () => isPictureDeleted = false);
 				},
-				onError: error =>
+				error =>
 				{
 					isPictureDeleted = false;
 					StoreDemoPopup.ShowError(error);
@@ -150,14 +148,13 @@ namespace Xsolla.Demo
 
 		private void SetPictureUrlToInfo(string pictureUrl, Action onSuccess = null, Action onError = null)
 		{
-			var token = Token.Instance;
-			SdkAuthLogic.Instance.GetUserInfo(token,
-				onSuccess: info =>
+			XsollaAuth.GetUserInfo(
+				info =>
 				{
 					info.picture = pictureUrl;
 					onSuccess?.Invoke();
 				},
-				onError: error =>
+				error =>
 				{
 					StoreDemoPopup.ShowError(error);
 					onError?.Invoke();
@@ -198,7 +195,9 @@ namespace Xsolla.Demo
 
 		private enum AvatarState
 		{
-			Set, Unset, Edit
+			Set,
+			Unset,
+			Edit
 		}
 	}
 }

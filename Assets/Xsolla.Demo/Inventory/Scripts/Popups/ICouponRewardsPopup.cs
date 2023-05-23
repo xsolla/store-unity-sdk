@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Xsolla.Demo;
 
-namespace Xsolla.Core.Popup
+namespace Xsolla.Demo.Popup
 {
 	public interface ICouponRewardsPopup
 	{

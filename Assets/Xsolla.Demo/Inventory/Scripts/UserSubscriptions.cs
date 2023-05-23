@@ -24,7 +24,7 @@ namespace Xsolla.Demo
 
 		public void UpdateSupscriptions(Action<List<TimeLimitedItem>> onSuccess = null, Action<Error> onError = null)
 		{
-			XsollaInventory.Instance.GetTimeLimitedItems(XsollaSettings.StoreProjectId, items =>
+			XsollaInventory.GetTimeLimitedItems(items =>
 				{
 					_items = items.items.ToList();
 					onSuccess?.Invoke(GetItems());

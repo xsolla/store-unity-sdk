@@ -59,15 +59,15 @@ namespace Xsolla.Demo
 		private void LoadImage(string url)
 		{
 			if (!string.IsNullOrEmpty(url))
-				ImageLoader.Instance.GetImageAsync(url, LoadImageCallback);
+				ImageLoader.LoadSprite(url, LoadImageCallback);
 			else
 			{
-				Debug.LogError($"Inventory item with sku = '{_itemInformation.Sku}' has no image!");
-				LoadImageCallback(string.Empty, null);
+				XDebug.LogWarning($"Inventory item with sku = '{_itemInformation.Sku}' has no image!");
+				LoadImageCallback(null);
 			}
 		}
 
-		private void LoadImageCallback(string url, Sprite image)
+		private void LoadImageCallback(Sprite image)
 		{
 			if (!itemImage)
 				return;
@@ -271,11 +271,11 @@ namespace Xsolla.Demo
 			{
 				DisableConsumeButton();
 				DemoInventory.Instance.ConsumeInventoryItem(model, consumeButton.counter.GetValue(),
-				_ =>
-				{
-					UserInventory.Instance.Refresh(onError: StoreDemoPopup.ShowError);
-					consumeButton.counter.ResetValue();
-				}, _ => EnableConsumeButton());
+					_ =>
+					{
+						UserInventory.Instance.Refresh(onError: StoreDemoPopup.ShowError);
+						consumeButton.counter.ResetValue();
+					}, _ => EnableConsumeButton());
 			}
 		}
 
@@ -309,12 +309,12 @@ namespace Xsolla.Demo
 		{
 			if (itemModel is T)
 			{
-				result = (T)itemModel;
+				result = (T) itemModel;
 				return true;
 			}
 			else
 			{
-				Debug.LogError($"Item model incorrect for item with SKU '{itemModel.Sku}', expected type is '{typeof (T)}'");
+				XDebug.LogError($"Item model incorrect for item with SKU '{itemModel.Sku}', expected type is '{typeof(T)}'");
 				result = null;
 				return false;
 			}

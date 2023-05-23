@@ -18,9 +18,9 @@ namespace Xsolla.Demo
 				return;
 
 			if (subscriptionItem.VirtualPrice == null)
-				renewSubscriptionButton.onClick = () => DemoShop.Instance.PurchaseForRealMoney(subscriptionItem);
+				renewSubscriptionButton.onClick = () => StoreLogic.PurchaseForRealMoney(subscriptionItem, null, null);
 			else
-				renewSubscriptionButton.onClick = () => DemoShop.Instance.PurchaseForVirtualCurrency(subscriptionItem);
+				renewSubscriptionButton.onClick = () => StoreLogic.PurchaseForVirtualCurrency(subscriptionItem, null, null);
 		}
 	}
 }

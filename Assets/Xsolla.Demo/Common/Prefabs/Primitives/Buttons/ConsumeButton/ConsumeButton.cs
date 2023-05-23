@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using Xsolla.Core;
 
 namespace Xsolla.Demo
 {
@@ -19,7 +20,7 @@ namespace Xsolla.Demo
 				}
 				else
 				{
-					Debug.Log("You try consume item with quantity = 0!");
+					XDebug.Log("You try consume item with quantity = 0!");
 				}
 			};
 		}

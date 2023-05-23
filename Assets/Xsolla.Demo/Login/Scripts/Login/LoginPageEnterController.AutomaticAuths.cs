@@ -1,13 +1,13 @@
 using System;
 using Xsolla.Core;
-using Xsolla.Core.Popup;
+using Xsolla.Demo.Popup;
 
 namespace Xsolla.Demo
 {
-	public partial class LoginPageEnterController : LoginPageController
+	public partial class LoginPageEnterController
 	{
 		private static bool _isFirstLaunch = true;
-		private int _autoAuthState = 0;
+		private int _autoAuthCounter;
 
 		private void Start()
 		{
@@ -20,13 +20,13 @@ namespace Xsolla.Demo
 			}
 			else
 			{
-				Token.DeleteSave();
+				XsollaToken.DeleteSavedInstance();
 			}
 		}
 
 		private void RunAutomaticAuths()
 		{
-			Action<Error> onFailedAutomaticAuth = error =>
+			Action<Error> handleErrorOrSkip = error =>
 			{
 				if (error != null)
 				{
@@ -34,27 +34,24 @@ namespace Xsolla.Demo
 				}
 				else
 				{
-					_autoAuthState++;
+					_autoAuthCounter++;
 					RunAutomaticAuths();
 				}
 			};
 
-			Action<string> onSuccessfulAutomaticAuth = token =>
-				SdkAuthLogic.Instance.ValidateToken(token, onSuccess: validToken => CompleteSuccessfulAuth(validToken), onError: _ => onFailedAutomaticAuth.Invoke(null));
-
-			switch (_autoAuthState)
+			switch (_autoAuthCounter)
 			{
 				case 0:
-					TryAuthBy<SavedTokenAuth>(args: null, onSuccess: validToken => CompleteSuccessfulAuth(validToken), onFailed: onFailedAutomaticAuth);
+					TryAuthBy<SavedTokenAuth>(null, SuperComplete, handleErrorOrSkip);
 					break;
 				case 1:
-					TryAuthBy<LauncherAuth>(args: null, onSuccess: onSuccessfulAutomaticAuth, onFailed: onFailedAutomaticAuth);
+					TryAuthBy<LauncherAuth>(null, SuperComplete, handleErrorOrSkip);
 					break;
 				case 2:
-					TryAuthBy<ConsolePlatformAuth>(args: null, onSuccess: onSuccessfulAutomaticAuth, onFailed: onFailedAutomaticAuth);
+					TryAuthBy<ConsolePlatformAuth>(null, SuperComplete, handleErrorOrSkip);
 					break;
 				case 3:
-					TryAuthBy<SteamAuth>(args: null, onSuccess: onSuccessfulAutomaticAuth, onFailed: onFailedAutomaticAuth);
+					TryAuthBy<SteamAuth>(null, SuperComplete, handleErrorOrSkip);
 					break;
 				default:
 					IsAuthInProgress = false;

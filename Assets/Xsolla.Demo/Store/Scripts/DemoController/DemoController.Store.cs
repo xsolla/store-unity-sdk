@@ -1,6 +1,6 @@
 using System.Collections.Generic;
+using UnityEngine;
 using Xsolla.Core;
-using Xsolla.Store;
 
 namespace Xsolla.Demo
 {
@@ -36,13 +36,9 @@ namespace Xsolla.Demo
 			items.ForEach(i =>
 			{
 				if (!string.IsNullOrEmpty(i.ImageUrl))
-				{
-					ImageLoader.Instance.GetImageAsync(i.ImageUrl, null);
-				}
+					ImageLoader.LoadSprite(i.ImageUrl, null);
 				else
-				{
-					Debug.LogError($"Catalog item with sku = '{i.Sku}' without image!");
-				}
+					XDebug.LogError($"Catalog item with sku = '{i.Sku}' without image!");
 			});
 		}
 	}

@@ -2,9 +2,10 @@ using System;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using Xsolla.Core;
 using Xsolla.Demo;
 
-namespace Xsolla.Core.Popup
+namespace Xsolla.Demo.Popup
 {
 	public class BundlePreviewPopup : MonoBehaviour, IBundlePreviewPopup
 	{
@@ -30,18 +31,18 @@ namespace Xsolla.Core.Popup
 		{
 			bundleName.text = bundle.Name;
 
-			if(bundleDescription != null)
+			if (bundleDescription != null)
 				bundleDescription.text = bundle.Description;
 
 			bundleInfo.text = $"This bundle includes '{bundle.Content.Count}' item{(bundle.Content.Count > 1 ? "s" : "")}:";
 
 			if (!string.IsNullOrEmpty(bundle.ImageUrl))
 			{
-				ImageLoader.Instance.GetImageAsync(bundle.ImageUrl, LoadImageCallback);
+				ImageLoader.LoadSprite(bundle.ImageUrl, LoadImageCallback);
 			}
 			else
 			{
-				Debug.LogError($"Bundle with sku = '{bundle.Sku}' has no image!");
+				XDebug.LogError($"Bundle with sku = '{bundle.Sku}' has no image!");
 			}
 
 			if (bundle.VirtualPrice != null)
@@ -97,7 +98,7 @@ namespace Xsolla.Core.Popup
 			var realPrice = bundle.RealPrice;
 			if (realPrice == null)
 			{
-				Debug.LogError($"Bundle with sku = {bundle.Sku} has no price!");
+				XDebug.LogError($"Bundle with sku = {bundle.Sku} has no price!");
 				return;
 			}
 
@@ -110,7 +111,7 @@ namespace Xsolla.Core.Popup
 			var contentRealPrice = bundle.ContentRealPrice;
 			if (contentRealPrice == null)
 			{
-				Debug.LogError($"Bundle with sku = {bundle.Sku} has no content price!");
+				XDebug.LogError($"Bundle with sku = {bundle.Sku} has no content price!");
 				return;
 			}
 
@@ -121,11 +122,11 @@ namespace Xsolla.Core.Popup
 			bundlePriceWithoutDiscount.text = PriceFormatter.FormatPrice(contentCurrency, contentPrice);
 		}
 
-		private void LoadImageCallback(string url, Sprite sprite)
+		private void LoadImageCallback(Sprite sprite)
 		{
 			if (!bundleImage)
 				return;
-			
+
 			loadingCircle.SetActive(false);
 			bundleImage.gameObject.SetActive(true);
 			bundleImage.sprite = sprite;
@@ -137,7 +138,7 @@ namespace Xsolla.Core.Popup
 			var currency = UserCatalog.Instance.VirtualCurrencies.First(vc => vc.Sku.Equals(currencySku));
 			if (!string.IsNullOrEmpty(currency.ImageUrl))
 			{
-				ImageLoader.Instance.GetImageAsync(currency.ImageUrl, (_, sprite) =>
+				ImageLoader.LoadSprite(currency.ImageUrl, sprite =>
 				{
 					if (bundlePriceVcImage)
 					{
@@ -148,7 +149,7 @@ namespace Xsolla.Core.Popup
 			}
 			else
 			{
-				Debug.LogError($"Bundle with sku = '{bundle.Sku}' virtual currency price has no image!");
+				XDebug.LogError($"Bundle with sku = '{bundle.Sku}' virtual currency price has no image!");
 			}
 		}
 
@@ -164,7 +165,7 @@ namespace Xsolla.Core.Popup
 				buyButton.onClick = () =>
 				{
 					Destroy(gameObject, 0.001F);
-					DemoShop.Instance.PurchaseForRealMoney(virtualItem);
+					StoreLogic.PurchaseForRealMoney(virtualItem, null, null);
 				};
 			}
 			else
@@ -172,7 +173,7 @@ namespace Xsolla.Core.Popup
 				buyButton.onClick = () =>
 				{
 					Destroy(gameObject, 0.001F);
-					DemoShop.Instance.PurchaseForVirtualCurrency(virtualItem);
+					StoreLogic.PurchaseForVirtualCurrency(virtualItem, null, null);
 				};
 			}
 		}

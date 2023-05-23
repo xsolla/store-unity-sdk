@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using Xsolla.Core;
 
 namespace Xsolla.Demo
 {
@@ -18,7 +19,7 @@ namespace Xsolla.Demo
 			if (_showPasswordToggle != null)
 				_showPasswordToggle.onValueChanged.AddListener(ToggleShowPassword);
 			else
-				Debug.LogError("Show password toggle is missing");
+				XDebug.LogError("Show password toggle is missing");
 		}
 
 		void ToggleShowPassword(bool show)

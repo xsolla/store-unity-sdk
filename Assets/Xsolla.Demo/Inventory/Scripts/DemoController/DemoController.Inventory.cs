@@ -1,3 +1,4 @@
+using UnityEngine;
 using Xsolla.Core;
 
 namespace Xsolla.Demo
@@ -21,11 +22,7 @@ namespace Xsolla.Demo
 			{
 				if (!_tutorialManager.IsTutorialCompleted())
 					_tutorialManager.ShowTutorial();
-				else
-					Debug.Log("Skipping tutorial since it was already completed.");
 			}
-			else
-				Debug.Log("Tutorial is not available for this demo.");
 		}
 
 		partial void ManualStartTutorial(bool showWelcomeMessage)
@@ -41,7 +38,7 @@ namespace Xsolla.Demo
 					onSuccess: () => UserInventory.Instance.Refresh(onError: StoreDemoPopup.ShowError),
 					onError: error =>
 					{
-						Debug.LogError($"InventorySDK init failure: {error}");
+						XDebug.LogError($"InventorySDK init failure: {error}");
 						StoreDemoPopup.ShowError(error);
 					});
 			}

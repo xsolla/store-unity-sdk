@@ -19,18 +19,18 @@ namespace Xsolla.Demo
 
 			if (!string.IsNullOrEmpty(item.ImageUrl))
 			{
-				ImageLoader.Instance.GetImageAsync(item.ImageUrl, LoadImageCallback);
+				ImageLoader.LoadSprite(item.ImageUrl, LoadImageCallback);
 			}
 			else
 			{
-				Debug.LogError($"Bundle content item with sku = '{item.Sku}' without image!");
+				XDebug.LogError($"Bundle content item with sku = '{item.Sku}' without image!");
 			}
 		}
 
-		void LoadImageCallback(string url, Sprite image)
+		void LoadImageCallback(Sprite sprite)
 		{
 			if (itemImage)
-				itemImage.sprite = image;
+				itemImage.sprite = sprite;
 		}
 	}
 }

@@ -11,13 +11,13 @@ namespace Xsolla.Demo
 		[SerializeField] private bool _requestNicknameOnAuth = true;
 		[SerializeField] private string webStoreUrl = Constants.DEFAULT_WEB_STORE_URL;
 
-		[SerializeField] private bool useSteamAuth = default;
+		[SerializeField] private bool useSteamAuth;
 		[SerializeField] private string steamAppId = "480";
 		[SerializeField] private PaymentsFlow paymentsFlow = PaymentsFlow.XsollaPayStation;
 
 		[SerializeField] private PlatformType platform = PlatformType.Xsolla;
-		[SerializeField] private bool useConsoleAuth = default;
-		[SerializeField] private string usernameFromConsole = default;
+		[SerializeField] private bool useConsoleAuth;
+		[SerializeField] private string usernameFromConsole;
 
 		private static DemoSettings _instance;
 
@@ -71,30 +71,6 @@ namespace Xsolla.Demo
 			set
 			{
 				Instance.useSteamAuth = value;
-
-				var useSteamMark = Path.Combine(Application.dataPath, "Xsolla", "ThirdParty", "use_steam");
-				try
-				{
-					if (value)
-					{
-						if (!File.Exists(useSteamMark))
-							File.Create(useSteamMark);
-					}
-					else
-					{
-						if (File.Exists(useSteamMark))
-							File.Delete(useSteamMark);
-
-						var useSteamMarkMeta = $"{useSteamMark}.meta";
-						if (File.Exists(useSteamMarkMeta))
-							File.Delete(useSteamMarkMeta);
-					}
-				}
-				catch (Exception e)
-				{
-					Debug.LogError($"Could not create or delete {useSteamMark}. {e.Message}");
-				}
-
 				MarkAssetDirty();
 			}
 		}

@@ -15,24 +15,24 @@ namespace Xsolla.Demo
 			{
 				if (!string.IsNullOrEmpty(item.ImageUrl))
 				{
-					ImageLoader.Instance.GetImageAsync(item.ImageUrl, (_, sprite) =>
+					ImageLoader.LoadSprite(item.ImageUrl, sprite =>
 					{
-						if (Image/*still*/!= null)
+						if (Image /*still*/ != null)
 							Image.sprite = sprite;
 					});
 				}
 				else
 				{
-					Debug.LogError($"Item with sku = '{item.Sku}' without image!");
+					XDebug.LogError($"Item with sku = '{item.Sku}' without image!");
 				}
 			}
 			else
 			{
-				Debug.LogWarning($"Your Virtual Currency with sku = `{item.Sku}` created without Image component!");
+				XDebug.LogWarning($"Your Virtual Currency with sku = `{item.Sku}` created without Image component!");
 			}
 		}
 
-		public void SetBalance(uint balance)
+		public void SetBalance(int balance)
 		{
 			if (Text)
 				Text.text = balance.ToString();

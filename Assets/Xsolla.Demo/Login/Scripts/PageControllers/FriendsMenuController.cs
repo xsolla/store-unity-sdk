@@ -2,6 +2,7 @@
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using Xsolla.Core;
 using Xsolla.UIBuilder;
 
 namespace Xsolla.Demo
@@ -136,7 +137,7 @@ namespace Xsolla.Demo
 					emptySubMessage = "All blocked players appear here";
 					break;
 				default:
-					Debug.LogError($"Unknown groupID: {groupID}");
+					XDebug.LogError($"Unknown groupID: {groupID}");
 					return;
 			}
 

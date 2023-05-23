@@ -18,10 +18,10 @@ namespace Xsolla.Demo
 		[SerializeField] private SocialProviderContainer[] SocialFriendshipMarkers = default;
 
 		public FriendModel FriendModel { get; private set; }
-    
+
 		public void Initialize(FriendModel friend)
 		{
-			if(friend == null) return;
+			if (friend == null) return;
 			FriendModel = friend;
 
 			InitAvatar(FriendModel);
@@ -35,14 +35,14 @@ namespace Xsolla.Demo
 		{
 			if (!string.IsNullOrEmpty(friend.AvatarUrl))
 			{
-				ImageLoader.Instance.GetImageAsync(friend.AvatarUrl, (url, sprite) =>
+				ImageLoader.LoadSprite(friend.AvatarUrl, sprite =>
 				{
 					if (avatarImage)
 					{
 						avatarImage.gameObject.SetActive(true);
 						avatarImage.sprite = sprite;
 					}
-				});    
+				});
 			}
 			else
 				avatarImage.gameObject.SetActive(true);
@@ -74,10 +74,10 @@ namespace Xsolla.Demo
 		private void InitNickname(FriendModel friend)
 		{
 			var text = string.IsNullOrEmpty(friend.Nickname) ? string.Empty : friend.Nickname;
-			
-			if(!string.IsNullOrEmpty(text))
+
+			if (!string.IsNullOrEmpty(text))
 				gameObject.name = text;
-			
+
 			nicknameText.text = text;
 
 			tagText.text = string.IsNullOrEmpty(friend.Tag) ? string.Empty : $"#{friend.Tag}";
@@ -121,10 +121,11 @@ namespace Xsolla.Demo
 				}
 				default:
 				{
-					Debug.LogWarning($"Set up handle of user state = '{state.ToString()}' in FriendUI.cs");
+					XDebug.LogWarning($"Set up handle of user state = '{state.ToString()}' in FriendUI.cs");
 					return;
 				}
 			}
+
 			userState.Init(this, userButtons, userStatusLine, actionsButton);
 		}
 
@@ -164,8 +165,7 @@ namespace Xsolla.Demo
 				}
 				default:
 				{
-					Debug.LogException(new ArgumentOutOfRangeException(nameof(relationship), relationship, null));
-					break;
+					throw new ArgumentOutOfRangeException(nameof(relationship), relationship, null);
 				}
 			}
 		}

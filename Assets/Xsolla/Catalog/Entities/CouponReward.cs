@@ -5,6 +5,9 @@ namespace Xsolla.Catalog
 	[Serializable]
 	public class CouponReward
 	{
+		public BonusItem[] bonus;
+		public bool is_selectable;
+
 		[Serializable]
 		public class UnitItem
 		{
@@ -32,8 +35,5 @@ namespace Xsolla.Catalog
 			public RewardItem item;
 			public int quantity;
 		}
-
-		public BonusItem[] bonus;
-		public bool is_selectable;
 	}
 }

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Xsolla.Core;
 using Xsolla.UIBuilder;
 using Xsolla.UserAccount;
 
@@ -127,7 +128,7 @@ namespace Xsolla.Demo
 		{
 			if (attributeItem.IsReadOnly)
 			{
-				Debug.LogError($"UserAttributesUI.HandleKeyChanged: Attempt to change key of read-only attribute. OldKey:'{oldKey}' NewKey:'{newKey}'");
+				XDebug.LogError($"UserAttributesUI.HandleKeyChanged: Attempt to change key of read-only attribute. OldKey:'{oldKey}' NewKey:'{newKey}'");
 				attributeItem.Key = oldKey;
 				return;
 			}
@@ -135,7 +136,7 @@ namespace Xsolla.Demo
 			var successChange = UserAttributes.Instance.ChangeKey(oldKey, newKey, out var error);
 			if (!successChange)
 			{
-				Debug.LogWarning($"UserAttributesUI.HandleKeyChanged: Failed attempt to change key. OldKey:'{oldKey}' NewKey:'{newKey}' Error:{error}");
+				XDebug.LogWarning($"UserAttributesUI.HandleKeyChanged: Failed attempt to change key. OldKey:'{oldKey}' NewKey:'{newKey}' Error:{error}");
 				attributeItem.Key = oldKey;
 			}
 		}
@@ -144,7 +145,7 @@ namespace Xsolla.Demo
 		{
 			if (attributeItem.IsReadOnly)
 			{
-				Debug.LogError($"UserAttributesUI.HandleValueChanged: Attempt to change value of read-only attribute. Key:{attributeItem.Key} OldValue:{oldValue} NewValue:{newValue}");
+				XDebug.LogError($"UserAttributesUI.HandleValueChanged: Attempt to change value of read-only attribute. Key:{attributeItem.Key} OldValue:{oldValue} NewValue:{newValue}");
 				attributeItem.Value = oldValue;
 				return;
 			}
@@ -152,7 +153,7 @@ namespace Xsolla.Demo
 			var successChange = UserAttributes.Instance.ChangeValue(attributeItem.Key, newValue, out var error);
 			if (!successChange)
 			{
-				Debug.LogWarning($"UserAttributesUI.HandleValueChanged: Failed attempt to change value. Key:'{attributeItem.Key}' OldValue:'{oldValue}' NewValue:'{newValue}' Error:{error}");
+				XDebug.LogWarning($"UserAttributesUI.HandleValueChanged: Failed attempt to change value. Key:'{attributeItem.Key}' OldValue:'{oldValue}' NewValue:'{newValue}' Error:{error}");
 				attributeItem.Value = oldValue;
 			}
 		}
@@ -161,14 +162,14 @@ namespace Xsolla.Demo
 		{
 			if (attributeItem.IsReadOnly)
 			{
-				Debug.LogError($"UserAttributesUI.HandleRemoveRequest: Attempt to remove read-only attribute. Key:{attributeItem.Key}");
+				XDebug.LogError($"UserAttributesUI.HandleRemoveRequest: Attempt to remove read-only attribute. Key:{attributeItem.Key}");
 				return;
 			}
 
 			var successRemove = UserAttributes.Instance.RemoveAttribute(attributeItem.Key, out var error);
 			if (!successRemove)
 			{
-				Debug.LogWarning($"UserAttributesUI.HandleRemoveRequest: Failed attempt to remove attribute. Key:'{attributeItem.Key}' Error:{error}");
+				XDebug.LogWarning($"UserAttributesUI.HandleRemoveRequest: Failed attempt to remove attribute. Key:'{attributeItem.Key}' Error:{error}");
 				return;
 			}
 
@@ -208,7 +209,7 @@ namespace Xsolla.Demo
 				if (newAttribute != null)
 					InstantiateAttributes(new List<UserAttribute>() { newAttribute }, readOnly: false);
 				else
-					Debug.LogWarning($"UserAttributesUI.AddNewAttribute: Failed attempt to add new attribute. Error:{error}");
+					XDebug.LogWarning($"UserAttributesUI.AddNewAttribute: Failed attempt to add new attribute. Error:{error}");
 			}
 
 			UserAttributes.Instance.GetCustomAttributes(CreateNewAttribute,StoreDemoPopup.ShowError);

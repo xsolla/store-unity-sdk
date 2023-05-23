@@ -1,5 +1,4 @@
-using System.Collections;
-using UnityEngine;
+using System;
 using Xsolla.Auth;
 using Xsolla.Core;
 
@@ -7,40 +6,13 @@ namespace Xsolla.Demo
 {
 	public class SavedTokenAuth : LoginAuthorization
 	{
-		public override void TryAuth(params object[] args)
+		public override void TryAuth(object[] _, Action onSuccess, Action<Error> onError)
 		{
-			if (Token.Load())
-			{
-				Debug.Log("SavedTokenAuth.TryAuth: Token loaded, validating");
-				SdkAuthLogic.Instance.ValidateToken(
-					token: Token.Instance,
-					onSuccess: _ => base.OnSuccess?.Invoke(Token.Instance),
-					onError: HandleError);
-			}
+			var success = XsollaAuth.AuthViaSavedToken();
+			if (success)
+				onSuccess?.Invoke();
 			else
-			{
-				Debug.Log("SavedTokenAuth.TryAuth: No token");
-				base.OnError?.Invoke(null);
-			}
-		}
-
-		private void HandleError(Error error)
-		{
-			Debug.Log($"SavedTokenAuth.TryAuth: Error occured while validating: {error.ErrorType}");
-
-			if (error.ErrorType == ErrorType.InvalidToken)
-			{
-				Debug.Log($"SavedTokenAuth.TryAuth: Trying to refresh OAuth token");
-				SdkAuthLogic.Instance.RefreshOAuthToken(
-					onSuccess: newToken => base.OnSuccess?.Invoke(newToken),
-					onError: refreshError =>
-					{
-						Debug.LogError(error.errorMessage);
-						base.OnError?.Invoke(null);
-					});
-			}
-			else
-				base.OnError?.Invoke(null);
+				onError?.Invoke(null);
 		}
 	}
 }

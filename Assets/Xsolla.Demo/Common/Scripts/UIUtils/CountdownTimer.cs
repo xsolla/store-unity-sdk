@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using Xsolla.Core;
 
 namespace Xsolla.Demo
 {
@@ -31,10 +32,10 @@ namespace Xsolla.Demo
 			_timerTemplateFormat = GenerateTemplateFormat(TimerTemplate);
 
 			if (string.IsNullOrEmpty(TimerTemplate))
-				Debug.LogWarning("TimerTemplate is not set");
+				XDebug.LogWarning("TimerTemplate is not set");
 
 			if (!string.IsNullOrEmpty(OutputTemplate) && !OutputTemplate.Contains(TIMER_MARK))
-				Debug.LogWarning("Incorrect OutputTemplate, check that %TIMER% is included");
+				XDebug.LogWarning("Incorrect OutputTemplate, check that %TIMER% is included");
 		}
 
 		public void StartTimer()

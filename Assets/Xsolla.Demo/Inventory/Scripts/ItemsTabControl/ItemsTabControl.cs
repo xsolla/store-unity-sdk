@@ -1,6 +1,5 @@
 using UnityEngine;
 using Xsolla.Core;
-using Xsolla.Store;
 
 namespace Xsolla.Demo
 {

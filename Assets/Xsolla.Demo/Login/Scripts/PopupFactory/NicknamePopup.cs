@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using Xsolla.Demo;
 
-namespace Xsolla.Core.Popup
+namespace Xsolla.Demo.Popup
 {
 	[AddComponentMenu("Scripts/Xsolla.Core/Popup/NicknamePopup")]
 	public class NicknamePopup : MonoBehaviour, INicknamePopup

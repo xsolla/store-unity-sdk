@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using Xsolla.Core;
 
 namespace Xsolla.Demo
 {
@@ -49,7 +50,7 @@ namespace Xsolla.Demo
 					checkboxTypeToActivate = CheckboxType.PreferNot;
 					break;
 				default:
-					Debug.LogWarning($"Could not set initial value: {value}");
+					XDebug.LogWarning($"Could not set initial value: {value}");
 					return;
 			}
 
@@ -81,7 +82,7 @@ namespace Xsolla.Demo
 						result = UserProfileGender.PREFER_NOT;
 						break;
 					default:
-						Debug.LogError($"Unexpected checkboxType: {checkboxType.ToString()}");
+						XDebug.LogError($"Unexpected checkboxType: {checkboxType.ToString()}");
 						break;
 				}
 

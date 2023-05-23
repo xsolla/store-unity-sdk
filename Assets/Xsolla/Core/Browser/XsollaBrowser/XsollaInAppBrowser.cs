@@ -3,20 +3,19 @@ using UnityEngine;
 
 namespace Xsolla.Core.Browser
 {
-#if (UNITY_EDITOR || UNITY_STANDALONE)
-	public class XsollaInAppBrowser : MonoBehaviour, IInAppBrowser
+#if !(UNITY_EDITOR || UNITY_STANDALONE)
+	internal class XsollaInAppBrowser : MonoBehaviour { }
 #else
-	public class XsollaInAppBrowser : MonoBehaviour
-#endif
+	internal class XsollaInAppBrowser : MonoBehaviour, IInAppBrowser
 	{
-#if (UNITY_EDITOR || UNITY_STANDALONE)
 		[SerializeField] private GameObject BrowserPrefab;
+		[SerializeField] private bool IsDontDestroyOnLoad;
 		private GameObject BrowserObject;
 		private SinglePageBrowser2D SinglePageBrowser;
 		private XsollaBrowser XsollaBrowser;
 
 		public event Action OpenEvent;
-		public event Action<bool> CloseEvent;
+		public event Action<BrowserCloseInfo> CloseEvent;
 		public event Action<string> UrlChangeEvent;
 
 		public event Action<string, Action> AlertDialogEvent;
@@ -39,7 +38,10 @@ namespace Xsolla.Core.Browser
 			if (BrowserObject)
 				Destroy(BrowserObject, delay);
 
-			CloseEvent?.Invoke(isManually);
+			var info = new BrowserCloseInfo {
+				isManually = isManually
+			};
+			CloseEvent?.Invoke(info);
 
 			OpenEvent = null;
 			CloseEvent = null;
@@ -83,14 +85,10 @@ namespace Xsolla.Core.Browser
 
 		private void CreateBrowser()
 		{
-			var canvas = FindObjectOfType<Canvas>();
-			if (canvas == null)
-			{
-				Debug.LogError("Can not find canvas! So can not draw 2D browser!");
-				return;
-			}
-
-			BrowserObject = Instantiate(BrowserPrefab, canvas.transform);
+			BrowserObject = Instantiate(BrowserPrefab);
+			BrowserObject.name = "XsollaInAppBrowser";
+			if (IsDontDestroyOnLoad)
+				DontDestroyOnLoad(BrowserObject);
 
 			SinglePageBrowser = BrowserObject.GetComponentInChildren<SinglePageBrowser2D>();
 			SinglePageBrowser.BrowserCloseRequest += OnBrowserCloseRequest;
@@ -120,6 +118,6 @@ namespace Xsolla.Core.Browser
 		{
 			ConfirmDialogEvent?.Invoke(message, acceptAction, cancelAction);
 		}
-#endif
 	}
+#endif
 }

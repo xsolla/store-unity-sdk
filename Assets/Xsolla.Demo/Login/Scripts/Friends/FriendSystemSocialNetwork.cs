@@ -37,10 +37,10 @@ namespace Xsolla.Demo
 			if (provider == SocialProvider.None)
 				return;
 
-			SdkUserAccountLogic.Instance.GetLinkedSocialProviders(
+			UserAccountLogic.Instance.GetLinkedSocialProviders(
 			onSuccess: networks =>
 			{
-				if (networks.Any(n => n.provider.Equals(provider.GetParameter())))
+				if (networks.Any(n => n.provider.Equals(provider.ToString().ToLowerInvariant())))
 					SetState(State.Linked);
 				else
 					SetState(State.Unlinked);
@@ -89,7 +89,7 @@ namespace Xsolla.Demo
 				}
 				default:
 				{
-					Debug.LogWarning($"Unexpected state: '{state}'");
+					XDebug.LogWarning($"Unexpected state: '{state}'");
 					return;
 				}
 			}
@@ -99,7 +99,7 @@ namespace Xsolla.Demo
 
 		private void UnlinkSocialProvider()
 		{
-			Debug.Log("We can not unlink social provider yet. So do nothing.");
+			XDebug.Log("We can not unlink social provider yet. So do nothing.");
 		}
 
 		private void LinkSocialProvider()
@@ -128,10 +128,10 @@ namespace Xsolla.Demo
 			{
 				Action<SocialProvider> onSuccessLink = _ =>
 				{
-					SdkUserAccountLogic.Instance.PurgeSocialProvidersCache();
+					UserAccountLogic.Instance.PurgeSocialProvidersCache();
 					UserFriends.Instance.UpdateFriends(RefreshState,StoreDemoPopup.ShowError);
 				};
-				SdkUserAccountLogic.Instance.LinkSocialProvider(provider, onSuccess: onSuccessLink, onError: StoreDemoPopup.ShowError);
+				UserAccountLogic.Instance.LinkSocialProvider(provider, onSuccess: onSuccessLink, onError: StoreDemoPopup.ShowError);
 			}
 			else
 			{
