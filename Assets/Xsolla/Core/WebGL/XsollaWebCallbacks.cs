@@ -47,7 +47,10 @@ namespace Xsolla.Core
 			get
 			{
 				if (!_instance)
+				{
 					_instance = new GameObject("XsollaWebCallbacks").AddComponent<XsollaWebCallbacks>();
+					DontDestroyOnLoad(_instance);
+				}
 
 				return _instance;
 			}
