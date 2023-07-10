@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace Xsolla.Core
 {
@@ -57,11 +56,8 @@ namespace Xsolla.Core
 
 		private static void CreateMainThreadExecutor()
 		{
-			if (!_mainThreadExecutorInstance)
-			{
+			if (!_mainThreadExecutorInstance) 
 				_mainThreadExecutorInstance = new GameObject("Android MainThreadExecutor").AddComponent<MainThreadExecutor>();
-				Object.DontDestroyOnLoad(_mainThreadExecutorInstance.gameObject);
-			}
 		}
 
 		private void InitLogin()

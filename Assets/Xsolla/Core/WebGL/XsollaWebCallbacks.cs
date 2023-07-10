@@ -8,6 +8,11 @@ namespace Xsolla.Core
 		private event Action OnPaymentStatusUpdate;
 		private event Action OnPaymentCancel;
 
+		private void Awake()
+		{
+			DontDestroyOnLoad(gameObject);
+		}
+
 		// Callback for Xsolla Pay Station (do not remove)
 		public void PublishPaymentStatusUpdate()
 		{
@@ -47,10 +52,7 @@ namespace Xsolla.Core
 			get
 			{
 				if (!_instance)
-				{
 					_instance = new GameObject("XsollaWebCallbacks").AddComponent<XsollaWebCallbacks>();
-					DontDestroyOnLoad(_instance);
-				}
 
 				return _instance;
 			}

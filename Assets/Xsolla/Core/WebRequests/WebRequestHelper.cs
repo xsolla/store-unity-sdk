@@ -17,10 +17,7 @@ namespace Xsolla.Core
 			get
 			{
 				if (_instance == null)
-				{
 					_instance = new GameObject("WebRequestHelper").AddComponent<WebRequestHelper>();
-					DontDestroyOnLoad(_instance.gameObject);
-				}
 
 				return _instance;
 			}
@@ -31,6 +28,11 @@ namespace Xsolla.Core
 		public bool IsBusy()
 		{
 			return Requests.Count > 0;
+		}
+
+		private void Awake()
+		{
+			DontDestroyOnLoad(gameObject);
 		}
 
 		private void OnDestroy()

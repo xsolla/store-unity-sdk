@@ -1,7 +1,6 @@
 using System;
 using UnityEngine;
 using WebSocketSharp;
-using Object = UnityEngine.Object;
 
 namespace Xsolla.Core
 {
@@ -18,11 +17,8 @@ namespace Xsolla.Core
 
 		public override void Start()
 		{
-			if (!MainThreadExecutor)
-			{
+			if (!MainThreadExecutor) 
 				MainThreadExecutor = new GameObject("Websockets MainThreadExecutor").AddComponent<MainThreadExecutor>();
-				Object.DontDestroyOnLoad(MainThreadExecutor.gameObject);
-			}
 
 			var url = new UrlBuilder(BASE_URL)
 				.AddParam("order_id", TrackingData.orderId)

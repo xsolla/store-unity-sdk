@@ -15,7 +15,7 @@ namespace Xsolla.Tests.Catalog
 
 			var isComplete = false;
 			XsollaCatalog.RedeemCouponCode(
-				"TEST2022",
+				"WINTER2021",
 				items =>
 				{
 					isComplete = true;
@@ -56,7 +56,7 @@ namespace Xsolla.Tests.Catalog
 		}
 
 		[UnityTest]
-		public IEnumerator RedeemCouponCode_TEST2022_InvalidToken_Success()
+		public IEnumerator RedeemCouponCode_InvalidToken_Success()
 		{
 			yield return SetOldAccessToken();
 			yield return RedeemCouponCode_Success();
