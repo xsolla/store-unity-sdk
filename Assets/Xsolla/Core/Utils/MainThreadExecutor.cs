@@ -8,6 +8,11 @@ namespace Xsolla.Core
 	{
 		private readonly ConcurrentQueue<Action> actions = new ConcurrentQueue<Action>();
 
+		private void Awake()
+		{
+			DontDestroyOnLoad(gameObject);
+		}
+
 		private void Update()
 		{
 			if (actions.IsEmpty)

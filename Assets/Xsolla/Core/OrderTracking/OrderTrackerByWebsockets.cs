@@ -17,7 +17,7 @@ namespace Xsolla.Core
 
 		public override void Start()
 		{
-			if (!MainThreadExecutor)
+			if (!MainThreadExecutor) 
 				MainThreadExecutor = new GameObject("Websockets MainThreadExecutor").AddComponent<MainThreadExecutor>();
 
 			var url = new UrlBuilder(BASE_URL)

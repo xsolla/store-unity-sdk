@@ -56,7 +56,7 @@ namespace Xsolla.Core
 
 		private static void CreateMainThreadExecutor()
 		{
-			if (!_mainThreadExecutorInstance)
+			if (!_mainThreadExecutorInstance) 
 				_mainThreadExecutorInstance = new GameObject("Android MainThreadExecutor").AddComponent<MainThreadExecutor>();
 		}
 
