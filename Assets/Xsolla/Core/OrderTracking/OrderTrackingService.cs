@@ -28,7 +28,7 @@ namespace Xsolla.Core
 				? new OrderTrackerByPaystationCallbacks(trackingData)
 				: new OrderTrackerByShortPolling(trackingData) as OrderTracker;
 #else
-			return new OrderTrackerByWebsockets(trackingData);
+			return new OrderTrackerByCentrifugo(trackingData);
 #endif
 		}
 
