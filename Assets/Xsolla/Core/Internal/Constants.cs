@@ -17,8 +17,9 @@ namespace Xsolla.Core
 		public const string BROWSER_REVISION = "1069273";
 		public const string CUSTOM_BROWSER_USER_AGENT = null;
 
-		public const float WEB_SOCKETS_TIMEOUT = 300f;
-		public const float SHORT_POLLING_INTERVAL = 3f;
-		public const float SHORT_POLLING_LIMIT = 600f;
+		public const float WEB_SOCKETS_PING_INTERVAL = 25;
+		public const float WEB_SOCKETS_PING_LIMIT = 600;
+		public const float SHORT_POLLING_INTERVAL = 3;
+		public const float SHORT_POLLING_LIMIT = 600;
 	}
 }
