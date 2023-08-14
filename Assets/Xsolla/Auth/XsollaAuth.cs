@@ -341,7 +341,7 @@ namespace Xsolla.Auth
 		/// <param name="accessToken">Access token received from a social network.</param>
 		/// <param name="accessTokenSecret">Parameter `oauth_token_secret` received from the authorization request. Required for Twitter only.</param>
 		/// <param name="openId">Parameter `openid` received from the social network. Required for WeChat only.</param>
-		/// <param name="provider">Name of the social network connected to Login in Publisher Account. Can be `facebook`, `google`, `wechat`, or `qq_mobile`.</param>
+		/// <param name="provider">Name of the social network connected to Login in Publisher Account. Can be `facebook`, `google`, `linkedin`, `twitter`, `discord`, `naver`, `baidu`, `wechat`, or `qq_mobile`.</param>
 		/// <param name="onSuccess">Called after successful user authentication on the specified platform.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="redirectUri">URI to redirect the user to after account confirmation, successful authentication, two-factor authentication configuration, or password reset confirmation.
