@@ -31,6 +31,7 @@ namespace Xsolla.Core
 		[SerializeField] private PayStationUISettings iosPayStationUISettings = new PayStationUISettings();
 
 		[SerializeField] private string facebookAppId;
+		[SerializeField] private string facebookClientToken;
 		[SerializeField] private string googleServerId;
 		[SerializeField] private string wechatAppId;
 		[SerializeField] private string qqAppId;
@@ -172,6 +173,12 @@ namespace Xsolla.Core
 		{
 			get => Instance.facebookAppId;
 			set => Instance.facebookAppId = value;
+		}
+
+		public static string FacebookClientToken
+		{
+			get => Instance.facebookClientToken;
+			set => Instance.facebookClientToken = value;
 		}
 
 		public static string GoogleServerId

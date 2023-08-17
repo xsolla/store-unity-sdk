@@ -16,7 +16,7 @@ namespace Xsolla.DevTools
 
 			Debug.Log($"[BuildsManager] Begin. Target: {buildTarget} Path:{buildPath}");
 
-			var buildPlayerOptions = new BuildPlayerOptions {
+			var buildPlayerOptions = new BuildPlayerOptions{
 				scenes = buildScenes,
 				locationPathName = buildPath,
 				target = buildTarget,
@@ -89,12 +89,12 @@ namespace Xsolla.DevTools
 		{
 			if (buildTarget == BuildTarget.Android || buildTarget == BuildTarget.iOS)
 			{
-				return new[] {
+				return new[]{
 					"Assets/Xsolla.Demo/Common/Scene/XsollusMobilePortrait.unity"
 				};
 			}
 
-			return new[] {
+			return new[]{
 				"Assets/Xsolla.Demo/Common/Scene/Xsollus.unity"
 			};
 		}
