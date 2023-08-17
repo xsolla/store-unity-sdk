@@ -71,6 +71,7 @@ namespace Xsolla.Core
 				var socialConfig = new AndroidJavaObject(
 					"com.xsolla.android.login.XLogin$SocialConfig",
 					XsollaSettings.FacebookAppId,
+					XsollaSettings.FacebookClientToken,
 					XsollaSettings.GoogleServerId,
 					XsollaSettings.WeChatAppId,
 					XsollaSettings.QQAppId);
