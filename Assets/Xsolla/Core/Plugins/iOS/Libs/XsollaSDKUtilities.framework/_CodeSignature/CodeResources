@@ -14,23 +14,31 @@
 		</data>
 		<key>Headers/XsollaSDKUtilities-Swift.h</key>
 		<data>
-		s44tU2QvxwIxfn3pfc46CzvLp+Q=
+		+4enxeXzlKM0UbR+w8BgKrz+btg=
 		</data>
 		<key>Info.plist</key>
 		<data>
-		W1TXmyVTSIb+j5cgW26xOMd7uKQ=
+		gmdyVA1fxJw1Dlo9QDefXa6r8Dk=
+		</data>
+		<key>Modules/XsollaSDKUtilities.swiftmodule/arm64-apple-ios.abi.json</key>
+		<data>
+		I4hHayvbRbjJXSR8f+keDIuObBg=
+		</data>
+		<key>Modules/XsollaSDKUtilities.swiftmodule/arm64-apple-ios.private.swiftinterface</key>
+		<data>
+		Rfgkl1nCePzsz9vrKCkNHjN46yU=
 		</data>
 		<key>Modules/XsollaSDKUtilities.swiftmodule/arm64-apple-ios.swiftdoc</key>
 		<data>
-		U2HGagssvax/g6seveHNgX+9p6E=
+		BVJ49juQfKz2h8QWz8Idr+M0Beo=
 		</data>
 		<key>Modules/XsollaSDKUtilities.swiftmodule/arm64-apple-ios.swiftinterface</key>
 		<data>
-		MUlj2xh6LFbGgBT+UW9DwxhfjFY=
+		Rfgkl1nCePzsz9vrKCkNHjN46yU=
 		</data>
 		<key>Modules/XsollaSDKUtilities.swiftmodule/arm64-apple-ios.swiftmodule</key>
 		<data>
-		v8l/H9XHCXz5E648GPuxS1/Ow34=
+		D9X/rvkKrzm+Nnk6fn36vckKMY4=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -57,28 +65,42 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			eFoQCpdWlEJMwC2DETyYJKL2V2n62ylwPPmbKf9pMs4=
+			0IHecbT3MOVIThNbtH9sqOlMXnFhOjCAoLjvMZLlXJo=
+			</data>
+		</dict>
+		<key>Modules/XsollaSDKUtilities.swiftmodule/arm64-apple-ios.abi.json</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			rd4yinxTN4PAYH/UFTJp6yE8tgkfeKGHmo3rSo02Ay0=
+			</data>
+		</dict>
+		<key>Modules/XsollaSDKUtilities.swiftmodule/arm64-apple-ios.private.swiftinterface</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			24RD7ALWhUbqoyDJnKNOd9l5BiVqm3NDQHpEXmYFEVE=
 			</data>
 		</dict>
 		<key>Modules/XsollaSDKUtilities.swiftmodule/arm64-apple-ios.swiftdoc</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			hMfWd/39YKchzpAaW033/7qA3zvnNen9EtEp+rA+nXs=
+			pVDA9/tMGHNNSZhZ46axTXs7L5QcOgmYygWqXbGXqkc=
 			</data>
 		</dict>
 		<key>Modules/XsollaSDKUtilities.swiftmodule/arm64-apple-ios.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			iHp5Ryis6gsiGEXHuJgj3Ng0vfJ27ZqJd1apnYkFLZY=
+			24RD7ALWhUbqoyDJnKNOd9l5BiVqm3NDQHpEXmYFEVE=
 			</data>
 		</dict>
 		<key>Modules/XsollaSDKUtilities.swiftmodule/arm64-apple-ios.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			xR8V9HLy9MUWLNbmo3ohSu7i0CsfBpwQd/O1X0vKzRU=
+			ZopSkEvPf+4vrDbEt7BdEQpBG/NsVbl77q0wko0jcwY=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
