@@ -16,9 +16,10 @@ namespace Xsolla.Core
 		private const string ANDROID_GROUP_LABEL = "Android";
 		private const string IOS_GROUP_LABEL = "iOS";
 
-		private const string PAYSTATION_THEME_LABEL = "Pay Station Theme";
-		private const string PAYSTATION_THEME_TOOLTIP = "To use default themes, enter \"default\" or \"default_dark\" values." +
-		                                                "Or enter the name of the custom theme you configured in Publisher Account to use it.";
+		//TEXTREVIEW
+		private const string PAYSTATION_THEME_LABEL = "Pay Station Theme Id";
+		private const string PAYSTATION_THEME_TOOLTIP = "To use default theme ids, enter \"63295a9a2e47fab76f7708e1\" (light) or \"63295aab2e47fab76f7708e3\" (dark) values." +
+		                                                "Or enter the id of the custom theme you configured in Publisher Account to use it.";
 
 		private const string PAYSTATION_SIZE_LABEL = "Pay Station Size";
 		private const string PAYSTATION_SIZE_TOOLTIP = "Small: 620 x 630 px\n" +
@@ -138,7 +139,7 @@ namespace Xsolla.Core
 			settings.isFoldout = EditorGUILayout.Foldout(settings.isFoldout, title);
 			if (settings.isFoldout)
 			{
-				settings.paystationTheme = EditorGUILayout.TextField(new GUIContent(PAYSTATION_THEME_LABEL, PAYSTATION_THEME_TOOLTIP), settings.paystationTheme);
+				settings.paystationThemeId = EditorGUILayout.TextField(new GUIContent(PAYSTATION_THEME_LABEL, PAYSTATION_THEME_TOOLTIP), settings.paystationThemeId);
 				settings.paystationSize = (PayStationUISettings.PaystationSize) EditorGUILayout.EnumPopup(new GUIContent(PAYSTATION_SIZE_LABEL, PAYSTATION_SIZE_TOOLTIP), settings.paystationSize);
 				settings.paystationVersion = (PayStationUISettings.PaystationVersion) EditorGUILayout.EnumPopup(new GUIContent(PAYSTATION_VERSION_LABEL, PAYSTATION_VERSION_TOOLTIP), settings.paystationVersion);
 			}
