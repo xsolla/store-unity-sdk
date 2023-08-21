@@ -18,6 +18,7 @@ namespace Xsolla.Core.Editor
 
 			SetupActivity("PaymentsProxyActivity", true, "androidProxies");
 			SetupActivity("SocialAuthProxyActivity", true, "androidProxies");
+			SetupActivity("XsollaWidgetAuthProxyActivity", true, "androidProxies");
 			SetupActivity("WXEntryActivity", !string.IsNullOrEmpty(XsollaSettings.WeChatAppId), "wxapi");
 		}
 

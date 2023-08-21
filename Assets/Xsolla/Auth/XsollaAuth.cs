@@ -385,42 +385,19 @@ namespace Xsolla.Auth
 		/// Authenticates the user with Xsolla Login widget.
 		/// </summary>
 		/// <param name="onSuccess">Called after successful authentication.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="onCancel">Called after browser closing by user.</param>
-		/// <param name="redirectUri">URI to redirect the user to after account confirmation, successful authentication, two-factor authentication configuration, or password reset confirmation.
-		///     Must be identical to the OAuth 2.0 redirect URIs specified in Publisher Account.
-		///     Required if there are several URIs.</param>
-		public static void AuthWithXsollaWidget(Action onSuccess, Action onCancel, string redirectUri = null)
+		public static void AuthWithXsollaWidget(Action onSuccess, Action<Error> onError, Action onCancel)
 		{
-			var url = new UrlBuilder("https://login-widget.xsolla.com/latest/")
-				.AddProjectId(XsollaSettings.LoginId)
-				.AddParam("login_url", RedirectUrlHelper.GetRedirectUrl(redirectUri))
-				.Build();
-
-			XsollaWebBrowser.Open(url);
-			var browser = XsollaWebBrowser.InAppBrowser;
-
-			void onBrowserClose(BrowserCloseInfo info)
-			{
-				onCancel?.Invoke();
-				browser.CloseEvent -= onBrowserClose;
-				browser.UrlChangeEvent -= onBrowserUrlChange;
-			}
-
-			void onBrowserUrlChange(string newUrl)
-			{
-				if (!ParseUtils.TryGetValueFromUrl(newUrl, ParseParameter.token, out var parsedToken))
-					return;
-
-				XsollaToken.Create(parsedToken);
-				onSuccess?.Invoke();
-
-				browser.CloseEvent -= onBrowserClose;
-				browser.UrlChangeEvent -= onBrowserUrlChange;
-				XsollaWebBrowser.Close();
-			}
-
-			browser.CloseEvent += onBrowserClose;
-			browser.UrlChangeEvent += onBrowserUrlChange;
+#if UNITY_STANDALONE
+			new StandaloneXsollaWidgetAuth().Perform(onSuccess, onError, onCancel);
+#elif UNITY_ANDROID
+			new AndroidXsollaWidgetAuth().Perform(onSuccess, onError, onCancel);
+#elif UNITY_IOS
+			new IosXsollaWidgetAuth().Perform(onSuccess, onError, onCancel);
+#else
+			onError?.Invoke(new Error(ErrorType.NotSupportedOnCurrentPlatform, errorMessage: $"Auth with Xsolla Widget is not supported for this platform: {Application.platform}"));
+#endif
 		}
 
 		/// <summary>
@@ -785,14 +762,14 @@ namespace Xsolla.Auth
 		/// <param name="onCancel">Called in case user closed browser.</param>
 		public static void AuthViaSocialNetwork(SocialProvider provider, Action onSuccess, Action<Error> onError, Action onCancel)
 		{
-#if UNITY_WEBGL
-			onError?.Invoke(new Error(ErrorType.NotSupportedOnCurrentPlatform, errorMessage: "Social auth is not supported for WebGL"));
+#if UNITY_STANDALONE
+			new StandaloneSocialAuth().Perform(provider, onSuccess, onError, onCancel);
 #elif UNITY_ANDROID
 			new AndroidSocialAuth().Perform(provider, onSuccess, onError, onCancel);
 #elif UNITY_IOS
 			new IosSocialAuth().Perform(provider, onSuccess, onError, onCancel);
 #else
-			new StandaloneSocialAuth().Perform(provider, onSuccess, onError, onCancel);
+			onError?.Invoke(new Error(ErrorType.NotSupportedOnCurrentPlatform, errorMessage: $"Social auth is not supported for this platform: {Application.platform}"));
 #endif
 		}
 
