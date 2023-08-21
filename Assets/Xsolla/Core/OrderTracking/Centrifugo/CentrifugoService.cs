@@ -12,7 +12,7 @@ namespace Xsolla.Core.Centrifugo
 		private const float PingInterval = Constants.WEB_SOCKETS_PING_INTERVAL;
 		private const float TimeoutLimit = Constants.WEB_SOCKETS_PING_LIMIT;
 
-		private static readonly List<object> Trackers = new List<object>();
+		private static readonly List<OrderTrackerByCentrifugo> Trackers = new List<OrderTrackerByCentrifugo>();
 		private static CentrifugoClient CentrifugoClient;
 		private static MainThreadExecutor MainThreadExecutor;
 		private static Coroutine PingCoroutine;
@@ -24,7 +24,7 @@ namespace Xsolla.Core.Centrifugo
 		public static event Action Error;
 		public static event Action Close;
 
-		public static void AddTracker(object tracker)
+		public static void AddTracker(OrderTrackerByCentrifugo tracker)
 		{
 			Trackers.Add(tracker);
 
@@ -35,11 +35,11 @@ namespace Xsolla.Core.Centrifugo
 				CreateCentrifugoClient();
 		}
 
-		public static void RemoveTracker(object tracker)
+		public static void RemoveTracker(OrderTrackerByCentrifugo tracker)
 		{
 			Trackers.Remove(tracker);
 
-			if (Trackers.Count == 0)
+			if (Trackers.Count == 0 && CentrifugoClient != null)
 				TerminateCentrifugoClient();
 		}
 
@@ -63,6 +63,8 @@ namespace Xsolla.Core.Centrifugo
 			CentrifugoClient.Connect();
 			CentrifugoClient.Send(connectionMessage);
 			PingCoroutine = CoroutinesExecutor.Run(DoPing());
+
+			XDebug.Log("Centrifugo client created");
 		}
 
 		private static void TerminateCentrifugoClient()
@@ -75,6 +77,8 @@ namespace Xsolla.Core.Centrifugo
 
 			CoroutinesExecutor.Stop(PingCoroutine);
 			PingCoroutine = null;
+
+			XDebug.Log("Centrifugo client terminated");
 		}
 
 		private static void OnCentrifugoMessageReceived(string message)
@@ -89,13 +93,11 @@ namespace Xsolla.Core.Centrifugo
 		private static void OnCentrifugoError(string message, Exception exception)
 		{
 			Error?.Invoke();
-			TerminateCentrifugoClient();
 		}
 
 		private static void OnCentrifugoClosed(string reason)
 		{
 			Close?.Invoke();
-			TerminateCentrifugoClient();
 		}
 
 		private static IEnumerator DoPing()
