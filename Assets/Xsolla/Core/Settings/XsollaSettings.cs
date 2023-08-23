@@ -193,7 +193,7 @@ namespace Xsolla.Core
 			set => Instance.wechatAppId = value;
 		}
 
-		public static string QQAppId
+		public static string QqAppId
 		{
 			get => Instance.qqAppId;
 			set => Instance.qqAppId = value;

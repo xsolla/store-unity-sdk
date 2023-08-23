@@ -29,7 +29,7 @@ namespace Xsolla.Core.Centrifugo
 			Trackers.Add(tracker);
 
 			if (!MainThreadExecutor)
-				MainThreadExecutor = new GameObject("Websockets MainThreadExecutor").AddComponent<MainThreadExecutor>();
+				MainThreadExecutor = MainThreadExecutor.Instance;
 
 			if (CentrifugoClient == null)
 				CreateCentrifugoClient();

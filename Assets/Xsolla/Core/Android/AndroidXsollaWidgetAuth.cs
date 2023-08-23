@@ -1,3 +1,4 @@
+#if UNITY_ANDROID
 using System;
 using UnityEngine;
 
@@ -9,22 +10,19 @@ namespace Xsolla.Core
 		{
 			try
 			{
-				var helper = new AndroidHelper();
-				
-				var callback = new AndroidAuthCallback(
-					token => helper.MainThreadExecutor.Enqueue(() =>
-					{
-						XsollaToken.Create(token);
-						onSuccess?.Invoke();
-					}),
-					error => helper.MainThreadExecutor.Enqueue(() => onError(error)),
-					() => helper.MainThreadExecutor.Enqueue(onCancel));
+				var androidHelper = new AndroidHelper();
+
+				var authCallback = new AndroidAuthCallback(
+					androidHelper,
+					() => androidHelper.MainThreadExecutor.Enqueue(() => onSuccess?.Invoke()),
+					error => androidHelper.MainThreadExecutor.Enqueue(() => onError(error)),
+					() => androidHelper.MainThreadExecutor.Enqueue(onCancel));
 
 				var proxyActivity = new AndroidJavaObject($"{Application.identifier}.androidProxies.XsollaWidgetAuthProxyActivity");
 				proxyActivity.CallStatic(
 					"perform",
-					helper.CurrentActivity,
-					callback);
+					androidHelper.CurrentActivity,
+					authCallback);
 			}
 			catch (Exception e)
 			{
@@ -33,3 +31,4 @@ namespace Xsolla.Core
 		}
 	}
 }
+#endif

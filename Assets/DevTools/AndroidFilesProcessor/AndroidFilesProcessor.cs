@@ -256,6 +256,9 @@ namespace Xsolla
 			{
 				if (File.Exists(filePath))
 					File.Delete(filePath);
+				
+				if (File.Exists(filePath + ".meta"))
+					File.Delete(filePath + ".meta");
 			}
 		}
 	}

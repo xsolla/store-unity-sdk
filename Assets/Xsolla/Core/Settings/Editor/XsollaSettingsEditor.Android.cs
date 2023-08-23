@@ -56,10 +56,10 @@ namespace Xsolla.Core
 				changed = true;
 			}
 
-			var qqAppId = EditorGUILayout.TextField(new GUIContent(QQ_APP_ID_LABEL, QQ_APP_ID_TOOLTIP), XsollaSettings.QQAppId);
-			if (qqAppId != XsollaSettings.QQAppId)
+			var qqAppId = EditorGUILayout.TextField(new GUIContent(QQ_APP_ID_LABEL, QQ_APP_ID_TOOLTIP), XsollaSettings.QqAppId);
+			if (qqAppId != XsollaSettings.QqAppId)
 			{
-				XsollaSettings.QQAppId = qqAppId;
+				XsollaSettings.QqAppId = qqAppId;
 				changed = true;
 			}
 

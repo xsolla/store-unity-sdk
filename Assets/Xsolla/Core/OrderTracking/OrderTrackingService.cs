@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Xsolla.Core
 {
-	internal static class OrderTrackingService
+	public static class OrderTrackingService
 	{
 		private static readonly Dictionary<int, OrderTracker> Trackers = new Dictionary<int, OrderTracker>();
 
