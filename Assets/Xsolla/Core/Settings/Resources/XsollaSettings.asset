@@ -54,25 +54,26 @@ MonoBehaviour:
     RedirectButtonCaption: 
   desktopPayStationUISettings:
     isFoldout: 0
-    paystationTheme: default
+    paystationThemeId: 63295a9a2e47fab76f7708e1
     paystationSize: 0
     paystationVersion: 0
   webglPayStationUISettings:
     isFoldout: 0
-    paystationTheme: default
+    paystationThemeId: 63295a9a2e47fab76f7708e1
     paystationSize: 0
     paystationVersion: 0
   androidPayStationUISettings:
     isFoldout: 0
-    paystationTheme: default
+    paystationThemeId: 63295a9a2e47fab76f7708e1
     paystationSize: 0
     paystationVersion: 0
   iosPayStationUISettings:
     isFoldout: 0
-    paystationTheme: default
+    paystationThemeId: 63295a9a2e47fab76f7708e1
     paystationSize: 0
     paystationVersion: 0
   facebookAppId: 
+  facebookClientToken: 
   googleServerId: 
   wechatAppId: 
   qqAppId: 
