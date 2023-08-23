@@ -16,10 +16,9 @@ namespace Xsolla.Core
 		private const string ANDROID_GROUP_LABEL = "Android";
 		private const string IOS_GROUP_LABEL = "iOS";
 
-		//TEXTREVIEW
 		private const string PAYSTATION_THEME_LABEL = "Pay Station Theme Id";
-		private const string PAYSTATION_THEME_TOOLTIP = "To use default theme ids, enter \"63295a9a2e47fab76f7708e1\" (light) or \"63295aab2e47fab76f7708e3\" (dark) values." +
-		                                                "Or enter the id of the custom theme you configured in Publisher Account to use it.";
+		private const string PAYSTATION_THEME_TOOLTIP = "To use default theme ID, enter \"63295a9a2e47fab76f7708e1\" (light) or \"63295aab2e47fab76f7708e3\" (dark) values." +
+		                                                "Or enter the ID of a custom theme you have configured in Publisher Account to use it.";
 
 		private const string PAYSTATION_SIZE_LABEL = "Pay Station Size";
 		private const string PAYSTATION_SIZE_TOOLTIP = "Small: 620 x 630 px\n" +
