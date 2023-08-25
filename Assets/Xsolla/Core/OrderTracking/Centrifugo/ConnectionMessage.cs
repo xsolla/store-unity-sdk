@@ -6,7 +6,7 @@ namespace Xsolla.Core.Centrifugo
 	internal class ConnectionMessage
 	{
 		public ConnectCommand connect;
-		public int id = 1;
+		public int id;
 	}
 
 	[Serializable]

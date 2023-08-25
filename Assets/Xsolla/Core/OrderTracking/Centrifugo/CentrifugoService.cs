@@ -57,7 +57,7 @@ namespace Xsolla.Core.Centrifugo
 						project_id = int.Parse(XsollaSettings.StoreProjectId)
 					}
 				},
-				id = Guid.NewGuid().ToString().GetHashCode()
+				id = Mathf.Abs(Guid.NewGuid().ToString().GetHashCode())
 			};
 
 			CentrifugoClient.Connect();
