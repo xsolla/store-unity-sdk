@@ -1,3 +1,4 @@
+#if UNITY_ANDROID
 using System.IO;
 using UnityEditor;
 using UnityEditor.Build;
@@ -8,14 +9,14 @@ namespace Xsolla.Core.Editor
 {
 	public class AndroidManifestPreprocess : IPreprocessBuildWithReport
 	{
-		public int callbackOrder => 2000;
+		public int callbackOrder => 1000;
 
 		public void OnPreprocessBuild(BuildReport report)
 		{
 			if (report.summary.platform != BuildTarget.Android)
 				return;
 
-			XDebug.Log("Xsolla SDK is now processing AndroidManifest", true);
+			XDebug.Log("Xsolla SDK is now processing android manifest", true);
 			SetupWeChat();
 			SetupProxyActivity("PaymentsProxyActivity");
 			SetupProxyActivity("SocialAuthProxyActivity");
@@ -68,41 +69,41 @@ namespace Xsolla.Core.Editor
 
 		private static AndroidManifestWrapper LoadManifestWrapper()
 		{
-			var manifestPath = Path.Combine(Application.dataPath, "Plugins/Android/AndroidManifest.xml");
+			const string fileName = "AndroidManifest.xml";
+			var manifestPath = GetTargetFilePath(fileName);
 			if (!File.Exists(manifestPath))
 			{
 				var manifestDirectory = Path.GetDirectoryName(manifestPath);
 				if (manifestDirectory != null && !Directory.Exists(manifestDirectory))
 					Directory.CreateDirectory(manifestDirectory);
 
-				var templatePath = GetTemplateFilePath("AndroidManifest.xml");
+				var templatePath = GetTemplateFilePath(fileName);
 				File.Copy(templatePath, manifestPath);
 			}
 
 			return new AndroidManifestWrapper(manifestPath);
 		}
 
-		private static string GetTemplateFilePath(string fileName)
+		private static string GetTargetFilePath(string fileName)
 		{
-			var path = GetTemplatesDirectory(Application.dataPath);
-			return path != null
-				? Path.Combine(path, fileName)
-				: null;
+			return Path.Combine(Application.dataPath, "Plugins", "Android", fileName);
 		}
 
-		private static string GetTemplatesDirectory(string path)
+		private static string GetTemplateFilePath(string fileName)
 		{
-			foreach (var dir in Directory.GetDirectories(path))
-			{
-				if (dir.Contains("AndroidTemplateFiles"))
-					return dir;
+			var guids = AssetDatabase.FindAssets($"t:Script {nameof(AndroidScriptsPreprocess)}");
+			if (guids.Length == 0)
+				throw new FileNotFoundException($"Can't find {nameof(AndroidScriptsPreprocess)} script");
 
-				var recursiveSearchResult = GetTemplatesDirectory(dir);
-				if (recursiveSearchResult != null)
-					return recursiveSearchResult;
-			}
+			var path = AssetDatabase.GUIDToAssetPath(guids[0]);
+			path = path.Replace("Assets", Application.dataPath);
 
-			return null;
+			path = Path.GetDirectoryName(path);
+			if (path == null)
+				throw new DirectoryNotFoundException("Can't find directory with android file templates");
+
+			return Path.Combine(path, "AndroidTemplateFiles", $"{fileName}");
 		}
 	}
 }
+#endif

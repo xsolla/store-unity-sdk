@@ -1,3 +1,4 @@
+#if UNITY_ANDROID
 using System.IO;
 using System.Text.RegularExpressions;
 using UnityEditor;
@@ -9,13 +10,14 @@ namespace Xsolla.Core.Editor
 {
 	public class AndroidScriptsPreprocess : IPreprocessBuildWithReport
 	{
-		public int callbackOrder => 3000;
+		public int callbackOrder => 2000;
 
 		public void OnPreprocessBuild(BuildReport report)
 		{
 			if (report.summary.platform != BuildTarget.Android)
 				return;
 
+			XDebug.Log("Xsolla SDK is now processing android activities", true);
 			SetupActivity("PaymentsProxyActivity", true, "androidProxies");
 			SetupActivity("SocialAuthProxyActivity", true, "androidProxies");
 			SetupActivity("XsollaWidgetAuthProxyActivity", true, "androidProxies");
@@ -24,14 +26,7 @@ namespace Xsolla.Core.Editor
 
 		private static void SetupActivity(string activityName, bool enableCondition, string packageSuffix)
 		{
-			var activityScriptPath = GetScriptFilePath($"{activityName}.java");
-			if (!File.Exists(activityScriptPath))
-			{
-				XDebug.LogError($"Xsolla {activityName} activity script is missing!");
-				return;
-			}
-
-			var assetPath = "Assets" + activityScriptPath.Substring(Application.dataPath.Length);
+			var assetPath = GetAssetPath(activityName);
 			var activityAsset = AssetImporter.GetAtPath(assetPath) as PluginImporter;
 			if (activityAsset != null)
 			{
@@ -39,34 +34,40 @@ namespace Xsolla.Core.Editor
 				activityAsset.SaveAndReimport();
 			}
 
-			var scriptContent = File.ReadAllText(activityScriptPath);
+			var filePath = GetFilePath(activityName);
+			var scriptContent = File.ReadAllText(filePath);
 			var packageLineText = $"package {Application.identifier}.{packageSuffix};";
 			scriptContent = Regex.Replace(scriptContent, "package.+;", packageLineText);
 
-			File.WriteAllText(activityScriptPath, scriptContent);
+			File.WriteAllText(filePath, scriptContent);
 		}
 
-		private static string GetScriptFilePath(string fileName)
+		private static string GetAssetPath(string fileName)
 		{
-			var path = GetScriptsDirectory(Application.dataPath);
-			return path != null
-				? Path.Combine(path, fileName)
-				: null;
+			var path = GetFilePath(fileName);
+			path = path.Substring(Application.dataPath.Length);
+			return "Assets" + path;
 		}
 
-		private static string GetScriptsDirectory(string path)
+		private static string GetFilePath(string fileName)
 		{
-			foreach (var dir in Directory.GetDirectories(path))
-			{
-				if (dir.Contains("AndroidNativeScripts"))
-					return dir;
+			var guids = AssetDatabase.FindAssets($"t:Script {nameof(AndroidScriptsPreprocess)}");
+			if (guids.Length == 0)
+				throw new FileNotFoundException($"Can't find {nameof(AndroidScriptsPreprocess)} script");
 
-				var recursiveSearchResult = GetScriptsDirectory(dir);
-				if (recursiveSearchResult != null)
-					return recursiveSearchResult;
-			}
+			var path = AssetDatabase.GUIDToAssetPath(guids[0]);
+			path = path.Replace("Assets", Application.dataPath);
 
-			return null;
+			path = Path.GetDirectoryName(path);
+			if (path == null)
+				throw new DirectoryNotFoundException("Can't find directory with android native file");
+
+			path = Directory.GetParent(path)?.FullName;
+			if (path == null)
+				throw new DirectoryNotFoundException("Can't find directory with android native file");
+
+			return Path.Combine(path, "Plugins", "Android", $"{fileName}.java");
 		}
 	}
 }
+#endif

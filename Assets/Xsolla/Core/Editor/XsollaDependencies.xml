@@ -9,8 +9,6 @@
          androidPackage. -->
     <repositories>
       <repository>https://repo1.maven.org/maven2/</repository>
-      <repository>https://jcenter.bintray.com</repository>
-      <repository>https://bintray.com</repository>
     </repositories>
 
     <!-- The "spec" attribute is *required* and provides the Maven package

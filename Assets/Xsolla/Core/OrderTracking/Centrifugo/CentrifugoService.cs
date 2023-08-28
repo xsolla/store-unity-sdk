@@ -29,7 +29,7 @@ namespace Xsolla.Core.Centrifugo
 			Trackers.Add(tracker);
 
 			if (!MainThreadExecutor)
-				MainThreadExecutor = new GameObject("Websockets MainThreadExecutor").AddComponent<MainThreadExecutor>();
+				MainThreadExecutor = MainThreadExecutor.Instance;
 
 			if (CentrifugoClient == null)
 				CreateCentrifugoClient();
@@ -57,7 +57,7 @@ namespace Xsolla.Core.Centrifugo
 						project_id = int.Parse(XsollaSettings.StoreProjectId)
 					}
 				},
-				id = Guid.NewGuid().ToString().GetHashCode()
+				id = Mathf.Abs(Guid.NewGuid().ToString().GetHashCode())
 			};
 
 			CentrifugoClient.Connect();

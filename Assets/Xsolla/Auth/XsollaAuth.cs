@@ -559,9 +559,31 @@ namespace Xsolla.Auth
 				.AddScope(GetScope())
 				.Build();
 
+			var deviceData = $"{deviceInfo.DeviceModel}:{deviceInfo.DeviceName}";
+			const int maxDeviceDataLength = 100;
+			if (deviceData.Length > maxDeviceDataLength)
+			{
+				XDebug.LogWarning($"Device data is too long. It will be truncated to {maxDeviceDataLength} symbols. Original device data: {deviceData}");
+				deviceData = deviceData.Substring(0, maxDeviceDataLength);
+			}
+
+			var deviceId = deviceInfo.DeviceId;
+			const int minDeviceIdLength = 16;
+			const int maxDeviceIdLength = 36;
+			if (deviceId.Length < minDeviceIdLength)
+			{
+				XDebug.LogWarning($"Device ID is too short. It will be padded to {minDeviceIdLength} symbols. Original device ID: {deviceId}");
+				deviceId = deviceId.PadLeft(minDeviceIdLength, '0');
+			}
+			else if (deviceId.Length > maxDeviceIdLength)
+			{
+				XDebug.LogWarning($"Device ID is too long. It will be truncated to {maxDeviceIdLength} symbols. Original device ID: {deviceId}");
+				deviceId = deviceId.Substring(0, maxDeviceIdLength);
+			}
+			
 			var requestData = new AuthViaDeviceIdRequest {
-				device = $"{deviceInfo.DeviceModel}:{deviceInfo.DeviceName}",
-				device_id = deviceInfo.DeviceId
+				device = deviceData,
+				device_id = deviceId
 			};
 
 			WebRequestHelper.Instance.PostRequest<LoginLink, AuthViaDeviceIdRequest>(
@@ -674,9 +696,6 @@ namespace Xsolla.Auth
 		///     Required if there are several URIs.</param>
 		public static void RefreshToken(Action onSuccess, Action<Error> onError, string redirectUri = null)
 		{
-#if UNITY_ANDROID && !UNITY_EDITOR
-			new AndroidRefreshToken().Perform(onSuccess, onError);
-#else
 			var refreshToken = XsollaToken.RefreshToken;
 			if (string.IsNullOrEmpty(refreshToken))
 			{
@@ -701,7 +720,6 @@ namespace Xsolla.Auth
 					onSuccess?.Invoke();
 				},
 				error => onError?.Invoke(error));
-#endif
 		}
 
 		/// <summary>

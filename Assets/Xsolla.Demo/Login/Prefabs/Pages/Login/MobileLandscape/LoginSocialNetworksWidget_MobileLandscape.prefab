@@ -126,22 +126,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: -60}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &7088291102247729570
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8408707584390599382}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ec14662f831947d68cc51968bb5b0b7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  image: {fileID: 0}
-  normalStateSprite: {fileID: 0}
-  hoverStateSprite: {fileID: 0}
-  pressedStateSprite: {fileID: 0}
 --- !u!1 &1032783085131795396
 GameObject:
   m_ObjectHideFlags: 0
@@ -230,7 +214,7 @@ MonoBehaviour:
   m_ChildAlignment: 0
   m_StartCorner: 0
   m_StartAxis: 1
-  m_CellSize: {x: 420, y: 90}
+  m_CellSize: {x: 500, y: 90}
   m_Spacing: {x: 12, y: 75}
   m_Constraint: 1
   m_ConstraintCount: 3
@@ -831,8 +815,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6130407975363267697}
   m_HandleRect: {fileID: 3934369613974313892}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 1
+  m_Value: 1
+  m_Size: 0.25227273
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -978,6 +962,22 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 150, y: 150}
   m_Pivot: {x: 1, y: 1}
+--- !u!114 &7088291102247729570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8408707584390599382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ec14662f831947d68cc51968bb5b0b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  image: {fileID: 0}
+  normalStateSprite: {fileID: 0}
+  hoverStateSprite: {fileID: 0}
+  pressedStateSprite: {fileID: 0}
 --- !u!1 &9222488232163823476
 GameObject:
   m_ObjectHideFlags: 0
@@ -1275,7 +1275,7 @@ PrefabInstance:
     - target: {fileID: 3487048836706013820, guid: d4ca4213c6f8ede4897003203d5770f7,
         type: 3}
       propertyPath: m_Text
-      value: DEVICE ID
+      value: XSOLLA WIDGET
       objectReference: {fileID: 0}
     - target: {fileID: 3487048836706013820, guid: d4ca4213c6f8ede4897003203d5770f7,
         type: 3}
