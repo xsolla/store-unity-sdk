@@ -52,8 +52,7 @@ namespace Xsolla.Core
 		{
 			XDebug.Log($"Tracker for an order '{TrackingData.orderId}' is replaced with short polling");
 			var shortPollingTracker = new OrderTrackerByShortPolling(TrackingData);
-			if (OrderTrackingService.ReplaceTracker(this, shortPollingTracker))
-				shortPollingTracker.Start();
+			OrderTrackingService.ReplaceTracker(this, shortPollingTracker);
 		}
 	}
 }

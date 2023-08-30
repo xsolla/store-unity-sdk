@@ -32,23 +32,19 @@ namespace Xsolla.Core
 #endif
 		}
 
-		public static bool RemoveOrderFromTracking(int orderId)
+		public static void RemoveOrderFromTracking(int orderId)
 		{
 			if (!Trackers.TryGetValue(orderId, out var tracker))
-				return false;
+				return;
 
 			tracker.Stop();
 			Trackers.Remove(orderId);
-			return true;
 		}
 
-		public static bool ReplaceTracker(OrderTracker oldTracker, OrderTracker newTracker)
+		public static void ReplaceTracker(OrderTracker oldTracker, OrderTracker newTracker)
 		{
-			if (!RemoveOrderFromTracking(oldTracker.TrackingData.orderId))
-				return false;
-
+			RemoveOrderFromTracking(oldTracker.TrackingData.orderId);
 			StartTracker(newTracker);
-			return true;
 		}
 
 		private static void StartTracker(OrderTracker tracker)
