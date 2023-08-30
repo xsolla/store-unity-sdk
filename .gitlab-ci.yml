@@ -14,7 +14,8 @@ stages:
   - build-demo-2019
   - build-demo-2020
   - build-demo-2021
-  - build-demo-iOS
+  - build-demo-ios
+  - build-demo-macos
   - deploy
   - linking
   - security scan
@@ -26,15 +27,20 @@ variables:
   PACKAGE_NAME: xsolla-commerce-sdk.unitypackage
   BUILD_ROOT_PATH: "Builds"
   BUILD_SCRIPT_WIN: "cicd/build-demo-win.bat"
-  BUILD_SCRIPT_MAC: "cicd/build-demo-mac.sh"
+  BUILD_SCRIPT_IOS: "cicd/build-demo-ios.sh"
+  BUILD_SCRIPT_MACOS: "cicd/build-demo-mac.sh"
   BUILD_TARGET_WINDOWS: "StandaloneWindows64"
   BUILD_TARGET_WEBGL: "WebGL"
   BUILD_TARGET_ANDROID: "Android"
   BUILD_TARGET_IOS: "iOS"
+  BUILD_TARGET_MACOS: "StandaloneOSX"
   UNITY_2019_VERSION: "2019.4.27f1"
   UNITY_2020_VERSION: "2020.3.14f1"
   UNITY_2021_VERSION: "2021.1.13f1"
   GIT_CLEAN_FLAGS: -ffdx
+
+# =================================================================================================================
+# DOCS
 
 build doc:
   stage: build
@@ -96,6 +102,9 @@ stop doc:
   tags:
     - sshclient
   dependencies: []
+
+# =================================================================================================================
+# CODE ANALYSIS
 
 analyze-code:
   stage: code-analysis
@@ -300,13 +309,12 @@ build-android-2021:
 # IOS DEMO
 
 .build-ios-demo:
-  stage: build-demo-iOS
+  stage: build-demo-ios
   before_script:
     - export IOS_SIGN_TEAM_ID=$IOS_SIGN_TEAM_ID
     - export IOS_PROVISION_ID=$IOS_PROVISION_ID
     - chmod 755 fastlane/scripts/diawi_callback_helper.sh
   artifacts:
-    name: "$UNITY_2019_VERSION_$BUILD_TARGET_IOS_$CI_COMMIT_REF_NAME"
     when: always
     paths:
       - "Builds/build.log"
@@ -319,24 +327,65 @@ build-android-2021:
 build-ios-2019:
   extends: .build-ios-demo
   script:
-    - sh $BUILD_SCRIPT_MAC $PROJECT_PATH $UNITY_2019_VERSION $BUILD_ROOT_PATH $BUILD_TARGET_IOS
+    - sh $BUILD_SCRIPT_IOS $PROJECT_PATH $UNITY_2019_VERSION $BUILD_ROOT_PATH $BUILD_TARGET_IOS
 
 build-ios-2020:
   extends: .build-ios-demo
   script:
-    - sh $BUILD_SCRIPT_MAC $PROJECT_PATH $UNITY_2020_VERSION $BUILD_ROOT_PATH $BUILD_TARGET_IOS
+    - sh $BUILD_SCRIPT_IOS $PROJECT_PATH $UNITY_2020_VERSION $BUILD_ROOT_PATH $BUILD_TARGET_IOS
   needs:
     - build-ios-2019
 
 build-ios-2021:
   extends: .build-ios-demo
   script:
-    - sh $BUILD_SCRIPT_MAC $PROJECT_PATH $UNITY_2021_VERSION $BUILD_ROOT_PATH $BUILD_TARGET_IOS
+    - sh $BUILD_SCRIPT_IOS $PROJECT_PATH $UNITY_2021_VERSION $BUILD_ROOT_PATH $BUILD_TARGET_IOS
   needs:
     - build-ios-2020
 
+# =================================================================================================================
+# MACOS DEMO
+
+.build-macos-demo:
+  stage: build-demo-macos
+  artifacts:
+    when: always
+    expire_in: 3 days
+  dependencies: []
+  tags:
+    - sdk_ci
+    - mac
+
+build-macos-2019:
+  extends: .build-macos-demo
+  script:
+    - sh $BUILD_SCRIPT_MACOS $PROJECT_PATH $UNITY_2019_VERSION $BUILD_ROOT_PATH $BUILD_TARGET_MACOS
+  artifacts:
+    paths:
+      - Builds/$BUILD_TARGET_MACOS-$UNITY_2019_VERSION/XsollaInGameStoreUnityAsset.app
+
+build-macos-2020:
+  extends: .build-macos-demo
+  script:
+    - sh $BUILD_SCRIPT_MACOS $PROJECT_PATH $UNITY_2020_VERSION $BUILD_ROOT_PATH $BUILD_TARGET_MACOS
+  artifacts:
+    paths:
+      - Builds/$BUILD_TARGET_MACOS-$UNITY_2020_VERSION/XsollaInGameStoreUnityAsset.app
+  needs:
+    - build-macos-2019
+
+build-macos-2021:
+  extends: .build-macos-demo
+  script:
+    - sh $BUILD_SCRIPT_MACOS $PROJECT_PATH $UNITY_2021_VERSION $BUILD_ROOT_PATH $BUILD_TARGET_MACOS
+  artifacts:
+    paths:
+      - Builds/$BUILD_TARGET_MACOS-$UNITY_2021_VERSION/XsollaInGameStoreUnityAsset.app
+  needs:
+    - build-macos-2020
+
 # =========================================================================================================================
-# Deploy STAGE
+# DEPLOY DEMO STAGE
 
 deploy stage:
     stage: deploy
@@ -375,7 +424,7 @@ stop stage:
         - /usr/local/bin/helper stop
 
 # =========================================================================================================================
-# Deploy PROD
+# DEPLOY DEMO PROD
 
 deploy prod:
     stage: deploy
