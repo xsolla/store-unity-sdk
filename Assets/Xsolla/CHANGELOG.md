@@ -11,10 +11,9 @@
 - SDK methods for getting catalog. Added the `limits` parameter for items and promotions
 
 ### Fixed
-- `WebRequestHelper` instance gets destroyed when scene unloads
 - `onCancel` event is invoked even on successful social login
 - Closing browser after payment failure
-- Infinite check order short polling when server returns an error
+- Infinite check order short polling when request returns an error
 - Destruction of the `WebRequestHelper` Instance when unloading scenes
 
 
