@@ -3,19 +3,19 @@
 ### Added
 - Centrifugo integration
 
-### Updated
-- `AuthWithXsollaWidget` SDK method. Allows to open Login widget on mobile platforms
-- Project settings. paystationTheme renamed to paystationThemeId.
-- Project settings. Added `FacebookClientToken` parameter for project settings. Allows to set up native user authentication via Facebook Android application
-
 ### Changed
+- `AuthWithXsollaWidget` SDK method. Supports opening the widget on mobile platforms
+- Project settings:
+  - `paystationTheme` renamed to `paystationThemeId`
+  - Added `FacebookClientToken` parameter for project settings. Allows to set up native user authentication via Facebook Android application
 - SDK methods for getting catalog. Added the `limits` parameter for items and promotions
 
 ### Fixed
-- WebRequestHelper instance gets destroyed when scene unloads
-- onCancel event is invoked even on successful social auth
+- `WebRequestHelper` instance gets destroyed when scene unloads
+- `onCancel` event is invoked even on successful social login
 - Closing browser after payment failure
-- Indefinitely check order request
+- Infinite check order short polling when server returns an error
+- Destruction of the `WebRequestHelper` Instance when unloading scenes
 
 
 ## [2.0.0] - 2023-05-18
