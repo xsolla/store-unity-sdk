@@ -383,7 +383,9 @@ namespace Xsolla.Auth
 
 		/// <summary>
 		/// Authenticates the user with Xsolla Login widget.
+		/// For standalone builds, the widget opens in the built-in browser that is included with the SDK.
 		/// </summary>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/authentication/login-widget/).</remarks>
 		/// <param name="onSuccess">Called after successful authentication.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="onCancel">Called after browser closing by user.</param>
@@ -580,7 +582,7 @@ namespace Xsolla.Auth
 				XDebug.LogWarning($"Device ID is too long. It will be truncated to {maxDeviceIdLength} symbols. Original device ID: {deviceId}");
 				deviceId = deviceId.Substring(0, maxDeviceIdLength);
 			}
-			
+
 			var requestData = new AuthViaDeviceIdRequest {
 				device = deviceData,
 				device_id = deviceId
