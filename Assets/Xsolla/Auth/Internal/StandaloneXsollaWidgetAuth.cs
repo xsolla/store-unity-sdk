@@ -21,7 +21,7 @@ namespace Xsolla.Auth
 			          .AddParam("login_url", RedirectUrlHelper.GetRedirectUrl(null))
 			          .Build();
 
-			XsollaWebBrowser.Open(url, true);
+			XsollaWebBrowser.Open(url);
 
 			BrowserInstance = XsollaWebBrowser.InAppBrowser;
 			BrowserInstance.CloseEvent += OnBrowserClose;
