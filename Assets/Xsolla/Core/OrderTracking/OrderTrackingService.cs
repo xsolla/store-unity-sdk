@@ -20,10 +20,11 @@ namespace Xsolla.Core
 				return null;
 
 			var trackingData = new OrderTrackingData(orderId, onSuccess, onError);
-#if UNITY_WEBGL
+			
 			if (!isUserInvolvedToPayment)
 				return new OrderTrackerByShortPolling(trackingData);
 
+#if UNITY_WEBGL
 			return !UnityEngine.Application.isEditor && XsollaSettings.InAppBrowserEnabled
 				? new OrderTrackerByPaystationCallbacks(trackingData)
 				: new OrderTrackerByShortPolling(trackingData) as OrderTracker;

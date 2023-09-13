@@ -1,4 +1,22 @@
 # Changelog
+## [2.1.0] - 2023-09-13
+### Added
+- Centrifugo integration
+
+### Changed
+- `AuthWithXsollaWidget` SDK method. Supports opening the widget on mobile platforms
+- Project settings:
+  - `paystationTheme` renamed to `paystationThemeId`
+  - Added `FacebookClientToken` parameter for project settings. Allows to set up native user authentication via Facebook Android application
+- SDK methods for getting catalog. Added the `limits` parameter for items and promotions
+
+### Fixed
+- `onCancel` event is invoked even on successful social login
+- Closing browser after payment failure
+- Infinite check order short polling when request returns an error
+- Destruction of the `WebRequestHelper` Instance when unloading scenes
+
+
 ## [2.0.0] - 2023-05-18
 ### Added
 - `XsollaAuth.AuthViaSocialNetwork` SDK method for cross-platform social network authentication. Method incapsulates web-based and native authentication methods
