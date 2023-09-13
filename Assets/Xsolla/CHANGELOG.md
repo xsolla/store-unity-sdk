@@ -1,5 +1,5 @@
 # Changelog
-## [2.1.0] - 2023-09-11
+## [2.1.0] - 2023-09-13
 ### Added
 - Centrifugo integration
 
