@@ -341,7 +341,7 @@ namespace Xsolla.Auth
 		/// <param name="accessToken">Access token received from a social network.</param>
 		/// <param name="accessTokenSecret">Parameter `oauth_token_secret` received from the authorization request. Required for Twitter only.</param>
 		/// <param name="openId">Parameter `openid` received from the social network. Required for WeChat only.</param>
-		/// <param name="provider">Name of the social network connected to Login in Publisher Account. Can be `facebook`, `google`, `wechat`, or `qq_mobile`.</param>
+		/// <param name="provider">Name of the social network connected to Login in Publisher Account. Can be `facebook`, `google`, `linkedin`, `twitter`, `discord`, `naver`, `baidu`, `wechat`, or `qq_mobile`.</param>
 		/// <param name="onSuccess">Called after successful user authentication on the specified platform.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="redirectUri">URI to redirect the user to after account confirmation, successful authentication, two-factor authentication configuration, or password reset confirmation.
@@ -383,44 +383,23 @@ namespace Xsolla.Auth
 
 		/// <summary>
 		/// Authenticates the user with Xsolla Login widget.
+		/// For standalone builds, the widget opens in the built-in browser that is included with the SDK.
 		/// </summary>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/authentication/login-widget/).</remarks>
 		/// <param name="onSuccess">Called after successful authentication.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="onCancel">Called after browser closing by user.</param>
-		/// <param name="redirectUri">URI to redirect the user to after account confirmation, successful authentication, two-factor authentication configuration, or password reset confirmation.
-		///     Must be identical to the OAuth 2.0 redirect URIs specified in Publisher Account.
-		///     Required if there are several URIs.</param>
-		public static void AuthWithXsollaWidget(Action onSuccess, Action onCancel, string redirectUri = null)
+		public static void AuthWithXsollaWidget(Action onSuccess, Action<Error> onError, Action onCancel)
 		{
-			var url = new UrlBuilder("https://login-widget.xsolla.com/latest/")
-				.AddProjectId(XsollaSettings.LoginId)
-				.AddParam("login_url", RedirectUrlHelper.GetRedirectUrl(redirectUri))
-				.Build();
-
-			XsollaWebBrowser.Open(url);
-			var browser = XsollaWebBrowser.InAppBrowser;
-
-			void onBrowserClose(BrowserCloseInfo info)
-			{
-				onCancel?.Invoke();
-				browser.CloseEvent -= onBrowserClose;
-				browser.UrlChangeEvent -= onBrowserUrlChange;
-			}
-
-			void onBrowserUrlChange(string newUrl)
-			{
-				if (!ParseUtils.TryGetValueFromUrl(newUrl, ParseParameter.token, out var parsedToken))
-					return;
-
-				XsollaToken.Create(parsedToken);
-				onSuccess?.Invoke();
-
-				browser.CloseEvent -= onBrowserClose;
-				browser.UrlChangeEvent -= onBrowserUrlChange;
-				XsollaWebBrowser.Close();
-			}
-
-			browser.CloseEvent += onBrowserClose;
-			browser.UrlChangeEvent += onBrowserUrlChange;
+#if UNITY_STANDALONE
+			new StandaloneXsollaWidgetAuth().Perform(onSuccess, onError, onCancel);
+#elif UNITY_ANDROID
+			new AndroidXsollaWidgetAuth().Perform(onSuccess, onError, onCancel);
+#elif UNITY_IOS
+			new IosXsollaWidgetAuth().Perform(onSuccess, onError, onCancel);
+#else
+			onError?.Invoke(new Error(ErrorType.NotSupportedOnCurrentPlatform, errorMessage: $"Auth with Xsolla Widget is not supported for this platform: {Application.platform}"));
+#endif
 		}
 
 		/// <summary>
@@ -582,9 +561,31 @@ namespace Xsolla.Auth
 				.AddScope(GetScope())
 				.Build();
 
+			var deviceData = $"{deviceInfo.DeviceModel}:{deviceInfo.DeviceName}";
+			const int maxDeviceDataLength = 100;
+			if (deviceData.Length > maxDeviceDataLength)
+			{
+				XDebug.LogWarning($"Device data is too long. It will be truncated to {maxDeviceDataLength} symbols. Original device data: {deviceData}");
+				deviceData = deviceData.Substring(0, maxDeviceDataLength);
+			}
+
+			var deviceId = deviceInfo.DeviceId;
+			const int minDeviceIdLength = 16;
+			const int maxDeviceIdLength = 36;
+			if (deviceId.Length < minDeviceIdLength)
+			{
+				XDebug.LogWarning($"Device ID is too short. It will be padded to {minDeviceIdLength} symbols. Original device ID: {deviceId}");
+				deviceId = deviceId.PadLeft(minDeviceIdLength, '0');
+			}
+			else if (deviceId.Length > maxDeviceIdLength)
+			{
+				XDebug.LogWarning($"Device ID is too long. It will be truncated to {maxDeviceIdLength} symbols. Original device ID: {deviceId}");
+				deviceId = deviceId.Substring(0, maxDeviceIdLength);
+			}
+
 			var requestData = new AuthViaDeviceIdRequest {
-				device = $"{deviceInfo.DeviceModel}:{deviceInfo.DeviceName}",
-				device_id = deviceInfo.DeviceId
+				device = deviceData,
+				device_id = deviceId
 			};
 
 			WebRequestHelper.Instance.PostRequest<LoginLink, AuthViaDeviceIdRequest>(
@@ -697,9 +698,6 @@ namespace Xsolla.Auth
 		///     Required if there are several URIs.</param>
 		public static void RefreshToken(Action onSuccess, Action<Error> onError, string redirectUri = null)
 		{
-#if UNITY_ANDROID && !UNITY_EDITOR
-			new AndroidRefreshToken().Perform(onSuccess, onError);
-#else
 			var refreshToken = XsollaToken.RefreshToken;
 			if (string.IsNullOrEmpty(refreshToken))
 			{
@@ -724,7 +722,6 @@ namespace Xsolla.Auth
 					onSuccess?.Invoke();
 				},
 				error => onError?.Invoke(error));
-#endif
 		}
 
 		/// <summary>
@@ -785,14 +782,14 @@ namespace Xsolla.Auth
 		/// <param name="onCancel">Called in case user closed browser.</param>
 		public static void AuthViaSocialNetwork(SocialProvider provider, Action onSuccess, Action<Error> onError, Action onCancel)
 		{
-#if UNITY_WEBGL
-			onError?.Invoke(new Error(ErrorType.NotSupportedOnCurrentPlatform, errorMessage: "Social auth is not supported for WebGL"));
+#if UNITY_STANDALONE
+			new StandaloneSocialAuth().Perform(provider, onSuccess, onError, onCancel);
 #elif UNITY_ANDROID
 			new AndroidSocialAuth().Perform(provider, onSuccess, onError, onCancel);
 #elif UNITY_IOS
 			new IosSocialAuth().Perform(provider, onSuccess, onError, onCancel);
 #else
-			new StandaloneSocialAuth().Perform(provider, onSuccess, onError, onCancel);
+			onError?.Invoke(new Error(ErrorType.NotSupportedOnCurrentPlatform, errorMessage: $"Social auth is not supported for this platform: {Application.platform}"));
 #endif
 		}
 

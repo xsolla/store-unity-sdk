@@ -6,23 +6,23 @@
 	<dict>
 		<key>.swiftlint.yml</key>
 		<data>
-		4+dUhykytExmluBzLzqo6JttnIc=
+		yCQ4S+suX8abrrdOxNoHT0caJlM=
 		</data>
 		<key>Frameworks/XsollaSDKUtilities.framework/.swiftlint.yml</key>
 		<data>
-		4+dUhykytExmluBzLzqo6JttnIc=
+		yCQ4S+suX8abrrdOxNoHT0caJlM=
 		</data>
 		<key>Frameworks/XsollaSDKUtilities.framework/Info.plist</key>
 		<data>
-		WlXivmrEPFhCCJ8L8TRzAtSDUns=
+		gmdyVA1fxJw1Dlo9QDefXa6r8Dk=
 		</data>
 		<key>Frameworks/XsollaSDKUtilities.framework/XsollaSDKUtilities</key>
 		<data>
-		cWeyAo4pObShZ3SzEeW8uQBoOBI=
+		0VrvfOall5R09uw1CjNQF7QyVaQ=
 		</data>
 		<key>Frameworks/XsollaSDKUtilities.framework/_CodeSignature/CodeResources</key>
 		<data>
-		oybymj09rK2ZYYObsnRpUQIHvyg=
+		JzdAYb5JDsyIsSPuq4hCe25Qbs8=
 		</data>
 		<key>Headers/PaymentsKit.h</key>
 		<data>
@@ -30,31 +30,31 @@
 		</data>
 		<key>Headers/XsollaSDKPaymentsKit-Swift.h</key>
 		<data>
-		5NXtayAQR/FQZfaIL5ePwOKVVqk=
+		hNaiaGe6I45+KGC0IfOTvdBjWSQ=
 		</data>
 		<key>Info.plist</key>
 		<data>
-		7N5UO2wgKSDTXG/1V/0ftNPBf30=
+		nF22dQrHYLBfPaYxLdLeeQrN8to=
 		</data>
 		<key>Modules/XsollaSDKPaymentsKit.swiftmodule/arm64-apple-ios.abi.json</key>
 		<data>
-		MY1qpwBvYJ3LQ0JV6J5w+Lc2+SM=
+		SHjfezeZh8/20Ye9T5wTODg6+FA=
 		</data>
 		<key>Modules/XsollaSDKPaymentsKit.swiftmodule/arm64-apple-ios.private.swiftinterface</key>
 		<data>
-		xqbech8hJZbbnqahEnUCkpIuRG0=
+		1myc3ojL3wR1RxPlDIGq1A3MHPc=
 		</data>
 		<key>Modules/XsollaSDKPaymentsKit.swiftmodule/arm64-apple-ios.swiftdoc</key>
 		<data>
-		zsCV+F3cQI+w4imPkn70yIvf3+8=
+		PuYA49NBGy6h09dBaYtBQj0xQWA=
 		</data>
 		<key>Modules/XsollaSDKPaymentsKit.swiftmodule/arm64-apple-ios.swiftinterface</key>
 		<data>
-		xqbech8hJZbbnqahEnUCkpIuRG0=
+		1myc3ojL3wR1RxPlDIGq1A3MHPc=
 		</data>
 		<key>Modules/XsollaSDKPaymentsKit.swiftmodule/arm64-apple-ios.swiftmodule</key>
 		<data>
-		dIjGwSt/LxsoHlrWdfhhSOmVHDc=
+		CYDG8+03aMbuAOCM3e5hpb8trIY=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -67,35 +67,35 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			k8+IWbg3dmj2o0hNrtvF9ub9vDb/HSmPsLNM7rCjFHA=
+			pswMBRwaIsKJZsKApF61EkqXYcRlJ4lxKYpdSefGeWk=
 			</data>
 		</dict>
 		<key>Frameworks/XsollaSDKUtilities.framework/.swiftlint.yml</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			k8+IWbg3dmj2o0hNrtvF9ub9vDb/HSmPsLNM7rCjFHA=
+			pswMBRwaIsKJZsKApF61EkqXYcRlJ4lxKYpdSefGeWk=
 			</data>
 		</dict>
 		<key>Frameworks/XsollaSDKUtilities.framework/Info.plist</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			djGAX6KIiAYO17yGkcAMNGcqkoHoYZoERqQFCBDg3zs=
+			ExLKBAIPrROjiTtHtLSIjMpaw7t1oZo96hTAtbjoEw0=
 			</data>
 		</dict>
 		<key>Frameworks/XsollaSDKUtilities.framework/XsollaSDKUtilities</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			zRA8NLrz/7+ahiuB+qDs6NPOWKPp/WWzsezC27s1uv0=
+			tScBL8HO8icR+dA2kTFH20FcMf7yh5Hjl0woNws06Jo=
 			</data>
 		</dict>
 		<key>Frameworks/XsollaSDKUtilities.framework/_CodeSignature/CodeResources</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			CrVgcowhENweVEBMNh0mGAJurdPun13x+wpHgVwvsG0=
+			pSKV2hznq+g7ar5PwEobWhNwQ6EFxGtg/jaDdKOQYD8=
 			</data>
 		</dict>
 		<key>Headers/PaymentsKit.h</key>
@@ -109,42 +109,42 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			KX4OWEJ7MbGnEpmPIT2n9HMmGM/pBSrY0g7CpByrC+U=
+			poBq6sqM2hTplgC1gcU0dLJg05hjdobEWjgcXVvpGh0=
 			</data>
 		</dict>
 		<key>Modules/XsollaSDKPaymentsKit.swiftmodule/arm64-apple-ios.abi.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			j6aP7JgFOFT5B+QYpw+tLFIrrntUZ/NRB/AYgQNi8Pc=
+			lT24PiAxjZ2ipYR4zvaGjd3S7fskqLf2pdyvWy3igzM=
 			</data>
 		</dict>
 		<key>Modules/XsollaSDKPaymentsKit.swiftmodule/arm64-apple-ios.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			Yim8SmR/b/2iWrR5NXHY325eTznjUpnOc0i7ptoQVk0=
+			/ODNByN2M9D/GrS8B1mLQcGBXjj8gYYbQjP/AJxQmdk=
 			</data>
 		</dict>
 		<key>Modules/XsollaSDKPaymentsKit.swiftmodule/arm64-apple-ios.swiftdoc</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			rz5js2cT77fyOIbRiv3aOEUG7LOlX+h+Gps2drp2rIc=
+			YyISn5VZ700H8Xt+plB4KAAAh4VEVIasS2znBBCH2ws=
 			</data>
 		</dict>
 		<key>Modules/XsollaSDKPaymentsKit.swiftmodule/arm64-apple-ios.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			Yim8SmR/b/2iWrR5NXHY325eTznjUpnOc0i7ptoQVk0=
+			/ODNByN2M9D/GrS8B1mLQcGBXjj8gYYbQjP/AJxQmdk=
 			</data>
 		</dict>
 		<key>Modules/XsollaSDKPaymentsKit.swiftmodule/arm64-apple-ios.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			sgQTOGhleMdYvRmsN9CeTFjrQ7CPP4WbVuIpCc78z2U=
+			cvQxO8PhhYrwrvpv5rfL1ETvzj3i8vA/NHRtKATawhE=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>

@@ -888,6 +888,7 @@ MonoBehaviour:
   PasswordlessButton: {fileID: 0}
   PasswordlessWidget: {fileID: 0}
   DeviceIDAuthButton: {fileID: 5326131970689153023}
+  LoginWidgetAuthButton: {fileID: 1376974075889418011}
 --- !u!114 &8976807194003855634
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4078,6 +4079,18 @@ PrefabInstance:
       objectReference: {fileID: 3321144592496824110}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3c1f771cfe0a48a4e8c197f066f59f9e, type: 3}
+--- !u!114 &1376974075889418011 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3702778306468435800, guid: 3c1f771cfe0a48a4e8c197f066f59f9e,
+    type: 3}
+  m_PrefabInstance: {fileID: 2339927732325820483}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ec14662f831947d68cc51968bb5b0b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &5326131970689153023 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7607476074177011644, guid: 3c1f771cfe0a48a4e8c197f066f59f9e,

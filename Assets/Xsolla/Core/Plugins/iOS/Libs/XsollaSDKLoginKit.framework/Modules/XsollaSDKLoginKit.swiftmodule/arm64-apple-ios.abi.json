@@ -16,77 +16,6 @@
       },
       {
         "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
         "name": "Foundation",
         "printedName": "Foundation",
         "declKind": "Import",
@@ -310,40 +239,6 @@
         "declAttributes": [
           "RawDocComment"
         ]
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
       },
       {
         "kind": "Import",
@@ -823,23 +718,6 @@
       },
       {
         "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
         "name": "Foundation",
         "printedName": "Foundation",
         "declKind": "Import",
@@ -864,57 +742,6 @@
         "declAttributes": [
           "RawDocComment"
         ]
-      },
-      {
-        "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
       },
       {
         "kind": "Import",
@@ -2369,33 +2196,6 @@
         ]
       },
       {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
         "kind": "TypeDecl",
         "name": "JWTGenerationParams",
         "printedName": "JWTGenerationParams",
@@ -2808,26 +2608,6 @@
       },
       {
         "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
         "name": "XsollaSDKUtilities",
         "printedName": "XsollaSDKUtilities",
         "declKind": "Import",
@@ -2852,13 +2632,6 @@
         "declAttributes": [
           "RawDocComment"
         ]
-      },
-      {
-        "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
       },
       {
         "kind": "Import",
@@ -2954,13 +2727,6 @@
         "declAttributes": [
           "RawDocComment"
         ]
-      },
-      {
-        "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
       },
       {
         "kind": "Import",
@@ -3176,6 +2942,102 @@
             ]
           },
           {
+            "kind": "Var",
+            "name": "authTokenExtractor",
+            "printedName": "authTokenExtractor",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "AuthTokenExtracting",
+                "printedName": "XsollaSDKLoginKit.AuthTokenExtracting",
+                "usr": "s:17XsollaSDKLoginKit19AuthTokenExtractingP"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:17XsollaSDKLoginKit05LoginC0C18authTokenExtractorAA04AuthF10Extracting_pvp",
+            "mangledName": "$s17XsollaSDKLoginKit05LoginC0C18authTokenExtractorAA04AuthF10Extracting_pvp",
+            "moduleName": "XsollaSDKLoginKit",
+            "declAttributes": [
+              "HasInitialValue",
+              "Final",
+              "HasStorage",
+              "AccessControl"
+            ],
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "AuthTokenExtracting",
+                    "printedName": "XsollaSDKLoginKit.AuthTokenExtracting",
+                    "usr": "s:17XsollaSDKLoginKit19AuthTokenExtractingP"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:17XsollaSDKLoginKit05LoginC0C18authTokenExtractorAA04AuthF10Extracting_pvg",
+                "mangledName": "$s17XsollaSDKLoginKit05LoginC0C18authTokenExtractorAA04AuthF10Extracting_pvg",
+                "moduleName": "XsollaSDKLoginKit",
+                "implicit": true,
+                "declAttributes": [
+                  "Final"
+                ],
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "AuthTokenExtracting",
+                    "printedName": "XsollaSDKLoginKit.AuthTokenExtracting",
+                    "usr": "s:17XsollaSDKLoginKit19AuthTokenExtractingP"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:17XsollaSDKLoginKit05LoginC0C18authTokenExtractorAA04AuthF10Extracting_pvs",
+                "mangledName": "$s17XsollaSDKLoginKit05LoginC0C18authTokenExtractorAA04AuthF10Extracting_pvs",
+                "moduleName": "XsollaSDKLoginKit",
+                "implicit": true,
+                "declAttributes": [
+                  "Final"
+                ],
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:17XsollaSDKLoginKit05LoginC0C18authTokenExtractorAA04AuthF10Extracting_pvM",
+                "mangledName": "$s17XsollaSDKLoginKit05LoginC0C18authTokenExtractorAA04AuthF10Extracting_pvM",
+                "moduleName": "XsollaSDKLoginKit",
+                "implicit": true,
+                "declAttributes": [
+                  "Final"
+                ],
+                "accessorKind": "_modify"
+              }
+            ]
+          },
+          {
             "kind": "Function",
             "name": "authBySocialNetwork",
             "printedName": "authBySocialNetwork(_:oAuth2Params:jwtParams:presentationContextProvider:completion:)",
@@ -3245,6 +3107,79 @@
             "declKind": "Func",
             "usr": "s:17XsollaSDKLoginKit05LoginC0C19authBySocialNetwork_12oAuth2Params03jwtJ027presentationContextProvider10completionySS_AA06OAuth2J0VAA013JWTGenerationJ0VSo031ASWebAuthenticationPresentationM9Providing_pys6ResultOyAA15AccessTokenInfoVs5Error_pGctF",
             "mangledName": "$s17XsollaSDKLoginKit05LoginC0C19authBySocialNetwork_12oAuth2Params03jwtJ027presentationContextProvider10completionySS_AA06OAuth2J0VAA013JWTGenerationJ0VSo031ASWebAuthenticationPresentationM9Providing_pys6ResultOyAA15AccessTokenInfoVs5Error_pGctF",
+            "moduleName": "XsollaSDKLoginKit",
+            "declAttributes": [
+              "Final",
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "isFromExtension": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "authWithXsollaWidget",
+            "printedName": "authWithXsollaWidget(loginProjectId:oAuth2Params:presentationContextProvider:completion:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "OAuth2Params",
+                "printedName": "XsollaSDKLoginKit.OAuth2Params",
+                "usr": "s:17XsollaSDKLoginKit12OAuth2ParamsV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "ASWebAuthenticationPresentationContextProviding",
+                "printedName": "AuthenticationServices.ASWebAuthenticationPresentationContextProviding",
+                "usr": "c:objc(pl)ASWebAuthenticationPresentationContextProviding"
+              },
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(Swift.Result<XsollaSDKLoginKit.AccessTokenInfo, Swift.Error>) -> ()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Result",
+                    "printedName": "Swift.Result<XsollaSDKLoginKit.AccessTokenInfo, Swift.Error>",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "AccessTokenInfo",
+                        "printedName": "XsollaSDKLoginKit.AccessTokenInfo",
+                        "usr": "s:17XsollaSDKLoginKit15AccessTokenInfoV"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Error",
+                        "printedName": "Swift.Error",
+                        "usr": "s:s5ErrorP"
+                      }
+                    ],
+                    "usr": "s:s6ResultO"
+                  }
+                ]
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:17XsollaSDKLoginKit05LoginC0C08authWithA6Widget14loginProjectId12oAuth2Params27presentationContextProvider10completionySS_AA06OAuth2L0VSo031ASWebAuthenticationPresentationN9Providing_pys6ResultOyAA15AccessTokenInfoVs5Error_pGctF",
+            "mangledName": "$s17XsollaSDKLoginKit05LoginC0C08authWithA6Widget14loginProjectId12oAuth2Params27presentationContextProvider10completionySS_AA06OAuth2L0VSo031ASWebAuthenticationPresentationN9Providing_pys6ResultOyAA15AccessTokenInfoVs5Error_pGctF",
             "moduleName": "XsollaSDKLoginKit",
             "declAttributes": [
               "Final",
@@ -3575,6 +3510,72 @@
           },
           {
             "kind": "Function",
+            "name": "deleteLinkedNetwork",
+            "printedName": "deleteLinkedNetwork(accessToken:providerName:completion:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(Swift.Result<(), Swift.Error>) -> ()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Result",
+                    "printedName": "Swift.Result<(), Swift.Error>",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Void",
+                        "printedName": "()"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Error",
+                        "printedName": "Swift.Error",
+                        "usr": "s:s5ErrorP"
+                      }
+                    ],
+                    "usr": "s:s6ResultO"
+                  }
+                ]
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:17XsollaSDKLoginKit05LoginC0C19deleteLinkedNetwork11accessToken12providerName10completionySS_SSys6ResultOyyts5Error_pGctF",
+            "mangledName": "$s17XsollaSDKLoginKit05LoginC0C19deleteLinkedNetwork11accessToken12providerName10completionySS_SSys6ResultOyyts5Error_pGctF",
+            "moduleName": "XsollaSDKLoginKit",
+            "declAttributes": [
+              "Final",
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "isFromExtension": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
             "name": "generateJWT",
             "printedName": "generateJWT(with:jwtParams:completion:)",
             "children": [
@@ -3651,7 +3652,7 @@
           {
             "kind": "Function",
             "name": "registerNewUser",
-            "printedName": "registerNewUser(params:oAuth2Params:jwtParams:completion:)",
+            "printedName": "registerNewUser(params:oAuth2Params:jwtParams:locale:completion:)",
             "children": [
               {
                 "kind": "TypeNominal",
@@ -3675,6 +3676,21 @@
                 "name": "JWTGenerationParams",
                 "printedName": "XsollaSDKLoginKit.JWTGenerationParams",
                 "usr": "s:17XsollaSDKLoginKit19JWTGenerationParamsV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Swift.String?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "hasDefaultArg": true,
+                "usr": "s:Sq"
               },
               {
                 "kind": "TypeFunc",
@@ -3718,8 +3734,8 @@
               }
             ],
             "declKind": "Func",
-            "usr": "s:17XsollaSDKLoginKit05LoginC0C15registerNewUser6params12oAuth2Params03jwtJ010completionyAA08RegisterfgJ0V_AA06OAuth2J0VAA013JWTGenerationJ0Vys6ResultOyAA15AccessTokenInfoVSgs5Error_pGctF",
-            "mangledName": "$s17XsollaSDKLoginKit05LoginC0C15registerNewUser6params12oAuth2Params03jwtJ010completionyAA08RegisterfgJ0V_AA06OAuth2J0VAA013JWTGenerationJ0Vys6ResultOyAA15AccessTokenInfoVSgs5Error_pGctF",
+            "usr": "s:17XsollaSDKLoginKit05LoginC0C15registerNewUser6params12oAuth2Params03jwtJ06locale10completionyAA08RegisterfgJ0V_AA06OAuth2J0VAA013JWTGenerationJ0VSSSgys6ResultOyAA15AccessTokenInfoVSgs5Error_pGctF",
+            "mangledName": "$s17XsollaSDKLoginKit05LoginC0C15registerNewUser6params12oAuth2Params03jwtJ06locale10completionyAA08RegisterfgJ0V_AA06OAuth2J0VAA013JWTGenerationJ0VSSSgys6ResultOyAA15AccessTokenInfoVSgs5Error_pGctF",
             "moduleName": "XsollaSDKLoginKit",
             "declAttributes": [
               "Final",
@@ -3732,7 +3748,7 @@
           {
             "kind": "Function",
             "name": "resetPassword",
-            "printedName": "resetPassword(loginProjectId:username:loginUrl:completion:)",
+            "printedName": "resetPassword(loginProjectId:username:loginUrl:locale:completion:)",
             "children": [
               {
                 "kind": "TypeNominal",
@@ -3763,6 +3779,21 @@
                     "usr": "s:SS"
                   }
                 ],
+                "usr": "s:Sq"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Swift.String?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "hasDefaultArg": true,
                 "usr": "s:Sq"
               },
               {
@@ -3798,8 +3829,8 @@
               }
             ],
             "declKind": "Func",
-            "usr": "s:17XsollaSDKLoginKit05LoginC0C13resetPassword14loginProjectId8username0G3Url10completionySS_S2SSgys6ResultOyyts5Error_pGctF",
-            "mangledName": "$s17XsollaSDKLoginKit05LoginC0C13resetPassword14loginProjectId8username0G3Url10completionySS_S2SSgys6ResultOyyts5Error_pGctF",
+            "usr": "s:17XsollaSDKLoginKit05LoginC0C13resetPassword14loginProjectId8username0G3Url6locale10completionySS_S2SSgAJys6ResultOyyts5Error_pGctF",
+            "mangledName": "$s17XsollaSDKLoginKit05LoginC0C13resetPassword14loginProjectId8username0G3Url6locale10completionySS_S2SSgAJys6ResultOyyts5Error_pGctF",
             "moduleName": "XsollaSDKLoginKit",
             "declAttributes": [
               "Final",
@@ -3812,7 +3843,7 @@
           {
             "kind": "Function",
             "name": "startAuthByEmail",
-            "printedName": "startAuthByEmail(oAuth2Params:email:linkUrl:sendLink:completion:)",
+            "printedName": "startAuthByEmail(oAuth2Params:email:linkUrl:sendLink:locale:completion:)",
             "children": [
               {
                 "kind": "TypeNominal",
@@ -3852,6 +3883,21 @@
                 "usr": "s:Sb"
               },
               {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Swift.String?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "hasDefaultArg": true,
+                "usr": "s:Sq"
+              },
+              {
                 "kind": "TypeFunc",
                 "name": "Function",
                 "printedName": "(Swift.Result<Swift.String, Swift.Error>) -> ()",
@@ -3885,8 +3931,8 @@
               }
             ],
             "declKind": "Func",
-            "usr": "s:17XsollaSDKLoginKit05LoginC0C16startAuthByEmail12oAuth2Params5email7linkUrl8sendLink10completionyAA06OAuth2J0V_S2SSgSbys6ResultOySSs5Error_pGctF",
-            "mangledName": "$s17XsollaSDKLoginKit05LoginC0C16startAuthByEmail12oAuth2Params5email7linkUrl8sendLink10completionyAA06OAuth2J0V_S2SSgSbys6ResultOySSs5Error_pGctF",
+            "usr": "s:17XsollaSDKLoginKit05LoginC0C16startAuthByEmail12oAuth2Params5email7linkUrl8sendLink6locale10completionyAA06OAuth2J0V_S2SSgSbAMys6ResultOySSs5Error_pGctF",
+            "mangledName": "$s17XsollaSDKLoginKit05LoginC0C16startAuthByEmail12oAuth2Params5email7linkUrl8sendLink6locale10completionyAA06OAuth2J0V_S2SSgSbAMys6ResultOySSs5Error_pGctF",
             "moduleName": "XsollaSDKLoginKit",
             "declAttributes": [
               "Final",
@@ -4308,7 +4354,7 @@
           {
             "kind": "Function",
             "name": "resendConfirmationLink",
-            "printedName": "resendConfirmationLink(clientId:redirectUri:state:username:completion:)",
+            "printedName": "resendConfirmationLink(clientId:redirectUri:state:username:locale:completion:)",
             "children": [
               {
                 "kind": "TypeNominal",
@@ -4338,6 +4384,21 @@
                 "name": "String",
                 "printedName": "Swift.String",
                 "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Swift.String?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "hasDefaultArg": true,
+                "usr": "s:Sq"
               },
               {
                 "kind": "TypeFunc",
@@ -4372,8 +4433,8 @@
               }
             ],
             "declKind": "Func",
-            "usr": "s:17XsollaSDKLoginKit05LoginC0C22resendConfirmationLink8clientId11redirectUri5state8username10completionySi_S3Sys6ResultOyyts5Error_pGctF",
-            "mangledName": "$s17XsollaSDKLoginKit05LoginC0C22resendConfirmationLink8clientId11redirectUri5state8username10completionySi_S3Sys6ResultOyyts5Error_pGctF",
+            "usr": "s:17XsollaSDKLoginKit05LoginC0C22resendConfirmationLink8clientId11redirectUri5state8username6locale10completionySi_S4SSgys6ResultOyyts5Error_pGctF",
+            "mangledName": "$s17XsollaSDKLoginKit05LoginC0C22resendConfirmationLink8clientId11redirectUri5state8username6locale10completionySi_S4SSgys6ResultOyyts5Error_pGctF",
             "moduleName": "XsollaSDKLoginKit",
             "declAttributes": [
               "Final",
@@ -6634,237 +6695,6 @@
       },
       {
         "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
-      },
-      {
-        "kind": "Import",
         "name": "Foundation",
         "printedName": "Foundation",
         "declKind": "Import",
@@ -7499,16 +7329,6 @@
         ]
       },
       {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
         "kind": "TypeDecl",
         "name": "AccessTokenInfo",
         "printedName": "AccessTokenInfo",
@@ -7815,74 +7635,6 @@
       },
       {
         "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
-      },
-      {
-        "kind": "Import",
         "name": "Foundation",
         "printedName": "Foundation",
         "declKind": "Import",
@@ -8022,152 +7774,6 @@
         "declAttributes": [
           "RawDocComment"
         ]
-      },
-      {
-        "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
       },
       {
         "kind": "Import",
@@ -11508,40 +11114,6 @@
         ]
       },
       {
-        "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
         "kind": "TypeDecl",
         "name": "FriendsList",
         "printedName": "FriendsList",
@@ -12873,6 +12445,64 @@
           },
           {
             "kind": "Var",
+            "name": "authTokenExtractionError",
+            "printedName": "authTokenExtractionError",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(XsollaSDKLoginKit.LoginKitError.Type) -> (Swift.String?) -> XsollaSDKLoginKit.LoginKitError",
+                "children": [
+                  {
+                    "kind": "TypeFunc",
+                    "name": "Function",
+                    "printedName": "(Swift.String?) -> XsollaSDKLoginKit.LoginKitError",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "LoginKitError",
+                        "printedName": "XsollaSDKLoginKit.LoginKitError",
+                        "usr": "s:17XsollaSDKLoginKit05LoginC5ErrorO"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Optional",
+                        "printedName": "Swift.String?",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "String",
+                            "printedName": "Swift.String",
+                            "usr": "s:SS"
+                          }
+                        ],
+                        "usr": "s:Sq"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "XsollaSDKLoginKit.LoginKitError.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "LoginKitError",
+                        "printedName": "XsollaSDKLoginKit.LoginKitError",
+                        "usr": "s:17XsollaSDKLoginKit05LoginC5ErrorO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:17XsollaSDKLoginKit05LoginC5ErrorO019authTokenExtractionE0yACSSSgcACmF",
+            "mangledName": "$s17XsollaSDKLoginKit05LoginC5ErrorO019authTokenExtractionE0yACSSSgcACmF",
+            "moduleName": "XsollaSDKLoginKit"
+          },
+          {
+            "kind": "Var",
             "name": "networkLinkingError",
             "printedName": "networkLinkingError",
             "children": [
@@ -13173,40 +12803,6 @@
       },
       {
         "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
-      },
-      {
-        "kind": "Import",
         "name": "Foundation",
         "printedName": "Foundation",
         "declKind": "Import",
@@ -13238,108 +12834,6 @@
         "declAttributes": [
           "RawDocComment"
         ]
-      },
-      {
-        "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
       },
       {
         "kind": "Import",
@@ -13705,50 +13199,6 @@
         "declAttributes": [
           "RawDocComment"
         ]
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
       },
       {
         "kind": "Import",
@@ -14218,39 +13668,6 @@
             ]
           },
           {
-            "kind": "Constructor",
-            "name": "init",
-            "printedName": "init(rawValue:)",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Optional",
-                "printedName": "XsollaSDKLoginKit.TokenGrantType?",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "TokenGrantType",
-                    "printedName": "XsollaSDKLoginKit.TokenGrantType",
-                    "usr": "s:17XsollaSDKLoginKit14TokenGrantTypeO"
-                  }
-                ],
-                "usr": "s:Sq"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "String",
-                "printedName": "Swift.String",
-                "usr": "s:SS"
-              }
-            ],
-            "declKind": "Constructor",
-            "usr": "s:17XsollaSDKLoginKit14TokenGrantTypeO8rawValueACSgSS_tcfc",
-            "mangledName": "$s17XsollaSDKLoginKit14TokenGrantTypeO8rawValueACSgSS_tcfc",
-            "moduleName": "XsollaSDKLoginKit",
-            "implicit": true,
-            "init_kind": "Designated"
-          },
-          {
             "kind": "Var",
             "name": "rawValue",
             "printedName": "rawValue",
@@ -14288,6 +13705,39 @@
                 "accessorKind": "get"
               }
             ]
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(rawValue:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "XsollaSDKLoginKit.TokenGrantType?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "TokenGrantType",
+                    "printedName": "XsollaSDKLoginKit.TokenGrantType",
+                    "usr": "s:17XsollaSDKLoginKit14TokenGrantTypeO"
+                  }
+                ],
+                "usr": "s:Sq"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:17XsollaSDKLoginKit14TokenGrantTypeO8rawValueACSgSS_tcfc",
+            "mangledName": "$s17XsollaSDKLoginKit14TokenGrantTypeO8rawValueACSgSS_tcfc",
+            "moduleName": "XsollaSDKLoginKit",
+            "implicit": true,
+            "init_kind": "Designated"
           }
         ],
         "declKind": "Enum",
@@ -14381,118 +13831,6 @@
         "declAttributes": [
           "RawDocComment"
         ]
-      },
-      {
-        "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
       },
       {
         "kind": "Import",
@@ -15027,23 +14365,6 @@
       },
       {
         "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
         "name": "Foundation",
         "printedName": "Foundation",
         "declKind": "Import",
@@ -15087,6 +14408,440 @@
         ]
       },
       {
+        "kind": "TypeDecl",
+        "name": "AuthTokenExtracting",
+        "printedName": "AuthTokenExtracting",
+        "children": [
+          {
+            "kind": "Function",
+            "name": "extract",
+            "printedName": "extract(from:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Result",
+                "printedName": "Swift.Result<Swift.String, Swift.Error>",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Error",
+                    "printedName": "Swift.Error",
+                    "usr": "s:s5ErrorP"
+                  }
+                ],
+                "usr": "s:s6ResultO"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "URL",
+                "printedName": "Foundation.URL",
+                "usr": "s:10Foundation3URLV"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:17XsollaSDKLoginKit19AuthTokenExtractingP7extract4froms6ResultOySSs5Error_pG10Foundation3URLV_tF",
+            "mangledName": "$s17XsollaSDKLoginKit19AuthTokenExtractingP7extract4froms6ResultOySSs5Error_pG10Foundation3URLV_tF",
+            "moduleName": "XsollaSDKLoginKit",
+            "genericSig": "<τ_0_0 where τ_0_0 : XsollaSDKLoginKit.AuthTokenExtracting>",
+            "sugared_genericSig": "<Self where Self : XsollaSDKLoginKit.AuthTokenExtracting>",
+            "protocolReq": true,
+            "reqNewWitnessTableEntry": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "extract",
+            "printedName": "extract(from:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Result",
+                "printedName": "Swift.Result<Swift.String, Swift.Error>",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Error",
+                    "printedName": "Swift.Error",
+                    "usr": "s:s5ErrorP"
+                  }
+                ],
+                "usr": "s:s6ResultO"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Result",
+                "printedName": "Swift.Result<Foundation.URL, Swift.Error>",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "URL",
+                    "printedName": "Foundation.URL",
+                    "usr": "s:10Foundation3URLV"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Error",
+                    "printedName": "Swift.Error",
+                    "usr": "s:s5ErrorP"
+                  }
+                ],
+                "usr": "s:s6ResultO"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:17XsollaSDKLoginKit19AuthTokenExtractingP7extract4froms6ResultOySSs5Error_pGAGy10Foundation3URLVsAH_pG_tF",
+            "mangledName": "$s17XsollaSDKLoginKit19AuthTokenExtractingP7extract4froms6ResultOySSs5Error_pGAGy10Foundation3URLVsAH_pG_tF",
+            "moduleName": "XsollaSDKLoginKit",
+            "genericSig": "<τ_0_0 where τ_0_0 : XsollaSDKLoginKit.AuthTokenExtracting>",
+            "sugared_genericSig": "<Self where Self : XsollaSDKLoginKit.AuthTokenExtracting>",
+            "protocolReq": true,
+            "reqNewWitnessTableEntry": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "extract",
+            "printedName": "extract(from:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Result",
+                "printedName": "Swift.Result<Swift.String, Swift.Error>",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Error",
+                    "printedName": "Swift.Error",
+                    "usr": "s:s5ErrorP"
+                  }
+                ],
+                "usr": "s:s6ResultO"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Result",
+                "printedName": "Swift.Result<Swift.String, Swift.Error>",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Error",
+                    "printedName": "Swift.Error",
+                    "usr": "s:s5ErrorP"
+                  }
+                ],
+                "usr": "s:s6ResultO"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:17XsollaSDKLoginKit19AuthTokenExtractingP7extract4froms6ResultOySSs5Error_pGAI_tF",
+            "mangledName": "$s17XsollaSDKLoginKit19AuthTokenExtractingP7extract4froms6ResultOySSs5Error_pGAI_tF",
+            "moduleName": "XsollaSDKLoginKit",
+            "genericSig": "<τ_0_0 where τ_0_0 : XsollaSDKLoginKit.AuthTokenExtracting>",
+            "sugared_genericSig": "<Self where Self : XsollaSDKLoginKit.AuthTokenExtracting>",
+            "protocolReq": true,
+            "reqNewWitnessTableEntry": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "extractError",
+            "printedName": "extractError(url:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Swift.Error?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Error",
+                    "printedName": "Swift.Error",
+                    "usr": "s:s5ErrorP"
+                  }
+                ],
+                "usr": "s:Sq"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "URL",
+                "printedName": "Foundation.URL",
+                "usr": "s:10Foundation3URLV"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:17XsollaSDKLoginKit19AuthTokenExtractingP12extractError3urls0H0_pSg10Foundation3URLV_tF",
+            "mangledName": "$s17XsollaSDKLoginKit19AuthTokenExtractingP12extractError3urls0H0_pSg10Foundation3URLV_tF",
+            "moduleName": "XsollaSDKLoginKit",
+            "genericSig": "<τ_0_0 where τ_0_0 : XsollaSDKLoginKit.AuthTokenExtracting>",
+            "sugared_genericSig": "<Self where Self : XsollaSDKLoginKit.AuthTokenExtracting>",
+            "protocolReq": true,
+            "reqNewWitnessTableEntry": true,
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Protocol",
+        "usr": "s:17XsollaSDKLoginKit19AuthTokenExtractingP",
+        "mangledName": "$s17XsollaSDKLoginKit19AuthTokenExtractingP",
+        "moduleName": "XsollaSDKLoginKit",
+        "declAttributes": [
+          "AccessControl"
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "AuthTokenExtractor",
+        "printedName": "AuthTokenExtractor",
+        "children": [
+          {
+            "kind": "Function",
+            "name": "extract",
+            "printedName": "extract(from:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Result",
+                "printedName": "Swift.Result<Swift.String, Swift.Error>",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Error",
+                    "printedName": "Swift.Error",
+                    "usr": "s:s5ErrorP"
+                  }
+                ],
+                "usr": "s:s6ResultO"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "URL",
+                "printedName": "Foundation.URL",
+                "usr": "s:10Foundation3URLV"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:17XsollaSDKLoginKit18AuthTokenExtractorC7extract4froms6ResultOySSs5Error_pG10Foundation3URLV_tF",
+            "mangledName": "$s17XsollaSDKLoginKit18AuthTokenExtractorC7extract4froms6ResultOySSs5Error_pG10Foundation3URLV_tF",
+            "moduleName": "XsollaSDKLoginKit",
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "extract",
+            "printedName": "extract(from:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Result",
+                "printedName": "Swift.Result<Swift.String, Swift.Error>",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Error",
+                    "printedName": "Swift.Error",
+                    "usr": "s:s5ErrorP"
+                  }
+                ],
+                "usr": "s:s6ResultO"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Result",
+                "printedName": "Swift.Result<Foundation.URL, Swift.Error>",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "URL",
+                    "printedName": "Foundation.URL",
+                    "usr": "s:10Foundation3URLV"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Error",
+                    "printedName": "Swift.Error",
+                    "usr": "s:s5ErrorP"
+                  }
+                ],
+                "usr": "s:s6ResultO"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:17XsollaSDKLoginKit18AuthTokenExtractorC7extract4froms6ResultOySSs5Error_pGAGy10Foundation3URLVsAH_pG_tF",
+            "mangledName": "$s17XsollaSDKLoginKit18AuthTokenExtractorC7extract4froms6ResultOySSs5Error_pGAGy10Foundation3URLVsAH_pG_tF",
+            "moduleName": "XsollaSDKLoginKit",
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "extract",
+            "printedName": "extract(from:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Result",
+                "printedName": "Swift.Result<Swift.String, Swift.Error>",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Error",
+                    "printedName": "Swift.Error",
+                    "usr": "s:s5ErrorP"
+                  }
+                ],
+                "usr": "s:s6ResultO"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Result",
+                "printedName": "Swift.Result<Swift.String, Swift.Error>",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Error",
+                    "printedName": "Swift.Error",
+                    "usr": "s:s5ErrorP"
+                  }
+                ],
+                "usr": "s:s6ResultO"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:17XsollaSDKLoginKit18AuthTokenExtractorC7extract4froms6ResultOySSs5Error_pGAI_tF",
+            "mangledName": "$s17XsollaSDKLoginKit18AuthTokenExtractorC7extract4froms6ResultOySSs5Error_pGAI_tF",
+            "moduleName": "XsollaSDKLoginKit",
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "extractError",
+            "printedName": "extractError(url:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Swift.Error?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Error",
+                    "printedName": "Swift.Error",
+                    "usr": "s:s5ErrorP"
+                  }
+                ],
+                "usr": "s:Sq"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "URL",
+                "printedName": "Foundation.URL",
+                "usr": "s:10Foundation3URLV"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:17XsollaSDKLoginKit18AuthTokenExtractorC12extractError3urls0H0_pSg10Foundation3URLV_tF",
+            "mangledName": "$s17XsollaSDKLoginKit18AuthTokenExtractorC12extractError3urls0H0_pSg10Foundation3URLV_tF",
+            "moduleName": "XsollaSDKLoginKit",
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Class",
+        "usr": "s:17XsollaSDKLoginKit18AuthTokenExtractorC",
+        "mangledName": "$s17XsollaSDKLoginKit18AuthTokenExtractorC",
+        "moduleName": "XsollaSDKLoginKit",
+        "declAttributes": [
+          "AccessControl"
+        ],
+        "hasMissingDesignatedInitializers": true,
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "AuthTokenExtracting",
+            "printedName": "AuthTokenExtracting",
+            "usr": "s:17XsollaSDKLoginKit19AuthTokenExtractingP",
+            "mangledName": "$s17XsollaSDKLoginKit19AuthTokenExtractingP"
+          }
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "XsollaSDKLoginKit",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "XsollaSDKLoginKit",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
         "kind": "Import",
         "name": "XsollaSDKUtilities",
         "printedName": "XsollaSDKUtilities",
@@ -15102,50 +14857,6 @@
         "declAttributes": [
           "RawDocComment"
         ]
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
       },
       {
         "kind": "Import",
@@ -16309,40 +16020,6 @@
         ]
       },
       {
-        "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
         "kind": "TypeDecl",
         "name": "OAuth2Params",
         "printedName": "OAuth2Params",
@@ -16782,142 +16459,6 @@
       },
       {
         "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit"
-      },
-      {
-        "kind": "Import",
         "name": "Foundation",
         "printedName": "Foundation",
         "declKind": "Import",
@@ -17273,16 +16814,6 @@
         "moduleName": "XsollaSDKLoginKit",
         "declAttributes": [
           "AccessControl",
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKLoginKit",
-        "declAttributes": [
           "RawDocComment"
         ]
       },
@@ -18079,6 +17610,20 @@
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Update Current User Details\/UpdateCurrentUserDetailsResponse.swift",
       "kind": "StringLiteral",
+      "offset": 3538,
+      "length": 12,
+      "value": "\"yyyy-MM-dd\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Update Current User Details\/UpdateCurrentUserDetailsResponse.swift",
+      "kind": "StringLiteral",
+      "offset": 3694,
+      "length": 24,
+      "value": "\"yyyy-MM-dd'T'hh:mm:ssZ\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Update Current User Details\/UpdateCurrentUserDetailsResponse.swift",
+      "kind": "StringLiteral",
       "offset": 4180,
       "length": 4,
       "value": "\"id\""
@@ -18173,6 +17718,55 @@
       "offset": 5076,
       "length": 8,
       "value": "\"reason\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Update Current User Details\/UpdateCurrentUserDetailsRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 769,
+      "length": 11,
+      "value": "\"\/users\/me\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Update Current User Details\/UpdateCurrentUserDetailsRequest.swift",
+      "kind": "Dictionary",
+      "offset": 955,
+      "length": 3,
+      "value": "[]"
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Update Current User Details\/UpdateCurrentUserDetailsRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1022,
+      "length": 10,
+      "value": "\"birthday\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Update Current User Details\/UpdateCurrentUserDetailsRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1103,
+      "length": 12,
+      "value": "\"first_name\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Update Current User Details\/UpdateCurrentUserDetailsRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1186,
+      "length": 11,
+      "value": "\"last_name\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Update Current User Details\/UpdateCurrentUserDetailsRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1263,
+      "length": 8,
+      "value": "\"gender\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Update Current User Details\/UpdateCurrentUserDetailsRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1339,
+      "length": 10,
+      "value": "\"nickname\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Get Current User Friends\/GetCurrentUserFriendsResponse.swift",
@@ -18355,6 +17949,13 @@
       "offset": 2409,
       "length": 5,
       "value": "\"tag\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Create Code For Linking Accounts\/CreateCodeForLinkingAccountsRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 829,
+      "length": 21,
+      "value": "\"\/users\/account\/code\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Complete Auth By Email\/CompleteAuthByEmailResponse.swift",
@@ -18779,6 +18380,20 @@
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Get Current User Details\/GetCurrentUserDetailsResponse.swift",
       "kind": "StringLiteral",
+      "offset": 3535,
+      "length": 12,
+      "value": "\"yyyy-MM-dd\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Get Current User Details\/GetCurrentUserDetailsResponse.swift",
+      "kind": "StringLiteral",
+      "offset": 3691,
+      "length": 24,
+      "value": "\"yyyy-MM-dd'T'hh:mm:ssZ\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Get Current User Details\/GetCurrentUserDetailsResponse.swift",
+      "kind": "StringLiteral",
       "offset": 4156,
       "length": 11,
       "value": "\"date_from\""
@@ -18873,6 +18488,41 @@
       "offset": 5020,
       "length": 6,
       "value": "\"name\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Get URL To Link Social Network To Account\/GetURLToLinkSocialNetworkToAccountRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 769,
+      "length": 61,
+      "value": "\"\/users\/me\/social_providers\/\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Get URL To Link Social Network To Account\/GetURLToLinkSocialNetworkToAccountRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 819,
+      "length": 1,
+      "value": "\"\/login_url\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Get URL To Link Social Network To Account\/GetURLToLinkSocialNetworkToAccountRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 972,
+      "length": 11,
+      "value": "\"login_url\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Get Current User Details\/GetCurrentUserDetailsRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 754,
+      "length": 11,
+      "value": "\"\/users\/me\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Get Linked Networks\/GetLinkedNetworksRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 748,
+      "length": 28,
+      "value": "\"\/users\/me\/social_providers\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Models\/FriendListType.swift",
@@ -19099,130 +18749,172 @@
       "value": "\"unblock\""
     },
     {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/API\/LoginAPIErrorModel.swift",
+      "kind": "StringLiteral",
+      "offset": 1008,
+      "length": 3,
+      "value": "\"-\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/API\/LoginAPIErrorModel.swift",
+      "kind": "StringLiteral",
+      "offset": 1019,
+      "length": 2,
+      "value": "\"\""
+    },
+    {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Get Client User Read Only Attributes\/GetClientUserReadOnlyAttributesRequest.swift",
       "kind": "StringLiteral",
-      "offset": 1597,
+      "offset": 756,
+      "length": 36,
+      "value": "\"\/attributes\/users\/me\/get_read_only\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Get Client User Read Only Attributes\/GetClientUserReadOnlyAttributesRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1581,
       "length": 6,
       "value": "\"keys\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Get Client User Read Only Attributes\/GetClientUserReadOnlyAttributesRequest.swift",
       "kind": "StringLiteral",
-      "offset": 1642,
+      "offset": 1626,
       "length": 22,
       "value": "\"publisher_project_id\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Get Client User Read Only Attributes\/GetClientUserReadOnlyAttributesRequest.swift",
       "kind": "StringLiteral",
-      "offset": 1691,
+      "offset": 1675,
       "length": 9,
       "value": "\"user_id\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Get Client User Read Only Attributes\/GetClientUserReadOnlyAttributesRequest.swift",
       "kind": "StringLiteral",
-      "offset": 1597,
+      "offset": 1581,
       "length": 6,
       "value": "\"keys\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Get Client User Read Only Attributes\/GetClientUserReadOnlyAttributesRequest.swift",
       "kind": "StringLiteral",
-      "offset": 1642,
+      "offset": 1626,
       "length": 22,
       "value": "\"publisher_project_id\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Get Client User Read Only Attributes\/GetClientUserReadOnlyAttributesRequest.swift",
       "kind": "StringLiteral",
-      "offset": 1691,
+      "offset": 1675,
       "length": 9,
       "value": "\"user_id\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Update Client User Attributes\/UpdateClientUserAttributesRequest.swift",
       "kind": "StringLiteral",
-      "offset": 1573,
+      "offset": 726,
+      "length": 29,
+      "value": "\"\/attributes\/users\/me\/update\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Update Client User Attributes\/UpdateClientUserAttributesRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1562,
       "length": 12,
       "value": "\"attributes\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Update Client User Attributes\/UpdateClientUserAttributesRequest.swift",
       "kind": "StringLiteral",
-      "offset": 1624,
+      "offset": 1613,
       "length": 22,
       "value": "\"publisher_project_id\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Update Client User Attributes\/UpdateClientUserAttributesRequest.swift",
       "kind": "StringLiteral",
-      "offset": 1679,
+      "offset": 1668,
       "length": 15,
       "value": "\"removing_keys\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Update Client User Attributes\/UpdateClientUserAttributesRequest.swift",
       "kind": "StringLiteral",
-      "offset": 1573,
+      "offset": 1562,
       "length": 12,
       "value": "\"attributes\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Update Client User Attributes\/UpdateClientUserAttributesRequest.swift",
       "kind": "StringLiteral",
-      "offset": 1624,
+      "offset": 1613,
       "length": 22,
       "value": "\"publisher_project_id\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Update Client User Attributes\/UpdateClientUserAttributesRequest.swift",
       "kind": "StringLiteral",
-      "offset": 1679,
+      "offset": 1668,
       "length": 15,
       "value": "\"removing_keys\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Update Client User Attributes\/UpdateClientUserAttributesRequest.swift",
       "kind": "StringLiteral",
-      "offset": 2329,
+      "offset": 2318,
       "length": 5,
       "value": "\"key\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Update Client User Attributes\/UpdateClientUserAttributesRequest.swift",
       "kind": "StringLiteral",
-      "offset": 2365,
+      "offset": 2354,
       "length": 12,
       "value": "\"permission\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Update Client User Attributes\/UpdateClientUserAttributesRequest.swift",
       "kind": "StringLiteral",
-      "offset": 2403,
+      "offset": 2392,
       "length": 7,
       "value": "\"value\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Update Client User Attributes\/UpdateClientUserAttributesRequest.swift",
       "kind": "StringLiteral",
-      "offset": 2329,
+      "offset": 2318,
       "length": 5,
       "value": "\"key\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Update Client User Attributes\/UpdateClientUserAttributesRequest.swift",
       "kind": "StringLiteral",
-      "offset": 2365,
+      "offset": 2354,
       "length": 12,
       "value": "\"permission\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Update Client User Attributes\/UpdateClientUserAttributesRequest.swift",
       "kind": "StringLiteral",
-      "offset": 2403,
+      "offset": 2392,
       "length": 7,
       "value": "\"value\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Delete Linked Network\/DeleteLinkedNetworkRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 760,
+      "length": 51,
+      "value": "\"\/users\/me\/social_providers\/\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Delete Linked Network\/DeleteLinkedNetworkRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 810,
+      "length": 3,
+      "value": "\"\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Search User By Username\/SearchUsersByNicknameResponse.swift",
@@ -19351,46 +19043,144 @@
       "value": "\"social_id\""
     },
     {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Update Current User Phone\/UpdateCurrentUserPhoneRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 752,
+      "length": 17,
+      "value": "\"\/users\/me\/phone\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Update Current User Phone\/UpdateCurrentUserPhoneRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 898,
+      "length": 14,
+      "value": "\"phone_number\""
+    },
+    {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Get Client User Attributes\/GetClientUserAttributesRequest.swift",
       "kind": "StringLiteral",
-      "offset": 1501,
+      "offset": 686,
+      "length": 26,
+      "value": "\"\/attributes\/users\/me\/get\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Get Client User Attributes\/GetClientUserAttributesRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1493,
       "length": 6,
       "value": "\"keys\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Get Client User Attributes\/GetClientUserAttributesRequest.swift",
       "kind": "StringLiteral",
-      "offset": 1546,
+      "offset": 1538,
       "length": 22,
       "value": "\"publisher_project_id\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Get Client User Attributes\/GetClientUserAttributesRequest.swift",
       "kind": "StringLiteral",
-      "offset": 1595,
+      "offset": 1587,
       "length": 9,
       "value": "\"user_id\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Get Client User Attributes\/GetClientUserAttributesRequest.swift",
       "kind": "StringLiteral",
-      "offset": 1501,
+      "offset": 1493,
       "length": 6,
       "value": "\"keys\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Get Client User Attributes\/GetClientUserAttributesRequest.swift",
       "kind": "StringLiteral",
-      "offset": 1546,
+      "offset": 1538,
       "length": 22,
       "value": "\"publisher_project_id\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Get Client User Attributes\/GetClientUserAttributesRequest.swift",
       "kind": "StringLiteral",
-      "offset": 1595,
+      "offset": 1587,
       "length": 9,
       "value": "\"user_id\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Link Device\/LinkDeviceToAccountRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 633,
+      "length": 23,
+      "value": "\"\/users\/me\/devices\/ios\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Link Device\/LinkDeviceToAccountRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 785,
+      "length": 8,
+      "value": "\"device\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Link Device\/LinkDeviceToAccountRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 810,
+      "length": 11,
+      "value": "\"device_id\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Search User By Username\/SearchUsersByNicknameRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 763,
+      "length": 27,
+      "value": "\"\/users\/search\/by_nickname\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Search User By Username\/SearchUsersByNicknameRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 982,
+      "length": 10,
+      "value": "\"nickname\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Search User By Username\/SearchUsersByNicknameRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1081,
+      "length": 8,
+      "value": "\"offset\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Search User By Username\/SearchUsersByNicknameRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1160,
+      "length": 7,
+      "value": "\"limit\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Extensions\/KeyedDecodingContainer+Extensions.swift",
+      "kind": "StringLiteral",
+      "offset": 524,
+      "length": 45,
+      "value": "\"Cannot parse date from string \""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Extensions\/KeyedDecodingContainer+Extensions.swift",
+      "kind": "StringLiteral",
+      "offset": 568,
+      "length": 2,
+      "value": "\"\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Extensions\/KeyedDecodingContainer+Extensions.swift",
+      "kind": "StringLiteral",
+      "offset": 1004,
+      "length": 45,
+      "value": "\"Cannot parse date from string \""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Extensions\/KeyedDecodingContainer+Extensions.swift",
+      "kind": "StringLiteral",
+      "offset": 1048,
+      "length": 2,
+      "value": "\"\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Get User Email\/GetUserEmailResponse.swift",
@@ -19405,46 +19195,410 @@
       "offset": 210,
       "length": 15,
       "value": "\"current_email\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/ModelFactory\/LoginKitModelFactory.swift",
+      "kind": "StringLiteral",
+      "offset": 2724,
+      "length": 2,
+      "value": "\"\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/ModelFactory\/LoginKitModelFactory.swift",
+      "kind": "StringLiteral",
+      "offset": 4828,
+      "length": 2,
+      "value": "\"\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Register New User\/RegisterNewUserRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 796,
+      "length": 14,
+      "value": "\"\/oauth2\/user\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Register New User\/RegisterNewUserRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 929,
+      "length": 15,
+      "value": "\"response_type\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Register New User\/RegisterNewUserRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 979,
+      "length": 11,
+      "value": "\"client_id\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Register New User\/RegisterNewUserRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1029,
+      "length": 7,
+      "value": "\"state\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Register New User\/RegisterNewUserRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1064,
+      "length": 8,
+      "value": "\"locale\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Register New User\/RegisterNewUserRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1157,
+      "length": 7,
+      "value": "\"scope\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Register New User\/RegisterNewUserRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1238,
+      "length": 14,
+      "value": "\"redirect_uri\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/LoginKit.swift",
+      "kind": "Array",
+      "offset": 2870,
+      "length": 17,
+      "value": "[\"http\", \"https\"]"
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/LoginKit.swift",
+      "kind": "BooleanLiteral",
+      "offset": 2916,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/LoginKit.swift",
+      "kind": "StringLiteral",
+      "offset": 3001,
+      "length": 42,
+      "value": "\"Invalid callback URL in OAuth parameters\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/LoginKit.swift",
+      "kind": "Array",
+      "offset": 5010,
+      "length": 17,
+      "value": "[\"http\", \"https\"]"
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/LoginKit.swift",
+      "kind": "BooleanLiteral",
+      "offset": 5056,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/LoginKit.swift",
+      "kind": "StringLiteral",
+      "offset": 5141,
+      "length": 42,
+      "value": "\"Invalid callback URL in OAuth parameters\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/LoginKit.swift",
+      "kind": "StringLiteral",
+      "offset": 5279,
+      "length": 108,
+      "value": "\"https:\/\/login-widget.xsolla.com\/latest\/?projectId=\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/LoginKit.swift",
+      "kind": "StringLiteral",
+      "offset": 5347,
+      "length": 1,
+      "value": "\"&login_url=\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/LoginKit.swift",
+      "kind": "StringLiteral",
+      "offset": 5386,
+      "length": 1,
+      "value": "\"\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/LoginKit.swift",
+      "kind": "IntegerLiteral",
+      "offset": 5988,
+      "length": 4,
+      "value": "3600"
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/LoginKit.swift",
+      "kind": "StringLiteral",
+      "offset": 6058,
+      "length": 2,
+      "value": "\"\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/LoginKit.swift",
+      "kind": "StringLiteral",
+      "offset": 6123,
+      "length": 8,
+      "value": "\"bearer\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/LoginKit.swift",
+      "kind": "StringLiteral",
+      "offset": 49801,
+      "length": 12,
+      "value": "\"YYYY-MM-dd\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Auth By Username And Password\/AuthByUsernameAndPasswordRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 815,
+      "length": 15,
+      "value": "\"\/oauth2\/login\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Auth By Username And Password\/AuthByUsernameAndPasswordRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 949,
+      "length": 15,
+      "value": "\"response_type\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Auth By Username And Password\/AuthByUsernameAndPasswordRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 999,
+      "length": 11,
+      "value": "\"client_id\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Auth By Username And Password\/AuthByUsernameAndPasswordRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1049,
+      "length": 7,
+      "value": "\"state\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Auth By Username And Password\/AuthByUsernameAndPasswordRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1140,
+      "length": 7,
+      "value": "\"scope\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Auth By Username And Password\/AuthByUsernameAndPasswordRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1221,
+      "length": 14,
+      "value": "\"redirect_uri\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Auth By Username And Password\/AuthByUsernameAndPasswordRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1372,
+      "length": 10,
+      "value": "\"password\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Auth By Username And Password\/AuthByUsernameAndPasswordRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1413,
+      "length": 10,
+      "value": "\"username\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Get Link For Social Auth\/GetLinkForSocialAuthRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 790,
+      "length": 49,
+      "value": "\"\/oauth2\/social\/\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Get Link For Social Auth\/GetLinkForSocialAuthRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 828,
+      "length": 1,
+      "value": "\"\/login_url\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Get Link For Social Auth\/GetLinkForSocialAuthRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 958,
+      "length": 11,
+      "value": "\"client_id\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Get Link For Social Auth\/GetLinkForSocialAuthRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1008,
+      "length": 7,
+      "value": "\"state\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Get Link For Social Auth\/GetLinkForSocialAuthRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1043,
+      "length": 15,
+      "value": "\"response_type\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Get Link For Social Auth\/GetLinkForSocialAuthRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1161,
+      "length": 14,
+      "value": "\"redirect_uri\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Get Link For Social Auth\/GetLinkForSocialAuthRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1243,
+      "length": 7,
+      "value": "\"scope\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/API\/LoginAPI.swift",
+      "kind": "IntegerLiteral",
+      "offset": 19872,
+      "length": 1,
+      "value": "1"
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/API\/LoginAPI.swift",
+      "kind": "IntegerLiteral",
+      "offset": 19876,
+      "length": 1,
+      "value": "0"
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/API\/LoginAPI.swift",
+      "kind": "StringLiteral",
+      "offset": 39293,
+      "length": 30,
+      "value": "\"https:\/\/login.xsolla.com\/api\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Complete Auth By Phone\/CompleteAuthByPhoneRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 644,
+      "length": 29,
+      "value": "\"\/oauth2\/login\/phone\/confirm\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Complete Auth By Phone\/CompleteAuthByPhoneRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 741,
+      "length": 11,
+      "value": "\"client_id\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Complete Auth By Phone\/CompleteAuthByPhoneRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 845,
+      "length": 6,
+      "value": "\"code\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Complete Auth By Phone\/CompleteAuthByPhoneRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 874,
+      "length": 14,
+      "value": "\"operation_id\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Complete Auth By Phone\/CompleteAuthByPhoneRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 918,
+      "length": 14,
+      "value": "\"phone_number\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Start Auth By Email\/StartAuthByEmailRequest.swift",
       "kind": "StringLiteral",
-      "offset": 2081,
+      "offset": 635,
+      "length": 29,
+      "value": "\"\/oauth2\/login\/email\/request\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Start Auth By Email\/StartAuthByEmailRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 775,
+      "length": 15,
+      "value": "\"response_type\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Start Auth By Email\/StartAuthByEmailRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 825,
+      "length": 11,
+      "value": "\"client_id\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Start Auth By Email\/StartAuthByEmailRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 875,
+      "length": 7,
+      "value": "\"state\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Start Auth By Email\/StartAuthByEmailRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 910,
+      "length": 8,
+      "value": "\"locale\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Start Auth By Email\/StartAuthByEmailRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1003,
+      "length": 7,
+      "value": "\"scope\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Start Auth By Email\/StartAuthByEmailRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1084,
+      "length": 14,
+      "value": "\"redirect_uri\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Start Auth By Email\/StartAuthByEmailRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 2137,
       "length": 7,
       "value": "\"email\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Start Auth By Email\/StartAuthByEmailRequest.swift",
       "kind": "StringLiteral",
-      "offset": 2116,
+      "offset": 2172,
       "length": 10,
       "value": "\"link_url\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Start Auth By Email\/StartAuthByEmailRequest.swift",
       "kind": "StringLiteral",
-      "offset": 2155,
+      "offset": 2211,
       "length": 11,
       "value": "\"send_link\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Start Auth By Email\/StartAuthByEmailRequest.swift",
       "kind": "StringLiteral",
-      "offset": 2081,
+      "offset": 2137,
       "length": 7,
       "value": "\"email\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Start Auth By Email\/StartAuthByEmailRequest.swift",
       "kind": "StringLiteral",
-      "offset": 2116,
+      "offset": 2172,
       "length": 10,
       "value": "\"link_url\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Start Auth By Email\/StartAuthByEmailRequest.swift",
       "kind": "StringLiteral",
-      "offset": 2155,
+      "offset": 2211,
       "length": 11,
       "value": "\"send_link\""
     },
@@ -19453,7 +19607,49 @@
       "kind": "StringLiteral",
       "offset": 114,
       "length": 7,
-      "value": "\"0.4.2\""
+      "value": "\"0.6.0\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Get User Devices\/GetUserDevicesRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 628,
+      "length": 19,
+      "value": "\"\/users\/me\/devices\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Get Social Network Friends\/GetSocialNetworkFriendsRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 655,
+      "length": 26,
+      "value": "\"\/users\/me\/social_friends\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Get Social Network Friends\/GetSocialNetworkFriendsRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 835,
+      "length": 10,
+      "value": "\"platform\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Get Social Network Friends\/GetSocialNetworkFriendsRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 872,
+      "length": 8,
+      "value": "\"offset\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Get Social Network Friends\/GetSocialNetworkFriendsRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 913,
+      "length": 7,
+      "value": "\"limit\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Get Social Network Friends\/GetSocialNetworkFriendsRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 952,
+      "length": 13,
+      "value": "\"with_xl_uid\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Upload User Picture\/UploadUserPictureResponse.swift",
@@ -19470,46 +19666,200 @@
       "value": "\"picture\""
     },
     {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Unlink Device\/UnlinkDeviceFromAccountRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 643,
+      "length": 38,
+      "value": "\"\/users\/me\/devices\/\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Unlink Device\/UnlinkDeviceFromAccountRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 680,
+      "length": 3,
+      "value": "\"\""
+    },
+    {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Start Auth By Phone\/StartAuthByPhoneRequest.swift",
       "kind": "StringLiteral",
-      "offset": 2088,
+      "offset": 635,
+      "length": 29,
+      "value": "\"\/oauth2\/login\/phone\/request\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Start Auth By Phone\/StartAuthByPhoneRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 762,
+      "length": 15,
+      "value": "\"response_type\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Start Auth By Phone\/StartAuthByPhoneRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 827,
+      "length": 11,
+      "value": "\"client_id\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Start Auth By Phone\/StartAuthByPhoneRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 892,
+      "length": 7,
+      "value": "\"state\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Start Auth By Phone\/StartAuthByPhoneRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 974,
+      "length": 7,
+      "value": "\"scope\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Start Auth By Phone\/StartAuthByPhoneRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1055,
+      "length": 14,
+      "value": "\"redirect_uri\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Start Auth By Phone\/StartAuthByPhoneRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 2087,
       "length": 14,
       "value": "\"phone_number\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Start Auth By Phone\/StartAuthByPhoneRequest.swift",
       "kind": "StringLiteral",
-      "offset": 2130,
+      "offset": 2129,
       "length": 10,
       "value": "\"link_url\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Start Auth By Phone\/StartAuthByPhoneRequest.swift",
       "kind": "StringLiteral",
-      "offset": 2169,
+      "offset": 2168,
       "length": 11,
       "value": "\"send_link\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Start Auth By Phone\/StartAuthByPhoneRequest.swift",
       "kind": "StringLiteral",
-      "offset": 2088,
+      "offset": 2087,
       "length": 14,
       "value": "\"phone_number\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Start Auth By Phone\/StartAuthByPhoneRequest.swift",
       "kind": "StringLiteral",
-      "offset": 2130,
+      "offset": 2129,
       "length": 10,
       "value": "\"link_url\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Start Auth By Phone\/StartAuthByPhoneRequest.swift",
       "kind": "StringLiteral",
-      "offset": 2169,
+      "offset": 2168,
       "length": 11,
       "value": "\"send_link\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Generate JWT\/GenerateJWTRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 734,
+      "length": 15,
+      "value": "\"\/oauth2\/token\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Generate JWT\/GenerateJWTRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 877,
+      "length": 18,
+      "value": "\"application\/json\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Generate JWT\/GenerateJWTRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 936,
+      "length": 35,
+      "value": "\"application\/x-www-form-urlencoded\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Generate JWT\/GenerateJWTRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1014,
+      "length": 7,
+      "value": "\"utf-8\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Generate JWT\/GenerateJWTRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1129,
+      "length": 12,
+      "value": "\"grant_type\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Generate JWT\/GenerateJWTRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1173,
+      "length": 11,
+      "value": "\"client_id\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Generate JWT\/GenerateJWTRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1292,
+      "length": 15,
+      "value": "\"refresh_token\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Generate JWT\/GenerateJWTRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1389,
+      "length": 15,
+      "value": "\"client_secret\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Generate JWT\/GenerateJWTRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1484,
+      "length": 14,
+      "value": "\"redirect_uri\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Generate JWT\/GenerateJWTRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1571,
+      "length": 6,
+      "value": "\"code\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/API\/LoginAPIResponseProcessor.swift",
+      "kind": "Array",
+      "offset": 1413,
+      "length": 2,
+      "value": "[]"
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/API\/LoginAPIResponseProcessor.swift",
+      "kind": "Array",
+      "offset": 1467,
+      "length": 2,
+      "value": "[]"
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/API\/LoginAPIResponseProcessor.swift",
+      "kind": "IntegerLiteral",
+      "offset": 1516,
+      "length": 1,
+      "value": "0"
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/API\/LoginAPIResponseProcessor.swift",
+      "kind": "IntegerLiteral",
+      "offset": 2547,
+      "length": 1,
+      "value": "0"
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Get Social Network Friends\/GetSocialNetworkFriendsResponse.swift",
@@ -19736,6 +20086,104 @@
       "value": "\"prefer not to answer\""
     },
     {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Models\/UserProfileDetails.swift",
+      "kind": "StringLiteral",
+      "offset": 4166,
+      "length": 2,
+      "value": "\"\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Models\/UserProfileDetails.swift",
+      "kind": "StringLiteral",
+      "offset": 5641,
+      "length": 2,
+      "value": "\"\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Logging\/Filters\/LoggerKitFilter_Gussent.swift",
+      "kind": "Array",
+      "offset": 257,
+      "length": 2,
+      "value": "[]"
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Logging\/Filters\/LoggerKitFilter_Gussent.swift",
+      "kind": "Array",
+      "offset": 376,
+      "length": 2,
+      "value": "[]"
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Logging\/Filters\/LoggerKitFilter_Gussent.swift",
+      "kind": "StringLiteral",
+      "offset": 422,
+      "length": 2,
+      "value": "\"\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Logging\/Filters\/LoggerKitFilter_Gussent.swift",
+      "kind": "StringLiteral",
+      "offset": 459,
+      "length": 2,
+      "value": "\"\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Logging\/Filters\/LoggerKitFilter_Gussent.swift",
+      "kind": "StringLiteral",
+      "offset": 498,
+      "length": 2,
+      "value": "\"\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Logging\/Filters\/LoggerKitFilter_Gussent.swift",
+      "kind": "StringLiteral",
+      "offset": 537,
+      "length": 2,
+      "value": "\"\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Models\/FriendsList.swift",
+      "kind": "StringLiteral",
+      "offset": 2879,
+      "length": 8,
+      "value": "\"friend\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Models\/FriendsList.swift",
+      "kind": "StringLiteral",
+      "offset": 2921,
+      "length": 18,
+      "value": "\"friend_requested\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Models\/FriendsList.swift",
+      "kind": "StringLiteral",
+      "offset": 2982,
+      "length": 9,
+      "value": "\"blocked\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Models\/FriendsList.swift",
+      "kind": "StringLiteral",
+      "offset": 3723,
+      "length": 8,
+      "value": "\"online\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Models\/LoginKitError.swift",
+      "kind": "IntegerLiteral",
+      "offset": 425,
+      "length": 5,
+      "value": "10017"
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Models\/LoginKitError.swift",
+      "kind": "IntegerLiteral",
+      "offset": 470,
+      "length": 4,
+      "value": "2016"
+    },
+    {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Start Auth By Email\/StartAuthByEmailResponse.swift",
       "kind": "StringLiteral",
       "offset": 211,
@@ -19790,6 +20238,118 @@
       "offset": 427,
       "length": 7,
       "value": "\"value\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Resend Confirmation Link\/ResendConfirmationLinkRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 792,
+      "length": 39,
+      "value": "\"\/oauth2\/user\/resend_confirmation_link\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Resend Confirmation Link\/ResendConfirmationLinkRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 924,
+      "length": 11,
+      "value": "\"client_id\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Resend Confirmation Link\/ResendConfirmationLinkRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 974,
+      "length": 14,
+      "value": "\"redirect_uri\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Resend Confirmation Link\/ResendConfirmationLinkRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1022,
+      "length": 7,
+      "value": "\"state\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Resend Confirmation Link\/ResendConfirmationLinkRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1057,
+      "length": 8,
+      "value": "\"locale\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Resend Confirmation Link\/ResendConfirmationLinkRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1145,
+      "length": 10,
+      "value": "\"username\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/API\/Base Classes\/LoginBaseRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1347,
+      "length": 8,
+      "value": "\"engine\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/API\/Base Classes\/LoginBaseRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1357,
+      "length": 5,
+      "value": "\"ios\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/API\/Base Classes\/LoginBaseRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1373,
+      "length": 10,
+      "value": "\"engine_v\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/API\/Base Classes\/LoginBaseRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1406,
+      "length": 5,
+      "value": "\"sdk\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/API\/Base Classes\/LoginBaseRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1413,
+      "length": 7,
+      "value": "\"login\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/API\/Base Classes\/LoginBaseRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1431,
+      "length": 7,
+      "value": "\"sdk_v\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/API\/Base Classes\/LoginBaseRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1454,
+      "length": 2,
+      "value": "\"\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/API\/Base Classes\/LoginBaseRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1561,
+      "length": 12,
+      "value": "\"X-ENGINE-V\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/API\/Base Classes\/LoginBaseRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1636,
+      "length": 9,
+      "value": "\"X-SDK-V\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/API\/Base Classes\/LoginBaseRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1675,
+      "length": 2,
+      "value": "\"\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/API\/Base Classes\/LoginBaseRequest.swift",
@@ -19841,20 +20401,216 @@
       "value": "\"\""
     },
     {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Logging\/Filters\/LoggerKitDefaultFilter.swift",
+      "kind": "BooleanLiteral",
+      "offset": 742,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Logging\/Filters\/LoggerKitDefaultFilter.swift",
+      "kind": "BooleanLiteral",
+      "offset": 983,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Logging\/Filters\/LoggerKitDefaultFilter.swift",
+      "kind": "BooleanLiteral",
+      "offset": 1224,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Logging\/Filters\/LoggerKitDefaultFilter.swift",
+      "kind": "StringLiteral",
+      "offset": 1561,
+      "length": 3,
+      "value": "\",\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Logging\/Filters\/LoggerKitDefaultFilter.swift",
+      "kind": "StringLiteral",
+      "offset": 1831,
+      "length": 3,
+      "value": "\",\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Logging\/Filters\/LoggerKitDefaultFilter.swift",
+      "kind": "BooleanLiteral",
+      "offset": 1947,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Logging\/Filters\/LoggerKitDefaultFilter.swift",
+      "kind": "StringLiteral",
+      "offset": 2203,
+      "length": 3,
+      "value": "\",\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Logging\/Filters\/LoggerKitDefaultFilter.swift",
+      "kind": "StringLiteral",
+      "offset": 2479,
+      "length": 3,
+      "value": "\",\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Logging\/Filters\/LoggerKitDefaultFilter.swift",
+      "kind": "BooleanLiteral",
+      "offset": 2597,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Logging\/Filters\/LoggerKitDefaultFilter.swift",
+      "kind": "IntegerLiteral",
+      "offset": 2799,
+      "length": 1,
+      "value": "0"
+    },
+    {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Upload User Picture\/UploadUserPictureRequest.swift",
       "kind": "StringLiteral",
-      "offset": 648,
+      "offset": 646,
       "length": 31,
       "value": "\"Boundary-\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Upload User Picture\/UploadUserPictureRequest.swift",
       "kind": "StringLiteral",
-      "offset": 678,
+      "offset": 676,
       "length": 1,
       "value": "\"\""
     },
     {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Upload User Picture\/UploadUserPictureRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 815,
+      "length": 19,
+      "value": "\"\/users\/me\/picture\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Upload User Picture\/UploadUserPictureRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1011,
+      "length": 18,
+      "value": "\"application\/json\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Upload User Picture\/UploadUserPictureRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1070,
+      "length": 56,
+      "value": "\"multipart\/form-data; boundary=\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Upload User Picture\/UploadUserPictureRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1125,
+      "length": 2,
+      "value": "\"\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Upload User Picture\/UploadUserPictureRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1169,
+      "length": 7,
+      "value": "\"utf-8\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Upload User Picture\/UploadUserPictureRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1397,
+      "length": 9,
+      "value": "\"picture\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Upload User Picture\/UploadUserPictureRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1555,
+      "length": 77,
+      "value": "\"Cannot create multipart body data with error: \""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Upload User Picture\/UploadUserPictureRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1631,
+      "length": 3,
+      "value": "\"\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Log User Out\/LogUserOutRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 723,
+      "length": 16,
+      "value": "\"\/oauth2\/logout\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Log User Out\/LogUserOutRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 902,
+      "length": 10,
+      "value": "\"sessions\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Delete Current User Phone\/DeleteCurrentUserPhoneRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 754,
+      "length": 39,
+      "value": "\"\/users\/me\/phone\/\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Delete Current User Phone\/DeleteCurrentUserPhoneRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 792,
+      "length": 3,
+      "value": "\"\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Get User Email\/GetUserEmailRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 622,
+      "length": 17,
+      "value": "\"\/users\/me\/email\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Complete Auth By Email\/CompleteAuthByEmailRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 644,
+      "length": 29,
+      "value": "\"\/oauth2\/login\/email\/confirm\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Complete Auth By Email\/CompleteAuthByEmailRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 741,
+      "length": 11,
+      "value": "\"client_id\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Complete Auth By Email\/CompleteAuthByEmailRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 845,
+      "length": 6,
+      "value": "\"code\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Complete Auth By Email\/CompleteAuthByEmailRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 874,
+      "length": 7,
+      "value": "\"email\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Complete Auth By Email\/CompleteAuthByEmailRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 905,
+      "length": 14,
+      "value": "\"operation_id\""
+    },
+    {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Complete Auth By Phone\/CompleteAuthByPhoneResponse.swift",
       "kind": "StringLiteral",
       "offset": 208,
@@ -19867,6 +20623,55 @@
       "offset": 208,
       "length": 11,
       "value": "\"login_url\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Get Current User Friends\/GetCurrentUserFriendsRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 755,
+      "length": 25,
+      "value": "\"\/users\/me\/relationships\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Get Current User Friends\/GetCurrentUserFriendsRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 972,
+      "length": 6,
+      "value": "\"type\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Get Current User Friends\/GetCurrentUserFriendsRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1008,
+      "length": 9,
+      "value": "\"sort_by\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Get Current User Friends\/GetCurrentUserFriendsRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1047,
+      "length": 12,
+      "value": "\"sort_order\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Get Current User Friends\/GetCurrentUserFriendsRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1147,
+      "length": 7,
+      "value": "\"after\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Get Current User Friends\/GetCurrentUserFriendsRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1224,
+      "length": 7,
+      "value": "\"limit\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Delete User Picture\/DeleteUserPictureRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 739,
+      "length": 19,
+      "value": "\"\/users\/me\/picture\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Models\/TokenGrantType.swift",
@@ -19911,6 +20716,13 @@
       "value": "\"client_credentials\""
     },
     {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Get Current User Phone\/GetCurrentUserPhoneRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 748,
+      "length": 17,
+      "value": "\"\/users\/me\/phone\""
+    },
+    {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Register New User\/RegisterNewUserResponse.swift",
       "kind": "StringLiteral",
       "offset": 255,
@@ -19937,13 +20749,6 @@
       "offset": 294,
       "length": 5,
       "value": "\"url\""
-    },
-    {
-      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Add Username And Password\/AddUsernameAndPasswordAPIProxy.swift",
-      "kind": "BooleanLiteral",
-      "offset": 400,
-      "length": 4,
-      "value": "true"
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Get User Devices\/GetUserDevicesResponse.swift",
@@ -20000,6 +20805,69 @@
       "offset": 407,
       "length": 6,
       "value": "\"type\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Reset Password\/ResetPasswordRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 738,
+      "length": 25,
+      "value": "\"\/password\/reset\/request\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Reset Password\/ResetPasswordRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 882,
+      "length": 11,
+      "value": "\"projectId\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Reset Password\/ResetPasswordRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 930,
+      "length": 11,
+      "value": "\"login_url\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Reset Password\/ResetPasswordRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 972,
+      "length": 8,
+      "value": "\"locale\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Reset Password\/ResetPasswordRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1071,
+      "length": 11,
+      "value": "\"login_url\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Reset Password\/ResetPasswordRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1191,
+      "length": 10,
+      "value": "\"username\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Models\/WebAuthenticationSession.swift",
+      "kind": "IntegerLiteral",
+      "offset": 1446,
+      "length": 1,
+      "value": "1"
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Models\/WebAuthenticationSession.swift",
+      "kind": "IntegerLiteral",
+      "offset": 1541,
+      "length": 1,
+      "value": "2"
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Models\/WebAuthenticationSession.swift",
+      "kind": "IntegerLiteral",
+      "offset": 1653,
+      "length": 1,
+      "value": "3"
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Models\/WebAuthenticationSession.swift",
@@ -20037,6 +20905,111 @@
       "value": "\"operation_id\""
     },
     {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Models\/AuthTokenExtractor.swift",
+      "kind": "BooleanLiteral",
+      "offset": 574,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Models\/AuthTokenExtractor.swift",
+      "kind": "StringLiteral",
+      "offset": 657,
+      "length": 7,
+      "value": "\"token\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Models\/AuthTokenExtractor.swift",
+      "kind": "StringLiteral",
+      "offset": 783,
+      "length": 15,
+      "value": "\"Unknown error\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Models\/AuthTokenExtractor.swift",
+      "kind": "StringLiteral",
+      "offset": 1130,
+      "length": 15,
+      "value": "\"Unknown error\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Models\/AuthTokenExtractor.swift",
+      "kind": "BooleanLiteral",
+      "offset": 1254,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Models\/AuthTokenExtractor.swift",
+      "kind": "StringLiteral",
+      "offset": 1338,
+      "length": 7,
+      "value": "\"token\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Models\/AuthTokenExtractor.swift",
+      "kind": "StringLiteral",
+      "offset": 1472,
+      "length": 15,
+      "value": "\"Unknown error\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Models\/AuthTokenExtractor.swift",
+      "kind": "StringLiteral",
+      "offset": 1924,
+      "length": 20,
+      "value": "\"Invalid url string\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Models\/AuthTokenExtractor.swift",
+      "kind": "StringLiteral",
+      "offset": 2023,
+      "length": 15,
+      "value": "\"Unknown error\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Models\/AuthTokenExtractor.swift",
+      "kind": "BooleanLiteral",
+      "offset": 2198,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Models\/AuthTokenExtractor.swift",
+      "kind": "StringLiteral",
+      "offset": 2286,
+      "length": 12,
+      "value": "\"error_code\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Models\/AuthTokenExtractor.swift",
+      "kind": "StringLiteral",
+      "offset": 2397,
+      "length": 19,
+      "value": "\"error_description\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Models\/AuthTokenExtractor.swift",
+      "kind": "StringLiteral",
+      "offset": 2537,
+      "length": 3,
+      "value": "\"+\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Models\/AuthTokenExtractor.swift",
+      "kind": "StringLiteral",
+      "offset": 2548,
+      "length": 3,
+      "value": "\" \""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Models\/AuthTokenExtractor.swift",
+      "kind": "StringLiteral",
+      "offset": 2606,
+      "length": 9,
+      "value": "\"010-016\""
+    },
+    {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Get Links For Social Auth\/GetLinksForSocialAuthResponse.swift",
       "kind": "StringLiteral",
       "offset": 329,
@@ -20053,56 +21026,70 @@
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Add Username And Password\/AddUsernameAndPasswordRequest.swift",
       "kind": "StringLiteral",
-      "offset": 1790,
+      "offset": 653,
+      "length": 31,
+      "value": "\"\/users\/me\/link_email_password\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Add Username And Password\/AddUsernameAndPasswordRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 932,
+      "length": 14,
+      "value": "\"redirect_uri\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Add Username And Password\/AddUsernameAndPasswordRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1783,
       "length": 10,
       "value": "\"username\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Add Username And Password\/AddUsernameAndPasswordRequest.swift",
       "kind": "StringLiteral",
-      "offset": 1829,
+      "offset": 1822,
       "length": 10,
       "value": "\"password\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Add Username And Password\/AddUsernameAndPasswordRequest.swift",
       "kind": "StringLiteral",
-      "offset": 1865,
+      "offset": 1858,
       "length": 7,
       "value": "\"email\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Add Username And Password\/AddUsernameAndPasswordRequest.swift",
       "kind": "StringLiteral",
-      "offset": 1912,
+      "offset": 1905,
       "length": 23,
       "value": "\"promo_email_agreement\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Add Username And Password\/AddUsernameAndPasswordRequest.swift",
       "kind": "StringLiteral",
-      "offset": 1790,
+      "offset": 1783,
       "length": 10,
       "value": "\"username\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Add Username And Password\/AddUsernameAndPasswordRequest.swift",
       "kind": "StringLiteral",
-      "offset": 1829,
+      "offset": 1822,
       "length": 10,
       "value": "\"password\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Add Username And Password\/AddUsernameAndPasswordRequest.swift",
       "kind": "StringLiteral",
-      "offset": 1865,
+      "offset": 1858,
       "length": 7,
       "value": "\"email\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Add Username And Password\/AddUsernameAndPasswordRequest.swift",
       "kind": "StringLiteral",
-      "offset": 1912,
+      "offset": 1905,
       "length": 23,
       "value": "\"promo_email_agreement\""
     },
@@ -20121,6 +21108,251 @@
       "value": "\"login_url\""
     },
     {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Get Links For Social Auth\/GetLinksForSocialAuthRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 815,
+      "length": 22,
+      "value": "\"\/users\/me\/login_urls\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Get Links For Social Auth\/GetLinksForSocialAuthRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1023,
+      "length": 8,
+      "value": "\"locale\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Get Links For Social Auth\/GetLinksForSocialAuthRequest.swift",
+      "kind": "Dictionary",
+      "offset": 1068,
+      "length": 3,
+      "value": "[]"
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Models\/AuthCodeExtractor.swift",
+      "kind": "BooleanLiteral",
+      "offset": 571,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Models\/AuthCodeExtractor.swift",
+      "kind": "StringLiteral",
+      "offset": 654,
+      "length": 6,
+      "value": "\"code\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Models\/AuthCodeExtractor.swift",
+      "kind": "StringLiteral",
+      "offset": 778,
+      "length": 15,
+      "value": "\"Unknown error\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Models\/AuthCodeExtractor.swift",
+      "kind": "StringLiteral",
+      "offset": 1124,
+      "length": 15,
+      "value": "\"Unknown error\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Models\/AuthCodeExtractor.swift",
+      "kind": "BooleanLiteral",
+      "offset": 1248,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Models\/AuthCodeExtractor.swift",
+      "kind": "StringLiteral",
+      "offset": 1331,
+      "length": 6,
+      "value": "\"code\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Models\/AuthCodeExtractor.swift",
+      "kind": "StringLiteral",
+      "offset": 1463,
+      "length": 15,
+      "value": "\"Unknown error\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Models\/AuthCodeExtractor.swift",
+      "kind": "StringLiteral",
+      "offset": 1913,
+      "length": 20,
+      "value": "\"Invalid url string\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Models\/AuthCodeExtractor.swift",
+      "kind": "StringLiteral",
+      "offset": 2011,
+      "length": 15,
+      "value": "\"Unknown error\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Models\/AuthCodeExtractor.swift",
+      "kind": "BooleanLiteral",
+      "offset": 2186,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Models\/AuthCodeExtractor.swift",
+      "kind": "StringLiteral",
+      "offset": 2274,
+      "length": 12,
+      "value": "\"error_code\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Models\/AuthCodeExtractor.swift",
+      "kind": "StringLiteral",
+      "offset": 2385,
+      "length": 19,
+      "value": "\"error_description\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Models\/AuthCodeExtractor.swift",
+      "kind": "StringLiteral",
+      "offset": 2525,
+      "length": 3,
+      "value": "\"+\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Models\/AuthCodeExtractor.swift",
+      "kind": "StringLiteral",
+      "offset": 2536,
+      "length": 3,
+      "value": "\" \""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Models\/AuthCodeExtractor.swift",
+      "kind": "StringLiteral",
+      "offset": 2594,
+      "length": 9,
+      "value": "\"010-016\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Update Current User Friends\/UpdateCurrentUserFriendsRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 752,
+      "length": 25,
+      "value": "\"\/users\/me\/relationships\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Update Current User Friends\/UpdateCurrentUserFriendsRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 918,
+      "length": 8,
+      "value": "\"action\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Update Current User Friends\/UpdateCurrentUserFriendsRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 952,
+      "length": 6,
+      "value": "\"user\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Check User Age\/CheckUserAgeRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 728,
+      "length": 18,
+      "value": "\"\/users\/age\/check\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Check User Age\/CheckUserAgeRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 939,
+      "length": 5,
+      "value": "\"dob\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Check User Age\/CheckUserAgeRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 975,
+      "length": 12,
+      "value": "\"project_id\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Models\/OAuth2Params.swift",
+      "kind": "StringLiteral",
+      "offset": 2299,
+      "length": 6,
+      "value": "\"code\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Auth With Device Id\/AuthWithDeviceIdRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 635,
+      "length": 26,
+      "value": "\"\/oauth2\/login\/device\/ios\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Auth With Device Id\/AuthWithDeviceIdRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 759,
+      "length": 15,
+      "value": "\"response_type\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Auth With Device Id\/AuthWithDeviceIdRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 824,
+      "length": 11,
+      "value": "\"client_id\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Auth With Device Id\/AuthWithDeviceIdRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 889,
+      "length": 7,
+      "value": "\"state\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Auth With Device Id\/AuthWithDeviceIdRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 971,
+      "length": 7,
+      "value": "\"scope\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Auth With Device Id\/AuthWithDeviceIdRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1052,
+      "length": 14,
+      "value": "\"redirect_uri\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Auth With Device Id\/AuthWithDeviceIdRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1179,
+      "length": 8,
+      "value": "\"device\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Auth With Device Id\/AuthWithDeviceIdRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1204,
+      "length": 11,
+      "value": "\"device_id\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Update Social Network Friends\/UpdateSocialNetworkFriendsRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 647,
+      "length": 33,
+      "value": "\"\/users\/me\/social_friends\/update\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Update Social Network Friends\/UpdateSocialNetworkFriendsRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 822,
+      "length": 10,
+      "value": "\"platform\""
+    },
+    {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Auth With Device Id\/AuthWithDeviceIdResponse.swift",
       "kind": "StringLiteral",
       "offset": 205,
@@ -20133,6 +21365,118 @@
       "offset": 205,
       "length": 11,
       "value": "\"login_url\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Get Confirmation Code\/GetConfirmationCodeRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 774,
+      "length": 11,
+      "value": "\"\/otc\/code\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Get Confirmation Code\/GetConfirmationCodeRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 878,
+      "length": 11,
+      "value": "\"projectId\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Get Confirmation Code\/GetConfirmationCodeRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 921,
+      "length": 7,
+      "value": "\"login\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Get Confirmation Code\/GetConfirmationCodeRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 956,
+      "length": 14,
+      "value": "\"operation_id\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Auth By Social Network\/AuthBySocialNetworkRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 786,
+      "length": 56,
+      "value": "\"\/oauth2\/social\/\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Auth By Social Network\/AuthBySocialNetworkRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 824,
+      "length": 1,
+      "value": "\"\/login_with_token\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Auth By Social Network\/AuthBySocialNetworkRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 957,
+      "length": 11,
+      "value": "\"client_id\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Auth By Social Network\/AuthBySocialNetworkRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1007,
+      "length": 15,
+      "value": "\"response_type\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Auth By Social Network\/AuthBySocialNetworkRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1057,
+      "length": 7,
+      "value": "\"state\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Auth By Social Network\/AuthBySocialNetworkRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1152,
+      "length": 14,
+      "value": "\"redirect_uri\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Auth By Social Network\/AuthBySocialNetworkRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1234,
+      "length": 7,
+      "value": "\"scope\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Auth By Social Network\/AuthBySocialNetworkRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1364,
+      "length": 14,
+      "value": "\"access_token\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Auth By Social Network\/AuthBySocialNetworkRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1520,
+      "length": 21,
+      "value": "\"access_token_secret\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Auth By Social Network\/AuthBySocialNetworkRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1638,
+      "length": 8,
+      "value": "\"openid\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Get User Public Profile\/GetUserPublicProfileRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 759,
+      "length": 32,
+      "value": "\"\/users\/\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Get User Public Profile\/GetUserPublicProfileRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 783,
+      "length": 1,
+      "value": "\"\/public\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Add Username And Password\/AddUsernameAndPasswordResponse.swift",

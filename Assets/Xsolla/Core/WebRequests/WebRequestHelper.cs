@@ -30,6 +30,11 @@ namespace Xsolla.Core
 			return Requests.Count > 0;
 		}
 
+		private void Awake()
+		{
+			DontDestroyOnLoad(gameObject);
+		}
+
 		private void OnDestroy()
 		{
 			Requests.ForEach(r => r.Dispose());
