@@ -8,6 +8,11 @@ namespace Xsolla.Core
 		private event Action OnPaymentStatusUpdate;
 		private event Action OnPaymentCancel;
 
+		private void Awake()
+		{
+			DontDestroyOnLoad(gameObject);
+		}
+
 		// Callback for Xsolla Pay Station (do not remove)
 		public void PublishPaymentStatusUpdate()
 		{

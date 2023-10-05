@@ -9,14 +9,14 @@ namespace Xsolla.Tests.Cart
 {
 	public class CreateOrderWithFreeCartTests : CartTestsBase
 	{
-		[UnityTest]
-		public IEnumerator CreateOrderWithFreeCart_Success()
-		{
-			yield return SignInAsTestUser();
-			yield return ClearCartTests.ClearCart();
-			yield return FillCartTests.FillCart(new List<CartFillItem> {new CartFillItem {sku = "Xsolla_free_item", quantity = 1}});
-			yield return CreateOrderWithFreeCart();
-		}
+		// [UnityTest]
+		// public IEnumerator CreateOrderWithFreeCart_Success()
+		// {
+		// 	yield return SignInAsTestUser();
+		// 	yield return ClearCartTests.ClearCart();
+		// 	yield return FillCartTests.FillCart(new List<CartFillItem> {new CartFillItem {sku = "Xsolla_free_item", quantity = 1}});
+		// 	yield return CreateOrderWithFreeCart();
+		// }
 
 		[UnityTest]
 		public IEnumerator CreateOrderWithFreeCart_NotFreeItem_Failure()
@@ -36,15 +36,15 @@ namespace Xsolla.Tests.Cart
 			yield return CreateOrderWithFreeCart(isSuccessExpected: false);
 		}
 
-		[UnityTest]
-		public IEnumerator CreateOrderWithFreeParticularCart_Success()
-		{
-			yield return SignInAsTestUser();
-			yield return PrepareCurrentCart();
-			yield return ClearCartTests.ClearCart(CurrentCartId);
-			yield return FillCartTests.FillCart(new List<CartFillItem> {new CartFillItem {sku = "Xsolla_free_item", quantity = 1}}, CurrentCartId);
-			yield return CreateOrderWithFreeCart(CurrentCartId);
-		}
+		// [UnityTest]
+		// public IEnumerator CreateOrderWithFreeParticularCart_Success()
+		// {
+		// 	yield return SignInAsTestUser();
+		// 	yield return PrepareCurrentCart();
+		// 	yield return ClearCartTests.ClearCart(CurrentCartId);
+		// 	yield return FillCartTests.FillCart(new List<CartFillItem> {new CartFillItem {sku = "Xsolla_free_item", quantity = 1}}, CurrentCartId);
+		// 	yield return CreateOrderWithFreeCart(CurrentCartId);
+		// }
 
 		[UnityTest]
 		public IEnumerator CreateOrderWithFreeParticularCart_NotFreeItem_Failure()

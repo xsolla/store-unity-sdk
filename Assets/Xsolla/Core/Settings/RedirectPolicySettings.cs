@@ -56,7 +56,7 @@ namespace Xsolla.Core
 		{
 			return new RedirectPolicy {
 				return_url = $"app://xpayment.{Application.identifier}",
-				redirect_conditions = RedirectConditionsType.Any.ToString().ToLowerInvariant(),
+				redirect_conditions = RedirectConditionsType.Successful.ToString().ToLowerInvariant(),
 				delay = 0,
 				status_for_manual_redirection = StatusForManualRedirectionType.None.ToString().ToLowerInvariant(),
 				redirect_button_caption = "Return to game"

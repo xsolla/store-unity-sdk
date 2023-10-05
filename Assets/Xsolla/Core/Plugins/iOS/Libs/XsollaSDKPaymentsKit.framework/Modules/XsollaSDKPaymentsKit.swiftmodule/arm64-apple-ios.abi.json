@@ -1317,23 +1317,6 @@
         "moduleName": "XsollaSDKPaymentsKit"
       },
       {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKPaymentsKit",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKPaymentsKit"
-      },
-      {
         "kind": "TypeDecl",
         "name": "LogCategory",
         "printedName": "LogCategory",
@@ -1802,11 +1785,109 @@
   },
   "ConstValues": [
     {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/API\/PaymentsAPIResponseProcessor.swift",
+      "kind": "IntegerLiteral",
+      "offset": 2193,
+      "length": 1,
+      "value": "0"
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/UI\/PaystationWebView.swift",
+      "kind": "BooleanLiteral",
+      "offset": 1508,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/UI\/PaystationWebView.swift",
+      "kind": "BooleanLiteral",
+      "offset": 1595,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/UI\/PaystationWebView.swift",
+      "kind": "BooleanLiteral",
+      "offset": 1683,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/UI\/PaystationWebView.swift",
+      "kind": "BooleanLiteral",
+      "offset": 1761,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/UI\/PaystationWebView.swift",
+      "kind": "BooleanLiteral",
+      "offset": 1845,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/UI\/PaystationWebView.swift",
+      "kind": "BooleanLiteral",
+      "offset": 2767,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/UI\/PaystationWebView.swift",
+      "kind": "StringLiteral",
+      "offset": 2851,
+      "length": 12,
+      "value": "\"invoice_id\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/UI\/PaystationWebView.swift",
+      "kind": "StringLiteral",
+      "offset": 2948,
+      "length": 9,
+      "value": "\"user_id\""
+    },
+    {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/UI\/PaystationWebView.swift",
       "kind": "BooleanLiteral",
       "offset": 4055,
       "length": 5,
       "value": "false"
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/UI\/PaystationWebView.swift",
+      "kind": "StringLiteral",
+      "offset": 4318,
+      "length": 48,
+      "value": "\"https:\/\/sandbox-secure.xsolla.com\/paystation3\/\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/UI\/PaystationWebView.swift",
+      "kind": "StringLiteral",
+      "offset": 4385,
+      "length": 40,
+      "value": "\"https:\/\/secure.xsolla.com\/paystation3\/\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/UI\/PaystationWebView.swift",
+      "kind": "StringLiteral",
+      "offset": 4548,
+      "length": 24,
+      "value": "\"Cannot build base URL.\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/UI\/PaystationWebView.swift",
+      "kind": "StringLiteral",
+      "offset": 4648,
+      "length": 14,
+      "value": "\"access_token\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/UI\/PaystationWebView.swift",
+      "kind": "StringLiteral",
+      "offset": 4779,
+      "length": 39,
+      "value": "\"Cannot extract URL from URLComponents\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/Logging\/Extensions\/DomainExtensions.swift",
@@ -1816,11 +1897,137 @@
       "value": "\"Payments Kit\""
     },
     {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/API\/PaymentsAPIErrorModel.swift",
+      "kind": "StringLiteral",
+      "offset": 932,
+      "length": 3,
+      "value": "\"-\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/API\/PaymentsAPIErrorModel.swift",
+      "kind": "StringLiteral",
+      "offset": 943,
+      "length": 2,
+      "value": "\"\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/API\/Base Classes\/PaymentsBaseRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1356,
+      "length": 8,
+      "value": "\"engine\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/API\/Base Classes\/PaymentsBaseRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1366,
+      "length": 5,
+      "value": "\"ios\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/API\/Base Classes\/PaymentsBaseRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1382,
+      "length": 10,
+      "value": "\"engine_v\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/API\/Base Classes\/PaymentsBaseRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1415,
+      "length": 5,
+      "value": "\"sdk\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/API\/Base Classes\/PaymentsBaseRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1422,
+      "length": 10,
+      "value": "\"payments\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/API\/Base Classes\/PaymentsBaseRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1443,
+      "length": 7,
+      "value": "\"sdk_v\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/API\/Base Classes\/PaymentsBaseRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1466,
+      "length": 2,
+      "value": "\"\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/API\/Base Classes\/PaymentsBaseRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1577,
+      "length": 12,
+      "value": "\"X-ENGINE-V\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/API\/Base Classes\/PaymentsBaseRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1655,
+      "length": 9,
+      "value": "\"X-SDK-V\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/API\/Base Classes\/PaymentsBaseRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1694,
+      "length": 2,
+      "value": "\"\""
+    },
+    {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/API\/Base Classes\/PaymentsBaseRequest.swift",
       "kind": "StringLiteral",
       "offset": 106,
       "length": 19,
       "value": "\"XsollaSDKPaymentsKit.PaymentsBaseRequest\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/Logging\/Filters\/LoggerKitFilter_Gussent.swift",
+      "kind": "Array",
+      "offset": 257,
+      "length": 2,
+      "value": "[]"
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/Logging\/Filters\/LoggerKitFilter_Gussent.swift",
+      "kind": "Array",
+      "offset": 376,
+      "length": 2,
+      "value": "[]"
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/Logging\/Filters\/LoggerKitFilter_Gussent.swift",
+      "kind": "StringLiteral",
+      "offset": 422,
+      "length": 2,
+      "value": "\"\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/Logging\/Filters\/LoggerKitFilter_Gussent.swift",
+      "kind": "StringLiteral",
+      "offset": 459,
+      "length": 2,
+      "value": "\"\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/Logging\/Filters\/LoggerKitFilter_Gussent.swift",
+      "kind": "StringLiteral",
+      "offset": 498,
+      "length": 2,
+      "value": "\"\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/Logging\/Filters\/LoggerKitFilter_Gussent.swift",
+      "kind": "StringLiteral",
+      "offset": 537,
+      "length": 2,
+      "value": "\"\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/UI\/PaystationVC.swift",
@@ -1830,11 +2037,88 @@
       "value": "false"
     },
     {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/UI\/PaystationVC.swift",
+      "kind": "BooleanLiteral",
+      "offset": 728,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/UI\/PaystationVC.swift",
+      "kind": "BooleanLiteral",
+      "offset": 826,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/UI\/PaystationVC.swift",
+      "kind": "BooleanLiteral",
+      "offset": 920,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/UI\/PaystationVC.swift",
+      "kind": "BooleanLiteral",
+      "offset": 1016,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/UI\/PaystationVC.swift",
+      "kind": "BooleanLiteral",
+      "offset": 1114,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/UI\/PaystationVC.swift",
+      "kind": "BooleanLiteral",
+      "offset": 1316,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/UI\/PaystationVC.swift",
+      "kind": "StringLiteral",
+      "offset": 1873,
+      "length": 36,
+      "value": "\"Paystation View did finish payment\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/UI\/PaystationVC.swift",
+      "kind": "BooleanLiteral",
+      "offset": 1951,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/PaymentsKit.swift",
+      "kind": "BooleanLiteral",
+      "offset": 1720,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/PaymentsKit.swift",
+      "kind": "BooleanLiteral",
+      "offset": 1916,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/PaymentsKit.swift",
+      "kind": "BooleanLiteral",
+      "offset": 2046,
+      "length": 4,
+      "value": "true"
+    },
+    {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/Version.swift",
       "kind": "StringLiteral",
       "offset": 117,
       "length": 7,
-      "value": "\"0.4.2\""
+      "value": "\"0.6.0\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/Logging\/Filters\/LoggerKitDefaultFilter.swift",
@@ -1884,6 +2168,104 @@
       "offset": 586,
       "length": 2,
       "value": "\"\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/Logging\/Filters\/LoggerKitDefaultFilter.swift",
+      "kind": "BooleanLiteral",
+      "offset": 720,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/Logging\/Filters\/LoggerKitDefaultFilter.swift",
+      "kind": "BooleanLiteral",
+      "offset": 961,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/Logging\/Filters\/LoggerKitDefaultFilter.swift",
+      "kind": "BooleanLiteral",
+      "offset": 1202,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/Logging\/Filters\/LoggerKitDefaultFilter.swift",
+      "kind": "StringLiteral",
+      "offset": 1539,
+      "length": 3,
+      "value": "\",\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/Logging\/Filters\/LoggerKitDefaultFilter.swift",
+      "kind": "StringLiteral",
+      "offset": 1809,
+      "length": 3,
+      "value": "\",\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/Logging\/Filters\/LoggerKitDefaultFilter.swift",
+      "kind": "BooleanLiteral",
+      "offset": 1925,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/Logging\/Filters\/LoggerKitDefaultFilter.swift",
+      "kind": "StringLiteral",
+      "offset": 2181,
+      "length": 3,
+      "value": "\",\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/Logging\/Filters\/LoggerKitDefaultFilter.swift",
+      "kind": "StringLiteral",
+      "offset": 2457,
+      "length": 3,
+      "value": "\",\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/Logging\/Filters\/LoggerKitDefaultFilter.swift",
+      "kind": "BooleanLiteral",
+      "offset": 2575,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/Logging\/Filters\/LoggerKitDefaultFilter.swift",
+      "kind": "IntegerLiteral",
+      "offset": 2777,
+      "length": 1,
+      "value": "0"
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/API\/PaymentsAPI.swift",
+      "kind": "StringLiteral",
+      "offset": 848,
+      "length": 48,
+      "value": "\"https:\/\/sandbox-secure.xsolla.com\/paystation3\/\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/API\/PaymentsAPI.swift",
+      "kind": "StringLiteral",
+      "offset": 911,
+      "length": 40,
+      "value": "\"https:\/\/secure.xsolla.com\/paystation3\/\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/API\/PaymentsAPI.swift",
+      "kind": "StringLiteral",
+      "offset": 1128,
+      "length": 14,
+      "value": "\"access_token\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/API\/PaymentsAPI.swift",
+      "kind": "StringLiteral",
+      "offset": 1550,
+      "length": 22,
+      "value": "\"http:\/\/0.0.0.0:3000\/\""
     }
   ]
 }
