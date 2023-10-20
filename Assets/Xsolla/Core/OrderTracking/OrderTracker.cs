@@ -2,7 +2,7 @@ using System;
 
 namespace Xsolla.Core
 {
-	internal abstract class OrderTracker
+	public abstract class OrderTracker
 	{
 		private bool _isCheckInProgress;
 

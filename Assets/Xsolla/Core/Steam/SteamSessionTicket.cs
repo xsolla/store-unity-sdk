@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
-#if UNITY_STANDALONE
-using Steamworks;
-#endif
 
 namespace Xsolla.Core
 {
@@ -38,7 +35,7 @@ namespace Xsolla.Core
 			try
 			{
 #if UNITY_STANDALONE
-				SteamUser.GetAuthSessionTicket(ticket, 1024, out var length);
+				Steamworks.SteamUser.GetAuthSessionTicket(ticket, 1024, out var length);
 				Array.Resize(ref ticket, (int) length);
 #else
 				ticket = new byte[0];

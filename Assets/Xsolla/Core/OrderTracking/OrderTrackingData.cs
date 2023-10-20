@@ -2,7 +2,7 @@ using System;
 
 namespace Xsolla.Core
 {
-	internal class OrderTrackingData
+	public class OrderTrackingData
 	{
 		public readonly int orderId;
 		public readonly Action successCallback;

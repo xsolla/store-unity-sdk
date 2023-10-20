@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using UnityEngine;
 using Xsolla.Auth;
 using Xsolla.Core;
 
@@ -11,25 +13,35 @@ namespace Xsolla.Demo
 #if !(UNITY_EDITOR || UNITY_STANDALONE)
 			onError?.Invoke(null);
 #else
+			StartCoroutine(ProcessSteamAuth(onSuccess, onError));
+#endif
+		}
+
+#if UNITY_EDITOR || UNITY_STANDALONE
+		private IEnumerator ProcessSteamAuth(Action onSuccess, Action<Error> onError)
+		{
 			if (!DemoSettings.UseSteamAuth)
 			{
 				onError?.Invoke(null);
-				return;
+				yield break;
 			}
 
 			var appId = DemoSettings.SteamAppId;
 			if (!int.TryParse(appId, out _))
 			{
 				onError?.Invoke(new Error(errorMessage: "Steam auth failed. Can't parse SteamAppId"));
-				return;
+				yield break;
 			}
 
 			var sessionTicket = SteamUtils.GetSteamSessionTicket();
 			if (string.IsNullOrEmpty(sessionTicket))
 			{
 				onError?.Invoke(new Error(errorMessage: "Steam auth failed. Can't get session ticket"));
-				return;
+				yield break;
 			}
+
+			// Delay is required for the Steam server to process the session ticket.
+			yield return new WaitForSeconds(1.0f);
 
 			XsollaAuth.SilentAuth(
 				"steam",
@@ -37,7 +49,7 @@ namespace Xsolla.Demo
 				sessionTicket,
 				onSuccess,
 				onError);
-#endif
 		}
+#endif
 	}
 }
