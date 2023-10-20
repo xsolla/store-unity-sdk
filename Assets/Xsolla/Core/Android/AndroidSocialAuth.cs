@@ -1,4 +1,3 @@
-#if UNITY_ANDROID
 using System;
 using UnityEngine;
 
@@ -10,24 +9,27 @@ namespace Xsolla.Core
 		{
 			try
 			{
-				var androidHelper = new AndroidHelper();
+				var helper = new AndroidHelper();
 
 				var providerName = provider.ToString().ToUpper();
 				var socialNetworkClass = new AndroidJavaClass("com.xsolla.android.login.social.SocialNetwork");
 				var socialNetworkObject = socialNetworkClass.GetStatic<AndroidJavaObject>(providerName);
 
-				var authCallback = new AndroidAuthCallback(
-					androidHelper,
-					() => androidHelper.MainThreadExecutor.Enqueue(() => onSuccess?.Invoke()),
-					error => androidHelper.MainThreadExecutor.Enqueue(() => onError(error)),
-					() => androidHelper.MainThreadExecutor.Enqueue(onCancel));
+				var callback = new AndroidAuthCallback(
+					token => helper.MainThreadExecutor.Enqueue(() =>
+					{
+						XsollaToken.Create(token);
+						onSuccess?.Invoke();
+					}),
+					error => helper.MainThreadExecutor.Enqueue(() => onError(error)),
+					() => helper.MainThreadExecutor.Enqueue(onCancel));
 
 				var proxyActivity = new AndroidJavaObject($"{Application.identifier}.androidProxies.SocialAuthProxyActivity");
 				proxyActivity.CallStatic(
 					"perform",
-					androidHelper.CurrentActivity,
+					helper.CurrentActivity,
 					socialNetworkObject,
-					authCallback);
+					callback);
 			}
 			catch (Exception e)
 			{
@@ -36,4 +38,3 @@ namespace Xsolla.Core
 		}
 	}
 }
-#endif

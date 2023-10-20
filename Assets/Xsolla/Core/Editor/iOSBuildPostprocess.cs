@@ -49,8 +49,7 @@ namespace Xsolla.Core.Editor
 			plistDoc.ReadFromString(File.ReadAllText(plistPath));
 
 			var rootDic = plistDoc.root;
-			var urlTypesArray = rootDic["CFBundleURLTypes"] as PlistElementArray
-				?? rootDic.CreateArray("CFBundleURLTypes");
+			var urlTypesArray = rootDic.CreateArray("CFBundleURLTypes");
 
 			var urlNamesDic = urlTypesArray.AddDict();
 			urlNamesDic.SetString("CFBundleURLName", "");

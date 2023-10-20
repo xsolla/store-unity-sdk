@@ -16,7 +16,7 @@ namespace Xsolla.DevTools
 
 			Debug.Log($"[BuildsManager] Begin. Target: {buildTarget} Path:{buildPath}");
 
-			var buildPlayerOptions = new BuildPlayerOptions {
+			var buildPlayerOptions = new BuildPlayerOptions{
 				scenes = buildScenes,
 				locationPathName = buildPath,
 				target = buildTarget,
@@ -61,7 +61,9 @@ namespace Xsolla.DevTools
 		{
 			var envArg = GetEnvironmentArgument("buildTarget");
 			if (Enum.TryParse(envArg, out BuildTarget target))
+			{
 				return target;
+			}
 
 			throw new Exception($"Can't parse build target from environment argument: {envArg}");
 		}
@@ -78,8 +80,6 @@ namespace Xsolla.DevTools
 				case BuildTarget.StandaloneWindows:
 				case BuildTarget.StandaloneWindows64:
 					return Path.Combine(path, $"{productName}.exe");
-				case BuildTarget.StandaloneOSX:
-					return Path.Combine(path, $"{productName}.app");
 				default:
 					return path;
 			}
@@ -89,12 +89,12 @@ namespace Xsolla.DevTools
 		{
 			if (buildTarget == BuildTarget.Android || buildTarget == BuildTarget.iOS)
 			{
-				return new[] {
+				return new[]{
 					"Assets/Xsolla.Demo/Common/Scene/XsollusMobilePortrait.unity"
 				};
 			}
 
-			return new[] {
+			return new[]{
 				"Assets/Xsolla.Demo/Common/Scene/Xsollus.unity"
 			};
 		}

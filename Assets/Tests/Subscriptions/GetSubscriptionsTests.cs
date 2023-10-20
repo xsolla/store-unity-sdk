@@ -20,7 +20,7 @@ namespace Xsolla.Tests.Subscriptions
 					isComplete = true;
 					Assert.NotNull(items);
 					Assert.NotNull(items.items);
-					// Assert.Greater(items.items.Length, 0);
+					Assert.Greater(items.items.Length, 0);
 				}, error =>
 				{
 					isComplete = true;

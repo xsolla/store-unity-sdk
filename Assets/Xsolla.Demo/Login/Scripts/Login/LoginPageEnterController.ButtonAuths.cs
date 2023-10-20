@@ -24,7 +24,6 @@ namespace Xsolla.Demo
 
 		[Space]
 		[SerializeField] private SimpleButton DeviceIDAuthButton;
-		[SerializeField] private SimpleButton LoginWidgetAuthButton;
 
 		private void Awake()
 		{
@@ -47,9 +46,6 @@ namespace Xsolla.Demo
 
 			if (DeviceIDAuthButton)
 				DeviceIDAuthButton.onClick += RunDeviceIDAuth;
-			
-			if (LoginWidgetAuthButton)
-				LoginWidgetAuthButton.onClick += RunLoginWidgetAuth;
 		}
 
 		public void RunBasicAuth(string username, string password, bool rememberMe)
@@ -104,17 +100,6 @@ namespace Xsolla.Demo
 			PopupFactory.Instance.CreateWaiting().SetCloseCondition(() => IsAuthInProgress == false);
 
 			TryAuthBy<DeviceIdAuth>(null, SuperComplete, ProcessError);
-		}
-
-		private void RunLoginWidgetAuth()
-		{
-			if (IsAuthInProgress)
-				return;
-
-			IsAuthInProgress = true;
-			PopupFactory.Instance.CreateWaiting().SetCloseCondition(() => IsAuthInProgress == false);
-
-			TryAuthBy<LoginWidgetAuth>(null, SuperComplete, ProcessError);
 		}
 
 		private void RunPasswordlessAuth<T>(string value) where T : LoginAuthorization

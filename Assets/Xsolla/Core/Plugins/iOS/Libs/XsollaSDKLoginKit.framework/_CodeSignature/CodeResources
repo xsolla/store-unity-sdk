@@ -6,23 +6,23 @@
 	<dict>
 		<key>.swiftlint.yml</key>
 		<data>
-		xTkfto0iaor4o7U3IMHRk2BsnWU=
+		ovSNf+8tK0g9Myh5vMjra4v5PFo=
 		</data>
 		<key>Frameworks/XsollaSDKUtilities.framework/.swiftlint.yml</key>
 		<data>
-		yCQ4S+suX8abrrdOxNoHT0caJlM=
+		4+dUhykytExmluBzLzqo6JttnIc=
 		</data>
 		<key>Frameworks/XsollaSDKUtilities.framework/Info.plist</key>
 		<data>
-		gmdyVA1fxJw1Dlo9QDefXa6r8Dk=
+		WlXivmrEPFhCCJ8L8TRzAtSDUns=
 		</data>
 		<key>Frameworks/XsollaSDKUtilities.framework/XsollaSDKUtilities</key>
 		<data>
-		vfvc9Y4rUqxkAXDjNMG66P7BJ6U=
+		xmK/LTt0vyaUNzradC6Sq8F40iM=
 		</data>
 		<key>Frameworks/XsollaSDKUtilities.framework/_CodeSignature/CodeResources</key>
 		<data>
-		JzdAYb5JDsyIsSPuq4hCe25Qbs8=
+		oybymj09rK2ZYYObsnRpUQIHvyg=
 		</data>
 		<key>Headers/LoginKit.h</key>
 		<data>
@@ -30,31 +30,31 @@
 		</data>
 		<key>Headers/XsollaSDKLoginKit-Swift.h</key>
 		<data>
-		LmQ7cMFYM2ASR3oU5jlQs1CDAak=
+		oPZNIzFuogcO0a6WBnWGeN++Tkc=
 		</data>
 		<key>Info.plist</key>
 		<data>
-		Npx6ZlIWYoKFeha593dnovnEZpo=
+		utEK6scWSssmviz7NlNag2LmFhE=
 		</data>
 		<key>Modules/XsollaSDKLoginKit.swiftmodule/arm64-apple-ios.abi.json</key>
 		<data>
-		WfTe16g6PK8gn3ZvKdruAqM3aRM=
+		5MIXdJ321vQLUx3Ip5hTTL6nY1U=
 		</data>
 		<key>Modules/XsollaSDKLoginKit.swiftmodule/arm64-apple-ios.private.swiftinterface</key>
 		<data>
-		SAasooB/iiUj/VAnNdKoLyR75oc=
+		bsIXks1+xYpJ9pfhbhIbDVCgEoE=
 		</data>
 		<key>Modules/XsollaSDKLoginKit.swiftmodule/arm64-apple-ios.swiftdoc</key>
 		<data>
-		vcLUs8itFF3bG4nR83wp1/nHh0w=
+		RN1xn9rf75MjiluTXiOoXG6UexU=
 		</data>
 		<key>Modules/XsollaSDKLoginKit.swiftmodule/arm64-apple-ios.swiftinterface</key>
 		<data>
-		SAasooB/iiUj/VAnNdKoLyR75oc=
+		bsIXks1+xYpJ9pfhbhIbDVCgEoE=
 		</data>
 		<key>Modules/XsollaSDKLoginKit.swiftmodule/arm64-apple-ios.swiftmodule</key>
 		<data>
-		lXa3I5i3B29asCVOerbCiLS4PG0=
+		KMQnPwHYyl9SiNYA7aZN+5lCO8c=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -67,35 +67,35 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			8oVOdLf3GxcEPR9hrLwrDGu12A3m3bvZFysjaPOe8hc=
+			sSf9oTqijgNKlErbsdThf0kK9qT1f+LRZgigmHC01JA=
 			</data>
 		</dict>
 		<key>Frameworks/XsollaSDKUtilities.framework/.swiftlint.yml</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			pswMBRwaIsKJZsKApF61EkqXYcRlJ4lxKYpdSefGeWk=
+			k8+IWbg3dmj2o0hNrtvF9ub9vDb/HSmPsLNM7rCjFHA=
 			</data>
 		</dict>
 		<key>Frameworks/XsollaSDKUtilities.framework/Info.plist</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			ExLKBAIPrROjiTtHtLSIjMpaw7t1oZo96hTAtbjoEw0=
+			djGAX6KIiAYO17yGkcAMNGcqkoHoYZoERqQFCBDg3zs=
 			</data>
 		</dict>
 		<key>Frameworks/XsollaSDKUtilities.framework/XsollaSDKUtilities</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			OtnLUgWKwL0D4Yyu1v8KE138bJsn7whlfRW5bGRK83s=
+			BOGz/VO7AD4cmpApcMICgX+z79VMkAlhGjpB4LjG2Hk=
 			</data>
 		</dict>
 		<key>Frameworks/XsollaSDKUtilities.framework/_CodeSignature/CodeResources</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			pSKV2hznq+g7ar5PwEobWhNwQ6EFxGtg/jaDdKOQYD8=
+			CrVgcowhENweVEBMNh0mGAJurdPun13x+wpHgVwvsG0=
 			</data>
 		</dict>
 		<key>Headers/LoginKit.h</key>
@@ -109,42 +109,42 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			+agPjBASLjH6Q4mIDvanWOTdsAdFSyXyd65GsZp2zU8=
+			VQJe2Kl2XmnVKTjyeGHqq5RuWW6smfuUghf3UOb0B6Q=
 			</data>
 		</dict>
 		<key>Modules/XsollaSDKLoginKit.swiftmodule/arm64-apple-ios.abi.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			Lv+Q7WnCXRYQyMxcX4A5HCrduivdFBhs4MJ4ZPG735o=
+			5feyLo5S5H5u//5Io+FwORzPH3J/6G+WnANaGMy+/bE=
 			</data>
 		</dict>
 		<key>Modules/XsollaSDKLoginKit.swiftmodule/arm64-apple-ios.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			YJyiHw4/iQBT2q0VimPteqaafJjRFNssIk6DbKtJZcQ=
+			/PRquseuC2IXOMDy1hUvUWwUGgTyAypqk1Tr7iOpbyw=
 			</data>
 		</dict>
 		<key>Modules/XsollaSDKLoginKit.swiftmodule/arm64-apple-ios.swiftdoc</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			uT40gzZ4/DzEROrAAJyeueiMX4IPW8CZPql9wU5CEUg=
+			td0jY+3p9WGFQEZA4FH0E2nLwLLAmDiJQ3xyf7uHS1A=
 			</data>
 		</dict>
 		<key>Modules/XsollaSDKLoginKit.swiftmodule/arm64-apple-ios.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			YJyiHw4/iQBT2q0VimPteqaafJjRFNssIk6DbKtJZcQ=
+			/PRquseuC2IXOMDy1hUvUWwUGgTyAypqk1Tr7iOpbyw=
 			</data>
 		</dict>
 		<key>Modules/XsollaSDKLoginKit.swiftmodule/arm64-apple-ios.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			Ky9pMz30Iv5kBXJZHy7MglCJYspxGwg57pMwhqoXdLE=
+			zyxMsESW44xLuwFWIQcPNf9MKm1dhe4nWbpkKk9MXS0=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>

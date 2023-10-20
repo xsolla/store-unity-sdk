@@ -1,19 +1,16 @@
-﻿#if UNITY_ANDROID
-using System;
+﻿using System;
 using UnityEngine;
 
 namespace Xsolla.Core
 {
 	internal class AndroidAuthCallback : AndroidJavaProxy
 	{
-		private readonly AndroidHelper AndroidHelper;
-		private readonly Action OnSuccess;
+		private readonly Action<string> OnSuccess;
 		private readonly Action<Error> OnError;
 		private readonly Action OnCancel;
 
-		public AndroidAuthCallback(AndroidHelper androidHelper, Action onSuccess, Action<Error> onError, Action onCancel) : base("com.xsolla.android.login.callback.AuthCallback")
+		public AndroidAuthCallback(Action<string> onSuccess, Action<Error> onError, Action onCancel) : base("com.xsolla.android.login.callback.AuthCallback")
 		{
-			AndroidHelper = androidHelper;
 			OnSuccess = onSuccess;
 			OnError = onError;
 			OnCancel = onCancel;
@@ -23,10 +20,8 @@ namespace Xsolla.Core
 		{
 			try
 			{
-				var accessToken = AndroidHelper.Xlogin.CallStatic<string>("getToken");
-				var refreshToken = AndroidHelper.Xlogin.CallStatic<string>("getRefreshToken");
-				XsollaToken.Create(accessToken, refreshToken);
-				OnSuccess?.Invoke();
+				var token = new AndroidHelper().Xlogin.CallStatic<string>("getToken");
+				OnSuccess?.Invoke(token);
 			}
 			catch (Exception e)
 			{
@@ -47,4 +42,3 @@ namespace Xsolla.Core
 		}
 	}
 }
-#endif

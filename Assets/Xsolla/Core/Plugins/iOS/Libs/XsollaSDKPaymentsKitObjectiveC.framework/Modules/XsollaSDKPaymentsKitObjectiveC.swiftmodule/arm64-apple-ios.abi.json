@@ -536,13 +536,6 @@
   },
   "ConstValues": [
     {
-      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKitObjectiveC\/PaymentsKitObjectiveC\/Extensions\/PaymentsKitError.swift",
-      "kind": "StringLiteral",
-      "offset": 258,
-      "length": 17,
-      "value": "\"cancelledByUser\""
-    },
-    {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKitObjectiveC\/PaymentsKitObjectiveC\/Extensions\/NSErrorCodes.swift",
       "kind": "IntegerLiteral",
       "offset": 143,
@@ -555,13 +548,6 @@
       "offset": 512,
       "length": 22,
       "value": "\"localizedDescription\""
-    },
-    {
-      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKitObjectiveC\/PaymentsKitObjectiveC\/Extensions\/NSErrorFactory.swift",
-      "kind": "StringLiteral",
-      "offset": 649,
-      "length": 23,
-      "value": "\"XsollaSDK.PaymentsKit\""
     }
   ]
 }

@@ -11,16 +11,11 @@ namespace Xsolla.Core
 		{
 			get
 			{
-				if (!_instance) 
+				if (!_instance)
 					_instance = new GameObject("CoroutinesExecutor").AddComponent<CoroutinesExecutor>();
 
 				return _instance;
 			}
-		}
-
-		private void Awake()
-		{
-			DontDestroyOnLoad(gameObject);
 		}
 
 		public static Coroutine Run(IEnumerator coroutine)

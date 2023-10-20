@@ -1,8 +1,7 @@
 // swift-interface-format-version: 1.0
-// swift-compiler-version: Apple Swift version 5.8.1 (swiftlang-5.8.0.124.5 clang-1403.0.22.11.100)
+// swift-compiler-version: Apple Swift version 5.7.2 (swiftlang-5.7.2.135.5 clang-1400.0.29.51)
 // swift-module-flags: -target arm64-apple-ios11.4 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name XsollaSDKLoginKitObjectiveC
 // swift-module-flags-ignorable: -enable-bare-slash-regex
-import AuthenticationServices/*.AuthenticationServices*/
 import AuthenticationServices
 import Foundation
 import Swift
@@ -21,8 +20,7 @@ import _StringProcessing
 }
 @available(iOS 13.4, *)
 extension XsollaSDKLoginKitObjectiveC.LoginKitObjectiveC {
-  @objc final public func authBySocialNetwork(_ providerName: Foundation.NSString, oAuth2Params: XsollaSDKLoginKitObjectiveC.OAuth2Params, jwtParams: XsollaSDKLoginKitObjectiveC.JWTGenerationParams, presentationContextProvider: any AuthenticationServices.ASWebAuthenticationPresentationContextProviding, completion: @escaping (XsollaSDKLoginKitObjectiveC.AccessTokenInfo?, Foundation.NSError?) -> Swift.Void)
-  @objc final public func authWithXsollaWidget(loginId: Swift.String, oAuth2Params: XsollaSDKLoginKitObjectiveC.OAuth2Params, presentationContextProvider: any AuthenticationServices.ASWebAuthenticationPresentationContextProviding, completion: @escaping (XsollaSDKLoginKitObjectiveC.AccessTokenInfo?, Foundation.NSError?) -> Swift.Void)
+  @objc final public func authBySocialNetwork(_ providerName: Foundation.NSString, oAuth2Params: XsollaSDKLoginKitObjectiveC.OAuth2Params, jwtParams: XsollaSDKLoginKitObjectiveC.JWTGenerationParams, presentationContextProvider: XsollaSDKLoginKitObjectiveC.PresentationContextProviding, completion: @escaping (XsollaSDKLoginKitObjectiveC.AccessTokenInfo?, Foundation.NSError?) -> Swift.Void)
 }
 public typealias ViewControllerPresenting = UIKit.UIViewController
 @objc public class OAuth2Params : ObjectiveC.NSObject {

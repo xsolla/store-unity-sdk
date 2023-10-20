@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Xsolla.Core
 {
-	public static class OrderTrackingService
+	internal static class OrderTrackingService
 	{
 		private static readonly Dictionary<int, OrderTracker> Trackers = new Dictionary<int, OrderTracker>();
 
@@ -20,32 +20,35 @@ namespace Xsolla.Core
 				return null;
 
 			var trackingData = new OrderTrackingData(orderId, onSuccess, onError);
-			
+#if UNITY_WEBGL
 			if (!isUserInvolvedToPayment)
 				return new OrderTrackerByShortPolling(trackingData);
 
-#if UNITY_WEBGL
 			return !UnityEngine.Application.isEditor && XsollaSettings.InAppBrowserEnabled
 				? new OrderTrackerByPaystationCallbacks(trackingData)
 				: new OrderTrackerByShortPolling(trackingData) as OrderTracker;
 #else
-			return new OrderTrackerByCentrifugo(trackingData);
+			return new OrderTrackerByWebsockets(trackingData);
 #endif
 		}
 
-		public static void RemoveOrderFromTracking(int orderId)
+		public static bool RemoveOrderFromTracking(int orderId)
 		{
 			if (!Trackers.TryGetValue(orderId, out var tracker))
-				return;
+				return false;
 
 			tracker.Stop();
 			Trackers.Remove(orderId);
+			return true;
 		}
 
-		public static void ReplaceTracker(OrderTracker oldTracker, OrderTracker newTracker)
+		public static bool ReplaceTracker(OrderTracker oldTracker, OrderTracker newTracker)
 		{
-			RemoveOrderFromTracking(oldTracker.TrackingData.orderId);
+			if (!RemoveOrderFromTracking(oldTracker.TrackingData.orderId))
+				return false;
+
 			StartTracker(newTracker);
+			return true;
 		}
 
 		private static void StartTracker(OrderTracker tracker)

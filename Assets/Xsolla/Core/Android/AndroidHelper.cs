@@ -1,4 +1,3 @@
-#if UNITY_ANDROID
 using System;
 using UnityEngine;
 
@@ -58,7 +57,7 @@ namespace Xsolla.Core
 		private static void CreateMainThreadExecutor()
 		{
 			if (!_mainThreadExecutorInstance)
-				_mainThreadExecutorInstance = MainThreadExecutor.Instance;
+				_mainThreadExecutorInstance = new GameObject("Android MainThreadExecutor").AddComponent<MainThreadExecutor>();
 		}
 
 		private void InitLogin()
@@ -72,10 +71,9 @@ namespace Xsolla.Core
 				var socialConfig = new AndroidJavaObject(
 					"com.xsolla.android.login.XLogin$SocialConfig",
 					XsollaSettings.FacebookAppId,
-					XsollaSettings.FacebookClientToken,
 					XsollaSettings.GoogleServerId,
 					XsollaSettings.WeChatAppId,
-					XsollaSettings.QqAppId);
+					XsollaSettings.QQAppId);
 
 				var loginConfigBuilder = new AndroidJavaObject("com.xsolla.android.login.LoginConfig$OauthBuilder");
 				loginConfigBuilder.Call<AndroidJavaObject>("setSocialConfig", socialConfig);
@@ -93,4 +91,3 @@ namespace Xsolla.Core
 		}
 	}
 }
-#endif
