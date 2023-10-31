@@ -20,7 +20,7 @@
 @code_sign_identity_distribution = ENV["code_sign_identity_distribution"]
 
 # Токен доступа к API DIAWI, установлен в дефолтном .env, при необходимости можно перезаписать своим в .env.local
-@diawi_api_token = ENV["diawi_api_access_token"]
+@diawi_api_token = ENV["DIAWI_API_KEY"]
 @diawi_ios_app_name = "Unity SDK Demo iOS " + ENV["UNITY_VERSION"]
 
 ### LANES ###
