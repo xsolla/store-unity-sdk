@@ -16,7 +16,7 @@ namespace Xsolla.Catalog
 		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/catalog/catalog-display/).</remarks>
 		/// <param name="onSuccess">Called after virtual items were successfully received.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
-		/// <param name="limit">Limit for the number of elements on the page.</param>
+		/// <param name="limit">Limit for the number of elements on the page. The maximum number of elements on a page is 50.</param>
 		/// <param name="offset">Number of the element from which the list is generated (the count starts from 0).</param>
 		/// <param name="locale">Response language.<br/>
 		///     The following languages are supported: Arabic (`ar`), Bulgarian (`bg`), Czech (`cs`), German (`de`), Spanish (`es`), French (`fr`), Hebrew (`he`), Italian (`it`), Japanese (`ja`), Korean (`ko`), Polish (`pl`), Portuguese (`pt`), Romanian (`ro`), Russian (`ru`), Thai (`th`), Turkish (`tr`), Vietnamese (`vi`), Chinese Simplified (`cn`), Chinese Traditional (`tw`), English (`en`, default).<br/>
@@ -75,7 +75,7 @@ namespace Xsolla.Catalog
 		/// <param name="groupExternalId">Group external ID.</param>
 		/// <param name="onSuccess">Called after server response.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
-		/// <param name="limit">Limit for the number of elements on the page.</param>
+		/// <param name="limit">Limit for the number of elements on the page. The maximum number of elements on a page is 50.</param>
 		/// <param name="offset">Number of the element from which the list is generated (the count starts from 0).</param>
 		/// <param name="locale">Response language.<br/>
 		///     The following languages are supported: Arabic (`ar`), Bulgarian (`bg`), Czech (`cs`), German (`de`), Spanish (`es`), French (`fr`), Hebrew (`he`), Italian (`it`), Japanese (`ja`), Korean (`ko`), Polish (`pl`), Portuguese (`pt`), Romanian (`ro`), Russian (`ru`), Thai (`th`), Turkish (`tr`), Vietnamese (`vi`), Chinese Simplified (`cn`), Chinese Traditional (`tw`), English (`en`, default).</param>
@@ -131,7 +131,7 @@ namespace Xsolla.Catalog
 		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/catalog/catalog-display/).</remarks>
 		/// <param name="onSuccess">Called after virtual currencies were successfully received.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
-		/// <param name="limit">Limit for the number of elements on the page.</param>
+		/// <param name="limit">Limit for the number of elements on the page. The maximum number of elements on a page is 50.</param>
 		/// <param name="offset">Number of the element from which the list is generated (the count starts from 0).</param>
 		/// <param name="locale">Response language.<br/>
 		///     The following languages are supported: Arabic (`ar`), Bulgarian (`bg`), Czech (`cs`), German (`de`), Spanish (`es`), French (`fr`), Hebrew (`he`), Italian (`it`), Japanese (`ja`), Korean (`ko`), Polish (`pl`), Portuguese (`pt`), Romanian (`ro`), Russian (`ru`), Thai (`th`), Turkish (`tr`), Vietnamese (`vi`), Chinese Simplified (`cn`), Chinese Traditional (`tw`), English (`en`, default).</param>
@@ -162,7 +162,7 @@ namespace Xsolla.Catalog
 		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/catalog/catalog-display/).</remarks>
 		/// <param name="onSuccess">Called after virtual currency packages were successfully received.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
-		/// <param name="limit">Limit for the number of elements on the page.</param>
+		/// <param name="limit">Limit for the number of elements on the page. The maximum number of elements on a page is 50.</param>
 		/// <param name="offset">Number of the element from which the list is generated (the count starts from 0).</param>
 		/// <param name="locale">Response language.<br/>
 		///     The following languages are supported: Arabic (`ar`), Bulgarian (`bg`), Czech (`cs`), German (`de`), Spanish (`es`), French (`fr`), Hebrew (`he`), Italian (`it`), Japanese (`ja`), Korean (`ko`), Polish (`pl`), Portuguese (`pt`), Romanian (`ro`), Russian (`ru`), Thai (`th`), Turkish (`tr`), Vietnamese (`vi`), Chinese Simplified (`cn`), Chinese Traditional (`tw`), English (`en`, default).</param>
@@ -194,7 +194,7 @@ namespace Xsolla.Catalog
 		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/catalog/catalog-display/#unreal_engine_sdk_how_to_bundles).</remarks>
 		/// <param name="onSuccess">Called after bundles are successfully received.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
-		/// <param name="limit">Limit for the number of elements on the page.</param>
+		/// <param name="limit">Limit for the number of elements on the page. The maximum number of elements on a page is 50.</param>
 		/// <param name="offset">Number of the element from which the list is generated (the count starts from 0).</param>
 		/// <param name="locale">Defines localization of the item text fields.<br/>
 		///     The following languages are supported: Arabic (`ar`), Bulgarian (`bg`), Czech (`cs`), German (`de`), Spanish (`es`), French (`fr`), Hebrew (`he`), Italian (`it`), Japanese (`ja`), Korean (`ko`), Polish (`pl`), Portuguese (`pt`), Romanian (`ro`), Russian (`ru`), Thai (`th`), Turkish (`tr`), Vietnamese (`vi`), Chinese Simplified (`cn`), Chinese Traditional (`tw`), English (`en`, default).</param>

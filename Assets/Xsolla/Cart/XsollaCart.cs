@@ -9,7 +9,7 @@ namespace Xsolla.Cart
 		private static string BaseUrl => $"https://store.xsolla.com/api/v2/project/{XsollaSettings.StoreProjectId}";
 
 		/// <summary>
-		/// Returns a list of items from the cart with the specified ID. For each item, complete data is returned.
+		/// 	Returns a list of items from the cart with the specified ID or from the cart of the current user. For each item, complete data is returned.
 		/// </summary>
 		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/item-purchase/cart-purchase/).</remarks>
 		/// <param name="onSuccess">Called after local cache of cart items was successfully updated.</param>
@@ -38,7 +38,7 @@ namespace Xsolla.Cart
 		}
 
 		/// <summary>
-		/// Fills the cart with the specified ID with items. If there is already an item with the same SKU in the cart, the existing item position will be replaced by the passed value.
+		/// Fills the cart with the specified ID or the cart of the current user with items. If there is already an item with the same SKU in the cart, the existing item position will be replaced by the passed value.
 		/// </summary>
 		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/item-purchase/cart-purchase/).</remarks>
 		/// <param name="items">Item for filling the cart. If there is already an item with the same SKU in the cart, the existing item position will be replaced by the passed value.</param>
@@ -66,7 +66,7 @@ namespace Xsolla.Cart
 		}
 
 		/// <summary>
-		/// Updates the quantity of a previously added item in the cart with the specified ID. If there is no item with the specified SKU in the cart, it will be added.
+		/// Updates the quantity of a previously added item in the cart with the specified ID or in the current user cart. If there is no item with the specified SKU in the cart, it will be added.
 		/// </summary>
 		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/item-purchase/cart-purchase/).</remarks>
 		/// <param name="itemSku">SKU of item for purchase.</param>
@@ -95,7 +95,7 @@ namespace Xsolla.Cart
 		}
 
 		/// <summary>
-		/// Removes the item from the cart with the specified ID.
+		/// Removes the item from the cart with the specified ID or from the cart of the current user.
 		/// </summary>
 		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/item-purchase/cart-purchase/).</remarks>
 		/// <param name="itemSku">Item SKU to delete.</param>
@@ -118,7 +118,7 @@ namespace Xsolla.Cart
 		}
 
 		/// <summary>
-		/// Removes all items from the cart with the specified ID.
+		/// Removes all items from the cart with the specified ID or from the cart of the current user.
 		/// </summary>
 		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/item-purchase/cart-purchase/).</remarks>
 		/// <param name="onSuccess">Called after successful cart clearing.</param>
@@ -268,7 +268,7 @@ namespace Xsolla.Cart
 		}
 
 		/// <summary>
-		/// Launches purchase process for the cart with the specified ID or for the cart of the current user. This method encapsulates methods for creating an order, opening a payment UI, and tracking the order status.
+		/// 	Launches purchase process for the cart with the specified ID or for the cart of the current user. This method encapsulates methods for creating an order, opening a payment UI, and tracking the order status.
 		/// </summary>
 		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/item-purchase/cart-purchase/).</remarks>
 		/// <param name="onSuccess">Called after the order transitions to the 'done' status.</param>
@@ -318,7 +318,7 @@ namespace Xsolla.Cart
 				orderId =>
 				{
 					OrderTrackingService.AddOrderForTracking(
-						orderId.order_id, 
+						orderId.order_id,
 						false, () => OrderStatusService.GetOrderStatus(orderId.order_id, onSuccess, onError), onError);
 				},
 				onError,

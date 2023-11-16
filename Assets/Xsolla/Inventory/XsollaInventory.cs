@@ -37,7 +37,7 @@ namespace Xsolla.Inventory
 		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/player-inventory/display-inventory/).</remarks>
 		/// <param name="onSuccess">Called after purchased virtual items were successfully received.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
-		/// <param name="limit">Limit for the number of elements on the page.</param>
+		/// <param name="limit">Limit for the number of elements on the page. The maximum number of elements on a page is 50.</param>
 		/// <param name="offset">Number of the element from which the list is generated (the count starts from 0).</param>
 		/// <param name="locale">Defines localization of item's text fields.<br/>
 		///     The following languages are supported: Arabic (`ar`), Bulgarian (`bg`), Czech (`cs`), German (`de`), Spanish (`es`), French (`fr`), Hebrew (`he`), Italian (`it`), Japanese (`ja`), Korean (`ko`), Polish (`pl`), Portuguese (`pt`), Romanian (`ro`), Russian (`ru`), Thai (`th`), Turkish (`tr`), Vietnamese (`vi`), Chinese Simplified (`cn`), Chinese Traditional (`tw`), English (`en`, default).</param>
