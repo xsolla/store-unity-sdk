@@ -8,6 +8,7 @@ namespace Xsolla.Core.Browser
 	internal class SinglePageBrowser2D : MonoBehaviour
 	{
 		[SerializeField] private Button CloseButton;
+		[SerializeField] private Button FullscreenButton;
 		[SerializeField] private Button BackButton;
 		[SerializeField] private Vector2Int Viewport = new Vector2Int(1920, 1080);
 		[SerializeField] private GameObject PreloaderPrefab;
@@ -15,6 +16,7 @@ namespace Xsolla.Core.Browser
 #pragma warning disable CS0067
 		public event Action<IXsollaBrowser> BrowserInitEvent;
 		public event Action BrowserCloseRequest;
+		public event Action ToggleFullscreenRequest;
 
 		public event Action<string, Action> AlertDialogEvent;
 		public event Action<string, Action, Action> ConfirmDialogEvent;
@@ -31,6 +33,7 @@ namespace Xsolla.Core.Browser
 		private void Awake()
 		{
 			BackButton.onClick.AddListener(OnBackButtonPressed);
+			FullscreenButton.onClick.AddListener(OnFullscreenButtonPressed);
 
 			CloseButton.gameObject.SetActive(false);
 			BackButton.gameObject.SetActive(false);
@@ -83,7 +86,7 @@ namespace Xsolla.Core.Browser
 			keyboard.EscapePressed += OnKeyboardEscapePressed;
 			BrowserInitEvent?.Invoke(xsollaBrowser);
 		}
-
+		
 		private void OnDestroy()
 		{
 			StopAllCoroutines();
@@ -119,6 +122,11 @@ namespace Xsolla.Core.Browser
 			Viewport = viewport;
 			if (display)
 				display.StartRedraw(Viewport.x, Viewport.y);
+		}
+
+		public Vector2Int GetViewport()
+		{
+			return Viewport;
 		}
 
 		private string GetBrowserPlatform()
@@ -194,6 +202,12 @@ namespace Xsolla.Core.Browser
 					urlBeforePopup = string.Empty;
 				}
 			});
+		}
+
+		private void OnFullscreenButtonPressed()
+		{
+			XDebug.Log("`Fullscreen` button pressed");
+			ToggleFullscreenRequest?.Invoke();
 		}
 
 		private void OnKeyboardEscapePressed()

@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Xsolla.Core.Browser
 {
@@ -13,6 +14,8 @@ namespace Xsolla.Core.Browser
 		private GameObject BrowserObject;
 		private SinglePageBrowser2D SinglePageBrowser;
 		private XsollaBrowser XsollaBrowser;
+		private CanvasScaler CanvasScaler;
+		private Vector2Int FramedModeSize;
 
 		public event Action OpenEvent;
 		public event Action<BrowserCloseInfo> CloseEvent;
@@ -23,6 +26,8 @@ namespace Xsolla.Core.Browser
 
 		public bool IsOpened => BrowserObject;
 
+		public bool IsFullScreen { get; private set; }
+
 		public void Close(float delay = 0f, bool isManually = false)
 		{
 			if (SinglePageBrowser)
@@ -30,6 +35,7 @@ namespace Xsolla.Core.Browser
 				SinglePageBrowser.BrowserCloseRequest -= OnBrowserCloseRequest;
 				SinglePageBrowser.AlertDialogEvent -= OnAlertDialogEvent;
 				SinglePageBrowser.ConfirmDialogEvent -= OnConfirmDialogEvent;
+				SinglePageBrowser.ToggleFullscreenRequest -= OnToggleFullscreenRequest;
 			}
 
 			if (XsollaBrowser && XsollaBrowser.Navigate != null)
@@ -83,6 +89,23 @@ namespace Xsolla.Core.Browser
 				SinglePageBrowser.SetViewport(new Vector2Int(width, height));
 		}
 
+		public void SetFullscreenMode(bool isFullscreen)
+		{
+			CanvasScaler.enabled = !isFullscreen;
+			
+			if (isFullscreen)
+			{
+				FramedModeSize = SinglePageBrowser.GetViewport();
+				UpdateSize(Screen.width, Screen.height);
+			}
+			else
+			{
+				UpdateSize(FramedModeSize.x, FramedModeSize.y);
+			}
+			
+			IsFullScreen = isFullscreen;
+		}
+
 		private void CreateBrowser()
 		{
 			BrowserObject = Instantiate(BrowserPrefab);
@@ -94,14 +117,26 @@ namespace Xsolla.Core.Browser
 			SinglePageBrowser.BrowserCloseRequest += OnBrowserCloseRequest;
 			SinglePageBrowser.AlertDialogEvent += OnAlertDialogEvent;
 			SinglePageBrowser.ConfirmDialogEvent += OnConfirmDialogEvent;
+			SinglePageBrowser.ToggleFullscreenRequest += OnToggleFullscreenRequest;
 
 			XsollaBrowser = BrowserObject.GetComponentInChildren<XsollaBrowser>();
 			XsollaBrowser.Navigate.UrlChangedEvent += OnUrlChanged;
+
+			CanvasScaler = BrowserObject.GetComponent<CanvasScaler>();
+			FramedModeSize = SinglePageBrowser.GetViewport();
+		}
+
+		private void OnToggleFullscreenRequest()
+		{
+			SetFullscreenMode(!IsFullScreen);
 		}
 
 		private void OnBrowserCloseRequest()
 		{
-			Close(0, true);
+			if (IsFullScreen)
+				SetFullscreenMode(false);
+			else
+				Close(0, true);
 		}
 
 		private void OnUrlChanged(IXsollaBrowser browser, string url)
