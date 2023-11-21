@@ -32,11 +32,14 @@ namespace Xsolla.Core.Browser
 
 		private void Awake()
 		{
-			BackButton.onClick.AddListener(OnBackButtonPressed);
-			FullscreenButton.onClick.AddListener(OnFullscreenButtonPressed);
-
+			CloseButton.onClick.AddListener(OnCloseButtonPressed);
 			CloseButton.gameObject.SetActive(false);
+
+			BackButton.onClick.AddListener(OnBackButtonPressed);
 			BackButton.gameObject.SetActive(false);
+
+			FullscreenButton.onClick.AddListener(OnFullscreenButtonPressed);
+			FullscreenButton.gameObject.SetActive(false);
 
 			xsollaBrowser = this.GetOrAddComponent<XsollaBrowser>();
 			xsollaBrowser.LogEvent += s => XDebug.Log(s);
@@ -79,6 +82,7 @@ namespace Xsolla.Core.Browser
 			display.StartRedraw(Viewport.x, Viewport.y);
 			display.RedrawFrameCompleteEvent += DestroyPreloader;
 			display.RedrawFrameCompleteEvent += EnableCloseButton;
+			display.RedrawFrameCompleteEvent += EnableFullScreenButton;
 			display.ViewportChangedEvent += (width, height) => XDebug.Log("Display viewport changed: " + width + "x" + height);
 
 			mouse = this.GetOrAddComponent<Mouse2DBehaviour>();
@@ -180,9 +184,13 @@ namespace Xsolla.Core.Browser
 		private void EnableCloseButton()
 		{
 			display.RedrawFrameCompleteEvent -= EnableCloseButton;
-
 			CloseButton.gameObject.SetActive(true);
-			CloseButton.onClick.AddListener(OnCloseButtonPressed);
+		}
+
+		private void EnableFullScreenButton()
+		{
+			display.RedrawFrameCompleteEvent -= EnableFullScreenButton;
+			FullscreenButton.gameObject.SetActive(true);
 		}
 
 		private void OnCloseButtonPressed()
