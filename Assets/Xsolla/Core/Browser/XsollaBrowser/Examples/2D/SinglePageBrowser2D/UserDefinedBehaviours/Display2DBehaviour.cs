@@ -9,12 +9,13 @@ namespace Xsolla.Core.Browser
 	internal class Display2DBehaviour : MonoBehaviour
 	{
 		private IXsollaBrowserRender xsollaRender;
-		private RawImage renderImage;
+		public RawImage renderImage;
 
 		public Vector2Int CurrentRenderSize { get; private set; }
 
 		public event Action<int, int> ViewportChangedEvent;
 		public event Action RedrawFrameCompleteEvent;
+		public event Action FirstRedrawFrameCompleteEvent;
 
 		private IEnumerator Start()
 		{
@@ -51,8 +52,6 @@ namespace Xsolla.Core.Browser
 
 		private void StopRedraw()
 		{
-			SetOpacity(0);
-
 			if (xsollaRender != null)
 				StopAllCoroutines();
 		}
@@ -76,20 +75,24 @@ namespace Xsolla.Core.Browser
 
 		private IEnumerator RedrawCoroutine()
 		{
+			var isFirstRedraw = true;
 			while (enabled)
 			{
 				yield return ActionExtensions.WaitMethod<Texture2D>(
 					xsollaRender.To,
-					texture =>
-					{
+					texture => {
 						if (renderImage != null && texture != null)
 						{
 							SetOpacity(1.0f);
 							renderImage.texture = texture;
-							renderImage.SetNativeSize();
 						}
 
 						RedrawFrameCompleteEvent?.Invoke();
+						if (isFirstRedraw)
+						{
+							FirstRedrawFrameCompleteEvent?.Invoke();
+							isFirstRedraw = false;
+						}
 					});
 			}
 		}
