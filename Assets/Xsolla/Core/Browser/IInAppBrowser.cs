@@ -15,6 +15,8 @@ namespace Xsolla.Core
 		event Action<string, Action, Action> ConfirmDialogEvent;
 
 		bool IsOpened { get; }
+		
+		bool IsFullScreen { get; }
 
 		void Open(string url);
 
@@ -27,5 +29,7 @@ namespace Xsolla.Core
 		void AddUrlChangeHandler(Action<string> callback);
 
 		void UpdateSize(int width, int height);
+		
+		void SetFullscreenMode(bool isFullscreen);
 	}
 }

@@ -8,6 +8,7 @@ namespace Xsolla.Core.Browser
 	internal class SinglePageBrowser2D : MonoBehaviour
 	{
 		[SerializeField] private Button CloseButton;
+		[SerializeField] private Button FullscreenButton;
 		[SerializeField] private Button BackButton;
 		[SerializeField] private Vector2Int Viewport = new Vector2Int(1920, 1080);
 		[SerializeField] private GameObject PreloaderPrefab;
@@ -15,6 +16,7 @@ namespace Xsolla.Core.Browser
 #pragma warning disable CS0067
 		public event Action<IXsollaBrowser> BrowserInitEvent;
 		public event Action BrowserCloseRequest;
+		public event Action ToggleFullscreenRequest;
 
 		public event Action<string, Action> AlertDialogEvent;
 		public event Action<string, Action, Action> ConfirmDialogEvent;
@@ -30,10 +32,14 @@ namespace Xsolla.Core.Browser
 
 		private void Awake()
 		{
-			BackButton.onClick.AddListener(OnBackButtonPressed);
-
+			CloseButton.onClick.AddListener(OnCloseButtonPressed);
 			CloseButton.gameObject.SetActive(false);
+
+			BackButton.onClick.AddListener(OnBackButtonPressed);
 			BackButton.gameObject.SetActive(false);
+
+			FullscreenButton.onClick.AddListener(OnFullscreenButtonPressed);
+			FullscreenButton.gameObject.SetActive(false);
 
 			xsollaBrowser = this.GetOrAddComponent<XsollaBrowser>();
 			xsollaBrowser.LogEvent += s => XDebug.Log(s);
@@ -76,6 +82,7 @@ namespace Xsolla.Core.Browser
 			display.StartRedraw(Viewport.x, Viewport.y);
 			display.RedrawFrameCompleteEvent += DestroyPreloader;
 			display.RedrawFrameCompleteEvent += EnableCloseButton;
+			display.RedrawFrameCompleteEvent += EnableFullScreenButton;
 			display.ViewportChangedEvent += (width, height) => XDebug.Log("Display viewport changed: " + width + "x" + height);
 
 			mouse = this.GetOrAddComponent<Mouse2DBehaviour>();
@@ -83,7 +90,7 @@ namespace Xsolla.Core.Browser
 			keyboard.EscapePressed += OnKeyboardEscapePressed;
 			BrowserInitEvent?.Invoke(xsollaBrowser);
 		}
-
+		
 		private void OnDestroy()
 		{
 			StopAllCoroutines();
@@ -119,6 +126,11 @@ namespace Xsolla.Core.Browser
 			Viewport = viewport;
 			if (display)
 				display.StartRedraw(Viewport.x, Viewport.y);
+		}
+
+		public Vector2Int GetViewport()
+		{
+			return Viewport;
 		}
 
 		private string GetBrowserPlatform()
@@ -172,9 +184,13 @@ namespace Xsolla.Core.Browser
 		private void EnableCloseButton()
 		{
 			display.RedrawFrameCompleteEvent -= EnableCloseButton;
-
 			CloseButton.gameObject.SetActive(true);
-			CloseButton.onClick.AddListener(OnCloseButtonPressed);
+		}
+
+		private void EnableFullScreenButton()
+		{
+			display.RedrawFrameCompleteEvent -= EnableFullScreenButton;
+			FullscreenButton.gameObject.SetActive(true);
 		}
 
 		private void OnCloseButtonPressed()
@@ -194,6 +210,12 @@ namespace Xsolla.Core.Browser
 					urlBeforePopup = string.Empty;
 				}
 			});
+		}
+
+		private void OnFullscreenButtonPressed()
+		{
+			XDebug.Log("`Fullscreen` button pressed");
+			ToggleFullscreenRequest?.Invoke();
 		}
 
 		private void OnKeyboardEscapePressed()
