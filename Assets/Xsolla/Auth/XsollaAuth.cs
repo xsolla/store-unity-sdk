@@ -561,7 +561,7 @@ namespace Xsolla.Auth
 				.AddScope(GetScope())
 				.Build();
 
-			var deviceData = $"{deviceInfo.DeviceModel}:{deviceInfo.DeviceName}";
+			var deviceData = $"{deviceInfo.DeviceName}:{deviceInfo.DeviceModel}";
 			const int maxDeviceDataLength = 100;
 			if (deviceData.Length > maxDeviceDataLength)
 			{
