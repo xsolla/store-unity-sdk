@@ -1,14 +1,13 @@
 # Changelog
 ## [2.2.0] - 2023-11-29
 ### Added
-- Fullscreen mode for Xsolla in-app browser
+- Fullscreen mode for Xsolla built-in browser
 
 ### Changed
-- Improve and simplify the `LinkDeviceToAccount` method (now it does not require device info parameters)
+- `LinkDeviceToAccount` and `AuthViaDeviceID` SDK methods. Methods are simplified, the `DeviceInfo` parameter is not required
 
 ### Fixed
-- Backward compatibility for `AuthViaDeviceID` method (for migration from 1.5.x version)
-
+- `AuthViaDeviceID` SDK method backward compatibility for migration from 1.5.x version
 
 ## [2.1.0] - 2023-09-13
 ### Added

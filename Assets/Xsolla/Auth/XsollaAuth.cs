@@ -527,7 +527,7 @@ namespace Xsolla.Auth
 		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/authentication/auth-via-device-id/).</remarks>
 		/// <param name="onSuccess">Called after successful user authentication via the device ID.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
-		/// <param name="deviceInfo">Information about the device that is used to identify the user.</param> //TEXTREVIEW This is not required parameter, if it is not specified, the method will define the device info automatically.
+		/// <param name="deviceInfo">Information about the device that is used to identify the user. if not specified, the method defines this infotmation automatically.</param>
 		/// <param name="redirectUri">URI to redirect the user to after account confirmation, successful authentication, two-factor authentication configuration, or password reset confirmation.
 		///     Must be identical to the OAuth 2.0 redirect URIs specified in Publisher Account.
 		///     Required if there are several URIs.</param>

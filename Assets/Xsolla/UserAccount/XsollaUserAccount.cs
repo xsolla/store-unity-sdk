@@ -494,7 +494,7 @@ namespace Xsolla.UserAccount
 		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/authentication/auth-via-device-id/).</remarks>
 		/// <param name="onSuccess">Called after successful linking of the device.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
-		/// <param name="deviceInfo">Information about the device that is used to identify the user.</param> //TEXTREVIEW This is not required parameter, if it is not specified, the method will define the device info automatically.
+		/// <param name="deviceInfo">Information about the device that is used to identify the user. if not specified, the method defines this infotmation automatically.</param>
 		public static void LinkDeviceToAccount(Action onSuccess, Action<Error> onError, DeviceInfo deviceInfo = null)
 		{
 #if !(UNITY_ANDROID || UNITY_IOS)
@@ -502,10 +502,10 @@ namespace Xsolla.UserAccount
 #else
 			if (deviceInfo == null)
 				deviceInfo = DeviceInfo.Create();
-			
+
 			var deviceType = deviceInfo.GetDeviceType();
 			var url = $"{BaseUrl}/users/me/devices/{deviceType}";
-			
+
 			var requestBody = new LinkDeviceRequest {
 				device = deviceInfo.GetSafeDeviceData(),
 				device_id = deviceInfo.GetSafeDeviceId()
