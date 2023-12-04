@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Xsolla.Core.Browser
 {
@@ -14,6 +15,12 @@ namespace Xsolla.Core.Browser
 		private SinglePageBrowser2D SinglePageBrowser;
 		private XsollaBrowser XsollaBrowser;
 
+		private CanvasScaler CanvasScaler;
+		private Vector2 ScalerOriginalReferenceSize;
+		private Vector2Int FramedModeDisplaySize;
+		private Vector2Int FullscreenModeDisplaySize;
+		private Display2DBehaviour Display2DBehaviour;
+
 		public event Action OpenEvent;
 		public event Action<BrowserCloseInfo> CloseEvent;
 		public event Action<string> UrlChangeEvent;
@@ -23,6 +30,8 @@ namespace Xsolla.Core.Browser
 
 		public bool IsOpened => BrowserObject;
 
+		public bool IsFullScreen { get; private set; }
+
 		public void Close(float delay = 0f, bool isManually = false)
 		{
 			if (SinglePageBrowser)
@@ -30,6 +39,7 @@ namespace Xsolla.Core.Browser
 				SinglePageBrowser.BrowserCloseRequest -= OnBrowserCloseRequest;
 				SinglePageBrowser.AlertDialogEvent -= OnAlertDialogEvent;
 				SinglePageBrowser.ConfirmDialogEvent -= OnConfirmDialogEvent;
+				SinglePageBrowser.ToggleFullscreenRequest -= OnToggleFullscreenRequest;
 			}
 
 			if (XsollaBrowser && XsollaBrowser.Navigate != null)
@@ -79,8 +89,48 @@ namespace Xsolla.Core.Browser
 
 		public void UpdateSize(int width, int height)
 		{
+			if (!IsFullScreen)
+			{
+				FramedModeDisplaySize = new Vector2Int(width, height);
+			}
+
 			if (IsOpened)
 				SinglePageBrowser.SetViewport(new Vector2Int(width, height));
+		}
+
+		public void SetFullscreenMode(bool isFullscreen)
+		{
+			IsFullScreen = isFullscreen;
+
+			if (isFullscreen)
+			{
+				FramedModeDisplaySize = SinglePageBrowser.GetViewport();
+				ScalerOriginalReferenceSize = CanvasScaler.referenceResolution;
+
+				var displaySize = new Vector2Int(Screen.width, Screen.height);
+				if (displaySize.x > 1920 || displaySize.y > 1080)
+				{
+					var ratio = (float) displaySize.x / displaySize.y;
+					var isWidthRule = displaySize.x > displaySize.y;
+					if (isWidthRule)
+					{
+						displaySize.x = 1920;
+						displaySize.y = (int) (displaySize.x / ratio);
+					}
+					else
+					{
+						displaySize.y = 1080;
+						displaySize.x = (int) (displaySize.y * ratio);
+					}
+				}
+
+				FullscreenModeDisplaySize = displaySize;
+				UpdateSize(displaySize.x, displaySize.y);
+			}
+			else
+			{
+				UpdateSize(FramedModeDisplaySize.x, FramedModeDisplaySize.y);
+			}
 		}
 
 		private void CreateBrowser()
@@ -94,14 +144,41 @@ namespace Xsolla.Core.Browser
 			SinglePageBrowser.BrowserCloseRequest += OnBrowserCloseRequest;
 			SinglePageBrowser.AlertDialogEvent += OnAlertDialogEvent;
 			SinglePageBrowser.ConfirmDialogEvent += OnConfirmDialogEvent;
+			SinglePageBrowser.ToggleFullscreenRequest += OnToggleFullscreenRequest;
 
 			XsollaBrowser = BrowserObject.GetComponentInChildren<XsollaBrowser>();
 			XsollaBrowser.Navigate.UrlChangedEvent += OnUrlChanged;
+
+			Display2DBehaviour = BrowserObject.GetComponentInChildren<Display2DBehaviour>();
+			Display2DBehaviour.FirstRedrawFrameCompleteEvent += () => {
+				if (IsFullScreen)
+				{
+					CanvasScaler.referenceResolution = FullscreenModeDisplaySize;
+					Display2DBehaviour.renderImage.rectTransform.sizeDelta = FullscreenModeDisplaySize;
+				}
+				else
+				{
+					CanvasScaler.referenceResolution = ScalerOriginalReferenceSize;
+					Display2DBehaviour.renderImage.rectTransform.sizeDelta = FramedModeDisplaySize;
+				}
+			};
+
+			CanvasScaler = BrowserObject.GetComponent<CanvasScaler>();
+			FramedModeDisplaySize = SinglePageBrowser.GetViewport();
+			ScalerOriginalReferenceSize = CanvasScaler.referenceResolution;
+		}
+
+		private void OnToggleFullscreenRequest()
+		{
+			SetFullscreenMode(!IsFullScreen);
 		}
 
 		private void OnBrowserCloseRequest()
 		{
-			Close(0, true);
+			if (IsFullScreen)
+				SetFullscreenMode(false);
+			else
+				Close(0, true);
 		}
 
 		private void OnUrlChanged(IXsollaBrowser browser, string url)

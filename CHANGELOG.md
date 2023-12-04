@@ -1,5 +1,15 @@
-## [2.1.0] - 2023-09-13
 # Changelog
+## [2.2.0] - 2023-11-29
+### Added
+- Fullscreen mode for Xsolla built-in browser
+
+### Changed
+- `LinkDeviceToAccount` and `AuthViaDeviceID` SDK methods. Methods are simplified, the `DeviceInfo` parameter is not required
+
+### Fixed
+- `AuthViaDeviceID` SDK method backward compatibility for migration from 1.5.x version
+
+## [2.1.0] - 2023-09-13
 ### Added
 - Centrifugo integration
 
@@ -15,7 +25,6 @@
 - Closing browser after payment failure
 - Infinite check order short polling when request returns an error
 - Destruction of the `WebRequestHelper` Instance when unloading scenes
-
 
 ## [2.0.0] - 2023-05-18
 ### Added

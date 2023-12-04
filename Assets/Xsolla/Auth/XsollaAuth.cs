@@ -527,7 +527,7 @@ namespace Xsolla.Auth
 		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/authentication/auth-via-device-id/).</remarks>
 		/// <param name="onSuccess">Called after successful user authentication via the device ID.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
-		/// <param name="deviceInfo">Information about the device that is used to identify the user.</param>
+		/// <param name="deviceInfo">Information about the device that is used to identify the user. if not specified, the method defines this infotmation automatically.</param>
 		/// <param name="redirectUri">URI to redirect the user to after account confirmation, successful authentication, two-factor authentication configuration, or password reset confirmation.
 		///     Must be identical to the OAuth 2.0 redirect URIs specified in Publisher Account.
 		///     Required if there are several URIs.</param>
@@ -538,21 +538,9 @@ namespace Xsolla.Auth
 			onError?.Invoke(new Error(ErrorType.NotSupportedOnCurrentPlatform, "This method is only available for Android and iOS platforms"));
 #else
 			if (deviceInfo == null)
-			{
-				deviceInfo = new DeviceInfo {
-					DeviceId = DeviceIdUtil.GetDeviceId(),
-					DeviceModel = DeviceIdUtil.GetDeviceModel(),
-					DeviceName = DeviceIdUtil.GetDeviceName()
-				};
+				deviceInfo = DeviceInfo.Create();
 
-#if UNITY_ANDROID
-				deviceInfo.DeviceType = Core.DeviceType.Android;
-#elif UNITY_IOS
-				deviceInfo.DeviceType = Core.DeviceType.iOS;
-#endif
-			}
-
-			var deviceType = deviceInfo.DeviceType.ToString().ToLower();
+			var deviceType = deviceInfo.GetDeviceType();
 			var url = new UrlBuilder(BASE_URL + $"/oauth2/login/device/{deviceType}")
 				.AddClientId(XsollaSettings.OAuthClientId)
 				.AddResponseType(GetResponseType())
@@ -561,31 +549,9 @@ namespace Xsolla.Auth
 				.AddScope(GetScope())
 				.Build();
 
-			var deviceData = $"{deviceInfo.DeviceModel}:{deviceInfo.DeviceName}";
-			const int maxDeviceDataLength = 100;
-			if (deviceData.Length > maxDeviceDataLength)
-			{
-				XDebug.LogWarning($"Device data is too long. It will be truncated to {maxDeviceDataLength} symbols. Original device data: {deviceData}");
-				deviceData = deviceData.Substring(0, maxDeviceDataLength);
-			}
-
-			var deviceId = deviceInfo.DeviceId;
-			const int minDeviceIdLength = 16;
-			const int maxDeviceIdLength = 36;
-			if (deviceId.Length < minDeviceIdLength)
-			{
-				XDebug.LogWarning($"Device ID is too short. It will be padded to {minDeviceIdLength} symbols. Original device ID: {deviceId}");
-				deviceId = deviceId.PadLeft(minDeviceIdLength, '0');
-			}
-			else if (deviceId.Length > maxDeviceIdLength)
-			{
-				XDebug.LogWarning($"Device ID is too long. It will be truncated to {maxDeviceIdLength} symbols. Original device ID: {deviceId}");
-				deviceId = deviceId.Substring(0, maxDeviceIdLength);
-			}
-
 			var requestData = new AuthViaDeviceIdRequest {
-				device = deviceData,
-				device_id = deviceId
+				device = deviceInfo.GetSafeDeviceData(),
+				device_id = deviceInfo.GetSafeDeviceId()
 			};
 
 			WebRequestHelper.Instance.PostRequest<LoginLink, AuthViaDeviceIdRequest>(

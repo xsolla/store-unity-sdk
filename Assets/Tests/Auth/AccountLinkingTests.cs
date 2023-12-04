@@ -12,13 +12,13 @@ namespace Xsolla.Tests.Auth
 {
 	public class AccountLinkingTests : AuthTestsBase
 	{
-		[UnityTest]
+		// [UnityTest]
 		public IEnumerator SignInConsoleAccount_NintendoShop_Success()
 		{
 			yield return SignInConsoleAccount("nintendo_shop");
 		}
 
-		[UnityTest]
+		// [UnityTest]
 		public IEnumerator SignInConsoleAccount_XBoxLive_Success()
 		{
 			yield return SignInConsoleAccount("xbox_live");

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Xsolla.Auth;
 using Xsolla.Core;
 
 namespace Xsolla.UserAccount
@@ -491,21 +492,23 @@ namespace Xsolla.UserAccount
 		/// Links the specified device to the current user account.
 		/// </summary>
 		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/authentication/auth-via-device-id/).</remarks>
-		/// <param name="deviceType">Type of the device. Can be `android` or `ios`.</param>
-		/// <param name="device">Manufacturer and model name of the device.</param>
-		/// <param name="deviceId">Platform specific unique device ID.
-		/// For Android, it is an [ANDROID_ID](https://developer.android.com/reference/android/provider/Settings.Secure#ANDROID_ID) constant.<br/>
-		/// For iOS, it is an [identifierForVendor](https://developer.apple.com/documentation/uikit/uidevice/1620059-identifierforvendor?language=objc) property.<br/>
-		/// </param>
 		/// <param name="onSuccess">Called after successful linking of the device.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
-		public static void LinkDeviceToAccount(DeviceType deviceType, string device, string deviceId, Action onSuccess, Action<Error> onError)
+		/// <param name="deviceInfo">Information about the device that is used to identify the user. if not specified, the method defines this infotmation automatically.</param>
+		public static void LinkDeviceToAccount(Action onSuccess, Action<Error> onError, DeviceInfo deviceInfo = null)
 		{
-			var deviceTypeValue = deviceType.ToString().ToLower();
-			var url = $"{BaseUrl}/users/me/devices/{deviceTypeValue}";
+#if !(UNITY_ANDROID || UNITY_IOS)
+			onError?.Invoke(new Error(ErrorType.NotSupportedOnCurrentPlatform, "This method is only available for Android and iOS platforms"));
+#else
+			if (deviceInfo == null)
+				deviceInfo = DeviceInfo.Create();
+
+			var deviceType = deviceInfo.GetDeviceType();
+			var url = $"{BaseUrl}/users/me/devices/{deviceType}";
+
 			var requestBody = new LinkDeviceRequest {
-				device = device,
-				device_id = deviceId
+				device = deviceInfo.GetSafeDeviceData(),
+				device_id = deviceInfo.GetSafeDeviceId()
 			};
 
 			WebRequestHelper.Instance.PostRequest(
@@ -514,7 +517,8 @@ namespace Xsolla.UserAccount
 				requestBody,
 				WebRequestHeader.AuthHeader(),
 				onSuccess,
-				error => TokenAutoRefresher.Check(error, onError, () => LinkDeviceToAccount(deviceType, device, deviceId, onSuccess, onError)));
+				error => TokenAutoRefresher.Check(error, onError, () => LinkDeviceToAccount(onSuccess, onError, deviceInfo)));
+#endif
 		}
 
 		/// <summary>
