@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -99,8 +100,8 @@ namespace Xsolla.Core
 				string referralPlugin = _referralAnalytics.Value.Key;
 				string referralVersion = _referralAnalytics.Value.Value;
 
-				result.Add(new WebRequestHeader() {Name = "X-REF", Value = referralPlugin.ToUpper()});
-				result.Add(new WebRequestHeader() {Name = "X-REF-V", Value = referralVersion.ToUpper()});
+				result.Add(new WebRequestHeader() {Name = "X-REF", Value = referralPlugin.ToUpper(CultureInfo.InvariantCulture)});
+				result.Add(new WebRequestHeader() {Name = "X-REF-V", Value = referralVersion.ToUpper(CultureInfo.InvariantCulture)});
 			}
 
 			return result;
@@ -145,11 +146,11 @@ namespace Xsolla.Core
 
 			if (toUpper)
 			{
-				engineVersion = engineVersion.ToUpper();
-				buildPlatform = buildPlatform.ToUpper();
+				engineVersion = engineVersion.ToUpper(CultureInfo.InvariantCulture);
+				buildPlatform = buildPlatform.ToUpper(CultureInfo.InvariantCulture);
 			}
 			else
-				buildPlatform = buildPlatform.ToLower();
+				buildPlatform = buildPlatform.ToLower(CultureInfo.InvariantCulture);
 		}
 	}
 }
