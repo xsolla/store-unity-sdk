@@ -274,7 +274,7 @@ namespace Xsolla.Cart
 		/// <param name="onSuccess">Called after the order transitions to the 'done' status.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="cartId">Unique cart identifier.</param>
-		/// <param name="onBrowseClosed">Called after browser closed.</param>
+		/// <param name="onBrowseClosed">Called after the browser is closed. The event is tracked only when the payment UI is opened in the built-in browser. External browser events can't be tracked.</param>
 		/// <param name="purchaseParams">Purchase parameters such as <c>country</c>, <c>locale</c>, and <c>currency</c>.</param>
 		/// <param name="customHeaders">Custom HTTP request headers.</param>
 		public static void Purchase(Action<OrderStatus> onSuccess, Action<Error> onError, string cartId = null, Action<BrowserCloseInfo> onBrowseClosed = null, PurchaseParams purchaseParams = null, Dictionary<string, string> customHeaders = null)
