@@ -389,14 +389,15 @@ namespace Xsolla.Auth
 		/// <param name="onSuccess">Called after successful authentication.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="onCancel">Called after browser closing by user.</param>
-		public static void AuthWithXsollaWidget(Action onSuccess, Action<Error> onError, Action onCancel)
+		/// <param name="locale">Login widget UI language. Supported languages: Arabic (ar_AE), Bulgarian (bg_BG), Czech (cz_CZ), Filipino (fil-PH), English (en_XX), German (de_DE), Spanish (es_ES), French (fr_FR), Hebrew (he_IL), Indonesian (id-ID), Italian (it_IT), Japanese (ja_JP), Khmer (km-KH), Korean (ko_KR), Lao language ( lo-LA), Myanmar (my-MM), NepaliPolish (ne-NP), (pl_PL), Portuguese (pt_BR), Romanian (ro_RO), Russian (ru_RU), Thai (th_TH), Turkish (tr_TR), Vietnamese (vi_VN), Chinese Simplified (zh_CN), Chinese Traditional (zh_TW).</param>
+		public static void AuthWithXsollaWidget(Action onSuccess, Action<Error> onError, Action onCancel, string locale = null)
 		{
 #if UNITY_STANDALONE
-			new StandaloneXsollaWidgetAuth().Perform(onSuccess, onError, onCancel);
+			new StandaloneXsollaWidgetAuth().Perform(onSuccess, onError, onCancel, locale);
 #elif UNITY_ANDROID
-			new AndroidXsollaWidgetAuth().Perform(onSuccess, onError, onCancel);
+			new AndroidXsollaWidgetAuth().Perform(onSuccess, onError, onCancel, locale);
 #elif UNITY_IOS
-			new IosXsollaWidgetAuth().Perform(onSuccess, onError, onCancel);
+			new IosXsollaWidgetAuth().Perform(onSuccess, onError, onCancel, locale);
 #else
 			onError?.Invoke(new Error(ErrorType.NotSupportedOnCurrentPlatform, errorMessage: $"Auth with Xsolla Widget is not supported for this platform: {Application.platform}"));
 #endif

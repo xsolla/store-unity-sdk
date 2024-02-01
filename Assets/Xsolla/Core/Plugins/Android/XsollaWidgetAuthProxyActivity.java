@@ -14,10 +14,14 @@ import com.xsolla.android.login.callback.StartXsollaWidgetAuthCallback;
 
 public class XsollaWidgetAuthProxyActivity extends Activity {
     private static AuthCallback authCallback;
+    private static final String ARG_LOCALE = "locale";
 
-    public static void perform(Activity currentActivity, AuthCallback callback) {
+    public static void perform(Activity currentActivity, AuthCallback callback, String locale) {
         authCallback = callback;
-        currentActivity.startActivity(new Intent(currentActivity, XsollaWidgetAuthProxyActivity.class));
+        
+        Intent intent = new Intent(currentActivity, XsollaWidgetAuthProxyActivity.class);
+        intent.putExtra(ARG_LOCALE, locale);
+        currentActivity.startActivity(intent);
     }
 
     @Override
@@ -28,6 +32,9 @@ public class XsollaWidgetAuthProxyActivity extends Activity {
             finish();
             return;
         }
+        
+        Intent intent = getIntent();
+        String locale = intent.getStringExtra(ARG_LOCALE);
 
         XLogin.startAuthWithXsollaWidget(this, new StartXsollaWidgetAuthCallback() {
             @Override
@@ -40,7 +47,7 @@ public class XsollaWidgetAuthProxyActivity extends Activity {
                 Log.d("Xsolla", "onError");
                 finish();
             }
-        });
+        }, locale);
     }
 
     @Override

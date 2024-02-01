@@ -24,11 +24,11 @@
          Additional repositories can be added using the "repositories" element.
     -->
     <androidPackage spec="com.xsolla.android:payments:1.1.0"/>
-    <androidPackage spec="com.xsolla.android:login:6.0.3"/>
-    <androidPackage spec="com.xsolla.android:login-facebook:6.0.3"/>
-    <androidPackage spec="com.xsolla.android:login-google:6.0.3"/>
-    <androidPackage spec="com.xsolla.android:login-wechat:6.0.3"/>
-    <androidPackage spec="com.xsolla.android:login-qq:6.0.3"/>
+    <androidPackage spec="com.xsolla.android:login:6.0.6"/>
+    <androidPackage spec="com.xsolla.android:login-facebook:6.0.6"/>
+    <androidPackage spec="com.xsolla.android:login-google:6.0.6"/>
+    <androidPackage spec="com.xsolla.android:login-wechat:6.0.6"/>
+    <androidPackage spec="com.xsolla.android:login-qq:6.0.6"/>
     
     <androidPackage spec="org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.7.10"/>
     <androidPackage spec="org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.6.4"/>
