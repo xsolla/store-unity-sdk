@@ -577,7 +577,7 @@
           {
             "kind": "Function",
             "name": "authWithXsollaWidget",
-            "printedName": "authWithXsollaWidget(loginId:oAuth2Params:presentationContextProvider:completion:)",
+            "printedName": "authWithXsollaWidget(loginId:oAuth2Params:locale:presentationContextProvider:completion:)",
             "children": [
               {
                 "kind": "TypeNominal",
@@ -595,6 +595,21 @@
                 "name": "OAuth2Params",
                 "printedName": "XsollaSDKLoginKitObjectiveC.OAuth2Params",
                 "usr": "c:@M@XsollaSDKLoginKitObjectiveC@objc(cs)OAuth2Params"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Foundation.NSString?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "NSString",
+                    "printedName": "Foundation.NSString",
+                    "usr": "c:objc(cs)NSString"
+                  }
+                ],
+                "hasDefaultArg": true,
+                "usr": "s:Sq"
               },
               {
                 "kind": "TypeNominal",
@@ -651,10 +666,10 @@
               }
             ],
             "declKind": "Func",
-            "usr": "c:@CM@XsollaSDKLoginKitObjectiveC@objc(cs)LoginKitObjectiveC(im)authWithXsollaWidgetWithLoginId:oAuth2Params:presentationContextProvider:completion:",
-            "mangledName": "$s27XsollaSDKLoginKitObjectiveC05LogincD1CC08authWithA6Widget7loginId12oAuth2Params27presentationContextProvider10completionySS_AA06OAuth2L0CSo031ASWebAuthenticationPresentationN9Providing_pyAA15AccessTokenInfoCSg_So7NSErrorCSgtctF",
+            "usr": "c:@CM@XsollaSDKLoginKitObjectiveC@objc(cs)LoginKitObjectiveC(im)authWithXsollaWidgetWithLoginId:oAuth2Params:locale:presentationContextProvider:completion:",
+            "mangledName": "$s27XsollaSDKLoginKitObjectiveC05LogincD1CC08authWithA6Widget7loginId12oAuth2Params6locale27presentationContextProvider10completionySS_AA06OAuth2L0CSo8NSStringCSgSo031ASWebAuthenticationPresentationO9Providing_pyAA15AccessTokenInfoCSg_So7NSErrorCSgtctF",
             "moduleName": "XsollaSDKLoginKitObjectiveC",
-            "objc_name": "authWithXsollaWidgetWithLoginId:oAuth2Params:presentationContextProvider:completion:",
+            "objc_name": "authWithXsollaWidgetWithLoginId:oAuth2Params:locale:presentationContextProvider:completion:",
             "declAttributes": [
               "Final",
               "AccessControl",
@@ -3480,7 +3495,7 @@
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKitObjectiveC\/LoginKitObjectiveC\/LoginKitObjectiveC.swift",
       "kind": "IntegerLiteral",
-      "offset": 12716,
+      "offset": 13389,
       "length": 2,
       "value": "-1"
     },

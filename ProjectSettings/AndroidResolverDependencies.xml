@@ -1,10 +1,10 @@
 <dependencies>
   <packages>
-    <package>com.xsolla.android:login:6.0.3</package>
-    <package>com.xsolla.android:login-facebook:6.0.3</package>
-    <package>com.xsolla.android:login-google:6.0.3</package>
-    <package>com.xsolla.android:login-qq:6.0.3</package>
-    <package>com.xsolla.android:login-wechat:6.0.3</package>
+    <package>com.xsolla.android:login:6.0.6</package>
+    <package>com.xsolla.android:login-facebook:6.0.6</package>
+    <package>com.xsolla.android:login-google:6.0.6</package>
+    <package>com.xsolla.android:login-qq:6.0.6</package>
+    <package>com.xsolla.android:login-wechat:6.0.6</package>
     <package>com.xsolla.android:payments:1.1.0</package>
     <package>io.ktor:ktor-client-content-negotiation-jvm:2.1.0</package>
     <package>io.ktor:ktor-client-core-jvm:2.1.0</package>
@@ -88,11 +88,11 @@
     <file>Assets/Plugins/Android/com.squareup.okhttp3.okhttp-4.9.3.jar</file>
     <file>Assets/Plugins/Android/com.squareup.okio.okio-2.8.0.jar</file>
     <file>Assets/Plugins/Android/com.tencent.mm.opensdk.wechat-sdk-android-without-mta-6.8.0.aar</file>
-    <file>Assets/Plugins/Android/com.xsolla.android.login-6.0.3.aar</file>
-    <file>Assets/Plugins/Android/com.xsolla.android.login-facebook-6.0.3.aar</file>
-    <file>Assets/Plugins/Android/com.xsolla.android.login-google-6.0.3.aar</file>
-    <file>Assets/Plugins/Android/com.xsolla.android.login-qq-6.0.3.aar</file>
-    <file>Assets/Plugins/Android/com.xsolla.android.login-wechat-6.0.3.aar</file>
+    <file>Assets/Plugins/Android/com.xsolla.android.login-6.0.6.aar</file>
+    <file>Assets/Plugins/Android/com.xsolla.android.login-facebook-6.0.6.aar</file>
+    <file>Assets/Plugins/Android/com.xsolla.android.login-google-6.0.6.aar</file>
+    <file>Assets/Plugins/Android/com.xsolla.android.login-qq-6.0.6.aar</file>
+    <file>Assets/Plugins/Android/com.xsolla.android.login-wechat-6.0.6.aar</file>
     <file>Assets/Plugins/Android/com.xsolla.android.payments-1.1.0.aar</file>
     <file>Assets/Plugins/Android/io.ktor.ktor-client-content-negotiation-2.1.0.jar</file>
     <file>Assets/Plugins/Android/io.ktor.ktor-client-content-negotiation-jvm-2.1.0.jar</file>

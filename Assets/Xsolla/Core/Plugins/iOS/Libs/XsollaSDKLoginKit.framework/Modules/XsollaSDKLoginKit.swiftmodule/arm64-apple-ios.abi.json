@@ -3119,7 +3119,7 @@
           {
             "kind": "Function",
             "name": "authWithXsollaWidget",
-            "printedName": "authWithXsollaWidget(loginProjectId:oAuth2Params:presentationContextProvider:completion:)",
+            "printedName": "authWithXsollaWidget(loginProjectId:oAuth2Params:locale:presentationContextProvider:completion:)",
             "children": [
               {
                 "kind": "TypeNominal",
@@ -3137,6 +3137,21 @@
                 "name": "OAuth2Params",
                 "printedName": "XsollaSDKLoginKit.OAuth2Params",
                 "usr": "s:17XsollaSDKLoginKit12OAuth2ParamsV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Swift.String?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "hasDefaultArg": true,
+                "usr": "s:Sq"
               },
               {
                 "kind": "TypeNominal",
@@ -3178,8 +3193,8 @@
               }
             ],
             "declKind": "Func",
-            "usr": "s:17XsollaSDKLoginKit05LoginC0C08authWithA6Widget14loginProjectId12oAuth2Params27presentationContextProvider10completionySS_AA06OAuth2L0VSo031ASWebAuthenticationPresentationN9Providing_pys6ResultOyAA15AccessTokenInfoVs5Error_pGctF",
-            "mangledName": "$s17XsollaSDKLoginKit05LoginC0C08authWithA6Widget14loginProjectId12oAuth2Params27presentationContextProvider10completionySS_AA06OAuth2L0VSo031ASWebAuthenticationPresentationN9Providing_pys6ResultOyAA15AccessTokenInfoVs5Error_pGctF",
+            "usr": "s:17XsollaSDKLoginKit05LoginC0C08authWithA6Widget14loginProjectId12oAuth2Params6locale27presentationContextProvider10completionySS_AA06OAuth2L0VSSSgSo031ASWebAuthenticationPresentationO9Providing_pys6ResultOyAA15AccessTokenInfoVs5Error_pGctF",
+            "mangledName": "$s17XsollaSDKLoginKit05LoginC0C08authWithA6Widget14loginProjectId12oAuth2Params6locale27presentationContextProvider10completionySS_AA06OAuth2L0VSSSgSo031ASWebAuthenticationPresentationO9Providing_pys6ResultOyAA15AccessTokenInfoVs5Error_pGctF",
             "moduleName": "XsollaSDKLoginKit",
             "declAttributes": [
               "Final",
@@ -19283,70 +19298,84 @@
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/LoginKit.swift",
       "kind": "Array",
-      "offset": 5010,
+      "offset": 5605,
       "length": 17,
       "value": "[\"http\", \"https\"]"
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/LoginKit.swift",
       "kind": "BooleanLiteral",
-      "offset": 5056,
+      "offset": 5651,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/LoginKit.swift",
       "kind": "StringLiteral",
-      "offset": 5141,
+      "offset": 5736,
       "length": 42,
       "value": "\"Invalid callback URL in OAuth parameters\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/LoginKit.swift",
       "kind": "StringLiteral",
-      "offset": 5279,
+      "offset": 5874,
       "length": 108,
       "value": "\"https:\/\/login-widget.xsolla.com\/latest\/?projectId=\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/LoginKit.swift",
       "kind": "StringLiteral",
-      "offset": 5347,
+      "offset": 5942,
       "length": 1,
       "value": "\"&login_url=\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/LoginKit.swift",
       "kind": "StringLiteral",
-      "offset": 5386,
+      "offset": 5981,
+      "length": 1,
+      "value": "\"\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/LoginKit.swift",
+      "kind": "StringLiteral",
+      "offset": 6050,
+      "length": 19,
+      "value": "\"&locale=\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/LoginKit.swift",
+      "kind": "StringLiteral",
+      "offset": 6068,
       "length": 1,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/LoginKit.swift",
       "kind": "IntegerLiteral",
-      "offset": 5988,
+      "offset": 6689,
       "length": 4,
       "value": "3600"
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/LoginKit.swift",
       "kind": "StringLiteral",
-      "offset": 6058,
+      "offset": 6759,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/LoginKit.swift",
       "kind": "StringLiteral",
-      "offset": 6123,
+      "offset": 6824,
       "length": 8,
       "value": "\"bearer\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/LoginKit.swift",
       "kind": "StringLiteral",
-      "offset": 49801,
+      "offset": 50502,
       "length": 12,
       "value": "\"YYYY-MM-dd\""
     },
