@@ -1,4 +1,8 @@
 # Changelog
+## [2.3.0] - 2024-02-01
+### Changed
+- `AuthWithXsollaWidget` SDK method. Added the ‘locale’ parameter
+
 ## [2.2.0] - 2023-11-29
 ### Added
 - Fullscreen mode for Xsolla built-in browser

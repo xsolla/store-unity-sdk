@@ -6,7 +6,7 @@ namespace Xsolla.Core
 {
 	public class AndroidXsollaWidgetAuth
 	{
-		public void Perform(Action onSuccess, Action<Error> onError, Action onCancel)
+		public void Perform(Action onSuccess, Action<Error> onError, Action onCancel, string locale)
 		{
 			try
 			{
@@ -22,7 +22,8 @@ namespace Xsolla.Core
 				proxyActivity.CallStatic(
 					"perform",
 					androidHelper.CurrentActivity,
-					authCallback);
+					authCallback,
+					locale);
 			}
 			catch (Exception e)
 			{

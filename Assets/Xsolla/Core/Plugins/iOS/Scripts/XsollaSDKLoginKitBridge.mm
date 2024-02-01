@@ -10,7 +10,7 @@ typedef void(ActionStringCallbackDelegate)(void *actionPtr, const char *data);
 
 extern "C" {
 
-    void _authWithXsollaWidget(char* loginId, int clientId, char* state, char* redirectUri,
+    void _authWithXsollaWidget(char* loginId, int clientId, char* state, char* redirectUri, char* locale,
                               ActionStringCallbackDelegate authSuccessCallback, void *authSuccessActionPtr,
                               ActionStringCallbackDelegate errorCallback, void *errorActionPtr,
                               ActionVoidCallbackDelegate cancelCallback, void *cancelActionPtr) {
@@ -18,6 +18,7 @@ extern "C" {
         NSString* loginIdString = [XsollaUtils createNSStringFrom:loginId];
         NSString* stateString = [XsollaUtils createNSStringFrom:state];
         NSString* redirectUriString = [XsollaUtils createNSStringFrom:redirectUri];
+        NSString* localeString = [XsollaUtils createNSStringFrom:locale];
 
         OAuth2Params *oauthParams = [[OAuth2Params alloc] initWithClientId:clientId
                                                              state:stateString
@@ -27,7 +28,7 @@ extern "C" {
         if (@available(iOS 13.4, *)) {
             WebAuthenticationPresentationContextProvider* context = [[WebAuthenticationPresentationContextProvider alloc] initWithPresentationAnchor:UnityGetMainWindow()];
             
-            [[LoginKitObjectiveC shared] authWithXsollaWidgetWithLoginId:loginIdString oAuth2Params: oauthParams presentationContextProvider:context completion:^(AccessTokenInfo * _Nullable accesTokenInfo, NSError * _Nullable error){
+            [[LoginKitObjectiveC shared] authWithXsollaWidgetWithLoginId:loginIdString oAuth2Params:oauthParams locale:localeString presentationContextProvider:context completion:^(AccessTokenInfo * _Nullable accesTokenInfo, NSError * _Nullable error){
                 
                 if(error != nil) {
                     NSLog(@"Error code: %ld", error.code);

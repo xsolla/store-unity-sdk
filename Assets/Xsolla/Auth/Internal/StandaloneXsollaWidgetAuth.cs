@@ -10,7 +10,7 @@ namespace Xsolla.Auth
 		private Action OnCancel;
 		private IInAppBrowser BrowserInstance;
 
-		public void Perform(Action onSuccess, Action<Error> onError, Action onCancel)
+		public void Perform(Action onSuccess, Action<Error> onError, Action onCancel, string locale)
 		{
 			OnSuccess = onSuccess;
 			OnError = onError;
@@ -19,6 +19,7 @@ namespace Xsolla.Auth
 			var url = new UrlBuilder("https://login-widget.xsolla.com/latest/")
 			          .AddProjectId(XsollaSettings.LoginId)
 			          .AddParam("login_url", RedirectUrlHelper.GetRedirectUrl(null))
+			          .AddLocale(locale)
 			          .Build();
 
 			XsollaWebBrowser.Open(url);

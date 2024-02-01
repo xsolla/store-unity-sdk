@@ -7,7 +7,7 @@ namespace Xsolla.Core
 	internal class IosXsollaWidgetAuth
 	{
 		[DllImport("__Internal")]
-		private static extern void _authWithXsollaWidget(string loginId, int clientId, string state, string redirectUri,
+		private static extern void _authWithXsollaWidget(string loginId, int clientId, string state, string redirectUri, string locale,
 			IosCallbacks.ActionStringCallbackDelegate successCallback, IntPtr successActionPtr,
 			IosCallbacks.ActionStringCallbackDelegate errorCallback, IntPtr errorActionPtr,
 			IosCallbacks.ActionVoidCallbackDelegate cancelCallback, IntPtr cancelActionPtr);
@@ -16,7 +16,7 @@ namespace Xsolla.Core
 		private Action<Error> OnError;
 		private Action OnCancel;
 
-		public void Perform(Action onSuccess, Action<Error> onError, Action onCancel)
+		public void Perform(Action onSuccess, Action<Error> onError, Action onCancel, string locale)
 		{
 			OnSuccess = onSuccess;
 			OnError = onError;
@@ -31,6 +31,7 @@ namespace Xsolla.Core
 				XsollaSettings.OAuthClientId,
 				"xsollatest",
 				RedirectUrlHelper.GetAuthDeepLinkUrl(),
+				locale,
 				IosCallbacks.ActionStringCallback, onSuccessNative.GetPointer(),
 				IosCallbacks.ActionStringCallback, onErrorNative.GetPointer(),
 				IosCallbacks.ActionVoidCallback, onCancelNative.GetPointer());
