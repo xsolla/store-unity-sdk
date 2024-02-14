@@ -101,6 +101,17 @@ The SDK uses [Google Mobile Services](https://www.android.com/gms/) and doesn’
 We recommend you use the Mono compiler for desktop platforms as it’s compatible with the provided in-game browser. If you use other browser solutions, you can use the IL2CPP compiler instead.
 You can use either Mono or IL2CPP compilers to create game builds for Android.
 
+## Install SDK
+
+1. Download the SDK from [CDN](https://cdn.xsolla.net/sdk-unity-assets/xsolla-commerce-sdk.zip) or [GitHub](https://github.com/xsolla/store-unity-sdk/releases).
+
+**NOTE:**
+Only the latest version of the SDK is available through CDN. If you need a different version, you can download it from GitHub.
+
+2. Unzip the package.
+3. In the Unity editor, go to **Assets > Import Package > Custom Package** in the main menu and select the SDK.
+4. Follow the [integration guide](https://developers.xsolla.com/sdk/unity/integrate-complete-solution/get-started/) to configure project on Xsolla side.
+
 ## Usage
 
 To send requests to Xsolla servers and receive responses, the SDK provides the `XsollaAuth`, `XsollaCatalog`, `XsollaCart`, and `XsollaOrders` classes. If you want to implement your own logic for buying items or inventory management, and don’t want to write boilerplate code for API calls, these classes are a good place to start.
