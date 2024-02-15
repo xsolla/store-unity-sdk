@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1352578427899376055}
   - component: {fileID: 370317734354925448}
-  - component: {fileID: 495463363682918236}
+  - component: {fileID: -6418973837500709201}
   m_Layer: 0
   m_Name: XsollaWebBrowser
   m_TagString: Untagged
@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5cb757ccfc8d43899eb453b0887dd7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &495463363682918236
+--- !u!114 &-6418973837500709201
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -53,9 +53,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 7418581232187676700}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e5ebba676ee141c1bf2d8b06842fb7d4, type: 3}
+  m_Script: {fileID: 11500000, guid: cceb7300df2f405db6ec2ff6a7ebc37f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BrowserPrefab: {fileID: 2235249956668261828, guid: 60630ade61b56e946a1e7c4da7950f3f,
-    type: 3}
-  IsDontDestroyOnLoad: 0
