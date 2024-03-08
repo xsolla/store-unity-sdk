@@ -58,6 +58,8 @@ namespace Xsolla.Core.Browser
 			UrlChangeEvent = null;
 			AlertDialogEvent = null;
 			ConfirmDialogEvent = null;
+
+			IsFullScreen = false;
 		}
 
 		public void Open(string url)
