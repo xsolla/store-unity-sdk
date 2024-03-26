@@ -7,6 +7,7 @@ namespace Xsolla.Catalog
 	[Serializable]
 	public class VirtualCurrencyPackages
 	{
+		public bool has_more;
 		public VirtualCurrencyPackage[] items;
 	}
 
