@@ -364,6 +364,7 @@ SWIFT_CLASS("_TtC27XsollaSDKLoginKitObjectiveC18LoginKitObjectiveC")
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) LoginKitObjectiveC * _Nonnull shared;)
 + (LoginKitObjectiveC * _Nonnull)shared SWIFT_WARN_UNUSED_RESULT;
+- (void)configureAnalyticsWithGameEngine:(NSString * _Nonnull)gameEngine gameEngineVersion:(NSString * _Nonnull)gameEngineVersion;
 /// Authenticates the user by the username/email and password specified.
 /// To finish user authentication, get the user JWT by sending the <em>Generate JWT</em> request.
 /// <ul>
@@ -429,13 +430,10 @@ SWIFT_AVAILABILITY(ios,introduced=13.4)
 ///     oAuth2Params: Instance of <em>OAuth2Params</em>.
 ///   </li>
 ///   <li>
-///     locale: Login widget UI language. Supported languages: Arabic (ar_AE), Bulgarian (bg_BG), Czech (cz_CZ), Filipino (fil-PH), English (en_XX), German (de_DE), Spanish (es_ES), French (fr_FR), Hebrew (he_IL), Indonesian (id-ID), Italian (it_IT), Japanese (ja_JP), Khmer (km-KH), Korean (ko_KR), Lao language ( lo-LA), Myanmar (my-MM), NepaliPolish (ne-NP), (pl_PL), Portuguese (pt_BR), Romanian (ro_RO), Russian (ru_RU), Thai (th_TH), Turkish (tr_TR), Vietnamese (vi_VN), Chinese Simplified (zh_CN), Chinese Traditional (zh_TW).
-///   </li>
-///   <li>
 ///     completion: Completion with <code>Result</code>: <em>AccessTokenInfo</em> on success and Error on failure.
 ///   </li>
 /// </ul>
-- (void)authWithXsollaWidgetWithLoginId:(NSString * _Nonnull)loginId oAuth2Params:(OAuth2Params * _Nonnull)oAuth2Params locale:(NSString * _Nullable)locale presentationContextProvider:(id <ASWebAuthenticationPresentationContextProviding> _Nonnull)presentationContextProvider completion:(void (^ _Nonnull)(AccessTokenInfo * _Nullable, NSError * _Nullable))completion;
+- (void)authWithXsollaWidgetWithLoginId:(NSString * _Nonnull)loginId oAuth2Params:(OAuth2Params * _Nonnull)oAuth2Params locale:(NSString * _Nonnull)locale presentationContextProvider:(id <ASWebAuthenticationPresentationContextProviding> _Nonnull)presentationContextProvider completion:(void (^ _Nonnull)(AccessTokenInfo * _Nullable, NSError * _Nullable))completion;
 @end
 
 

@@ -10,6 +10,13 @@ typedef void(ActionStringCallbackDelegate)(void *actionPtr, const char *data);
 
 extern "C" {
 
+    void _configureLoginAnalytics(char* gameEngine, char* gameEngineVersion) {
+        NSString* gameEngineString = [XsollaUtils createNSStringFrom:gameEngine];
+        NSString* gameEngineVersionString = [XsollaUtils createNSStringFrom:gameEngineVersion];
+        
+        [[LoginKitObjectiveC shared] configureAnalyticsWithGameEngine:gameEngineString gameEngineVersion:gameEngineVersionString];
+    }
+
     void _authWithXsollaWidget(char* loginId, int clientId, char* state, char* redirectUri, char* locale,
                               ActionStringCallbackDelegate authSuccessCallback, void *authSuccessActionPtr,
                               ActionStringCallbackDelegate errorCallback, void *errorActionPtr,

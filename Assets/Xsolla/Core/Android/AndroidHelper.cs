@@ -53,6 +53,8 @@ namespace Xsolla.Core
 		{
 			CreateMainThreadExecutor();
 			InitLogin();
+			ConfigureAnalytics("com.xsolla.android.login.util.AnalyticsUtils");
+			ConfigureAnalytics("com.xsolla.android.payments.util.AnalyticsUtils");
 		}
 
 		private static void CreateMainThreadExecutor()
@@ -83,12 +85,25 @@ namespace Xsolla.Core
 				loginConfigBuilder.Call<AndroidJavaObject>("setOauthClientId", XsollaSettings.OAuthClientId);
 
 				var loginConfig = loginConfigBuilder.Call<AndroidJavaObject>("build");
-
 				_xlogin.CallStatic("init", ApplicationContext, loginConfig);
 			}
 			catch (Exception e)
 			{
 				throw new AggregateException($"AndroidSDKSocialAuthHelper.Ctor: {e.Message}", e);
+			}
+		}
+
+		private static void ConfigureAnalytics(string javaClassName)
+		{
+			try
+			{
+				var analyticsUtilsClass = new AndroidJavaObject(javaClassName);
+				analyticsUtilsClass.SetStatic("gameEngine", "unity");
+				analyticsUtilsClass.SetStatic("gameEngineVersion", Application.unityVersion);
+			}
+			catch (Exception e)
+			{
+				throw new AggregateException($"AndroidHelper. Configure analytics for class {javaClassName} error: {e.Message}", e);
 			}
 		}
 	}

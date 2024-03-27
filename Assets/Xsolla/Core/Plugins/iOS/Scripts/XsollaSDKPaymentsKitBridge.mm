@@ -7,6 +7,13 @@ typedef void(ActionStringCallbackDelegate)(void *actionPtr, const char *data);
 typedef void(ActionBoolCallbackDelegate)(void *actionPtr, const bool data);
 
 extern "C" {
+
+    void _configurePaymentsAnalytics(char* gameEngine, char* gameEngineVersion) {
+        NSString* gameEngineString = [XsollaUtils createNSStringFrom:gameEngine];
+        NSString* gameEngineVersionString = [XsollaUtils createNSStringFrom:gameEngineVersion];
+        
+        [[PaymentsKitObjectiveC shared] configureAnalyticsWithGameEngine:gameEngineString gameEngineVersion:gameEngineVersionString];
+    }
     
     void _performPayment(char* token, bool isSandbox, char* redirectUrl, 
         ActionStringCallbackDelegate errorCallback, void *errorActionPtr, 
