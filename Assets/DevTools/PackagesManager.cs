@@ -15,15 +15,10 @@ namespace Xsolla.DevTools
 		[MenuItem("Dev Tools/Export SDK package", false, 100)]
 		public static void ExportSdk()
 		{
-			XsollaSettings.StoreProjectId = string.Empty;
-			XsollaSettings.LoginId = string.Empty;
-			XsollaSettings.OAuthClientId = 0;
-			AssetDatabase.SaveAssets();
-
 			var assetGuids = GetGuids("Assets/Xsolla");
 			var packagePath = BuildPackagePath("xsolla-commerce-sdk");
 
-			var parameters = new object[]{
+			var parameters = new object[] {
 				assetGuids,
 				packagePath
 			};
@@ -35,14 +30,20 @@ namespace Xsolla.DevTools
 		public static void ExportDemo()
 		{
 			ResetSdkSettings();
-			
+
 			var sdkAssetGuids = GetGuids("Assets/Xsolla");
 			var demoAssetGuids = GetGuids("Assets/Xsolla.Demo");
-			var assetGuids = sdkAssetGuids.Concat(demoAssetGuids).Distinct().ToArray();
+			var resourcesAssetGuids = GetGuids("Assets/Resources");
+			
+			var assetGuids = sdkAssetGuids
+				.Concat(demoAssetGuids)
+				.Concat(resourcesAssetGuids)
+				.Distinct()
+				.ToArray();
 
 			var packagePath = BuildPackagePath("xsolla-commerce-demo");
-			
-			var parameters = new object[]{
+
+			var parameters = new object[] {
 				assetGuids,
 				packagePath
 			};
@@ -56,7 +57,7 @@ namespace Xsolla.DevTools
 			XsollaSettings.StoreProjectId = Constants.DEFAULT_PROJECT_ID;
 			XsollaSettings.LoginId = Constants.DEFAULT_LOGIN_ID;
 			XsollaSettings.OAuthClientId = Constants.DEFAULT_OAUTH_CLIENT_ID;
-			AssetDatabase.SaveAssets();
+			XsollaSettingsEditor.SaveSettingsAsset();
 		}
 
 		private static string BuildPackagePath(string packageName)
@@ -67,7 +68,7 @@ namespace Xsolla.DevTools
 
 		private static void ExportPackage(object[] parameters)
 		{
-			var methods = new List<string>{
+			var methods = new List<string> {
 				"UnityEditor.PackageUtility.ExportPackageAndPackageManagerManifest"
 			};
 
@@ -85,15 +86,15 @@ namespace Xsolla.DevTools
 
 		private static string[] BuildExportPackageAssetListGuids(string[] guids, bool dependencies)
 		{
-			var methodInfo = GetMethodInfo(new List<string>{
+			var methodInfo = GetMethodInfo(new List<string> {
 				"UnityEditor.PackageUtility.BuildExportPackageItemsList",
 				"UnityEditor.AssetServer.BuildExportPackageAssetListAssetsItems"
-			}, new[]{
+			}, new[] {
 				typeof(string[]),
 				typeof(bool)
 			});
 
-			var parameters = new object[]{
+			var parameters = new object[] {
 				guids,
 				dependencies
 			};
@@ -116,15 +117,15 @@ namespace Xsolla.DevTools
 
 		private static string[] CollectAllChildren(string guid, IEnumerable collection)
 		{
-			return (string[]) TryStaticInvoke(new List<string>{
+			return (string[]) TryStaticInvoke(new List<string> {
 					"UnityEditor.AssetDatabase.CollectAllChildren",
 					"UnityEditor.AssetServer.CollectAllChildren"
 				},
-				new object[]{
+				new object[] {
 					guid,
 					collection
 				}
-			);
+				);
 		}
 
 		private static object TryStaticInvoke(List<string> methods, object[] parameters)
@@ -137,7 +138,7 @@ namespace Xsolla.DevTools
 			var methodInfo = (MethodInfo) null;
 			foreach (var method in methods)
 			{
-				var chArray = new[]{
+				var chArray = new[] {
 					'.'
 				};
 				var strArray = method.Split(chArray);

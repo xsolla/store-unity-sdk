@@ -1,3 +1,5 @@
+using System;
+using System.IO;
 using UnityEditor;
 using UnityEngine;
 
@@ -9,7 +11,7 @@ namespace Xsolla.Core
 		[MenuItem("Window/Xsolla/Edit Settings", false, 1000)]
 		public static void Edit()
 		{
-			Selection.activeObject = XsollaSettings.Instance;
+			Selection.activeObject = GetSettingsAsset();
 		}
 
 		private GUIStyle GroupAreaStyle => GUI.skin.box;
@@ -19,15 +21,18 @@ namespace Xsolla.Core
 		public override void OnInspectorGUI()
 		{
 			var changed = AutoFillSettings() ||
-			              GeneralSettings() ||
-			              LoginSettings() ||
-			              PayStationSettings() ||
-			              AndroidSettings() ||
-			              DesktopSettings() ||
-			              EditorSettings();
+				GeneralSettings() ||
+				LoginSettings() ||
+				PayStationSettings() ||
+				AndroidSettings() ||
+				DesktopSettings() ||
+				EditorSettings();
 
 			if (changed)
+			{
 				DropSavedTokens();
+				SaveSettingsAsset();
+			}
 		}
 
 		public static void DropSavedTokens()
@@ -35,10 +40,37 @@ namespace Xsolla.Core
 			XsollaToken.DeleteSavedInstance();
 		}
 
+		public static void SaveSettingsAsset()
+		{
+			EditorUtility.SetDirty(XsollaSettings.Instance);
+			AssetDatabase.SaveAssets();
+		}
+
 		private static void DrawErrorBox(string message)
 		{
 			EditorGUILayout.HelpBox(message, MessageType.Error, true);
 			EditorGUILayout.Space();
+		}
+
+		private static XsollaSettings GetSettingsAsset()
+		{
+			var instances = Resources.LoadAll<XsollaSettings>(string.Empty);
+			if (instances.Length == 1)
+				return instances[0];
+
+			if (instances.Length > 1)
+				throw new Exception("There are more than one `XsollaSettings` asset in the project. Please leave only one.");
+
+			var instance = CreateInstance<XsollaSettings>();
+			var assetPath = Path.Combine(Application.dataPath, "Resources", "XsollaSettings.asset");
+
+			var directoryName = Path.GetDirectoryName(assetPath);
+			if (!Directory.Exists(directoryName))
+				Directory.CreateDirectory(directoryName);
+
+			assetPath = assetPath.Replace(Application.dataPath, "Assets");
+			AssetDatabase.CreateAsset(instance, assetPath);
+			return instance;
 		}
 	}
 }

@@ -23,7 +23,10 @@ namespace Xsolla.Demo
 						  SteamSettings();
 
 			if (changed)
+			{
 				XsollaSettingsEditor.DropSavedTokens();
+				XsollaSettingsEditor.SaveSettingsAsset();
+			}
 		}
 	}
 }
