@@ -53,22 +53,22 @@ MonoBehaviour:
     StatusForManualRedirection: 0
     RedirectButtonCaption: 
   desktopPayStationUISettings:
-    isFoldout: 1
+    isFoldout: 0
     paystationThemeId: 63295aab2e47fab76f7708e3
     paystationSize: 0
     paystationVersion: 0
   webglPayStationUISettings:
-    isFoldout: 1
+    isFoldout: 0
     paystationThemeId: 63295aab2e47fab76f7708e3
     paystationSize: 0
     paystationVersion: 0
   androidPayStationUISettings:
-    isFoldout: 1
+    isFoldout: 0
     paystationThemeId: 63295aab2e47fab76f7708e3
     paystationSize: 0
     paystationVersion: 0
   iosPayStationUISettings:
-    isFoldout: 1
+    isFoldout: 0
     paystationThemeId: 63295aab2e47fab76f7708e3
     paystationSize: 0
     paystationVersion: 0
