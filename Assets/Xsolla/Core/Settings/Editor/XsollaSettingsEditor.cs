@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -59,7 +60,13 @@ namespace Xsolla.Core
 				return instances[0];
 
 			if (instances.Length > 1)
-				throw new Exception("There are more than one `XsollaSettings` asset in the project. Please leave only one.");
+			{
+				var paths = instances.Select(AssetDatabase.GetAssetPath);
+				var joinedPaths = string.Join("\n", paths);
+				throw new Exception("There are more than one `XsollaSettings` asset in the project. "
+					+ "Please leave only one. "
+					+ $"Founded {instances.Length} assets by paths:\n{joinedPaths}");
+			}
 
 			var instance = CreateInstance<XsollaSettings>();
 			var assetPath = Path.Combine(Application.dataPath, "Resources", "XsollaSettings.asset");

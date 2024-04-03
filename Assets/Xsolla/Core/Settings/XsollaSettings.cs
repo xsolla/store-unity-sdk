@@ -178,11 +178,12 @@ namespace Xsolla.Core
 				if (!_instance)
 				{
 					var instances = Resources.LoadAll<XsollaSettings>(string.Empty);
+
 					if (instances.Length == 0)
-						throw new Exception("XsollaSettings not found");
+						throw new Exception("'XsollaSettings' asset not found. Please create it.");
 
 					if (instances.Length > 1)
-						throw new Exception("Multiple XsollaSettings found");
+						throw new Exception("Multiple 'XsollaSettings' assets found. Please leave only one.");
 
 					_instance = instances[0];
 				}
