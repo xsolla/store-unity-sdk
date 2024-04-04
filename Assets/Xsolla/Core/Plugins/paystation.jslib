@@ -1,7 +1,7 @@
 mergeInto(LibraryManager.library, {
 
 	OpenPaystationWidget: function (token, sandbox) {
-		var jsToken = Pointer_stringify(token);
+		var jsToken = UTF8ToString(token);
 		var isSandbox = sandbox > 0 ? true : false;
 		var options = {
 			access_token: jsToken,
