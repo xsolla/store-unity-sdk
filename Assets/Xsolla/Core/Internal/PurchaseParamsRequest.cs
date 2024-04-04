@@ -22,6 +22,7 @@ namespace Xsolla.Core
 			public string return_url;
 			public PayStationUI ui;
 			public RedirectPolicy redirect_policy;
+			public int? payment_method;
 		}
 	}
 }

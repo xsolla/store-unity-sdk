@@ -9,7 +9,8 @@ namespace Xsolla.Core
 			var settings = new PurchaseParamsRequest.Settings {
 				ui = PayStationUISettings.GenerateSettings(),
 				redirect_policy = RedirectPolicySettings.GeneratePolicy(),
-				external_id = purchaseParams?.external_id
+				external_id = purchaseParams?.external_id,
+				payment_method = purchaseParams?.payment_method
 			};
 
 			if (settings.redirect_policy != null)
