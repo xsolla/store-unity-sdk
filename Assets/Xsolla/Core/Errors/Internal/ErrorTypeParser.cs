@@ -116,6 +116,7 @@ namespace Xsolla.Core
 		{
 			switch (code)
 			{
+				case "401": return ErrorType.InvalidToken;
 				case "404": return ErrorType.ProductDoesNotExist;
 				case "422": return ErrorType.PayStationServiceException;
 			}
