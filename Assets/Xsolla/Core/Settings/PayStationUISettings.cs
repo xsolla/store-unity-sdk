@@ -6,7 +6,7 @@ namespace Xsolla.Core
 	public class PayStationUISettings
 	{
 		public bool isFoldout;
-		public string paystationThemeId = "63295a9a2e47fab76f7708e1";
+		public string paystationThemeId = "63295aab2e47fab76f7708e3";
 		public PaystationSize paystationSize = PaystationSize.Auto;
 		public PaystationVersion paystationVersion = PaystationVersion.Auto;
 

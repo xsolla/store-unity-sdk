@@ -1,21 +1,16 @@
-using System.IO;
-using UnityEditor;
+using System;
 using UnityEngine;
 
 namespace Xsolla.Core
 {
 	public class XsollaSettings : ScriptableObject
 	{
-		private const string SETTINGS_ASSET_NAME = "XsollaSettings";
-		private const string SETTINGS_ASSET_PATH = "Resources/";
-		private const string SETTINGS_ASSET_EXTENSION = ".asset";
-
-		[SerializeField] private string loginId = Constants.DEFAULT_LOGIN_ID;
+		[SerializeField] private string loginId = string.Empty;
 		[SerializeField] private string callbackUrl;
 		[SerializeField] private bool invalidateExistingSessions;
-		[SerializeField] private int oauthClientId = Constants.DEFAULT_OAUTH_CLIENT_ID;
+		[SerializeField] private int oauthClientId;
 
-		[SerializeField] private string storeProjectId = Constants.DEFAULT_PROJECT_ID;
+		[SerializeField] private string storeProjectId = string.Empty;
 		[SerializeField] private bool isSandbox = true;
 		[SerializeField] private bool inAppBrowserEnabled = true;
 		[SerializeField] private bool packInAppBrowserInBuild = true;
@@ -39,86 +34,55 @@ namespace Xsolla.Core
 		[SerializeField] private LogLevel logLevel = LogLevel.InfoWarningsErrors;
 
 		public static bool PayStationGroupFoldout { get; set; }
+
 		public static bool RedirectPolicyGroupFoldout { get; set; }
 
 		public static string LoginId
 		{
 			get => Instance.loginId;
-			set
-			{
-				Instance.loginId = value;
-				MarkAssetDirty();
-			}
+			set => Instance.loginId = value;
 		}
 
 		public static bool InvalidateExistingSessions
 		{
 			get => Instance.invalidateExistingSessions;
-			set
-			{
-				Instance.invalidateExistingSessions = value;
-				MarkAssetDirty();
-			}
+			set => Instance.invalidateExistingSessions = value;
 		}
 
 		public static int OAuthClientId
 		{
 			get => Instance.oauthClientId;
-			set
-			{
-				Instance.oauthClientId = value;
-				MarkAssetDirty();
-			}
+			set => Instance.oauthClientId = value;
 		}
 
 		public static string CallbackUrl
 		{
 			get => Instance.callbackUrl;
-			set
-			{
-				Instance.callbackUrl = value;
-				MarkAssetDirty();
-			}
+			set => Instance.callbackUrl = value;
 		}
 
 		public static string StoreProjectId
 		{
 			get => Instance.storeProjectId;
-			set
-			{
-				Instance.storeProjectId = value;
-				MarkAssetDirty();
-			}
+			set => Instance.storeProjectId = value;
 		}
 
 		public static bool IsSandbox
 		{
 			get => Instance.isSandbox;
-			set
-			{
-				Instance.isSandbox = value;
-				MarkAssetDirty();
-			}
+			set => Instance.isSandbox = value;
 		}
 
 		public static bool InAppBrowserEnabled
 		{
 			get => Instance.inAppBrowserEnabled;
-			set
-			{
-				Instance.inAppBrowserEnabled = value;
-				MarkAssetDirty();
-			}
+			set => Instance.inAppBrowserEnabled = value;
 		}
 
 		public static bool PackInAppBrowserInBuild
 		{
 			get => Instance.packInAppBrowserInBuild;
-			set
-			{
-				Instance.packInAppBrowserInBuild = value;
-				MarkAssetDirty();
-			}
+			set => Instance.packInAppBrowserInBuild = value;
 		}
 
 		public static RedirectPolicySettings DesktopRedirectPolicySettings
@@ -202,11 +166,7 @@ namespace Xsolla.Core
 		public static LogLevel LogLevel
 		{
 			get => Instance.logLevel;
-			set
-			{
-				Instance.logLevel = value;
-				MarkAssetDirty();
-			}
+			set => Instance.logLevel = value;
 		}
 
 		private static XsollaSettings _instance;
@@ -215,66 +175,21 @@ namespace Xsolla.Core
 		{
 			get
 			{
-				if (_instance)
-					return _instance;
-
-				_instance = Resources.Load(SETTINGS_ASSET_NAME) as XsollaSettings;
-				if (_instance)
-					return _instance;
-
-				_instance = CreateInstance<XsollaSettings>();
-#if UNITY_EDITOR
-				var absolutePath = Path.GetDirectoryName(Path.GetDirectoryName(FindEditor(Application.dataPath)));
-				if (absolutePath != null)
+				if (!_instance)
 				{
-					var sdkPath = absolutePath.Replace("\\", "/").Replace(Application.dataPath, "Assets");
-					SaveAsset(Path.Combine(sdkPath, SETTINGS_ASSET_PATH), SETTINGS_ASSET_NAME);
+					var instances = Resources.LoadAll<XsollaSettings>(string.Empty);
+
+					if (instances.Length == 0)
+						throw new Exception("'XsollaSettings' asset not found. Please create it."); //TEXTREVIEW
+
+					if (instances.Length > 1)
+						throw new Exception("Multiple 'XsollaSettings' assets found. Please leave only one."); //TEXTREVIEW
+
+					_instance = instances[0];
 				}
 
-#endif
 				return _instance;
 			}
-		}
-
-		private static string FindEditor(string path)
-		{
-			foreach (var d in Directory.GetDirectories(path))
-			{
-				foreach (var f in Directory.GetFiles(d))
-				{
-					if (f.Contains("XsollaSettingsEditor.cs"))
-					{
-						return f;
-					}
-				}
-
-				var rec = FindEditor(d);
-				if (rec != null)
-				{
-					return rec;
-				}
-			}
-
-			return null;
-		}
-
-		private static void SaveAsset(string directory, string name)
-		{
-#if UNITY_EDITOR
-			if (!Directory.Exists(directory))
-				Directory.CreateDirectory(directory);
-
-			AssetDatabase.CreateAsset(Instance, $"{directory}{name}{SETTINGS_ASSET_EXTENSION}");
-			AssetDatabase.Refresh();
-#endif
-		}
-
-		private static void MarkAssetDirty()
-		{
-#if UNITY_EDITOR
-			if (!Application.isPlaying)
-				EditorUtility.SetDirty(Instance);
-#endif
 		}
 	}
 }

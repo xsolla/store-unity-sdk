@@ -1,7 +1,8 @@
 {
     "name": "DevTools",
     "references": [
-        "GUID:ae0cf701846f0cc4bbd067c4edd4fe90"
+        "GUID:ae0cf701846f0cc4bbd067c4edd4fe90",
+        "GUID:aaab378cf5b588f4bbc7fa15a4ce39f5"
     ],
     "includePlatforms": [
         "Editor"
