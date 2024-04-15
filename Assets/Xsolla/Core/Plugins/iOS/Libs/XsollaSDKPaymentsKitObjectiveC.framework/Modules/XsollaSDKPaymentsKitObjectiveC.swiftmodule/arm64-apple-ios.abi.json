@@ -132,6 +132,41 @@
           },
           {
             "kind": "Function",
+            "name": "configureAnalytics",
+            "printedName": "configureAnalytics(gameEngine:gameEngineVersion:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "NSString",
+                "printedName": "Foundation.NSString",
+                "usr": "c:objc(cs)NSString"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "NSString",
+                "printedName": "Foundation.NSString",
+                "usr": "c:objc(cs)NSString"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "c:@M@XsollaSDKPaymentsKitObjectiveC@objc(cs)PaymentsKitObjectiveC(im)configureAnalyticsWithGameEngine:gameEngineVersion:",
+            "mangledName": "$s30XsollaSDKPaymentsKitObjectiveC08PaymentscD1CC18configureAnalytics10gameEngine0hI7VersionySo8NSStringC_AHtF",
+            "moduleName": "XsollaSDKPaymentsKitObjectiveC",
+            "objc_name": "configureAnalyticsWithGameEngine:gameEngineVersion:",
+            "declAttributes": [
+              "Final",
+              "AccessControl",
+              "ObjC"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
             "name": "performPayment",
             "printedName": "performPayment(paymentToken:presenter:isSandbox:redirectUrl:completionHandler:)",
             "children": [

@@ -18,6 +18,8 @@ namespace Xsolla.Core
 
 		public void Perform(SocialProvider socialProvider, Action onSuccess, Action<Error> onError, Action onCancel)
 		{
+			IosUtils.ConfigureAnalytics();
+
 			OnSuccess = onSuccess;
 			OnError = onError;
 			OnCancel = onCancel;

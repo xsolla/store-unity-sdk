@@ -97,9 +97,14 @@ namespace Xsolla.Core
 				: Constants.PAYSTATION_URL;
 
 			url = new UrlBuilder(url)
-				.AddParam("access_token", paymentToken)
+				.AddParam("token", paymentToken)
+				.AddParam("engine", "unity")
+				.AddParam("engine_v", Application.unityVersion)
+				.AddParam("sdk", "store")
+				.AddParam("sdk_v", Constants.SDK_VERSION)
 				.Build();
 
+			XDebug.Log($"Purchase url: {url}");
 			Open(url, forcePlatformBrowser);
 
 #if UNITY_STANDALONE || UNITY_EDITOR

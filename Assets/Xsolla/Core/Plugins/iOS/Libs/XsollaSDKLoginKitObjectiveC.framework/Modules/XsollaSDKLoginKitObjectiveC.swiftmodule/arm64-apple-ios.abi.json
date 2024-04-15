@@ -88,6 +88,41 @@
           },
           {
             "kind": "Function",
+            "name": "configureAnalytics",
+            "printedName": "configureAnalytics(gameEngine:gameEngineVersion:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "NSString",
+                "printedName": "Foundation.NSString",
+                "usr": "c:objc(cs)NSString"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "NSString",
+                "printedName": "Foundation.NSString",
+                "usr": "c:objc(cs)NSString"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "c:@M@XsollaSDKLoginKitObjectiveC@objc(cs)LoginKitObjectiveC(im)configureAnalyticsWithGameEngine:gameEngineVersion:",
+            "mangledName": "$s27XsollaSDKLoginKitObjectiveC05LogincD1CC18configureAnalytics10gameEngine0hI7VersionySo8NSStringC_AHtF",
+            "moduleName": "XsollaSDKLoginKitObjectiveC",
+            "objc_name": "configureAnalyticsWithGameEngine:gameEngineVersion:",
+            "declAttributes": [
+              "Final",
+              "AccessControl",
+              "ObjC"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
             "name": "authByUsernameAndPassword",
             "printedName": "authByUsernameAndPassword(username:password:oAuth2Params:jwtParams:completion:)",
             "children": [
@@ -586,9 +621,9 @@
               },
               {
                 "kind": "TypeNominal",
-                "name": "String",
-                "printedName": "Swift.String",
-                "usr": "s:SS"
+                "name": "NSString",
+                "printedName": "Foundation.NSString",
+                "usr": "c:objc(cs)NSString"
               },
               {
                 "kind": "TypeNominal",
@@ -598,18 +633,9 @@
               },
               {
                 "kind": "TypeNominal",
-                "name": "Optional",
-                "printedName": "Foundation.NSString?",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "NSString",
-                    "printedName": "Foundation.NSString",
-                    "usr": "c:objc(cs)NSString"
-                  }
-                ],
-                "hasDefaultArg": true,
-                "usr": "s:Sq"
+                "name": "NSString",
+                "printedName": "Foundation.NSString",
+                "usr": "c:objc(cs)NSString"
               },
               {
                 "kind": "TypeNominal",
@@ -667,7 +693,7 @@
             ],
             "declKind": "Func",
             "usr": "c:@CM@XsollaSDKLoginKitObjectiveC@objc(cs)LoginKitObjectiveC(im)authWithXsollaWidgetWithLoginId:oAuth2Params:locale:presentationContextProvider:completion:",
-            "mangledName": "$s27XsollaSDKLoginKitObjectiveC05LogincD1CC08authWithA6Widget7loginId12oAuth2Params6locale27presentationContextProvider10completionySS_AA06OAuth2L0CSo8NSStringCSgSo031ASWebAuthenticationPresentationO9Providing_pyAA15AccessTokenInfoCSg_So7NSErrorCSgtctF",
+            "mangledName": "$s27XsollaSDKLoginKitObjectiveC05LogincD1CC08authWithA6Widget7loginId12oAuth2Params6locale27presentationContextProvider10completionySo8NSStringC_AA06OAuth2L0CAKSo031ASWebAuthenticationPresentationO9Providing_pyAA15AccessTokenInfoCSg_So7NSErrorCSgtctF",
             "moduleName": "XsollaSDKLoginKitObjectiveC",
             "objc_name": "authWithXsollaWidgetWithLoginId:oAuth2Params:locale:presentationContextProvider:completion:",
             "declAttributes": [
@@ -3446,56 +3472,56 @@
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKitObjectiveC\/LoginKitObjectiveC\/LoginKitObjectiveC.swift",
       "kind": "IntegerLiteral",
-      "offset": 2046,
+      "offset": 2330,
       "length": 2,
       "value": "-1"
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKitObjectiveC\/LoginKitObjectiveC\/LoginKitObjectiveC.swift",
       "kind": "StringLiteral",
-      "offset": 5968,
+      "offset": 6252,
       "length": 40,
       "value": "\"Invalid url for social network linking\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKitObjectiveC\/LoginKitObjectiveC\/LoginKitObjectiveC.swift",
       "kind": "StringLiteral",
-      "offset": 6238,
+      "offset": 6522,
       "length": 22,
       "value": "\"Invalid redirect url\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKitObjectiveC\/LoginKitObjectiveC\/LoginKitObjectiveC.swift",
       "kind": "BooleanLiteral",
-      "offset": 6558,
+      "offset": 6842,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKitObjectiveC\/LoginKitObjectiveC\/LoginKitObjectiveC.swift",
       "kind": "BooleanLiteral",
-      "offset": 7534,
+      "offset": 7818,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKitObjectiveC\/LoginKitObjectiveC\/LoginKitObjectiveC.swift",
       "kind": "StringLiteral",
-      "offset": 8561,
+      "offset": 8845,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKitObjectiveC\/LoginKitObjectiveC\/LoginKitObjectiveC.swift",
       "kind": "IntegerLiteral",
-      "offset": 10996,
+      "offset": 11280,
       "length": 2,
       "value": "-1"
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKitObjectiveC\/LoginKitObjectiveC\/LoginKitObjectiveC.swift",
       "kind": "IntegerLiteral",
-      "offset": 13389,
+      "offset": 13144,
       "length": 2,
       "value": "-1"
     },
