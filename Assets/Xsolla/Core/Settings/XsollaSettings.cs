@@ -37,6 +37,8 @@ namespace Xsolla.Core
 
 		public static bool RedirectPolicyGroupFoldout { get; set; }
 
+		public static int PaystationVersion { get; set; } = 4;
+
 		public static string LoginId
 		{
 			get => Instance.loginId;

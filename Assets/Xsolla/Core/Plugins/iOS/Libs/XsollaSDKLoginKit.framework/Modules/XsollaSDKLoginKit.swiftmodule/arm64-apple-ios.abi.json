@@ -20108,7 +20108,7 @@
       "kind": "StringLiteral",
       "offset": 114,
       "length": 7,
-      "value": "\"0.7.2\""
+      "value": "\"0.7.3\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Get User Devices\/GetUserDevicesRequest.swift",

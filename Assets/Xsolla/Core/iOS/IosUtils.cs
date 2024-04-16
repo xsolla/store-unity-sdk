@@ -8,14 +8,13 @@ namespace Xsolla.Core
 	internal static class IosUtils
 	{
 		[DllImport("__Internal")]
-		private static extern void _configureLoginAnalytics(
-			string gameEngine,
-			string gameEngineVersion);
+		private static extern void _configureLoginAnalytics(string gameEngine, string gameEngineVersion);
 
 		[DllImport("__Internal")]
-		private static extern void _configurePaymentsAnalytics(
-			string gameEngine,
-			string gameEngineVersion);
+		private static extern void _configurePaymentsAnalytics(string gameEngine, string gameEngineVersion);
+
+		[DllImport("__Internal")]
+		private static extern void _setPaystationVersion(int paystationVersion);
 
 		private static bool AnalyticsConfigured { get; set; }
 
@@ -45,6 +44,11 @@ namespace Xsolla.Core
 
 				AnalyticsConfigured = true;
 			}
+		}
+
+		public static void SetPaystationVersion(int paystationVersion)
+		{
+			_setPaystationVersion(paystationVersion);
 		}
 	}
 }

@@ -20,6 +20,8 @@ extension Foundation.NSError {
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc final public class PaymentsKitObjectiveC : ObjectiveC.NSObject {
   @objc public static let shared: XsollaSDKPaymentsKitObjectiveC.PaymentsKitObjectiveC
   @objc final public func configureAnalytics(gameEngine: Foundation.NSString, gameEngineVersion: Foundation.NSString)
+  @objc final public func setPaystationVersion(paystationVersion: Swift.Int)
+  @objc final public func getPaymentUrl(isSandbox: Swift.Bool, paymentToken: Foundation.NSString) -> Foundation.NSString
   @objc final public func performPayment(paymentToken: Foundation.NSString, presenter: XsollaSDKPaymentsKitObjectiveC.ViewControllerPresenting, isSandbox: Swift.Bool, redirectUrl: Foundation.NSString, completionHandler: ((Foundation.NSError?) -> Swift.Void)?)
   @objc deinit
 }

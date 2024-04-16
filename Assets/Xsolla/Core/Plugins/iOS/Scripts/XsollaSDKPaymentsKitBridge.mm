@@ -15,6 +15,10 @@ extern "C" {
         [[PaymentsKitObjectiveC shared] configureAnalyticsWithGameEngine:gameEngineString gameEngineVersion:gameEngineVersionString];
     }
     
+    void _setPaystationVersion(int paystationVersion){
+        [[PaymentsKitObjectiveC shared] setPaystationVersionWithPaystationVersion:paystationVersion];
+    }
+    
     void _performPayment(char* token, bool isSandbox, char* redirectUrl, 
         ActionStringCallbackDelegate errorCallback, void *errorActionPtr, 
         ActionBoolCallbackDelegate browserCallback, void *browserCallbackActionPtr) {
