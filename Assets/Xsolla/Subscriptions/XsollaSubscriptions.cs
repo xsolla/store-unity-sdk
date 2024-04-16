@@ -238,12 +238,8 @@ namespace Xsolla.Subscriptions
 				if (settings.ui == null)
 					settings.ui = new PaymentSettings.UI();
 
-				if (settings.ui.size == null)
-					settings.ui.size = commonUiSettings.size;
 				if (settings.ui.theme == null)
 					settings.ui.theme = commonUiSettings.theme;
-				if (settings.ui.version == null)
-					settings.ui.version = commonUiSettings.version;
 			}
 
 			var commonRedirectPolicy = RedirectPolicySettings.GeneratePolicy();
@@ -254,12 +250,16 @@ namespace Xsolla.Subscriptions
 
 				if (settings.return_url == null)
 					settings.return_url = commonRedirectPolicy.return_url;
+
 				if (settings.redirect_policy.redirect_conditions == null)
 					settings.redirect_policy.redirect_conditions = commonRedirectPolicy.redirect_conditions;
+
 				if (settings.redirect_policy.delay == null)
 					settings.redirect_policy.delay = commonRedirectPolicy.delay;
+
 				if (settings.redirect_policy.status_for_manual_redirection == null)
 					settings.redirect_policy.status_for_manual_redirection = commonRedirectPolicy.status_for_manual_redirection;
+
 				if (settings.redirect_policy.redirect_button_caption == null)
 					settings.redirect_policy.redirect_button_caption = commonRedirectPolicy.redirect_button_caption;
 			}
