@@ -1,4 +1,26 @@
 # Changelog
+## [2.4.0] - 2024-04-17
+### Added
+- Ability to import SDK from a Git URL
+- Ability to close Pay Station in Android Web View
+
+### Changed
+- Default Pay Station version was changed to 4
+- The Xsolla settings asset is no longer included in the SDK package. It is now generated automatically upon first use to
+- `has_more` parameter added to response data for the following SDK methods:
+  - `XsollaCatalog.GetCatalog`
+  - `XsollaCatalog.GetItemGroups`
+  - `XsollaCatalog.GetVirtualCurrencyList`
+  - `XsollaCatalog.GetVirtualCurrencyPackagesList`
+- `PurchaseParams` data structure. Added the `payment_method` parameter
+- `XsollaAuth.AuthWithXsollaWidget` SDK methods. Added the `locale` parameter
+
+### Fixed
+- Token auto refresh logic
+
+### Removed
+- Deprecated `size` and `version` parameters from `PayStationUI` data
+
 ## [2.3.0] - 2024-02-01
 ### Changed
 - `AuthWithXsollaWidget` SDK method. Added the ‘locale’ parameter
@@ -29,6 +51,7 @@
 - Closing browser after payment failure
 - Infinite check order short polling when request returns an error
 - Destruction of the `WebRequestHelper` Instance when unloading scenes
+
 
 ## [2.0.0] - 2023-05-18
 ### Added
@@ -62,6 +85,7 @@
 
 ### Fixed
 - Disabling `bitcode` parameter of Xcode project for iOS builds
+
 
 ## [1.5.0] - 2023-03-27
 ### Added
@@ -262,8 +286,8 @@
 - Logging level settings
 - API method for resend account confirmation email
 ### Fixed
- - Payment status polling
- - Apple ID authorization
+- Payment status polling
+- Apple ID authorization
 ### Changed
 - Pay Station Widget version
 
