@@ -449,6 +449,223 @@
       },
       {
         "kind": "Import",
+        "name": "UIKit",
+        "printedName": "UIKit",
+        "declKind": "Import",
+        "moduleName": "XsollaSDKPaymentsKit"
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "XsollaSDKPaymentsKit",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "PaymentStatus",
+        "printedName": "PaymentStatus",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "success",
+            "printedName": "success",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(XsollaSDKPaymentsKit.PaymentStatus.Type) -> XsollaSDKPaymentsKit.PaymentStatus",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "PaymentStatus",
+                    "printedName": "XsollaSDKPaymentsKit.PaymentStatus",
+                    "usr": "s:20XsollaSDKPaymentsKit13PaymentStatusO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "XsollaSDKPaymentsKit.PaymentStatus.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "PaymentStatus",
+                        "printedName": "XsollaSDKPaymentsKit.PaymentStatus",
+                        "usr": "s:20XsollaSDKPaymentsKit13PaymentStatusO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:20XsollaSDKPaymentsKit13PaymentStatusO7successyA2CmF",
+            "mangledName": "$s20XsollaSDKPaymentsKit13PaymentStatusO7successyA2CmF",
+            "moduleName": "XsollaSDKPaymentsKit"
+          },
+          {
+            "kind": "Var",
+            "name": "unknown",
+            "printedName": "unknown",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(XsollaSDKPaymentsKit.PaymentStatus.Type) -> XsollaSDKPaymentsKit.PaymentStatus",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "PaymentStatus",
+                    "printedName": "XsollaSDKPaymentsKit.PaymentStatus",
+                    "usr": "s:20XsollaSDKPaymentsKit13PaymentStatusO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "XsollaSDKPaymentsKit.PaymentStatus.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "PaymentStatus",
+                        "printedName": "XsollaSDKPaymentsKit.PaymentStatus",
+                        "usr": "s:20XsollaSDKPaymentsKit13PaymentStatusO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:20XsollaSDKPaymentsKit13PaymentStatusO7unknownyA2CmF",
+            "mangledName": "$s20XsollaSDKPaymentsKit13PaymentStatusO7unknownyA2CmF",
+            "moduleName": "XsollaSDKPaymentsKit"
+          },
+          {
+            "kind": "Function",
+            "name": "==",
+            "printedName": "==(_:_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "PaymentStatus",
+                "printedName": "XsollaSDKPaymentsKit.PaymentStatus",
+                "usr": "s:20XsollaSDKPaymentsKit13PaymentStatusO"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "PaymentStatus",
+                "printedName": "XsollaSDKPaymentsKit.PaymentStatus",
+                "usr": "s:20XsollaSDKPaymentsKit13PaymentStatusO"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:20XsollaSDKPaymentsKit13PaymentStatusO2eeoiySbAC_ACtFZ",
+            "mangledName": "$s20XsollaSDKPaymentsKit13PaymentStatusO2eeoiySbAC_ACtFZ",
+            "moduleName": "XsollaSDKPaymentsKit",
+            "static": true,
+            "implicit": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Var",
+            "name": "hashValue",
+            "printedName": "hashValue",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Int",
+                "printedName": "Swift.Int",
+                "usr": "s:Si"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:20XsollaSDKPaymentsKit13PaymentStatusO9hashValueSivp",
+            "mangledName": "$s20XsollaSDKPaymentsKit13PaymentStatusO9hashValueSivp",
+            "moduleName": "XsollaSDKPaymentsKit",
+            "implicit": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Int",
+                    "printedName": "Swift.Int",
+                    "usr": "s:Si"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:20XsollaSDKPaymentsKit13PaymentStatusO9hashValueSivg",
+                "mangledName": "$s20XsollaSDKPaymentsKit13PaymentStatusO9hashValueSivg",
+                "moduleName": "XsollaSDKPaymentsKit",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Function",
+            "name": "hash",
+            "printedName": "hash(into:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Hasher",
+                "printedName": "Swift.Hasher",
+                "paramValueOwnership": "InOut",
+                "usr": "s:s6HasherV"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:20XsollaSDKPaymentsKit13PaymentStatusO4hash4intoys6HasherVz_tF",
+            "mangledName": "$s20XsollaSDKPaymentsKit13PaymentStatusO4hash4intoys6HasherVz_tF",
+            "moduleName": "XsollaSDKPaymentsKit",
+            "implicit": true,
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Enum",
+        "usr": "s:20XsollaSDKPaymentsKit13PaymentStatusO",
+        "mangledName": "$s20XsollaSDKPaymentsKit13PaymentStatusO",
+        "moduleName": "XsollaSDKPaymentsKit",
+        "declAttributes": [
+          "AccessControl"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Equatable",
+            "printedName": "Equatable",
+            "usr": "s:SQ",
+            "mangledName": "$sSQ"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Hashable",
+            "printedName": "Hashable",
+            "usr": "s:SH",
+            "mangledName": "$sSH"
+          }
+        ]
+      },
+      {
+        "kind": "Import",
         "name": "Foundation",
         "printedName": "Foundation",
         "declKind": "Import",
@@ -826,6 +1043,27 @@
           },
           {
             "kind": "Function",
+            "name": "warmupWebView",
+            "printedName": "warmupWebView()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:20XsollaSDKPaymentsKit17PaystationWebViewC06warmupeF0yyF",
+            "mangledName": "$s20XsollaSDKPaymentsKit17PaystationWebViewC06warmupeF0yyF",
+            "moduleName": "XsollaSDKPaymentsKit",
+            "declAttributes": [
+              "Custom",
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
             "name": "webView",
             "printedName": "webView(_:decidePolicyFor:decisionHandler:)",
             "children": [
@@ -870,6 +1108,96 @@
             "mangledName": "$s20XsollaSDKPaymentsKit17PaystationWebViewC03webF0_15decidePolicyFor15decisionHandlerySo05WKWebF0C_So18WKNavigationActionCySo0noI0VctF",
             "moduleName": "XsollaSDKPaymentsKit",
             "objc_name": "webView:decidePolicyForNavigationAction:decisionHandler:",
+            "declAttributes": [
+              "Dynamic",
+              "ObjC",
+              "Custom",
+              "AccessControl"
+            ],
+            "isFromExtension": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "webView",
+            "printedName": "webView(_:didStartProvisionalNavigation:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "WKWebView",
+                "printedName": "WebKit.WKWebView",
+                "usr": "c:objc(cs)WKWebView"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "ImplicitlyUnwrappedOptional",
+                "printedName": "WebKit.WKNavigation?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "WKNavigation",
+                    "printedName": "WebKit.WKNavigation",
+                    "usr": "c:objc(cs)WKNavigation"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "c:@CM@XsollaSDKPaymentsKit@objc(cs)PaystationWebView(im)webView:didStartProvisionalNavigation:",
+            "mangledName": "$s20XsollaSDKPaymentsKit17PaystationWebViewC03webF0_29didStartProvisionalNavigationySo05WKWebF0C_So12WKNavigationCSgtF",
+            "moduleName": "XsollaSDKPaymentsKit",
+            "objc_name": "webView:didStartProvisionalNavigation:",
+            "declAttributes": [
+              "Dynamic",
+              "ObjC",
+              "Custom",
+              "AccessControl"
+            ],
+            "isFromExtension": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "webView",
+            "printedName": "webView(_:didFinish:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "WKWebView",
+                "printedName": "WebKit.WKWebView",
+                "usr": "c:objc(cs)WKWebView"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "ImplicitlyUnwrappedOptional",
+                "printedName": "WebKit.WKNavigation?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "WKNavigation",
+                    "printedName": "WebKit.WKNavigation",
+                    "usr": "c:objc(cs)WKNavigation"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "c:@CM@XsollaSDKPaymentsKit@objc(cs)PaystationWebView(im)webView:didFinishNavigation:",
+            "mangledName": "$s20XsollaSDKPaymentsKit17PaystationWebViewC03webF0_9didFinishySo05WKWebF0C_So12WKNavigationCSgtF",
+            "moduleName": "XsollaSDKPaymentsKit",
+            "objc_name": "webView:didFinishNavigation:",
             "declAttributes": [
               "Dynamic",
               "ObjC",
@@ -1039,6 +1367,13 @@
             "printedName": "__DefaultCustomPlaygroundQuickLookable",
             "usr": "s:s38__DefaultCustomPlaygroundQuickLookableP",
             "mangledName": "$ss38__DefaultCustomPlaygroundQuickLookableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Sendable",
+            "printedName": "Sendable",
+            "usr": "s:s8SendableP",
+            "mangledName": "$ss8SendableP"
           }
         ]
       },
@@ -1241,13 +1576,6 @@
       },
       {
         "kind": "Import",
-        "name": "XsollaSDKUtilities",
-        "printedName": "XsollaSDKUtilities",
-        "declKind": "Import",
-        "moduleName": "XsollaSDKPaymentsKit"
-      },
-      {
-        "kind": "Import",
         "name": "Foundation",
         "printedName": "Foundation",
         "declKind": "Import",
@@ -1296,6 +1624,233 @@
         "printedName": "XsollaSDKUtilities",
         "declKind": "Import",
         "moduleName": "XsollaSDKPaymentsKit"
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "XsollaSDKPaymentsKit",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "XsollaSDKUtilities",
+        "printedName": "XsollaSDKUtilities",
+        "declKind": "Import",
+        "moduleName": "XsollaSDKPaymentsKit"
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "XsollaSDKPaymentsKit",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "PaystationVersion",
+        "printedName": "PaystationVersion",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "v3",
+            "printedName": "v3",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(XsollaSDKPaymentsKit.PaystationVersion.Type) -> XsollaSDKPaymentsKit.PaystationVersion",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "PaystationVersion",
+                    "printedName": "XsollaSDKPaymentsKit.PaystationVersion",
+                    "usr": "s:20XsollaSDKPaymentsKit17PaystationVersionO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "XsollaSDKPaymentsKit.PaystationVersion.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "PaystationVersion",
+                        "printedName": "XsollaSDKPaymentsKit.PaystationVersion",
+                        "usr": "s:20XsollaSDKPaymentsKit17PaystationVersionO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:20XsollaSDKPaymentsKit17PaystationVersionO2v3yA2CmF",
+            "mangledName": "$s20XsollaSDKPaymentsKit17PaystationVersionO2v3yA2CmF",
+            "moduleName": "XsollaSDKPaymentsKit"
+          },
+          {
+            "kind": "Var",
+            "name": "v4",
+            "printedName": "v4",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(XsollaSDKPaymentsKit.PaystationVersion.Type) -> XsollaSDKPaymentsKit.PaystationVersion",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "PaystationVersion",
+                    "printedName": "XsollaSDKPaymentsKit.PaystationVersion",
+                    "usr": "s:20XsollaSDKPaymentsKit17PaystationVersionO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "XsollaSDKPaymentsKit.PaystationVersion.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "PaystationVersion",
+                        "printedName": "XsollaSDKPaymentsKit.PaystationVersion",
+                        "usr": "s:20XsollaSDKPaymentsKit17PaystationVersionO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:20XsollaSDKPaymentsKit17PaystationVersionO2v4yA2CmF",
+            "mangledName": "$s20XsollaSDKPaymentsKit17PaystationVersionO2v4yA2CmF",
+            "moduleName": "XsollaSDKPaymentsKit"
+          },
+          {
+            "kind": "Function",
+            "name": "==",
+            "printedName": "==(_:_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "PaystationVersion",
+                "printedName": "XsollaSDKPaymentsKit.PaystationVersion",
+                "usr": "s:20XsollaSDKPaymentsKit17PaystationVersionO"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "PaystationVersion",
+                "printedName": "XsollaSDKPaymentsKit.PaystationVersion",
+                "usr": "s:20XsollaSDKPaymentsKit17PaystationVersionO"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:20XsollaSDKPaymentsKit17PaystationVersionO2eeoiySbAC_ACtFZ",
+            "mangledName": "$s20XsollaSDKPaymentsKit17PaystationVersionO2eeoiySbAC_ACtFZ",
+            "moduleName": "XsollaSDKPaymentsKit",
+            "static": true,
+            "implicit": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Var",
+            "name": "hashValue",
+            "printedName": "hashValue",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Int",
+                "printedName": "Swift.Int",
+                "usr": "s:Si"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:20XsollaSDKPaymentsKit17PaystationVersionO9hashValueSivp",
+            "mangledName": "$s20XsollaSDKPaymentsKit17PaystationVersionO9hashValueSivp",
+            "moduleName": "XsollaSDKPaymentsKit",
+            "implicit": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Int",
+                    "printedName": "Swift.Int",
+                    "usr": "s:Si"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:20XsollaSDKPaymentsKit17PaystationVersionO9hashValueSivg",
+                "mangledName": "$s20XsollaSDKPaymentsKit17PaystationVersionO9hashValueSivg",
+                "moduleName": "XsollaSDKPaymentsKit",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Function",
+            "name": "hash",
+            "printedName": "hash(into:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Hasher",
+                "printedName": "Swift.Hasher",
+                "paramValueOwnership": "InOut",
+                "usr": "s:s6HasherV"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:20XsollaSDKPaymentsKit17PaystationVersionO4hash4intoys6HasherVz_tF",
+            "mangledName": "$s20XsollaSDKPaymentsKit17PaystationVersionO4hash4intoys6HasherVz_tF",
+            "moduleName": "XsollaSDKPaymentsKit",
+            "implicit": true,
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Enum",
+        "usr": "s:20XsollaSDKPaymentsKit17PaystationVersionO",
+        "mangledName": "$s20XsollaSDKPaymentsKit17PaystationVersionO",
+        "moduleName": "XsollaSDKPaymentsKit",
+        "declAttributes": [
+          "AccessControl"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Equatable",
+            "printedName": "Equatable",
+            "usr": "s:SQ",
+            "mangledName": "$sSQ"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Hashable",
+            "printedName": "Hashable",
+            "usr": "s:SH",
+            "mangledName": "$sSH"
+          }
+        ]
       },
       {
         "kind": "Import",
@@ -1443,6 +1998,62 @@
             ]
           },
           {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(paystationVersion:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "PaymentsKit",
+                "printedName": "XsollaSDKPaymentsKit.PaymentsKit",
+                "usr": "s:20XsollaSDKPaymentsKit08PaymentsC0C"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "PaystationVersion",
+                "printedName": "XsollaSDKPaymentsKit.PaystationVersion",
+                "hasDefaultArg": true,
+                "usr": "s:20XsollaSDKPaymentsKit17PaystationVersionO"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:20XsollaSDKPaymentsKit08PaymentsC0C17paystationVersionAcA010PaystationF0O_tcfc",
+            "mangledName": "$s20XsollaSDKPaymentsKit08PaymentsC0C17paystationVersionAcA010PaystationF0O_tcfc",
+            "moduleName": "XsollaSDKPaymentsKit",
+            "declAttributes": [
+              "Convenience",
+              "AccessControl"
+            ],
+            "init_kind": "Convenience"
+          },
+          {
+            "kind": "Function",
+            "name": "setPaystationVersion",
+            "printedName": "setPaystationVersion(paystationVersion:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "PaystationVersion",
+                "printedName": "XsollaSDKPaymentsKit.PaystationVersion",
+                "usr": "s:20XsollaSDKPaymentsKit17PaystationVersionO"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:20XsollaSDKPaymentsKit08PaymentsC0C20setPaystationVersion010paystationG0yAA0fG0O_tF",
+            "mangledName": "$s20XsollaSDKPaymentsKit08PaymentsC0C20setPaystationVersion010paystationG0yAA0fG0O_tF",
+            "moduleName": "XsollaSDKPaymentsKit",
+            "declAttributes": [
+              "Final",
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
             "kind": "Function",
             "name": "createPaymentUrl",
             "printedName": "createPaymentUrl(paymentToken:isSandbox:)",
@@ -1488,8 +2099,63 @@
           },
           {
             "kind": "Function",
-            "name": "performPayment",
-            "printedName": "performPayment(paymentToken:presenter:isSandbox:redirectUrl:completionHandler:)",
+            "name": "getPaymentWarmupUrl",
+            "printedName": "getPaymentWarmupUrl()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Foundation.URL?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "URL",
+                    "printedName": "Foundation.URL",
+                    "usr": "s:10Foundation3URLV"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:20XsollaSDKPaymentsKit08PaymentsC0C19getPaymentWarmupUrl10Foundation3URLVSgyF",
+            "mangledName": "$s20XsollaSDKPaymentsKit08PaymentsC0C19getPaymentWarmupUrl10Foundation3URLVSgyF",
+            "moduleName": "XsollaSDKPaymentsKit",
+            "declAttributes": [
+              "Final",
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "isFromExtension": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "warmupPaymentView",
+            "printedName": "warmupPaymentView()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:20XsollaSDKPaymentsKit08PaymentsC0C17warmupPaymentViewyyF",
+            "mangledName": "$s20XsollaSDKPaymentsKit08PaymentsC0C17warmupPaymentViewyyF",
+            "moduleName": "XsollaSDKPaymentsKit",
+            "declAttributes": [
+              "Final",
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "isFromExtension": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "presentPaymentView",
+            "printedName": "presentPaymentView(presenter:paymentToken:isSandbox:redirectUrl:completionHandler:)",
             "children": [
               {
                 "kind": "TypeNominal",
@@ -1498,15 +2164,15 @@
               },
               {
                 "kind": "TypeNominal",
-                "name": "String",
-                "printedName": "Swift.String",
-                "usr": "s:SS"
-              },
-              {
-                "kind": "TypeNominal",
                 "name": "UIViewController",
                 "printedName": "UIKit.UIViewController",
                 "usr": "c:objc(cs)UIViewController"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
               },
               {
                 "kind": "TypeNominal",
@@ -1523,12 +2189,12 @@
               {
                 "kind": "TypeNominal",
                 "name": "Optional",
-                "printedName": "((Swift.Result<(), Swift.Error>) -> ())?",
+                "printedName": "((XsollaSDKPaymentsKit.PaymentStatus) -> ())?",
                 "children": [
                   {
                     "kind": "TypeFunc",
                     "name": "Function",
-                    "printedName": "(Swift.Result<(), Swift.Error>) -> ()",
+                    "printedName": "(XsollaSDKPaymentsKit.PaymentStatus) -> ()",
                     "children": [
                       {
                         "kind": "TypeNominal",
@@ -1537,22 +2203,9 @@
                       },
                       {
                         "kind": "TypeNominal",
-                        "name": "Result",
-                        "printedName": "Swift.Result<(), Swift.Error>",
-                        "children": [
-                          {
-                            "kind": "TypeNominal",
-                            "name": "Void",
-                            "printedName": "()"
-                          },
-                          {
-                            "kind": "TypeNominal",
-                            "name": "Error",
-                            "printedName": "Swift.Error",
-                            "usr": "s:s5ErrorP"
-                          }
-                        ],
-                        "usr": "s:s6ResultO"
+                        "name": "PaymentStatus",
+                        "printedName": "XsollaSDKPaymentsKit.PaymentStatus",
+                        "usr": "s:20XsollaSDKPaymentsKit13PaymentStatusO"
                       }
                     ]
                   }
@@ -1561,12 +2214,13 @@
               }
             ],
             "declKind": "Func",
-            "usr": "s:20XsollaSDKPaymentsKit08PaymentsC0C14performPayment12paymentToken9presenter9isSandbox11redirectUrl17completionHandlerySS_So16UIViewControllerCSbSSys6ResultOyyts5Error_pGcSgtF",
-            "mangledName": "$s20XsollaSDKPaymentsKit08PaymentsC0C14performPayment12paymentToken9presenter9isSandbox11redirectUrl17completionHandlerySS_So16UIViewControllerCSbSSys6ResultOyyts5Error_pGcSgtF",
+            "usr": "s:20XsollaSDKPaymentsKit08PaymentsC0C18presentPaymentView9presenter12paymentToken9isSandbox11redirectUrl17completionHandlerySo16UIViewControllerC_SSSbSSyAA0F6StatusOcSgtF",
+            "mangledName": "$s20XsollaSDKPaymentsKit08PaymentsC0C18presentPaymentView9presenter12paymentToken9isSandbox11redirectUrl17completionHandlerySo16UIViewControllerC_SSSbSSyAA0F6StatusOcSgtF",
             "moduleName": "XsollaSDKPaymentsKit",
             "declAttributes": [
               "Final",
-              "AccessControl"
+              "AccessControl",
+              "RawDocComment"
             ],
             "isFromExtension": true,
             "funcSelfKind": "NonMutating"
@@ -1633,6 +2287,23 @@
           "AccessControl"
         ],
         "hasMissingDesignatedInitializers": true
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "XsollaSDKPaymentsKit",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "UIKit",
+        "printedName": "UIKit",
+        "declKind": "Import",
+        "moduleName": "XsollaSDKPaymentsKit"
       },
       {
         "kind": "Import",
@@ -2236,6 +2907,13 @@
       "value": "\"\""
     },
     {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/UI\/PaystationLoadingView.swift",
+      "kind": "BooleanLiteral",
+      "offset": 854,
+      "length": 5,
+      "value": "false"
+    },
+    {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/API\/PaymentsAPIResponseProcessor.swift",
       "kind": "IntegerLiteral",
       "offset": 2193,
@@ -2245,100 +2923,65 @@
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/UI\/PaystationWebView.swift",
       "kind": "BooleanLiteral",
-      "offset": 1508,
+      "offset": 1701,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/UI\/PaystationWebView.swift",
       "kind": "BooleanLiteral",
-      "offset": 1595,
+      "offset": 1788,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/UI\/PaystationWebView.swift",
       "kind": "BooleanLiteral",
-      "offset": 1683,
+      "offset": 1876,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/UI\/PaystationWebView.swift",
       "kind": "BooleanLiteral",
-      "offset": 1761,
+      "offset": 1954,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/UI\/PaystationWebView.swift",
       "kind": "BooleanLiteral",
-      "offset": 1845,
+      "offset": 2038,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/UI\/PaystationWebView.swift",
       "kind": "BooleanLiteral",
-      "offset": 2767,
+      "offset": 3232,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/UI\/PaystationWebView.swift",
       "kind": "StringLiteral",
-      "offset": 2851,
+      "offset": 3316,
       "length": 12,
       "value": "\"invoice_id\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/UI\/PaystationWebView.swift",
       "kind": "StringLiteral",
-      "offset": 2948,
+      "offset": 3413,
       "length": 9,
       "value": "\"user_id\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/UI\/PaystationWebView.swift",
       "kind": "BooleanLiteral",
-      "offset": 4055,
+      "offset": 4877,
       "length": 5,
       "value": "false"
-    },
-    {
-      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/UI\/PaystationWebView.swift",
-      "kind": "StringLiteral",
-      "offset": 4318,
-      "length": 48,
-      "value": "\"https:\/\/sandbox-secure.xsolla.com\/paystation3\/\""
-    },
-    {
-      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/UI\/PaystationWebView.swift",
-      "kind": "StringLiteral",
-      "offset": 4385,
-      "length": 40,
-      "value": "\"https:\/\/secure.xsolla.com\/paystation3\/\""
-    },
-    {
-      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/UI\/PaystationWebView.swift",
-      "kind": "StringLiteral",
-      "offset": 4548,
-      "length": 24,
-      "value": "\"Cannot build base URL.\""
-    },
-    {
-      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/UI\/PaystationWebView.swift",
-      "kind": "StringLiteral",
-      "offset": 4648,
-      "length": 14,
-      "value": "\"access_token\""
-    },
-    {
-      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/UI\/PaystationWebView.swift",
-      "kind": "StringLiteral",
-      "offset": 4779,
-      "length": 39,
-      "value": "\"Cannot extract URL from URLComponents\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/Logging\/Extensions\/DomainExtensions.swift",
@@ -2560,30 +3203,100 @@
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/PaymentsKit.swift",
       "kind": "BooleanLiteral",
-      "offset": 1720,
+      "offset": 2557,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/PaymentsKit.swift",
       "kind": "BooleanLiteral",
-      "offset": 1916,
+      "offset": 2714,
       "length": 4,
       "value": "true"
     },
     {
-      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/PaymentsKit.swift",
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/UI\/PaystationViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 2046,
+      "offset": 975,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/UI\/PaystationViewController.swift",
+      "kind": "BooleanLiteral",
+      "offset": 1635,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/UI\/PaystationViewController.swift",
+      "kind": "BooleanLiteral",
+      "offset": 2170,
       "length": 4,
       "value": "true"
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/UI\/PaystationViewController.swift",
+      "kind": "BooleanLiteral",
+      "offset": 2206,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/UI\/PaystationViewController.swift",
+      "kind": "BooleanLiteral",
+      "offset": 2248,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/UI\/PaystationViewController.swift",
+      "kind": "BooleanLiteral",
+      "offset": 2959,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/UI\/PaystationViewController.swift",
+      "kind": "BooleanLiteral",
+      "offset": 2995,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/UI\/PaystationViewController.swift",
+      "kind": "BooleanLiteral",
+      "offset": 3037,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/UI\/PaystationViewController.swift",
+      "kind": "BooleanLiteral",
+      "offset": 3156,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/UI\/PaystationViewController.swift",
+      "kind": "BooleanLiteral",
+      "offset": 3193,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/UI\/PaystationViewController.swift",
+      "kind": "BooleanLiteral",
+      "offset": 3234,
+      "length": 5,
+      "value": "false"
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/Version.swift",
       "kind": "StringLiteral",
       "offset": 117,
       "length": 7,
-      "value": "\"0.7.2\""
+      "value": "\"0.7.3\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/Logging\/Filters\/LoggerKitDefaultFilter.swift",
@@ -2706,78 +3419,141 @@
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/API\/PaymentsAPI.swift",
-      "kind": "StringLiteral",
-      "offset": 861,
-      "length": 48,
-      "value": "\"https:\/\/sandbox-secure.xsolla.com\/paystation3\/\""
+      "kind": "Array",
+      "offset": 1222,
+      "length": 2,
+      "value": "[]"
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/API\/PaymentsAPI.swift",
       "kind": "StringLiteral",
-      "offset": 924,
-      "length": 40,
-      "value": "\"https:\/\/secure.xsolla.com\/paystation3\/\""
+      "offset": 1664,
+      "length": 28,
+      "value": "\"https:\/\/secure.xsolla.com\/\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/API\/PaymentsAPI.swift",
       "kind": "StringLiteral",
-      "offset": 1168,
+      "offset": 1724,
+      "length": 3,
+      "value": "\"\/\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/API\/PaymentsAPI.swift",
+      "kind": "StringLiteral",
+      "offset": 1748,
+      "length": 15,
+      "value": "\"\/cache-warmup\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/API\/PaymentsAPI.swift",
+      "kind": "StringLiteral",
+      "offset": 2103,
+      "length": 3,
+      "value": "\"-\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/API\/PaymentsAPI.swift",
+      "kind": "StringLiteral",
+      "offset": 2205,
+      "length": 4,
+      "value": "\"en\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/API\/PaymentsAPI.swift",
+      "kind": "StringLiteral",
+      "offset": 2332,
+      "length": 36,
+      "value": "\"https:\/\/sandbox-secure.xsolla.com\/\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/API\/PaymentsAPI.swift",
+      "kind": "StringLiteral",
+      "offset": 2383,
+      "length": 28,
+      "value": "\"https:\/\/secure.xsolla.com\/\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/API\/PaymentsAPI.swift",
+      "kind": "StringLiteral",
+      "offset": 2556,
+      "length": 13,
+      "value": "\"paystation3\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/API\/PaymentsAPI.swift",
+      "kind": "StringLiteral",
+      "offset": 2599,
+      "length": 13,
+      "value": "\"paystation4\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/API\/PaymentsAPI.swift",
+      "kind": "StringLiteral",
+      "offset": 2801,
       "length": 14,
       "value": "\"access_token\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/API\/PaymentsAPI.swift",
       "kind": "StringLiteral",
-      "offset": 1237,
+      "offset": 2886,
+      "length": 7,
+      "value": "\"token\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/API\/PaymentsAPI.swift",
+      "kind": "StringLiteral",
+      "offset": 3074,
       "length": 8,
       "value": "\"engine\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/API\/PaymentsAPI.swift",
       "kind": "StringLiteral",
-      "offset": 1254,
+      "offset": 3091,
       "length": 5,
       "value": "\"ios\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/API\/PaymentsAPI.swift",
       "kind": "StringLiteral",
-      "offset": 1293,
+      "offset": 3130,
       "length": 10,
       "value": "\"engine_v\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/API\/PaymentsAPI.swift",
       "kind": "StringLiteral",
-      "offset": 1376,
+      "offset": 3213,
       "length": 5,
       "value": "\"sdk\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/API\/PaymentsAPI.swift",
       "kind": "StringLiteral",
-      "offset": 1450,
+      "offset": 3287,
       "length": 7,
       "value": "\"sdk_v\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/API\/PaymentsAPI.swift",
       "kind": "StringLiteral",
-      "offset": 1633,
+      "offset": 3478,
       "length": 13,
       "value": "\"game_engine\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/API\/PaymentsAPI.swift",
       "kind": "StringLiteral",
-      "offset": 1830,
+      "offset": 3675,
       "length": 15,
       "value": "\"game_engine_v\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/PaymentsKit\/PaymentsKit\/API\/PaymentsAPI.swift",
       "kind": "StringLiteral",
-      "offset": 2421,
+      "offset": 4060,
       "length": 22,
       "value": "\"http:\/\/0.0.0.0:3000\/\""
     }

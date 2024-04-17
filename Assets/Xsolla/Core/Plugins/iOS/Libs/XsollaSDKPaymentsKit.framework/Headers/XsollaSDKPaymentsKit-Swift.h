@@ -314,9 +314,12 @@ SWIFT_CLASS("_TtC20XsollaSDKPaymentsKit17PaystationWebView")
 
 @class WKWebView;
 @class WKNavigationAction;
+@class WKNavigation;
 
 @interface PaystationWebView (SWIFT_EXTENSION(XsollaSDKPaymentsKit)) <WKNavigationDelegate>
 - (void)webView:(WKWebView * _Nonnull)webView decidePolicyForNavigationAction:(WKNavigationAction * _Nonnull)navigationAction decisionHandler:(void (^ _Nonnull)(WKNavigationActionPolicy))decisionHandler;
+- (void)webView:(WKWebView * _Nonnull)webView didStartProvisionalNavigation:(WKNavigation * _Null_unspecified)navigation;
+- (void)webView:(WKWebView * _Nonnull)webView didFinishNavigation:(WKNavigation * _Null_unspecified)navigation;
 @end
 
 #endif

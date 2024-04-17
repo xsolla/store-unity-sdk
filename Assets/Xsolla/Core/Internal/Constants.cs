@@ -10,9 +10,6 @@ namespace Xsolla.Core
 		public const string DEFAULT_REDIRECT_URL = "https://login.xsolla.com/api/blank";
 		public const string DEFAULT_WEB_STORE_URL = "https://sitebuilder.xsolla.com/game/sdk-web-store/";
 
-		public const string PAYSTATION_URL = "https://secure.xsolla.com/paystation4";
-		public const string PAYSTATION_SANDBOX_URL = "https://sandbox-secure.xsolla.com/paystation4";
-
 		public const string WEB_BROWSER_RESOURCE_PATH = "XsollaWebBrowser";
 		public const string BROWSER_REVISION = "1069273";
 		public const string CUSTOM_BROWSER_USER_AGENT = null;

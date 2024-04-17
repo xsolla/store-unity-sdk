@@ -48,8 +48,7 @@ namespace Xsolla.Core
 			{
 				new AndroidPayments().Perform(
 					paymentToken,
-					isClosedManually =>
-					{
+					isClosedManually => {
 						var info = new BrowserCloseInfo {
 							isManually = isClosedManually
 						};
@@ -90,19 +89,7 @@ namespace Xsolla.Core
 				return;
 			}
 #endif
-
-			var url = XsollaSettings.IsSandbox
-				? Constants.PAYSTATION_SANDBOX_URL
-				: Constants.PAYSTATION_URL;
-
-			url = new UrlBuilder(url)
-				.AddParam("token", paymentToken)
-				.AddParam("engine", "unity")
-				.AddParam("engine_v", Application.unityVersion)
-				.AddParam("sdk", "store")
-				.AddParam("sdk_v", Constants.SDK_VERSION)
-				.Build();
-
+			var url = new PaystationUrlBuilder(paymentToken).Build();
 			XDebug.Log($"Purchase url: {url}");
 			Open(url, forcePlatformBrowser);
 

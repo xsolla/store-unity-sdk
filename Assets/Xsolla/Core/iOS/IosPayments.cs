@@ -20,6 +20,7 @@ namespace Xsolla.Core
 		public void Perform(string paymentToken, Action<bool> onBrowserClose)
 		{
 			IosUtils.ConfigureAnalytics();
+			IosUtils.SetPaystationVersion(XsollaSettings.PaystationVersion);
 
 			OnBrowserClose = onBrowserClose;
 

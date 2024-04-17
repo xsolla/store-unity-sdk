@@ -317,6 +317,8 @@ SWIFT_CLASS("_TtC30XsollaSDKPaymentsKitObjectiveC21PaymentsKitObjectiveC")
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) PaymentsKitObjectiveC * _Nonnull shared;)
 + (PaymentsKitObjectiveC * _Nonnull)shared SWIFT_WARN_UNUSED_RESULT;
 - (void)configureAnalyticsWithGameEngine:(NSString * _Nonnull)gameEngine gameEngineVersion:(NSString * _Nonnull)gameEngineVersion;
+- (void)setPaystationVersionWithPaystationVersion:(NSInteger)paystationVersion;
+- (NSString * _Nonnull)getPaymentUrlWithIsSandbox:(BOOL)isSandbox paymentToken:(NSString * _Nonnull)paymentToken SWIFT_WARN_UNUSED_RESULT;
 - (void)performPaymentWithPaymentToken:(NSString * _Nonnull)paymentToken presenter:(UIViewController * _Nonnull)presenter isSandbox:(BOOL)isSandbox redirectUrl:(NSString * _Nonnull)redirectUrl completionHandler:(void (^ _Nullable)(NSError * _Nullable))completionHandler;
 @end
 
