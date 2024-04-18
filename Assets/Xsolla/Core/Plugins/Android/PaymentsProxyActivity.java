@@ -14,11 +14,12 @@ public class PaymentsProxyActivity extends Activity {
     private static final String ARG_SANDBOX = "isSandbox";
     private static final String ARG_REDIRECT_HOST = "redirect_host";
     private static final String ARG_REDIRECT_SCHEME = "redirect_scheme";
+    private static final String ARG_PAYSTATION_VERSION = "paystation_version";
     private static final int RC_PAY_STATION = 1;
     
     private static BrowserCallback browserCallback;
 
-    public static void perform(Activity activity, String token, boolean isSandbox, String redirectScheme, String redirectHost, BrowserCallback callback) {
+    public static void perform(Activity activity, String token, boolean isSandbox, String redirectScheme, String redirectHost, int paystationVersion, BrowserCallback callback) {
         browserCallback = callback;
         
         Intent intent = new Intent(activity, PaymentsProxyActivity.class);
@@ -26,6 +27,7 @@ public class PaymentsProxyActivity extends Activity {
         intent.putExtra(ARG_SANDBOX, isSandbox);
         intent.putExtra(ARG_REDIRECT_HOST, redirectHost);
         intent.putExtra(ARG_REDIRECT_SCHEME, redirectScheme);
+        intent.putExtra(ARG_PAYSTATION_VERSION, paystationVersion);
         activity.startActivity(intent);
     }
 
@@ -42,11 +44,17 @@ public class PaymentsProxyActivity extends Activity {
         boolean isSandbox = intent.getBooleanExtra(ARG_SANDBOX, false);
         String redirectScheme = intent.getStringExtra(ARG_REDIRECT_SCHEME);
         String redirectHost = intent.getStringExtra(ARG_REDIRECT_HOST);
+        int paystationVersionNumber = intent.getIntExtra(ARG_PAYSTATION_VERSION, 4);
+
+        XPayments.PayStationVersion paystationVersion = XPayments.PayStationVersion.V4;
+        if (paystationVersionNumber == 3)
+            paystationVersion = XPayments.PayStationVersion.V3;
 
         XPayments.IntentBuilder builder = XPayments.createIntentBuilder(this)
                 .accessToken(new AccessToken(token))
-                .isSandbox(isSandbox);
-
+                .isSandbox(isSandbox)
+                .payStationVersion(paystationVersion);
+                
         if (redirectScheme != null)
             builder.setRedirectUriScheme(redirectScheme);
 

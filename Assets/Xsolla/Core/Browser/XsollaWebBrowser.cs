@@ -48,8 +48,7 @@ namespace Xsolla.Core
 			{
 				new AndroidPayments().Perform(
 					paymentToken,
-					isClosedManually =>
-					{
+					isClosedManually => {
 						var info = new BrowserCloseInfo {
 							isManually = isClosedManually
 						};
@@ -64,8 +63,7 @@ namespace Xsolla.Core
 			{
 				new IosPayments().Perform(
 					paymentToken,
-					isClosedManually =>
-					{
+					isClosedManually => {
 						var info = new BrowserCloseInfo {
 							isManually = isClosedManually
 						};
@@ -91,21 +89,14 @@ namespace Xsolla.Core
 				return;
 			}
 #endif
-
-			var url = XsollaSettings.IsSandbox
-				? Constants.PAYSTATION_SANDBOX_URL
-				: Constants.PAYSTATION_URL;
-
-			url = new UrlBuilder(url)
-				.AddParam("access_token", paymentToken)
-				.Build();
-
+			var url = new PaystationUrlBuilder(paymentToken).Build();
+			XDebug.Log($"Purchase url: {url}");
 			Open(url, forcePlatformBrowser);
 
 #if UNITY_STANDALONE || UNITY_EDITOR
 			if (InAppBrowser != null && !forcePlatformBrowser)
 			{
-				UpdateBrowserSize();
+				InAppBrowser.AddInitHandler(() => InAppBrowser.UpdateSize(740, 760));
 				InAppBrowser.CloseEvent += onBrowserClosed;
 			}
 #endif
@@ -157,34 +148,6 @@ namespace Xsolla.Core
 		public static void OpenSafari(string url)
 		{
 			OpenUrlInSafari(url);
-		}
-#endif
-
-#if UNITY_STANDALONE || UNITY_EDITOR
-		private static void UpdateBrowserSize()
-		{
-			InAppBrowser.AddInitHandler(() =>
-			{
-				var payStationSettings = XsollaSettings.DesktopPayStationUISettings;
-				var payStationSize = payStationSettings.paystationSize != PayStationUISettings.PaystationSize.Auto
-					? payStationSettings.paystationSize
-					: PayStationUISettings.PaystationSize.Medium;
-
-				var viewportSize = GetBrowserSize(payStationSize);
-				InAppBrowser.UpdateSize((int) viewportSize.x, (int) viewportSize.y);
-			});
-		}
-
-		private static Vector2 GetBrowserSize(PayStationUISettings.PaystationSize paystationSize)
-		{
-			switch (paystationSize)
-			{
-				case PayStationUISettings.PaystationSize.Small: return new Vector2(620, 630);
-				case PayStationUISettings.PaystationSize.Medium: return new Vector2(740, 760);
-				case PayStationUISettings.PaystationSize.Large: return new Vector2(820, 840);
-				default:
-					throw new ArgumentOutOfRangeException(nameof(paystationSize), paystationSize, null);
-			}
 		}
 #endif
 	}

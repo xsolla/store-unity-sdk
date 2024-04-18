@@ -744,6 +744,431 @@
         ]
       },
       {
+        "kind": "TypeDecl",
+        "name": "LoginAnalyticsUtils",
+        "printedName": "LoginAnalyticsUtils",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "sdk",
+            "printedName": "sdk",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:17XsollaSDKLoginKit19LoginAnalyticsUtilsC3sdkSSvpZ",
+            "mangledName": "$s17XsollaSDKLoginKit19LoginAnalyticsUtilsC3sdkSSvpZ",
+            "moduleName": "XsollaSDKLoginKit",
+            "static": true,
+            "declAttributes": [
+              "HasInitialValue",
+              "Final",
+              "HasStorage",
+              "AccessControl"
+            ],
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:17XsollaSDKLoginKit19LoginAnalyticsUtilsC3sdkSSvgZ",
+                "mangledName": "$s17XsollaSDKLoginKit19LoginAnalyticsUtilsC3sdkSSvgZ",
+                "moduleName": "XsollaSDKLoginKit",
+                "static": true,
+                "implicit": true,
+                "declAttributes": [
+                  "Final"
+                ],
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:17XsollaSDKLoginKit19LoginAnalyticsUtilsC3sdkSSvsZ",
+                "mangledName": "$s17XsollaSDKLoginKit19LoginAnalyticsUtilsC3sdkSSvsZ",
+                "moduleName": "XsollaSDKLoginKit",
+                "static": true,
+                "implicit": true,
+                "declAttributes": [
+                  "Final"
+                ],
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:17XsollaSDKLoginKit19LoginAnalyticsUtilsC3sdkSSvMZ",
+                "mangledName": "$s17XsollaSDKLoginKit19LoginAnalyticsUtilsC3sdkSSvMZ",
+                "moduleName": "XsollaSDKLoginKit",
+                "static": true,
+                "implicit": true,
+                "declAttributes": [
+                  "Final"
+                ],
+                "accessorKind": "_modify"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "sdkVersion",
+            "printedName": "sdkVersion",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:17XsollaSDKLoginKit19LoginAnalyticsUtilsC10sdkVersionSSvpZ",
+            "mangledName": "$s17XsollaSDKLoginKit19LoginAnalyticsUtilsC10sdkVersionSSvpZ",
+            "moduleName": "XsollaSDKLoginKit",
+            "static": true,
+            "declAttributes": [
+              "HasInitialValue",
+              "Final",
+              "HasStorage",
+              "AccessControl"
+            ],
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:17XsollaSDKLoginKit19LoginAnalyticsUtilsC10sdkVersionSSvgZ",
+                "mangledName": "$s17XsollaSDKLoginKit19LoginAnalyticsUtilsC10sdkVersionSSvgZ",
+                "moduleName": "XsollaSDKLoginKit",
+                "static": true,
+                "implicit": true,
+                "declAttributes": [
+                  "Final"
+                ],
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:17XsollaSDKLoginKit19LoginAnalyticsUtilsC10sdkVersionSSvsZ",
+                "mangledName": "$s17XsollaSDKLoginKit19LoginAnalyticsUtilsC10sdkVersionSSvsZ",
+                "moduleName": "XsollaSDKLoginKit",
+                "static": true,
+                "implicit": true,
+                "declAttributes": [
+                  "Final"
+                ],
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:17XsollaSDKLoginKit19LoginAnalyticsUtilsC10sdkVersionSSvMZ",
+                "mangledName": "$s17XsollaSDKLoginKit19LoginAnalyticsUtilsC10sdkVersionSSvMZ",
+                "moduleName": "XsollaSDKLoginKit",
+                "static": true,
+                "implicit": true,
+                "declAttributes": [
+                  "Final"
+                ],
+                "accessorKind": "_modify"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "gameEngine",
+            "printedName": "gameEngine",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:17XsollaSDKLoginKit19LoginAnalyticsUtilsC10gameEngineSSvpZ",
+            "mangledName": "$s17XsollaSDKLoginKit19LoginAnalyticsUtilsC10gameEngineSSvpZ",
+            "moduleName": "XsollaSDKLoginKit",
+            "static": true,
+            "declAttributes": [
+              "HasInitialValue",
+              "Final",
+              "HasStorage",
+              "AccessControl"
+            ],
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:17XsollaSDKLoginKit19LoginAnalyticsUtilsC10gameEngineSSvgZ",
+                "mangledName": "$s17XsollaSDKLoginKit19LoginAnalyticsUtilsC10gameEngineSSvgZ",
+                "moduleName": "XsollaSDKLoginKit",
+                "static": true,
+                "implicit": true,
+                "declAttributes": [
+                  "Final"
+                ],
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:17XsollaSDKLoginKit19LoginAnalyticsUtilsC10gameEngineSSvsZ",
+                "mangledName": "$s17XsollaSDKLoginKit19LoginAnalyticsUtilsC10gameEngineSSvsZ",
+                "moduleName": "XsollaSDKLoginKit",
+                "static": true,
+                "implicit": true,
+                "declAttributes": [
+                  "Final"
+                ],
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:17XsollaSDKLoginKit19LoginAnalyticsUtilsC10gameEngineSSvMZ",
+                "mangledName": "$s17XsollaSDKLoginKit19LoginAnalyticsUtilsC10gameEngineSSvMZ",
+                "moduleName": "XsollaSDKLoginKit",
+                "static": true,
+                "implicit": true,
+                "declAttributes": [
+                  "Final"
+                ],
+                "accessorKind": "_modify"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "gameEngineVersion",
+            "printedName": "gameEngineVersion",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:17XsollaSDKLoginKit19LoginAnalyticsUtilsC17gameEngineVersionSSvpZ",
+            "mangledName": "$s17XsollaSDKLoginKit19LoginAnalyticsUtilsC17gameEngineVersionSSvpZ",
+            "moduleName": "XsollaSDKLoginKit",
+            "static": true,
+            "declAttributes": [
+              "HasInitialValue",
+              "Final",
+              "HasStorage",
+              "AccessControl"
+            ],
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:17XsollaSDKLoginKit19LoginAnalyticsUtilsC17gameEngineVersionSSvgZ",
+                "mangledName": "$s17XsollaSDKLoginKit19LoginAnalyticsUtilsC17gameEngineVersionSSvgZ",
+                "moduleName": "XsollaSDKLoginKit",
+                "static": true,
+                "implicit": true,
+                "declAttributes": [
+                  "Final"
+                ],
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:17XsollaSDKLoginKit19LoginAnalyticsUtilsC17gameEngineVersionSSvsZ",
+                "mangledName": "$s17XsollaSDKLoginKit19LoginAnalyticsUtilsC17gameEngineVersionSSvsZ",
+                "moduleName": "XsollaSDKLoginKit",
+                "static": true,
+                "implicit": true,
+                "declAttributes": [
+                  "Final"
+                ],
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:17XsollaSDKLoginKit19LoginAnalyticsUtilsC17gameEngineVersionSSvMZ",
+                "mangledName": "$s17XsollaSDKLoginKit19LoginAnalyticsUtilsC17gameEngineVersionSSvMZ",
+                "moduleName": "XsollaSDKLoginKit",
+                "static": true,
+                "implicit": true,
+                "declAttributes": [
+                  "Final"
+                ],
+                "accessorKind": "_modify"
+              }
+            ]
+          }
+        ],
+        "declKind": "Class",
+        "usr": "s:17XsollaSDKLoginKit19LoginAnalyticsUtilsC",
+        "mangledName": "$s17XsollaSDKLoginKit19LoginAnalyticsUtilsC",
+        "moduleName": "XsollaSDKLoginKit",
+        "declAttributes": [
+          "AccessControl"
+        ],
+        "hasMissingDesignatedInitializers": true
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "XsollaSDKLoginKit",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
         "kind": "Import",
         "name": "Foundation",
         "printedName": "Foundation",
@@ -3036,6 +3461,33 @@
                 "accessorKind": "_modify"
               }
             ]
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(apiBasePath:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "LoginKit",
+                "printedName": "XsollaSDKLoginKit.LoginKit",
+                "usr": "s:17XsollaSDKLoginKit05LoginC0C"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:17XsollaSDKLoginKit05LoginC0C11apiBasePathACSS_tcfc",
+            "mangledName": "$s17XsollaSDKLoginKit05LoginC0C11apiBasePathACSS_tcfc",
+            "moduleName": "XsollaSDKLoginKit",
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "init_kind": "Designated"
           },
           {
             "kind": "Function",
@@ -6627,8 +7079,7 @@
         "declAttributes": [
           "Final",
           "AccessControl"
-        ],
-        "hasMissingDesignatedInitializers": true
+        ]
       },
       {
         "kind": "Import",
@@ -17784,6 +18235,27 @@
       "value": "\"nickname\""
     },
     {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/API\/LoginAnalyticsUtils.swift",
+      "kind": "StringLiteral",
+      "offset": 132,
+      "length": 7,
+      "value": "\"login\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/API\/LoginAnalyticsUtils.swift",
+      "kind": "StringLiteral",
+      "offset": 253,
+      "length": 2,
+      "value": "\"\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/API\/LoginAnalyticsUtils.swift",
+      "kind": "StringLiteral",
+      "offset": 311,
+      "length": 2,
+      "value": "\"\""
+    },
+    {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Get Current User Friends\/GetCurrentUserFriendsResponse.swift",
       "kind": "StringLiteral",
       "offset": 355,
@@ -19276,106 +19748,113 @@
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/LoginKit.swift",
+      "kind": "StringLiteral",
+      "offset": 307,
+      "length": 30,
+      "value": "\"https:\/\/login.xsolla.com\/api\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/LoginKit.swift",
       "kind": "Array",
-      "offset": 2870,
+      "offset": 2740,
       "length": 17,
       "value": "[\"http\", \"https\"]"
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/LoginKit.swift",
       "kind": "BooleanLiteral",
-      "offset": 2916,
+      "offset": 2786,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/LoginKit.swift",
       "kind": "StringLiteral",
-      "offset": 3001,
+      "offset": 2871,
       "length": 42,
       "value": "\"Invalid callback URL in OAuth parameters\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/LoginKit.swift",
       "kind": "Array",
-      "offset": 5605,
+      "offset": 5475,
       "length": 17,
       "value": "[\"http\", \"https\"]"
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/LoginKit.swift",
       "kind": "BooleanLiteral",
-      "offset": 5651,
+      "offset": 5521,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/LoginKit.swift",
       "kind": "StringLiteral",
-      "offset": 5736,
+      "offset": 5606,
       "length": 42,
       "value": "\"Invalid callback URL in OAuth parameters\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/LoginKit.swift",
       "kind": "StringLiteral",
-      "offset": 5874,
+      "offset": 5744,
       "length": 108,
       "value": "\"https:\/\/login-widget.xsolla.com\/latest\/?projectId=\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/LoginKit.swift",
       "kind": "StringLiteral",
-      "offset": 5942,
+      "offset": 5812,
       "length": 1,
       "value": "\"&login_url=\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/LoginKit.swift",
       "kind": "StringLiteral",
-      "offset": 5981,
+      "offset": 5851,
       "length": 1,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/LoginKit.swift",
       "kind": "StringLiteral",
-      "offset": 6050,
+      "offset": 5920,
       "length": 19,
       "value": "\"&locale=\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/LoginKit.swift",
       "kind": "StringLiteral",
-      "offset": 6068,
+      "offset": 5938,
       "length": 1,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/LoginKit.swift",
       "kind": "IntegerLiteral",
-      "offset": 6689,
+      "offset": 6559,
       "length": 4,
       "value": "3600"
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/LoginKit.swift",
       "kind": "StringLiteral",
-      "offset": 6759,
+      "offset": 6629,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/LoginKit.swift",
       "kind": "StringLiteral",
-      "offset": 6824,
+      "offset": 6694,
       "length": 8,
       "value": "\"bearer\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/LoginKit.swift",
       "kind": "StringLiteral",
-      "offset": 50502,
+      "offset": 50372,
       "length": 12,
       "value": "\"YYYY-MM-dd\""
     },
@@ -19487,23 +19966,16 @@
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/API\/LoginAPI.swift",
       "kind": "IntegerLiteral",
-      "offset": 19872,
+      "offset": 19960,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/API\/LoginAPI.swift",
       "kind": "IntegerLiteral",
-      "offset": 19876,
+      "offset": 19964,
       "length": 1,
       "value": "0"
-    },
-    {
-      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/API\/LoginAPI.swift",
-      "kind": "StringLiteral",
-      "offset": 39293,
-      "length": 30,
-      "value": "\"https:\/\/login.xsolla.com\/api\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Complete Auth By Phone\/CompleteAuthByPhoneRequest.swift",
@@ -19636,7 +20108,7 @@
       "kind": "StringLiteral",
       "offset": 114,
       "length": 7,
-      "value": "\"0.6.0\""
+      "value": "\"0.7.3\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/Requests\/Get User Devices\/GetUserDevicesRequest.swift",
@@ -20313,72 +20785,86 @@
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/API\/Base Classes\/LoginBaseRequest.swift",
       "kind": "StringLiteral",
-      "offset": 1347,
+      "offset": 1405,
       "length": 8,
       "value": "\"engine\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/API\/Base Classes\/LoginBaseRequest.swift",
       "kind": "StringLiteral",
-      "offset": 1357,
+      "offset": 1415,
       "length": 5,
       "value": "\"ios\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/API\/Base Classes\/LoginBaseRequest.swift",
       "kind": "StringLiteral",
-      "offset": 1373,
+      "offset": 1434,
       "length": 10,
       "value": "\"engine_v\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/API\/Base Classes\/LoginBaseRequest.swift",
       "kind": "StringLiteral",
-      "offset": 1406,
+      "offset": 1470,
       "length": 5,
       "value": "\"sdk\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/API\/Base Classes\/LoginBaseRequest.swift",
       "kind": "StringLiteral",
-      "offset": 1413,
-      "length": 7,
-      "value": "\"login\""
-    },
-    {
-      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/API\/Base Classes\/LoginBaseRequest.swift",
-      "kind": "StringLiteral",
-      "offset": 1431,
+      "offset": 1514,
       "length": 7,
       "value": "\"sdk_v\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/API\/Base Classes\/LoginBaseRequest.swift",
       "kind": "StringLiteral",
-      "offset": 1454,
-      "length": 2,
-      "value": "\"\""
+      "offset": 1644,
+      "length": 13,
+      "value": "\"game_engine\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/API\/Base Classes\/LoginBaseRequest.swift",
       "kind": "StringLiteral",
-      "offset": 1561,
+      "offset": 1798,
+      "length": 15,
+      "value": "\"game_engine_v\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/API\/Base Classes\/LoginBaseRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 2057,
       "length": 12,
       "value": "\"X-ENGINE-V\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/API\/Base Classes\/LoginBaseRequest.swift",
       "kind": "StringLiteral",
-      "offset": 1636,
+      "offset": 2108,
+      "length": 7,
+      "value": "\"X-SDK\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/API\/Base Classes\/LoginBaseRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 2167,
       "length": 9,
       "value": "\"X-SDK-V\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/API\/Base Classes\/LoginBaseRequest.swift",
       "kind": "StringLiteral",
-      "offset": 1675,
-      "length": 2,
-      "value": "\"\""
+      "offset": 2313,
+      "length": 15,
+      "value": "\"X-GAME-ENGINE\""
+    },
+    {
+      "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/API\/Base Classes\/LoginBaseRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 2483,
+      "length": 17,
+      "value": "\"X-GAME-ENGINE-V\""
     },
     {
       "filePath": "\/Users\/d.rakhimov\/Documents\/xsolla\/xsolla-ios-sdk\/LoginKit\/LoginKit\/API\/Base Classes\/LoginBaseRequest.swift",

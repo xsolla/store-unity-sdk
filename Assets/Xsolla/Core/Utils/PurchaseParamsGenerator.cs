@@ -9,8 +9,29 @@ namespace Xsolla.Core
 			var settings = new PurchaseParamsRequest.Settings {
 				ui = PayStationUISettings.GenerateSettings(),
 				redirect_policy = RedirectPolicySettings.GeneratePolicy(),
-				external_id = purchaseParams?.external_id
+				external_id = purchaseParams?.external_id,
+				payment_method = purchaseParams?.payment_method
 			};
+
+			if(purchaseParams?.close_button != null )
+			{
+#if UNITY_ANDROID || UNITY_IOS
+				settings.ui.mobile = new PayStationUI.Mobile
+				{
+					header = new PayStationUI.Mobile.Header {
+						close_button = purchaseParams.close_button
+					}
+				};
+#else
+				settings.ui.desktop = new PayStationUI.Desktop
+				{
+					header = new PayStationUI.Desktop.Header {
+						close_button = purchaseParams.close_button
+					}
+				};
+#endif
+			}
+
 
 			if (settings.redirect_policy != null)
 				settings.return_url = settings.redirect_policy.return_url;

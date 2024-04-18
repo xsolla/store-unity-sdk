@@ -18,6 +18,8 @@ namespace Xsolla.Core
 
 		public void Perform(Action onSuccess, Action<Error> onError, Action onCancel, string locale)
 		{
+			IosUtils.ConfigureAnalytics();
+
 			OnSuccess = onSuccess;
 			OnError = onError;
 			OnCancel = onCancel;

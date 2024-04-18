@@ -1,6 +1,6 @@
 // swift-interface-format-version: 1.0
 // swift-compiler-version: Apple Swift version 5.9.2 (swiftlang-5.9.2.2.56 clang-1500.1.0.2.5)
-// swift-module-flags: -target arm64-apple-ios11.4 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name XsollaSDKLoginKit
+// swift-module-flags: -target arm64-apple-ios12.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name XsollaSDKLoginKit
 // swift-module-flags-ignorable: -enable-bare-slash-regex
 import AuthenticationServices
 import AuthenticationServices
@@ -28,6 +28,13 @@ public struct RegisterNewUserParams {
   public let fields: [Swift.String : Swift.String]?
   public let promoEmailAgreement: Swift.Int?
   public init(username: Swift.String, password: Swift.String, email: Swift.String, acceptConsent: Swift.Bool?, fields: [Swift.String : Swift.String]?, promoEmailAgreement: Swift.Int?)
+}
+@_hasMissingDesignatedInitializers public class LoginAnalyticsUtils {
+  public static var sdk: Swift.String
+  public static var sdkVersion: Swift.String
+  public static var gameEngine: Swift.String
+  public static var gameEngineVersion: Swift.String
+  @objc deinit
 }
 public struct DeviceInfo {
   public let modelName: Swift.String
@@ -88,10 +95,11 @@ public struct JWTGenerationParams {
   public init(grantType: XsollaSDKLoginKit.TokenGrantType = .authorizationCode, clientId: Swift.Int, refreshToken: Swift.String? = nil, clientSecret: Swift.String? = nil, redirectUri: Swift.String? = nil)
 }
 public typealias LoginOperationId = Swift.String
-@_hasMissingDesignatedInitializers final public class LoginKit {
+final public class LoginKit {
   public static let shared: XsollaSDKLoginKit.LoginKit
   final public var authCodeExtractor: any XsollaSDKLoginKit.AuthCodeExtracting
   final public var authTokenExtractor: any XsollaSDKLoginKit.AuthTokenExtracting
+  public init(apiBasePath: Swift.String)
   @objc deinit
 }
 @available(iOS 13.4, *)

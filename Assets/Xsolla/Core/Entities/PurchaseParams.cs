@@ -11,5 +11,7 @@ namespace Xsolla.Core
 		public Dictionary<string, object> custom_parameters;
 		public ShippingData shipping_data;
 		public Dictionary<string, object> shipping_method;
+		public int? payment_method;
+		public bool? close_button;
 	}
 }

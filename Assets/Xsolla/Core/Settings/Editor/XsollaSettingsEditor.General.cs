@@ -48,7 +48,12 @@ namespace Xsolla.Core
 			if (!regex.IsMatch(loginId) || !Guid.TryParse(loginId, out _))
 				DrawErrorBox("Login ID has incorrect value");
 
-			XsollaSettings.InAppBrowserEnabled = EditorGUILayout.Toggle(new GUIContent(IN_APP_BROWSER_LABEL, IN_APP_BROWSER_TOOLTIP), XsollaSettings.InAppBrowserEnabled);
+			var inAppBrowserEnabled = EditorGUILayout.Toggle(new GUIContent(IN_APP_BROWSER_LABEL, IN_APP_BROWSER_TOOLTIP), XsollaSettings.InAppBrowserEnabled);
+			if (inAppBrowserEnabled != XsollaSettings.InAppBrowserEnabled)
+			{
+				XsollaSettings.InAppBrowserEnabled = inAppBrowserEnabled;
+				changed = true;
+			}
 
 			EditorGUILayout.EndVertical();
 			return changed;

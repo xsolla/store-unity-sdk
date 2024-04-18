@@ -33,6 +33,7 @@ namespace Xsolla.Core
 					XsollaSettings.IsSandbox,
 					redirectScheme,
 					redirectHost,
+					XsollaSettings.PaystationVersion,
 					browserCloseCallback);
 			}
 			catch (Exception e)
