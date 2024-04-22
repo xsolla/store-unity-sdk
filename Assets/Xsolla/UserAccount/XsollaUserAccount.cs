@@ -685,6 +685,20 @@ namespace Xsolla.UserAccount
 				onSuccess,
 				error => TokenAutoRefresher.Check(error, onError, () => LinkSocialProvider(providerName, onSuccess, onError, redirectUri)));
 		}
+        
+        public static void UnlinkSocialProvider(SocialProvider providerName, Action onSuccess, Action<Error> onError)
+        {
+            var providerValue = providerName.ToApiParameter();
+            var url = new UrlBuilder($"{BaseUrl}/users/me/social_providers/{providerValue}")
+                .Build();
+
+            WebRequestHelper.Instance.DeleteRequest(
+                SdkType.Login,
+                url,
+                WebRequestHeader.AuthHeader(),
+                onSuccess,
+                error => TokenAutoRefresher.Check(error, onError, () => UnlinkSocialProvider(providerName, onSuccess, onError)));
+        }
 
 		/// <summary>
 		/// Returns the list of social networks linked to the user account.
