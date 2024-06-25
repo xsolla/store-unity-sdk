@@ -44,7 +44,12 @@ namespace Xsolla.Demo.Popup
 		{
 			base.Init();
 
-			Canvas canvasComponent = GameObject.FindObjectOfType<Canvas>();
+#if UNITY_6000
+			Canvas canvasComponent = FindAnyObjectByType<Canvas>();
+#else
+			Canvas canvasComponent = FindObjectOfType<Canvas>();
+#endif
+			
 			if (canvasComponent != null)
 			{
 				canvas = canvasComponent.gameObject;

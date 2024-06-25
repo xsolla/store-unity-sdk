@@ -6,7 +6,11 @@ namespace Xsolla.Demo
 		{
 			if (newState == MenuState.Authorization)
 			{
+#if UNITY_6000
+				var proxyScript = FindAnyObjectByType<LoginProxyActionHolder>();
+#else
 				var proxyScript = FindObjectOfType<LoginProxyActionHolder>();
+#endif
 				var loginEnterScript = base.StateMachine.StateObject.GetComponent<LoginPageEnterController>();
 
 				if (proxyScript != null)
@@ -19,7 +23,11 @@ namespace Xsolla.Demo
 			}
 			else if (newState == MenuState.LoginSettingsError)
 			{
+#if UNITY_6000
+                var proxyScript = FindAnyObjectByType<LoginSettingsErrorHolder>();
+#else
 				var proxyScript = FindObjectOfType<LoginSettingsErrorHolder>();
+#endif
 				var errorShower = base.StateMachine.StateObject.GetComponent<LoginPageErrorShower>();
 
 				if (proxyScript != null)

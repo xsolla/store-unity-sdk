@@ -183,7 +183,11 @@ namespace Xsolla.Demo
 
 		private void RefreshImageLoaders()
 		{
+#if UNITY_6000
+			var avatarLoaders = FindObjectsByType<UserAvatarLoader>(FindObjectsSortMode.None);
+#else
 			var avatarLoaders = FindObjectsOfType<UserAvatarLoader>();
+#endif
 
 			if (avatarLoaders != null)
 				foreach (var loader in avatarLoaders)

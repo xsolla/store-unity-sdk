@@ -78,7 +78,12 @@ namespace Xsolla.UIBuilder
 
 		private void HandleSceneObjects()
 		{
+#if UNITY_6000
+			var containers = FindObjectsByType<WidgetContainer>(FindObjectsSortMode.None);
+#else
 			var containers = FindObjectsOfType<WidgetContainer>();
+#endif
+			
 			foreach (var container in containers)
 			{
 				if (!PrefabUtility.IsPartOfAnyPrefab(container))

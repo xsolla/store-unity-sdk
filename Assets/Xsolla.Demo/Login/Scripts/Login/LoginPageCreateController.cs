@@ -77,8 +77,20 @@ namespace Xsolla.Demo
 
 					if (loginLink.login_url != null)
 					{
-						FindObjectOfType<LoginPagesHelper>().SetState(MenuState.Authorization);
-						FindObjectOfType<LoginPageEnterController>().RunBasicAuth(username, password, true);
+#if UNITY_6000
+						var loginPageHelper = FindAnyObjectByType<LoginPagesHelper>();
+#else
+						var loginPageHelper = FindObjectOfType<LoginPagesHelper>();
+#endif
+						loginPageHelper.SetState(MenuState.Authorization);
+
+#if UNITY_6000
+
+						var loginPageEnterController = FindAnyObjectByType<LoginPageEnterController>();
+#else
+						var loginPageEnterController = FindObjectOfType<LoginPageEnterController>();
+#endif
+						loginPageEnterController.RunBasicAuth(username, password, true);
 					}
 					else
 					{
