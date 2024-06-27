@@ -43,7 +43,12 @@ namespace Xsolla.Demo
 			var componentName = typeof(T).Name;
 
 			//Try finding pre-existing object on the scene
+#if UNITY_6000
+			T result = FindAnyObjectByType(typeof(T)) as T;
+#else
 			T result = FindObjectOfType(typeof(T)) as T;
+#endif
+
 			if (result != null)
 				return result;
 

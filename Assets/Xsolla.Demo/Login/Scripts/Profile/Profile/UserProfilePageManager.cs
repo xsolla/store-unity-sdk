@@ -218,7 +218,12 @@ namespace Xsolla.Demo
 		private IEnumerator UpdateUpperRightCornerInfoOnCompletion()
 		{
 			yield return new WaitWhile(_commonWaitCondition);
-			FindObjectOfType<UserInfoDrawer>()?.Refresh();
+#if UNITY_6000
+			var userInfoDrawer = FindAnyObjectByType<UserInfoDrawer>();
+#else
+			var userInfoDrawer = FindObjectOfType<UserInfoDrawer>();
+#endif
+			userInfoDrawer?.Refresh();
 		}
 
 		private void UpdateUserPhoneNumber(string newPhone)
