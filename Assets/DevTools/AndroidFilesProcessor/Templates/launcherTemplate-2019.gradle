@@ -59,3 +59,22 @@ android {
         }
     }
 }**SPLITS_VERSION_CODE****LAUNCHER_SOURCE_BUILD_SETUP**
+android {
+    packagingOptions {
+        pickFirst  'META-INF/kotlinx-serialization-json.kotlin_module'
+        pickFirst  'META-INF/kotlinx_coroutines_core.version'
+        pickFirst  'META-INF/kotlinx-serialization-core.kotlin_module'
+        pickFirst  'META-INF/atomicfu.kotlin_module'
+        pickFirst  'META-INF/ktor-serialization-kotlinx.kotlin_module'
+        pickFirst  'META-INF/ktor-events.kotlin_module'
+        pickFirst  'META-INF/ktor-websocket-serialization.kotlin_module'
+        pickFirst  'META-INF/ktor-serialization.kotlin_module'
+        pickFirst  'META-INF/ktor-client-core.kotlin_module'
+        pickFirst  'META-INF/ktor-io.kotlin_module'
+        pickFirst  'META-INF/ktor-http.kotlin_module'
+        pickFirst  'META-INF/ktor-client-content-negotiation.kotlin_module'
+        pickFirst  'META-INF/ktor-serialization-kotlinx-json.kotlin_module'
+        pickFirst  'META-INF/ktor-websockets.kotlin_module'
+        pickFirst  'META-INF/ktor-utils.kotlin_module'
+    }
+}
