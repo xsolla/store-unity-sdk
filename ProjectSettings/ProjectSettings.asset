@@ -173,7 +173,7 @@ PlayerSettings:
     iPhone: com.xsolla.sdk.unity.Example
   buildNumber: {}
   AndroidBundleVersionCode: 1
-  AndroidMinSdkVersion: 21
+  AndroidMinSdkVersion: 24
   AndroidTargetSdkVersion: 33
   AndroidPreferredInstallLocation: 1
   aotOptions: 
