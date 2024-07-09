@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Xsolla.Catalog;
 using Xsolla.Core;
 
 namespace Xsolla.Orders

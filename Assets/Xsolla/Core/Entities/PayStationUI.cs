@@ -9,6 +9,7 @@ namespace Xsolla.Core
 		public bool is_independent_windows;
 		public Desktop desktop;
 		public Mobile mobile;
+		public bool? gp_quick_payment_button;
 
 		[Serializable]
 		public class Desktop
@@ -23,6 +24,7 @@ namespace Xsolla.Core
 				public bool? visible_name;
 				public string type;
 				public bool? close_button;
+				public string close_button_icon;
 			}
 		}
 
@@ -43,6 +45,7 @@ namespace Xsolla.Core
 			public class Header
 			{
 				public bool? close_button;
+				public string close_button_icon;
 			}
 		}
 	}
