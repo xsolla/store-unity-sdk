@@ -22,7 +22,9 @@ namespace Xsolla.DevTools
 
 		private static string GetLauncherSourceFileName()
 		{
-#if UNITY_2022_3_OR_NEWER
+#if UNITY_6000_0_OR_NEWER		
+			return "launcherTemplate-6000.gradle";
+#elif UNITY_2022_3_OR_NEWER
 			return "launcherTemplate-2022.gradle";
 #elif UNITY_2021_3_OR_NEWER
 			return "launcherTemplate-2021.gradle";
