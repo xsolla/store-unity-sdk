@@ -17,7 +17,11 @@ namespace Xsolla.DevTools
 
 		private static string GetGradleVersion()
 		{
+#if UNITY_6000_0_OR_NEWER
+			return "8.4";
+#else
 			return "7.2";
+#endif
 		}
 	}
 }

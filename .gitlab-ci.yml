@@ -14,6 +14,8 @@ stages:
   - build-demo-2019
   - build-demo-2020
   - build-demo-2021
+  - build-demo-2022
+  - build-demo-6000
   - build-demo-ios
   - build-demo-macos
   - deploy
@@ -37,6 +39,8 @@ variables:
   UNITY_2019_VERSION: "2019.4.27f1"
   UNITY_2020_VERSION: "2020.3.14f1"
   UNITY_2021_VERSION: "2021.1.13f1"
+  UNITY_2022_VERSION: "2022.3.26f1"
+  UNITY_6000_VERSION: "6000.0.9f1"
   GIT_CLEAN_FLAGS: -ffdx
 
 # =================================================================================================================
@@ -306,10 +310,107 @@ build-android-2021:
     - windows
 
 # =================================================================================================================
+# UNITY 2022
+
+build-windows-2022:
+  stage: build-demo-2022
+  script:
+    - call %BUILD_SCRIPT_WIN% %PROJECT_PATH% %UNITY_2022_VERSION% %BUILD_ROOT_PATH% %BUILD_TARGET_WINDOWS%
+  artifacts:
+    name: "%UNITY_2022_VERSION%_%BUILD_TARGET_WINDOWS%_%CI_COMMIT_REF_NAME%"
+    when: always
+    paths:
+      - Builds/%BUILD_TARGET_WINDOWS%-%UNITY_2022_VERSION%
+    expire_in: 3 days
+  dependencies: []
+  tags:
+    - sdk_ci
+    - windows
+
+build-webgl-2022:
+  stage: build-demo-2022
+  script:
+    - call %BUILD_SCRIPT_WIN% %PROJECT_PATH% %UNITY_2022_VERSION% %BUILD_ROOT_PATH% %BUILD_TARGET_WEBGL%
+  artifacts:
+    name: "%UNITY_2022_VERSION%_%BUILD_TARGET_WEBGL%_%CI_COMMIT_REF_NAME%"
+    when: always
+    paths:
+      - Builds/%BUILD_TARGET_WEBGL%-%UNITY_2022_VERSION%
+    expire_in: 3 days
+  dependencies: []
+  tags:
+    - sdk_ci
+    - windows
+
+build-android-2022:
+  stage: build-demo-2022
+  script:
+    - call %BUILD_SCRIPT_WIN% %PROJECT_PATH% %UNITY_2022_VERSION% %BUILD_ROOT_PATH% %BUILD_TARGET_ANDROID%
+  artifacts:
+    name: "%UNITY_2022_VERSION%_%BUILD_TARGET_ANDROID%_%CI_COMMIT_REF_NAME%"
+    when: always
+    paths:
+      - Builds/%BUILD_TARGET_ANDROID%-%UNITY_2022_VERSION%
+    expire_in: 3 days
+  dependencies: []
+  tags:
+    - sdk_ci
+    - windows
+
+# =================================================================================================================
+# UNITY 6000
+
+build-windows-6000:
+  stage: build-demo-6000
+  script:
+    - call %BUILD_SCRIPT_WIN% %PROJECT_PATH% %UNITY_6000_VERSION% %BUILD_ROOT_PATH% %BUILD_TARGET_WINDOWS%
+  artifacts:
+    name: "%UNITY_6000_VERSION%_%BUILD_TARGET_WINDOWS%_%CI_COMMIT_REF_NAME%"
+    when: always
+    paths:
+      - Builds/%BUILD_TARGET_WINDOWS%-%UNITY_6000_VERSION%
+    expire_in: 3 days
+  dependencies: []
+  tags:
+    - sdk_ci
+    - windows
+
+build-webgl-6000:
+  stage: build-demo-6000
+  script:
+    - call %BUILD_SCRIPT_WIN% %PROJECT_PATH% %UNITY_6000_VERSION% %BUILD_ROOT_PATH% %BUILD_TARGET_WEBGL%
+  artifacts:
+    name: "%UNITY_6000_VERSION%_%BUILD_TARGET_WEBGL%_%CI_COMMIT_REF_NAME%"
+    when: always
+    paths:
+      - Builds/%BUILD_TARGET_WEBGL%-%UNITY_6000_VERSION%
+    expire_in: 3 days
+  dependencies: []
+  tags:
+    - sdk_ci
+    - windows
+
+build-android-6000:
+  stage: build-demo-6000
+  script:
+    - call %BUILD_SCRIPT_WIN% %PROJECT_PATH% %UNITY_6000_VERSION% %BUILD_ROOT_PATH% %BUILD_TARGET_ANDROID%
+  artifacts:
+    name: "%UNITY_6000_VERSION%_%BUILD_TARGET_ANDROID%_%CI_COMMIT_REF_NAME%"
+    when: always
+    paths:
+      - Builds/%BUILD_TARGET_ANDROID%-%UNITY_6000_VERSION%
+    expire_in: 3 days
+  dependencies: []
+  tags:
+    - sdk_ci
+    - windows
+
+# =================================================================================================================
 # IOS DEMO
 
 .build-ios-demo:
   stage: build-demo-ios
+  resource_group: ios_build_group
   before_script:
     - export IOS_SIGN_TEAM_ID=$IOS_SIGN_TEAM_ID
     - export IOS_PROVISION_ID=$IOS_PROVISION_ID
@@ -333,21 +434,28 @@ build-ios-2020:
   extends: .build-ios-demo
   script:
     - sh $BUILD_SCRIPT_IOS $PROJECT_PATH $UNITY_2020_VERSION $BUILD_ROOT_PATH $BUILD_TARGET_IOS
-  needs:
-    - build-ios-2019
 
 build-ios-2021:
   extends: .build-ios-demo
   script:
     - sh $BUILD_SCRIPT_IOS $PROJECT_PATH $UNITY_2021_VERSION $BUILD_ROOT_PATH $BUILD_TARGET_IOS
-  needs:
-    - build-ios-2020
+
+build-ios-2022:
+  extends: .build-ios-demo
+  script:
+    - sh $BUILD_SCRIPT_IOS $PROJECT_PATH $UNITY_2022_VERSION $BUILD_ROOT_PATH $BUILD_TARGET_IOS
+
+build-ios-6000:
+  extends: .build-ios-demo
+  script:
+    - sh $BUILD_SCRIPT_IOS $PROJECT_PATH $UNITY_6000_VERSION $BUILD_ROOT_PATH $BUILD_TARGET_IOS
 
 # =================================================================================================================
 # MACOS DEMO
 
 .build-macos-demo:
   stage: build-demo-macos
+  resource_group: mac_build_group
   artifacts:
     when: always
     expire_in: 3 days
@@ -371,8 +479,6 @@ build-macos-2020:
   artifacts:
     paths:
       - Builds/$BUILD_TARGET_MACOS-$UNITY_2020_VERSION/XsollaInGameStoreUnityAsset.app
-  needs:
-    - build-macos-2019
 
 build-macos-2021:
   extends: .build-macos-demo
@@ -381,8 +487,23 @@ build-macos-2021:
   artifacts:
     paths:
       - Builds/$BUILD_TARGET_MACOS-$UNITY_2021_VERSION/XsollaInGameStoreUnityAsset.app
-  needs:
-    - build-macos-2020
+
+build-macos-2022:
+  extends: .build-macos-demo
+  script:
+    - sh $BUILD_SCRIPT_MACOS $PROJECT_PATH $UNITY_2022_VERSION $BUILD_ROOT_PATH $BUILD_TARGET_MACOS
+  artifacts:
+    paths:
+      - Builds/$BUILD_TARGET_MACOS-$UNITY_2022_VERSION/XsollaInGameStoreUnityAsset.app
+
+build-macos-6000:
+  extends: .build-macos-demo
+  script:
+    - sh $BUILD_SCRIPT_MACOS $PROJECT_PATH $UNITY_6000_VERSION $BUILD_ROOT_PATH $BUILD_TARGET_MACOS
+  artifacts:
+    paths:
+      - Builds/$BUILD_TARGET_MACOS-$UNITY_6000_VERSION/XsollaInGameStoreUnityAsset.app
+
 
 # =========================================================================================================================
 # DEPLOY DEMO STAGE

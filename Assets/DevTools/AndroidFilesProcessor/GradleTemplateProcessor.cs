@@ -18,7 +18,9 @@ namespace Xsolla.DevTools
 
 		private static string GetSourceFilename()
 		{
-#if UNITY_2022_3_OR_NEWER
+#if UNITY_6000_0_OR_NEWER
+			return "gradleTemplate-6000.properties";
+#elif UNITY_2022_3_OR_NEWER
 			return "gradleTemplate-2022.properties";
 #elif UNITY_2021_3_OR_NEWER
 			return "gradleTemplate-2021.properties";
