@@ -1,4 +1,5 @@
 using System.Text;
+using UnityEngine;
 
 namespace Xsolla.Core
 {
@@ -131,7 +132,7 @@ namespace Xsolla.Core
 			if (string.IsNullOrWhiteSpace(value))
 				return this;
 
-			builder.Append($"{Separator}{name}[]={value}");
+			builder.Append($"{Separator}{name}%5b%5d={value}");
 			return this;
 		}
 	}
