@@ -13,5 +13,7 @@ namespace Xsolla.Core
 		public Dictionary<string, object> shipping_method;
 		public int? payment_method;
 		public bool? close_button;
+		public string close_button_icon;
+		public bool? google_pay_quick_payment_button;
 	}
 }

@@ -23,6 +23,7 @@ namespace Xsolla.Core
 			public PayStationUI ui;
 			public RedirectPolicy redirect_policy;
 			public int? payment_method;
+			public SdkTokenSettings sdk;
 		}
 	}
 }
