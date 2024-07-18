@@ -7,10 +7,6 @@ namespace Xsolla.DevTools
 	{
 		public static void Process()
 		{
-			// var mainTemplatePath = ProvideMainTemplate();
-			// if (mainTemplatePath != null)
-			// 	PatchMainTemplate(mainTemplatePath);
-
 			var sourceFilename = GetSourceFilename();
 			if (sourceFilename == null)
 				return;
@@ -22,7 +18,7 @@ namespace Xsolla.DevTools
 
 		private static string GetSourceFilename()
 		{
-#if UNITY_6000_0_OR_NEWER			
+#if UNITY_6000_0_OR_NEWER
 			return "mainTemplate-6000.gradle";
 #elif UNITY_2022_3_OR_NEWER
 			return "mainTemplate-2022.gradle";
@@ -33,39 +29,6 @@ namespace Xsolla.DevTools
 #else
 			return "mainTemplate-2019.gradle";
 #endif
-		}
-
-		private static void PatchMainTemplate(string filePath)
-		{
-			var patchText = GetGradlePatchText();
-			var originText = File.ReadAllText(filePath);
-			if (originText.Contains(patchText))
-				return;
-
-			var finalText = originText + patchText;
-			File.WriteAllText(filePath, finalText);
-		}
-
-		private static string GetGradlePatchText()
-		{
-			var workDir = Utils.GetWorkDir();
-			var patchFilePath = Path.Combine(workDir, "Templates", "gradle-patch.txt");
-			return File.ReadAllText(patchFilePath);
-		}
-
-		private static string ProvideMainTemplate()
-		{
-			var sourceFileName = GetSourceFilename();
-			if (sourceFileName == null)
-				return null;
-
-			var workDir = Utils.GetWorkDir();
-			var sourceFilePath = Path.Combine(workDir, "Templates", sourceFileName);
-
-			var targetDir = Utils.GetTargetDir();
-			var targetFilePath = Path.Combine(targetDir, "mainTemplate.gradle");
-			Utils.CopyFileIfNotExists(sourceFilePath, targetFilePath);
-			return targetFilePath;
 		}
 	}
 }
