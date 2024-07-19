@@ -11,7 +11,7 @@ android {
     ndkPath "**NDKPATH**"
     ndkVersion "**NDKVERSION**"
 
-    compileSdkVersion **APIVERSION**
+    compileSdk **APIVERSION**
     buildToolsVersion '**BUILDTOOLS**'
 
     compileOptions {
@@ -20,8 +20,8 @@ android {
     }
 
     defaultConfig {
-        minSdkVersion **MINSDKVERSION**
-        targetSdkVersion **TARGETSDKVERSION**
+        minSdk **MINSDK**
+        targetSdk **TARGETSDK**
         applicationId '**APPLICATIONID**'
         ndk {
             abiFilters **ABIFILTERS**
@@ -31,12 +31,12 @@ android {
         versionName '**VERSIONNAME**'
     }
 
-    aaptOptions {
+    androidResources {
         noCompress = **BUILTIN_NOCOMPRESS** + unityStreamingAssets.tokenize(', ')
         ignoreAssetsPattern = "!.svn:!.git:!.ds_store:!*.scc:!CVS:!thumbs.db:!picasa.ini:!*~"
     }**SIGN**
 
-    lintOptions {
+    lint {
         abortOnError false
     }
 
@@ -50,7 +50,7 @@ android {
             minifyEnabled **MINIFY_RELEASE**
             proguardFiles getDefaultProguardFile('proguard-android.txt')**SIGNCONFIG**
         }
-    }**PACKAGING_OPTIONS****PLAY_ASSET_PACKS****SPLITS**
+    }**PACKAGING****PLAY_ASSET_PACKS****SPLITS**
 **BUILT_APK_LOCATION**
     bundle {
         language {

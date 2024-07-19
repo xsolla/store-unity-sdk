@@ -7,6 +7,13 @@ namespace Xsolla.DevTools
 {
 	public static class Utils
 	{
+		public static void ClearTargetDir()
+		{
+			var targetDir = GetTargetDir();
+			if (Directory.Exists(targetDir))
+				Directory.Delete(targetDir, true);
+		}
+
 		public static string GetWorkDir()
 		{
 			var guids = AssetDatabase.FindAssets($"t:Script {nameof(Utils)}");

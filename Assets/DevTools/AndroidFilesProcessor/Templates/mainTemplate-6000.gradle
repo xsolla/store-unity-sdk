@@ -32,7 +32,7 @@ dependencies {
 
 // Android Resolver Exclusions Start
 android {
-  packagingOptions {
+  packaging {
       exclude ('/lib/arm64-v8a/*' + '*')
       exclude ('/lib/armeabi/*' + '*')
       exclude ('/lib/mips/*' + '*')
@@ -46,7 +46,7 @@ android {
     ndkPath "**NDKPATH**"
     ndkVersion "**NDKVERSION**"
 
-    compileSdkVersion **APIVERSION**
+    compileSdk **APIVERSION**
     buildToolsVersion '**BUILDTOOLS**'
 
     compileOptions {
@@ -55,8 +55,8 @@ android {
     }
 
     defaultConfig {
-        minSdkVersion **MINSDKVERSION**
-        targetSdkVersion **TARGETSDKVERSION**
+        minSdk **MINSDK**
+        targetSdk **TARGETSDK**
         ndk {
             abiFilters **ABIFILTERS**
             debugSymbolLevel **DEBUGSYMBOLLEVEL**
@@ -67,14 +67,14 @@ android {
 **DEFAULT_CONFIG_SETUP**
     }
 
-    lintOptions {
+    lint {
         abortOnError false
     }
 
-    aaptOptions {
+    androidResources {
         noCompress = **BUILTIN_NOCOMPRESS** + unityStreamingAssets.tokenize(', ')
         ignoreAssetsPattern = "!.svn:!.git:!.ds_store:!*.scc:!CVS:!thumbs.db:!picasa.ini:!*~"
-    }**PACKAGING_OPTIONS**
+    }**PACKAGING**
 }
 **IL_CPP_BUILD_SETUP**
 **SOURCE_BUILD_SETUP**
