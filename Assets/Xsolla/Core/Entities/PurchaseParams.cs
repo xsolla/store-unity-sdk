@@ -41,17 +41,17 @@ namespace Xsolla.Core
 		public int? payment_method;
 
 		/// <summary>
-		/// Whether to show a button to close Pay Station.
+		/// Whether to show the ← icon in Pay Station so the user can close the payment UI at any stage of the purchase.
 		/// </summary>
 		public bool? close_button;
 
 		/// <summary>
-		/// The icon of the Close button in the payment UI. Can be `arrow` or `cross`.
+		/// Defines the icon of the **Close** button in the payment UI. Can be `arrow` or `cross`. `arrow` by default.
 		/// </summary>
 		public string close_button_icon;
 
 		/// <summary>
-		/// Whether the Google Pay button is placed on top of the Payment UI.
+		/// Defines the way the Google Pay payment method is displayed. If true, the button for quick payment via Google Pay is displayed at the top of the payment UI. If `true`, Google Pay is displayed in the list of payment methods according to the PayRank algorithm. `false` by default.
 		/// </summary>
 		public bool? google_pay_quick_payment_button;
 	}
