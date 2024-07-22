@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Xsolla.Core
 {
@@ -13,25 +14,9 @@ namespace Xsolla.Core
 				payment_method = purchaseParams?.payment_method
 			};
 
-			if(purchaseParams?.close_button != null )
-			{
-#if UNITY_ANDROID || UNITY_IOS
-				settings.ui.mobile = new PayStationUI.Mobile
-				{
-					header = new PayStationUI.Mobile.Header {
-						close_button = purchaseParams.close_button
-					}
-				};
-#else
-				settings.ui.desktop = new PayStationUI.Desktop
-				{
-					header = new PayStationUI.Desktop.Header {
-						close_button = purchaseParams.close_button
-					}
-				};
-#endif
-			}
-
+			ProcessUiCloseButton(settings.ui, purchaseParams);
+			ProcessGooglePayQuickButton(settings, purchaseParams);
+			ProcessSdkTokenSettings(settings);
 
 			if (settings.redirect_policy != null)
 				settings.return_url = settings.redirect_policy.return_url;
@@ -40,7 +25,7 @@ namespace Xsolla.Core
 			if (settings.ui == null && settings.redirect_policy == null && settings.return_url == null)
 				settings = null;
 
-			var requestData = new PurchaseParamsRequest {
+			return new PurchaseParamsRequest {
 				sandbox = XsollaSettings.IsSandbox,
 				settings = settings,
 				custom_parameters = purchaseParams?.custom_parameters,
@@ -50,8 +35,68 @@ namespace Xsolla.Core
 				shipping_data = purchaseParams?.shipping_data,
 				shipping_method = purchaseParams?.shipping_method
 			};
+		}
 
-			return requestData;
+		private static void ProcessUiCloseButton(PayStationUI settings, PurchaseParams purchaseParams)
+		{
+			if (purchaseParams == null)
+				return;
+
+			if (purchaseParams.close_button == null && string.IsNullOrEmpty(purchaseParams.close_button_icon))
+				return;
+
+#if UNITY_ANDROID || UNITY_IOS
+			if (settings.mobile == null)
+				settings.mobile = new PayStationUI.Mobile();
+
+			if (settings.mobile.header == null)
+				settings.mobile.header = new PayStationUI.Mobile.Header();
+
+			settings.mobile.header.close_button = purchaseParams.close_button;
+			settings.mobile.header.close_button_icon = purchaseParams.close_button_icon;
+#else
+			if (settings.desktop == null)
+				settings.desktop = new PayStationUI.Desktop();
+
+			if (settings.desktop.header == null)
+				settings.desktop.header = new PayStationUI.Desktop.Header();
+
+			settings.desktop.header.close_button = purchaseParams.close_button;
+			settings.desktop.header.close_button_icon = purchaseParams.close_button_icon;
+#endif
+		}
+
+		private static void ProcessGooglePayQuickButton(PurchaseParamsRequest.Settings settings, PurchaseParams purchaseParams)
+		{
+#if UNITY_ANDROID
+			if (purchaseParams == null)
+			{
+				purchaseParams = new PurchaseParams {
+					google_pay_quick_payment_button = true
+				};
+			}
+#endif
+
+			if (purchaseParams?.google_pay_quick_payment_button != null)
+				settings.ui.gp_quick_payment_button = purchaseParams.google_pay_quick_payment_button;
+		}
+
+		private static void ProcessSdkTokenSettings(PurchaseParamsRequest.Settings settings)
+		{
+#if UNITY_ANDROID || UNITY_IOS
+			var sdkTokenSettings = new SdkTokenSettings();
+
+#if UNITY_ANDROID
+			sdkTokenSettings.platform = "android";
+#elif UNITY_IOS
+			sdkTokenSettings.platform = "ios";
+#endif
+
+			if (!XsollaSettings.InAppBrowserEnabled)
+				sdkTokenSettings.browser_type = "system";
+
+			settings.sdk = sdkTokenSettings;
+#endif
 		}
 
 		public static List<WebRequestHeader> GeneratePaymentHeaders(Dictionary<string, string> customHeaders = null)

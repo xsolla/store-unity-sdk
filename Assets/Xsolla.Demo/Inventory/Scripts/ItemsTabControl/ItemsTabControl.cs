@@ -13,8 +13,13 @@ namespace Xsolla.Demo
 
 		public void Init()
 		{
+#if UNITY_6000
+			_groupsController = FindAnyObjectByType<GroupsController>();
+			_itemsController = FindAnyObjectByType<ItemsController>();
+#else
 			_groupsController = FindObjectOfType<GroupsController>();
 			_itemsController = FindObjectOfType<ItemsController>();
+#endif
 
 			storeButton.gameObject.SetActive(true);
 			inventoryButton.gameObject.SetActive(true);

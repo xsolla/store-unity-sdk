@@ -77,7 +77,7 @@ namespace Xsolla.Core.Editor
 				if (manifestDirectory != null && !Directory.Exists(manifestDirectory))
 					Directory.CreateDirectory(manifestDirectory);
 
-				var templatePath = GetTemplateFilePath(fileName);
+				var templatePath = GetTemplateFilePath();
 				File.Copy(templatePath, manifestPath);
 			}
 
@@ -89,7 +89,7 @@ namespace Xsolla.Core.Editor
 			return Path.Combine(Application.dataPath, "Plugins", "Android", fileName);
 		}
 
-		private static string GetTemplateFilePath(string fileName)
+		private static string GetTemplateFilePath()
 		{
 			var guids = AssetDatabase.FindAssets($"t:Script {nameof(AndroidScriptsPreprocess)}");
 			if (guids.Length == 0)
@@ -101,7 +101,11 @@ namespace Xsolla.Core.Editor
 			path = Path.GetDirectoryName(path);
 			if (path == null)
 				throw new DirectoryNotFoundException("Can't find directory with android file templates");
-
+			
+			var fileName = "AndroidManifest.xml";
+#if UNITY_6000
+			fileName = "AndroidManifest_6000.xml";
+#endif
 			return Path.Combine(path, "AndroidTemplateFiles", $"{fileName}");
 		}
 	}

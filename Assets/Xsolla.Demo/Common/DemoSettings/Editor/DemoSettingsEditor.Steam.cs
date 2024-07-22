@@ -34,6 +34,7 @@ namespace Xsolla.Demo
 
 				if (useSteam)
 				{
+					WriteSteamAppIdFiles();
 					DemoSettings.Platform = PlatformType.PC_Other;
 				}
 				else
@@ -53,27 +54,8 @@ namespace Xsolla.Demo
 			if (appId != DemoSettings.SteamAppId)
 			{
 				DemoSettings.SteamAppId = appId;
+				WriteSteamAppIdFiles();
 				changed = true;
-
-				var steamAppIdFiles = new[]{
-					Application.dataPath.Replace("Assets", "steam_appid.txt"),
-					Path.Combine(Application.dataPath, "Plugins", "Steamworks.NET", "redist", "steam_appid.txt")
-				};
-
-				try
-				{
-					foreach (var filePath in steamAppIdFiles)
-					{
-						File.WriteAllText(filePath, appId);
-					}
-
-					XDebug.Log("[Steamworks.NET] Files \"steam_appid.txt\" successfully updated. Please relaunch Unity", true);
-				}
-				catch (Exception)
-				{
-					var filePathsArray = string.Join("\n", steamAppIdFiles);
-					XDebug.LogWarning($"[Steamworks.NET] Could not write SteamAppId in the files \"steam_appid.txt\". Please edit them manually and relaunch Unity. Files:\n{filePathsArray}\n", true);
-				}
 			}
 
 			var paymentsFlow = (PaymentsFlow) EditorGUILayout.EnumPopup(new GUIContent(PAYMENTS_FLOW_LABEL, PAYMENTS_FLOW_TOOLTIP), DemoSettings.PaymentsFlow);
@@ -85,6 +67,37 @@ namespace Xsolla.Demo
 
 			EditorGUILayout.EndVertical();
 			return changed;
+		}
+
+		private void WriteSteamAppIdFiles()
+		{
+			var steamAppIdFiles = new[]{
+				Application.dataPath.Replace("Assets", "steam_appid.txt"),
+				Path.Combine(Application.dataPath, "Plugins", "Steamworks.NET", "redist", "steam_appid.txt")
+			};
+
+			foreach (var filePath in steamAppIdFiles)
+			{
+				var directory = Path.GetDirectoryName(filePath);
+				if (directory != null && !Directory.Exists(directory))
+					Directory.CreateDirectory(directory);
+			}
+
+			try
+			{
+				foreach (var filePath in steamAppIdFiles)
+				{
+					File.WriteAllText(filePath, DemoSettings.SteamAppId);
+				}
+
+				XDebug.Log("[Steamworks.NET] Files \"steam_appid.txt\" successfully updated. Please relaunch Unity", true);
+			}
+			catch (Exception e)
+			{
+				Debug.Log(e.Message);
+				var filePathsArray = string.Join("\n", steamAppIdFiles);
+				XDebug.LogWarning($"[Steamworks.NET] Could not write SteamAppId in the files \"steam_appid.txt\". Please edit them manually and relaunch Unity. Files:\n{filePathsArray}\n", true);
+			}
 		}
 	}
 }

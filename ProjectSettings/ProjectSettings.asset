@@ -124,7 +124,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleVersion: 2.4.0
+  bundleVersion: 2.4.1
   preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
@@ -173,7 +173,7 @@ PlayerSettings:
     iPhone: com.xsolla.sdk.unity.Example
   buildNumber: {}
   AndroidBundleVersionCode: 1
-  AndroidMinSdkVersion: 21
+  AndroidMinSdkVersion: 24
   AndroidTargetSdkVersion: 33
   AndroidPreferredInstallLocation: 1
   aotOptions: 

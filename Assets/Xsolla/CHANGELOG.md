@@ -1,4 +1,19 @@
 # Changelog
+
+## [2.4.1] - 2024-07-19
+### Added
+- Unity 6 support
+
+### Changed
+- Third-party dependency manager updated to latest version 
+- `PurchaseParams` structure:
+  - Added `close_button` parameter, that defines the way the Google Pay payment method is displayed. If true, the button for quick payment via Google Pay is displayed at the top of the payment UI. If `false`, Google Pay is displayed in the list of payment methods according to the PayRank algorithm. `false` by default
+  - Added `close_button_icon` parameter, that defines the icon of the **Close** button in the payment UI. Can be arrow or cross
+  - Added `google_pay_quick_payment_button` parameter, that brings the Google Pay button to the top of the payment methods list
+
+### Fixed:
+- “Malformed URL” error  when requesting a catalog on some iOS devices
+
 ## [2.4.0] - 2024-04-17
 ### Added
 - Ability to import SDK from a Git URL
