@@ -1,155 +1,119 @@
 using System.Collections.Generic;
 using UnityEngine;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
 namespace Xsolla.Core
 {
 	public partial class WebRequestHelper
 	{
-		private const string ANALYTICS_URL_TEMPLATE = "engine=unity&engine_v={0}&sdk={1}&sdk_v={2}&build_platform={3}{4}";
+		private const string ANALYTICS_QUERY_TEMPLATE = "engine=unity&engine_v={0}&sdk={1}&sdk_v={2}&build_platform={3}";
 
-		//Uncomment and fill the values if you want to hardcode referral info
-		private KeyValuePair<string, string>? _referralAnalytics /* = new KeyValuePair<string, string>("MyReferralPlugin", "0.0.1")*/;
-
-		public void SetReferralAnalytics(string referralPlugin, string referralVersion)
+		public string AppendAnalyticsToUrl(SdkType sdkType, string url)
 		{
-			_referralAnalytics = new KeyValuePair<string, string>(referralPlugin, referralVersion);
-		}
+			var analyticsQuery = string.Format(ANALYTICS_QUERY_TEMPLATE,
+				GetEngineVersion(),
+				GetSdkType(sdkType),
+				GetSdkVersion(),
+				GetBuildPlatform());
 
-		public string AppendAnalyticsToUrl(SdkType analyticsType, string url)
-		{
 			var dividingSymbol = url.Contains("?") ? "&" : "?";
-			GetUnityParameters(toUpper: false, out string engineVersion, out string buildPlatform);
-			GetXsollaSdkParameters(analyticsType, toUpper: false, out string sdkType, out string sdkVersion);
-
-			var referralAnalytics = default(string);
-
-			if (_referralAnalytics.HasValue) //if (_referralAnalytics != null)
-			{
-				string referralPlugin = _referralAnalytics.Value.Key;
-				string referralVersion = _referralAnalytics.Value.Value;
-				referralAnalytics = $"&ref={referralPlugin}&ref_v={referralVersion}";
-			}
-
-			var analyticsAddition = string.Format(ANALYTICS_URL_TEMPLATE, engineVersion, sdkType, sdkVersion, buildPlatform, referralAnalytics);
-
-			var result = $"{url}{dividingSymbol}{analyticsAddition}";
-			return result;
+			return $"{url}{dividingSymbol}{analyticsQuery}";
 		}
 
-		public List<WebRequestHeader> AppendAnalyticHeaders(SdkType analyticsType, List<WebRequestHeader> headers)
+		public List<WebRequestHeader> AppendAnalyticHeaders(SdkType sdkType, List<WebRequestHeader> originHeaders)
 		{
-			var analyticHeaders = GetAnalyticHeaders(analyticsType);
-			var result = default(List<WebRequestHeader>);
+			var analyticHeaders = GetAnalyticHeaders(sdkType);
 
-			if (headers != null)
-			{
-				result = headers;
-				result.AddRange(analyticHeaders);
-			}
-			else
-			{
-				result = analyticHeaders;
-			}
+			if (originHeaders != null)
+				analyticHeaders.AddRange(originHeaders);
 
-			return result;
+			return analyticHeaders;
 		}
 
-		public List<WebRequestHeader> AppendAnalyticHeaders(SdkType analyticsType, WebRequestHeader header)
+		public List<WebRequestHeader> AppendAnalyticHeaders(SdkType sdkType, WebRequestHeader originHeader)
 		{
-			var analyticHeaders = GetAnalyticHeaders(analyticsType);
-			var result = default(List<WebRequestHeader>);
+			var analyticHeaders = GetAnalyticHeaders(sdkType);
 
-			if (header != null)
-			{
-				result = new List<WebRequestHeader>() {header};
-				result.AddRange(analyticHeaders);
-			}
-			else
-			{
-				result = analyticHeaders;
-			}
+			if (originHeader != null)
+				analyticHeaders.Add(originHeader);
 
-			return result;
+			return analyticHeaders;
 		}
 
-		private List<WebRequestHeader> GetAnalyticHeaders(SdkType analyticsType)
+		public List<WebRequestHeader> GetAnalyticHeaders(SdkType sdkType)
 		{
-			//These headers cause network error in WebGL environment
+			// These headers cause network error in WebGL environment
 			//'Access to XMLHttpRequest ... has been blocked by CORS policy: Request header field x-engine is not allowed by Access-Control-Allow-Headers in preflight response.'
 			if (Application.platform == RuntimePlatform.WebGLPlayer)
 				return new List<WebRequestHeader>();
 
-			GetUnityParameters(toUpper: true, out string engineVersion, out string buildPlatform);
-			GetXsollaSdkParameters(analyticsType, toUpper: true, out string sdkType, out string sdkVersion);
-
-			var resultCapacity = _referralAnalytics.HasValue ? 6 : 4;
-			var result = new List<WebRequestHeader>(capacity: resultCapacity) {
-				new WebRequestHeader() {Name = "X-ENGINE", Value = "UNITY"},
-				new WebRequestHeader() {Name = "X-ENGINE-V", Value = engineVersion},
-				new WebRequestHeader() {Name = "X-SDK", Value = sdkType},
-				new WebRequestHeader() {Name = "X-SDK-V", Value = sdkVersion},
-				new WebRequestHeader() {Name = "X-BUILD-PLATFORM", Value = buildPlatform}
+			return new List<WebRequestHeader> {
+				new WebRequestHeader { Name = "X-ENGINE", Value = "UNITY" },
+				new WebRequestHeader { Name = "X-ENGINE-V", Value = GetEngineVersion(true) },
+				new WebRequestHeader { Name = "X-SDK", Value = GetSdkType(sdkType, true) },
+				new WebRequestHeader { Name = "X-SDK-V", Value = GetSdkVersion(true) },
+				new WebRequestHeader { Name = "X-BUILD-PLATFORM", Value = GetBuildPlatform(true) }
 			};
-
-			if (_referralAnalytics.HasValue) //if (_referralAnalytics != null)
-			{
-				string referralPlugin = _referralAnalytics.Value.Key;
-				string referralVersion = _referralAnalytics.Value.Value;
-
-				result.Add(new WebRequestHeader() {Name = "X-REF", Value = referralPlugin.ToUpper()});
-				result.Add(new WebRequestHeader() {Name = "X-REF-V", Value = referralVersion.ToUpper()});
-			}
-
-			return result;
 		}
 
-		private void GetXsollaSdkParameters(SdkType analyticsType, bool toUpper, out string sdkType, out string sdkVersion)
+		private static string GetEngineVersion(bool toUpper = false)
 		{
-			switch (analyticsType)
+			var engineVersion = Application.unityVersion;
+			return toUpper
+				? engineVersion.ToUpperInvariant()
+				: engineVersion.ToLowerInvariant();
+		}
+
+		private static string GetSdkType(SdkType sdkType, bool toUpper = false)
+		{
+			var sdkTypeValue = string.Empty;
+
+			switch (sdkType)
 			{
 				case SdkType.Login:
-					sdkType = toUpper ? "LOGIN" : "login";
+					sdkTypeValue = "login";
 					break;
 				case SdkType.Store:
-					sdkType = toUpper ? "STORE" : "store";
+					sdkTypeValue = "store";
 					break;
 				case SdkType.Subscriptions:
-					sdkType = toUpper ? "SUBSCRIPTIONS" : "subscriptions";
+					sdkTypeValue = "subscriptions";
 					break;
 				case SdkType.SettingsFillTool:
-					sdkType = toUpper ? "SETTINGS-FILL-TOOL" : "settings-fill-tool";
+					sdkTypeValue = "settings-fill-tool";
 					break;
 				default:
-					XDebug.LogError($"Unexpected analyticsType: '{analyticsType}'");
-					sdkType = string.Empty;
+					XDebug.LogError($"Unexpected analyticsType: '{sdkType}'");
 					break;
 			}
 
-			if (XsollaMarker.HasDemoPart)
-				sdkVersion = $"{Constants.SDK_VERSION}{(toUpper ? "_DEMO" : "_demo")}";
-			else
-				sdkVersion = Constants.SDK_VERSION;
+			return toUpper
+				? sdkTypeValue.ToUpperInvariant()
+				: sdkTypeValue.ToLowerInvariant();
 		}
 
-		private void GetUnityParameters(bool toUpper, out string engineVersion, out string buildPlatform)
+		private static string GetSdkVersion(bool toUpper = false)
 		{
-			engineVersion = Application.unityVersion;
+			var sdkVersion = Constants.SDK_VERSION;
+
+			if (XsollaMarker.HasDemoPart)
+				sdkVersion = $"{sdkVersion}_demo";
+
+			return toUpper
+				? sdkVersion.ToUpperInvariant()
+				: sdkVersion.ToLowerInvariant();
+		}
+
+		private static string GetBuildPlatform(bool toUpper = false)
+		{
 #if UNITY_EDITOR
-			buildPlatform = EditorUserBuildSettings.activeBuildTarget.ToString();
+			var buildPlatform = UnityEditor.EditorUserBuildSettings.activeBuildTarget.ToString();
 #else
-			buildPlatform = Application.platform.ToString();
+			var buildPlatform = Application.platform.ToString();
 #endif
 
-			if (toUpper)
-			{
-				engineVersion = engineVersion.ToUpper();
-				buildPlatform = buildPlatform.ToUpper();
-			}
-			else
-				buildPlatform = buildPlatform.ToLower();
+			return toUpper
+				? buildPlatform.ToUpperInvariant()
+				: buildPlatform.ToLowerInvariant();
 		}
 	}
 }
