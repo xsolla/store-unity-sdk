@@ -43,10 +43,16 @@ namespace Xsolla.Core.Browser
 			}
 
 			var buildBrowserDirectory = Path.GetDirectoryName(report.summary.outputPath);
+			if (report.summary.platform == BuildTarget.StandaloneOSX)
+			{
+				buildBrowserDirectory = report.summary.outputPath + "/";
+			}
+
 			if (string.IsNullOrEmpty(buildBrowserDirectory))
 				throw new Exception(nameof(buildBrowserDirectory));
 
-			buildBrowserDirectory = Path.Combine(buildBrowserDirectory, ".local-chromium");
+
+			buildBrowserDirectory = Path.Combine(buildBrowserDirectory, "local-chromium");
 
 			try
 			{
