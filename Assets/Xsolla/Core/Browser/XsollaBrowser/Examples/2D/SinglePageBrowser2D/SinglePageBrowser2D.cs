@@ -161,7 +161,7 @@ namespace Xsolla.Core.Browser
 			{
 				var path = Application.dataPath;
 				path = System.IO.Directory.GetParent(path).FullName;
-				return System.IO.Path.Combine(path, ".local-chromium");
+				return System.IO.Path.Combine(path, "local-chromium");
 			}
 			else
 			{
