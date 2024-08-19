@@ -52,6 +52,12 @@ namespace Xsolla.Core.Browser
 			keyboardInput = GetComponent<XsollaBrowser>().Input.Keyboard;
 		}
 
+		private void OnApplicationFocus(bool hasFocus)
+		{
+			if (hasFocus)
+				keyboardInput.KeyUp("Alt");
+		}
+
 		private void Update()
 		{
 			if (InputProxy.GetKeyUp(KeyCode.Escape))
