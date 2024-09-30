@@ -26,6 +26,7 @@ namespace Xsolla.Demo.Popup
 	[AddComponentMenu("Scripts/Xsolla.Core/Popup/PopupFactory")]
 	public partial class PopupFactory : MonoSingleton<PopupFactory>
 	{
+		public GameObject CanvasPrefab;
 		public GameObject SuccessPopupPrefab;
 		public GameObject ErrorPopupPrefab;
 		public GameObject ConfirmPopupPrefab;
@@ -43,21 +44,9 @@ namespace Xsolla.Demo.Popup
 		public override void Init()
 		{
 			base.Init();
-
-#if UNITY_6000
-			Canvas canvasComponent = FindAnyObjectByType<Canvas>();
-#else
-			Canvas canvasComponent = FindObjectOfType<Canvas>();
-#endif
 			
-			if (canvasComponent != null)
-			{
-				canvas = canvasComponent.gameObject;
-			}
-			else
-			{
-				XDebug.LogError("You try use 2D popup component, but Canvas object is missing!");
-			}
+			if (!canvas)
+				canvas = Instantiate(CanvasPrefab);
 		}
 
 		private GameObject CreateDefaultPopup(GameObject prefab, GameObject parent)

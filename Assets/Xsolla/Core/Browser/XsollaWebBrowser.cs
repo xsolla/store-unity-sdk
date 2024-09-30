@@ -1,14 +1,16 @@
 using System;
 using UnityEngine;
+using Object = UnityEngine.Object;
 #if UNITY_WEBGL || UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
 using System.Runtime.InteropServices;
 #endif
 
 namespace Xsolla.Core
 {
-	public class XsollaWebBrowser : MonoBehaviour
+	public static class XsollaWebBrowser
 	{
 		private static IInAppBrowser _inAppBrowser;
+		private static GameObject _inAppBrowserGameObject;
 
 		public static IInAppBrowser InAppBrowser
 		{
@@ -23,16 +25,17 @@ namespace Xsolla.Core
 				if (_inAppBrowser == null)
 				{
 					var prefab = Resources.Load<GameObject>(Constants.WEB_BROWSER_RESOURCE_PATH);
-					if (prefab == null)
+					if (!prefab)
 					{
 						XDebug.LogError("Prefab InAppBrowser not found in Resources folder.");
 					}
 					else
 					{
-						var go = Instantiate(prefab);
-						go.name = "XsollaWebBrowser";
-						DontDestroyOnLoad(go);
-						_inAppBrowser = go.GetComponent<IInAppBrowser>();
+						_inAppBrowserGameObject = Object.Instantiate(prefab);
+						_inAppBrowserGameObject.name = "XsollaWebBrowser";
+						Object.DontDestroyOnLoad(_inAppBrowserGameObject);
+						_inAppBrowser = _inAppBrowserGameObject.GetComponent<IInAppBrowser>();
+						_inAppBrowser.CloseEvent += info => Close();
 					}
 				}
 
@@ -122,7 +125,12 @@ namespace Xsolla.Core
 
 		public static void Close(float delay = 0)
 		{
-			InAppBrowser?.Close(delay);
+			_inAppBrowser?.Close(delay);
+
+			if (!_inAppBrowserGameObject)
+				Object.Destroy(_inAppBrowserGameObject);
+
+			_inAppBrowser = null;
 		}
 
 #if UNITY_WEBGL
