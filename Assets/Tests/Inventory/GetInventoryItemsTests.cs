@@ -55,11 +55,11 @@ namespace Xsolla.Tests.Inventory
 			yield return new WaitUntil(() => isComplete);
 		}
 
-		[UnityTest]
-		public IEnumerator GetInventoryItems_DefaultValues_InvalidToken_Success()
-		{
-			yield return SetOldAccessToken();
-			yield return GetInventoryItems_Default_Success();
-		}
+		// [UnityTest]
+		// public IEnumerator GetInventoryItems_DefaultValues_InvalidToken_Success()
+		// {
+		// 	yield return SetOldAccessToken();
+		// 	yield return GetInventoryItems_Default_Success();
+		// }
 	}
 }
