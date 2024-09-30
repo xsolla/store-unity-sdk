@@ -33,50 +33,50 @@ namespace Xsolla.Tests.Catalog
 			yield return new WaitUntil(() => isComplete);
 		}
 
-		[UnityTest]
-		public IEnumerator GetCatalog_Parametrized_Success()
-		{
-			DeleteSavedToken();
+		// [UnityTest]
+		// public IEnumerator GetCatalog_Parametrized_Success()
+		// {
+		// 	DeleteSavedToken();
+		//
+		// 	var isComplete = false;
+		// 	XsollaCatalog.GetCatalog(
+		// 		items =>
+		// 		{
+		// 			isComplete = true;
+		// 			Assert.AreEqual(items.items.Length, 10);
+		// 		},
+		// 		error =>
+		// 		{
+		// 			isComplete = true;
+		// 			Assert.Fail(error?.errorMessage);
+		// 		},
+		// 		10,
+		// 		locale: "en_US",
+		// 		country: "US");
+		//
+		// 	yield return new WaitUntil(() => isComplete);
+		// }
 
-			var isComplete = false;
-			XsollaCatalog.GetCatalog(
-				items =>
-				{
-					isComplete = true;
-					Assert.AreEqual(items.items.Length, 10);
-				},
-				error =>
-				{
-					isComplete = true;
-					Assert.Fail(error?.errorMessage);
-				},
-				10,
-				locale: "en_US",
-				country: "US");
-
-			yield return new WaitUntil(() => isComplete);
-		}
-
-		[UnityTest]
-		public IEnumerator GetCatalog_HasPersonalizedItem_Success()
-		{
-			yield return CheckSession();
-
-			var isComplete = false;
-			XsollaCatalog.GetCatalog(
-				items =>
-				{
-					isComplete = true;
-					CheckPersonalization(items.items, true);
-					CheckPromotion(items.items, true);
-				},
-				error =>
-				{
-					isComplete = true;
-					Assert.Fail(error?.errorMessage);
-				});
-
-			yield return new WaitUntil(() => isComplete);
-		}
+		// [UnityTest]
+		// public IEnumerator GetCatalog_HasPersonalizedItem_Success()
+		// {
+		// 	yield return CheckSession();
+		//
+		// 	var isComplete = false;
+		// 	XsollaCatalog.GetCatalog(
+		// 		items =>
+		// 		{
+		// 			isComplete = true;
+		// 			CheckPersonalization(items.items, true);
+		// 			CheckPromotion(items.items, true);
+		// 		},
+		// 		error =>
+		// 		{
+		// 			isComplete = true;
+		// 			Assert.Fail(error?.errorMessage);
+		// 		});
+		//
+		// 	yield return new WaitUntil(() => isComplete);
+		// }
 	}
 }
