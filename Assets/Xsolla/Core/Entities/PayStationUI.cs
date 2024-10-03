@@ -6,7 +6,7 @@ namespace Xsolla.Core
 	public class PayStationUI
 	{
 		public string theme;
-		public bool is_independent_windows;
+		public bool is_independent_windows = true;
 		public Desktop desktop;
 		public Mobile mobile;
 		public bool? gp_quick_payment_button;

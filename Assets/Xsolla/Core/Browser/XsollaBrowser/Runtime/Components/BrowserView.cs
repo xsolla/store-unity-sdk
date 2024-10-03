@@ -31,8 +31,13 @@ namespace Xsolla.XsollaBrowser
 		{
 			while (!cancellationToken.IsCancellationRequested)
 			{
-				if (Input.GetKeyDown(KeyCode.Escape) && XsollaWebBrowser.InAppBrowser.IsFullScreen)
-					XsollaWebBrowser.InAppBrowser.SetFullscreenMode(false);
+				if (Input.GetKeyDown(KeyCode.Escape))
+				{
+					if (XsollaWebBrowser.InAppBrowser.IsFullScreen)
+						XsollaWebBrowser.InAppBrowser.SetFullscreenMode(false);
+					else
+						XsollaWebBrowser.Close();
+				}
 
 				yield return null;
 			}

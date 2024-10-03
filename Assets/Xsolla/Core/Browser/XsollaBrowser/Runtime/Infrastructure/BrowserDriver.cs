@@ -163,10 +163,6 @@ namespace Xsolla.XsollaBrowser
 			if (CancellationToken.IsCancellationRequested)
 				return;
 
-			await newPage.WaitForNavigationAsync();
-			if (CancellationToken.IsCancellationRequested)
-				return;
-
 			MainThreadExecutor.Enqueue(() => OpenExternalUrlAction?.Invoke(newPage.Url));
 			await newPage.CloseAsync();
 		}
