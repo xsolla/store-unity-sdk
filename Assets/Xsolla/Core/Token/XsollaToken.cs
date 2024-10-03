@@ -20,6 +20,7 @@ namespace Xsolla.Core
 				accessToken = accessToken
 			};
 
+			XDebug.Log($"Token created (access only). Access: {accessToken}");
 			SaveInstance();
 		}
 
@@ -30,6 +31,7 @@ namespace Xsolla.Core
 				refreshToken = refreshToken
 			};
 
+			XDebug.Log($"Token created (access and refresh). Access: {accessToken} Refresh: {refreshToken}");
 			SaveInstance();
 		}
 
