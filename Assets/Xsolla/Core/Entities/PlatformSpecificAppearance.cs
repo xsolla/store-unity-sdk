@@ -2,9 +2,8 @@ namespace Xsolla.Core
 {
 	public class PlatformSpecificAppearance
 	{
-		//TEXTREVIEW
 		/// <summary>
-		/// Sort of activity is used to present the PayStation content in.
+		/// Defines the type of Activity to use for payment UI appearance, depending on the platform.
 		/// </summary>
 		public AndroidActivityType? AndroidActivityType;
 	}

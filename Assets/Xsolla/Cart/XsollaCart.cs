@@ -277,7 +277,7 @@ namespace Xsolla.Cart
 		/// <param name="onBrowseClosed">Called after the browser is closed. The event is tracked only when the payment UI is opened in the built-in browser. External browser events can't be tracked.</param>
 		/// <param name="purchaseParams">Purchase parameters such as <c>country</c>, <c>locale</c>, and <c>currency</c>.</param>
 		/// <param name="customHeaders">Custom HTTP request headers.</param>
-		/// <param name="platformSpecificAppearance">Additional appearance settings for the payment UI on different platforms.</param> //TEXTREVIEW
+		/// <param name="platformSpecificAppearance">Additional settings of payment UI appearance for different platforms.</param>
 		public static void Purchase(Action<OrderStatus> onSuccess, Action<Error> onError, string cartId = null, Action<BrowserCloseInfo> onBrowseClosed = null, PurchaseParams purchaseParams = null, Dictionary<string, string> customHeaders = null, PlatformSpecificAppearance platformSpecificAppearance = null)
 		{
 			CreateOrder(
@@ -286,7 +286,7 @@ namespace Xsolla.Cart
 					XsollaWebBrowser.OpenPurchaseUI(
 						orderData.token,
 						false,
-						onBrowseClosed, 
+						onBrowseClosed,
 						platformSpecificAppearance: platformSpecificAppearance);
 
 					OrderTrackingService.AddOrderForTracking(orderData.order_id,
