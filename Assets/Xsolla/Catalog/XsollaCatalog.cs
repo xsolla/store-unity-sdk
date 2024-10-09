@@ -400,18 +400,20 @@ namespace Xsolla.Catalog
 		/// <param name="onBrowseClosed">Called after the browser is closed. The event is tracked only when the payment UI is opened in the built-in browser. External browser events can't be tracked.</param>
 		/// <param name="purchaseParams">Purchase and payment UI parameters, such as <c>locale</c>, <c>currency</c>, etc.</param>
 		/// <param name="customHeaders">Custom web request headers</param>
-		public static void Purchase(string itemSku, Action<OrderStatus> onSuccess, Action<Error> onError, Action<OrderData> onOrderCreated = null, Action<BrowserCloseInfo> onBrowseClosed = null, PurchaseParams purchaseParams = null, Dictionary<string, string> customHeaders = null)
+		/// <param name="platformSpecificAppearance">Additional settings of payment UI appearance for different platforms.</param>
+		public static void Purchase(string itemSku, Action<OrderStatus> onSuccess, Action<Error> onError, Action<OrderData> onOrderCreated = null, Action<BrowserCloseInfo> onBrowseClosed = null, PurchaseParams purchaseParams = null, Dictionary<string, string> customHeaders = null, PlatformSpecificAppearance platformSpecificAppearance = null)
 		{
 			CreateOrder(
 				itemSku,
 				orderData =>
 				{
 					onOrderCreated?.Invoke(orderData);
-					
+
 					XsollaWebBrowser.OpenPurchaseUI(
 						orderData.token,
 						false,
-						onBrowseClosed);
+						onBrowseClosed,
+						platformSpecificAppearance);
 
 					OrderTrackingService.AddOrderForTracking(orderData.order_id,
 						true, () =>
@@ -448,7 +450,7 @@ namespace Xsolla.Catalog
 				orderId =>
 				{
 					onOrderCreated?.Invoke(orderId);
-					
+
 					OrderTrackingService.AddOrderForTracking(
 						orderId.order_id,
 						false, () => OrderStatusService.GetOrderStatus(orderId.order_id, onSuccess, onError), onError);
@@ -476,7 +478,7 @@ namespace Xsolla.Catalog
 				orderId =>
 				{
 					onOrderCreated?.Invoke(orderId);
-					
+
 					OrderTrackingService.AddOrderForTracking(
 						orderId.order_id,
 						false, () => OrderStatusService.GetOrderStatus(orderId.order_id, onSuccess, onError), onError);

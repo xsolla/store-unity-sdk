@@ -44,7 +44,7 @@ namespace Xsolla.Core
 			}
 		}
 
-		public static void OpenPurchaseUI(string paymentToken, bool forcePlatformBrowser = false, Action<BrowserCloseInfo> onBrowserClosed = null)
+		public static void OpenPurchaseUI(string paymentToken, bool forcePlatformBrowser = false, Action<BrowserCloseInfo> onBrowserClosed = null, PlatformSpecificAppearance platformSpecificAppearance = null)
 		{
 #if UNITY_ANDROID
 			if (!Application.isEditor && XsollaSettings.InAppBrowserEnabled)
@@ -56,7 +56,8 @@ namespace Xsolla.Core
 							isManually = isClosedManually
 						};
 						onBrowserClosed?.Invoke(info);
-					});
+					},
+					platformSpecificAppearance?.AndroidActivityType);
 
 				return;
 			}

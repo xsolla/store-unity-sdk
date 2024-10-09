@@ -45,24 +45,24 @@ namespace Xsolla.DevTools
 			if (attribute == null)
 				CreateXmlAttribute("android", "exported", "true", unityActivityNode);
 
-			var providerNode = applicationNode.SelectSingleNode("provider") as XmlElement;
-			if (providerNode == null)
-				providerNode = CreateXmlNode("provider", applicationNode, xmlDoc);
-
-			if (providerNode?.Attributes == null)
-				throw new Exception("Can't find 'provider' node in AndroidManifest.xml");
-
-			attribute = providerNode.Attributes["android:name"];
-			if (attribute == null)
-				CreateXmlAttribute("android", "name", "androidx.startup.InitializationProvider", providerNode);
-
-			attribute = providerNode.Attributes["android:authorities"];
-			if (attribute == null)
-				CreateXmlAttribute("android", "authorities", "${applicationId}.androidx-startup", providerNode);
-
-			attribute = providerNode.Attributes["tools:node"];
-			if (attribute == null)
-				CreateXmlAttribute("tools", "node", "remove", providerNode);
+			// var providerNode = applicationNode.SelectSingleNode("provider") as XmlElement;
+			// if (providerNode == null)
+			// 	providerNode = CreateXmlNode("provider", applicationNode, xmlDoc);
+			//
+			// if (providerNode?.Attributes == null)
+			// 	throw new Exception("Can't find 'provider' node in AndroidManifest.xml");
+			//
+			// attribute = providerNode.Attributes["android:name"];
+			// if (attribute == null)
+			// 	CreateXmlAttribute("android", "name", "androidx.startup.InitializationProvider", providerNode);
+			//
+			// attribute = providerNode.Attributes["android:authorities"];
+			// if (attribute == null)
+			// 	CreateXmlAttribute("android", "authorities", "${applicationId}.androidx-startup", providerNode);
+			//
+			// attribute = providerNode.Attributes["tools:node"];
+			// if (attribute == null)
+			// 	CreateXmlAttribute("tools", "node", "remove", providerNode);
 
 			xmlDoc.Save(filePath);
 		}

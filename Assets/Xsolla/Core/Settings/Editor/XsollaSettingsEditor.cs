@@ -64,9 +64,8 @@ namespace Xsolla.Core
 				var paths = instances.Select(AssetDatabase.GetAssetPath);
 				var joinedPaths = string.Join("\n", paths);
 
-				//TEXTREVIEW
 				throw new Exception("There are more than one `XsollaSettings` asset in the project. "
-					+ "Please leave only one. "
+					+ "Please keep only one asset. "
 					+ $"Founded {instances.Length} assets by paths:\n{joinedPaths}");
 			}
 
