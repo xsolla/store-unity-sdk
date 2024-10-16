@@ -672,6 +672,7 @@ PlayerSettings:
   webGLWasmStreaming: 0
   scriptingDefineSymbols:
     1: STEAMWORKS_NET
+    4: STEAMWORKS_NET
   platformArchitecture:
     iPhone: 1
   scriptingBackend:
