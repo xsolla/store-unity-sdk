@@ -11,6 +11,12 @@ namespace Xsolla.XsollaBrowser
 		private Dictionary<KeyCode, string> NavigationKeys;
 		private Dictionary<char, string> ControlCharacters;
 
+		private void OnApplicationFocus(bool hasFocus)
+		{
+			if (hasFocus && Page != null)
+				Page.UpKeyAsync("alt");
+		}
+
 		public void Run(BrowserPage page, CancellationToken cancellationToken)
 		{
 			Page = page;

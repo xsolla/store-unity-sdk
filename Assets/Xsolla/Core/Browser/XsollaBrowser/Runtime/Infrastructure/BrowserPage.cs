@@ -104,6 +104,11 @@ namespace Xsolla.XsollaBrowser
 			CommandsProcessor.AddCommand(new DownKeyCommand(key));
 		}
 
+		public void UpKeyAsync(string key)
+		{
+			CommandsProcessor.AddCommand(new UpKeyCommand(key));
+		}
+
 		public void GetScreenshotDataAsync(Action<byte[]> callback)
 		{
 			CommandsProcessor.AddCommand(new GetScreenshotCommand(callback));
