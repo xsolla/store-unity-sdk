@@ -7,6 +7,13 @@ namespace Xsolla.Core
 	{
 		private static readonly Dictionary<int, OrderTracker> Trackers = new Dictionary<int, OrderTracker>();
 
+		/// <summary>
+		/// Starts status tracking for the specified order. The tracking mechanism varies based on the build platform.
+		/// </summary>
+		/// <param name="orderId">Order ID.</param>
+		/// <param name="isUserInvolvedToPayment">Whether to use platform-specific methods for tracking, such as Web Sockets or Pay Station callbacks.</param>
+		/// <param name="onSuccess">Callback, triggered when the order status is changed to `done`</param>
+		/// <param name="onError">Callback, triggered when an error occurs during the order tracking.</param>
 		public static void AddOrderForTracking(int orderId, bool isUserInvolvedToPayment, Action onSuccess, Action<Error> onError)
 		{
 			var tracker = CreateTracker(orderId, isUserInvolvedToPayment, onSuccess, onError);
@@ -20,7 +27,7 @@ namespace Xsolla.Core
 				return null;
 
 			var trackingData = new OrderTrackingData(orderId, onSuccess, onError);
-			
+
 			if (!isUserInvolvedToPayment)
 				return new OrderTrackerByShortPolling(trackingData);
 
@@ -33,6 +40,21 @@ namespace Xsolla.Core
 #endif
 		}
 
+		/// <summary>
+		/// Stops status tracking for all orders.
+		/// </summary>
+		public static void RemoveAllOrdersFromTracking()
+		{
+			foreach (var tracker in Trackers.Values)
+			{
+				RemoveOrderFromTracking(tracker.TrackingData.orderId);
+			}
+		}
+
+		/// <summary>
+		/// Stops status tracking for specified order.
+		/// </summary>
+		/// <param name="orderId">Order ID.</param>
 		public static void RemoveOrderFromTracking(int orderId)
 		{
 			if (!Trackers.TryGetValue(orderId, out var tracker))

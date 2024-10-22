@@ -102,12 +102,12 @@ namespace Xsolla.Demo
 
 			if (isTokenValid == true)
 			{
-				UpdateUserSocialFriends(() => socialBusy = false, onError);
+				// UpdateUserSocialFriends(() => socialBusy = false, onError);
 				UpdateUserFriends(() => friendsBusy = false, onError);
 				UpdateBlockedUsers(() => blockedBusy = false, onError);
 				UpdatePendingUsers(() => pendingBusy = false, onError);
 				UpdateRequestedUsers(() => requestedBusy = false, onError);
-				yield return new WaitWhile(() => friendsBusy || blockedBusy || pendingBusy || requestedBusy || socialBusy);
+				yield return new WaitWhile(() => friendsBusy || blockedBusy || pendingBusy || requestedBusy);
 
 				UpdateSocialFriends(onError: onError);
 				IsUpdated = true;

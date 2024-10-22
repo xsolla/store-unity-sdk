@@ -42,16 +42,16 @@ namespace Xsolla.Demo
 			switch (_autoAuthCounter)
 			{
 				case 0:
-					TryAuthBy<SavedTokenAuth>(null, SuperComplete, handleErrorOrSkip);
+					TryAuthBy<LauncherAuth>(null, SuperComplete, handleErrorOrSkip);
 					break;
 				case 1:
-					TryAuthBy<LauncherAuth>(null, SuperComplete, handleErrorOrSkip);
+					TryAuthBy<SteamAuth>(null, SuperComplete, handleErrorOrSkip);
 					break;
 				case 2:
 					TryAuthBy<ConsolePlatformAuth>(null, SuperComplete, handleErrorOrSkip);
 					break;
 				case 3:
-					TryAuthBy<SteamAuth>(null, SuperComplete, handleErrorOrSkip);
+					TryAuthBy<SavedTokenAuth>(null, SuperComplete, handleErrorOrSkip);
 					break;
 				default:
 					IsAuthInProgress = false;

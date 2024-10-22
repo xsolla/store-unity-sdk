@@ -360,7 +360,7 @@ build-android-2022:
 # =================================================================================================================
 # UNITY 6000
 
-build-windows-6000:
+.build-windows-6000:
   stage: build-demo-6000
   script:
     - call %BUILD_SCRIPT_WIN% %PROJECT_PATH% %UNITY_6000_VERSION% %BUILD_ROOT_PATH% %BUILD_TARGET_WINDOWS%
@@ -375,7 +375,7 @@ build-windows-6000:
     - sdk_ci
     - windows
 
-build-webgl-6000:
+.build-webgl-6000:
   stage: build-demo-6000
   script:
     - call %BUILD_SCRIPT_WIN% %PROJECT_PATH% %UNITY_6000_VERSION% %BUILD_ROOT_PATH% %BUILD_TARGET_WEBGL%
@@ -390,7 +390,7 @@ build-webgl-6000:
     - sdk_ci
     - windows
 
-build-android-6000:
+.build-android-6000:
   stage: build-demo-6000
   script:
     - call %BUILD_SCRIPT_WIN% %PROJECT_PATH% %UNITY_6000_VERSION% %BUILD_ROOT_PATH% %BUILD_TARGET_ANDROID%

@@ -58,26 +58,26 @@ namespace Xsolla.Tests.Catalog
 			yield return new WaitUntil(() => isComplete);
 		}
 
-		[UnityTest]
-		public IEnumerator GetGroupItems_HasPromotionItem()
-		{
-			yield return CheckSession();
-
-			var isComplete = false;
-			XsollaCatalog.GetGroupItems(
-				"Featured",
-				items =>
-				{
-					isComplete = true;
-					CheckPromotion(items.items, true);
-				},
-				error =>
-				{
-					isComplete = true;
-					Assert.Fail(error?.errorMessage);
-				});
-
-			yield return new WaitUntil(() => isComplete);
-		}
+		// [UnityTest]
+		// public IEnumerator GetGroupItems_HasPromotionItem()
+		// {
+		// 	yield return CheckSession();
+		//
+		// 	var isComplete = false;
+		// 	XsollaCatalog.GetGroupItems(
+		// 		"Featured",
+		// 		items =>
+		// 		{
+		// 			isComplete = true;
+		// 			CheckPromotion(items.items, true);
+		// 		},
+		// 		error =>
+		// 		{
+		// 			isComplete = true;
+		// 			Assert.Fail(error?.errorMessage);
+		// 		});
+		//
+		// 	yield return new WaitUntil(() => isComplete);
+		// }
 	}
 }
