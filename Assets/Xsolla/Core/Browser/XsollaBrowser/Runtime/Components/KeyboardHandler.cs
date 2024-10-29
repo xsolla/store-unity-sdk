@@ -14,7 +14,7 @@ namespace Xsolla.XsollaBrowser
 		private void OnApplicationFocus(bool hasFocus)
 		{
 			if (hasFocus && Page != null)
-				Page.UpKeyAsync("alt");
+				Page.UpKeyAsync("Alt");
 		}
 
 		public void Run(BrowserPage page, CancellationToken cancellationToken)
