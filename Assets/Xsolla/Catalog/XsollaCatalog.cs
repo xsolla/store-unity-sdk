@@ -18,10 +18,8 @@ namespace Xsolla.Catalog
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="limit">Limit for the number of elements on the page. The maximum number of elements on a page is 50.</param>
 		/// <param name="offset">Number of the element from which the list is generated (the count starts from 0).</param>
-		/// <param name="locale">Response language.<br/>
-		///     The following languages are supported: Arabic (`ar`), Bulgarian (`bg`), Czech (`cs`), German (`de`), Spanish (`es`), French (`fr`), Hebrew (`he`), Italian (`it`), Japanese (`ja`), Korean (`ko`), Polish (`pl`), Portuguese (`pt`), Romanian (`ro`), Russian (`ru`), Thai (`th`), Turkish (`tr`), Vietnamese (`vi`), Chinese Simplified (`cn`), Chinese Traditional (`tw`), English (`en`, default).<br/>
-		///     Leave empty to use the default value.</param>
-		/// <param name="country">Country to calculate regional prices and restrictions to catalog. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Calculated based on the user's IP address if not specified.</param>
+		/// <param name="locale">Response language. [Two-letter lowercase language code](https://developers.xsolla.com/doc/pay-station/features/localization/). Leave empty to use the default value.</param>
+		/// <param name="country">Country for which to calculate regional prices and restrictions in a catalog. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Calculations are based on the user's IP address if the country is not specified.  Check the documentation for detailed information about [countries supported by Xsolla](https://developers.xsolla.com/doc/in-game-store/references/supported-countries/).</param>
 		/// <param name="additionalFields">The list of additional fields. These fields will be in a response if you send them in a request. Available fields `media_list`, `order`, and `long_description`.</param>
 		public static void GetCatalog(Action<StoreItems> onSuccess, Action<Error> onError, int limit = 50, int offset = 0, string locale = null, string country = null, string additionalFields = "long_description")
 		{
@@ -49,9 +47,7 @@ namespace Xsolla.Catalog
 		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/catalog/catalog-display/).</remarks>
 		/// <param name="onSuccess">Called after server response.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
-		/// <param name="locale">Response language. <br/>
-		///     The following languages are supported: Arabic (`ar`), Bulgarian (`bg`), Czech (`cs`), German (`de`), Spanish (`es`), French (`fr`), Hebrew (`he`), Italian (`it`), Japanese (`ja`), Korean (`ko`), Polish (`pl`), Portuguese (`pt`), Romanian (`ro`), Russian (`ru`), Thai (`th`), Turkish (`tr`), Vietnamese (`vi`), Chinese Simplified (`cn`), Chinese Traditional (`tw`), English (`en`, default).<br/>
-		///     Leave empty to use the default value.</param>
+		/// <param name="locale">Response language. [Two-letter lowercase language code](https://developers.xsolla.com/doc/pay-station/features/localization/). Leave empty to use the default value.</param>
 		public static void GetCatalogSimplified(Action<StoreShortItems> onSuccess, Action<Error> onError, string locale = null)
 		{
 			var url = new UrlBuilder($"{BaseUrl}/items/virtual_items/all")
@@ -77,9 +73,8 @@ namespace Xsolla.Catalog
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="limit">Limit for the number of elements on the page. The maximum number of elements on a page is 50.</param>
 		/// <param name="offset">Number of the element from which the list is generated (the count starts from 0).</param>
-		/// <param name="locale">Response language.<br/>
-		///     The following languages are supported: Arabic (`ar`), Bulgarian (`bg`), Czech (`cs`), German (`de`), Spanish (`es`), French (`fr`), Hebrew (`he`), Italian (`it`), Japanese (`ja`), Korean (`ko`), Polish (`pl`), Portuguese (`pt`), Romanian (`ro`), Russian (`ru`), Thai (`th`), Turkish (`tr`), Vietnamese (`vi`), Chinese Simplified (`cn`), Chinese Traditional (`tw`), English (`en`, default).</param>
-		/// <param name="country">Country used to calculate regional prices and restrictions for the catalog. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). By default, it is determined by the user's IP address.</param>
+		/// <param name="locale">Response language. [Two-letter lowercase language code](https://developers.xsolla.com/doc/pay-station/features/localization/). Leave empty to use the default value.</param>
+		/// <param name="country">Country for which to calculate regional prices and restrictions in a catalog. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Calculations are based on the user's IP address if the country is not specified.  Check the documentation for detailed information about [countries supported by Xsolla](https://developers.xsolla.com/doc/in-game-store/references/supported-countries/).</param>
 		/// <param name="additionalFields">The list of additional fields. This fields will be in a response if you send its in a request. Available fields `media_list`, `order`, `long_description`.</param>
 		public static void GetGroupItems(string groupExternalId, Action<StoreItems> onSuccess, Action<Error> onError, int? limit = null, int? offset = null, string locale = null, string country = null, string additionalFields = null)
 		{
@@ -108,8 +103,7 @@ namespace Xsolla.Catalog
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="limit">Limit for the number of elements on the page.</param>
 		/// <param name="offset">Number of the element from which the list is generated (the count starts from 0).</param>
-		/// <param name="locale">Defines localization of the item text fields.<br/>
-		///     The following languages are supported: Arabic (`ar`), Bulgarian (`bg`), Czech (`cs`), German (`de`), Spanish (`es`), French (`fr`), Hebrew (`he`), Italian (`it`), Japanese (`ja`), Korean (`ko`), Polish (`pl`), Portuguese (`pt`), Romanian (`ro`), Russian (`ru`), Thai (`th`), Turkish (`tr`), Vietnamese (`vi`), Chinese Simplified (`cn`), Chinese Traditional (`tw`), English (`en`, default).</param>
+		/// <param name="locale">Defines localization of the item text fields.[Two-letter lowercase language code](https://developers.xsolla.com/doc/pay-station/features/localization/). Leave empty to use the default value.</param>
 		public static void GetItemGroups(Action<Groups> onSuccess, Action<Error> onError, int limit = 50, int offset = 0, string locale = null)
 		{
 			var url = new UrlBuilder($"{BaseUrl}/items/groups")
@@ -133,9 +127,8 @@ namespace Xsolla.Catalog
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="limit">Limit for the number of elements on the page. The maximum number of elements on a page is 50.</param>
 		/// <param name="offset">Number of the element from which the list is generated (the count starts from 0).</param>
-		/// <param name="locale">Response language.<br/>
-		///     The following languages are supported: Arabic (`ar`), Bulgarian (`bg`), Czech (`cs`), German (`de`), Spanish (`es`), French (`fr`), Hebrew (`he`), Italian (`it`), Japanese (`ja`), Korean (`ko`), Polish (`pl`), Portuguese (`pt`), Romanian (`ro`), Russian (`ru`), Thai (`th`), Turkish (`tr`), Vietnamese (`vi`), Chinese Simplified (`cn`), Chinese Traditional (`tw`), English (`en`, default).</param>
-		/// <param name="country">Country used to calculate regional prices and restrictions for the catalog. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). By default, it is determined by the user's IP address.</param>
+		/// <param name="locale">Response language. [Two-letter lowercase language code](https://developers.xsolla.com/doc/pay-station/features/localization/). Leave empty to use the default value.</param>
+		/// <param name="country">Country for which to calculate regional prices and restrictions in a catalog. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Calculations are based on the user's IP address if the country is not specified.  Check the documentation for detailed information about [countries supported by Xsolla](https://developers.xsolla.com/doc/in-game-store/references/supported-countries/).</param>
 		/// <param name="additionalFields">The list of additional fields. These fields will be in a response if you send them in a request. Available fields `media_list`, `order`, and `long_description`.</param>
 		public static void GetVirtualCurrencyList(Action<VirtualCurrencyItems> onSuccess, Action<Error> onError, int limit = 50, int offset = 0, string locale = null, string country = null, string additionalFields = null)
 		{
@@ -164,9 +157,8 @@ namespace Xsolla.Catalog
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="limit">Limit for the number of elements on the page. The maximum number of elements on a page is 50.</param>
 		/// <param name="offset">Number of the element from which the list is generated (the count starts from 0).</param>
-		/// <param name="locale">Response language.<br/>
-		///     The following languages are supported: Arabic (`ar`), Bulgarian (`bg`), Czech (`cs`), German (`de`), Spanish (`es`), French (`fr`), Hebrew (`he`), Italian (`it`), Japanese (`ja`), Korean (`ko`), Polish (`pl`), Portuguese (`pt`), Romanian (`ro`), Russian (`ru`), Thai (`th`), Turkish (`tr`), Vietnamese (`vi`), Chinese Simplified (`cn`), Chinese Traditional (`tw`), English (`en`, default).</param>
-		/// <param name="country">Country used to calculate regional prices and restrictions for the catalog. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). By default, it is determined by the user's IP address.</param>
+		/// <param name="locale">Response language. [Two-letter lowercase language code](https://developers.xsolla.com/doc/pay-station/features/localization/). Leave empty to use the default value.</param>
+		/// <param name="country">Country for which to calculate regional prices and restrictions in a catalog. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Calculations are based on the user's IP address if the country is not specified.  Check the documentation for detailed information about [countries supported by Xsolla](https://developers.xsolla.com/doc/in-game-store/references/supported-countries/).</param>
 		/// <param name="additionalFields">The list of additional fields. These fields will be in a response if you send them in a request. Available fields `media_list`, `order`, and `long_description`.</param>
 		public static void GetVirtualCurrencyPackagesList(Action<VirtualCurrencyPackages> onSuccess, Action<Error> onError, int limit = 50, int offset = 0, string locale = null, string country = null, string additionalFields = null)
 		{
@@ -196,9 +188,8 @@ namespace Xsolla.Catalog
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="limit">Limit for the number of elements on the page. The maximum number of elements on a page is 50.</param>
 		/// <param name="offset">Number of the element from which the list is generated (the count starts from 0).</param>
-		/// <param name="locale">Defines localization of the item text fields.<br/>
-		///     The following languages are supported: Arabic (`ar`), Bulgarian (`bg`), Czech (`cs`), German (`de`), Spanish (`es`), French (`fr`), Hebrew (`he`), Italian (`it`), Japanese (`ja`), Korean (`ko`), Polish (`pl`), Portuguese (`pt`), Romanian (`ro`), Russian (`ru`), Thai (`th`), Turkish (`tr`), Vietnamese (`vi`), Chinese Simplified (`cn`), Chinese Traditional (`tw`), English (`en`, default).</param>
-		/// <param name="country">Country used to calculate regional prices and restrictions for the catalog. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). By default, it is determined by the user's IP address.</param>
+		/// <param name="locale">Defines localization of the item text fields. [Two-letter lowercase language code](https://developers.xsolla.com/doc/pay-station/features/localization/). Leave empty to use the default value.</param>
+		/// <param name="country">Country for which to calculate regional prices and restrictions in a catalog. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Calculations are based on the user's IP address if the country is not specified.  Check the documentation for detailed information about [countries supported by Xsolla](https://developers.xsolla.com/doc/in-game-store/references/supported-countries/).</param>
 		/// <param name="additionalFields">The list of additional fields. This fields will be in a response if you send its in a request. Available fields `media_list`, `order`, `long_description`.</param>
 		public static void GetBundles(Action<BundleItems> onSuccess, Action<Error> onError, int limit = 50, int offset = 0, string locale = null, string country = null, string additionalFields = null)
 		{
@@ -227,9 +218,8 @@ namespace Xsolla.Catalog
 		/// <param name="sku">Bundle SKU.</param>
 		/// <param name="onSuccess">Called after the cart is successfully filled.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
-		/// <param name="locale">Defines localization of the item text fields.<br/>
-		///     The following languages are supported: Arabic (`ar`), Bulgarian (`bg`), Czech (`cs`), German (`de`), Spanish (`es`), French (`fr`), Hebrew (`he`), Italian (`it`), Japanese (`ja`), Korean (`ko`), Polish (`pl`), Portuguese (`pt`), Romanian (`ro`), Russian (`ru`), Thai (`th`), Turkish (`tr`), Vietnamese (`vi`), Chinese Simplified (`cn`), Chinese Traditional (`tw`), English (`en`, default).</param>
-		/// <param name="country">Country used to calculate regional prices and restrictions for the catalog. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). By default, it is determined by the user's IP address.</param>
+		/// <param name="locale">Defines localization of the item text fields. [Two-letter lowercase language code](https://developers.xsolla.com/doc/pay-station/features/localization/). Leave empty to use the default value.</param>
+		/// <param name="country">Country for which to calculate regional prices and restrictions in a catalog. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Calculations are based on the user's IP address if the country is not specified.  Check the documentation for detailed information about [countries supported by Xsolla](https://developers.xsolla.com/doc/in-game-store/references/supported-countries/).</param>
 		public static void GetBundle(string sku, Action<BundleItem> onSuccess, Action<Error> onError, string locale = null, string country = null)
 		{
 			var url = new UrlBuilder($"{BaseUrl}/items/bundle/sku/{sku}")

@@ -18,10 +18,8 @@ namespace Xsolla.Subscriptions
 		/// <param name="planExternalId">List of subscription plan external IDs (32 characters per ID). Plan external ID can be found in Publisher Account in the **Subscriptions > Subscription plans** section next to the plan name.</param>
 		/// <param name="limit">Limit for the number of elements on the page (15 elements are displayed by default).</param>
 		/// <param name="offset">Number of elements from which the list is generated (the count starts from 0).</param>
-		/// <param name="locale">Language of the UI.<br/>
-		///     The following languages are supported: Arabic (`ar`), Bulgarian (`bg`), Czech (`cs`), German (`de`), Spanish (`es`), French (`fr`), Hebrew (`he`), Italian (`it`), Japanese (`ja`), Korean (`ko`), Polish (`pl`), Portuguese (`pt`), Romanian (`ro`), Russian (`ru`), Thai (`th`), Turkish (`tr`), Vietnamese (`vi`), Chinese Simplified (`cn`), Chinese Traditional (`tw`), English (`en`, default).<br/>
-		///     By default, it is determined by the user's IP address.</param>
-		/// <param name="country">User's country. Affects the choice of locale and currency. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). By default, it is determined by the user's IP address.</param>
+		/// <param name="locale">Language of the UI. [Two-letter lowercase language code](https://developers.xsolla.com/doc/pay-station/features/localization/). Leave empty to use the default value.</param>
+		/// <param name="country">User's country. Affects the choice of locale and currency. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Calculations are based on the user's IP address if the country is not specified.  Check the documentation for detailed information about [countries supported by Xsolla](https://developers.xsolla.com/doc/in-game-store/references/supported-countries/).</param>
 		public static void GetSubscriptionPublicPlans(Action<PlanItems> onSuccess, Action<Error> onError, int[] planId = null, string[] planExternalId = null, int limit = 50, int offset = 0, string locale = null, string country = null)
 		{
 			var url = new UrlBuilder($"{BaseUrl}/public/v1/projects/{StoreProjectId}/user_plans")
@@ -48,9 +46,7 @@ namespace Xsolla.Subscriptions
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="limit">Limit for the number of elements on the page (15 elements are displayed by default).</param>
 		/// <param name="offset">Number of elements from which the list is generated (the count starts from 0).</param>
-		/// <param name="locale">Language of the UI.<br/>
-		///     The following languages are supported: Arabic (`ar`), Bulgarian (`bg`), Czech (`cs`), German (`de`), Spanish (`es`), French (`fr`), Hebrew (`he`), Italian (`it`), Japanese (`ja`), Korean (`ko`), Polish (`pl`), Portuguese (`pt`), Romanian (`ro`), Russian (`ru`), Thai (`th`), Turkish (`tr`), Vietnamese (`vi`), Chinese Simplified (`cn`), Chinese Traditional (`tw`), English (`en`, default).<br/>
-		///     By default, it is determined by the user's IP address.</param>
+		/// <param name="locale">Language of the UI. [Two-letter lowercase language code](https://developers.xsolla.com/doc/pay-station/features/localization/). Leave empty to use the default value.</param>
 		public static void GetSubscriptions(Action<SubscriptionItems> onSuccess, Action<Error> onError, int limit = 50, int offset = 0, string locale = null)
 		{
 			var url = new UrlBuilder($"{BaseUrl}/user/v1/projects/{StoreProjectId}/subscriptions")
@@ -74,9 +70,7 @@ namespace Xsolla.Subscriptions
 		/// <param name="subscriptionId">Subscription ID.</param>
 		/// <param name="onSuccess">Called after subscription data have been successfully received.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
-		/// <param name="locale">Language of the UI.<br/>
-		///     The following languages are supported: Arabic (`ar`), Bulgarian (`bg`), Czech (`cs`), German (`de`), Spanish (`es`), French (`fr`), Hebrew (`he`), Italian (`it`), Japanese (`ja`), Korean (`ko`), Polish (`pl`), Portuguese (`pt`), Romanian (`ro`), Russian (`ru`), Thai (`th`), Turkish (`tr`), Vietnamese (`vi`), Chinese Simplified (`cn`), Chinese Traditional (`tw`), English (`en`, default).<br/>
-		///     By default, it is determined by the user's IP address.</param>
+		/// <param name="locale">Language of the UI. [Two-letter lowercase language code](https://developers.xsolla.com/doc/pay-station/features/localization/). Leave empty to use the default value.</param>
 		public static void GetSubscriptionDetails(int subscriptionId, Action<SubscriptionDetails> onSuccess, Action<Error> onError, string locale = null)
 		{
 			var url = new UrlBuilder($"{BaseUrl}/user/v1/projects/{StoreProjectId}/subscriptions/{subscriptionId}")
@@ -143,7 +137,7 @@ namespace Xsolla.Subscriptions
 		/// <param name="onSuccess">Called after the URL has been successfully received.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="settings">Pay Station UI settings.</param>
-		/// <param name="country">User's country. Affects the choice of locale and currency. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). By default, it is determined by the user's IP address.</param>
+		/// <param name="country">User's country. Affects the choice of locale and currency. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Calculations are based on the user's IP address if the country is not specified.  Check the documentation for detailed information about [countries supported by Xsolla](https://developers.xsolla.com/doc/in-game-store/references/supported-countries/).</param>
 		public static void GetSubscriptionPurchaseUrl(string planExternalId, Action<PaymentLink> onSuccess, Action<Error> onError, PaymentSettings settings = null, string country = null)
 		{
 			var url = new UrlBuilder($"{BaseUrl}/user/v1/projects/{StoreProjectId}/subscriptions/buy")
@@ -171,7 +165,7 @@ namespace Xsolla.Subscriptions
 		/// <param name="onSuccess">Called after the URL has been successfully received.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="settings">Settings.</param>
-		/// <param name="country">User's country. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Affects the choice of locale and currency. By default, it is determined by the user's IP address.</param>
+		/// <param name="country">User's country. Affects the choice of locale and currency. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Calculations are based on the user's IP address if the country is not specified.  Check the documentation for detailed information about [countries supported by Xsolla](https://developers.xsolla.com/doc/in-game-store/references/supported-countries/).</param>
 		public static void GetSubscriptionManagementUrl(Action<PaymentLink> onSuccess, Action<Error> onError, PaymentSettings settings = null, string country = null)
 		{
 			var url = new UrlBuilder($"{BaseUrl}/user/v1/projects/{StoreProjectId}/subscriptions/manage")
@@ -201,10 +195,8 @@ namespace Xsolla.Subscriptions
 		/// <param name="planExternalId">List of subscription plan external IDs (32 characters per ID). Plan external ID can be found in Publisher Account in the **Subscriptions > Subscription plans** section next to the plan name.</param>
 		/// <param name="limit">Limit for the number of elements on the page (15 elements are displayed by default).</param>
 		/// <param name="offset">Number of elements from which the list is generated (the count starts from 0).</param>
-		/// <param name="locale">Language of the UI.<br/>
-		///     The following languages are supported: Arabic (`ar`), Bulgarian (`bg`), Czech (`cs`), German (`de`), Spanish (`es`), French (`fr`), Hebrew (`he`), Italian (`it`), Japanese (`ja`), Korean (`ko`), Polish (`pl`), Portuguese (`pt`), Romanian (`ro`), Russian (`ru`), Thai (`th`), Turkish (`tr`), Vietnamese (`vi`), Chinese Simplified (`cn`), Chinese Traditional (`tw`), English (`en`, default).<bt/>
-		///     By default, it is determined by the user's IP address.</param>
-		/// <param name="country">User's country. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Affects the choice of locale and currency. By default, it is determined by the user's IP address.</param>
+		/// <param name="locale">Language of the UI. [Two-letter lowercase language code](https://developers.xsolla.com/doc/pay-station/features/localization/). Leave empty to use the default value.</param>
+		/// <param name="country">User's country. Affects the choice of locale and currency. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Calculations are based on the user's IP address if the country is not specified.  Check the documentation for detailed information about [countries supported by Xsolla](https://developers.xsolla.com/doc/in-game-store/references/supported-countries/).</param>
 		public static void GetSubscriptionPlans(Action<PlanItems> onSuccess, Action<Error> onError, int[] planId = null, string[] planExternalId = null, int limit = 50, int offset = 0, string locale = null, string country = null)
 		{
 			var url = new UrlBuilder($"{BaseUrl}/user/v1/projects/{StoreProjectId}/plans")

@@ -15,8 +15,8 @@ namespace Xsolla.Cart
 		/// <param name="onSuccess">Called after local cache of cart items was successfully updated.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="cartId">Unique cart identifier.</param>
-		/// <param name="locale">Defines localization of item's text fields.<br/> The following languages are supported: Arabic (`ar`), Bulgarian (`bg`), Czech (`cs`), German (`de`), Spanish (`es`), French (`fr`), Hebrew (`he`), Italian (`it`), Japanese (`ja`), Korean (`ko`), Polish (`pl`), Portuguese (`pt`), Romanian (`ro`), Russian (`ru`), Thai (`th`), Turkish (`tr`), Vietnamese (`vi`), Chinese Simplified (`cn`), Chinese Traditional (`tw`), English (`en`, default).</param>
-		/// <param name="currency">The currency in which prices are displayed. Three-letter currency code per [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) (USD by default).</param>
+		/// <param name="locale">Defines localization of item's text fields. [Two-letter lowercase language code](https://developers.xsolla.com/doc/pay-station/features/localization/). Leave empty to use the default value.</param>
+		/// <param name="currency">The currency in which prices are displayed (USD by default). Three-letter currency code per [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217). Check the documentation for detailed information about [currencies supported by Xsolla](https://developers.xsolla.com/doc/pay-station/references/supported-currencies/).</param>
 		public static void GetCartItems(Action<Cart> onSuccess, Action<Error> onError, string cartId = null, string locale = null, string currency = null)
 		{
 			var url = string.IsNullOrEmpty(cartId)
