@@ -3,8 +3,8 @@ include:
     ref:     'master'
     file:    'gitlab-ci-template.yml'
   - project: 'security/security-tools'
-    ref: 'v1'
-    file: 'gitlab-ci.yml'
+    ref: 'v2'
+    file: 'adapter/sdk/security-tools-store-unity-sdk.yml'
 
 stages:
   - build
