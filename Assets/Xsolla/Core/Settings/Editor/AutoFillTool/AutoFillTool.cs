@@ -445,7 +445,8 @@ namespace Xsolla.Core.Editor.AutoFillSettings
 			XsollaSettings.LoginId        = loginID ?? string.Empty;
 			XsollaSettings.OAuthClientId  = OAuthID ?? default(int);
 			XsollaSettings.CallbackUrl    = redirectURL ?? string.Empty;
-
+			
+			XsollaSettingsEditor.SaveSettingsAsset();
 			XDebug.Log("Settings applied");
 #endif
 		}
