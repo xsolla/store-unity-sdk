@@ -1,10 +1,10 @@
-using UnityEngine;
+using Xsolla.Core;
 
 namespace Xsolla.XsollaBrowser
 {
 	public class MainThreadLogger
 	{
-		private const string LOG_PREFIX = "[Xsolla BROWSER]";
+		private const string TAG = "[Xsolla BROWSER]";
 
 		private readonly MainThreadExecutor MainThreadExecutor;
 
@@ -16,7 +16,7 @@ namespace Xsolla.XsollaBrowser
 		public void Log(string message)
 		{
 			if (MainThreadExecutor)
-				MainThreadExecutor.Enqueue(() => Debug.Log($"{LOG_PREFIX} {message}"));
+				MainThreadExecutor.Enqueue(() => XDebug.Log(TAG, message));
 		}
 	}
 }

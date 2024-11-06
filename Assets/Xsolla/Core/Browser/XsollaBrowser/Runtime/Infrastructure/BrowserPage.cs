@@ -11,13 +11,11 @@ namespace Xsolla.XsollaBrowser
 
 		private readonly CommandsProcessor CommandsProcessor;
 		private readonly MainThreadExecutor MainThreadExecutor;
-		private readonly MainThreadLogger MainThreadLogger;
 
-		public BrowserPage(CommandsProcessor commandsProcessor, MainThreadExecutor mainThreadExecutor, MainThreadLogger mainThreadLogger)
+		public BrowserPage(CommandsProcessor commandsProcessor, MainThreadExecutor mainThreadExecutor)
 		{
 			CommandsProcessor = commandsProcessor;
 			MainThreadExecutor = mainThreadExecutor;
-			MainThreadLogger = mainThreadLogger;
 		}
 
 		public Vector2Int ViewportSize { get; private set; }

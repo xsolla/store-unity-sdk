@@ -182,7 +182,7 @@ namespace Xsolla.XsollaBrowser
 
 		private void CreatePage()
 		{
-			BrowserPage = new BrowserPage(CommandsProcessor, MainThreadExecutor, MainThreadLogger) {
+			BrowserPage = new BrowserPage(CommandsProcessor, MainThreadExecutor) {
 				OnUrlChangedAction = x => UrlChangeEvent?.Invoke(x),
 				AlertDialogCommand = (message, accept) => AlertDialogEvent?.Invoke(message, accept),
 				ConfirmDialogCommand = (message, accept, dismiss) => ConfirmDialogEvent?.Invoke(message, accept, dismiss)
