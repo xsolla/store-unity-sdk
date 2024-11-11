@@ -35,7 +35,7 @@ namespace Xsolla.Core
 						_inAppBrowserGameObject.name = "XsollaWebBrowser";
 						Object.DontDestroyOnLoad(_inAppBrowserGameObject);
 						_inAppBrowser = _inAppBrowserGameObject.GetComponent<IInAppBrowser>();
-						_inAppBrowser.CloseEvent += info => Close();
+						_inAppBrowser.CloseEvent += _ => Close();
 					}
 				}
 
@@ -108,7 +108,7 @@ namespace Xsolla.Core
 
 		public static void Open(string url, bool forcePlatformBrowser = false)
 		{
-			XDebug.Log($"WebBrowser. Open url: {url}");
+			XDebug.Log($"XsollaWebBrowser. Open url: {url}");
 #if UNITY_EDITOR || UNITY_STANDALONE
 			if (InAppBrowser != null && !forcePlatformBrowser)
 				InAppBrowser.Open(url);

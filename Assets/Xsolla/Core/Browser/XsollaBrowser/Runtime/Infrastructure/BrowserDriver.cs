@@ -2,6 +2,7 @@ using System;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using PuppeteerSharp;
 
 namespace Xsolla.XsollaBrowser
@@ -62,13 +63,14 @@ namespace Xsolla.XsollaBrowser
 		{
 			MainThreadLogger.Log("Browser driver thread started");
 			Thread.Sleep(50);
-			MainThreadLogger.Log("Start fetching browser");
 
 			var fetcherOptions = new BrowserFetcherOptions {
 				Product = FetchOptions.Product,
 				Platform = FetchOptions.Platform,
 				Path = FetchOptions.Path
 			};
+
+			MainThreadLogger.Log($"Start fetching browser\n. Options: {JsonConvert.SerializeObject(fetcherOptions)}");
 
 			var fetcher = new BrowserFetcher(fetcherOptions);
 			fetcher.DownloadProgressChanged += OnDownloadProgressChanged;
@@ -77,7 +79,6 @@ namespace Xsolla.XsollaBrowser
 
 			MainThreadLogger.Log("Finish fetching browser");
 			Thread.Sleep(50);
-			MainThreadLogger.Log("Start launching browser");
 
 			var launchOptions = new PuppeteerSharp.LaunchOptions {
 				Product = FetchOptions.Product,
@@ -90,6 +91,8 @@ namespace Xsolla.XsollaBrowser
 					Height = LaunchOptions.ViewportHeight
 				}
 			};
+
+			MainThreadLogger.Log($"Start launching browser\n. Options: {JsonConvert.SerializeObject(launchOptions)}");
 
 #pragma warning disable CS1701
 			Browser = await Puppeteer.LaunchAsync(launchOptions);
