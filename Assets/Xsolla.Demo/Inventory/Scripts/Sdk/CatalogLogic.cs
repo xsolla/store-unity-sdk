@@ -22,7 +22,7 @@ namespace Xsolla.Demo
 
 		public void GetVirtualCurrencies(Action<List<VirtualCurrencyModel>> onSuccess, Action<Error> onError = null)
 		{
-			XsollaCatalog.GetVirtualCurrencyList(items =>
+			XsollaCatalog.GetAllVirtualCurrencyList(items =>
 			{
 				var currencies = items.items.ToList();
 				if (currencies.Any())
@@ -58,7 +58,7 @@ namespace Xsolla.Demo
 
 		public void GetCatalogVirtualCurrencyPackages(Action<List<CatalogVirtualCurrencyModel>> onSuccess, Action<Error> onError = null)
 		{
-			XsollaCatalog.GetVirtualCurrencyPackagesList(packages =>
+			XsollaCatalog.GetAllVirtualCurrencyPackagesList(packages =>
 			{
 				var currencies = new List<CatalogVirtualCurrencyModel>();
 				foreach (var package in packages.items)
@@ -100,7 +100,7 @@ namespace Xsolla.Demo
 			{
 				if (!_refreshBundlesInProgress)
 				{
-					XsollaCatalog.GetBundles(bundles =>
+					XsollaCatalog.GetAllBundles(bundles =>
 					{
 						var bundleItems = new List<CatalogBundleItemModel>();
 						bundles.items.ToList().ForEach(b =>
@@ -155,7 +155,7 @@ namespace Xsolla.Demo
 				if (!_refreshItemsInProgress)
 				{
 					_refreshItemsInProgress = true;
-					XsollaCatalog.GetCatalog(items =>
+					XsollaCatalog.GetCatalogFull(items =>
 					{
 						_refreshItemsInProgress = false;
 						_itemsCacheTime = DateTime.Now;

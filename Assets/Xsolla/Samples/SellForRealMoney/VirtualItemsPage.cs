@@ -23,7 +23,7 @@ namespace Xsolla.Samples.SellForRealMoney
 		{
 			// Starting the items request from the store after successful authentication
 			// Pass the callback functions for success and error cases
-			XsollaCatalog.GetCatalog(OnItemsRequestSuccess, OnError);
+			XsollaCatalog.GetCatalogFull(OnItemsRequestSuccess, OnError);
 		}
 
 		private void OnItemsRequestSuccess(StoreItems storeItems)

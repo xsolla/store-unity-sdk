@@ -9,21 +9,40 @@ namespace Xsolla.Tests.Catalog
 	public class GetVirtualCurrencyListTests : CatalogTestsBase
 	{
 		[UnityTest]
+		public IEnumerator GetAllVirtualCurrencyList_Default_Success()
+		{
+			yield return CheckSession();
+
+			var isComplete = false;
+			XsollaCatalog.GetAllVirtualCurrencyList(
+				items => {
+					isComplete = true;
+					Assert.NotNull(items);
+					Assert.NotNull(items.items);
+					Assert.Greater(items.items.Length, 0);
+				},
+				error => {
+					isComplete = true;
+					Assert.Fail(error?.errorMessage);
+				});
+
+			yield return new WaitUntil(() => isComplete);
+		}
+
+		[UnityTest]
 		public IEnumerator GetVirtualCurrencyList_Default_Success()
 		{
 			yield return CheckSession();
 
 			var isComplete = false;
 			XsollaCatalog.GetVirtualCurrencyList(
-				items =>
-				{
+				items => {
 					isComplete = true;
 					Assert.NotNull(items);
 					Assert.NotNull(items.items);
 					Assert.Greater(items.items.Length, 0);
 				},
-				error =>
-				{
+				error => {
 					isComplete = true;
 					Assert.Fail(error?.errorMessage);
 				});
@@ -38,13 +57,11 @@ namespace Xsolla.Tests.Catalog
 
 			var isComplete = false;
 			XsollaCatalog.GetVirtualCurrencyList(
-				items =>
-				{
+				items => {
 					isComplete = true;
 					Assert.AreEqual(items.items.Length, 1);
 				},
-				error =>
-				{
+				error => {
 					isComplete = true;
 					Assert.Fail(error?.errorMessage);
 				},

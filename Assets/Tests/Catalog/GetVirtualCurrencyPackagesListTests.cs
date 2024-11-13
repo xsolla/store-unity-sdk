@@ -9,6 +9,29 @@ namespace Xsolla.Tests.Catalog
 	public class GetVirtualCurrencyPackagesListTests : CatalogTestsBase
 	{
 		[UnityTest]
+		public IEnumerator GetAllVirtualCurrencyPackagesList_Default_Success()
+		{
+			DeleteSavedToken();
+
+			var isComplete = false;
+			XsollaCatalog.GetAllVirtualCurrencyPackagesList(
+				packages =>
+				{
+					isComplete = true;
+					Assert.NotNull(packages);
+					Assert.NotNull(packages.items);
+					Assert.Greater(packages.items.Length, 0);
+					CheckPersonalization(packages.items, false);
+				}, error =>
+				{
+					isComplete = true;
+					Assert.Fail(error?.errorMessage);
+				});
+
+			yield return new WaitUntil(() => isComplete);
+		}
+		
+		[UnityTest]
 		public IEnumerator GetVirtualCurrencyPackagesList_Default_Success()
 		{
 			DeleteSavedToken();

@@ -24,7 +24,7 @@ namespace Xsolla.Samples.DisplayCatalog
 		{
 			// After successful authentication starting the request for packages from store
 			// Pass the callback functions for success and error cases
-			XsollaCatalog.GetVirtualCurrencyPackagesList(OnPackagesRequestSuccess, OnError);
+			XsollaCatalog.GetAllVirtualCurrencyPackagesList(OnPackagesRequestSuccess, OnError);
 		}
 
 		private void OnPackagesRequestSuccess(VirtualCurrencyPackages packageItems)

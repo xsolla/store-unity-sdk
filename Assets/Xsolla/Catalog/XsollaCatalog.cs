@@ -8,6 +8,58 @@ namespace Xsolla.Catalog
 	{
 		private static string BaseUrl => $"https://store.xsolla.com/api/v2/project/{XsollaSettings.StoreProjectId}";
 
+		//TEXTREVIEW
+		/// <summary>
+		/// Returns a list of virtual items according to pagination settings.
+		/// The list includes items for which display in the store is enabled in the settings. For each virtual item, complete data is returned.
+		/// If used after user authentication, the method returns items that match the personalization rules for the current user.
+		/// </summary>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/catalog/catalog-display/).</remarks>
+		/// <param name="onSuccess">Called after virtual items were successfully received.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
+		/// <param name="locale">Response language. [Two-letter lowercase language code](https://developers.xsolla.com/doc/pay-station/features/localization/). Leave empty to use the default value.</param>
+		/// <param name="country">Country for which to calculate regional prices and restrictions in a catalog. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Calculations are based on the user's IP address if the country is not specified.  Check the documentation for detailed information about [countries supported by Xsolla](https://developers.xsolla.com/doc/in-game-store/references/supported-countries/).</param>
+		/// <param name="additionalFields">The list of additional fields. These fields will be in a response if you send them in a request. Available fields `media_list`, `order`, and `long_description`.</param>
+		public static void GetCatalogFull(Action<StoreItems> onSuccess, Action<Error> onError, string locale = null, string country = null, string additionalFields = "long_description")
+		{
+			var items = new List<StoreItem>();
+			const int limit = 50;
+			var offset = 0;
+
+			processRequest();
+			return;
+
+			void processRequest()
+			{
+				GetCatalog(
+					handleResponse,
+					onError,
+					limit,
+					offset,
+					locale,
+					country,
+					additionalFields);
+			}
+
+			void handleResponse(StoreItems response)
+			{
+				items.AddRange(response.items);
+
+				if (!response.has_more)
+				{
+					onSuccess(new StoreItems {
+						has_more = false,
+						items = items.ToArray()
+					});
+				}
+				else
+				{
+					offset += limit;
+					processRequest();
+				}
+			}
+		}
+
 		/// <summary>
 		/// Returns a list of virtual items according to pagination settings.
 		/// The list includes items for which display in the store is enabled in the settings. For each virtual item, complete data is returned.
@@ -63,6 +115,59 @@ namespace Xsolla.Catalog
 				ErrorGroup.ItemsListErrors);
 		}
 
+		///TEXTREVIEW
+		/// <summary>
+		/// Returns a list of items for the specified group according to pagination settings. The list includes items for which display in the store is enabled in the settings. In the settings of the group, the display in the store must be enabled.
+		/// If used after user authentication, the method returns items that match the personalization rules for the current user.
+		/// </summary>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/catalog/catalog-display/).</remarks>
+		/// <param name="groupExternalId">Group external ID.</param>
+		/// <param name="onSuccess">Called after server response.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
+		/// <param name="locale">Response language. [Two-letter lowercase language code](https://developers.xsolla.com/doc/pay-station/features/localization/). Leave empty to use the default value.</param>
+		/// <param name="country">Country for which to calculate regional prices and restrictions in a catalog. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Calculations are based on the user's IP address if the country is not specified.  Check the documentation for detailed information about [countries supported by Xsolla](https://developers.xsolla.com/doc/in-game-store/references/supported-countries/).</param>
+		/// <param name="additionalFields">The list of additional fields. This fields will be in a response if you send its in a request. Available fields `media_list`, `order`, `long_description`.</param>
+		public static void GetAllGroupItems(string groupExternalId, Action<StoreItems> onSuccess, Action<Error> onError, string locale = null, string country = null, string additionalFields = null)
+		{
+			var items = new List<StoreItem>();
+			const int limit = 50;
+			var offset = 0;
+
+			processRequest();
+			return;
+
+			void processRequest()
+			{
+				GetGroupItems(
+					groupExternalId,
+					handleResponse,
+					onError,
+					limit,
+					offset,
+					locale,
+					country,
+					additionalFields);
+			}
+
+			void handleResponse(StoreItems response)
+			{
+				items.AddRange(response.items);
+
+				if (!response.has_more)
+				{
+					onSuccess(new StoreItems {
+						has_more = false,
+						items = items.ToArray()
+					});
+				}
+				else
+				{
+					offset += limit;
+					processRequest();
+				}
+			}
+		}
+
 		/// <summary>
 		/// Returns a list of items for the specified group according to pagination settings. The list includes items for which display in the store is enabled in the settings. In the settings of the group, the display in the store must be enabled.
 		/// If used after user authentication, the method returns items that match the personalization rules for the current user.
@@ -101,14 +206,10 @@ namespace Xsolla.Catalog
 		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/catalog/catalog-display/).</remarks>
 		/// <param name="onSuccess">Called after virtual item groups were successfully received.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
-		/// <param name="limit">Limit for the number of elements on the page.</param>
-		/// <param name="offset">Number of the element from which the list is generated (the count starts from 0).</param>
 		/// <param name="locale">Defines localization of the item text fields.[Two-letter lowercase language code](https://developers.xsolla.com/doc/pay-station/features/localization/). Leave empty to use the default value.</param>
-		public static void GetItemGroups(Action<Groups> onSuccess, Action<Error> onError, int limit = 50, int offset = 0, string locale = null)
+		public static void GetItemGroups(Action<Groups> onSuccess, Action<Error> onError, string locale = null)
 		{
 			var url = new UrlBuilder($"{BaseUrl}/items/groups")
-				.AddLimit(limit)
-				.AddOffset(offset)
 				.AddLocale(locale)
 				.Build();
 
@@ -116,7 +217,57 @@ namespace Xsolla.Catalog
 				SdkType.Store,
 				url,
 				onSuccess,
-				error => TokenAutoRefresher.Check(error, onError, () => GetItemGroups(onSuccess, onError, limit, offset, locale)));
+				error => TokenAutoRefresher.Check(error, onError, () => GetItemGroups(onSuccess, onError, locale)));
+		}
+
+		///TEXTREVIEW
+		/// <summary>
+		/// Returns a list of virtual currencies according to pagination settings.
+		/// </summary>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/catalog/catalog-display/).</remarks>
+		/// <param name="onSuccess">Called after virtual currencies were successfully received.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
+		/// <param name="locale">Response language. [Two-letter lowercase language code](https://developers.xsolla.com/doc/pay-station/features/localization/). Leave empty to use the default value.</param>
+		/// <param name="country">Country for which to calculate regional prices and restrictions in a catalog. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Calculations are based on the user's IP address if the country is not specified.  Check the documentation for detailed information about [countries supported by Xsolla](https://developers.xsolla.com/doc/in-game-store/references/supported-countries/).</param>
+		/// <param name="additionalFields">The list of additional fields. These fields will be in a response if you send them in a request. Available fields `media_list`, `order`, and `long_description`.</param>
+		public static void GetAllVirtualCurrencyList(Action<VirtualCurrencyItems> onSuccess, Action<Error> onError, string locale = null, string country = null, string additionalFields = null)
+		{
+			var items = new List<VirtualCurrencyItem>();
+			const int limit = 50;
+			var offset = 0;
+
+			processRequest();
+			return;
+
+			void processRequest()
+			{
+				GetVirtualCurrencyList(
+					handleResponse,
+					onError,
+					limit,
+					offset,
+					locale,
+					country,
+					additionalFields);
+			}
+
+			void handleResponse(VirtualCurrencyItems response)
+			{
+				items.AddRange(response.items);
+
+				if (!response.has_more)
+				{
+					onSuccess(new VirtualCurrencyItems {
+						has_more = false,
+						items = items.ToArray()
+					});
+				}
+				else
+				{
+					offset += limit;
+					processRequest();
+				}
+			}
 		}
 
 		/// <summary>
@@ -148,6 +299,57 @@ namespace Xsolla.Catalog
 				ErrorGroup.ItemsListErrors);
 		}
 
+		///TEXTREVIEW
+		/// <summary>
+		/// Returns a list of virtual currency packages according to pagination settings. The list includes packages for which display in the store is enabled in the settings.
+		/// If used after user authentication, the method returns packages that match the personalization rules for the current user.
+		/// </summary>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/catalog/catalog-display/).</remarks>
+		/// <param name="onSuccess">Called after virtual currency packages were successfully received.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
+		/// <param name="locale">Response language. [Two-letter lowercase language code](https://developers.xsolla.com/doc/pay-station/features/localization/). Leave empty to use the default value.</param>
+		/// <param name="country">Country for which to calculate regional prices and restrictions in a catalog. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Calculations are based on the user's IP address if the country is not specified.  Check the documentation for detailed information about [countries supported by Xsolla](https://developers.xsolla.com/doc/in-game-store/references/supported-countries/).</param>
+		/// <param name="additionalFields">The list of additional fields. These fields will be in a response if you send them in a request. Available fields `media_list`, `order`, and `long_description`.</param>
+		public static void GetAllVirtualCurrencyPackagesList(Action<VirtualCurrencyPackages> onSuccess, Action<Error> onError, string locale = null, string country = null, string additionalFields = null)
+		{
+			var items = new List<VirtualCurrencyPackage>();
+			const int limit = 50;
+			var offset = 0;
+
+			processRequest();
+			return;
+
+			void processRequest()
+			{
+				GetVirtualCurrencyPackagesList(
+					handleResponse,
+					onError,
+					limit,
+					offset,
+					locale,
+					country,
+					additionalFields);
+			}
+
+			void handleResponse(VirtualCurrencyPackages response)
+			{
+				items.AddRange(response.items);
+
+				if (!response.has_more)
+				{
+					onSuccess(new VirtualCurrencyPackages {
+						has_more = false,
+						items = items.ToArray()
+					});
+				}
+				else
+				{
+					offset += limit;
+					processRequest();
+				}
+			}
+		}
+
 		/// <summary>
 		/// Returns a list of virtual currency packages according to pagination settings. The list includes packages for which display in the store is enabled in the settings.
 		/// If used after user authentication, the method returns packages that match the personalization rules for the current user.
@@ -177,6 +379,57 @@ namespace Xsolla.Catalog
 				onSuccess,
 				error => TokenAutoRefresher.Check(error, onError, () => GetVirtualCurrencyPackagesList(onSuccess, onError, limit, offset, locale, country, additionalFields)),
 				ErrorGroup.ItemsListErrors);
+		}
+
+		///TEXTREVIEW
+		/// <summary>
+		/// Returns a list of bundles according to pagination settings. The list includes bundles for which display in the store is enabled in the settings.
+		/// If used after user authentication, the method returns items that match the personalization rules for the current user.
+		/// </summary>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/catalog/catalog-display/#unreal_engine_sdk_how_to_bundles).</remarks>
+		/// <param name="onSuccess">Called after bundles are successfully received.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
+		/// <param name="locale">Defines localization of the item text fields. [Two-letter lowercase language code](https://developers.xsolla.com/doc/pay-station/features/localization/). Leave empty to use the default value.</param>
+		/// <param name="country">Country for which to calculate regional prices and restrictions in a catalog. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Calculations are based on the user's IP address if the country is not specified.  Check the documentation for detailed information about [countries supported by Xsolla](https://developers.xsolla.com/doc/in-game-store/references/supported-countries/).</param>
+		/// <param name="additionalFields">The list of additional fields. This fields will be in a response if you send its in a request. Available fields `media_list`, `order`, `long_description`.</param>
+		public static void GetAllBundles(Action<BundleItems> onSuccess, Action<Error> onError, string locale = null, string country = null, string additionalFields = null)
+		{
+			var items = new List<BundleItem>();
+			const int limit = 2;
+			var offset = 0;
+
+			processRequest();
+			return;
+
+			void processRequest()
+			{
+				GetBundles(
+					handleResponse,
+					onError,
+					limit,
+					offset,
+					locale,
+					country,
+					additionalFields);
+			}
+
+			void handleResponse(BundleItems response)
+			{
+				items.AddRange(response.items);
+
+				if (!response.has_more)
+				{
+					onSuccess(new BundleItems {
+						has_more = false,
+						items = items.ToArray()
+					});
+				}
+				else
+				{
+					offset += limit;
+					processRequest();
+				}
+			}
 		}
 
 		/// <summary>
@@ -395,8 +648,7 @@ namespace Xsolla.Catalog
 		{
 			CreateOrder(
 				itemSku,
-				orderData =>
-				{
+				orderData => {
 					onOrderCreated?.Invoke(orderData);
 
 					XsollaWebBrowser.OpenPurchaseUI(
@@ -406,8 +658,7 @@ namespace Xsolla.Catalog
 						platformSpecificAppearance);
 
 					OrderTrackingService.AddOrderForTracking(orderData.order_id,
-						true, () =>
-						{
+						true, () => {
 							if (XsollaWebBrowser.InAppBrowser?.IsOpened ?? false)
 								XsollaWebBrowser.Close();
 
@@ -437,8 +688,7 @@ namespace Xsolla.Catalog
 			CreateOrderByVirtualCurrency(
 				itemSku,
 				priceSku,
-				orderId =>
-				{
+				orderId => {
 					onOrderCreated?.Invoke(orderId);
 
 					OrderTrackingService.AddOrderForTracking(
@@ -465,8 +715,7 @@ namespace Xsolla.Catalog
 		{
 			CreateOrderWithFreeItem(
 				itemSku,
-				orderId =>
-				{
+				orderId => {
 					onOrderCreated?.Invoke(orderId);
 
 					OrderTrackingService.AddOrderForTracking(
