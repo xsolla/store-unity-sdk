@@ -179,7 +179,7 @@ namespace Xsolla.Catalog
 		/// <param name="locale">Response language. [Two-letter lowercase language code](https://developers.xsolla.com/doc/pay-station/features/localization/). Leave empty to use the default value.</param>
 		/// <param name="country">Country for which to calculate regional prices and restrictions in a catalog. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Calculations are based on the user's IP address if the country is not specified.  Check the documentation for detailed information about [countries supported by Xsolla](https://developers.xsolla.com/doc/in-game-store/references/supported-countries/).</param>
 		/// <param name="additionalFields">The list of additional fields. This fields will be in a response if you send its in a request. Available fields `media_list`, `order`, `long_description`.</param>
-		public static void GetPaginatedGroupItems(string groupExternalId, Action<StoreItems> onSuccess, Action<Error> onError, int? limit = null, int? offset = null, string locale = null, string country = null, string additionalFields = null)
+		public static void GetPaginatedGroupItems(string groupExternalId, Action<StoreItems> onSuccess, Action<Error> onError, int limit, int offset, string locale = null, string country = null, string additionalFields = null)
 		{
 			var url = new UrlBuilder($"{BaseUrl}/items/virtual_items/group/{groupExternalId}")
 				.AddLimit(limit)
@@ -280,7 +280,7 @@ namespace Xsolla.Catalog
 		/// <param name="locale">Response language. [Two-letter lowercase language code](https://developers.xsolla.com/doc/pay-station/features/localization/). Leave empty to use the default value.</param>
 		/// <param name="country">Country for which to calculate regional prices and restrictions in a catalog. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Calculations are based on the user's IP address if the country is not specified.  Check the documentation for detailed information about [countries supported by Xsolla](https://developers.xsolla.com/doc/in-game-store/references/supported-countries/).</param>
 		/// <param name="additionalFields">The list of additional fields. These fields will be in a response if you send them in a request. Available fields `media_list`, `order`, and `long_description`.</param>
-		public static void GetPaginatedVirtualCurrencyList(Action<VirtualCurrencyItems> onSuccess, Action<Error> onError, int limit = 50, int offset = 0, string locale = null, string country = null, string additionalFields = null)
+		public static void GetPaginatedVirtualCurrencyList(Action<VirtualCurrencyItems> onSuccess, Action<Error> onError, int limit, int offset, string locale = null, string country = null, string additionalFields = null)
 		{
 			var url = new UrlBuilder($"{BaseUrl}/items/virtual_currency")
 				.AddLimit(limit)
@@ -362,7 +362,7 @@ namespace Xsolla.Catalog
 		/// <param name="locale">Response language. [Two-letter lowercase language code](https://developers.xsolla.com/doc/pay-station/features/localization/). Leave empty to use the default value.</param>
 		/// <param name="country">Country for which to calculate regional prices and restrictions in a catalog. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Calculations are based on the user's IP address if the country is not specified.  Check the documentation for detailed information about [countries supported by Xsolla](https://developers.xsolla.com/doc/in-game-store/references/supported-countries/).</param>
 		/// <param name="additionalFields">The list of additional fields. These fields will be in a response if you send them in a request. Available fields `media_list`, `order`, and `long_description`.</param>
-		public static void GetPaginatedVirtualCurrencyPackagesList(Action<VirtualCurrencyPackages> onSuccess, Action<Error> onError, int limit = 50, int offset = 0, string locale = null, string country = null, string additionalFields = null)
+		public static void GetPaginatedVirtualCurrencyPackagesList(Action<VirtualCurrencyPackages> onSuccess, Action<Error> onError, int limit, int offset, string locale = null, string country = null, string additionalFields = null)
 		{
 			var url = new UrlBuilder($"{BaseUrl}/items/virtual_currency/package")
 				.AddLimit(limit)
@@ -445,7 +445,7 @@ namespace Xsolla.Catalog
 		/// <param name="locale">Defines localization of the item text fields. [Two-letter lowercase language code](https://developers.xsolla.com/doc/pay-station/features/localization/). Leave empty to use the default value.</param>
 		/// <param name="country">Country for which to calculate regional prices and restrictions in a catalog. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Calculations are based on the user's IP address if the country is not specified.  Check the documentation for detailed information about [countries supported by Xsolla](https://developers.xsolla.com/doc/in-game-store/references/supported-countries/).</param>
 		/// <param name="additionalFields">The list of additional fields. This fields will be in a response if you send its in a request. Available fields `media_list`, `order`, `long_description`.</param>
-		public static void GetPaginatedBundles(Action<BundleItems> onSuccess, Action<Error> onError, int limit = 50, int offset = 0, string locale = null, string country = null, string additionalFields = null)
+		public static void GetPaginatedBundles(Action<BundleItems> onSuccess, Action<Error> onError, int limit, int offset, string locale = null, string country = null, string additionalFields = null)
 		{
 			var url = new UrlBuilder($"{BaseUrl}/items/bundle")
 				.AddLimit(limit)
