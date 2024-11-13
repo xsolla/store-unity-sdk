@@ -24,7 +24,7 @@ namespace Xsolla.Samples.DisplayCatalog
 		{
 			// Starting the bundle request from the store after successful authentication
 			// Pass the callback functions for success and error cases
-			XsollaCatalog.GetAllBundles(OnBundlesRequestSuccess, OnError);
+			XsollaCatalog.GetBundles(OnBundlesRequestSuccess, OnError);
 		}
 
 		private void OnBundlesRequestSuccess(BundleItems bundleItems)

@@ -14,7 +14,7 @@ namespace Xsolla.Tests.Catalog
 			DeleteSavedToken();
 
 			var isComplete = false;
-			XsollaCatalog.GetAllVirtualCurrencyPackagesList(
+			XsollaCatalog.GetVirtualCurrencyPackagesList(
 				packages =>
 				{
 					isComplete = true;
@@ -37,7 +37,7 @@ namespace Xsolla.Tests.Catalog
 			DeleteSavedToken();
 
 			var isComplete = false;
-			XsollaCatalog.GetVirtualCurrencyPackagesList(
+			XsollaCatalog.GetPaginatedVirtualCurrencyPackagesList(
 				packages =>
 				{
 					isComplete = true;
@@ -60,7 +60,7 @@ namespace Xsolla.Tests.Catalog
 			DeleteSavedToken();
 
 			var isComplete = false;
-			XsollaCatalog.GetVirtualCurrencyPackagesList(
+			XsollaCatalog.GetPaginatedVirtualCurrencyPackagesList(
 				packages =>
 				{
 					isComplete = true;
@@ -83,7 +83,7 @@ namespace Xsolla.Tests.Catalog
 			yield return CheckSession();
 
 			var isComplete = false;
-			XsollaCatalog.GetVirtualCurrencyPackagesList(
+			XsollaCatalog.GetPaginatedVirtualCurrencyPackagesList(
 				packages =>
 				{
 					isComplete = true;

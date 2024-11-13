@@ -24,7 +24,7 @@ namespace Xsolla.Samples.SellForVirtualCurrency
 		{
 			// After successful authentication starting the request for catalog from store
 			// Pass the callback functions for success and error cases
-			XsollaCatalog.GetCatalogFull(OnItemsRequestSuccess, OnError);
+			XsollaCatalog.GetItems(OnItemsRequestSuccess, OnError);
 		}
 
 		private void OnItemsRequestSuccess(StoreItems storeItems)

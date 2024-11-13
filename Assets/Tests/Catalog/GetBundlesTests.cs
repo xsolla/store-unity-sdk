@@ -14,7 +14,7 @@ namespace Xsolla.Tests.Catalog
 			DeleteSavedToken();
 
 			var isComplete = false;
-			XsollaCatalog.GetAllBundles(items => {
+			XsollaCatalog.GetBundles(items => {
 				isComplete = true;
 				Assert.NotNull(items);
 				Assert.NotNull(items.items);
@@ -34,7 +34,7 @@ namespace Xsolla.Tests.Catalog
 			DeleteSavedToken();
 
 			var isComplete = false;
-			XsollaCatalog.GetBundles(items => {
+			XsollaCatalog.GetPaginatedBundles(items => {
 				isComplete = true;
 				Assert.NotNull(items);
 				Assert.NotNull(items.items);
@@ -54,7 +54,7 @@ namespace Xsolla.Tests.Catalog
 			DeleteSavedToken();
 
 			var isComplete = false;
-			XsollaCatalog.GetBundles(
+			XsollaCatalog.GetPaginatedBundles(
 				items => {
 					isComplete = true;
 					Assert.AreEqual(items.items.Length, 1);
@@ -75,7 +75,7 @@ namespace Xsolla.Tests.Catalog
 			yield return CheckSession();
 
 			var isComplete = false;
-			XsollaCatalog.GetBundles(
+			XsollaCatalog.GetPaginatedBundles(
 				items => {
 					isComplete = true;
 					CheckPersonalization(items.items, true);

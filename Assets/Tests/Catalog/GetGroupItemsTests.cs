@@ -14,7 +14,7 @@ namespace Xsolla.Tests.Catalog
 			DeleteSavedToken();
 
 			var isComplete = false;
-			XsollaCatalog.GetAllGroupItems(
+			XsollaCatalog.GetGroupItems(
 				"Featured",
 				items => {
 					isComplete = true;
@@ -37,7 +37,7 @@ namespace Xsolla.Tests.Catalog
 			DeleteSavedToken();
 
 			var isComplete = false;
-			XsollaCatalog.GetGroupItems(
+			XsollaCatalog.GetPaginatedGroupItems(
 				"Featured",
 				items => {
 					isComplete = true;
@@ -60,7 +60,7 @@ namespace Xsolla.Tests.Catalog
 			yield return CheckSession();
 
 			var isComplete = false;
-			XsollaCatalog.GetGroupItems(
+			XsollaCatalog.GetPaginatedGroupItems(
 				"Featured",
 				items => {
 					isComplete = true;

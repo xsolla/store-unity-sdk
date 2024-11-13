@@ -14,7 +14,7 @@ namespace Xsolla.Tests.Catalog
 			DeleteSavedToken();
 
 			var isComplete = false;
-			XsollaCatalog.GetCatalogFull(
+			XsollaCatalog.GetItems(
 				items => {
 					isComplete = true;
 					Assert.NotNull(items);
@@ -37,7 +37,7 @@ namespace Xsolla.Tests.Catalog
 			DeleteSavedToken();
 
 			var isComplete = false;
-			XsollaCatalog.GetCatalog(
+			XsollaCatalog.GetItems(
 				items => {
 					isComplete = true;
 					Assert.NotNull(items);

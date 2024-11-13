@@ -14,7 +14,7 @@ namespace Xsolla.Tests.Catalog
 			yield return CheckSession();
 
 			var isComplete = false;
-			XsollaCatalog.GetAllVirtualCurrencyList(
+			XsollaCatalog.GetVirtualCurrencyList(
 				items => {
 					isComplete = true;
 					Assert.NotNull(items);
@@ -35,7 +35,7 @@ namespace Xsolla.Tests.Catalog
 			yield return CheckSession();
 
 			var isComplete = false;
-			XsollaCatalog.GetVirtualCurrencyList(
+			XsollaCatalog.GetPaginatedVirtualCurrencyList(
 				items => {
 					isComplete = true;
 					Assert.NotNull(items);
@@ -56,7 +56,7 @@ namespace Xsolla.Tests.Catalog
 			yield return CheckSession();
 
 			var isComplete = false;
-			XsollaCatalog.GetVirtualCurrencyList(
+			XsollaCatalog.GetPaginatedVirtualCurrencyList(
 				items => {
 					isComplete = true;
 					Assert.AreEqual(items.items.Length, 1);
