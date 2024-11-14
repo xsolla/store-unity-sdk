@@ -35,7 +35,7 @@ namespace Xsolla.Tests.Catalog
 			yield return CheckSession();
 
 			var isComplete = false;
-			XsollaCatalog.GetPaginatedVirtualCurrencyList(
+			XsollaCatalog.GetVirtualCurrencyList(
 				items => {
 					isComplete = true;
 					Assert.NotNull(items);

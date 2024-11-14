@@ -15,38 +15,34 @@ namespace Xsolla.Tests.Catalog
 
 			var isComplete = false;
 			XsollaCatalog.GetVirtualCurrencyPackagesList(
-				packages =>
-				{
+				packages => {
 					isComplete = true;
 					Assert.NotNull(packages);
 					Assert.NotNull(packages.items);
 					Assert.Greater(packages.items.Length, 0);
 					CheckPersonalization(packages.items, false);
-				}, error =>
-				{
+				}, error => {
 					isComplete = true;
 					Assert.Fail(error?.errorMessage);
 				});
 
 			yield return new WaitUntil(() => isComplete);
 		}
-		
+
 		[UnityTest]
 		public IEnumerator GetVirtualCurrencyPackagesList_Default_Success()
 		{
 			DeleteSavedToken();
 
 			var isComplete = false;
-			XsollaCatalog.GetPaginatedVirtualCurrencyPackagesList(
-				packages =>
-				{
+			XsollaCatalog.GetVirtualCurrencyPackagesList(
+				packages => {
 					isComplete = true;
 					Assert.NotNull(packages);
 					Assert.NotNull(packages.items);
 					Assert.Greater(packages.items.Length, 0);
 					CheckPersonalization(packages.items, false);
-				}, error =>
-				{
+				}, error => {
 					isComplete = true;
 					Assert.Fail(error?.errorMessage);
 				});
@@ -61,16 +57,15 @@ namespace Xsolla.Tests.Catalog
 
 			var isComplete = false;
 			XsollaCatalog.GetPaginatedVirtualCurrencyPackagesList(
-				packages =>
-				{
+				packages => {
 					isComplete = true;
 					Assert.AreEqual(packages.items.Length, 1);
-				}, error =>
-				{
+				}, error => {
 					isComplete = true;
 					Assert.Fail(error?.errorMessage);
 				},
 				1,
+				0,
 				locale: "en_US",
 				country: "US");
 
@@ -83,13 +78,11 @@ namespace Xsolla.Tests.Catalog
 			yield return CheckSession();
 
 			var isComplete = false;
-			XsollaCatalog.GetPaginatedVirtualCurrencyPackagesList(
-				packages =>
-				{
+			XsollaCatalog.GetVirtualCurrencyPackagesList(
+				packages => {
 					isComplete = true;
 					CheckPersonalization(packages.items, true);
-				}, error =>
-				{
+				}, error => {
 					isComplete = true;
 					Assert.Fail(error?.errorMessage);
 				});

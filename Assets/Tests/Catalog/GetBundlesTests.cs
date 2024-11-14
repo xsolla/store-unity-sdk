@@ -34,7 +34,7 @@ namespace Xsolla.Tests.Catalog
 			DeleteSavedToken();
 
 			var isComplete = false;
-			XsollaCatalog.GetPaginatedBundles(items => {
+			XsollaCatalog.GetItems(items => {
 				isComplete = true;
 				Assert.NotNull(items);
 				Assert.NotNull(items.items);
@@ -75,7 +75,7 @@ namespace Xsolla.Tests.Catalog
 			yield return CheckSession();
 
 			var isComplete = false;
-			XsollaCatalog.GetPaginatedBundles(
+			XsollaCatalog.GetItems(
 				items => {
 					isComplete = true;
 					CheckPersonalization(items.items, true);

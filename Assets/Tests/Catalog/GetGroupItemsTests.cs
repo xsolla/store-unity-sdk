@@ -37,7 +37,7 @@ namespace Xsolla.Tests.Catalog
 			DeleteSavedToken();
 
 			var isComplete = false;
-			XsollaCatalog.GetPaginatedGroupItems(
+			XsollaCatalog.GetGroupItems(
 				"Featured",
 				items => {
 					isComplete = true;
@@ -70,9 +70,10 @@ namespace Xsolla.Tests.Catalog
 					isComplete = true;
 					Assert.Fail(error?.errorMessage);
 				},
+				10,
+				0,
 				locale: "en_US",
-				country: "US",
-				limit: 10);
+				country: "US");
 
 			yield return new WaitUntil(() => isComplete);
 		}
