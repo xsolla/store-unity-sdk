@@ -9,14 +9,13 @@ namespace Xsolla.Tests.Catalog
 	public class GetCatalogTests : CatalogTestsBase
 	{
 		[UnityTest]
-		public IEnumerator GetCatalog_Success()
+		public IEnumerator GetCatalogFull_Success()
 		{
 			DeleteSavedToken();
 
 			var isComplete = false;
-			XsollaCatalog.GetCatalog(
-				items =>
-				{
+			XsollaCatalog.GetItems(
+				items => {
 					isComplete = true;
 					Assert.NotNull(items);
 					Assert.NotNull(items.items);
@@ -24,8 +23,30 @@ namespace Xsolla.Tests.Catalog
 					CheckPersonalization(items.items, false);
 					CheckPromotion(items.items, false);
 				},
-				error =>
-				{
+				error => {
+					isComplete = true;
+					Assert.Fail(error?.errorMessage);
+				});
+
+			yield return new WaitUntil(() => isComplete);
+		}
+
+		[UnityTest]
+		public IEnumerator GetCatalog_Success()
+		{
+			DeleteSavedToken();
+
+			var isComplete = false;
+			XsollaCatalog.GetItems(
+				items => {
+					isComplete = true;
+					Assert.NotNull(items);
+					Assert.NotNull(items.items);
+					Assert.Greater(items.items.Length, 0);
+					CheckPersonalization(items.items, false);
+					CheckPromotion(items.items, false);
+				},
+				error => {
 					isComplete = true;
 					Assert.Fail(error?.errorMessage);
 				});

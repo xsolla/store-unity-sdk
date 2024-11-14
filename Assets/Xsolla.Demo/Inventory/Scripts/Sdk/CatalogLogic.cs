@@ -155,7 +155,7 @@ namespace Xsolla.Demo
 				if (!_refreshItemsInProgress)
 				{
 					_refreshItemsInProgress = true;
-					XsollaCatalog.GetCatalog(items =>
+					XsollaCatalog.GetItems(items =>
 					{
 						_refreshItemsInProgress = false;
 						_itemsCacheTime = DateTime.Now;

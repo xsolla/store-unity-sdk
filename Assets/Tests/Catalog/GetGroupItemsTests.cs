@@ -9,6 +9,29 @@ namespace Xsolla.Tests.Catalog
 	public class GetGroupItemsTests : CatalogTestsBase
 	{
 		[UnityTest]
+		public IEnumerator GetAllGroupItems_Default_Success()
+		{
+			DeleteSavedToken();
+
+			var isComplete = false;
+			XsollaCatalog.GetGroupItems(
+				"Featured",
+				items => {
+					isComplete = true;
+					Assert.NotNull(items);
+					Assert.NotNull(items.items);
+					Assert.Greater(items.items.Length, 0);
+					CheckPromotion(items.items, false);
+				},
+				error => {
+					isComplete = true;
+					Assert.Fail(error?.errorMessage);
+				});
+
+			yield return new WaitUntil(() => isComplete);
+		}
+
+		[UnityTest]
 		public IEnumerator GetGroupItems_Default_Success()
 		{
 			DeleteSavedToken();
@@ -16,16 +39,14 @@ namespace Xsolla.Tests.Catalog
 			var isComplete = false;
 			XsollaCatalog.GetGroupItems(
 				"Featured",
-				items =>
-				{
+				items => {
 					isComplete = true;
 					Assert.NotNull(items);
 					Assert.NotNull(items.items);
 					Assert.Greater(items.items.Length, 0);
 					CheckPromotion(items.items, false);
 				},
-				error =>
-				{
+				error => {
 					isComplete = true;
 					Assert.Fail(error?.errorMessage);
 				});
@@ -39,21 +60,20 @@ namespace Xsolla.Tests.Catalog
 			yield return CheckSession();
 
 			var isComplete = false;
-			XsollaCatalog.GetGroupItems(
+			XsollaCatalog.GetPaginatedGroupItems(
 				"Featured",
-				items =>
-				{
+				items => {
 					isComplete = true;
 					Assert.AreEqual(items.items.Length, 10);
 				},
-				error =>
-				{
+				error => {
 					isComplete = true;
 					Assert.Fail(error?.errorMessage);
 				},
+				10,
+				0,
 				locale: "en_US",
-				country: "US",
-				limit: 10);
+				country: "US");
 
 			yield return new WaitUntil(() => isComplete);
 		}
