@@ -686,6 +686,28 @@ namespace Xsolla.UserAccount
 				error => TokenAutoRefresher.Check(error, onError, () => LinkSocialProvider(providerName, onSuccess, onError, redirectUri)));
 		}
 
+		//TEXTREVIEW
+		/// <summary>
+		/// Unlinks social network that can be used for authentication to the current account.
+		/// </summary>
+		/// <param name="providerName">Name of a social network. Provider must be connected to Login in Publisher Account.<br/>
+		/// Can be `amazon`, `apple`, `baidu`, `battlenet`, `discord`, `facebook`, `github`, `google`, `instagram`, `kakao`, `linkedin`, `mailru`, `microsoft`, `msn`, `naver`, `ok`, `paradox`, `paypal`, `psn`, `qq`, `reddit`, `steam`, `twitch`, `twitter`, `vimeo`, `vk`, `wechat`, `weibo`, `yahoo`, `yandex`, `youtube`, `xbox`, `playstation`.</param>
+		/// <param name="onSuccess">Called after the social network successfully unlinked.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
+		public static void UnlinkSocialProvider(SocialProvider providerName, Action onSuccess, Action<Error> onError)
+		{
+			var providerValue = providerName.ToApiParameter();
+			var url = new UrlBuilder($"{BaseUrl}/users/me/social_providers/{providerValue}")
+				.Build();
+
+			WebRequestHelper.Instance.DeleteRequest(
+				SdkType.Login,
+				url,
+				WebRequestHeader.AuthHeader(),
+				onSuccess,
+				error => TokenAutoRefresher.Check(error, onError, () => UnlinkSocialProvider(providerName, onSuccess, onError)));
+		}
+
 		/// <summary>
 		/// Returns the list of social networks linked to the user account.
 		/// </summary>
