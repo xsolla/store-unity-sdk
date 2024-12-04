@@ -25,9 +25,9 @@ variables:
   BUILD_TARGET_IOS: "iOS"
   BUILD_TARGET_MACOS: "StandaloneOSX"
   UNITY_2019_VERSION: "2019.4.27f1"
-  UNITY_2021_VERSION: "2021.1.13f1"
-  UNITY_2022_VERSION: "2022.3.26f1"
-  UNITY_6000_VERSION: "6000.0.9f1"
+  UNITY_2021_VERSION: "2021.3.45f1"
+  UNITY_2022_VERSION: "2022.3.53f1"
+  UNITY_6000_VERSION: "6000.0.29f1"
 
 # =================================================================================================================
 # JOBS BASE
