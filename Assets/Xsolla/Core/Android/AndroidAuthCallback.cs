@@ -19,30 +19,34 @@ namespace Xsolla.Core
 			OnCancel = onCancel;
 		}
 
+		// called from proxy activities - SocialAuthProxyActivity and XsollaWidgetAuthProxyActivity
 		public void onSuccess()
 		{
 			try
 			{
 				var accessToken = AndroidHelper.Xlogin.CallStatic<string>("getToken");
 				var refreshToken = AndroidHelper.Xlogin.CallStatic<string>("getRefreshToken");
-				XsollaToken.Create(accessToken, refreshToken);
-				OnSuccess?.Invoke();
+				AndroidHelper.MainThreadExecutor.Enqueue(() => {
+					XsollaToken.Create(accessToken, refreshToken);
+					OnSuccess?.Invoke();
+				});
 			}
 			catch (Exception e)
 			{
-				OnError?.Invoke(new Error(errorMessage: e.Message));
+				AndroidHelper.MainThreadExecutor.Enqueue(() => OnError?.Invoke(new Error(errorMessage: e.Message)));
 			}
 		}
 
+		// called from proxy activities - SocialAuthProxyActivity and XsollaWidgetAuthProxyActivity
 		public void onError(AndroidJavaObject _, string errorMessage)
 		{
 			if (!string.IsNullOrEmpty(errorMessage) && errorMessage == "CANCELLED")
 			{
-				OnCancel?.Invoke();
+				AndroidHelper.MainThreadExecutor.Enqueue(() => OnCancel?.Invoke());
 			}
 			else
 			{
-				OnError?.Invoke(new Error(errorMessage: errorMessage));
+				AndroidHelper.MainThreadExecutor.Enqueue(() => OnError?.Invoke(new Error(errorMessage: errorMessage)));
 			}
 		}
 	}
