@@ -64,8 +64,6 @@ MonoBehaviour:
   iosPayStationUISettings:
     isFoldout: 0
     paystationThemeId: 63295aab2e47fab76f7708e3
-  facebookAppId: 
-  facebookClientToken: 
   googleServerId: 
   wechatAppId: 
   qqAppId: 

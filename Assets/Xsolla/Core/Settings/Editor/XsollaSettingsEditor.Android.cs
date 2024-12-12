@@ -28,19 +28,19 @@ namespace Xsolla.Core
 
 			var changed = false;
 
-			var facebookAppId = EditorGUILayout.TextField(new GUIContent(FACEBOOK_APP_ID_LABEL, FACEBOOK_APP_ID_TOOLTIP), XsollaSettings.FacebookAppId);
-			if (facebookAppId != XsollaSettings.FacebookAppId)
-			{
-				XsollaSettings.FacebookAppId = facebookAppId;
-				changed = true;
-			}
-
-			var facebookClientToken = EditorGUILayout.TextField(new GUIContent(FACEBOOK_CLIENT_TOKEN_LABEL, FACEBOOK_CLIENT_TOKEN_TOOLTIP), XsollaSettings.FacebookClientToken);
-			if (facebookClientToken != XsollaSettings.FacebookClientToken)
-			{
-				XsollaSettings.FacebookClientToken = facebookClientToken;
-				changed = true;
-			}
+			// var facebookAppId = EditorGUILayout.TextField(new GUIContent(FACEBOOK_APP_ID_LABEL, FACEBOOK_APP_ID_TOOLTIP), XsollaSettings.FacebookAppId);
+			// if (facebookAppId != XsollaSettings.FacebookAppId)
+			// {
+			// 	XsollaSettings.FacebookAppId = facebookAppId;
+			// 	changed = true;
+			// }
+			//
+			// var facebookClientToken = EditorGUILayout.TextField(new GUIContent(FACEBOOK_CLIENT_TOKEN_LABEL, FACEBOOK_CLIENT_TOKEN_TOOLTIP), XsollaSettings.FacebookClientToken);
+			// if (facebookClientToken != XsollaSettings.FacebookClientToken)
+			// {
+			// 	XsollaSettings.FacebookClientToken = facebookClientToken;
+			// 	changed = true;
+			// }
 
 			var googleServerId = EditorGUILayout.TextField(new GUIContent(GOOGLE_SERVER_ID_LABEL, GOOGLE_SERVER_ID_TOOLTIP), XsollaSettings.GoogleServerId);
 			if (googleServerId != XsollaSettings.GoogleServerId)
