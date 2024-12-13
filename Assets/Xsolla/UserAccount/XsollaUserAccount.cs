@@ -686,9 +686,8 @@ namespace Xsolla.UserAccount
 				error => TokenAutoRefresher.Check(error, onError, () => LinkSocialProvider(providerName, onSuccess, onError, redirectUri)));
 		}
 
-		//TEXTREVIEW
 		/// <summary>
-		/// Unlinks social network that can be used for authentication to the current account.
+		/// Unlinks social network that can be used for authentication from the current user account.
 		/// </summary>
 		/// <param name="providerName">Name of a social network. Provider must be connected to Login in Publisher Account.<br/>
 		/// Can be `amazon`, `apple`, `baidu`, `battlenet`, `discord`, `facebook`, `github`, `google`, `instagram`, `kakao`, `linkedin`, `mailru`, `microsoft`, `msn`, `naver`, `ok`, `paradox`, `paypal`, `psn`, `qq`, `reddit`, `steam`, `twitch`, `twitter`, `vimeo`, `vk`, `wechat`, `weibo`, `yahoo`, `yandex`, `youtube`, `xbox`, `playstation`.</param>
