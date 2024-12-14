@@ -23,7 +23,7 @@ namespace Xsolla.Samples.DisplayCatalog
 		private void OnAuthenticationSuccess()
 		{
 			// Starting the items request from the store after successful authentication
-			XsollaCatalog.GetCatalog(OnItemsRequestSuccess, OnError);
+			XsollaCatalog.GetItems(OnItemsRequestSuccess, OnError);
 		}
 
 		private void OnItemsRequestSuccess(StoreItems storeItems)

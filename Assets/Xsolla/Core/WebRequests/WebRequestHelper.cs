@@ -16,7 +16,7 @@ namespace Xsolla.Core
 		{
 			get
 			{
-				if (_instance == null)
+				if (!_instance)
 					_instance = new GameObject("WebRequestHelper").AddComponent<WebRequestHelper>();
 
 				return _instance;

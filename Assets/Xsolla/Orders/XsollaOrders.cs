@@ -44,12 +44,11 @@ namespace Xsolla.Orders
 		/// Creates a new payment token.
 		/// </summary>
 		/// <param name="amount">The total amount to be paid by the user.</param>
-		/// <param name="currency">Default purchase currency. Three-letter code per [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) (USD by default).</param>
+		/// <param name="currency">Default purchase currency (USD by default). Three-letter currency code per [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217). Check the documentation for detailed information about [currencies supported by Xsolla](https://developers.xsolla.com/doc/pay-station/references/supported-currencies/).</param>
 		/// <param name="description">Purchase description. Used to describe the purchase if there are no specific items.</param>
 		/// <param name="onSuccess">Called after the successful item purchase.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
-		/// <param name="locale">Interface language. <br/>
-		///     The following languages are supported: Arabic (`ar`), Bulgarian (`bg`), Czech (`cs`), German (`de`), Spanish (`es`), French (`fr`), Hebrew (`he`), Italian (`it`), Japanese (`ja`), Korean (`ko`), Polish (`pl`), Portuguese (`pt`), Romanian (`ro`), Russian (`ru`), Thai (`th`), Turkish (`tr`), Vietnamese (`vi`), Chinese Simplified (`cn`), Chinese Traditional (`tw`), English (`en`, default).</param>
+		/// <param name="locale">Interface language. [Two-letter lowercase language code](https://developers.xsolla.com/doc/pay-station/features/localization/). Leave empty to use the default value.</param>
 		/// <param name="externalID">Transaction's external ID.</param>
 		/// <param name="paymentMethod">Payment method ID.</param>
 		/// <param name="customParameters">Your custom parameters represented as a valid JSON set of key-value pairs.</param>
@@ -85,12 +84,11 @@ namespace Xsolla.Orders
 		/// Creates a new payment token.
 		/// </summary>
 		/// <param name="amount">The total amount to be paid by the user.</param>
-		/// <param name="currency">Default purchase currency. Three-letter code per [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) (USD by deafault).</param>
+		/// <param name="currency">Default purchase currency (USD by default). Three-letter currency code per [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217). Check the documentation for detailed information about [currencies supported by Xsolla](https://developers.xsolla.com/doc/pay-station/references/supported-currencies/).</param>
 		/// <param name="items">Used to describe a purchase if it includes a list of specific items.</param>
 		/// <param name="onSuccess">Called after the successful item purchase.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
-		/// <param name="locale">Interface language. <br/>
-		///     The following languages are supported: Arabic (`ar`), Bulgarian (`bg`), Czech (`cs`), German (`de`), Spanish (`es`), French (`fr`), Hebrew (`he`), Italian (`it`), Japanese (`ja`), Korean (`ko`), Polish (`pl`), Portuguese (`pt`), Romanian (`ro`), Russian (`ru`), Thai (`th`), Turkish (`tr`), Vietnamese (`vi`), Chinese Simplified (`cn`), Chinese Traditional (`tw`), English (`en`, default).</param>
+		/// <param name="locale">Interface language. [Two-letter lowercase language code](https://developers.xsolla.com/doc/pay-station/features/localization/). Leave empty to use the default value.</param>
 		/// <param name="externalID">Transaction's external ID.</param>
 		/// <param name="paymentMethod">Payment method ID.</param>
 		/// <param name="customParameters">Your custom parameters represented as a valid JSON set of key-value pairs.</param>

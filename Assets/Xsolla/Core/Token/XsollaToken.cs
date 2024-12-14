@@ -20,7 +20,7 @@ namespace Xsolla.Core
 				accessToken = accessToken
 			};
 
-			XDebug.Log($"Token created (access only). Access: {accessToken}");
+			XDebug.Log($"XsollaToken created (access only)\nAccess token: {accessToken}");
 			SaveInstance();
 		}
 
@@ -31,7 +31,7 @@ namespace Xsolla.Core
 				refreshToken = refreshToken
 			};
 
-			XDebug.Log($"Token created (access and refresh). Access: {accessToken} Refresh: {refreshToken}");
+			XDebug.Log($"XsollaToken created (access and refresh)\nAccess token: {accessToken}\nRefresh token: {refreshToken}");
 			SaveInstance();
 		}
 
@@ -47,11 +47,28 @@ namespace Xsolla.Core
 		public static bool TryLoadInstance()
 		{
 			if (!PlayerPrefs.HasKey(SaveKey))
+			{
+				XDebug.Log("XsollaToken not found in PlayerPrefs");
 				return false;
+			}
 
 			var json = PlayerPrefs.GetString(SaveKey);
-			Instance = ParseUtils.FromJson<TokenData>(json);
-			return Instance != null;
+			var data = ParseUtils.FromJson<TokenData>(json);
+
+			if (data == null || string.IsNullOrEmpty(data.accessToken))
+			{
+				XDebug.Log("XsollaToken not found in PlayerPrefs");
+				return false;
+			}
+
+			Instance = data;
+
+			if (string.IsNullOrEmpty(RefreshToken))
+				XDebug.Log($"XsollaToken loaded (access only)\nAccess token: {AccessToken}");
+			else
+				XDebug.Log($"XsollaToken loaded (access and refresh)\nAccess token: {AccessToken}\nRefresh token: {RefreshToken}");
+
+			return true;
 		}
 
 		public static void DeleteSavedInstance()

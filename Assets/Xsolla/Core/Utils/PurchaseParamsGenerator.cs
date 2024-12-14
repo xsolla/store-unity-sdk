@@ -16,7 +16,9 @@ namespace Xsolla.Core
 
 			ProcessUiCloseButton(settings.ui, purchaseParams);
 			ProcessGooglePayQuickButton(settings, purchaseParams);
-			ProcessSdkTokenSettings(settings);
+
+			if (purchaseParams == null || !purchaseParams.disable_sdk_parameter)
+				ProcessSdkTokenSettings(settings);
 
 			if (settings.redirect_policy != null)
 				settings.return_url = settings.redirect_policy.return_url;

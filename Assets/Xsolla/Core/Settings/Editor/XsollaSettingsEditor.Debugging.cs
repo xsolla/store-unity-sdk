@@ -20,10 +20,17 @@ namespace Xsolla.Core
 			EditorGUILayout.BeginVertical(GroupAreaStyle);
 			EditorGUILayout.LabelField("Debugging", GroupHeaderStyle);
 
-			XsollaSettings.LogLevel = (LogLevel) EditorGUILayout.Popup(new GUIContent(LOG_LEVEL_LABEL, LOG_LEVEL_TOOLTIP), (int) XsollaSettings.LogLevel, LogLevelOptions);
+			var changed = false;
+
+			var logLevel = (LogLevel) EditorGUILayout.Popup(new GUIContent(LOG_LEVEL_LABEL, LOG_LEVEL_TOOLTIP), (int) XsollaSettings.LogLevel, LogLevelOptions);
+			if (logLevel != XsollaSettings.LogLevel)
+			{
+				XsollaSettings.LogLevel = logLevel;
+				changed = true;
+			}
 
 			EditorGUILayout.EndVertical();
-			return false;
+			return changed;
 		}
 	}
 }

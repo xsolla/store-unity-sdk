@@ -6,6 +6,7 @@ namespace Xsolla.Catalog
 	[Serializable]
 	public class BundleItems
 	{
+		public bool has_more;
 		public BundleItem[] items;
 	}
 

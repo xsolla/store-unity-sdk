@@ -54,5 +54,10 @@ namespace Xsolla.Core
 		/// Defines the way the Google Pay payment method is displayed. If true, the button for quick payment via Google Pay is displayed at the top of the payment UI. If `true`, Google Pay is displayed in the list of payment methods according to the PayRank algorithm. `false` by default.
 		/// </summary>
 		public bool? google_pay_quick_payment_button;
+
+		/// <summary>
+		/// Disables the `sdk` parameter in the `Payment` token. `false` by default.
+		/// </summary>
+		public bool disable_sdk_parameter;
 	}
 }

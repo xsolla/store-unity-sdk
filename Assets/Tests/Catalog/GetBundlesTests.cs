@@ -9,20 +9,38 @@ namespace Xsolla.Tests.Catalog
 	public class GetBundlesTests : CatalogTestsBase
 	{
 		[UnityTest]
-		public IEnumerator GetBundles_Default_Success()
+		public IEnumerator GetAllBundles_Default_Success()
 		{
 			DeleteSavedToken();
 
 			var isComplete = false;
-			XsollaCatalog.GetBundles(items =>
-			{
+			XsollaCatalog.GetBundles(items => {
 				isComplete = true;
 				Assert.NotNull(items);
 				Assert.NotNull(items.items);
 				Assert.Greater(items.items.Length, 0);
 				CheckPersonalization(items.items, false);
-			}, error =>
-			{
+			}, error => {
+				isComplete = true;
+				Assert.Fail(error?.errorMessage);
+			});
+
+			yield return new WaitUntil(() => isComplete);
+		}
+
+		[UnityTest]
+		public IEnumerator GetBundles_Default_Success()
+		{
+			DeleteSavedToken();
+
+			var isComplete = false;
+			XsollaCatalog.GetItems(items => {
+				isComplete = true;
+				Assert.NotNull(items);
+				Assert.NotNull(items.items);
+				Assert.Greater(items.items.Length, 0);
+				CheckPersonalization(items.items, false);
+			}, error => {
 				isComplete = true;
 				Assert.Fail(error?.errorMessage);
 			});
@@ -36,13 +54,11 @@ namespace Xsolla.Tests.Catalog
 			DeleteSavedToken();
 
 			var isComplete = false;
-			XsollaCatalog.GetBundles(
-				items =>
-				{
+			XsollaCatalog.GetPaginatedBundles(
+				items => {
 					isComplete = true;
 					Assert.AreEqual(items.items.Length, 1);
-				}, error =>
-				{
+				}, error => {
 					isComplete = true;
 					Assert.Fail(error?.errorMessage);
 				},
@@ -59,13 +75,11 @@ namespace Xsolla.Tests.Catalog
 			yield return CheckSession();
 
 			var isComplete = false;
-			XsollaCatalog.GetBundles(
-				items =>
-				{
+			XsollaCatalog.GetItems(
+				items => {
 					isComplete = true;
 					CheckPersonalization(items.items, true);
-				}, error =>
-				{
+				}, error => {
 					isComplete = true;
 					Assert.Fail(error?.errorMessage);
 				});

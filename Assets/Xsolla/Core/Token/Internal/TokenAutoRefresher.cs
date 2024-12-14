@@ -13,6 +13,8 @@ namespace Xsolla.Core
 				return;
 			}
 
+			XDebug.Log("Token is invalid. Trying to refresh token");
+
 			XsollaAuth.RefreshToken(
 				() => onSuccess?.Invoke(),
 				onError);

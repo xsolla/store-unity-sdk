@@ -56,6 +56,7 @@ namespace Xsolla.Core.Editor
 			var activityNode = new ActivityNode(fullActivityName);
 			activityNode.AddAttribute(AndroidManifestConstants.ExportedAttribute, "true");
 			activityNode.AddAttribute(AndroidManifestConstants.ConfigChanges, "orientation|screenSize|keyboardHidden");
+			activityNode.AddAttribute("android:theme", "@android:style/Theme.Translucent.NoTitleBar");
 
 			var manifest = LoadManifestWrapper();
 
@@ -101,7 +102,7 @@ namespace Xsolla.Core.Editor
 			path = Path.GetDirectoryName(path);
 			if (path == null)
 				throw new DirectoryNotFoundException("Can't find directory with android file templates");
-			
+
 			var fileName = "AndroidManifest.xml";
 #if UNITY_6000
 			fileName = "AndroidManifest_6000.xml";

@@ -87,7 +87,6 @@ namespace Xsolla.Demo
 		private IEnumerator UpdateFriendsCoroutine(Action onSuccess, Action<Error> onError)
 		{
 			bool? isTokenValid = null;
-			bool socialBusy = true;
 			bool friendsBusy = true;
 			bool blockedBusy = true;
 			bool pendingBusy = true;
@@ -102,7 +101,6 @@ namespace Xsolla.Demo
 
 			if (isTokenValid == true)
 			{
-				// UpdateUserSocialFriends(() => socialBusy = false, onError);
 				UpdateUserFriends(() => friendsBusy = false, onError);
 				UpdateBlockedUsers(() => blockedBusy = false, onError);
 				UpdatePendingUsers(() => pendingBusy = false, onError);

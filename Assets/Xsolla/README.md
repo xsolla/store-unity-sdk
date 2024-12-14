@@ -62,7 +62,7 @@ To start with the SDK, you need to install this asset and set up a project in [X
 ### Subscriptions
 
 * Selling subscriptions.
-* Subscription renewal and cancelation.
+* Subscription renewal and cancellation.
 * Subscription management from a user’s dashboard.
 
 **INFO:** You can add and manage subscription plans via Xsolla Publisher Account.
@@ -92,7 +92,7 @@ To start with the SDK, you need to install this asset and set up a project in [X
 * 64-bit OS
 * Windows 7 SP1 and later
 * macOS 10.12 and later
-* The version of Unity not earlier than 2019.4.19f1
+* The version of Unity not earlier than 2021.3.45f1
 
 ### Target OS
 
@@ -102,8 +102,6 @@ To start with the SDK, you need to install this asset and set up a project in [X
 * Windows 64-bit
 
 Additionally, the asset supports [creating WebGL build](https://developers.xsolla.com/sdk/unity/how-tos/application-build/#unity_sdk_how_to_build_webgl) to run your application in a browser.
-
-The SDK uses [Google Mobile Services](https://www.android.com/gms/) and doesn’t support builds for devices without Google Mobile Services, such as Huawei.
 
 **NOTE:**
 We recommend you use the Mono compiler for desktop platforms as it’s compatible with the provided in-game browser. If you use other browser solutions, you can use the IL2CPP compiler instead.

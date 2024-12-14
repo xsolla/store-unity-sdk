@@ -4,6 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using Xsolla.Core;
+using Xsolla.UserAccount;
 
 namespace Xsolla.Demo
 {
@@ -99,7 +100,15 @@ namespace Xsolla.Demo
 
 		private void UnlinkSocialProvider()
 		{
-			XDebug.Log("We can not unlink social provider yet. So do nothing.");
+			XsollaUserAccount.UnlinkSocialProvider(
+				provider,
+				() =>
+				{
+					StoreDemoPopup.ShowSuccess("Social provider unlinked");
+					UserAccountLogic.Instance.PurgeSocialProvidersCache();
+					UserFriends.Instance.UpdateFriends(RefreshState, StoreDemoPopup.ShowError);
+				},
+				StoreDemoPopup.ShowError);
 		}
 
 		private void LinkSocialProvider()
