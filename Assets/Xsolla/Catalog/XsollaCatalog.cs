@@ -8,10 +8,10 @@ namespace Xsolla.Catalog
 	{
 		private static string BaseUrl => $"https://store.xsolla.com/api/v2/project/{XsollaSettings.StoreProjectId}";
 
-		/// <summary> //TEXTREVIEW
-		/// Returns a list of virtual items
+		/// <summary>
+		/// Returns a full list of virtual items.
 		/// The list includes items for which display in the store is enabled in the settings. For each virtual item, complete data is returned.
-		/// If used after user authentication, the method returns items that match the personalization rules for the current user.
+		/// If called after user authentication, the method returns items that match the personalization rules for the current user.
 		/// </summary>
 		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/catalog/catalog-display/).</remarks>
 		/// <param name="onSuccess">Called after virtual items were successfully received.</param>
@@ -59,10 +59,10 @@ namespace Xsolla.Catalog
 			}
 		}
 
-		/// <summary> //TEXTREVIEW
+		/// <summary>
 		/// Returns a list of virtual items according to pagination settings.
 		/// The list includes items for which display in the store is enabled in the settings. For each virtual item, complete data is returned.
-		/// If used after user authentication, the method returns items that match the personalization rules for the current user.
+		/// If called after user authentication, the method returns items that match the personalization rules for the current user.
 		/// </summary>
 		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/catalog/catalog-display/).</remarks>
 		/// <param name="onSuccess">Called after virtual items were successfully received.</param>
@@ -114,9 +114,9 @@ namespace Xsolla.Catalog
 				ErrorGroup.ItemsListErrors);
 		}
 
-		/// <summary> //TEXTREVIEW
+		/// <summary>
 		/// Returns a list of items for the specified group. The list includes items for which display in the store is enabled in the settings. In the settings of the group, the display in the store must be enabled.
-		/// If used after user authentication, the method returns items that match the personalization rules for the current user.
+		/// If called after user authentication, the method returns items that match the personalization rules for the current user.
 		/// </summary>
 		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/catalog/catalog-display/).</remarks>
 		/// <param name="groupExternalId">Group external ID.</param>
@@ -166,9 +166,9 @@ namespace Xsolla.Catalog
 			}
 		}
 
-		/// <summary> //TEXTREVIEW
+		/// <summary>
 		/// Returns a list of items for the specified group according to pagination settings. The list includes items for which display in the store is enabled in the settings. In the settings of the group, the display in the store must be enabled.
-		/// If used after user authentication, the method returns items that match the personalization rules for the current user.
+		/// If called after user authentication, the method returns items that match the personalization rules for the current user.
 		/// </summary>
 		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/catalog/catalog-display/).</remarks>
 		/// <param name="groupExternalId">Group external ID.</param>
@@ -205,7 +205,7 @@ namespace Xsolla.Catalog
 		/// <param name="onSuccess">Called after virtual item groups were successfully received.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="locale">Defines localization of the item text fields.[Two-letter lowercase language code](https://developers.xsolla.com/doc/pay-station/features/localization/). Leave empty to use the default value.</param>
-		/// <param name="promoCode">Promo code. Unique case-sensitive code. Contains letters and numbers</param> // TEXTREVIEW
+		/// <param name="promoCode">Promo code. Unique case-sensitive code. Contains letters and numbers.</param>
 		public static void GetItemGroups(Action<Groups> onSuccess, Action<Error> onError, string locale = null, string promoCode = null)
 		{
 			var url = new UrlBuilder($"{BaseUrl}/items/groups")
@@ -221,7 +221,7 @@ namespace Xsolla.Catalog
 		}
 
 		/// <summary>
-		/// Returns a list of virtual currencies. //TEXTREVIEW
+		/// Returns a full list of virtual currencies. The list includes currencies for which display in the store is enabled in settings.
 		/// </summary>
 		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/catalog/catalog-display/).</remarks>
 		/// <param name="onSuccess">Called after virtual currencies were successfully received.</param>
@@ -270,7 +270,7 @@ namespace Xsolla.Catalog
 		}
 
 		/// <summary>
-		/// Returns a list of virtual currencies according to pagination settings. //TEXTREVIEW
+		/// Returns a list of virtual currencies according to pagination settings. The list includes currencies for which display in the store is enabled in settings.
 		/// </summary>
 		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/catalog/catalog-display/).</remarks>
 		/// <param name="onSuccess">Called after virtual currencies were successfully received.</param>
@@ -299,9 +299,9 @@ namespace Xsolla.Catalog
 		}
 
 		/// <summary>
-		/// Returns a list of virtual currency packages. //TEXTREVIEW
+		/// Returns a list of full virtual currency packages.
 		/// The list includes packages for which display in the store is enabled in the settings.
-		/// If used after user authentication, the method returns packages that match the personalization rules for the current user.
+		/// If called after user authentication, the method returns packages that match the personalization rules for the current user.
 		/// </summary>
 		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/catalog/catalog-display/).</remarks>
 		/// <param name="onSuccess">Called after virtual currency packages were successfully received.</param>
@@ -350,9 +350,9 @@ namespace Xsolla.Catalog
 		}
 
 		/// <summary>
-		/// Returns a list of virtual currency packages according to pagination settings. //TEXTREVIEW
+		/// Returns a list of virtual currency packages according to pagination settings.
 		/// The list includes packages for which display in the store is enabled in the settings.
-		/// If used after user authentication, the method returns packages that match the personalization rules for the current user.
+		/// If called after user authentication, the method returns packages that match the personalization rules for the current user.
 		/// </summary>
 		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/catalog/catalog-display/).</remarks>
 		/// <param name="onSuccess">Called after virtual currency packages were successfully received.</param>
@@ -382,9 +382,9 @@ namespace Xsolla.Catalog
 		}
 
 		/// <summary>
-		/// Returns a list of bundles. //TEXTREVIEW
+		/// Returns a full  list of bundles.
 		/// The list includes bundles for which display in the store is enabled in the settings.
-		/// If used after user authentication, the method returns items that match the personalization rules for the current user.
+		/// If called after user authentication, the method returns items that match the personalization rules for the current user.
 		/// </summary>
 		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/catalog/catalog-display/#unreal_engine_sdk_how_to_bundles).</remarks>
 		/// <param name="onSuccess">Called after bundles are successfully received.</param>
@@ -433,9 +433,9 @@ namespace Xsolla.Catalog
 		}
 
 		/// <summary>
-		/// Returns a list of bundles according to pagination settings. //TEXTREVIEW
+		/// Returns a list of bundles according to pagination settings.
 		/// The list includes bundles for which display in the store is enabled in the settings.
-		/// If used after user authentication, the method returns items that match the personalization rules for the current user.
+		/// If called after user authentication, the method returns items that match the personalization rules for the current user.
 		/// </summary>
 		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/catalog/catalog-display/#unreal_engine_sdk_how_to_bundles).</remarks>
 		/// <param name="onSuccess">Called after bundles are successfully received.</param>

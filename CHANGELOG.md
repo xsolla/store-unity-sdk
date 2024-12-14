@@ -1,5 +1,33 @@
 # Changelog
 
+## [2.5.1] - 2024-12-12
+### Changed
+- Minimum supported Unity version updated to 2021.3.45f1.
+- Removed the `limit` and `offset` parameters from the following SDK methods:
+  - `XsollaCatalog.GetItems` 
+  - `XsollaCatalog.GetGroupItems` 
+  - `XsollaCatalog.GetItemGroups`
+  - `XsollaCatalog.GetVirtualCurrencyList`
+  - `XsollaCatalog.GetVirtualCurrencyPackagesList`
+  - `XsollaCatalog.GetBundles`
+  - `XsollaCatalog.GetCatalog`
+- Android Proxy Activities used for authentication is transparent now.
+
+### Added
+- New methods for XsollaCatalog:
+  - `XsollaCatalog.GetPaginatedItems`
+  - `XsollaCatalog.GetPaginatedGroupItems`[CHANGELOG.md](../../CHANGELOG.md)
+  - `XsollaCatalog.GetPaginatedVirtualCurrencyList`
+  - `XsollaCatalog.GetPaginatedVirtualCurrencyPackagesList`
+  - `XsollaCatalog.GetPaginatedBundles`
+- New method for XsollaUserAccount:
+  - `XsollaUserAccount.UnlinkSocialProvider`
+
+### Fixed
+- Potential `meta-data` attribute merge conflict in `AndroidManifest.xml`.
+- An issue where changes to Xsolla SDK settings were not properly saved to the asset.
+- An issue where the callback was not invoked after authentication with the Xsolla Login Widget.
+
 ## [2.5.0] - 2024-10-17
 ### Added
 - OAuth2.0 support for the Xsolla Login Widget with token refresh functionality

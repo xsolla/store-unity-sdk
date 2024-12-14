@@ -25,8 +25,8 @@ namespace Xsolla.Core
 		[SerializeField] private PayStationUISettings androidPayStationUISettings = new PayStationUISettings();
 		[SerializeField] private PayStationUISettings iosPayStationUISettings = new PayStationUISettings();
 
-		[SerializeField] private string facebookAppId;
-		[SerializeField] private string facebookClientToken;
+		// [SerializeField] private string facebookAppId;
+		// [SerializeField] private string facebookClientToken;
 		[SerializeField] private string googleServerId;
 		[SerializeField] private string wechatAppId;
 		[SerializeField] private string qqAppId;
@@ -137,14 +137,17 @@ namespace Xsolla.Core
 
 		public static string FacebookAppId
 		{
-			get => Instance.facebookAppId;
-			set => Instance.facebookAppId = value;
+			get => string.Empty;
+
+			// get => Instance.facebookAppId;
+			// set => Instance.facebookAppId = value;
 		}
 
 		public static string FacebookClientToken
 		{
-			get => Instance.facebookClientToken;
-			set => Instance.facebookClientToken = value;
+			get => string.Empty;
+			// get => Instance.facebookClientToken;
+			// set => Instance.facebookClientToken = value;
 		}
 
 		public static string GoogleServerId
@@ -185,7 +188,7 @@ namespace Xsolla.Core
 						throw new Exception("`XsollaSettings` asset not found. Please create it.");
 
 					if (instances.Length > 1)
-						throw new Exception("Multiple `XsollaSettings` assets found. Please keep only one asset."); 
+						throw new Exception("Multiple `XsollaSettings` assets found. Please keep only one asset.");
 
 					_instance = instances[0];
 				}

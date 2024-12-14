@@ -55,7 +55,6 @@ namespace Xsolla.Core
 		/// </summary>
 		public bool? google_pay_quick_payment_button;
 
-		///TEXTREVIEW
 		/// <summary>
 		/// Disables the `sdk` parameter in the `Payment` token. `false` by default.
 		/// </summary>
