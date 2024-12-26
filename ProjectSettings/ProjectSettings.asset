@@ -774,6 +774,7 @@ PlayerSettings:
   scriptingDefineSymbols:
     Android: STEAMWORKS_NET
     Standalone: STEAMWORKS_NET
+    WebGL: STEAMWORKS_NET
     iPhone: STEAMWORKS_NET
   additionalCompilerArguments: {}
   platformArchitecture:

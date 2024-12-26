@@ -89,7 +89,7 @@ namespace Xsolla.Core
 				};
 
 				Screen.fullScreen = false;
-				OpenPaystationWidget(paymentToken, XsollaSettings.IsSandbox);
+				OpenPaystationWidget(paymentToken, XsollaSettings.IsSandbox, Application.unityVersion, Constants.SDK_VERSION);
 				return;
 			}
 #endif
@@ -136,7 +136,7 @@ namespace Xsolla.Core
 
 #if UNITY_WEBGL
 		[DllImport("__Internal")]
-		private static extern void OpenPaystationWidget(string token, bool sandbox);
+		private static extern void OpenPaystationWidget(string token, bool sandbox, string engineVersion, string sdkVersion);
 
 		[DllImport("__Internal")]
 		private static extern void ClosePaystationWidget();
