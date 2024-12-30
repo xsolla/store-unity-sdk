@@ -7,7 +7,7 @@ namespace Xsolla.XsollaBrowser
 {
 	public static class BrowserSettings
 	{
-		public static Vector2Int LaunchViewportSize { get; set; } = new Vector2Int(740, 760);
+		public static Vector2Int LaunchViewportSize { get; set; } = new Vector2Int(800, 820);
 
 		public static bool Headless { get; set; } = true;
 		public static bool DevTools { get; set; } = false;

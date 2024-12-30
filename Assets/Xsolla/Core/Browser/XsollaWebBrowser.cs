@@ -100,7 +100,6 @@ namespace Xsolla.Core
 #if UNITY_STANDALONE || UNITY_EDITOR
 			if (InAppBrowser != null && !forcePlatformBrowser)
 			{
-				InAppBrowser.AddInitHandler(() => InAppBrowser.UpdateSize(740, 760));
 				InAppBrowser.CloseEvent += onBrowserClosed;
 			}
 #endif
