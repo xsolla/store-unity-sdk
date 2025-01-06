@@ -5,7 +5,7 @@ using Xsolla.Core;
 
 namespace Xsolla.XsollaBrowser
 {
-	public class XsollaBrowserPreprocessor : IPreprocessBuildWithReport
+	public class ScriptingBackendProcessor : IPreprocessBuildWithReport
 	{
 		public int callbackOrder { get; }
 
