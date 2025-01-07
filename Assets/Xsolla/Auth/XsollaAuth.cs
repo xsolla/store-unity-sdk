@@ -113,7 +113,7 @@ namespace Xsolla.Auth
 				requestData,
 				response =>
 				{
-					XsollaToken.Create(response.access_token, response.refresh_token);
+					XsollaToken.Create(response.access_token, response.refresh_token, response.expires_in);
 					onSuccess?.Invoke();
 				},
 				onError,
@@ -378,7 +378,26 @@ namespace Xsolla.Auth
 		/// </summary>
 		public static bool AuthViaSavedToken()
 		{
-			return XsollaToken.TryLoadInstance();
+			var isTokenLoaded = XsollaToken.TryLoadInstance();
+			if (!isTokenLoaded)
+			{
+				XDebug.Log("Failed to auth via saved token");
+				return false;
+			}
+
+			var expirationTime = XsollaToken.ExpirationTime;
+			if (expirationTime <= 0)
+			{
+				XDebug.Log("XsollaToken has no expiration time");
+				return true;
+			}
+
+			if (expirationTime >= DateTimeOffset.UtcNow.ToUnixTimeSeconds())
+				return true;
+			
+			XDebug.Log("XsollaToken is expired. Trying to refresh it");
+			RefreshToken(() => { }, _ => { });
+			return true;
 		}
 
 		/// <summary>
@@ -685,7 +704,7 @@ namespace Xsolla.Auth
 				requestData,
 				response =>
 				{
-					XsollaToken.Create(response.access_token, response.refresh_token);
+					XsollaToken.Create(response.access_token, response.refresh_token, response.expires_in);
 					onSuccess?.Invoke();
 				},
 				error => onError?.Invoke(error));
@@ -716,7 +735,7 @@ namespace Xsolla.Auth
 				requestData,
 				response =>
 				{
-					XsollaToken.Create(response.access_token, response.refresh_token);
+					XsollaToken.Create(response.access_token, response.refresh_token, response.expires_in);
 					onSuccess?.Invoke();
 				},
 				error => onError?.Invoke(error));

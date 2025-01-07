@@ -4,5 +4,6 @@ namespace Xsolla.Core
 	{
 		public string accessToken;
 		public string refreshToken;
+		public int expirationTime;
 	}
 }
