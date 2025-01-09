@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.unity3d.player" xmlns:tools="http://schemas.android.com/tools">
     <application>
-        <activity android:name="com.xsolla.sdk.unity.Example.androidProxies.XsollaWidgetAuthProxyActivity" android:exported="true" android:configChanges="orientation|screenSize|keyboardHidden" />
-        <activity android:name="com.xsolla.sdk.unity.Example.androidProxies.SocialAuthProxyActivity" android:exported="true" android:configChanges="orientation|screenSize|keyboardHidden" />
-        <activity android:name="com.xsolla.sdk.unity.Example.androidProxies.PaymentsProxyActivity" android:exported="true" android:configChanges="orientation|screenSize|keyboardHidden" />
+        <activity android:name="com.xsolla.sdk.unity.Example.androidProxies.XsollaWidgetAuthProxyActivity" android:exported="true" android:configChanges="orientation|screenSize|keyboardHidden" android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity android:name="com.xsolla.sdk.unity.Example.androidProxies.SocialAuthProxyActivity" android:exported="true" android:configChanges="orientation|screenSize|keyboardHidden" android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity android:name="com.xsolla.sdk.unity.Example.androidProxies.PaymentsProxyActivity" android:exported="true" android:configChanges="orientation|screenSize|keyboardHidden" android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity android:name="com.unity3d.player.UnityPlayerActivity" android:theme="@style/UnityThemeSelector" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

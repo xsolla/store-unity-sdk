@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Xsolla.Core.Editor
 {
-	public class AndroidScriptsPreprocess : IPreprocessBuildWithReport
+	public class AndroidScriptsProcessor : IPreprocessBuildWithReport, IPostprocessBuildWithReport
 	{
 		public int callbackOrder => 2000;
 
@@ -18,13 +18,24 @@ namespace Xsolla.Core.Editor
 				return;
 
 			XDebug.Log("Xsolla SDK is now processing android activities", true);
-			SetupActivity("PaymentsProxyActivity", true, "androidProxies");
-			SetupActivity("SocialAuthProxyActivity", true, "androidProxies");
-			SetupActivity("XsollaWidgetAuthProxyActivity", true, "androidProxies");
-			SetupActivity("WXEntryActivity", !string.IsNullOrEmpty(XsollaSettings.WeChatAppId), "wxapi");
+			SetupActivities(Application.identifier);
 		}
 
-		private static void SetupActivity(string activityName, bool enableCondition, string packageSuffix)
+		public void OnPostprocessBuild(BuildReport report)
+		{
+			if (report.summary.platform == BuildTarget.Android)
+				SetupActivities("com.xsolla.sdk.unity.Example");
+		}
+
+		private void SetupActivities(string appId)
+		{
+			SetupActivity("PaymentsProxyActivity", true, appId, "androidProxies");
+			SetupActivity("SocialAuthProxyActivity", true, appId, "androidProxies");
+			SetupActivity("XsollaWidgetAuthProxyActivity", true, appId, "androidProxies");
+			SetupActivity("WXEntryActivity", !string.IsNullOrEmpty(XsollaSettings.WeChatAppId), appId, "wxapi");
+		}
+
+		private static void SetupActivity(string activityName, bool enableCondition, string appId, string packageSuffix)
 		{
 			var assetPath = GetAssetPath(activityName);
 			var activityAsset = AssetImporter.GetAtPath(assetPath) as PluginImporter;
@@ -36,7 +47,7 @@ namespace Xsolla.Core.Editor
 
 			var filePath = GetFilePath(activityName);
 			var scriptContent = File.ReadAllText(filePath);
-			var packageLineText = $"package {Application.identifier}.{packageSuffix};";
+			var packageLineText = $"package {appId}.{packageSuffix};";
 			scriptContent = Regex.Replace(scriptContent, "package.+;", packageLineText);
 
 			File.WriteAllText(filePath, scriptContent);
@@ -51,9 +62,9 @@ namespace Xsolla.Core.Editor
 
 		private static string GetFilePath(string fileName)
 		{
-			var guids = AssetDatabase.FindAssets($"t:Script {nameof(AndroidScriptsPreprocess)}");
+			var guids = AssetDatabase.FindAssets($"t:Script {nameof(AndroidScriptsProcessor)}");
 			if (guids.Length == 0)
-				throw new FileNotFoundException($"Can't find {nameof(AndroidScriptsPreprocess)} script");
+				throw new FileNotFoundException($"Can't find {nameof(AndroidScriptsProcessor)} script");
 
 			var path = AssetDatabase.GUIDToAssetPath(guids[0]);
 			path = path.Replace("Assets", Application.dataPath);
