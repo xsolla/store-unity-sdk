@@ -10,7 +10,7 @@ using Xsolla.Core;
 
 namespace Xsolla.XsollaBrowser
 {
-	public class XsollaBrowserPackPostprocessor : IPostprocessBuildWithReport
+	public class BrowserPackingProcessor : IPostprocessBuildWithReport
 	{
 		public int callbackOrder { get; }
 
