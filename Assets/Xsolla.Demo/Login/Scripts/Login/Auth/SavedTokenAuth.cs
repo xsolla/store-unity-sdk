@@ -8,11 +8,9 @@ namespace Xsolla.Demo
 	{
 		public override void TryAuth(object[] _, Action onSuccess, Action<Error> onError)
 		{
-			var success = XsollaAuth.AuthViaSavedToken();
-			if (success)
-				onSuccess?.Invoke();
-			else
-				onError?.Invoke(null);
+			XsollaAuth.AuthBySavedToken(
+				() => onSuccess?.Invoke(),
+				_ => onError?.Invoke(null));
 		}
 	}
 }

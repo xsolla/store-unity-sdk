@@ -376,6 +376,7 @@ namespace Xsolla.Auth
 		/// <summary>
 		/// Authenticates the user by saved token. Returns `true` if the token is loaded successfully and the user is authenticated
 		/// </summary>
+		[Obsolete("Use AuthBySavedToken instead")]
 		public static bool AuthViaSavedToken()
 		{
 			var isTokenLoaded = XsollaToken.TryLoadInstance();
@@ -394,10 +395,42 @@ namespace Xsolla.Auth
 
 			if (expirationTime >= DateTimeOffset.UtcNow.ToUnixTimeSeconds())
 				return true;
-			
+
 			XDebug.Log("XsollaToken is expired. Trying to refresh it");
 			RefreshToken(() => { }, _ => { });
 			return true;
+		}
+
+		/// <summary>
+		/// Authenticates the user by saved token
+		/// <param name="onSuccess">Called after successful authentication.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
+		/// </summary>
+		public static void AuthBySavedToken(Action onSuccess, Action<Error> onError)
+		{
+			if (!XsollaToken.TryLoadInstance())
+			{
+				XDebug.Log("Failed to auth via saved token");
+				onError?.Invoke(new Error(errorMessage: "Failed to auth via saved token"));
+				return;
+			}
+
+			var expirationTime = XsollaToken.ExpirationTime;
+			if (expirationTime <= 0)
+			{
+				XDebug.Log("XsollaToken has no expiration time, trying to refresh it");
+				RefreshToken(onSuccess, onError);
+				return;
+			}
+
+			if (expirationTime < DateTimeOffset.UtcNow.ToUnixTimeSeconds())
+			{
+				XDebug.Log("XsollaToken is expired, trying to refresh it");
+				RefreshToken(() => onSuccess?.Invoke(), e => onError?.Invoke(e));
+				return;
+			}
+
+			onSuccess?.Invoke();
 		}
 
 		/// <summary>
