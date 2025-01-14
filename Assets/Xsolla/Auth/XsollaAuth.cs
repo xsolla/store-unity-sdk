@@ -401,6 +401,7 @@ namespace Xsolla.Auth
 			return true;
 		}
 
+		///TEXTREVIEW
 		/// <summary>
 		/// Authenticates the user by saved token
 		/// <param name="onSuccess">Called after successful authentication.</param>
