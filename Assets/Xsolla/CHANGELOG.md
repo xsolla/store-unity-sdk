@@ -2,13 +2,14 @@
 
 ## [2.5.2] - 2025-01-14
 ### Added
-- `XsollaAuth.AuthBySavedToken` method for authentication with a saved token
-- `XsollaToken.ExpirationTime` property for getting the token expiration time in seconds since the Unix epoch 
+- `XsollaAuth.AuthBySavedToken` SDK method for user authentication with a saved token
+- `XsollaToken.ExpirationTime` property for getting the token expiration time in seconds since the Unix epoch
 
 ### Changed
-- `XsollaAuth.AuthViaSavedToken` method marked as obsolete. Use `XsollaAuth.AuthBySavedToken` instead
+- `XsollaAuth.AuthViaSavedToken` SDK method marked as obsolete. Use `XsollaAuth.AuthBySavedToken` instead
+- `XsollaCatalog.GetCatalog` SDK method marked as obsolete. Use `GetItems` instead
 - The Android build process no longer affects SDK source files (proxy activities, etc.)
-- Default built-in browser resolution for desktop platforms is now 1024x800
+- Default built-in browser resolution for desktop platforms is now 1024 x 800 px
 
 ### Fixed
 - `Different serialization layout when loading` error
@@ -72,7 +73,7 @@
   - Added `google_pay_quick_payment_button` parameter, that brings the Google Pay button to the top of the payment methods list
 
 ### Fixed:
-- “Malformed URL” error  when requesting a catalog on some iOS devices
+- `Malformed URL` error  when requesting a catalog on some iOS devices
 
 ## [2.4.0] - 2024-04-17
 ### Added

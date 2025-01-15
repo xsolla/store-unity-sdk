@@ -374,7 +374,7 @@ namespace Xsolla.Auth
 		}
 
 		/// <summary>
-		/// Authenticates the user by saved token. Returns `true` if the token is loaded successfully and the user is authenticated
+		/// [Obsolete. Use AuthBySavedToken instead.] Authenticates the user by saved token. Returns `true` if the token is loaded successfully and the user is authenticated
 		/// </summary>
 		[Obsolete("Use AuthBySavedToken instead")]
 		public static bool AuthViaSavedToken()
@@ -401,9 +401,8 @@ namespace Xsolla.Auth
 			return true;
 		}
 
-		///TEXTREVIEW
 		/// <summary>
-		/// Authenticates the user by saved token
+		/// Authenticates user with the saved token.
 		/// <param name="onSuccess">Called after successful authentication.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// </summary>
