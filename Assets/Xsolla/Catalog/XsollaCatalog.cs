@@ -729,7 +729,7 @@ namespace Xsolla.Catalog
 		}
 
 		/// <summary>
-		/// [Obsolete. Use GetItems instead] Returns a list of virtual items according to pagination settings. //TEXTREVIEW
+		/// [Obsolete. Use GetItems instead.] Returns a list of virtual items according to pagination settings.
 		/// The list includes items for which display in the store is enabled in the settings. For each virtual item, complete data is returned.
 		/// If used after user authentication, the method returns items that match the personalization rules for the current user.
 		/// </summary>

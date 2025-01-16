@@ -1,11 +1,25 @@
 # Changelog
 
+## [2.5.2] - 2025-01-14
+### Added
+- `XsollaAuth.AuthBySavedToken` SDK method for user authentication with a saved token
+- `XsollaToken.ExpirationTime` property for getting the token expiration time in seconds since the Unix epoch
+
+### Changed
+- `XsollaAuth.AuthViaSavedToken` SDK method marked as obsolete. Use `XsollaAuth.AuthBySavedToken` instead
+- `XsollaCatalog.GetCatalog` SDK method marked as obsolete. Use `GetItems` instead
+- The Android build process no longer affects SDK source files (proxy activities, etc.)
+- Default built-in browser resolution for desktop platforms is now 1024 x 800 px
+
+### Fixed
+- `Different serialization layout when loading` error
+
 ## [2.5.1] - 2024-12-12
 ### Changed
 - Minimum supported Unity version updated to 2021.3.45f1.
 - Removed the `limit` and `offset` parameters from the following SDK methods:
-  - `XsollaCatalog.GetItems` 
-  - `XsollaCatalog.GetGroupItems` 
+  - `XsollaCatalog.GetItems`
+  - `XsollaCatalog.GetGroupItems`
   - `XsollaCatalog.GetItemGroups`
   - `XsollaCatalog.GetVirtualCurrencyList`
   - `XsollaCatalog.GetVirtualCurrencyPackagesList`
@@ -59,7 +73,7 @@
   - Added `google_pay_quick_payment_button` parameter, that brings the Google Pay button to the top of the payment methods list
 
 ### Fixed:
-- “Malformed URL” error  when requesting a catalog on some iOS devices
+- `Malformed URL` error  when requesting a catalog on some iOS devices
 
 ## [2.4.0] - 2024-04-17
 ### Added
@@ -85,7 +99,7 @@
 
 ## [2.3.0] - 2024-02-01
 ### Changed
-- `AuthWithXsollaWidget` SDK method. Added the ‘locale’ parameter
+- `AuthWithXsollaWidget` SDK method. Added the `locale` parameter
 
 ## [2.2.0] - 2023-11-29
 ### Added

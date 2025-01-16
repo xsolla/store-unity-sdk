@@ -92,9 +92,9 @@ namespace Xsolla.Core.Editor
 
 		private static string GetTemplateFilePath()
 		{
-			var guids = AssetDatabase.FindAssets($"t:Script {nameof(AndroidScriptsPreprocess)}");
+			var guids = AssetDatabase.FindAssets($"t:Script {nameof(AndroidManifestPreprocess)}");
 			if (guids.Length == 0)
-				throw new FileNotFoundException($"Can't find {nameof(AndroidScriptsPreprocess)} script");
+				throw new FileNotFoundException($"Can't find {nameof(AndroidManifestPreprocess)} script");
 
 			var path = AssetDatabase.GUIDToAssetPath(guids[0]);
 			path = path.Replace("Assets", Application.dataPath);

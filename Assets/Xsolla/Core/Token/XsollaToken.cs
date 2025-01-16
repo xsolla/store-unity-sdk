@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Xsolla.Core
@@ -6,9 +7,20 @@ namespace Xsolla.Core
 	{
 		private const string SaveKey = "XsollaSuperToken";
 
+		/// <summary>
+		/// Access token. Required for most API requests.
+		/// </summary>
 		public static string AccessToken => Instance?.accessToken;
 
+		/// <summary>
+		/// Refresh token. Required to get a new access token.
+		///	</summary>
 		public static string RefreshToken => Instance?.refreshToken;
+
+		/// <summary>
+		/// Access token expiration time. Seconds since the Unix epoch.
+		///	</summary>
+		public static int ExpirationTime => Instance?.expirationTime ?? 0;
 
 		public static bool Exists => Instance != null;
 
@@ -20,7 +32,9 @@ namespace Xsolla.Core
 				accessToken = accessToken
 			};
 
-			XDebug.Log($"XsollaToken created (access only)\nAccess token: {accessToken}");
+			XDebug.Log("XsollaToken created (access only)"
+				+ $"\nAccess token: {accessToken}");
+
 			SaveInstance();
 		}
 
@@ -31,7 +45,26 @@ namespace Xsolla.Core
 				refreshToken = refreshToken
 			};
 
-			XDebug.Log($"XsollaToken created (access and refresh)\nAccess token: {accessToken}\nRefresh token: {refreshToken}");
+			XDebug.Log("XsollaToken created (access and refresh)"
+				+ $"\nAccess token: {accessToken}"
+				+ $"\nRefresh token: {refreshToken}");
+
+			SaveInstance();
+		}
+
+		public static void Create(string accessToken, string refreshToken, int expiresIn)
+		{
+			Instance = new TokenData {
+				accessToken = accessToken,
+				refreshToken = refreshToken,
+				expirationTime = (int) DateTimeOffset.UtcNow.AddSeconds(expiresIn).ToUnixTimeSeconds()
+			};
+
+			XDebug.Log("XsollaToken created (access and refresh and expiration time)"
+				+ $"\nAccess token: {accessToken}"
+				+ $"\nRefresh token: {refreshToken}"
+				+ $"\nExpiration time: {DateTimeOffset.FromUnixTimeSeconds(ExpirationTime).ToLocalTime()}");
+
 			SaveInstance();
 		}
 
@@ -64,9 +97,23 @@ namespace Xsolla.Core
 			Instance = data;
 
 			if (string.IsNullOrEmpty(RefreshToken))
-				XDebug.Log($"XsollaToken loaded (access only)\nAccess token: {AccessToken}");
+			{
+				XDebug.Log("XsollaToken loaded (access only)"
+					+ $"\nAccess token: {AccessToken}");
+			}
+			else if (ExpirationTime <= 0)
+			{
+				XDebug.Log("XsollaToken loaded (access and refresh)"
+					+ $"\nAccess token: {AccessToken}"
+					+ $"\nRefresh token: {RefreshToken}");
+			}
 			else
-				XDebug.Log($"XsollaToken loaded (access and refresh)\nAccess token: {AccessToken}\nRefresh token: {RefreshToken}");
+			{
+				XDebug.Log("XsollaToken loaded (access and refresh and expiration time)"
+					+ $"\nAccess token: {AccessToken}"
+					+ $"\nRefresh token: {RefreshToken}"
+					+ $"\nExpiration time: {DateTimeOffset.FromUnixTimeSeconds(ExpirationTime).ToLocalTime()}");
+			}
 
 			return true;
 		}

@@ -1,6 +1,6 @@
 mergeInto(LibraryManager.library, {
 
-	OpenPaystationWidget: function (token, sandbox) {
+	OpenPaystationWidget: function (token, sandbox, engineVersion, sdkVersion) {
 		var jsToken = UTF8ToString(token);
 		var isSandbox = sandbox > 0 ? true : false;
 		var options = {
@@ -11,13 +11,21 @@ mergeInto(LibraryManager.library, {
 				height: '760px',
 				spinner: 'round',
 				spinnerColor: '#cccccc',
-			}
+			},
+			queryParams: {
+                sdk: 'store',
+                sdk_v: UTF8ToString(sdkVersion),
+                engine: 'unity',
+                engine_v: UTF8ToString(engineVersion),
+                browser_type: 'iframe',
+                build_platform: 'webglplayer',
+            }
 		};
 
 		var s = document.createElement('script');
 		s.type = "text/javascript";
 		s.async = true;
-		s.src = "https://static.xsolla.com/embed/paystation/1.2.3/widget.min.js";
+		s.src = "https://cdn.xsolla.net/payments-bucket-prod/embed/1.4.0/widget.min.js";
 
 		s.addEventListener('load', function (e) {
 			XPayStationWidget.on(XPayStationWidget.eventTypes.STATUS, function (event, data) {

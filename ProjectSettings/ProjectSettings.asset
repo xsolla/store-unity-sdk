@@ -137,7 +137,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleVersion: 2.5.1
+  bundleVersion: 2.5.2
   preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
@@ -774,6 +774,7 @@ PlayerSettings:
   scriptingDefineSymbols:
     Android: STEAMWORKS_NET
     Standalone: STEAMWORKS_NET
+    WebGL: STEAMWORKS_NET
     iPhone: STEAMWORKS_NET
   additionalCompilerArguments: {}
   platformArchitecture:
