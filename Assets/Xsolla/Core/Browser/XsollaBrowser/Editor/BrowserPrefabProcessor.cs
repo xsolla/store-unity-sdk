@@ -66,7 +66,7 @@ namespace Xsolla.XsollaBrowser
 
 		private static string GetTempPrefabPath()
 		{
-			return Path.Join("Assets", "XsollaWebBrowser.prefab");
+			return Path.Combine("Assets", "XsollaWebBrowser.prefab");
 		}
 	}
 }

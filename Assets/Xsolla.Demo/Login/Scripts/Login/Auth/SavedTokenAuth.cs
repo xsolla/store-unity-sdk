@@ -10,7 +10,7 @@ namespace Xsolla.Demo
 		{
 			XsollaAuth.AuthBySavedToken(
 				() => onSuccess?.Invoke(),
-				_ => onError?.Invoke(null));
+				error => onError?.Invoke(null));
 		}
 	}
 }

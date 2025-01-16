@@ -7,10 +7,19 @@ namespace Xsolla.Core
 	{
 		private const string SaveKey = "XsollaSuperToken";
 
+		/// <summary>
+		/// Access token. Required for most API requests.
+		/// </summary>
 		public static string AccessToken => Instance?.accessToken;
 
+		/// <summary>
+		/// Refresh token. Required to get a new access token.
+		///	</summary>
 		public static string RefreshToken => Instance?.refreshToken;
 
+		/// <summary>
+		/// Access token expiration time. Seconds since the Unix epoch.
+		///	</summary>
 		public static int ExpirationTime => Instance?.expirationTime ?? 0;
 
 		public static bool Exists => Instance != null;
