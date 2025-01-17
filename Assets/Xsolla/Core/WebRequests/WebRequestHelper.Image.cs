@@ -14,8 +14,7 @@ namespace Xsolla.Core
 
 		private IEnumerator PerformImage(string url, Action<Sprite> onComplete, Action<Error> onError)
 		{
-			yield return PerformImage(url, texture =>
-			{
+			yield return PerformImage(url, texture => {
 				var spriteRect = new Rect(0, 0, texture.width, texture.height);
 				var pivot = new Vector2(0.5f, 0.5f);
 				var sprite = Sprite.Create(texture, spriteRect, pivot);
@@ -25,8 +24,10 @@ namespace Xsolla.Core
 
 		private IEnumerator PerformImage(string url, Action<Texture2D> onComplete, Action<Error> onError)
 		{
-			var webRequest = UnityWebRequestTexture.GetTexture(url);
-			yield return StartCoroutine(PerformWebRequest(webRequest, onComplete, onError));
+			using (var webRequest = UnityWebRequestTexture.GetTexture(url))
+			{
+				yield return StartCoroutine(PerformWebRequest(webRequest, onComplete, onError));
+			}
 		}
 	}
 }
