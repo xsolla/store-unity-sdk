@@ -167,81 +167,95 @@ namespace Xsolla.Core
 		private IEnumerator PostRequestCor(SdkType sdkType, string url, object jsonObject, List<WebRequestHeader> requestHeaders, Action onComplete = null, Action<Error> onError = null, ErrorGroup errorsToCheck = ErrorGroup.CommonErrors)
 		{
 			url = AppendAnalyticsToUrl(sdkType, url);
-			var webRequest = PreparePostWebRequest(url, jsonObject, requestHeaders);
 
-			yield return StartCoroutine(PerformWebRequest(webRequest, onComplete, onError, errorsToCheck));
+			using (var webRequest = PreparePostWebRequest(url, jsonObject, requestHeaders))
+			{
+				yield return StartCoroutine(PerformWebRequest(webRequest, onComplete, onError, errorsToCheck));
+			}
 		}
 
 		private IEnumerator PostRequestCor(SdkType sdkType, string url, object jsonObject, List<WebRequestHeader> requestHeaders, Action<int> onComplete = null, Action<Error> onError = null, ErrorGroup errorsToCheck = ErrorGroup.CommonErrors)
 		{
 			url = AppendAnalyticsToUrl(sdkType, url);
-			var webRequest = PreparePostWebRequest(url, jsonObject, requestHeaders);
 
-			yield return StartCoroutine(PerformWebRequest(webRequest, onComplete, onError, errorsToCheck));
+			using (var webRequest = PreparePostWebRequest(url, jsonObject, requestHeaders))
+			{
+				yield return StartCoroutine(PerformWebRequest(webRequest, onComplete, onError, errorsToCheck));
+			}
 		}
 
 		private IEnumerator PostRequestCor(SdkType sdkType, string url, object jsonObject, List<WebRequestHeader> requestHeaders, Action<UnityWebRequest> onComplete = null, Action<Error> onError = null, ErrorGroup errorsToCheck = ErrorGroup.CommonErrors)
 		{
 			url = AppendAnalyticsToUrl(sdkType, url);
-			var webRequest = PreparePostWebRequest(url, jsonObject, requestHeaders);
 
-			yield return StartCoroutine(PerformWebRequest(webRequest, onComplete, onError, errorsToCheck));
+			using (var webRequest = PreparePostWebRequest(url, jsonObject, requestHeaders))
+			{
+				yield return StartCoroutine(PerformWebRequest(webRequest, onComplete, onError, errorsToCheck));
+			}
 		}
 
 		private IEnumerator PostRequestCor<T>(SdkType sdkType, string url, object jsonObject, List<WebRequestHeader> requestHeaders, Action<T> onComplete = null, Action<Error> onError = null, ErrorGroup errorsToCheck = ErrorGroup.CommonErrors) where T : class
 		{
 			url = AppendAnalyticsToUrl(sdkType, url);
-			var webRequest = PreparePostWebRequest(url, jsonObject, requestHeaders);
 
-			yield return StartCoroutine(PerformWebRequest(webRequest, onComplete, onError, errorsToCheck));
+			using (var webRequest = PreparePostWebRequest(url, jsonObject, requestHeaders))
+			{
+				yield return StartCoroutine(PerformWebRequest(webRequest, onComplete, onError, errorsToCheck));
+			}
 		}
 
 		private IEnumerator PostUploadRequestCor<T>(SdkType sdkType, string url, string pathToFile, List<WebRequestHeader> requestHeaders, Action<T> onComplete = null, Action<Error> onError = null, ErrorGroup errorsToCheck = ErrorGroup.CommonErrors) where T : class
 		{
 			url = AppendAnalyticsToUrl(sdkType, url);
-			var webRequest = PreparePostUploadRequest(url, pathToFile, requestHeaders);
 
-			yield return StartCoroutine(PerformWebRequest(webRequest, onComplete, onError, errorsToCheck));
+			using (var webRequest = PreparePostUploadRequest(url, pathToFile, requestHeaders))
+			{
+				yield return StartCoroutine(PerformWebRequest(webRequest, onComplete, onError, errorsToCheck));
+			}
 		}
 
 		private IEnumerator PostUploadRequestCor(SdkType sdkType, string url, byte[] fileData, List<WebRequestHeader> requestHeaders, Action<string> onComplete = null, Action<Error> onError = null, ErrorGroup errorsToCheck = ErrorGroup.CommonErrors)
 		{
 			url = AppendAnalyticsToUrl(sdkType, url);
 #if UNITY_2022_2_OR_NEWER
-			UnityWebRequest webRequest = UnityWebRequest.PostWwwForm(url, UnityWebRequest.kHttpVerbPOST);
+			using (var webRequest = UnityWebRequest.PostWwwForm(url, UnityWebRequest.kHttpVerbPOST))
 #else
-			var webRequest = UnityWebRequest.Post(url, UnityWebRequest.kHttpVerbPOST);
+			using (var webRequest = UnityWebRequest.Post(url, UnityWebRequest.kHttpVerbPOST))
 #endif
+			{
+				//Timeout was set to 10 seconds for the unknown reason. I've changed it to 30 because of one specific request that can take up to 10-30 seconds.
+				//Also considered this recommendation from a UnityTech employee:
+				//https://forum.unity.com/threads/sendwebrequest-curl-timeout-error.854812/
+				webRequest.timeout = 30;
 
-			//Timeout was set to 10 seconds for the unknown reason. I've changed it to 30 because of one specific request that can take up to 10-30 seconds.
-			//Also considered this recommendation from a UnityTech employee:
-			//https://forum.unity.com/threads/sendwebrequest-curl-timeout-error.854812/
-			webRequest.timeout = 30;
+				webRequest.uploadHandler = (UploadHandler) new UploadHandlerRaw(fileData);
+				AttachHeadersToPostRequest(webRequest, requestHeaders, false);
 
-			webRequest.uploadHandler = (UploadHandler) new UploadHandlerRaw(fileData);
-			AttachHeadersToPostRequest(webRequest, requestHeaders, false);
-
-			yield return StartCoroutine(PerformWebRequest(webRequest, onComplete, onError, errorsToCheck));
+				yield return StartCoroutine(PerformWebRequest(webRequest, onComplete, onError, errorsToCheck));
+			}
 		}
 
 		private IEnumerator PostRequestCor<T>(SdkType sdkType, string url, WWWForm data, List<WebRequestHeader> requestHeaders, Action<T> onComplete = null, Action<Error> onError = null, ErrorGroup errorsToCheck = ErrorGroup.CommonErrors) where T : class
 		{
 			url = AppendAnalyticsToUrl(sdkType, url);
-			var webRequest = UnityWebRequest.Post(url, data);
 
-			AttachHeadersToPostRequest(webRequest, requestHeaders, false);
-
-			yield return StartCoroutine(PerformWebRequest<T>(webRequest, onComplete, onError, errorsToCheck));
+			using (var webRequest = UnityWebRequest.Post(url, data))
+			{
+				AttachHeadersToPostRequest(webRequest, requestHeaders, false);
+				yield return StartCoroutine(PerformWebRequest<T>(webRequest, onComplete, onError, errorsToCheck));
+			}
 		}
 
 		private UnityWebRequest PreparePostWebRequest(string url, object jsonObject, List<WebRequestHeader> requestHeaders)
 		{
 #if UNITY_2022_2_OR_NEWER
-			UnityWebRequest webRequest = UnityWebRequest.PostWwwForm(url, UnityWebRequest.kHttpVerbPOST);
+			var webRequest = UnityWebRequest.PostWwwForm(url, UnityWebRequest.kHttpVerbPOST);
 #else
 			var webRequest = UnityWebRequest.Post(url, UnityWebRequest.kHttpVerbPOST);
 #endif
+
 			webRequest.timeout = 30;
+			webRequest.uploadHandler.Dispose();
 
 			AttachBodyToRequest(webRequest, jsonObject);
 			AttachHeadersToPostRequest(webRequest, requestHeaders);
@@ -252,11 +266,12 @@ namespace Xsolla.Core
 		private UnityWebRequest PreparePostUploadRequest(string url, string pathToFile, List<WebRequestHeader> requestHeaders)
 		{
 #if UNITY_2022_2_OR_NEWER
-			UnityWebRequest webRequest = UnityWebRequest.PostWwwForm(url, UnityWebRequest.kHttpVerbPOST);
+			var webRequest = UnityWebRequest.PostWwwForm(url, UnityWebRequest.kHttpVerbPOST);
 #else
 			var webRequest = UnityWebRequest.Post(url, UnityWebRequest.kHttpVerbPOST);
 #endif
 			webRequest.timeout = 30;
+			webRequest.uploadHandler.Dispose();
 
 			AttachFileToUploadRequest(webRequest, pathToFile);
 			AttachHeadersToPostRequest(webRequest, requestHeaders);
@@ -279,7 +294,9 @@ namespace Xsolla.Core
 				if (requestHeaders != null)
 					requestHeaders.Add(WebRequestHeader.JsonContentTypeHeader());
 				else
-					requestHeaders = new List<WebRequestHeader>() {WebRequestHeader.JsonContentTypeHeader()};
+					requestHeaders = new List<WebRequestHeader>() {
+						WebRequestHeader.JsonContentTypeHeader()
+					};
 			}
 
 			AttachHeadersToRequest(webRequest, requestHeaders);

@@ -17,11 +17,13 @@ namespace Xsolla.Core
 		{
 			url = AppendAnalyticsToUrl(sdkType, url);
 
-			var webRequest = UnityWebRequest.Delete(url);
-			webRequest.downloadHandler = new DownloadHandlerBuffer();
-			AttachHeadersToRequest(webRequest, requestHeaders);
+			using (var webRequest = UnityWebRequest.Delete(url))
+			{
+				webRequest.downloadHandler = new DownloadHandlerBuffer();
+				AttachHeadersToRequest(webRequest, requestHeaders);
 
-			yield return StartCoroutine(PerformWebRequest(webRequest, onComplete, onError, errorsToCheck));
+				yield return StartCoroutine(PerformWebRequest(webRequest, onComplete, onError, errorsToCheck));
+			}
 		}
 	}
 }
