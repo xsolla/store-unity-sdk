@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace Xsolla.Core
 {
@@ -23,9 +24,15 @@ namespace Xsolla.Core
 
 		private PayStationUI CreateSettings()
 		{
-			return new PayStationUI {
-				theme = paystationThemeId
+			var settings = new PayStationUI {
+				theme = paystationThemeId,
+				is_independent_windows = true
 			};
+
+#if !UNITY_EDITOR && (UNITY_ANDROID || UNITY_IOS)
+			settings.is_independent_windows = null;
+#endif
+			return settings;
 		}
 	}
 }
