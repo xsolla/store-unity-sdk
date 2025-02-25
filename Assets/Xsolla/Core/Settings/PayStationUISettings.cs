@@ -15,9 +15,14 @@ namespace Xsolla.Core
 				theme = GePlatformSpecificSettings().paystationThemeId
 			};
 
-#if UNITY_EDITOR || UNITY_STANDALONE || UNITY_WEBGL
+#if UNITY_EDITOR || UNITY_STANDALONE
 			if (XsollaSettings.InAppBrowserEnabled)
 				settings.is_independent_windows = true;
+#endif
+
+#if UNITY_WEBGL && !UNITY_EDITOR
+			if (!string.IsNullOrEmpty(XsollaSettings.ApplePayMerchantDomain))
+				settings.is_independent_windows = null;
 #endif
 
 			return settings;

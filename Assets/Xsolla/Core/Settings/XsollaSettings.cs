@@ -14,6 +14,7 @@ namespace Xsolla.Core
 		[SerializeField] private bool isSandbox = true;
 		[SerializeField] private bool inAppBrowserEnabled = true;
 		[SerializeField] private bool packInAppBrowserInBuild = true;
+		[SerializeField] private string applePayMerchantDomain = string.Empty;
 
 		[SerializeField] private RedirectPolicySettings desktopRedirectPolicySettings = new RedirectPolicySettings();
 		[SerializeField] private RedirectPolicySettings webglRedirectPolicySettings = new RedirectPolicySettings();
@@ -34,8 +35,8 @@ namespace Xsolla.Core
 		[SerializeField] private LogLevel logLevel = LogLevel.InfoWarningsErrors;
 
 		public static bool PayStationGroupFoldout { get; set; }
-
 		public static bool RedirectPolicyGroupFoldout { get; set; }
+		public static bool AdvancedGroupFoldout { get; set; }
 
 		public static int PaystationVersion { get; set; } = 4;
 
@@ -85,6 +86,12 @@ namespace Xsolla.Core
 		{
 			get => Instance.packInAppBrowserInBuild;
 			set => Instance.packInAppBrowserInBuild = value;
+		}
+		
+		public static string ApplePayMerchantDomain
+		{
+			get => Instance.applePayMerchantDomain;
+			set => Instance.applePayMerchantDomain = value;
 		}
 
 		public static RedirectPolicySettings DesktopRedirectPolicySettings
