@@ -17,7 +17,7 @@ namespace Xsolla.Core
 		{
 			XsollaWebCallbacks.RemovePaymentStatusUpdateHandler(HandleStatusUpdate);
 			XsollaWebCallbacks.RemovePaymentCancelHandler(HandlePaymentCancel);
-			XsollaWebBrowser.ClosePaystationWidget(isCancelByUser);
+			XsollaWebBrowserHandlerWebGL.ClosePayStation(isCancelByUser);
 		}
 
 		private void HandleStatusUpdate()

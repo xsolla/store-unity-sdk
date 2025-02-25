@@ -1,6 +1,6 @@
 mergeInto(LibraryManager.library, {
 
-	OpenPaystationWidget: function (token, sandbox, engineVersion, sdkVersion) {
+	OpenPayStationWidget: function (token, sandbox, engineVersion, sdkVersion, applePayMerchantDomain) {
 		var jsToken = UTF8ToString(token);
 		var isSandbox = sandbox > 0 ? true : false;
 		var options = {
@@ -21,11 +21,16 @@ mergeInto(LibraryManager.library, {
                 build_platform: 'webglplayer',
             }
 		};
+		
+		var jsParentDomain = UTF8ToString(applePayMerchantDomain);
+		if (jsParentDomain !== "") {
+            options.queryParams.parent_domain = jsParentDomain;
+        }
 
 		var s = document.createElement('script');
 		s.type = "text/javascript";
 		s.async = true;
-		s.src = "https://cdn.xsolla.net/payments-bucket-prod/embed/1.4.0/widget.min.js";
+		s.src = "https://cdn.xsolla.net/payments-bucket-prod/embed/1.5.0/widget.min.js";
 
 		s.addEventListener('load', function (e) {
 			XPayStationWidget.on(XPayStationWidget.eventTypes.STATUS, function (event, data) {
@@ -49,7 +54,7 @@ mergeInto(LibraryManager.library, {
 		head.appendChild(s);
 	},
 
-	ClosePaystationWidget: function () {
+	ClosePayStationWidget: function () {
 		if (typeof XPayStationWidget !== undefined) {
 			XPayStationWidget.off();
 		}
