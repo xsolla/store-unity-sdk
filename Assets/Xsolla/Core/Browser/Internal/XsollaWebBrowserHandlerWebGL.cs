@@ -61,7 +61,7 @@ namespace Xsolla.Core
 		{
 			var url = new PayStationUrlBuilder(token).Build();
 
-			var browserLocale = GetBrowserLanguage().ToLowerInvariant().Split("-")[0];
+			var browserLocale = GetBrowserLanguage().ToLowerInvariant();
 			var popupMessage = XsollaWebBrowserLocalizationDataProvider.GetMessageText(browserLocale);
 			var continueButtonText = XsollaWebBrowserLocalizationDataProvider.GetContinueButtonText(browserLocale);
 			var cancelButtonText = XsollaWebBrowserLocalizationDataProvider.GetCancelButtonText(browserLocale);

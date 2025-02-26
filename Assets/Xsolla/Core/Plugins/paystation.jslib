@@ -96,7 +96,7 @@ mergeInto(LibraryManager.library, {
         // Создаем текстовое сообщение
         var messageElement = document.createElement('p');
         messageElement.textContent = jsPopupMessage;
-        messageElement.style.marginBottom = '20px';
+        messageElement.style.margin = '20px';
         messageElement.style.fontSize = '16px';
         popup.appendChild(messageElement);
 
