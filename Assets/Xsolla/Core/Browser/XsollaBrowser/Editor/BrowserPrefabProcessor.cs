@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Xsolla.XsollaBrowser
 {
-	public class BrowserPrefabProcessor : IPreprocessBuildWithReport, IPostprocessBuildWithReport
+	public class BrowserPrefabProcessor : IPreprocessBuildWithReport
 	{
 		public int callbackOrder { get; }
 
@@ -18,6 +18,8 @@ namespace Xsolla.XsollaBrowser
 
 			if (report.summary.platformGroup == BuildTargetGroup.Standalone)
 				return;
+
+			EditorApplication.update += OnBuildFinish;
 
 			var originPrefabPath = GetOriginPrefabPath();
 			var tempPrefabPath = GetTempPrefabPath();
@@ -33,10 +35,9 @@ namespace Xsolla.XsollaBrowser
 			SavedOriginPrefabPath = originPrefabPath;
 		}
 
-		public void OnPostprocessBuild(BuildReport report)
+		private void OnBuildFinish()
 		{
-			if (report.summary.platformGroup == BuildTargetGroup.Standalone)
-				return;
+			EditorApplication.update -= OnBuildFinish;
 
 			if (SavedOriginPrefabPath == null)
 				return;
