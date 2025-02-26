@@ -11,11 +11,36 @@ namespace Xsolla.Core
 		private static extern void OpenPayStationWidget(string token, bool sandbox, string engineVersion, string sdkVersion, string applePayMerchantDomain);
 
 		[DllImport("__Internal")]
+		private static extern void ShowPopupAndOpenPayStation(string url, string popupMessage, string continueButtonText, string cancelButtonText);
+
+		[DllImport("__Internal")]
 		private static extern void ClosePayStationWidget();
+
+		[DllImport("__Internal")]
+		private static extern string GetUserAgent();
+
+		[DllImport("__Internal")]
+		private static extern string GetBrowserLanguage();
 
 		private static Action<bool> BrowserClosedCallback;
 
 		public static void OpenPayStation(string token, Action<BrowserCloseInfo> onBrowserClosed)
+		{
+			Screen.fullScreen = false;
+
+			if (IsBrowserSafari())
+				ConfirmAndOpenPayStationPage(token);
+			else
+				OpenPayStationWidgetImmediately(token, onBrowserClosed);
+		}
+
+		public static void ClosePayStation(bool isManually)
+		{
+			BrowserClosedCallback?.Invoke(isManually);
+			ClosePayStationWidget();
+		}
+
+		private static void OpenPayStationWidgetImmediately(string token, Action<BrowserCloseInfo> onBrowserClosed)
 		{
 			BrowserClosedCallback = isManually => {
 				var info = new BrowserCloseInfo {
@@ -23,8 +48,6 @@ namespace Xsolla.Core
 				};
 				onBrowserClosed?.Invoke(info);
 			};
-
-			Screen.fullScreen = false;
 
 			OpenPayStationWidget(
 				token,
@@ -34,10 +57,33 @@ namespace Xsolla.Core
 				XsollaSettings.ApplePayMerchantDomain);
 		}
 
-		public static void ClosePayStation(bool isManually)
+		private static void ConfirmAndOpenPayStationPage(string token)
 		{
-			BrowserClosedCallback?.Invoke(isManually);
-			ClosePayStationWidget();
+			var url = new PayStationUrlBuilder(token).Build();
+
+			var browserLocale = GetBrowserLanguage().ToLowerInvariant().Split("-")[0];
+			var popupMessage = XsollaWebBrowserLocalizationDataProvider.GetMessageText(browserLocale);
+			var continueButtonText = XsollaWebBrowserLocalizationDataProvider.GetContinueButtonText(browserLocale);
+			var cancelButtonText = XsollaWebBrowserLocalizationDataProvider.GetCancelButtonText(browserLocale);
+
+			ShowPopupAndOpenPayStation(url, popupMessage, continueButtonText, cancelButtonText);
+		}
+
+		public static bool IsBrowserSafari()
+		{
+			var userAgent = GetUserAgent();
+
+			if (Application.isMobilePlatform)
+			{
+				return (userAgent.Contains("iPhone") || userAgent.Contains("iPad"))
+					&& userAgent.Contains("Safari")
+					&& !userAgent.Contains("CriOS");
+			}
+
+			return userAgent.Contains("Safari")
+				&& userAgent.Contains("AppleWebKit")
+				&& !userAgent.Contains("Chrome")
+				&& !userAgent.Contains("Chromium");
 		}
 
 		public static void OpenUrlInNewTab(string url)

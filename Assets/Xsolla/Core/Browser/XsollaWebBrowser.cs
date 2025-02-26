@@ -57,7 +57,7 @@ namespace Xsolla.Core
 #endif
 			}
 
-			var url = new PaystationUrlBuilder(paymentToken).Build();
+			var url = new PayStationUrlBuilder(paymentToken).Build();
 			XDebug.Log($"Purchase url: {url}");
 			Open(url, forcePlatformBrowser);
 

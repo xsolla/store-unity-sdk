@@ -3,17 +3,17 @@ using UnityEngine;
 
 namespace Xsolla.Core
 {
-	internal class PaystationUrlBuilder
+	internal class PayStationUrlBuilder
 	{
 		private readonly string PaymentToken;
 		private readonly bool IsSandBox;
-		private readonly int PaystationVersion;
+		private readonly int PayStationVersion;
 
-		public PaystationUrlBuilder(string paymentToken)
+		public PayStationUrlBuilder(string paymentToken)
 		{
 			PaymentToken = paymentToken;
 			IsSandBox = XsollaSettings.IsSandbox;
-			PaystationVersion = XsollaSettings.PaystationVersion;
+			PayStationVersion = XsollaSettings.PaystationVersion;
 		}
 
 		public string Build()
@@ -40,21 +40,21 @@ namespace Xsolla.Core
 
 		private string GetPaystationVersionPath()
 		{
-			switch (PaystationVersion)
+			switch (PayStationVersion)
 			{
 				case 3:  return "paystation3";
 				case 4:  return "paystation4";
-				default: throw new Exception($"Unknown Paystation version: {PaystationVersion}");
+				default: throw new Exception($"Unknown Paystation version: {PayStationVersion}");
 			}
 		}
 
 		private string GetTokenQueryKey()
 		{
-			switch (PaystationVersion)
+			switch (PayStationVersion)
 			{
 				case 3:  return "access_token";
 				case 4:  return "token";
-				default: throw new Exception($"Unknown Paystation version: {PaystationVersion}");
+				default: throw new Exception($"Unknown PayStation version: {PayStationVersion}");
 			}
 		}
 
