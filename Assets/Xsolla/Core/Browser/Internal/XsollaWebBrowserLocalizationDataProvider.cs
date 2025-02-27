@@ -110,7 +110,7 @@ namespace Xsolla.Core
 				return null;
 
 			return rowIndex < cells.Length
-				? cells[rowIndex].Trim('"')
+				? cells[rowIndex].Trim('\n').Trim('\r').Trim('"')
 				: null;
 		}
 
