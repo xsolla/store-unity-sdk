@@ -304,7 +304,7 @@ deploy stage:
     except:
         - branches
     dependencies:
-        - demo_2021_webgl
+        - demo_2022_webgl
     script:
         - /usr/local/bin/helper deploy ./Builds
 
@@ -336,7 +336,7 @@ deploy prod:
     variables:
         ENV: prod
     dependencies:
-        - demo_2021_webgl
+        - demo_2022_webgl
     script:
         - /usr/local/bin/helper deploy ./Builds
 
