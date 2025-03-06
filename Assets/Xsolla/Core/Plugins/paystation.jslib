@@ -72,7 +72,6 @@ mergeInto(LibraryManager.library, {
         var jsContinueButtonText = UTF8ToString(continueButtonText);
         var jsCancelButtonText = UTF8ToString(cancelButtonText);
 
-        // Создаем затемнение фона
         var overlay = document.createElement('div');
         overlay.style.position = 'fixed';
         overlay.style.top = '0';
@@ -85,7 +84,6 @@ mergeInto(LibraryManager.library, {
         overlay.style.alignItems = 'center';
         overlay.style.justifyContent = 'center';
 
-        // Создаем контейнер для попапа
         var popup = document.createElement('div');
         popup.style.backgroundColor = '#ffffff';
         popup.style.padding = '20px';
@@ -93,14 +91,12 @@ mergeInto(LibraryManager.library, {
         popup.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
         popup.style.textAlign = 'center';
 
-        // Создаем текстовое сообщение
         var messageElement = document.createElement('p');
         messageElement.textContent = jsPopupMessage;
         messageElement.style.margin = '20px';
         messageElement.style.fontSize = '16px';
         popup.appendChild(messageElement);
 
-        // Создаем кнопку Cancel
         var cancelButton = document.createElement('button');
         cancelButton.textContent = jsCancelButtonText;
         cancelButton.style.padding = '10px 20px';
@@ -114,13 +110,10 @@ mergeInto(LibraryManager.library, {
         cancelButton.style.color = '#6939F9';
         cancelButton.style.cursor = 'pointer';
         
-        // Событие на нажатие кнопки Cancel
         cancelButton.addEventListener('click', function () {
-            // Удаляем попап и затемнение
             document.body.removeChild(overlay);
         });
         
-        // Создаем кнопку Continue
         var continueButton = document.createElement('button');
         continueButton.textContent = jsContinueButtonText;
         continueButton.style.padding = '10px 20px';
@@ -134,29 +127,23 @@ mergeInto(LibraryManager.library, {
         continueButton.style.color = '#ffffff';
         continueButton.style.cursor = 'pointer';
         
-        // Событие на нажатие кнопки Continue
         continueButton.addEventListener('click', function () {
-            // Удаляем попап и затемнение
             document.body.removeChild(overlay);
-
-            // Вызываем OpenPayStationWidget
-            console.log('OpenPayStationWidget');
             window.open(jsUrl, '_blank');
         });
 
-        // Добавляем кнопки в попап
         popup.appendChild(cancelButton);
         popup.appendChild(continueButton);
-
-        // Добавляем попап в затемнение
         overlay.appendChild(popup);
-
-        // Добавляем затемнение в документ
         document.body.appendChild(overlay);
     },
     
     GetUserAgent: function () {
-        return allocate(intArrayFromString(navigator.userAgent), ALLOC_NORMAL);
+        var str = navigator.userAgent;
+        var lengthBytes = lengthBytesUTF8(str) + 1;
+        var stringOnWasmHeap = _malloc(lengthBytes);
+        stringToUTF8(str, stringOnWasmHeap, lengthBytes);
+        return stringOnWasmHeap;
     },
     
     GetBrowserLanguage: function () {

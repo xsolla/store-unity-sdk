@@ -1,4 +1,13 @@
 # Changelog
+## [2.5.3] - 2025-03-06
+### Added
+- Support for opening Pay Station in Safari in WebGL build. To bypass pop-up blocking, a confirmation pop-up added
+
+### Changed
+- Updated Pay Station Widget to version 1.5. Widget is used in WebGl builds
+
+### Fixed
+- Memory leak for Unity 2021 and later
 
 ## [2.5.2] - 2025-01-14
 ### Added
@@ -12,7 +21,7 @@
 - Default built-in browser resolution for desktop platforms is now 1024 x 800 px
 
 ### Fixed
-- `Different serialization layout when loading` error
+- `Different serialization layout [CHANGELOG.md](../../CHANGELOG.md)when loading` error
 
 ## [2.5.1] - 2024-12-12
 ### Changed
