@@ -5,10 +5,9 @@ namespace Xsolla.Core
 {
 	public partial class XsollaSettingsEditor
 	{
-		//TEXTREVIEW
 		private const string APPLE_PAY_MERCHANT_DOMAIN_LABEL = "Apple Pay Merchant Domain";
-		private const string APPLE_PAY_MERCHANT_DOMAIN_TOOLTIP = "The domain of your Apple Pay merchant. " +
-			"Used to validate the merchant session.";
+		private const string APPLE_PAY_MERCHANT_DOMAIN_TOOLTIP = "Domain of your Apple Pay merchant. "
+			+ "Used to validate the merchant session.";
 
 		private bool AdvancedSettings()
 		{
