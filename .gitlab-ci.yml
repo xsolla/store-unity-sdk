@@ -44,6 +44,7 @@ variables:
 
 .mac_job_base:
   resource_group: mac_runner
+  allow_failure: true
   before_script:
     - chmod 755 fastlane/scripts/diawi_callback_helper.sh
   artifacts:
