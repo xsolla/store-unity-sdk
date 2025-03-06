@@ -1,13 +1,13 @@
 # Changelog
 ## [2.5.3] - 2025-03-06
 ### Added
-- Support for Pay Station in the Safari browser for WebGL
+- Support for opening Pay Station in Safari in WebGL build. To bypass pop-up blocking, a confirmation pop-up added
 
 ### Changed
-- Version of Pay Station Widget which is used in WebGL was updated to 1.5 
+- Updated Pay Station Widget to version 1.5. Widget is used in WebGl builds
 
 ### Fixed
-- Memory leak error in Unity editors newer than the 2021 version
+- Memory leak for Unity 2021 and later
 
 ## [2.5.2] - 2025-01-14
 ### Added
