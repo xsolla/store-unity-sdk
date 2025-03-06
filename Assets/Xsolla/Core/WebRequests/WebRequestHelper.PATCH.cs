@@ -17,12 +17,14 @@ namespace Xsolla.Core
 		{
 			url = AppendAnalyticsToUrl(sdkType, url);
 
-			var webRequest = new UnityWebRequest(url, "PATCH");
-			webRequest.downloadHandler = new DownloadHandlerBuffer();
-			AttachBodyToRequest(webRequest, jsonObject);
-			AttachHeadersToPatchRequest(webRequest, requestHeaders);
+			using (var webRequest = new UnityWebRequest(url, "PATCH"))
+			{
+				webRequest.downloadHandler = new DownloadHandlerBuffer();
+				AttachBodyToRequest(webRequest, jsonObject);
+				AttachHeadersToPatchRequest(webRequest, requestHeaders);
 
-			yield return StartCoroutine(PerformWebRequest(webRequest, onComplete, onError, errorsToCheck));
+				yield return StartCoroutine(PerformWebRequest(webRequest, onComplete, onError, errorsToCheck));
+			}
 		}
 
 		private static void AttachHeadersToPatchRequest(UnityWebRequest webRequest, List<WebRequestHeader> requestHeaders, bool withContentType = true)
@@ -32,7 +34,9 @@ namespace Xsolla.Core
 				if (requestHeaders != null)
 					requestHeaders.Add(WebRequestHeader.JsonContentTypeHeader());
 				else
-					requestHeaders = new List<WebRequestHeader> {WebRequestHeader.JsonContentTypeHeader()};
+					requestHeaders = new List<WebRequestHeader> {
+						WebRequestHeader.JsonContentTypeHeader()
+					};
 			}
 
 			AttachHeadersToRequest(webRequest, requestHeaders);

@@ -1,9 +1,6 @@
 using System;
 using UnityEngine;
 using Object = UnityEngine.Object;
-#if UNITY_WEBGL || UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
-using System.Runtime.InteropServices;
-#endif
 
 namespace Xsolla.Core
 {
@@ -46,54 +43,21 @@ namespace Xsolla.Core
 
 		public static void OpenPurchaseUI(string paymentToken, bool forcePlatformBrowser = false, Action<BrowserCloseInfo> onBrowserClosed = null, PlatformSpecificAppearance platformSpecificAppearance = null)
 		{
+			if (!Application.isEditor && XsollaSettings.InAppBrowserEnabled)
+			{
 #if UNITY_ANDROID
-			if (!Application.isEditor && XsollaSettings.InAppBrowserEnabled)
-			{
-				new AndroidPayments().Perform(
-					paymentToken,
-					isClosedManually => {
-						var info = new BrowserCloseInfo {
-							isManually = isClosedManually
-						};
-						onBrowserClosed?.Invoke(info);
-					},
-					platformSpecificAppearance?.AndroidActivityType);
-
+				XsollaWebBrowserHandlerAndroid.OpenPayStation(paymentToken, onBrowserClosed, platformSpecificAppearance);
 				return;
-			}
-
 #elif UNITY_IOS
-			if (!Application.isEditor && XsollaSettings.InAppBrowserEnabled)
-			{
-				new IosPayments().Perform(
-					paymentToken,
-					isClosedManually => {
-						var info = new BrowserCloseInfo {
-							isManually = isClosedManually
-						};
-						onBrowserClosed?.Invoke(info);
-					});
-
+				XsollaWebBrowserHandlerIos.OpenPayStation(paymentToken, onBrowserClosed);
 				return;
-			}
-
-#elif UNITY_WEBGL && !UNITY_EDITOR
-			if (XsollaSettings.InAppBrowserEnabled)
-			{
-				WebGLBrowserClosedCallback = isManually =>
-				{
-					var info = new BrowserCloseInfo {
-						isManually = isManually
-					};
-					onBrowserClosed?.Invoke(info);
-				};
-
-				Screen.fullScreen = false;
-				OpenPaystationWidget(paymentToken, XsollaSettings.IsSandbox, Application.unityVersion, Constants.SDK_VERSION);
+#elif UNITY_WEBGL
+				XsollaWebBrowserHandlerWebGL.OpenPayStation(paymentToken, onBrowserClosed);
 				return;
-			}
 #endif
-			var url = new PaystationUrlBuilder(paymentToken).Build();
+			}
+
+			var url = new PayStationUrlBuilder(paymentToken).Build();
 			XDebug.Log($"Purchase url: {url}");
 			Open(url, forcePlatformBrowser);
 
@@ -107,17 +71,15 @@ namespace Xsolla.Core
 
 		public static void Open(string url, bool forcePlatformBrowser = false)
 		{
-			XDebug.Log($"XsollaWebBrowser. Open url: {url}");
+			XDebug.Log($"Open url: {url}");
+
 #if UNITY_EDITOR || UNITY_STANDALONE
 			if (InAppBrowser != null && !forcePlatformBrowser)
 				InAppBrowser.Open(url);
 			else
 				Application.OpenURL(url);
 #elif UNITY_WEBGL
-#pragma warning disable 0618
-			Application.ExternalEval($"window.open(\"{url}\",\"_blank\")");
-#pragma warning restore 0618
-			return;
+			XsollaWebBrowserHandlerWebGL.OpenUrlInNewTab(url);
 #else
 			Application.OpenURL(url);
 #endif
@@ -132,31 +94,5 @@ namespace Xsolla.Core
 
 			_inAppBrowser = null;
 		}
-
-#if UNITY_WEBGL
-		[DllImport("__Internal")]
-		private static extern void OpenPaystationWidget(string token, bool sandbox, string engineVersion, string sdkVersion);
-
-		[DllImport("__Internal")]
-		private static extern void ClosePaystationWidget();
-
-		private static Action<bool> WebGLBrowserClosedCallback;
-
-		public static void ClosePaystationWidget(bool isManually)
-		{
-			WebGLBrowserClosedCallback?.Invoke(isManually);
-			ClosePaystationWidget();
-		}
-#endif
-
-#if UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
-		[DllImport("XsollaSdkNative")]
-		private static extern void OpenUrlInSafari(string url);
-
-		public static void OpenSafari(string url)
-		{
-			OpenUrlInSafari(url);
-		}
-#endif
 	}
 }

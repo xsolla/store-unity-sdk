@@ -27,6 +27,7 @@ namespace Xsolla.Core
 				PayStationSettings() ||
 				AndroidSettings() ||
 				DesktopSettings() ||
+				AdvancedSettings() ||
 				EditorSettings();
 
 			if (changed)

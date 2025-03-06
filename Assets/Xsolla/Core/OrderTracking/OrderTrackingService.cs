@@ -32,7 +32,9 @@ namespace Xsolla.Core
 				return new OrderTrackerByShortPolling(trackingData);
 
 #if UNITY_WEBGL
-			return !UnityEngine.Application.isEditor && XsollaSettings.InAppBrowserEnabled
+
+			var isSafariBrowser = XsollaWebBrowserHandlerWebGL.IsBrowserSafari();
+			return !UnityEngine.Application.isEditor && XsollaSettings.InAppBrowserEnabled && !isSafariBrowser
 				? new OrderTrackerByPaystationCallbacks(trackingData)
 				: new OrderTrackerByShortPolling(trackingData) as OrderTracker;
 #else

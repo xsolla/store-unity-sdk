@@ -35,20 +35,23 @@ namespace Xsolla.Core
 		{
 			url = AppendAnalyticsToUrl(sdkType, url);
 
-			var webRequest = UnityWebRequest.Get(url);
-			AttachHeadersToRequest(webRequest, requestHeaders);
-
-			yield return StartCoroutine(PerformWebRequest(webRequest, onComplete, onError, errorsToCheck));
+			using (var webRequest = UnityWebRequest.Get(url))
+			{
+				AttachHeadersToRequest(webRequest, requestHeaders);
+				yield return StartCoroutine(PerformWebRequest(webRequest, onComplete, onError, errorsToCheck));
+			}
 		}
 
 		private IEnumerator PerformGet(SdkType sdkType, string url, Action onComplete, Action<Error> onError, List<WebRequestHeader> requestHeaders, ErrorGroup errorsToCheck = ErrorGroup.CommonErrors)
 		{
 			url = AppendAnalyticsToUrl(sdkType, url);
 
-			var webRequest = UnityWebRequest.Get(url);
-			AttachHeadersToRequest(webRequest, requestHeaders);
+			using (var webRequest = UnityWebRequest.Get(url))
+			{
+				AttachHeadersToRequest(webRequest, requestHeaders);
 
-			yield return StartCoroutine(PerformWebRequest(webRequest, onComplete, onError, errorsToCheck));
+				yield return StartCoroutine(PerformWebRequest(webRequest, onComplete, onError, errorsToCheck));
+			}
 		}
 	}
 }

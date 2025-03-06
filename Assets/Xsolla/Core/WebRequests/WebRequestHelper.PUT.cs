@@ -35,41 +35,42 @@ namespace Xsolla.Core
 		{
 			url = AppendAnalyticsToUrl(sdkType, url);
 
-			var webRequest = new UnityWebRequest(url, "PUT") {
-				downloadHandler = new DownloadHandlerBuffer()
-			};
-
-			AttachHeadersToPutRequest(webRequest, requestHeaders);
-
-			yield return StartCoroutine(PerformWebRequest(webRequest, onComplete, onError, errorsToCheck));
+			using (var webRequest = new UnityWebRequest(url, "PUT"))
+			{
+				webRequest.downloadHandler = new DownloadHandlerBuffer();
+				AttachHeadersToPutRequest(webRequest, requestHeaders);
+				yield return StartCoroutine(PerformWebRequest(webRequest, onComplete, onError, errorsToCheck));
+			}
 		}
 
 		private IEnumerator PutRequestCor<T>(SdkType sdkType, string url, T jsonObject, List<WebRequestHeader> requestHeaders, Action onComplete = null, Action<Error> onError = null, ErrorGroup errorsToCheck = ErrorGroup.CommonErrors) where T : class
 		{
 			url = AppendAnalyticsToUrl(sdkType, url);
 
-			var webRequest = new UnityWebRequest(url, "PUT") {
-				downloadHandler = new DownloadHandlerBuffer()
-			};
+			using (var webRequest = new UnityWebRequest(url, "PUT"))
+			{
+				webRequest.downloadHandler = new DownloadHandlerBuffer();
 
-			AttachBodyToRequest(webRequest, jsonObject);
-			AttachHeadersToPutRequest(webRequest, requestHeaders);
+				AttachBodyToRequest(webRequest, jsonObject);
+				AttachHeadersToPutRequest(webRequest, requestHeaders);
 
-			yield return StartCoroutine(PerformWebRequest(webRequest, onComplete, onError, errorsToCheck));
+				yield return StartCoroutine(PerformWebRequest(webRequest, onComplete, onError, errorsToCheck));
+			}
 		}
 
 		private IEnumerator PutRequestCor<T, D>(SdkType sdkType, string url, D jsonObject, List<WebRequestHeader> requestHeaders, Action<T> onComplete = null, Action<Error> onError = null, ErrorGroup errorsToCheck = ErrorGroup.CommonErrors) where T : class where D : class
 		{
 			url = AppendAnalyticsToUrl(sdkType, url);
 
-			var webRequest = new UnityWebRequest(url, "PUT") {
-				downloadHandler = new DownloadHandlerBuffer()
-			};
+			using (var webRequest = new UnityWebRequest(url, "PUT"))
+			{
+				webRequest.downloadHandler = new DownloadHandlerBuffer();
 
-			AttachBodyToRequest(webRequest, jsonObject);
-			AttachHeadersToPutRequest(webRequest, requestHeaders);
+				AttachBodyToRequest(webRequest, jsonObject);
+				AttachHeadersToPutRequest(webRequest, requestHeaders);
 
-			yield return StartCoroutine(PerformWebRequest(webRequest, onComplete, onError, errorsToCheck));
+				yield return StartCoroutine(PerformWebRequest(webRequest, onComplete, onError, errorsToCheck));
+			}
 		}
 
 		private void AttachHeadersToPutRequest(UnityWebRequest webRequest, List<WebRequestHeader> requestHeaders)
@@ -77,7 +78,9 @@ namespace Xsolla.Core
 			if (requestHeaders != null)
 				requestHeaders.Add(WebRequestHeader.JsonContentTypeHeader());
 			else
-				requestHeaders = new List<WebRequestHeader>() {WebRequestHeader.JsonContentTypeHeader()};
+				requestHeaders = new List<WebRequestHeader>() {
+					WebRequestHeader.JsonContentTypeHeader()
+				};
 
 			AttachHeadersToRequest(webRequest, requestHeaders);
 		}
