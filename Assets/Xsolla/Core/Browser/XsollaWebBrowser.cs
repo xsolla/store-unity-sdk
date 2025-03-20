@@ -52,7 +52,7 @@ namespace Xsolla.Core
 				XsollaWebBrowserHandlerIos.OpenPayStation(paymentToken, onBrowserClosed);
 				return;
 #elif UNITY_WEBGL
-				XsollaWebBrowserHandlerWebGL.OpenPayStation(paymentToken, onBrowserClosed);
+				XsollaWebBrowserHandlerWebGL.OpenPayStation(paymentToken, onBrowserClosed, platformSpecificAppearance?.WebGlAppearance);
 				return;
 #endif
 			}

@@ -1,8 +1,10 @@
 mergeInto(LibraryManager.library, {
 
-	OpenPayStationWidget: function (token, sandbox, engineVersion, sdkVersion, applePayMerchantDomain) {
+	OpenPayStationWidget: function (token, sandbox, engineVersion, sdkVersion, applePayMerchantDomain, appearanceJson) {
 		var jsToken = UTF8ToString(token);
 		var isSandbox = sandbox > 0 ? true : false;
+		var appearance = JSON.parse(UTF8ToString(appearanceJson));
+		
 		var options = {
 			access_token: jsToken,
 			sandbox: isSandbox,
@@ -10,7 +12,7 @@ mergeInto(LibraryManager.library, {
 				width: '740px',
 				height: '760px',
 				spinner: 'round',
-				spinnerColor: '#cccccc',
+				spinnerColor: '#cccccc'
 			},
 			queryParams: {
                 sdk: 'store',
@@ -18,9 +20,65 @@ mergeInto(LibraryManager.library, {
                 engine: 'unity',
                 engine_v: UTF8ToString(engineVersion),
                 browser_type: 'iframe',
-                build_platform: 'webglplayer',
+                build_platform: 'webglplayer'
             }
 		};
+		
+		if (appearance.widgetWidth != null && appearance.widgetWidth !== "") {
+            options.lightbox.width = appearance.widgetWidth;
+        }
+        
+        if (appearance.widgetHeight != null && appearance.widgetHeight !== "") {
+            options.lightbox.height = appearance.widgetHeight;
+        }
+        
+        if (appearance.zIndex != null) {
+            options.lightbox.zIndex = appearance.zIndex;
+        }
+        
+        if (appearance.overlayOpacity != null) {
+            options.lightbox.overlayOpacity = appearance.overlayOpacity;
+        }
+        
+        if (appearance.overlayBackgroundColor != null && appearance.overlayBackgroundColor !== "") {
+            options.lightbox.overlayBackground = appearance.overlayBackgroundColor;
+        }
+        
+        if (appearance.isModal != null) {
+            options.lightbox.modal = appearance.isModal;
+        }
+        
+        if (appearance.closeByClickOverlay != null) {
+            options.lightbox.closeByClick = appearance.closeByClickOverlay;
+        }
+        
+        if (appearance.closeByKeyboardEscape != null) {
+            options.lightbox.closeByKeyboard = appearance.closeByKeyboardEscape;
+        }
+        
+        if (appearance.contentBackgroundColor != null && appearance.contentBackgroundColor !== "") {
+            options.lightbox.contentBackground = appearance.contentBackgroundColor;
+        }
+        
+        if (appearance.contentMargin != null && appearance.contentMargin !== "") {
+            options.lightbox.contentMargin = appearance.contentMargin;
+        }
+        
+        if (appearance.spinnerType != null && appearance.spinnerType !== "") {
+            options.lightbox.spinner = appearance.spinnerType;
+        }
+        
+        if (appearance.spinnerColor != null && appearance.spinnerColor !== "") {
+            options.lightbox.spinnerColor = appearance.spinnerColor;
+        }
+        
+        if (appearance.spinnerUrl != null && appearance.spinnerUrl !== "") {
+            options.lightbox.spinnerUrl = appearance.spinnerUrl;
+        }
+        
+        if (appearance.spinnerRotationPeriod != null) {
+            options.lightbox.spinnerRotationPeriod = appearance.spinnerRotationPeriod;
+        }
 		
 		var jsParentDomain = UTF8ToString(applePayMerchantDomain);
 		if (jsParentDomain !== "") {
