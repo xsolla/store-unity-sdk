@@ -8,7 +8,7 @@ namespace Xsolla.Core
 	internal static class XsollaWebBrowserHandlerWebGL
 	{
 		[DllImport("__Internal")]
-		private static extern void OpenPayStationWidget(string token, bool sandbox, string engineVersion, string sdkVersion, string applePayMerchantDomain);
+		private static extern void OpenPayStationWidget(string token, bool sandbox, string engineVersion, string sdkVersion, string applePayMerchantDomain, string appearanceJson);
 
 		[DllImport("__Internal")]
 		private static extern void ShowPopupAndOpenPayStation(string url, string popupMessage, string continueButtonText, string cancelButtonText);
@@ -24,14 +24,14 @@ namespace Xsolla.Core
 
 		private static Action<bool> BrowserClosedCallback;
 
-		public static void OpenPayStation(string token, Action<BrowserCloseInfo> onBrowserClosed)
+		public static void OpenPayStation(string token, Action<BrowserCloseInfo> onBrowserClosed, WebGlAppearance appearance)
 		{
 			Screen.fullScreen = false;
 
 			if (IsBrowserSafari())
 				ConfirmAndOpenPayStationPage(token);
 			else
-				OpenPayStationWidgetImmediately(token, onBrowserClosed);
+				OpenPayStationWidgetImmediately(token, onBrowserClosed, appearance);
 		}
 
 		public static void ClosePayStation(bool isManually)
@@ -40,8 +40,11 @@ namespace Xsolla.Core
 			ClosePayStationWidget();
 		}
 
-		private static void OpenPayStationWidgetImmediately(string token, Action<BrowserCloseInfo> onBrowserClosed)
+		private static void OpenPayStationWidgetImmediately(string token, Action<BrowserCloseInfo> onBrowserClosed, WebGlAppearance appearance)
 		{
+			if (appearance == null)
+				appearance = new WebGlAppearance();
+
 			BrowserClosedCallback = isManually => {
 				var info = new BrowserCloseInfo {
 					isManually = isManually
@@ -54,7 +57,8 @@ namespace Xsolla.Core
 				XsollaSettings.IsSandbox,
 				Application.unityVersion,
 				Constants.SDK_VERSION,
-				XsollaSettings.ApplePayMerchantDomain);
+				XsollaSettings.ApplePayMerchantDomain,
+				ParseUtils.ToJson(appearance));
 		}
 
 		private static void ConfirmAndOpenPayStationPage(string token)
