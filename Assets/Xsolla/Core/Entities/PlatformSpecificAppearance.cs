@@ -18,72 +18,72 @@ namespace Xsolla.Core
 	public class WebGlAppearance
 	{
 		/// <summary>
-		/// Width of widget frame. Default is "740px"
+		/// Width of the widget. The default value is '740px'.
 		/// </summary>
 		public string widgetWidth;
 
 		/// <summary>
-		/// Height of widget frame. Default is "760px"
+		/// Height of the widget. The default value is '760px'.
 		/// </summary>
 		public string widgetHeight;
 
 		/// <summary>
-		/// Property controls the vertical stacking order, default is 1000
+		/// Controls the vertical stacking order (z-index). The default value is 1000.
 		/// </summary>
 		public int? zIndex;
 
 		/// <summary>
-		/// Opacity of the overlay (from 0 to 1), default is '0.6'
+		/// Opacity of the overlay (from 0 to 1). The default value is 0.6.
 		/// </summary>
 		public float? overlayOpacity;
 
 		/// <summary>
-		/// Background of the overlay, default is '#000000'
+		/// Background color of the overlay in hex format. The default value is '#000000'.
 		/// </summary>
 		public string overlayBackgroundColor;
 
 		/// <summary>
-		/// Widget frame cannot be closed, default false
+		/// If true, the widget frame cannot be closed. The default value is false.
 		/// </summary>
 		public bool? isModal;
 
 		/// <summary>
-		/// Toggle if clicking the overlay should close lightbox, default true
+		/// If true, clicking the overlay will close the widget. The default value is true.
 		/// </summary>
 		public bool? closeByClickOverlay;
 
 		/// <summary>
-		/// Toggle if pressing of ESC key should close lightbox, default true
+		/// If true, pressing the 'ESC' key will close the widget. The default value is true.
 		/// </summary>
 		public bool? closeByKeyboardEscape;
 
 		/// <summary>
-		/// Background of the frame, default is '#ffffff'
+		/// Background color of the widget in hex format. The default value is '#ffffff'.
 		/// </summary>
 		public string contentBackgroundColor;
 
 		/// <summary>
-		/// Margin around frame, default '10px',
+		/// Margin around the widget frame. The default value is '10px'.
 		/// </summary>
 		public string contentMargin;
 
 		/// <summary>
-		/// Type of animated loading spinner, can be 'xsolla', 'round', 'none' or 'custom', default is "round"
+		/// Type of the animated loading spinner. Can be 'xsolla', 'round', 'none', or 'custom'. The default value is 'round'.
 		/// </summary>
 		public string spinnerType;
 
 		/// <summary>
-		/// Color of the spinner, default is '#cccccc'
+		/// Color of the spinner in hex format. The default value is '#cccccc'.
 		/// </summary>
 		public string spinnerColor;
 
 		/// <summary>
-		/// URL of custom spinner, default is null
+		/// URL of the custom spinner. The default value is null.
 		/// </summary>
 		public string spinnerUrl;
 
 		/// <summary>
-		///  Rotation period of custom spinner, default 0
+		/// Rotation period of the custom spinner in seconds. The default value is 0.
 		/// </summary>
 		public float? spinnerRotationPeriod;
 	}
