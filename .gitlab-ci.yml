@@ -7,11 +7,11 @@ include:
     file: 'adapter/sdk/security-tools-store-unity-sdk.yml'
 
 stages:
+  - build
   - autotests
   - demo_2021
   - demo_2022
   - demo_6000
-  - build
   - deploy
   - linking
   - security scan
