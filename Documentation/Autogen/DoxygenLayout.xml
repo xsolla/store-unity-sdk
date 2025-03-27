@@ -36,11 +36,6 @@
       <tab type="globals" visible="no" title="" intro=""/>
     </tab>
     <tab type="examples" visible="yes" title="" intro=""/>
-    <tab type="usergroup" title="Download assets">
-      <tab type="user" url="https://github.com/xsolla/store-unity-sdk" title="Came Commerce"/>
-      <tab type="user" url="https://github.com/xsolla/login-unity-sdk" title="Login & Account System"/>
-      <tab type="user" url="https://github.com/xsolla/inventory-unity-sdk" title="Cross-Buy"/>
-    </tab>
     <tab type="user" url="https://developers.xsolla.com/sdk/unity/" title="Documentation"/>
 
 </tab>
