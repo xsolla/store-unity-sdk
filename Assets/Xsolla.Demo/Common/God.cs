@@ -8,13 +8,13 @@ namespace Xsolla.Demo
 		[ContextMenu("Initialize Store")]
 		private void OpenStore()
 		{
-			XsollaReadyToUseStore.Initialize();
+			XsollaReadyToUseStore.OpenStore();
 		}
 
 		[ContextMenu("Destroy Store")]
 		private void DestroyStore()
 		{
-			XsollaReadyToUseStore.Destroy();
+			XsollaReadyToUseStore.CloseStore();
 		}
 	}
 }

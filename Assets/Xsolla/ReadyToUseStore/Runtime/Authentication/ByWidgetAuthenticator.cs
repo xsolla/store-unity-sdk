@@ -8,6 +8,11 @@ namespace Xsolla.ReadyToUseStore
 	{
 		private readonly string Locale;
 
+		public ByWidgetAuthenticator(string locale)
+		{
+			Locale = locale;
+		}
+
 		public void Execute(Action onSuccess, Action<Error> onError, Action onCancel, Action onSkip)
 		{
 			XsollaAuth.AuthWithXsollaWidget(
