@@ -1,5 +1,4 @@
 using System;
-using UnityEngine;
 using Xsolla.Core;
 using Object = UnityEngine.Object;
 
@@ -7,25 +6,45 @@ namespace Xsolla.ReadyToUseStore
 {
 	public static class XsollaReadyToUseStore
 	{
-		private static ReadyToUseStoreDirector ReadyToUseStoreDirector { get; set; }
+		private static StoreDirector StoreDirector { get; set; }
 
 		public static event Action OnAuthSuccess;
 		public static event Action<Error> OnAuthFailed;
 		public static event Action OnAuthCancelled;
 
-		public static void Initialize()
+		public static void OpenStore(Config config = null, IPrefabsProvider prefabsProvider = null)
 		{
-			var config = new ReadyToUseStoreConfig();
-			Initialize(config);
-		}
+			if (config == null)
+				config = new Config();
 
-		public static void Destroy()
-		{
-			if (!ReadyToUseStoreDirector)
+			if (prefabsProvider == null)
+				prefabsProvider = new ResourcesPrefabsProvider();
+
+			if (config == null)
+				throw new ArgumentNullException(nameof(config));
+
+			if (StoreDirector && StoreDirector.isActiveAndEnabled)
 				return;
 
-			ReadyToUseStoreDirector.gameObject.SetActive(false);
-			Object.Destroy(ReadyToUseStoreDirector.gameObject);
+			StoreDirector = Object.FindAnyObjectByType<StoreDirector>();
+
+			if (!StoreDirector)
+			{
+				var prefab = prefabsProvider.GetStoreDirectorPrefab();
+				StoreDirector = Object.Instantiate(prefab).GetComponent<StoreDirector>();
+				Object.DontDestroyOnLoad(StoreDirector);
+			}
+
+			StoreDirector.Initialize(config);
+		}
+
+		public static void CloseStore()
+		{
+			if (!StoreDirector)
+				return;
+
+			StoreDirector.gameObject.SetActive(false);
+			Object.Destroy(StoreDirector.gameObject);
 		}
 
 		internal static void RiseOnAuthSuccess()
@@ -36,20 +55,5 @@ namespace Xsolla.ReadyToUseStore
 
 		internal static void RiseOnAuthCancelled()
 			=> OnAuthCancelled?.Invoke();
-
-		private static void Initialize(ReadyToUseStoreConfig config)
-		{
-			if (config == null)
-				throw new ArgumentNullException(nameof(config));
-
-			if (ReadyToUseStoreDirector && ReadyToUseStoreDirector.isActiveAndEnabled)
-				return;
-
-			var prefab = Resources.Load<ReadyToUseStoreDirector>(config.PrefabPath);
-			ReadyToUseStoreDirector = Object.Instantiate(prefab);
-			Object.DontDestroyOnLoad(ReadyToUseStoreDirector);
-
-			ReadyToUseStoreDirector.Initialize(config);
-		}
 	}
 }
