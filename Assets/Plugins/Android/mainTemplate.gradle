@@ -24,7 +24,7 @@ dependencies {
     implementation 'com.xsolla.android:login-google:6.0.14' // Assets/Xsolla/Core/Editor/XsollaDependencies.xml:29
     implementation 'com.xsolla.android:login-qq:6.0.14' // Assets/Xsolla/Core/Editor/XsollaDependencies.xml:31
     implementation 'com.xsolla.android:login-wechat:6.0.14' // Assets/Xsolla/Core/Editor/XsollaDependencies.xml:30
-    implementation 'com.xsolla.android:payments:1.4.4' // Assets/Xsolla/Core/Editor/XsollaDependencies.xml:26
+    implementation 'com.xsolla.android:payments:1.4.8' // Assets/Xsolla/Core/Editor/XsollaDependencies.xml:26
 // Android Resolver Dependencies End
 **DEPS**}
 
