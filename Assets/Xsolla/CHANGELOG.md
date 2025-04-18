@@ -1,10 +1,10 @@
 # Changelog
 ## [2.5.4] - 2025-04-18
 ### Added
-- `WebGlAppearance` class for providing WebGL-specific appearance and behaviour settings
+- `WebGlAppearance` class for configuring WebGL-specific appearance and behavior settings
 
 ### Changed
-- Updated internal Android libraries for improved compatibility and stability
+- Updated internal Android libraries to improve compatibility and stability
 
 ## [2.5.3] - 2025-03-06
 ### Added
