@@ -63,6 +63,7 @@ namespace Xsolla.Catalog
 		/// Returns a list of virtual items according to pagination settings.
 		/// The list includes items for which display in the store is enabled in the settings. For each virtual item, complete data is returned.
 		/// If called after user authentication, the method returns items that match the personalization rules for the current user.
+		/// <b>Attention:</b> The number of items returned in a single response is limited. <b>The default and maximum value is 50 items per response</b>. To get more data page by page, use <code>limit</code> and <code>offset</code> fields.
 		/// </summary>
 		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/catalog/catalog-display/).</remarks>
 		/// <param name="onSuccess">Called after virtual items were successfully received.</param>
@@ -169,6 +170,7 @@ namespace Xsolla.Catalog
 		/// <summary>
 		/// Returns a list of items for the specified group according to pagination settings. The list includes items for which display in the store is enabled in the settings. In the settings of the group, the display in the store must be enabled.
 		/// If called after user authentication, the method returns items that match the personalization rules for the current user.
+		/// <b>Attention:</b> The number of items returned in a single response is limited. <b>The default and maximum value is 50 items per response</b>. To get more data page by page, use <code>limit</code> and <code>offset</code> fields.
 		/// </summary>
 		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/catalog/catalog-display/).</remarks>
 		/// <param name="groupExternalId">Group external ID.</param>
@@ -271,6 +273,7 @@ namespace Xsolla.Catalog
 
 		/// <summary>
 		/// Returns a list of virtual currencies according to pagination settings. The list includes currencies for which display in the store is enabled in settings.
+		/// <b>Attention:</b> The number of currencies returned in a single response is limited. <b>The default and maximum value is 50 currencies per response</b>. To get more data page by page, use <code>limit</code> and <code>offset</code> fields.
 		/// </summary>
 		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/catalog/catalog-display/).</remarks>
 		/// <param name="onSuccess">Called after virtual currencies were successfully received.</param>
@@ -353,6 +356,7 @@ namespace Xsolla.Catalog
 		/// Returns a list of virtual currency packages according to pagination settings.
 		/// The list includes packages for which display in the store is enabled in the settings.
 		/// If called after user authentication, the method returns packages that match the personalization rules for the current user.
+		/// <b>Attention:</b> The number of packages returned in a single response is limited. <b>The default and maximum value is 50 packages per response</b>. To get more data page by page, use <code>limit</code> and <code>offset</code> fields.
 		/// </summary>
 		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/catalog/catalog-display/).</remarks>
 		/// <param name="onSuccess">Called after virtual currency packages were successfully received.</param>
@@ -436,6 +440,7 @@ namespace Xsolla.Catalog
 		/// Returns a list of bundles according to pagination settings.
 		/// The list includes bundles for which display in the store is enabled in the settings.
 		/// If called after user authentication, the method returns items that match the personalization rules for the current user.
+		/// <b>Attention:</b> The number of bundles returned in a single response is limited. <b>The default and maximum value is 50 bundles per response</b>. To get more data page by page, use <code>limit</code> and <code>offset</code> fields. 
 		/// </summary>
 		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/catalog/catalog-display/#unreal_engine_sdk_how_to_bundles).</remarks>
 		/// <param name="onSuccess">Called after bundles are successfully received.</param>
@@ -732,6 +737,7 @@ namespace Xsolla.Catalog
 		/// [Obsolete. Use GetItems instead.] Returns a list of virtual items according to pagination settings.
 		/// The list includes items for which display in the store is enabled in the settings. For each virtual item, complete data is returned.
 		/// If used after user authentication, the method returns items that match the personalization rules for the current user.
+		/// <b>Attention:</b> The number of items returned in a single response is limited. <b>The default and maximum value is 50 items per response</b>. To get more data page by page, use <code>limit</code> and <code>offset</code> fields.
 		/// </summary>
 		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/catalog/catalog-display/).</remarks>
 		/// <param name="onSuccess">Called after virtual items were successfully received.</param>
