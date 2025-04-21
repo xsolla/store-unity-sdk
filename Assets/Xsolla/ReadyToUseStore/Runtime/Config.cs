@@ -3,20 +3,18 @@ using Xsolla.Core;
 
 namespace Xsolla.ReadyToUseStore
 {
-	public class ReadyToUseStoreConfig
+	public class Config
 	{
-		public ReadyToUseStoreConfig()
+		public Config()
 		{
-			PrefabPath = "Xsolla/ReadyToUseStoreDirector";
+			IsCheckEventSystemExists = true;
 		}
-
-		public string PrefabPath { get; set; }
-
-		public bool IsDontDestroyOnLoad { get; set; }
 
 		public Transform Parent { get; set; }
 
 		public bool IsWorldSpace { get; set; }
+
+		public bool IsCheckEventSystemExists { get; set; }
 
 		public string Locale { get; set; }
 

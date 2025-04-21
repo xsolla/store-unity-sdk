@@ -5,13 +5,13 @@ using Xsolla.Core;
 
 namespace Xsolla.ReadyToUseStore
 {
-	public class StoreItemWidget : MonoBehaviour
+	public class CatalogItemWidget : MonoBehaviour, ICatalogItemWidget
 	{
 		[SerializeField] private Text Text;
 		[SerializeField] private Image IconImage;
 		[SerializeField] private Button Button;
 
-		public void Initialize(StoreItem item)
+		public void Construct(StoreItem item)
 		{
 			Text.text = item.name;
 			ImageLoader.LoadSprite(item.image_url, sprite => IconImage.sprite = sprite);
