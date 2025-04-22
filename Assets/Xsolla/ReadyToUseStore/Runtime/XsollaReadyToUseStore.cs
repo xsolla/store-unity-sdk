@@ -7,27 +7,28 @@ namespace Xsolla.ReadyToUseStore
 	public static class XsollaReadyToUseStore
 	{
 		private static StoreDirector StoreDirector { get; set; }
+		private static IStoreListener StoreListener { get; set; }
 
 		public static event Action OnAuthSuccess;
-		public static event Action<Error> OnAuthFailed;
+		public static event Action<Error> OnAuthError;
 		public static event Action OnAuthCancelled;
 
-		public static void OpenStore(Config config = null, IPrefabsProvider prefabsProvider = null)
+		public static event Action OnGetCatalogSuccess;
+		public static event Action<Error> OnGetCatalogError;
+
+		public static event Action<OrderStatus> OnPurchaseSuccess;
+		public static event Action<Error> OnPurchaseError;
+
+		public static void OpenStore(Config config = null, IPrefabsProvider prefabsProvider = null, IStoreListener storeListener = null)
 		{
-			if (config == null)
-				config = new Config();
-
-			if (prefabsProvider == null)
-				prefabsProvider = new ResourcesPrefabsProvider();
-
-			if (config == null)
-				throw new ArgumentNullException(nameof(config));
+			config ??= new Config();
+			prefabsProvider ??= new PrefabsProvider();
+			StoreListener = storeListener;
 
 			if (StoreDirector && StoreDirector.isActiveAndEnabled)
 				return;
 
 			StoreDirector = Object.FindAnyObjectByType<StoreDirector>();
-
 			if (!StoreDirector)
 			{
 				var prefab = prefabsProvider.GetStoreDirectorPrefab();
@@ -35,25 +36,68 @@ namespace Xsolla.ReadyToUseStore
 				Object.DontDestroyOnLoad(StoreDirector);
 			}
 
-			StoreDirector.Initialize(config);
+			StoreDirector.Initialize(config, prefabsProvider);
 		}
 
 		public static void CloseStore()
 		{
-			if (!StoreDirector)
-				return;
+			if (StoreDirector)
+			{
+				StoreDirector.gameObject.SetActive(false);
+				Object.Destroy(StoreDirector.gameObject);
+				StoreDirector = null;
+			}
 
-			StoreDirector.gameObject.SetActive(false);
-			Object.Destroy(StoreDirector.gameObject);
+			StoreListener = null;
 		}
 
-		internal static void RiseOnAuthSuccess()
-			=> OnAuthSuccess?.Invoke();
+		internal static void RiseAuthSuccess()
+		{
+			XDebug.Log("Auth success");
+			StoreListener?.OnAuthSuccess();
+			OnAuthSuccess?.Invoke();
+		}
 
-		internal static void RiseOnAuthError(Error error)
-			=> OnAuthFailed?.Invoke(error);
+		internal static void RiseAuthError(Error error)
+		{
+			XDebug.LogError($"Auth error: {error}");
+			StoreListener?.OnAuthError(error);
+			OnAuthError?.Invoke(error);
+		}
 
-		internal static void RiseOnAuthCancelled()
-			=> OnAuthCancelled?.Invoke();
+		internal static void RiseAuthCancelled()
+		{
+			XDebug.Log("Auth cancelled");
+			StoreListener?.OnAuthCancelled();
+			OnAuthCancelled?.Invoke();
+		}
+
+		internal static void RiseGetCatalogSuccess()
+		{
+			XDebug.Log("Get catalog success");
+			StoreListener?.OnGetCatalogSuccess();
+			OnGetCatalogSuccess?.Invoke();
+		}
+
+		internal static void RiseGetCatalogError(Error error)
+		{
+			XDebug.LogError($"Get catalog error: {error}");
+			StoreListener?.OnGetCatalogError(error);
+			OnGetCatalogError?.Invoke(error);
+		}
+
+		internal static void RisePurchaseSuccess(OrderStatus orderStatus)
+		{
+			XDebug.Log($"Purchase success: {orderStatus}");
+			StoreListener?.OnPurchaseSuccess(orderStatus);
+			OnPurchaseSuccess?.Invoke(orderStatus);
+		}
+
+		internal static void RisePurchaseError(Error error)
+		{
+			XDebug.LogError($"Purchase error: {error}");
+			StoreListener?.OnPurchaseError(error);
+			OnPurchaseError?.Invoke(error);
+		}
 	}
 }

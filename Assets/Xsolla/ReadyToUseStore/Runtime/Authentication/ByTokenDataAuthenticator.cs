@@ -13,7 +13,7 @@ namespace Xsolla.ReadyToUseStore
 		{
 			if (data == null)
 				return;
-			
+
 			AccessToken = data.accessToken;
 			RefreshToken = data.refreshToken;
 			ExpiresIn = data.expirationTime;

@@ -12,6 +12,7 @@ namespace Xsolla.ReadyToUseStore
 
 		private void Start()
 		{
+			PrefabsProvider ??= new PrefabsProvider();
 			StartAuthentication();
 		}
 
@@ -30,9 +31,10 @@ namespace Xsolla.ReadyToUseStore
 			SpawnedObjects.Clear();
 		}
 
-		public void Initialize(Config config)
+		public void Initialize(Config config, IPrefabsProvider prefabsProvider)
 		{
 			Config = config;
+			PrefabsProvider = prefabsProvider;
 		}
 
 		private void StartAuthentication()
@@ -49,14 +51,14 @@ namespace Xsolla.ReadyToUseStore
 			var prefab = PrefabsProvider.GetCatalogDirectorPrefab();
 			var director = Instantiate(prefab).GetComponent<CatalogDirector>();
 
-			if (Config != null && Config.Parent)
-				director.transform.SetParent(Config.Parent, Config.IsWorldSpace);
+			if (Config != null && Config.CatalogParent)
+				director.transform.SetParent(Config.CatalogParent, false);
 
-			if (Config != null && Config.IsWorldSpace)
+			if (Config != null && Config.IsDontDestroyOnLoad)
 				DontDestroyOnLoad(director.gameObject);
 
 			SpawnedObjects.Add(director.gameObject);
-			director.Construct(Config);
+			director.Construct(Config, PrefabsProvider);
 		}
 	}
 }
