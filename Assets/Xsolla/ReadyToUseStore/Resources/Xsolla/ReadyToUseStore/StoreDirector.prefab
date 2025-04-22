@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8518162006549041087}
   - component: {fileID: -234297020549216725}
   m_Layer: 0
-  m_Name: ReadyToUseStoreDirector
+  m_Name: StoreDirector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

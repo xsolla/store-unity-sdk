@@ -27,22 +27,22 @@ namespace Xsolla.ReadyToUseStore
 
 		public void StartAuthentication(Action onSuccess, Action<Error> onError, Action onCancel)
 		{
-			CheckEventSystemExists();
+			if (IsCheckEventSystemExists)
+				CheckEventSystemExists();
+
 			ExecuteNextAuthenticator(onSuccess, onError, onCancel);
 		}
 
-		private void CheckEventSystemExists()
+		private static void CheckEventSystemExists()
 		{
-			if (!IsCheckEventSystemExists)
-				return;
-
 			var eventSystem = Object.FindAnyObjectByType<EventSystem>();
 			if (eventSystem)
 				return;
 
-			Debug.Log("EventSystem not found. Creating new one.");
+			XDebug.Log("EventSystem not found. Creating new one.");
 
 			var gameObject = new GameObject("EventSystem");
+			Object.DontDestroyOnLoad(gameObject);
 			gameObject.AddComponent<EventSystem>();
 			gameObject.AddComponent<StandaloneInputModule>();
 		}
@@ -51,7 +51,8 @@ namespace Xsolla.ReadyToUseStore
 		{
 			if (Authenticators.Count == 0)
 			{
-				onError?.Invoke(new Error(ErrorType.Undefined, "All authenticators failed"));
+				var error = new Error(ErrorType.Undefined, "All authenticators failed");
+				OnAuthError(error, onError);
 				return;
 			}
 
@@ -63,24 +64,21 @@ namespace Xsolla.ReadyToUseStore
 				() => ExecuteNextAuthenticator(onSuccess, onError, onCancel));
 		}
 
-		private void OnAuthSuccess(Action callback)
+		private static void OnAuthSuccess(Action callback)
 		{
-			Debug.Log("Auth success");
-			XsollaReadyToUseStore.RiseOnAuthSuccess();
+			XsollaReadyToUseStore.RiseAuthSuccess();
 			callback?.Invoke();
 		}
 
-		private void OnAuthError(Error error, Action<Error> callback)
+		private static void OnAuthError(Error error, Action<Error> callback)
 		{
-			Debug.Log("Auth error: " + error);
-			XsollaReadyToUseStore.RiseOnAuthError(error);
+			XsollaReadyToUseStore.RiseAuthError(error);
 			callback?.Invoke(error);
 		}
 
-		private void OnAuthCancel(Action callback)
+		private static void OnAuthCancel(Action callback)
 		{
-			Debug.Log("Auth cancel");
-			XsollaReadyToUseStore.RiseOnAuthCancelled();
+			XsollaReadyToUseStore.RiseAuthCancelled();
 			callback?.Invoke();
 		}
 	}
