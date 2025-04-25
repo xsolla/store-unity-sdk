@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Xsolla.Catalog;
 
 namespace Xsolla.ReadyToUseStore
 {
@@ -14,6 +15,7 @@ namespace Xsolla.ReadyToUseStore
 		{
 			PrefabsProvider ??= new PrefabsProvider();
 			StartAuthentication();
+			WarmupCatalogImages();
 		}
 
 		private void OnDestroy()
@@ -44,6 +46,24 @@ namespace Xsolla.ReadyToUseStore
 				OpenStore,
 				null,
 				null);
+		}
+
+		private void WarmupCatalogImages()
+		{
+			XsollaCatalog.GetItems(
+				items => {
+					foreach (var item in items.items)
+					{
+						SpriteCache.Get(item.image_url, null);
+
+						foreach (var price in item.virtual_prices)
+						{
+							SpriteCache.Get(price.image_url, null);
+						}
+					}
+				},
+				null,
+				Config?.Locale);
 		}
 
 		private void OpenStore()
