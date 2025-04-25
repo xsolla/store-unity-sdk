@@ -21,7 +21,7 @@ namespace Xsolla.ReadyToUseStore
 			NameText.text = item.name;
 			DescriptionText.text = item.description;
 
-			ImageLoader.LoadSprite(
+			SpriteCache.Get(
 				item.image_url,
 				sprite => IconImage.sprite = sprite);
 
