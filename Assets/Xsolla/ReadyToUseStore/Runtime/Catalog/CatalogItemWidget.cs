@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using Xsolla.Catalog;
@@ -7,24 +8,57 @@ namespace Xsolla.ReadyToUseStore
 {
 	public class CatalogItemWidget : MonoBehaviour, ICatalogItemWidget
 	{
-		[SerializeField] private Text Text;
+		[SerializeField] private Text NameText;
+		[SerializeField] private Text DescriptionText;
 		[SerializeField] private Image IconImage;
-		[SerializeField] private Button Button;
+		[SerializeField] private Button BuyButton;
+		[Space]
+		[SerializeField] private Text PriceText;
+		[SerializeField] private Image VirtualPriceIcon;
 
-		public void Construct(StoreItem item)
+		public void SetItem(StoreItem item)
 		{
-			Text.text = item.name;
-			ImageLoader.LoadSprite(item.image_url, sprite => IconImage.sprite = sprite);
+			NameText.text = item.name;
+			DescriptionText.text = item.description;
 
-			Button.onClick.AddListener(() => Purchase(item.sku));
+			SpriteCache.Get(
+				item.image_url,
+				sprite => IconImage.sprite = sprite);
+
+			DrawPrice(item);
+
+			BuyButton.onClick.AddListener(() => Purchase(item));
 		}
 
-		private void Purchase(string sku)
+		private void DrawPrice(StoreItem item)
 		{
-			XsollaCatalog
-				.Purchase(sku,
-					x => Debug.Log("Purchase success: " + x),
-					e => Debug.LogError("Purchase error: " + e));
+			VirtualPriceIcon.gameObject.SetActive(item.virtual_prices != null && item.virtual_prices.Length > 0);
+
+			if (item.price != null)
+			{
+				var price = item.price;
+				PriceText.text = $"{price.amount} {price.currency}";
+			}
+			else if (item.virtual_prices != null)
+			{
+				var price = item.virtual_prices.FirstOrDefault(x => x.is_default);
+				if (price == null)
+					price = item.virtual_prices.First();
+
+				PriceText.text = $"{price.amount}";
+
+				ImageLoader.LoadSprite(
+					price.image_url,
+					sprite => VirtualPriceIcon.sprite = sprite);
+			}
+		}
+
+		private void Purchase(StoreItem item)
+		{
+			XsollaCatalog.Purchase(
+				item.sku,
+				XsollaReadyToUseStore.RisePurchaseSuccess,
+				XsollaReadyToUseStore.RisePurchaseError);
 		}
 	}
 }

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Xsolla.Catalog;
 
 namespace Xsolla.ReadyToUseStore
 {
@@ -12,7 +13,9 @@ namespace Xsolla.ReadyToUseStore
 
 		private void Start()
 		{
+			PrefabsProvider ??= new PrefabsProvider();
 			StartAuthentication();
+			WarmupCatalogImages();
 		}
 
 		private void OnDestroy()
@@ -30,9 +33,10 @@ namespace Xsolla.ReadyToUseStore
 			SpawnedObjects.Clear();
 		}
 
-		public void Initialize(Config config)
+		public void Initialize(Config config, IPrefabsProvider prefabsProvider)
 		{
 			Config = config;
+			PrefabsProvider = prefabsProvider;
 		}
 
 		private void StartAuthentication()
@@ -44,19 +48,37 @@ namespace Xsolla.ReadyToUseStore
 				null);
 		}
 
+		private void WarmupCatalogImages()
+		{
+			XsollaCatalog.GetItems(
+				items => {
+					foreach (var item in items.items)
+					{
+						SpriteCache.Get(item.image_url, null);
+
+						foreach (var price in item.virtual_prices)
+						{
+							SpriteCache.Get(price.image_url, null);
+						}
+					}
+				},
+				null,
+				Config?.Locale);
+		}
+
 		private void OpenStore()
 		{
 			var prefab = PrefabsProvider.GetCatalogDirectorPrefab();
 			var director = Instantiate(prefab).GetComponent<CatalogDirector>();
 
-			if (Config != null && Config.Parent)
-				director.transform.SetParent(Config.Parent, Config.IsWorldSpace);
+			if (Config != null && Config.CatalogParent)
+				director.transform.SetParent(Config.CatalogParent, false);
 
-			if (Config != null && Config.IsWorldSpace)
+			if (Config != null && Config.IsDontDestroyOnLoad)
 				DontDestroyOnLoad(director.gameObject);
 
 			SpawnedObjects.Add(director.gameObject);
-			director.Construct(Config);
+			director.Construct(Config, PrefabsProvider);
 		}
 	}
 }

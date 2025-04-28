@@ -6,9 +6,9 @@ namespace Xsolla.ReadyToUseStore
 	{
 		GameObject GetStoreDirectorPrefab();
 
-		GameObject GetAuthenticationDirectorPrefab();
-
 		GameObject GetCatalogDirectorPrefab();
+
+		GameObject GetCatalogCurtainPrefab();
 
 		GameObject GetCatalogItemWidgetPrefab();
 	}

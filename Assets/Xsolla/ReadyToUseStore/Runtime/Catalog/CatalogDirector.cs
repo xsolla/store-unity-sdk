@@ -8,45 +8,43 @@ namespace Xsolla.ReadyToUseStore
 	{
 		[SerializeField] private Transform WidgetsContainer;
 		[SerializeField] private Transform CurtainContainer;
-		[SerializeField] private GameObject CurtainPrefab;
-		[SerializeField] private Transform StoreItemWidgetPrefab;
 
 		private Config Config;
+		private IPrefabsProvider PrefabsProvider;
 		private GameObject Curtain;
 
 		private void Start()
 		{
-			ClearContainer();
-			FetchCatalog();
+			ClearWidgets();
+			GetCatalog();
 		}
 
-		public void Construct(Config config)
+		public void Construct(Config config, IPrefabsProvider prefabsProvider)
 		{
 			Config = config;
+			PrefabsProvider = prefabsProvider;
 		}
 
-		private void FetchCatalog()
+		private void GetCatalog()
 		{
 			CreateCurtain();
 
 			XsollaCatalog.GetItems(
-				response => {
-					DeleteCurtain();
-					DrawStore(response.items);
-				},
+				OnGetCatalogSuccess,
 				OnCatalogError,
 				Config?.Locale);
 		}
 
 		private void DrawStore(StoreItem[] items)
 		{
-			ClearContainer();
+			ClearWidgets();
 
+			var widgetPrefab = PrefabsProvider.GetCatalogItemWidgetPrefab();
 			foreach (var item in items)
 			{
-				Instantiate(StoreItemWidgetPrefab, WidgetsContainer, false)
+				Instantiate(widgetPrefab, WidgetsContainer, false)
 					.GetComponent<ICatalogItemWidget>()
-					.Construct(item);
+					.SetItem(item);
 			}
 		}
 
@@ -55,21 +53,21 @@ namespace Xsolla.ReadyToUseStore
 			if (Curtain)
 				return;
 
-			if (!CurtainPrefab)
+			var curtainPrefab = PrefabsProvider.GetCatalogCurtainPrefab();
+			if (!curtainPrefab)
 				return;
 
-			Curtain = Instantiate(CurtainPrefab, WidgetsContainer);
-			Curtain.transform.SetParent(CurtainContainer.transform, false);
-			Curtain.transform.SetAsFirstSibling();
+			Curtain = Instantiate(curtainPrefab, WidgetsContainer);
+			Curtain.transform.SetParent(CurtainContainer, false);
 		}
 
 		private void DeleteCurtain()
 		{
-			if (Curtain)
-				Destroy(Curtain);
+			CurtainContainer.gameObject.SetActive(false);
+				// Destroy(Curtain);
 		}
 
-		private void ClearContainer()
+		private void ClearWidgets()
 		{
 			foreach (Transform obj in WidgetsContainer)
 			{
@@ -78,9 +76,16 @@ namespace Xsolla.ReadyToUseStore
 			}
 		}
 
+		private void OnGetCatalogSuccess(StoreItems items)
+		{
+			XsollaReadyToUseStore.RiseGetCatalogSuccess();
+			DeleteCurtain();
+			DrawStore(items.items);
+		}
+
 		private void OnCatalogError(Error error)
 		{
-			XDebug.Log("Catalog error: " + error);
+			XsollaReadyToUseStore.RiseGetCatalogError(error);
 		}
 	}
 }
