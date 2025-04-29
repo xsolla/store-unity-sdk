@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 using Xsolla.Core;
 using Object = UnityEngine.Object;
 
@@ -11,7 +12,7 @@ namespace Xsolla.ReadyToUseStore
 
 		public static event Action OnAuthSuccess;
 		public static event Action<Error> OnAuthError;
-		public static event Action OnAuthCancelled;
+		public static event Action OnAuthCancel;
 
 		public static event Action OnGetCatalogSuccess;
 		public static event Action<Error> OnGetCatalogError;
@@ -19,16 +20,16 @@ namespace Xsolla.ReadyToUseStore
 		public static event Action<OrderStatus> OnPurchaseSuccess;
 		public static event Action<Error> OnPurchaseError;
 
-		public static void OpenStore(Config config = null, IPrefabsProvider prefabsProvider = null, IStoreListener storeListener = null)
+		public static void OpenStore(ReadyToUseStoreConfig config = null, IPrefabsProvider prefabsProvider = null, IStoreListener storeListener = null)
 		{
-			config ??= new Config();
-			prefabsProvider ??= new PrefabsProvider();
+			config ??= new ReadyToUseStoreConfig();
+			prefabsProvider ??= new DefaultPrefabsProvider();
 			StoreListener = storeListener;
 
 			if (StoreDirector && StoreDirector.isActiveAndEnabled)
 				return;
 
-			StoreDirector = Object.FindAnyObjectByType<StoreDirector>();
+			StoreDirector = Object.FindAnyObjectByType<StoreDirector>(FindObjectsInactive.Include);
 			if (!StoreDirector)
 			{
 				var prefab = prefabsProvider.GetStoreDirectorPrefab();
@@ -51,53 +52,68 @@ namespace Xsolla.ReadyToUseStore
 			StoreListener = null;
 		}
 
+		public static void WarmupCatalogImages()
+		{
+			WarmupHelper.WarmupCatalogImages();
+		}
+
 		internal static void RiseAuthSuccess()
 		{
-			XDebug.Log("Auth success");
+			LogMessage("Auth success");
 			StoreListener?.OnAuthSuccess();
 			OnAuthSuccess?.Invoke();
 		}
 
 		internal static void RiseAuthError(Error error)
 		{
-			XDebug.LogError($"Auth error: {error}");
+			LogError($"Auth error: {error}");
 			StoreListener?.OnAuthError(error);
 			OnAuthError?.Invoke(error);
 		}
 
-		internal static void RiseAuthCancelled()
+		internal static void RiseAuthCancel()
 		{
-			XDebug.Log("Auth cancelled");
-			StoreListener?.OnAuthCancelled();
-			OnAuthCancelled?.Invoke();
+			LogMessage("Auth cancel");
+			StoreListener?.OnAuthCancel();
+			OnAuthCancel?.Invoke();
 		}
 
 		internal static void RiseGetCatalogSuccess()
 		{
-			XDebug.Log("Get catalog success");
+			LogMessage("Get catalog success");
 			StoreListener?.OnGetCatalogSuccess();
 			OnGetCatalogSuccess?.Invoke();
 		}
 
 		internal static void RiseGetCatalogError(Error error)
 		{
-			XDebug.LogError($"Get catalog error: {error}");
+			LogError($"Get catalog error: {error}");
 			StoreListener?.OnGetCatalogError(error);
 			OnGetCatalogError?.Invoke(error);
 		}
 
 		internal static void RisePurchaseSuccess(OrderStatus orderStatus)
 		{
-			XDebug.Log($"Purchase success: {orderStatus}");
+			LogMessage($"Purchase success: {orderStatus}");
 			StoreListener?.OnPurchaseSuccess(orderStatus);
 			OnPurchaseSuccess?.Invoke(orderStatus);
 		}
 
 		internal static void RisePurchaseError(Error error)
 		{
-			XDebug.LogError($"Purchase error: {error}");
+			LogError($"Purchase error: {error}");
 			StoreListener?.OnPurchaseError(error);
 			OnPurchaseError?.Invoke(error);
+		}
+
+		private static void LogMessage(string message)
+		{
+			XDebug.Log("[ReadyToUseStore] " + message);
+		}
+
+		private static void LogError(string message)
+		{
+			XDebug.LogError("[ReadyToUseStore] " + message);
 		}
 	}
 }

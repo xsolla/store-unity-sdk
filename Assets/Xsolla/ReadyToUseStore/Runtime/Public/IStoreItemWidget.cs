@@ -2,7 +2,7 @@ using Xsolla.Core;
 
 namespace Xsolla.ReadyToUseStore
 {
-	public interface ICatalogItemWidget
+	public interface IStoreItemWidget
 	{
 		void SetItem(StoreItem item);
 	}

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using Xsolla.Catalog;
 using Xsolla.Core;
@@ -9,7 +10,7 @@ namespace Xsolla.ReadyToUseStore
 		[SerializeField] private Transform WidgetsContainer;
 		[SerializeField] private Transform CurtainContainer;
 
-		private Config Config;
+		private ReadyToUseStoreConfig ReadyToUseStoreConfig;
 		private IPrefabsProvider PrefabsProvider;
 		private GameObject Curtain;
 
@@ -19,9 +20,9 @@ namespace Xsolla.ReadyToUseStore
 			GetCatalog();
 		}
 
-		public void Construct(Config config, IPrefabsProvider prefabsProvider)
+		public void Construct(ReadyToUseStoreConfig config, IPrefabsProvider prefabsProvider)
 		{
-			Config = config;
+			ReadyToUseStoreConfig = config;
 			PrefabsProvider = prefabsProvider;
 		}
 
@@ -32,18 +33,18 @@ namespace Xsolla.ReadyToUseStore
 			XsollaCatalog.GetItems(
 				OnGetCatalogSuccess,
 				OnCatalogError,
-				Config?.Locale);
+				ReadyToUseStoreConfig?.Locale);
 		}
 
 		private void DrawStore(StoreItem[] items)
 		{
 			ClearWidgets();
 
-			var widgetPrefab = PrefabsProvider.GetCatalogItemWidgetPrefab();
+			var widgetPrefab = PrefabsProvider.GetStoreItemWidgetPrefab();
 			foreach (var item in items)
 			{
 				Instantiate(widgetPrefab, WidgetsContainer, false)
-					.GetComponent<ICatalogItemWidget>()
+					.GetComponent<IStoreItemWidget>()
 					.SetItem(item);
 			}
 		}
@@ -64,7 +65,6 @@ namespace Xsolla.ReadyToUseStore
 		private void DeleteCurtain()
 		{
 			CurtainContainer.gameObject.SetActive(false);
-				// Destroy(Curtain);
 		}
 
 		private void ClearWidgets()
@@ -79,8 +79,27 @@ namespace Xsolla.ReadyToUseStore
 		private void OnGetCatalogSuccess(StoreItems items)
 		{
 			XsollaReadyToUseStore.RiseGetCatalogSuccess();
-			DeleteCurtain();
-			DrawStore(items.items);
+			FetchAllImages(items);
+		}
+
+		private void FetchAllImages(StoreItems items)
+		{
+			var urls = WarmupHelper.FetchAllImageUrls(items);
+			var counter = urls.Count;
+
+			foreach (var url in urls)
+			{
+				SpriteCache.Get(
+					url,
+					_ => {
+						counter--;
+						if (counter <= 0)
+						{
+							DeleteCurtain();
+							DrawStore(items.items);
+						}
+					});
+			}
 		}
 
 		private void OnCatalogError(Error error)

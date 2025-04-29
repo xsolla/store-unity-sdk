@@ -312,7 +312,7 @@ GameObject:
   - component: {fileID: 3576721325931055118}
   - component: {fileID: 7808271753388590161}
   m_Layer: 5
-  m_Name: CatalogItemWidget
+  m_Name: StoreItemWidget
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -10,6 +10,6 @@ namespace Xsolla.ReadyToUseStore
 
 		GameObject GetCatalogCurtainPrefab();
 
-		GameObject GetCatalogItemWidgetPrefab();
+		GameObject GetStoreItemWidgetPrefab();
 	}
 }
