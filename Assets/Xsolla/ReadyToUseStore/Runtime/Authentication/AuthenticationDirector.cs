@@ -13,15 +13,15 @@ namespace Xsolla.ReadyToUseStore
 		private readonly Queue<IAuthenticator> Authenticators;
 		private readonly bool IsCheckEventSystemExists;
 
-		public AuthenticationDirector(Config config)
+		public AuthenticationDirector(ReadyToUseStoreConfig config)
 		{
 			IsCheckEventSystemExists = config != null
 				? config.IsCheckEventSystemExists
 				: true;
 
 			Authenticators = new Queue<IAuthenticator>();
-			Authenticators.Enqueue(new BySavedDataAuthenticator());
 			Authenticators.Enqueue(new ByTokenDataAuthenticator(config?.TokenData));
+			Authenticators.Enqueue(new BySavedDataAuthenticator());
 			Authenticators.Enqueue(new ByWidgetAuthenticator(config?.Locale));
 		}
 
@@ -78,7 +78,7 @@ namespace Xsolla.ReadyToUseStore
 
 		private static void OnAuthCancel(Action callback)
 		{
-			XsollaReadyToUseStore.RiseAuthCancelled();
+			XsollaReadyToUseStore.RiseAuthCancel();
 			callback?.Invoke();
 		}
 	}

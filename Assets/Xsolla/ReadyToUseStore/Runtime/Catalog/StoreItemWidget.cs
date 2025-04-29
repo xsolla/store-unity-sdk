@@ -6,7 +6,7 @@ using Xsolla.Core;
 
 namespace Xsolla.ReadyToUseStore
 {
-	public class CatalogItemWidget : MonoBehaviour, ICatalogItemWidget
+	internal class StoreItemWidget : MonoBehaviour, IStoreItemWidget
 	{
 		[SerializeField] private Text NameText;
 		[SerializeField] private Text DescriptionText;

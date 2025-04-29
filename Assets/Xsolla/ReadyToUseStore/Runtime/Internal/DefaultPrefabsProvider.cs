@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Xsolla.ReadyToUseStore
 {
-	internal class PrefabsProvider : IPrefabsProvider
+	internal class DefaultPrefabsProvider : IPrefabsProvider
 	{
 		public GameObject GetStoreDirectorPrefab()
 			=> LoadPrefab("Xsolla/ReadyToUseStore/StoreDirector");
@@ -13,8 +13,8 @@ namespace Xsolla.ReadyToUseStore
 		public GameObject GetCatalogCurtainPrefab()
 			=> LoadPrefab("Xsolla/ReadyToUseStore/CatalogCurtain");
 
-		public GameObject GetCatalogItemWidgetPrefab()
-			=> LoadPrefab("Xsolla/ReadyToUseStore/CatalogItemWidget");
+		public GameObject GetStoreItemWidgetPrefab()
+			=> LoadPrefab("Xsolla/ReadyToUseStore/StoreItemWidget");
 
 		private static GameObject LoadPrefab(string path)
 			=> Resources.Load<GameObject>(path);

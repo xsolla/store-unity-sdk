@@ -8,7 +8,7 @@ namespace Xsolla.ReadyToUseStore
 
 		void OnAuthError(Error error);
 
-		void OnAuthCancelled();
+		void OnAuthCancel();
 
 		void OnGetCatalogSuccess();
 

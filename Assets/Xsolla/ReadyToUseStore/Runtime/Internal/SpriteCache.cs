@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using Xsolla.Core;
 
@@ -13,7 +12,6 @@ namespace Xsolla.ReadyToUseStore
 		public static void Get(string url, Action<Sprite> callback)
 		{
 			var handler = Handlers.GetValueOrDefault(url);
-
 			if (handler == null)
 			{
 				handler = new SpriteCacheHandler();
@@ -38,20 +36,12 @@ namespace Xsolla.ReadyToUseStore
 		{
 			handler.Sprite = sprite;
 
-			var list = handler.Callbacks.ToList();
-			foreach (var callback in list)
+			foreach (var callback in handler.Callbacks)
 			{
 				callback?.Invoke(sprite);
 			}
 
 			handler.Callbacks.Clear();
 		}
-	}
-
-	internal class SpriteCacheHandler
-	{
-		public Sprite Sprite;
-
-		public List<Action<Sprite>> Callbacks = new();
 	}
 }

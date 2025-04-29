@@ -3,7 +3,7 @@ using Xsolla.Core;
 
 namespace Xsolla.ReadyToUseStore
 {
-	public class Config
+	public class ReadyToUseStoreConfig
 	{
 		public string Locale { get; set; }
 
