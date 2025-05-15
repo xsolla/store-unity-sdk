@@ -62,8 +62,7 @@ namespace Xsolla.Auth
 				SdkType.Login,
 				url,
 				requestData,
-				webRequest =>
-				{
+				webRequest => {
 					var responseJson = webRequest?.downloadHandler?.text;
 					if (string.IsNullOrEmpty(responseJson))
 					{
@@ -111,8 +110,7 @@ namespace Xsolla.Auth
 				SdkType.Login,
 				url,
 				requestData,
-				response =>
-				{
+				response => {
 					XsollaToken.Create(response.access_token, response.refresh_token, response.expires_in);
 					onSuccess?.Invoke();
 				},
@@ -444,15 +442,11 @@ namespace Xsolla.Auth
 		/// <param name="locale">Login widget UI language. Supported languages: Arabic (ar_AE), Bulgarian (bg_BG), Czech (cz_CZ), Filipino (fil-PH), English (en_XX), German (de_DE), Spanish (es_ES), French (fr_FR), Hebrew (he_IL), Indonesian (id-ID), Italian (it_IT), Japanese (ja_JP), Khmer (km-KH), Korean (ko_KR), Lao language ( lo-LA), Myanmar (my-MM), NepaliPolish (ne-NP), (pl_PL), Portuguese (pt_BR), Romanian (ro_RO), Russian (ru_RU), Thai (th_TH), Turkish (tr_TR), Vietnamese (vi_VN), Chinese Simplified (zh_CN), Chinese Traditional (zh_TW).</param>
 		public static void AuthWithXsollaWidget(Action onSuccess, Action<Error> onError, Action onCancel, string locale = null)
 		{
-#if UNITY_STANDALONE
-			new StandaloneXsollaWidgetAuth().Perform(onSuccess, onError, onCancel, locale);
-#elif UNITY_ANDROID
-			new AndroidXsollaWidgetAuth().Perform(onSuccess, onError, onCancel, locale);
-#elif UNITY_IOS
-			new IosXsollaWidgetAuth().Perform(onSuccess, onError, onCancel, locale);
-#else
-			onError?.Invoke(new Error(ErrorType.NotSupportedOnCurrentPlatform, errorMessage: $"Auth with Xsolla Widget is not supported for this platform: {Application.platform}"));
-#endif
+			var authenticator = new WidgetAuthenticatorFactory().Create(onSuccess, onError, onCancel, locale);
+			if (authenticator != null)
+				authenticator.Launch();
+			else
+				onError?.Invoke(new Error(ErrorType.NotSupportedOnCurrentPlatform, errorMessage: $"Auth with Xsolla Widget is not supported for this platform: {Application.platform}"));
 		}
 
 		/// <summary>
@@ -566,8 +560,7 @@ namespace Xsolla.Auth
 			WebRequestHelper.Instance.GetRequest<AccessTokenResponse>(
 				SdkType.Login,
 				url,
-				response =>
-				{
+				response => {
 					XsollaToken.Create(response.token);
 					onSuccess?.Invoke();
 				},
@@ -698,8 +691,7 @@ namespace Xsolla.Auth
 				SdkType.Login,
 				url,
 				WebRequestHeader.AuthHeader(),
-				list =>
-				{
+				list => {
 					onSuccess?.Invoke(new SocialNetworkLinks {
 						items = list
 					});
@@ -735,8 +727,7 @@ namespace Xsolla.Auth
 				SdkType.Login,
 				url,
 				requestData,
-				response =>
-				{
+				response => {
 					XsollaToken.Create(response.access_token, response.refresh_token, response.expires_in);
 					onSuccess?.Invoke();
 				},
@@ -766,8 +757,7 @@ namespace Xsolla.Auth
 				SdkType.Login,
 				url,
 				requestData,
-				response =>
-				{
+				response => {
 					XsollaToken.Create(response.access_token, response.refresh_token, response.expires_in);
 					onSuccess?.Invoke();
 				},

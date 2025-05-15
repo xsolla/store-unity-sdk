@@ -1,5 +1,4 @@
 mergeInto(LibraryManager.library, {
-
 	OpenPayStationWidget: function (token, sandbox, engineVersion, sdkVersion, applePayMerchantDomain, appearanceJson) {
 		var jsToken = UTF8ToString(token);
 		var isSandbox = sandbox > 0 ? true : false;

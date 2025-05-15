@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Xsolla Login Widget</title>
+    <script src="https://cdn.xsolla.net/xsolla-login-widget/sdk/2.2.6/xl.min.js"></script>
+</head>
+<body>
+<script>
+    const fullUrl = window.location.href;
+    console.log("[Xsolla SDK] Url:" + fullUrl)
+
+    const tokenMatch = fullUrl.match(/[?&]token=([^&]+)/);
+    const token = tokenMatch ? decodeURIComponent(tokenMatch[1]) : null;
+
+    if (token) {
+        if (window.opener && token) {
+            window.opener.postMessage({type: 'xsolla-widget-auth', data: token}, '*');
+            window.close();
+        } else {
+            document.body.innerText = "Unable to communicate with the parent window.";
+        }
+    } else {
+        const projectIdMatch = fullUrl.match(/[?&]project_id=([^&]+)/);
+        const projectId = projectIdMatch ? projectIdMatch[1] : null;
+
+        const localeMatch = fullUrl.match(/[?&]locale=([^&]+)/);
+        const locale = localeMatch ? localeMatch[1] : "en_US";
+
+        console.log("[Xsolla SDK] Launching widget with projectId:", projectId, "locale:", locale);
+
+        if (!projectId) {
+            console.error("[Xsolla SDK] Missing project_id in URL.");
+            document.body.innerText = "Missing project id in URL.";
+        } else {
+            XL.init({
+                projectId: projectId,
+                callbackUrl: window.location.origin + '/xl-widget.html',
+                locale: locale
+            });
+
+            XL.show();
+        }
+    }
+</script>
+</body>
+</html>
