@@ -564,17 +564,28 @@ namespace Xsolla.Catalog
 		/// <param name="customHeaders">Custom web request headers</param>
 		public static void CreateOrder(string itemSku, Action<OrderData> onSuccess, Action<Error> onError, PurchaseParams purchaseParams = null, Dictionary<string, string> customHeaders = null)
 		{
+			if (CreateOrderCooldown.IsActive)
+				return;
+
+			CreateOrderCooldown.Start();
+
 			var url = $"{BaseUrl}/payment/item/{itemSku}";
 			var requestData = PurchaseParamsGenerator.GeneratePurchaseParamsRequest(purchaseParams);
 			var headers = PurchaseParamsGenerator.GeneratePaymentHeaders(customHeaders);
 
-			WebRequestHelper.Instance.PostRequest(
+			WebRequestHelper.Instance.PostRequest<OrderData, PurchaseParamsRequest>(
 				SdkType.Store,
 				url,
 				requestData,
 				headers,
-				onSuccess,
-				error => TokenAutoRefresher.Check(error, onError, () => CreateOrder(itemSku, onSuccess, onError, purchaseParams, customHeaders)),
+				orderData => {
+					CreateOrderCooldown.Cancel();
+					onSuccess?.Invoke(orderData);
+				},
+				error => {
+					CreateOrderCooldown.Cancel();
+					TokenAutoRefresher.Check(error, onError, () => CreateOrder(itemSku, onSuccess, onError, purchaseParams, customHeaders));
+				},
 				ErrorGroup.BuyItemErrors);
 		}
 
