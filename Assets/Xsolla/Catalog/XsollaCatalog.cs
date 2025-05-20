@@ -19,7 +19,8 @@ namespace Xsolla.Catalog
 		/// <param name="locale">Response language. [Two-letter lowercase language code](https://developers.xsolla.com/doc/pay-station/features/localization/). Leave empty to use the default value.</param>
 		/// <param name="country">Country for which to calculate regional prices and restrictions in a catalog. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Calculations are based on the user's IP address if the country is not specified.  Check the documentation for detailed information about [countries supported by Xsolla](https://developers.xsolla.com/doc/in-game-store/references/supported-countries/).</param>
 		/// <param name="additionalFields">The list of additional fields. These fields will be in a response if you send them in a request. Available fields `media_list`, `order`, and `long_description`.</param>
-		public static void GetItems(Action<StoreItems> onSuccess, Action<Error> onError, string locale = null, string country = null, string additionalFields = "long_description")
+		/// <param name="sdkType">SDK type. Used for internal analytics.</param>
+		public static void GetItems(Action<StoreItems> onSuccess, Action<Error> onError, string locale = null, string country = null, string additionalFields = "long_description", SdkType sdkType = SdkType.Store)
 		{
 			var items = new List<StoreItem>();
 			const int limit = 50;
@@ -37,7 +38,8 @@ namespace Xsolla.Catalog
 					offset,
 					locale,
 					country,
-					additionalFields);
+					additionalFields,
+					sdkType);
 			}
 
 			void handleResponse(StoreItems response)
@@ -72,7 +74,8 @@ namespace Xsolla.Catalog
 		/// <param name="locale">Response language. [Two-letter lowercase language code](https://developers.xsolla.com/doc/pay-station/features/localization/). Leave empty to use the default value.</param>
 		/// <param name="country">Country for which to calculate regional prices and restrictions in a catalog. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Calculations are based on the user's IP address if the country is not specified.  Check the documentation for detailed information about [countries supported by Xsolla](https://developers.xsolla.com/doc/in-game-store/references/supported-countries/).</param>
 		/// <param name="additionalFields">The list of additional fields. These fields will be in a response if you send them in a request. Available fields `media_list`, `order`, and `long_description`.</param>
-		public static void GetPaginatedItems(Action<StoreItems> onSuccess, Action<Error> onError, int limit, int offset, string locale = null, string country = null, string additionalFields = "long_description")
+		/// <param name="sdkType">SDK type. Used for internal analytics.</param>
+		public static void GetPaginatedItems(Action<StoreItems> onSuccess, Action<Error> onError, int limit, int offset, string locale = null, string country = null, string additionalFields = "long_description", SdkType sdkType = SdkType.Store)
 		{
 			var url = new UrlBuilder($"{BaseUrl}/items/virtual_items")
 				.AddLimit(limit)
@@ -83,7 +86,7 @@ namespace Xsolla.Catalog
 				.Build();
 
 			WebRequestHelper.Instance.GetRequest(
-				SdkType.Store,
+				sdkType,
 				url,
 				WebRequestHeader.AuthHeader(),
 				onSuccess,
@@ -557,14 +560,15 @@ namespace Xsolla.Catalog
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="purchaseParams">Purchase parameters such as <c>country</c>, <c>locale</c>, and <c>currency</c>.</param>
 		/// <param name="customHeaders">Custom web request headers</param>
-		public static void CreateOrder(string itemSku, Action<OrderData> onSuccess, Action<Error> onError, PurchaseParams purchaseParams = null, Dictionary<string, string> customHeaders = null)
+		/// <param name="sdkType">SDK type. Used for internal analytics.</param>
+		public static void CreateOrder(string itemSku, Action<OrderData> onSuccess, Action<Error> onError, PurchaseParams purchaseParams = null, Dictionary<string, string> customHeaders = null, SdkType sdkType = SdkType.Store)
 		{
 			var url = $"{BaseUrl}/payment/item/{itemSku}";
 			var requestData = PurchaseParamsGenerator.GeneratePurchaseParamsRequest(purchaseParams);
 			var headers = PurchaseParamsGenerator.GeneratePaymentHeaders(customHeaders);
 
 			WebRequestHelper.Instance.PostRequest(
-				SdkType.Store,
+				sdkType,
 				url,
 				requestData,
 				headers,
@@ -645,7 +649,8 @@ namespace Xsolla.Catalog
 		/// <param name="purchaseParams">Purchase and payment UI parameters, such as <c>locale</c>, <c>currency</c>, etc.</param>
 		/// <param name="customHeaders">Custom web request headers</param>
 		/// <param name="platformSpecificAppearance">Additional settings of payment UI appearance for different platforms.</param>
-		public static void Purchase(string itemSku, Action<OrderStatus> onSuccess, Action<Error> onError, Action<OrderData> onOrderCreated = null, Action<BrowserCloseInfo> onBrowseClosed = null, PurchaseParams purchaseParams = null, Dictionary<string, string> customHeaders = null, PlatformSpecificAppearance platformSpecificAppearance = null)
+		/// <param name="sdkType">SDK type. Used for internal analytics.</param>
+		public static void Purchase(string itemSku, Action<OrderStatus> onSuccess, Action<Error> onError, Action<OrderData> onOrderCreated = null, Action<BrowserCloseInfo> onBrowseClosed = null, PurchaseParams purchaseParams = null, Dictionary<string, string> customHeaders = null, PlatformSpecificAppearance platformSpecificAppearance = null, SdkType sdkType = SdkType.Store)
 		{
 			CreateOrder(
 				itemSku,
@@ -656,7 +661,8 @@ namespace Xsolla.Catalog
 						orderData.token,
 						false,
 						onBrowseClosed,
-						platformSpecificAppearance);
+						platformSpecificAppearance, 
+						sdkType);
 
 					OrderTrackingService.AddOrderForTracking(orderData.order_id,
 						true, () => {
@@ -668,7 +674,8 @@ namespace Xsolla.Catalog
 				},
 				onError,
 				purchaseParams,
-				customHeaders);
+				customHeaders,
+				sdkType);
 		}
 
 		/// <summary>

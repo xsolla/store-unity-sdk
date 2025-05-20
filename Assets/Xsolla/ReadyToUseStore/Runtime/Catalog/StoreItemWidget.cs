@@ -58,7 +58,8 @@ namespace Xsolla.ReadyToUseStore
 			XsollaCatalog.Purchase(
 				item.sku,
 				XsollaReadyToUseStore.RisePurchaseSuccess,
-				XsollaReadyToUseStore.RisePurchaseError);
+				XsollaReadyToUseStore.RisePurchaseError,
+				sdkType: SdkType.ReadyToUseStore);
 		}
 	}
 }

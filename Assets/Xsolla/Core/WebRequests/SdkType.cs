@@ -5,6 +5,7 @@ namespace Xsolla.Core
 		Login,
 		Store,
 		Subscriptions,
-		SettingsFillTool
+		SettingsFillTool,
+		ReadyToUseStore
 	}
 }

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Xsolla.Catalog;
+using Xsolla.Core;
 
 namespace Xsolla.ReadyToUseStore
 {
@@ -15,7 +16,8 @@ namespace Xsolla.ReadyToUseStore
 						SpriteCache.Get(url, null);
 					}
 				},
-				null);
+				null,
+				sdkType: SdkType.ReadyToUseStore);
 		}
 
 		public static List<string> FetchAllImageUrls(StoreItems items)
