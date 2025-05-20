@@ -10,9 +10,9 @@ namespace Xsolla.Auth
 	{
 		[DllImport("__Internal")]
 		private static extern string OpenXsollaLoginWidgetPopup(string projectId, string locale);
-		
+
 		[DllImport("__Internal")]
-		private static extern string OpenXsollaLoginWidgetPopupWithConfirmation(string projectId, string locale);
+		private static extern string OpenXsollaLoginWidgetPopupWithConfirmation(string projectId, string locale, string popupMessageText, string continueButtonText, string cancelButtonText);
 
 		private readonly Action OnSuccessCallback;
 		private readonly Action<Error> OnErrorCallback;
@@ -29,9 +29,34 @@ namespace Xsolla.Auth
 
 		public void Launch()
 		{
+			Screen.fullScreen = false;
 			LogMessage("Launch");
 			SubscribeToWebCallbacks();
+
+			if (!WebHelper.IsBrowserSafari())
+				OpenImmediately();
+			else
+				OpenWithConfirmation();
+		}
+
+		private void OpenImmediately()
+		{
+			LogMessage("Open widget without confirmation");
 			OpenXsollaLoginWidgetPopup(XsollaSettings.LoginId, Locale);
+		}
+
+		private void OpenWithConfirmation()
+		{
+			LogMessage("Open widget with confirmation");
+			var browserLocale = string.IsNullOrEmpty(Locale)
+				? WebHelper.GetBrowserLanguage().ToLowerInvariant()
+				: Locale.ToLowerInvariant();
+
+			var localizationProvider = new WidgetOpenConfirmationPopupLocalizationDataProvider();
+			var messageText = localizationProvider.GetMessageText(browserLocale);
+			var continueButtonText = localizationProvider.GetContinueButtonText(browserLocale);
+			var cancelButtonText = localizationProvider.GetCancelButtonText(browserLocale);
+			OpenXsollaLoginWidgetPopupWithConfirmation(XsollaSettings.LoginId, Locale, messageText, continueButtonText, cancelButtonText);
 		}
 
 		private void OnAuthSuccessWebCallbackReceived(string data)

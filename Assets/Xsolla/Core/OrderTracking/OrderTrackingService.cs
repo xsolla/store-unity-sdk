@@ -33,10 +33,10 @@ namespace Xsolla.Core
 
 #if UNITY_WEBGL
 
-			var isSafariBrowser = XsollaWebBrowserHandlerWebGL.IsBrowserSafari();
+			var isSafariBrowser = WebHelper.IsBrowserSafari();
 			return !UnityEngine.Application.isEditor && XsollaSettings.InAppBrowserEnabled && !isSafariBrowser
 				? new OrderTrackerByPaystationCallbacks(trackingData)
-				: new OrderTrackerByShortPolling(trackingData) as OrderTracker;
+				: new OrderTrackerByShortPolling(trackingData);
 #else
 			return new OrderTrackerByCentrifugo(trackingData);
 #endif

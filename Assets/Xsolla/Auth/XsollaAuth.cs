@@ -414,14 +414,16 @@ namespace Xsolla.Auth
 			}
 
 			var expirationTime = XsollaToken.ExpirationTime;
-			if (expirationTime <= 0)
+			var refreshTokenExists = !string.IsNullOrEmpty(XsollaToken.RefreshToken);
+
+			if (expirationTime <= 0 && refreshTokenExists)
 			{
 				XDebug.Log("XsollaToken has no expiration time, trying to refresh it");
 				RefreshToken(onSuccess, onError);
 				return;
 			}
 
-			if (expirationTime < DateTimeOffset.UtcNow.ToUnixTimeSeconds())
+			if (expirationTime < DateTimeOffset.UtcNow.ToUnixTimeSeconds() && refreshTokenExists)
 			{
 				XDebug.Log("XsollaToken is expired, trying to refresh it");
 				RefreshToken(() => onSuccess?.Invoke(), e => onError?.Invoke(e));

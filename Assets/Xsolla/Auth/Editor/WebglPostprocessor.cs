@@ -48,8 +48,8 @@ namespace Xsolla.Core.Editor
 			path = Path.GetDirectoryName(path);
 			if (path == null)
 				throw new DirectoryNotFoundException("Can't find directory with android native file");
-
-			return Path.Combine(path, "xl-widget.html");
+			
+			return Path.Combine(path, "widget-proxy-page.html");
 		}
 	}
 }

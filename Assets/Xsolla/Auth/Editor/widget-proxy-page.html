@@ -25,7 +25,7 @@
         const projectId = projectIdMatch ? projectIdMatch[1] : null;
 
         const localeMatch = fullUrl.match(/[?&]locale=([^&]+)/);
-        const locale = localeMatch ? localeMatch[1] : "en_US";
+        const locale = localeMatch ? localeMatch[1] : null;
 
         console.log("[Xsolla SDK] Launching widget with projectId:", projectId, "locale:", locale);
 
@@ -33,12 +33,18 @@
             console.error("[Xsolla SDK] Missing project_id in URL.");
             document.body.innerText = "Missing project id in URL.";
         } else {
-            XL.init({
-                projectId: projectId,
-                callbackUrl: window.location.origin + '/xl-widget.html',
-                locale: locale
-            });
-
+            if (locale) {
+                XL.init({
+                    projectId: projectId,
+                    callbackUrl: window.location.origin + '/xl-widget.html',
+                    locale: locale
+                });
+            } else {
+                XL.init({
+                    projectId: projectId,
+                    callbackUrl: window.location.origin + '/xl-widget.html'
+                });
+            }
             XL.show();
         }
     }

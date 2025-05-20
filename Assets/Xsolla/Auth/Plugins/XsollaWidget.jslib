@@ -2,8 +2,12 @@ mergeInto(LibraryManager.library, {
     OpenXsollaLoginWidgetPopup: function (projectIdPtr, localePtr) {
         var projectId = UTF8ToString(projectIdPtr);
         var locale = UTF8ToString(localePtr);
+        
+        var popupUrl = window.location.origin + "/xl-widget.html?project_id=" + projectId;
+        if (locale != null && locale !== "") {
+            popupUrl += "&locale=" + locale;
+        }
                 
-        var popupUrl = window.location.origin + "/xl-widget.html?project_id=" + projectId + "&locale=" + locale
         var popup = window.open(
             popupUrl,
             'Xsolla Login Widget',
@@ -24,12 +28,12 @@ mergeInto(LibraryManager.library, {
         }, false);
     },
     
-    OpenXsollaLoginWidgetPopupWithConfirmation: function (projectIdPtr, localePtr) {
+    OpenXsollaLoginWidgetPopupWithConfirmation: function (projectIdPtr, localePtr, popupMessageTextPtr, continueButtonTextPtr, cancelButtonTextPtr) {
         var projectId = UTF8ToString(projectIdPtr);
         var locale = UTF8ToString(localePtr);
-        var jsPopupMessage = "Будет открыт попап?";
-        var jsContinueButtonText = "Продолжить";
-        var jsCancelButtonText = "Отмена";
+        var popupMessageText = UTF8ToString(popupMessageTextPtr);
+        var continueButtonText = UTF8ToString(continueButtonTextPtr);
+        var cancelButtonText = UTF8ToString(cancelButtonTextPtr);
     
         var overlay = document.createElement('div');
         overlay.style.position = 'fixed';
@@ -51,13 +55,13 @@ mergeInto(LibraryManager.library, {
         popup.style.textAlign = 'center';
     
         var messageElement = document.createElement('p');
-        messageElement.textContent = jsPopupMessage;
+        messageElement.textContent = popupMessageText;
         messageElement.style.margin = '20px';
         messageElement.style.fontSize = '16px';
         popup.appendChild(messageElement);
     
         var cancelButton = document.createElement('button');
-        cancelButton.textContent = jsCancelButtonText;
+        cancelButton.textContent = cancelButtonText;
         cancelButton.style.padding = '10px 20px';
         cancelButton.style.margin = '0 5px';
         cancelButton.style.border = 'none';
@@ -74,7 +78,7 @@ mergeInto(LibraryManager.library, {
         });
         
         var continueButton = document.createElement('button');
-        continueButton.textContent = jsContinueButtonText;
+        continueButton.textContent = continueButtonText;
         continueButton.style.padding = '10px 20px';
         continueButton.style.margin = '0 5px';
         continueButton.style.border = 'none';
@@ -87,7 +91,12 @@ mergeInto(LibraryManager.library, {
         continueButton.style.cursor = 'pointer';
         
         continueButton.addEventListener('click', function () {
-            var popupUrl = window.location.origin + "/xl-widget.html?project_id=" + projectId + "&locale=" + locale
+            var popupUrl = window.location.origin + "/xl-widget.html?project_id=" + projectId;
+            
+            if (locale != null && locale !== "") {
+                popupUrl += "&locale=" + locale;
+            }
+            
             console.log("[Xsolla SDK] PopupUrl: " + popupUrl);
             var popup = window.open(
                 popupUrl,
@@ -107,6 +116,7 @@ mergeInto(LibraryManager.library, {
                     SendMessage('XsollaWebCallbacks', 'PublishWidgetAuthSuccess', token);
                 }
             }, false);
+            
             document.body.removeChild(overlay);
         });
     
