@@ -661,16 +661,20 @@ namespace Xsolla.Catalog
 						orderData.token,
 						false,
 						onBrowseClosed,
-						platformSpecificAppearance, 
+						platformSpecificAppearance,
 						sdkType);
 
-					OrderTrackingService.AddOrderForTracking(orderData.order_id,
-						true, () => {
+					OrderTrackingService.AddOrderForTracking(
+						orderData.order_id,
+						true,
+						() => {
 							if (XsollaWebBrowser.InAppBrowser?.IsOpened ?? false)
 								XsollaWebBrowser.Close();
 
-							OrderStatusService.GetOrderStatus(orderData.order_id, onSuccess, onError);
-						}, onError);
+							OrderStatusService.GetOrderStatus(orderData.order_id, onSuccess, onError, sdkType);
+						},
+						onError,
+						sdkType);
 				},
 				onError,
 				purchaseParams,
@@ -691,7 +695,8 @@ namespace Xsolla.Catalog
 		/// <param name="platform">Publishing platform the user plays on.<br/>
 		///     Can be `xsolla` (default), `playstation_network`, `xbox_live`, `pc_standalone`, `nintendo_shop`, `google_play`, `app_store_ios`, `android_standalone`, `ios_standalone`, `android_other`, `ios_other`, or `pc_other`.</param>
 		/// <param name="customHeaders">Custom HTTP request headers.</param>
-		public static void PurchaseForVirtualCurrency(string itemSku, string priceSku, Action<OrderStatus> onSuccess, Action<Error> onError, Action<OrderId> onOrderCreated = null, PurchaseParams purchaseParams = null, string platform = null, Dictionary<string, string> customHeaders = null)
+		/// <param name="sdkType">SDK type. Used for internal analytics.</param>
+		public static void PurchaseForVirtualCurrency(string itemSku, string priceSku, Action<OrderStatus> onSuccess, Action<Error> onError, Action<OrderId> onOrderCreated = null, PurchaseParams purchaseParams = null, string platform = null, Dictionary<string, string> customHeaders = null, SdkType sdkType = SdkType.Store)
 		{
 			CreateOrderByVirtualCurrency(
 				itemSku,
@@ -701,7 +706,10 @@ namespace Xsolla.Catalog
 
 					OrderTrackingService.AddOrderForTracking(
 						orderId.order_id,
-						false, () => OrderStatusService.GetOrderStatus(orderId.order_id, onSuccess, onError), onError);
+						false,
+						() => OrderStatusService.GetOrderStatus(orderId.order_id, onSuccess, onError, sdkType),
+						onError,
+						sdkType);
 				},
 				onError,
 				purchaseParams,
@@ -719,7 +727,8 @@ namespace Xsolla.Catalog
 		/// <param name="onOrderCreated">Called after the order is created.</param>
 		/// <param name="purchaseParams">Purchase parameters such as <c>country</c>, <c>locale</c>, and <c>currency</c>.</param>
 		/// <param name="customHeaders">Custom HTTP request headers.</param>
-		public static void PurchaseFreeItem(string itemSku, Action<OrderStatus> onSuccess, Action<Error> onError, Action<OrderId> onOrderCreated = null, PurchaseParams purchaseParams = null, Dictionary<string, string> customHeaders = null)
+		/// <param name="sdkType">SDK type. Used for internal analytics.</param>
+		public static void PurchaseFreeItem(string itemSku, Action<OrderStatus> onSuccess, Action<Error> onError, Action<OrderId> onOrderCreated = null, PurchaseParams purchaseParams = null, Dictionary<string, string> customHeaders = null, SdkType sdkType = SdkType.Store)
 		{
 			CreateOrderWithFreeItem(
 				itemSku,
@@ -728,7 +737,10 @@ namespace Xsolla.Catalog
 
 					OrderTrackingService.AddOrderForTracking(
 						orderId.order_id,
-						false, () => OrderStatusService.GetOrderStatus(orderId.order_id, onSuccess, onError), onError);
+						false,
+						() => OrderStatusService.GetOrderStatus(orderId.order_id, onSuccess, onError, sdkType),
+						onError,
+						sdkType);
 				},
 				onError,
 				purchaseParams,

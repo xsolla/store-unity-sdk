@@ -442,10 +442,11 @@ namespace Xsolla.Auth
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="onCancel">Called after browser closing by user.</param>
 		/// <param name="locale">Login widget UI language. Supported languages: Arabic (ar_AE), Bulgarian (bg_BG), Czech (cz_CZ), Filipino (fil-PH), English (en_XX), German (de_DE), Spanish (es_ES), French (fr_FR), Hebrew (he_IL), Indonesian (id-ID), Italian (it_IT), Japanese (ja_JP), Khmer (km-KH), Korean (ko_KR), Lao language ( lo-LA), Myanmar (my-MM), NepaliPolish (ne-NP), (pl_PL), Portuguese (pt_BR), Romanian (ro_RO), Russian (ru_RU), Thai (th_TH), Turkish (tr_TR), Vietnamese (vi_VN), Chinese Simplified (zh_CN), Chinese Traditional (zh_TW).</param>
-		public static void AuthWithXsollaWidget(Action onSuccess, Action<Error> onError, Action onCancel, string locale = null)
+		/// <param name="sdkType">SDK type. Used for internal analytics.</param>
+		public static void AuthWithXsollaWidget(Action onSuccess, Action<Error> onError, Action onCancel, string locale = null, SdkType sdkType = SdkType.Login)
 		{
 #if UNITY_STANDALONE
-			new StandaloneXsollaWidgetAuth().Perform(onSuccess, onError, onCancel, locale);
+			new StandaloneXsollaWidgetAuth().Perform(onSuccess, onError, onCancel, locale, sdkType);
 #elif UNITY_ANDROID
 			new AndroidXsollaWidgetAuth().Perform(onSuccess, onError, onCancel, locale);
 #elif UNITY_IOS
@@ -752,7 +753,8 @@ namespace Xsolla.Auth
 		/// <param name="redirectUri">URI to redirect the user to after account confirmation, successful authentication, two-factor authentication configuration, or password reset confirmation.
 		///     Must be identical to the OAuth 2.0 redirect URIs specified in Publisher Account.
 		///     Required if there are several URIs.</param>
-		public static void ExchangeCodeToToken(string code, Action onSuccess, Action<Error> onError, string redirectUri = null)
+		/// <param name="sdkType">SDK type. Used for internal analytics.</param>
+		public static void ExchangeCodeToToken(string code, Action onSuccess, Action<Error> onError, string redirectUri = null, SdkType sdkType = SdkType.Login)
 		{
 			const string url = BASE_URL + "/oauth2/token";
 
@@ -763,7 +765,7 @@ namespace Xsolla.Auth
 			requestData.AddField("code", code);
 
 			WebRequestHelper.Instance.PostRequest<TokenResponse>(
-				SdkType.Login,
+				sdkType,
 				url,
 				requestData,
 				response =>

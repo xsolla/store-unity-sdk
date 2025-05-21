@@ -19,7 +19,8 @@ namespace Xsolla.ReadyToUseStore
 				() => onSuccess?.Invoke(),
 				e => onError?.Invoke(e),
 				() => onCancel?.Invoke(),
-				Locale);
+				Locale,
+				sdkType: SdkType.ReadyToUseStore);
 		}
 	}
 }

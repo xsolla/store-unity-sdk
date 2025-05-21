@@ -9,12 +9,14 @@ namespace Xsolla.Auth
 		private Action<Error> OnError;
 		private Action OnCancel;
 		private IInAppBrowser BrowserInstance;
+		private SdkType SdkType;
 
-		public void Perform(Action onSuccess, Action<Error> onError, Action onCancel, string locale)
+		public void Perform(Action onSuccess, Action<Error> onError, Action onCancel, string locale, SdkType sdkType = SdkType.Login)
 		{
 			OnSuccess = onSuccess;
 			OnError = onError;
 			OnCancel = onCancel;
+			SdkType = sdkType;
 
 			var url = new UrlBuilder("https://login-widget.xsolla.com/latest/")
 				.AddProjectId(XsollaSettings.LoginId)
@@ -46,7 +48,8 @@ namespace Xsolla.Auth
 			XsollaAuth.ExchangeCodeToToken(
 				parsedCode,
 				() => OnSuccess?.Invoke(),
-				error => OnError?.Invoke(error));
+				error => OnError?.Invoke(error),
+				sdkType: SdkType);
 		}
 
 		private void OnBrowserClose(BrowserCloseInfo info)

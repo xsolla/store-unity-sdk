@@ -14,19 +14,20 @@ namespace Xsolla.Core
 		/// <param name="isUserInvolvedToPayment">Whether to use platform-specific methods for tracking, such as Web Sockets or Pay Station callbacks.</param>
 		/// <param name="onSuccess">Callback, triggered when the order status is changed to `done`</param>
 		/// <param name="onError">Callback, triggered when an error occurs during the order tracking.</param>
-		public static void AddOrderForTracking(int orderId, bool isUserInvolvedToPayment, Action onSuccess, Action<Error> onError)
+		/// <param name="sdkType">SDK type. Used for internal analytics.</param>
+		public static void AddOrderForTracking(int orderId, bool isUserInvolvedToPayment, Action onSuccess, Action<Error> onError, SdkType sdkType = SdkType.Store)
 		{
-			var tracker = CreateTracker(orderId, isUserInvolvedToPayment, onSuccess, onError);
+			var tracker = CreateTracker(orderId, isUserInvolvedToPayment, onSuccess, onError, sdkType);
 			if (tracker != null)
 				StartTracker(tracker);
 		}
 
-		private static OrderTracker CreateTracker(int orderId, bool isUserInvolvedToPayment, Action onSuccess, Action<Error> onError)
+		private static OrderTracker CreateTracker(int orderId, bool isUserInvolvedToPayment, Action onSuccess, Action<Error> onError, SdkType sdkType)
 		{
 			if (Trackers.ContainsKey(orderId))
 				return null;
 
-			var trackingData = new OrderTrackingData(orderId, onSuccess, onError);
+			var trackingData = new OrderTrackingData(orderId, onSuccess, onError, sdkType);
 
 			if (!isUserInvolvedToPayment)
 				return new OrderTrackerByShortPolling(trackingData);
