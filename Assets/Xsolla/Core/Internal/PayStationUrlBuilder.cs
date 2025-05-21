@@ -10,7 +10,7 @@ namespace Xsolla.Core
 		private readonly bool IsSandBox;
 		private readonly int PayStationVersion;
 
-		public PayStationUrlBuilder(string paymentToken, SdkType sdkType)
+		public PayStationUrlBuilder(string paymentToken, SdkType sdkType = SdkType.Store)
 		{
 			PaymentToken = paymentToken;
 			SdkType = sdkType;
