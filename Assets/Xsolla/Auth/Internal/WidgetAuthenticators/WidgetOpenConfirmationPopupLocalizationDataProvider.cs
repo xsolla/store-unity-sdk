@@ -2,9 +2,9 @@
 using System.Text.RegularExpressions;
 using UnityEngine;
 
-namespace Xsolla.Core
+namespace Xsolla.Auth
 {
-	internal static class XsollaWebBrowserLocalizationDataProvider
+	internal class WidgetOpenConfirmationPopupLocalizationDataProvider
 	{
 		private static TextAsset _dataAsset;
 
@@ -13,41 +13,44 @@ namespace Xsolla.Core
 			get
 			{
 				if (!_dataAsset)
-					_dataAsset = Resources.Load<TextAsset>("SafariPopupLocalization");
+					_dataAsset = Resources.Load<TextAsset>("WidgetOpenConfirmationPopupLocalization");
 
 				return _dataAsset;
 			}
 		}
 
-		private const string DefaultMessage = "Open a payment page in a new tab?";
+		private const string DefaultMessage = "Open a new tab to log in?";
 		private const string DefaultContinueButtonText = "Yes, open";
 		private const string DefaultCancelButtonText = "Cancel";
 
 		private const int MessageLineIndex = 1;
-		private const int ContinueButtonLineIndex = 3;
-		private const int CancelButtonLineIndex = 4;
+		private const int ContinueButtonLineIndex = 2;
+		private const int CancelButtonLineIndex = 3;
 
-		public static string GetMessageText(string locale)
+		public string GetMessageText(string locale)
 		{
-			var dataText = DataAsset.text;
-			if (string.IsNullOrEmpty(dataText))
+			if (string.IsNullOrEmpty(locale))
 				return DefaultMessage;
 
-			var rowIndex = GetRowIndex(dataText, locale);
-			var cellText = GetCellText(dataText, rowIndex, MessageLineIndex);
+			var data = DataAsset.text;
+			if (string.IsNullOrEmpty(data))
+				return DefaultMessage;
+
+			var localeColumn = GetLocaleColumn(data, locale);
+			var cellText = GetCellText(data, localeColumn, MessageLineIndex);
 
 			return string.IsNullOrEmpty(cellText)
 				? DefaultMessage
 				: cellText;
 		}
 
-		public static string GetContinueButtonText(string locale)
+		public string GetContinueButtonText(string locale)
 		{
 			var dataText = DataAsset.text;
 			if (string.IsNullOrEmpty(dataText))
 				return DefaultContinueButtonText;
 
-			var rowIndex = GetRowIndex(dataText, locale);
+			var rowIndex = GetLocaleColumn(dataText, locale);
 			var cellText = GetCellText(dataText, rowIndex, ContinueButtonLineIndex);
 
 			return string.IsNullOrEmpty(cellText)
@@ -55,13 +58,13 @@ namespace Xsolla.Core
 				: cellText;
 		}
 
-		public static string GetCancelButtonText(string locale)
+		public string GetCancelButtonText(string locale)
 		{
 			var dataText = DataAsset.text;
 			if (string.IsNullOrEmpty(dataText))
 				return DefaultCancelButtonText;
 
-			var rowIndex = GetRowIndex(dataText, locale);
+			var rowIndex = GetLocaleColumn(dataText, locale);
 			var cellText = GetCellText(dataText, rowIndex, CancelButtonLineIndex);
 
 			return string.IsNullOrEmpty(cellText)
@@ -69,7 +72,7 @@ namespace Xsolla.Core
 				: cellText;
 		}
 
-		private static int GetRowIndex(string data, string locale)
+		private int GetLocaleColumn(string data, string locale)
 		{
 			if (data == null)
 				return -1;
@@ -99,7 +102,7 @@ namespace Xsolla.Core
 			return -1;
 		}
 
-		private static string GetCellText(string data, int rowIndex, int lineIndex)
+		private string GetCellText(string data, int rowIndex, int lineIndex)
 		{
 			var lines = data.Split('\n');
 			if (lineIndex >= lines.Length)
