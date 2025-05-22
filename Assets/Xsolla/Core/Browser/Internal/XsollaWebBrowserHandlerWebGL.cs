@@ -16,20 +16,14 @@ namespace Xsolla.Core
 		[DllImport("__Internal")]
 		private static extern void ClosePayStationWidget();
 
-		[DllImport("__Internal")]
-		private static extern string GetUserAgent();
-
-		[DllImport("__Internal")]
-		private static extern string GetBrowserLanguage();
-
 		private static Action<bool> BrowserClosedCallback;
 
 		public static void OpenPayStation(string token, Action<BrowserCloseInfo> onBrowserClosed, WebGlAppearance appearance, SdkType sdkType)
 		{
 			Screen.fullScreen = false;
 
-			if (IsBrowserSafari())
-				ConfirmAndOpenPayStationPage(token, sdkType);
+			if (WebHelper.IsBrowserSafari())
+				ConfirmAndOpenPayStationPage(token);
 			else
 				OpenPayStationWidgetImmediately(token, onBrowserClosed, appearance, sdkType);
 		}
@@ -66,29 +60,12 @@ namespace Xsolla.Core
 		{
 			var url = new PayStationUrlBuilder(token, sdkType).Build();
 
-			var browserLocale = GetBrowserLanguage().ToLowerInvariant();
+			var browserLocale = WebHelper.GetBrowserLanguage().ToLowerInvariant();
 			var popupMessage = XsollaWebBrowserLocalizationDataProvider.GetMessageText(browserLocale);
 			var continueButtonText = XsollaWebBrowserLocalizationDataProvider.GetContinueButtonText(browserLocale);
 			var cancelButtonText = XsollaWebBrowserLocalizationDataProvider.GetCancelButtonText(browserLocale);
 
 			ShowPopupAndOpenPayStation(url, popupMessage, continueButtonText, cancelButtonText);
-		}
-
-		public static bool IsBrowserSafari()
-		{
-			var userAgent = GetUserAgent();
-
-			if (Application.isMobilePlatform)
-			{
-				return (userAgent.Contains("iPhone") || userAgent.Contains("iPad"))
-					&& userAgent.Contains("Safari")
-					&& !userAgent.Contains("CriOS");
-			}
-
-			return userAgent.Contains("Safari")
-				&& userAgent.Contains("AppleWebKit")
-				&& !userAgent.Contains("Chrome")
-				&& !userAgent.Contains("Chromium");
 		}
 
 		public static void OpenUrlInNewTab(string url)

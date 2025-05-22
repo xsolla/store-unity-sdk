@@ -8,6 +8,9 @@ namespace Xsolla.Core
 		private event Action OnPaymentStatusUpdate;
 		private event Action OnPaymentCancel;
 
+		public event Action<string> WidgetAuthSuccess;
+		public event Action WidgetAuthCancel;
+
 		private void Awake()
 		{
 			DontDestroyOnLoad(gameObject);
@@ -23,6 +26,18 @@ namespace Xsolla.Core
 		public void PublishPaymentCancel()
 		{
 			OnPaymentCancel?.Invoke();
+		}
+
+		// Callback for Xsolla Widget (do not remove)
+		public void PublishWidgetAuthSuccess(string data)
+		{
+			WidgetAuthSuccess?.Invoke(data);
+		}
+
+		// Callback for Xsolla Widget (do not remove)
+		public void PublishWidgetAuthCancel()
+		{
+			WidgetAuthCancel?.Invoke();
 		}
 
 		public static void AddPaymentStatusUpdateHandler(Action action)
@@ -45,9 +60,11 @@ namespace Xsolla.Core
 			Instance.OnPaymentCancel -= action;
 		}
 
+		#region Singleton
+
 		private static XsollaWebCallbacks _instance;
 
-		private static XsollaWebCallbacks Instance
+		public static XsollaWebCallbacks Instance
 		{
 			get
 			{
@@ -57,5 +74,7 @@ namespace Xsolla.Core
 				return _instance;
 			}
 		}
+
+		#endregion
 	}
 }

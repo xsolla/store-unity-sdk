@@ -3,6 +3,7 @@ package com.xsolla.sdk.unity.Example.androidProxies;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.xsolla.android.payments.XPayments;
 import com.xsolla.android.payments.data.AccessToken;
@@ -20,6 +21,7 @@ public class PaymentsProxyActivity extends Activity {
     private static final int RC_PAY_STATION = 1;
     
     private static BrowserCallback browserCallback;
+    private static final String TAG = "PaymentsProxyActivity";
 
     public static void perform(Activity activity, String token, boolean isSandbox, String redirectScheme, String redirectHost, int paystationVersion, BrowserCallback callback, String activityType) {
         browserCallback = callback;
@@ -43,8 +45,20 @@ public class PaymentsProxyActivity extends Activity {
         }
 
         Intent intent = getIntent();
+        if (intent == null) {
+            Log.e(TAG, "Intent is null. Exiting.");
+            finish();
+            return;
+        }
+        
         String token = intent.getStringExtra(ARG_TOKEN);
-        boolean isSandbox = intent.getBooleanExtra(ARG_SANDBOX, false);
+        if (token == null) {
+            Log.e(TAG, "Missing token extra. Exiting.");
+            finish();
+            return;
+        }
+        
+        boolean isSandbox = intent.getBooleanExtra(ARG_SANDBOX, false);        
         String redirectScheme = intent.getStringExtra(ARG_REDIRECT_SCHEME);
         String redirectHost = intent.getStringExtra(ARG_REDIRECT_HOST);
         int paystationVersionNumber = intent.getIntExtra(ARG_PAYSTATION_VERSION, 4);
@@ -78,9 +92,14 @@ public class PaymentsProxyActivity extends Activity {
                 case "TrustedWebActivity":
                     builder.setActivityType(ActivityType.TRUSTED_WEB_ACTIVITY);
                     break;
+                default:
+                    Log.w(TAG, "Unknown activityType: " + activityType + ", defaulting to CUSTOM_TABS.");
+                    builder.setActivityType(ActivityType.CUSTOM_TABS);
+                    break;
             }
         }
 
+        Log.d(TAG, "Launching PayStation activity.");
         startActivityForResult(builder.build(), RC_PAY_STATION);
     }
 
@@ -88,11 +107,27 @@ public class PaymentsProxyActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         
-        XPayments.Result result = XPayments.Result.fromResultIntent(data);
-        XPayments.Status status = result.getStatus();
-        boolean isManually = status == XPayments.Status.CANCELLED;
-        browserCallback.onBrowserClosed(isManually);
-
+        boolean isManually = true;
+        
+        if (data != null) {
+            try {
+                XPayments.Result result = XPayments.Result.fromResultIntent(data);
+                XPayments.Status status = result.getStatus();
+                isManually = (status == XPayments.Status.CANCELLED);
+                Log.d(TAG, "PayStation closed with status: " + status);
+            } catch (Exception e) {
+                Log.e(TAG, "Error parsing result from PayStation", e);
+            }
+        } else {
+            Log.w(TAG, "No result data returned from PayStation.");
+        }
+    
+        if (browserCallback != null) {
+            browserCallback.onBrowserClosed(isManually);
+        } else {
+            Log.w(TAG, "browserCallback is null.");
+        }
+    
         finish();
     }
 }

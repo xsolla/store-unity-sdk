@@ -1,4 +1,11 @@
 # Changelog
+## [2.5.4] - 2025-04-18
+### Added
+- `WebGlAppearance` class for configuring WebGL-specific appearance and behavior settings
+
+### Changed
+- Updated internal Android libraries to improve compatibility and stability
+
 ## [2.5.3] - 2025-03-06
 ### Added
 - Support for opening Pay Station in Safari in WebGL build. To bypass pop-up blocking, a confirmation pop-up added
