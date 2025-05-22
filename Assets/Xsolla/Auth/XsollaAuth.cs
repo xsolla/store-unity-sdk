@@ -445,7 +445,7 @@ namespace Xsolla.Auth
 		/// <param name="sdkType">SDK type. Used for internal analytics.</param>
 		public static void AuthWithXsollaWidget(Action onSuccess, Action<Error> onError, Action onCancel, string locale = null, SdkType sdkType = SdkType.Login)
 		{
-			var authenticator = new WidgetAuthenticatorFactory().Create(onSuccess, onError, onCancel, locale);
+			var authenticator = new WidgetAuthenticatorFactory().Create(onSuccess, onError, onCancel, locale, sdkType);
 			if (authenticator != null)
 				authenticator.Launch();
 			else
