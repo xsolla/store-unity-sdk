@@ -577,7 +577,7 @@ namespace Xsolla.Catalog
 			var requestData = PurchaseParamsGenerator.GeneratePurchaseParamsRequest(purchaseParams);
 			var headers = PurchaseParamsGenerator.GeneratePaymentHeaders(customHeaders);
 
-			WebRequestHelper.Instance.PostRequest(
+			WebRequestHelper.Instance.PostRequest<OrderData, PurchaseParamsRequest>(
 				sdkType,
 				url,
 				requestData,

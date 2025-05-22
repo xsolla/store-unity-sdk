@@ -23,7 +23,7 @@ namespace Xsolla.Core
 			Screen.fullScreen = false;
 
 			if (WebHelper.IsBrowserSafari())
-				ConfirmAndOpenPayStationPage(token);
+				ConfirmAndOpenPayStationPage(token, sdkType);
 			else
 				OpenPayStationWidgetImmediately(token, onBrowserClosed, appearance, sdkType);
 		}
