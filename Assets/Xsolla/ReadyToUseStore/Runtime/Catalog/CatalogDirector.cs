@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 using Xsolla.Catalog;
 using Xsolla.Core;
@@ -33,7 +32,8 @@ namespace Xsolla.ReadyToUseStore
 			XsollaCatalog.GetItems(
 				OnGetCatalogSuccess,
 				OnCatalogError,
-				ReadyToUseStoreConfig?.Locale);
+				ReadyToUseStoreConfig?.Locale,
+				sdkType: SdkType.ReadyToUseStore);
 		}
 
 		private void DrawStore(StoreItem[] items)

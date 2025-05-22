@@ -88,7 +88,7 @@ namespace Xsolla.Core
 					return i;
 			}
 
-			locale = locale.Split("-")[0];
+			locale = locale.Split("_")[0];
 
 			for (var i = 0; i < cells.Length; i++)
 			{

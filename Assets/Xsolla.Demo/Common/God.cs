@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using Xsolla.ReadyToUseStore;
 
@@ -5,16 +6,16 @@ namespace Xsolla.Demo
 {
 	public class God : MonoBehaviour
 	{
-		[ContextMenu("Initialize Store")]
-		private void OpenStore()
+		private void Update()
 		{
-			XsollaReadyToUseStore.OpenStore();
-		}
+			if (Input.GetKeyDown(KeyCode.Alpha0))
+				PlayerPrefs.DeleteAll();
 
-		[ContextMenu("Destroy Store")]
-		private void DestroyStore()
-		{
-			XsollaReadyToUseStore.CloseStore();
+			if (Input.GetKeyDown(KeyCode.Alpha5))
+				XsollaReadyToUseStore.OpenStore();
+
+			if (Input.GetKeyDown(KeyCode.Alpha8))
+				XsollaReadyToUseStore.CloseStore();
 		}
 	}
 }

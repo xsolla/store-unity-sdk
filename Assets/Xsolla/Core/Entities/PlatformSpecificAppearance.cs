@@ -1,89 +1,87 @@
 namespace Xsolla.Core
 {
-	//TEXTREVIEW
 	public class PlatformSpecificAppearance
 	{
 		/// <summary>
-		/// Defines the type of Activity to use for payment UI appearance for the Android platform.
+		/// Specifies the type of Activity used for the payment UI appearance on Android builds.
 		/// </summary>
 		public AndroidActivityType? AndroidActivityType;
 
 		/// <summary>
-		/// Defines the Payment UI appearance for the Web platform.
+		/// Specifies the payment UI appearance settings for the WebGL builds.
 		/// </summary>
 		public WebGlAppearance WebGlAppearance;
 	}
 
-	//TEXTREVIEW
 	public class WebGlAppearance
 	{
 		/// <summary>
-		/// Width of the widget. The default value is '740px'.
+		/// Width of the widget. Default is `740px`.
 		/// </summary>
 		public string widgetWidth;
 
 		/// <summary>
-		/// Height of the widget. The default value is '760px'.
+		/// Height of the widget. Default is `760px`.
 		/// </summary>
 		public string widgetHeight;
 
 		/// <summary>
-		/// Controls the vertical stacking order (z-index). The default value is 1000.
+		/// Controls the vertical stacking order (z-index). Default is `1000`.
 		/// </summary>
 		public int? zIndex;
 
 		/// <summary>
-		/// Opacity of the overlay (from 0 to 1). The default value is 0.6.
+		/// Opacity of the overlay (range: 0 to 1). Default is `0.6`.
 		/// </summary>
 		public float? overlayOpacity;
 
 		/// <summary>
-		/// Background color of the overlay in hex format. The default value is '#000000'.
+		/// Overlay background color in hex format. Default is `#000000`.
 		/// </summary>
 		public string overlayBackgroundColor;
 
 		/// <summary>
-		/// If true, the widget frame cannot be closed. The default value is false.
+		/// If `true`, the widget frame can't be closed. Default is `false`.
 		/// </summary>
 		public bool? isModal;
 
 		/// <summary>
-		/// If true, clicking the overlay will close the widget. The default value is true.
+		/// If `true`, clicking on the overlay will close the widget. Default is `true`.
 		/// </summary>
 		public bool? closeByClickOverlay;
 
 		/// <summary>
-		/// If true, pressing the 'ESC' key will close the widget. The default value is true.
+		/// If `true`, pressing the `ESC` key closes the widget. Default is `true`.
 		/// </summary>
 		public bool? closeByKeyboardEscape;
 
 		/// <summary>
-		/// Background color of the widget in hex format. The default value is '#ffffff'.
+		/// Background color of the widget in hex format. Default is '#ffffff'.
 		/// </summary>
 		public string contentBackgroundColor;
 
 		/// <summary>
-		/// Margin around the widget frame. The default value is '10px'.
+		/// Margin around the widget frame. Default is '10px'.
 		/// </summary>
 		public string contentMargin;
 
 		/// <summary>
-		/// Type of the animated loading spinner. Can be 'xsolla', 'round', 'none', or 'custom'. The default value is 'round'.
+		/// Type of animated loading spinner. Options: 'xsolla', 'round', 'none', or 'custom'. Default is 'round'.
 		/// </summary>
 		public string spinnerType;
 
 		/// <summary>
-		/// Color of the spinner in hex format. The default value is '#cccccc'.
+		/// Spinner color in hex format. Default is '#cccccc'.
 		/// </summary>
 		public string spinnerColor;
 
 		/// <summary>
-		/// URL of the custom spinner. The default value is null.
+		/// URL of the custom spinner. Default is null.
 		/// </summary>
 		public string spinnerUrl;
 
 		/// <summary>
-		/// Rotation period of the custom spinner in seconds. The default value is 0.
+		/// Rotation period of the custom spinner in seconds. Default is 0.
 		/// </summary>
 		public float? spinnerRotationPeriod;
 	}

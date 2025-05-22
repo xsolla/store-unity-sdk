@@ -33,9 +33,10 @@ namespace Xsolla.Inventory
 
 		/// <summary>
 		/// Returns a list of virtual items from the user’s inventory according to pagination settings. For each virtual item, complete data is returned.
+		/// <b>Attention:</b> The number of items returned in a single response is limited. <b>The default and maximum value is 50 items per response</b>. To get more data page by page, use <code>limit</code> and <code>offset</code> fields.
 		/// </summary>
 		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/player-inventory/display-inventory/).</remarks>
-		/// <param name="onSuccess">Called after purchased virtual items were successfully received.</param>
+		/// <param name="onSuccess">Called after purchased items were successfully received.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="limit">Limit for the number of elements on the page. The maximum number of elements on a page is 50.</param>
 		/// <param name="offset">Number of the element from which the list is generated (the count starts from 0).</param>

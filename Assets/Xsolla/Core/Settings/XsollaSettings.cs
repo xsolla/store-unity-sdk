@@ -87,7 +87,7 @@ namespace Xsolla.Core
 			get => Instance.packInAppBrowserInBuild;
 			set => Instance.packInAppBrowserInBuild = value;
 		}
-		
+
 		public static string ApplePayMerchantDomain
 		{
 			get => Instance.applePayMerchantDomain;
@@ -142,20 +142,8 @@ namespace Xsolla.Core
 			set => Instance.iosPayStationUISettings = value;
 		}
 
-		public static string FacebookAppId
-		{
-			get => string.Empty;
-
-			// get => Instance.facebookAppId;
-			// set => Instance.facebookAppId = value;
-		}
-
-		public static string FacebookClientToken
-		{
-			get => string.Empty;
-			// get => Instance.facebookClientToken;
-			// set => Instance.facebookClientToken = value;
-		}
+		public static string FacebookAppId => string.Empty;
+		public static string FacebookClientToken => string.Empty;
 
 		public static string GoogleServerId
 		{
@@ -181,6 +169,8 @@ namespace Xsolla.Core
 			set => Instance.logLevel = value;
 		}
 
+		#region Singleton
+
 		private static XsollaSettings _instance;
 
 		public static XsollaSettings Instance
@@ -189,19 +179,20 @@ namespace Xsolla.Core
 			{
 				if (!_instance)
 				{
-					var instances = Resources.LoadAll<XsollaSettings>(string.Empty);
-
-					if (instances.Length == 0)
+					var asset = Resources.Load("XsollaSettings");
+					if (!asset)
 						throw new Exception("`XsollaSettings` asset not found. Please create it.");
 
-					if (instances.Length > 1)
-						throw new Exception("Multiple `XsollaSettings` assets found. Please keep only one asset.");
-
-					_instance = instances[0];
+					if (asset is XsollaSettings settings)
+						_instance = settings;
+					else
+						throw new Exception($"`XsollaSettings` asset is not of type `{typeof(XsollaSettings)}`.");
 				}
 
 				return _instance;
 			}
 		}
+
+		#endregion
 	}
 }
