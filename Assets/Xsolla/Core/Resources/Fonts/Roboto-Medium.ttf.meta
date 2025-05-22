@@ -8,11 +8,9 @@ TrueTypeFontImporter:
   characterSpacing: 0
   characterPadding: 1
   includeFontData: 1
-  fontName: Roboto Medium
   fontNames:
   - Roboto Medium
-  fallbackFontReferences:
-  - {fileID: 12800000, guid: 1667589805dfd954c9da6646a8e338ff, type: 3}
+  fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0
   ascentCalculationMode: 1
