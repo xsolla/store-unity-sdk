@@ -10,8 +10,18 @@ namespace Xsolla.ReadyToUseStore
 		private ReadyToUseStoreConfig ReadyToUseStoreConfig;
 		private IPrefabsProvider PrefabsProvider;
 
+		private static StoreDirector Instance;
+
 		private void Start()
 		{
+			if (Instance)
+			{
+				gameObject.SetActive(false);
+				return;
+			}
+
+			Instance = this;
+
 			PrefabsProvider ??= new DefaultPrefabsProvider();
 			StartAuthentication();
 			WarmupHelper.WarmupCatalogImages();
