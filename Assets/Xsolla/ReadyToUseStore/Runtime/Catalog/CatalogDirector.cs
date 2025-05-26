@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Xsolla.Catalog;
 using Xsolla.Core;
@@ -12,6 +14,9 @@ namespace Xsolla.ReadyToUseStore
 		private ReadyToUseStoreConfig ReadyToUseStoreConfig;
 		private IPrefabsProvider PrefabsProvider;
 		private GameObject Curtain;
+
+		private StoreItems StoreItems;
+		private VirtualCurrencyPackages VirtualCurrencyPackages;
 
 		private void Start()
 		{
@@ -28,9 +33,27 @@ namespace Xsolla.ReadyToUseStore
 		private void GetCatalog()
 		{
 			CreateCurtain();
+			GetItems();
+			GetVirtualCurrencyPackages();
+		}
+
+		private void GetItems()
+		{
+			StoreItems = null;
 
 			XsollaCatalog.GetItems(
-				OnGetCatalogSuccess,
+				OnGetItemsSuccess,
+				OnCatalogError,
+				ReadyToUseStoreConfig?.Locale,
+				sdkType: SdkType.ReadyToUseStore);
+		}
+
+		private void GetVirtualCurrencyPackages()
+		{
+			VirtualCurrencyPackages = null;
+
+			XsollaCatalog.GetVirtualCurrencyPackagesList(
+				OnGetVirtualPackagesSuccess,
 				OnCatalogError,
 				ReadyToUseStoreConfig?.Locale,
 				sdkType: SdkType.ReadyToUseStore);
@@ -76,13 +99,36 @@ namespace Xsolla.ReadyToUseStore
 			}
 		}
 
-		private void OnGetCatalogSuccess(StoreItems items)
+		private void OnGetItemsSuccess(StoreItems items)
 		{
-			XsollaReadyToUseStore.RiseGetCatalogSuccess();
-			FetchAllImages(items);
+			StoreItems = items;
+			CheckGetCatalogSuccess();
 		}
 
-		private void FetchAllImages(StoreItems items)
+		private void OnGetVirtualPackagesSuccess(VirtualCurrencyPackages packages)
+		{
+			VirtualCurrencyPackages = packages;
+			CheckGetCatalogSuccess();
+		}
+
+		private void CheckGetCatalogSuccess()
+		{
+			if (StoreItems == null)
+				return;
+
+			if (VirtualCurrencyPackages == null)
+				return;
+
+			XsollaReadyToUseStore.RiseGetCatalogSuccess();
+
+			var allItems = new List<StoreItem>();
+			allItems.AddRange(StoreItems.items);
+			allItems.AddRange(VirtualCurrencyPackages.items);
+
+			FetchAllImages(allItems.ToArray());
+		}
+
+		private void FetchAllImages(StoreItem[] items)
 		{
 			var urls = WarmupHelper.FetchAllImageUrls(items);
 			var counter = urls.Count;
@@ -96,7 +142,7 @@ namespace Xsolla.ReadyToUseStore
 						if (counter <= 0)
 						{
 							DeleteCurtain();
-							DrawStore(items.items);
+							DrawStore(items);
 						}
 					});
 			}

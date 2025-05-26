@@ -42,14 +42,12 @@ namespace Xsolla.ReadyToUseStore
 
 		public static void CloseStore()
 		{
-			if (StoreDirector)
-			{
-				StoreDirector.gameObject.SetActive(false);
-				Object.Destroy(StoreDirector.gameObject);
-				StoreDirector = null;
-			}
+			if (!StoreDirector)
+				return;
 
-			StoreListener = null;
+			StoreDirector.gameObject.SetActive(false);
+			Object.Destroy(StoreDirector.gameObject);
+			StoreDirector = null;
 		}
 
 		public static void WarmupCatalogImages()

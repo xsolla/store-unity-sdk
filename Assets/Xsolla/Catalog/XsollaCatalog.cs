@@ -315,7 +315,8 @@ namespace Xsolla.Catalog
 		/// <param name="locale">Response language. [Two-letter lowercase language code](https://developers.xsolla.com/doc/pay-station/features/localization/). Leave empty to use the default value.</param>
 		/// <param name="country">Country for which to calculate regional prices and restrictions in a catalog. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Calculations are based on the user's IP address if the country is not specified.  Check the documentation for detailed information about [countries supported by Xsolla](https://developers.xsolla.com/doc/in-game-store/references/supported-countries/).</param>
 		/// <param name="additionalFields">The list of additional fields. These fields will be in a response if you send them in a request. Available fields `media_list`, `order`, and `long_description`.</param>
-		public static void GetVirtualCurrencyPackagesList(Action<VirtualCurrencyPackages> onSuccess, Action<Error> onError, string locale = null, string country = null, string additionalFields = null)
+		/// <param name="sdkType">SDK type. Used for internal analytics.</param>
+		public static void GetVirtualCurrencyPackagesList(Action<VirtualCurrencyPackages> onSuccess, Action<Error> onError, string locale = null, string country = null, string additionalFields = null, SdkType sdkType = SdkType.Store)
 		{
 			var items = new List<VirtualCurrencyPackage>();
 			const int limit = 50;
@@ -333,7 +334,8 @@ namespace Xsolla.Catalog
 					offset,
 					locale,
 					country,
-					additionalFields);
+					additionalFields,
+					sdkType);
 			}
 
 			void handleResponse(VirtualCurrencyPackages response)
@@ -369,7 +371,8 @@ namespace Xsolla.Catalog
 		/// <param name="locale">Response language. [Two-letter lowercase language code](https://developers.xsolla.com/doc/pay-station/features/localization/). Leave empty to use the default value.</param>
 		/// <param name="country">Country for which to calculate regional prices and restrictions in a catalog. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Calculations are based on the user's IP address if the country is not specified.  Check the documentation for detailed information about [countries supported by Xsolla](https://developers.xsolla.com/doc/in-game-store/references/supported-countries/).</param>
 		/// <param name="additionalFields">The list of additional fields. These fields will be in a response if you send them in a request. Available fields `media_list`, `order`, and `long_description`.</param>
-		public static void GetPaginatedVirtualCurrencyPackagesList(Action<VirtualCurrencyPackages> onSuccess, Action<Error> onError, int limit, int offset, string locale = null, string country = null, string additionalFields = null)
+		/// <param name="sdkType">SDK type. Used for internal analytics.</param>
+		public static void GetPaginatedVirtualCurrencyPackagesList(Action<VirtualCurrencyPackages> onSuccess, Action<Error> onError, int limit, int offset, string locale = null, string country = null, string additionalFields = null, SdkType sdkType = SdkType.Store)
 		{
 			var url = new UrlBuilder($"{BaseUrl}/items/virtual_currency/package")
 				.AddLimit(limit)
@@ -380,7 +383,7 @@ namespace Xsolla.Catalog
 				.Build();
 
 			WebRequestHelper.Instance.GetRequest(
-				SdkType.Store,
+				sdkType,
 				url,
 				WebRequestHeader.AuthHeader(),
 				onSuccess,
