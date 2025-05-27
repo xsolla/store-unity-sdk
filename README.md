@@ -92,7 +92,7 @@ To start with the SDK, you need to install this asset and set up a project in [X
 * 64-bit OS
 * Windows 7 SP1 and later
 * macOS 10.12 and later
-* The version of Unity not earlier than 2019.4.19f1
+* The version of Unity not earlier than 2021.3.45f1
 
 ### Target OS
 
