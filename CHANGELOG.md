@@ -1,4 +1,16 @@
 # Changelog
+## [2.5.5] - 2025-05-27
+### Added
+- `Ready to Use Store` - a template with prebuilt UI and logic for quick in-game store integration
+- Support for authentication via Xsolla Login Widget on the WebGL platform.
+
+### Changed
+- Added a cooldown logic for order creation to prevent multiple orders from being created within the same frame
+- Improved serialization of the `XsollaSettings` asset for better stability
+
+### Fixed
+- Resolved a potential `NullReferenceException` caused by a null token in `PaymentsProxyActivity` on Android
+
 ## [2.5.4] - 2025-04-18
 ### Added
 - `WebGlAppearance` class for configuring WebGL-specific appearance and behavior settings
