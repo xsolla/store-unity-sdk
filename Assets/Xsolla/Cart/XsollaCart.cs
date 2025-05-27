@@ -153,7 +153,11 @@ namespace Xsolla.Cart
 
 			var requestData = new RedeemPromocodeRequest {
 				coupon_code = promocode,
-				cart = string.IsNullOrEmpty(cartId) ? null : new RedeemPromocodeRequest.Cart {id = cartId}
+				cart = string.IsNullOrEmpty(cartId)
+					? null
+					: new RedeemPromocodeRequest.Cart {
+						id = cartId
+					}
 			};
 
 			WebRequestHelper.Instance.PostRequest(
@@ -278,31 +282,34 @@ namespace Xsolla.Cart
 		/// <param name="purchaseParams">Purchase parameters such as <c>country</c>, <c>locale</c>, and <c>currency</c>.</param>
 		/// <param name="customHeaders">Custom HTTP request headers.</param>
 		/// <param name="platformSpecificAppearance">Additional settings of payment UI appearance for different platforms.</param>
-		public static void Purchase(Action<OrderStatus> onSuccess, Action<Error> onError, string cartId = null, Action<BrowserCloseInfo> onBrowseClosed = null, PurchaseParams purchaseParams = null, Dictionary<string, string> customHeaders = null, PlatformSpecificAppearance platformSpecificAppearance = null)
+		/// <param name="sdkType">SDK type. Used for internal analytics.</param>
+		public static void Purchase(Action<OrderStatus> onSuccess, Action<Error> onError, string cartId = null, Action<BrowserCloseInfo> onBrowseClosed = null, PurchaseParams purchaseParams = null, Dictionary<string, string> customHeaders = null, PlatformSpecificAppearance platformSpecificAppearance = null, SdkType sdkType = SdkType.Store)
 		{
 			CreateOrder(
-				orderData =>
-				{
+				orderData => {
 					XsollaWebBrowser.OpenPurchaseUI(
 						orderData.token,
 						false,
 						onBrowseClosed,
 						platformSpecificAppearance: platformSpecificAppearance);
 
-					OrderTrackingService.AddOrderForTracking(orderData.order_id,
-						true, () =>
-						{
+					OrderTrackingService.AddOrderForTracking(
+						orderData.order_id,
+						true,
+						() => {
 							if (XsollaWebBrowser.InAppBrowser?.IsOpened ?? false)
 								XsollaWebBrowser.Close();
 
-							OrderStatusService.GetOrderStatus(orderData.order_id, onSuccess, onError);
-						}, onError);
+							OrderStatusService.GetOrderStatus(orderData.order_id, onSuccess, onError, sdkType);
+						},
+						onError,
+						sdkType);
 				},
 				onError,
 				cartId,
 				purchaseParams,
 				customHeaders
-			);
+				);
 		}
 
 		/// <summary>
@@ -314,20 +321,22 @@ namespace Xsolla.Cart
 		/// <param name="cartId">Unique cart identifier.</param>
 		/// <param name="purchaseParams">Purchase parameters such as <c>country</c>, <c>locale</c>, and <c>currency</c>.</param>
 		/// <param name="customHeaders">Custom HTTP request headers.</param>
-		public static void PurchaseFreeCart(Action<OrderStatus> onSuccess, Action<Error> onError, string cartId = null, PurchaseParams purchaseParams = null, Dictionary<string, string> customHeaders = null)
+		/// <param name="sdkType">SDK type. Used for internal analytics.</param>
+		public static void PurchaseFreeCart(Action<OrderStatus> onSuccess, Action<Error> onError, string cartId = null, PurchaseParams purchaseParams = null, Dictionary<string, string> customHeaders = null, SdkType sdkType = SdkType.Store)
 		{
 			CreateOrderWithFreeCart(
-				orderId =>
-				{
+				orderId => {
 					OrderTrackingService.AddOrderForTracking(
 						orderId.order_id,
-						false, () => OrderStatusService.GetOrderStatus(orderId.order_id, onSuccess, onError), onError);
+						false, () => OrderStatusService.GetOrderStatus(orderId.order_id, onSuccess, onError, sdkType),
+						onError,
+						sdkType);
 				},
 				onError,
 				cartId,
 				purchaseParams,
 				customHeaders
-			);
+				);
 		}
 	}
 }

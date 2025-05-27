@@ -42,7 +42,8 @@ namespace Xsolla.Core
 				{
 					_isCheckInProgress = false;
 					onError?.Invoke(error);
-				}
+				},
+				TrackingData.sdkType
 			);
 		}
 

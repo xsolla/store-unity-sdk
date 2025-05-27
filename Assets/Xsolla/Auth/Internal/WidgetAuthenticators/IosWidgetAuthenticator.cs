@@ -1,10 +1,11 @@
 #if UNITY_IOS
 using System;
 using System.Runtime.InteropServices;
+using Xsolla.Core;
 
-namespace Xsolla.Core
+namespace Xsolla.Auth
 {
-	internal class IosXsollaWidgetAuth
+	internal class IosWidgetAuthenticator : IWidgetAuthenticator
 	{
 		[DllImport("__Internal")]
 		private static extern void _authWithXsollaWidget(string loginId, int clientId, string state, string redirectUri, string locale,
@@ -12,17 +13,22 @@ namespace Xsolla.Core
 			IosCallbacks.ActionStringCallbackDelegate errorCallback, IntPtr errorActionPtr,
 			IosCallbacks.ActionVoidCallbackDelegate cancelCallback, IntPtr cancelActionPtr);
 
-		private Action OnSuccess;
-		private Action<Error> OnError;
-		private Action OnCancel;
+		private readonly Action OnSuccessCallback;
+		private readonly Action<Error> OnErrorCallback;
+		private readonly Action OnCancelCallback;
+		private readonly string Locale;
 
-		public void Perform(Action onSuccess, Action<Error> onError, Action onCancel, string locale)
+		public IosWidgetAuthenticator(Action onSuccessCallback, Action<Error> onErrorCallback, Action onCancelCallback, string locale)
+		{
+			OnSuccessCallback = onSuccessCallback;
+			OnErrorCallback = onErrorCallback;
+			OnCancelCallback = onCancelCallback;
+			Locale = locale;
+		}
+
+		public void Launch()
 		{
 			IosUtils.ConfigureAnalytics();
-
-			OnSuccess = onSuccess;
-			OnError = onError;
-			OnCancel = onCancel;
 
 			Action<string> onSuccessNative = HandleSuccess;
 			Action<string> onErrorNative = HandleError;
@@ -33,7 +39,7 @@ namespace Xsolla.Core
 				XsollaSettings.OAuthClientId,
 				"xsollatest",
 				RedirectUrlHelper.GetAuthDeepLinkUrl(),
-				locale,
+				Locale,
 				IosCallbacks.ActionStringCallback, onSuccessNative.GetPointer(),
 				IosCallbacks.ActionStringCallback, onErrorNative.GetPointer(),
 				IosCallbacks.ActionVoidCallback, onCancelNative.GetPointer());
@@ -43,17 +49,17 @@ namespace Xsolla.Core
 		{
 			var response = ParseUtils.FromJson<TokenResponse>(tokenJson);
 			XsollaToken.Create(response.access_token, response.refresh_token);
-			OnSuccess?.Invoke();
+			OnSuccessCallback?.Invoke();
 		}
 
 		private void HandleError(string error)
 		{
-			OnError?.Invoke(new Error(errorMessage: $"IosSocialAuth: {error}"));
+			OnErrorCallback?.Invoke(new Error(errorMessage: $"IosSocialAuth: {error}"));
 		}
 
 		private void HandleCancel()
 		{
-			OnCancel?.Invoke();
+			OnCancelCallback?.Invoke();
 		}
 	}
 }

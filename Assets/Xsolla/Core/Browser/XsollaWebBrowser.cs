@@ -41,7 +41,7 @@ namespace Xsolla.Core
 			}
 		}
 
-		public static void OpenPurchaseUI(string paymentToken, bool forcePlatformBrowser = false, Action<BrowserCloseInfo> onBrowserClosed = null, PlatformSpecificAppearance platformSpecificAppearance = null)
+		public static void OpenPurchaseUI(string paymentToken, bool forcePlatformBrowser = false, Action<BrowserCloseInfo> onBrowserClosed = null, PlatformSpecificAppearance platformSpecificAppearance = null, SdkType sdkType = SdkType.Store)
 		{
 			if (!Application.isEditor && XsollaSettings.InAppBrowserEnabled)
 			{
@@ -52,12 +52,12 @@ namespace Xsolla.Core
 				XsollaWebBrowserHandlerIos.OpenPayStation(paymentToken, onBrowserClosed);
 				return;
 #elif UNITY_WEBGL
-				XsollaWebBrowserHandlerWebGL.OpenPayStation(paymentToken, onBrowserClosed, platformSpecificAppearance?.WebGlAppearance);
+				XsollaWebBrowserHandlerWebGL.OpenPayStation(paymentToken, onBrowserClosed, platformSpecificAppearance?.WebGlAppearance, sdkType);
 				return;
 #endif
 			}
 
-			var url = new PayStationUrlBuilder(paymentToken).Build();
+			var url = new PayStationUrlBuilder(paymentToken, sdkType).Build();
 			XDebug.Log($"Purchase url: {url}");
 			Open(url, forcePlatformBrowser);
 
