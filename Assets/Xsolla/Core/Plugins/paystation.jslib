@@ -1,5 +1,6 @@
 mergeInto(LibraryManager.library, {
-	OpenPayStationWidget: function (token, sandbox, engineVersion, sdkVersion, applePayMerchantDomain, appearanceJson) {
+
+	OpenPayStationWidget: function (token, sandbox, sdkType, engineVersion, sdkVersion, applePayMerchantDomain, appearanceJson) {
 		var jsToken = UTF8ToString(token);
 		var isSandbox = sandbox > 0 ? true : false;
 		var appearance = JSON.parse(UTF8ToString(appearanceJson));
@@ -14,7 +15,7 @@ mergeInto(LibraryManager.library, {
 				spinnerColor: '#cccccc'
 			},
 			queryParams: {
-                sdk: 'store',
+                sdk: UTF8ToString(sdkType),
                 sdk_v: UTF8ToString(sdkVersion),
                 engine: 'unity',
                 engine_v: UTF8ToString(engineVersion),

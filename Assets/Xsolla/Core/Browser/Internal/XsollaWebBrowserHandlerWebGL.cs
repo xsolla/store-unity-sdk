@@ -8,7 +8,7 @@ namespace Xsolla.Core
 	internal static class XsollaWebBrowserHandlerWebGL
 	{
 		[DllImport("__Internal")]
-		private static extern void OpenPayStationWidget(string token, bool sandbox, string engineVersion, string sdkVersion, string applePayMerchantDomain, string appearanceJson);
+		private static extern void OpenPayStationWidget(string token, bool sandbox, string sdkType, string engineVersion, string sdkVersion, string applePayMerchantDomain, string appearanceJson);
 
 		[DllImport("__Internal")]
 		private static extern void ShowPopupAndOpenPayStation(string url, string popupMessage, string continueButtonText, string cancelButtonText);
@@ -18,14 +18,14 @@ namespace Xsolla.Core
 
 		private static Action<bool> BrowserClosedCallback;
 
-		public static void OpenPayStation(string token, Action<BrowserCloseInfo> onBrowserClosed, WebGlAppearance appearance)
+		public static void OpenPayStation(string token, Action<BrowserCloseInfo> onBrowserClosed, WebGlAppearance appearance, SdkType sdkType)
 		{
 			Screen.fullScreen = false;
 
 			if (WebHelper.IsBrowserSafari())
-				ConfirmAndOpenPayStationPage(token);
+				ConfirmAndOpenPayStationPage(token, sdkType);
 			else
-				OpenPayStationWidgetImmediately(token, onBrowserClosed, appearance);
+				OpenPayStationWidgetImmediately(token, onBrowserClosed, appearance, sdkType);
 		}
 
 		public static void ClosePayStation(bool isManually)
@@ -34,7 +34,7 @@ namespace Xsolla.Core
 			ClosePayStationWidget();
 		}
 
-		private static void OpenPayStationWidgetImmediately(string token, Action<BrowserCloseInfo> onBrowserClosed, WebGlAppearance appearance)
+		private static void OpenPayStationWidgetImmediately(string token, Action<BrowserCloseInfo> onBrowserClosed, WebGlAppearance appearance, SdkType sdkType)
 		{
 			if (appearance == null)
 				appearance = new WebGlAppearance();
@@ -49,15 +49,16 @@ namespace Xsolla.Core
 			OpenPayStationWidget(
 				token,
 				XsollaSettings.IsSandbox,
+				WebRequestHelper.GetSdkType(sdkType),
 				Application.unityVersion,
 				Constants.SDK_VERSION,
 				XsollaSettings.ApplePayMerchantDomain,
 				ParseUtils.ToJson(appearance));
 		}
 
-		private static void ConfirmAndOpenPayStationPage(string token)
+		private static void ConfirmAndOpenPayStationPage(string token, SdkType sdkType)
 		{
-			var url = new PayStationUrlBuilder(token).Build();
+			var url = new PayStationUrlBuilder(token, sdkType).Build();
 
 			var browserLocale = WebHelper.GetBrowserLanguage().ToLowerInvariant();
 			var popupMessage = XsollaWebBrowserLocalizationDataProvider.GetMessageText(browserLocale);

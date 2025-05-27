@@ -35,9 +35,10 @@ namespace Xsolla.Orders
 		/// <param name="onSuccess">Called after server response.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <seealso cref="XsollaCatalog.CreateOrderByVirtualCurrency"/>
-		public static void CheckOrderStatus(int orderId, Action<OrderStatus> onSuccess, Action<Error> onError)
+		/// <param name="sdkType">SDK type. Used for internal analytics.</param>
+		public static void CheckOrderStatus(int orderId, Action<OrderStatus> onSuccess, Action<Error> onError, SdkType sdkType = SdkType.Store)
 		{
-			OrderStatusService.GetOrderStatus(orderId, onSuccess, onError);
+			OrderStatusService.GetOrderStatus(orderId, onSuccess, onError, sdkType);
 		}
 
 		/// <summary>

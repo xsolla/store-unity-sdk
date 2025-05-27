@@ -10,13 +10,15 @@ namespace Xsolla.Auth
 		private readonly Action<Error> OnErrorCallback;
 		private readonly Action OnCancelCallback;
 		private readonly string Locale;
+		private readonly SdkType SdkType;
 
-		public StandaloneWidgetAuthenticator(Action onSuccessCallback, Action<Error> onErrorCallback, Action onCancelCallback, string locale)
+		public StandaloneWidgetAuthenticator(Action onSuccessCallback, Action<Error> onErrorCallback, Action onCancelCallback, string locale, SdkType sdkType)
 		{
 			OnSuccessCallback = onSuccessCallback;
 			OnErrorCallback = onErrorCallback;
 			OnCancelCallback = onCancelCallback;
 			Locale = locale;
+			SdkType = sdkType;
 		}
 
 		public void Launch()
@@ -47,7 +49,8 @@ namespace Xsolla.Auth
 			XsollaAuth.ExchangeCodeToToken(
 				parsedCode,
 				() => OnSuccessCallback?.Invoke(),
-				error => OnErrorCallback?.Invoke(error));
+				error => OnErrorCallback?.Invoke(error),
+				sdkType: SdkType);
 		}
 
 		private void OnBrowserClose(BrowserCloseInfo info)

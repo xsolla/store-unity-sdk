@@ -47,11 +47,26 @@ namespace Xsolla.Core
 				return new List<WebRequestHeader>();
 
 			return new List<WebRequestHeader> {
-				new WebRequestHeader { Name = "X-ENGINE", Value = "UNITY" },
-				new WebRequestHeader { Name = "X-ENGINE-V", Value = GetEngineVersion(true) },
-				new WebRequestHeader { Name = "X-SDK", Value = GetSdkType(sdkType, true) },
-				new WebRequestHeader { Name = "X-SDK-V", Value = GetSdkVersion(true) },
-				new WebRequestHeader { Name = "X-BUILD-PLATFORM", Value = GetBuildPlatform(true) }
+				new WebRequestHeader {
+					Name = "X-ENGINE",
+					Value = "UNITY"
+				},
+				new WebRequestHeader {
+					Name = "X-ENGINE-V",
+					Value = GetEngineVersion(true)
+				},
+				new WebRequestHeader {
+					Name = "X-SDK",
+					Value = GetSdkType(sdkType, true)
+				},
+				new WebRequestHeader {
+					Name = "X-SDK-V",
+					Value = GetSdkVersion(true)
+				},
+				new WebRequestHeader {
+					Name = "X-BUILD-PLATFORM",
+					Value = GetBuildPlatform(true)
+				}
 			};
 		}
 
@@ -63,9 +78,9 @@ namespace Xsolla.Core
 				: engineVersion.ToLowerInvariant();
 		}
 
-		private static string GetSdkType(SdkType sdkType, bool toUpper = false)
+		public static string GetSdkType(SdkType sdkType, bool toUpper = false)
 		{
-			var sdkTypeValue = string.Empty;
+			var sdkTypeValue = sdkType.ToString();
 
 			switch (sdkType)
 			{
@@ -79,7 +94,10 @@ namespace Xsolla.Core
 					sdkTypeValue = "subscriptions";
 					break;
 				case SdkType.SettingsFillTool:
-					sdkTypeValue = "settings-fill-tool";
+					sdkTypeValue = "settings_fill_tool";
+					break;
+				case SdkType.ReadyToUseStore:
+					sdkTypeValue = "ready_to_use_store";
 					break;
 				default:
 					XDebug.LogError($"Unexpected analyticsType: '{sdkType}'");

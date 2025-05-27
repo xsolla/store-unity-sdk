@@ -6,12 +6,14 @@ namespace Xsolla.Core
 	internal class PayStationUrlBuilder
 	{
 		private readonly string PaymentToken;
+		private readonly SdkType SdkType;
 		private readonly bool IsSandBox;
 		private readonly int PayStationVersion;
 
-		public PayStationUrlBuilder(string paymentToken)
+		public PayStationUrlBuilder(string paymentToken, SdkType sdkType = SdkType.Store)
 		{
 			PaymentToken = paymentToken;
+			SdkType = sdkType;
 			IsSandBox = XsollaSettings.IsSandbox;
 			PayStationVersion = XsollaSettings.PaystationVersion;
 		}
@@ -24,7 +26,7 @@ namespace Xsolla.Core
 				.AddParam(GetTokenQueryKey(), PaymentToken)
 				.AddParam("engine", "unity")
 				.AddParam("engine_v", Application.unityVersion)
-				.AddParam("sdk", "store")
+				.AddParam("sdk", WebRequestHelper.GetSdkType(SdkType))
 				.AddParam("sdk_v", Constants.SDK_VERSION)
 				.AddParam("browser_type", GetBrowserType())
 				.AddParam("build_platform", GetBuildPlatform())
