@@ -12,32 +12,30 @@ namespace Xsolla.DevTools
 {
 	public static class PackagesManager
 	{
-		[MenuItem("Dev Tools/Export Latest SDK", false, 90)]
+		[MenuItem("Dev Tools/Export Latest SDK package", false, 90)]
 		public static void ExportLatestSdk()
 		{
-			var assetGuids = GetGuids("Assets/Xsolla");
+			ResetSdkSettings();
+
+			var sdkGuids = GetSdkGuids();
+			var settingsGuids = GetSettingsGuids();
+			var packageGuids = CombineGuids(sdkGuids, settingsGuids);
+
 			var packagePath = GetLatestPackagePath();
-
-			var parameters = new object[] {
-				assetGuids,
-				packagePath
-			};
-
-			ExportPackage(parameters);
+			ExportPackage(packageGuids, packagePath);
 		}
 
 		[MenuItem("Dev Tools/Export SDK package", false, 100)]
 		public static void ExportSdk()
 		{
-			var assetGuids = GetGuids("Assets/Xsolla");
-			var packagePath = GetPackagePath("xsolla-commerce-sdk");
+			ResetSdkSettings();
 
-			var parameters = new object[] {
-				assetGuids,
-				packagePath
-			};
+			var sdkGuids = GetSdkGuids();
+			var settingsGuids = GetSettingsGuids();
+			var packageGuids = CombineGuids(sdkGuids, settingsGuids);
 
-			ExportPackage(parameters);
+			var packagePath = GetPackagePath("xsolla-unity-sdk");
+			ExportPackage(packageGuids, packagePath);
 		}
 
 		[MenuItem("Dev Tools/Export DEMO package", false, 110)]
@@ -45,24 +43,13 @@ namespace Xsolla.DevTools
 		{
 			ResetSdkSettings();
 
-			var sdkAssetGuids = GetGuids("Assets/Xsolla");
-			var demoAssetGuids = GetGuids("Assets/Xsolla.Demo");
-			var resourcesAssetGuids = GetGuids("Assets/Resources");
+			var sdkGuids = GetSdkGuids();
+			var settingsGuids = GetSettingsGuids();
+			var demoGuids = GetDemoGuids();
+			var packageGuids = CombineGuids(sdkGuids, settingsGuids, demoGuids);
 
-			var assetGuids = sdkAssetGuids
-				.Concat(demoAssetGuids)
-				.Concat(resourcesAssetGuids)
-				.Distinct()
-				.ToArray();
-
-			var packagePath = GetPackagePath("xsolla-commerce-demo");
-
-			var parameters = new object[] {
-				assetGuids,
-				packagePath
-			};
-
-			ExportPackage(parameters);
+			var packagePath = GetPackagePath("xsolla-unity-demo");
+			ExportPackage(packageGuids, packagePath);
 		}
 
 		[MenuItem("Dev Tools/Reset SDK Settings", false, 120)]
@@ -75,10 +62,39 @@ namespace Xsolla.DevTools
 			XsollaSettingsEditor.SaveSettingsAsset();
 		}
 
+		private static string[] GetSdkGuids()
+		{
+			return GetGuids("Assets/Xsolla");
+		}
+
+		private static string[] GetSettingsGuids()
+		{
+			var settingsPath = AssetDatabase.AssetPathToGUID("Assets/Resources/XsollaSettings.asset");
+			return new[] {
+				settingsPath
+			};
+		}
+
+		private static string[] GetDemoGuids()
+		{
+			return GetGuids("Assets/Xsolla.Demo");
+		}
+
+		private static string[] CombineGuids(params string[][] sources)
+		{
+			var result = new List<string>();
+			foreach (var array in sources)
+				result.AddRange(array);
+
+			return result
+				.Distinct()
+				.ToArray();
+		}
+
 		private static string GetPackagePath(string packageName)
 		{
 			var projectPath = Application.dataPath.Replace("Assets", string.Empty);
-			return Path.Combine(projectPath, $"{packageName}_v{PlayerSettings.bundleVersion}.unitypackage");
+			return Path.Combine(projectPath, $"{packageName}-{PlayerSettings.bundleVersion}.unitypackage");
 		}
 
 		private static string GetLatestPackagePath()
@@ -87,8 +103,13 @@ namespace Xsolla.DevTools
 			return Path.Combine(projectPath, "xsolla-unity-sdk-latest.unitypackage");
 		}
 
-		private static void ExportPackage(object[] parameters)
+		private static void ExportPackage(string[] assetGuids, string packagePath)
 		{
+			var parameters = new object[] {
+				assetGuids,
+				packagePath
+			};
+
 			var methods = new List<string> {
 				"UnityEditor.PackageUtility.ExportPackageAndPackageManagerManifest"
 			};
