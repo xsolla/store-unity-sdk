@@ -1,4 +1,5 @@
 !xsolla-unity-sdk-latest.unitypackage
+!cicd/package_baking/source_packages/xsolla-unity-sdk-2.5.5.unitypackage
 
 [Ll]ibrary/
 [Tt]emp/
