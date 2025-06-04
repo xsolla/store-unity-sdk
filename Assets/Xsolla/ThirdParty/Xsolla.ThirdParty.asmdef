@@ -1,7 +1,8 @@
 {
     "name": "Xsolla.ThirdParty",
+    "rootNamespace": "",
     "references": [
-        "GUID:68bd7fdb68ef2684e982e8a9825b18a5"
+        "com.rlabrecque.steamworks.net"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

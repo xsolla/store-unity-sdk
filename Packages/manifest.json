@@ -3,6 +3,7 @@
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.2d.tilemap": "1.0.0",
     "com.unity.ide.rider": "3.0.36",
+    "com.unity.inputsystem": "1.7.0",
     "com.unity.nuget.newtonsoft-json": "3.2.1",
     "com.unity.test-framework": "1.1.33",
     "com.unity.ugui": "1.0.0",
