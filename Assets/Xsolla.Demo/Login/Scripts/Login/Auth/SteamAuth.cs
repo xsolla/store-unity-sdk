@@ -3,6 +3,10 @@ using System.Collections;
 using UnityEngine;
 using Xsolla.Auth;
 using Xsolla.Core;
+#if XSOLLA_STEAMWORKS_PACKAGE_EXISTS
+using Steamworks;
+using SteamUtils = Xsolla.Core.SteamUtils;
+#endif
 
 namespace Xsolla.Demo
 {
@@ -10,16 +14,18 @@ namespace Xsolla.Demo
 	{
 		public override void TryAuth(object[] args, Action onSuccess, Action<Error> onError)
 		{
-#if !(UNITY_EDITOR || UNITY_STANDALONE)
+#if !(UNITY_EDITOR || UNITY_STANDALONE) || !XSOLLA_STEAMWORKS_PACKAGE_EXISTS
 			onError?.Invoke(null);
 #else
 			StartCoroutine(ProcessSteamAuth(onSuccess, onError));
 #endif
 		}
 
-#if UNITY_EDITOR || UNITY_STANDALONE
+#if XSOLLA_STEAMWORKS_PACKAGE_EXISTS && (UNITY_EDITOR || UNITY_STANDALONE)
 		private IEnumerator ProcessSteamAuth(Action onSuccess, Action<Error> onError)
 		{
+			SteamAPI.Init();
+
 			if (!DemoSettings.UseSteamAuth)
 			{
 				onError?.Invoke(null);

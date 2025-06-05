@@ -1,3 +1,4 @@
+#if XSOLLA_STEAMWORKS_PACKAGE_EXISTS
 using System;
 
 namespace Xsolla.Core
@@ -9,3 +10,4 @@ namespace Xsolla.Core
 		public bool is_cross_auth;
 	}
 }
+#endif

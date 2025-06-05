@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if XSOLLA_STEAMWORKS_PACKAGE_EXISTS
+using System;
 using System.Linq;
 using System.Text;
 
@@ -8,25 +9,7 @@ namespace Xsolla.Core
 	{
 		private static byte[] RefreshTicket()
 		{
-			return Initialized()
-				? GetTicketData()
-				: Array.Empty<byte>();
-		}
-
-		private static bool Initialized()
-		{
-			bool result;
-			try
-			{
-				result = SteamManager.Initialized;
-			}
-			catch (Exception e)
-			{
-				XDebug.LogError("Steam initialization error. " + e.Message);
-				result = false;
-			}
-
-			return result;
+			return GetTicketData();
 		}
 
 		private static byte[] GetTicketData()
@@ -65,3 +48,4 @@ namespace Xsolla.Core
 		}
 	}
 }
+#endif

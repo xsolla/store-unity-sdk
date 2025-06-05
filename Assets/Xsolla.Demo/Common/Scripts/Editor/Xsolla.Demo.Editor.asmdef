@@ -4,7 +4,6 @@
     "references": [
         "Xsolla",
         "Xsolla.Editor",
-        "Xsolla.ThirdParty",
         "UIBuilder",
         "UIBuilder.Editor",
         "Xsolla.Demo"

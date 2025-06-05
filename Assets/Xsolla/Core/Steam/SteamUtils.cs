@@ -1,3 +1,4 @@
+#if XSOLLA_STEAMWORKS_PACKAGE_EXISTS
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -71,3 +72,4 @@ namespace Xsolla.Core
 		}
 	}
 }
+#endif

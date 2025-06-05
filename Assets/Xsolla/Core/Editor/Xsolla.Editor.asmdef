@@ -2,8 +2,7 @@
     "name": "Xsolla.Editor",
     "rootNamespace": "",
     "references": [
-        "Xsolla",
-        "Xsolla.ThirdParty"
+        "Xsolla"
     ],
     "includePlatforms": [
         "Editor"

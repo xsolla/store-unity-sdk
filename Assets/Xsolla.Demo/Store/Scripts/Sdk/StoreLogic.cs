@@ -12,7 +12,7 @@ namespace Xsolla.Demo
 	{
 		private static Dictionary<string, string> GenerateCustomHeaders()
 		{
-#if UNITY_STANDALONE || UNITY_EDITOR
+#if XSOLLA_STEAMWORKS_PACKAGE_EXISTS && (UNITY_STANDALONE || UNITY_EDITOR)
 			if (DemoSettings.UseSteamAuth && DemoSettings.PaymentsFlow == PaymentsFlow.SteamGateway)
 				return SteamUtils.GetAdditionalCustomHeaders();
 #endif

@@ -1,3 +1,4 @@
+#if XSOLLA_STEAMWORKS_PACKAGE_EXISTS
 using UnityEngine;
 using Xsolla.Auth;
 using Xsolla.Core;
@@ -32,3 +33,4 @@ namespace Xsolla.Samples.Steam
 		}
 	}
 }
+#endif
