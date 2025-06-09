@@ -26,6 +26,11 @@ namespace Xsolla.Core
 		/// Transaction external id.
 		/// </summary>
 		public string external_id;
+		
+		/// <summary>
+		/// Unique user ID — used in marketing campaigns. Can contain digits and Latin characters.
+		/// </summary>
+		public string tracking_id;
 
 		/// <summary>
 		/// Project specific parameters.

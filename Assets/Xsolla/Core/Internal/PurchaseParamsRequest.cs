@@ -14,6 +14,7 @@ namespace Xsolla.Core
 		public int? quantity;
 		public ShippingData shipping_data;
 		public Dictionary<string, object> shipping_method;
+		public User user;
 
 		[Serializable]
 		public class Settings
@@ -24,6 +25,18 @@ namespace Xsolla.Core
 			public RedirectPolicy redirect_policy;
 			public int? payment_method;
 			public SdkTokenSettings sdk;
+		}
+
+		[Serializable]
+		public class User
+		{
+			public TrackingId tracking_id;
+		}
+
+		[Serializable]
+		public class TrackingId
+		{
+			public string value;
 		}
 	}
 }
