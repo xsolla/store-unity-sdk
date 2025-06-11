@@ -10,17 +10,17 @@ namespace Xsolla.Demo
 	{
 		public override void TryAuth(object[] args, Action onSuccess, Action<Error> onError)
 		{
-#if UNITY_STANDALONE && XSOLLA_STEAMWORKS_PACKAGE_EXISTS
+#if UNITY_STANDALONE
 			StartCoroutine(ProcessSteamAuth(onSuccess, onError));
 #else
 			onError?.Invoke(null);
 #endif
 		}
 
-#if XSOLLA_STEAMWORKS_PACKAGE_EXISTS && (UNITY_STANDALONE)
+#if UNITY_STANDALONE
 		private IEnumerator ProcessSteamAuth(Action onSuccess, Action<Error> onError)
 		{
-			Steamworks.SteamAPI.Init();
+			SteamUtils.InitSteamworks();
 
 			if (!DemoSettings.UseSteamAuth)
 			{

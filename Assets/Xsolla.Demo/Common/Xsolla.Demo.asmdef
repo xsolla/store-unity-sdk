@@ -3,8 +3,7 @@
     "rootNamespace": "",
     "references": [
         "Xsolla",
-        "UIBuilder",
-        "com.rlabrecque.steamworks.net"
+        "UIBuilder"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
@@ -13,12 +12,6 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": [
-        {
-            "name": "com.rlabrecque.steamworks.net",
-            "expression": "0.0.0",
-            "define": "XSOLLA_STEAMWORKS_PACKAGE_EXISTS"
-        }
-    ],
+    "versionDefines": [],
     "noEngineReferences": false
 }

@@ -1,4 +1,4 @@
-#if XSOLLA_STEAMWORKS_PACKAGE_EXISTS
+#if UNITY_STANDALONE
 using UnityEngine;
 using Xsolla.Catalog;
 using Xsolla.Core;

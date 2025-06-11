@@ -3,8 +3,7 @@
     "rootNamespace": "Xsolla",
     "references": [
         "UIBuilder",
-        "Unity.InputSystem",
-        "com.rlabrecque.steamworks.net"
+        "Unity.InputSystem"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
@@ -18,11 +17,6 @@
             "name": "com.unity.inputsystem",
             "expression": "0.0.0",
             "define": "XSOLLA_UNITY_INPUT_PACKAGE_EXISTS"
-        },
-        {
-            "name": "com.rlabrecque.steamworks.net",
-            "expression": "0.0.0",
-            "define": "XSOLLA_STEAMWORKS_PACKAGE_EXISTS"
         }
     ],
     "noEngineReferences": false

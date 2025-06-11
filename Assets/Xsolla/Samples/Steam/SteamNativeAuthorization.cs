@@ -1,4 +1,4 @@
-#if XSOLLA_STEAMWORKS_PACKAGE_EXISTS
+#if UNITY_STANDALONE
 using UnityEngine;
 using Xsolla.Auth;
 using Xsolla.Core;
@@ -9,6 +9,8 @@ namespace Xsolla.Samples.Steam
 	{
 		private void Start()
 		{
+			// Ensure that the Steamworks API is initialized !!!
+
 			// Get the steam session ticket from `SteamUtils` class
 			var steamSessionTicket = SteamUtils.GetSteamSessionTicket();
 
@@ -23,12 +25,14 @@ namespace Xsolla.Samples.Steam
 		private void OnSuccess()
 		{
 			Debug.Log("Authorization successful");
+
 			// Add actions taken in case of success
 		}
 
 		private void OnError(Error error)
 		{
 			Debug.LogError($"Authorization failed. Error: {error.errorMessage}");
+
 			// Add actions taken in case of error
 		}
 	}
