@@ -27,7 +27,7 @@ namespace Xsolla.Core
 			if (settings.ui == null && settings.redirect_policy == null && settings.return_url == null)
 				settings = null;
 
-			return new PurchaseParamsRequest {
+			var result = new PurchaseParamsRequest {
 				sandbox = XsollaSettings.IsSandbox,
 				settings = settings,
 				custom_parameters = purchaseParams?.custom_parameters,
@@ -37,6 +37,17 @@ namespace Xsolla.Core
 				shipping_data = purchaseParams?.shipping_data,
 				shipping_method = purchaseParams?.shipping_method
 			};
+
+			if (purchaseParams != null && !string.IsNullOrEmpty(purchaseParams.tracking_id))
+			{
+				result.user = new PurchaseParamsRequest.User {
+					tracking_id = new PurchaseParamsRequest.TrackingId {
+						value = purchaseParams.tracking_id
+					}
+				};
+			}
+
+			return result;
 		}
 
 		private static void ProcessUiCloseButton(PayStationUI settings, PurchaseParams purchaseParams)
