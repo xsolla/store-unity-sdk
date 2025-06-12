@@ -1,4 +1,11 @@
 # Changelog
+## [2.5.6] - 2025-06-12
+### Added
+- `tracking_id` parameter to the `PurchaseParams` structure. This allows to track the purchases in marketing campaigns
+
+### Fixed
+- Improved `NullReferenceException` handling in `PaymentsProxyActivity` on Android.
+
 ## [2.5.5] - 2025-05-27
 ### Added
 - `Ready to Use Store` - a template with prebuilt UI and logic for quick in-game store integration
