@@ -3,6 +3,7 @@ package com.xsolla.sdk.unity.Example.androidProxies;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.xsolla.android.login.XLogin;
 import com.xsolla.android.login.social.SocialNetwork;
@@ -14,6 +15,7 @@ public class SocialAuthProxyActivity extends Activity
 {
     private static SocialNetwork targetSocialNetwork;
     private static AuthCallback authCallback;
+    private static final String TAG = "SocialAuthProxyActivity";
 
     public static void perform(Activity currentActivity, SocialNetwork socialNetwork, AuthCallback callback)
     {
@@ -28,14 +30,28 @@ public class SocialAuthProxyActivity extends Activity
         super.onCreate(savedInstanceState);
 
         SocialNetwork socialNetwork = targetSocialNetwork;
+        if (socialNetwork == null) {
+            Log.e(TAG, "Target social network is null. Exiting.");
+            finish();
+            return;
+        }
+        
         XLogin.startSocialAuth(this, socialNetwork, new StartSocialCallback()
         {
             @Override
-            public void onAuthStarted() {}
+            public void onAuthStarted() {
+                // No action needed here, as the auth process is started
+            }
 
             @Override
             public void onError(Throwable throwable, String errorMessage) {
-                authCallback.onError(throwable, String.format("Error:'%s' Message:'%s'",throwable.toString(), errorMessage));
+                if (authCallback != null) {
+                    Throwable safeThrowable = throwable != null ? throwable : new Throwable("Unknown error");
+                    String errorStr = throwable != null ? throwable.toString() : "null";
+                    String messageStr = errorMessage != null ? errorMessage : "null";
+                    authCallback.onError(safeThrowable, String.format("Error:'%s' Message:'%s'", errorStr, messageStr));
+                    Log.e(TAG, "Error during social auth: " + errorStr + " Message: " + messageStr);
+                }
                 finish();
             }
         });
@@ -47,25 +63,40 @@ public class SocialAuthProxyActivity extends Activity
         super.onActivityResult(requestCode, resultCode, data);
 
         SocialNetwork socialNetwork = targetSocialNetwork;
+        if (socialNetwork == null) {
+            Log.e(TAG, "Target social network is null. Exiting.");
+            finish();
+            return;
+        }
 
         XLogin.finishSocialAuth(this, socialNetwork, requestCode, requestCode, data,
         new FinishSocialCallback()
         {
             @Override
             public void onAuthSuccess() {
-                authCallback.onSuccess();
+                if (authCallback != null) {
+                    authCallback.onSuccess();
+                }
                 finish();
             }
 
             @Override
             public void onAuthCancelled() {
-                authCallback.onError(new Throwable(), "CANCELLED");
+                if (authCallback != null) {
+                    authCallback.onError(new Throwable(), "CANCELLED");
+                }
                 finish();
             }
 
             @Override
             public void onAuthError(Throwable throwable, String errorMessage) {
-                authCallback.onError(throwable, String.format("Error:'%s' Message:'%s'",throwable.toString(), errorMessage));
+                if (authCallback != null) {
+                    Throwable safeThrowable = throwable != null ? throwable : new Throwable("Unknown error");
+                    String errorStr = throwable != null ? throwable.toString() : "null";
+                    String messageStr = errorMessage != null ? errorMessage : "null";
+                    authCallback.onError(safeThrowable, String.format("Error:'%s' Message:'%s'", errorStr, messageStr));
+                    Log.e(TAG, "Error during social auth: " + errorStr + " Message: " + messageStr);
+                }
                 finish();
             }
         });
