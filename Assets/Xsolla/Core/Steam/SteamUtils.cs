@@ -1,3 +1,4 @@
+#if UNITY_STANDALONE
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,11 +9,19 @@ namespace Xsolla.Core
 	public static class SteamUtils
 	{
 		/// <summary>
+		/// Checks if Steamworks is available in the current build.
+		/// </summary>
+		public static bool InitSteamworks()
+		{
+			return SteamUtilsInternal.TryInit();
+		}
+
+		/// <summary>
 		/// This ticket you can change for Login JWT and use it in Xsolla Store
 		/// </summary>
 		public static string GetSteamSessionTicket()
 		{
-			var ticket = new SteamSessionTicket().ToString();
+			var ticket = SteamUtilsInternal.GetSteamSessionTicket();
 			if (!string.IsNullOrEmpty(ticket))
 				XDebug.Log($"Requested steam session ticket: {ticket}");
 			else
@@ -23,7 +32,11 @@ namespace Xsolla.Core
 
 		public static Dictionary<string, string> GetAdditionalCustomHeaders()
 		{
-			return new Dictionary<string, string> {{"x-steam-userid", GetSteamUserId()}};
+			return new Dictionary<string, string> {
+				{
+					"x-steam-userid", GetSteamUserId()
+				}
+			};
 		}
 
 		private static string GetSteamUserId()
@@ -35,18 +48,18 @@ namespace Xsolla.Core
 			var tokenParts = encodedToken.Split('.');
 			if (tokenParts.Length < 3)
 				throw new Exception("Token must contain header, payload and signature. " +
-				                    $"Your token parts count was '{tokenParts.Length}'. " +
-				                    $"Your token: {encodedToken}");
+					$"Your token parts count was '{tokenParts.Length}'. " +
+					$"Your token: {encodedToken}");
 
 			var payload = ParsePayload(tokenParts[1]);
 			if (!payload.is_cross_auth)
 				throw new Exception("Token must not be cross auth. " +
-				                    $"Your token: {encodedToken}");
+					$"Your token: {encodedToken}");
 
 			var steamUserUrl = payload.id;
 			if (string.IsNullOrEmpty(steamUserUrl))
 				throw new Exception("Token must have 'id' parameter. " +
-				                    $"Your token: {encodedToken}");
+					$"Your token: {encodedToken}");
 
 			return steamUserUrl.Split('/').Last();
 		}
@@ -69,5 +82,13 @@ namespace Xsolla.Core
 			var json = Encoding.UTF8.GetString(bytes);
 			return ParseUtils.FromJson<SteamTokenPayload>(json);
 		}
+
+		[Serializable]
+		private class SteamTokenPayload
+		{
+			public string id;
+			public bool is_cross_auth;
+		}
 	}
 }
+#endif

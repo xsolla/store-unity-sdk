@@ -1,4 +1,4 @@
-﻿#if !ENABLE_INPUT_SYSTEM
+﻿#if !ENABLE_INPUT_SYSTEM || !XSOLLA_UNITY_INPUT_PACKAGE_EXISTS
 using UnityEngine;
 
 namespace Xsolla.Core

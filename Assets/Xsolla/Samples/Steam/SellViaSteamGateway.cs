@@ -1,3 +1,4 @@
+#if UNITY_STANDALONE
 using UnityEngine;
 using Xsolla.Catalog;
 using Xsolla.Core;
@@ -31,3 +32,4 @@ namespace Xsolla.Samples.Steam
 		}
 	}
 }
+#endif
