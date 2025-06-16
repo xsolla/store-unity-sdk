@@ -103,8 +103,6 @@ To start with the SDK, you need to install this asset and set up a project in [X
 
 Additionally, the asset supports [creating WebGL build](https://developers.xsolla.com/sdk/unity/how-tos/application-build/#unity_sdk_how_to_build_webgl) to run your application in a browser.
 
-The SDK uses [Google Mobile Services](https://www.android.com/gms/) and doesn’t support builds for devices without Google Mobile Services, such as Huawei.
-
 **NOTE:**
 We recommend you use the Mono compiler for desktop platforms as it’s compatible with the provided in-game browser. If you use other browser solutions, you can use the IL2CPP compiler instead.
 You can use either Mono or IL2CPP compilers to create game builds for Android.
@@ -113,11 +111,7 @@ You can use either Mono or IL2CPP compilers to create game builds for Android.
 
 ### Import package from an archive
 
-1. Download the SDK from [CDN](https://cdn.xsolla.net/sdk-unity-assets/xsolla-commerce-sdk.zip) or [GitHub](https://github.com/xsolla/store-unity-sdk/releases).
-
-**NOTE:**
-Only the latest version of the SDK is available through CDN. If you need a different version, you can download it from GitHub.
-
+1. [Download the latest SDK version](https://github.com/xsolla/store-unity-sdk/raw/refs/heads/master/xsolla-unity-sdk-latest.unitypackage) (recommended) or choose the required SDK version on [GitHub](https://github.com/xsolla/store-unity-sdk/releases) and download it.
 2. Unzip the package.
 3. In the Unity editor, go to **Assets > Import Package > Custom Package** in the main menu and select the SDK.
 4. Follow the [integration guide](https://developers.xsolla.com/sdk/unity/integrate-complete-solution/get-started/) to configure project on Xsolla side.
