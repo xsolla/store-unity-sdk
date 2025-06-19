@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Threading;
 using UnityEngine;
+using Xsolla.Core;
 
 namespace Xsolla.XsollaBrowser
 {
@@ -45,20 +46,21 @@ namespace Xsolla.XsollaBrowser
 
 		private void OnPointerClick()
 		{
-			Page.Click(ConvertToBrowserCoordinate(Input.mousePosition));
+			var pointerPosition = InputProvider.GetCursorPosition();
+			Page.Click(ConvertToBrowserCoordinate(pointerPosition));
 		}
 
 		private IEnumerator TrackMousePositionLoop(CancellationToken cancellationToken)
 		{
-			var lastMousePosition = Vector3.zero;
+			var lastMousePosition = Vector2.zero;
 
 			while (!cancellationToken.IsCancellationRequested)
 			{
 				if (IsPointerEntered)
 				{
-					var mousePosition = Input.mousePosition;
+					var mousePosition = InputProvider.GetCursorPosition();
 					var positionDelta = mousePosition - lastMousePosition;
-					if (Vector3.SqrMagnitude(positionDelta) > 0)
+					if (Vector2.SqrMagnitude(positionDelta) > 0)
 					{
 						Page.MoveCursorAsync(ConvertToBrowserCoordinate(mousePosition));
 						lastMousePosition = mousePosition;
@@ -73,7 +75,7 @@ namespace Xsolla.XsollaBrowser
 		{
 			while (!cancellationToken.IsCancellationRequested)
 			{
-				var scroll = Input.mouseScrollDelta;
+				var scroll = InputProvider.GetScrollDelta();
 				if (scroll != Vector2.zero)
 				{
 					var offset = new Vector2(
@@ -87,7 +89,7 @@ namespace Xsolla.XsollaBrowser
 			}
 		}
 
-		private Vector2 ConvertToBrowserCoordinate(Vector3 mousePosition)
+		private Vector2 ConvertToBrowserCoordinate(Vector2 mousePosition)
 		{
 			if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(ViewportRect, mousePosition, null, out var point))
 				return Vector2.zero;

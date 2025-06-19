@@ -41,7 +41,7 @@ namespace Xsolla.Demo
 		private void RequestSearch()
 		{
 			var userInput = SearchInputField.text;
-		
+
 			if (!string.IsNullOrEmpty(userInput))
 				SearchRequest?.Invoke(userInput);
 			else
@@ -50,9 +50,9 @@ namespace Xsolla.Demo
 
 		private void ProcessHotkeys(string _)
 		{
-			if (InputProxy.GetKeyDown(KeyCode.Return) || InputProxy.GetKeyDown(KeyCode.KeypadEnter))
+			if (InputProvider.IsKeyDownThisFrame(KeyCode.Return) || InputProvider.IsKeyDownThisFrame(KeyCode.KeypadEnter))
 				RequestSearch();
-			else if (InputProxy.GetKeyDown(KeyCode.Escape))
+			else if (InputProvider.IsKeyDownThisFrame(KeyCode.Escape))
 				ClearSearch();
 		}
 	}
