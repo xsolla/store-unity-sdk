@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
+using Xsolla.Core;
 
 namespace Xsolla.XsollaBrowser
 {
@@ -9,7 +10,6 @@ namespace Xsolla.XsollaBrowser
 	{
 		private BrowserPage Page;
 		private Dictionary<KeyCode, string> NavigationKeys;
-		private Dictionary<char, string> ControlCharacters;
 
 		private void OnApplicationFocus(bool hasFocus)
 		{
@@ -30,33 +30,39 @@ namespace Xsolla.XsollaBrowser
 				[KeyCode.Home] = "Home",
 				[KeyCode.End] = "End",
 				[KeyCode.PageUp] = "PageUp",
-				[KeyCode.PageDown] = "PageDown"
+				[KeyCode.PageDown] = "PageDown",
+				[KeyCode.Backspace] = "Backspace",
+				[KeyCode.Delete] = "Delete",
+				[KeyCode.Tab] = "Tab",
+				[KeyCode.KeypadEnter] = "Enter",
 			};
 
-			ControlCharacters = new Dictionary<char, string> {
-				['\n'] = "Enter",
-				['\r'] = "Enter",
-				['\b'] = "Backspace",
-				['\t'] = "Tab"
-			};
+			StartCoroutine(HandleInput(cancellationToken));
 
-			StartCoroutine(TrackInputLoop(cancellationToken));
+			InputProvider.OnTextInput += OnTextInput;
 		}
 
 		public void Stop()
 		{
+			InputProvider.OnTextInput -= OnTextInput;
 			StopAllCoroutines();
 		}
 
-		private IEnumerator TrackInputLoop(CancellationToken cancellationToken)
+		private void OnTextInput(char character)
+		{
+			if (GetNavigationKeyCodeDownThisFrame().HasValue)
+				return;
+
+			if (!char.IsControl(character))
+				Page?.SendCharacterAsync(character.ToString());
+		}
+
+		private IEnumerator HandleInput(CancellationToken cancellationToken)
 		{
 			while (!cancellationToken.IsCancellationRequested)
 			{
-				if (Input.anyKey)
-				{
-					if (!Input.GetKeyDown(KeyCode.Escape))
-						ProcessInput();
-				}
+				if (!InputProvider.IsKeyDownThisFrame(KeyCode.Escape))
+					ProcessInput();
 
 				yield return null;
 			}
@@ -67,46 +73,28 @@ namespace Xsolla.XsollaBrowser
 			if (ProcessNavigation())
 				return;
 
-			if (ProcessClipboard())
-				return;
-
-			if (ProcessControlCharacters())
-				return;
-
-			ProcessText();
+			ProcessClipboard();
 		}
 
-		private void ProcessText()
+		private KeyCode? GetNavigationKeyCodeDownThisFrame()
 		{
-			foreach (var character in Input.inputString)
+			foreach (var keyCode in NavigationKeys.Keys)
 			{
-				Page.SendCharacterAsync(character.ToString());
-			}
-		}
-
-		private bool ProcessControlCharacters()
-		{
-			foreach (var symbol in Input.inputString)
-			{
-				if (ControlCharacters.TryGetValue(symbol, out var key))
-				{
-					Page.PressKeyAsync(key);
-					return true;
-				}
+				if (InputProvider.IsKeyDownThisFrame(keyCode))
+					return keyCode;
 			}
 
-			return false;
+			return null;
 		}
 
 		private bool ProcessNavigation()
 		{
-			foreach (var kvp in NavigationKeys)
+			var keyCode = GetNavigationKeyCodeDownThisFrame();
+			if (keyCode.HasValue)
 			{
-				if (Input.GetKey(kvp.Key))
-				{
-					Page.DownKeyAsync(kvp.Value);
-					return true;
-				}
+				var key = NavigationKeys[keyCode.Value];
+				Page?.DownKeyAsync(key);
+				return true;
 			}
 
 			return false;
@@ -115,13 +103,13 @@ namespace Xsolla.XsollaBrowser
 		private bool ProcessClipboard()
 		{
 #if UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX
-			if ((Input.GetKey(KeyCode.LeftCommand) || Input.GetKey(KeyCode.RightCommand)) && Input.GetKeyDown(KeyCode.V))
+			if ((InputProvider.IsKeyPressed(KeyCode.LeftCommand) || InputProvider.IsKeyPressed(KeyCode.RightCommand)) && InputProvider.IsKeyDownThisFrame(KeyCode.V))
 			{
 				PasteFromClipboard();
 				return true;
 			}
 #else
-			if ((Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)) && Input.GetKeyDown(KeyCode.V))
+			if ((InputProvider.IsKey(KeyCode.LeftControl) || InputProvider.IsKey(KeyCode.RightControl)) && InputProvider.IsKeyDown(KeyCode.V))
 			{
 				PasteFromClipboard();
 				return true;
