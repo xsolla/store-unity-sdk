@@ -45,7 +45,7 @@ namespace Xsolla.XsollaBrowser
 
 		private static void OnCloseButtonClick()
 		{
-			XsollaWebBrowser.InAppBrowser.Close(0, true);
+			XsollaWebBrowser.Close(0, true);
 		}
 
 		private static void OnFullscreenButtonClick()

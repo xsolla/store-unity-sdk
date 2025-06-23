@@ -15,21 +15,24 @@ namespace Xsolla.Core
 		event Action<string, Action, Action> ConfirmDialogEvent;
 
 		bool IsOpened { get; }
-		
+
 		bool IsFullScreen { get; }
 
 		void Open(string url);
 
 		void Close(float delay = 0f, bool isManually = false);
 
+		void UpdateSize(int width, int height);
+
+		void SetFullscreenMode(bool isFullscreen);
+
+		[Obsolete("Use OpenEvent instead.")]
 		void AddInitHandler(Action callback);
 
+		[Obsolete("Use CloseEvent instead.")]
 		void AddCloseHandler(Action callback);
 
+		[Obsolete("Use UrlChangeEvent instead.")]
 		void AddUrlChangeHandler(Action<string> callback);
-
-		void UpdateSize(int width, int height);
-		
-		void SetFullscreenMode(bool isFullscreen);
 	}
 }

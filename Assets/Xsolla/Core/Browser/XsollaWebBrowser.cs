@@ -32,7 +32,6 @@ namespace Xsolla.Core
 						_inAppBrowserGameObject.name = "XsollaWebBrowser";
 						Object.DontDestroyOnLoad(_inAppBrowserGameObject);
 						_inAppBrowser = _inAppBrowserGameObject.GetComponent<IInAppBrowser>();
-						_inAppBrowser.CloseEvent += _ => Close();
 					}
 				}
 
@@ -85,9 +84,9 @@ namespace Xsolla.Core
 #endif
 		}
 
-		public static void Close(float delay = 0)
+		public static void Close(float delay = 0, bool isManually = false)
 		{
-			_inAppBrowser?.Close(delay);
+			_inAppBrowser?.Close(delay, isManually);
 
 			if (!_inAppBrowserGameObject)
 				Object.Destroy(_inAppBrowserGameObject);
