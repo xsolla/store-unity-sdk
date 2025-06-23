@@ -156,7 +156,8 @@ namespace Xsolla.Demo
 
 			void onBrowserClosed(BrowserCloseInfo info)
 			{
-				browser.CloseEvent -= onBrowserClosed;
+				if (browser != null)
+					browser.CloseEvent -= onBrowserClosed;
 
 				if (item != null)
 					StoreDemoPopup.ShowSuccess($"You have purchased '{item.Name}'", popupCallback);

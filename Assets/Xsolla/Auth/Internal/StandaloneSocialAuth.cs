@@ -42,14 +42,20 @@ namespace Xsolla.Auth
 
 			void subscribeEvents()
 			{
-				browser.CloseEvent += onBrowserClosed;
-				browser.UrlChangeEvent += onUrlChanged;
+				if (browser != null)
+				{
+					browser.CloseEvent += onBrowserClosed;
+					browser.UrlChangeEvent += onUrlChanged;
+				}
 			}
 
 			void unsubscribeEvents()
 			{
-				browser.CloseEvent -= onBrowserClosed;
-				browser.UrlChangeEvent -= onUrlChanged;
+				if (browser != null)
+				{
+					browser.CloseEvent -= onBrowserClosed;
+					browser.UrlChangeEvent -= onUrlChanged;
+				}
 			}
 		}
 	}
