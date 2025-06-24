@@ -109,7 +109,7 @@ namespace Xsolla.XsollaBrowser
 				return true;
 			}
 #else
-			if ((InputProvider.IsKey(KeyCode.LeftControl) || InputProvider.IsKey(KeyCode.RightControl)) && InputProvider.IsKeyDown(KeyCode.V))
+			if ((InputProvider.IsKeyPressed(KeyCode.LeftControl) || InputProvider.IsKeyPressed(KeyCode.RightControl)) && InputProvider.IsKeyDownThisFrame(KeyCode.V))
 			{
 				PasteFromClipboard();
 				return true;
