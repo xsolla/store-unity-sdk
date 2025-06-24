@@ -3,7 +3,9 @@ mergeInto(LibraryManager.library, {
         var projectId = UTF8ToString(projectIdPtr);
         var locale = UTF8ToString(localePtr);
         
-        var popupUrl = window.location.origin + "/xl-widget.html?project_id=" + projectId;
+        var path = window.location.pathname;
+        var basePath = path.substring(0, path.lastIndexOf('/') + 1);
+        var popupUrl = window.location.origin + basePath + "/xl-widget.html?project_id=" + projectId;
         if (locale != null && locale !== "") {
             popupUrl += "&locale=" + locale;
         }
@@ -91,7 +93,9 @@ mergeInto(LibraryManager.library, {
         continueButton.style.cursor = 'pointer';
         
         continueButton.addEventListener('click', function () {
-            var popupUrl = window.location.origin + "/xl-widget.html?project_id=" + projectId;
+            var path = window.location.pathname;
+            var basePath = path.substring(0, path.lastIndexOf('/') + 1);
+            var popupUrl = window.location.origin + basePath + "/xl-widget.html?project_id=" + projectId;
             
             if (locale != null && locale !== "") {
                 popupUrl += "&locale=" + locale;
