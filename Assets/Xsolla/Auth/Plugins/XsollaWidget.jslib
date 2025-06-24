@@ -3,11 +3,12 @@ mergeInto(LibraryManager.library, {
         var projectId = UTF8ToString(projectIdPtr);
         var locale = UTF8ToString(localePtr);
         
-        var path = window.location.pathname;
-        var basePath = path.substring(0, path.lastIndexOf('/') + 1);
-        var popupUrl = window.location.origin + basePath + "/xl-widget.html?project_id=" + projectId;
+        var popupUrl = new URL("xl-widget.html", window.location.origin + window.location.pathname);
+        popupUrl.searchParams.set("project_id", projectId);
+        popupUrl = popupUrl.toString();
+        
         if (locale != null && locale !== "") {
-            popupUrl += "&locale=" + locale;
+            popupUrl.searchParams.set("locale", locale);
         }
                 
         var popup = window.open(
@@ -93,12 +94,12 @@ mergeInto(LibraryManager.library, {
         continueButton.style.cursor = 'pointer';
         
         continueButton.addEventListener('click', function () {
-            var path = window.location.pathname;
-            var basePath = path.substring(0, path.lastIndexOf('/') + 1);
-            var popupUrl = window.location.origin + basePath + "/xl-widget.html?project_id=" + projectId;
+            var popupUrl = new URL("xl-widget.html", window.location.origin + window.location.pathname);
+            popupUrl.searchParams.set("project_id", projectId);
+            popupUrl = popupUrl.toString();
             
             if (locale != null && locale !== "") {
-                popupUrl += "&locale=" + locale;
+                popupUrl.searchParams.set("locale", locale);
             }
             
             console.log("[Xsolla SDK] PopupUrl: " + popupUrl);
