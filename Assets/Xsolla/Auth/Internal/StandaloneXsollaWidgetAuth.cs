@@ -8,7 +8,6 @@ namespace Xsolla.Auth
 		private Action OnSuccess;
 		private Action<Error> OnError;
 		private Action OnCancel;
-		private IInAppBrowser BrowserInstance;
 		private SdkType SdkType;
 
 		public void Perform(Action onSuccess, Action<Error> onError, Action onCancel, string locale, SdkType sdkType = SdkType.Login)
@@ -30,9 +29,12 @@ namespace Xsolla.Auth
 
 			XsollaWebBrowser.Open(url);
 
-			BrowserInstance = XsollaWebBrowser.InAppBrowser;
-			BrowserInstance.CloseEvent += OnBrowserClose;
-			BrowserInstance.UrlChangeEvent += OnBrowserUrlChange;
+			var browser = XsollaWebBrowser.InAppBrowser;
+			if (browser != null)
+			{
+				browser.CloseEvent += OnBrowserClose;
+				browser.UrlChangeEvent += OnBrowserUrlChange;
+			}
 
 			XsollaWebBrowser.InAppBrowser.UpdateSize(820, 840);
 		}
@@ -61,8 +63,11 @@ namespace Xsolla.Auth
 		private void UnsubscribeFromBrowser()
 		{
 			var browser = XsollaWebBrowser.InAppBrowser;
-			browser.CloseEvent -= OnBrowserClose;
-			browser.UrlChangeEvent -= OnBrowserUrlChange;
+			if (browser != null)
+			{
+				browser.CloseEvent -= OnBrowserClose;
+				browser.UrlChangeEvent -= OnBrowserUrlChange;
+			}
 		}
 	}
 }

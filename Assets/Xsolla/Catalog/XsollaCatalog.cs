@@ -687,9 +687,7 @@ namespace Xsolla.Catalog
 						orderData.order_id,
 						true,
 						() => {
-							if (XsollaWebBrowser.InAppBrowser?.IsOpened ?? false)
-								XsollaWebBrowser.Close();
-
+							XsollaWebBrowser.Close();
 							OrderStatusService.GetOrderStatus(orderData.order_id, onSuccess, onError, sdkType);
 						},
 						onError,

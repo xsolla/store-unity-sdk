@@ -63,16 +63,22 @@ namespace Xsolla.Auth
 		{
 			// TODO Case when browser is null (whole XsollaWebBrowser folder was removed)
 			var browser = XsollaWebBrowser.InAppBrowser;
-			browser.CloseEvent += OnBrowserClose;
-			browser.UrlChangeEvent += OnBrowserUrlChange;
+			if (browser != null)
+			{
+				browser.CloseEvent += OnBrowserClose;
+				browser.UrlChangeEvent += OnBrowserUrlChange;
+			}
 		}
 
 		private void UnsubscribeFromBrowser()
 		{
 			// TODO Case when browser is null (whole XsollaWebBrowser folder was removed)
 			var browser = XsollaWebBrowser.InAppBrowser;
-			browser.CloseEvent -= OnBrowserClose;
-			browser.UrlChangeEvent -= OnBrowserUrlChange;
+			if (browser != null)
+			{
+				browser.CloseEvent -= OnBrowserClose;
+				browser.UrlChangeEvent -= OnBrowserUrlChange;
+			}
 		}
 	}
 }
