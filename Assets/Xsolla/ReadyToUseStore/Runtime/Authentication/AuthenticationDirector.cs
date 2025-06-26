@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem.UI;
 using Xsolla.Core;
 using Error = Xsolla.Core.Error;
 using Object = UnityEngine.Object;
@@ -44,7 +45,12 @@ namespace Xsolla.ReadyToUseStore
 			var gameObject = new GameObject("EventSystem");
 			Object.DontDestroyOnLoad(gameObject);
 			gameObject.AddComponent<EventSystem>();
+			
+#if ENABLE_INPUT_SYSTEM && XSOLLA_UNITY_INPUT_PACKAGE_EXISTS
+			gameObject.AddComponent<InputSystemUIInputModule>();
+#else
 			gameObject.AddComponent<StandaloneInputModule>();
+#endif
 		}
 
 		private void ExecuteNextAuthenticator(Action onSuccess, Action<Error> onError, Action onCancel)
