@@ -129,6 +129,51 @@ namespace Xsolla.Orders
 				ErrorGroup.BuyItemErrors);
 		}
 
+		//TEXTREVIEW
+		/// <summary>
+		/// Get unprocessed events for user
+		/// </summary>
+		/// <param name="onSuccess">Called after receiving data successfully.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
+		public static void GetUnprocessedEvents(Action<Events> onSuccess, Action<Error> onError)
+		{
+			var url = "https://getupdate.xsolla.com/events";
+
+			var headers = new List<WebRequestHeader> {
+				WebRequestHeader.AuthHeader()
+			};
+
+			WebRequestHelper.Instance.GetRequest(
+				SdkType.Store,
+				url,
+				headers,
+				onSuccess,
+				error => TokenAutoRefresher.Check(error, onError, () => GetUnprocessedEvents(onSuccess, onError)));
+		}
+		
+		//TEXTREVIEW
+		/// <summary>
+		/// Mark event as processed
+		/// </summary>
+		/// <param name="eventId">Event ID to mark as processed.</param>
+		/// <param name="onSuccess">Called after the event was successfully marked as processed.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
+		public static void MarkEventAsProcessed(int eventId, Action onSuccess, Action<Error> onError)
+		{
+			var url = $"https://getupdate.xsolla.com/events/{eventId}/processed";
+
+			var headers = new List<WebRequestHeader> {
+				WebRequestHeader.AuthHeader(),
+			};
+
+			WebRequestHelper.Instance.PostRequest(
+				SdkType.Store,
+				url,
+				headers,
+				onSuccess,
+				error => TokenAutoRefresher.Check(error, onError, () => MarkEventAsProcessed(eventId, onSuccess, onError)));
+		}
+
 		private static CreatePaymentTokenRequest.Settings GeneratePaymentTokenSettings(string currency, string locale, string externalID, int? paymentMethod)
 		{
 			var baseSettings = new PurchaseParamsRequest.Settings {
