@@ -10,8 +10,7 @@ namespace Xsolla.Auth
 		public void Perform(SocialProvider provider, Action onSuccess, Action<Error> onError, Action onCancel)
 		{
 			var socialNetworkAuthUrl = XsollaAuth.GetSocialNetworkAuthUrl(provider);
-			var browser = XsollaWebBrowser.InAppBrowser;
-			browser.Open(socialNetworkAuthUrl);
+			XsollaWebBrowser.Open(socialNetworkAuthUrl);
 			subscribeEvents();
 			return;
 
@@ -42,6 +41,7 @@ namespace Xsolla.Auth
 
 			void subscribeEvents()
 			{
+				var browser = XsollaWebBrowser.InAppBrowser;
 				if (browser != null)
 				{
 					browser.CloseEvent += onBrowserClosed;
@@ -51,6 +51,7 @@ namespace Xsolla.Auth
 
 			void unsubscribeEvents()
 			{
+				var browser = XsollaWebBrowser.InAppBrowser;
 				if (browser != null)
 				{
 					browser.CloseEvent -= onBrowserClosed;
