@@ -80,29 +80,7 @@ namespace Xsolla.Core
 
 		public static string GetSdkType(SdkType sdkType, bool toUpper = false)
 		{
-			var sdkTypeValue = sdkType.ToString();
-
-			switch (sdkType)
-			{
-				case SdkType.Login:
-					sdkTypeValue = "login";
-					break;
-				case SdkType.Store:
-					sdkTypeValue = "store";
-					break;
-				case SdkType.Subscriptions:
-					sdkTypeValue = "subscriptions";
-					break;
-				case SdkType.SettingsFillTool:
-					sdkTypeValue = "settings_fill_tool";
-					break;
-				case SdkType.ReadyToUseStore:
-					sdkTypeValue = "ready_to_use_store";
-					break;
-				default:
-					XDebug.LogError($"Unexpected analyticsType: '{sdkType}'");
-					break;
-			}
+			var sdkTypeValue = SdkTypeConverter.GetSdkTypeAsString(sdkType);
 
 			return toUpper
 				? sdkTypeValue.ToUpperInvariant()
@@ -124,9 +102,9 @@ namespace Xsolla.Core
 		private static string GetBuildPlatform(bool toUpper = false)
 		{
 #if UNITY_EDITOR
-			var buildPlatform = UnityEditor.EditorUserBuildSettings.activeBuildTarget.ToString();
+			var buildPlatform = BuildTargetConverter.GetActiveBuildTargetAsString();
 #else
-			var buildPlatform = Application.platform.ToString();
+			var buildPlatform = RuntimePlatformConverter.GetRunningPlatformAsString();
 #endif
 
 			return toUpper
