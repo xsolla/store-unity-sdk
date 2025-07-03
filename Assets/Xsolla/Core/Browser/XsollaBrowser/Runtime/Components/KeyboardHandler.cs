@@ -52,6 +52,9 @@ namespace Xsolla.XsollaBrowser
 		{
 			if (GetNavigationKeyCodeDownThisFrame().HasValue)
 				return;
+			
+			if (GetClipboardKeyCodeDownThisFrame())
+				return;
 
 			if (!char.IsControl(character))
 				Page?.SendCharacterAsync(character.ToString());
@@ -87,6 +90,22 @@ namespace Xsolla.XsollaBrowser
 			return null;
 		}
 
+		private bool GetClipboardKeyCodeDownThisFrame()
+		{
+#if UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX
+			if ((InputProvider.IsKeyPressed(KeyCode.LeftCommand) || InputProvider.IsKeyPressed(KeyCode.RightCommand)) && InputProvider.IsKeyDownThisFrame(KeyCode.V))
+			{
+				return true;
+			}
+#else
+			if ((InputProvider.IsKeyPressed(KeyCode.LeftControl) || InputProvider.IsKeyPressed(KeyCode.RightControl)) && InputProvider.IsKeyDownThisFrame(KeyCode.V))
+			{
+				return true;
+			}
+#endif
+			return false;
+		}
+
 		private bool ProcessNavigation()
 		{
 			var keyCode = GetNavigationKeyCodeDownThisFrame();
@@ -100,22 +119,12 @@ namespace Xsolla.XsollaBrowser
 			return false;
 		}
 
-		private bool ProcessClipboard()
+		private void ProcessClipboard()
 		{
-#if UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX
-			if ((InputProvider.IsKeyPressed(KeyCode.LeftCommand) || InputProvider.IsKeyPressed(KeyCode.RightCommand)) && InputProvider.IsKeyDownThisFrame(KeyCode.V))
+			if (GetClipboardKeyCodeDownThisFrame())
 			{
 				PasteFromClipboard();
-				return true;
 			}
-#else
-			if ((InputProvider.IsKeyPressed(KeyCode.LeftControl) || InputProvider.IsKeyPressed(KeyCode.RightControl)) && InputProvider.IsKeyDownThisFrame(KeyCode.V))
-			{
-				PasteFromClipboard();
-				return true;
-			}
-#endif
-			return false;
 		}
 
 		private void PasteFromClipboard()
