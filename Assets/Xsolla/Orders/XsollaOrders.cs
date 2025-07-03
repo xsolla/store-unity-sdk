@@ -131,7 +131,7 @@ namespace Xsolla.Orders
 
 		/// <summary>
 		/// Get unprocessed events for user.
-		/// NOTE: Before using this method, enable GetUpdates service. To do this open your project in Publisher Account, go to the [Project settings > Webhooks](https://publisher.xsolla.com/0/projects/0/edit/webhooks/store) section and select <b>Use API</b>.
+		/// NOTE: Enable the Xsolla Event API before using this method. For setup instructions, see the [documentation](https://developers.xsolla.com/solutions/payments/server-side-token-generation/set-up-order-tracking/?tabs=100-api#general_overview).
 		/// </summary>
 		/// <param name="onSuccess">Called after receiving data successfully.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
@@ -150,10 +150,10 @@ namespace Xsolla.Orders
 				onSuccess,
 				error => TokenAutoRefresher.Check(error, onError, () => GetUnprocessedEvents(onSuccess, onError)));
 		}
-		
+
 		/// <summary>
 		/// Mark event as processed.
-		/// NOTE: Before using this method, enable GetUpdates service. To do this open your project in Publisher Account, go to the [Project settings > Webhooks](https://publisher.xsolla.com/0/projects/0/edit/webhooks/store) section and select <b>Use API</b>.
+		/// NOTE: Enable the Xsolla Event API before using this method. For setup instructions, see the [documentation](https://developers.xsolla.com/solutions/payments/server-side-token-generation/set-up-order-tracking/?tabs=100-api#general_overview).
 		/// </summary>
 		/// <param name="eventId">Event ID to mark as processed.</param>
 		/// <param name="onSuccess">Called after the event was successfully marked as processed.</param>

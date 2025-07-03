@@ -1,8 +1,8 @@
 # Changelog
 ## [3.0.0] - 2025-07-03
 ### Added
-- `XsollaOrders.GetUnprocessedEvents` SDK method to retrieve unprocessed events from the GetUpdates service (Xsolla Event API)
-- `XsollaOrders.MarkEventAsProcessed` SDK method to mark a specific event as processed in the GetUpdates service (Xsolla Event API)
+- `XsollaOrders.GetUnprocessedEvents` SDK method to retrieve unprocessed events from Xsolla event API
+- `XsollaOrders.MarkEventAsProcessed` SDK method to mark a specific event as processed in Xsolla event API
 - Support for the `Unity.InputSystem` package in the In-App Browser
 
 ### Changed
