@@ -1,15 +1,15 @@
 # Changelog
 ## [3.0.0] - 2025-07-03
 ### Added
-- `XsollaOrders.GetUnprocessedEvents` method for retrieving unprocessed events from the Xsolla Event API
-- `XsollaOrders.MarkEventAsProcessed` method for marking a specific event as processed in the Xsolla Event API
+- `XsollaOrders.GetUnprocessedEvents` SDK method to retrieve unprocessed events from the GetUpdates service (Xsolla Event API)
+- `XsollaOrders.MarkEventAsProcessed` SDK method to mark a specific event as processed in the GetUpdates service (Xsolla Event API)
 - Support for the `Unity.InputSystem` package in the In-App Browser
 
 ### Changed
-- Improved input handling mode: now supports all available modes — `new`, `old`, and `both`
-- Changed the `asmdef` reference mode to use names instead of guids
-- Removed the `Steam` library from the SDK package
-- Improved the In-App Browser lifecycle management to prevent side effects
+- Enhanced input handling: the SDK now supports all input modes — `new`, `old`, and `both`
+- Changed the `asmdef` reference mode to use names instead of GUIDs
+- Removed the `Steamworks.NET` library from the SDK package
+- Improved In-App Browser lifecycle handling to reduce side effects
 - Enhanced web request handling to reduce potential errors and improve overall stability
 
 ## [2.5.6] - 2025-06-12
@@ -17,7 +17,7 @@
 - `tracking_id` parameter to the `PurchaseParams` structure. This allows to track the purchases in marketing campaigns
 
 ### Fixed
-- Improved `NullReferenceException` handling in `PaymentsProxyActivity` on Android.
+- Improved `NullReferenceException` handling in `PaymentsProxyActivity` on Android
 
 ## [2.5.5] - 2025-05-27
 ### Added
@@ -78,7 +78,7 @@
 ### Added
 - New methods for XsollaCatalog:
   - `XsollaCatalog.GetPaginatedItems`
-  - `XsollaCatalog.GetPaginatedGroupItems`[CHANGELOG.md](../../CHANGELOG.md)
+  - `XsollaCatalog.GetPaginatedGroupItems`
   - `XsollaCatalog.GetPaginatedVirtualCurrencyList`
   - `XsollaCatalog.GetPaginatedVirtualCurrencyPackagesList`
   - `XsollaCatalog.GetPaginatedBundles`

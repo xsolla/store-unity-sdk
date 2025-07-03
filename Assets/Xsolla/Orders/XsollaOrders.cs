@@ -129,9 +129,9 @@ namespace Xsolla.Orders
 				ErrorGroup.BuyItemErrors);
 		}
 
-		//TEXTREVIEW
 		/// <summary>
-		/// Get unprocessed events for user
+		/// Get unprocessed events for user.
+		/// NOTE: Before using this method, enable GetUpdates service. To do this open your project in Publisher Account, go to the [Project settings > Webhooks](https://publisher.xsolla.com/0/projects/0/edit/webhooks/store) section and select <b>Use API</b>.
 		/// </summary>
 		/// <param name="onSuccess">Called after receiving data successfully.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
@@ -151,9 +151,9 @@ namespace Xsolla.Orders
 				error => TokenAutoRefresher.Check(error, onError, () => GetUnprocessedEvents(onSuccess, onError)));
 		}
 		
-		//TEXTREVIEW
 		/// <summary>
-		/// Mark event as processed
+		/// Mark event as processed.
+		/// NOTE: Before using this method, enable GetUpdates service. To do this open your project in Publisher Account, go to the [Project settings > Webhooks](https://publisher.xsolla.com/0/projects/0/edit/webhooks/store) section and select <b>Use API</b>.
 		/// </summary>
 		/// <param name="eventId">Event ID to mark as processed.</param>
 		/// <param name="onSuccess">Called after the event was successfully marked as processed.</param>
