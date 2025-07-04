@@ -1,3 +1,4 @@
+#if UNITY_STANDALONE
 using UnityEngine;
 using Xsolla.Catalog;
 using Xsolla.Core;
@@ -9,6 +10,8 @@ namespace Xsolla.Samples.Steam
 		// Function for starting the purchase process via Steam Gateway
 		public void PurchaseItem(string itemSku)
 		{
+			// Ensure that the Steamworks API is initialized !!!
+			
 			// Get additional headers for the request from `SteamUtils` class
 			var additionalHeaders = SteamUtils.GetAdditionalCustomHeaders();
 
@@ -31,3 +34,4 @@ namespace Xsolla.Samples.Steam
 		}
 	}
 }
+#endif

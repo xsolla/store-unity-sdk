@@ -10,29 +10,53 @@ namespace Xsolla.Auth
 		public void Perform(SocialProvider provider, Action onSuccess, Action<Error> onError, Action onCancel)
 		{
 			var socialNetworkAuthUrl = XsollaAuth.GetSocialNetworkAuthUrl(provider);
-			var browser = XsollaWebBrowser.InAppBrowser;
-			browser.Open(socialNetworkAuthUrl);
+			XsollaWebBrowser.Open(socialNetworkAuthUrl);
+			subscribeEvents();
+			return;
 
-			browser.AddCloseHandler(() => {
-				if (!isBrowserClosedByCode)
-					onCancel?.Invoke();
-			});
-
-			browser.AddUrlChangeHandler(url => UrlChangedHandler(url, onSuccess, onError));
-		}
-
-		private void UrlChangedHandler(string url, Action onSuccess, Action<Error> onError)
-		{
-			if (ParseUtils.TryGetValueFromUrl(url, ParseParameter.code, out var code))
+			void onBrowserClosed(BrowserCloseInfo info)
 			{
-				XsollaAuth.ExchangeCodeToToken(
-					code,
-					() => {
-						isBrowserClosedByCode = true;
-						XsollaWebBrowser.Close();
-						onSuccess?.Invoke();
-					},
-					onError);
+				if (!isBrowserClosedByCode)
+				{
+					unsubscribeEvents();
+					onCancel?.Invoke();
+				}
+			}
+
+			void onUrlChanged(string url)
+			{
+				if (ParseUtils.TryGetValueFromUrl(url, ParseParameter.code, out var code))
+				{
+					XsollaAuth.ExchangeCodeToToken(
+						code,
+						() => {
+							isBrowserClosedByCode = true;
+							unsubscribeEvents();
+							XsollaWebBrowser.Close();
+							onSuccess?.Invoke();
+						},
+						onError);
+				}
+			}
+
+			void subscribeEvents()
+			{
+				var browser = XsollaWebBrowser.InAppBrowser;
+				if (browser != null)
+				{
+					browser.CloseEvent += onBrowserClosed;
+					browser.UrlChangeEvent += onUrlChanged;
+				}
+			}
+
+			void unsubscribeEvents()
+			{
+				var browser = XsollaWebBrowser.InAppBrowser;
+				if (browser != null)
+				{
+					browser.CloseEvent -= onBrowserClosed;
+					browser.UrlChangeEvent -= onUrlChanged;
+				}
 			}
 		}
 	}

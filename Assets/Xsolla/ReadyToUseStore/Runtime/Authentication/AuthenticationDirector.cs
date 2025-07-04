@@ -44,7 +44,12 @@ namespace Xsolla.ReadyToUseStore
 			var gameObject = new GameObject("EventSystem");
 			Object.DontDestroyOnLoad(gameObject);
 			gameObject.AddComponent<EventSystem>();
+			
+#if ENABLE_INPUT_SYSTEM && XSOLLA_UNITY_INPUT_PACKAGE_EXISTS
+			gameObject.AddComponent<UnityEngine.InputSystem.UI.InputSystemUIInputModule>();
+#else
 			gameObject.AddComponent<StandaloneInputModule>();
+#endif
 		}
 
 		private void ExecuteNextAuthenticator(Action onSuccess, Action<Error> onError, Action onCancel)

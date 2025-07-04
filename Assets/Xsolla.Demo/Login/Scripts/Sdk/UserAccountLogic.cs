@@ -43,8 +43,7 @@ namespace Xsolla.Demo
 				return;
 			}
 
-			Action<LinkSocialProviderLink> urlCallback = url =>
-			{
+			Action<LinkSocialProviderLink> urlCallback = url => {
 				var browser = XsollaWebBrowser.InAppBrowser;
 				if (browser == null)
 				{
@@ -55,29 +54,31 @@ namespace Xsolla.Demo
 				}
 
 				browser.Open(url.url);
-				browser.AddInitHandler(() =>
+				browser.UrlChangeEvent += onUrlChanged;
+				return;
+
+				void onUrlChanged(string newUrl)
 				{
-					browser.AddUrlChangeHandler(newUrl =>
+					XDebug.Log($"URL = {newUrl}");
+
+					if (ParseUtils.TryGetValueFromUrl(newUrl, ParseParameter.token, out _))
 					{
-						XDebug.Log($"URL = {newUrl}");
+						browser.UrlChangeEvent -= onUrlChanged;
+						XsollaWebBrowser.Close();
+						HotkeyCoroutine.Unlock();
+						onSuccess?.Invoke(socialProvider);
+						return;
+					}
 
-						if (ParseUtils.TryGetValueFromUrl(newUrl, ParseParameter.token, out _))
-						{
-							browser.Close();
-							HotkeyCoroutine.Unlock();
-							onSuccess?.Invoke(socialProvider);
-							return;
-						}
-
-						if (ParseUtils.TryGetValueFromUrl(newUrl, ParseParameter.error_code, out string errorCode) &&
-						    ParseUtils.TryGetValueFromUrl(newUrl, ParseParameter.error_description, out string errorDescription))
-						{
-							browser.Close();
-							HotkeyCoroutine.Unlock();
-							onError?.Invoke(new Error(statusCode: errorCode, errorMessage: errorDescription));
-						}
-					});
-				});
+					if (ParseUtils.TryGetValueFromUrl(newUrl, ParseParameter.error_code, out var errorCode) &&
+						ParseUtils.TryGetValueFromUrl(newUrl, ParseParameter.error_description, out var errorDescription))
+					{
+						browser.UrlChangeEvent -= onUrlChanged;
+						XsollaWebBrowser.Close();
+						HotkeyCoroutine.Unlock();
+						onError?.Invoke(new Error(statusCode: errorCode, errorMessage: errorDescription));
+					}
+				}
 			};
 
 			XsollaUserAccount.LinkSocialProvider(socialProvider, urlCallback, onError);
@@ -87,7 +88,8 @@ namespace Xsolla.Demo
 		private DateTime _networksCacheTime;
 		private bool _networksCacheInProgress;
 
-		public void PurgeSocialProvidersCache() => _networksCache = null;
+		public void PurgeSocialProvidersCache()
+			=> _networksCache = null;
 
 		public void GetLinkedSocialProviders(Action<List<LinkedSocialNetwork>> onSuccess, Action<Error> onError = null)
 		{
@@ -100,14 +102,12 @@ namespace Xsolla.Demo
 			if ((DateTime.Now - _networksCacheTime).Seconds > NETWORKS_CACHE_TIMEOUT || _networksCache == null)
 			{
 				_networksCacheInProgress = true;
-				XsollaUserAccount.GetLinkedSocialProviders(networks =>
-				{
+				XsollaUserAccount.GetLinkedSocialProviders(networks => {
 					_networksCache = networks.items;
 					_networksCacheTime = DateTime.Now;
 					onSuccess?.Invoke(_networksCache);
 					_networksCacheInProgress = false;
-				}, error =>
-				{
+				}, error => {
 					if (_networksCache == null)
 						_networksCache = new List<LinkedSocialNetwork>();
 					onError?.Invoke(error);

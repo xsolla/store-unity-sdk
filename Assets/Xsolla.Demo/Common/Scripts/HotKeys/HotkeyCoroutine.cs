@@ -74,7 +74,7 @@ namespace Xsolla.Demo
 			while (true)
 			{
 				yield return new WaitForSeconds(_timeout);
-				yield return new WaitUntil(() => InputProxy.GetKeyDown(_keyCode));
+				yield return new WaitUntil(() => InputProvider.IsKeyDownThisFrame(_keyCode));
 				if (!m_isLocked)
 					KeyPressedEvent?.Invoke();
 			}

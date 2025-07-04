@@ -31,7 +31,7 @@ namespace Xsolla.XsollaBrowser
 		{
 			while (!cancellationToken.IsCancellationRequested)
 			{
-				if (Input.GetKeyDown(KeyCode.Escape))
+				if (InputProvider.IsKeyDownThisFrame(KeyCode.Escape))
 				{
 					if (XsollaWebBrowser.InAppBrowser.IsFullScreen)
 						XsollaWebBrowser.InAppBrowser.SetFullscreenMode(false);
@@ -45,7 +45,7 @@ namespace Xsolla.XsollaBrowser
 
 		private static void OnCloseButtonClick()
 		{
-			XsollaWebBrowser.InAppBrowser.Close(0, true);
+			XsollaWebBrowser.Close(0, true);
 		}
 
 		private static void OnFullscreenButtonClick()

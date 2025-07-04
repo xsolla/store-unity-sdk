@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -35,7 +36,6 @@ namespace Xsolla.XsollaBrowser
 		public bool IsOpened { get; private set; }
 		public bool IsFullScreen => BrowserPage != null && BrowserPage.IsFullScreen;
 
-		private bool IsAlreadyClosing;
 		private int LastFetchingProgress;
 
 		private void Awake()
@@ -45,11 +45,6 @@ namespace Xsolla.XsollaBrowser
 			PageViewRoot.SetActive(false);
 		}
 
-		private void OnDestroy()
-		{
-			Close();
-		}
-
 		public void Open(string url)
 		{
 			OpenUrlAsync(url);
@@ -57,11 +52,6 @@ namespace Xsolla.XsollaBrowser
 
 		public void Close(float delay = 0, bool isManually = false)
 		{
-			if (IsAlreadyClosing)
-				return;
-
-			IsAlreadyClosing = true;
-
 			if (Handlers != null)
 			{
 				foreach (var handler in Handlers)
@@ -246,7 +236,7 @@ namespace Xsolla.XsollaBrowser
 		{
 			Application.OpenURL(url);
 		}
-		
+
 		private static Vector2Int CalculateFullScreenRenderSize()
 		{
 			var renderSize = new Vector2Int(Screen.width, Screen.height);

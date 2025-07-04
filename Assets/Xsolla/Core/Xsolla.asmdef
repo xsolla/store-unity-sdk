@@ -1,9 +1,9 @@
 {
     "name": "Xsolla",
+    "rootNamespace": "Xsolla",
     "references": [
-        "GUID:602e03bad41311146a1c3f38522cea6d",
-        "GUID:2e75b7162656543468fd7cacc853237e",
-        "GUID:68bd7fdb68ef2684e982e8a9825b18a5"
+        "UIBuilder",
+        "Unity.InputSystem"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
@@ -12,6 +12,12 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": [],
+    "versionDefines": [
+        {
+            "name": "com.unity.inputsystem",
+            "expression": "0.0.0",
+            "define": "XSOLLA_UNITY_INPUT_PACKAGE_EXISTS"
+        }
+    ],
     "noEngineReferences": false
 }

@@ -12,7 +12,7 @@ namespace Xsolla.Demo
 	{
 		private static Dictionary<string, string> GenerateCustomHeaders()
 		{
-#if UNITY_STANDALONE || UNITY_EDITOR
+#if UNITY_STANDALONE
 			if (DemoSettings.UseSteamAuth && DemoSettings.PaymentsFlow == PaymentsFlow.SteamGateway)
 				return SteamUtils.GetAdditionalCustomHeaders();
 #endif
@@ -38,21 +38,18 @@ namespace Xsolla.Demo
 
 		public static void PurchaseForVirtualCurrency(CatalogItemModel item, Action<CatalogItemModel> onSuccess, Action<Error> onError)
 		{
-			var onConfirmation = new Action(() =>
-			{
+			var onConfirmation = new Action(() => {
 				var isPurchaseComplete = false;
 				PopupFactory.Instance.CreateWaiting().SetCloseCondition(() => isPurchaseComplete);
 
 				XsollaCatalog.PurchaseForVirtualCurrency(
 					item.Sku,
 					item.VirtualPrice?.Key,
-					_ =>
-					{
+					_ => {
 						isPurchaseComplete = true;
 						CompletePurchase(item, () => onSuccess?.Invoke(item));
 					},
-					error =>
-					{
+					error => {
 						isPurchaseComplete = true;
 						OnPurchaseError(error, onError);
 					},
@@ -72,11 +69,9 @@ namespace Xsolla.Demo
 			}
 
 			XsollaCart.GetCartItems(
-				newCart =>
-				{
+				newCart => {
 					XsollaCart.ClearCart(
-						() =>
-						{
+						() => {
 							var cartItems = items
 								.Select(i => new CartFillItem {
 									sku = i.Sku,
@@ -85,15 +80,14 @@ namespace Xsolla.Demo
 
 							XsollaCart.FillCart(
 								cartItems,
-								() =>
-								{
+								() => {
 									XsollaCart.Purchase(
 										_ => CompletePurchase(null, () => onSuccess?.Invoke(items)),
 										error => OnPurchaseError(error, onError),
 										newCart.cart_id,
 										customHeaders:
 										GenerateCustomHeaders()
-									);
+										);
 								},
 								error => OnPurchaseError(error, onError),
 								newCart.cart_id);
@@ -115,11 +109,9 @@ namespace Xsolla.Demo
 			}
 
 			XsollaCart.GetCartItems(
-				newCart =>
-				{
+				newCart => {
 					XsollaCart.ClearCart(
-						() =>
-						{
+						() => {
 							var cartItems = items
 								.Select(i => new CartFillItem {
 									sku = i.Sku,
@@ -128,14 +120,13 @@ namespace Xsolla.Demo
 
 							XsollaCart.FillCart(
 								cartItems,
-								() =>
-								{
+								() => {
 									XsollaCart.PurchaseFreeCart(
 										_ => CompletePurchase(null, () => onSuccess?.Invoke(items)),
 										onError,
 										newCart.cart_id,
 										customHeaders: GenerateCustomHeaders()
-									);
+										);
 								},
 								error => OnPurchaseError(error, onError));
 						},
@@ -156,19 +147,23 @@ namespace Xsolla.Demo
 		{
 			UserInventory.Instance.Refresh(onError: StoreDemoPopup.ShowError);
 
-			Action callback = () =>
+			var browser = XsollaWebBrowser.InAppBrowser;
+			if (browser != null && browser.IsOpened)
+				browser.CloseEvent += onBrowserClosed;
+			else
+				onBrowserClosed(null);
+			return;
+
+			void onBrowserClosed(BrowserCloseInfo info)
 			{
+				if (browser != null)
+					browser.CloseEvent -= onBrowserClosed;
+
 				if (item != null)
 					StoreDemoPopup.ShowSuccess($"You have purchased '{item.Name}'", popupCallback);
 				else
 					StoreDemoPopup.ShowSuccess(null, popupCallback);
-			};
-
-			var inAppBrowser = XsollaWebBrowser.InAppBrowser;
-			if (inAppBrowser != null && inAppBrowser.IsOpened)
-				inAppBrowser.AddCloseHandler(callback);
-			else
-				callback.Invoke();
+			}
 		}
 	}
 }
