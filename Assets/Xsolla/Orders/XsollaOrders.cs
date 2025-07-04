@@ -129,9 +129,9 @@ namespace Xsolla.Orders
 				ErrorGroup.BuyItemErrors);
 		}
 
-		//TEXTREVIEW
 		/// <summary>
-		/// Get unprocessed events for user
+		/// Get unprocessed events for user.
+		/// NOTE: Enable the Xsolla Event API before using this method. For setup instructions, see the [documentation](https://developers.xsolla.com/solutions/payments/server-side-token-generation/set-up-order-tracking/?tabs=100-api#general_overview).
 		/// </summary>
 		/// <param name="onSuccess">Called after receiving data successfully.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
@@ -150,10 +150,10 @@ namespace Xsolla.Orders
 				onSuccess,
 				error => TokenAutoRefresher.Check(error, onError, () => GetUnprocessedEvents(onSuccess, onError)));
 		}
-		
-		//TEXTREVIEW
+
 		/// <summary>
-		/// Mark event as processed
+		/// Mark event as processed.
+		/// NOTE: Enable the Xsolla Event API before using this method. For setup instructions, see the [documentation](https://developers.xsolla.com/solutions/payments/server-side-token-generation/set-up-order-tracking/?tabs=100-api#general_overview).
 		/// </summary>
 		/// <param name="eventId">Event ID to mark as processed.</param>
 		/// <param name="onSuccess">Called after the event was successfully marked as processed.</param>

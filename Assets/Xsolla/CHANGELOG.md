@@ -1,4 +1,17 @@
 # Changelog
+## [3.0.0] - 2025-07-03
+### Added
+- `XsollaOrders.GetUnprocessedEvents` SDK method to retrieve unprocessed events from Xsolla event API
+- `XsollaOrders.MarkEventAsProcessed` SDK method to mark a specific event as processed in Xsolla event API
+- Support for the `Unity.InputSystem` package in the In-App Browser
+
+### Changed
+- Enhanced input handling: the SDK now supports all input modes — `new`, `old`, and `both`
+- Changed the `asmdef` reference mode to use names instead of GUIDs
+- Removed the `Steamworks.NET` library from the SDK package
+- Improved In-App Browser lifecycle handling to reduce side effects
+- Enhanced web request handling to reduce potential errors and improve overall stability
+
 ## [2.5.6] - 2025-06-12
 ### Added
 - `tracking_id` parameter to the `PurchaseParams` structure. This allows to track the purchases in marketing campaigns
