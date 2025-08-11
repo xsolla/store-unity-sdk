@@ -137,7 +137,9 @@ namespace Xsolla.Orders
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		public static void GetUnprocessedEvents(Action<Events> onSuccess, Action<Error> onError)
 		{
-			var url = "https://getupdate.xsolla.com/events";
+			var url = new UrlBuilder("https://getupdate.xsolla.com/events")
+				.AddParam("project_id", XsollaSettings.OAuthClientId)
+				.Build();
 
 			var headers = new List<WebRequestHeader> {
 				WebRequestHeader.AuthHeader()
@@ -160,7 +162,9 @@ namespace Xsolla.Orders
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		public static void MarkEventAsProcessed(int eventId, Action onSuccess, Action<Error> onError)
 		{
-			var url = $"https://getupdate.xsolla.com/events/{eventId}/processed";
+			var url = new UrlBuilder($"https://getupdate.xsolla.com/events/{eventId}/processed")
+				.AddParam("project_id", XsollaSettings.OAuthClientId)
+				.Build();
 
 			var headers = new List<WebRequestHeader> {
 				WebRequestHeader.AuthHeader(),
