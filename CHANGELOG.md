@@ -1,4 +1,10 @@
 # Changelog
+## [3.0.1] - 2025-08-13
+### Added
+- OAuth 2.0 support for Xsolla Event API
+### Changed
+- Updated Android libraries to improve compatibility and stability
+
 ## [3.0.0] - 2025-07-03
 ### Added
 - `XsollaOrders.GetUnprocessedEvents` SDK method to retrieve unprocessed events from Xsolla event API
