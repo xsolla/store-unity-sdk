@@ -1,7 +1,11 @@
 # Changelog
 ## [3.0.1] - 2025-08-13
 ### Added
+<<<<<<< HEAD
 - OAuth 2.0 support for Xsolla Event API
+=======
+- OAuth 2.0 support for the Xsolla Event API
+>>>>>>> origin/release/3.0.1
 ### Changed
 - Updated Android libraries to improve compatibility and stability
 
