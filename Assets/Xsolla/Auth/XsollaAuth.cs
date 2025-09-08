@@ -181,11 +181,25 @@ namespace Xsolla.Auth
 				operation_id = operationId
 			};
 
-			WebRequestHelper.Instance.PostRequest<LoginLink, CompleteAuthByEmailRequest>(
+			WebRequestHelper.Instance.PostRequest<LoginResponse, CompleteAuthByEmailRequest>(
 				SdkType.Login,
 				url,
 				requestData,
-				response => ParseCodeFromUrlAndExchangeToToken(response.login_url, onSuccess, onError),
+				response => {
+					if (!string.IsNullOrEmpty(response.token))
+					{
+						XsollaToken.Create(response.token);
+						onSuccess?.Invoke();
+					}
+					else if (!string.IsNullOrEmpty(response.login_url))
+					{
+						ParseCodeFromUrlAndExchangeToToken(response.login_url, onSuccess, onError);
+					}
+					else
+					{
+						onError?.Invoke(new Error(ErrorType.InvalidData, errorMessage: "Unexpected response: both token and login_url are empty"));
+					}
+				},
 				onError,
 				ErrorGroup.LoginErrors);
 		}
@@ -249,11 +263,25 @@ namespace Xsolla.Auth
 				operation_id = operationId
 			};
 
-			WebRequestHelper.Instance.PostRequest<LoginLink, CompleteAuthByPhoneNumberRequest>(
+			WebRequestHelper.Instance.PostRequest<LoginResponse, CompleteAuthByPhoneNumberRequest>(
 				SdkType.Login,
 				url,
 				requestData,
-				response => ParseCodeFromUrlAndExchangeToToken(response.login_url, onSuccess, onError),
+				response => {
+					if (!string.IsNullOrEmpty(response.token))
+					{
+						XsollaToken.Create(response.token);
+						onSuccess?.Invoke();
+					}
+					else if (!string.IsNullOrEmpty(response.login_url))
+					{
+						ParseCodeFromUrlAndExchangeToToken(response.login_url, onSuccess, onError);
+					}
+					else
+					{
+						onError?.Invoke(new Error(ErrorType.InvalidData, errorMessage: "Unexpected response: both token and login_url are empty"));
+					}
+				},
 				onError,
 				ErrorGroup.LoginErrors);
 		}
