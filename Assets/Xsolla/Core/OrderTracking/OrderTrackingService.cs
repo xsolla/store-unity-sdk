@@ -62,19 +62,21 @@ namespace Xsolla.Core
 			if (!Trackers.TryGetValue(orderId, out var tracker))
 				return;
 
+			XDebug.Log($"Order tracker '{tracker.GetType().Name}' stopped for order: {orderId}");
 			tracker.Stop();
 			Trackers.Remove(orderId);
 		}
 
 		public static void ReplaceTracker(OrderTracker oldTracker, OrderTracker newTracker)
 		{
+			XDebug.Log($"Replacing order tracker ({oldTracker.GetType().Name}) with ({newTracker.GetType().Name}) for order: {oldTracker.TrackingData.orderId}");
 			RemoveOrderFromTracking(oldTracker.TrackingData.orderId);
 			StartTracker(newTracker);
 		}
 
 		private static void StartTracker(OrderTracker tracker)
 		{
-			XDebug.Log($"Order tracker started: {tracker.GetType().Name}");
+			XDebug.Log($"Order tracker '{tracker.GetType().Name}' started for order: {tracker.TrackingData.orderId}");
 			Trackers.Add(tracker.TrackingData.orderId, tracker);
 			tracker.Start();
 		}
