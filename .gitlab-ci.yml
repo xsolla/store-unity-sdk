@@ -22,7 +22,6 @@ variables:
   BUILD_TARGET_WINDOWS: "StandaloneWindows64"
   BUILD_TARGET_WEBGL: "WebGL"
   BUILD_TARGET_ANDROID: "Android"
-  BUILD_TARGET_IOS: "iOS"
   BUILD_TARGET_MACOS: "StandaloneOSX"
   UNITY_2019_VERSION: "2019.4.27f1"
   UNITY_2021_VERSION: "2021.3.45f1"
@@ -103,16 +102,6 @@ demo_2021_webgl:
     paths:
       - Builds
 
-demo_2021_ios:
-  extends: .mac_job_base
-  stage: demo_2021
-  script:
-    - python3 $BUILD_DEMO_SCRIPT $CI_PROJECT_DIR $UNITY_2021_VERSION $BUILD_TARGET_IOS
-  artifacts:
-    name: "demo-2021-ios-$CI_COMMIT_REF_SLUG"
-    paths:
-      - Builds
-
 demo_2021_mac:
   extends: .mac_job_base
   stage: demo_2021
@@ -156,16 +145,6 @@ demo_2022_webgl:
     paths:
       - Builds
 
-demo_2022_ios:
-  extends: .mac_job_base
-  stage: demo_2022
-  script:
-    - python3 $BUILD_DEMO_SCRIPT $CI_PROJECT_DIR $UNITY_2022_VERSION $BUILD_TARGET_IOS
-  artifacts:
-    name: "demo-2022-ios-$CI_COMMIT_REF_SLUG"
-    paths:
-      - Builds
-
 demo_2022_mac:
   extends: .mac_job_base
   stage: demo_2022
@@ -206,16 +185,6 @@ demo_6000_webgl:
     - python %BUILD_DEMO_SCRIPT% %CI_PROJECT_DIR% %UNITY_6000_VERSION% %BUILD_TARGET_WEBGL%
   artifacts:
     name: "demo-6000-webgl-%CI_COMMIT_REF_SLUG%"
-    paths:
-      - Builds
-
-demo_6000_ios:
-  extends: .mac_job_base
-  stage: demo_6000
-  script:
-    - python3 $BUILD_DEMO_SCRIPT $CI_PROJECT_DIR $UNITY_6000_VERSION $BUILD_TARGET_IOS
-  artifacts:
-    name: "demo-6000-ios-$CI_COMMIT_REF_SLUG"
     paths:
       - Builds
 
