@@ -55,14 +55,33 @@ variables:
 # =================================================================================================================
 # AUTOTESTS
 
-autotests_job:
+autotests_2021:
   extends: .win_job_base
   stage: autotests
   script:
     - python %AUTOTESTS_SCRIPT% %CI_PROJECT_DIR% %UNITY_2021_VERSION%
   artifacts:
-    when: on_failure
-    name: "autotests-%CI_COMMIT_REF_SLUG%"
+    name: "autotests-2021-%CI_COMMIT_REF_SLUG%"
+    paths:
+      - Logs/autotests_report.log
+
+autotests_2022:
+  extends: .win_job_base
+  stage: autotests
+  script:
+    - python %AUTOTESTS_SCRIPT% %CI_PROJECT_DIR% %UNITY_2022_VERSION%
+  artifacts:
+    name: "autotests-2022-%CI_COMMIT_REF_SLUG%"
+    paths:
+      - Logs/autotests_report.log
+
+autotests_6000:
+  extends: .win_job_base
+  stage: autotests
+  script:
+    - python %AUTOTESTS_SCRIPT% %CI_PROJECT_DIR% %UNITY_6000_VERSION%
+  artifacts:
+    name: "autotests-6000-%CI_COMMIT_REF_SLUG%"
     paths:
       - Logs/autotests_report.log
 
