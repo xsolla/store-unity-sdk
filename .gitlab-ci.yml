@@ -24,7 +24,6 @@ variables:
   BUILD_TARGET_ANDROID: "Android"
   BUILD_TARGET_IOS: "iOS"
   BUILD_TARGET_MACOS: "StandaloneOSX"
-  UNITY_2019_VERSION: "2019.4.27f1"
   UNITY_2021_VERSION: "2021.3.45f1"
   UNITY_2022_VERSION: "2022.3.53f1"
   UNITY_6000_VERSION: "6000.0.29f1"
@@ -63,7 +62,7 @@ autotests_job:
   extends: .win_job_base
   stage: autotests
   script:
-    - python %AUTOTESTS_SCRIPT% %CI_PROJECT_DIR% %UNITY_2019_VERSION%
+    - python %AUTOTESTS_SCRIPT% %CI_PROJECT_DIR% %UNITY_2021_VERSION%
   artifacts:
     when: on_failure
     name: "autotests-%CI_COMMIT_REF_SLUG%"
