@@ -22,9 +22,7 @@ variables:
   BUILD_TARGET_WINDOWS: "StandaloneWindows64"
   BUILD_TARGET_WEBGL: "WebGL"
   BUILD_TARGET_ANDROID: "Android"
-  BUILD_TARGET_IOS: "iOS"
   BUILD_TARGET_MACOS: "StandaloneOSX"
-  UNITY_2019_VERSION: "2019.4.27f1"
   UNITY_2021_VERSION: "2021.3.45f1"
   UNITY_2022_VERSION: "2022.3.53f1"
   UNITY_6000_VERSION: "6000.0.29f1"
@@ -34,7 +32,6 @@ variables:
 
 .win_job_base:
   resource_group: win_runner
-  allow_failure: true
   artifacts:
     when: always
     expire_in: 3 days
@@ -45,7 +42,6 @@ variables:
 
 .mac_job_base:
   resource_group: mac_runner
-  allow_failure: true
   before_script:
     - chmod 755 fastlane/scripts/diawi_callback_helper.sh
   artifacts:
@@ -59,14 +55,33 @@ variables:
 # =================================================================================================================
 # AUTOTESTS
 
-autotests_job:
+autotests_2021:
   extends: .win_job_base
   stage: autotests
   script:
-    - python %AUTOTESTS_SCRIPT% %CI_PROJECT_DIR% %UNITY_2019_VERSION%
+    - python %AUTOTESTS_SCRIPT% %CI_PROJECT_DIR% %UNITY_2021_VERSION%
   artifacts:
-    when: on_failure
-    name: "autotests-%CI_COMMIT_REF_SLUG%"
+    name: "autotests-2021-%CI_COMMIT_REF_SLUG%"
+    paths:
+      - Logs/autotests_report.log
+
+autotests_2022:
+  extends: .win_job_base
+  stage: autotests
+  script:
+    - python %AUTOTESTS_SCRIPT% %CI_PROJECT_DIR% %UNITY_2022_VERSION%
+  artifacts:
+    name: "autotests-2022-%CI_COMMIT_REF_SLUG%"
+    paths:
+      - Logs/autotests_report.log
+
+autotests_6000:
+  extends: .win_job_base
+  stage: autotests
+  script:
+    - python %AUTOTESTS_SCRIPT% %CI_PROJECT_DIR% %UNITY_6000_VERSION%
+  artifacts:
+    name: "autotests-6000-%CI_COMMIT_REF_SLUG%"
     paths:
       - Logs/autotests_report.log
 
@@ -100,16 +115,6 @@ demo_2021_webgl:
     - python %BUILD_DEMO_SCRIPT% %CI_PROJECT_DIR% %UNITY_2021_VERSION% %BUILD_TARGET_WEBGL%
   artifacts:
     name: "demo-2021-webgl-%CI_COMMIT_REF_SLUG%"
-    paths:
-      - Builds
-
-demo_2021_ios:
-  extends: .mac_job_base
-  stage: demo_2021
-  script:
-    - python3 $BUILD_DEMO_SCRIPT $CI_PROJECT_DIR $UNITY_2021_VERSION $BUILD_TARGET_IOS
-  artifacts:
-    name: "demo-2021-ios-$CI_COMMIT_REF_SLUG"
     paths:
       - Builds
 
@@ -156,16 +161,6 @@ demo_2022_webgl:
     paths:
       - Builds
 
-demo_2022_ios:
-  extends: .mac_job_base
-  stage: demo_2022
-  script:
-    - python3 $BUILD_DEMO_SCRIPT $CI_PROJECT_DIR $UNITY_2022_VERSION $BUILD_TARGET_IOS
-  artifacts:
-    name: "demo-2022-ios-$CI_COMMIT_REF_SLUG"
-    paths:
-      - Builds
-
 demo_2022_mac:
   extends: .mac_job_base
   stage: demo_2022
@@ -206,16 +201,6 @@ demo_6000_webgl:
     - python %BUILD_DEMO_SCRIPT% %CI_PROJECT_DIR% %UNITY_6000_VERSION% %BUILD_TARGET_WEBGL%
   artifacts:
     name: "demo-6000-webgl-%CI_COMMIT_REF_SLUG%"
-    paths:
-      - Builds
-
-demo_6000_ios:
-  extends: .mac_job_base
-  stage: demo_6000
-  script:
-    - python3 $BUILD_DEMO_SCRIPT $CI_PROJECT_DIR $UNITY_6000_VERSION $BUILD_TARGET_IOS
-  artifacts:
-    name: "demo-6000-ios-$CI_COMMIT_REF_SLUG"
     paths:
       - Builds
 
