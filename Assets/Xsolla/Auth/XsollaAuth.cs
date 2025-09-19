@@ -603,11 +603,11 @@ namespace Xsolla.Auth
 				device_id = deviceInfo.GetSafeDeviceId()
 			};
 
-			WebRequestHelper.Instance.PostRequest<LoginLink, AuthViaDeviceIdRequest>(
+			WebRequestHelper.Instance.PostRequest<LoginResponse, AuthViaDeviceIdRequest>(
 				SdkType.Login,
 				url,
 				requestData,
-				response => ParseCodeFromUrlAndExchangeToToken(response.login_url, onSuccess, onError),
+				response => ParseTokenFromLoginResponse(response, onSuccess, onError),
 				onError,
 				ErrorGroup.LoginErrors);
 #endif
