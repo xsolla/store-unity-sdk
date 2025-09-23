@@ -23,18 +23,27 @@ namespace Xsolla.Auth
 				}
 			}
 
+			void onAuthSuccess()
+			{
+				isBrowserClosedByCode = true;
+				unsubscribeEvents();
+				XsollaWebBrowser.Close();
+				onSuccess?.Invoke();
+			}
+
 			void onUrlChanged(string url)
 			{
+				if (ParseUtils.TryGetValueFromUrl(url, ParseParameter.token, out var accessToken))
+				{
+					XsollaToken.Create(accessToken);
+					onAuthSuccess();
+				}
+
 				if (ParseUtils.TryGetValueFromUrl(url, ParseParameter.code, out var code))
 				{
 					XsollaAuth.ExchangeCodeToToken(
 						code,
-						() => {
-							isBrowserClosedByCode = true;
-							unsubscribeEvents();
-							XsollaWebBrowser.Close();
-							onSuccess?.Invoke();
-						},
+						onAuthSuccess,
 						onError);
 				}
 			}
