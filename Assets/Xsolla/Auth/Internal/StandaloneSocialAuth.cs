@@ -33,13 +33,12 @@ namespace Xsolla.Auth
 
 			void onUrlChanged(string url)
 			{
-				if (ParseUtils.TryGetValueFromUrl(url, ParseParameter.token, out var accessToken))
+				if (ParseUtils.TryGetValueFromUrl(url, ParseParameter.token, out var token))
 				{
-					XsollaToken.Create(accessToken);
+					XsollaToken.Create(token);
 					onAuthSuccess();
 				}
-
-				if (ParseUtils.TryGetValueFromUrl(url, ParseParameter.code, out var code))
+				else if (ParseUtils.TryGetValueFromUrl(url, ParseParameter.code, out var code))
 				{
 					XsollaAuth.ExchangeCodeToToken(
 						code,
