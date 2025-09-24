@@ -40,17 +40,26 @@ namespace Xsolla.Auth
 
 		private void OnBrowserUrlChange(string newUrl)
 		{
-			if (!ParseUtils.TryGetValueFromUrl(newUrl, ParseParameter.code, out var parsedCode))
-				return;
+			void onAuthSuccess()
+			{
+				UnsubscribeFromBrowser();
+				XsollaWebBrowser.Close();
+				OnSuccessCallback?.Invoke();
+			}
 
-			UnsubscribeFromBrowser();
-			XsollaWebBrowser.Close();
-
-			XsollaAuth.ExchangeCodeToToken(
-				parsedCode,
-				() => OnSuccessCallback?.Invoke(),
-				error => OnErrorCallback?.Invoke(error),
-				sdkType: SdkType);
+			if (ParseUtils.TryGetValueFromUrl(newUrl, ParseParameter.token, out var token))
+			{
+				XsollaToken.Create(token);
+				onAuthSuccess();
+			}
+			else if (ParseUtils.TryGetValueFromUrl(newUrl, ParseParameter.code, out var code))
+			{
+				XsollaAuth.ExchangeCodeToToken(
+					code,
+					onAuthSuccess,
+					error => OnErrorCallback?.Invoke(error),
+					sdkType: SdkType);
+			}
 		}
 
 		private void OnBrowserClose(BrowserCloseInfo info)
