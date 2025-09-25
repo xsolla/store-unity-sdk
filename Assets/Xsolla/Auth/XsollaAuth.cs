@@ -796,7 +796,7 @@ namespace Xsolla.Auth
 		public static void AuthViaSocialNetwork(SocialProvider provider, Action onSuccess, Action<Error> onError, Action onCancel)
 		{
 #if UNITY_STANDALONE
-			new StandaloneSocialAuth().Perform(provider, onSuccess, onError, onCancel);
+			new StandaloneSocialAuth(provider, onSuccess, onError, onCancel).Perform();
 #elif UNITY_ANDROID
 			new AndroidSocialAuth().Perform(provider, onSuccess, onError, onCancel);
 #elif UNITY_IOS

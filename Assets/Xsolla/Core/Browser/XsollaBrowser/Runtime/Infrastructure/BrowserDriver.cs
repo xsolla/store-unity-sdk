@@ -1,9 +1,12 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using PuppeteerSharp;
+using Xsolla.Core;
 
 namespace Xsolla.XsollaBrowser
 {
@@ -17,6 +20,7 @@ namespace Xsolla.XsollaBrowser
 		private readonly CancellationToken CancellationToken;
 		private readonly Action<int> FetchProgressAction;
 		private readonly Action<string> OpenExternalUrlAction;
+		private readonly List<IInAppBrowserNavigationInterceptor> NavigationInterceptors = new();
 
 		private Thread Thread;
 		private IBrowser Browser;
@@ -57,6 +61,28 @@ namespace Xsolla.XsollaBrowser
 			{
 				await Task.Delay(50);
 			}
+		}
+
+		public void AddNavigationInterceptor(IInAppBrowserNavigationInterceptor interceptor)
+		{
+			if (interceptor == null)
+				return;
+
+			if (NavigationInterceptors.Contains(interceptor))
+				return;
+
+			NavigationInterceptors.Add(interceptor);
+		}
+
+		public void RemoveNavigationInterceptor(IInAppBrowserNavigationInterceptor interceptor)
+		{
+			if (interceptor == null)
+				return;
+
+			if (!NavigationInterceptors.Contains(interceptor))
+				return;
+
+			NavigationInterceptors.Remove(interceptor);
 		}
 
 		private async void DriverThread()
@@ -106,6 +132,9 @@ namespace Xsolla.XsollaBrowser
 				? pages[0]
 				: await Browser.NewPageAsync();
 
+			await page.SetRequestInterceptionAsync(true);
+			page.Request -= OnPageRequest;
+
 			Thread.Sleep(50);
 			MainThreadLogger.Log("Start processing commands");
 			IsLaunched = true;
@@ -129,6 +158,8 @@ namespace Xsolla.XsollaBrowser
 			MainThreadLogger.Log("Browser driver thread was cancelled");
 
 			MainThreadLogger.Log("Closing browser page");
+
+			page.Request += OnPageRequest;
 			await page.CloseAsync();
 			page.Dispose();
 
@@ -144,30 +175,71 @@ namespace Xsolla.XsollaBrowser
 			FetchProgressAction?.Invoke(e.ProgressPercentage);
 		}
 
+		private async void OnPageRequest(object _, RequestEventArgs args)
+		{
+			try
+			{
+				var request = args.Request;
+				if (request == null)
+					return;
+
+				if (!request.IsNavigationRequest || !request.RedirectChain.Any())
+				{
+					await request.ContinueAsync();
+					return;
+				}
+
+				if (NavigationInterceptors.Count == 0)
+				{
+					await request.ContinueAsync();
+					return;
+				}
+
+				if (NavigationInterceptors.Any(i => i.ShouldAbortNavigation(request.Url)))
+				{
+					await request.AbortAsync();
+					return;
+				}
+
+				await request.ContinueAsync();
+			}
+			catch (Exception exception)
+			{
+				Console.WriteLine(exception);
+			}
+		}
+
 		private async void OnBrowserOnTargetCreated(object sender, TargetChangedArgs e)
 		{
-			if (e.Target.Type != TargetType.Page)
-				return;
+			try
+			{
+				if (e.Target.Type != TargetType.Page)
+					return;
 
-			if (Browser == null)
-				return;
+				if (Browser == null)
+					return;
 
-			if (CancellationToken.IsCancellationRequested)
-				return;
+				if (CancellationToken.IsCancellationRequested)
+					return;
 
-			var allPages = await Browser.PagesAsync();
-			if (CancellationToken.IsCancellationRequested)
-				return;
+				var allPages = await Browser.PagesAsync();
+				if (CancellationToken.IsCancellationRequested)
+					return;
 
-			if (allPages.Length <= 1)
-				return;
+				if (allPages.Length <= 1)
+					return;
 
-			var newPage = await e.Target.PageAsync();
-			if (CancellationToken.IsCancellationRequested)
-				return;
+				var newPage = await e.Target.PageAsync();
+				if (CancellationToken.IsCancellationRequested)
+					return;
 
-			MainThreadExecutor.Enqueue(() => OpenExternalUrlAction?.Invoke(newPage.Url));
-			await newPage.CloseAsync();
+				MainThreadExecutor.Enqueue(() => OpenExternalUrlAction?.Invoke(newPage.Url));
+				await newPage.CloseAsync();
+			}
+			catch (Exception exception)
+			{
+				Console.WriteLine(exception);
+			}
 		}
 	}
 }

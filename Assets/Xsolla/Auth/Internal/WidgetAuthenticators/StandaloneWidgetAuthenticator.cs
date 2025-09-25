@@ -4,13 +4,15 @@ using Xsolla.Core;
 
 namespace Xsolla.Auth
 {
-	internal class StandaloneWidgetAuthenticator : IWidgetAuthenticator
+	internal class StandaloneWidgetAuthenticator : IWidgetAuthenticator, IInAppBrowserNavigationInterceptor
 	{
 		private readonly Action OnSuccessCallback;
 		private readonly Action<Error> OnErrorCallback;
 		private readonly Action OnCancelCallback;
 		private readonly string Locale;
 		private readonly SdkType SdkType;
+		private readonly MainThreadExecutor MainThreadExecutor;
+		private bool IsBrowserClosedByCode;
 
 		public StandaloneWidgetAuthenticator(Action onSuccessCallback, Action<Error> onErrorCallback, Action onCancelCallback, string locale, SdkType sdkType)
 		{
@@ -19,6 +21,8 @@ namespace Xsolla.Auth
 			OnCancelCallback = onCancelCallback;
 			Locale = locale;
 			SdkType = sdkType;
+
+			MainThreadExecutor = MainThreadExecutor.Instance;
 		}
 
 		public void Launch()
@@ -38,56 +42,69 @@ namespace Xsolla.Auth
 			XsollaWebBrowser.InAppBrowser.UpdateSize(820, 840);
 		}
 
-		private void OnBrowserUrlChange(string newUrl)
+		private void OnAuthSuccess()
 		{
-			void onAuthSuccess()
-			{
-				UnsubscribeFromBrowser();
-				XsollaWebBrowser.Close();
-				OnSuccessCallback?.Invoke();
-			}
-
-			if (ParseUtils.TryGetValueFromUrl(newUrl, ParseParameter.token, out var token))
-			{
-				XsollaToken.Create(token);
-				onAuthSuccess();
-			}
-			else if (ParseUtils.TryGetValueFromUrl(newUrl, ParseParameter.code, out var code))
-			{
-				XsollaAuth.ExchangeCodeToToken(
-					code,
-					onAuthSuccess,
-					error => OnErrorCallback?.Invoke(error),
-					sdkType: SdkType);
-			}
+			UnsubscribeFromBrowser();
+			IsBrowserClosedByCode = true;
+			XsollaWebBrowser.Close();
+			OnSuccessCallback?.Invoke();
 		}
 
 		private void OnBrowserClose(BrowserCloseInfo info)
 		{
-			OnCancelCallback?.Invoke();
+			if (IsBrowserClosedByCode)
+				return;
+
 			UnsubscribeFromBrowser();
+			OnCancelCallback?.Invoke();
 		}
 
 		private void SubscribeToBrowser()
 		{
 			// TODO Case when browser is null (whole XsollaWebBrowser folder was removed)
 			var browser = XsollaWebBrowser.InAppBrowser;
-			if (browser != null)
-			{
-				browser.CloseEvent += OnBrowserClose;
-				browser.UrlChangeEvent += OnBrowserUrlChange;
-			}
+			if (browser == null)
+				return;
+
+			browser.CloseEvent += OnBrowserClose;
+			XsollaWebBrowser.InAppBrowser.AddNavigationInterceptor(this);
 		}
 
 		private void UnsubscribeFromBrowser()
 		{
 			// TODO Case when browser is null (whole XsollaWebBrowser folder was removed)
 			var browser = XsollaWebBrowser.InAppBrowser;
-			if (browser != null)
+			if (browser == null)
+				return;
+
+			browser.CloseEvent -= OnBrowserClose;
+			XsollaWebBrowser.InAppBrowser.RemoveNavigationInterceptor(this);
+		}
+
+		public bool ShouldAbortNavigation(string url)
+		{
+			if (ParseUtils.TryGetValueFromUrl(url, ParseParameter.token, out var token))
 			{
-				browser.CloseEvent -= OnBrowserClose;
-				browser.UrlChangeEvent -= OnBrowserUrlChange;
+				MainThreadExecutor.Enqueue(() => {
+					XsollaToken.Create(token);
+					OnAuthSuccess();
+				});
+				return true;
 			}
+
+			if (ParseUtils.TryGetValueFromUrl(url, ParseParameter.code, out var code))
+			{
+				MainThreadExecutor.Enqueue(() => {
+					XsollaAuth.ExchangeCodeToToken(
+						code,
+						OnAuthSuccess,
+						error => OnErrorCallback?.Invoke(error),
+						sdkType: SdkType);
+				});
+				return true;
+			}
+
+			return false;
 		}
 	}
 }
