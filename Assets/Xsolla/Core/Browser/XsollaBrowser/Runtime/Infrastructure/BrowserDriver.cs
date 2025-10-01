@@ -88,7 +88,7 @@ namespace Xsolla.XsollaBrowser
 		private async void DriverThread()
 		{
 			MainThreadLogger.Log("Browser driver thread started");
-			Thread.Sleep(50);
+			await Task.Delay(50, CancellationToken);
 
 			var fetcherOptions = new BrowserFetcherOptions {
 				Product = FetchOptions.Product,
@@ -96,15 +96,14 @@ namespace Xsolla.XsollaBrowser
 				Path = FetchOptions.Path
 			};
 
-			MainThreadLogger.Log($"Start fetching browser\n. Options: {JsonConvert.SerializeObject(fetcherOptions)}");
+			MainThreadLogger.Log($"Fetching browser\n. Options: {JsonConvert.SerializeObject(fetcherOptions)}");
 
 			var fetcher = new BrowserFetcher(fetcherOptions);
 			fetcher.DownloadProgressChanged += OnDownloadProgressChanged;
 			await fetcher.DownloadAsync(FetchOptions.Revision);
 			fetcher.DownloadProgressChanged -= OnDownloadProgressChanged;
 
-			MainThreadLogger.Log("Finish fetching browser");
-			Thread.Sleep(50);
+			await Task.Delay(50, CancellationToken);
 
 			var launchOptions = new PuppeteerSharp.LaunchOptions {
 				Product = FetchOptions.Product,
@@ -118,28 +117,25 @@ namespace Xsolla.XsollaBrowser
 				}
 			};
 
-			MainThreadLogger.Log($"Start launching browser\n. Options: {JsonConvert.SerializeObject(launchOptions)}");
-
-#pragma warning disable CS1701
+			MainThreadLogger.Log($"Launching browser\n. Options: {JsonConvert.SerializeObject(launchOptions)}");
 			Browser = await Puppeteer.LaunchAsync(launchOptions);
-#pragma warning restore CS1701
+			Browser.TargetCreated += OnBrowserOnTargetCreated;
 
-			MainThreadLogger.Log("Finish launching browser");
-			Thread.Sleep(50);
+			await Task.Delay(50, CancellationToken);
 
+			MainThreadLogger.Log("Creating browser page");
 			var pages = await Browser.PagesAsync();
 			var page = pages.Length > 0
 				? pages[0]
 				: await Browser.NewPageAsync();
 
 			await page.SetRequestInterceptionAsync(true);
-			page.Request -= OnPageRequest;
+			page.Request += OnPageRequest;
 
-			Thread.Sleep(50);
-			MainThreadLogger.Log("Start processing commands");
+			await Task.Delay(50, CancellationToken);
+
 			IsLaunched = true;
-
-			Browser.TargetCreated += OnBrowserOnTargetCreated;
+			MainThreadLogger.Log("Start processing commands");
 
 			while (!CancellationToken.IsCancellationRequested)
 			{
@@ -153,17 +149,15 @@ namespace Xsolla.XsollaBrowser
 				}
 			}
 
-			Browser.TargetCreated += OnBrowserOnTargetCreated;
-
 			MainThreadLogger.Log("Browser driver thread was cancelled");
 
 			MainThreadLogger.Log("Closing browser page");
-
-			page.Request += OnPageRequest;
+			page.Request -= OnPageRequest;
 			await page.CloseAsync();
 			page.Dispose();
 
 			MainThreadLogger.Log("Closing browser");
+			Browser.TargetCreated -= OnBrowserOnTargetCreated;
 			await Browser.CloseAsync();
 			Browser.Dispose();
 
