@@ -22,6 +22,16 @@ namespace Xsolla.XsollaBrowser
 		private readonly Action<string> OpenExternalUrlAction;
 		private readonly List<IInAppBrowserNavigationInterceptor> NavigationInterceptors = new();
 
+		private static readonly HashSet<ResourceType> RedirectRelevantResourceTypes = new() {
+			ResourceType.Document,
+			ResourceType.Xhr,
+			ResourceType.Fetch,
+			ResourceType.Other,
+			ResourceType.EventSource,
+			ResourceType.WebSocket,
+			ResourceType.Manifest
+		};
+
 		private Thread Thread;
 		private IBrowser Browser;
 		private bool IsLaunched;
@@ -177,7 +187,7 @@ namespace Xsolla.XsollaBrowser
 				if (request == null)
 					return;
 
-				if (!request.IsNavigationRequest || !request.RedirectChain.Any())
+				if (!RedirectRelevantResourceTypes.Contains(request.ResourceType))
 				{
 					await request.ContinueAsync();
 					return;

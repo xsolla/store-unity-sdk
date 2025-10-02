@@ -10,6 +10,7 @@ namespace Xsolla.Auth
 		private readonly Action<Error> ErrorCallback;
 		private readonly Action CancelCallback;
 		private readonly MainThreadExecutor MainThreadExecutor;
+		private string RedirectUrl;
 		private bool IsBrowserClosedByCode;
 
 		public StandaloneSocialAuth(SocialProvider socialProvider, Action onSuccess, Action<Error> onError, Action onCancel)
@@ -23,7 +24,8 @@ namespace Xsolla.Auth
 
 		public void Perform()
 		{
-			var socialNetworkAuthUrl = XsollaAuth.GetSocialNetworkAuthUrl(SocialProvider);
+			RedirectUrl = RedirectUrlHelper.GetRedirectUrl(null);
+			var socialNetworkAuthUrl = XsollaAuth.GetSocialNetworkAuthUrl(SocialProvider, redirectUri: RedirectUrl);
 			XsollaWebBrowser.Open(socialNetworkAuthUrl);
 			SubscribeToBrowser();
 		}
@@ -61,14 +63,28 @@ namespace Xsolla.Auth
 
 		private void OnAuthSuccess()
 		{
+			CloseBrowser();
+			SuccessCallback?.Invoke();
+		}
+
+		private void OnAuthError(Error error)
+		{
+			CloseBrowser();
+			ErrorCallback?.Invoke(error);
+		}
+
+		private void CloseBrowser()
+		{
 			UnsubscribeFromBrowser();
 			IsBrowserClosedByCode = true;
 			XsollaWebBrowser.Close();
-			SuccessCallback?.Invoke();
 		}
 
 		public bool ShouldAbortNavigation(string url)
 		{
+			if (!url.StartsWith(RedirectUrl, StringComparison.OrdinalIgnoreCase))
+				return false;
+			
 			if (ParseUtils.TryGetValueFromUrl(url, ParseParameter.token, out var token))
 			{
 				MainThreadExecutor.Enqueue(() => {
@@ -84,7 +100,7 @@ namespace Xsolla.Auth
 					XsollaAuth.ExchangeCodeToToken(
 						code,
 						OnAuthSuccess,
-						error => ErrorCallback?.Invoke(error));
+						OnAuthError);
 				});
 				return true;
 			}

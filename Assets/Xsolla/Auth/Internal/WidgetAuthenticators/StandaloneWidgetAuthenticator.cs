@@ -12,6 +12,7 @@ namespace Xsolla.Auth
 		private readonly string Locale;
 		private readonly SdkType SdkType;
 		private readonly MainThreadExecutor MainThreadExecutor;
+		private string RedirectUrl;
 		private bool IsBrowserClosedByCode;
 
 		public StandaloneWidgetAuthenticator(Action onSuccessCallback, Action<Error> onErrorCallback, Action onCancelCallback, string locale, SdkType sdkType)
@@ -27,12 +28,14 @@ namespace Xsolla.Auth
 
 		public void Launch()
 		{
+			RedirectUrl = RedirectUrlHelper.GetRedirectUrl(null);
+			
 			var url = new UrlBuilder("https://login-widget.xsolla.com/latest/")
 				.AddProjectId(XsollaSettings.LoginId)
 				.AddClientId(XsollaSettings.OAuthClientId)
 				.AddResponseType("code")
 				.AddState("xsollatest")
-				.AddRedirectUri(RedirectUrlHelper.GetRedirectUrl(null))
+				.AddRedirectUri(RedirectUrl)
 				.AddScope("offline")
 				.AddLocale(Locale)
 				.Build();
@@ -44,10 +47,21 @@ namespace Xsolla.Auth
 
 		private void OnAuthSuccess()
 		{
+			CloseBrowser();
+			OnSuccessCallback?.Invoke();
+		}
+		
+		private void OnAuthError(Error error)
+		{
+			CloseBrowser();
+			OnErrorCallback?.Invoke(error);
+		}
+		
+		private void CloseBrowser()
+		{
 			UnsubscribeFromBrowser();
 			IsBrowserClosedByCode = true;
 			XsollaWebBrowser.Close();
-			OnSuccessCallback?.Invoke();
 		}
 
 		private void OnBrowserClose(BrowserCloseInfo info)
@@ -83,6 +97,9 @@ namespace Xsolla.Auth
 
 		public bool ShouldAbortNavigation(string url)
 		{
+			if (!url.StartsWith(RedirectUrl, StringComparison.OrdinalIgnoreCase))
+				return false;
+			
 			if (ParseUtils.TryGetValueFromUrl(url, ParseParameter.token, out var token))
 			{
 				MainThreadExecutor.Enqueue(() => {
@@ -98,7 +115,7 @@ namespace Xsolla.Auth
 					XsollaAuth.ExchangeCodeToToken(
 						code,
 						OnAuthSuccess,
-						error => OnErrorCallback?.Invoke(error),
+						OnAuthError,
 						sdkType: SdkType);
 				});
 				return true;
