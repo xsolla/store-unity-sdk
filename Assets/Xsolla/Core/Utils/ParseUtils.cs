@@ -84,9 +84,6 @@ namespace Xsolla.Core
 				case ParseParameter.error_description:
 					value = value?.Replace("+", " ");
 					break;
-				default:
-					XDebug.Log($"Trying to find {parameterName} in URL:{url}");
-					break;
 			}
 
 			return !string.IsNullOrEmpty(value);

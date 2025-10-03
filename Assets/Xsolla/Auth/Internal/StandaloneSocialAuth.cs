@@ -3,69 +3,109 @@ using Xsolla.Core;
 
 namespace Xsolla.Auth
 {
-	internal class StandaloneSocialAuth
+	internal class StandaloneSocialAuth : IInAppBrowserNavigationInterceptor
 	{
-		private bool isBrowserClosedByCode;
+		private readonly SocialProvider SocialProvider;
+		private readonly Action SuccessCallback;
+		private readonly Action<Error> ErrorCallback;
+		private readonly Action CancelCallback;
+		private readonly MainThreadExecutor MainThreadExecutor;
+		private string RedirectUrl;
+		private bool IsBrowserClosedByCode;
 
-		public void Perform(SocialProvider provider, Action onSuccess, Action<Error> onError, Action onCancel)
+		public StandaloneSocialAuth(SocialProvider socialProvider, Action onSuccess, Action<Error> onError, Action onCancel)
 		{
-			var socialNetworkAuthUrl = XsollaAuth.GetSocialNetworkAuthUrl(provider);
+			SocialProvider = socialProvider;
+			SuccessCallback = onSuccess;
+			ErrorCallback = onError;
+			CancelCallback = onCancel;
+			MainThreadExecutor = MainThreadExecutor.Instance;
+		}
+
+		public void Perform()
+		{
+			RedirectUrl = RedirectUrlHelper.GetRedirectUrl(null);
+			var socialNetworkAuthUrl = XsollaAuth.GetSocialNetworkAuthUrl(SocialProvider, redirectUri: RedirectUrl);
 			XsollaWebBrowser.Open(socialNetworkAuthUrl);
-			subscribeEvents();
-			return;
+			SubscribeToBrowser();
+		}
 
-			void onBrowserClosed(BrowserCloseInfo info)
-			{
-				if (!isBrowserClosedByCode)
-				{
-					unsubscribeEvents();
-					onCancel?.Invoke();
-				}
-			}
+		private void SubscribeToBrowser()
+		{
+			// TODO Case when browser is null (whole XsollaWebBrowser folder was removed)
+			var browser = XsollaWebBrowser.InAppBrowser;
+			if (browser == null)
+				return;
 
-			void onAuthSuccess()
-			{
-				isBrowserClosedByCode = true;
-				unsubscribeEvents();
-				XsollaWebBrowser.Close();
-				onSuccess?.Invoke();
-			}
+			browser.CloseEvent += OnBrowserClosed;
+			XsollaWebBrowser.InAppBrowser.AddNavigationInterceptor(this);
+		}
 
-			void onUrlChanged(string url)
+		private void UnsubscribeFromBrowser()
+		{
+			// TODO Case when browser is null (whole XsollaWebBrowser folder was removed)
+			var browser = XsollaWebBrowser.InAppBrowser;
+			if (browser == null)
+				return;
+
+			browser.CloseEvent -= OnBrowserClosed;
+			XsollaWebBrowser.InAppBrowser.RemoveNavigationInterceptor(this);
+		}
+
+		private void OnBrowserClosed(BrowserCloseInfo info)
+		{
+			if (IsBrowserClosedByCode)
+				return;
+
+			UnsubscribeFromBrowser();
+			CancelCallback?.Invoke();
+		}
+
+		private void OnAuthSuccess()
+		{
+			CloseBrowser();
+			SuccessCallback?.Invoke();
+		}
+
+		private void OnAuthError(Error error)
+		{
+			CloseBrowser();
+			ErrorCallback?.Invoke(error);
+		}
+
+		private void CloseBrowser()
+		{
+			UnsubscribeFromBrowser();
+			IsBrowserClosedByCode = true;
+			XsollaWebBrowser.Close();
+		}
+
+		public bool ShouldAbortNavigation(string url)
+		{
+			if (!url.StartsWith(RedirectUrl, StringComparison.OrdinalIgnoreCase))
+				return false;
+			
+			if (ParseUtils.TryGetValueFromUrl(url, ParseParameter.token, out var token))
 			{
-				if (ParseUtils.TryGetValueFromUrl(url, ParseParameter.token, out var token))
-				{
+				MainThreadExecutor.Enqueue(() => {
 					XsollaToken.Create(token);
-					onAuthSuccess();
-				}
-				else if (ParseUtils.TryGetValueFromUrl(url, ParseParameter.code, out var code))
-				{
+					OnAuthSuccess();
+				});
+				return true;
+			}
+
+			if (ParseUtils.TryGetValueFromUrl(url, ParseParameter.code, out var code))
+			{
+				MainThreadExecutor.Enqueue(() => {
 					XsollaAuth.ExchangeCodeToToken(
 						code,
-						onAuthSuccess,
-						onError);
-				}
+						OnAuthSuccess,
+						OnAuthError);
+				});
+				return true;
 			}
 
-			void subscribeEvents()
-			{
-				var browser = XsollaWebBrowser.InAppBrowser;
-				if (browser != null)
-				{
-					browser.CloseEvent += onBrowserClosed;
-					browser.UrlChangeEvent += onUrlChanged;
-				}
-			}
-
-			void unsubscribeEvents()
-			{
-				var browser = XsollaWebBrowser.InAppBrowser;
-				if (browser != null)
-				{
-					browser.CloseEvent -= onBrowserClosed;
-					browser.UrlChangeEvent -= onUrlChanged;
-				}
-			}
+			return false;
 		}
 	}
 }

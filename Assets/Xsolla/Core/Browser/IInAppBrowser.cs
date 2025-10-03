@@ -26,6 +26,10 @@ namespace Xsolla.Core
 
 		void SetFullscreenMode(bool isFullscreen);
 
+		void AddNavigationInterceptor(IInAppBrowserNavigationInterceptor interceptor);
+		
+		void RemoveNavigationInterceptor(IInAppBrowserNavigationInterceptor interceptor);
+
 		[Obsolete("Use OpenEvent instead.")]
 		void AddInitHandler(Action callback);
 

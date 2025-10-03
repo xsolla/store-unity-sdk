@@ -10,7 +10,7 @@ namespace Xsolla.Demo
 		{
 			XsollaAuth.AuthWithXsollaWidget(
 				onSuccess,
-				_ => onError?.Invoke(null),
+				error => onError?.Invoke(error),
 				() => onError?.Invoke(null));
 		}
 	}
