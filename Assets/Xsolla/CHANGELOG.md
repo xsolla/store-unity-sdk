@@ -1,4 +1,15 @@
 # Changelog
+## [3.0.3] - 2025-10-07
+### Fixed
+- Several authorization methods when extra fields are required:
+  - `XsollaAuth.AuthWithXsollaWidget`
+  - `XsollaAuth.AuthWithSocialNetworkAccessToken`
+  - `XsollaAuth.AuthViaDeviceID`
+  - `XsollaAuth.SilentAuth`
+- Error page appearance when using the Xsolla in-app browser for authentication
+### Added
+- Ability to pass the custom_parameters argument to the `XsollaSubscriptions.GetSubscriptionPurchaseUrl` method
+
 ## [3.0.2] - 2025-09-09
 ### Fixed
 - Passwordless login via SMS code or email link when extra fields are required
