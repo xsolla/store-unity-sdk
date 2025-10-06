@@ -7,18 +7,21 @@
   - `XsollaAuth.AuthViaDeviceID`
   - `XsollaAuth.SilentAuth`
 - Error page appearance when using the Xsolla in-app browser for authentication
+
 ### Added
-- Ability to pass the custom_parameters argument to the `XsollaSubscriptions.GetSubscriptionPurchaseUrl` method
+- `customParameters` parameter to the `XsollaSubscriptions.GetSubscriptionPurchaseUrl` SDK method
 
 ## [3.0.2] - 2025-09-09
 ### Fixed
 - Passwordless login via SMS code or email link when extra fields are required
+
 ### Changed
 - Updated Android libraries to improve compatibility and stability
 
 ## [3.0.1] - 2025-08-13
 ### Added
 - OAuth 2.0 support for Xsolla Event API
+
 ### Changed
 - Updated Android libraries to improve compatibility and stability
 
