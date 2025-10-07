@@ -1,5 +1,7 @@
 #if UNITY_STANDALONE || UNITY_EDITOR
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Xsolla.Core;
 
 namespace Xsolla.Auth
@@ -12,7 +14,7 @@ namespace Xsolla.Auth
 		private readonly string Locale;
 		private readonly SdkType SdkType;
 		private readonly MainThreadExecutor MainThreadExecutor;
-		private string RedirectUrl;
+		private readonly HashSet<string> UrlsToIntercept;
 		private bool IsBrowserClosedByCode;
 
 		public StandaloneWidgetAuthenticator(Action onSuccessCallback, Action<Error> onErrorCallback, Action onCancelCallback, string locale, SdkType sdkType)
@@ -24,18 +26,22 @@ namespace Xsolla.Auth
 			SdkType = sdkType;
 
 			MainThreadExecutor = MainThreadExecutor.Instance;
+			UrlsToIntercept = new HashSet<string> {
+				"https://login-widget.xsolla.com/latest/ask"
+			};
 		}
 
 		public void Launch()
 		{
-			RedirectUrl = RedirectUrlHelper.GetRedirectUrl(null);
-			
+			var redirectUrl = RedirectUrlHelper.GetRedirectUrl(null);
+			UrlsToIntercept.Add(redirectUrl);
+
 			var url = new UrlBuilder("https://login-widget.xsolla.com/latest/")
 				.AddProjectId(XsollaSettings.LoginId)
 				.AddClientId(XsollaSettings.OAuthClientId)
 				.AddResponseType("code")
 				.AddState("xsollatest")
-				.AddRedirectUri(RedirectUrl)
+				.AddRedirectUri(redirectUrl)
 				.AddScope("offline")
 				.AddLocale(Locale)
 				.Build();
@@ -50,13 +56,13 @@ namespace Xsolla.Auth
 			CloseBrowser();
 			OnSuccessCallback?.Invoke();
 		}
-		
+
 		private void OnAuthError(Error error)
 		{
 			CloseBrowser();
 			OnErrorCallback?.Invoke(error);
 		}
-		
+
 		private void CloseBrowser()
 		{
 			UnsubscribeFromBrowser();
@@ -97,9 +103,9 @@ namespace Xsolla.Auth
 
 		public bool ShouldAbortNavigation(string url)
 		{
-			if (!url.StartsWith(RedirectUrl, StringComparison.OrdinalIgnoreCase))
+			if (!UrlsToIntercept.Any(x => url.StartsWith(x, StringComparison.OrdinalIgnoreCase)))
 				return false;
-			
+
 			if (ParseUtils.TryGetValueFromUrl(url, ParseParameter.token, out var token))
 			{
 				MainThreadExecutor.Enqueue(() => {
