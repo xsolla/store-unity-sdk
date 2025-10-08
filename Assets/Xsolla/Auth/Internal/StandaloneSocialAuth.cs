@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Xsolla.Core;
 
 namespace Xsolla.Auth
@@ -10,7 +12,7 @@ namespace Xsolla.Auth
 		private readonly Action<Error> ErrorCallback;
 		private readonly Action CancelCallback;
 		private readonly MainThreadExecutor MainThreadExecutor;
-		private string RedirectUrl;
+		private readonly HashSet<string> UrlsToIntercept;
 		private bool IsBrowserClosedByCode;
 
 		public StandaloneSocialAuth(SocialProvider socialProvider, Action onSuccess, Action<Error> onError, Action onCancel)
@@ -19,13 +21,18 @@ namespace Xsolla.Auth
 			SuccessCallback = onSuccess;
 			ErrorCallback = onError;
 			CancelCallback = onCancel;
+
 			MainThreadExecutor = MainThreadExecutor.Instance;
+			UrlsToIntercept = new HashSet<string> {
+				"https://login-widget.xsolla.com/latest/ask"
+			};
 		}
 
 		public void Perform()
 		{
-			RedirectUrl = RedirectUrlHelper.GetRedirectUrl(null);
-			var socialNetworkAuthUrl = XsollaAuth.GetSocialNetworkAuthUrl(SocialProvider, redirectUri: RedirectUrl);
+			var redirectUrl = RedirectUrlHelper.GetRedirectUrl(null);
+			UrlsToIntercept.Add(redirectUrl);
+			var socialNetworkAuthUrl = XsollaAuth.GetSocialNetworkAuthUrl(SocialProvider, redirectUri: redirectUrl);
 			XsollaWebBrowser.Open(socialNetworkAuthUrl);
 			SubscribeToBrowser();
 		}
@@ -82,9 +89,9 @@ namespace Xsolla.Auth
 
 		public bool ShouldAbortNavigation(string url)
 		{
-			if (!url.StartsWith(RedirectUrl, StringComparison.OrdinalIgnoreCase))
+			if (!UrlsToIntercept.Any(x => url.StartsWith(x, StringComparison.OrdinalIgnoreCase)))
 				return false;
-			
+
 			if (ParseUtils.TryGetValueFromUrl(url, ParseParameter.token, out var token))
 			{
 				MainThreadExecutor.Enqueue(() => {
