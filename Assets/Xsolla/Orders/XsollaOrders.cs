@@ -52,7 +52,7 @@ namespace Xsolla.Orders
 		/// <param name="locale">Interface language. [Two-letter lowercase language code](https://developers.xsolla.com/doc/pay-station/features/localization/). Leave empty to use the default value.</param>
 		/// <param name="externalID">Transaction's external ID.</param>
 		/// <param name="paymentMethod">Payment method ID.</param>
-		/// <param name="customParameters">Your custom parameters represented as a valid JSON set of key-value pairs.</param>
+		/// <param name="customParameters">Project specific parameters represented as a valid JSON set of key-value pairs.</param>
 		public static void CreatePaymentToken(
 			float amount,
 			string currency,
@@ -92,7 +92,7 @@ namespace Xsolla.Orders
 		/// <param name="locale">Interface language. [Two-letter lowercase language code](https://developers.xsolla.com/doc/pay-station/features/localization/). Leave empty to use the default value.</param>
 		/// <param name="externalID">Transaction's external ID.</param>
 		/// <param name="paymentMethod">Payment method ID.</param>
-		/// <param name="customParameters">Your custom parameters represented as a valid JSON set of key-value pairs.</param>
+		/// <param name="customParameters">Project specific parameters represented as a valid JSON set of key-value pairs.</param>
 		public static void CreatePaymentToken(
 			float amount,
 			string currency,

@@ -88,7 +88,7 @@ namespace Xsolla.Core
 		{
 			_inAppBrowser?.Close(delay, isManually);
 
-			if (!_inAppBrowserGameObject)
+			if (_inAppBrowserGameObject)
 				Object.Destroy(_inAppBrowserGameObject);
 
 			_inAppBrowser = null;

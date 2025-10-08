@@ -1,9 +1,12 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using PuppeteerSharp;
+using Xsolla.Core;
 
 namespace Xsolla.XsollaBrowser
 {
@@ -17,6 +20,17 @@ namespace Xsolla.XsollaBrowser
 		private readonly CancellationToken CancellationToken;
 		private readonly Action<int> FetchProgressAction;
 		private readonly Action<string> OpenExternalUrlAction;
+		private readonly List<IInAppBrowserNavigationInterceptor> NavigationInterceptors = new();
+
+		private static readonly HashSet<ResourceType> RedirectRelevantResourceTypes = new() {
+			ResourceType.Document,
+			ResourceType.Xhr,
+			ResourceType.Fetch,
+			ResourceType.Other,
+			ResourceType.EventSource,
+			ResourceType.WebSocket,
+			ResourceType.Manifest
+		};
 
 		private Thread Thread;
 		private IBrowser Browser;
@@ -59,10 +73,32 @@ namespace Xsolla.XsollaBrowser
 			}
 		}
 
+		public void AddNavigationInterceptor(IInAppBrowserNavigationInterceptor interceptor)
+		{
+			if (interceptor == null)
+				return;
+
+			if (NavigationInterceptors.Contains(interceptor))
+				return;
+
+			NavigationInterceptors.Add(interceptor);
+		}
+
+		public void RemoveNavigationInterceptor(IInAppBrowserNavigationInterceptor interceptor)
+		{
+			if (interceptor == null)
+				return;
+
+			if (!NavigationInterceptors.Contains(interceptor))
+				return;
+
+			NavigationInterceptors.Remove(interceptor);
+		}
+
 		private async void DriverThread()
 		{
 			MainThreadLogger.Log("Browser driver thread started");
-			Thread.Sleep(50);
+			await Task.Delay(50, CancellationToken);
 
 			var fetcherOptions = new BrowserFetcherOptions {
 				Product = FetchOptions.Product,
@@ -70,15 +106,14 @@ namespace Xsolla.XsollaBrowser
 				Path = FetchOptions.Path
 			};
 
-			MainThreadLogger.Log($"Start fetching browser\n. Options: {JsonConvert.SerializeObject(fetcherOptions)}");
+			MainThreadLogger.Log($"Fetching browser\n. Options: {JsonConvert.SerializeObject(fetcherOptions)}");
 
 			var fetcher = new BrowserFetcher(fetcherOptions);
 			fetcher.DownloadProgressChanged += OnDownloadProgressChanged;
 			await fetcher.DownloadAsync(FetchOptions.Revision);
 			fetcher.DownloadProgressChanged -= OnDownloadProgressChanged;
 
-			MainThreadLogger.Log("Finish fetching browser");
-			Thread.Sleep(50);
+			await Task.Delay(50, CancellationToken);
 
 			var launchOptions = new PuppeteerSharp.LaunchOptions {
 				Product = FetchOptions.Product,
@@ -92,25 +127,25 @@ namespace Xsolla.XsollaBrowser
 				}
 			};
 
-			MainThreadLogger.Log($"Start launching browser\n. Options: {JsonConvert.SerializeObject(launchOptions)}");
-
-#pragma warning disable CS1701
+			MainThreadLogger.Log($"Launching browser\n. Options: {JsonConvert.SerializeObject(launchOptions)}");
 			Browser = await Puppeteer.LaunchAsync(launchOptions);
-#pragma warning restore CS1701
+			Browser.TargetCreated += OnBrowserOnTargetCreated;
 
-			MainThreadLogger.Log("Finish launching browser");
-			Thread.Sleep(50);
+			await Task.Delay(50, CancellationToken);
 
+			MainThreadLogger.Log("Creating browser page");
 			var pages = await Browser.PagesAsync();
 			var page = pages.Length > 0
 				? pages[0]
 				: await Browser.NewPageAsync();
 
-			Thread.Sleep(50);
-			MainThreadLogger.Log("Start processing commands");
-			IsLaunched = true;
+			await page.SetRequestInterceptionAsync(true);
+			page.Request += OnPageRequest;
 
-			Browser.TargetCreated += OnBrowserOnTargetCreated;
+			await Task.Delay(50, CancellationToken);
+
+			IsLaunched = true;
+			MainThreadLogger.Log("Start processing commands");
 
 			while (!CancellationToken.IsCancellationRequested)
 			{
@@ -124,15 +159,15 @@ namespace Xsolla.XsollaBrowser
 				}
 			}
 
-			Browser.TargetCreated += OnBrowserOnTargetCreated;
-
 			MainThreadLogger.Log("Browser driver thread was cancelled");
 
 			MainThreadLogger.Log("Closing browser page");
+			page.Request -= OnPageRequest;
 			await page.CloseAsync();
 			page.Dispose();
 
 			MainThreadLogger.Log("Closing browser");
+			Browser.TargetCreated -= OnBrowserOnTargetCreated;
 			await Browser.CloseAsync();
 			Browser.Dispose();
 
@@ -144,30 +179,71 @@ namespace Xsolla.XsollaBrowser
 			FetchProgressAction?.Invoke(e.ProgressPercentage);
 		}
 
+		private async void OnPageRequest(object _, RequestEventArgs args)
+		{
+			try
+			{
+				var request = args.Request;
+				if (request == null)
+					return;
+
+				if (!RedirectRelevantResourceTypes.Contains(request.ResourceType))
+				{
+					await request.ContinueAsync();
+					return;
+				}
+
+				if (NavigationInterceptors.Count == 0)
+				{
+					await request.ContinueAsync();
+					return;
+				}
+
+				if (NavigationInterceptors.Any(i => i.ShouldAbortNavigation(request.Url)))
+				{
+					await request.AbortAsync();
+					return;
+				}
+
+				await request.ContinueAsync();
+			}
+			catch (Exception exception)
+			{
+				Console.WriteLine(exception);
+			}
+		}
+
 		private async void OnBrowserOnTargetCreated(object sender, TargetChangedArgs e)
 		{
-			if (e.Target.Type != TargetType.Page)
-				return;
+			try
+			{
+				if (e.Target.Type != TargetType.Page)
+					return;
 
-			if (Browser == null)
-				return;
+				if (Browser == null)
+					return;
 
-			if (CancellationToken.IsCancellationRequested)
-				return;
+				if (CancellationToken.IsCancellationRequested)
+					return;
 
-			var allPages = await Browser.PagesAsync();
-			if (CancellationToken.IsCancellationRequested)
-				return;
+				var allPages = await Browser.PagesAsync();
+				if (CancellationToken.IsCancellationRequested)
+					return;
 
-			if (allPages.Length <= 1)
-				return;
+				if (allPages.Length <= 1)
+					return;
 
-			var newPage = await e.Target.PageAsync();
-			if (CancellationToken.IsCancellationRequested)
-				return;
+				var newPage = await e.Target.PageAsync();
+				if (CancellationToken.IsCancellationRequested)
+					return;
 
-			MainThreadExecutor.Enqueue(() => OpenExternalUrlAction?.Invoke(newPage.Url));
-			await newPage.CloseAsync();
+				MainThreadExecutor.Enqueue(() => OpenExternalUrlAction?.Invoke(newPage.Url));
+				await newPage.CloseAsync();
+			}
+			catch (Exception exception)
+			{
+				Console.WriteLine(exception);
+			}
 		}
 	}
 }

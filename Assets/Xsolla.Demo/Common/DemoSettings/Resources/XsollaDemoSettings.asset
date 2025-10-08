@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: XsollaDemoSettings
   m_EditorClassIdentifier: 
   _requestNicknameOnAuth: 1
-  webStoreUrl: https://sitebuilder.xsolla.com/game/sdk-web-store/
+  webStoreUrl: https://sdk-web-store.xsolla.site/
   useSteamAuth: 0
   steamAppId: 480
   paymentsFlow: 0

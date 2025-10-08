@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -76,6 +75,16 @@ namespace Xsolla.XsollaBrowser
 
 			if (gameObject)
 				Destroy(gameObject);
+		}
+
+		public void AddNavigationInterceptor(IInAppBrowserNavigationInterceptor interceptor)
+		{
+			BrowserDriver?.AddNavigationInterceptor(interceptor);
+		}
+		
+		public void RemoveNavigationInterceptor(IInAppBrowserNavigationInterceptor interceptor)
+		{
+			BrowserDriver?.RemoveNavigationInterceptor(interceptor);
 		}
 
 		public void AddInitHandler(Action callback)

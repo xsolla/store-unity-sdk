@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Xsolla.Core;
 
 namespace Xsolla.Subscriptions
@@ -138,7 +139,8 @@ namespace Xsolla.Subscriptions
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="settings">Pay Station UI settings.</param>
 		/// <param name="country">User's country. Affects the choice of locale and currency. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Calculations are based on the user's IP address if the country is not specified.  Check the documentation for detailed information about [countries supported by Xsolla](https://developers.xsolla.com/doc/in-game-store/references/supported-countries/).</param>
-		public static void GetSubscriptionPurchaseUrl(string planExternalId, Action<PaymentLink> onSuccess, Action<Error> onError, PaymentSettings settings = null, string country = null)
+		/// <param name="customParameters">Project specific parameters represented as a valid JSON set of key-value pairs.</param>
+		public static void GetSubscriptionPurchaseUrl(string planExternalId, Action<PaymentLink> onSuccess, Action<Error> onError, PaymentSettings settings = null, string country = null, Dictionary<string, object> customParameters = null)
 		{
 			var url = new UrlBuilder($"{BaseUrl}/user/v1/projects/{StoreProjectId}/subscriptions/buy")
 				.AddCountry(country)
@@ -146,7 +148,8 @@ namespace Xsolla.Subscriptions
 
 			var requestData = new BuySubscriptionRequest {
 				plan_external_id = planExternalId,
-				settings = CheckAndFillPaymentSettings(settings)
+				settings = CheckAndFillPaymentSettings(settings),
+				custom_parameters = customParameters
 			};
 
 			WebRequestHelper.Instance.PostRequest(

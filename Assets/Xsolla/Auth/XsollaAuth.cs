@@ -185,21 +185,7 @@ namespace Xsolla.Auth
 				SdkType.Login,
 				url,
 				requestData,
-				response => {
-					if (!string.IsNullOrEmpty(response.token))
-					{
-						XsollaToken.Create(response.token);
-						onSuccess?.Invoke();
-					}
-					else if (!string.IsNullOrEmpty(response.login_url))
-					{
-						ParseCodeFromUrlAndExchangeToToken(response.login_url, onSuccess, onError);
-					}
-					else
-					{
-						onError?.Invoke(new Error(ErrorType.InvalidData, errorMessage: "Unexpected response: both token and login_url are empty"));
-					}
-				},
+				response => ParseTokenFromLoginResponse(response, onSuccess, onError),
 				onError,
 				ErrorGroup.LoginErrors);
 		}
@@ -267,21 +253,7 @@ namespace Xsolla.Auth
 				SdkType.Login,
 				url,
 				requestData,
-				response => {
-					if (!string.IsNullOrEmpty(response.token))
-					{
-						XsollaToken.Create(response.token);
-						onSuccess?.Invoke();
-					}
-					else if (!string.IsNullOrEmpty(response.login_url))
-					{
-						ParseCodeFromUrlAndExchangeToToken(response.login_url, onSuccess, onError);
-					}
-					else
-					{
-						onError?.Invoke(new Error(ErrorType.InvalidData, errorMessage: "Unexpected response: both token and login_url are empty"));
-					}
-				},
+				response => ParseTokenFromLoginResponse(response, onSuccess, onError),
 				onError,
 				ErrorGroup.LoginErrors);
 		}
@@ -390,11 +362,11 @@ namespace Xsolla.Auth
 				openId = openId
 			};
 
-			WebRequestHelper.Instance.PostRequest<LoginLink, AuthWithSocialNetworkAccessTokenRequest>(
+			WebRequestHelper.Instance.PostRequest<LoginResponse, AuthWithSocialNetworkAccessTokenRequest>(
 				SdkType.Login,
 				url,
 				requestData,
-				link => ParseCodeFromUrlAndExchangeToToken(link.login_url, onSuccess, onError),
+				response => ParseTokenFromLoginResponse(response, onSuccess, onError),
 				onError,
 				ErrorGroup.LoginErrors);
 		}
@@ -631,11 +603,11 @@ namespace Xsolla.Auth
 				device_id = deviceInfo.GetSafeDeviceId()
 			};
 
-			WebRequestHelper.Instance.PostRequest<LoginLink, AuthViaDeviceIdRequest>(
+			WebRequestHelper.Instance.PostRequest<LoginResponse, AuthViaDeviceIdRequest>(
 				SdkType.Login,
 				url,
 				requestData,
-				response => ParseCodeFromUrlAndExchangeToToken(response.login_url, onSuccess, onError),
+				response => ParseTokenFromLoginResponse(response, onSuccess, onError),
 				onError,
 				ErrorGroup.LoginErrors);
 #endif
@@ -669,10 +641,10 @@ namespace Xsolla.Auth
 				.AddParam("is_redirect", "false")
 				.Build();
 
-			WebRequestHelper.Instance.GetRequest<LoginLink>(
+			WebRequestHelper.Instance.GetRequest<LoginResponse>(
 				SdkType.Login,
 				url,
-				response => ParseCodeFromUrlAndExchangeToToken(response.login_url, onSuccess, onError),
+				response => ParseTokenFromLoginResponse(response, onSuccess, onError),
 				onError);
 		}
 
@@ -824,7 +796,7 @@ namespace Xsolla.Auth
 		public static void AuthViaSocialNetwork(SocialProvider provider, Action onSuccess, Action<Error> onError, Action onCancel)
 		{
 #if UNITY_STANDALONE
-			new StandaloneSocialAuth().Perform(provider, onSuccess, onError, onCancel);
+			new StandaloneSocialAuth(provider, onSuccess, onError, onCancel).Perform();
 #elif UNITY_ANDROID
 			new AndroidSocialAuth().Perform(provider, onSuccess, onError, onCancel);
 #elif UNITY_IOS
@@ -834,12 +806,43 @@ namespace Xsolla.Auth
 #endif
 		}
 
-		private static void ParseCodeFromUrlAndExchangeToToken(string url, Action onSuccess, Action<Error> onError)
+		private static void ParseTokenFromLoginResponse(LoginResponse response, Action onSuccess, Action<Error> onError)
 		{
-			if (ParseUtils.TryGetValueFromUrl(url, ParseParameter.code, out var parsedCode))
-				ExchangeCodeToToken(parsedCode, onSuccess, onError);
+			// Trying to get token from response directly
+			if (!string.IsNullOrEmpty(response.token))
+			{
+				XsollaToken.Create(response.token);
+				onSuccess?.Invoke();
+			}
+
+			// If token is not present, try to parse code or token from login_url
+			else if (!string.IsNullOrEmpty(response.login_url))
+			{
+				// Try to parse code for exchange first
+				if (ParseUtils.TryGetValueFromUrl(response.login_url, ParseParameter.code, out var parsedCode))
+				{
+					ExchangeCodeToToken(parsedCode, onSuccess, onError);
+				}
+
+				// If code is not present, try to parse token
+				else if (ParseUtils.TryGetValueFromUrl(response.login_url, ParseParameter.token, out var parsedToken))
+				{
+					XsollaToken.Create(parsedToken);
+					onSuccess?.Invoke();
+				}
+
+				// If both code and token are missing, return error
+				else
+				{
+					onError?.Invoke(new Error(ErrorType.InvalidData, errorMessage: "Unexpected response: login_url is present, but code and token are missing"));
+				}
+			}
+
+			// If both token and login_url are missing, return error
 			else
-				onError?.Invoke(Error.UnknownError);
+			{
+				onError?.Invoke(new Error(ErrorType.InvalidData, errorMessage: "Unexpected response: both token and login_url are empty"));
+			}
 		}
 
 		private static string GetState(string oauthState)
