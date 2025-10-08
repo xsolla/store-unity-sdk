@@ -7,18 +7,21 @@
   - `XsollaAuth.AuthViaDeviceID`
   - `XsollaAuth.SilentAuth`
 - Error page appearance when using the Xsolla in-app browser for authentication
+
 ### Added
-- Ability to pass the custom_parameters argument to the `XsollaSubscriptions.GetSubscriptionPurchaseUrl` method
+- `customParameters` parameter to the `XsollaSubscriptions.GetSubscriptionPurchaseUrl` SDK method
 
 ## [3.0.2] - 2025-09-09
 ### Fixed
 - Passwordless login via SMS code or email link when extra fields are required
+
 ### Changed
 - Updated Android libraries to improve compatibility and stability
 
 ## [3.0.1] - 2025-08-13
 ### Added
 - OAuth 2.0 support for Xsolla Event API
+
 ### Changed
 - Updated Android libraries to improve compatibility and stability
 
@@ -40,7 +43,7 @@
 - `tracking_id` parameter to the `PurchaseParams` structure. This allows to track the purchases in marketing campaigns
 
 ### Fixed
-- Improved `NullReferenceException` handling in `PaymentsProxyActivity` on Android
+- Improved `NullReferenceException` handling in `PaymentsProxyActivity` on Android.
 
 ## [2.5.5] - 2025-05-27
 ### Added
@@ -83,11 +86,11 @@
 - Default built-in browser resolution for desktop platforms is now 1024 x 800 px
 
 ### Fixed
-- `Different serialization layout when loading` error
+- `Different serialization layout [CHANGELOG.md](../../CHANGELOG.md)when loading` error
 
 ## [2.5.1] - 2024-12-12
 ### Changed
-- Minimum supported Unity version updated to 2021.3.45f1.
+- Minimum supported Unity version updated to 2021.3.45f1
 - Removed the `limit` and `offset` parameters from the following SDK methods:
   - `XsollaCatalog.GetItems`
   - `XsollaCatalog.GetGroupItems`
@@ -96,22 +99,22 @@
   - `XsollaCatalog.GetVirtualCurrencyPackagesList`
   - `XsollaCatalog.GetBundles`
   - `XsollaCatalog.GetCatalog`
-- Android Proxy Activities used for authentication is transparent now.
+- Android Proxy Activities used for authentication is transparent now
 
 ### Added
-- New methods for XsollaCatalog:
+- New methods for `XsollaCatalog` class:
   - `XsollaCatalog.GetPaginatedItems`
   - `XsollaCatalog.GetPaginatedGroupItems`
   - `XsollaCatalog.GetPaginatedVirtualCurrencyList`
   - `XsollaCatalog.GetPaginatedVirtualCurrencyPackagesList`
   - `XsollaCatalog.GetPaginatedBundles`
-- New method for XsollaUserAccount:
+- New method for `XsollaUserAccount` class:
   - `XsollaUserAccount.UnlinkSocialProvider`
 
 ### Fixed
-- Potential `meta-data` attribute merge conflict in `AndroidManifest.xml`.
-- An issue where changes to Xsolla SDK settings were not properly saved to the asset.
-- An issue where the callback was not invoked after authentication with the Xsolla Login Widget.
+- Potential `meta-data` attribute merge conflict in `AndroidManifest.xml`
+- Issue with saving changes of Xsolla SDK settings in the asset
+- Issue with invoking callback after authentication with Xsolla login widget
 
 ## [2.5.0] - 2024-10-17
 ### Added
@@ -326,13 +329,13 @@
 ### Changed
 - Updated wrapper methods for IGS&BB API calls
 - Updated wrapper methods for Login API calls
-- Separated 'Xsolla' and 'Xsolla.Demo'
-- Separated 'Login' into several modules
-- Separated 'Inventory' and 'Store' into several modules
+- Separated `Xsolla` and `Xsolla.Demo`
+- Separated `Login` into several modules
+- Separated `Inventory` and `Store` into several modules
 - Updated Android libraries
 - Reworked SDK settings
 - Made naming of several SDK methods more consistent
-- Demo: Moved user attributes to the 'User Account' page ('Character' page removed)
+- Demo: Moved user attributes to the `User Account` page (`Character` page removed)
 ### Removed
 - Demo: Battle pass prototype
 - Demo: Email confirmation window if confirmation disabled in project settings
@@ -351,7 +354,7 @@
 - Improved calculation of in-app browser size for VR projects
 - Other fixes and improvements
 ### Changed
-- Updated 'ItemPurchase' method (added 'quantity' parameter)
+- Updated `ItemPurchase` method (added `quantity` parameter)
 - Updated packages and dependencies
 - Improved social networks authentication for iOS builds
 
@@ -397,7 +400,7 @@
 - OAuth2.0 state parameter for more API methods
 - Pay Station UI settings for different build targets
 - Additional Pay Station UI color themes
-- 'Create payment token' method
+- `Create payment token` method
 - Xsolla assembly definitions
 ### Fixed
 - In-game browser scroll
