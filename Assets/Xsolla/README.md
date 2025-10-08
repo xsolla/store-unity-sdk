@@ -61,7 +61,7 @@ To start with the SDK, you need to install this asset and set up a project in [X
 ### Subscriptions
 
 * Selling subscriptions.
-* Subscription renewal and cancellation.
+* Subscription renewal and cancelation.
 * Subscription management from a user’s dashboard.
 
 **INFO:** You can add and manage subscription plans via Xsolla Publisher Account.
