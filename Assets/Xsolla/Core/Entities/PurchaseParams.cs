@@ -11,6 +11,12 @@ namespace Xsolla.Core
 		/// Default purchase currency.
 		/// </summary>
 		public string currency;
+		
+		///TEXTREVIEW
+		/// <summary>
+		/// User country.
+		/// </summary>
+		public string country;
 
 		/// <summary>
 		/// Interface language.
