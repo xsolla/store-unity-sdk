@@ -93,10 +93,30 @@ mergeInto(LibraryManager.library, {
 		s.addEventListener('load', function (e) {
 			XPayStationWidget.on(XPayStationWidget.eventTypes.STATUS, function (event, data) {
 				Module.SendMessage('XsollaWebCallbacks', 'PublishPaymentStatusUpdate');
+				
+				var status = null;
+                if (data && data.paymentInfo && data.paymentInfo.status) {
+                    status = data.paymentInfo.status;
+                }
+            
+                console.log('[Xsolla] Payment status:', status);
+            
+                if (status === 'done') {
+                    console.log('[Xsolla] Payment completed successfully — closing widget...');
+                    if (typeof XPayStationWidget !== 'undefined') {
+                        XPayStationWidget.off();
+                    }
+            
+                    var elements = document.getElementsByClassName('xpaystation-widget-lightbox');
+                    for (var i = 0; i < elements.length; i++) {
+                        elements[i].style.display = 'none';
+                        elements[i].remove();
+                    }
+                }
 			});
 
             XPayStationWidget.on(XPayStationWidget.eventTypes.CLOSE, function (event, data) {
-				if (data === undefined) {
+				if (data === 'undefined') {
 					Module.SendMessage('XsollaWebCallbacks', 'PublishPaymentCancel');
 				}
 				else {
@@ -113,7 +133,7 @@ mergeInto(LibraryManager.library, {
 	},
 
 	ClosePayStationWidget: function () {
-		if (typeof XPayStationWidget !== undefined) {
+		if (typeof XPayStationWidget !== 'undefined') {
 			XPayStationWidget.off();
 		}
 
