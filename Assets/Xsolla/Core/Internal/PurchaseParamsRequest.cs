@@ -30,6 +30,7 @@ namespace Xsolla.Core
 		[Serializable]
 		public class User
 		{
+			public string country;
 			public TrackingId tracking_id;
 		}
 
