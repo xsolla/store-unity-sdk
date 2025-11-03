@@ -12,7 +12,6 @@ namespace Xsolla.Core
 		/// </summary>
 		public string currency;
 		
-		///TEXTREVIEW
 		/// <summary>
 		/// User country.
 		/// </summary>
