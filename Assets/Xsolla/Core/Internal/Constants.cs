@@ -2,7 +2,7 @@ namespace Xsolla.Core
 {
 	public static class Constants
 	{
-		public const string SDK_VERSION = "3.0.3";
+		public const string SDK_VERSION = "3.0.4";
 
 		public const string DEFAULT_PROJECT_ID = "77640";
 		public const string DEFAULT_LOGIN_ID = "026201e3-7e40-11ea-a85b-42010aa80004";

@@ -38,16 +38,42 @@ namespace Xsolla.Core
 				shipping_method = purchaseParams?.shipping_method
 			};
 
-			if (purchaseParams != null && !string.IsNullOrEmpty(purchaseParams.tracking_id))
-			{
-				result.user = new PurchaseParamsRequest.User {
-					tracking_id = new PurchaseParamsRequest.TrackingId {
-						value = purchaseParams.tracking_id
-					}
-				};
-			}
+			if (purchaseParams != null)
+				ProcessUser(result, purchaseParams);
 
 			return result;
+		}
+
+		private static void ProcessUser(PurchaseParamsRequest request, PurchaseParams purchaseParams)
+		{
+			ProcessUserTrackingId(request, purchaseParams);
+			ProcessUserCountry(request, purchaseParams);
+		}
+
+		private static void ProcessUserTrackingId(PurchaseParamsRequest request, PurchaseParams purchaseParams)
+		{
+			if (string.IsNullOrEmpty(purchaseParams.tracking_id))
+				return;
+
+			EnsureUserExists(request);
+			request.user.tracking_id = new PurchaseParamsRequest.TrackingId {
+				value = purchaseParams.tracking_id
+			};
+		}
+
+		private static void ProcessUserCountry(PurchaseParamsRequest request, PurchaseParams purchaseParams)
+		{
+			if (string.IsNullOrEmpty(purchaseParams.country))
+				return;
+
+			EnsureUserExists(request);
+			request.user.country = purchaseParams.country;
+		}
+
+		private static void EnsureUserExists(PurchaseParamsRequest request)
+		{
+			if (request.user == null)
+				request.user = new PurchaseParamsRequest.User();
 		}
 
 		private static void ProcessUiCloseButton(PayStationUI settings, PurchaseParams purchaseParams)

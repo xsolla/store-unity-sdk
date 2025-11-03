@@ -1,4 +1,16 @@
 # Changelog
+## [3.0.4] - 2025-11-03
+### Added
+- `user.country` parameter support for the following SDK methods:
+  - `XsollaCatalog.Purchase`
+  - `XsollaCatalog.CreateOrder`
+  - `XsollaCart.Purchase`
+  - `XsollaCart.CreateOrder`
+- Postprocessing script for automatic handling of `proguard` rules in Android builds when `minify` option is set to `release`
+### Changed
+- Updated outdated internal `System.Text.Encodings.Web` library
+- Moved `PayStation` Widget closing logic to `jslib` side for WebGL builds
+
 ## [3.0.3] - 2025-10-07
 ### Fixed
 - Several authorization methods when extra fields are required:
