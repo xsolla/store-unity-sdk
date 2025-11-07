@@ -6,7 +6,7 @@ using Xsolla.Core;
 
 namespace Xsolla.Auth
 {
-	internal class StandaloneWidgetAuthenticator : IWidgetAuthenticator, IInAppBrowserNavigationInterceptor
+	internal class StandaloneInAppBrowserWidgetAuthenticator : IWidgetAuthenticator, IInAppBrowserNavigationInterceptor
 	{
 		private readonly Action OnSuccessCallback;
 		private readonly Action<Error> OnErrorCallback;
@@ -17,7 +17,7 @@ namespace Xsolla.Auth
 		private readonly HashSet<string> UrlsToIntercept;
 		private bool IsBrowserClosedByCode;
 
-		public StandaloneWidgetAuthenticator(Action onSuccessCallback, Action<Error> onErrorCallback, Action onCancelCallback, string locale, SdkType sdkType)
+		public StandaloneInAppBrowserWidgetAuthenticator(Action onSuccessCallback, Action<Error> onErrorCallback, Action onCancelCallback, string locale, SdkType sdkType)
 		{
 			OnSuccessCallback = onSuccessCallback;
 			OnErrorCallback = onErrorCallback;

@@ -795,8 +795,12 @@ namespace Xsolla.Auth
 		/// <param name="onCancel">Called in case user closed browser.</param>
 		public static void AuthViaSocialNetwork(SocialProvider provider, Action onSuccess, Action<Error> onError, Action onCancel)
 		{
-#if UNITY_STANDALONE
-			new StandaloneSocialAuth(provider, onSuccess, onError, onCancel).Perform();
+#if UNITY_STANDALONE || UNITY_EDITOR
+
+			if (XsollaSettings.InAppBrowserEnabled)
+				new StandaloneInAppBrowserSocialAuthenticator(provider, onSuccess, onError, onCancel).Perform();
+			else
+				new StandaloneSystemBrowserSocialAuthenticator(provider, onSuccess, onError, onCancel).Perform();
 #elif UNITY_ANDROID
 			new AndroidSocialAuth().Perform(provider, onSuccess, onError, onCancel);
 #elif UNITY_IOS
