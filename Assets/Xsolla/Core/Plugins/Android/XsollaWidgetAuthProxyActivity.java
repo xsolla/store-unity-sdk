@@ -65,7 +65,7 @@ public class XsollaWidgetAuthProxyActivity extends Activity {
             @Override
             public void onAuthCancelled() {
                 Log.d("Xsolla", "onAuthCanceled");
-                authCallback.onError(new Throwable("Cancelled by user"), "Authentication cancelled by user");
+                authCallback.onError(new Throwable("Cancelled by user"), "CANCELLED");
                 finish();
             }
 
