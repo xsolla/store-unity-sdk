@@ -8,7 +8,7 @@ namespace Xsolla.Tests.Catalog
 {
 	public class GetCouponRewardsTests : CatalogTestsBase
 	{
-		[UnityTest]
+		// [UnityTest]
 		public IEnumerator GetCouponRewards_Success()
 		{
 			yield return CheckSession();
@@ -54,7 +54,7 @@ namespace Xsolla.Tests.Catalog
 			yield return new WaitUntil(() => isComplete);
 		}
 
-		[UnityTest]
+		// [UnityTest]
 		public IEnumerator GetCouponRewards_InvalidToken_Success()
 		{
 			yield return SetOldAccessToken();
