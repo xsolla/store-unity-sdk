@@ -28,23 +28,13 @@ namespace Xsolla.Tests.Auth
 			yield return GetLinksForSocialAuth("de_DE");
 		}
 
-		// [UnityTest]
-		// public IEnumerator GetLinksForSocialAuth_InvalidToken_SuccessAndTokenRefreshed()
-		// {
-		// 	yield return SetOldAccessToken();
-		// 	var oldToken = XsollaToken.AccessToken;
-		// 	yield return GetLinksForSocialAuth();
-		// 	Assert.AreNotEqual(oldToken, XsollaToken.AccessToken);
-		// }
-
 		private static IEnumerator GetLinksForSocialAuth(string locale = null)
 		{
 			yield return CheckSession();
 
 			var isComplete = false;
 			XsollaAuth.GetLinksForSocialAuth(
-				links =>
-				{
+				links => {
 					isComplete = true;
 					Assert.NotNull(links);
 					Assert.NotNull(links.items);
@@ -52,8 +42,7 @@ namespace Xsolla.Tests.Auth
 					Assert.IsFalse(string.IsNullOrEmpty(links.items[0].provider));
 					Assert.IsFalse(string.IsNullOrEmpty(links.items[0].auth_url));
 				},
-				error =>
-				{
+				error => {
 					isComplete = true;
 					Assert.Fail(error?.errorMessage);
 				},
