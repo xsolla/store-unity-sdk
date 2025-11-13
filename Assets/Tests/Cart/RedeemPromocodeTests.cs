@@ -8,14 +8,14 @@ namespace Xsolla.Tests.Cart
 {
 	public class RedeemPromocodeTests : CartTestsBase
 	{
-		// [UnityTest]
+		[UnityTest]
 		public IEnumerator RedeemPromocode_Success()
 		{
 			yield return PrepareCurrentCart();
 			yield return RedeemPromocode();
 		}
 
-		// [UnityTest]
+		[UnityTest]
 		public IEnumerator RedeemPromocode_InvalidToken_Success()
 		{
 			yield return PrepareCurrentCart();
