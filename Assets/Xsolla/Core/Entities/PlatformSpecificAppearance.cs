@@ -16,6 +16,11 @@ namespace Xsolla.Core
 	public class WebGlAppearance
 	{
 		/// <summary>
+		/// Open Pay Station in iframe on all devices.
+		/// </summary>
+		public bool? iframeOnly;
+		
+		/// <summary>
 		/// Width of the widget. Default is `740px`.
 		/// </summary>
 		public string widgetWidth;
