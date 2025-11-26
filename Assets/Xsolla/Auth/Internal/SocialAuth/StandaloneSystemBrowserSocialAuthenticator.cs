@@ -28,7 +28,7 @@ namespace Xsolla.Auth
 				redirectUri: XsollaSettings.LocalServerRedirectUrl);
 
 			Application.OpenURL(socialNetworkAuthUrl);
-			LocalAuthServer.Start(XsollaSettings.LocalServerRedirectUrl, SuccessCallback, ErrorCallback);
+			LocalAuthServer.Start(XsollaSettings.LocalServerRedirectUrl, SuccessCallback, ErrorCallback, null, SdkType.Login);
 		}
 	}
 }

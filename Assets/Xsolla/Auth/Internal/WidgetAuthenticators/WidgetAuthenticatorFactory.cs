@@ -10,7 +10,7 @@ namespace Xsolla.Auth
 #if UNITY_STANDALONE || UNITY_EDITOR
 			return XsollaSettings.InAppBrowserEnabled
 				? new StandaloneInAppBrowserWidgetAuthenticator(onSuccess, onError, onCancel, locale, sdkType)
-				: new StandaloneSystemBrowserWidgetAuthenticator(onSuccess, onError);
+				: new StandaloneSystemBrowserWidgetAuthenticator(onSuccess, onError, locale, sdkType);
 #elif UNITY_ANDROID
 			return new AndroidWidgetAuthenticator(onSuccess, onError, onCancel, locale);
 #elif UNITY_IOS

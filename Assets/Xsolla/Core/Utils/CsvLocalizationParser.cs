@@ -1,10 +1,37 @@
 using System.Text.RegularExpressions;
+using UnityEngine;
 
 namespace Xsolla.Core
 {
-	internal class CsvReader
+	internal class CsvLocalizationParser
 	{
-		public int GetLocaleColumn(string data, string locale)
+		private readonly string Content;
+
+		public CsvLocalizationParser(TextAsset asset)
+		{
+			if (asset)
+				Content = asset.text;
+			else
+				Debug.LogError("CsvReader: TextAsset is null");
+		}
+
+		public string GetCellTextOrFallback(string locale, int row, string fallback)
+		{
+			if (string.IsNullOrEmpty(locale))
+				return fallback;
+
+			if (string.IsNullOrEmpty(Content))
+				return fallback;
+
+			var column = GetLocaleColumn(Content, locale);
+			var cellText = GetCellText(Content, column, row);
+
+			return string.IsNullOrEmpty(cellText)
+				? fallback
+				: cellText;
+		}
+
+		private int GetLocaleColumn(string data, string locale)
 		{
 			if (data == null)
 				return -1;
@@ -34,7 +61,7 @@ namespace Xsolla.Core
 			return -1;
 		}
 
-		public string GetCellText(string data, int rowIndex, int lineIndex)
+		private string GetCellText(string data, int rowIndex, int lineIndex)
 		{
 			var lines = data.Split('\n');
 			if (lineIndex >= lines.Length)

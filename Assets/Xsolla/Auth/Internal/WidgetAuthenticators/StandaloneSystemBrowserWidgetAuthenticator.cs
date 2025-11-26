@@ -13,11 +13,15 @@ namespace Xsolla
 	{
 		private readonly Action OnSuccessCallback;
 		private readonly Action<Error> OnErrorCallback;
+		private readonly string Locale;
+		private readonly SdkType SdkType;
 
-		public StandaloneSystemBrowserWidgetAuthenticator(Action onSuccessCallback, Action<Error> onErrorCallback)
+		public StandaloneSystemBrowserWidgetAuthenticator(Action onSuccessCallback, Action<Error> onErrorCallback, string locale, SdkType sdkType)
 		{
 			OnSuccessCallback = onSuccessCallback;
 			OnErrorCallback = onErrorCallback;
+			Locale = locale;
+			SdkType = sdkType;
 		}
 
 		public void Launch()
@@ -29,10 +33,11 @@ namespace Xsolla
 				.AddState("xsollatest")
 				.AddRedirectUri(XsollaSettings.LocalServerRedirectUrl)
 				.AddScope("offline")
+				.AddLocale(Locale)
 				.Build();
 
 			Application.OpenURL(url);
-			LocalAuthServer.Start(XsollaSettings.LocalServerRedirectUrl, OnSuccessCallback, OnErrorCallback);
+			LocalAuthServer.Start(XsollaSettings.LocalServerRedirectUrl, OnSuccessCallback, OnErrorCallback, Locale, SdkType);
 		}
 	}
 }

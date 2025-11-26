@@ -1,12 +1,11 @@
 using System.Globalization;
-using Microsoft.Extensions.Options;
 using UnityEngine;
 
 namespace Xsolla.Core
 {
 	public static class LocaleUtil
 	{
-		public static string GetLanguageCode()
+		public static string GetSystemLanguageCode()
 		{
 			var raw = GetLanguageCodeRaw();
 			return string.IsNullOrEmpty(raw)
@@ -57,7 +56,7 @@ namespace Xsolla.Core
 				SystemLanguage.Portuguese         => "pt",
 				SystemLanguage.Romanian           => "ro",
 				SystemLanguage.Russian            => "ru",
-				SystemLanguage.SerboCroatian      => "sr",
+				SystemLanguage.SerboCroatian      => "sh",
 				SystemLanguage.Slovak             => "sk",
 				SystemLanguage.Slovenian          => "sl",
 				SystemLanguage.Spanish            => "es",

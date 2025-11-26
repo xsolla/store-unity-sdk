@@ -1,3 +1,4 @@
+#if UNITY_STANDALONE || UNITY_EDITOR
 using System;
 using Xsolla.Core;
 
@@ -7,11 +8,12 @@ namespace Xsolla.Auth
 	{
 		private static LocalAuthHttpListener HttpListener;
 
-		public static void Start(string redirectUrl, Action successCallback, Action<Error> errorCallback)
+		public static void Start(string redirectUrl, Action successCallback, Action<Error> errorCallback, string locale, SdkType sdkType)
 		{
 			HttpListener?.Stop();
-			HttpListener = new LocalAuthHttpListener(redirectUrl, successCallback, errorCallback);
+			HttpListener = new LocalAuthHttpListener(redirectUrl, successCallback, errorCallback, locale, sdkType);
 			HttpListener.Start();
 		}
 	}
 }
+#endif

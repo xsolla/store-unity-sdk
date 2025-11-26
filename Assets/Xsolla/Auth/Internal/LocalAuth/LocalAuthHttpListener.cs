@@ -1,3 +1,4 @@
+#if UNITY_STANDALONE || UNITY_EDITOR
 using System;
 using System.Collections;
 using System.Globalization;
@@ -13,14 +14,18 @@ namespace Xsolla.Auth
 		private readonly string RedirectUrl;
 		private readonly Action SuccessCallback;
 		private readonly Action<Error> ErrorCallback;
+		private readonly string Locale;
+		private readonly SdkType SdkType;
 		private Coroutine Coroutine;
 		private HttpListener Listener;
 
-		public LocalAuthHttpListener(string redirectUrl, Action successCallback, Action<Error> errorCallback)
+		public LocalAuthHttpListener(string redirectUrl, Action successCallback, Action<Error> errorCallback, string locale, SdkType sdkType)
 		{
 			RedirectUrl = redirectUrl;
 			SuccessCallback = successCallback;
 			ErrorCallback = errorCallback;
+			Locale = locale;
+			SdkType = sdkType;
 		}
 
 		public void Start()
@@ -124,7 +129,8 @@ namespace Xsolla.Auth
 						code,
 						() => ProcessSuccess(context),
 						error => ProcessError(context, error.errorMessage),
-						redirectUri: RedirectUrl);
+						redirectUri: RedirectUrl,
+						sdkType: SdkType);
 				}
 				else if (ParseUtils.TryGetValueFromUrl(requestUrl, ParseParameter.token, out var token))
 				{
@@ -163,26 +169,22 @@ namespace Xsolla.Auth
 			Stop();
 		}
 
-		private static string GetSuccessHtmlResponseText()
+		private string GetSuccessHtmlResponseText()
 		{
-			var locale = LocaleUtil.GetLanguageCode();
-			Debug.Log(locale);
-
-			var dataProvider = new LocalAuthLocalizationProvider();
-			var title = dataProvider.GetSuccessTitle(locale);
-			var message = dataProvider.GetSuccessMessage(locale);
-			return $"<!DOCTYPE html><html><head><meta charset=\\\"utf-8\\\"><title>{title}</title></head><body><h1>{title}</h1><p>{message}</p></body></html>";
+			var locale = DefineLocale();
+			var localizationProvider = new LocalAuthLocalizationProvider();
+			var title = localizationProvider.GetSuccessTitle(locale);
+			var message = localizationProvider.GetSuccessMessage(locale);
+			return CreateHtmlResponse(title, message);
 		}
 
-		private static string GetFailureHtmlResponseText()
+		private string GetFailureHtmlResponseText()
 		{
-			var locale = LocaleUtil.GetLanguageCode();
-			Debug.Log(locale);
-
-			var dataProvider = new LocalAuthLocalizationProvider();
-			var title = dataProvider.GetErrorTitle(locale);
-			var message = dataProvider.GetErrorMessage(locale);
-			return $"<!DOCTYPE html><html><head><meta charset=\\\"utf-8\\\"><title>{title}</title></head><body><h1>{title}</h1><p>{message}</p></body></html>";
+			var locale = DefineLocale();
+			var localizationProvider = new LocalAuthLocalizationProvider();
+			var title = localizationProvider.GetErrorTitle(locale);
+			var message = localizationProvider.GetErrorMessage(locale);
+			return CreateHtmlResponse(title, message);
 		}
 
 		private static void SendResponse(HttpListenerResponse response, string html)
@@ -203,5 +205,18 @@ namespace Xsolla.Auth
 				response.Close();
 			}
 		}
+
+		private string CreateHtmlResponse(string title, string message)
+		{
+			return $"<!DOCTYPE html><html><head><meta charset=\\\"utf-8\\\"><title>{title}</title></head><body><h1>{title}</h1><p>{message}</p></body></html>";
+		}
+
+		private string DefineLocale()
+		{
+			return string.IsNullOrEmpty(Locale)
+				? LocaleUtil.GetSystemLanguageCode()
+				: Locale;
+		}
 	}
 }
+#endif
