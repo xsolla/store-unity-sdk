@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Globalization;
 using System.Net;
 using System.Text;
 using UnityEngine;
@@ -164,12 +165,24 @@ namespace Xsolla.Auth
 
 		private static string GetSuccessHtmlResponseText()
 		{
-			return "<!DOCTYPE html><html><head><title>Page Title</title></head><body><h1>You're logged in</h1><p>Close this tab and return to game</p></body></html>";
+			var locale = LocaleUtil.GetLanguageCode();
+			Debug.Log(locale);
+
+			var dataProvider = new LocalAuthLocalizationProvider();
+			var title = dataProvider.GetSuccessTitle(locale);
+			var message = dataProvider.GetSuccessMessage(locale);
+			return $"<!DOCTYPE html><html><head><meta charset=\\\"utf-8\\\"><title>{title}</title></head><body><h1>{title}</h1><p>{message}</p></body></html>";
 		}
 
 		private static string GetFailureHtmlResponseText()
 		{
-			return "<!DOCTYPE html><html><body><h1>Login failed</h1></body></html>";
+			var locale = LocaleUtil.GetLanguageCode();
+			Debug.Log(locale);
+
+			var dataProvider = new LocalAuthLocalizationProvider();
+			var title = dataProvider.GetErrorTitle(locale);
+			var message = dataProvider.GetErrorMessage(locale);
+			return $"<!DOCTYPE html><html><head><meta charset=\\\"utf-8\\\"><title>{title}</title></head><body><h1>{title}</h1><p>{message}</p></body></html>";
 		}
 
 		private static void SendResponse(HttpListenerResponse response, string html)
@@ -177,6 +190,7 @@ namespace Xsolla.Auth
 			try
 			{
 				var buffer = Encoding.UTF8.GetBytes(html);
+				response.ContentType = "text/html; charset=utf-8";
 				response.ContentLength64 = buffer.Length;
 				response.OutputStream.Write(buffer, 0, buffer.Length);
 			}

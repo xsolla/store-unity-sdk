@@ -18,7 +18,7 @@ MonoBehaviour:
   oauthClientId: 57
   storeProjectId: 77640
   isSandbox: 1
-  inAppBrowserEnabled: 1
+  inAppBrowserEnabled: 0
   packInAppBrowserInBuild: 1
   applePayMerchantDomain: 
   desktopRedirectPolicySettings:
