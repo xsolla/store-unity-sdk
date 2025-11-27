@@ -15,6 +15,7 @@ namespace Xsolla.Core
 
 	public class WebGlAppearance
 	{
+		///TEXTREVIEW
 		/// <summary>
 		/// Open Pay Station in iframe on all devices.
 		/// </summary>
