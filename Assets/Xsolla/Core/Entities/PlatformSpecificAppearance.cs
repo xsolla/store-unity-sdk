@@ -9,18 +9,18 @@ namespace Xsolla.Core
 
 		/// <summary>
 		/// Specifies the payment UI appearance settings for the WebGL builds.
+		/// The payment UI is presented via Pay Station.
 		/// </summary>
 		public WebGlAppearance WebGlAppearance;
 	}
 
 	public class WebGlAppearance
 	{
-		///TEXTREVIEW
 		/// <summary>
-		/// Open Pay Station in iframe on all devices.
+		/// Open payment UI in iframe on all devices.
 		/// </summary>
 		public bool? iframeOnly;
-		
+
 		/// <summary>
 		/// Width of the widget. Default is `740px`.
 		/// </summary>
