@@ -24,6 +24,10 @@ mergeInto(LibraryManager.library, {
             }
 		};
 		
+		if (appearance.iframeOnly != null) {
+            options.iframeOnly = appearance.iframeOnly;
+        }
+		
 		if (appearance.widgetWidth != null && appearance.widgetWidth !== "") {
             options.lightbox.width = appearance.widgetWidth;
         }

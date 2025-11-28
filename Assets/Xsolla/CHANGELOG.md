@@ -1,4 +1,11 @@
 # Changelog
+## [3.0.5] - 2025-11-27
+### Added
+- `WebGlAppearance.iframeOnly` option to force opening `PayStation` inside an `iframe` in WebGL builds
+
+### Fixed
+- Potential `NullReferenceException` in `XsollaWidgetAuthProxyActivity`
+
 ## [3.0.4] - 2025-11-03
 ### Added
 - `user.country` parameter support for the following SDK methods:

@@ -15,14 +15,12 @@ namespace Xsolla.Tests.Inventory
 
 			var isComplete = false;
 			XsollaInventory.GetInventoryItems(
-				items =>
-				{
+				items => {
 					isComplete = true;
 					Assert.NotNull(items);
 					Assert.NotNull(items.items);
 					Assert.Greater(items.items.Length, 0);
-				}, error =>
-				{
+				}, error => {
 					isComplete = true;
 					Assert.Fail(error?.errorMessage);
 				});
@@ -37,13 +35,11 @@ namespace Xsolla.Tests.Inventory
 
 			var isComplete = false;
 			XsollaInventory.GetInventoryItems(
-				items =>
-				{
+				items => {
 					isComplete = true;
 					Assert.AreEqual(items.items.Length, 5);
 				},
-				error =>
-				{
+				error => {
 					isComplete = true;
 					Assert.Fail(error?.errorMessage);
 				},
@@ -54,12 +50,5 @@ namespace Xsolla.Tests.Inventory
 
 			yield return new WaitUntil(() => isComplete);
 		}
-
-		// [UnityTest]
-		// public IEnumerator GetInventoryItems_DefaultValues_InvalidToken_Success()
-		// {
-		// 	yield return SetOldAccessToken();
-		// 	yield return GetInventoryItems_Default_Success();
-		// }
 	}
 }
