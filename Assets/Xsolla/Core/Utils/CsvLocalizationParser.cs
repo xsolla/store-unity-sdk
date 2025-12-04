@@ -23,15 +23,18 @@ namespace Xsolla.Core
 			if (string.IsNullOrEmpty(Content))
 				return fallback;
 
-			var column = GetLocaleColumn(Content, locale);
-			var cellText = GetCellText(Content, column, row);
+			var rowIndex = GetLocaleRowIndex(Content, locale);
+			if (rowIndex < 0)
+				return fallback;
+			
+			var cellText = GetCellText(Content, rowIndex, row);
 
 			return string.IsNullOrEmpty(cellText)
 				? fallback
 				: cellText;
 		}
 
-		private int GetLocaleColumn(string data, string locale)
+		private int GetLocaleRowIndex(string data, string locale)
 		{
 			if (data == null)
 				return -1;
