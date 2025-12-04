@@ -7,10 +7,18 @@ namespace Xsolla.Core
 	{
 		public static string GetSystemLanguageCode()
 		{
-			var raw = GetLanguageCodeRaw();
-			return string.IsNullOrEmpty(raw)
-				? "en"
-				: raw.Replace("-", "_").ToLowerInvariant();
+			var rawCode = GetLanguageCodeRaw();
+			if (string.IsNullOrEmpty(rawCode))
+				return "en";
+
+			rawCode = rawCode
+				.Replace("_", "-")
+				.ToLowerInvariant();
+
+			if (rawCode.StartsWith("zh"))
+				rawCode = PostProcessChineseLanguageCode(rawCode);
+
+			return rawCode;
 		}
 
 		private static string GetLanguageCodeRaw()
@@ -19,6 +27,49 @@ namespace Xsolla.Core
 			return string.IsNullOrEmpty(fromUnity)
 				? GetLanguageCodeFromCultureInfo()
 				: fromUnity;
+		}
+
+		private static string PostProcessChineseLanguageCode(string code)
+		{
+			if (string.IsNullOrEmpty(code))
+				return code;
+
+			const string simplifiedResult = "zh_hans";
+			const string traditionalResult = "zh_hant_tw";
+
+			// exact match for "zh" 
+			if (code == "zh")
+				return simplifiedResult;
+
+			// quick checks for common prefixes
+			if (code.StartsWith("zh_hans"))
+				return simplifiedResult;
+
+			if (code.StartsWith("zh_hant"))
+				return traditionalResult;
+
+			// region based checks
+			switch (code)
+			{
+				case "zh_cn":
+				case "zh_sg":
+					return simplifiedResult;
+				case "zh_tw":
+				case "zh_hk":
+				case "zh_mo":
+					return traditionalResult;
+			}
+
+			// Weird cases where wrong script is appended to a region
+			// Example: "zh_hans_hk" from buggy OS locale
+			if (code.EndsWith("_hk") || code.EndsWith("_mo") || code.EndsWith("_tw"))
+				return traditionalResult;
+
+			if (code.EndsWith("_cn") || code.EndsWith("_sg"))
+				return simplifiedResult;
+
+			// if nothing matched — return simplified as default
+			return simplifiedResult;
 		}
 
 		private static string GetLanguageCodeFromUnity()
