@@ -75,10 +75,6 @@ namespace Xsolla.Demo
 
 		public void RunSocialAuth(SocialProvider socialProvider)
 		{
-			if (IsAuthInProgress)
-				return;
-
-			IsAuthInProgress = true;
 			object[] args = {socialProvider};
 
 			TryAuthBy<SocialAuth>(args, SuperComplete, ProcessError);

@@ -59,6 +59,7 @@ namespace Xsolla.DevTools
 			XsollaSettings.LoginId = Constants.DEFAULT_LOGIN_ID;
 			XsollaSettings.OAuthClientId = Constants.DEFAULT_OAUTH_CLIENT_ID;
 			XsollaSettings.CallbackUrl = string.Empty;
+			XsollaSettings.InAppBrowserEnabled = true;
 			XsollaSettingsEditor.SaveSettingsAsset();
 		}
 

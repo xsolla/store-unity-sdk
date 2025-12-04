@@ -64,10 +64,10 @@ namespace Xsolla.Core
 		{
 			var url = new PayStationUrlBuilder(token, sdkType).Build();
 
-			var browserLocale = WebHelper.GetBrowserLanguage().ToLowerInvariant();
-			var popupMessage = XsollaWebBrowserLocalizationDataProvider.GetMessageText(browserLocale);
-			var continueButtonText = XsollaWebBrowserLocalizationDataProvider.GetContinueButtonText(browserLocale);
-			var cancelButtonText = XsollaWebBrowserLocalizationDataProvider.GetCancelButtonText(browserLocale);
+			var browserLocale = WebHelper.GetBrowserLanguage().Replace("-", "_").ToLowerInvariant();
+			var popupMessage = BrowserPopupLocalizationProvider.GetMessageText(browserLocale);
+			var continueButtonText = BrowserPopupLocalizationProvider.GetContinueButtonText(browserLocale);
+			var cancelButtonText = BrowserPopupLocalizationProvider.GetCancelButtonText(browserLocale);
 
 			ShowPopupAndOpenPayStation(url, popupMessage, continueButtonText, cancelButtonText);
 		}

@@ -1,3 +1,4 @@
+#if UNITY_STANDALONE || UNITY_EDITOR
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -5,7 +6,7 @@ using Xsolla.Core;
 
 namespace Xsolla.Auth
 {
-	internal class StandaloneSocialAuth : IInAppBrowserNavigationInterceptor
+	internal class StandaloneInAppBrowserSocialAuthenticator : IInAppBrowserNavigationInterceptor
 	{
 		private readonly SocialProvider SocialProvider;
 		private readonly Action SuccessCallback;
@@ -15,7 +16,7 @@ namespace Xsolla.Auth
 		private readonly HashSet<string> UrlsToIntercept;
 		private bool IsBrowserClosedByCode;
 
-		public StandaloneSocialAuth(SocialProvider socialProvider, Action onSuccess, Action<Error> onError, Action onCancel)
+		public StandaloneInAppBrowserSocialAuthenticator(SocialProvider socialProvider, Action onSuccess, Action<Error> onError, Action onCancel)
 		{
 			SocialProvider = socialProvider;
 			SuccessCallback = onSuccess;
@@ -116,3 +117,4 @@ namespace Xsolla.Auth
 		}
 	}
 }
+#endif

@@ -39,6 +39,8 @@ namespace Xsolla.Core
 		public static bool AdvancedGroupFoldout { get; set; }
 
 		public static int PaystationVersion { get; set; } = 4;
+		
+		public static string LocalServerRedirectUrl { get; set; } = "http://localhost:65421";
 
 		public static string LoginId
 		{
