@@ -773,7 +773,7 @@ PlayerSettings:
   webGLPowerPreference: 2
   scriptingDefineSymbols:
     Android: STEAMWORKS_NET
-    Standalone: STEAMWORKS_NET
+    Standalone: STEAMWORKS_NET;DEBUG_XSOLLA_DEMO
     WebGL: STEAMWORKS_NET
     iPhone: STEAMWORKS_NET
   additionalCompilerArguments: {}
