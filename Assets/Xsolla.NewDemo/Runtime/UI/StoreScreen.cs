@@ -1,11 +1,10 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Xsolla.Demo
 {
 	public class StoreScreen : Screen
 	{
-		[field: SerializeField] private Button CloseButton { get; set; }
+		[field: SerializeField] private WidgetEventsProvider BackgroundEventsProvider { get; set; }
 		[field: SerializeField] private StoreItemWidget HeartWidget { get; set; }
 		[field: SerializeField] private StoreItemWidget OwlWidget { get; set; }
 		[field: SerializeField] private StoreItemWidget CoinPackWidget { get; set; }
@@ -15,6 +14,8 @@ namespace Xsolla.Demo
 
 		private void Start()
 		{
+			BackgroundEventsProvider.PointerDown += _ => LevelStateMachine.SetResumeLevel();
+
 			var item = CatalogService.GetItem("heart");
 			HeartWidget.Setup(item);
 
@@ -23,8 +24,6 @@ namespace Xsolla.Demo
 
 			item = CatalogService.GetItem("coin_pack");
 			CoinPackWidget.Setup(item);
-
-			CloseButton.onClick.AddListener(() => LevelStateMachine.SetResumeLevel());
 		}
 	}
 }
