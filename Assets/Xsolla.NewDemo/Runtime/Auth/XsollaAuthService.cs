@@ -18,6 +18,18 @@ namespace Xsolla.Demo
 				_ => onError?.Invoke());
 		}
 
+		public void SignInTouristMode(Action onSuccess, Action<string> onError)
+		{
+			WebRequestHelper.Instance.GetRequest<TouristAuthResponse>(
+				SdkType.Login,
+				"https://us-central1-xsolla-sdk-demo.cloudfunctions.net/generateDemoUserToken",
+				response => {
+					XsollaToken.Create(response.access_token, response.refresh_token);
+					onSuccess?.Invoke();
+				},
+				error => onError?.Invoke(error.errorMessage));
+		}
+
 		public void SignIn(string username, string password, Action onSuccess, Action<string> onError)
 		{
 			XsollaAuth.SignIn(

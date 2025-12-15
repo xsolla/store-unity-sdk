@@ -28,6 +28,11 @@ namespace Xsolla.Demo
 			InnerService.AuthBuySavedData(onSuccess, onError);
 		}
 
+		public void SignInTouristMode(Action onSuccess, Action<string> onError)
+		{
+			InnerService.SignInTouristMode(onSuccess, onError);
+		}
+
 		public void SignIn(string username, string password, Action onSuccess, Action<string> onError)
 		{
 			InnerService.SignIn(FakeUsername, FakePassword, onSuccess, onError);
