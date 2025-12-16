@@ -14,7 +14,7 @@ namespace Xsolla.Demo
 			=> OpenUrl("https://developers.xsolla.com/sdk/unity/");
 
 		public void OpenGamerSupport()
-			=> OpenUrl("https://xsolla.com/support/gamer-support");
+			=> OpenUrl("https://help.xsolla.com/");
 
 		private void OpenUrl(string url)
 			=> Application.OpenURL(url);
