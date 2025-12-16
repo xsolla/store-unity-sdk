@@ -17,38 +17,38 @@ namespace Xsolla.Demo
 
 		private void Start()
 		{
-			SignInButton.onClick.AddListener(StartSignIn);
+			SignInButton.onClick.AddListener(SignIn);
 			TouristModeButton.onClick.AddListener(SignInTouristMode);
 		}
 
-		private void StartSignIn()
+		private void SignIn()
 		{
-			var email = EmailInputField.text;
-			var password = PasswordInputField.text;
-
 			var loadingOverlay = ScreenService.OpenLoadingOverlay();
 
 			AuthService.SignIn(
-				email,
-				password,
+				EmailInputField.text,
+				PasswordInputField.text,
 				() => GameStateMachine.SwitchToUserAuthFinish(),
-				errorMessage => {
-					ScreenService.Close(loadingOverlay);
-					ScreenService
-						.OpenInfoPopup()
-						.SetTitle("Sign-in Error")
-						.SetMessage(errorMessage);
-				});
+				errorMessage => OnAuthError(errorMessage, loadingOverlay));
 		}
 
 		private void SignInTouristMode()
 		{
-			// TODO Implement tourist mode
-			var popup = ScreenService
+			var loadingOverlay = ScreenService.OpenLoadingOverlay();
+
+			AuthService.SignInTouristMode(
+				() => GameStateMachine.SwitchToUserAuthFinish(),
+				errorMessage => OnAuthError(errorMessage, loadingOverlay));
+		}
+
+		private void OnAuthError(string errorMessage, Screen loadingOverlay)
+		{
+			ScreenService.Close(loadingOverlay);
+
+			ScreenService
 				.OpenInfoPopup()
-				.SetTitle("NOT IMPLEMENTED YET")
-				.SetMessage("NOT IMPLEMENTED YET");
-			popup.SetCloseCallback(() => ScreenService.Close(popup));
+				.SetTitle("Sign-in Error")
+				.SetMessage(errorMessage);
 		}
 	}
 }

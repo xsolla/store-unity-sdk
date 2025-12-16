@@ -7,6 +7,8 @@ namespace Xsolla.Demo
 		void ClearSavedData();
 
 		void AuthBuySavedData(Action onSuccess, Action onError);
+		
+		void SignInTouristMode(Action onSuccess, Action<string> onError);
 
 		void SignIn(string username, string password, Action onSuccess, Action<string> onError);
 
