@@ -1,4 +1,5 @@
 #if UNITY_WEBGL
+using System;
 using System.IO;
 using UnityEditor;
 using UnityEditor.Build;
@@ -18,38 +19,42 @@ namespace Xsolla.Core.Editor
 
 			XDebug.Log("SDK is now processing build", true);
 
-			var sourcePath = GetSourceFilePath();
+			var sourceDir = GetSourceDir();
+			var outputDir = report.summary.outputPath;
+			CopyFile("xl-widget.html", sourceDir, outputDir);
+			CopyFile("xl-social.html", sourceDir, outputDir);
+		}
+
+		private static void CopyFile(string fileName, string sourceDir, string outputDir)
+		{
+			var sourcePath = Path.Combine(sourceDir, fileName);
 			Debug.Log($"Source path: {sourcePath}");
 
 			if (!File.Exists(sourcePath))
-				throw new FileNotFoundException($"Can't find {nameof(WebglPostprocessor)} script");
+				throw new Exception($"Can't find source file: {sourcePath}");
 
-			var reportPath = report.summary.outputPath;
-			var destPath = Path.Combine(reportPath, "xl-widget.html");
-			Debug.Log("Destination path: " + destPath);
+			var outputPath = Path.Combine(outputDir, fileName);
+			Debug.Log("Output path: " + outputPath);
 
-			if (File.Exists(destPath))
-				File.Delete(destPath);
-
-			File.Copy(sourcePath, destPath);
+			File.Copy(sourcePath, outputPath, true);
 		}
 
-		private static string GetSourceFilePath()
+		private static string GetSourceDir()
 		{
-			var guids = AssetDatabase.FindAssets($"t:Script {nameof(WebglPostprocessor)}");
+			var scriptName = nameof(WebglPostprocessor);
+
+			var guids = AssetDatabase.FindAssets($"t:Script {scriptName}");
 			if (guids.Length == 0)
-				throw new FileNotFoundException($"Can't find {nameof(WebglPostprocessor)} script");
+				throw new Exception($"Can't find {scriptName} script");
 
 			var path = AssetDatabase.GUIDToAssetPath(guids[0]);
 			path = path.Replace("Assets", Application.dataPath);
 
-			Debug.Log(path);
-
 			path = Path.GetDirectoryName(path);
 			if (path == null)
-				throw new DirectoryNotFoundException("Can't find directory with android native file");
-			
-			return Path.Combine(path, "widget-proxy-page.html");
+				throw new Exception($"Can't find directory of {scriptName} script");
+
+			return path;
 		}
 	}
 }
