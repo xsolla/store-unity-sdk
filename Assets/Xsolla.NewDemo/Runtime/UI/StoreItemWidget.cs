@@ -17,6 +17,7 @@ namespace Xsolla.Demo
 
 		private IStoreService StoreService => ServiceLocator.Resolve<IStoreService>();
 		private ScreenService ScreenService => ServiceLocator.Resolve<ScreenService>();
+		private LocalizationService LocalizationService => ServiceLocator.Resolve<LocalizationService>();
 
 		public void Setup(CatalogRecord record)
 		{
@@ -58,12 +59,25 @@ namespace Xsolla.Demo
 
 		private void OnPurchaseError(string message)
 		{
+			message = GetErrorMessage(message);
+
 			var popup = ScreenService
 				.OpenInfoPopup()
 				.SetTitle("Purchase Error")
 				.SetMessage(message);
 
 			popup.SetCloseCallback(() => ScreenService.Close(popup));
+		}
+
+		private string GetErrorMessage(string message)
+		{
+			if (message.Contains("[0401-1460]"))
+				return LocalizationService.GetPurchaseLimitReachedMessage();
+			
+			if (message.Contains("[0401-5006]"))
+				return LocalizationService.GetNotEnoughVirtualCurrencyMessage();
+
+			return message;
 		}
 	}
 }
