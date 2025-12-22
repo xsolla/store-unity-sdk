@@ -25,6 +25,7 @@ namespace Xsolla.Demo
 
 			serviceLocator.Register(new UrlService());
 			serviceLocator.Register(new InputService());
+			serviceLocator.Register(new LocalizationService());
 
 			serviceLocator.Register(new AuthServiceFactory().Create(DebugConfig));
 			serviceLocator.Register(new InventoryServiceFactory().Create(DebugConfig));
