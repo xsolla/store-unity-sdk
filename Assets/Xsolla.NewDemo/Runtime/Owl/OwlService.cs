@@ -10,6 +10,14 @@ namespace Xsolla.Demo
 
 		private GameObject OwlInstance { get; set; }
 
+		public void SpawnOwl(PawnMode mode)
+		{
+			if (OwlInstance)
+				DeleteInstance();
+
+			CheckOwlAvailability();
+		}
+
 		public void CheckOwlAvailability()
 		{
 			var quantity = InventoryService.GetItem("owl").Quantity;

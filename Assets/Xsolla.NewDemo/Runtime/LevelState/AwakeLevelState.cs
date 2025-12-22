@@ -15,9 +15,9 @@ namespace Xsolla.Demo
 
 			var pawnMode = PawnMode.Gameplay;
 			GuyService.SpawnGuy(pawnMode);
+			OwlService.SpawnOwl(pawnMode);
 			FoxService.SpawnFox(pawnMode);
 			CameraService.ToggleCamera(pawnMode);
-			OwlService.CheckOwlAvailability();
 		}
 
 		public void OnExit()
