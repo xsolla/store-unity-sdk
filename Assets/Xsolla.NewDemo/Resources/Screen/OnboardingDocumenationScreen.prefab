@@ -280,9 +280,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "You can access the \nshop anytime"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: b5060936e7c5a471e87d3e66711162bc, type: 2}
-  m_sharedMaterial: {fileID: 7384804005200998418, guid: b5060936e7c5a471e87d3e66711162bc,
-    type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -566,11 +565,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "See the documenation \nfor learn more"
+  m_text: "See the documenation \nto learn more"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: b5060936e7c5a471e87d3e66711162bc, type: 2}
-  m_sharedMaterial: {fileID: 7384804005200998418, guid: b5060936e7c5a471e87d3e66711162bc,
-    type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -727,11 +725,33 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1157976278962990484, guid: 29fed6edc74984d5e9438b27bef49af0,
+        type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee,
+        type: 2}
+    - target: {fileID: 1157976278962990484, guid: 29fed6edc74984d5e9438b27bef49af0,
+        type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
     - target: {fileID: 1423978847442959388, guid: 29fed6edc74984d5e9438b27bef49af0,
         type: 3}
       propertyPath: m_Name
       value: DocumentationWidget
       objectReference: {fileID: 0}
+    - target: {fileID: 5508617114855399010, guid: 29fed6edc74984d5e9438b27bef49af0,
+        type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee,
+        type: 2}
+    - target: {fileID: 5508617114855399010, guid: 29fed6edc74984d5e9438b27bef49af0,
+        type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 29fed6edc74984d5e9438b27bef49af0, type: 3}
 --- !u!1001 &6491252445331438720
