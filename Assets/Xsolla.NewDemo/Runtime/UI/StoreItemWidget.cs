@@ -59,25 +59,47 @@ namespace Xsolla.Demo
 
 		private void OnPurchaseError(string message)
 		{
-			message = GetErrorMessage(message);
+			var popupTitle = GetPopupErrorTitle(message);
+			var popupMessage = GetPopupErrorMessage(message);
 
 			var popup = ScreenService
 				.OpenInfoPopup()
-				.SetTitle("Purchase Error")
-				.SetMessage(message);
+				.SetTitle(popupTitle)
+				.SetMessage(popupMessage);
 
 			popup.SetCloseCallback(() => ScreenService.Close(popup));
 		}
 
-		private string GetErrorMessage(string message)
+		private string GetPopupErrorTitle(string errorMessage)
 		{
-			if (message.Contains("[0401-1460]"))
+			if (IsPurchaseLimitReachedError(errorMessage))
+				return LocalizationService.GetPurchaseLimitReachedTitle();
+
+			if (IsNotEnoughVirtualCurrencyError(errorMessage))
+				return LocalizationService.GetNotEnoughVirtualCurrencyTitle();
+
+			return "Purchase Error";
+		}
+
+		private string GetPopupErrorMessage(string errorMessage)
+		{
+			if (IsPurchaseLimitReachedError(errorMessage))
 				return LocalizationService.GetPurchaseLimitReachedMessage();
-			
-			if (message.Contains("[0401-5006]"))
+
+			if (IsNotEnoughVirtualCurrencyError(errorMessage))
 				return LocalizationService.GetNotEnoughVirtualCurrencyMessage();
 
-			return message;
+			return errorMessage;
+		}
+
+		private static bool IsPurchaseLimitReachedError(string errorMessage)
+		{
+			return errorMessage.Contains("[0401-1460]");
+		}
+
+		private bool IsNotEnoughVirtualCurrencyError(string errorMessage)
+		{
+			return errorMessage.Contains("[0401-5006]");
 		}
 	}
 }
