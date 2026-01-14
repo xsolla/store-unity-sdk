@@ -105,7 +105,7 @@ namespace Xsolla.Core.Centrifugo
 			const float deltaTime = 1f;
 			while (true)
 			{
-				yield return new WaitForSeconds(deltaTime);
+				yield return new WaitForSecondsRealtime(deltaTime);
 				PingCounter += deltaTime;
 
 				if (PingCounter >= PingInterval)

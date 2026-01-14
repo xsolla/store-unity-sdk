@@ -30,7 +30,7 @@ namespace Xsolla.Core
 		private static IEnumerator CooldownRoutine()
 		{
 			XDebug.Log($"[CreateOrderCooldown] Cooldown started for {CooldownDuration} seconds");
-			yield return new WaitForSeconds(CooldownDuration);
+			yield return new WaitForSecondsRealtime(CooldownDuration);
 
 			XDebug.Log("[CreateOrderCooldown] Cooldown ended automatically after timeout");
 			CooldownCoroutine = null;
