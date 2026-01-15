@@ -33,7 +33,7 @@ namespace Xsolla.XsollaBrowser
 				if (!string.Equals(Page.Url, url))
 					Page.Url = url;
 
-				yield return new WaitForSeconds(0.5f);
+				yield return new WaitForSecondsRealtime(0.5f);
 			}
 		}
 	}

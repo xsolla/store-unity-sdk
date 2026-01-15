@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Xsolla Social Auth</title>
+</head>
+<body>
+<script>
+    console.log("[Xsolla SDK] Url:", window.location.href);
+
+    const params = new URLSearchParams(window.location.search);
+    const socialNetworkUrl = params.get("social_network_url");
+    const code = params.get("code");
+
+    if (socialNetworkUrl) {
+        // 1. Redirect to social auth
+        console.log("[Xsolla SDK] Redirecting to social auth:", socialNetworkUrl);
+        window.location.replace(socialNetworkUrl);
+
+    } else if (code) {
+        // 2. OAuth callback handling
+        if (window.opener) {
+            console.log("[Xsolla SDK] Auth code received:", code);
+            window.opener.postMessage(
+                { type: "xsolla-social-auth", data: code },
+                window.location.origin
+            );
+            window.close();
+        } else {
+            document.body.innerText = "Unable to communicate with the parent window.";
+        }
+
+    } else {
+        // 3. Nothing to do
+        console.log("[Xsolla SDK] No social_network_url or auth code found.");
+    }
+</script>
+</body>
+</html>

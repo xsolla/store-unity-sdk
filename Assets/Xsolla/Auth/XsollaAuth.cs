@@ -796,7 +796,6 @@ namespace Xsolla.Auth
 		public static void AuthViaSocialNetwork(SocialProvider provider, Action onSuccess, Action<Error> onError, Action onCancel)
 		{
 #if UNITY_STANDALONE || UNITY_EDITOR
-
 			if (XsollaSettings.InAppBrowserEnabled)
 				new StandaloneInAppBrowserSocialAuthenticator(provider, onSuccess, onError, onCancel).Perform();
 			else
@@ -805,6 +804,8 @@ namespace Xsolla.Auth
 			new AndroidSocialAuth().Perform(provider, onSuccess, onError, onCancel);
 #elif UNITY_IOS
 			new IosSocialAuth().Perform(provider, onSuccess, onError, onCancel);
+#elif UNITY_WEBGL
+			new WebglSocialAuthenticator(provider, onSuccess, onError).Launch();
 #else
 			onError?.Invoke(new Error(ErrorType.NotSupportedOnCurrentPlatform, errorMessage: $"Social auth is not supported for this platform: {Application.platform}"));
 #endif

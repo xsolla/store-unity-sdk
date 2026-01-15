@@ -45,7 +45,7 @@ namespace Xsolla.Core
 
 		private static IEnumerator PerformSuccess(OrderStatus status, Action<OrderStatus> callback)
 		{
-			yield return new WaitForSeconds(0.1f);
+			yield return new WaitForSecondsRealtime(0.1f);
 			callback?.Invoke(status);
 		}
 	}
