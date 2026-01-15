@@ -52,6 +52,7 @@ namespace Xsolla.Demo
 		public void AuthViaSocialNetwork(string socialNetwork, Action onSuccess, Action<string> onError, Action onCancel)
 		{
 			var provider = socialNetwork switch {
+				"discord"  => SocialProvider.Discord,
 				"google"   => SocialProvider.Google,
 				"facebook" => SocialProvider.Facebook,
 				_          => throw new Exception($"Unsupported social provider: {socialNetwork}")

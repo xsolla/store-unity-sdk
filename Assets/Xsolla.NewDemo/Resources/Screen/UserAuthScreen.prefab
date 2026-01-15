@@ -200,7 +200,7 @@ PrefabInstance:
     - target: {fileID: 1270163345448741661, guid: 73fe307735d26435d9d134590aa5d180,
         type: 3}
       propertyPath: m_Name
-      value: SocialAuthButton_Google
+      value: SocialAuthButton_Discord
       objectReference: {fileID: 0}
     - target: {fileID: 1656421258966866518, guid: 73fe307735d26435d9d134590aa5d180,
         type: 3}
@@ -654,5 +654,5 @@ MonoBehaviour:
   <SignUpWidget>k__BackingField: {fileID: 4657778695255402713}
   <GamerSupportButton>k__BackingField: {fileID: 8705914772545047222}
   <SocialSignInContainer>k__BackingField: {fileID: 3439659251105865796}
-  <GoogleSignInButton>k__BackingField: {fileID: 2183199032500723483}
+  <DiscordSignInButton>k__BackingField: {fileID: 2183199032500723483}
   <FacebookSignInButton>k__BackingField: {fileID: 1685928498227903609}
