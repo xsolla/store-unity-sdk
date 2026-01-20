@@ -16,7 +16,7 @@ namespace Xsolla.Demo
 		[field: SerializeField] private Button GamerSupportButton { get; set; }
 		[field: Space]
 		[field: SerializeField] private GameObject SocialSignInContainer { get; set; }
-		[field: SerializeField] private Button GoogleSignInButton { get; set; }
+		[field: SerializeField] private Button DiscordSignInButton { get; set; }
 		[field: SerializeField] private Button FacebookSignInButton { get; set; }
 
 		private UrlService UrlService => ServiceLocator.Resolve<UrlService>();
@@ -32,7 +32,7 @@ namespace Xsolla.Demo
 			SignUpTapButton.onClick.AddListener(() => ToggleMode(EMode.SignUp));
 			GamerSupportButton.onClick.AddListener(() => UrlService.OpenGamerSupport());
 
-			GoogleSignInButton.onClick.AddListener(() => AuthViaSocialNetwork("google"));
+			DiscordSignInButton.onClick.AddListener(() => AuthViaSocialNetwork("discord"));
 			FacebookSignInButton.onClick.AddListener(() => AuthViaSocialNetwork("facebook"));
 		}
 

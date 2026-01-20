@@ -13,14 +13,14 @@ MonoBehaviour:
   m_Name: DebugConfig
   m_EditorClassIdentifier: 
   <IsEraseSavedAuthData>k__BackingField: 0
-  <IsSkipOnboardingControlsState>k__BackingField: 1
-  <IsSkipOnboardingDocumentationState>k__BackingField: 1
-  <IsSkipOnboardingGameplayState>k__BackingField: 1
-  <UseFakeUserCredentials>k__BackingField: 1
+  <IsSkipOnboardingControlsState>k__BackingField: 0
+  <IsSkipOnboardingDocumentationState>k__BackingField: 0
+  <IsSkipOnboardingGameplayState>k__BackingField: 0
+  <UseFakeUserCredentials>k__BackingField: 0
   <FakeUserName>k__BackingField: becode2553
   <FakeUserEmail>k__BackingField: becode2553@besenica.com
   <FakeUserPassword>k__BackingField: becode2553
-  <UseFakeInventoryAndStore>k__BackingField: 1
+  <UseFakeInventoryAndStore>k__BackingField: 0
   <FakeInventoryStorage>k__BackingField:
     Items:
     - <Sku>k__BackingField: heart

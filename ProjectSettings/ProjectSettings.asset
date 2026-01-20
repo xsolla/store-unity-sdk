@@ -774,7 +774,7 @@ PlayerSettings:
   scriptingDefineSymbols:
     Android: STEAMWORKS_NET
     Standalone: STEAMWORKS_NET;DEBUG_XSOLLA_DEMO
-    WebGL: STEAMWORKS_NET
+    WebGL: STEAMWORKS_NET;DEBUG_XSOLLA_DEMO
     iPhone: STEAMWORKS_NET
   additionalCompilerArguments: {}
   platformArchitecture:
