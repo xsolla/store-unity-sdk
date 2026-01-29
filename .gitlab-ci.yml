@@ -114,12 +114,9 @@ demo_2021_webgl:
   extends: .win_job_base
   stage: demo_2021
   script:
-    - echo "SCRIPT = $env:BUILD_DEMO_SCRIPT"
-    - echo "SCRIPT = %BUILD_DEMO_SCRIPT%
-    - echo "SCRIPT = $BUILD_DEMO_SCRIPT
-    - python %BUILD_DEMO_SCRIPT% %CI_PROJECT_DIR% %UNITY_2021_VERSION% %BUILD_TARGET_WEBGL%
+    - python $env:BUILD_DEMO_SCRIPT $env:CI_PROJECT_DIR $env:UNITY_2021_VERSION $env:BUILD_TARGET_WEBGL
   artifacts:
-    name: "demo-2021-webgl-%CI_COMMIT_REF_SLUG%"
+    name: "demo-2021-webgl-$env:CI_COMMIT_REF_SLUG"
     paths:
       - Builds
 
