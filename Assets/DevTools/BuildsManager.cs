@@ -95,7 +95,7 @@ namespace Xsolla.DevTools
 			}
 
 			return new[] {
-				"Assets/Xsolla.Demo/Common/Scene/Xsollus.unity"
+				"Assets/Xsolla.NewDemo/Scenes/XsollaDemo.unity"
 			};
 		}
 
