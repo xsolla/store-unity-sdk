@@ -16,7 +16,7 @@ MonoBehaviour:
   callbackUrl: 
   invalidateExistingSessions: 0
   oauthClientId: 57
-  storeProjectId: 287965
+  storeProjectId: 77640
   isSandbox: 1
   inAppBrowserEnabled: 1
   packInAppBrowserInBuild: 1
