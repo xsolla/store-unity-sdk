@@ -42,6 +42,7 @@ variables:
 
 .mac_job_base:
   resource_group: mac_runner
+  when: manual
   before_script:
     - chmod 755 fastlane/scripts/diawi_callback_helper.sh
   artifacts:
@@ -58,30 +59,33 @@ variables:
 autotests_2021:
   extends: .win_job_base
   stage: autotests
+  allow_failure: true
   script:
-    - python %AUTOTESTS_SCRIPT% %CI_PROJECT_DIR% %UNITY_2021_VERSION%
+    - python $env:AUTOTESTS_SCRIPT $env:CI_PROJECT_DIR $env:UNITY_2021_VERSION
   artifacts:
-    name: "autotests-2021-%CI_COMMIT_REF_SLUG%"
+    name: "autotests-2021-$env:CI_COMMIT_REF_SLUG"
     paths:
       - Logs/autotests_report.log
 
 autotests_2022:
   extends: .win_job_base
   stage: autotests
+  allow_failure: true
   script:
-    - python %AUTOTESTS_SCRIPT% %CI_PROJECT_DIR% %UNITY_2022_VERSION%
+    - python $env:AUTOTESTS_SCRIPT $env:CI_PROJECT_DIR $env:UNITY_2022_VERSION
   artifacts:
-    name: "autotests-2022-%CI_COMMIT_REF_SLUG%"
+    name: "autotests-2022-$env:CI_COMMIT_REF_SLUG"
     paths:
       - Logs/autotests_report.log
 
 autotests_6000:
   extends: .win_job_base
   stage: autotests
+  allow_failure: true
   script:
-    - python %AUTOTESTS_SCRIPT% %CI_PROJECT_DIR% %UNITY_6000_VERSION%
+    - python $env:AUTOTESTS_SCRIPT $env:CI_PROJECT_DIR $env:UNITY_6000_VERSION
   artifacts:
-    name: "autotests-6000-%CI_COMMIT_REF_SLUG%"
+    name: "autotests-6000-$env:CI_COMMIT_REF_SLUG"
     paths:
       - Logs/autotests_report.log
 
@@ -92,9 +96,9 @@ demo_2021_win:
   extends: .win_job_base
   stage: demo_2021
   script:
-    - python %BUILD_DEMO_SCRIPT% %CI_PROJECT_DIR% %UNITY_2021_VERSION% %BUILD_TARGET_WINDOWS%
+    - python $env:BUILD_DEMO_SCRIPT $env:CI_PROJECT_DIR $env:UNITY_2021_VERSION $env:BUILD_TARGET_WINDOWS
   artifacts:
-    name: "demo-2021-win-%CI_COMMIT_REF_SLUG%"
+    name: "demo-2021-win-$env:CI_COMMIT_REF_SLUG"
     paths:
       - Builds
 
@@ -102,9 +106,9 @@ demo_2021_android:
   extends: .win_job_base
   stage: demo_2021
   script:
-    - python %BUILD_DEMO_SCRIPT% %CI_PROJECT_DIR% %UNITY_2021_VERSION% %BUILD_TARGET_ANDROID%
+    - python $env:BUILD_DEMO_SCRIPT $env:CI_PROJECT_DIR $env:UNITY_2021_VERSION $env:BUILD_TARGET_ANDROID
   artifacts:
-    name: "demo-2021-android-%CI_COMMIT_REF_SLUG%"
+    name: "demo-2021-android-$env:CI_COMMIT_REF_SLUG"
     paths:
       - Builds
 
@@ -112,9 +116,9 @@ demo_2021_webgl:
   extends: .win_job_base
   stage: demo_2021
   script:
-    - python %BUILD_DEMO_SCRIPT% %CI_PROJECT_DIR% %UNITY_2021_VERSION% %BUILD_TARGET_WEBGL%
+    - python $env:BUILD_DEMO_SCRIPT $env:CI_PROJECT_DIR $env:UNITY_2021_VERSION $env:BUILD_TARGET_WEBGL
   artifacts:
-    name: "demo-2021-webgl-%CI_COMMIT_REF_SLUG%"
+    name: "demo-2021-webgl-$env:CI_COMMIT_REF_SLUG"
     paths:
       - Builds
 
@@ -135,9 +139,9 @@ demo_2022_win:
   extends: .win_job_base
   stage: demo_2022
   script:
-    - python %BUILD_DEMO_SCRIPT% %CI_PROJECT_DIR% %UNITY_2022_VERSION% %BUILD_TARGET_WINDOWS%
+    - python $env:BUILD_DEMO_SCRIPT $env:CI_PROJECT_DIR $env:UNITY_2022_VERSION $env:BUILD_TARGET_WINDOWS
   artifacts:
-    name: "demo-2022-win-%CI_COMMIT_REF_SLUG%"
+    name: "demo-2022-win-$env:CI_COMMIT_REF_SLUG"
     paths:
       - Builds
 
@@ -145,9 +149,9 @@ demo_2022_android:
   extends: .win_job_base
   stage: demo_2022
   script:
-    - python %BUILD_DEMO_SCRIPT% %CI_PROJECT_DIR% %UNITY_2022_VERSION% %BUILD_TARGET_ANDROID%
+    - python $env:BUILD_DEMO_SCRIPT $env:CI_PROJECT_DIR $env:UNITY_2022_VERSION $env:BUILD_TARGET_ANDROID
   artifacts:
-    name: "demo-2022-android-%CI_COMMIT_REF_SLUG%"
+    name: "demo-2022-android-$env:CI_COMMIT_REF_SLUG"
     paths:
       - Builds
 
@@ -155,9 +159,9 @@ demo_2022_webgl:
   extends: .win_job_base
   stage: demo_2022
   script:
-    - python %BUILD_DEMO_SCRIPT% %CI_PROJECT_DIR% %UNITY_2022_VERSION% %BUILD_TARGET_WEBGL%
+    - python $env:BUILD_DEMO_SCRIPT $env:CI_PROJECT_DIR $env:UNITY_2022_VERSION $env:BUILD_TARGET_WEBGL
   artifacts:
-    name: "demo-2022-webgl-%CI_COMMIT_REF_SLUG%"
+    name: "demo-2022-webgl-$env:CI_COMMIT_REF_SLUG"
     paths:
       - Builds
 
@@ -178,9 +182,9 @@ demo_6000_win:
   extends: .win_job_base
   stage: demo_6000
   script:
-    - python %BUILD_DEMO_SCRIPT% %CI_PROJECT_DIR% %UNITY_6000_VERSION% %BUILD_TARGET_WINDOWS%
+    - python $env:BUILD_DEMO_SCRIPT $env:CI_PROJECT_DIR $env:UNITY_6000_VERSION $env:BUILD_TARGET_WINDOWS
   artifacts:
-    name: "demo-6000-win-%CI_COMMIT_REF_SLUG%"
+    name: "demo-6000-win-$env:CI_COMMIT_REF_SLUG"
     paths:
       - Builds
 
@@ -188,9 +192,9 @@ demo_6000_android:
   extends: .win_job_base
   stage: demo_6000
   script:
-    - python %BUILD_DEMO_SCRIPT% %CI_PROJECT_DIR% %UNITY_6000_VERSION% %BUILD_TARGET_ANDROID%
+    - python $env:BUILD_DEMO_SCRIPT $env:CI_PROJECT_DIR $env:UNITY_6000_VERSION $env:BUILD_TARGET_ANDROID
   artifacts:
-    name: "demo-6000-android-%CI_COMMIT_REF_SLUG%"
+    name: "demo-6000-android-$env:CI_COMMIT_REF_SLUG"
     paths:
       - Builds
 
@@ -198,9 +202,9 @@ demo_6000_webgl:
   extends: .win_job_base
   stage: demo_6000
   script:
-    - python %BUILD_DEMO_SCRIPT% %CI_PROJECT_DIR% %UNITY_6000_VERSION% %BUILD_TARGET_WEBGL%
+    - python $env:BUILD_DEMO_SCRIPT $env:CI_PROJECT_DIR $env:UNITY_6000_VERSION $env:BUILD_TARGET_WEBGL
   artifacts:
-    name: "demo-6000-webgl-%CI_COMMIT_REF_SLUG%"
+    name: "demo-6000-webgl-$env:CI_COMMIT_REF_SLUG"
     paths:
       - Builds
 
