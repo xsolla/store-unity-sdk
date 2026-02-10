@@ -1,8 +1,5 @@
 #if UNITY_STANDALONE || UNITY_EDITOR
 using System;
-using System.Collections;
-using System.Net;
-using System.Text;
 using UnityEngine;
 using Xsolla.Auth;
 using Xsolla.Core;
