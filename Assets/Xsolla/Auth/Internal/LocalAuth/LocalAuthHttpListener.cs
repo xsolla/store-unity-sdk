@@ -1,7 +1,6 @@
 #if UNITY_STANDALONE || UNITY_EDITOR
 using System;
 using System.Collections;
-using System.Globalization;
 using System.Net;
 using System.Text;
 using UnityEngine;

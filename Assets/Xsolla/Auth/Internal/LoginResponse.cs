@@ -6,7 +6,6 @@ namespace Xsolla.Auth
 	internal class LoginResponse
 	{
 		public string login_url;
-
 		public string token;
 	}
 }
