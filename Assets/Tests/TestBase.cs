@@ -15,6 +15,7 @@ namespace Xsolla.Tests
 		{
 			DeleteSavedToken();
 			Object.DestroyImmediate(WebRequestHelper.Instance.gameObject);
+			XsollaSettings.StoreProjectId = "77640";
 		}
 
 		protected static void DeleteSavedToken()
