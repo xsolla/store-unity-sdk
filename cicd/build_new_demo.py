@@ -17,7 +17,7 @@ report_path = os.path.join(project_dir, 'Builds', 'build_report.log')
 
 os.makedirs(build_root, exist_ok=True)
 
-build_result = unity.build_demo(project_dir, engine_version, build_root, build_target, report_path, "Xsolla.DevTools.BuildsManager.Build")
+build_result = unity.build_demo(project_dir, engine_version, build_root, build_target, report_path, "Xsolla.DevTools.BuildsManager.BuildNewDemo")
 
 if build_result != 0 or build_target != 'iOS':
     sys.exit(build_result)
