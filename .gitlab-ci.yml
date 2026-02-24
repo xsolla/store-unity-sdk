@@ -12,6 +12,7 @@ stages:
   - demo_2021
   - demo_2022
   - demo_6000
+  - new_demo
   - deploy
   - linking
   - security scan
@@ -19,6 +20,7 @@ stages:
 variables:
   AUTOTESTS_SCRIPT: "cicd/autotests.py"
   BUILD_DEMO_SCRIPT: "cicd/build_demo.py"
+  BUILD_NEW_DEMO_SCRIPT: "cicd/build_new_demo.py"
   BUILD_TARGET_WINDOWS: "StandaloneWindows64"
   BUILD_TARGET_WEBGL: "WebGL"
   BUILD_TARGET_ANDROID: "Android"
@@ -277,6 +279,16 @@ stop doc:
 # =========================================================================================================================
 # DEPLOY DEMO
 
+build_new_demo:
+  extends: .win_job_base
+  stage: new_demo
+  script:
+    - python $env:BUILD_NEW_DEMO_SCRIPT $env:CI_PROJECT_DIR $env:UNITY_2021_VERSION $env:BUILD_TARGET_WEBGL
+  artifacts:
+    name: "new-demo-$env:CI_COMMIT_REF_SLUG"
+    paths:
+      - Builds
+
 deploy stage:
     stage: deploy
     extends: .deploy stage
@@ -287,7 +299,7 @@ deploy stage:
     except:
         - branches
     dependencies:
-        - demo_2021_webgl
+        - build_new_demo
     script:
         - /usr/local/bin/helper deploy ./Builds
 
@@ -319,7 +331,7 @@ deploy prod:
     variables:
         ENV: prod
     dependencies:
-        - demo_2021_webgl
+        - build_new_demo
     script:
         - /usr/local/bin/helper deploy ./Builds
 

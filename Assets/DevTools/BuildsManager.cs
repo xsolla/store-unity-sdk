@@ -3,6 +3,7 @@ using System.IO;
 using UnityEditor;
 using UnityEditor.Build.Reporting;
 using UnityEngine;
+using Xsolla.Core;
 
 namespace Xsolla.DevTools
 {
@@ -10,9 +11,32 @@ namespace Xsolla.DevTools
 	{
 		public static void Build()
 		{
+			UpdateProjectId("77640");
+			var buildTarget = GetBuildTarget();
+			var buildScenes = GetBuildScenes(buildTarget);
+			BuildProject(buildScenes);
+		}
+
+		public static void BuildNewDemo()
+		{
+			UpdateProjectId("287965");
+			var buildScenes = new[] {
+				"Assets/Xsolla.NewDemo/Scenes/XsollaDemo.unity"
+			};
+			BuildProject(buildScenes);
+		}
+
+		private static void UpdateProjectId(string id)
+		{
+			XsollaSettings.StoreProjectId = id;
+			EditorUtility.SetDirty(XsollaSettings.Instance);
+			AssetDatabase.SaveAssets();
+		}
+
+		private static void BuildProject(string[] buildScenes)
+		{
 			var buildTarget = GetBuildTarget();
 			var buildPath = GetBuildPath(buildTarget);
-			var buildScenes = GetBuildScenes(buildTarget);
 
 			Debug.Log($"[BuildsManager] Begin. Target: {buildTarget} Path:{buildPath}");
 
