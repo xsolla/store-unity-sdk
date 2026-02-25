@@ -183,6 +183,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5241393244385243083}
   - component: {fileID: 4810865976852933062}
+  - component: {fileID: 4049742759839266792}
   m_Layer: 5
   m_Name: SignUpWidget
   m_TagString: Untagged
@@ -230,6 +231,22 @@ MonoBehaviour:
   <EmailInputField>k__BackingField: {fileID: 1188371372698351102}
   <PasswordInputField>k__BackingField: {fileID: 3503303835036453091}
   <SignUpButton>k__BackingField: {fileID: 7633130037059339177}
+--- !u!114 &4049742759839266792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 842774140645019205}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98648cf0ce594e0ba3657943f91a1832, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <InputFields>k__BackingField:
+  - {fileID: 5847002872121784899}
+  - {fileID: 1188371372698351102}
+  - {fileID: 3503303835036453091}
 --- !u!1 &1280377584244358526
 GameObject:
   m_ObjectHideFlags: 0
@@ -964,6 +981,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2625583890116083692}
   - component: {fileID: 381233811261842789}
+  - component: {fileID: 922422980015676948}
   m_Layer: 5
   m_Name: SignInWidget
   m_TagString: Untagged
@@ -1011,6 +1029,21 @@ MonoBehaviour:
   <PasswordInputField>k__BackingField: {fileID: 3323798516934943862}
   <SignInButton>k__BackingField: {fileID: 7060326112317227414}
   <TouristModeButton>k__BackingField: {fileID: 6705951807201984330}
+--- !u!114 &922422980015676948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6149490971085315977}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98648cf0ce594e0ba3657943f91a1832, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <InputFields>k__BackingField:
+  - {fileID: 1349977268662865676}
+  - {fileID: 3323798516934943862}
 --- !u!1 &6217098190633011890
 GameObject:
   m_ObjectHideFlags: 0
@@ -1733,6 +1766,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: UsernameInputField
       objectReference: {fileID: 0}
+    - target: {fileID: 7714672804410747827, guid: 14ce73cbca8084b8db52b2ca93ae9e5c,
+        type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee,
+        type: 2}
+    - target: {fileID: 7714672804410747827, guid: 14ce73cbca8084b8db52b2ca93ae9e5c,
+        type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
     - target: {fileID: 7718876175322656149, guid: 14ce73cbca8084b8db52b2ca93ae9e5c,
         type: 3}
       propertyPath: m_Pivot.x
@@ -1838,6 +1882,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8959795058466523910, guid: 14ce73cbca8084b8db52b2ca93ae9e5c,
+        type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee,
+        type: 2}
+    - target: {fileID: 8959795058466523910, guid: 14ce73cbca8084b8db52b2ca93ae9e5c,
+        type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 14ce73cbca8084b8db52b2ca93ae9e5c, type: 3}
 --- !u!224 &5785151868023688563 stripped
@@ -2371,6 +2426,17 @@ PrefabInstance:
       propertyPath: m_text
       value: 'Password:'
       objectReference: {fileID: 0}
+    - target: {fileID: 4397105271614844919, guid: 31086f598e08041ada0c63ce4bab0869,
+        type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee,
+        type: 2}
+    - target: {fileID: 4397105271614844919, guid: 31086f598e08041ada0c63ce4bab0869,
+        type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
     - target: {fileID: 6653035556177971518, guid: 31086f598e08041ada0c63ce4bab0869,
         type: 3}
       propertyPath: m_Pivot.x
@@ -2501,6 +2567,17 @@ PrefabInstance:
       propertyPath: m_text
       value: 'Email:'
       objectReference: {fileID: 0}
+    - target: {fileID: 4397105271614844919, guid: 31086f598e08041ada0c63ce4bab0869,
+        type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee,
+        type: 2}
+    - target: {fileID: 4397105271614844919, guid: 31086f598e08041ada0c63ce4bab0869,
+        type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
     - target: {fileID: 6653035556177971518, guid: 31086f598e08041ada0c63ce4bab0869,
         type: 3}
       propertyPath: m_Pivot.x
@@ -2631,6 +2708,17 @@ PrefabInstance:
       propertyPath: m_text
       value: Sign up
       objectReference: {fileID: 0}
+    - target: {fileID: 6044613715855277136, guid: d53fd64c057c54cf3a82045849e230f8,
+        type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee,
+        type: 2}
+    - target: {fileID: 6044613715855277136, guid: d53fd64c057c54cf3a82045849e230f8,
+        type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
     - target: {fileID: 8453192619524193115, guid: d53fd64c057c54cf3a82045849e230f8,
         type: 3}
       propertyPath: m_Pivot.x
@@ -2931,6 +3019,17 @@ PrefabInstance:
       propertyPath: m_ContentType
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 7714672804410747827, guid: 14ce73cbca8084b8db52b2ca93ae9e5c,
+        type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee,
+        type: 2}
+    - target: {fileID: 7714672804410747827, guid: 14ce73cbca8084b8db52b2ca93ae9e5c,
+        type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
     - target: {fileID: 7718876175322656149, guid: 14ce73cbca8084b8db52b2ca93ae9e5c,
         type: 3}
       propertyPath: m_Pivot.x
@@ -3036,6 +3135,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8959795058466523910, guid: 14ce73cbca8084b8db52b2ca93ae9e5c,
+        type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee,
+        type: 2}
+    - target: {fileID: 8959795058466523910, guid: 14ce73cbca8084b8db52b2ca93ae9e5c,
+        type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 14ce73cbca8084b8db52b2ca93ae9e5c, type: 3}
 --- !u!114 &3503303835036453091 stripped
@@ -3526,6 +3636,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: EmailInputField
       objectReference: {fileID: 0}
+    - target: {fileID: 7714672804410747827, guid: 14ce73cbca8084b8db52b2ca93ae9e5c,
+        type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee,
+        type: 2}
+    - target: {fileID: 7714672804410747827, guid: 14ce73cbca8084b8db52b2ca93ae9e5c,
+        type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
     - target: {fileID: 7718876175322656149, guid: 14ce73cbca8084b8db52b2ca93ae9e5c,
         type: 3}
       propertyPath: m_Pivot.x
@@ -3631,6 +3752,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8959795058466523910, guid: 14ce73cbca8084b8db52b2ca93ae9e5c,
+        type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee,
+        type: 2}
+    - target: {fileID: 8959795058466523910, guid: 14ce73cbca8084b8db52b2ca93ae9e5c,
+        type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 14ce73cbca8084b8db52b2ca93ae9e5c, type: 3}
 --- !u!114 &1188371372698351102 stripped
@@ -3668,6 +3800,17 @@ PrefabInstance:
       propertyPath: m_text
       value: 'Username:'
       objectReference: {fileID: 0}
+    - target: {fileID: 4397105271614844919, guid: 31086f598e08041ada0c63ce4bab0869,
+        type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee,
+        type: 2}
+    - target: {fileID: 4397105271614844919, guid: 31086f598e08041ada0c63ce4bab0869,
+        type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
     - target: {fileID: 6653035556177971518, guid: 31086f598e08041ada0c63ce4bab0869,
         type: 3}
       propertyPath: m_Pivot.x
