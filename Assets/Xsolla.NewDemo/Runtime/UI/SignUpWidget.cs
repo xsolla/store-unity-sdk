@@ -19,6 +19,11 @@ namespace Xsolla.Demo
 			SignUpButton.onClick.AddListener(TrySignUp);
 		}
 
+		private void OnDestroy()
+		{
+			SignUpButton.onClick.RemoveAllListeners();
+		}
+
 		private void TrySignUp()
 		{
 			var username = UsernameInputField.text;
@@ -26,25 +31,31 @@ namespace Xsolla.Demo
 			var password = PasswordInputField.text;
 
 			var loadingOverlay = ScreenService.OpenLoadingOverlay();
+			SignUpButton.interactable = false;
 
 			AuthService.Register(
 				username,
 				email,
 				password,
 				() => {
+					SignUpButton.interactable = true;
 					ScreenService.Close(loadingOverlay);
 					ScreenService
 						.OpenInfoPopup()
 						.SetTitle("Sign-up Successful")
 						.SetMessage("Your account has been created successfully. Please check your email to verify your account.")
-						.SetCloseCallback(() => ScreenService.OpenUserAuthScreen().ToggleMode(UserAuthScreen.EMode.SignIn));
+						.SetCloseCallback(() => {
+							SignUpButton.interactable = true;
+							ScreenService.OpenUserAuthScreen().ToggleMode(UserAuthScreen.EMode.SignIn);
+						});
 				},
 				errorMessage => {
 					ScreenService.Close(loadingOverlay);
 					ScreenService
 						.OpenInfoPopup()
 						.SetTitle("Sign-up Error")
-						.SetMessage(errorMessage);
+						.SetMessage(errorMessage)
+						.SetCloseCallback(() => SignUpButton.interactable = true);
 				});
 		}
 	}

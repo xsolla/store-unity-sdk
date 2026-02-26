@@ -21,9 +21,16 @@ namespace Xsolla.Demo
 			TouristModeButton.onClick.AddListener(SignInTouristMode);
 		}
 
+		private void OnDestroy()
+		{
+			SignInButton.onClick.RemoveAllListeners();
+			TouristModeButton.onClick.RemoveAllListeners();
+		}
+
 		private void SignIn()
 		{
 			var loadingOverlay = ScreenService.OpenLoadingOverlay();
+			SignInButton.interactable = false;
 
 			AuthService.SignIn(
 				EmailInputField.text,
@@ -48,7 +55,8 @@ namespace Xsolla.Demo
 			ScreenService
 				.OpenInfoPopup()
 				.SetTitle("Sign-in Error")
-				.SetMessage(errorMessage);
+				.SetMessage(errorMessage)
+				.SetCloseCallback(() => SignInButton.interactable = true);
 		}
 	}
 }
