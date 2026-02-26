@@ -12,6 +12,8 @@ namespace Xsolla.Demo
 		[field: SerializeField] private TMP_InputField[] InputFields { get; set; }
 		[field: SerializeField] private Button SubmitButton { get; set; }
 
+		private bool IsInteractable => SubmitButton && SubmitButton.interactable;
+
 		private void OnEnable()
 		{
 			StartCoroutine(FocusFirst());
@@ -19,6 +21,9 @@ namespace Xsolla.Demo
 
 		private void OnGUI()
 		{
+			if (!IsInteractable)
+				return;
+			
 			var currentEvent = Event.current;
 			if (currentEvent == null)
 				return;
@@ -36,6 +41,9 @@ namespace Xsolla.Demo
 
 		private void Update()
 		{
+			if (!IsInteractable)
+				return;
+
 			if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
 				TrySubmit();
 		}
@@ -102,11 +110,12 @@ namespace Xsolla.Demo
 			var eventSystem = EventSystem.current;
 			if (!eventSystem)
 				return;
+			
+			var currentSelected = eventSystem.currentSelectedGameObject;
+			if (!currentSelected)
+				return;
 
-			var currentField = eventSystem
-				.currentSelectedGameObject?
-				.GetComponent<TMP_InputField>();
-
+			var currentField = currentSelected.GetComponent<TMP_InputField>();
 			if (!currentField)
 				return;
 
@@ -114,9 +123,10 @@ namespace Xsolla.Demo
 				return;
 
 			currentField.DeactivateInputField();
-
-			if (SubmitButton && SubmitButton.interactable)
-				SubmitButton.onClick.Invoke();
+			SubmitButton.onClick.Invoke();
+			
+			if (eventSystem)
+				eventSystem.SetSelectedGameObject(null);
 		}
 	}
 }
