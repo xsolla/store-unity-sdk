@@ -23,6 +23,22 @@ namespace Xsolla.Demo
 			});
 		}
 
+		private void OnDestroy()
+		{
+			CloseButton.onClick.RemoveAllListeners();
+		}
+
+		private void Update()
+		{
+			if (Input.GetKeyDown(KeyCode.KeypadEnter)
+				|| Input.GetKeyDown(KeyCode.Return)
+				|| Input.GetKeyDown(KeyCode.Escape))
+			{
+				if (CloseButton.interactable)
+					CloseButton.onClick.Invoke();
+			}
+		}
+
 		public InfoPopup SetCloseCallback(Action value)
 		{
 			CloseCallback = value;

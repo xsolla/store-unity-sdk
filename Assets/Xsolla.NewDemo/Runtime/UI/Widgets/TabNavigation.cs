@@ -13,17 +13,13 @@ namespace Xsolla.Demo
 		[field: SerializeField] private Button SubmitButton { get; set; }
 
 		private bool IsInteractable => SubmitButton && SubmitButton.interactable;
-
-		private void OnEnable()
-		{
-			StartCoroutine(FocusFirst());
-		}
+		private int CurrentFieldIndex { get; set; }
 
 		private void OnGUI()
 		{
 			if (!IsInteractable)
 				return;
-			
+
 			var currentEvent = Event.current;
 			if (currentEvent == null)
 				return;
@@ -37,6 +33,14 @@ namespace Xsolla.Demo
 			var backwards = currentEvent.shift;
 			currentEvent.Use();
 			Move(backwards);
+		}
+
+		public void SetInteractable(bool isInteractable)
+		{
+			SubmitButton.interactable = isInteractable;
+
+			if (isInteractable)
+				StartCoroutine(FocusCoroutine());
 		}
 
 		private void Update()
@@ -67,7 +71,7 @@ namespace Xsolla.Demo
 			SelectField(nextIndex);
 		}
 
-		private IEnumerator FocusFirst()
+		private IEnumerator FocusCoroutine()
 		{
 			yield return null;
 
@@ -75,7 +79,7 @@ namespace Xsolla.Demo
 			if (!eventSystem)
 				yield break;
 
-			SelectField(0);
+			SelectField(CurrentFieldIndex);
 		}
 
 		private int GetCurrentIndex(GameObject selectedGo)
@@ -95,9 +99,9 @@ namespace Xsolla.Demo
 			if (InputFields == null || InputFields.Length == 0)
 				return;
 
-			index = Mathf.Clamp(index, 0, InputFields.Length - 1);
+			CurrentFieldIndex = Mathf.Clamp(index, 0, InputFields.Length - 1);
 
-			var field = InputFields[index];
+			var field = InputFields[CurrentFieldIndex];
 			var eventSystem = EventSystem.current;
 			if (eventSystem)
 				eventSystem.SetSelectedGameObject(field.gameObject);
@@ -110,7 +114,7 @@ namespace Xsolla.Demo
 			var eventSystem = EventSystem.current;
 			if (!eventSystem)
 				return;
-			
+
 			var currentSelected = eventSystem.currentSelectedGameObject;
 			if (!currentSelected)
 				return;
@@ -124,7 +128,7 @@ namespace Xsolla.Demo
 
 			currentField.DeactivateInputField();
 			SubmitButton.onClick.Invoke();
-			
+
 			if (eventSystem)
 				eventSystem.SetSelectedGameObject(null);
 		}

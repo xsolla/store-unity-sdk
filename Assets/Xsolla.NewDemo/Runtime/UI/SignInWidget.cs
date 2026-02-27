@@ -10,18 +10,21 @@ namespace Xsolla.Demo
 		[field: SerializeField] private TMP_InputField PasswordInputField { get; set; }
 		[field: SerializeField] private Button SignInButton { get; set; }
 		[field: SerializeField] private Button TouristModeButton { get; set; }
+		[field: SerializeField] private TabNavigation TabNavigation { get; set; }
 
 		private IAuthService AuthService => ServiceLocator.Resolve<IAuthService>();
 		private ScreenService ScreenService => ServiceLocator.Resolve<ScreenService>();
 		private GameStateMachine GameStateMachine => ServiceLocator.Resolve<GameStateMachine>();
 
-		private void Start()
+		private void OnEnable()
 		{
+			TabNavigation.SetInteractable(true);
+
 			SignInButton.onClick.AddListener(SignIn);
 			TouristModeButton.onClick.AddListener(SignInTouristMode);
 		}
 
-		private void OnDestroy()
+		private void OnDisable()
 		{
 			SignInButton.onClick.RemoveAllListeners();
 			TouristModeButton.onClick.RemoveAllListeners();
@@ -30,7 +33,7 @@ namespace Xsolla.Demo
 		private void SignIn()
 		{
 			var loadingOverlay = ScreenService.OpenLoadingOverlay();
-			SignInButton.interactable = false;
+			TabNavigation.SetInteractable(false);
 
 			AuthService.SignIn(
 				EmailInputField.text,
@@ -56,7 +59,7 @@ namespace Xsolla.Demo
 				.OpenInfoPopup()
 				.SetTitle("Sign-in Error")
 				.SetMessage(errorMessage)
-				.SetCloseCallback(() => SignInButton.interactable = true);
+				.SetCloseCallback(() => TabNavigation.SetInteractable(true));
 		}
 	}
 }
