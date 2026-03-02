@@ -231,6 +231,7 @@ MonoBehaviour:
   <EmailInputField>k__BackingField: {fileID: 1188371372698351102}
   <PasswordInputField>k__BackingField: {fileID: 3503303835036453091}
   <SignUpButton>k__BackingField: {fileID: 7633130037059339177}
+  <TabNavigation>k__BackingField: {fileID: 4049742759839266792}
 --- !u!114 &4049742759839266792
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -247,6 +248,7 @@ MonoBehaviour:
   - {fileID: 5847002872121784899}
   - {fileID: 1188371372698351102}
   - {fileID: 3503303835036453091}
+  <SubmitButton>k__BackingField: {fileID: 0}
 --- !u!1 &1280377584244358526
 GameObject:
   m_ObjectHideFlags: 0
@@ -1029,6 +1031,7 @@ MonoBehaviour:
   <PasswordInputField>k__BackingField: {fileID: 3323798516934943862}
   <SignInButton>k__BackingField: {fileID: 7060326112317227414}
   <TouristModeButton>k__BackingField: {fileID: 6705951807201984330}
+  <TabNavigation>k__BackingField: {fileID: 922422980015676948}
 --- !u!114 &922422980015676948
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1044,6 +1047,7 @@ MonoBehaviour:
   <InputFields>k__BackingField:
   - {fileID: 1349977268662865676}
   - {fileID: 3323798516934943862}
+  <SubmitButton>k__BackingField: {fileID: 0}
 --- !u!1 &6217098190633011890
 GameObject:
   m_ObjectHideFlags: 0
