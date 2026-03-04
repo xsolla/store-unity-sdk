@@ -117,5 +117,49 @@ namespace Xsolla.Tests.Subscriptions
 
 			yield return new WaitUntil(() => isComplete);
 		}
+
+		[UnityTest]
+		public IEnumerator GetUserAccountUrl_Success()
+		{
+			yield return CheckSession();
+
+			var isComplete = false;
+			XsollaSubscriptions.GetUserAccountUrl(
+				link => {
+					isComplete = true;
+					Assert.NotNull(link);
+					Assert.NotNull(link.redirect_url);
+				},
+				error => {
+					isComplete = true;
+					Assert.Fail(error?.errorMessage);
+				});
+
+			yield return new WaitUntil(() => isComplete);
+		}
+
+		[UnityTest]
+		[TestCase("en", ExpectedResult = null)]
+		[TestCase("ru", ExpectedResult = null)]
+		public IEnumerator GetUserAccountUrlWithLocale_Success(string locale)
+		{
+			yield return CheckSession();
+
+			var isComplete = false;
+			XsollaSubscriptions.GetUserAccountUrl(
+				link => {
+					isComplete = true;
+					Assert.NotNull(link);
+					Assert.NotNull(link.redirect_url);
+					Assert.IsTrue(link.redirect_url.Contains(locale));
+				},
+				error => {
+					isComplete = true;
+					Assert.Fail(error?.errorMessage);
+				},
+				locale);
+
+			yield return new WaitUntil(() => isComplete);
+		}
 	}
 }
