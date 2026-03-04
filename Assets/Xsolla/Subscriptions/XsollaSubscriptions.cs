@@ -188,6 +188,20 @@ namespace Xsolla.Subscriptions
 				error => TokenAutoRefresher.Check(error, onError, () => GetSubscriptionManagementUrl(onSuccess, onError, settings, country)));
 		}
 
+		public static void GetUserAccountUrl(Action<UserAccountLink> onSuccess, Action<Error> onError, string locale = null)
+		{
+			var url = new UrlBuilder($"{BaseUrl}/user/v1/projects/{StoreProjectId}/subscriptions/user_account")
+				.AddLocale(locale)
+				.Build();
+
+			WebRequestHelper.Instance.GetRequest(
+				SdkType.Subscriptions,
+				url,
+				WebRequestHeader.AuthHeader(),
+				onSuccess,
+				error => TokenAutoRefresher.Check(error, onError, () => GetUserAccountUrl(onSuccess, onError, locale)));
+		}
+
 		/// <summary>
 		/// Returns a list of plans available to authorized users, including plans purchased by the user while promotions are active.
 		/// </summary>
