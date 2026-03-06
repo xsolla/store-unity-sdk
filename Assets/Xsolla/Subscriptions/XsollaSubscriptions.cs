@@ -188,12 +188,14 @@ namespace Xsolla.Subscriptions
 				error => TokenAutoRefresher.Check(error, onError, () => GetSubscriptionManagementUrl(onSuccess, onError, settings, country)));
 		}
 
-		//TEXTREVIEW
 		/// <summary>
-		/// Returns the URL of the user account management interface. The user can manage their subscriptions and view their purchase history in this interface.
+		/// Returns the URL to open user account for subscription management.
 		/// </summary>
-		/// <param name="onSuccess">Called after the URL has been successfully received</param>
-		/// <param name="onError">Called after the request resulted with an error</param>
+		/// <remarks>
+		/// The user account is a UI that allows users to view their purchase history and manage their subscriptions (change plans, update payment methods, cancel subscriptions, disable, auto-renewal etc.).
+		/// </remarks>
+		/// <param name="onSuccess">Called after the URL has been successfully received.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="locale">Language of the UI. [Two-letter lowercase language code](https://developers.xsolla.com/doc/pay-station/features/localization/). Leave empty to use the default (en) value.</param>
 		public static void GetUserAccountUrl(Action<UserAccountLink> onSuccess, Action<Error> onError, string locale = null)
 		{
