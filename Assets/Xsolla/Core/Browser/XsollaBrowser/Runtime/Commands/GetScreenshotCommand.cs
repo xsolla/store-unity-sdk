@@ -20,8 +20,18 @@ namespace Xsolla.XsollaBrowser
 				Quality = 100
 			};
 
-			var data = await page.ScreenshotDataAsync(options);
-			Callback?.Invoke(data);
+			try
+			{
+				var data = await page.ScreenshotDataAsync(options);
+				Callback?.Invoke(data);
+			}
+			catch (Exception)
+			{
+				// Invoke with null so RenderLoop doesn't hang (e.g. "Not attached to an active page"
+				// when page is detached during navigation/redirect or request abort)
+				Callback?.Invoke(null);
+				throw; // Re-throw so CommandsProcessor can log it
+			}
 		}
 	}
 }
