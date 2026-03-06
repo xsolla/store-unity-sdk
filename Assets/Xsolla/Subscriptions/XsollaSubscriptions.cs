@@ -189,6 +189,29 @@ namespace Xsolla.Subscriptions
 		}
 
 		/// <summary>
+		/// Returns the URL to open user account for subscription management.
+		/// </summary>
+		/// <remarks>
+		/// The user account is a UI that allows users to view their purchase history and manage their subscriptions (change plans, update payment methods, cancel subscriptions, disable, auto-renewal etc.).
+		/// </remarks>
+		/// <param name="onSuccess">Called after the URL has been successfully received.</param>
+		/// <param name="onError">Called after the request resulted with an error.</param>
+		/// <param name="locale">Language of the UI. [Two-letter lowercase language code](https://developers.xsolla.com/doc/pay-station/features/localization/). Leave empty to use the default (en) value.</param>
+		public static void GetUserAccountUrl(Action<UserAccountLink> onSuccess, Action<Error> onError, string locale = null)
+		{
+			var url = new UrlBuilder($"{BaseUrl}/user/v1/projects/{StoreProjectId}/subscriptions/user_account")
+				.AddLocale(locale)
+				.Build();
+
+			WebRequestHelper.Instance.GetRequest(
+				SdkType.Subscriptions,
+				url,
+				WebRequestHeader.AuthHeader(),
+				onSuccess,
+				error => TokenAutoRefresher.Check(error, onError, () => GetUserAccountUrl(onSuccess, onError, locale)));
+		}
+
+		/// <summary>
 		/// Returns a list of plans available to authorized users, including plans purchased by the user while promotions are active.
 		/// </summary>
 		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/subscriptions/subscriptions-purchase/).</remarks>
