@@ -27,16 +27,27 @@ namespace Xsolla.XsollaBrowser
 			var renderTexture = new Texture2D(2, 2);
 			RenderImage.texture = renderTexture;
 
-			byte[] screenshotData;
+			byte[] screenshotData = null;
+			var screenshotReceived = false;
 
 			while (!cancellationToken.IsCancellationRequested)
 			{
 				screenshotData = null;
-				Page.GetScreenshotDataAsync(x => screenshotData = x);
-				yield return new WaitUntil(() => screenshotData != null || cancellationToken.IsCancellationRequested);
+				screenshotReceived = false;
+				Page.GetScreenshotDataAsync(x => {
+					screenshotData = x;
+					screenshotReceived = true;
+				});
+				yield return new WaitUntil(() => screenshotReceived || cancellationToken.IsCancellationRequested);
 
 				if (cancellationToken.IsCancellationRequested)
 					yield break;
+
+				if (screenshotData == null || screenshotData.Length == 0)
+				{
+					yield return null;
+					continue;
+				}
 
 				renderTexture.LoadImage(screenshotData);
 
