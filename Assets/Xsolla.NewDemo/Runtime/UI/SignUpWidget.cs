@@ -42,13 +42,13 @@ namespace Xsolla.Demo
 				email,
 				password,
 				() => {
-					SignUpButton.interactable = true;
 					ScreenService.Close(loadingOverlay);
 					ScreenService
 						.OpenInfoPopup()
 						.SetTitle("Sign-up Successful")
 						.SetMessage("Your account has been created successfully. Please check your email to verify your account.")
 						.SetCloseCallback(() => {
+							SignUpButton.interactable = true;
 							TabNavigation.SetInteractable(true);
 							ScreenService.OpenUserAuthScreen().ToggleMode(UserAuthScreen.EMode.SignIn);
 						});
