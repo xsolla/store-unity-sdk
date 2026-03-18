@@ -676,21 +676,12 @@ namespace Xsolla.Catalog
 				orderData => {
 					onOrderCreated?.Invoke(orderData);
 
-					var useSteamOverlayForDesktop = platformSpecificAppearance != null && platformSpecificAppearance.UseSteamOverlayForDesktop;
-					if (useSteamOverlayForDesktop)
-					{
-						var payStationUrl = new PayStationUrlBuilder(orderData.token, sdkType).Build();
-						SteamUtils.OpenUrlInOverlay(payStationUrl);
-					}
-					else
-					{
-						XsollaWebBrowser.OpenPurchaseUI(
-							orderData.token,
-							false,
-							onBrowseClosed,
-							platformSpecificAppearance,
-							sdkType);
-					}
+					XsollaWebBrowser.OpenPurchaseUI(
+						orderData.token,
+						false,
+						onBrowseClosed,
+						platformSpecificAppearance,
+						sdkType);
 
 					OrderTrackingService.AddOrderForTracking(
 						orderData.order_id,
