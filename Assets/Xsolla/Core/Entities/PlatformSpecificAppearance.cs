@@ -12,6 +12,11 @@ namespace Xsolla.Core
 		/// The payment UI is presented via Pay Station.
 		/// </summary>
 		public WebGlAppearance WebGlAppearance;
+
+		/// <summary>
+		/// If `true`, the Steam overlay will be used for desktop builds. Default is `false`.
+		/// </summary>
+		public bool UseSteamOverlayForDesktop;
 	}
 
 	public class WebGlAppearance
