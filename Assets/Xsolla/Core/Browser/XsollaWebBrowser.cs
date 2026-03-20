@@ -44,7 +44,14 @@ namespace Xsolla.Core
 		{
 			if (!Application.isEditor && XsollaSettings.InAppBrowserEnabled)
 			{
-#if UNITY_ANDROID
+#if UNITY_STANDALONE
+				var useSteamOverlay = platformSpecificAppearance != null && platformSpecificAppearance.UseSteamOverlayForDesktop;
+				if (useSteamOverlay)
+				{
+					SteamOverlayBrowserHandler.OpenPayStation(paymentToken, sdkType);
+					return;
+				}
+#elif UNITY_ANDROID
 				XsollaWebBrowserHandlerAndroid.OpenPayStation(paymentToken, onBrowserClosed, platformSpecificAppearance);
 				return;
 #elif UNITY_IOS

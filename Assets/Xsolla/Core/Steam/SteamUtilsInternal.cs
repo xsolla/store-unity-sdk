@@ -8,7 +8,7 @@ namespace Xsolla.Core
 {
 	internal static class SteamUtilsInternal
 	{
-		public static bool IsSteamworksAvailable()
+		private static bool IsSteamworksAvailable()
 		{
 			return GetSteamAPIType() != null;
 		}
@@ -43,6 +43,83 @@ namespace Xsolla.Core
 			}
 
 			return ConvertTicket(ticket);
+		}
+
+		public static void OpenSteamOverlay(string url)
+		{
+			if (!IsSteamworksAvailable())
+			{
+				XDebug.LogWarning("Steamworks.NET not found. Cannot open Steam overlay.");
+				return;
+			}
+
+			if (string.IsNullOrEmpty(url))
+			{
+				XDebug.LogWarning("Cannot open Steam overlay: url is null or empty.");
+				return;
+			}
+
+			var steamFriendsType = GetTypeFromAllAssemblies("Steamworks.SteamFriends");
+			if (steamFriendsType == null)
+			{
+				XDebug.LogWarning("SteamFriends type not found.");
+				return;
+			}
+
+			var methods = steamFriendsType
+				.GetMethods(BindingFlags.Public | BindingFlags.Static)
+				.Where(m => m.Name == "ActivateGameOverlayToWebPage")
+				.ToArray();
+
+			if (methods.Length == 0)
+			{
+				XDebug.LogWarning("ActivateGameOverlayToWebPage method not found.");
+				return;
+			}
+
+			foreach (var m in methods)
+			{
+				var args = string.Join(", ", m.GetParameters().Select(p => $"{p.ParameterType.FullName} {p.Name}"));
+				XDebug.Log($"Found method: {m.Name}({args})");
+			}
+
+			var method = methods.First();
+			var parameters = method.GetParameters();
+
+			try
+			{
+				if (parameters.Length == 1 && parameters[0].ParameterType == typeof(string))
+				{
+					method.Invoke(null, new object[] { url });
+				}
+				else if (parameters.Length == 2 && parameters[0].ParameterType == typeof(string))
+				{
+					var modeType = parameters[1].ParameterType;
+
+					// Пытаемся взять enum value "...Default"
+					object defaultMode = Enum.GetValues(modeType).GetValue(0);
+
+					var namedDefault = Enum
+						.GetNames(modeType)
+						.FirstOrDefault(n => n.IndexOf("Default", StringComparison.OrdinalIgnoreCase) >= 0);
+
+					if (namedDefault != null)
+						defaultMode = Enum.Parse(modeType, namedDefault);
+
+					method.Invoke(null, new object[] { url, defaultMode });
+				}
+				else
+				{
+					XDebug.LogWarning("Unsupported ActivateGameOverlayToWebPage signature.");
+					return;
+				}
+
+				XDebug.Log($"Trying to open Steam overlay web page: {url}");
+			}
+			catch (Exception e)
+			{
+				XDebug.LogError($"Failed to open Steam overlay web page: {e}");
+			}
 		}
 
 		private static Type GetSteamAPIType()
