@@ -11,20 +11,72 @@
     const params = new URLSearchParams(window.location.search);
     const socialNetworkUrl = params.get("social_network_url");
     const code = params.get("code");
+    const flowId = params.get("sdk_flow_id");
+
+    function notifyParent(payload) {
+        let delivered = false;
+
+        // Primary transport: opener postMessage (existing behavior).
+        try {
+            if (window.opener && !window.opener.closed) {
+                window.opener.postMessage(payload, window.location.origin);
+                delivered = true;
+            }
+        } catch (error) {
+            console.warn("[Xsolla SDK] opener postMessage failed:", error);
+        }
+
+        // Fallback transport: BroadcastChannel for opener-less popups.
+        try {
+            if (flowId && typeof BroadcastChannel !== "undefined") {
+                const channel = new BroadcastChannel("xsolla-auth-" + flowId);
+                channel.postMessage(payload);
+                channel.close();
+                delivered = true;
+            }
+        } catch (error) {
+            console.warn("[Xsolla SDK] BroadcastChannel failed:", error);
+        }
+
+        // Fallback transport: localStorage event/polling channel.
+        try {
+            if (flowId) {
+                localStorage.setItem("xsolla-auth-" + flowId, JSON.stringify(payload));
+                delivered = true;
+            }
+        } catch (error) {
+            console.warn("[Xsolla SDK] localStorage fallback failed:", error);
+        }
+
+        return delivered;
+    }
 
     if (socialNetworkUrl) {
         // 1. Redirect to social auth
-        console.log("[Xsolla SDK] Redirecting to social auth:", socialNetworkUrl);
-        window.location.replace(socialNetworkUrl);
+        let redirectUrl = socialNetworkUrl;
+        if (flowId) {
+            try {
+                const authUrl = new URL(socialNetworkUrl);
+                const callbackUrl = authUrl.searchParams.get("redirect_uri");
+                if (callbackUrl) {
+                    const callback = new URL(decodeURIComponent(callbackUrl));
+                    callback.searchParams.set("sdk_flow_id", flowId);
+                    authUrl.searchParams.set("redirect_uri", callback.toString());
+                    redirectUrl = authUrl.toString();
+                }
+            } catch (error) {
+                console.warn("[Xsolla SDK] Failed to append sdk_flow_id to redirect_uri:", error);
+            }
+        }
+
+        console.log("[Xsolla SDK] Redirecting to social auth:", redirectUrl);
+        window.location.replace(redirectUrl);
 
     } else if (code) {
         // 2. OAuth callback handling
-        if (window.opener) {
+        const payload = { type: "xsolla-social-auth", data: code, flowId: flowId };
+        if (notifyParent(payload)) {
             console.log("[Xsolla SDK] Auth code received:", code);
-            window.opener.postMessage(
-                { type: "xsolla-social-auth", data: code },
-                window.location.origin
-            );
             window.close();
         } else {
             document.body.innerText = "Unable to communicate with the parent window.";
