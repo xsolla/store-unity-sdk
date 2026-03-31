@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52405bf87e920c34796e9e06cc914ce8, type: 3}
   m_Name: XsollaSettings
   m_EditorClassIdentifier: 
-  loginId: d1cd8f30-e41f-11ec-8589-42010aa80004
+  loginId: 026201e3-7e40-11ea-a85b-42010aa80004
   callbackUrl: 
   invalidateExistingSessions: 0
-  oauthClientId: 1893
+  oauthClientId: 57
   storeProjectId: 77640
   isSandbox: 1
-  inAppBrowserEnabled: 0
+  inAppBrowserEnabled: 1
   packInAppBrowserInBuild: 0
   applePayMerchantDomain: 
   desktopRedirectPolicySettings:
