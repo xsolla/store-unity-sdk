@@ -2,9 +2,10 @@ mergeInto(LibraryManager.library, {
     OpenXsollaLoginWidgetPopup: function (projectIdPtr, localePtr) {
         var projectId = UTF8ToString(projectIdPtr);
         var locale = UTF8ToString(localePtr);
+        var flowId = Date.now().toString() + "-" + Math.random().toString(36).substring(2, 11);
         
         var basePath = window.location.pathname.replace(/\/[^\/]*$/, '/');
-        var popupUrl = window.location.origin + basePath + "xl-widget.html?project_id=" + projectId;
+        var popupUrl = window.location.origin + basePath + "xl-widget.html?project_id=" + projectId + "&sdk_flow_id=" + encodeURIComponent(flowId);
         
         if (locale != null && locale !== "") {
             popupUrl += "&locale=" + locale;
@@ -20,14 +21,112 @@ mergeInto(LibraryManager.library, {
             alert("The popup window was blocked by the browser. Please allow popups for this site.");
             return;
         }
-    
-        window.addEventListener("message", function (event) {
-            if (event.data && event.data.type === 'xsolla-widget-auth') {
-                var token = event.data.data;
-                console.log("[Xsolla SDK] Auth token received from widget proxy page:", token);
-                SendMessage('XsollaWebCallbacks', 'PublishWidgetAuthSuccess', token);
+
+        var storageKey = "xsolla-auth-" + flowId;
+        var isCompleted = false;
+        var pollTimer = null;
+        var channel = null;
+        var authStartTime = Date.now();
+
+        var completeAuth = function (token) {
+            if (isCompleted || !token) {
+                return;
             }
-        }, false);
+
+            isCompleted = true;
+            window.removeEventListener("message", messageHandler);
+            window.removeEventListener("storage", storageHandler);
+            if (pollTimer) {
+                clearInterval(pollTimer);
+                pollTimer = null;
+            }
+            if (channel) {
+                channel.close();
+                channel = null;
+            }
+            try {
+                localStorage.removeItem(storageKey);
+            } catch (error) {
+                console.warn("[Xsolla SDK] Failed to clear localStorage auth key:", error);
+            }
+
+            console.log("[Xsolla SDK] Auth token received from widget proxy page:", token);
+            SendMessage('XsollaWebCallbacks', 'PublishWidgetAuthSuccess', token);
+        };
+
+        var messageHandler = function (event) {
+            if (!event.data || event.data.type !== 'xsolla-widget-auth') {
+                return;
+            }
+            if (event.data.flowId && event.data.flowId !== flowId) {
+                return;
+            }
+            completeAuth(event.data.data);
+        };
+
+        var parseStoragePayload = function (rawValue) {
+            if (!rawValue) {
+                return null;
+            }
+            try {
+                return JSON.parse(rawValue);
+            } catch (error) {
+                console.warn("[Xsolla SDK] Failed to parse localStorage auth payload:", error);
+                return null;
+            }
+        };
+
+        var storageHandler = function (event) {
+            if (event.key !== storageKey || !event.newValue) {
+                return;
+            }
+            var payload = parseStoragePayload(event.newValue);
+            if (!payload || payload.type !== "xsolla-widget-auth") {
+                return;
+            }
+            completeAuth(payload.data);
+        };
+
+        window.addEventListener("message", messageHandler, false);
+        window.addEventListener("storage", storageHandler, false);
+
+        if (typeof BroadcastChannel !== "undefined") {
+            channel = new BroadcastChannel("xsolla-auth-" + flowId);
+            channel.onmessage = function (event) {
+                if (!event.data || event.data.type !== "xsolla-widget-auth") {
+                    return;
+                }
+                completeAuth(event.data.data);
+            };
+        }
+
+        pollTimer = setInterval(function () {
+            if (isCompleted) {
+                return;
+            }
+            if ((popup && popup.closed) || Date.now() - authStartTime > 10 * 60 * 1000) {
+                window.removeEventListener("message", messageHandler);
+                window.removeEventListener("storage", storageHandler);
+                if (pollTimer) {
+                    clearInterval(pollTimer);
+                    pollTimer = null;
+                }
+                if (channel) {
+                    channel.close();
+                    channel = null;
+                }
+                return;
+            }
+            var payload = null;
+            try {
+                payload = parseStoragePayload(localStorage.getItem(storageKey));
+            } catch (error) {
+                console.warn("[Xsolla SDK] Failed to read localStorage auth payload:", error);
+            }
+            if (payload && payload.type === "xsolla-widget-auth") {
+                completeAuth(payload.data);
+            }
+        }, 500);
     },
     
     OpenXsollaLoginWidgetPopupWithConfirmation: function (projectIdPtr, localePtr, popupMessageTextPtr, continueButtonTextPtr, cancelButtonTextPtr) {
@@ -93,9 +192,10 @@ mergeInto(LibraryManager.library, {
         continueButton.style.cursor = 'pointer';
         
         continueButton.addEventListener('click', function () {
+            var flowId = Date.now().toString() + "-" + Math.random().toString(36).substring(2, 11);
         
             var basePath = window.location.pathname.replace(/\/[^\/]*$/, '/');
-            var popupUrl = window.location.origin + basePath + "xl-widget.html?project_id=" + projectId;
+            var popupUrl = window.location.origin + basePath + "xl-widget.html?project_id=" + projectId + "&sdk_flow_id=" + encodeURIComponent(flowId);
             
             if (locale != null && locale !== "") {
                 popupUrl += "&locale=" + locale;
@@ -112,14 +212,112 @@ mergeInto(LibraryManager.library, {
                 alert("The popup window was blocked by the browser. Please allow popups for this site.");
                 return;
             }
-        
-            window.addEventListener("message", function (event) {
-                if (event.data && event.data.type === 'xsolla-widget-auth') {
-                    var token = event.data.data;
-                    console.log("[Xsolla SDK] Auth token received from widget proxy page: " + token);
-                    SendMessage('XsollaWebCallbacks', 'PublishWidgetAuthSuccess', token);
+
+            var storageKey = "xsolla-auth-" + flowId;
+            var isCompleted = false;
+            var pollTimer = null;
+            var channel = null;
+            var authStartTime = Date.now();
+
+            var completeAuth = function (token) {
+                if (isCompleted || !token) {
+                    return;
                 }
-            }, false);
+
+                isCompleted = true;
+                window.removeEventListener("message", messageHandler);
+                window.removeEventListener("storage", storageHandler);
+                if (pollTimer) {
+                    clearInterval(pollTimer);
+                    pollTimer = null;
+                }
+                if (channel) {
+                    channel.close();
+                    channel = null;
+                }
+                try {
+                    localStorage.removeItem(storageKey);
+                } catch (error) {
+                    console.warn("[Xsolla SDK] Failed to clear localStorage auth key:", error);
+                }
+
+                console.log("[Xsolla SDK] Auth token received from widget proxy page: " + token);
+                SendMessage('XsollaWebCallbacks', 'PublishWidgetAuthSuccess', token);
+            };
+
+            var messageHandler = function (event) {
+                if (!event.data || event.data.type !== 'xsolla-widget-auth') {
+                    return;
+                }
+                if (event.data.flowId && event.data.flowId !== flowId) {
+                    return;
+                }
+                completeAuth(event.data.data);
+            };
+
+            var parseStoragePayload = function (rawValue) {
+                if (!rawValue) {
+                    return null;
+                }
+                try {
+                    return JSON.parse(rawValue);
+                } catch (error) {
+                    console.warn("[Xsolla SDK] Failed to parse localStorage auth payload:", error);
+                    return null;
+                }
+            };
+
+            var storageHandler = function (event) {
+                if (event.key !== storageKey || !event.newValue) {
+                    return;
+                }
+                var payload = parseStoragePayload(event.newValue);
+                if (!payload || payload.type !== "xsolla-widget-auth") {
+                    return;
+                }
+                completeAuth(payload.data);
+            };
+
+            window.addEventListener("message", messageHandler, false);
+            window.addEventListener("storage", storageHandler, false);
+
+            if (typeof BroadcastChannel !== "undefined") {
+                channel = new BroadcastChannel("xsolla-auth-" + flowId);
+                channel.onmessage = function (event) {
+                    if (!event.data || event.data.type !== "xsolla-widget-auth") {
+                        return;
+                    }
+                    completeAuth(event.data.data);
+                };
+            }
+
+            pollTimer = setInterval(function () {
+                if (isCompleted) {
+                    return;
+                }
+                if ((popup && popup.closed) || Date.now() - authStartTime > 10 * 60 * 1000) {
+                    window.removeEventListener("message", messageHandler);
+                    window.removeEventListener("storage", storageHandler);
+                    if (pollTimer) {
+                        clearInterval(pollTimer);
+                        pollTimer = null;
+                    }
+                    if (channel) {
+                        channel.close();
+                        channel = null;
+                    }
+                    return;
+                }
+                var payload = null;
+                try {
+                    payload = parseStoragePayload(localStorage.getItem(storageKey));
+                } catch (error) {
+                    console.warn("[Xsolla SDK] Failed to read localStorage auth payload:", error);
+                }
+                if (payload && payload.type === "xsolla-widget-auth") {
+                    completeAuth(payload.data);
+                }
+            }, 500);
             
             document.body.removeChild(overlay);
         });

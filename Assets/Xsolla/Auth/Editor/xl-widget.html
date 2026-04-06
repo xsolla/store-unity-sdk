@@ -32,10 +32,50 @@
 
     const tokenMatch = fullUrl.match(/[?&]token=([^&]+)/);
     const token = tokenMatch ? decodeURIComponent(tokenMatch[1]) : null;
+    const flowIdMatch = fullUrl.match(/[?&]sdk_flow_id=([^&]+)/);
+    const flowId = flowIdMatch ? decodeURIComponent(flowIdMatch[1]) : null;
+
+    function notifyParent(payload) {
+        let delivered = false;
+
+        // Primary transport: opener postMessage (existing behavior).
+        try {
+            if (window.opener && !window.opener.closed) {
+                window.opener.postMessage(payload, '*');
+                delivered = true;
+            }
+        } catch (error) {
+            console.warn("[Xsolla SDK] opener postMessage failed:", error);
+        }
+
+        // Fallback transport: BroadcastChannel for opener-less popups.
+        try {
+            if (flowId && typeof BroadcastChannel !== "undefined") {
+                const channel = new BroadcastChannel("xsolla-auth-" + flowId);
+                channel.postMessage(payload);
+                channel.close();
+                delivered = true;
+            }
+        } catch (error) {
+            console.warn("[Xsolla SDK] BroadcastChannel failed:", error);
+        }
+
+        // Fallback transport: localStorage event/polling channel.
+        try {
+            if (flowId) {
+                localStorage.setItem("xsolla-auth-" + flowId, JSON.stringify(payload));
+                delivered = true;
+            }
+        } catch (error) {
+            console.warn("[Xsolla SDK] localStorage fallback failed:", error);
+        }
+
+        return delivered;
+    }
 
     if (token) {
-        if (window.opener && token) {
-            window.opener.postMessage({type: 'xsolla-widget-auth', data: token}, '*');
+        const payload = { type: 'xsolla-widget-auth', data: token, flowId: flowId };
+        if (notifyParent(payload)) {
             window.close();
         } else {
             document.body.innerText = "Unable to communicate with the parent window.";
@@ -53,9 +93,14 @@
             console.error("[Xsolla SDK] Missing project_id in URL.");
             document.body.innerText = "Missing project id in URL.";
         } else {
+            var callbackUrl = window.location.origin + window.location.pathname;
+            if (flowId) {
+                callbackUrl += "?sdk_flow_id=" + encodeURIComponent(flowId);
+            }
+
             var initOptions = {
                 projectId: projectId,
-                callbackUrl: window.location.origin + window.location.pathname
+                callbackUrl: callbackUrl
             };
             if (locale) {
                 initOptions.locale = locale;
