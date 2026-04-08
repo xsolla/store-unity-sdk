@@ -65,4 +65,4 @@ MonoBehaviour:
     nextButtonText: DONE
     highlightElementId: AccountLinkingMenuButton
     screenToActivate: 2
-    associatedDocumentation: https://developers.xsolla.com/sdk/unity-enterprise/#unity_sdk_use_xsolla_servers_how_to_try_account_linking_in_demo
+    associatedDocumentation: https://developers.xsolla.com/doc/_hidden/hidden-inventory-unity-additional-features/
