@@ -409,7 +409,7 @@ SWIFT_AVAILABILITY(ios,introduced=13.4)
 ///   <li>
 ///     providerName: Name of the social network connected to Login in Publisher Account.
 ///     Can be: <em>amazon</em>, <em>apple</em>, <em>baidu</em>, <em>battlenet</em>, <em>discord</em>, <em>facebook</em>, <em>github</em>, <em>google</em>, <em>kakao</em>, <em>linkedin</em>, <em>mailru</em>, <em>microsoft</em>, <em>msn</em>, <em>naver</em>, <em>ok</em>, <em>paypal</em>, <em>psn</em>, <em>reddit</em>,   <em>steam</em>, <em>twitch</em>, <em>twitter</em>, <em>vimeo</em>, <em>vk</em>, <em>wechat</em>, <em>weibo</em>, <em>yahoo</em>, <em>yandex</em>, <em>youtube</em>, <em>xbox</em>.
-///     If you store user data in   <a href="https://developers.xsolla.com/doc/login/how-to/users-storage-playfab">PlayFab</a>, only ‘twitch’   is available.
+///     If you store user data in   <a href="https://developers.xsolla.com/authenticate-users/login/user-data-storage/playfab-storage">PlayFab</a>, only ‘twitch’   is available.
 ///   </li>
 ///   <li>
 ///     oAuth2Params: Instance of <em>OAuth2Params</em>.

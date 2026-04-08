@@ -12,15 +12,15 @@ namespace Xsolla.Subscriptions
 		/// <summary>
 		/// Returns a list of all plans, including plans purchased by the user while promotions are active.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/subscriptions/subscriptions-purchase/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/subscriptions/subscriptions-purchase/).</remarks>
 		/// <param name="onSuccess">Called after public plans have been successfully received.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="planId">Array of subscription plan IDs. Plan ID can be found in the URL of the subscription details page in Publisher Account (https://publisher.xsolla.com/{merchant_id}/projects/{project_id}/subscriptions/plans/{plan_id}).</param>
 		/// <param name="planExternalId">List of subscription plan external IDs (32 characters per ID). Plan external ID can be found in Publisher Account in the **Subscriptions > Subscription plans** section next to the plan name.</param>
 		/// <param name="limit">Limit for the number of elements on the page (15 elements are displayed by default).</param>
 		/// <param name="offset">Number of elements from which the list is generated (the count starts from 0).</param>
-		/// <param name="locale">Language of the UI. [Two-letter lowercase language code](https://developers.xsolla.com/doc/pay-station/features/localization/). Leave empty to use the default value.</param>
-		/// <param name="country">User's country. Affects the choice of locale and currency. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Calculations are based on the user's IP address if the country is not specified.  Check the documentation for detailed information about [countries supported by Xsolla](https://developers.xsolla.com/doc/in-game-store/references/supported-countries/).</param>
+		/// <param name="locale">Language of the UI. [Two-letter lowercase language code](https://developers.xsolla.com/payment-ui-and-flow/payment-ui/localization/). Leave empty to use the default value.</param>
+		/// <param name="country">User's country. Affects the choice of locale and currency. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Calculations are based on the user's IP address if the country is not specified.  Check the documentation for detailed information about [countries supported by Xsolla](https://developers.xsolla.com/dev-resources/references/supported-countries/).</param>
 		public static void GetSubscriptionPublicPlans(Action<PlanItems> onSuccess, Action<Error> onError, int[] planId = null, string[] planExternalId = null, int limit = 50, int offset = 0, string locale = null, string country = null)
 		{
 			var url = new UrlBuilder($"{BaseUrl}/public/v1/projects/{StoreProjectId}/user_plans")
@@ -42,12 +42,12 @@ namespace Xsolla.Subscriptions
 		/// <summary>
 		/// Returns a list of active recurrent subscriptions that have the status `active`, `non renewing`, and `pause`.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/subscriptions/subscription-management/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/subscriptions/subscription-management/).</remarks>
 		/// <param name="onSuccess">Called after the list pf subscriptions has been successfully received.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="limit">Limit for the number of elements on the page (15 elements are displayed by default).</param>
 		/// <param name="offset">Number of elements from which the list is generated (the count starts from 0).</param>
-		/// <param name="locale">Language of the UI. [Two-letter lowercase language code](https://developers.xsolla.com/doc/pay-station/features/localization/). Leave empty to use the default value.</param>
+		/// <param name="locale">Language of the UI. [Two-letter lowercase language code](https://developers.xsolla.com/payment-ui-and-flow/payment-ui/localization/). Leave empty to use the default value.</param>
 		public static void GetSubscriptions(Action<SubscriptionItems> onSuccess, Action<Error> onError, int limit = 50, int offset = 0, string locale = null)
 		{
 			var url = new UrlBuilder($"{BaseUrl}/user/v1/projects/{StoreProjectId}/subscriptions")
@@ -67,11 +67,11 @@ namespace Xsolla.Subscriptions
 		/// <summary>
 		/// Returns information about a subscription by its ID. Subscription can be have any status.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/subscriptions/subscription-management/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/subscriptions/subscription-management/).</remarks>
 		/// <param name="subscriptionId">Subscription ID.</param>
 		/// <param name="onSuccess">Called after subscription data have been successfully received.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
-		/// <param name="locale">Language of the UI. [Two-letter lowercase language code](https://developers.xsolla.com/doc/pay-station/features/localization/). Leave empty to use the default value.</param>
+		/// <param name="locale">Language of the UI. [Two-letter lowercase language code](https://developers.xsolla.com/payment-ui-and-flow/payment-ui/localization/). Leave empty to use the default value.</param>
 		public static void GetSubscriptionDetails(int subscriptionId, Action<SubscriptionDetails> onSuccess, Action<Error> onError, string locale = null)
 		{
 			var url = new UrlBuilder($"{BaseUrl}/user/v1/projects/{StoreProjectId}/subscriptions/{subscriptionId}")
@@ -89,7 +89,7 @@ namespace Xsolla.Subscriptions
 		/// <summary>
 		/// Changes a regular subscription status to `non_renewing` (subscription is automatically canceled after expiration).
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/subscriptions/subscription-management/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/subscriptions/subscription-management/).</remarks>
 		/// <param name="subscriptionId">Subscription ID.</param>
 		/// <param name="onSuccess">Called after successful subscription cancelling.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
@@ -108,7 +108,7 @@ namespace Xsolla.Subscriptions
 		/// <summary>
 		/// Returns the URL of the renewal interface for the selected subscription.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/subscriptions/subscription-management/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/subscriptions/subscription-management/).</remarks>
 		/// <param name="subscriptionId">Subscription ID. </param>
 		/// <param name="onSuccess">Called after the URL has been successfully received.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
@@ -133,12 +133,12 @@ namespace Xsolla.Subscriptions
 		/// <summary>
 		/// Returns Pay Station URL for the subscription purchase.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/subscriptions/subscriptions-purchase/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/subscriptions/subscriptions-purchase/).</remarks>
 		/// <param name="planExternalId">List of subscription plan external IDs (32 characters per ID). Plan external ID can be found in Publisher Account in the **Subscriptions > Subscription plans** section next to the plan name.</param>
 		/// <param name="onSuccess">Called after the URL has been successfully received.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="settings">Pay Station UI settings.</param>
-		/// <param name="country">User's country. Affects the choice of locale and currency. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Calculations are based on the user's IP address if the country is not specified.  Check the documentation for detailed information about [countries supported by Xsolla](https://developers.xsolla.com/doc/in-game-store/references/supported-countries/).</param>
+		/// <param name="country">User's country. Affects the choice of locale and currency. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Calculations are based on the user's IP address if the country is not specified.  Check the documentation for detailed information about [countries supported by Xsolla](https://developers.xsolla.com/dev-resources/references/supported-countries/).</param>
 		/// <param name="customParameters">Project specific parameters represented as a valid JSON set of key-value pairs.</param>
 		public static void GetSubscriptionPurchaseUrl(string planExternalId, Action<PaymentLink> onSuccess, Action<Error> onError, PaymentSettings settings = null, string country = null, Dictionary<string, object> customParameters = null)
 		{
@@ -164,11 +164,11 @@ namespace Xsolla.Subscriptions
 		/// <summary>
 		/// Returns the URL of the management interface for the selected subscription.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/subscriptions/subscription-management/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/subscriptions/subscription-management/).</remarks>
 		/// <param name="onSuccess">Called after the URL has been successfully received.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="settings">Settings.</param>
-		/// <param name="country">User's country. Affects the choice of locale and currency. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Calculations are based on the user's IP address if the country is not specified.  Check the documentation for detailed information about [countries supported by Xsolla](https://developers.xsolla.com/doc/in-game-store/references/supported-countries/).</param>
+		/// <param name="country">User's country. Affects the choice of locale and currency. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Calculations are based on the user's IP address if the country is not specified.  Check the documentation for detailed information about [countries supported by Xsolla](https://developers.xsolla.com/dev-resources/references/supported-countries/).</param>
 		public static void GetSubscriptionManagementUrl(Action<PaymentLink> onSuccess, Action<Error> onError, PaymentSettings settings = null, string country = null)
 		{
 			var url = new UrlBuilder($"{BaseUrl}/user/v1/projects/{StoreProjectId}/subscriptions/manage")
@@ -196,7 +196,7 @@ namespace Xsolla.Subscriptions
 		/// </remarks>
 		/// <param name="onSuccess">Called after the URL has been successfully received.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
-		/// <param name="locale">Language of the UI. [Two-letter lowercase language code](https://developers.xsolla.com/doc/pay-station/features/localization/). Leave empty to use the default (en) value.</param>
+		/// <param name="locale">Language of the UI. [Two-letter lowercase language code](https://developers.xsolla.com/payment-ui-and-flow/payment-ui/localization/). Leave empty to use the default (en) value.</param>
 		public static void GetUserAccountUrl(Action<UserAccountLink> onSuccess, Action<Error> onError, string locale = null)
 		{
 			var url = new UrlBuilder($"{BaseUrl}/user/v1/projects/{StoreProjectId}/subscriptions/user_account")
@@ -214,15 +214,15 @@ namespace Xsolla.Subscriptions
 		/// <summary>
 		/// Returns a list of plans available to authorized users, including plans purchased by the user while promotions are active.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/subscriptions/subscriptions-purchase/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/subscriptions/subscriptions-purchase/).</remarks>
 		/// <param name="onSuccess">Called after a list of plans has been successfully received.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="planId">Array of subscription plan IDs. Plan ID can be found in the URL of the subscription details page in Publisher Account (https://publisher.xsolla.com/{merchant_id}/projects/{project_id}/subscriptions/plans/{plan_id}).</param>
 		/// <param name="planExternalId">List of subscription plan external IDs (32 characters per ID). Plan external ID can be found in Publisher Account in the **Subscriptions > Subscription plans** section next to the plan name.</param>
 		/// <param name="limit">Limit for the number of elements on the page (15 elements are displayed by default).</param>
 		/// <param name="offset">Number of elements from which the list is generated (the count starts from 0).</param>
-		/// <param name="locale">Language of the UI. [Two-letter lowercase language code](https://developers.xsolla.com/doc/pay-station/features/localization/). Leave empty to use the default value.</param>
-		/// <param name="country">User's country. Affects the choice of locale and currency. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Calculations are based on the user's IP address if the country is not specified.  Check the documentation for detailed information about [countries supported by Xsolla](https://developers.xsolla.com/doc/in-game-store/references/supported-countries/).</param>
+		/// <param name="locale">Language of the UI. [Two-letter lowercase language code](https://developers.xsolla.com/payment-ui-and-flow/payment-ui/localization/). Leave empty to use the default value.</param>
+		/// <param name="country">User's country. Affects the choice of locale and currency. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Calculations are based on the user's IP address if the country is not specified.  Check the documentation for detailed information about [countries supported by Xsolla](https://developers.xsolla.com/dev-resources/references/supported-countries/).</param>
 		public static void GetSubscriptionPlans(Action<PlanItems> onSuccess, Action<Error> onError, int[] planId = null, string[] planExternalId = null, int limit = 50, int offset = 0, string locale = null, string country = null)
 		{
 			var url = new UrlBuilder($"{BaseUrl}/user/v1/projects/{StoreProjectId}/plans")
