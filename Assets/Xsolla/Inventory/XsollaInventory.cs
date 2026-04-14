@@ -11,7 +11,7 @@ namespace Xsolla.Inventory
 		/// <summary>
 		/// Returns the current user’s balance of virtual currency. For each virtual currency, complete data is returned.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/player-inventory/display-inventory/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/player-inventory/display-inventory/).</remarks>
 		/// <param name="onSuccess">Called after server response.</param>
 		/// <param name="onError">Called after virtual currency balance was successfully received.</param>
 		/// <param name="platform">Publishing platform the user plays on.<br/>
@@ -35,12 +35,12 @@ namespace Xsolla.Inventory
 		/// Returns a list of virtual items from the user’s inventory according to pagination settings. For each virtual item, complete data is returned.
 		/// <b>Attention:</b> The number of items returned in a single response is limited. <b>The default and maximum value is 50 items per response</b>. To get more data page by page, use <code>limit</code> and <code>offset</code> fields.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/player-inventory/display-inventory/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/player-inventory/display-inventory/).</remarks>
 		/// <param name="onSuccess">Called after purchased items were successfully received.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="limit">Limit for the number of elements on the page. The maximum number of elements on a page is 50.</param>
 		/// <param name="offset">Number of the element from which the list is generated (the count starts from 0).</param>
-		/// <param name="locale">Defines localization of item's text fields. [Two-letter lowercase language code](https://developers.xsolla.com/doc/pay-station/features/localization/). Leave empty to use the default value.</param>
+		/// <param name="locale">Defines localization of item's text fields. [Two-letter lowercase language code](https://developers.xsolla.com/payment-ui-and-flow/payment-ui/localization/). Leave empty to use the default value.</param>
 		/// <param name="platform">Publishing platform the user plays on.<br/>
 		///     Can be `xsolla` (default), `playstation_network`, `xbox_live`, `pc_standalone`, `nintendo_shop`, `google_play`, `app_store_ios`, `android_standalone`, `ios_standalone`, `android_other`, `ios_other`, or `pc_other`.</param>
 		public static void GetInventoryItems(Action<InventoryItems> onSuccess, Action<Error> onError, int limit = 50, int offset = 0, string locale = null, string platform = null)
@@ -64,7 +64,7 @@ namespace Xsolla.Inventory
 		/// <summary>
 		/// Consumes an inventory item. Use for only for consumable virtual items.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/player-inventory/consume-item/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/player-inventory/consume-item/).</remarks>
 		/// <param name="item">Contains consume parameters.</param>
 		/// <param name="onSuccess">Called after successful inventory item consumption.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
@@ -94,7 +94,7 @@ namespace Xsolla.Inventory
 		/// <summary>
 		/// Returns a list of time-limited items from the user’s inventory. For each item, complete data is returned.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/player-inventory/display-inventory/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/player-inventory/display-inventory/).</remarks>
 		/// <param name="onSuccess">Called after list of user time limited items was successfully received.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="platform">Publishing platform the user plays on.<br/>

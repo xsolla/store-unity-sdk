@@ -36,7 +36,7 @@
       <tab type="globals" visible="no" title="" intro=""/>
     </tab>
     <tab type="examples" visible="yes" title="" intro=""/>
-    <tab type="user" url="https://developers.xsolla.com/sdk/unity/" title="Documentation"/>
+    <tab type="user" url="https://developers.xsolla.com/sdk/unity-enterprise/" title="Documentation"/>
 
 </tab>
   </navindex>

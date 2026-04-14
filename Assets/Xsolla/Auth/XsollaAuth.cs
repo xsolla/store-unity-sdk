@@ -20,7 +20,7 @@ namespace Xsolla.Auth
 		/// <summary>
 		/// Creates a new user account in the application and sends a sign-up confirmation email to the specified email address. To complete registration, the user should follow the link from the email. To disable email confirmation, contact your Account Manager.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/authentication/classic-auth/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/authentication/classic-auth/).</remarks>
 		/// <param name="username">Username.</param>
 		/// <param name="password">User password.</param>
 		/// <param name="email">User email address.</param>
@@ -81,7 +81,7 @@ namespace Xsolla.Auth
 		/// <summary>
 		/// Authenticates the user by the username/email and password specified via the authentication interface.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/authentication/classic-auth/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/authentication/classic-auth/).</remarks>
 		/// <param name="username">Username or email address.</param>
 		/// <param name="password">User password.</param>
 		/// <param name="onSuccess">Called after successful user authentication.</param>
@@ -121,7 +121,7 @@ namespace Xsolla.Auth
 		/// <summary>
 		/// Starts user authentication and sends an email with a one-time code and a link to the specified email address (if login via magic link is configured for the Login project)
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/authentication/passwordless-auth/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/authentication/passwordless-auth/).</remarks>
 		/// <param name="email">User email address.</param>
 		/// <param name="onSuccess">Called after successful email authentication start.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
@@ -163,7 +163,7 @@ namespace Xsolla.Auth
 		/// <summary>
 		/// Completes authentication after the user enters a one-time code or follows a link received in an email.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/authentication/passwordless-auth/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/authentication/passwordless-auth/).</remarks>
 		/// <param name="email">User email address.</param>
 		/// <param name="confirmationCode">Confirmation code.</param>
 		/// <param name="operationId">Identifier of the confirmation code.</param>
@@ -193,7 +193,7 @@ namespace Xsolla.Auth
 		/// <summary>
 		/// Starts user authentication and sends an SMS with a one-time code and a link to the specified phone number (if login via magic link is configured for the Login project).
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/authentication/passwordless-auth/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/authentication/passwordless-auth/).</remarks>
 		/// <param name="phoneNumber">User phone number.</param>
 		/// <param name="onSuccess">Called after successful phone number authentication start.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
@@ -231,7 +231,7 @@ namespace Xsolla.Auth
 		/// <summary>
 		/// Completes authentication after the user enters a one-time code or follows a link received by SMS.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/authentication/passwordless-auth/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/authentication/passwordless-auth/).</remarks>
 		/// <param name="phoneNumber">User phone number.</param>
 		/// <param name="confirmationCode">Confirmation code.</param>
 		/// <param name="operationId">Identifier of the confirmation code.</param>
@@ -261,7 +261,7 @@ namespace Xsolla.Auth
 		/// <summary>
 		/// Resets the user’s current password and sends an email to change the password to the email address specified during sign-up.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/authentication/classic-auth/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/authentication/classic-auth/).</remarks>
 		/// <param name="email">Email to send the password change verification message to.</param>
 		/// <param name="onSuccess">Called after successful user password reset.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
@@ -298,7 +298,7 @@ namespace Xsolla.Auth
 		/// <summary>
 		/// Resends a sign-up confirmation email to the specified email address. To complete registration, the user must follow the link from the email.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/authentication/classic-auth/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/authentication/classic-auth/).</remarks>
 		/// <param name="username">Username or user email address.</param>
 		/// <param name="onSuccess">Called after successful sending of the request.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
@@ -437,7 +437,7 @@ namespace Xsolla.Auth
 		/// Authenticates the user with Xsolla Login widget.
 		/// For standalone builds, the widget opens in the built-in browser that is included with the SDK.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/authentication/login-widget/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/authentication/login-widget/).</remarks>
 		/// <param name="onSuccess">Called after successful authentication.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="onCancel">Called after browser closing by user.</param>
@@ -455,7 +455,7 @@ namespace Xsolla.Auth
 		/// <summary>
 		/// Authenticates the user via Xsolla Launcher
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/authentication/auth-via-launcher/#unity_sdk_how_to_set_up_auth_via_launcher).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/authentication/auth-via-launcher/#unity_sdk_how_to_set_up_auth_via_launcher).</remarks>
 		/// <param name="onSuccess">Called after successful authentication.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		public static void AuthViaXsollaLauncher(Action onSuccess, Action<Error> onError)
@@ -498,13 +498,13 @@ namespace Xsolla.Auth
 		///				<list type="bullet">
 		///					<item>
 		///						<term>Connect OAuth 2.0 server client.</term>
-		///						<description>Follow the [instructions](https://developers.xsolla.com/doc/login/security/connecting-oauth2/#login_features_connecting_oauth2_connecting_client) to connect the client and cope copy the <b>Client ID</b> and <b>Secret key</b>.
+		///						<description>Follow the [instructions](https://developers.xsolla.com/authenticate-users/login/security/connecting-oauth2/) to connect the client and cope copy the <b>Client ID</b> and <b>Secret key</b>.
 		///						</description>
 		///					</item>
 		///					<item>
 		///						<term>Implement method: </term>
 		///						<description>
-		///							<see href="https://developers.xsolla.com/login-api/oauth-20/generate-user-jwt"/>
+		///							<see href="https://developers.xsolla.com/api/login/token-management/generate-jwt"/>
 		///							with `application/x-www-form-urlencoded` payload parameters:
 		///							<list type="bullet">
 		///								<item>
@@ -525,7 +525,7 @@ namespace Xsolla.Auth
 		///		<item>
 		///			<term>Implement auth method </term>
 		///			<description>
-		///				<see href="https://developers.xsolla.com/login-api/jwt/auth-by-custom-id"/>
+		///				<see href="https://developers.xsolla.com/api/login/server-custom-id/auth-by-custom-id"/>
 		///				with:
 		///				<list type="bullet">
 		///					<item>
@@ -539,7 +539,7 @@ namespace Xsolla.Auth
 		///						</description>
 		///					</item>
 		///					<item>
-		///						<term>[More information about authentication via custom ID](https://developers.xsolla.com/sdk/unity/authentication/auth-via-custom-id/).</term>
+		///						<term>[More information about authentication via custom ID](https://developers.xsolla.com/sdk/unity-enterprise/authentication/auth-via-custom-id/).</term>
 		///					</item>
 		///				</list>
 		///
@@ -573,7 +573,6 @@ namespace Xsolla.Auth
 		/// <summary>
 		/// Authenticates the user via a particular device ID.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/authentication/auth-via-device-id/).</remarks>
 		/// <param name="onSuccess">Called after successful user authentication via the device ID.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="deviceInfo">Information about the device that is used to identify the user. if not specified, the method defines this infotmation automatically.</param>
@@ -616,7 +615,7 @@ namespace Xsolla.Auth
 		/// <summary>
 		/// Authenticates a user by exchanging the session ticket from Steam, Xbox, or Epic Games to the JWT.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/authentication/silent-auth/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/authentication/silent-auth/).</remarks>
 		/// <param name="providerName">Platform on which the session ticket was obtained. Can be `steam`, `xbox`, or `epicgames`.</param>
 		/// <param name="appId">Platform application identifier.</param>
 		/// <param name="sessionTicket">Session ticket received from the platform.</param>
@@ -651,7 +650,7 @@ namespace Xsolla.Auth
 		/// <summary>
 		/// Returns URL for authentication via the specified social network in a browser.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/authentication/social-auth/#sdk_how_to_set_up_web_auth_via_social_networks).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/authentication/social-auth/#sdk_how_to_set_up_web_auth_via_social_networks).</remarks>
 		/// <param name="provider">Name of a social network. Provider must be connected to Login in Publisher Account.
 		/// Can be `amazon`, `apple`, `baidu`, `battlenet`, `discord`, `facebook`, `github`, `google`, `kakao`, `linkedin`, `mailru`, `microsoft`, `msn`, `naver`, `ok`, `paypal`, `psn`, `qq`, `reddit`, `steam`, `twitch`, `twitter`, `vimeo`, `vk`, `wechat`, `weibo`, `yahoo`, `yandex`, `youtube`, or `xbox`.</param>
 		/// <param name="redirectUri">URI to redirect the user to after account confirmation, successful authentication, two-factor authentication configuration, or password reset confirmation.
@@ -771,7 +770,7 @@ namespace Xsolla.Auth
 		/// <summary>
 		/// Returns user details.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/user-account-and-attributes/user-account/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/user-account-and-attributes/user-account/).</remarks>
 		/// <param name="onSuccess">Called after successful user details were successfully received.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		public static void GetUserInfo(Action<UserInfo> onSuccess, Action<Error> onError)
@@ -787,7 +786,7 @@ namespace Xsolla.Auth
 		/// <summary>
 		/// Authenticates user via an account in the specified social networks.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/authentication/social-auth/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/authentication/social-auth/).</remarks>
 		/// <param name="provider">Name of a social network. Provider must be connected to Login in Publisher Account.
 		/// Can be `amazon`, `apple`, `baidu`, `battlenet`, `discord`, `facebook`, `github`, `google`, `kakao`, `linkedin`, `mailru`, `microsoft`, `msn`, `naver`, `ok`, `paypal`, `psn`, `qq`, `reddit`, `steam`, `twitch`, `twitter`, `vimeo`, `vk`, `wechat`, `weibo`, `yahoo`, `yandex`, `youtube`, or `xbox`.</param>
 		/// <param name="onSuccess">Called after successful user authentication.</param>

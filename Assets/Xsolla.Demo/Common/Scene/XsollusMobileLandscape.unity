@@ -526,11 +526,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1218190968, guid: 4af1ad141a08941d8bc07459eb260991, type: 3}
       propertyPath: Urls.Array.data[5]
-      value: https://developers.xsolla.com/sdk/unity/how-tos/user-management/#unity_sdk_how_to_use_user_attributes
+      value: https://developers.xsolla.com/sdk/unity-enterprise/user-account-and-attributes/user-attributes/
       objectReference: {fileID: 0}
     - target: {fileID: 1218190968, guid: 4af1ad141a08941d8bc07459eb260991, type: 3}
       propertyPath: Urls.Array.data[6]
-      value: https://developers.xsolla.com/sdk/unity/login/get-started/
+      value: https://developers.xsolla.com/sdk/unity-enterprise/integrate-complete-solution/get-started/
       objectReference: {fileID: 0}
     - target: {fileID: 1218190968, guid: 4af1ad141a08941d8bc07459eb260991, type: 3}
       propertyPath: Urls.Array.data[8]
@@ -538,7 +538,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1218190968, guid: 4af1ad141a08941d8bc07459eb260991, type: 3}
       propertyPath: Urls.Array.data[9]
-      value: https://developers.xsolla.com/sdk/unity/how-tos/#unity_sdk_how_to_use_partners_login_system
+      value: https://developers.xsolla.com/sdk/unity-enterprise/authentication/auth-via-custom-id/#unity_sdk_how_to_use_partners_login_system
       objectReference: {fileID: 0}
     - target: {fileID: 1502699471, guid: 4af1ad141a08941d8bc07459eb260991, type: 3}
       propertyPath: _tutorialInfo

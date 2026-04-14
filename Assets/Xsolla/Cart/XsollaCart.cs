@@ -11,12 +11,12 @@ namespace Xsolla.Cart
 		/// <summary>
 		/// 	Returns a list of items from the cart with the specified ID or from the cart of the current user. For each item, complete data is returned.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/item-purchase/cart-purchase/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/item-purchase/cart-purchase/).</remarks>
 		/// <param name="onSuccess">Called after local cache of cart items was successfully updated.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="cartId">Unique cart identifier.</param>
-		/// <param name="locale">Defines localization of item's text fields. [Two-letter lowercase language code](https://developers.xsolla.com/doc/pay-station/features/localization/). Leave empty to use the default value.</param>
-		/// <param name="currency">The currency in which prices are displayed (USD by default). Three-letter currency code per [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217). Check the documentation for detailed information about [currencies supported by Xsolla](https://developers.xsolla.com/doc/pay-station/references/supported-currencies/).</param>
+		/// <param name="locale">Defines localization of item's text fields. [Two-letter lowercase language code](https://developers.xsolla.com/payment-ui-and-flow/payment-ui/localization/). Leave empty to use the default value.</param>
+		/// <param name="currency">The currency in which prices are displayed (USD by default). Three-letter currency code per [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217). Check the documentation for detailed information about [currencies supported by Xsolla](https://developers.xsolla.com/dev-resources/references/supported-currencies/).</param>
 		public static void GetCartItems(Action<Cart> onSuccess, Action<Error> onError, string cartId = null, string locale = null, string currency = null)
 		{
 			var url = string.IsNullOrEmpty(cartId)
@@ -40,7 +40,7 @@ namespace Xsolla.Cart
 		/// <summary>
 		/// Fills the cart with the specified ID or the cart of the current user with items. If there is already an item with the same SKU in the cart, the existing item position will be replaced by the passed value.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/item-purchase/cart-purchase/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/item-purchase/cart-purchase/).</remarks>
 		/// <param name="items">Item for filling the cart. If there is already an item with the same SKU in the cart, the existing item position will be replaced by the passed value.</param>
 		/// <param name="onSuccess">Called after cart is successfully filled.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
@@ -68,7 +68,7 @@ namespace Xsolla.Cart
 		/// <summary>
 		/// Updates the quantity of a previously added item in the cart with the specified ID or in the current user cart. If there is no item with the specified SKU in the cart, it will be added.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/item-purchase/cart-purchase/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/item-purchase/cart-purchase/).</remarks>
 		/// <param name="itemSku">SKU of item for purchase.</param>
 		/// <param name="quantity">Quantity of purchased items.</param>
 		/// <param name="onSuccess">Called after successfully adding a new item to the cart.</param>
@@ -97,7 +97,7 @@ namespace Xsolla.Cart
 		/// <summary>
 		/// Removes the item from the cart with the specified ID or from the cart of the current user.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/item-purchase/cart-purchase/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/item-purchase/cart-purchase/).</remarks>
 		/// <param name="itemSku">Item SKU to delete.</param>
 		/// <param name="onSuccess">Called after successfully removing an item from the cart.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
@@ -120,7 +120,7 @@ namespace Xsolla.Cart
 		/// <summary>
 		/// Removes all items from the cart with the specified ID or from the cart of the current user.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/item-purchase/cart-purchase/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/item-purchase/cart-purchase/).</remarks>
 		/// <param name="onSuccess">Called after successful cart clearing.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="cartId">Unique cart identifier.</param>
@@ -142,7 +142,7 @@ namespace Xsolla.Cart
 		/// <summary>
 		/// Redeems a promo code. After activating the promo code, the user gets free items and/or the price of the cart is reduced.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/promo/promo-codes/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/promo/promo-codes/).</remarks>
 		/// <param name="promocode">Unique code of promocode. Contains letters and numbers.</param>
 		/// <param name="cartId">Unique cart identifier. The current user cart will be updated if empty.</param>
 		/// <param name="onSuccess">Called after successful promocode redemption.</param>
@@ -173,7 +173,7 @@ namespace Xsolla.Cart
 		/// <summary>
 		/// Returns a list of items that can be credited to the user when the promo code is activated. Allows users to choose from several available items.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/promo/promo-codes/#sdk_promo_codes).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/promo/promo-codes/).</remarks>
 		/// <param name="promocode">Unique code of promocode. Contains letters and numbers.</param>
 		/// <param name="onSuccess">Called after successfully receiving promocode rewards.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
@@ -193,7 +193,7 @@ namespace Xsolla.Cart
 		/// <summary>
 		/// Removes a promo code from a cart. After the promo code is removed, the total price of all items in the cart will be recalculated without bonuses and discounts provided by a promo code.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/promo/promo-codes/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/promo/promo-codes/).</remarks>
 		/// <param name="cartId">Cart ID. The current user cart will be updated if empty.</param>
 		/// <param name="onSuccess">Called after the promo code  has been successful removed from cart.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
@@ -218,7 +218,7 @@ namespace Xsolla.Cart
 		/// <summary>
 		/// Creates an order with items from the cart with the specified ID. Returns the payment token and order ID. The created order will get a `new` order status.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/item-purchase/cart-purchase/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/item-purchase/cart-purchase/).</remarks>
 		/// <param name="onSuccess">Called after the order was successfully created.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="cartId">Unique cart identifier.</param>
@@ -246,7 +246,7 @@ namespace Xsolla.Cart
 		/// <summary>
 		/// Create order with particular free cart. The created order will get a `done` order status.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/promo/free-items/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/promo/free-items/).</remarks>
 		/// <param name="onSuccess">Called after server response.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="cartId">Unique cart identifier.</param>
@@ -274,7 +274,7 @@ namespace Xsolla.Cart
 		/// <summary>
 		/// 	Launches purchase process for the cart with the specified ID or for the cart of the current user. This method encapsulates methods for creating an order, opening a payment UI, and tracking the order status.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/item-purchase/cart-purchase/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/item-purchase/cart-purchase/).</remarks>
 		/// <param name="onSuccess">Called after the order transitions to the 'done' status.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="cartId">Unique cart identifier.</param>
@@ -315,7 +315,7 @@ namespace Xsolla.Cart
 		/// <summary>
 		/// Launches purchase process for the free cart with the specified ID or for the free cart of the current user. This method encapsulates methods for creating an order and tracking the order status.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/promo/free-items/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/promo/free-items/).</remarks>
 		/// <param name="onSuccess">Called after the order transitions to the 'done' status.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="cartId">Unique cart identifier.</param>

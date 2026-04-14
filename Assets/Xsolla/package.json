@@ -12,5 +12,5 @@
     "dependencies": {
         "com.unity.nuget.newtonsoft-json": "3.2.1"
     },
-    "documentationUrl": "https://developers.xsolla.com/sdk/unity/"
+    "documentationUrl": "https://developers.xsolla.com/sdk/unity-enterprise/"
 }
