@@ -12,144 +12,204 @@ namespace Xsolla.Orders
 	public class Event
 	{
 		public int id;
+		public Data data;
 		public int status;
 		public DateTime created_at;
-		public EventData data;
 	}
 
 	[Serializable]
-	public class EventData
+	public class Billing
 	{
-		// Common data
+		public string notification_type;
+		public PaymentDetails payment_details;
+		public Purchase purchase;
+		public Settings settings;
+		public Transaction transaction;
+	}
+
+	[Serializable]
+	public class CountryWht
+	{
+		public int amount;
+		public string currency;
+		public int percent;
+	}
+
+	[Serializable]
+	public class Data
+	{
 		public string notification_type;
 		public Settings settings;
 		public User user;
-
-		// Purchase data
-		public Transaction transaction;
-		public PaymentDetails payment_details;
-		public Purchase purchase;
-	}
-
-	[Serializable]
-	public class Settings
-	{
-		public int project_id;
-		public int merchant_id;
-	}
-
-	[Serializable]
-	public class User
-	{
-		public string id;
-		public string ip;
-		public string phone;
-		public string email;
-		public string name;
-		public string country;
-		public string zip;
-	}
-
-	[Serializable]
-	public class PaymentDetails
-	{
-		public Money payment;
-		public Money payment_method_sum;
-		public Money xsolla_balance_sum;
-		public Money payout;
-		public Money vat;
-		public string payout_currency_rate;
-		public Money country_wht;
-		public Money user_acquisition_fee;
-		public Money xsolla_fee;
-		public Money payment_method_fee;
-		public Money sales_tax;
-		public Money direct_wht;
-		public Money repatriation_commission;
-	}
-
-	[Serializable]
-	public class Purchase
-	{
-		public Money total;
-		public Money checkout;
-		public Subscription subscription;
-		public Gift gift;
-		public Promotion[] promotions;
-		public Coupon coupon;
+		public Billing billing;
+		public Item[] items;
 		public Order order;
 	}
 
 	[Serializable]
-	public class Subscription
+	public class DirectWht
 	{
-		public string plan_id;
-		public int subscription_id;
-		public string product_id;
-		public string[] tags;
-		public string date_create;
-		public string date_next_charge;
+		public int amount;
 		public string currency;
-		public float amount;
+		public int percent;
 	}
 
 	[Serializable]
-	public class Gift
+	public class Item
 	{
-		public string giver_id;
-		public string receiver_id;
-		public string receiver_email;
-		public string message;
-		public string hide_giver_from_receiver;
-	}
-
-	[Serializable]
-	public class Promotion
-	{
-		public string technical_name;
-		public int id;
-	}
-
-	[Serializable]
-	public class Coupon
-	{
-		public string coupon_code;
-		public string campaign_code;
+		public string amount;
+		public bool is_pre_order;
+		public int quantity;
+		public string sku;
+		public string type;
 	}
 
 	[Serializable]
 	public class Order
 	{
+		public string amount;
+		public object comment;
+		public string currency;
+		public string currency_type;
 		public int id;
-		public LineItems lineitems;
+		public string invoice_id;
+		public string mode;
+		public string platform;
+		public string status;
 	}
 
 	[Serializable]
-	public class LineItems
+	public class Payment
 	{
-		public string sku;
-		public int quantity;
-		public Money price;
+		public int amount;
+		public string currency;
+	}
+
+	[Serializable]
+	public class PaymentDetails
+	{
+		public CountryWht country_wht;
+		public DirectWht direct_wht;
+		public Payment payment;
+		public PaymentMethodFee payment_method_fee;
+		public PaymentMethodSum payment_method_sum;
+		public Payout payout;
+		public string payout_currency_rate;
+		public RepatriationCommission repatriation_commission;
+		public SalesTax sales_tax;
+		public UserAcquisitionFee user_acquisition_fee;
+		public Vat vat;
+		public XsollaBalanceSum xsolla_balance_sum;
+		public XsollaFee xsolla_fee;
+	}
+
+	[Serializable]
+	public class PaymentMethodFee
+	{
+		public double amount;
+		public string currency;
+	}
+
+	[Serializable]
+	public class PaymentMethodSum
+	{
+		public int amount;
+		public string currency;
+	}
+
+	[Serializable]
+	public class Payout
+	{
+		public double amount;
+		public string currency;
+	}
+
+	[Serializable]
+	public class Purchase
+	{
+		public Total total;
+	}
+
+	[Serializable]
+	public class RepatriationCommission
+	{
+		public int amount;
+		public string currency;
+	}
+
+	[Serializable]
+	public class SalesTax
+	{
+		public int amount;
+		public string currency;
+		public int percent;
+	}
+
+	[Serializable]
+	public class Settings
+	{
+		public int merchant_id;
+		public int project_id;
+	}
+
+	[Serializable]
+	public class Total
+	{
+		public int amount;
+		public string currency;
 	}
 
 	[Serializable]
 	public class Transaction
 	{
-		public int id;
-		public string external_id;
-		public string payment_date;
+		public int agreement;
+		public int dry_run;
+		public ulong id;
+		public DateTime payment_date;
 		public int payment_method;
 		public string payment_method_name;
 		public string payment_method_order_id;
-		public int dry_run;
-		public long agreement;
 	}
 
 	[Serializable]
-	public class Money
+	public class User
 	{
+		public string email;
+		public string id;
+		public string ip;
+		public string name;
+		public string zip;
+		public string country;
+		public string external_id;
+	}
+
+	[Serializable]
+	public class UserAcquisitionFee
+	{
+		public int amount;
 		public string currency;
-		public float amount;
-		public float percent;
+		public int percent;
+	}
+
+	[Serializable]
+	public class Vat
+	{
+		public int amount;
+		public string currency;
+		public int percent;
+	}
+
+	[Serializable]
+	public class XsollaBalanceSum
+	{
+		public int amount;
+		public string currency;
+	}
+
+	[Serializable]
+	public class XsollaFee
+	{
+		public double amount;
+		public string currency;
 	}
 }
