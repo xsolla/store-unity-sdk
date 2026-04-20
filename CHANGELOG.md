@@ -1,16 +1,20 @@
 # Changelog
 ## [3.1.0] - 2026-04-17
 ### Added
-- Support for social network authentication on the WebGL platform using the system browser
-- `GetSubscriptionRenewalUrl` method to the subscriptions API
+- Support for social network authentication on the WebGL platform (uses the system browser)
+- `XsollaSubscriptions.GetSubscriptionRenewalUrl` method for opening subscription renewal UI
 - Support for opening `PayStation` in the Steam Overlay via the `Purchase` method
-- Sample scenes demonstrating subscription flows: purchasing a subscription via `GetSubscriptionPublicPlans` + `GetSubscriptionPurchaseUrl`, and managing existing subscriptions via `GetSubscriptions` + `GetSubscriptionManagementUrl`
+- Sample scenes demonstrating subscription purchase (uses `XsollaSubscriptions.GetSubscriptionPublicPlans` and `XsollaSubscriptions.GetSubscriptionPurchaseUrl` methods) and management (uses `XsollaSubscriptions.GetSubscriptions` and `XsollaSubscriptions.GetSubscriptionManagementUrl` methods)
 
 ### Changed
-- Changed `Xsolla.Orders.Transaction.Id` type from `int` to `ulong` to prevent overflow for large transaction IDs
-- Made web requests independent of Unity's time scale to prevent issues when `Time.timeScale = 0`
-- Aligned subscription status enum values in the SDK with the backend API contract
-- Updated Android libraries in Unity SDK
+- `Xsolla.Orders.Transaction.Id` type changed from `int` to `ulong` to prevent overflow for large transaction IDs
+- Web requests are now independent of Unity's time scale (fixes issues when `Time.timeScale = 0`)
+- Subscription status enum values aligned with the backend API contract
+- Android libraries updated
+
+### Fixed
+- Facebook authorization failing in the login widget on WebGL mobile (opening a new tab resulted in an error)
+- Login widget not reopening after being closed by clicking outside it on WebGL
 
 ## [3.0.5] - 2025-11-27
 ### Added
