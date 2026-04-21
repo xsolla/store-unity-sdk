@@ -13,11 +13,11 @@ namespace Xsolla.Catalog
 		/// The list includes items for which display in the store is enabled in the settings. For each virtual item, complete data is returned.
 		/// If called after user authentication, the method returns items that match the personalization rules for the current user.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/catalog/catalog-display/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/catalog/catalog-display/).</remarks>
 		/// <param name="onSuccess">Called after virtual items were successfully received.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
-		/// <param name="locale">Response language. [Two-letter lowercase language code](https://developers.xsolla.com/doc/pay-station/features/localization/). Leave empty to use the default value.</param>
-		/// <param name="country">Country for which to calculate regional prices and restrictions in a catalog. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Calculations are based on the user's IP address if the country is not specified.  Check the documentation for detailed information about [countries supported by Xsolla](https://developers.xsolla.com/doc/in-game-store/references/supported-countries/).</param>
+		/// <param name="locale">Response language. [Two-letter lowercase language code](https://developers.xsolla.com/payment-ui-and-flow/payment-ui/localization/). Leave empty to use the default value.</param>
+		/// <param name="country">Country for which to calculate regional prices and restrictions in a catalog. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Calculations are based on the user's IP address if the country is not specified.  Check the documentation for detailed information about [countries supported by Xsolla](https://developers.xsolla.com/dev-resources/references/supported-countries/).</param>
 		/// <param name="additionalFields">The list of additional fields. These fields will be in a response if you send them in a request. Available fields `media_list`, `order`, and `long_description`.</param>
 		/// <param name="sdkType">SDK type. Used for internal analytics.</param>
 		public static void GetItems(Action<StoreItems> onSuccess, Action<Error> onError, string locale = null, string country = null, string additionalFields = "long_description", SdkType sdkType = SdkType.Store)
@@ -67,13 +67,13 @@ namespace Xsolla.Catalog
 		/// If called after user authentication, the method returns items that match the personalization rules for the current user.
 		/// <b>Attention:</b> The number of items returned in a single response is limited. <b>The default and maximum value is 50 items per response</b>. To get more data page by page, use <code>limit</code> and <code>offset</code> fields.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/catalog/catalog-display/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/catalog/catalog-display/).</remarks>
 		/// <param name="onSuccess">Called after virtual items were successfully received.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="limit">Limit for the number of elements on the page. The maximum number of elements on a page is 50.</param>
 		/// <param name="offset">Number of the element from which the list is generated (the count starts from 0).</param>
-		/// <param name="locale">Response language. [Two-letter lowercase language code](https://developers.xsolla.com/doc/pay-station/features/localization/). Leave empty to use the default value.</param>
-		/// <param name="country">Country for which to calculate regional prices and restrictions in a catalog. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Calculations are based on the user's IP address if the country is not specified.  Check the documentation for detailed information about [countries supported by Xsolla](https://developers.xsolla.com/doc/in-game-store/references/supported-countries/).</param>
+		/// <param name="locale">Response language. [Two-letter lowercase language code](https://developers.xsolla.com/payment-ui-and-flow/payment-ui/localization/). Leave empty to use the default value.</param>
+		/// <param name="country">Country for which to calculate regional prices and restrictions in a catalog. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Calculations are based on the user's IP address if the country is not specified.  Check the documentation for detailed information about [countries supported by Xsolla](https://developers.xsolla.com/dev-resources/references/supported-countries/).</param>
 		/// <param name="additionalFields">The list of additional fields. These fields will be in a response if you send them in a request. Available fields `media_list`, `order`, and `long_description`.</param>
 		/// <param name="sdkType">SDK type. Used for internal analytics.</param>
 		public static void GetPaginatedItems(Action<StoreItems> onSuccess, Action<Error> onError, int limit, int offset, string locale = null, string country = null, string additionalFields = "long_description", SdkType sdkType = SdkType.Store)
@@ -99,10 +99,10 @@ namespace Xsolla.Catalog
 		/// Returns a full list of virtual items. The list includes items for which display in the store is enabled in the settings. For each virtual item, the SKU, name, description, and data about the groups it belongs to are returned.
 		/// If used after user authentication, the method returns items that match the personalization rules for the current user.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/catalog/catalog-display/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/catalog/catalog-display/).</remarks>
 		/// <param name="onSuccess">Called after server response.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
-		/// <param name="locale">Response language. [Two-letter lowercase language code](https://developers.xsolla.com/doc/pay-station/features/localization/). Leave empty to use the default value.</param>
+		/// <param name="locale">Response language. [Two-letter lowercase language code](https://developers.xsolla.com/payment-ui-and-flow/payment-ui/localization/). Leave empty to use the default value.</param>
 		public static void GetCatalogSimplified(Action<StoreShortItems> onSuccess, Action<Error> onError, string locale = null)
 		{
 			var url = new UrlBuilder($"{BaseUrl}/items/virtual_items/all")
@@ -122,12 +122,12 @@ namespace Xsolla.Catalog
 		/// Returns a list of items for the specified group. The list includes items for which display in the store is enabled in the settings. In the settings of the group, the display in the store must be enabled.
 		/// If called after user authentication, the method returns items that match the personalization rules for the current user.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/catalog/catalog-display/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/catalog/catalog-display/).</remarks>
 		/// <param name="groupExternalId">Group external ID.</param>
 		/// <param name="onSuccess">Called after server response.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
-		/// <param name="locale">Response language. [Two-letter lowercase language code](https://developers.xsolla.com/doc/pay-station/features/localization/). Leave empty to use the default value.</param>
-		/// <param name="country">Country for which to calculate regional prices and restrictions in a catalog. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Calculations are based on the user's IP address if the country is not specified.  Check the documentation for detailed information about [countries supported by Xsolla](https://developers.xsolla.com/doc/in-game-store/references/supported-countries/).</param>
+		/// <param name="locale">Response language. [Two-letter lowercase language code](https://developers.xsolla.com/payment-ui-and-flow/payment-ui/localization/). Leave empty to use the default value.</param>
+		/// <param name="country">Country for which to calculate regional prices and restrictions in a catalog. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Calculations are based on the user's IP address if the country is not specified.  Check the documentation for detailed information about [countries supported by Xsolla](https://developers.xsolla.com/dev-resources/references/supported-countries/).</param>
 		/// <param name="additionalFields">The list of additional fields. This fields will be in a response if you send its in a request. Available fields `media_list`, `order`, `long_description`.</param>
 		public static void GetGroupItems(string groupExternalId, Action<StoreItems> onSuccess, Action<Error> onError, string locale = null, string country = null, string additionalFields = null)
 		{
@@ -175,14 +175,14 @@ namespace Xsolla.Catalog
 		/// If called after user authentication, the method returns items that match the personalization rules for the current user.
 		/// <b>Attention:</b> The number of items returned in a single response is limited. <b>The default and maximum value is 50 items per response</b>. To get more data page by page, use <code>limit</code> and <code>offset</code> fields.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/catalog/catalog-display/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/catalog/catalog-display/).</remarks>
 		/// <param name="groupExternalId">Group external ID.</param>
 		/// <param name="onSuccess">Called after server response.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="limit">Limit for the number of elements on the page. The maximum number of elements on a page is 50.</param>
 		/// <param name="offset">Number of the element from which the list is generated (the count starts from 0).</param>
-		/// <param name="locale">Response language. [Two-letter lowercase language code](https://developers.xsolla.com/doc/pay-station/features/localization/). Leave empty to use the default value.</param>
-		/// <param name="country">Country for which to calculate regional prices and restrictions in a catalog. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Calculations are based on the user's IP address if the country is not specified.  Check the documentation for detailed information about [countries supported by Xsolla](https://developers.xsolla.com/doc/in-game-store/references/supported-countries/).</param>
+		/// <param name="locale">Response language. [Two-letter lowercase language code](https://developers.xsolla.com/payment-ui-and-flow/payment-ui/localization/). Leave empty to use the default value.</param>
+		/// <param name="country">Country for which to calculate regional prices and restrictions in a catalog. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Calculations are based on the user's IP address if the country is not specified.  Check the documentation for detailed information about [countries supported by Xsolla](https://developers.xsolla.com/dev-resources/references/supported-countries/).</param>
 		/// <param name="additionalFields">The list of additional fields. This fields will be in a response if you send its in a request. Available fields `media_list`, `order`, `long_description`.</param>
 		public static void GetPaginatedGroupItems(string groupExternalId, Action<StoreItems> onSuccess, Action<Error> onError, int limit, int offset, string locale = null, string country = null, string additionalFields = null)
 		{
@@ -206,10 +206,10 @@ namespace Xsolla.Catalog
 		/// <summary>
 		/// Returns a full list of virtual item groups. The list includes groups for which display in the store is enabled in the settings.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/catalog/catalog-display/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/catalog/catalog-display/).</remarks>
 		/// <param name="onSuccess">Called after virtual item groups were successfully received.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
-		/// <param name="locale">Defines localization of the item text fields.[Two-letter lowercase language code](https://developers.xsolla.com/doc/pay-station/features/localization/). Leave empty to use the default value.</param>
+		/// <param name="locale">Defines localization of the item text fields.[Two-letter lowercase language code](https://developers.xsolla.com/payment-ui-and-flow/payment-ui/localization/). Leave empty to use the default value.</param>
 		/// <param name="promoCode">Promo code. Unique case-sensitive code. Contains letters and numbers.</param>
 		public static void GetItemGroups(Action<Groups> onSuccess, Action<Error> onError, string locale = null, string promoCode = null)
 		{
@@ -228,11 +228,11 @@ namespace Xsolla.Catalog
 		/// <summary>
 		/// Returns a full list of virtual currencies. The list includes currencies for which display in the store is enabled in settings.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/catalog/catalog-display/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/catalog/catalog-display/).</remarks>
 		/// <param name="onSuccess">Called after virtual currencies were successfully received.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
-		/// <param name="locale">Response language. [Two-letter lowercase language code](https://developers.xsolla.com/doc/pay-station/features/localization/). Leave empty to use the default value.</param>
-		/// <param name="country">Country for which to calculate regional prices and restrictions in a catalog. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Calculations are based on the user's IP address if the country is not specified.  Check the documentation for detailed information about [countries supported by Xsolla](https://developers.xsolla.com/doc/in-game-store/references/supported-countries/).</param>
+		/// <param name="locale">Response language. [Two-letter lowercase language code](https://developers.xsolla.com/payment-ui-and-flow/payment-ui/localization/). Leave empty to use the default value.</param>
+		/// <param name="country">Country for which to calculate regional prices and restrictions in a catalog. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Calculations are based on the user's IP address if the country is not specified.  Check the documentation for detailed information about [countries supported by Xsolla](https://developers.xsolla.com/dev-resources/references/supported-countries/).</param>
 		/// <param name="additionalFields">The list of additional fields. These fields will be in a response if you send them in a request. Available fields `media_list`, `order`, and `long_description`.</param>
 		public static void GetVirtualCurrencyList(Action<VirtualCurrencyItems> onSuccess, Action<Error> onError, string locale = null, string country = null, string additionalFields = null)
 		{
@@ -278,13 +278,13 @@ namespace Xsolla.Catalog
 		/// Returns a list of virtual currencies according to pagination settings. The list includes currencies for which display in the store is enabled in settings.
 		/// <b>Attention:</b> The number of currencies returned in a single response is limited. <b>The default and maximum value is 50 currencies per response</b>. To get more data page by page, use <code>limit</code> and <code>offset</code> fields.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/catalog/catalog-display/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/catalog/catalog-display/).</remarks>
 		/// <param name="onSuccess">Called after virtual currencies were successfully received.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="limit">Limit for the number of elements on the page. The maximum number of elements on a page is 50.</param>
 		/// <param name="offset">Number of the element from which the list is generated (the count starts from 0).</param>
-		/// <param name="locale">Response language. [Two-letter lowercase language code](https://developers.xsolla.com/doc/pay-station/features/localization/). Leave empty to use the default value.</param>
-		/// <param name="country">Country for which to calculate regional prices and restrictions in a catalog. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Calculations are based on the user's IP address if the country is not specified.  Check the documentation for detailed information about [countries supported by Xsolla](https://developers.xsolla.com/doc/in-game-store/references/supported-countries/).</param>
+		/// <param name="locale">Response language. [Two-letter lowercase language code](https://developers.xsolla.com/payment-ui-and-flow/payment-ui/localization/). Leave empty to use the default value.</param>
+		/// <param name="country">Country for which to calculate regional prices and restrictions in a catalog. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Calculations are based on the user's IP address if the country is not specified.  Check the documentation for detailed information about [countries supported by Xsolla](https://developers.xsolla.com/dev-resources/references/supported-countries/).</param>
 		/// <param name="additionalFields">The list of additional fields. These fields will be in a response if you send them in a request. Available fields `media_list`, `order`, and `long_description`.</param>
 		public static void GetPaginatedVirtualCurrencyList(Action<VirtualCurrencyItems> onSuccess, Action<Error> onError, int limit, int offset, string locale = null, string country = null, string additionalFields = null)
 		{
@@ -309,11 +309,11 @@ namespace Xsolla.Catalog
 		/// The list includes packages for which display in the store is enabled in the settings.
 		/// If called after user authentication, the method returns packages that match the personalization rules for the current user.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/catalog/catalog-display/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/catalog/catalog-display/).</remarks>
 		/// <param name="onSuccess">Called after virtual currency packages were successfully received.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
-		/// <param name="locale">Response language. [Two-letter lowercase language code](https://developers.xsolla.com/doc/pay-station/features/localization/). Leave empty to use the default value.</param>
-		/// <param name="country">Country for which to calculate regional prices and restrictions in a catalog. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Calculations are based on the user's IP address if the country is not specified.  Check the documentation for detailed information about [countries supported by Xsolla](https://developers.xsolla.com/doc/in-game-store/references/supported-countries/).</param>
+		/// <param name="locale">Response language. [Two-letter lowercase language code](https://developers.xsolla.com/payment-ui-and-flow/payment-ui/localization/). Leave empty to use the default value.</param>
+		/// <param name="country">Country for which to calculate regional prices and restrictions in a catalog. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Calculations are based on the user's IP address if the country is not specified.  Check the documentation for detailed information about [countries supported by Xsolla](https://developers.xsolla.com/dev-resources/references/supported-countries/).</param>
 		/// <param name="additionalFields">The list of additional fields. These fields will be in a response if you send them in a request. Available fields `media_list`, `order`, and `long_description`.</param>
 		/// <param name="sdkType">SDK type. Used for internal analytics.</param>
 		public static void GetVirtualCurrencyPackagesList(Action<VirtualCurrencyPackages> onSuccess, Action<Error> onError, string locale = null, string country = null, string additionalFields = null, SdkType sdkType = SdkType.Store)
@@ -363,13 +363,13 @@ namespace Xsolla.Catalog
 		/// If called after user authentication, the method returns packages that match the personalization rules for the current user.
 		/// <b>Attention:</b> The number of packages returned in a single response is limited. <b>The default and maximum value is 50 packages per response</b>. To get more data page by page, use <code>limit</code> and <code>offset</code> fields.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/catalog/catalog-display/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/catalog/catalog-display/).</remarks>
 		/// <param name="onSuccess">Called after virtual currency packages were successfully received.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="limit">Limit for the number of elements on the page. The maximum number of elements on a page is 50.</param>
 		/// <param name="offset">Number of the element from which the list is generated (the count starts from 0).</param>
-		/// <param name="locale">Response language. [Two-letter lowercase language code](https://developers.xsolla.com/doc/pay-station/features/localization/). Leave empty to use the default value.</param>
-		/// <param name="country">Country for which to calculate regional prices and restrictions in a catalog. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Calculations are based on the user's IP address if the country is not specified.  Check the documentation for detailed information about [countries supported by Xsolla](https://developers.xsolla.com/doc/in-game-store/references/supported-countries/).</param>
+		/// <param name="locale">Response language. [Two-letter lowercase language code](https://developers.xsolla.com/payment-ui-and-flow/payment-ui/localization/). Leave empty to use the default value.</param>
+		/// <param name="country">Country for which to calculate regional prices and restrictions in a catalog. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Calculations are based on the user's IP address if the country is not specified.  Check the documentation for detailed information about [countries supported by Xsolla](https://developers.xsolla.com/dev-resources/references/supported-countries/).</param>
 		/// <param name="additionalFields">The list of additional fields. These fields will be in a response if you send them in a request. Available fields `media_list`, `order`, and `long_description`.</param>
 		/// <param name="sdkType">SDK type. Used for internal analytics.</param>
 		public static void GetPaginatedVirtualCurrencyPackagesList(Action<VirtualCurrencyPackages> onSuccess, Action<Error> onError, int limit, int offset, string locale = null, string country = null, string additionalFields = null, SdkType sdkType = SdkType.Store)
@@ -396,11 +396,11 @@ namespace Xsolla.Catalog
 		/// The list includes bundles for which display in the store is enabled in the settings.
 		/// If called after user authentication, the method returns items that match the personalization rules for the current user.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/catalog/catalog-display/#unreal_engine_sdk_how_to_bundles).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/catalog/catalog-display/#unreal_engine_sdk_how_to_bundles).</remarks>
 		/// <param name="onSuccess">Called after bundles are successfully received.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
-		/// <param name="locale">Defines localization of the item text fields. [Two-letter lowercase language code](https://developers.xsolla.com/doc/pay-station/features/localization/). Leave empty to use the default value.</param>
-		/// <param name="country">Country for which to calculate regional prices and restrictions in a catalog. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Calculations are based on the user's IP address if the country is not specified.  Check the documentation for detailed information about [countries supported by Xsolla](https://developers.xsolla.com/doc/in-game-store/references/supported-countries/).</param>
+		/// <param name="locale">Defines localization of the item text fields. [Two-letter lowercase language code](https://developers.xsolla.com/payment-ui-and-flow/payment-ui/localization/). Leave empty to use the default value.</param>
+		/// <param name="country">Country for which to calculate regional prices and restrictions in a catalog. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Calculations are based on the user's IP address if the country is not specified.  Check the documentation for detailed information about [countries supported by Xsolla](https://developers.xsolla.com/dev-resources/references/supported-countries/).</param>
 		/// <param name="additionalFields">The list of additional fields. This fields will be in a response if you send its in a request. Available fields `media_list`, `order`, `long_description`.</param>
 		public static void GetBundles(Action<BundleItems> onSuccess, Action<Error> onError, string locale = null, string country = null, string additionalFields = null)
 		{
@@ -446,15 +446,15 @@ namespace Xsolla.Catalog
 		/// Returns a list of bundles according to pagination settings.
 		/// The list includes bundles for which display in the store is enabled in the settings.
 		/// If called after user authentication, the method returns items that match the personalization rules for the current user.
-		/// <b>Attention:</b> The number of bundles returned in a single response is limited. <b>The default and maximum value is 50 bundles per response</b>. To get more data page by page, use <code>limit</code> and <code>offset</code> fields. 
+		/// <b>Attention:</b> The number of bundles returned in a single response is limited. <b>The default and maximum value is 50 bundles per response</b>. To get more data page by page, use <code>limit</code> and <code>offset</code> fields.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/catalog/catalog-display/#unreal_engine_sdk_how_to_bundles).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/catalog/catalog-display/#unreal_engine_sdk_how_to_bundles).</remarks>
 		/// <param name="onSuccess">Called after bundles are successfully received.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="limit">Limit for the number of elements on the page. The maximum number of elements on a page is 50.</param>
 		/// <param name="offset">Number of the element from which the list is generated (the count starts from 0).</param>
-		/// <param name="locale">Defines localization of the item text fields. [Two-letter lowercase language code](https://developers.xsolla.com/doc/pay-station/features/localization/). Leave empty to use the default value.</param>
-		/// <param name="country">Country for which to calculate regional prices and restrictions in a catalog. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Calculations are based on the user's IP address if the country is not specified.  Check the documentation for detailed information about [countries supported by Xsolla](https://developers.xsolla.com/doc/in-game-store/references/supported-countries/).</param>
+		/// <param name="locale">Defines localization of the item text fields. [Two-letter lowercase language code](https://developers.xsolla.com/payment-ui-and-flow/payment-ui/localization/). Leave empty to use the default value.</param>
+		/// <param name="country">Country for which to calculate regional prices and restrictions in a catalog. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Calculations are based on the user's IP address if the country is not specified.  Check the documentation for detailed information about [countries supported by Xsolla](https://developers.xsolla.com/dev-resources/references/supported-countries/).</param>
 		/// <param name="additionalFields">The list of additional fields. This fields will be in a response if you send its in a request. Available fields `media_list`, `order`, `long_description`.</param>
 		public static void GetPaginatedBundles(Action<BundleItems> onSuccess, Action<Error> onError, int limit, int offset, string locale = null, string country = null, string additionalFields = null)
 		{
@@ -479,12 +479,12 @@ namespace Xsolla.Catalog
 		/// Returns information about the contents of the specified bundle. In the bundle settings, display in the store must be enabled.
 		/// If used after user authentication, the method returns items that match the personalization rules for the current user.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/catalog/catalog-display/#unreal_engine_sdk_how_to_bundles).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/catalog/catalog-display/#unreal_engine_sdk_how_to_bundles).</remarks>
 		/// <param name="sku">Bundle SKU.</param>
 		/// <param name="onSuccess">Called after the cart is successfully filled.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
-		/// <param name="locale">Defines localization of the item text fields. [Two-letter lowercase language code](https://developers.xsolla.com/doc/pay-station/features/localization/). Leave empty to use the default value.</param>
-		/// <param name="country">Country for which to calculate regional prices and restrictions in a catalog. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Calculations are based on the user's IP address if the country is not specified.  Check the documentation for detailed information about [countries supported by Xsolla](https://developers.xsolla.com/doc/in-game-store/references/supported-countries/).</param>
+		/// <param name="locale">Defines localization of the item text fields. [Two-letter lowercase language code](https://developers.xsolla.com/payment-ui-and-flow/payment-ui/localization/). Leave empty to use the default value.</param>
+		/// <param name="country">Country for which to calculate regional prices and restrictions in a catalog. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Calculations are based on the user's IP address if the country is not specified.  Check the documentation for detailed information about [countries supported by Xsolla](https://developers.xsolla.com/dev-resources/references/supported-countries/).</param>
 		public static void GetBundle(string sku, Action<BundleItem> onSuccess, Action<Error> onError, string locale = null, string country = null)
 		{
 			var url = new UrlBuilder($"{BaseUrl}/items/bundle/sku/{sku}")
@@ -507,7 +507,7 @@ namespace Xsolla.Catalog
 		/// - via email (game keys)
 		/// - to the entitlement system (game keys)
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/promo/coupons).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/promo/coupons/).</remarks>
 		/// <param name="couponCode">Unique case sensitive code. Contains letters and numbers.</param>
 		/// <param name="onSuccess">Called after successful coupon redemption.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
@@ -537,7 +537,7 @@ namespace Xsolla.Catalog
 		/// <summary>
 		/// Returns a list of items that can be credited to the user when the coupon is redeemed. Can be used to let users choose one of many items as a bonus. The usual case is choosing a DRM if the coupon contains a game as a bonus.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/promo/coupons).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/promo/coupons/).</remarks>
 		/// <param name="couponCode">Unique case sensitive code. Contains letters and numbers.</param>
 		/// <param name="onSuccess">Called after receiving coupon rewards successfully.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
@@ -562,7 +562,7 @@ namespace Xsolla.Catalog
 		/// <summary>
 		/// Creates an order with a specified item. The created order will get a `new` order status.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/item-purchase/one-click-purchase/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/item-purchase/one-click-purchase/).</remarks>
 		/// <param name="itemSku">Item SKU to purchase.</param>
 		/// <param name="onSuccess">Called after server response.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
@@ -599,7 +599,7 @@ namespace Xsolla.Catalog
 		/// <summary>
 		/// Creates an order with a specified item, returns unique identifier of the created order and the Pay Station token for the purchase of the specified product by virtual currency. The created order will get a `new` order status.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/item-purchase/purchase-for-vc/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/item-purchase/purchase-for-vc/).</remarks>
 		/// <param name="itemSku">Item SKU to purchase.</param>
 		/// <param name="priceSku">Virtual currency SKU.</param>
 		/// <param name="onSuccess">Called after server response.</param>
@@ -634,7 +634,7 @@ namespace Xsolla.Catalog
 		/// <summary>
 		/// Create order with specified free item. The created order will get a `done` order status.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/promo/free-items/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/promo/free-items/).</remarks>
 		/// <param name="itemSku">Desired free item SKU.</param>
 		/// <param name="onSuccess">Called after the order was successfully created.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
@@ -659,7 +659,7 @@ namespace Xsolla.Catalog
 		/// <summary>
 		/// Launches purchase process for a specified item. This method encapsulates methods for creating an order, opening a payment UI, and tracking the order status.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/item-purchase/one-click-purchase/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/item-purchase/one-click-purchase/).</remarks>
 		/// <param name="itemSku">Desired free item SKU.</param>
 		/// <param name="onSuccess">Called after the order transitions to the 'done' status.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
@@ -702,7 +702,7 @@ namespace Xsolla.Catalog
 		/// <summary>
 		/// Launch purchase process for a specified item by virtual currency. This method encapsulates methods for creating an order and tracking the order status.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/item-purchase/purchase-for-vc/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/item-purchase/purchase-for-vc/).</remarks>
 		/// <param name="itemSku">Desired free item SKU.</param>
 		/// <param name="priceSku">Virtual currency SKU.</param>
 		/// <param name="onSuccess">Called after the order transitions to the 'done' status.</param>
@@ -737,7 +737,7 @@ namespace Xsolla.Catalog
 		/// <summary>
 		/// Launches purchase process for a specified free item. This method encapsulates methods for creating an order and tracking the order status.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/promo/free-items/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/promo/free-items/).</remarks>
 		/// <param name="itemSku">Desired free item SKU.</param>
 		/// <param name="onSuccess">Called after the order transitions to the 'done' status.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
@@ -770,13 +770,13 @@ namespace Xsolla.Catalog
 		/// If used after user authentication, the method returns items that match the personalization rules for the current user.
 		/// <b>Attention:</b> The number of items returned in a single response is limited. <b>The default and maximum value is 50 items per response</b>. To get more data page by page, use <code>limit</code> and <code>offset</code> fields.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/catalog/catalog-display/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/catalog/catalog-display/).</remarks>
 		/// <param name="onSuccess">Called after virtual items were successfully received.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="limit">Limit for the number of elements on the page. The maximum number of elements on a page is 50.</param>
 		/// <param name="offset">Number of the element from which the list is generated (the count starts from 0).</param>
-		/// <param name="locale">Response language. [Two-letter lowercase language code](https://developers.xsolla.com/doc/pay-station/features/localization/). Leave empty to use the default value.</param>
-		/// <param name="country">Country for which to calculate regional prices and restrictions in a catalog. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Calculations are based on the user's IP address if the country is not specified.  Check the documentation for detailed information about [countries supported by Xsolla](https://developers.xsolla.com/doc/in-game-store/references/supported-countries/).</param>
+		/// <param name="locale">Response language. [Two-letter lowercase language code](https://developers.xsolla.com/payment-ui-and-flow/payment-ui/localization/). Leave empty to use the default value.</param>
+		/// <param name="country">Country for which to calculate regional prices and restrictions in a catalog. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Calculations are based on the user's IP address if the country is not specified.  Check the documentation for detailed information about [countries supported by Xsolla](https://developers.xsolla.com/dev-resources/references/supported-countries/).</param>
 		/// <param name="additionalFields">The list of additional fields. These fields will be in a response if you send them in a request. Available fields `media_list`, `order`, and `long_description`.</param>
 		[Obsolete("Use GetItems instead.")]
 		public static void GetCatalog(Action<StoreItems> onSuccess, Action<Error> onError, int limit = 50, int offset = 0, string locale = null, string country = null, string additionalFields = "long_description")

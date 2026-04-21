@@ -7,7 +7,6 @@ namespace Xsolla.Core
 		/// <summary>
 		/// Returns a device ID for user authentication in the format required by the Xsolla API.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/authentication/auth-via-device-id/).</remarks>
 		public static string GetDeviceId()
 		{
 #if UNITY_ANDROID

@@ -52,7 +52,7 @@ namespace Xsolla.Auth
 				? WebHelper.GetBrowserLanguage().ToLowerInvariant()
 				: Locale.ToLowerInvariant();
 
-			var localizationProvider = new WidgetOpenConfirmationPopupLocalizationDataProvider();
+			var localizationProvider = new WidgetOpenConfirmationPopupLocalizationProvider();
 			var messageText = localizationProvider.GetMessageText(browserLocale);
 			var continueButtonText = localizationProvider.GetContinueButtonText(browserLocale);
 			var cancelButtonText = localizationProvider.GetCancelButtonText(browserLocale);

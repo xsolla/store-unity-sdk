@@ -1,5 +1,5 @@
 > [!TIP]
-> Integrate [Xsolla Mobile SDK](https://developers.xsolla.com/sdk/mobile/) to enable In-App Payments across mobile platforms within and outside of stores in a platform-compliant way, powered by Pay Station with over 700 payment methods.
+> Integrate [Xsolla Mobile SDK](https://developers.xsolla.com/sdk/unity/) to enable In-App Payments across mobile platforms within and outside of stores in a platform-compliant way, powered by Pay Station with over 700 payment methods.
 
 # Enterprise-level Xsolla SDK for Unity
 
@@ -19,7 +19,7 @@ To start with the SDK, you need to install this asset and set up a project in [X
 
 **INFO:** Starting with SDK version 2.5.5, you can also use the [Ready-to-use store](https://developers.xsolla.com/sdk/ready-to-use-store/) module — a ready-made solution with a pre-configured UI and logic for user authorization, catalog display, and item purchase.
 
-[Go to the integration guide →](https://developers.xsolla.com/sdk/unity/)
+[Go to the integration guide →](https://developers.xsolla.com/sdk/unity-enterprise/)
 
 ## Features
 
@@ -29,7 +29,7 @@ To start with the SDK, you need to install this asset and set up a project in [X
 * Classic login (username/email and password).
 * Social login.
 * Social login on the user’s device via a social network client (Google, Facebook, WeChat, and QQ).
-* Login via a launcher (Steam or [Xsolla Launcher](https://developers.xsolla.com/doc/launcher/)).
+* Login via a launcher (Steam or [Xsolla Launcher](https://developers.xsolla.com/distribute-game/launcher/)).
 * Login via a device ID.
 * Passwordless login via a one-time code or a link sent via SMS or email.
 * Xsolla Login widget that currently supports classic, social, and passwordless login. The widget opens in the built-in browser and can’t be used for native social login.
@@ -100,9 +100,9 @@ To start with the SDK, you need to install this asset and set up a project in [X
 * Android
 * iOS
 
-Additionally, the asset supports [creating WebGL build](https://developers.xsolla.com/sdk/unity/how-tos/application-build/#unity_sdk_how_to_build_webgl) to run your application in a browser.
+Additionally, the asset supports [creating WebGL build](https://developers.xsolla.com/sdk/unity-enterprise/application-build-guides/how-to-work-build-webgl/) to run your application in a browser.
 
-For mobile platforms, we recommend integrating [Xsolla Mobile SDK](https://developers.xsolla.com/sdk/mobile/).
+For mobile platforms, we recommend integrating [Xsolla Mobile SDK](https://developers.xsolla.com/sdk/unity/).
 
 **NOTE:** We recommend you use the Mono compiler for desktop platforms as it’s compatible with the provided in-game browser. If you use other browser solutions, you can use the IL2CPP compiler instead. You can use either Mono or IL2CPP compilers to create game builds for Android.
 
@@ -117,7 +117,7 @@ For mobile platforms, we recommend integrating [Xsolla Mobile SDK](https://devel
 
 3. In the Unity editor, go to **Assets > Import Package > Custom Package** in the main menu and select the SDK.
 
-4. Follow the [integration guide](https://developers.xsolla.com/sdk/unity/integrate-complete-solution/get-started/) to configure project on Xsolla side.
+4. Follow the [integration guide](https://developers.xsolla.com/sdk/unity-enterprise/integrate-complete-solution/get-started/) to configure project on Xsolla side.
 
 ### Import package from git repository
 
@@ -143,7 +143,7 @@ To send requests to Xsolla servers and receive responses, the SDK provides the `
 
 You can use the [Ready-to-use store](https://developers.xsolla.com/sdk/ready-to-use-store/) module — a ready-made solution with a pre-configured UI and logic for user authorization, catalog display, and item purchase.
 
-Follow the [step-by-step instructions](https://developers.xsolla.com/sdk/unity/integrate-complete-solution/integrate-on-app-side/#unity_sdk_integrate_on_app_side_quick_start) to implement the basic in-game sales scenario from scratch.
+Follow the [step-by-step instructions](https://developers.xsolla.com/sdk/unity-enterprise/integrate-complete-solution/integrate-on-app-side/#unity_sdk_integrate_on_app_side_quick_start) to implement the basic in-game sales scenario from scratch.
 
 Explore [code reference documentation](https://developers.xsolla.com/sdk-code-references/unity-store/) to learn more about SDK methods.
 
@@ -215,6 +215,6 @@ See the [LICENSE](https://github.com/xsolla/store-unity-sdk/blob/master/LICENSE.
 ## Additional resources
 
 * [Xsolla official website](https://xsolla.com/)
-* [Developers documentation](https://developers.xsolla.com/sdk/unity/)
+* [Developers documentation](https://developers.xsolla.com/sdk/unity-enterprise/)
 * [Ready-to-use store module documentation](https://developers.xsolla.com/sdk/ready-to-use-store/)
 * [Code reference documentation](https://developers.xsolla.com/sdk-code-references/unity-store/)

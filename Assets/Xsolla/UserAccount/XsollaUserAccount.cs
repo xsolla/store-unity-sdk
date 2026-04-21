@@ -13,7 +13,7 @@ namespace Xsolla.UserAccount
 		/// <summary>
 		/// Updates the specified user’s information. Changes are made on the user data storage side.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/user-account-and-attributes/user-account/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/user-account-and-attributes/user-account/).</remarks>
 		/// <param name="info">User information.</param>
 		/// <param name="onSuccess">Called after successful user details modification.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
@@ -76,7 +76,7 @@ namespace Xsolla.UserAccount
 		/// <summary>
 		/// Returns user phone number that is used for two-factor authentication.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/user-account-and-attributes/user-account/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/user-account-and-attributes/user-account/).</remarks>
 		/// <param name="onSuccess">Called after user phone number was successfully received.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <seealso cref="UpdateUserPhoneNumber"/>
@@ -96,7 +96,7 @@ namespace Xsolla.UserAccount
 		/// <summary>
 		/// Changes the user’s phone number that is used for two-factor authentication. Changes are made on the user data storage side (server-side).
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/user-account-and-attributes/user-account/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/user-account-and-attributes/user-account/).</remarks>
 		/// <param name="phoneNumber">Updated user phone number according to national conventions.</param>
 		/// <param name="onSuccess">Called after user phone number was successfully modified.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
@@ -122,7 +122,7 @@ namespace Xsolla.UserAccount
 		/// <summary>
 		/// Deletes the user’s phone number that is used for two-factor authentication. Changes are made on the user data storage side (server side).
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/user-account-and-attributes/user-account/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/user-account-and-attributes/user-account/).</remarks>
 		/// <param name="phoneNumber">User phone number for removal.</param>
 		/// <param name="onSuccess">Called after the user phone number was successfully removed.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
@@ -143,7 +143,7 @@ namespace Xsolla.UserAccount
 		/// <summary>
 		/// Changes the user’s avatar. Changes are made on the user data storage side (server side).
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/user-account-and-attributes/user-account/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/user-account-and-attributes/user-account/).</remarks>
 		/// <param name="pictureData">User profile picture in the binary format.</param>
 		/// <param name="boundary"></param>
 		/// <param name="onSuccess">Called after the user profile picture was successfully modified.</param>
@@ -170,7 +170,7 @@ namespace Xsolla.UserAccount
 		/// <summary>
 		/// Deletes the user’s avatar. Changes are made on the user data storage side (server side).
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/user-account-and-attributes/user-account/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/user-account-and-attributes/user-account/).</remarks>
 		/// <param name="onSuccess">Called after user profile picture was successfully removed.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <seealso cref="UploadUserPicture"/>
@@ -189,7 +189,7 @@ namespace Xsolla.UserAccount
 		/// <summary>
 		/// Checks user age for a particular region. The age requirements depend on the region. Service determines the user location by the IP address.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/user-account-and-attributes/user-account/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/user-account-and-attributes/user-account/).</remarks>
 		/// <param name="dateOfBirth">User's birth date in the `YYYY-MM-DD` format.</param>
 		/// <param name="onSuccess">Called after successful check of the user age.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
@@ -213,7 +213,7 @@ namespace Xsolla.UserAccount
 		/// <summary>
 		/// Returns the user’s email.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/user-account-and-attributes/user-account/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/user-account-and-attributes/user-account/).</remarks>
 		/// <param name="onSuccess">Called after user email was successfully received.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		public static void GetUserEmail(Action<UserEmail> onSuccess, Action<Error> onError)
@@ -230,9 +230,9 @@ namespace Xsolla.UserAccount
 
 		/// <summary>
 		/// Creates the code for linking the platform account to the existing main account when the user logs in to the game via a gaming console.
-		/// The call is used with [Link accounts by code](https://developers.xsolla.com/login-api/linking-account/linking/link-accounts-by-code/) request.
+		/// The call is used with [Link accounts by code](https://developers.xsolla.com/api/login/account-linking/link-accounts-by-code) request.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/user-account-and-attributes/account-linking/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/user-account-and-attributes/account-linking/).</remarks>
 		/// <param name="onSuccess">Called after successful linking code creation.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <seealso cref="Xsolla.Auth.XsollaAuth.SignInConsoleAccount"/>
@@ -262,13 +262,13 @@ namespace Xsolla.UserAccount
 		///				<list type="bullet">
 		///					<item>
 		///						<term>Connect OAuth 2.0 server client</term>
-		///						<description>Follow the [instructions](https://developers.xsolla.com/doc/login/security/connecting-oauth2/#login_features_connecting_oauth2_connecting_client) to connect the client and cope copy the <b>Client ID</b> and <b>Secret key</b>.
+		///						<description>Follow the [instructions](https://developers.xsolla.com/authenticate-users/login/security/connecting-oauth2/) to connect the client and cope copy the <b>Client ID</b> and <b>Secret key</b>.
 		///						</description>
 		///					</item>
 		///					<item>
 		///						<term>Implement method: </term>
 		///						<description>
-		///							<see href="https://developers.xsolla.com/login-api/oauth-20/generate-user-jwt"/>
+		///							<see href="https://developers.xsolla.com/api/login/token-management/generate-jwt"/>
 		///							with `application/x-www-form-urlencoded` payload parameters:
 		///							<list type="bullet">
 		///								<item>
@@ -289,7 +289,7 @@ namespace Xsolla.UserAccount
 		///		<item>
 		///			<term>Implement APIs for account linking </term>
 		///			<description>
-		///				<see href="https://developers.xsolla.com/login-api/users/link-accounts-by-code"/>
+		///				<see href="https://developers.xsolla.com/api/login/account-linking/link-accounts-by-code"/>
 		///				with:
 		///				<list type="bullet">
 		///					<item>
@@ -300,7 +300,7 @@ namespace Xsolla.UserAccount
 		///					</item>
 		///					<item>
 		///					<term>Body </term>
-		///					<description>[See documentation](https://developers.xsolla.com/api/login/operation/link-accounts-by-code/).</description>
+		///					<description>[See documentation](https://developers.xsolla.com/api/login/account-linking/link-accounts-by-code).</description>
 		///					</item>
 		///				</list>
 		///			</description>
@@ -332,7 +332,7 @@ namespace Xsolla.UserAccount
 		/// <summary>
 		/// Returns a list of particular user’s attributes with their values and descriptions. Returns only user-editable attributes.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/user-account-and-attributes/user-attributes/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/user-account-and-attributes/user-attributes/).</remarks>
 		/// <param name="attributeType">Type of attributes to get. Can be `Readonly` or `Custom`.</param>
 		/// <param name="keys">List of attributes’ keys which you want to get. If not specified, the method returns all user’s attributes.</param>
 		/// <param name="userId">Identifier of a user whose public attributes should be requested. If not specified, the method returns attributes for the current user.</param>
@@ -379,7 +379,7 @@ namespace Xsolla.UserAccount
 		/// <summary>
 		/// Updates the values of user attributes with the specified IDs. The method can be used to create or remove attributes. Changes are made on the user data storage side (server side).
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/user-account-and-attributes/user-attributes/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/user-account-and-attributes/user-attributes/).</remarks>
 		/// <param name="attributes">List of attributes of the specified game. To add attribute which does not exist, set this attribute to the `key` parameter. To update `value` of the attribute, specify its `key` parameter and set the new `value`. You can change several attributes at a time.</param>
 		/// <param name="onSuccess">Called after successful user attributes modification on the server side.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
@@ -408,7 +408,7 @@ namespace Xsolla.UserAccount
 		/// <summary>
 		/// Removes user attributes with the specified IDs. Changes are made on the user data storage side (server side).
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/user-account-and-attributes/user-attributes/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/user-account-and-attributes/user-attributes/).</remarks>
 		/// <param name="removingKeys">List of attribute keys for removal.</param>
 		/// <param name="onSuccess">Called after successful user attributes removal on the server side.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
@@ -437,7 +437,6 @@ namespace Xsolla.UserAccount
 		/// <summary>
 		/// Adds a username, email address, and password, that can be used for authentication, to the current account.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/authentication/auth-via-device-id/).</remarks>
 		/// <param name="username">Username.</param>
 		/// <param name="password">User password.</param>
 		/// <param name="email">User email.</param>
@@ -468,7 +467,6 @@ namespace Xsolla.UserAccount
 		/// <summary>
 		/// Gets a list of user's devices.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/authentication/auth-via-device-id/).</remarks>
 		/// <param name="onSuccess">Called after users devices data was successfully received.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		public static void GetUserDevices(Action<UserDevicesInfo> onSuccess, Action<Error> onError)
@@ -491,7 +489,6 @@ namespace Xsolla.UserAccount
 		/// <summary>
 		/// Links the specified device to the current user account.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/authentication/auth-via-device-id/).</remarks>
 		/// <param name="onSuccess">Called after successful linking of the device.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="deviceInfo">Information about the device that is used to identify the user. if not specified, the method defines this infotmation automatically.</param>
@@ -524,7 +521,6 @@ namespace Xsolla.UserAccount
 		/// <summary>
 		/// Unlinks the specified device from the current user account.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/authentication/auth-via-device-id/).</remarks>
 		/// <param name="deviceId">Platform specific unique device ID.<br/>
 		/// For Android, it is an [ANDROID_ID](https://developer.android.com/reference/android/provider/Settings.Secure#ANDROID_ID) constant.<br/>
 		/// For iOS, it is an [identifierForVendor](https://developer.apple.com/documentation/uikit/uidevice/1620059-identifierforvendor?language=objc) property.</param>
@@ -663,7 +659,7 @@ namespace Xsolla.UserAccount
 		/// <summary>
 		/// Links a social network that can be used for authentication to the current account.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/user-account-and-attributes/account-linking/#sdk_account_linking_additional_account).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/user-account-and-attributes/account-linking/#sdk_account_linking_additional_account).</remarks>
 		/// <param name="providerName">Name of a social network. Provider must be connected to Login in Publisher Account.<br/>
 		/// Can be `amazon`, `apple`, `baidu`, `battlenet`, `discord`, `facebook`, `github`, `google`, `instagram`, `kakao`, `linkedin`, `mailru`, `microsoft`, `msn`, `naver`, `ok`, `paradox`, `paypal`, `psn`, `qq`, `reddit`, `steam`, `twitch`, `twitter`, `vimeo`, `vk`, `wechat`, `weibo`, `yahoo`, `yandex`, `youtube`, `xbox`, `playstation`.</param>
 		/// <param name="onSuccess">Called after the URL for social authentication was successfully received.</param>

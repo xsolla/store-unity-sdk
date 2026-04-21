@@ -12,9 +12,9 @@ namespace Xsolla.Orders
 		/// Opens Pay Station in the browser with a retrieved Pay Station token.
 		/// </summary>
 		/// More about the use cases:
-		/// - [Cart purchase](https://developers.xsolla.com/sdk/unity/item-purchase/cart-purchase/)
-		/// - [Purchase in one click](https://developers.xsolla.com/sdk/unity/item-purchase/one-click-purchase/)
-		/// - [Ordering free items](https://developers.xsolla.com/sdk/unity/promo/free-items/#sdk_free_items_order_item_via_cart)
+		/// - [Cart purchase](https://developers.xsolla.com/sdk/unity-enterprise/item-purchase/cart-purchase/)
+		/// - [Purchase in one click](https://developers.xsolla.com/sdk/unity-enterprise/item-purchase/one-click-purchase/)
+		/// - [Ordering free items](https://developers.xsolla.com/sdk/unity-enterprise/promo/free-items/#sdk_free_items_order_item_via_cart)
 		/// <param name="paymentToken">Pay Station token for the purchase.</param>
 		/// <param name="forcePlatformBrowser">Whether to force platform browser usage ignoring plug-in settings.</param>
 		/// <param name="onBrowserClosed">Called after the browser was closed.</param>
@@ -30,7 +30,7 @@ namespace Xsolla.Orders
 		/// <summary>
 		/// Returns status of the specified order.
 		/// </summary>
-		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity/item-purchase/track-order/).</remarks>
+		/// <remarks>[More about the use cases](https://developers.xsolla.com/sdk/unity-enterprise/item-purchase/track-order/).</remarks>
 		/// <param name="orderId">Unique order identifier.</param>
 		/// <param name="onSuccess">Called after server response.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
@@ -45,11 +45,11 @@ namespace Xsolla.Orders
 		/// Creates a new payment token.
 		/// </summary>
 		/// <param name="amount">The total amount to be paid by the user.</param>
-		/// <param name="currency">Default purchase currency (USD by default). Three-letter currency code per [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217). Check the documentation for detailed information about [currencies supported by Xsolla](https://developers.xsolla.com/doc/pay-station/references/supported-currencies/).</param>
+		/// <param name="currency">Default purchase currency (USD by default). Three-letter currency code per [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217). Check the documentation for detailed information about [currencies supported by Xsolla](https://developers.xsolla.com/dev-resources/references/supported-currencies/).</param>
 		/// <param name="description">Purchase description. Used to describe the purchase if there are no specific items.</param>
 		/// <param name="onSuccess">Called after the successful item purchase.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
-		/// <param name="locale">Interface language. [Two-letter lowercase language code](https://developers.xsolla.com/doc/pay-station/features/localization/). Leave empty to use the default value.</param>
+		/// <param name="locale">Interface language. [Two-letter lowercase language code](https://developers.xsolla.com/payment-ui-and-flow/payment-ui/localization/). Leave empty to use the default value.</param>
 		/// <param name="externalID">Transaction's external ID.</param>
 		/// <param name="paymentMethod">Payment method ID.</param>
 		/// <param name="customParameters">Project specific parameters represented as a valid JSON set of key-value pairs.</param>
@@ -85,11 +85,11 @@ namespace Xsolla.Orders
 		/// Creates a new payment token.
 		/// </summary>
 		/// <param name="amount">The total amount to be paid by the user.</param>
-		/// <param name="currency">Default purchase currency (USD by default). Three-letter currency code per [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217). Check the documentation for detailed information about [currencies supported by Xsolla](https://developers.xsolla.com/doc/pay-station/references/supported-currencies/).</param>
+		/// <param name="currency">Default purchase currency (USD by default). Three-letter currency code per [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217). Check the documentation for detailed information about [currencies supported by Xsolla](https://developers.xsolla.com/dev-resources/references/supported-currencies/).</param>
 		/// <param name="items">Used to describe a purchase if it includes a list of specific items.</param>
 		/// <param name="onSuccess">Called after the successful item purchase.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
-		/// <param name="locale">Interface language. [Two-letter lowercase language code](https://developers.xsolla.com/doc/pay-station/features/localization/). Leave empty to use the default value.</param>
+		/// <param name="locale">Interface language. [Two-letter lowercase language code](https://developers.xsolla.com/payment-ui-and-flow/payment-ui/localization/). Leave empty to use the default value.</param>
 		/// <param name="externalID">Transaction's external ID.</param>
 		/// <param name="paymentMethod">Payment method ID.</param>
 		/// <param name="customParameters">Project specific parameters represented as a valid JSON set of key-value pairs.</param>
@@ -131,7 +131,7 @@ namespace Xsolla.Orders
 
 		/// <summary>
 		/// Get unprocessed events for user.
-		/// NOTE: Enable the Xsolla Event API before using this method. For setup instructions, see the [documentation](https://developers.xsolla.com/solutions/payments/server-side-token-generation/set-up-order-tracking/?tabs=100-api#general_overview).
+		/// NOTE: Enable the Xsolla Event API before using this method. For setup instructions, see the [documentation](https://developers.xsolla.com/virtual-goods/own-ui/server-side-token-generation/set-up-order-tracking/).
 		/// </summary>
 		/// <param name="onSuccess">Called after receiving data successfully.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
@@ -155,7 +155,7 @@ namespace Xsolla.Orders
 
 		/// <summary>
 		/// Mark event as processed.
-		/// NOTE: Enable the Xsolla Event API before using this method. For setup instructions, see the [documentation](https://developers.xsolla.com/solutions/payments/server-side-token-generation/set-up-order-tracking/?tabs=100-api#general_overview).
+		/// NOTE: Enable the Xsolla Event API before using this method. For setup instructions, see the [documentation](https://developers.xsolla.com/virtual-goods/own-ui/server-side-token-generation/set-up-order-tracking/).
 		/// </summary>
 		/// <param name="eventId">Event ID to mark as processed.</param>
 		/// <param name="onSuccess">Called after the event was successfully marked as processed.</param>

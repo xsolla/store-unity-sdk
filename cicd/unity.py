@@ -17,17 +17,18 @@ def execute_tests(project_dir, engine_version, report_path):
     return result.returncode
 
 
-def build_demo(project_dir, engine_version, build_root, build_target, report_path):
+def build_demo(project_dir, engine_version, build_root, build_target, report_path, execute_method):
     unity_path = _get_unity_path(engine_version)
+
     result = subprocess.run(
         [
-           unity_path,
+            unity_path,
             "-batchmode",
             "-quit",
             "-projectPath", project_dir,
             "-customBuildPath", build_root,
             "-buildTarget", build_target,
-            "-executeMethod", "Xsolla.DevTools.BuildsManager.Build",
+            "-executeMethod", execute_method,
             "-logFile", report_path
         ]
     )

@@ -66,16 +66,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Urls:
-  - https://developers.xsolla.com/sdk/unity/use-xsolla-servers/
+  - https://developers.xsolla.com/sdk/unity-enterprise/integrate-complete-solution/
   - 
   - http://publisher.xsolla.com/signup?store_type=sdk&utm_source=unity&utm_medium=demo&utm_campaign=marketplace
-  - https://developers.xsolla.com/doc/pay-station/references/test-cards/#pay_station_references_test_cards
+  - https://developers.xsolla.com/dev-resources/testing/test-cards
   - https://xsolla.com{0}privacypolicy
-  - https://developers.xsolla.com/sdk/unity/how-tos/user-management/#unity_sdk_how_to_use_user_attributes
-  - https://developers.xsolla.com/sdk/unity/login/get-started/
+  - https://developers.xsolla.com/sdk/unity-enterprise/user-account-and-attributes/user-attributes/
+  - https://developers.xsolla.com/sdk/unity-enterprise/integrate-complete-solution/get-started/
   - https://livedemo.xsolla.com/sdk-account-linking/
   - https://github.com/xsolla/xsolla-sdk-backend
-  - https://developers.xsolla.com/sdk/unity/how-tos/#unity_sdk_how_to_use_partners_login_system
+  - https://developers.xsolla.com/sdk/unity-enterprise/authentication/auth-via-custom-id/#unity_sdk_how_to_use_partners_login_system
 --- !u!114 &812151294674414048
 MonoBehaviour:
   m_ObjectHideFlags: 0

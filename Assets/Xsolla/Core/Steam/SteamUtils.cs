@@ -30,13 +30,25 @@ namespace Xsolla.Core
 			return ticket;
 		}
 
+		/// <summary>
+		/// Gets additional custom headers required for Steam authentication. This includes the "x-steam-userid" header, which is necessary for identifying the Steam user in Xsolla's systems.
+		/// </summary>
+		/// <returns></returns>
 		public static Dictionary<string, string> GetAdditionalCustomHeaders()
 		{
 			return new Dictionary<string, string> {
-				{
-					"x-steam-userid", GetSteamUserId()
-				}
+				{ "x-steam-userid", GetSteamUserId() }
 			};
+		}
+
+		/// <summary>
+		/// Opens the Steam overlay with the specified URL
+		/// </summary>
+		/// <param name="url">The URL to open in the Steam overlay</param>
+		public static void OpenUrlInOverlay(string url)
+		{
+			XDebug.Log("Opening Steam overlay with URL: " + url);
+			SteamUtilsInternal.OpenSteamOverlay(url);
 		}
 
 		private static string GetSteamUserId()
