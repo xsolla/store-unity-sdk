@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Xsolla.Auth;
 using Xsolla.Core;
 
@@ -6,18 +7,30 @@ namespace Xsolla.TechDemo.Scenarios
 {
 	public abstract class Scenario
 	{
-		public abstract void Execute(Action onSuccess, Action<Error> onError);
-
-		protected void ClearAuthData()
+		public virtual void SetUp()
 		{
-			XsollaToken.DeleteSavedInstance();
+			ClearAuthData();
 		}
 
-		protected void AuthAsDemoUser(Action onSuccess, Action<Error> onError)
+		public abstract IEnumerator Execute(Action onSuccess, Action<Error> onError);
+
+		public virtual void TearDown()
 		{
-			var username = "xsolla";
-			var password = "xsolla";
-			XsollaAuth.SignIn(username, password, onSuccess, onError);
+		}
+
+		protected static void SetInAppBrowserActive(bool isActive)
+		{
+			XsollaSettings.InAppBrowserEnabled = isActive;
+		}
+
+		protected static void CloseInAppBrowser()
+		{
+			XsollaWebBrowser.Close();
+		}
+
+		protected static void ClearAuthData()
+		{
+			XsollaToken.DeleteSavedInstance();
 		}
 	}
 }

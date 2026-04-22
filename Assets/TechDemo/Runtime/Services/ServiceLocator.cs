@@ -1,3 +1,4 @@
+using UnityEngine;
 using Xsolla.TechDemo.Ui;
 
 namespace Xsolla.TechDemo
@@ -10,10 +11,10 @@ namespace Xsolla.TechDemo
 		public readonly ScenarioRegistry ScenarioRegistry;
 		public readonly UiRoot UiRoot;
 
-		public ServiceLocator(UiRoot uiRoot)
+		public ServiceLocator(UiRoot uiRoot, MonoBehaviour monoBehaviour)
 		{
 			ScenarioLogger = new ScenarioLogger();
-			ScenarioRunner = new ScenarioRunner(ScenarioLogger, uiRoot);
+			ScenarioRunner = new ScenarioRunner(ScenarioLogger, uiRoot, monoBehaviour);
 			ScenarioRegistry = new ScenarioRegistry();
 			ScenarioFactory = new ScenarioFactory();
 			UiRoot = uiRoot;

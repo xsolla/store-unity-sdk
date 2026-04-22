@@ -23,7 +23,7 @@ namespace Xsolla.Tests
 	///   XSOLLA_TEST_SDK_USERNAME
 	///   XSOLLA_TEST_SDK_PASSWORD
 	/// </summary>
-	internal static class TestCredentials
+	public static class TestCredentials
 	{
 		private static CredentialsFile _file;
 
@@ -31,6 +31,7 @@ namespace Xsolla.Tests
 		public static string OldRefreshToken => Resolve("XSOLLA_TEST_OLD_REFRESH_TOKEN", () => File.oldRefreshToken);
 		public static string DefaultUsername => Resolve("XSOLLA_TEST_DEFAULT_USERNAME", () => File.defaultUser?.username);
 		public static string DefaultPassword => Resolve("XSOLLA_TEST_DEFAULT_PASSWORD", () => File.defaultUser?.password);
+		public static string DefaultEmail => Resolve("XSOLLA_TEST_DEFAULT_EMAIL", () => File.defaultUser?.email); // assuming email is same as username
 		public static string SdkUsername => Resolve("XSOLLA_TEST_SDK_USERNAME", () => File.sdkUser?.username);
 		public static string SdkPassword => Resolve("XSOLLA_TEST_SDK_PASSWORD", () => File.sdkUser?.password);
 
@@ -46,7 +47,7 @@ namespace Xsolla.Tests
 
 			throw new InvalidOperationException(
 				$"Test credential '{envVar}' is not set. " +
-				$"Add it to Assets/Tests/test-credentials.local.json or set the XSOLLA_TEST_CREDENTIALS environment variable.");
+				$"Add it to Assets/StreamingAssets/test-credentials.local.json or set the XSOLLA_TEST_CREDENTIALS environment variable.");
 		}
 
 		private static CredentialsFile File
@@ -57,7 +58,7 @@ namespace Xsolla.Tests
 					return _file;
 
 				// 1. Local file
-				var path = Path.Combine(Application.dataPath, "..", "test-credentials.local.json");
+				var path = Path.Combine(Application.streamingAssetsPath, "test-credentials.local.json");
 				if (System.IO.File.Exists(path))
 				{
 					_file = JsonUtility.FromJson<CredentialsFile>(System.IO.File.ReadAllText(path));
@@ -91,6 +92,7 @@ namespace Xsolla.Tests
 		{
 			public string username;
 			public string password;
+			public string email;
 		}
 	}
 }
