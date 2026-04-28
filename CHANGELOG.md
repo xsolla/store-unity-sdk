@@ -1,4 +1,9 @@
 # Changelog
+# Changelog
+## [3.1.1] - 2026-04-27
+### Changed
+- Internal changes and improvements
+
 ## [3.1.0] - 2026-04-17
 ### Added
 - Support for social network authentication on the WebGL platform (uses the system browser)
