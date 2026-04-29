@@ -228,6 +228,8 @@ demo_6000_mac:
 
 build doc:
   stage: build
+  allow_failure: true
+  when: manual
   only:
     - /^v.*/
   image: node:14-alpine3.15
