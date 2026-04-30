@@ -17,13 +17,11 @@ namespace Xsolla.Tests.Auth
 
 			var isComplete = false;
 			XsollaAuth.RefreshToken(
-				() =>
-				{
+				() => {
 					isComplete = true;
 					Assert.AreNotEqual(prevToken, XsollaToken.AccessToken);
 				},
-				error =>
-				{
+				error => {
 					isComplete = true;
 					Assert.Fail(error?.errorMessage);
 				});
@@ -39,13 +37,11 @@ namespace Xsolla.Tests.Auth
 
 			var isComplete = false;
 			XsollaAuth.RefreshToken(
-				() =>
-				{
+				() => {
 					isComplete = true;
 					Assert.Fail("Refresh token is old");
 				},
-				error =>
-				{
+				error => {
 					isComplete = true;
 					Assert.NotNull(error);
 					Assert.NotNull(error.errorMessage);

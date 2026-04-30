@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using Xsolla.Auth;
 using Xsolla.Core;
 
 namespace Xsolla.TechDemo.Scenarios

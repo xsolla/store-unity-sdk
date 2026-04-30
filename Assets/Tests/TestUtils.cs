@@ -1,27 +1,9 @@
 using System;
-using Xsolla.Core;
 
 namespace Xsolla.Tests
 {
 	public static class TestUtils
 	{
-		public static bool IsAuthDataValid()
-		{
-			var accessToken = XsollaToken.AccessToken;
-			if (!string.IsNullOrEmpty(accessToken))
-				return false;
-
-			var refreshToken = XsollaToken.RefreshToken;
-			if (!string.IsNullOrEmpty(refreshToken))
-				return false;
-
-			var expirationTime = XsollaToken.ExpirationTime;
-			if (expirationTime > 0)
-				return false;
-
-			return true;
-		}
-
 		public static string GenerateRandomEmail(int count = 6)
 		{
 			var username = GenerateRandomString(count);

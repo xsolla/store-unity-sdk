@@ -33,14 +33,12 @@ namespace Xsolla.Tests.Inventory
 
 			var isComplete = false;
 			XsollaInventory.GetTimeLimitedItems(
-				items =>
-				{
+				items => {
 					isComplete = true;
 					Assert.NotNull(items);
 					Assert.NotNull(items.items);
 					Assert.Greater(items.items.Length, 0);
-				}, error =>
-				{
+				}, error => {
 					isComplete = true;
 					Assert.Fail(error?.errorMessage);
 				},

@@ -26,14 +26,12 @@ namespace Xsolla.Tests.Cart
 
 			var isComplete = false;
 			XsollaCart.GetCartItems(
-				cart =>
-				{
+				cart => {
 					isComplete = true;
 					CurrentCartId = cart.cart_id;
 					Assert.NotNull(cart);
 				},
-				error =>
-				{
+				error => {
 					isComplete = true;
 					Assert.Fail(error?.errorMessage);
 				});

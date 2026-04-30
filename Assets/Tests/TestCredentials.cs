@@ -5,23 +5,20 @@ using UnityEngine;
 namespace Xsolla.Tests
 {
 	/// <summary>
-	/// Provides test credentials from a local file or environment variables.
-	///
-	/// Priority:
-	///   1. test-credentials.local.json  (project root, local development, gitignored)
-	///   2. XSOLLA_TEST_CREDENTIALS env var  (CI: full JSON content as a single variable)
-	///   3. Individual env vars              (CI: fallback per-credential)
-	///
-	/// To get started locally: copy test-credentials.json.example -> test-credentials.local.json
-	/// and fill in the values. Never commit that file.
-	///
-	/// Individual env vars:
-	///   XSOLLA_TEST_OLD_ACCESS_TOKEN
-	///   XSOLLA_TEST_OLD_REFRESH_TOKEN
-	///   XSOLLA_TEST_DEFAULT_USERNAME
-	///   XSOLLA_TEST_DEFAULT_PASSWORD
-	///   XSOLLA_TEST_SDK_USERNAME
-	///   XSOLLA_TEST_SDK_PASSWORD
+	///     Provides test credentials from a local file or environment variables.
+	///     Priority:
+	///     1. test-credentials.local.json  (project root, local development, gitignored)
+	///     2. XSOLLA_TEST_CREDENTIALS env var  (CI: full JSON content as a single variable)
+	///     3. Individual env vars              (CI: fallback per-credential)
+	///     To get started locally: copy test-credentials.json.example -> test-credentials.local.json
+	///     and fill in the values. Never commit that file.
+	///     Individual env vars:
+	///     XSOLLA_TEST_OLD_ACCESS_TOKEN
+	///     XSOLLA_TEST_OLD_REFRESH_TOKEN
+	///     XSOLLA_TEST_DEFAULT_USERNAME
+	///     XSOLLA_TEST_DEFAULT_PASSWORD
+	///     XSOLLA_TEST_SDK_USERNAME
+	///     XSOLLA_TEST_SDK_PASSWORD
 	/// </summary>
 	public static class TestCredentials
 	{
@@ -47,7 +44,7 @@ namespace Xsolla.Tests
 
 			throw new InvalidOperationException(
 				$"Test credential '{envVar}' is not set. " +
-				$"Add it to Assets/StreamingAssets/test-credentials.local.json or set the XSOLLA_TEST_CREDENTIALS environment variable.");
+				"Add it to Assets/StreamingAssets/test-credentials.local.json or set the XSOLLA_TEST_CREDENTIALS environment variable.");
 		}
 
 		private static CredentialsFile File

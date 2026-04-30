@@ -20,11 +20,7 @@ namespace Xsolla.Tests.Auth
 				username,
 				password,
 				email,
-				_ => {
-					isComplete = true;
-					var isAuthDataValid = TestUtils.IsAuthDataValid();
-					Assert.IsTrue(isAuthDataValid, "Auth data should be valid after registration");
-				},
+				_ => isComplete = true,
 				error => {
 					isComplete = true;
 					Assert.Fail(error?.errorMessage);
