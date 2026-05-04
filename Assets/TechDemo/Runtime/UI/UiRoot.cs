@@ -10,11 +10,10 @@ namespace Xsolla.TechDemo.Ui
 		[field: SerializeField] private PopupWidget SuccessPopupWidget { get; set; }
 		[field: SerializeField] private PopupWidget ErrorPopupWidget { get; set; }
 
-		public void Construct(ServiceLocator serviceLocator)
+		public void Construct(ServiceLocator serviceLocator, ScenarioGroup scenarioGroup)
 		{
-			var selectedGroup = ScenarioGroup.Login;
-			ScenarioGroupsWidget.Construct(serviceLocator, selectedGroup);
-			ScenariosGridWidget.Construct(serviceLocator, selectedGroup);
+			ScenarioGroupsWidget.Construct(serviceLocator, scenarioGroup);
+			ScenariosGridWidget.Construct(serviceLocator, scenarioGroup);
 		}
 
 		public void SelectGroup(ScenarioGroup group)
