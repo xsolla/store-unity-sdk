@@ -16,14 +16,12 @@ namespace Xsolla.Tests.Catalog
 			var isComplete = false;
 			XsollaCatalog.GetCouponRewards(
 				"WINTER2021",
-				reward =>
-				{
+				reward => {
 					isComplete = true;
 					Assert.NotNull(reward);
 					Assert.Greater(reward.bonus.Length, 0);
 				},
-				error =>
-				{
+				error => {
 					isComplete = true;
 					Assert.Fail(error?.errorMessage);
 				});
@@ -39,13 +37,11 @@ namespace Xsolla.Tests.Catalog
 			var isComplete = false;
 			XsollaCatalog.GetCouponRewards(
 				"SUMMER1967",
-				reward =>
-				{
+				reward => {
 					isComplete = true;
 					Assert.Fail("Coupon code is incorrect");
 				},
-				error =>
-				{
+				error => {
 					isComplete = true;
 					Assert.NotNull(error);
 					Assert.NotNull(error.errorMessage);

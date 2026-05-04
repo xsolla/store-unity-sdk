@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Xsolla.Catalog;
 using Xsolla.Core;
 
@@ -6,13 +7,11 @@ namespace Xsolla.TechDemo.Scenarios
 {
 	public class PurchaseItem : Scenario
 	{
-		public override void Execute(Action onSuccess, Action<Error> onError)
+		public override IEnumerator Execute(Action onSuccess, Action<Error> onError)
 		{
 			ClearAuthData();
 
-			AuthAsDemoUser(
-				() => OnAuthSuccess(onSuccess, onError),
-				onError.Invoke);
+			yield break;
 		}
 
 		private static void OnAuthSuccess(Action onSuccess, Action<Error> onError)

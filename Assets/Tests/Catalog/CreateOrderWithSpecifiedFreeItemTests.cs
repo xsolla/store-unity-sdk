@@ -16,14 +16,12 @@ namespace Xsolla.Tests.Catalog
 			var isComplete = false;
 			XsollaCatalog.CreateOrderWithFreeItem(
 				"Xsolla_free_item",
-				orderId =>
-				{
+				orderId => {
 					isComplete = true;
 					Assert.NotNull(orderId);
 					Assert.Greater(orderId.order_id, 0);
 				},
-				error =>
-				{
+				error => {
 					isComplete = true;
 					Assert.Fail(error?.errorMessage);
 				});
@@ -39,13 +37,11 @@ namespace Xsolla.Tests.Catalog
 			var isComplete = false;
 			XsollaCatalog.CreateOrderWithFreeItem(
 				"abcdef",
-				orderId =>
-				{
+				orderId => {
 					isComplete = true;
 					Assert.Fail("Order created with invalid sku");
 				},
-				error =>
-				{
+				error => {
 					isComplete = true;
 					Assert.NotNull(error);
 					Assert.NotNull(error.errorMessage);
@@ -62,13 +58,11 @@ namespace Xsolla.Tests.Catalog
 			var isComplete = false;
 			XsollaCatalog.CreateOrderWithFreeItem(
 				"Xsolla_free_item",
-				orderId =>
-				{
+				orderId => {
 					isComplete = true;
 					Assert.Fail("Order created with invalid user");
 				},
-				error =>
-				{
+				error => {
 					isComplete = true;
 					Assert.NotNull(error);
 					Assert.NotNull(error.errorMessage);

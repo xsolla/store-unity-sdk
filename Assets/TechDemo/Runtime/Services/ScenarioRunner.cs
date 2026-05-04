@@ -1,3 +1,5 @@
+using System.Collections;
+using UnityEngine;
 using Xsolla.Core;
 using Xsolla.TechDemo.Scenarios;
 using Xsolla.TechDemo.Ui;
@@ -8,24 +10,38 @@ namespace Xsolla.TechDemo
 	{
 		private readonly ScenarioLogger ScenarioLogger;
 		private readonly UiRoot UiRoot;
+		private readonly MonoBehaviour MonoBehaviour;
 		private const string LogTag = "ScenarioRunner";
 
-		public ScenarioRunner(ScenarioLogger scenarioLogger, UiRoot uiRoot)
+		public ScenarioRunner(ScenarioLogger scenarioLogger, UiRoot uiRoot, MonoBehaviour monoBehaviour)
 		{
 			ScenarioLogger = scenarioLogger;
 			UiRoot = uiRoot;
+			MonoBehaviour = monoBehaviour;
 		}
 
 		public void Run(Scenario scenario)
 		{
+			MonoBehaviour.StartCoroutine(RunCoroutine(scenario));
+		}
+
+		private IEnumerator RunCoroutine(Scenario scenario)
+		{
 			var scenarioName = GetScenarioName(scenario);
 			ScenarioLogger.Message(LogTag, $"Running scenario: {scenarioName}");
 
-			scenario.Execute(
-				() => OnScenarioSuccess(scenario),
-				error => OnScenarioError(scenario, error));
-
+			scenario.SetUp();
 			UiRoot.ShowProcessPopup($"Running scenario: {scenarioName}");
+
+			yield return scenario.Execute(
+				() => {
+					scenario.TearDown();
+					OnScenarioSuccess(scenario);
+				},
+				error => {
+					scenario.TearDown();
+					OnScenarioError(scenario, error);
+				});
 		}
 
 		private void OnScenarioSuccess(Scenario scenario)

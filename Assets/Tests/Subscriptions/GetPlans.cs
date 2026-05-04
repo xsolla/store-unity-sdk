@@ -15,14 +15,12 @@ namespace Xsolla.Tests.Subscriptions
 
 			var isComplete = false;
 			XsollaSubscriptions.GetSubscriptionPlans(
-				items =>
-				{
+				items => {
 					isComplete = true;
 					Assert.NotNull(items);
 					Assert.NotNull(items.items);
 					Assert.Greater(items.items.Length, 0);
-				}, error =>
-				{
+				}, error => {
 					isComplete = true;
 					Assert.Fail(error?.errorMessage);
 				});
@@ -76,19 +74,17 @@ namespace Xsolla.Tests.Subscriptions
 
 			var isComplete = false;
 			XsollaSubscriptions.GetSubscriptionPlans(
-				plans =>
-				{
+				plans => {
 					isComplete = true;
 					Assert.AreEqual(plans.items.Length, expectedCount);
 				},
-				error =>
-				{
+				error => {
 					isComplete = true;
 					Assert.Fail(error?.errorMessage);
 				},
 				planIdFilter,
 				planExternalIdFilter
-			);
+				);
 
 			yield return new WaitUntil(() => isComplete);
 		}

@@ -31,14 +31,12 @@ namespace Xsolla.Tests.Cart
 			XsollaCart.RedeemPromocode(
 				"NEWGAMER2020",
 				CurrentCartId,
-				cart =>
-				{
+				cart => {
 					isComplete = true;
 					Assert.NotNull(cart);
 					Assert.NotNull(cart.items);
 				},
-				error =>
-				{
+				error => {
 					isComplete = true;
 					Assert.Fail(error?.errorMessage);
 				});

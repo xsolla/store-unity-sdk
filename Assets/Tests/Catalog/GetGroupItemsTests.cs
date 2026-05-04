@@ -72,8 +72,8 @@ namespace Xsolla.Tests.Catalog
 				},
 				10,
 				0,
-				locale: "en_US",
-				country: "US");
+				"en_US",
+				"US");
 
 			yield return new WaitUntil(() => isComplete);
 		}

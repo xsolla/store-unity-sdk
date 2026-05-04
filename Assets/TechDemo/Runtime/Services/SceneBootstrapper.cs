@@ -13,7 +13,7 @@ namespace Xsolla.TechDemo
 		{
 			SetupSettings();
 
-			var serviceLocator = new ServiceLocator(UiRoot);
+			var serviceLocator = new ServiceLocator(UiRoot, this);
 			RegisterScenarios(serviceLocator.ScenarioRegistry);
 
 			UiRoot.Construct(serviceLocator);
@@ -28,9 +28,7 @@ namespace Xsolla.TechDemo
 
 		private static void RegisterScenarios(ScenarioRegistry registry)
 		{
-			registry.RegisterScenarioType<SampleLoginScenarioA>(ScenarioGroup.Login);
-			registry.RegisterScenarioType<SampleLoginScenarioB>(ScenarioGroup.Login);
-			registry.RegisterScenarioType<AuthByXsollaUser>(ScenarioGroup.Login);
+			new LoginScenariosRegistrar(registry).RegisterScenarios();
 
 			registry.RegisterScenarioType<PurchaseItem>(ScenarioGroup.Store);
 			registry.RegisterScenarioType<SampleStoreScenarioA>(ScenarioGroup.Store);

@@ -28,8 +28,7 @@ namespace Xsolla.Tests.Cart
 			var isComplete = false;
 			XsollaCart.CreateOrder(
 				_ => isComplete = true,
-				error =>
-				{
+				error => {
 					isComplete = true;
 					Assert.Fail(error?.errorMessage);
 				},

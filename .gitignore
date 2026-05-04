@@ -49,3 +49,7 @@ UserSettings/
 # Local test credentials (never commit)
 test-credentials.local.json
 test-credentials.local.json.meta
+
+# StreamingAssets (contains local credentials and other non-committable runtime files)
+Assets/StreamingAssets/
+Assets/StreamingAssets.meta
