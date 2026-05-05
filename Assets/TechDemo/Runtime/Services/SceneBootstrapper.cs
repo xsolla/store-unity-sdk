@@ -30,6 +30,7 @@ namespace Xsolla.TechDemo
 		{
 			new LoginScenariosRegistrar(registry).RegisterScenarios();
 			new StoreScenariosRegistrar(registry).RegisterScenarios();
+			new PurchaseScenarioRegistrar(registry).RegisterScenarios();
 		}
 	}
 }
