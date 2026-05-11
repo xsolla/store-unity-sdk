@@ -11,15 +11,41 @@ namespace Xsolla.TechDemo.Scenarios
 {
 	public abstract class Scenario
 	{
+		private string SettingsSnapshot { get; set; }
+
 		public virtual void SetUp()
 		{
+			SettingsSnapshot = JsonUtility.ToJson(XsollaSettings.Instance);
+
 			ClearAuthData();
+		}
+
+		public virtual void TearDown()
+		{
+			if (!string.IsNullOrEmpty(SettingsSnapshot))
+				JsonUtility.FromJsonOverwrite(SettingsSnapshot, XsollaSettings.Instance);
 		}
 
 		public abstract IEnumerator Execute(Action onSuccess, Action<Error> onError);
 
-		public virtual void TearDown()
+		protected static void SetProjectId(string projectId)
 		{
+			XsollaSettings.StoreProjectId = projectId;
+		}
+
+		protected static void SetLoginId(string loginId)
+		{
+			XsollaSettings.LoginId = loginId;
+		}
+
+		protected static void SetOAuthClientId(int clientId)
+		{
+			XsollaSettings.OAuthClientId = clientId;
+		}
+
+		protected static void SetSandboxMode(bool isSandbox)
+		{
+			XsollaSettings.IsSandbox = isSandbox;
 		}
 
 		protected static void SetInAppBrowserActive(bool isActive)

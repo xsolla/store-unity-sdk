@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace Xsolla.Tests
 {
@@ -56,9 +57,10 @@ namespace Xsolla.Tests
 
 				// 1. Local file
 				var path = Path.Combine(Application.streamingAssetsPath, "test-credentials.local.json");
-				if (System.IO.File.Exists(path))
+				var fileContent = ReadStreamingAsset(path);
+				if (fileContent != null)
 				{
-					_file = JsonUtility.FromJson<CredentialsFile>(System.IO.File.ReadAllText(path));
+					_file = JsonUtility.FromJson<CredentialsFile>(fileContent);
 					return _file;
 				}
 
@@ -73,6 +75,22 @@ namespace Xsolla.Tests
 				_file = new CredentialsFile();
 				return _file;
 			}
+		}
+
+		private static string ReadStreamingAsset(string path)
+		{
+#if UNITY_ANDROID && !UNITY_EDITOR
+			var request = UnityWebRequest.Get(path);
+			request.SendWebRequest();
+			while (!request.isDone) { }
+			if (request.result == UnityWebRequest.Result.Success)
+				return request.downloadHandler.text;
+			return null;
+#else
+			if (System.IO.File.Exists(path))
+				return System.IO.File.ReadAllText(path);
+			return null;
+#endif
 		}
 
 		[Serializable]

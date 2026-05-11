@@ -45,8 +45,7 @@ namespace Xsolla.TechDemo.Ui
 			return new List<ScenarioGroup> {
 				ScenarioGroup.Login,
 				ScenarioGroup.Store,
-				ScenarioGroup.Inventory,
-				ScenarioGroup.Payment
+				ScenarioGroup.Purchase
 			};
 		}
 	}

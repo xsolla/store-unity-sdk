@@ -4,7 +4,6 @@ namespace Xsolla.TechDemo.Ui
 	{
 		Login,
 		Store,
-		Inventory,
-		Payment
+		Purchase
 	}
 }
