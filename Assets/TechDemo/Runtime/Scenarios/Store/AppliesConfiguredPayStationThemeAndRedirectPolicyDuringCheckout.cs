@@ -12,9 +12,6 @@ namespace Xsolla.TechDemo.Scenarios
 		private const string ItemSku = "booster_min_1";
 
 		private string PreviousThemeId { get; set; }
-		private Action OnSuccessCallback { get; set; }
-		private Action<Error> OnErrorCallback { get; set; }
-		private bool IsCompleted { get; set; }
 
 		public override void SetUp()
 		{
@@ -30,9 +27,7 @@ namespace Xsolla.TechDemo.Scenarios
 
 		public override IEnumerator Execute(Action onSuccess, Action<Error> onError)
 		{
-			OnSuccessCallback = onSuccess;
-			OnErrorCallback = onError;
-			IsCompleted = false;
+			InitExecution(onSuccess, onError);
 
 			GetPlatformSpecificSettings().paystationThemeId = TestThemeId;
 
@@ -78,23 +73,6 @@ namespace Xsolla.TechDemo.Scenarios
 				RuntimePlatform.WebGLPlayer  => XsollaSettings.WebglPayStationUISettings,
 				_                            => XsollaSettings.DesktopPayStationUISettings
 			};
-		}
-		private void TryCompleteSuccess()
-		{
-			if (IsCompleted)
-				return;
-
-			IsCompleted = true;
-			OnSuccessCallback?.Invoke();
-		}
-
-		private void TryCompleteError(Error error)
-		{
-			if (IsCompleted)
-				return;
-
-			IsCompleted = true;
-			OnErrorCallback?.Invoke(error);
 		}
 	}
 }

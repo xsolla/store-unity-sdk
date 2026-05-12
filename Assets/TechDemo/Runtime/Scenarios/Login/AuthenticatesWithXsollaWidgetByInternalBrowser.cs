@@ -9,7 +9,7 @@ namespace Xsolla.TechDemo.Scenarios
 		public override void SetUp()
 		{
 			base.SetUp();
-			XsollaSettings.InAppBrowserEnabled = true;
+			SetInAppBrowserActive(true);
 		}
 
 		public override void TearDown()

@@ -14,15 +14,9 @@ namespace Xsolla.TechDemo.Scenarios
 		private const int InventoryCheckAttempts = 5;
 		private const float InventoryCheckDelaySeconds = 1.0f;
 
-		private Action OnSuccessCallback { get; set; }
-		private Action<Error> OnErrorCallback { get; set; }
-		private bool IsCompleted { get; set; }
-
 		public override IEnumerator Execute(Action onSuccess, Action<Error> onError)
 		{
-			OnSuccessCallback = onSuccess;
-			OnErrorCallback = onError;
-			IsCompleted = false;
+			InitExecution(onSuccess, onError);
 
 			var authFailed = false;
 			yield return AuthAsDefaultUser(error => {
@@ -182,22 +176,5 @@ namespace Xsolla.TechDemo.Scenarios
 				error => onError?.Invoke(error));
 		}
 
-		private void TryCompleteSuccess()
-		{
-			if (IsCompleted)
-				return;
-
-			IsCompleted = true;
-			OnSuccessCallback?.Invoke();
-		}
-
-		private void TryCompleteError(Error error)
-		{
-			if (IsCompleted)
-				return;
-
-			IsCompleted = true;
-			OnErrorCallback?.Invoke(error);
-		}
 	}
 }
