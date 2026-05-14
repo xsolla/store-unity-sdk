@@ -13,6 +13,10 @@ namespace Xsolla.TechDemo.Scenarios
 	{
 		private string SettingsSnapshot { get; set; }
 
+		protected Action OnSuccessCallback { get; private set; }
+		protected Action<Error> OnErrorCallback { get; private set; }
+		protected bool IsCompleted { get; private set; }
+
 		public virtual void SetUp()
 		{
 			SettingsSnapshot = JsonUtility.ToJson(XsollaSettings.Instance);
@@ -27,6 +31,36 @@ namespace Xsolla.TechDemo.Scenarios
 		}
 
 		public abstract IEnumerator Execute(Action onSuccess, Action<Error> onError);
+
+		protected void InitExecution(Action onSuccess, Action<Error> onError)
+		{
+			OnSuccessCallback = onSuccess;
+			OnErrorCallback = onError;
+			IsCompleted = false;
+		}
+
+		protected void TryCompleteSuccess()
+		{
+			if (IsCompleted)
+				return;
+
+			IsCompleted = true;
+			OnSuccessCallback?.Invoke();
+		}
+
+		protected void TryCompleteError(Error error)
+		{
+			if (IsCompleted)
+				return;
+
+			IsCompleted = true;
+			OnErrorCallback?.Invoke(error);
+		}
+
+		protected WaitUntil WaitForCompletion()
+		{
+			return new WaitUntil(() => IsCompleted);
+		}
 
 		protected static void SetProjectId(string projectId)
 		{

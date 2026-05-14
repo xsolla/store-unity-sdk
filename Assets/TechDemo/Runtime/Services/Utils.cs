@@ -40,17 +40,5 @@ namespace Xsolla.TechDemo
 
 			return returnValue;
 		}
-
-		public static string Slugify(this string value)
-		{
-			if (string.IsNullOrWhiteSpace(value))
-				return string.Empty;
-
-			// Удаляем пробелы между словами и заменяем их на нижнее подчеркивание
-			var underscored = Regex.Replace(value, @"([a-z0-9])([A-Z])", "$1_$2");
-
-			// Приводим к нижнему регистру
-			return underscored.ToLowerInvariant();
-		}
 	}
 }

@@ -9,7 +9,7 @@ namespace Xsolla.TechDemo.Scenarios
 		public override void SetUp()
 		{
 			base.SetUp();
-			XsollaSettings.InAppBrowserEnabled = false;
+			SetInAppBrowserActive(false);
 		}
 
 		public override IEnumerator Execute(Action onSuccess, Action<Error> onError)

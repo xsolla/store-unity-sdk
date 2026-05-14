@@ -27,8 +27,8 @@ namespace Xsolla.TechDemo.Ui
 			var scenarioTypes = ServiceLocator.ScenarioRegistry.GetScenarioTypes(group);
 			foreach (var scenarioType in scenarioTypes)
 			{
-				var buton = Instantiate(WidgetPrefab, WidgetsContainer, false);
-				buton.Construct(scenarioType, ServiceLocator);
+				var button = Instantiate(WidgetPrefab, WidgetsContainer, false);
+				button.Construct(scenarioType, ServiceLocator);
 			}
 		}
 	}

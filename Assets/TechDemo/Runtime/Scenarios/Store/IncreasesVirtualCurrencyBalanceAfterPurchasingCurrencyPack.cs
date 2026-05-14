@@ -14,15 +14,9 @@ namespace Xsolla.TechDemo.Scenarios
 		private const int BalanceCheckAttempts = 5;
 		private const float BalanceCheckDelaySeconds = 1.0f;
 
-		private Action OnSuccessCallback { get; set; }
-		private Action<Error> OnErrorCallback { get; set; }
-		private bool IsCompleted { get; set; }
-
 		public override IEnumerator Execute(Action onSuccess, Action<Error> onError)
 		{
-			OnSuccessCallback = onSuccess;
-			OnErrorCallback = onError;
-			IsCompleted = false;
+			InitExecution(onSuccess, onError);
 
 			var authFailed = false;
 			yield return AuthAsDefaultUser(error => {
@@ -34,12 +28,12 @@ namespace Xsolla.TechDemo.Scenarios
 				yield break;
 
 			var previousBalanceReceived = false;
-			var previousQuantity = 0;
+			var previousBalance = 0;
 			Error previousBalanceError = null;
 
 			RequestCurrencyBalance(
-				quantity => {
-					previousQuantity = quantity;
+				balance => {
+					previousBalance = balance;
 					previousBalanceReceived = true;
 				},
 				error => {
@@ -80,22 +74,22 @@ namespace Xsolla.TechDemo.Scenarios
 				yield break;
 			}
 
-			yield return VerifyBalanceIncreaseWithRetry(previousQuantity);
+			yield return VerifyBalanceIncreaseWithRetry(previousBalance);
 		}
 
-		private IEnumerator VerifyBalanceIncreaseWithRetry(int previousQuantity)
+		private IEnumerator VerifyBalanceIncreaseWithRetry(int previousBalance)
 		{
-			var expectedQuantity = previousQuantity + BalanceIncreaseAmount;
+			var expectedBalance = previousBalance + BalanceIncreaseAmount;
 
 			for (var attempt = 0; attempt < BalanceCheckAttempts; attempt++)
 			{
 				var balanceReceived = false;
-				var currentQuantity = 0;
+				var currentBalance = 0;
 				Error balanceError = null;
 
 				RequestCurrencyBalance(
-					quantity => {
-						currentQuantity = quantity;
+					balance => {
+						currentBalance = balance;
 						balanceReceived = true;
 					},
 					error => {
@@ -108,7 +102,7 @@ namespace Xsolla.TechDemo.Scenarios
 				if (IsCompleted)
 					yield break;
 
-				if (balanceError == null && currentQuantity - previousQuantity == BalanceIncreaseAmount)
+				if (balanceError == null && currentBalance - previousBalance == BalanceIncreaseAmount)
 				{
 					TryCompleteSuccess();
 					yield break;
@@ -120,7 +114,7 @@ namespace Xsolla.TechDemo.Scenarios
 					if (balanceError != null)
 						TryCompleteError(balanceError);
 					else
-						TryCompleteError(new Error(errorMessage: "Unexpected balance increase amount. Expected: " + expectedQuantity + ". Actual: " + currentQuantity));
+						TryCompleteError(new Error(errorMessage: "Unexpected balance increase amount. Expected: " + expectedBalance + ". Actual: " + currentBalance));
 
 					yield break;
 				}
@@ -134,24 +128,6 @@ namespace Xsolla.TechDemo.Scenarios
 		private void RequestCurrencyBalance(Action<int> onSuccess, Action<Error> onError)
 		{
 			GetVirtualCurrencyBalance(CurrencySku, onSuccess, onError);
-		}
-
-		private void TryCompleteSuccess()
-		{
-			if (IsCompleted)
-				return;
-
-			IsCompleted = true;
-			OnSuccessCallback?.Invoke();
-		}
-
-		private void TryCompleteError(Error error)
-		{
-			if (IsCompleted)
-				return;
-
-			IsCompleted = true;
-			OnErrorCallback?.Invoke(error);
 		}
 	}
 }
