@@ -6,16 +6,15 @@ using System.Linq;
 using System.Reflection;
 using UnityEditor;
 using UnityEngine;
-using Xsolla.Core;
 
 namespace Xsolla.DevTools
 {
 	public static class PackagesManager
 	{
-		[MenuItem("Dev Tools/Export Latest SDK package", false, 90)]
+		[MenuItem("Dev Tools/Export Latest SDK package", false, 10)]
 		public static void ExportLatestSdk()
 		{
-			ResetSdkSettings();
+			SdkSettingsManager.ResetSdkSettingsForXsollaDemo();
 
 			var sdkGuids = GetSdkGuids();
 			var settingsGuids = GetSettingsGuids();
@@ -25,10 +24,10 @@ namespace Xsolla.DevTools
 			ExportPackage(packageGuids, packagePath);
 		}
 
-		[MenuItem("Dev Tools/Export SDK package", false, 100)]
+		[MenuItem("Dev Tools/Export SDK package", false, 110)]
 		public static void ExportSdk()
 		{
-			ResetSdkSettings();
+			SdkSettingsManager.ResetSdkSettingsForXsollaDemo();
 
 			var sdkGuids = GetSdkGuids();
 			var settingsGuids = GetSettingsGuids();
@@ -38,10 +37,10 @@ namespace Xsolla.DevTools
 			ExportPackage(packageGuids, packagePath);
 		}
 
-		[MenuItem("Dev Tools/Export DEMO package", false, 110)]
+		[MenuItem("Dev Tools/Export SDK + Demo package", false, 120)]
 		public static void ExportDemo()
 		{
-			ResetSdkSettings();
+			SdkSettingsManager.ResetSdkSettingsForXsollaDemo();
 
 			var sdkGuids = GetSdkGuids();
 			var settingsGuids = GetSettingsGuids();
@@ -50,17 +49,6 @@ namespace Xsolla.DevTools
 
 			var packagePath = GetPackagePath("xsolla-unity-demo");
 			ExportPackage(packageGuids, packagePath);
-		}
-
-		[MenuItem("Dev Tools/Reset SDK Settings", false, 120)]
-		public static void ResetSdkSettings()
-		{
-			XsollaSettings.StoreProjectId = Constants.DEFAULT_PROJECT_ID;
-			XsollaSettings.LoginId = Constants.DEFAULT_LOGIN_ID;
-			XsollaSettings.OAuthClientId = Constants.DEFAULT_OAUTH_CLIENT_ID;
-			XsollaSettings.CallbackUrl = string.Empty;
-			XsollaSettings.InAppBrowserEnabled = true;
-			XsollaSettingsEditor.SaveSettingsAsset();
 		}
 
 		private static string[] GetSdkGuids()

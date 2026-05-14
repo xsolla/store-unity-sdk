@@ -9,18 +9,18 @@ include:
 stages:
   - build
   - autotests
-  - demo_2021
-  - demo_2022
-  - demo_6000
-  - new_demo
+  - tech_demo_2021
+  - tech_demo_2022
+  - tech_demo_6000
+  - xsolla_demo
   - deploy
   - linking
   - security scan
 
 variables:
   AUTOTESTS_SCRIPT: "cicd/autotests.py"
-  BUILD_DEMO_SCRIPT: "cicd/build_demo.py"
-  BUILD_NEW_DEMO_SCRIPT: "cicd/build_new_demo.py"
+  BUILD_TECH_DEMO_SCRIPT: "cicd/build_tech_demo.py"
+  BUILD_XSOLLA_DEMO_SCRIPT: "cicd/build_xsolla_demo.py"
   BUILD_TARGET_WINDOWS: "StandaloneWindows64"
   BUILD_TARGET_WEBGL: "WebGL"
   BUILD_TARGET_ANDROID: "Android"
@@ -92,131 +92,131 @@ autotests_6000:
       - Logs/autotests_report.log
 
 # =================================================================================================================
-# DEMO 2021
+# TECH_DEMO 2021
 
-demo_2021_win:
+tech_demo_2021_win:
   extends: .win_job_base
-  stage: demo_2021
+  stage: tech_demo_2021
   script:
-    - python $env:BUILD_DEMO_SCRIPT $env:CI_PROJECT_DIR $env:UNITY_2021_VERSION $env:BUILD_TARGET_WINDOWS
+    - python $env:BUILD_TECH_DEMO_SCRIPT $env:CI_PROJECT_DIR $env:UNITY_2021_VERSION $env:BUILD_TARGET_WINDOWS
   artifacts:
-    name: "demo-2021-win-$env:CI_COMMIT_REF_SLUG"
+    name: "tech-demo-2021-win-$env:CI_COMMIT_REF_SLUG"
     paths:
       - Builds
 
-demo_2021_android:
+tech_demo_2021_android:
   extends: .win_job_base
-  stage: demo_2021
+  stage: tech_demo_2021
   script:
-    - python $env:BUILD_DEMO_SCRIPT $env:CI_PROJECT_DIR $env:UNITY_2021_VERSION $env:BUILD_TARGET_ANDROID
+    - python $env:BUILD_TECH_DEMO_SCRIPT $env:CI_PROJECT_DIR $env:UNITY_2021_VERSION $env:BUILD_TARGET_ANDROID
   artifacts:
-    name: "demo-2021-android-$env:CI_COMMIT_REF_SLUG"
+    name: "tech-demo-2021-android-$env:CI_COMMIT_REF_SLUG"
     paths:
       - Builds
 
-demo_2021_webgl:
+tech_demo_2021_webgl:
   extends: .win_job_base
-  stage: demo_2021
+  stage: tech_demo_2021
   script:
-    - python $env:BUILD_DEMO_SCRIPT $env:CI_PROJECT_DIR $env:UNITY_2021_VERSION $env:BUILD_TARGET_WEBGL
+    - python $env:BUILD_TECH_DEMO_SCRIPT $env:CI_PROJECT_DIR $env:UNITY_2021_VERSION $env:BUILD_TARGET_WEBGL
   artifacts:
-    name: "demo-2021-webgl-$env:CI_COMMIT_REF_SLUG"
+    name: "tech-demo-2021-webgl-$env:CI_COMMIT_REF_SLUG"
     paths:
       - Builds
 
-demo_2021_mac:
+tech_demo_2021_mac:
   extends: .mac_job_base
-  stage: demo_2021
+  stage: tech_demo_2021
   script:
-    - python3 $BUILD_DEMO_SCRIPT $CI_PROJECT_DIR $UNITY_2021_VERSION $BUILD_TARGET_MACOS
+    - python3 $BUILD_TECH_DEMO_SCRIPT $CI_PROJECT_DIR $UNITY_2021_VERSION $BUILD_TARGET_MACOS
   artifacts:
-    name: "demo-2021-mac-$CI_COMMIT_REF_SLUG"
+    name: "tech-demo-2021-mac-$CI_COMMIT_REF_SLUG"
     paths:
       - Builds
 
 # =================================================================================================================
-# DEMO 2022
+# TECH_DEMO 2022
 
-demo_2022_win:
+tech_demo_2022_win:
   extends: .win_job_base
-  stage: demo_2022
+  stage: tech_demo_2022
   script:
-    - python $env:BUILD_DEMO_SCRIPT $env:CI_PROJECT_DIR $env:UNITY_2022_VERSION $env:BUILD_TARGET_WINDOWS
+    - python $env:BUILD_TECH_DEMO_SCRIPT $env:CI_PROJECT_DIR $env:UNITY_2022_VERSION $env:BUILD_TARGET_WINDOWS
   artifacts:
-    name: "demo-2022-win-$env:CI_COMMIT_REF_SLUG"
+    name: "tech-demo-2022-win-$env:CI_COMMIT_REF_SLUG"
     paths:
       - Builds
 
-demo_2022_android:
+tech_demo_2022_android:
   extends: .win_job_base
-  stage: demo_2022
+  stage: tech_demo_2022
   script:
-    - python $env:BUILD_DEMO_SCRIPT $env:CI_PROJECT_DIR $env:UNITY_2022_VERSION $env:BUILD_TARGET_ANDROID
+    - python $env:BUILD_TECH_DEMO_SCRIPT $env:CI_PROJECT_DIR $env:UNITY_2022_VERSION $env:BUILD_TARGET_ANDROID
   artifacts:
-    name: "demo-2022-android-$env:CI_COMMIT_REF_SLUG"
+    name: "tech-demo-2022-android-$env:CI_COMMIT_REF_SLUG"
     paths:
       - Builds
 
-demo_2022_webgl:
+tech_demo_2022_webgl:
   extends: .win_job_base
-  stage: demo_2022
+  stage: tech_demo_2022
   script:
-    - python $env:BUILD_DEMO_SCRIPT $env:CI_PROJECT_DIR $env:UNITY_2022_VERSION $env:BUILD_TARGET_WEBGL
+    - python $env:BUILD_TECH_DEMO_SCRIPT $env:CI_PROJECT_DIR $env:UNITY_2022_VERSION $env:BUILD_TARGET_WEBGL
   artifacts:
-    name: "demo-2022-webgl-$env:CI_COMMIT_REF_SLUG"
+    name: "tech-demo-2022-webgl-$env:CI_COMMIT_REF_SLUG"
     paths:
       - Builds
 
-demo_2022_mac:
+tech_demo_2022_mac:
   extends: .mac_job_base
-  stage: demo_2022
+  stage: tech_demo_2022
   script:
-    - python3 $BUILD_DEMO_SCRIPT $CI_PROJECT_DIR $UNITY_2022_VERSION $BUILD_TARGET_MACOS
+    - python3 $BUILD_TECH_DEMO_SCRIPT $CI_PROJECT_DIR $UNITY_2022_VERSION $BUILD_TARGET_MACOS
   artifacts:
-    name: "demo-2022-mac-$CI_COMMIT_REF_SLUG"
+    name: "tech-demo-2022-mac-$CI_COMMIT_REF_SLUG"
     paths:
       - Builds
 
 # =================================================================================================================
-# DEMO 6000
+# TECH_DEMO 6000
 
-demo_6000_win:
+tech_demo_6000_win:
   extends: .win_job_base
-  stage: demo_6000
+  stage: tech_demo_6000
   script:
-    - python $env:BUILD_DEMO_SCRIPT $env:CI_PROJECT_DIR $env:UNITY_6000_VERSION $env:BUILD_TARGET_WINDOWS
+    - python $env:BUILD_TECH_DEMO_SCRIPT $env:CI_PROJECT_DIR $env:UNITY_6000_VERSION $env:BUILD_TARGET_WINDOWS
   artifacts:
-    name: "demo-6000-win-$env:CI_COMMIT_REF_SLUG"
+    name: "tech-demo-6000-win-$env:CI_COMMIT_REF_SLUG"
     paths:
       - Builds
 
-demo_6000_android:
+tech_demo_6000_android:
   extends: .win_job_base
-  stage: demo_6000
+  stage: tech_demo_6000
   script:
-    - python $env:BUILD_DEMO_SCRIPT $env:CI_PROJECT_DIR $env:UNITY_6000_VERSION $env:BUILD_TARGET_ANDROID
+    - python $env:BUILD_TECH_DEMO_SCRIPT $env:CI_PROJECT_DIR $env:UNITY_6000_VERSION $env:BUILD_TARGET_ANDROID
   artifacts:
-    name: "demo-6000-android-$env:CI_COMMIT_REF_SLUG"
+    name: "tech-demo-6000-android-$env:CI_COMMIT_REF_SLUG"
     paths:
       - Builds
 
-demo_6000_webgl:
+tech_demo_6000_webgl:
   extends: .win_job_base
-  stage: demo_6000
+  stage: tech_demo_6000
   script:
-    - python $env:BUILD_DEMO_SCRIPT $env:CI_PROJECT_DIR $env:UNITY_6000_VERSION $env:BUILD_TARGET_WEBGL
+    - python $env:BUILD_TECH_DEMO_SCRIPT $env:CI_PROJECT_DIR $env:UNITY_6000_VERSION $env:BUILD_TARGET_WEBGL
   artifacts:
-    name: "demo-6000-webgl-$env:CI_COMMIT_REF_SLUG"
+    name: "tech-demo-6000-webgl-$env:CI_COMMIT_REF_SLUG"
     paths:
       - Builds
 
-demo_6000_mac:
+tech_demo_6000_mac:
   extends: .mac_job_base
-  stage: demo_6000
+  stage: tech_demo_6000
   script:
-    - python3 $BUILD_DEMO_SCRIPT $CI_PROJECT_DIR $UNITY_6000_VERSION $BUILD_TARGET_MACOS
+    - python3 $BUILD_TECH_DEMO_SCRIPT $CI_PROJECT_DIR $UNITY_6000_VERSION $BUILD_TARGET_MACOS
   artifacts:
-    name: "demo-6000-mac-$CI_COMMIT_REF_SLUG"
+    name: "tech-demo-6000-mac-$CI_COMMIT_REF_SLUG"
     paths:
       - Builds
 
@@ -277,15 +277,15 @@ stop doc:
   dependencies: []
 
 # =========================================================================================================================
-# DEPLOY DEMO
+# DEPLOY XSOLLA_DEMO
 
-build_new_demo:
+build_xsolla_demo:
   extends: .win_job_base
-  stage: new_demo
+  stage: xsolla_demo
   script:
-    - python $env:BUILD_NEW_DEMO_SCRIPT $env:CI_PROJECT_DIR $env:UNITY_2021_VERSION $env:BUILD_TARGET_WEBGL
+    - python $env:BUILD_XSOLLA_DEMO_SCRIPT $env:CI_PROJECT_DIR $env:UNITY_2021_VERSION $env:BUILD_TARGET_WEBGL
   artifacts:
-    name: "new-demo-$env:CI_COMMIT_REF_SLUG"
+    name: "xsolla-demo-$env:CI_COMMIT_REF_SLUG"
     paths:
       - Builds
 
@@ -299,7 +299,7 @@ deploy stage:
     except:
         - branches
     dependencies:
-        - build_new_demo
+        - build_xsolla_demo
     script:
         - /usr/local/bin/helper deploy ./Builds
 
@@ -331,7 +331,7 @@ deploy prod:
     variables:
         ENV: prod
     dependencies:
-        - build_new_demo
+        - build_xsolla_demo
     script:
         - /usr/local/bin/helper deploy ./Builds
 
