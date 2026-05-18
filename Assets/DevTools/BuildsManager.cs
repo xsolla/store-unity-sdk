@@ -12,12 +12,31 @@ namespace Xsolla.DevTools
 		public static void BuildTechDemo()
 		{
 			SdkSettingsManager.ResetSdkSettingsForTechDemo();
+			BakeTestCredentials();
 
 			var buildScenes = new[] {
 				"Assets/TechDemo/Scenes/TechDemo.unity"
 			};
 
 			BuildProject(buildScenes);
+		}
+
+		private static void BakeTestCredentials()
+		{
+			var json = Environment.GetEnvironmentVariable("XSOLLA_TEST_CREDENTIALS");
+			if (string.IsNullOrEmpty(json))
+			{
+				Debug.Log("[BuildsManager] XSOLLA_TEST_CREDENTIALS not set, skipping credentials bake");
+				return;
+			}
+
+			var dir = Path.Combine(Application.dataPath, "Resources");
+			if (!Directory.Exists(dir))
+				Directory.CreateDirectory(dir);
+
+			var filePath = Path.Combine(dir, "test-credentials-local.json");
+			File.WriteAllText(filePath, json);
+			Debug.Log($"[BuildsManager] Baked test credentials to {filePath}");
 		}
 
 		public static void BuildXsollaDemo()
