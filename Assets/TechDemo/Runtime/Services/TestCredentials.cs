@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using UnityEngine;
-using UnityEngine.Networking;
 
 namespace Xsolla.Tests
 {
@@ -55,16 +54,24 @@ namespace Xsolla.Tests
 				if (_file != null)
 					return _file;
 
-				// 1. Local file
-				var path = Path.Combine(Application.streamingAssetsPath, "test-credentials.local.json");
-				var fileContent = ReadStreamingAsset(path);
-				if (fileContent != null)
+				// 1. Resources (baked during CI build, works on all platforms including WebGL)
+				var textAsset = Resources.Load<TextAsset>("test-credentials-local");
+				if (textAsset != null)
 				{
+					_file = JsonUtility.FromJson<CredentialsFile>(textAsset.text);
+					return _file;
+				}
+
+				// 2. StreamingAssets file (local development)
+				var path = Path.Combine(Application.streamingAssetsPath, "test-credentials.local.json");
+				if (System.IO.File.Exists(path))
+				{
+					var fileContent = System.IO.File.ReadAllText(path);
 					_file = JsonUtility.FromJson<CredentialsFile>(fileContent);
 					return _file;
 				}
 
-				// 2. Full JSON from env var (for CI)
+				// 3. Full JSON from env var (CI runtime)
 				var json = Environment.GetEnvironmentVariable("XSOLLA_TEST_CREDENTIALS");
 				if (!string.IsNullOrEmpty(json))
 				{
@@ -75,22 +82,6 @@ namespace Xsolla.Tests
 				_file = new CredentialsFile();
 				return _file;
 			}
-		}
-
-		private static string ReadStreamingAsset(string path)
-		{
-#if UNITY_ANDROID && !UNITY_EDITOR
-			var request = UnityWebRequest.Get(path);
-			request.SendWebRequest();
-			while (!request.isDone) { }
-			if (request.result == UnityWebRequest.Result.Success)
-				return request.downloadHandler.text;
-			return null;
-#else
-			if (System.IO.File.Exists(path))
-				return System.IO.File.ReadAllText(path);
-			return null;
-#endif
 		}
 
 		[Serializable]

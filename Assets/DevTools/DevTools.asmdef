@@ -3,7 +3,9 @@
     "rootNamespace": "",
     "references": [
         "Xsolla",
-        "Xsolla.Editor"
+        "Xsolla.Editor",
+        "Xsolla.NewDemo",
+        "Xsolla.TechDemo"
     ],
     "includePlatforms": [
         "Editor"
