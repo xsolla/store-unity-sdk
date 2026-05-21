@@ -8,6 +8,7 @@
          These repos will be searched for all packages specified by
          androidPackage. -->
     <repositories>
+      <repository>file:///Users/denisrakhimov/.m2/repository</repository>
       <repository>https://repo1.maven.org/maven2/</repository>
     </repositories>
 
@@ -23,6 +24,8 @@
 
          Additional repositories can be added using the "repositories" element.
     -->
+    <!-- TASK-2: bridge stub for local integration testing. Remove in TASK-17. -->
+    <androidPackage spec="com.xsolla.android:bridge:0.1.0-LOCAL"/>
     <androidPackage spec="com.xsolla.android:payments:1.4.20"/>
     <androidPackage spec="com.xsolla.android:login:6.0.18"/>
     <androidPackage spec="com.xsolla.android:login-facebook:6.0.18"/>
