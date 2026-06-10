@@ -1,220 +1,55 @@
-> [!TIP]
-> Integrate [Xsolla Mobile SDK](https://developers.xsolla.com/sdk/unity/) to enable In-App Payments across mobile platforms within and outside of stores in a platform-compliant way, powered by Pay Station with over 700 payment methods.
+# store-unity-sdk
 
-# Enterprise-level Xsolla SDK for Unity
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](./LICENSE.txt)
+[![Latest Release](https://img.shields.io/github/v/release/xsolla/store-unity-sdk)](https://github.com/xsolla/store-unity-sdk/releases)
+[![Unity 2021.3+](https://img.shields.io/badge/Unity-2021.3%2B-black.svg?logo=unity)](https://unity.com/)
 
+## Overview
 
-The SDK makes it easier to integrate Xsolla products into your Unity project by providing out-of-the-box data structures and methods for working with Xsolla API.
-
-After integration, you can use Xsolla products to:
-
-* authenticate users
-* manage in-game purchases and player inventory in your application
-* set up payment methods
-* sell subscriptions
-
-[Learn more about supported features →](#Features)
-
-To start with the SDK, you need to install this asset and set up a project in [Xsolla Publisher Account](https://publisher.xsolla.com/signup?utm_source=sdk&utm_medium=unity-store/).
-
-**INFO:** Starting with SDK version 2.5.5, you can also use the [Ready-to-use store](https://developers.xsolla.com/sdk/ready-to-use-store/) module — a ready-made solution with a pre-configured UI and logic for user authorization, catalog display, and item purchase.
-
-[Go to the integration guide →](https://developers.xsolla.com/sdk/unity-enterprise/)
-
-## Features
-
-### Authentication
-
-* [OAuth 2.0](https://oauth.net/2/) protocol-based authentication.
-* Classic login (username/email and password).
-* Social login.
-* Social login on the user’s device via a social network client (Google, Facebook, WeChat, and QQ).
-* Login via a launcher (Steam or [Xsolla Launcher](https://developers.xsolla.com/distribute-game/launcher/)).
-* Login via a device ID.
-* Passwordless login via a one-time code or a link sent via SMS or email.
-* Xsolla Login widget that currently supports classic, social, and passwordless login. The widget opens in the built-in browser and can’t be used for native social login.
-
-### User management
-
-* User attributes to manage additional information.
-* Cross-platform account linking.
-* Secure Xsolla storage for user data. Alternatively, you can connect PlayFab, Firebase, or your custom storage.
-
-**INFO:** You can also manage user accounts and access rights via Xsolla Publisher Account.
-
-### Catalog
-
-* Virtual currency:
-    * Sell virtual currency in any amount or in packages (for real money or other virtual currency).
-    * Sell hard currency (for real money only).
-* Virtual items:
-    * Set up a catalog of in-game items.
-    * Sell virtual items for real and virtual currency.
-* Bundles:
-    * Sell bundles for real or virtual currency.
-* Promotional campaigns:
-    * Reward users with virtual currency packages, game keys, or virtual items for coupons.
-    * Give users bonuses or apply a discount on items in the cart with promo codes.
-
-**INFO:** You can add items in the catalog or manage campaigns with discounts, coupons, and promo codes via Xsolla Publisher Account.
-
-### Subscriptions
-
-* Selling subscriptions.
-* Subscription renewal and cancellation.
-* Subscription management from a user’s dashboard.
-
-**INFO:** You can add and manage subscription plans via Xsolla Publisher Account.
-
-### Item purchase
-
-* Sell items in one click or via the shopping cart.
-* Provide users with a convenient payment UI. Main features:
-    * 700+ payment methods in 200+ countries, including bank cards, digital wallets, mobile payments, cash kiosks, gift cards, and special offers.
-    * 130+ currencies.
-    * UI localized into 20+ languages.
-    * Desktop and mobile versions.
-
-**INFO:** Xsolla Publisher Account provides you with purchase analytics, transaction history, and other statistics.
-
-### Player inventory
-
-* Get and verify an inventory.
-* Consume items according to the game logic.
-* Consume virtual currency according to the in-game logics (for example, when opening a location or purchasing level for some currency).
-* Synchronize all purchases and premium rewards of the user across all platforms.
+The Xsolla SDK for Unity makes it easier to integrate Xsolla products into your Unity project by providing out-of-the-box data structures and methods for working with the Xsolla API. After integration, you can authenticate users, manage in-game purchases and player inventory, set up payment methods, and sell subscriptions.
 
 ## Requirements
 
-### System requirements
+- **OS (development):** 64-bit Windows 7 SP1+ or macOS 10.12+
+- **Unity:** 2021.3.56f2 or later
+- **Target platforms:** macOS, Windows 64-bit, Android, iOS, WebGL
+- **Xsolla Publisher Account:** Required — [sign up here](https://publisher.xsolla.com/signup?utm_source=sdk&utm_medium=unity-store/)
 
-* 64-bit OS
-* Windows 7 SP1 and higher
-* macOS 10.12 and higher
-* Minimum supported version of Unity — 2021.3.56f2
+## Install
 
-### Target OS
+### Option 1 — Unity Package (recommended)
 
-* macOS
-* Windows 64-bit
-* Android
-* iOS
+1. [Download the latest `.unitypackage`](https://github.com/xsolla/store-unity-sdk/raw/refs/heads/master/xsolla-unity-sdk-latest.unitypackage) or choose a version from [GitHub Releases](https://github.com/xsolla/store-unity-sdk/releases).
+2. In the Unity Editor, go to **Assets > Import Package > Custom Package** and select the downloaded file.
 
-Additionally, the asset supports [creating WebGL build](https://developers.xsolla.com/sdk/unity-enterprise/application-build-guides/how-to-work-build-webgl/) to run your application in a browser.
+### Option 2 — Unity Package Manager (git URL)
 
-For mobile platforms, we recommend integrating [Xsolla Mobile SDK](https://developers.xsolla.com/sdk/unity/).
-
-**NOTE:** We recommend you use the Mono compiler for desktop platforms as it’s compatible with the provided in-game browser. If you use other browser solutions, you can use the IL2CPP compiler instead. You can use either Mono or IL2CPP compilers to create game builds for Android.
-
-
-## Install SDK
-
-### Import package from an archive
-
-1. [Download the latest SDK version](https://github.com/xsolla/store-unity-sdk/raw/refs/heads/master/xsolla-unity-sdk-latest.unitypackage) (recommended) or choose the required SDK version on [GitHub](https://github.com/xsolla/store-unity-sdk/releases) and download it.
-
-2. Unzip the package.
-
-3. In the Unity editor, go to **Assets > Import Package > Custom Package** in the main menu and select the SDK.
-
-4. Follow the [integration guide](https://developers.xsolla.com/sdk/unity-enterprise/integrate-complete-solution/get-started/) to configure project on Xsolla side.
-
-### Import package from git repository
-
-**NOTE:**
-
-For the package manager to work correctly, [git client](https://git-scm.com/) should be installed. For detailed information about the prerequisites for using the package manager, refer to the [Unity documentation](https://docs.unity3d.com/Manual/upm-ui-giturl.html).
-
-1. Open your Unity project or create a new one.
-
-2. In the main menu, click **Window > Package Manager**.
-
-3. Add a package as a dependence:
-
-    a. Click the **+** icon and select  **Add package from git URL**.
-
-    b. Specify the git repository URL: `https://github.com/xsolla/store-unity-sdk.git?path=Assets/Xsolla`.
-
-    c. Click **Add** and wait for the import to finish.
+1. Open your Unity project.
+2. Go to **Window > Package Manager**.
+3. Click **+** → **Add package from git URL**.
+4. Enter: `https://github.com/xsolla/store-unity-sdk.git?path=Assets/Xsolla`
 
 ## Usage
 
-To send requests to Xsolla servers and receive responses, the SDK provides the `XsollaAuth`, `XsollaCatalog`, `XsollaCart`, and `XsollaOrders` classes. If you want to implement your own logic for buying items or inventory management, and don’t want to write boilerplate code for API calls, these classes are a good place to start.
-
-You can use the [Ready-to-use store](https://developers.xsolla.com/sdk/ready-to-use-store/) module — a ready-made solution with a pre-configured UI and logic for user authorization, catalog display, and item purchase.
-
-Follow the [step-by-step instructions](https://developers.xsolla.com/sdk/unity-enterprise/integrate-complete-solution/integrate-on-app-side/#unity_sdk_integrate_on_app_side_quick_start) to implement the basic in-game sales scenario from scratch.
-
-Explore [code reference documentation](https://developers.xsolla.com/sdk-code-references/unity-store/) to learn more about SDK methods.
-
-# Known issues
-
-## Unable to resolve reference UnityEditor.iOS.Extensions.Xcode
-
-### Issue description
-
-The issue appears when using External Dependency Manager on Unity version 2020.1.0f1 and later.
-
-When building the application, an error message is displayed:
-
-```
-Assembly 'Packages/com.google.external-dependency-manager/ExternalDependencyManager/Editor/Google.IOSResolver_v1.2.161.dll' will not be loaded due to errors:
-Unable to resolve reference 'UnityEditor.iOS.Extensions.Xcode'. Is the assembly missing or incompatible with the current platform?
-Reference validation can be disabled in the Plugin Inspector.
+```csharp
+// Example: Authenticate a user
+XsollaAuth.SignIn(username, password, rememberUser: false,
+    onSuccess: token => Debug.Log("Signed in: " + token),
+    onError: error => Debug.LogError(error.errorMessage));
 ```
 
-**Issue status**: Fixed in 0.6.4.5.
+For a complete walkthrough, see the [step-by-step integration guide](https://developers.xsolla.com/sdk/unity-enterprise/integrate-complete-solution/integrate-on-app-side/#unity_sdk_integrate_on_app_side_quick_start).
 
-### Workaround
+## Documentation
 
-Install iOS Build Support module from Unity Hub.
+Full SDK documentation: [developers.xsolla.com/sdk/unity-enterprise/](https://developers.xsolla.com/sdk/unity-enterprise/)
 
-## Error occurred running Unity content on page of WebGL build
+## Support
 
-### Issue description
-
-The issue may appear when logging in WebGL build. The following error message is displayed:
-
-![WebGL error message](https://i.imgur.com/me3ADT4.png "WebGL error message")
-
-See details on cause of the issue on [Unity Issue Tracker](https://issuetracker.unity3d.com/issues/il2cpp-notsupportedexceptions-exception-is-thrown-in-build-with-newtonsoft-dot-json-plugin).
-
-**Issue status:** Won’t fix.
-
-
-### Workaround
-
-1. Open Unity project.
-2. Click **Edit > Project Settings** in the main menu.
-3. In the **Player** section, go to the WebGL build settings tab.
-4. Go to the **Other Settings** section.
-5. Uncheck **Strip engine code** box.
-6. Go to the **Publishing Settings** section.
-7. Check the **Decompression Fallback** box.
-8. Create a new WebGL build.
-
-
-## Pricing
-
-Xsolla offers the necessary tools to help you build and grow your gaming business, including personalized support at every stage. The terms of payment are determined by the contract that you can sign via Publisher Account.
-
-The cost of using all Xsolla products is 5% of the amount you receive for the sale of the game and in-game goods via Xsolla Pay Station. If you do not use Xsolla Pay Station in your application, but use other products, contact your Customer Success Manager or email [csm@xsolla.com](mailto:csm@xsolla.com) to clarify the terms and conditions.
-
-Explore [legal information](https://xsolla.com/pricing) that helps you work with Xsolla.
+- [GitHub Issues](https://github.com/xsolla/store-unity-sdk/issues)
+- [Xsolla partner support](https://xsolla.com/partner-support)
+- [Integration team](mailto:integration@xsolla.com)
 
 ## License
 
-See the [LICENSE](https://github.com/xsolla/store-unity-sdk/blob/master/LICENSE.txt) file.
-
-## Contacts
-
-* [Support team and feedback](https://xsolla.com/partner-support)
-* [Integration team](mailto:integration@xsolla.com)
-
-
-## Additional resources
-
-* [Xsolla official website](https://xsolla.com/)
-* [Developers documentation](https://developers.xsolla.com/sdk/unity-enterprise/)
-* [Ready-to-use store module documentation](https://developers.xsolla.com/sdk/ready-to-use-store/)
-* [Code reference documentation](https://developers.xsolla.com/sdk-code-references/unity-store/)
+Apache 2.0. See [LICENSE](./LICENSE.txt).
