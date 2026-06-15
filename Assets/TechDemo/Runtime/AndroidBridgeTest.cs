@@ -14,6 +14,10 @@ namespace Xsolla.TechDemo
 			var socialNetwork = socialNetworkClass.GetStatic<AndroidJavaObject>("DISCORD");
 			bridgeFacadeClass.CallStatic("testSocialNetwork", socialNetwork);
 
+			bridgeFacadeClass.CallStatic("testSetToken", "test-access-token-123");
+			var token = bridgeFacadeClass.CallStatic<string>("testGetToken");
+			Debug.Log("ANDROID_BRIDGE_TEST: testGetToken=" + token);
+
 			var authCallback = new TestAuthCallback();
 			bridgeFacadeClass.CallStatic("testAuthCallback", authCallback);
 
