@@ -18,10 +18,28 @@ namespace Xsolla.TechDemo
 			var token = bridgeFacadeClass.CallStatic<string>("testGetToken");
 			Debug.Log("ANDROID_BRIDGE_TEST: testGetToken=" + token);
 
+			TestAnalyticsUtils();
+
 			var authCallback = new TestAuthCallback();
 			bridgeFacadeClass.CallStatic("testAuthCallback", authCallback);
 
 			Debug.Log("END ANDROID_BRIDGE_TEST");
+		}
+
+		private static void TestAnalyticsUtils()
+		{
+			var loginAnalytics = new AndroidJavaClass("com.xsolla.android.bridge.login.util.AnalyticsUtils");
+			loginAnalytics.SetStatic("gameEngine", "unity");
+			loginAnalytics.SetStatic("gameEngineVersion", Application.unityVersion);
+			var engine = loginAnalytics.GetStatic<string>("gameEngine");
+			var version = loginAnalytics.GetStatic<string>("gameEngineVersion");
+			Debug.Log("ANDROID_BRIDGE_TEST: login.AnalyticsUtils gameEngine=" + engine + " gameEngineVersion=" + version);
+
+			var paymentsAnalytics = new AndroidJavaClass("com.xsolla.android.bridge.payments.util.AnalyticsUtils");
+			paymentsAnalytics.SetStatic("gameEngine", "unity");
+			paymentsAnalytics.SetStatic("gameEngineVersion", Application.unityVersion);
+			var engine2 = paymentsAnalytics.GetStatic<string>("gameEngine");
+			Debug.Log("ANDROID_BRIDGE_TEST: payments.AnalyticsUtils gameEngine=" + engine2);
 		}
 
 		private class TestAuthCallback : AndroidJavaProxy
