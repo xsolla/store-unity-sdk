@@ -20,6 +20,7 @@ namespace Xsolla.TechDemo
 
 			TestAnalyticsUtils();
 			TestLoginConfig();
+			TestStartSocialAuth();
 
 			var authCallback = new TestAuthCallback();
 			bridgeFacadeClass.CallStatic("testAuthCallback", authCallback);
@@ -70,6 +71,34 @@ namespace Xsolla.TechDemo
 			var token = xlogin.CallStatic<string>("getToken");
 			var refreshToken = xlogin.CallStatic<string>("getRefreshToken");
 			Debug.Log("ANDROID_BRIDGE_TEST: XLogin.getToken()=" + token + " getRefreshToken()=" + refreshToken);
+		}
+
+		private static void TestStartSocialAuth()
+		{
+			var unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+			var activity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+
+			var socialNetworkClass = new AndroidJavaClass("com.xsolla.android.bridge.login.social.SocialNetwork");
+			var google = socialNetworkClass.GetStatic<AndroidJavaObject>("GOOGLE");
+
+			var xlogin = new AndroidJavaClass("com.xsolla.android.bridge.login.XLogin");
+			xlogin.CallStatic("startSocialAuth", activity, google, new TestStartSocialCallback());
+			Debug.Log("ANDROID_BRIDGE_TEST: startSocialAuth called — waiting for callback...");
+		}
+
+		private class TestStartSocialCallback : AndroidJavaProxy
+		{
+			public TestStartSocialCallback() : base("com.xsolla.android.bridge.login.callback.StartSocialCallback") { }
+
+			public void onAuthStarted()
+			{
+				Debug.Log("ANDROID_BRIDGE_TEST: StartSocialCallback.onAuthStarted() — browser opened!");
+			}
+
+			public void onError(AndroidJavaObject throwable, string errorMessage)
+			{
+				Debug.Log("ANDROID_BRIDGE_TEST: StartSocialCallback.onError(): " + errorMessage);
+			}
 		}
 
 		private class TestAuthCallback : AndroidJavaProxy
