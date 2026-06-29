@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/TechDemo/Scenes/TechDemo.unity
-    guid: 50965fe5dafeb4ca1806f5af1a326f70
+    path: Assets/Bridge/Bridge.unity
+    guid: 6648f2bc4192d487984719e9b1c59400
   m_configObjects: {}

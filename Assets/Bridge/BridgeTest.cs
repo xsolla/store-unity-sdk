@@ -1,10 +1,10 @@
 using UnityEngine;
 
-namespace Xsolla.TechDemo
+namespace Xsolla.Bridge
 {
-	public class AndroidBridgeTest : MonoBehaviour
+	public class BridgeTest : MonoBehaviour
 	{
-		private void Start()
+		public void Execute()
 		{
 			Debug.Log("START ANDROID_BRIDGE_TEST");
 			var bridgeFacadeClass = new AndroidJavaClass("com.xsolla.android.bridge.XsollaBridge");

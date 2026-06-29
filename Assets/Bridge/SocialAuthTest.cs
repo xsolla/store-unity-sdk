@@ -1,15 +1,15 @@
 using UnityEngine;
 using Xsolla.Core;
 
-namespace Xsolla.TechDemo
+namespace Xsolla.Bridge
 {
-	public class AndroidSocialAuthTest : MonoBehaviour
+	public class SocialAuthTest : MonoBehaviour
 	{
 		[SerializeField] private string loginId = "";
 		[SerializeField] private int oauthClientId = 0;
 		[SerializeField] private string socialNetworkName = "GOOGLE";
 
-		private void Start()
+		public void Execute()
 		{
 			if (string.IsNullOrEmpty(loginId) || oauthClientId == 0)
 			{
