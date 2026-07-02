@@ -25,6 +25,9 @@ namespace Xsolla.Bridge
 			var authCallback = new TestAuthCallback();
 			bridgeFacadeClass.CallStatic("testAuthCallback", authCallback);
 
+			var browserCallback = new TestBrowserCallback();
+			bridgeFacadeClass.CallStatic("testBrowserCallback", browserCallback);
+
 			Debug.Log("END ANDROID_BRIDGE_TEST");
 		}
 
@@ -113,6 +116,16 @@ namespace Xsolla.Bridge
 			public void onError(AndroidJavaObject throwable, string errorMessage)
 			{
 				Debug.Log($"ANDROID_BRIDGE_TEST: AuthCallback.onError() received: {errorMessage}");
+			}
+		}
+
+		private class TestBrowserCallback : AndroidJavaProxy
+		{
+			public TestBrowserCallback() : base("com.xsolla.android.bridge.payments.callback.BrowserCallback") { }
+
+			public void onBrowserClosed(bool isManually)
+			{
+				Debug.Log($"ANDROID_BRIDGE_TEST: BrowserCallback.onBrowserClosed(isManually={isManually}) received!");
 			}
 		}
 	}
