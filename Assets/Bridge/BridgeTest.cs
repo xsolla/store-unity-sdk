@@ -21,6 +21,7 @@ namespace Xsolla.Bridge
 			TestAnalyticsUtils();
 			TestLoginConfig();
 			TestStartSocialAuth();
+			TestXPayments();
 
 			var authCallback = new TestAuthCallback();
 			bridgeFacadeClass.CallStatic("testAuthCallback", authCallback);
@@ -87,6 +88,16 @@ namespace Xsolla.Bridge
 			var xlogin = new AndroidJavaClass("com.xsolla.android.bridge.login.XLogin");
 			xlogin.CallStatic("startSocialAuth", activity, google, new TestStartSocialCallback());
 			Debug.Log("ANDROID_BRIDGE_TEST: startSocialAuth called — waiting for callback...");
+		}
+
+		private static void TestXPayments()
+		{
+			var unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+			var activity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+
+			var bridgeFacadeClass = new AndroidJavaClass("com.xsolla.android.bridge.XsollaBridge");
+			bridgeFacadeClass.CallStatic("testXPayments", activity);
+			Debug.Log("ANDROID_BRIDGE_TEST: testXPayments() called — check logcat tag XsollaBridge for IntentBuilder/Result output");
 		}
 
 		private class TestStartSocialCallback : AndroidJavaProxy
