@@ -13,6 +13,7 @@
 > **Get started with SDK 3:**
 > | Resource | Link |
 > |---|---|
+> | 📦 SDK 3 Repository | https://github.com/xsolla/xsolla-sdk-unity |
 > | 📖 SDK 3 Documentation | https://developers.xsolla.com/sdk/ |
 > | 🔭 SDK Explorer (try before you code) | https://developers.xsolla.com/sdk/demo/ |
 >
