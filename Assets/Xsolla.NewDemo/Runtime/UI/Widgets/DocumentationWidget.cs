@@ -13,8 +13,8 @@ namespace Xsolla.Demo
 
 		private void Start()
 		{
-			DocumentationButton.onClick.AddListener(() => UrlService.OpenDocumentation());
-			ShopButton.onClick.AddListener(() => LevelStateMachine.SetStoreLevel());
+			DocumentationButton?.onClick.AddListener(() => UrlService.OpenDocumentation());
+			ShopButton?.onClick.AddListener(() => LevelStateMachine.SetStoreLevel());
 		}
 	}
 }
