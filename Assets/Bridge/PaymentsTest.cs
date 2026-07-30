@@ -10,7 +10,7 @@ namespace Xsolla.Bridge
 			var redirectScheme = "app";
 			var redirectHost = "xpayment." + Application.identifier;
 			var paystationVersion = 4;
-			var activityType = "CUSTOM_TABS";
+			var activityType = "TrustedWebActivity";
 
 			var unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
 			var activity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
