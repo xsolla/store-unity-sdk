@@ -24,19 +24,19 @@ namespace Xsolla.Demo
 			if (item != null)
 				HeartWidget.Setup(item);
 			else
-				Debug.LogError($"Heart item not found in catalog: {HEART_ITEM_SKU}");
+				Debug.LogError($"Heart item not found in catalog: {HEART_ITEM_SKU}. Check Project ID in XsollaSettings");
 
 			item = CatalogService.GetItem(OWL_ITEM_SKU);
 			if (item != null)
 				OwlWidget.Setup(item);
 			else
-				Debug.LogError($"Owl item not found in catalog: {OWL_ITEM_SKU}");
+				Debug.LogError($"Owl item not found in catalog: {OWL_ITEM_SKU}. Check Project ID in XsollaSettings");
 
 			item = CatalogService.GetItem(COIN_PACK_ITEM_SKU);
 			if (item != null)
 				CoinPackWidget.Setup(item);
 			else
-				Debug.LogError($"Coin pack item not found in catalog: {COIN_PACK_ITEM_SKU}");
+				Debug.LogError($"Coin pack item not found in catalog: {COIN_PACK_ITEM_SKU}. Check Project ID in XsollaSettings");
 		}
 	}
 }
