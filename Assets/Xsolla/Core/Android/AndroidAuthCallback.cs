@@ -11,7 +11,7 @@ namespace Xsolla.Core
 		private readonly Action<Error> OnError;
 		private readonly Action OnCancel;
 
-		public AndroidAuthCallback(AndroidHelper androidHelper, Action onSuccess, Action<Error> onError, Action onCancel) : base("com.xsolla.android.login.callback.AuthCallback")
+		public AndroidAuthCallback(AndroidHelper androidHelper, Action onSuccess, Action<Error> onError, Action onCancel) : base("com.xsolla.android.bridge.login.callback.AuthCallback")
 		{
 			AndroidHelper = androidHelper;
 			OnSuccess = onSuccess;
@@ -19,7 +19,7 @@ namespace Xsolla.Core
 			OnCancel = onCancel;
 		}
 
-		// called from proxy activities - SocialAuthProxyActivity and XsollaWidgetAuthProxyActivity
+		// called from com.xsolla.android.bridge's AuthFlowCoordinator once the auth deep link redirect is dispatched
 		public void onSuccess()
 		{
 			try
@@ -37,7 +37,7 @@ namespace Xsolla.Core
 			}
 		}
 
-		// called from proxy activities - SocialAuthProxyActivity and XsollaWidgetAuthProxyActivity
+		// called from com.xsolla.android.bridge's AuthFlowCoordinator once the auth deep link redirect is dispatched
 		public void onError(AndroidJavaObject _, string errorMessage)
 		{
 			if (!string.IsNullOrEmpty(errorMessage) && errorMessage == "CANCELLED")

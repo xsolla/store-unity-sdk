@@ -13,7 +13,7 @@ namespace Xsolla.TechDemo.Scenarios
 		{
 			base.SetUp();
 			SetSandboxMode(true);
-			SetInAppBrowserActive(false);
+			SetInAppBrowserActive(true);
 		}
 
 		public override IEnumerator Execute(Action onSuccess, Action<Error> onError)

@@ -24,13 +24,6 @@
 
          Additional repositories can be added using the "repositories" element.
     -->
-    <!-- TASK-2: bridge stub for local integration testing. Remove in TASK-17. -->
     <androidPackage spec="com.xsolla.android:bridge:0.1.0-LOCAL"/>
-    <androidPackage spec="com.xsolla.android:payments:1.4.20"/>
-    <androidPackage spec="com.xsolla.android:login:6.0.18"/>
-    <androidPackage spec="com.xsolla.android:login-facebook:6.0.18"/>
-    <androidPackage spec="com.xsolla.android:login-google:6.0.18"/>
-    <androidPackage spec="com.xsolla.android:login-wechat:6.0.18"/>
-    <androidPackage spec="com.xsolla.android:login-qq:6.0.18"/>
   </androidPackages>
 </dependencies>

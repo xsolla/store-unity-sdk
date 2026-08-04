@@ -28,7 +28,7 @@ namespace Xsolla.Core
 
 				string activityTypeName = activityType?.ToString();
 
-				var proxyActivity = new AndroidJavaClass($"{Application.identifier}.androidProxies.PaymentsProxyActivity");
+				var proxyActivity = new AndroidJavaClass("com.xsolla.android.bridge.payments.ui.PayStationBridgeActivity");
 				proxyActivity.CallStatic("perform",
 					helper.CurrentActivity,
 					paymentToken,

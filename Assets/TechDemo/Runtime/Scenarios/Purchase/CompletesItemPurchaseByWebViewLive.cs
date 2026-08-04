@@ -15,7 +15,7 @@ namespace Xsolla.TechDemo.Scenarios
 		{
 			base.SetUp();
 			SetSandboxMode(false);
-			SetInAppBrowserActive(false);
+			SetInAppBrowserActive(true);
 			SetProjectId(ProjectId);
 		}
 

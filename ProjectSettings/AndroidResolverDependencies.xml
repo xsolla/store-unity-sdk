@@ -1,12 +1,6 @@
 <dependencies>
   <packages>
     <package>com.xsolla.android:bridge:0.1.0-LOCAL</package>
-    <package>com.xsolla.android:login:6.0.18</package>
-    <package>com.xsolla.android:login-facebook:6.0.18</package>
-    <package>com.xsolla.android:login-google:6.0.18</package>
-    <package>com.xsolla.android:login-qq:6.0.18</package>
-    <package>com.xsolla.android:login-wechat:6.0.18</package>
-    <package>com.xsolla.android:payments:1.4.20</package>
   </packages>
   <files />
   <settings>
