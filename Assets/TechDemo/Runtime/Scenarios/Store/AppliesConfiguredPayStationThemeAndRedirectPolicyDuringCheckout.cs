@@ -31,36 +31,13 @@ namespace Xsolla.TechDemo.Scenarios
 
 			GetPlatformSpecificSettings().paystationThemeId = TestThemeId;
 
-			var authFailed = false;
-			yield return AuthAsDefaultUser(error => {
-				authFailed = true;
-				TryCompleteError(error);
-			});
-
-			if (authFailed || IsCompleted)
-				yield break;
-
-			var purchaseCompleted = false;
-			Error purchaseError = null;
-
-			XsollaCatalog.Purchase(
-				ItemSku,
-				_ => purchaseCompleted = true,
-				error => {
-					purchaseError = error;
-					purchaseCompleted = true;
-				});
-
-			yield return new WaitUntil(() => purchaseCompleted);
-
+			yield return AuthAsDefaultUser();
 			if (IsCompleted)
 				yield break;
 
-			if (purchaseError != null)
-			{
-				TryCompleteError(purchaseError);
+			yield return RunAsync<OrderStatus>((success, failure) => XsollaCatalog.Purchase(ItemSku, success, failure));
+			if (IsCompleted)
 				yield break;
-			}
 
 			TryCompleteSuccess();
 		}

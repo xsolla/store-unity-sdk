@@ -1,45 +1,20 @@
-using System;
-using System.Collections;
-using Xsolla.Catalog;
 using Xsolla.Core;
 
 namespace Xsolla.TechDemo.Scenarios
 {
-	public class CompletesItemPurchaseByCustomTabsSandbox : Scenario
+	public class CompletesItemPurchaseByCustomTabsSandbox : SandboxPurchaseScenario
 	{
-		private const string ItemSku = "booster_max_1";
+		protected override string ItemSku => "booster_max_1";
+
+		protected override PlatformSpecificAppearance Appearance
+			=> new() {
+				AndroidActivityType = AndroidActivityType.CustomTab
+			};
 
 		public override void SetUp()
 		{
 			base.SetUp();
-			SetSandboxMode(true);
 			SetInAppBrowserActive(true);
-		}
-
-		public override IEnumerator Execute(Action onSuccess, Action<Error> onError)
-		{
-			InitExecution(onSuccess, onError);
-
-			var authFailed = false;
-			yield return AuthAsDefaultUser(error => {
-				authFailed = true;
-				TryCompleteError(error);
-			});
-
-			if (authFailed || IsCompleted)
-				yield break;
-
-			var appearance = new PlatformSpecificAppearance {
-				AndroidActivityType = AndroidActivityType.CustomTab
-			};
-
-			XsollaCatalog.Purchase(
-				ItemSku,
-				_ => TryCompleteSuccess(),
-				error => TryCompleteError(error),
-				platformSpecificAppearance: appearance);
-
-			yield return WaitForCompletion();
 		}
 	}
 }

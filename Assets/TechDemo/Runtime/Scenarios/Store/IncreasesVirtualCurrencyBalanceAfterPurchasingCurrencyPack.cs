@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using UnityEngine;
 using Xsolla.Catalog;
 using Xsolla.Core;
 
@@ -18,114 +17,30 @@ namespace Xsolla.TechDemo.Scenarios
 		{
 			InitExecution(onSuccess, onError);
 
-			var authFailed = false;
-			yield return AuthAsDefaultUser(error => {
-				authFailed = true;
-				TryCompleteError(error);
-			});
-
-			if (authFailed || IsCompleted)
+			yield return AuthAsDefaultUser();
+			if (IsCompleted)
 				yield break;
 
-			var previousBalanceReceived = false;
 			var previousBalance = 0;
-			Error previousBalanceError = null;
-
-			RequestCurrencyBalance(
-				balance => {
-					previousBalance = balance;
-					previousBalanceReceived = true;
-				},
-				error => {
-					previousBalanceError = error;
-					previousBalanceReceived = true;
-				});
-
-			yield return new WaitUntil(() => previousBalanceReceived);
-
+			yield return RunAsync<int>(RequestCurrencyBalance, balance => previousBalance = balance);
 			if (IsCompleted)
 				yield break;
 
-			if (previousBalanceError != null)
-			{
-				TryCompleteError(previousBalanceError);
-				yield break;
-			}
-
-			var purchaseCompleted = false;
-			Error purchaseError = null;
-
-			XsollaCatalog.Purchase(
-				PackSku,
-				_ => purchaseCompleted = true,
-				error => {
-					purchaseError = error;
-					purchaseCompleted = true;
-				});
-
-			yield return new WaitUntil(() => purchaseCompleted);
-
+			yield return RunAsync<OrderStatus>((success, failure) => XsollaCatalog.Purchase(PackSku, success, failure));
 			if (IsCompleted)
 				yield break;
 
-			if (purchaseError != null)
-			{
-				TryCompleteError(purchaseError);
-				yield break;
-			}
-
-			yield return VerifyBalanceIncreaseWithRetry(previousBalance);
-		}
-
-		private IEnumerator VerifyBalanceIncreaseWithRetry(int previousBalance)
-		{
 			var expectedBalance = previousBalance + BalanceIncreaseAmount;
-
-			for (var attempt = 0; attempt < BalanceCheckAttempts; attempt++)
-			{
-				var balanceReceived = false;
-				var currentBalance = 0;
-				Error balanceError = null;
-
-				RequestCurrencyBalance(
-					balance => {
-						currentBalance = balance;
-						balanceReceived = true;
-					},
-					error => {
-						balanceError = error;
-						balanceReceived = true;
-					});
-
-				yield return new WaitUntil(() => balanceReceived);
-
-				if (IsCompleted)
-					yield break;
-
-				if (balanceError == null && currentBalance - previousBalance == BalanceIncreaseAmount)
-				{
-					TryCompleteSuccess();
-					yield break;
-				}
-
-				var isLastAttempt = attempt == BalanceCheckAttempts - 1;
-				if (isLastAttempt)
-				{
-					if (balanceError != null)
-						TryCompleteError(balanceError);
-					else
-						TryCompleteError(new Error(errorMessage: "Unexpected balance increase amount. Expected: " + expectedBalance + ". Actual: " + currentBalance));
-
-					yield break;
-				}
-
-				yield return new WaitForSeconds(BalanceCheckDelaySeconds);
-			}
-
-			TryCompleteError(new Error(errorMessage: "Balance verification did not complete."));
+			yield return VerifyWithRetry<int>(
+				BalanceCheckAttempts,
+				BalanceCheckDelaySeconds,
+				RequestCurrencyBalance,
+				current => current - previousBalance == BalanceIncreaseAmount
+					? null
+					: new Error(errorMessage: "Unexpected balance increase amount. Expected: " + expectedBalance + ". Actual: " + current));
 		}
 
-		private void RequestCurrencyBalance(Action<int> onSuccess, Action<Error> onError)
+		private static void RequestCurrencyBalance(Action<int> onSuccess, Action<Error> onError)
 		{
 			GetVirtualCurrencyBalance(CurrencySku, onSuccess, onError);
 		}
