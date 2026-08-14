@@ -55,7 +55,7 @@ namespace Xsolla.Tests
 					return _file;
 
 				// 1. Resources (baked during CI build, works on all platforms including WebGL)
-				var textAsset = Resources.Load<TextAsset>("test-credentials-local");
+				var textAsset = Resources.Load<TextAsset>("test-credentials.local");
 				if (textAsset != null)
 				{
 					_file = JsonUtility.FromJson<CredentialsFile>(textAsset.text);

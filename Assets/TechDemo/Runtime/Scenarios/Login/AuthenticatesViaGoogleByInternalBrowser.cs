@@ -12,6 +12,12 @@ namespace Xsolla.TechDemo.Scenarios
 			SetInAppBrowserActive(true);
 		}
 
+		public override void TearDown()
+		{
+			base.TearDown();
+			CloseInAppBrowser();
+		}
+
 		public override IEnumerator Execute(Action onSuccess, Action<Error> onError)
 		{
 			AuthViaSocialNetwork(SocialProvider.Google, onSuccess, onError);

@@ -97,23 +97,97 @@ namespace Xsolla.TechDemo.Scenarios
 			XsollaToken.DeleteSavedInstance();
 		}
 
-		protected static IEnumerator AuthAsDefaultUser(Action<Error> onError)
+		protected static IEnumerator WaitFor<T>(Action<Action<T>, Action<Error>> asyncCall, Action<T> onSuccess, Action<Error> onError)
 		{
-			var username = TestCredentials.DefaultUsername;
-			var password = TestCredentials.DefaultPassword;
+			var completed = false;
 
-			var isComplete = false;
-
-			XsollaAuth.SignIn(
-				username,
-				password,
-				() => isComplete = true,
+			asyncCall(
+				result => {
+					onSuccess(result);
+					completed = true;
+				},
 				error => {
-					isComplete = true;
 					onError(error);
+					completed = true;
 				});
 
-			yield return new WaitUntil(() => isComplete);
+			yield return new WaitUntil(() => completed);
+		}
+
+		protected static IEnumerator WaitFor(Action<Action, Action<Error>> asyncCall, Action onSuccess, Action<Error> onError)
+		{
+			var completed = false;
+
+			asyncCall(
+				() => {
+					onSuccess();
+					completed = true;
+				},
+				error => {
+					onError(error);
+					completed = true;
+				});
+
+			yield return new WaitUntil(() => completed);
+		}
+
+		protected IEnumerator RunAsync<T>(Action<Action<T>, Action<Error>> asyncCall, Action<T> onResult = null)
+		{
+			Error error = null;
+			yield return WaitFor(asyncCall, result => onResult?.Invoke(result), e => error = e);
+
+			if (!IsCompleted && error != null)
+				TryCompleteError(error);
+		}
+
+		protected IEnumerator RunAsync(Action<Action, Action<Error>> asyncCall)
+		{
+			Error error = null;
+			yield return WaitFor(asyncCall, () => { }, e => error = e);
+
+			if (!IsCompleted && error != null)
+				TryCompleteError(error);
+		}
+
+		protected IEnumerator VerifyWithRetry<T>(
+			int attempts,
+			float delaySeconds,
+			Action<Action<T>, Action<Error>> request,
+			Func<T, Error> validate,
+			bool completeOnSuccess = true)
+		{
+			for (var attempt = 0; attempt < attempts; attempt++)
+			{
+				var value = default(T);
+				Error requestError = null;
+
+				yield return WaitFor(request, result => value = result, error => requestError = error);
+
+				if (IsCompleted)
+					yield break;
+
+				var validationError = requestError ?? validate(value);
+				if (validationError == null)
+				{
+					if (completeOnSuccess)
+						TryCompleteSuccess();
+					yield break;
+				}
+
+				if (attempt == attempts - 1)
+				{
+					TryCompleteError(validationError);
+					yield break;
+				}
+
+				yield return new WaitForSeconds(delaySeconds);
+			}
+		}
+
+		protected IEnumerator AuthAsDefaultUser()
+		{
+			yield return RunAsync((onSuccess, onError) =>
+				XsollaAuth.SignIn(TestCredentials.DefaultUsername, TestCredentials.DefaultPassword, onSuccess, onError));
 		}
 
 		protected static void GetVirtualCurrencyBalance(string sku, Action<int> onSuccess, Action<Error> onError)

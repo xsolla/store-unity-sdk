@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using Xsolla.Cart;
 using Xsolla.Core;
 
@@ -15,82 +14,25 @@ namespace Xsolla.TechDemo.Scenarios
 		{
 			InitExecution(onSuccess, onError);
 
-			var authFailed = false;
-			yield return AuthAsDefaultUser(error => {
-				authFailed = true;
-				TryCompleteError(error);
-			});
-
-			if (authFailed || IsCompleted)
-				yield break;
-
-			var clearCartCompleted = false;
-			Error clearCartError = null;
-
-			XsollaCart.ClearCart(
-				() => clearCartCompleted = true,
-				error => {
-					clearCartError = error;
-					clearCartCompleted = true;
-				});
-
-			yield return new WaitUntil(() => clearCartCompleted);
-
+			yield return AuthAsDefaultUser();
 			if (IsCompleted)
 				yield break;
 
-			if (clearCartError != null)
-			{
-				TryCompleteError(clearCartError);
-				yield break;
-			}
-
-			var fillCartCompleted = false;
-			Error fillCartError = null;
-
-			XsollaCart.FillCart(
-				GetCartItems(),
-				() => fillCartCompleted = true,
-				error => {
-					fillCartError = error;
-					fillCartCompleted = true;
-				});
-
-			yield return new WaitUntil(() => fillCartCompleted);
-
+			yield return RunAsync((success, failure) => XsollaCart.ClearCart(success, failure));
 			if (IsCompleted)
 				yield break;
 
-			if (fillCartError != null)
-			{
-				TryCompleteError(fillCartError);
+			yield return RunAsync((success, failure) => XsollaCart.FillCart(GetCartItems(), success, failure));
+			if (IsCompleted)
 				yield break;
-			}
 
-			var purchaseCompleted = false;
 			OrderStatus purchaseStatus = null;
-			Error purchaseError = null;
-
-			XsollaCart.Purchase(
-				status => {
-					purchaseStatus = status;
-					purchaseCompleted = true;
-				},
-				error => {
-					purchaseError = error;
-					purchaseCompleted = true;
-				});
-
-			yield return new WaitUntil(() => purchaseCompleted);
+			yield return RunAsync<OrderStatus>(
+				(success, failure) => XsollaCart.Purchase(success, failure),
+				status => purchaseStatus = status);
 
 			if (IsCompleted)
 				yield break;
-
-			if (purchaseError != null)
-			{
-				TryCompleteError(purchaseError);
-				yield break;
-			}
 
 			if (purchaseStatus == null)
 			{

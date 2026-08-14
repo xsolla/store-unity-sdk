@@ -9,9 +9,11 @@ namespace Xsolla.TechDemo.Scenarios
 
 		protected override List<CartFillItem> GetCartItems()
 		{
-			return new List<CartFillItem>
-			{
-				new CartFillItem { sku = ItemSku, quantity = 1 }
+			return new List<CartFillItem> {
+				new() {
+					sku = ItemSku,
+					quantity = 1
+				}
 			};
 		}
 	}

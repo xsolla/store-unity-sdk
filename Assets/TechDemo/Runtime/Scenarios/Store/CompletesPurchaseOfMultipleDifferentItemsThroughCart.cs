@@ -10,10 +10,15 @@ namespace Xsolla.TechDemo.Scenarios
 
 		protected override List<CartFillItem> GetCartItems()
 		{
-			return new List<CartFillItem>
-			{
-				new CartFillItem { sku = FirstItemSku, quantity = 1 },
-				new CartFillItem { sku = SecondItemSku, quantity = 1 }
+			return new List<CartFillItem> {
+				new() {
+					sku = FirstItemSku,
+					quantity = 1
+				},
+				new() {
+					sku = SecondItemSku,
+					quantity = 1
+				}
 			};
 		}
 	}
