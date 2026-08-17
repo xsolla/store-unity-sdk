@@ -8,7 +8,6 @@
          These repos will be searched for all packages specified by
          androidPackage. -->
     <repositories>
-      <repository>file:///Users/denisrakhimov/.m2/repository</repository>
       <repository>https://repo1.maven.org/maven2/</repository>
     </repositories>
 
@@ -24,6 +23,6 @@
 
          Additional repositories can be added using the "repositories" element.
     -->
-    <androidPackage spec="com.xsolla.android:bridge:0.1.0-LOCAL"/>
+    <androidPackage spec="com.xsolla.android:bridge:0.1.0"/>
   </androidPackages>
 </dependencies>
