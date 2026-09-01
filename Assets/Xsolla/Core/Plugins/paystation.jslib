@@ -120,7 +120,7 @@ mergeInto(LibraryManager.library, {
 			});
 
             XPayStationWidget.on(XPayStationWidget.eventTypes.CLOSE, function (event, data) {
-				if (data === 'undefined') {
+				if (data == null) {
 					Module.SendMessage('XsollaWebCallbacks', 'PublishPaymentCancel');
 				}
 				else {

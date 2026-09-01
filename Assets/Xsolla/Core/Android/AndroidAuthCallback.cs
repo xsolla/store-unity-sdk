@@ -1,4 +1,4 @@
-﻿#if UNITY_ANDROID
+#if UNITY_ANDROID
 using System;
 using UnityEngine;
 
@@ -33,7 +33,7 @@ namespace Xsolla.Core
 			}
 			catch (Exception e)
 			{
-				AndroidHelper.MainThreadExecutor.Enqueue(() => OnError?.Invoke(new Error(errorMessage: e.Message)));
+				AndroidHelper.MainThreadExecutor.Enqueue(() => OnError?.Invoke(new Error(ErrorType.UnknownError, errorMessage: e.Message)));
 			}
 		}
 
@@ -46,7 +46,7 @@ namespace Xsolla.Core
 			}
 			else
 			{
-				AndroidHelper.MainThreadExecutor.Enqueue(() => OnError?.Invoke(new Error(errorMessage: errorMessage)));
+				AndroidHelper.MainThreadExecutor.Enqueue(() => OnError?.Invoke(new Error(ErrorType.UnknownError, errorMessage: errorMessage)));
 			}
 		}
 	}

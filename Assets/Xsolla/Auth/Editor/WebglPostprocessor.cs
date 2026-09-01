@@ -23,6 +23,7 @@ namespace Xsolla.Core.Editor
 			var outputDir = report.summary.outputPath;
 			CopyFile("xl-widget.html", sourceDir, outputDir);
 			CopyFile("xl-social.html", sourceDir, outputDir);
+			CopyFile("xl-additional-info.html", sourceDir, outputDir);
 		}
 
 		private static void CopyFile(string fileName, string sourceDir, string outputDir)

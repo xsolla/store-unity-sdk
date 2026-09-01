@@ -5,6 +5,9 @@ namespace Xsolla.Core
 {
 	internal static class PurchaseParamsGenerator
 	{
+		private const string UnknownInstallSource = "unknown";
+		private static string forcedMobilePlatformForTests;
+
 		public static PurchaseParamsRequest GeneratePurchaseParamsRequest(PurchaseParams purchaseParams)
 		{
 			var settings = new PurchaseParamsRequest.Settings {
@@ -38,42 +41,87 @@ namespace Xsolla.Core
 				shipping_method = purchaseParams?.shipping_method
 			};
 
-			if (purchaseParams != null)
-				ProcessUser(result, purchaseParams);
+			ProcessUser(result, purchaseParams);
 
 			return result;
 		}
 
 		private static void ProcessUser(PurchaseParamsRequest request, PurchaseParams purchaseParams)
 		{
-			ProcessUserTrackingId(request, purchaseParams);
-			ProcessUserCountry(request, purchaseParams);
+			request.user = GenerateUser(purchaseParams);
 		}
 
-		private static void ProcessUserTrackingId(PurchaseParamsRequest request, PurchaseParams purchaseParams)
+		internal static PurchaseParamsRequest.User GenerateUser(PurchaseParams purchaseParams)
 		{
-			if (string.IsNullOrEmpty(purchaseParams.tracking_id))
+			var user = new PurchaseParamsRequest.User();
+
+			ProcessUserTrackingId(user, purchaseParams);
+			ProcessUserCountry(user, purchaseParams);
+			ProcessMobileApp(user, purchaseParams);
+
+			return user.country == null && user.tracking_id == null && user.mobile_app == null
+				? null
+				: user;
+		}
+
+		private static void ProcessUserTrackingId(PurchaseParamsRequest.User user, PurchaseParams purchaseParams)
+		{
+			if (string.IsNullOrEmpty(purchaseParams?.tracking_id))
 				return;
 
-			EnsureUserExists(request);
-			request.user.tracking_id = new PurchaseParamsRequest.TrackingId {
+			user.tracking_id = new PurchaseParamsRequest.TrackingId {
 				value = purchaseParams.tracking_id
 			};
 		}
 
-		private static void ProcessUserCountry(PurchaseParamsRequest request, PurchaseParams purchaseParams)
+		private static void ProcessUserCountry(PurchaseParamsRequest.User user, PurchaseParams purchaseParams)
 		{
-			if (string.IsNullOrEmpty(purchaseParams.country))
+			if (string.IsNullOrEmpty(purchaseParams?.country))
 				return;
 
-			EnsureUserExists(request);
-			request.user.country = purchaseParams.country;
+			user.country = purchaseParams.country;
 		}
 
-		private static void EnsureUserExists(PurchaseParamsRequest request)
+		private static void ProcessMobileApp(PurchaseParamsRequest.User user, PurchaseParams purchaseParams)
 		{
-			if (request.user == null)
-				request.user = new PurchaseParamsRequest.User();
+			var platform = GetMobilePlatform();
+			if (platform == null)
+				return;
+
+			user.mobile_app = new PurchaseParamsRequest.MobileApp {
+				platform = platform,
+				install_source = string.IsNullOrWhiteSpace(purchaseParams?.install_source)
+					? UnknownInstallSource
+					: purchaseParams.install_source
+			};
+		}
+
+		internal static string GetMobilePlatform()
+		{
+			if (!string.IsNullOrEmpty(forcedMobilePlatformForTests))
+				return forcedMobilePlatformForTests;
+#if UNITY_ANDROID
+			return "android";
+#elif UNITY_IOS
+			return "ios";
+#else
+			return Application.platform switch {
+				RuntimePlatform.Android => "android",
+				RuntimePlatform.IPhonePlayer => "ios",
+				_ => null
+			};
+#endif
+		}
+
+		// Internal test hook to simulate mobile platforms in editor tests.
+		internal static void SetForcedMobilePlatformForTests(string platform)
+		{
+			forcedMobilePlatformForTests = platform;
+		}
+
+		internal static void ResetForcedMobilePlatformForTests()
+		{
+			forcedMobilePlatformForTests = null;
 		}
 
 		private static void ProcessUiCloseButton(PayStationUI settings, PurchaseParams purchaseParams)

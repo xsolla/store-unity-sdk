@@ -10,6 +10,8 @@ namespace Xsolla.Core
 
 		public event Action<string> WidgetAuthSuccess;
 		public event Action WidgetAuthCancel;
+		public event Action<string> AdditionalInfoAuthSuccess;
+		public event Action<string> AdditionalInfoAuthCancel;
 
 		private void Awake()
 		{
@@ -38,6 +40,18 @@ namespace Xsolla.Core
 		public void PublishWidgetAuthCancel()
 		{
 			WidgetAuthCancel?.Invoke();
+		}
+
+		// Callback for additional info auth (do not remove)
+		public void PublishAdditionalInfoAuthSuccess(string data)
+		{
+			AdditionalInfoAuthSuccess?.Invoke(data);
+		}
+
+		// Callback for additional info auth (do not remove)
+		public void PublishAdditionalInfoAuthCancel(string reason)
+		{
+			AdditionalInfoAuthCancel?.Invoke(reason);
 		}
 
 		public static void AddPaymentStatusUpdateHandler(Action action)

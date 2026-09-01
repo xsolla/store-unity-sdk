@@ -113,12 +113,16 @@ namespace Xsolla.Subscriptions
 		/// <param name="onSuccess">Called after the URL has been successfully received.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="settings">Pay Station UI settings.</param>
-		public static void GetSubscriptionRenewalUrl(int subscriptionId, Action<PaymentLink> onSuccess, Action<Error> onError, PaymentSettings settings = null)
+		/// <param name="customParameters">Project specific parameters represented as a valid JSON set of key-value pairs.</param>
+		/// <param name="steamUserId">Steam user ID.</param>
+		public static void GetSubscriptionRenewalUrl(int subscriptionId, Action<PaymentLink> onSuccess, Action<Error> onError, PaymentSettings settings = null, Dictionary<string, object> customParameters = null, string steamUserId = null)
 		{
 			var url = $"{BaseUrl}/user/v1/projects/{StoreProjectId}/subscriptions/{subscriptionId}/renew";
 
 			var requestData = new RenewalSubscriptionRequest {
-				settings = CheckAndFillPaymentSettings(settings)
+				settings = CheckAndFillPaymentSettings(settings),
+				custom_parameters = customParameters,
+				steam_user_id = steamUserId
 			};
 
 			WebRequestHelper.Instance.PostRequest(
@@ -127,7 +131,7 @@ namespace Xsolla.Subscriptions
 				requestData,
 				WebRequestHeader.AuthHeader(),
 				onSuccess,
-				error => TokenAutoRefresher.Check(error, onError, () => GetSubscriptionRenewalUrl(subscriptionId, onSuccess, onError, settings)));
+				error => TokenAutoRefresher.Check(error, onError, () => GetSubscriptionRenewalUrl(subscriptionId, onSuccess, onError, settings, customParameters, steamUserId)));
 		}
 
 		/// <summary>

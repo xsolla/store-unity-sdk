@@ -32,6 +32,14 @@ namespace Xsolla.Core
 		{
 			public string country;
 			public TrackingId tracking_id;
+			public MobileApp mobile_app;
+		}
+
+		[Serializable]
+		public class MobileApp
+		{
+			public string platform;
+			public string install_source;
 		}
 
 		[Serializable]

@@ -9,12 +9,27 @@ namespace Xsolla.Orders
 		public Settings settings;
 		public object custom_parameters;
 		public Purchase purchase;
+		public User user;
 
-		public CreatePaymentTokenRequest(Purchase purchase, Settings settings, object custom_parameters)
+		public CreatePaymentTokenRequest(Purchase purchase, Settings settings, object custom_parameters, User user = null)
 		{
 			this.settings = settings;
 			this.custom_parameters = custom_parameters;
 			this.purchase = purchase;
+			this.user = user;
+		}
+
+		[Serializable]
+		public class User
+		{
+			public MobileApp mobile_app;
+		}
+
+		[Serializable]
+		public class MobileApp
+		{
+			public string platform;
+			public string install_source;
 		}
 
 		[Serializable]

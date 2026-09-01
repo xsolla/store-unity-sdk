@@ -11,7 +11,7 @@ namespace Xsolla.Core
 		/// Default purchase currency.
 		/// </summary>
 		public string currency;
-		
+
 		/// <summary>
 		/// User country.
 		/// </summary>
@@ -31,11 +31,18 @@ namespace Xsolla.Core
 		/// Transaction external id.
 		/// </summary>
 		public string external_id;
-		
+
 		/// <summary>
 		/// Unique user ID — used in marketing campaigns. Can contain digits and Latin characters.
 		/// </summary>
 		public string tracking_id;
+
+		/// <summary>
+		/// Optional source where the mobile app was installed from (e.g., `app_store`, `google_play`).
+		/// Used for Android/iOS payment requests only.
+		/// If omitted, the SDK sends `unknown` as the default value.
+		/// </summary>
+		public string install_source;
 
 		/// <summary>
 		/// Project specific parameters.

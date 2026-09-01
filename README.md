@@ -1,7 +1,24 @@
-> [!TIP]
-> Integrate [Xsolla Mobile SDK](https://developers.xsolla.com/sdk/unity/) to enable In-App Payments across mobile platforms within and outside of stores in a platform-compliant way, powered by Pay Station with over 700 payment methods.
+> [!CAUTION]
+> ## ⚠️ This repository is deprecated — use Xsolla SDK 3 instead
+>
+> **This is a legacy Xsolla SDK for Unity Engine that is no longer actively maintained or updated.**
+> If you arrived here from a web search, do not use this repository for new integrations.
+>
+> **The current recommended version is [Xsolla SDK 3](https://developers.xsolla.com/sdk/)**, which provides:
+> - ✅ Up-to-date authentication, catalog, store, and payment integrations
+> - ✅ Active development with ongoing bug fixes, new features, and platform updates
+> - ✅ 1000+ payment methods across 200+ countries and territories
+> - ✅ Cross-platform SDKs for Unity, Android, iOS, Windows, and web
+>
+> **Get started with SDK 3:**
+> | Resource | Link |
+> |---|---|
+> | 📖 SDK 3 Documentation | https://developers.xsolla.com/sdk/ |
+> | 🔭 SDK Explorer (try before you code) | https://developers.xsolla.com/sdk/demo/ |
+>
+> _Do not start new integrations on this repository._
 
-# Enterprise-level Xsolla SDK for Unity
+# Xsolla SDK for Unity
 
 
 The SDK makes it easier to integrate Xsolla products into your Unity project by providing out-of-the-box data structures and methods for working with Xsolla API.
@@ -28,11 +45,11 @@ To start with the SDK, you need to install this asset and set up a project in [X
 * [OAuth 2.0](https://oauth.net/2/) protocol-based authentication.
 * Classic login (username/email and password).
 * Social login.
-* Social login on the user’s device via a social network client (Google, Facebook, WeChat, and QQ).
+* Social login on the user's device via a social network client (Google, Facebook, WeChat, and QQ).
 * Login via a launcher (Steam or [Xsolla Launcher](https://developers.xsolla.com/distribute-game/launcher/)).
 * Login via a device ID.
 * Passwordless login via a one-time code or a link sent via SMS or email.
-* Xsolla Login widget that currently supports classic, social, and passwordless login. The widget opens in the built-in browser and can’t be used for native social login.
+* Xsolla Login widget that currently supports classic, social, and passwordless login. The widget opens in the built-in browser and can't be used for native social login.
 
 ### User management
 
@@ -62,7 +79,7 @@ To start with the SDK, you need to install this asset and set up a project in [X
 
 * Selling subscriptions.
 * Subscription renewal and cancellation.
-* Subscription management from a user’s dashboard.
+* Subscription management from a user's dashboard.
 
 **INFO:** You can add and manage subscription plans via Xsolla Publisher Account.
 
@@ -104,7 +121,7 @@ Additionally, the asset supports [creating WebGL build](https://developers.xsoll
 
 For mobile platforms, we recommend integrating [Xsolla Mobile SDK](https://developers.xsolla.com/sdk/unity/).
 
-**NOTE:** We recommend you use the Mono compiler for desktop platforms as it’s compatible with the provided in-game browser. If you use other browser solutions, you can use the IL2CPP compiler instead. You can use either Mono or IL2CPP compilers to create game builds for Android.
+**NOTE:** We recommend you use the Mono compiler for desktop platforms as it's compatible with the provided in-game browser. If you use other browser solutions, you can use the IL2CPP compiler instead. You can use either Mono or IL2CPP compilers to create game builds for Android.
 
 
 ## Install SDK
@@ -139,7 +156,7 @@ For the package manager to work correctly, [git client](https://git-scm.com/) sh
 
 ## Usage
 
-To send requests to Xsolla servers and receive responses, the SDK provides the `XsollaAuth`, `XsollaCatalog`, `XsollaCart`, and `XsollaOrders` classes. If you want to implement your own logic for buying items or inventory management, and don’t want to write boilerplate code for API calls, these classes are a good place to start.
+To send requests to Xsolla servers and receive responses, the SDK provides the `XsollaAuth`, `XsollaCatalog`, `XsollaCart`, and `XsollaOrders` classes. If you want to implement your own logic for buying items or inventory management, and don't want to write boilerplate code for API calls, these classes are a good place to start.
 
 You can use the [Ready-to-use store](https://developers.xsolla.com/sdk/ready-to-use-store/) module — a ready-made solution with a pre-configured UI and logic for user authorization, catalog display, and item purchase.
 
@@ -179,7 +196,7 @@ The issue may appear when logging in WebGL build. The following error message is
 
 See details on cause of the issue on [Unity Issue Tracker](https://issuetracker.unity3d.com/issues/il2cpp-notsupportedexceptions-exception-is-thrown-in-build-with-newtonsoft-dot-json-plugin).
 
-**Issue status:** Won’t fix.
+**Issue status:** Won't fix.
 
 
 ### Workaround

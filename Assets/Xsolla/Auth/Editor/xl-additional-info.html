@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Xsolla Additional Info Auth</title>
+</head>
+<body>
+<script>
+    const params = new URLSearchParams(window.location.search);
+    const flowId = params.get("sdk_flow_id");
+    const loginUrl = params.get("login_url");
+    const code = params.get("code");
+    const token = params.get("token");
+    const error = params.get("error_description") || params.get("error");
+
+    function notifyParent(payload) {
+        let delivered = false;
+
+        try {
+            if (window.opener && !window.opener.closed) {
+                window.opener.postMessage(payload, window.location.origin);
+                delivered = true;
+            }
+        } catch (notifyError) {
+            console.warn("[Xsolla SDK] opener postMessage failed:", notifyError);
+        }
+
+        try {
+            if (flowId && typeof BroadcastChannel !== "undefined") {
+                const channel = new BroadcastChannel("xsolla-auth-" + flowId);
+                channel.postMessage(payload);
+                channel.close();
+                delivered = true;
+            }
+        } catch (notifyError) {
+            console.warn("[Xsolla SDK] BroadcastChannel failed:", notifyError);
+        }
+
+        try {
+            if (flowId) {
+                localStorage.setItem("xsolla-auth-" + flowId, JSON.stringify(payload));
+                delivered = true;
+            }
+        } catch (notifyError) {
+            console.warn("[Xsolla SDK] localStorage fallback failed:", notifyError);
+        }
+
+        return delivered;
+    }
+
+    function decodeSafe(value) {
+        if (!value) return value;
+        try {
+            return decodeURIComponent(value);
+        } catch (decodeError) {
+            return value;
+        }
+    }
+
+    if (code || token || error) {
+        const payload = {
+            type: "xsolla-additional-info-auth",
+            data: { code: code, token: token, error: error },
+            flowId: flowId
+        };
+
+        if (notifyParent(payload)) {
+            window.close();
+        } else {
+            document.body.innerText = "Unable to communicate with the parent window.";
+        }
+    } else if (loginUrl) {
+        let redirectTarget = loginUrl;
+
+        if (flowId) {
+            try {
+                const authUrl = new URL(loginUrl);
+                const redirectParam = authUrl.searchParams.get("redirect_uri");
+                if (redirectParam) {
+                    const callbackUrl = new URL(decodeSafe(redirectParam));
+                    callbackUrl.searchParams.set("sdk_flow_id", flowId);
+                    authUrl.searchParams.set("redirect_uri", callbackUrl.toString());
+                    redirectTarget = authUrl.toString();
+                }
+            } catch (parseError) {
+                console.warn("[Xsolla SDK] Failed to append sdk_flow_id to redirect_uri:", parseError);
+            }
+        }
+
+        window.location.replace(redirectTarget);
+    } else {
+        document.body.innerText = "Missing login_url in query.";
+    }
+</script>
+</body>
+</html>

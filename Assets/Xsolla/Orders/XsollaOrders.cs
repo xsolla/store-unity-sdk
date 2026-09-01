@@ -53,6 +53,7 @@ namespace Xsolla.Orders
 		/// <param name="externalID">Transaction's external ID.</param>
 		/// <param name="paymentMethod">Payment method ID.</param>
 		/// <param name="customParameters">Project specific parameters represented as a valid JSON set of key-value pairs.</param>
+		/// <param name="purchaseParams">Additional purchase parameters used for user payload fields (e.g., mapping to <c>user.mobile_app.install_source</c> and platform metadata).</param>
 		public static void CreatePaymentToken(
 			float amount,
 			string currency,
@@ -62,14 +63,16 @@ namespace Xsolla.Orders
 			string locale = null,
 			string externalID = null,
 			int? paymentMethod = null,
-			object customParameters = null)
+			object customParameters = null,
+			PurchaseParams purchaseParams = null)
 		{
 			var url = $"{BaseUrl}/payment";
 			var checkout = new CreatePaymentTokenRequest.Purchase.Checkout(amount, currency);
 			var purchaseDescription = new CreatePaymentTokenRequest.Purchase.Description(description);
 			var purchase = new CreatePaymentTokenRequest.Purchase(checkout, purchaseDescription);
 			var settings = GeneratePaymentTokenSettings(currency, locale, externalID, paymentMethod);
-			var requestData = new CreatePaymentTokenRequest(purchase, settings, customParameters);
+			var user = GeneratePaymentTokenUser(purchaseParams);
+			var requestData = new CreatePaymentTokenRequest(purchase, settings, customParameters, user);
 
 			WebRequestHelper.Instance.PostRequest(
 				SdkType.Store,
@@ -77,7 +80,7 @@ namespace Xsolla.Orders
 				requestData,
 				PurchaseParamsGenerator.GeneratePaymentHeaders(),
 				onSuccess,
-				error => TokenAutoRefresher.Check(error, onError, () => CreatePaymentToken(amount, currency, description, onSuccess, onError, locale, externalID, paymentMethod, customParameters)),
+				error => TokenAutoRefresher.Check(error, onError, () => CreatePaymentToken(amount, currency, description, onSuccess, onError, locale, externalID, paymentMethod, customParameters, purchaseParams)),
 				ErrorGroup.BuyItemErrors);
 		}
 
@@ -93,6 +96,7 @@ namespace Xsolla.Orders
 		/// <param name="externalID">Transaction's external ID.</param>
 		/// <param name="paymentMethod">Payment method ID.</param>
 		/// <param name="customParameters">Project specific parameters represented as a valid JSON set of key-value pairs.</param>
+		/// <param name="purchaseParams">Additional purchase parameters used for user payload fields (e.g., mapping to <c>user.mobile_app.install_source</c> and platform metadata).</param>
 		public static void CreatePaymentToken(
 			float amount,
 			string currency,
@@ -102,7 +106,8 @@ namespace Xsolla.Orders
 			string locale = null,
 			string externalID = null,
 			int? paymentMethod = null,
-			object customParameters = null)
+			object customParameters = null,
+			PurchaseParams purchaseParams = null)
 		{
 			var url = $"{BaseUrl}/payment";
 			var checkout = new CreatePaymentTokenRequest.Purchase.Checkout(amount, currency);
@@ -117,7 +122,8 @@ namespace Xsolla.Orders
 
 			var purchase = new CreatePaymentTokenRequest.Purchase(checkout, purchaseItems.ToArray());
 			var settings = GeneratePaymentTokenSettings(currency, locale, externalID, paymentMethod);
-			var requestData = new CreatePaymentTokenRequest(purchase, settings, customParameters);
+			var user = GeneratePaymentTokenUser(purchaseParams);
+			var requestData = new CreatePaymentTokenRequest(purchase, settings, customParameters, user);
 
 			WebRequestHelper.Instance.PostRequest(
 				SdkType.Store,
@@ -125,7 +131,7 @@ namespace Xsolla.Orders
 				requestData,
 				PurchaseParamsGenerator.GeneratePaymentHeaders(),
 				onSuccess,
-				error => TokenAutoRefresher.Check(error, onError, () => CreatePaymentToken(amount, currency, items, onSuccess, onError, locale, externalID, paymentMethod, customParameters)),
+				error => TokenAutoRefresher.Check(error, onError, () => CreatePaymentToken(amount, currency, items, onSuccess, onError, locale, externalID, paymentMethod, customParameters, purchaseParams)),
 				ErrorGroup.BuyItemErrors);
 		}
 
@@ -199,6 +205,20 @@ namespace Xsolla.Orders
 			};
 
 			return settings;
+		}
+
+		private static CreatePaymentTokenRequest.User GeneratePaymentTokenUser(PurchaseParams purchaseParams)
+		{
+			var user = PurchaseParamsGenerator.GenerateUser(purchaseParams);
+			if (user?.mobile_app == null)
+				return null;
+
+			return new CreatePaymentTokenRequest.User {
+				mobile_app = new CreatePaymentTokenRequest.MobileApp {
+					platform = user.mobile_app.platform,
+					install_source = user.mobile_app.install_source
+				}
+			};
 		}
 	}
 }

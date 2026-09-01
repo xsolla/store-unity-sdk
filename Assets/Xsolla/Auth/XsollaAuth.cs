@@ -409,7 +409,7 @@ namespace Xsolla.Auth
 			if (!XsollaToken.TryLoadInstance())
 			{
 				XDebug.Log("Failed to auth via saved token");
-				onError?.Invoke(new Error(errorMessage: "Failed to auth via saved token"));
+				onError?.Invoke(new Error(ErrorType.InvalidToken, errorMessage: "Failed to auth via saved token"));
 				return;
 			}
 
@@ -812,6 +812,12 @@ namespace Xsolla.Auth
 
 		private static void ParseTokenFromLoginResponse(LoginResponse response, Action onSuccess, Action<Error> onError)
 		{
+			if (response == null)
+			{
+				onError?.Invoke(new Error(ErrorType.InvalidData, errorMessage: "Unexpected response: response is null"));
+				return;
+			}
+
 			// Trying to get token from response directly
 			if (!string.IsNullOrEmpty(response.token))
 			{
@@ -834,6 +840,10 @@ namespace Xsolla.Auth
 					XsollaToken.Create(parsedToken);
 					onSuccess?.Invoke();
 				}
+				else if (IsAdditionalInfoUrl(response.login_url))
+				{
+					StartAdditionalInfoAuthFlow(response.login_url, onSuccess, onError);
+				}
 
 				// If both code and token are missing, return error
 				else
@@ -847,6 +857,34 @@ namespace Xsolla.Auth
 			{
 				onError?.Invoke(new Error(ErrorType.InvalidData, errorMessage: "Unexpected response: both token and login_url are empty"));
 			}
+		}
+
+		private static bool IsAdditionalInfoUrl(string loginUrl)
+		{
+			if (string.IsNullOrEmpty(loginUrl))
+				return false;
+
+			if (!Uri.TryCreate(loginUrl, UriKind.Absolute, out var uri))
+				return false;
+
+			return uri.Host.Equals("login-widget.xsolla.com", StringComparison.OrdinalIgnoreCase)
+				&& uri.AbsolutePath.Equals("/latest/ask", StringComparison.OrdinalIgnoreCase);
+		}
+
+		private static void StartAdditionalInfoAuthFlow(string loginUrl, Action onSuccess, Action<Error> onError)
+		{
+			var flow = AdditionalInfoAuthFlowFactory.Create(
+				onSuccess,
+				onError,
+				() => onError?.Invoke(new Error(ErrorType.UnknownError, errorMessage: "Authentication was cancelled by user")));
+
+			if (flow == null)
+			{
+				onError?.Invoke(new Error(ErrorType.NotSupportedOnCurrentPlatform, errorMessage: $"Additional information auth flow is not supported for this platform: {Application.platform}"));
+				return;
+			}
+
+			flow.Launch(loginUrl);
 		}
 
 		private static string GetState(string oauthState)

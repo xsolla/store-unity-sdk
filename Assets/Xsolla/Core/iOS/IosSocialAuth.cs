@@ -47,7 +47,7 @@ namespace Xsolla.Core
 
 		private void HandleError(string error)
 		{
-			OnError?.Invoke(new Error(errorMessage: $"IosSocialAuth: {error}"));
+			OnError?.Invoke(new Error(ErrorType.UnknownError, errorMessage: $"IosSocialAuth: {error}"));
 		}
 
 		private void HandleCancel()

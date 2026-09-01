@@ -616,7 +616,8 @@ namespace Xsolla.Catalog
 
 			var requestData = new PurchaseParamsRequest {
 				sandbox = XsollaSettings.IsSandbox,
-				custom_parameters = purchaseParams?.custom_parameters
+				custom_parameters = purchaseParams?.custom_parameters,
+				user = PurchaseParamsGenerator.GenerateUser(purchaseParams)
 			};
 
 			var headers = PurchaseParamsGenerator.GeneratePaymentHeaders(customHeaders);

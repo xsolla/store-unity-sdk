@@ -45,7 +45,7 @@ namespace Xsolla.Core
 				if (data != null)
 					onComplete?.Invoke(data);
 				else
-					onError?.Invoke(Error.UnknownError);
+					onError?.Invoke(new Error(ErrorType.UnknownError, errorMessage: "Failed to download text data"));
 			}
 			else
 				onError?.Invoke(error);
@@ -61,7 +61,7 @@ namespace Xsolla.Core
 				if (texture != null)
 					onComplete?.Invoke(texture);
 				else
-					onError?.Invoke(Error.UnknownError);
+					onError?.Invoke(new Error(ErrorType.UnknownError, errorMessage: "Failed to download texture data"));
 			}
 			else
 				onError?.Invoke(error);
@@ -78,7 +78,7 @@ namespace Xsolla.Core
 				if (data != null)
 					onComplete?.Invoke(data);
 				else
-					onError?.Invoke(Error.UnknownError);
+					onError?.Invoke(new Error(ErrorType.UnknownError, errorMessage: "Failed to deserialize JSON data"));
 			}
 			else
 				onError?.Invoke(error);
@@ -138,7 +138,7 @@ namespace Xsolla.Core
 
 			if (isHttpError)
 			{
-				error = Error.UnknownError;
+				error = new Error(ErrorType.UnknownError, errorMessage: "HTTP protocol error");
 				return false;
 			}
 

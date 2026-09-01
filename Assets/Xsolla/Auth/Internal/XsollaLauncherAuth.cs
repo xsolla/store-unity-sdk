@@ -11,7 +11,7 @@ namespace Xsolla.Core
 			var launcherToken = GetLauncherToken();
 			if (string.IsNullOrEmpty(launcherToken))
 			{
-				onError?.Invoke(new Error(ErrorType.Undefined, "Can't get launcher token from command line arguments."));
+				onError?.Invoke(new Error(ErrorType.InvalidToken, errorMessage: "Can't get launcher token from command line arguments."));
 			}
 			else
 			{

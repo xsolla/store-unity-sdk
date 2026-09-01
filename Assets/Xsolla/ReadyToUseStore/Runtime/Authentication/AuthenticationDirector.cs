@@ -56,7 +56,7 @@ namespace Xsolla.ReadyToUseStore
 		{
 			if (Authenticators.Count == 0)
 			{
-				var error = new Error(ErrorType.Undefined, "All authenticators failed");
+				var error = new Error(ErrorType.UnknownError, errorMessage: "All authenticators failed");
 				OnAuthError(error, onError);
 				return;
 			}

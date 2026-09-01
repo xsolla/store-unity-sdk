@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -37,8 +37,8 @@ namespace Xsolla.Core.Editor.AutoFillSettings
 					onConfirmationNeeded?.Invoke(challengeID);
 				else
 				{
-					XDebug.LogError($"ConfirmByCode: Could not find neither token nor challengeID in '{response}'");
-					onError?.Invoke(Error.UnknownError);
+					XDebug.LogError($"ConfirmByCode: Token or challengeID missing in response: '{response}'");
+					onError?.Invoke(new Error(ErrorType.UnknownError, errorMessage: "Token or challengeID not found"));
 				}
 			};
 
@@ -65,8 +65,8 @@ namespace Xsolla.Core.Editor.AutoFillSettings
 					EnrichToken(loginUrl,onToken,onError);
 				else
 				{
-					XDebug.LogError($"ConfirmByCode: Could not find token in '{response}'");
-					onError?.Invoke(Error.UnknownError);
+					XDebug.LogError($"ConfirmByCode: Token not found in the response: '{response}'");
+					onError?.Invoke(new Error(ErrorType.UnknownError, errorMessage: "Token not found"));
 				}
 			};
 

@@ -31,7 +31,7 @@ namespace Xsolla.Auth
 		{
 			if (string.IsNullOrEmpty(RedirectUrl))
 			{
-				var error = new Error(errorMessage: "Redirect URL is null or empty.");
+				var error = new Error(ErrorType.InvalidData, errorMessage: "Redirect URL is null or empty.");
 				XDebug.LogError(error.errorMessage);
 				ErrorCallback?.Invoke(error);
 				return;
@@ -87,14 +87,14 @@ namespace Xsolla.Auth
 			}
 			catch (Exception e)
 			{
-				var error = new Error(errorMessage: $"Failed to start HTTP listener: {e.Message}");
+				var error = new Error(ErrorType.UnknownError, errorMessage: $"Failed to start HTTP listener: {e.Message}");
 				ErrorCallback?.Invoke(error);
 				yield break;
 			}
 
 			if (!Listener.IsListening)
 			{
-				var error = new Error(errorMessage: "Failed to start HTTP listener");
+				var error = new Error(ErrorType.UnknownError, errorMessage: "Failed to start HTTP listener");
 				ErrorCallback?.Invoke(error);
 				yield break;
 			}
@@ -108,7 +108,7 @@ namespace Xsolla.Auth
 			{
 				if (Time.realtimeSinceStartup - startTime > timeout)
 				{
-					ErrorCallback?.Invoke(new Error(errorMessage: "HTTP listener timed out waiting for incoming connections"));
+					ErrorCallback?.Invoke(new Error(ErrorType.TimeLimitReached, errorMessage: "HTTP listener timed out waiting for incoming connections"));
 					Stop();
 					yield break;
 				}
@@ -143,7 +143,7 @@ namespace Xsolla.Auth
 			}
 			catch (Exception ex)
 			{
-				var error = new Error(errorMessage: $"Error processing HTTP request: {ex.Message}");
+				var error = new Error(ErrorType.UnknownError, errorMessage: $"Error processing HTTP request: {ex.Message}");
 				XDebug.LogError(error.errorMessage);
 				ErrorCallback?.Invoke(error);
 				Stop();
@@ -164,7 +164,7 @@ namespace Xsolla.Auth
 			var response = context.Response;
 			var responseString = GetFailureHtmlResponseText();
 			SendResponse(response, responseString);
-			ErrorCallback?.Invoke(new Error(errorMessage: errorMessage));
+			ErrorCallback?.Invoke(new Error(ErrorType.UnknownError, errorMessage: errorMessage));
 			Stop();
 		}
 
