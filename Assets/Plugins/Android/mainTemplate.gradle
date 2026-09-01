@@ -5,12 +5,6 @@
         maven {
             url "https://maven.google.com"
         }
-        maven {
-            url "file:///Users/denisrakhimov/.m2/repository" // Assets/Xsolla/Core/Editor/XsollaDependencies.xml:13
-        }
-        maven {
-            url "https://repo1.maven.org/maven2/" // Assets/Xsolla/Core/Editor/XsollaDependencies.xml:13
-        }
         mavenLocal()
         mavenCentral()
     }
@@ -22,7 +16,7 @@ apply plugin: 'com.android.library'
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 // Android Resolver Dependencies Start
-    implementation 'com.xsolla.android:bridge:0.1.0-LOCAL' // Assets/Xsolla/Core/Editor/XsollaDependencies.xml:27
+    implementation 'com.xsolla.android:bridge:0.1.2' // Assets/Xsolla/Core/Editor/XsollaDependencies.xml:19
 // Android Resolver Dependencies End
 **DEPS**}
 

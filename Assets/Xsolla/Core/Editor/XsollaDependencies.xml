@@ -4,13 +4,6 @@
        Each "androidPackage" element contains the attributes of an Android
        dependency (e.g AAR, JAR reference). -->
   <androidPackages>
-    <!-- Global set of repositories to search for packages.
-         These repos will be searched for all packages specified by
-         androidPackage. -->
-    <repositories>
-      <repository>https://repo1.maven.org/maven2/</repository>
-    </repositories>
-
     <!-- The "spec" attribute is *required* and provides the Maven package
          specification.
 
@@ -23,6 +16,6 @@
 
          Additional repositories can be added using the "repositories" element.
     -->
-    <androidPackage spec="com.xsolla.android:bridge:0.1.0"/>
+    <androidPackage spec="com.xsolla.android:bridge:0.1.2"/>
   </androidPackages>
 </dependencies>
