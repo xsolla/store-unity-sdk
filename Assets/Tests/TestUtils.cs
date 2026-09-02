@@ -1,4 +1,5 @@
 using System;
+using System.Security.Cryptography;
 
 namespace Xsolla.Tests
 {
@@ -15,11 +16,10 @@ namespace Xsolla.Tests
 		{
 			const string chars = "abcdefghijklmnopqrstuvwxyz0123456789";
 
-			var random = new Random();
 			var result = new char[count];
 
 			for (var i = 0; i < count; i++)
-				result[i] = chars[random.Next(chars.Length)];
+				result[i] = chars[RandomNumberGenerator.GetInt32(chars.Length)];
 
 			return new string(result);
 		}
