@@ -144,7 +144,17 @@ namespace Xsolla.Subscriptions
 		/// <param name="settings">Pay Station UI settings.</param>
 		/// <param name="country">User's country. Affects the choice of locale and currency. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Calculations are based on the user's IP address if the country is not specified.  Check the documentation for detailed information about [countries supported by Xsolla](https://developers.xsolla.com/dev-resources/references/supported-countries/).</param>
 		/// <param name="customParameters">Project specific parameters represented as a valid JSON set of key-value pairs.</param>
-		public static void GetSubscriptionPurchaseUrl(string planExternalId, Action<PaymentLink> onSuccess, Action<Error> onError, PaymentSettings settings = null, string country = null, Dictionary<string, object> customParameters = null)
+		/// <param name="productId">ID of the product associated with the plan.</param>
+		/// <param name="availablePlans">Subscription plans to show in the payment UI.</param>
+		public static void GetSubscriptionPurchaseUrl(
+			string planExternalId,
+			Action<PaymentLink> onSuccess,
+			Action<Error> onError,
+			PaymentSettings settings = null,
+			string country = null,
+			Dictionary<string, object> customParameters = null,
+			int? productId = null,
+			string[] availablePlans = null)
 		{
 			var url = new UrlBuilder($"{BaseUrl}/user/v1/projects/{StoreProjectId}/subscriptions/buy")
 				.AddCountry(country)
@@ -152,6 +162,8 @@ namespace Xsolla.Subscriptions
 
 			var requestData = new BuySubscriptionRequest {
 				plan_external_id = planExternalId,
+				product_id = productId,
+				available_plans = availablePlans,
 				settings = CheckAndFillPaymentSettings(settings),
 				custom_parameters = customParameters
 			};
@@ -162,7 +174,18 @@ namespace Xsolla.Subscriptions
 				requestData,
 				WebRequestHeader.AuthHeader(),
 				onSuccess,
-				error => TokenAutoRefresher.Check(error, onError, () => GetSubscriptionPurchaseUrl(planExternalId, onSuccess, onError, settings, country)));
+				error => TokenAutoRefresher.Check(
+					error,
+					onError,
+					() => GetSubscriptionPurchaseUrl(
+						planExternalId,
+						onSuccess,
+						onError,
+						settings,
+						country,
+						customParameters,
+						productId,
+						availablePlans)));
 		}
 
 		/// <summary>
