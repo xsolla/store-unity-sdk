@@ -7,6 +7,7 @@ namespace Xsolla.Subscriptions
 	{
 		public float amount;
 		public float? amount_with_promotion;
+		public float? setup_fee;
 		public string currency;
 	}
 }
