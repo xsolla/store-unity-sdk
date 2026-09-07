@@ -1,0 +1,322 @@
+fileFormatVersion: 2
+guid: a4c13338dd2cd442b9b9275c9ebed5dc
+ModelImporter:
+  serializedVersion: 21300
+  internalIDToNameTable: []
+  externalObjects: {}
+  materials:
+    materialImportMode: 0
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 1
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    strictVertexDataChecks: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 0
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton:
+    - name: owl(Clone)
+      parentName: 
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Owl_RIG:Owl_geom:Head
+      parentName: owl(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.000000037748947, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Owl_RIG:Owl_geom:Nose
+      parentName: owl(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.000000037748947, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Owl_RIG:Owl_geom:Eye_R
+      parentName: owl(Clone)
+      position: {x: -0.0000000047683715, y: 0.00000000482891, z: 0.000000038146972}
+      rotation: {x: -0.000000037748947, y: 5.551115e-17, z: 1.469368e-39, w: 1}
+      scale: {x: 1, y: 0.9999999, z: 1}
+    - name: Owl_RIG:Owl_geom:Hand_R
+      parentName: owl(Clone)
+      position: {x: -0.000000035464762, y: 0.0000000030547382, z: 0.0000000037252899}
+      rotation: {x: -0.000000037748947, y: 1.110223e-16, z: -4.440892e-16, w: 1}
+      scale: {x: 1, y: 0.9999999, z: 0.9999999}
+    - name: Owl_RIG:Owl_geom:Leg_R
+      parentName: owl(Clone)
+      position: {x: 0.000000004847534, y: -0.0000000019092126, z: -5.960462e-10}
+      rotation: {x: -0.000000037748947, y: 2.4363012e-32, z: 3.9841042e-17, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Owl_RIG:Owl_geom:Body_upper
+      parentName: owl(Clone)
+      position: {x: -0, y: 0.000000025332556, z: -7.450771e-11}
+      rotation: {x: -0.000000037748947, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Owl_RIG:Owl_geom:Body
+      parentName: owl(Clone)
+      position: {x: -0, y: 0.000000025332556, z: -7.450771e-11}
+      rotation: {x: -0.000000037748947, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Owl_RIG:Owl_geom:Hand_L
+      parentName: owl(Clone)
+      position: {x: 0.000000035464762, y: 0.0000000030547382, z: 0.0000000037252899}
+      rotation: {x: -0.000000037748947, y: -1.110223e-16, z: 4.440892e-16, w: 1}
+      scale: {x: 1, y: 0.9999999, z: 0.9999999}
+    - name: Owl_RIG:Owl_geom:Eye_L
+      parentName: owl(Clone)
+      position: {x: 0.0000000047683715, y: 0.000000004828908, z: 0.000000019073486}
+      rotation: {x: -0.000000037748947, y: -5.551115e-17, z: -1.469368e-39, w: 1}
+      scale: {x: 1, y: 0.9999999, z: 1}
+    - name: Owl_RIG:Owl_geom:Leg_L
+      parentName: owl(Clone)
+      position: {x: -0.0000000048521906, y: -0.0000000019185262, z: -5.587933e-10}
+      rotation: {x: -0.000000037748947, y: -4.9303807e-32, z: -3.989864e-17, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Owl_RIG:rig
+      parentName: owl(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.000000037748947, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Owl_RIG:jnt_org
+      parentName: Owl_RIG:rig
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Owl_RIG:global_C0_0_jnt
+      parentName: Owl_RIG:jnt_org
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -2.3283064e-10, y: -0.0000000010559233, z: 2.9111453e-11, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Owl_RIG:spine_C0_0_jnt
+      parentName: Owl_RIG:global_C0_0_jnt
+      position: {x: 6.5847196e-18, y: 0.1686146, z: -0.004775079}
+      rotation: {x: 0.00045036554, y: -2.220446e-16, z: 3.2235987e-18, w: 0.99999994}
+      scale: {x: 1, y: 0.99999994, z: 1}
+    - name: Owl_RIG:spine_C0_1_jnt
+      parentName: Owl_RIG:spine_C0_0_jnt
+      position: {x: -2.7394632e-20, y: 0.1369699, z: -1.3038516e-10}
+      rotation: {x: 5.8207655e-10, y: -0, z: -1.4217166e-25, w: 1}
+      scale: {x: 1, y: 0.9999994, z: 1}
+    - name: Owl_RIG:spine_C0_2_jnt
+      parentName: Owl_RIG:spine_C0_1_jnt
+      position: {x: -2.7394102e-20, y: 0.13696907, z: 1.11758706e-10}
+      rotation: {x: -4.9476506e-10, y: 5.002903e-35, z: 2.0679513e-25, w: 1}
+      scale: {x: 1, y: 1.0000002, z: 1}
+    - name: Owl_RIG:shoulder_L0_shoulder_jnt
+      parentName: Owl_RIG:spine_C0_2_jnt
+      position: {x: -0.1280797, y: -0.005951686, z: 0.0020402754}
+      rotation: {x: -0.70742524, y: 1.0378602e-16, z: 1.7365814e-16, w: 0.7067882}
+      scale: {x: 1, y: 0.9999993, z: 0.9999999}
+    - name: Owl_RIG:arm_L0_0_jnt
+      parentName: Owl_RIG:shoulder_L0_shoulder_jnt
+      position: {x: -0.07838358, y: -0.0017235657, z: 0.058140602}
+      rotation: {x: -0.010032117, y: -0.40394157, z: -0.09346521, w: 0.9099422}
+      scale: {x: 1.0000006, y: 1.0000024, z: 1.0000015}
+    - name: Owl_RIG:arm_L0_1_jnt
+      parentName: Owl_RIG:arm_L0_0_jnt
+      position: {x: -0.048001956, y: -0.0000601691, z: -0.0000000043213366}
+      rotation: {x: -0.02632517, y: 0.37888193, z: 0.10826655, w: 0.91871315}
+      scale: {x: 1.0000014, y: 1.0000037, z: 1.0000024}
+    - name: Owl_RIG:arm_L0_end_jnt
+      parentName: Owl_RIG:arm_L0_1_jnt
+      position: {x: -0.21167928, y: -0.000030642746, z: -0.0000037984548}
+      rotation: {x: 0.08464141, y: -0.052837595, z: 0.70120287, w: 0.7059452}
+      scale: {x: 1.000002, y: 1.0000007, z: 1.0000018}
+    - name: Owl_RIG:arm_L0_end_jnt_end
+      parentName: Owl_RIG:arm_L0_end_jnt
+      position: {x: -0, y: 0.21167926, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Owl_RIG:head_C0_0_jnt
+      parentName: Owl_RIG:spine_C0_2_jnt
+      position: {x: 2.3861516e-18, y: 0.1459935, z: -0.010877771}
+      rotation: {x: -0.0004503671, y: 2.2204294e-16, z: -6.938896e-18, w: 0.99999994}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Owl_RIG:eye_L0_0_jnt
+      parentName: Owl_RIG:head_C0_0_jnt
+      position: {x: -0.1421957, y: 0.1969931, z: 0.19187883}
+      rotation: {x: -0.10479854, y: -0.0769995, z: -0.008292876, w: 0.9914735}
+      scale: {x: 1, y: 1.0000004, z: 0.99999994}
+    - name: Owl_RIG:eye_L0_0_jnt_end
+      parentName: Owl_RIG:eye_L0_0_jnt
+      position: {x: -0, y: 0.30958578, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Owl_RIG:eye_R0_0_jnt
+      parentName: Owl_RIG:head_C0_0_jnt
+      position: {x: 0.1421957, y: 0.1969931, z: 0.19187883}
+      rotation: {x: -0.008292873, y: 0.9914735, z: -0.1047985, w: -0.076999515}
+      scale: {x: 1.0000037, y: 1.0000004, z: 1.0000031}
+    - name: Owl_RIG:eye_R0_0_jnt_end
+      parentName: Owl_RIG:eye_R0_0_jnt
+      position: {x: -0, y: 0.30958578, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Owl_RIG:shoulder_R0_shoulder_jnt
+      parentName: Owl_RIG:spine_C0_2_jnt
+      position: {x: 0.1280797, y: -0.005951686, z: 0.0020402754}
+      rotation: {x: 0.70678824, y: 2.102479e-16, z: -1.4387021e-16, w: 0.7074252}
+      scale: {x: 1, y: 1.0000005, z: 1.0000007}
+    - name: Owl_RIG:arm_R0_0_jnt
+      parentName: Owl_RIG:shoulder_R0_shoulder_jnt
+      position: {x: 0.07838358, y: 0.0017235562, z: -0.05814056}
+      rotation: {x: -0.010032088, y: -0.4039415, z: -0.093465135, w: 0.90994227}
+      scale: {x: 1.0000008, y: 1.0000023, z: 1.000002}
+    - name: Owl_RIG:arm_R0_1_jnt
+      parentName: Owl_RIG:arm_R0_0_jnt
+      position: {x: 0.048001956, y: 0.00006016612, z: 0.000000023171305}
+      rotation: {x: -0.026325077, y: 0.3788817, z: 0.10826656, w: 0.9187133}
+      scale: {x: 1.0000001, y: 1.0000011, z: 1.0000004}
+    - name: Owl_RIG:arm_R0_end_jnt
+      parentName: Owl_RIG:arm_R0_1_jnt
+      position: {x: 0.21167922, y: 0.00003062606, z: 0.0000036412478}
+      rotation: {x: -0.08360868, y: -0.052688055, z: -0.69673073, w: 0.71049273}
+      scale: {x: 1.0000019, y: 1.0000025, z: 1.000003}
+    - name: Owl_RIG:arm_R0_end_jnt_end
+      parentName: Owl_RIG:arm_R0_end_jnt
+      position: {x: -0, y: 0.21167926, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Owl_RIG:leg_L0_0_jnt
+      parentName: Owl_RIG:spine_C0_0_jnt
+      position: {x: -0.11581789, y: -0.03948714, z: 0.0049018566}
+      rotation: {x: 0.16402109, y: 0.644268, z: 0.18437386, w: 0.7238938}
+      scale: {x: 1.0000011, y: 0.9999997, z: 1.0000025}
+    - name: Owl_RIG:leg_L0_1_jnt
+      parentName: Owl_RIG:leg_L0_0_jnt
+      position: {x: -0.032133043, y: -0.00010961115, z: 0.000000006251239}
+      rotation: {x: 0.000000052154064, y: -0.00000008940697, z: 0.76512235, w: 0.643885}
+      scale: {x: 1.0000018, y: 1.0000027, z: 1.0000011}
+    - name: Owl_RIG:leg_L0_end_jnt
+      parentName: Owl_RIG:leg_L0_1_jnt
+      position: {x: -0.045990843, y: -0.00032737709, z: 0.0000000016810372}
+      rotation: {x: -0.032171044, y: -0.0039411606, z: 0.14911559, w: 0.9882885}
+      scale: {x: 1.0000044, y: 0.9999994, z: 1.0000012}
+    - name: Owl_RIG:foot_L0_0_jnt
+      parentName: Owl_RIG:leg_L0_end_jnt
+      position: {x: -0.047593933, y: 0.097389296, z: 0.0000000036440353}
+      rotation: {x: -0.000000036050828, y: 0.000000016802531, z: -0.49132633, w: 0.87097555}
+      scale: {x: 0.9999982, y: 1.0000069, z: 1.0000023}
+    - name: Owl_RIG:foot_L0_0_jnt_end
+      parentName: Owl_RIG:foot_L0_0_jnt
+      position: {x: -0, y: 0.108396776, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Owl_RIG:leg_R0_0_jnt
+      parentName: Owl_RIG:spine_C0_0_jnt
+      position: {x: 0.11581789, y: -0.039487146, z: 0.0049018557}
+      rotation: {x: 0.7238939, y: -0.18437378, z: 0.6442679, w: -0.1640211}
+      scale: {x: 1.0000019, y: 1.0000042, z: 1.0000013}
+    - name: Owl_RIG:leg_R0_1_jnt
+      parentName: Owl_RIG:leg_R0_0_jnt
+      position: {x: 0.032133054, y: 0.000109604, z: -9.719255e-10}
+      rotation: {x: 0.00000011920929, y: -0.00000020116568, z: -0.7651224, w: -0.6438849}
+      scale: {x: 0.9999987, y: 0.99999917, z: 0.9999994}
+    - name: Owl_RIG:leg_R0_end_jnt
+      parentName: Owl_RIG:leg_R0_1_jnt
+      position: {x: 0.045990843, y: 0.00032735828, z: 0.000000017338323}
+      rotation: {x: -0.03217125, y: -0.003941146, z: 0.14911737, w: 0.98828816}
+      scale: {x: 0.99999845, y: 1.000002, z: 1.0000013}
+    - name: Owl_RIG:foot_R0_0_jnt
+      parentName: Owl_RIG:leg_R0_end_jnt
+      position: {x: 0.04759394, y: -0.09738932, z: 0.000000015644188}
+      rotation: {x: -0.00000021521065, y: 0.00000013636945, z: 0.49132618, w: -0.87097573}
+      scale: {x: 1.0000061, y: 1.0000035, z: 1.0000037}
+    - name: Owl_RIG:foot_R0_0_jnt_end
+      parentName: Owl_RIG:foot_R0_0_jnt
+      position: {x: -0, y: 0.108396776, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Owl_RIG:geom_grp
+      parentName: Owl_RIG:rig
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 0
+  humanoidOversampling: 1
+  avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  remapMaterialsIfMaterialImportModeIsNone: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

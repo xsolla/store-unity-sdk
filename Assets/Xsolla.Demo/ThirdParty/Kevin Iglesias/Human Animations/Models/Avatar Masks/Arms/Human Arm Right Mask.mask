@@ -1,0 +1,129 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!319 &31900000
+AvatarMask:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Human Arm Right Mask
+  m_Mask: 00000000000000000000000000000000000000000000000001000000000000000100000000000000000000000000000001000000
+  m_Elements:
+  - m_Path: 
+    m_Weight: 1
+  - m_Path: HumanF_BodyMesh
+    m_Weight: 0
+  - m_Path: Rig
+    m_Weight: 0
+  - m_Path: Rig/B-root
+    m_Weight: 0
+  - m_Path: Rig/B-root/B-hips
+    m_Weight: 0
+  - m_Path: Rig/B-root/B-hips/B-spine
+    m_Weight: 0
+  - m_Path: Rig/B-root/B-hips/B-spine/B-chest
+    m_Weight: 0
+  - m_Path: Rig/B-root/B-hips/B-spine/B-chest/B-neck
+    m_Weight: 0
+  - m_Path: Rig/B-root/B-hips/B-spine/B-chest/B-neck/B-head
+    m_Weight: 0
+  - m_Path: Rig/B-root/B-hips/B-spine/B-chest/B-neck/B-head/B-jaw
+    m_Weight: 0
+  - m_Path: Rig/B-root/B-hips/B-spine/B-chest/B-shoulder.L
+    m_Weight: 0
+  - m_Path: Rig/B-root/B-hips/B-spine/B-chest/B-shoulder.L/B-upperArm.L
+    m_Weight: 0
+  - m_Path: Rig/B-root/B-hips/B-spine/B-chest/B-shoulder.L/B-upperArm.L/B-forearm.L
+    m_Weight: 0
+  - m_Path: Rig/B-root/B-hips/B-spine/B-chest/B-shoulder.L/B-upperArm.L/B-forearm.L/B-hand.L
+    m_Weight: 0
+  - m_Path: Rig/B-root/B-hips/B-spine/B-chest/B-shoulder.L/B-upperArm.L/B-forearm.L/B-hand.L/B-handProp.L
+    m_Weight: 0
+  - m_Path: Rig/B-root/B-hips/B-spine/B-chest/B-shoulder.L/B-upperArm.L/B-forearm.L/B-hand.L/B-indexFinger01.L
+    m_Weight: 0
+  - m_Path: Rig/B-root/B-hips/B-spine/B-chest/B-shoulder.L/B-upperArm.L/B-forearm.L/B-hand.L/B-indexFinger01.L/B-indexFinger02.L
+    m_Weight: 0
+  - m_Path: Rig/B-root/B-hips/B-spine/B-chest/B-shoulder.L/B-upperArm.L/B-forearm.L/B-hand.L/B-indexFinger01.L/B-indexFinger02.L/B-indexFinger03.L
+    m_Weight: 0
+  - m_Path: Rig/B-root/B-hips/B-spine/B-chest/B-shoulder.L/B-upperArm.L/B-forearm.L/B-hand.L/B-middleFinger01.L
+    m_Weight: 0
+  - m_Path: Rig/B-root/B-hips/B-spine/B-chest/B-shoulder.L/B-upperArm.L/B-forearm.L/B-hand.L/B-middleFinger01.L/B-middleFinger02.L
+    m_Weight: 0
+  - m_Path: Rig/B-root/B-hips/B-spine/B-chest/B-shoulder.L/B-upperArm.L/B-forearm.L/B-hand.L/B-middleFinger01.L/B-middleFinger02.L/B-middleFinger03.L
+    m_Weight: 0
+  - m_Path: Rig/B-root/B-hips/B-spine/B-chest/B-shoulder.L/B-upperArm.L/B-forearm.L/B-hand.L/B-pinky01.L
+    m_Weight: 0
+  - m_Path: Rig/B-root/B-hips/B-spine/B-chest/B-shoulder.L/B-upperArm.L/B-forearm.L/B-hand.L/B-pinky01.L/B-pinky02.L
+    m_Weight: 0
+  - m_Path: Rig/B-root/B-hips/B-spine/B-chest/B-shoulder.L/B-upperArm.L/B-forearm.L/B-hand.L/B-pinky01.L/B-pinky02.L/B-pinky03.L
+    m_Weight: 0
+  - m_Path: Rig/B-root/B-hips/B-spine/B-chest/B-shoulder.L/B-upperArm.L/B-forearm.L/B-hand.L/B-ringFinger01.L
+    m_Weight: 0
+  - m_Path: Rig/B-root/B-hips/B-spine/B-chest/B-shoulder.L/B-upperArm.L/B-forearm.L/B-hand.L/B-ringFinger01.L/B-ringFinger02.L
+    m_Weight: 0
+  - m_Path: Rig/B-root/B-hips/B-spine/B-chest/B-shoulder.L/B-upperArm.L/B-forearm.L/B-hand.L/B-ringFinger01.L/B-ringFinger02.L/B-ringFinger03.L
+    m_Weight: 0
+  - m_Path: Rig/B-root/B-hips/B-spine/B-chest/B-shoulder.L/B-upperArm.L/B-forearm.L/B-hand.L/B-thumb01.L
+    m_Weight: 0
+  - m_Path: Rig/B-root/B-hips/B-spine/B-chest/B-shoulder.L/B-upperArm.L/B-forearm.L/B-hand.L/B-thumb01.L/B-thumb02.L
+    m_Weight: 0
+  - m_Path: Rig/B-root/B-hips/B-spine/B-chest/B-shoulder.L/B-upperArm.L/B-forearm.L/B-hand.L/B-thumb01.L/B-thumb02.L/B-thumb03.L
+    m_Weight: 0
+  - m_Path: Rig/B-root/B-hips/B-spine/B-chest/B-shoulder.R
+    m_Weight: 1
+  - m_Path: Rig/B-root/B-hips/B-spine/B-chest/B-shoulder.R/B-upperArm.R
+    m_Weight: 1
+  - m_Path: Rig/B-root/B-hips/B-spine/B-chest/B-shoulder.R/B-upperArm.R/B-forearm.R
+    m_Weight: 1
+  - m_Path: Rig/B-root/B-hips/B-spine/B-chest/B-shoulder.R/B-upperArm.R/B-forearm.R/B-hand.R
+    m_Weight: 1
+  - m_Path: Rig/B-root/B-hips/B-spine/B-chest/B-shoulder.R/B-upperArm.R/B-forearm.R/B-hand.R/B-handProp.R
+    m_Weight: 1
+  - m_Path: Rig/B-root/B-hips/B-spine/B-chest/B-shoulder.R/B-upperArm.R/B-forearm.R/B-hand.R/B-indexFinger01.R
+    m_Weight: 1
+  - m_Path: Rig/B-root/B-hips/B-spine/B-chest/B-shoulder.R/B-upperArm.R/B-forearm.R/B-hand.R/B-indexFinger01.R/B-indexFinger02.R
+    m_Weight: 1
+  - m_Path: Rig/B-root/B-hips/B-spine/B-chest/B-shoulder.R/B-upperArm.R/B-forearm.R/B-hand.R/B-indexFinger01.R/B-indexFinger02.R/B-indexFinger03.R
+    m_Weight: 1
+  - m_Path: Rig/B-root/B-hips/B-spine/B-chest/B-shoulder.R/B-upperArm.R/B-forearm.R/B-hand.R/B-middleFinger01.R
+    m_Weight: 1
+  - m_Path: Rig/B-root/B-hips/B-spine/B-chest/B-shoulder.R/B-upperArm.R/B-forearm.R/B-hand.R/B-middleFinger01.R/B-middleFinger02.R
+    m_Weight: 1
+  - m_Path: Rig/B-root/B-hips/B-spine/B-chest/B-shoulder.R/B-upperArm.R/B-forearm.R/B-hand.R/B-middleFinger01.R/B-middleFinger02.R/B-middleFinger03.R
+    m_Weight: 1
+  - m_Path: Rig/B-root/B-hips/B-spine/B-chest/B-shoulder.R/B-upperArm.R/B-forearm.R/B-hand.R/B-pinky01.R
+    m_Weight: 1
+  - m_Path: Rig/B-root/B-hips/B-spine/B-chest/B-shoulder.R/B-upperArm.R/B-forearm.R/B-hand.R/B-pinky01.R/B-pinky02.R
+    m_Weight: 1
+  - m_Path: Rig/B-root/B-hips/B-spine/B-chest/B-shoulder.R/B-upperArm.R/B-forearm.R/B-hand.R/B-pinky01.R/B-pinky02.R/B-pinky03.R
+    m_Weight: 1
+  - m_Path: Rig/B-root/B-hips/B-spine/B-chest/B-shoulder.R/B-upperArm.R/B-forearm.R/B-hand.R/B-ringFinger01.R
+    m_Weight: 1
+  - m_Path: Rig/B-root/B-hips/B-spine/B-chest/B-shoulder.R/B-upperArm.R/B-forearm.R/B-hand.R/B-ringFinger01.R/B-ringFinger02.R
+    m_Weight: 1
+  - m_Path: Rig/B-root/B-hips/B-spine/B-chest/B-shoulder.R/B-upperArm.R/B-forearm.R/B-hand.R/B-ringFinger01.R/B-ringFinger02.R/B-ringFinger03.R
+    m_Weight: 1
+  - m_Path: Rig/B-root/B-hips/B-spine/B-chest/B-shoulder.R/B-upperArm.R/B-forearm.R/B-hand.R/B-thumb01.R
+    m_Weight: 1
+  - m_Path: Rig/B-root/B-hips/B-spine/B-chest/B-shoulder.R/B-upperArm.R/B-forearm.R/B-hand.R/B-thumb01.R/B-thumb02.R
+    m_Weight: 1
+  - m_Path: Rig/B-root/B-hips/B-spine/B-chest/B-shoulder.R/B-upperArm.R/B-forearm.R/B-hand.R/B-thumb01.R/B-thumb02.R/B-thumb03.R
+    m_Weight: 1
+  - m_Path: Rig/B-root/B-hips/B-thigh.L
+    m_Weight: 0
+  - m_Path: Rig/B-root/B-hips/B-thigh.L/B-shin.L
+    m_Weight: 0
+  - m_Path: Rig/B-root/B-hips/B-thigh.L/B-shin.L/B-foot.L
+    m_Weight: 0
+  - m_Path: Rig/B-root/B-hips/B-thigh.L/B-shin.L/B-foot.L/B-toe.L
+    m_Weight: 0
+  - m_Path: Rig/B-root/B-hips/B-thigh.R
+    m_Weight: 0
+  - m_Path: Rig/B-root/B-hips/B-thigh.R/B-shin.R
+    m_Weight: 0
+  - m_Path: Rig/B-root/B-hips/B-thigh.R/B-shin.R/B-foot.R
+    m_Weight: 0
+  - m_Path: Rig/B-root/B-hips/B-thigh.R/B-shin.R/B-foot.R/B-toe.R
+    m_Weight: 0
+  - m_Path: Rig/B-root/B-spineProxy
+    m_Weight: 0
