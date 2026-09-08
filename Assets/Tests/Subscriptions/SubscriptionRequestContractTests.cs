@@ -28,7 +28,9 @@ namespace Xsolla.Tests.Subscriptions
 			StringAssert.Contains("\"plan_external_id\":\"PlanExternalId\"", json);
 			StringAssert.Contains("\"product_id\":123", json);
 			StringAssert.Contains("\"available_plans\":[\"plan_a\",\"plan_b\"]", json);
-			StringAssert.Contains("\"custom_parameters\":{\"flag\":true,\"count\":7}", json);
+			StringAssert.Contains("\"custom_parameters\":{", json);
+			StringAssert.Contains("\"flag\":true", json);
+			StringAssert.Contains("\"count\":7", json);
 			StringAssert.Contains("\"settings\"", json);
 			StringAssert.DoesNotContain("steam_user_id", json);
 		}

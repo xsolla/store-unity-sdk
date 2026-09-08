@@ -50,7 +50,8 @@ namespace Xsolla.Tests.Subscriptions
 		}
 
 		[UnityTest]
-		public IEnumerator CancelSubscription_Smoke_SuccessOrSkippedWhenNoActiveSubscriptions()
+		[Explicit("Destructive test: cancels a real active subscription.")]
+		public IEnumerator CancelSubscription_ManualDestructive_SuccessOrSkippedWhenNoActiveSubscriptions()
 		{
 			yield return CheckSession();
 
