@@ -34,8 +34,10 @@ namespace Xsolla.DevTools
 			if (!Directory.Exists(dir))
 				Directory.CreateDirectory(dir);
 
-			var filePath = Path.Combine(dir, "test-credentials-local.json");
+			// Name must match Resources.Load("test-credentials.local") in TestCredentials
+			var filePath = Path.Combine(dir, "test-credentials.local.json");
 			File.WriteAllText(filePath, json);
+			AssetDatabase.ImportAsset("Assets/Resources/test-credentials.local.json", ImportAssetOptions.ForceSynchronousImport);
 			Debug.Log($"[BuildsManager] Baked test credentials to {filePath}");
 		}
 
