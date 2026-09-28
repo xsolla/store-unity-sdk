@@ -15,15 +15,13 @@ namespace Xsolla.Tests.Catalog
 
 			var isComplete = false;
 			XsollaCatalog.GetCatalogSimplified(
-				items =>
-				{
+				items => {
 					isComplete = true;
 					Assert.NotNull(items);
 					Assert.NotNull(items.items);
 					Assert.Greater(items.items.Length, 0);
 					CheckPersonalization(items.items, false);
-				}, error =>
-				{
+				}, error => {
 					isComplete = true;
 					Assert.Fail(error?.errorMessage);
 				});
@@ -38,13 +36,11 @@ namespace Xsolla.Tests.Catalog
 
 			var isComplete = false;
 			XsollaCatalog.GetCatalogSimplified(
-				items =>
-				{
+				items => {
 					isComplete = true;
 					Assert.Greater(items.items.Length, 0);
 				},
-				error =>
-				{
+				error => {
 					isComplete = true;
 					Assert.Fail(error?.errorMessage);
 				},
@@ -60,12 +56,10 @@ namespace Xsolla.Tests.Catalog
 
 			var isComplete = false;
 			XsollaCatalog.GetCatalogSimplified(
-				items =>
-				{
+				items => {
 					isComplete = true;
 					CheckPersonalization(items.items, true);
-				}, error =>
-				{
+				}, error => {
 					isComplete = true;
 					Assert.Fail(error?.errorMessage);
 				});

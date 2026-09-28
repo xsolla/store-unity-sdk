@@ -32,7 +32,7 @@ namespace Xsolla.Auth
 					error => androidHelper.MainThreadExecutor.Enqueue(() => OnErrorCallback(error)),
 					() => androidHelper.MainThreadExecutor.Enqueue(OnCancelCallback));
 
-				var proxyActivity = new AndroidJavaObject($"{Application.identifier}.androidProxies.XsollaWidgetAuthProxyActivity");
+				var proxyActivity = new AndroidJavaObject("com.xsolla.android.bridge.login.social.XsollaWidgetBridgeActivity");
 				proxyActivity.CallStatic(
 					"perform",
 					androidHelper.CurrentActivity,

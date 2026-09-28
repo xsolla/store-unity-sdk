@@ -25,8 +25,7 @@ namespace Xsolla.Tests.Inventory
 			XsollaInventory.ConsumeInventoryItem(
 				GenerateItemForConsume(),
 				() => isComplete = true,
-				error =>
-				{
+				error => {
 					isComplete = true;
 					Assert.Fail(error?.errorMessage);
 				});
@@ -43,8 +42,7 @@ namespace Xsolla.Tests.Inventory
 			XsollaInventory.ConsumeInventoryItem(
 				GenerateItemForConsume(),
 				() => isComplete = true,
-				error =>
-				{
+				error => {
 					isComplete = true;
 					Assert.Fail(error?.errorMessage);
 				},

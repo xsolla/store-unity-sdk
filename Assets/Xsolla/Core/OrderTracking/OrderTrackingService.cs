@@ -37,6 +37,11 @@ namespace Xsolla.Core
 			return !UnityEngine.Application.isEditor && XsollaSettings.InAppBrowserEnabled && !isSafariBrowser
 				? new OrderTrackerByPaystationCallbacks(trackingData)
 				: new OrderTrackerByShortPolling(trackingData);
+#elif UNITY_ANDROID
+			// Payment UI on Android backgrounds the app (CustomTabs/TWA/external browser), which
+			// Android reliably suspends network access for - breaking the Centrifugo WebSocket
+			// right when it matters most. Short-polling sidesteps that class of bugs entirely.
+			return new OrderTrackerByShortPolling(trackingData);
 #else
 			return new OrderTrackerByCentrifugo(trackingData);
 #endif

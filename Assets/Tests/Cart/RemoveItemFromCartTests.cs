@@ -44,8 +44,7 @@ namespace Xsolla.Tests.Cart
 			XsollaCart.RemoveItemFromCart(
 				"lootbox_1",
 				() => isComplete = true,
-				error =>
-				{
+				error => {
 					isComplete = true;
 					Assert.Fail(error?.errorMessage);
 				},

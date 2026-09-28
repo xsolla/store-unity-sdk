@@ -15,7 +15,7 @@ namespace Xsolla.Tests.Cart
 			yield return SignInAsTestUser();
 			yield return ClearCartTests.ClearCart();
 			yield return FillCartTests.FillCart(new List<CartFillItem> {
-				new CartFillItem {
+				new() {
 					sku = "lootbox_1",
 					quantity = 1
 				}
@@ -29,7 +29,7 @@ namespace Xsolla.Tests.Cart
 			yield return SignIn();
 			yield return ClearCartTests.ClearCart();
 			yield return FillCartTests.FillCart(new List<CartFillItem> {
-				new CartFillItem {
+				new() {
 					sku = "Xsolla_free_item",
 					quantity = 1
 				}
@@ -44,7 +44,7 @@ namespace Xsolla.Tests.Cart
 			yield return PrepareCurrentCart();
 			yield return ClearCartTests.ClearCart(CurrentCartId);
 			yield return FillCartTests.FillCart(new List<CartFillItem> {
-				new CartFillItem {
+				new() {
 					sku = "lootbox_1",
 					quantity = 1
 				}
@@ -59,7 +59,7 @@ namespace Xsolla.Tests.Cart
 			yield return PrepareCurrentCart();
 			yield return ClearCartTests.ClearCart(CurrentCartId);
 			yield return FillCartTests.FillCart(new List<CartFillItem> {
-				new CartFillItem {
+				new() {
 					sku = "Xsolla_free_item",
 					quantity = 1
 				}

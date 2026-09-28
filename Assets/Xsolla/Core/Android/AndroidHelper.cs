@@ -53,8 +53,8 @@ namespace Xsolla.Core
 		{
 			CreateMainThreadExecutor();
 			InitLogin();
-			ConfigureAnalytics("com.xsolla.android.login.util.AnalyticsUtils");
-			ConfigureAnalytics("com.xsolla.android.payments.util.AnalyticsUtils");
+			ConfigureAnalytics("com.xsolla.android.bridge.login.util.AnalyticsUtils");
+			ConfigureAnalytics("com.xsolla.android.bridge.payments.util.AnalyticsUtils");
 		}
 
 		private static void CreateMainThreadExecutor()
@@ -70,16 +70,16 @@ namespace Xsolla.Core
 
 			try
 			{
-				_xlogin = new AndroidJavaClass("com.xsolla.android.login.XLogin");
+				_xlogin = new AndroidJavaClass("com.xsolla.android.bridge.login.XLogin");
 				var socialConfig = new AndroidJavaObject(
-					"com.xsolla.android.login.XLogin$SocialConfig",
+					"com.xsolla.android.bridge.login.XLogin$SocialConfig",
 					XsollaSettings.FacebookAppId,
 					XsollaSettings.FacebookClientToken,
 					XsollaSettings.GoogleServerId,
 					XsollaSettings.WeChatAppId,
 					XsollaSettings.QqAppId);
 
-				var loginConfigBuilder = new AndroidJavaObject("com.xsolla.android.login.LoginConfig$OauthBuilder");
+				var loginConfigBuilder = new AndroidJavaObject("com.xsolla.android.bridge.login.LoginConfig$OauthBuilder");
 				loginConfigBuilder.Call<AndroidJavaObject>("setSocialConfig", socialConfig);
 				loginConfigBuilder.Call<AndroidJavaObject>("setProjectId", XsollaSettings.LoginId);
 				loginConfigBuilder.Call<AndroidJavaObject>("setOauthClientId", XsollaSettings.OAuthClientId);

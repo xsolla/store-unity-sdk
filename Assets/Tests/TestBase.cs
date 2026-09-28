@@ -57,8 +57,7 @@ namespace Xsolla.Tests
 				username,
 				password,
 				() => isComplete = true,
-				error =>
-				{
+				error => {
 					isComplete = true;
 					Assert.Fail(error?.errorMessage);
 				});
@@ -74,8 +73,7 @@ namespace Xsolla.Tests
 			var isComplete = false;
 			XsollaAuth.Logout(
 				() => isComplete = true,
-				error =>
-				{
+				error => {
 					isComplete = true;
 					Assert.Fail(error?.errorMessage);
 				});

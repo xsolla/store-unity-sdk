@@ -8,7 +8,7 @@ namespace Xsolla.Core
 	{
 		public Action<bool> OnBrowserClosed { get; set; }
 
-		public AndroidBrowserCallback() : base("com.xsolla.android.payments.callback.BrowserCallback") { }
+		public AndroidBrowserCallback() : base("com.xsolla.android.bridge.payments.callback.BrowserCallback") { }
 
 		public void onBrowserClosed(bool isManually)
 		{

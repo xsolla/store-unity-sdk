@@ -4,11 +4,10 @@ namespace Xsolla.Core
 	{
 		public const string SDK_VERSION = "3.1.2";
 
-		public const string DEFAULT_PROJECT_ID = "77640";
+		public const string DEFAULT_PROJECT_ID = "287965";
 		public const string DEFAULT_LOGIN_ID = "026201e3-7e40-11ea-a85b-42010aa80004";
 		public const int DEFAULT_OAUTH_CLIENT_ID = 57;
 		public const string DEFAULT_REDIRECT_URL = "https://login.xsolla.com/api/blank";
-		public const string DEFAULT_WEB_STORE_URL = "https://sitebuilder.xsolla.com/game/sdk-web-store/";
 
 		public const string WEB_BROWSER_RESOURCE_PATH = "XsollaWebBrowser";
 		public const string BROWSER_REVISION = "1069273";

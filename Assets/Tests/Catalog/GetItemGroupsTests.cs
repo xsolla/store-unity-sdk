@@ -15,15 +15,13 @@ namespace Xsolla.Tests.Catalog
 
 			var isComplete = false;
 			XsollaCatalog.GetItemGroups(
-				groups =>
-				{
+				groups => {
 					isComplete = true;
 					Assert.NotNull(groups);
 					Assert.NotNull(groups.groups);
 					Assert.Greater(groups.groups.Length, 0);
 				},
-				error =>
-				{
+				error => {
 					isComplete = true;
 					Assert.Fail(error?.errorMessage);
 				});
@@ -38,17 +36,15 @@ namespace Xsolla.Tests.Catalog
 
 			var isComplete = false;
 			XsollaCatalog.GetItemGroups(
-				groups =>
-				{
+				groups => {
 					isComplete = true;
 					Assert.Greater(groups.groups.Length, 0);
 				},
-				error =>
-				{
+				error => {
 					isComplete = true;
 					Assert.Fail(error?.errorMessage);
 				},
-				locale: "en_US");
+				"en_US");
 
 			yield return new WaitUntil(() => isComplete);
 		}

@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Xsolla.NewDemo/Scenes/XsollaDemo.unity
-    guid: 68f5cda80f4354b7e90fc726566c8422
+    path: Assets/TechDemo/Scenes/TechDemo.unity
+    guid: 50965fe5dafeb4ca1806f5af1a326f70
   m_configObjects: {}
