@@ -13,7 +13,7 @@ namespace Xsolla.Core
 				var androidHelper = new AndroidHelper();
 
 				var providerName = provider.ToString().ToUpper();
-				var socialNetworkClass = new AndroidJavaClass("com.xsolla.android.login.social.SocialNetwork");
+				var socialNetworkClass = new AndroidJavaClass("com.xsolla.android.bridge.login.social.SocialNetwork");
 				var socialNetworkObject = socialNetworkClass.GetStatic<AndroidJavaObject>(providerName);
 
 				var authCallback = new AndroidAuthCallback(
@@ -22,7 +22,7 @@ namespace Xsolla.Core
 					error => androidHelper.MainThreadExecutor.Enqueue(() => onError(error)),
 					() => androidHelper.MainThreadExecutor.Enqueue(onCancel));
 
-				var proxyActivity = new AndroidJavaObject($"{Application.identifier}.androidProxies.SocialAuthProxyActivity");
+				var proxyActivity = new AndroidJavaObject("com.xsolla.android.bridge.login.social.SocialAuthBridgeActivity");
 				proxyActivity.CallStatic(
 					"perform",
 					androidHelper.CurrentActivity,

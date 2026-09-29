@@ -113,12 +113,16 @@ namespace Xsolla.Subscriptions
 		/// <param name="onSuccess">Called after the URL has been successfully received.</param>
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="settings">Pay Station UI settings.</param>
-		public static void GetSubscriptionRenewalUrl(int subscriptionId, Action<PaymentLink> onSuccess, Action<Error> onError, PaymentSettings settings = null)
+		/// <param name="customParameters">Project specific parameters represented as a valid JSON set of key-value pairs.</param>
+		/// <param name="steamUserId">Steam user ID.</param>
+		public static void GetSubscriptionRenewalUrl(int subscriptionId, Action<PaymentLink> onSuccess, Action<Error> onError, PaymentSettings settings = null, Dictionary<string, object> customParameters = null, string steamUserId = null)
 		{
 			var url = $"{BaseUrl}/user/v1/projects/{StoreProjectId}/subscriptions/{subscriptionId}/renew";
 
 			var requestData = new RenewalSubscriptionRequest {
-				settings = CheckAndFillPaymentSettings(settings)
+				settings = CheckAndFillPaymentSettings(settings),
+				custom_parameters = customParameters,
+				steam_user_id = steamUserId
 			};
 
 			WebRequestHelper.Instance.PostRequest(
@@ -127,7 +131,7 @@ namespace Xsolla.Subscriptions
 				requestData,
 				WebRequestHeader.AuthHeader(),
 				onSuccess,
-				error => TokenAutoRefresher.Check(error, onError, () => GetSubscriptionRenewalUrl(subscriptionId, onSuccess, onError, settings)));
+				error => TokenAutoRefresher.Check(error, onError, () => GetSubscriptionRenewalUrl(subscriptionId, onSuccess, onError, settings, customParameters, steamUserId)));
 		}
 
 		/// <summary>
@@ -140,7 +144,17 @@ namespace Xsolla.Subscriptions
 		/// <param name="settings">Pay Station UI settings.</param>
 		/// <param name="country">User's country. Affects the choice of locale and currency. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Calculations are based on the user's IP address if the country is not specified.  Check the documentation for detailed information about [countries supported by Xsolla](https://developers.xsolla.com/dev-resources/references/supported-countries/).</param>
 		/// <param name="customParameters">Project specific parameters represented as a valid JSON set of key-value pairs.</param>
-		public static void GetSubscriptionPurchaseUrl(string planExternalId, Action<PaymentLink> onSuccess, Action<Error> onError, PaymentSettings settings = null, string country = null, Dictionary<string, object> customParameters = null)
+		/// <param name="productId">ID of the product associated with the plan.</param>
+		/// <param name="availablePlans">Subscription plans to show in the payment UI.</param>
+		public static void GetSubscriptionPurchaseUrl(
+			string planExternalId,
+			Action<PaymentLink> onSuccess,
+			Action<Error> onError,
+			PaymentSettings settings = null,
+			string country = null,
+			Dictionary<string, object> customParameters = null,
+			int? productId = null,
+			string[] availablePlans = null)
 		{
 			var url = new UrlBuilder($"{BaseUrl}/user/v1/projects/{StoreProjectId}/subscriptions/buy")
 				.AddCountry(country)
@@ -148,6 +162,8 @@ namespace Xsolla.Subscriptions
 
 			var requestData = new BuySubscriptionRequest {
 				plan_external_id = planExternalId,
+				product_id = productId,
+				available_plans = availablePlans,
 				settings = CheckAndFillPaymentSettings(settings),
 				custom_parameters = customParameters
 			};
@@ -158,7 +174,18 @@ namespace Xsolla.Subscriptions
 				requestData,
 				WebRequestHeader.AuthHeader(),
 				onSuccess,
-				error => TokenAutoRefresher.Check(error, onError, () => GetSubscriptionPurchaseUrl(planExternalId, onSuccess, onError, settings, country)));
+				error => TokenAutoRefresher.Check(
+					error,
+					onError,
+					() => GetSubscriptionPurchaseUrl(
+						planExternalId,
+						onSuccess,
+						onError,
+						settings,
+						country,
+						customParameters,
+						productId,
+						availablePlans)));
 		}
 
 		/// <summary>
@@ -169,14 +196,30 @@ namespace Xsolla.Subscriptions
 		/// <param name="onError">Called after the request resulted with an error.</param>
 		/// <param name="settings">Settings.</param>
 		/// <param name="country">User's country. Affects the choice of locale and currency. Two-letter uppercase country code per [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Calculations are based on the user's IP address if the country is not specified.  Check the documentation for detailed information about [countries supported by Xsolla](https://developers.xsolla.com/dev-resources/references/supported-countries/).</param>
-		public static void GetSubscriptionManagementUrl(Action<PaymentLink> onSuccess, Action<Error> onError, PaymentSettings settings = null, string country = null)
+		/// <param name="customParameters">Project specific parameters represented as a valid JSON set of key-value pairs.</param>
+		/// <param name="productId">ID of the product associated with the plan.</param>
+		/// <param name="availablePlans">Subscription plans to show in the payment UI.</param>
+		/// <param name="steamUserId">Steam user ID.</param>
+		public static void GetSubscriptionManagementUrl(
+			Action<PaymentLink> onSuccess,
+			Action<Error> onError,
+			PaymentSettings settings = null,
+			string country = null,
+			Dictionary<string, object> customParameters = null,
+			int? productId = null,
+			string[] availablePlans = null,
+			string steamUserId = null)
 		{
 			var url = new UrlBuilder($"{BaseUrl}/user/v1/projects/{StoreProjectId}/subscriptions/manage")
 				.AddCountry(country)
 				.Build();
 
 			var requestData = new ManageSubscriptionRequest {
-				settings = CheckAndFillPaymentSettings(settings)
+				product_id = productId,
+				available_plans = availablePlans,
+				settings = CheckAndFillPaymentSettings(settings),
+				custom_parameters = customParameters,
+				steam_user_id = steamUserId
 			};
 
 			WebRequestHelper.Instance.PostRequest(
@@ -185,7 +228,18 @@ namespace Xsolla.Subscriptions
 				requestData,
 				WebRequestHeader.AuthHeader(),
 				onSuccess,
-				error => TokenAutoRefresher.Check(error, onError, () => GetSubscriptionManagementUrl(onSuccess, onError, settings, country)));
+				error => TokenAutoRefresher.Check(
+					error,
+					onError,
+					() => GetSubscriptionManagementUrl(
+						onSuccess,
+						onError,
+						settings,
+						country,
+						customParameters,
+						productId,
+						availablePlans,
+						steamUserId)));
 		}
 
 		/// <summary>

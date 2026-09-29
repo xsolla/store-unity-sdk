@@ -17,13 +17,11 @@ namespace Xsolla.Tests.Catalog
 
 			XsollaCatalog.GetBundle(
 				"starter_pack",
-				item =>
-				{
+				item => {
 					isComplete = true;
 					Assert.NotNull(item);
 				},
-				error =>
-				{
+				error => {
 					isComplete = true;
 					Assert.Fail(error?.errorMessage);
 				});
@@ -40,13 +38,11 @@ namespace Xsolla.Tests.Catalog
 
 			XsollaCatalog.GetBundle(
 				"starter_pack",
-				item =>
-				{
+				item => {
 					isComplete = true;
 					Assert.NotNull(item);
 				},
-				error =>
-				{
+				error => {
 					isComplete = true;
 					Assert.Fail(error?.errorMessage);
 				},

@@ -9,20 +9,46 @@ namespace Xsolla.DevTools
 {
 	public static class BuildsManager
 	{
-		public static void Build()
+		public static void BuildTechDemo()
 		{
-			UpdateProjectId("77640");
-			var buildTarget = GetBuildTarget();
-			var buildScenes = GetBuildScenes(buildTarget);
+			SdkSettingsManager.ResetSdkSettingsForTechDemo();
+			BakeTestCredentials();
+
+			var buildScenes = new[] {
+				"Assets/TechDemo/Scenes/TechDemo.unity"
+			};
+
 			BuildProject(buildScenes);
 		}
 
-		public static void BuildNewDemo()
+		private static void BakeTestCredentials()
 		{
-			UpdateProjectId("287965");
+			var json = Environment.GetEnvironmentVariable("XSOLLA_TEST_CREDENTIALS");
+			if (string.IsNullOrEmpty(json))
+			{
+				Debug.Log("[BuildsManager] XSOLLA_TEST_CREDENTIALS not set, skipping credentials bake");
+				return;
+			}
+
+			var dir = Path.Combine(Application.dataPath, "Resources");
+			if (!Directory.Exists(dir))
+				Directory.CreateDirectory(dir);
+
+			// Name must match Resources.Load("test-credentials.local") in TestCredentials
+			var filePath = Path.Combine(dir, "test-credentials.local.json");
+			File.WriteAllText(filePath, json);
+			AssetDatabase.ImportAsset("Assets/Resources/test-credentials.local.json", ImportAssetOptions.ForceSynchronousImport);
+			Debug.Log($"[BuildsManager] Baked test credentials to {filePath}");
+		}
+
+		public static void BuildXsollaDemo()
+		{
+			SdkSettingsManager.ResetSdkSettingsForXsollaDemo();
+
 			var buildScenes = new[] {
-				"Assets/Xsolla.NewDemo/Scenes/XsollaDemo.unity"
+				"Assets/Xsolla.Demo/Scenes/XsollaDemo.unity"
 			};
+
 			BuildProject(buildScenes);
 		}
 
@@ -107,20 +133,6 @@ namespace Xsolla.DevTools
 				default:
 					return path;
 			}
-		}
-
-		private static string[] GetBuildScenes(BuildTarget buildTarget)
-		{
-			if (buildTarget == BuildTarget.Android || buildTarget == BuildTarget.iOS)
-			{
-				return new[] {
-					"Assets/Xsolla.Demo/Common/Scene/XsollusMobilePortrait.unity"
-				};
-			}
-
-			return new[] {
-				"Assets/Xsolla.Demo/Common/Scene/Xsollus.unity"
-			};
 		}
 
 		private static string GetEnvironmentArgument(string name)

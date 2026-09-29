@@ -55,14 +55,12 @@ namespace Xsolla.Tests.Cart
 
 			var isComplete = false;
 			XsollaCart.GetCartItems(
-				cart =>
-				{
+				cart => {
 					isComplete = true;
 					Assert.NotNull(cart);
 					Assert.NotNull(cart.items);
 				},
-				error =>
-				{
+				error => {
 					isComplete = true;
 					Assert.Fail(error?.errorMessage);
 				},

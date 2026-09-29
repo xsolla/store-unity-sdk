@@ -12,21 +12,36 @@ namespace Xsolla.Tests.Cart
 		[UnityTest]
 		public IEnumerator FillCart_NoCartId_Success()
 		{
-			yield return FillCart(new List<CartFillItem> {new CartFillItem {sku = "lootbox_1", quantity = 1}});
+			yield return FillCart(new List<CartFillItem> {
+				new() {
+					sku = "lootbox_1",
+					quantity = 1
+				}
+			});
 		}
 
 		[UnityTest]
 		public IEnumerator FillCart_NoCartId_InvalidToken_Success()
 		{
 			yield return SetOldAccessToken();
-			yield return FillCart(new List<CartFillItem> {new CartFillItem {sku = "lootbox_1", quantity = 1}});
+			yield return FillCart(new List<CartFillItem> {
+				new() {
+					sku = "lootbox_1",
+					quantity = 1
+				}
+			});
 		}
 
 		[UnityTest]
 		public IEnumerator FillCart_CartId_Success()
 		{
 			yield return PrepareCurrentCart();
-			yield return FillCart(new List<CartFillItem> {new CartFillItem {sku = "lootbox_1", quantity = 1}}, CurrentCartId);
+			yield return FillCart(new List<CartFillItem> {
+				new() {
+					sku = "lootbox_1",
+					quantity = 1
+				}
+			}, CurrentCartId);
 		}
 
 		[UnityTest]
@@ -34,7 +49,12 @@ namespace Xsolla.Tests.Cart
 		{
 			yield return PrepareCurrentCart();
 			yield return SetOldAccessToken();
-			yield return FillCart(new List<CartFillItem> {new CartFillItem {sku = "lootbox_1", quantity = 1}}, CurrentCartId);
+			yield return FillCart(new List<CartFillItem> {
+				new() {
+					sku = "lootbox_1",
+					quantity = 1
+				}
+			}, CurrentCartId);
 		}
 
 		public static IEnumerator FillCart(List<CartFillItem> fillItems, string cartId = null)
@@ -45,8 +65,7 @@ namespace Xsolla.Tests.Cart
 			XsollaCart.FillCart(
 				fillItems,
 				() => isComplete = true,
-				error =>
-				{
+				error => {
 					isComplete = true;
 					Assert.Fail(error?.errorMessage);
 				},

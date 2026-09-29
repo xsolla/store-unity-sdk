@@ -5,9 +5,6 @@
         maven {
             url "https://maven.google.com"
         }
-        maven {
-            url "https://repo1.maven.org/maven2/" // Assets/Xsolla/Core/Editor/XsollaDependencies.xml:12
-        }
         mavenLocal()
         mavenCentral()
     }
@@ -19,12 +16,7 @@ apply plugin: 'com.android.library'
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 // Android Resolver Dependencies Start
-    implementation 'com.xsolla.android:login:6.0.18' // Assets/Xsolla/Core/Editor/XsollaDependencies.xml:27
-    implementation 'com.xsolla.android:login-facebook:6.0.18' // Assets/Xsolla/Core/Editor/XsollaDependencies.xml:28
-    implementation 'com.xsolla.android:login-google:6.0.18' // Assets/Xsolla/Core/Editor/XsollaDependencies.xml:29
-    implementation 'com.xsolla.android:login-qq:6.0.18' // Assets/Xsolla/Core/Editor/XsollaDependencies.xml:31
-    implementation 'com.xsolla.android:login-wechat:6.0.18' // Assets/Xsolla/Core/Editor/XsollaDependencies.xml:30
-    implementation 'com.xsolla.android:payments:1.4.20' // Assets/Xsolla/Core/Editor/XsollaDependencies.xml:26
+    implementation 'com.xsolla.android:bridge:0.1.2' // Assets/Xsolla/Core/Editor/XsollaDependencies.xml:19
 // Android Resolver Dependencies End
 **DEPS**}
 

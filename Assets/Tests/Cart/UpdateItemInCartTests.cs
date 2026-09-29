@@ -45,8 +45,7 @@ namespace Xsolla.Tests.Cart
 				"lootbox_1",
 				1,
 				() => isComplete = true,
-				error =>
-				{
+				error => {
 					isComplete = true;
 					Assert.Fail(error?.errorMessage);
 				},

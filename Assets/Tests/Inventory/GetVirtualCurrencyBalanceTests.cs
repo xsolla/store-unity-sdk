@@ -14,14 +14,12 @@ namespace Xsolla.Tests.Inventory
 			yield return CheckSession();
 
 			var isComplete = false;
-			XsollaInventory.GetVirtualCurrencyBalance(balances =>
-			{
+			XsollaInventory.GetVirtualCurrencyBalance(balances => {
 				isComplete = true;
 				Assert.NotNull(balances);
 				Assert.NotNull(balances.items);
 				Assert.Greater(balances.items.Length, 0);
-			}, error =>
-			{
+			}, error => {
 				isComplete = true;
 				Assert.Fail(error?.errorMessage);
 			});
@@ -36,12 +34,10 @@ namespace Xsolla.Tests.Inventory
 
 			var isComplete = false;
 			XsollaInventory.GetVirtualCurrencyBalance(
-				balances =>
-				{
+				balances => {
 					isComplete = true;
 					Assert.NotNull(balances);
-				}, error =>
-				{
+				}, error => {
 					isComplete = true;
 					Assert.Fail(error?.errorMessage);
 				},

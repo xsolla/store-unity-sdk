@@ -16,15 +16,13 @@ namespace Xsolla.Tests.Catalog
 			var isComplete = false;
 			XsollaCatalog.RedeemCouponCode(
 				"WINTER2021",
-				items =>
-				{
+				items => {
 					isComplete = true;
 					Assert.NotNull(items);
 					Assert.NotNull(items.items);
 					Assert.Greater(items.items.Length, 0);
 				},
-				error =>
-				{
+				error => {
 					isComplete = true;
 					Assert.Fail(error?.errorMessage);
 				});
@@ -40,13 +38,11 @@ namespace Xsolla.Tests.Catalog
 			var isComplete = false;
 			XsollaCatalog.RedeemCouponCode(
 				"SUMMER1967",
-				items =>
-				{
+				items => {
 					isComplete = true;
 					Assert.Fail("Coupon code is incorrect");
 				},
-				error =>
-				{
+				error => {
 					isComplete = true;
 					Assert.NotNull(error);
 					Assert.NotNull(error.errorMessage);
