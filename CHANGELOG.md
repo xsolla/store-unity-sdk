@@ -1,4 +1,19 @@
 # Changelog
+## [3.2.0] - 2026-09-28
+### Added
+- New optional parameters for subscription methods:
+  - `XsollaSubscriptions.GetSubscriptionPurchaseUrl`: `productId`, `availablePlans`
+  - `XsollaSubscriptions.GetSubscriptionManagementUrl`: `customParameters`, `productId`, `availablePlans`, `steamUserId`
+  - `XsollaSubscriptions.GetSubscriptionRenewalUrl`: `customParameters`, `steamUserId`
+- `SubscriptionCharge.setup_fee` field
+
+### Changed
+- Android native dependencies (`com.xsolla.android:payments`, `login`, `login-facebook`, `login-google`, `login-wechat`, `login-qq`) replaced with a single `com.xsolla.android:bridge` library
+- Android manifest preprocessing and generated proxy activities (`PaymentsProxyActivity`, `SocialAuthProxyActivity`, `XsollaWidgetAuthProxyActivity`, `AdditionalInfoAuthProxyActivity`, `WXEntryActivity`) removed. Required activities are now provided by the bridge library
+- Order status tracking on Android now uses short polling instead of a WebSocket connection. This fixes missed order status updates while the app is in the background during payment
+- Demo project reworked: the old demo was removed and replaced with a new one
+- Default demo project ID changed
+
 ## [3.1.2] - 2026-07-10
 ### Added
 - Multi-platform support for additional user information collection. Added a continuation flow for authentication responses returning an explanation URL (`/latest/ask`). Fully supported across Desktop (Standalone), Android, and WebGL platforms
