@@ -1,18 +1,18 @@
 # Changelog
 ## [3.2.0] - 2026-09-28
 ### Added
-- New optional parameters for subscription methods:
-  - `XsollaSubscriptions.GetSubscriptionPurchaseUrl`: `productId`, `availablePlans`
-  - `XsollaSubscriptions.GetSubscriptionManagementUrl`: `customParameters`, `productId`, `availablePlans`, `steamUserId`
-  - `XsollaSubscriptions.GetSubscriptionRenewalUrl`: `customParameters`, `steamUserId`
-- `SubscriptionCharge.setup_fee` field
+- New optional parameters for `XsollaSubscriptions` methods:
+  - `GetSubscriptionPurchaseUrl`: `productId`, `availablePlans`
+  - `GetSubscriptionManagementUrl`: `customParameters`, `productId`, `availablePlans`, `steamUserId`
+  - `GetSubscriptionRenewalUrl`: `customParameters`, `steamUserId`
+- `SubscriptionCharge.setup_fee` field returning the subscription's one-time setup fee in `XsollaSubscriptions.GetSubscriptions` and `XsollaSubscriptions.GetSubscriptionDetails` responses
 
 ### Changed
 - Android native dependencies (`com.xsolla.android:payments`, `login`, `login-facebook`, `login-google`, `login-wechat`, `login-qq`) replaced with a single `com.xsolla.android:bridge` library
 - Android manifest preprocessing and generated proxy activities (`PaymentsProxyActivity`, `SocialAuthProxyActivity`, `XsollaWidgetAuthProxyActivity`, `AdditionalInfoAuthProxyActivity`, `WXEntryActivity`) removed. Required activities are now provided by the bridge library
 - Order status tracking on Android now uses short polling instead of a WebSocket connection. This fixes missed order status updates while the app is in the background during payment
-- Demo project reworked: the old demo was removed and replaced with a new one
-- Default demo project ID changed
+- Reworked the demo project by replacing the old demo scene and assets
+- Updated the default demo project ID
 
 ## [3.1.2] - 2026-07-10
 ### Added
